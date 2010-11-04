@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <type name="midgardmvc_helper_ragnaland_person" extends="midgard_person">
+    <type name="openpsa_person" extends="midgard_person">
         <property name="username" type="string" index="yes">
             <description>Username of the person</description>
         </property>
