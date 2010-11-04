@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="midgardmvc_helper_ragnaland_person" extends="midgard_person">
+        <property name="username" type="string" index="yes">
+            <description>Username of the person</description>
+        </property>
+        <property name="homepage" type="string">
+            <description>Homepage URL of the person</description>
+        </property>
+        <property name="email"    type="string" index="yes">
+            <description>Email address of the person</description>
+        </property>
+        <property name="city"     type="string">
+            <description>City of the person</description>
+        </property>
+    </type>
+
+    <type name="midgard_host" table="host">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes" unique="yes">
+            <description>Hostname (for example `www.example.net`)</description>
+        </property>
+        <property name="info"     type="string" dbtype="set('auth')">
+            <description>Host information, including whether authentication is to be used</description>
+        </property>
+        <property name="port"     type="integer" index="yes">
+            <description>Host port number (for example `80`)</description>
+        </property>
+        <property name="online"   type="boolean" index="yes">
+            <description>Whether host is online</description>
+        </property>
+        <property name="prefix"   type="string" index="yes">
+            <description>Host directory prefix (for example `/campaign`)</description>
+        </property>
+        <property name="root"     type="unsigned integer" link="midgard_page:id">
+            <description>Root page of the host</description>
+        </property>
+        <property name="style"    type="unsigned integer" link="midgard_style:id">
+            <description>Style used with the host</description>
+        </property>
+    </type>
+
+    <type name="midgard_page" table="page">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes" unique="yes">
+            <description>Path name of the page</description>
+        </property>
+        <property name="info"     type="string" dbtype="set('auth','active')">
+            <description>Settings for active and authenticated pages</description>
+        </property>
+        <property name="style"    type="unsigned integer" link="midgard_style:id">
+            <description>Style used with the host</description>
+        </property>
+        <property name="up"       type="unsigned integer" link="midgard_page:id" upfield="up">
+            <description>Page the page is under</description>
+        </property>
+        <property name="component"    type="string" index="yes">
+            <description>Component used for the page</description>
+        </property>
+        <property name="title"    type="string">
+            <description>Title of the page</description>
+        </property>
+        <property name="content"  type="text">
+            <description>Content of the page</description>
+        </property>
+    </type>
+
+    <type name="midgard_pageelement" table="pageelement" parent="midgard_page">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes" unique="yes">
+            <description>Path name of the page element</description>
+        </property>
+        <property name="info"     type="string" dbtype="set('inherit')">
+            <description>Whether the page element is inherited</description>
+        </property>
+        <property name="page"     type="unsigned integer" link="midgard_page:id" parentfield="page">
+            <description>Page the element is under</description>
+        </property>
+        <property name="value"    type="text">
+            <description>Value of the page element</description>
+        </property>
+    </type>
+
+    <type name="midgard_language" table="midgard_language">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="code"        type="string" dbtype="varchar(2)" index="yes">
+            <description>ISO 639-1 two-letter language code</description>
+        </property>
+        <property name="name"        type="string" index="yes" unique="yes">
+            <description>Name of the language in English</description>
+        </property>
+        <property name="native"        type="string">
+            <description>Name of the language in the language itself</description>
+        </property>
+        <property name="locale"        type="string">
+            <description>System locale for the language</description>
+        </property>
+        <property name="description"    type="text">
+            <description>Description of the language</description>
+        </property>
+    </type>
+
+    <type name="midgard_article" table="article" parent="midgard_topic">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes">
+            <description>URL name of the article</description>
+        </property>
+        <property name="extra1"   type="string">
+            <description>Extra string field</description>
+        </property>
+        <property name="extra2"   type="string">
+            <description>Extra string field</description>
+        </property>
+        <property name="extra3"   type="string">
+            <description>Extra string field</description>
+        </property>
+        <property name="type"     type="integer" index="yes">
+            <description>Type of the article</description>
+        </property>
+        <property name="up"       type="unsigned integer" link="midgard_article:id" upfield="up">
+            <description>Possible prior part of the article</description>
+        </property>
+        <property name="topic"    type="unsigned integer" link="midgard_topic:id" parentfield="topic">
+            <description>Topic the article is under</description>
+        </property>
+        <!-- Multilang features --> 
+        <property name="title"    type="string">
+            <description>Title of the article</description>
+        </property>
+        <property name="abstract" type="text">
+            <description>Short abstract of the article</description>
+        </property>
+        <property name="content"  type="text">
+            <description>Content of the article</description>
+        </property>
+        <property name="url"      type="string" index="yes">
+            <description>External URL of the article</description>
+        </property>
+        <property name="lang"     type="unsigned integer" link="midgard_language:id">
+            <description>Language the article is in</description>
+        </property>
+        <!-- Legacy -->
+        <property name="calstart" type="datetime">
+            <description>Date the article applies to (legacy field)</description>
+        </property>
+        <property name="caldays"  type="integer">
+            <description>Time range the article applies to, in days (legacy field)</description>
+        </property>
+        <property name="icon"     type="integer">
+            <description>Icon for the article (legacy field)</description>
+        </property>
+        <property name="view"     type="integer">
+            <description>View-scale for the article (legacy field)</description>
+        </property>
+        <property name="print"    type="integer">
+            <description>Print quality for the article (legacy field)</description>
+        </property>
+        <property name="score"    type="integer">
+            <description>Arrangement score of the article (legacy field)</description>
+        </property>
+    </type>
+
+    <type name="midgard_topic" table="topic">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes">
+            <description>URL name of the topic</description>
+        </property>
+        <property name="code"     type="text">
+            <description>Executable PHP code for topic display</description>
+        </property>
+        <property name="up"       link="midgard_topic:id" type="unsigned integer" upfield="up">
+            <description>Topic the topic is under</description>
+        </property>
+        <!-- MidCOM properties -->
+        <property name="component"    type="string" index="yes">
+            <description>MidCOM component responsible for the topic</description>
+        </property>
+        <property name="style"    type="string" index="yes">
+            <description>MidCOM style path for the topic</description>
+        </property>
+        <property name="styleInherit"    type="boolean" field="style_inherit" index="yes">
+            <description>Whether the MidCOM style should be inherited to subtopics</description>
+        </property>
+        <!-- Multilang properties -->
+        <property name="title"    type="string">
+            <description>Title of the topic</description>
+        </property>
+        <property name="extra"    type="text">
+            <description>Extra information about the topic</description>
+        </property>
+        <property name="description" type="text">
+            <description>Topic description</description>
+        </property>
+        <property name="lang"     type="unsigned integer" link="midgard_language:id">
+            <description>Language the article is in</description>
+        </property>
+        <!-- Legacy -->
+        <property name="score"    type="integer">
+            <description>Arrangement score of the topic (legacy field)</description>
+        </property>
+    </type>
+
+    <type name="midgard_event" table="event">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="start"    type="integer" index="yes">
+            <description>Start timestamp of the event</description>
+        </property>
+        <!-- Do not use end column, it's postgres reserved word -->
+        <property name="end"      type="integer" field="event_end" index="yes">
+            <description>End timestamp of the event</description>
+        </property>
+        <property name="title"    type="string">
+            <description>Title of the event</description>
+        </property>
+        <property name="description" type="text">
+            <description>Description of the event</description>
+        </property>
+        <property name="type"     type="integer" index="yes">
+            <description>Type of the event</description>
+        </property>
+        <property name="extra"    type="string">
+            <description>Additional information about the event</description>
+        </property>
+        <property name="busy"     type="boolean">
+            <description>Whether the event should make members reserved</description>
+        </property>
+        <property name="up"       type="unsigned integer" upfield="up" link="midgard_event:id">
+            <description>Event the event is under</description>
+        </property>
+    </type>
+
+    <type name="midgard_eventmember" table="eventmember" parent="midgard_event">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="uid"      type="unsigned integer" link="midgard_person:id">
+            <description>Identifier of a person that belongs to the event</description>
+        </property>
+        <property name="eid"      type="unsigned integer" link="midgard_event:id" parentfield="eid">
+            <description>Identifier of the event that a person belongs to</description>
+        </property>
+        <property name="extra"    type="string">
+            <description>Additional information about the membership</description>
+        </property>
+        <!-- Legacy -->
+        <property name="period"   type="integer">
+            <description>Period of the membership (legacy field)</description>
+        </property>
+        <property name="count"    type="integer">
+            <description>Count of the membership (legacy field)</description>
+        </property>
+    </type>
+
+    <type name="midgardmvc_core_group_virtual_db" table="midcom_group_virtual">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="component" type="string" index="yes">
+            <description>Component handling the virtual group</description>
+        </property>
+        <property name="identifier" type="string" index="yes">
+            <description>Virtual group's identifier</description>
+        </property>
+        <property name="name" type="string">
+            <description>Virtual group's name</description>
+        </property>
+    </type>
+
+    <type name="midgardmvc_core_privilege_db" table="midgardmvc_core_privilege">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="objectguid" type="guid" parentfield="objectguid">
+            <description>GUID of the object the privilege applies to</description>
+        </property>
+        <property name="privilegename" field="name" type="string" index="yes">
+            <description>Name of the privilege (for example `midgard:create`)</description>
+        </property>
+        <property name="assignee" type="string" index="yes">
+            <description>Assignee of the privilege, for instance user or group identifier</description>
+        </property>
+        <property name="classname" type="string" index="yes">
+            <description>MgdSchema class the privilege applies to, in case of class-level privileges</description>
+        </property>
+        <property name="value" type="integer" index="yes">
+            <description>
+                Value of the privilege:
+                
+                - 1: MIDGARDMVC_PRIVILEGE_ALLOW
+                - 2: MIDGARDMVC_PRIVILEGE_DENY
+                - 3: MIDGARDMVC_PRIVILEGE_INHERIT
+            </description>
+        </property>  
+    </type>
+
+    <type name="midgardmvc_core_login_session_db" table="midgardmvc_core_login_session">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="userid" type="string" index="yes">
+            <description>User identifier for the authenticated session</description>
+        </property>
+        <property name="username" type="string" index="yes">
+            <description>Authenticated user's username</description>
+        </property>
+        <property name="password" type="string">
+            <description>Authenticated user's password</description>
+        </property>
+        <property name="clientip" type="string">
+            <description>IP address user is authenticated from</description>
+        </property>
+        <property name="timestamp" type="integer">
+            <description>Login time as Unix timestamp</description>
+        </property>
+        <property name="trusted" type="boolean">
+            <description>Session uses trusted authentication</description>
+        </property>
+    </type>
+
+    <!--<type name="midcom_core_temporary_object_db" table="midcom_core_temporary_object_db">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="timestamp" type="integer" />
+
+        <property name="name" type="text" />
+        <property name="text1" type="text" />
+        <property name="text2" type="text" />
+        <property name="text3" type="text" />
+        <property name="integer1" type="integer" />
+        <property name="integer2" type="integer" />
+        <property name="integer3" type="integer" />
+        <property name="integer4" type="integer" />
+    </type>-->
+
+    <type name="midgard_style" table="style">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes" unique="yes">
+            <description>Path name of the style</description>
+        </property>
+        <property name="owner"    type ="unsigned integer" link="midgard_group:id">
+            <description>Style owner group (legacy field)</description>
+        </property>
+        <property name="up"       type="unsigned integer" link="midgard_style:id" upfield="up">
+            <description>Style the style is under</description>
+        </property>
+    </type>
+
+    <type name="midgard_element" table="element" parent="midgard_style">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes" unique="yes">
+            <description>Path name of the element</description>
+        </property>
+        <property name="style"    type="unsigned integer" link="midgard_style:id" parentfield="style">
+            <description>Style the element is in</description>
+        </property>
+        <property name="value"    type="text">
+            <description>Contents of the style element</description>
+        </property>
+    </type>
+
+    <type name="midgard_group" table="grp">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name"     type="string" index="yes" unique="yes">
+            <description>Path name of the group</description>
+        </property>
+        <property name="official" type="string">
+            <description>Official name of the group</description>
+        </property>
+        <property name="street"   type="string">
+            <description>Street address of the group</description>
+        </property>
+        <property name="postcode" type="string">
+            <description>Zip code of the group</description>
+        </property>
+        <property name="city"     type="string">
+            <description>City of the group</description>
+        </property>
+        <property name="country"  type="string">
+            <description>Country of the group</description>
+        </property>
+        <property name="homepage" type="string">
+            <description>Homepage URL of the group</description>
+        </property>
+        <property name="email"    type="string">
+            <description>Email of the group</description>
+        </property>
+        <property name="phone"    type="string">
+            <description>Phone number of the group</description>
+        </property>
+        <property name="fax"      type="string">
+            <description>Fax number of the group</description>
+        </property>
+        <property name="extra"    type="text">
+            <description>Additional information about the group</description>
+        </property>
+        <property name="owner"    link="midgard_group:id" type="unsigned integer" upfield="owner">
+            <description>Group the group is under</description>
+        </property>
+    </type>
+
+    <type name="midgard_member" table="member">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="uid"      type="unsigned integer" link="midgard_person:id">
+            <description>Identifier of the user that belongs to a group</description>
+        </property>
+        <property name="gid"      type="unsigned integer" link="midgard_group:id" parentfield="gid">
+            <description>Identifier of the group that the user belongs to</description>
+        </property>
+        <property name="extra"    type="string">
+            <description>Additional information about the membership</description>
+        </property>
+    </type>
+
+</Schema>
