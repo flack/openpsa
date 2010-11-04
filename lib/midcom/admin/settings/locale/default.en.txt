@@ -1,0 +1,377 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 25987 2010-05-04 14:10:09Z bergie $
+---LANGUAGE en
+
+---STRING allowed components (leave empty to allow all)
+Allowed components (leave empty to allow all)
+---STRINGEND
+
+---STRING auth configuration
+Authentication configuration
+---STRINGEND
+
+---STRING auth_allow_sudo
+Allow components to run in sudo mode
+---STRINGEND
+
+---STRING auth_backend
+Authentication back-end
+---STRINGEND
+
+---STRING auth_backend_simple
+Simple cookie authentication
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_domain
+Domain the simple authentication cookie applies to
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_id
+Cookie ID in simple authentication
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_path
+Path the simple authentication cookie applies to
+---STRINGEND
+
+---STRING auth_check_client_ip
+Bind authentication to user's IP address
+---STRINGEND
+
+---STRING auth_frontend
+Authentication user interface
+---STRINGEND
+
+---STRING auth_frontend_form
+Web form
+---STRINGEND
+
+---STRING auth_login_form_httpcode
+HTTP response code used in authentication forms
+---STRINGEND
+
+---STRING auth_login_form_httpcode_200
+200 OK
+---STRINGEND
+
+---STRING auth_login_form_httpcode_403
+403 Forbidden
+---STRINGEND
+
+---STRING auth_login_session_timeout
+Duration of authentication session (in seconds)
+---STRINGEND
+
+---STRING auth_openid_enable
+Enable OpenID plugin
+---STRINGEND
+
+---STRING auth_drupal_enable
+Enable authentication via Drupal
+---STRINGEND
+
+---STRING auth_drupal_settings_php
+Path to Drupal's settings.php file
+---STRINGEND
+
+---STRING auth_drupal_domain
+Drupal's domain
+---STRINGEND
+
+---STRING auth_sitegroup_mode
+Authentication sitegroup mode
+---STRINGEND
+
+---STRING auth_sitegroup_mode_auto
+Automatic
+---STRINGEND
+
+---STRING auth_sitegroup_mode_not-sitegrouped
+User must specify sitegroup
+---STRINGEND
+
+---STRING auth_sitegroup_mode_sitegrouped
+Always in current sitegroup
+---STRINGEND
+
+---STRING cache configuration
+Cache configuration
+---STRINGEND
+
+---STRING cache_base_directory
+Directory for cache files
+---STRINGEND
+
+---STRING cache_module_content_default_lifetime
+Default content lifetime
+---STRINGEND
+
+---STRING cache_module_content_headers_strategy
+Cache headers strategy
+---STRINGEND
+
+---STRING cache_module_content_uncached
+Turn content cacheing off
+---STRINGEND
+
+---STRING core configuration
+Core configuration
+---STRINGEND
+
+---STRING cron_day_hours
+Hour used for daily cron runs
+---STRINGEND
+
+---STRING cron_day_minutes
+Minute used for daily cron runs
+---STRINGEND
+
+---STRING cron_hour_minutes
+Minute used for hourly cron runs
+---STRINGEND
+
+---STRING cs-no-cache
+no-cache
+---STRINGEND
+
+---STRING cs-private
+private
+---STRINGEND
+
+---STRING cs-public
+public
+---STRINGEND
+
+---STRING cs-revalidate
+revalidate
+---STRINGEND
+
+---STRING default (%s)
+Default (%s)
+---STRINGEND
+
+---STRING excluded components (leave empty to allow all)
+Excluded components (leave empty to allow all)
+---STRINGEND
+
+---STRING failed to create settings
+Failed to create settings
+---STRINGEND
+
+---STRING failed to save settings, reason %s
+Failed to save settings, reason %s
+---STRINGEND
+
+---STRING host "%s" not found. try using menu.
+Host "%s" not found. Try using menu.
+---STRINGEND
+
+---STRING host configuration
+Website configuration
+---STRINGEND
+
+---STRING i18n_fallback_language
+Fallback language for missing localizations
+---STRINGEND
+
+---STRING i18n_multilang_strict
+Hide untranslated content
+---STRINGEND
+
+---STRING indexer configuration
+Indexer configuration
+---STRINGEND
+
+---STRING indexer_backend
+Full-text indexing backend
+---STRINGEND
+
+---STRING indexer_backend_none
+No indexer
+---STRINGEND
+
+---STRING indexer_backend_xmltcp
+Apache Lucene (xmltcp protocol)
+---STRINGEND
+
+---STRING indexer_index_name
+Index name
+---STRINGEND
+
+---STRING indexer_xmltcp_host
+Hostname of indexer xmltcp service
+---STRINGEND
+
+---STRING indexer_xmltcp_port
+Port of indexer xmltcp service
+---STRINGEND
+
+---STRING log_filename
+Log file
+---STRINGEND
+
+---STRING log_level
+Log level
+---STRINGEND
+
+---STRING log_tailurl_enable
+Allow reading system logs on-site
+---STRINGEND
+
+---STRING logging configuration
+Logging configuration
+---STRINGEND
+
+---STRING metadata configuration
+Metadata configuration
+---STRINGEND
+
+---STRING metadata_approval
+Enable content approval
+---STRINGEND
+
+---STRING metadata_scheduling
+Enable content publication scheduling
+---STRINGEND
+
+---STRING metadata_opengraph
+Enable Open Graph Protocol
+---STRINGEND
+
+---STRING metadata_schema
+Metadata editing schema database
+---STRINGEND
+
+---STRING midcom.admin.settings
+Website configuration
+---STRINGEND
+
+---STRING midcom_log_crit
+Critical error messages
+---STRINGEND
+
+---STRING midcom_log_debug
+Debug messages
+---STRINGEND
+
+---STRING midcom_log_error
+Error messages
+---STRINGEND
+
+---STRING midcom_log_info
+Info messages
+---STRINGEND
+
+---STRING midcom_log_warn
+Warnings
+---STRINGEND
+
+---STRING midcom_prefix
+URL prefix for MidCOM
+---STRINGEND
+
+---STRING midcom_root_topic_guid
+Root topic
+---STRINGEND
+
+---STRING midcom_services_rcs_bin_dir
+Directory of rcs applications
+---STRINGEND
+
+---STRING midcom_services_rcs_enable
+Enable revision control for content
+---STRINGEND
+
+---STRING midcom_sgconfig_basedir
+Sitegroup-specific configuration directory
+---STRINGEND
+
+---STRING midcom_site_url
+Website URL
+---STRINGEND
+
+---STRING midcom_tempdir
+Temporary directory used by MidCOM
+---STRINGEND
+
+---STRING midcom_temporary_resource_timeout
+Time temporary files are kept (in seconds)
+---STRINGEND
+
+---STRING nap settings
+NAP settings
+---STRINGEND
+
+---STRING positioning_enable
+Enable geographical positioning of content
+---STRINGEND
+
+---STRING settings saved successfully
+Settings saved successfully.
+---STRINGEND
+
+---STRING show_hidden_objects
+Show hidden content
+---STRINGEND
+
+---STRING show_unapproved_objects
+Show unapproved content
+---STRINGEND
+
+---STRING staging2live_staging
+This site is a staging site
+---STRINGEND
+
+---STRING utilities
+Utilities
+---STRINGEND
+
+---STRING utility_catdoc
+Path to catdoc application
+---STRINGEND
+
+---STRING utility_diff
+Path to diff application
+---STRINGEND
+
+---STRING utility_file
+Path to file application
+---STRINGEND
+
+---STRING utility_find
+Path to find application
+---STRINGEND
+
+---STRING utility_gzip
+Path to gzip application
+---STRINGEND
+
+---STRING utility_imagemagick_base
+Directory of imagemagick applications
+---STRINGEND
+
+---STRING utility_jpegtran
+Path to jpegtran application
+---STRINGEND
+
+---STRING utility_pdftotext
+Path to pdftotext application
+---STRINGEND
+
+---STRING utility_rcs
+Path to rcs application
+---STRINGEND
+
+---STRING utility_tar
+Path to tar application
+---STRINGEND
+
+---STRING utility_unrtf
+Path to unrtf application
+---STRINGEND
+
+---STRING utility_unzip
+Path to unzip application
+---STRINGEND
+

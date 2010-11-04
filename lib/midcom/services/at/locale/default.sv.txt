@@ -1,0 +1,33 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE sv
+
+---STRING failed
+Misslyckades
+---STRINGEND
+
+---STRING midcom.services.at
+Schemalagd kommando exekvering
+---STRINGEND
+
+---STRING running
+Kör
+---STRINGEND
+
+---STRING scheduled
+Schemalagd
+---STRINGEND
+
+---STRING scheduled operations
+Schemalagda operationer
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING time
+Tid
+---STRINGEND
+

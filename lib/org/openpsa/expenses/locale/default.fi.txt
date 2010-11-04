@@ -1,0 +1,125 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE fi
+
+---STRING date
+Päivämäärä
+---STRINGEND
+
+---STRING delete hour report
+Poista tuntikirjaus
+---STRINGEND
+
+---STRING description
+Kuvaus
+---STRINGEND
+
+---STRING expenses in week %s
+Kulut viikolla %s
+---STRINGEND
+
+---STRING hour report
+Tuntiraportti
+---STRINGEND
+
+---STRING hours
+Tunteja
+---STRINGEND
+
+---STRING invoiceable
+Laskutettava
+---STRINGEND
+
+---STRING list_hours_task %s
+Listaa tehtävän %s tunnit
+---STRINGEND
+
+---STRING next week
+seuraava viikko
+---STRINGEND
+
+---STRING org.openpsa.expenses
+Kulujen seuranta
+---STRINGEND
+
+---STRING person
+Henkilö
+---STRINGEND
+
+---STRING previous week
+edellinen viikko
+---STRINGEND
+
+---STRING report hours
+Raportoi tunteja
+---STRINGEND
+
+---STRING task
+Tehtävä
+---STRINGEND
+
+---STRING total
+Yhteensä
+---STRINGEND
+
+---STRING uninvoiceable
+Ei-laskutettava
+---STRINGEND
+
+---STRING apply
+käytä
+---STRINGEND
+
+---STRING filter error
+Suodatusvirhe
+---STRINGEND
+
+---STRING hour reports between %s and %s
+Tuntiraportit välille %s ja %s
+---STRINGEND
+
+---STRING hours unit
+h
+---STRINGEND
+
+---STRING hours_delete
+Poista tuntiraportti
+---STRINGEND
+
+---STRING hours_edit
+Muokkaa tuntiraporttia
+---STRINGEND
+
+---STRING invoiceable reports
+Laskutettavat raportit
+---STRINGEND
+
+---STRING invoiced reports
+Laskutetut raportit
+---STRINGEND
+
+---STRING no filter available
+Suodattimia ei saatavilla
+---STRINGEND
+
+---STRING no filter available for %s
+Suodattimia ei saatavilla kohteelle %s
+---STRINGEND
+
+---STRING show task %s
+Näytä tehtävät kohteelle %s
+---STRINGEND
+
+---STRING the handed filter for %s could not be set as parameter
+Käsiteltyä suodatinta kohteelle %s ei voida asettaa parametriksi
+---STRINGEND
+
+---STRING uninvoiceable reports
+Ei-laskutettavat raportit
+---STRINGEND
+
+---STRING unset
+Poista asetus
+---STRINGEND
+

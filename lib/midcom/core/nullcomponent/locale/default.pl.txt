@@ -1,0 +1,13 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE pl
+
+---STRING enable_folder_code_execution
+Włącz wykonanie kodu w folderze
+---STRINGEND
+
+---STRING midcom.core.nullcomponent
+Moduł zastępczy
+---STRINGEND
+

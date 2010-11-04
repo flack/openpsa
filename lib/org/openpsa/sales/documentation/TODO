@@ -1,0 +1,28 @@
+org.openpsa.sales TODO
+======================
+
+## Subscription cycle handling
+
+* Refactor `new_subscription_cycle` to following methods
+  - Invoicing current cycle
+  - Closing open tasks
+  - Generating new task
+  - Registering next cycle
+* Rename `new_subscription_cycle` to `run_subscription_cycle`
+* Enable manual invoicing of cycles mid-term
+
+## Sales project to project matching
+
+* If salesproject has only one service deliverable, generate only the task
+  for it, no project
+
+## Work hour invoicing
+
+* Display list of invoiceable hours and tasks for a deliverable
+
+## Deliverable listing reports
+
+* Generate lists of deliverables and register to NAP:
+  - Proposed deliverables (i.e. list of open proposals), FI: Tarjouskanta
+  - Ordered deliverables, FI: Tilauskanta
+  - Current subscriptions, FI: Jatkuvat sopimukset

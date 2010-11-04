@@ -1,0 +1,92 @@
+<div class="wide">
+    <div class="area">
+    <table id="treegrid"></table>
+    <script type="text/javascript">
+
+    //function to set the right title for creator-cell
+    function setCellTitle(rowid , rowdata ,rowelem)
+    {
+        var cell = $("#"+rowid).children(':eq(3)');
+        var source_cell = $("#"+rowid).children(':eq(2)');
+        cell.attr('title', source_cell.text());
+    }
+    //function to add zebra-stripping
+    function zebraStriping()
+    {
+        even = "odd";
+        $(this).children().children().each(function(i)
+        {
+            $(this).removeClass("even").removeClass("odd");
+
+            $(this).addClass(even);
+            if(even == "even")
+            {
+                even = "odd";
+            }
+            else
+            {
+                even = "even";
+            }
+        });
+    }
+    //function to resize grid to parent_container-size
+    function resize_grid()
+    {
+        var new_width = jQuery("#gbox_treegrid").parent().attr('clientWidth') - 5;
+        var full_height = jQuery("#content").attr('clientHeight');
+        var area_offset_top = jQuery("#gbox_treegrid").attr('offsetTop');
+        //height of title-bar 25
+        var new_height = (full_height - area_offset_top) - 30 ;
+
+        jQuery("#treegrid").jqGrid().setGridWidth(new_width);
+        jQuery("#treegrid").jqGrid().setGridHeight(new_height);
+    }
+
+    $(document).ready(
+    function()
+    {
+        jQuery("#treegrid").jqGrid({
+            treeGrid: true,
+            treeGridModel: 'adjacency',
+            url: '<?php echo $data['prefix'] ;?>directory/xml/<?php echo $data['current_guid']; ?>/',
+            treedatatype: "xml",
+            mtype: "POST",
+            colNames:["id",
+            <?php
+                //index is needed for sorting
+                echo "'name_index',";
+                echo "'" . $data['l10n']->get("title") ."',";
+                echo "'creator_index',";
+                echo "'" . $data['l10n']->get("creator") . "',";
+                echo "'last_mod_index',";
+                echo "'" . $data['l10n']->get("last modified") . "',";
+                echo "'file_size_index',";
+                echo "'" . $data['l10n']->get("file size") . "'";
+            ?>
+            ],
+            colModel:[
+                {name:'id',index:'id', hidden:true, key:true },
+                {name:'name_index', index:'name_index' , hidden:true},
+                {name:'name', index: 'name_index', width: 100 },
+                {name:'creator_index', index: 'creator_index' , hidden:true },
+                {name:'creator',index: 'creator_index', width: 70 },
+                {name:'last_mod_index', index:'last_mod_index' , hidden: true},
+                {name:'last_mod', index:'last_mod_index' , fixed: true},
+                {name:'file_size_index',index:'file_size_index' , hidden:true, sortable:true , sorttype:'integer'},
+                {name:'file_size',index:'file_size_index', width: 90, fixed: true  }
+             ],
+            gridview: false,
+            ExpandColumn : 'name',
+            afterInsertRow: setCellTitle
+            //gridComplete: zebraStriping,
+         });
+        resize_grid();
+        //bind resize_function
+        $(window).resize(function()
+        {
+            resize_grid();
+        });
+
+    });
+    </script>
+        <h1><?php echo $data['directory']->extra; ?></h1>

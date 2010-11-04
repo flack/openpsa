@@ -1,0 +1,41 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE hu
+
+---STRING EVERYONE
+Mindenki
+---STRINGEND
+
+---STRING midgard:create
+Létrehoz
+---STRINGEND
+
+---STRING midgard:delete
+Töröl
+---STRINGEND
+
+---STRING midgard:owner
+Tulajdonos
+---STRINGEND
+
+---STRING midgard:read
+Olvas
+---STRINGEND
+
+---STRING midgard:update
+Frissít
+---STRINGEND
+
+---STRING ANONYMOUS
+Anonim felhasználók
+---STRINGEND
+
+---STRING USERS
+Összes felhasználó
+---STRINGEND
+
+---STRING folder
+mappa
+---STRINGEND
+

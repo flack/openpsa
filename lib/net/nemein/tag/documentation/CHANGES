@@ -1,0 +1,29 @@
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+TODO
+  - Make autocompleting tag widget to DM2
+
+2006-11-24 rambo
+  - fixed a bug in get_objects_with_tags caused by dangling reference
+    (manifested as incorrect object for last result in list)
+  - version bump
+
+2006-10-26 rambo
+  + Implemented get_objects_with_tags-method to do exactly that (see docblock)
+  + Added cron handler to remove dangling tags (ie tags with no links to them)
+
+2006-10-22 bergie
+  + Fixed tag link duplicate checks
+
+2006-10-08 rambo
+  + Added exec handler for searching tags (for the TBD autocompleting widget)
+  - fixed multiple contexts on same tag
+  - extra sanity checks
+  - version bump
+
+2006-01-04 rambo & bergie
+  + Initial creation.

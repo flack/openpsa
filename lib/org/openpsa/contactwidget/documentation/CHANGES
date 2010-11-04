@@ -1,0 +1,39 @@
+org.openpsa.contactwidget Changelog
+                   -----------------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2006-05-13 rambo
+  + sanity checks to avoid notices when incorrect data is passed to widget
+  + try to load skype icon only if we are *not* on SSL
+
+2006-05-03 bergie
+  + Added Jabber and Skype visibility status to the "business card"
+
+2006-02-27 bergie
+  + Refactored person display to support contacts that are not person objects
+  + Made o.o.contacts node NAP array static to improve performance
+
+2006-02-15 rambo
+  - fixed version number in manifest
+
+2005-11-16 rambo
+  - added prefix_html property
+
+2005-11-15 rambo
+  - added DOM id to the main DIV
+
+2005-08-24 bergie
+  + added $person->name fallback
+
+2005-08-08 bergie
+  + Implemented extra_html attribute for external HTML to be
+    added to the person card
+
+2005-07-11 bergie
+  + Initially created the widget
+  + Implemented Jabber presence using the Edgar service
+  + Implemented photo display using the Gravatar service

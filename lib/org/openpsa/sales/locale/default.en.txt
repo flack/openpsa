@@ -1,0 +1,373 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 26544 2010-07-11 14:42:47Z flack $
+---LANGUAGE en
+
+---STRING %s cycles in %s months
+%s cycles in %s months
+---STRINGEND
+
+---STRING %s cycles, %s - %s
+%s cycles, %s - %s
+---STRINGEND
+
+---STRING %s planned
+%s planned
+---STRINGEND
+
+---STRING %s%% of %s
+%s%% of %s
+---STRINGEND
+
+---STRING action new_subscription_cycle
+Start of new subscription cycle
+---STRINGEND
+
+---STRING active
+Active
+---STRINGEND
+
+---STRING add deliverable
+Add deliverable
+---STRINGEND
+
+---STRING calculation basis
+calculation basis
+---STRINGEND
+
+---STRING canceled
+Canceled
+---STRINGEND
+
+---STRING code
+Project code
+---STRINGEND
+
+---STRING contacts
+Contacts
+---STRINGEND
+
+---STRING continuous subscription
+Continuous subscription
+---STRINGEND
+
+---STRING cost
+Cost
+---STRINGEND
+
+---STRING cost per unit
+Cost per unit
+---STRINGEND
+
+---STRING cost structure
+Cost structure
+---STRINGEND
+
+---STRING cost type
+Cost type
+---STRINGEND
+
+---STRING create document
+Create document
+---STRINGEND
+
+---STRING create event
+Create event
+---STRINGEND
+
+---STRING create note
+Create note
+---STRINGEND
+
+---STRING create salesproject
+Create sales project
+---STRINGEND
+
+---STRING create task
+Create task
+---STRINGEND
+
+---STRING created project "%s"
+Created project "%s"
+---STRINGEND
+
+---STRING created task "%s"
+Created task "%s"
+---STRINGEND
+
+---STRING customer
+Customer
+---STRINGEND
+
+---STRING deliverables
+Deliverables
+---STRINGEND
+
+---STRING delivered
+Delivered
+---STRINGEND
+
+---STRING did not mark deliverable "%s" delivered due to other tasks
+Did not mark the deliverable "%s" delivered due to other tasks
+---STRINGEND
+
+---STRING download as CSV
+Download as CSV
+---STRINGEND
+
+---STRING estimated closing date
+Estimated closing date
+---STRINGEND
+
+---STRING estimated delivery
+Estimated delivery
+---STRINGEND
+
+---STRING invoice
+Invoice
+---STRINGEND
+
+---STRING invoice approved only
+Invoice only approved units
+---STRINGEND
+
+---STRING invoice by actual units
+Invoice by actual units
+---STRINGEND
+
+---STRING invoiced
+Invoiced
+---STRINGEND
+
+---STRING invoices
+Invoices
+---STRINGEND
+
+---STRING invoicing information
+Invoicing information
+---STRINGEND
+
+---STRING invoicing period
+Invoicing period
+---STRINGEND
+
+---STRING lost
+Lost
+---STRINGEND
+
+---STRING mark declined
+Mark declined
+---STRINGEND
+
+---STRING mark delivered
+Mark delivered
+---STRINGEND
+
+---STRING mark ordered
+Mark ordered
+---STRINGEND
+
+---STRING marked deliverable "%s" delivered
+Marked deliverable "%s" delivered
+---STRINGEND
+
+---STRING next action
+Next action
+---STRINGEND
+
+---STRING next invoice will be sent on %s
+The next invoice will be sent on %s
+---STRINGEND
+
+---STRING next run
+Next run
+---STRINGEND
+
+---STRING no action
+No action
+---STRINGEND
+
+---STRING no customer
+No customer
+---STRINGEND
+
+---STRING notify date
+Notification date
+---STRINGEND
+
+---STRING ordered
+Ordered
+---STRINGEND
+
+---STRING org.openpsa.sales
+Sales projects
+---STRINGEND
+
+---STRING owner
+Owner
+---STRINGEND
+
+---STRING per unit
+per unit
+---STRINGEND
+
+---STRING planned units
+Planned units
+---STRINGEND
+
+---STRING previous action
+Previous action
+---STRINGEND
+
+---STRING price
+Price
+---STRINGEND
+
+---STRING price per unit
+Price per unit
+---STRINGEND
+
+---STRING pricing
+Pricing
+---STRINGEND
+
+---STRING pricing information
+Pricing information
+---STRINGEND
+
+---STRING probability
+Probability
+---STRINGEND
+
+---STRING product
+Product
+---STRINGEND
+
+---STRING profit
+Profit
+---STRINGEND
+
+---STRING proposed
+Proposed
+---STRINGEND
+
+---STRING purchase invoice
+Purchase invoice OK
+---STRINGEND
+
+---STRING sales report
+Sales report
+---STRINGEND
+
+---STRING sales report %s - %s
+Sales report for %s - %s
+---STRINGEND
+
+---STRING salesproject
+Sales project
+---STRINGEND
+
+---STRING salesprojects active
+Active sales projects
+---STRINGEND
+
+---STRING salesprojects canceled
+Canceled sales projects
+---STRINGEND
+
+---STRING salesprojects delivered
+Delivered Sales projects
+---STRINGEND
+
+---STRING salesprojects invoiced
+Invoiced Sales projects
+---STRINGEND
+
+---STRING salesprojects lost
+Lost sales projects
+---STRINGEND
+
+---STRING salesprojects won
+Sales projects won
+---STRINGEND
+
+---STRING salesprojects: %s
+Sales projects: %s
+---STRINGEND
+
+---STRING select product
+Select product
+---STRINGEND
+
+---STRING single delivery
+Single delivery
+---STRINGEND
+
+---STRING started
+Work started
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING subscription
+Subscription
+---STRINGEND
+
+---STRING subscription begins
+Subscription begins
+---STRINGEND
+
+---STRING subscription cycle %d closed for agreement %s (%s)
+Subscription cycle %d closed for agreement %s (%s)
+---STRINGEND
+
+---STRING subscription ends
+Subscription ends
+---STRINGEND
+
+---STRING subscription starts
+Subscription starts
+---STRINGEND
+
+---STRING supplier
+Supplier
+---STRINGEND
+
+---STRING the amount youre trying to invoice %s exceeds the open amount of the deliverable %s
+The amount youre trying to invoice (%s) exceeds the open amount of the deliverable (%s). Please edit the deliverable
+---STRINGEND
+
+---STRING title
+Title
+---STRINGEND
+
+---STRING total
+Total
+---STRINGEND
+
+---STRING total cost
+Total cost
+---STRINGEND
+
+---STRING unit
+unit
+---STRINGEND
+
+---STRING units
+Units
+---STRINGEND
+
+---STRING value
+Value
+---STRINGEND
+
+---STRING weighted value
+Weighted value
+---STRINGEND
+
+---STRING won
+Won
+---STRINGEND
+

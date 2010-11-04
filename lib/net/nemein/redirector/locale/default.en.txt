@@ -1,0 +1,121 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 25280 2010-03-15 21:34:00Z solt $
+---LANGUAGE en
+
+---STRING 301 Moved Permanently
+301 Moved Permanently
+---STRINGEND
+
+---STRING 302 Found
+302 Found
+---STRINGEND
+
+---STRING 410 Gone
+410 Gone
+---STRINGEND
+
+---STRING click here
+click here
+---STRINGEND
+
+---STRING create a new tinyurl
+Create a new TinyURL
+---STRINGEND
+
+---STRING delete tinyurl
+Delete TinyURL
+---STRINGEND
+
+---STRING edit tinyurl
+Edit TinyURL
+---STRINGEND
+
+---STRING first subfolder
+First sub-folder of this folder
+---STRINGEND
+
+---STRING if redirection fails, %s
+If redirection fails, %s
+---STRINGEND
+
+---STRING list of tinyurls
+List of TinyURLs
+---STRINGEND
+
+---STRING location
+Location
+---STRINGEND
+
+---STRING metatag refresh speed
+Metatag refresh speed
+---STRINGEND
+
+---STRING net.nemein.redirector
+Redirection folder
+---STRINGEND
+
+---STRING no guid found for permalink
+No GUID found for permalink
+---STRINGEND
+
+---STRING no url found for guid %s
+No url found for GUID %s
+---STRINGEND
+
+---STRING permalink guid
+Permalink GUID
+---STRINGEND
+
+---STRING privilege noredirect
+Disable redirection
+---STRINGEND
+
+---STRING redirect administrators
+Redirect administrators
+---STRINGEND
+
+---STRING redirect with metatag
+Redirect with metatag
+---STRINGEND
+
+---STRING redirection http code
+HTTP return code used for redirect
+---STRINGEND
+
+---STRING redirection node
+Redirection node
+---STRINGEND
+
+---STRING redirection settings
+Redirection settings
+---STRINGEND
+
+---STRING redirection type
+Redirection type
+---STRINGEND
+
+---STRING redirection url
+Redirection URL
+---STRINGEND
+
+---STRING selected node
+Selected node
+---STRINGEND
+
+---STRING this page links to
+This page links to
+---STRINGEND
+
+---STRING tinyurl
+TinyURL
+---STRINGEND
+
+---STRING url entered below
+URL entered below
+---STRINGEND
+
+---STRING you are being redirected to %s in %s seconds
+You are being redirected to %s in %s seconds
+---STRINGEND
+

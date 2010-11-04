@@ -1,0 +1,72 @@
+﻿Muokkaa metadataa
+=================
+
+Metadata tarkoittaa sisällön kuvausta. Metadatan kautta on mahdollista määritellä esimerkiksi se ajankohta, jolloin sivu tai kansio on näkyvissä, mistä sisällössä on kyse ja kuinka ulkoisten hakukoneiden tulisi rekisteröidä se.
+
+![Muokkaa Metadataa](MIDCOM_STATIC_URL/midcom.admin.folder/edit_metadata_fi.png)
+
+Näkyvyysasetukset
+-----------------
+
+Näkyvyydelle on kolme perusasetusta:
+
+1.	_Julkaise päivämääränä_
+  - Määrittelee sen ajankohdan, jonka jälkeen kohde näytetään www-sivustolla.
+2.	_Näytä päivämäärään asti_
+  - Määrittelee ajankohdan, jonka jälkeen kohde piilotetaan julkiselta www-sivustolta.
+3.	_Piilota navigaatiosta_
+  - Tämä kytkin määrittelee sen, näkyykö kohde navigaatiossa. Piilotetuttuihin sivuihin ja kansioihin pääsee vielä 
+    kirjoittamalla oikean URL-osoitteen.
+
+Päivämäärän valinta
+-------------------
+
+1.	Paina kalenteri-ikonia ![](MIDCOM_STATIC_URL/stock-icons/16x16/web-calendar.png) tekstikentän oikealla puolella.
+2.	Valitse päivämäärä
+  - Muuta kuukautta napsauttamalla yksinkertaista kulmasulkua (_Tänään_ -tekstin molemmilla puolilla) tai paina se alas ja valitse kuukauden nimi pudotusvalikosta.
+  - Paina päivän numeroa.
+3.	Valitse kellonaika
+  - Paina vasen hiirennappi pohjaan joko tuntien tai minuuttien kohdalla ja valitse oikea ajankohta liikuttamalla hiirtä sivuttain.
+  - Hiiren liikuttaminen vasemmalle pienentää ja liikuttaminen oikealle kasvattaa lukua.
+4.	Paina symbolia ![X](MIDCOM_STATIC_URL/midcom.admin.folder/x.png) oikeasta yläreunasta sulkeaksesi päivämäärän valintaikkunan ja tallentaaksesi valitun ajankohdan. 
+
+![Calendar widget](MIDCOM_STATIC_URL/midcom.admin.folder/calendar_widget_fi.png)
+
+Sisällön metadata
+-----------------
+
+Varsinaiset metatietokentät ovat sisällön kuvaamista varten. Tätä informaatiota käytetään lähinnä hakukoneita (kuten esimerkiksi [Google](http://www.google.com/)) varten.
+
+### Avainsanat
+
+
+Avainsanat on lista sellaisista sanoista, jotka määrittelevät ne hakusanat, joilla sivuille tulisi päätyä.
+
+### Kuvaus
+
+Kuvauskenttää käytetään sisällön kuvaamiseen lyhyesti. Yleensä kuvausta käytetään, kun hakukone tarjoaa sivun mahdollisena vaihtoehtona hakutulokselle.
+
+[note: Metadatan avainsanojen ja kuvauksen käyttämistä arvostetaan sekä hakukoneiden että hakukoneita käyttävien ihmisten suunnalla.]
+
+Ulkoisten hakukoneiden hallinnointi
+-----------------------------------
+
+_Ulkoisten hakukoneiden hallinnointi_ on kytkin, joka kertoo hakukoneelle, kuinka sen pitäisi toimia haetun sivun kanssa.
+
+Ulkoisten hakukoneiden kanssa voidaan käyttää useita eri vaihtoehtoja:
+
+1.	_Ei määritelty, käyttää `robots.txt`:tä_
+  - Vakioasetukset, joissa tekstitiedosto `robots.txt` määrittelee, mitkä sivuston osat tulisi indeksoida.
+2.	_Älä salli hakuja_
+  - Jos Älä salli hakuja on valittu, ulkoiset hakukoneet eivät indeksoi kohdetta lainkaan.
+3.	_Salli haut_
+  - Tämä on käytännössä sama, kuin Ei määritelty, mutta tällä on mahdollista yliajaa  `robots.txt`:n tietoja.
+4.	_Salli haut, hakukone saa seurata linkkejä_
+5.	_Salli haut, hakukone ei saa seurata linkkejä_
+  - Hakukone saa indeksoida kyseisen objektin, mutta ei siltä muualle johtavia linkkejä. Tämä on käytännöllinen, kun halutaan estää hakukoneita listaamasta kohteita, joiden URL-osoite muuttuu esimerkiksi päivämäärän myötä.
+
+
+Sisäinen metadata
+-----------------
+
+_Sisäinen metadata_ tarjoaa tiedot kohteen muutoksista. _Luotu_-kentät kertovat alkuperäisestä luomisesta, _Muokattu_-kentät viimeisimmän version tiedoista ja _Hyväksyntä_-kentät hyväksynnän statuksesta.

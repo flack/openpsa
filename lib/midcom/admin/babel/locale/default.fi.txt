@@ -1,0 +1,153 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 24731 2010-01-15 19:51:41Z adrenalin $
+---LANGUAGE fi
+
+---STRING component
+Komponentti
+---STRINGEND
+
+---STRING core component status
+Tila (ydinkomponentit)
+---STRINGEND
+
+---STRING core components
+Ydinkomponentit
+---STRINGEND
+
+---STRING default
+oletus
+---STRINGEND
+
+---STRING edit strings for %s [%s]
+Käännä komponentin "%s" viestit kielelle %s
+---STRINGEND
+
+---STRING language
+Kieli
+---STRINGEND
+
+---STRING midcom.admin.babel
+Käyttöliittymien kääntäminen
+---STRINGEND
+
+---STRING new string
+Uusi viesti
+---STRINGEND
+
+---STRING other component status
+Tila (muut)
+---STRINGEND
+
+---STRING other components
+Muut komponentit
+---STRINGEND
+
+---STRING percentage
+Prosentit
+---STRINGEND
+
+---STRING perm-denied text
+<p>MidCOMilla ei ole oikeutta kirjoittaa käännöksiä. Tarkista että Apache-käyttäjällä on oikeudet komponentin "locale"-kansioon ja sen alla oleviin tiedostoihin.</p>
+---STRINGEND
+
+---STRING read information from midgard wiki on how to add languages
+Ohjeita uusien käyttöliittymäkielten lisäämisestä löytyy <a href="http://www.midgard-project.org/midcom-permalink-ded2437586408cd03cd4582ba45b91f2">Midgardin Wikistä</a>.
+---STRINGEND
+
+---STRING select lang and component
+Valitse kieli ja komponentti
+---STRINGEND
+
+---STRING select language to translate
+Valitse käännettävä kieli
+---STRINGEND
+
+---STRING string-id
+Viestin tunniste
+---STRINGEND
+
+---STRING strings total
+Viestejä yhteensä
+---STRINGEND
+
+---STRING translated strings
+Käännettyjä viestejä
+---STRINGEND
+
+---STRING translation status for language %s
+Kielen %s käännösten tila
+---STRINGEND
+
+---STRING Chinese
+kiina
+---STRINGEND
+
+---STRING Danish
+tanska
+---STRINGEND
+
+---STRING Dutch
+hollanti
+---STRINGEND
+
+---STRING English
+englanti
+---STRINGEND
+
+---STRING Estonian
+viro
+---STRINGEND
+
+---STRING Finnish
+suomi
+---STRINGEND
+
+---STRING French
+ranska
+---STRINGEND
+
+---STRING Georgian
+georgia
+---STRINGEND
+
+---STRING German
+saksa
+---STRINGEND
+
+---STRING Hungarian
+unkari
+---STRINGEND
+
+---STRING Italian
+italia
+---STRINGEND
+
+---STRING Norwegian
+norja
+---STRINGEND
+
+---STRING Polish
+puola
+---STRINGEND
+
+---STRING Portuguese
+portugali
+---STRINGEND
+
+---STRING Russian
+venäjä
+---STRINGEND
+
+---STRING Spanish
+espanja
+---STRINGEND
+
+---STRING Swedish
+ruotsi
+---STRINGEND
+
+---STRING danish
+tanska
+---STRINGEND
+

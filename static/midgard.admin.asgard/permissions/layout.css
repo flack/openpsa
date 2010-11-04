@@ -1,0 +1,102 @@
+.maa_permissions_assignees
+{
+    margin: 10px 0 5px 0;
+    padding: 5px;
+    width: 900px;
+}
+
+.maa_permissions_items_row
+{
+    margin: 10px 0 5px 0;
+    padding: 5px;    
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.maa_permissions_footer
+{
+    margin: 10px 0 5px 0;
+    padding: 5px;
+}
+
+.maa_permissions_items thead tr
+{
+    margin-bottom: 5px;
+    height: 30px;
+    width: 1000px;
+}
+.maa_permissions_items tbody tr
+{
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    clear: left;
+}
+.maa_permissions_items tr.odd
+{
+    background-color: #ddd;
+}
+.maa_permissions_items tr.even
+{
+    background-color: #eee;
+}
+
+.maa_permissions_items td.row_value
+{   
+    height: 20px;
+    line-height: 20px;
+    min-width: 8%;
+    text-align: center;
+}
+
+th.topic_management,
+th.template_management,
+th.component_config,
+th.admin_folder,
+td.topic_management,
+td.template_management,
+td.component_config,
+td.admin_folder
+{
+    width: 102px;
+}
+
+.maa_permissions_rows_header th
+{
+    font-weight: bold;
+    height: auto;
+}
+.maa_permissions_rows_header th span
+{
+    padding: 0 5px 0 5px;
+    vertical-align: top;
+}
+
+.maa_permissions_rows_header th.assignee_name,
+.maa_permissions_rows_row td.assignee_name
+{
+    text-align: left;
+    width: 180px;
+    overflow: hidden;
+}
+.maa_permissions_rows_header th.row_actions,
+.maa_permissions_rows_row td.row_actions
+{
+    text-align: center;
+    width: 40px;
+}
+
+div.privilege_actions,
+div.privilege_action
+{
+    display: inline;
+    margin-right: 3px;
+}
+div.privilege_action
+{
+    cursor: pointer;
+}
+div.privilege_action img
+{
+    padding-top: 2px;   
+}

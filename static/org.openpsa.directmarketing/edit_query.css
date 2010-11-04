@@ -1,0 +1,133 @@
+form.org_openpsa_directmarketing_edit_query
+{
+}
+
+
+
+form.org_openpsa_directmarketing_edit_query .select
+{
+    margin: 3px
+}
+
+form.org_openpsa_directmarketing_edit_query input
+{
+    margin-right: 5px
+}
+
+form.org_openpsa_directmarketing_edit_query input.button
+{
+    padding: 2px;
+}
+
+form.org_openpsa_directmarketing_edit_query input.add_row
+{
+    border: none;
+}
+
+form.org_openpsa_directmarketing_edit_query input.remove_row
+{
+    border: none;
+}
+
+div.org_openpsa_directmarketing_edit_query_handler_buttons
+{
+    float: right;
+}
+
+form.org_openpsa_directmarketing_edit_query fieldset
+{
+    border: 0px;
+    padding: 5px;
+    margin: 0px;
+}
+
+form.org_openpsa_directmarketing_edit_query fieldset.odd,
+form.org_openpsa_directmarketing_edit_query fieldset.odd input.add_row,
+form.org_openpsa_directmarketing_edit_query fieldset.odd input.remove_row
+{
+    background: #dfdfdf;
+}
+
+
+form.org_openpsa_directmarketing_edit_query fieldset.odd select,
+form.org_openpsa_directmarketing_edit_query fieldset.odd input
+
+{
+    background: #efefef;
+}
+
+.rule
+{
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    background: #EEEEEE;
+    border-collapse: collapse; 
+}
+.group
+{
+    border-top: 2px solid;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+    padding-left:20px;
+    padding-bottom:5px;
+    padding-top: 5px;
+    background: #CCCCCC;
+    border-collapse: collapse; 
+}
+
+.remove_row , .add_row
+{
+    cursor: pointer;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+}
+.form_toolbar
+{
+    padding-top: 15px;
+}
+.focus
+{
+    /*border: 2px solid blue;*/
+    background: #A1D8D7;
+}
+.focus .focus
+{
+    background: #7BDFDF;
+}
+.focus .focus .focus
+{
+    background: #0FE5E5;
+}
+.add_group
+{
+    margin-top: 5px;
+}
+
+.groupselect
+{
+    margin-top : 3px;
+    margin-bottom: 3px;
+}
+.remove_group
+{
+    margin-left : 3px;
+    float: right;
+}
+.nobottom
+{
+    border-bottom : 0px;
+}
+.notop
+{
+    border-top : 0px;
+}
+#org_openpsa_directmarketing_rules_editor_container_group_0
+{
+    border-right: 2px solid;
+}
+#midcom_helper_datamanager2_dummy_field_rules
+{
+    width: 100%;
+}

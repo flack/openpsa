@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="midcom_core_group_virtual_db" table="midcom_group_virtual">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="component" type="string" index="yes">
+            <description>Component handling the virtual group</description>
+        </property>
+        <property name="identifier" type="string" index="yes">
+            <description>Virtual group's identifier</description>
+        </property>
+        <property name="name" type="string">
+            <description>Virtual group's name</description>
+        </property>
+    </type>
+
+    <type name="midcom_core_privilege_db" table="midcom_core_privilege">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="objectguid" type="guid" parentfield="objectguid">
+            <description>GUID of the object the privilege applies to</description>
+        </property>
+        <property name="privilegename" field="name" type="string" index="yes">
+            <description>Name of the privilege (for example `midgard:create`)</description>
+        </property>
+        <property name="assignee" type="string" index="yes">
+            <description>Assignee of the privilege, for instance user or group identifier</description>
+        </property>
+        <property name="classname" type="string" index="yes">
+            <description>MgdSchema class the privilege applies to, in case of class-level privileges</description>
+        </property>
+        <property name="value" type="integer" index="yes">
+            <description>
+                Value of the privilege:
+                
+                - 1: MIDCOM_PRIVILEGE_ALLOW
+                - 2: MIDCOM_PRIVILEGE_DENY
+                - 3: MIDCOM_PRIVILEGE_INHERIT
+            </description>
+        </property>  
+    </type>
+
+    <type name="midcom_core_login_session_db" table="midcom_core_login_session">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="userid" type="string" index="yes">
+            <description>User identifier for the authenticated session</description>
+        </property>
+        <property name="username" type="string" index="yes">
+            <description>Authenticated user's username</description>
+        </property>
+        <property name="password" type="string">
+            <description>Authenticated user's password</description>
+        </property>
+        <property name="clientip" type="string">
+            <description>IP address user is authenticated from</description>
+        </property>
+        <property name="timestamp" type="integer">
+            <description>Login time as Unix timestamp</description>
+        </property>
+        <property name="trusted" type="boolean">
+            <description>Session uses trusted authentication</description>
+        </property>
+    </type>
+
+    <type name="midcom_core_temporary_object_db" table="midcom_core_temporary_object_db">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="timestamp" type="integer" />
+
+        <property name="name" type="text" />
+        <property name="text1" type="text" />
+        <property name="text2" type="text" />
+        <property name="text3" type="text" />
+        <property name="integer1" type="integer" />
+        <property name="integer2" type="integer" />
+        <property name="integer3" type="integer" />
+        <property name="integer4" type="integer" />
+    </type>
+</Schema>

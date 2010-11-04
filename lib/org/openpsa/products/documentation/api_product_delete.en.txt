@@ -1,0 +1,26 @@
+/api/product/delete/`Product GUID`
+========================
+
+Delete a product identified by a GUID. This request must be a HTTP POST.
+
+## Authentication
+
+This method requires HTTP Basic authentication
+
+## Arguments
+
+* `Product GUID`: GUID of the product to delete
+
+## Error Codes
+
+200: OK
+:    Product was successfully deleted
+
+401: Authorization required
+:    HTTP Basic authentication needed
+
+404: Not found
+:    The requested product could not be found
+
+500: Internal Server Error
+:    Some error state has happened in the database, the message includes details

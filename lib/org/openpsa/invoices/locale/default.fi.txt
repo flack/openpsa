@@ -1,0 +1,237 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 23195 2009-08-19 16:06:12Z flack $
+---LANGUAGE fi
+
+---STRING all invoices
+Kaikki laskut
+---STRINGEND
+
+---STRING all invoices for customer %s
+Asiakkaan %s kaikki laskut
+---STRINGEND
+
+---STRING all invoices for deliverable %s
+Kaikki laskut toimitukselle %s
+---STRINGEND
+
+---STRING basic information
+Perustiedot
+---STRINGEND
+
+---STRING create invoice
+Luo lasku
+---STRINGEND
+
+---STRING created "%s" task to %s
+Luotu tehtävä "%s" käyttäjälle %s
+---STRINGEND
+
+---STRING customer
+Asiakas
+---STRINGEND
+
+---STRING customer contact
+Asiakasyhteyshenkilö
+---STRINGEND
+
+---STRING delete invoice
+Poista lasku
+---STRINGEND
+
+---STRING due
+Eräpäivä
+---STRINGEND
+
+---STRING due date
+Eräpäivä
+---STRINGEND
+
+---STRING due on %s
+Eräpäivä %s
+---STRINGEND
+
+---STRING failed to create invoice, reason
+Laskun luominen epäonnistui, syynä
+---STRINGEND
+
+---STRING files
+Tiedostot
+---STRINGEND
+
+---STRING go to customer
+Siirry asiakkaaseen
+---STRINGEND
+
+---STRING go to invoice number
+Siirry laskuun numero
+---STRINGEND
+
+---STRING goto
+siirry
+---STRINGEND
+
+---STRING invoice
+Lasku
+---STRINGEND
+
+---STRING invoice %s created
+Lasku %s luotu
+---STRINGEND
+
+---STRING invoice data
+Laskutiedot
+---STRINGEND
+
+---STRING invoice number
+Laskunumero
+---STRINGEND
+
+---STRING invoice status
+Laskun status
+---STRINGEND
+
+---STRING invoice was not found
+Laskua ei löytynyt
+---STRINGEND
+
+---STRING invoiced hour reports
+Laskutetut tuntiraportit
+---STRINGEND
+
+---STRING invoicing information
+Laskutiedot
+---STRINGEND
+
+---STRING mark paid
+Merkkaa maksetuksi
+---STRINGEND
+
+---STRING mark sent
+Merkkaa lähetetyksi
+---STRINGEND
+
+---STRING marked %s hours as invoiced
+Merkitty %s tuntia laskutetuiksi
+---STRINGEND
+
+---STRING marked invoice "%s" paid
+Lasku "%s" merkattu maksetuksi
+---STRINGEND
+
+---STRING marked invoice "%s" sent
+Lasku "%s" merkattu lähetetyksi
+---STRINGEND
+
+---STRING marked task "%s" finished
+Tehtävä "%s" merkattu valmiiksi
+---STRINGEND
+
+---STRING next action
+Seuraava toimenpide
+---STRINGEND
+
+---STRING no customer
+Ei asiakasta
+---STRINGEND
+
+---STRING no invoice number was handed over
+Laskun numeroa ei toimitettu
+---STRINGEND
+
+---STRING not paid
+Ei maksettu
+---STRINGEND
+
+---STRING open invoices
+Avoimet laskut
+---STRINGEND
+
+---STRING org.openpsa.invoices
+Myyntireskontra
+---STRINGEND
+
+---STRING overdue
+Myöhässä
+---STRINGEND
+
+---STRING overdue invoices
+Myöhässä olevat laskut
+---STRINGEND
+
+---STRING overdue since %s
+Myöhässä %s lähtien
+---STRINGEND
+
+---STRING paid
+Maksupäivä
+---STRINGEND
+
+---STRING paid date
+Maskupäivä
+---STRINGEND
+
+---STRING paid on %s
+Maksettu %s
+---STRINGEND
+
+---STRING price
+Hinta
+---STRINGEND
+
+---STRING project invoicing
+Projektilaskutus
+---STRINGEND
+
+---STRING recently paid invoices
+Viimeisimmät maksetut laskut
+---STRINGEND
+
+---STRING search
+Etsi
+---STRINGEND
+
+---STRING sent
+Lähetyspäivä
+---STRINGEND
+
+---STRING sent date
+Lähetyspäivä
+---STRINGEND
+
+---STRING sum
+Summa (ilman ALV:tä)
+---STRINGEND
+
+---STRING sum including vat
+Summa sisältäen ALV:n
+---STRINGEND
+
+---STRING there is no invoice with number %s
+Laskua numerolla %s ei löydy
+---STRINGEND
+
+---STRING totals
+Yhteensä
+---STRINGEND
+
+---STRING unsent
+Lähettämättömät
+---STRINGEND
+
+---STRING unsent invoices
+Lähettämättömät laskut
+---STRINGEND
+
+---STRING vat
+ALV
+---STRINGEND
+
+---STRING vat sum
+ALV:n osuus
+---STRINGEND
+
+---STRING paid invoices
+Maksetut laskut
+---STRINGEND
+

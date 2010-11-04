@@ -1,0 +1,119 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE sv
+
+---STRING advanced search
+Avancerad sökning
+---STRINGEND
+
+---STRING found %s documents, showing %s documents.
+Hittade %s dokument, visat %s dokument på den här sidan.
+---STRINGEND
+
+---STRING limit search by content type
+Sök endast den här typen av innehåll
+---STRINGEND
+
+---STRING limit search by last modified
+Sök endast dokument ändrade inom
+---STRINGEND
+
+---STRING limit search by topic tree
+Sök bara på den här delen av websiten
+---STRINGEND
+
+---STRING midcom.helper.search
+MidCOM Sökmotor gränssnitt
+---STRINGEND
+
+---STRING next page
+Nästa sida
+---STRINGEND
+
+---STRING no limit
+Ingen begränsing
+---STRINGEND
+
+---STRING pages
+Sidor
+---STRINGEND
+
+---STRING previous page
+Föregående sida
+---STRINGEND
+
+---STRING query
+Fråga
+---STRINGEND
+
+---STRING results_per_page
+Antal resultat per sida
+---STRINGEND
+
+---STRING score
+Poäng
+---STRINGEND
+
+---STRING search
+Sök
+---STRINGEND
+
+---STRING search all content types
+Sök alla innehållstyper
+---STRINGEND
+
+---STRING search anywhere
+Sök överallt
+---STRINGEND
+
+---STRING search hints
+Söktips
+---STRINGEND
+
+---STRING search hints lucene
+Grupper termer genom att använda dubbel citat ("min sökning").<br />
+Du kan använda boolean operatörer AND, OR och NOT (måste vara i versaler).<br />
+---STRINGEND
+
+---STRING search hints plucene
+Grupper termer genom att använda dubbel citat ("min sökning").<br />
+Du kan använda boolean operatörer AND, OR och NOT (måste vara i versaler).<br />
+---STRINGEND
+
+---STRING search results
+Sök resultat
+---STRINGEND
+
+---STRING search_help_message
+Hjälpmedelande att visa vid sökning
+---STRINGEND
+
+---STRING showing %s to %s.
+Visa dokument %s till %s
+---STRINGEND
+
+---STRING showing %s.
+Visa dokument %s
+---STRINGEND
+
+---STRING since 1 month
+En månad
+---STRINGEND
+
+---STRING since 1 year
+Ett år
+---STRINGEND
+
+---STRING since 3 months
+Tre månader
+---STRINGEND
+
+---STRING since 6 months
+Sex månader
+---STRINGEND
+
+---STRING your query returned no results
+Dit sökfråga gav inga resultat.
+---STRINGEND
+

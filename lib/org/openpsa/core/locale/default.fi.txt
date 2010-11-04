@@ -1,0 +1,37 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 23195 2009-08-19 16:06:12Z flack $
+---LANGUAGE fi
+
+---STRING aggregated
+kerätyt
+---STRINGEND
+
+---STRING download as CSV
+Tallenna CSV:ksi
+---STRINGEND
+
+---STRING owner organization couldnt be found
+Tämän OpenPSA-asennuksen omistajaorganisaatiota ei löydy asetuksista
+---STRINGEND
+
+---STRING private
+Yksityinen
+---STRINGEND
+
+---STRING public
+Julkinen
+---STRINGEND
+
+---STRING workgroup private
+Yksityinen työryhmälle
+---STRINGEND
+
+---STRING workgroup restricted
+Rajoitettu työryhmälle
+---STRINGEND
+
+---STRING org.openpsa.core
+OpenPSA
+---STRINGEND
+

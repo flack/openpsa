@@ -1,0 +1,150 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE de
+
+---STRING Danish
+Dänisch
+---STRINGEND
+
+---STRING Dutch
+Holländisch
+---STRINGEND
+
+---STRING English
+Englisch
+---STRINGEND
+
+---STRING Estonian
+Estisch
+---STRINGEND
+
+---STRING Finnish
+Finnisch
+---STRINGEND
+
+---STRING French
+Französisch
+---STRINGEND
+
+---STRING Georgian
+Georgisch
+---STRINGEND
+
+---STRING German
+Deutsch
+---STRINGEND
+
+---STRING Hungarian
+Ungarisch
+---STRINGEND
+
+---STRING Italian
+Italienisch
+---STRINGEND
+
+---STRING Norwegian
+Norwegisch
+---STRINGEND
+
+---STRING Polish
+Polnisch
+---STRINGEND
+
+---STRING Portuguese
+Portugiesisch
+---STRINGEND
+
+---STRING Russian
+Russisch
+---STRINGEND
+
+---STRING Spanish
+Spanisch
+---STRINGEND
+
+---STRING Swedish
+Schwedisch
+---STRINGEND
+
+---STRING component
+Komponente
+---STRINGEND
+
+---STRING core component status
+Status (Haupt-Komponenten)
+---STRINGEND
+
+---STRING core components
+Core-Komponenten
+---STRINGEND
+
+---STRING default
+standard
+---STRINGEND
+
+---STRING edit strings for %s [%s]
+Strings aus %s auf %s übersetzen
+---STRINGEND
+
+---STRING language
+Sprache
+---STRINGEND
+
+---STRING midcom.admin.babel
+MidCOM-Übersetzungswerkzeug
+---STRINGEND
+
+---STRING new string
+Neuer String
+---STRINGEND
+
+---STRING other component status
+Status (andere)
+---STRINGEND
+
+---STRING other components
+Andere Komponenten
+---STRINGEND
+
+---STRING percentage
+Prozentsatz
+---STRINGEND
+
+---STRING perm-denied text
+<p>Diese MidCOM-Installation ist nicht korrekt konfiguriert. Sie erlaubt keinen Schreibzugriff auf die String-Datenbanken.</p>
+<p>Bitte stellen Sie sicher, dass der Apache-Benutzer Schreibberechtigung auf alle locale-Verzeichnisse und -Dateien besitzt. Bitte lesen Sie die Installationsanweisungen für MidCOM für genauere Anweisungen (siehe Datei INSTALL).</p>
+---STRINGEND
+
+---STRING read information from midgard wiki on how to add languages
+Informationen über das Hinzufügen neuer Interface-Sprachen finden Sie im <a href="http://www.midgard-project.org/midcom-permalink-ded2437586408cd03cd4582ba45b91f2">Midgard-Wiki</a>.
+---STRINGEND
+
+---STRING select lang and component
+Wählen Sie Sprache und Komponente
+---STRINGEND
+
+---STRING select language to translate
+Wählen Sie die zu übersetzende Sprache
+---STRINGEND
+
+---STRING string-id
+String-ID
+---STRINGEND
+
+---STRING strings total
+Gesamtzahl Strings
+---STRINGEND
+
+---STRING translated strings
+Übersetzte Strings
+---STRINGEND
+
+---STRING translation status for language %s
+Übersetzungs-Status für %s
+---STRINGEND
+
+---STRING Chinese
+Chinesisch
+---STRINGEND
+

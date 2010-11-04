@@ -1,0 +1,781 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE sv
+
+---STRING %s (%s)
+%s (%s)
+---STRINGEND
+
+---STRING %s deleted items
+%s raderade artiklar
+---STRINGEND
+
+---STRING %s purged
+%s raderat
+---STRINGEND
+
+---STRING %s trash
+%s i papperskorgen
+---STRINGEND
+
+---STRING 1 day
+1 dag
+---STRINGEND
+
+---STRING 1 month
+1 månad
+---STRINGEND
+
+---STRING 1 week
+1 vecka
+---STRINGEND
+
+---STRING 2 weeks
+2 veckor
+---STRINGEND
+
+---STRING ANONYMOUS
+Anonyma användare
+---STRINGEND
+
+---STRING EVERYONE
+Alla
+---STRINGEND
+
+---STRING This object has no translation in the current language and cannot be deleted.
+Detta objektet har inga översättningar i det valda språket och kan inte raderas.
+---STRINGEND
+
+---STRING USERS
+Alla användare
+---STRINGEND
+
+---STRING acl_editor
+Access editor
+---STRINGEND
+
+---STRING actions
+Funktioner
+---STRINGEND
+
+---STRING active url parsing
+Aktiv URL parsning
+---STRINGEND
+
+---STRING add assignee
+Lägg till grupp för privilegie tilldelning
+---STRINGEND
+
+---STRING add text file
+Lägg till textfil
+---STRINGEND
+
+---STRING all of the following items will be deleted
+Alla förljande artiklar kommer att raderas
+---STRINGEND
+
+---STRING always display in top frame
+Visa alltid i översta rutan
+---STRINGEND
+
+---STRING any
+Vilken som helst
+---STRINGEND
+
+---STRING apply to selected
+Verkställ för valda
+---STRINGEND
+
+---STRING asgard
+Asgard
+---STRINGEND
+
+---STRING asgard homepage
+Asgard Hem
+---STRINGEND
+
+---STRING asgard plugins
+Asgard instickstillägg
+---STRINGEND
+
+---STRING attachment
+Bifogad fil
+---STRINGEND
+
+---STRING attachment %s undeleted
+Bifogad fil %s återställd
+---STRINGEND
+
+---STRING attachments
+Bifogade filer
+---STRINGEND
+
+---STRING attachments of %s %s
+Bifogade filer för %s "%s"
+---STRINGEND
+
+---STRING back to %s
+Tillbaka till sida %s
+---STRINGEND
+
+---STRING back to site
+Tillbaka will websajt
+---STRINGEND
+
+---STRING cascading style sheet
+Acscading Style Sheet
+---STRINGEND
+
+---STRING changes done in revision %s to %s
+Ändringar gjorda i revision %s till %s
+---STRINGEND
+
+---STRING changes from version %s
+Ändringar från version %s
+---STRINGEND
+
+---STRING child types of %s
+Undertyper till %s
+---STRINGEND
+
+---STRING choose action
+Välj funktion
+---STRINGEND
+
+---STRING choose the target
+Välj mål
+---STRINGEND
+
+---STRING code
+Kod
+---STRINGEND
+
+---STRING compare
+Jämför
+---STRINGEND
+
+---STRING component
+Komponent
+---STRINGEND
+
+---STRING components
+Komponenter
+---STRINGEND
+
+---STRING configuration for %s
+Konfiguration för komponent %s
+---STRINGEND
+
+---STRING configuration save failed: %s
+Sparande av konfiguration misslyckades: %s
+---STRINGEND
+
+---STRING configuration saved successfully
+Sparande av konfigurations lyckades
+---STRINGEND
+
+---STRING content
+Innehåll
+---STRINGEND
+
+---STRING contentchanged
+Innehåll ändrat
+---STRINGEND
+
+---STRING contentowner
+Innehålls ägare
+---STRINGEND
+
+---STRING copy %s
+Kopiera %s
+---STRINGEND
+
+---STRING copy %s and its descendants
+Kopiera '%s' och underartiklar
+---STRINGEND
+
+---STRING copy attachments
+Kopiera bifigade filer
+---STRINGEND
+
+---STRING copy metadata
+Kopiera metadata
+---STRINGEND
+
+---STRING copy parameters
+Kopiera parametrar
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the new object
+Kopiering lyckades, du är flyttad till det nya objektet.
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the root of the new object tree
+Kopiering lyckades, du har blivit flyttad till rooten av det nya objektträdet.
+---STRINGEND
+
+---STRING copy tree
+Kopiera träd
+---STRINGEND
+
+---STRING core_components
+Huvudkomponenter i MidCOM
+---STRINGEND
+
+---STRING create %s under %s
+Skapa %s i %s
+---STRINGEND
+
+---STRING created by
+Skapad av
+---STRINGEND
+
+---STRING created by %s on %s
+Skapad av %s på %s
+---STRINGEND
+
+---STRING created on
+Skapad på
+---STRINGEND
+
+---STRING date
+Datum
+---STRINGEND
+
+---STRING default language
+Standard språk
+---STRINGEND
+
+---STRING delete %s %s
+Radera %s "%s"
+---STRINGEND
+
+---STRING deleted by
+Raderad av
+---STRINGEND
+
+---STRING deleted on
+Raderad på
+---STRINGEND
+
+---STRING differences between %s and %s
+Skillnader mellan %s och %s
+---STRINGEND
+
+---STRING differences between versions %s and %s
+Skillnader mellan versioner %s och %s
+---STRINGEND
+
+---STRING edit %s %s
+Editera %s "%s"
+---STRINGEND
+
+---STRING edit configuration for %s
+Ändra konfiguration för komponent %s
+---STRINGEND
+
+---STRING edit configuration for %s folder %s
+Ändra konfiguration för komponent %s katalog %s
+---STRINGEND
+
+---STRING edit file %s
+Ändra fil %s
+---STRINGEND
+
+---STRING edit text file
+Ändra textfil
+---STRINGEND
+
+---STRING editor options
+Editor val
+---STRINGEND
+
+---STRING enable quicklinks
+Slå på snabblänkar
+---STRINGEND
+
+---STRING exclude
+Exkludera
+---STRINGEND
+
+---STRING expanded list
+Expanderad lista
+---STRINGEND
+
+---STRING failed purging %s, reason %s
+Misslyckades med att radera %s, anledning %s
+---STRINGEND
+
+---STRING failed purging attachment %s => %s, reason %s
+Misslyckades att radera bifogad fil %s => %s, anledning %s
+---STRINGEND
+
+---STRING failed undeleting %s, reason %s
+Misslykcades med att återställa %s, anledning %s
+---STRINGEND
+
+---STRING failed undeleting attachment %s, reason %s
+Misslyckades med att återställa bifogad fil %s, anledning %s
+---STRINGEND
+
+---STRING file %s deleted
+Filen '%s' raderades
+---STRINGEND
+
+---STRING file contents
+Filens innehåll
+---STRINGEND
+
+---STRING file information
+Filens information
+---STRINGEND
+
+---STRING filename
+Filnamn
+---STRINGEND
+
+---STRING filter
+Filter
+---STRINGEND
+
+---STRING floating freely
+Fritt flytande
+---STRINGEND
+
+---STRING folder
+katalog
+---STRINGEND
+
+---STRING global
+Global
+---STRINGEND
+
+---STRING global value
+Globalt värde
+---STRINGEND
+
+---STRING group %s
+Grupp %s
+---STRINGEND
+
+---STRING guid
+Unik identifierare
+---STRINGEND
+
+---STRING html
+HTML
+---STRINGEND
+
+---STRING in %s
+i %s
+---STRINGEND
+
+---STRING in fallback language
+I standard språk
+---STRINGEND
+
+---STRING in total %s purged
+Totalt %s raderade
+---STRINGEND
+
+---STRING in total %s undeleted
+Totalt %s återställda
+---STRINGEND
+
+---STRING include
+Inkludera
+---STRINGEND
+
+---STRING info
+Info
+---STRINGEND
+
+---STRING inherited
+Ärvd
+---STRINGEND
+
+---STRING interface language
+Interface språk
+---STRINGEND
+
+---STRING invert selection
+Invertera val
+---STRINGEND
+
+---STRING items in trash
+Artiklar i papperskorg
+---STRINGEND
+
+---STRING javascript
+JavaScript
+---STRINGEND
+
+---STRING last edited by %s on %s (revision %s)
+Ändrades senast av %s på %s (revision %s)
+---STRINGEND
+
+---STRING libraries
+Bibliotek
+---STRINGEND
+
+---STRING lines
+Rader
+---STRINGEND
+
+---STRING local
+Lokal
+---STRINGEND
+
+---STRING localisation settings
+Lokaliserings inställningar
+---STRINGEND
+
+---STRING manage object
+Hantera objekt
+---STRINGEND
+
+---STRING message
+Medelande
+---STRINGEND
+
+---STRING metadata of %s %s
+Metadata för %s "%s"
+---STRINGEND
+
+---STRING mgdschema type visibility in navigation
+MgdSchema typ synligt i navigering
+---STRINGEND
+
+---STRING midcom:approve
+Godkänn
+---STRINGEND
+
+---STRING midcom:component_config
+Konfiguration
+---STRINGEND
+
+---STRING midgard objects
+Midgard objekt
+---STRINGEND
+
+---STRING midgard.admin.asgard
+Midgard Administrations UI
+---STRINGEND
+
+---STRING midgard:create
+Skapa
+---STRINGEND
+
+---STRING midgard:delete
+Radera
+---STRINGEND
+
+---STRING midgard:owner
+Ägare
+---STRINGEND
+
+---STRING midgard:read
+Läs
+---STRINGEND
+
+---STRING midgard:update
+Updatera
+---STRINGEND
+
+---STRING mimetype
+MIME typ
+---STRINGEND
+
+---STRING model for selecting navigation types
+Model för val av navigeringstyp
+---STRINGEND
+
+---STRING most recently visited
+Nyligen besökta objekt
+---STRINGEND
+
+---STRING navigation options
+Navigerings inställningar
+---STRINGEND
+
+---STRING navigation type
+Navigeringstyp
+---STRINGEND
+
+---STRING navigation width
+Navigerings bredd
+---STRINGEND
+
+---STRING navigation width (in pixels)
+Navigerings bredd (i pixlar)
+---STRINGEND
+
+---STRING no changes in content
+Inga ändringar i innehåll
+---STRINGEND
+
+---STRING no files
+Inga filer
+---STRINGEND
+
+---STRING no title
+Ingen titel
+---STRINGEND
+
+---STRING no.bergfald.rcs
+Revisions kontroll
+---STRINGEND
+
+---STRING not approved
+Inte godkänd
+---STRINGEND
+
+---STRING not inherited
+Inte ärvd
+---STRINGEND
+
+---STRING object %s
+Objekt %s
+---STRINGEND
+
+---STRING object %s approved
+Objektet %s godkännt
+---STRINGEND
+
+---STRING object %s removed
+Objektet %s borttaget
+---STRINGEND
+
+---STRING objects expiring within
+Objekt som upphör inom
+---STRINGEND
+
+---STRING objects revised within
+Objekt ändrade inom
+---STRINGEND
+
+---STRING on top of the content area
+Överst in innehållsrutan
+---STRINGEND
+
+---STRING only mine
+Bara mina
+---STRINGEND
+
+---STRING owner
+Ägare
+---STRINGEND
+
+---STRING parameter
+Parameter
+---STRINGEND
+
+---STRING parameters of %s %s
+Parametrar för %s "%s"
+---STRINGEND
+
+---STRING permissions for %s %s
+Rättigheter för %s %s
+---STRINGEND
+
+---STRING plain text
+Vanlig text
+---STRINGEND
+
+---STRING preferences saved
+Inställningar sparade
+---STRINGEND
+
+---STRING privilege reserve
+Reservera
+---STRINGEND
+
+---STRING privileges
+Rättigheter
+---STRINGEND
+
+---STRING purge
+Radera
+---STRINGEND
+
+---STRING regular expression for selecting mgdschema types
+Reguljärt uttryck för val av MgdSchema typ
+---STRINGEND
+
+---STRING require authentication
+Kräv autentisering
+---STRINGEND
+
+---STRING restore this revision (%s)
+Återställ till den här revisionen (%s)
+---STRINGEND
+
+---STRING restore to version %s failed, reason %s
+Återställning till versionen %s misslyckades, anledning %s
+---STRINGEND
+
+---STRING restore to version %s successful
+Återställning av version %s lyckades
+---STRINGEND
+
+---STRING restore version %s
+Återställ version %s
+---STRINGEND
+
+---STRING review date
+Granskings datum
+---STRINGEND
+
+---STRING revised by
+Granskad av
+---STRINGEND
+
+---STRING revised on
+Granskad på
+---STRINGEND
+
+---STRING revision
+Revision
+---STRINGEND
+
+---STRING revision history of %s
+Revisions historik av %s
+---STRINGEND
+
+---STRING search
+Sök
+---STRINGEND
+
+---STRING select all
+Välj allt
+---STRINGEND
+
+---STRING select exactly two choices
+Välj exakt två val
+---STRINGEND
+
+---STRING select the types
+Välj typerna
+---STRINGEND
+
+---STRING show differences
+Visa skillnader
+---STRINGEND
+
+---STRING show history
+Visa revisions historik
+---STRINGEND
+
+---STRING show sg0 objects in navigation
+Visa sitegroup 0 objekt i navigering
+---STRINGEND
+
+---STRING size
+Storlek
+---STRINGEND
+
+---STRING this is a midgard core type
+Detta är en Midgard CMS core typ.
+---STRINGEND
+
+---STRING this type belongs to %s component
+Denna typ tillhör till %s komponenten.
+---STRINGEND
+
+---STRING title
+Titel
+---STRINGEND
+
+---STRING topic privileges
+Katalog tillåtelse
+---STRINGEND
+
+---STRING trash
+Papperskorg
+---STRINGEND
+
+---STRING trash is empty
+Papperskoregn är tom
+---STRINGEND
+
+---STRING type
+Typ
+---STRINGEND
+
+---STRING undelete
+Återställ
+---STRINGEND
+
+---STRING under %s
+Under %s
+---STRINGEND
+
+---STRING upload file
+Ladda upp fil
+---STRINGEND
+
+---STRING url
+URL
+---STRINGEND
+
+---STRING use editarea editor for editing code snippets
+Använd EditArea editor för att ändra snippets
+---STRINGEND
+
+---STRING use edit mode instead of view mode as the primary object management page
+Använda ändra läge istället för visnings läge som primär hantering av objektens sidor
+---STRINGEND
+
+---STRING use tinymce editor for editing content
+Använda TinyMCE editor för att ändra innehåll
+---STRINGEND
+
+---STRING user
+Användare
+---STRINGEND
+
+---STRING user preferences
+Användar inställningar
+---STRINGEND
+
+---STRING validation error in field %s: %s
+Valideringsfel i fält %s: %s
+---STRINGEND
+
+---STRING value
+Värde
+---STRINGEND
+
+---STRING version %s
+Version %s
+---STRINGEND
+
+---STRING view %s differences with next (%s)
+Visa skillnader mellan %s och nästa (%s)
+---STRINGEND
+
+---STRING view %s differences with previous (%s)
+Visa skillnader mellan version % med föregående (%s)
+---STRINGEND
+
+---STRING view on site
+Visa på websajt
+---STRINGEND
+
+---STRING view this revision (%s)
+Visa denna revision (%s)
+---STRINGEND
+
+---STRING viewing version %s of %s
+Version %s av %s
+---STRINGEND
+
+---STRING xml
+XML
+---STRINGEND
+
+---STRING dropdown list
+Dropdown lista
+---STRINGEND
+

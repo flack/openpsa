@@ -1,0 +1,19 @@
+.dm2_ajax_editor_editable_area
+{
+    display: inline;
+}
+
+.dm2_ajax_editor_editable_area:hover,
+.dm2_ajax_editor_editable_area_hover
+{
+    background-color: #ffff99;
+    cursor: text;
+}
+
+.midcom_helper_datamanager2_form_processing
+{
+  background-image: url('ajax-loading-black.gif');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #000000;
+}

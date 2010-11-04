@@ -1,0 +1,89 @@
+input.tags_widget_input
+{
+    
+}
+
+.tags_widget_results
+{
+	padding: 0px;
+	border: 1px solid WindowFrame;
+	background-color: Window;
+	overflow: hidden;
+	clear: left;
+}
+
+.tags_widget_results ul
+{
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.tags_widget_results li
+{
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	width: 100%;
+	font: menu;
+	font-size: 12px;
+	overflow: hidden;
+}
+
+.tags_widget_loading
+{
+	background : Window url('../ajax-loading-small.gif') right center no-repeat;
+}
+.tags_widget_error
+{
+	background : Window url('../../stock-icons/16x16/cancel.png') right center no-repeat;    
+}
+
+.tags_widget_result_item_active
+{
+	background-color: Highlight;
+	color: HighlightText;
+}
+
+.tags_widget_selections
+{
+    width: 50%;
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
+.tags_widget_selections ul
+{
+    height: 20px;
+    list-style-position: outside;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 3px 0 3px;
+}
+
+.tags_widget_selections ul li
+{
+    height: 16px;
+    margin: 2px 0 0 0;
+    padding: 0 3px 0 3px;
+    margin-right: 3px;
+    -moz-border-radius: 3px;
+    float: left;
+    color: #ffffff;
+    font-size: 0.9em;
+}
+
+.tags_widget_selection_item_hover
+{
+	background-color: Highlight;
+	color: HighlightText;
+}
+
+.tags_widget_selection_item_deleted
+{
+	color: black;
+	border: 1px solid red;
+}

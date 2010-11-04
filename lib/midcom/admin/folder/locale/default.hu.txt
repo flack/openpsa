@@ -1,0 +1,121 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 24738 2010-01-15 21:44:53Z jval $
+---LANGUAGE hu
+
+---STRING a folder with name %s already exists
+"%s" nevű mappa már létezik!
+---STRINGEND
+
+---STRING are you sure you want to delete this folder
+Biztos, hogy törölni szeretné ezt a mappát?
+---STRINGEND
+
+---STRING default
+Alapértelmezett
+---STRINGEND
+
+---STRING delete folder
+Mappa törlése
+---STRINGEND
+
+---STRING edit %s
+'%s' szerkesztése
+---STRINGEND
+
+---STRING folder type
+Mappa típus
+---STRINGEND
+
+---STRING midcom.admin.folder
+Mappa menedzsment
+---STRINGEND
+
+---STRING size
+Méret
+---STRINGEND
+
+---STRING style
+Stílus sablon
+---STRINGEND
+
+---STRING style editor
+Stílus szerkesztő
+---STRINGEND
+
+---STRING create folder
+Mappa létrehozása
+---STRINGEND
+
+---STRING created
+Létrehozva
+---STRINGEND
+
+---STRING creator
+Létrehozó
+---STRINGEND
+
+---STRING edit folder
+Mappa szerkesztése
+---STRINGEND
+
+---STRING edit folder %s
+%s mappa szerkesztése
+---STRINGEND
+
+---STRING edit metadata
+Metaadat szerkesztése
+---STRINGEND
+
+---STRING edit metadata of %s
+%s metaadat szerkesztése
+---STRINGEND
+
+---STRING exported
+Exportálva
+---STRINGEND
+
+---STRING failed to create a new style template
+Nem sikerült új stílus sablont létrehozni!
+---STRINGEND
+
+---STRING folder with name %s already exists
+%s nevű mappa már létezik!
+---STRINGEND
+
+---STRING imported
+Importálva
+---STRINGEND
+
+---STRING owner
+Tulajdonos
+---STRINGEND
+
+---STRING privilege topic_management
+Mappakezelés
+---STRINGEND
+
+---STRING published
+Publikálva
+---STRINGEND
+
+---STRING sort folders
+Mappák rendezése
+---STRINGEND
+
+---STRING sort pages
+Oldalak rendezése
+---STRINGEND
+
+---STRING style element list
+Stílus elemek listája
+---STRINGEND
+
+---STRING warning, might result in data loss
+Figyelem! Adatvesztés fordulhat elő!
+---STRINGEND
+
+---STRING symlinks are currently disabled                 
+(Symlinks are currently disabled.)
+---STRINGEND
+

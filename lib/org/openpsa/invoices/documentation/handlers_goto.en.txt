@@ -1,0 +1,3 @@
+Shows the invoice with the given number, by resolving the GUID of the invoice with the number and relocating it 
+to invoice.
+If no invoice is found an info message will be created.

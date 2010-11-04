@@ -1,0 +1,889 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 24733 2010-01-15 20:30:49Z adrenalin $
+---LANGUAGE fi
+
+---STRING % of clicks
+% klikkauksista
+---STRINGEND
+
+---STRING % of recipients
+% vastaanottajista
+---STRINGEND
+
+---STRING %d members
+%d jäsentä
+---STRINGEND
+
+---STRING %s has bounced
+%s on palautettu
+---STRINGEND
+
+---STRING add
+Lisää
+---STRINGEND
+
+---STRING add group
+Lisää ryhmä
+---STRINGEND
+
+---STRING add rule
+Lisää sääntö
+---STRINGEND
+
+---STRING add to campaign
+Lisää kampanjaan
+---STRINGEND
+
+---STRING added person %s to campaign %s
+Lisätty henkilö %s kampanjaan %s
+---STRINGEND
+
+---STRING address for an email->sms gateway
+Osoite sähköpostiviesti->tekstiviesti-portille
+---STRINGEND
+
+---STRING address separator
+Osoitteiden erotin
+---STRINGEND
+
+---STRING advanced rule editor
+Tehokäyttäjän sääntömuokkaus
+---STRINGEND
+
+---STRING all persons in market segment "%s" who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d
+Kaikki segmentissä "%s" jotka ovat klikanneet linkkiä "%s" viestistä #%d ja eivät ole peruuttaneet kampanjaa #%d
+---STRINGEND
+
+---STRING all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d
+Kaikki jotka ovat klikanneet linkkiä "%s" viestistä #%d ja eivät ole peruuttaneet kampanjaa #%d
+---STRINGEND
+
+---STRING already_subscribed
+Ennestään kampanjassa
+---STRINGEND
+
+---STRING and
+Sovittaa kaikki
+---STRINGEND
+
+---STRING any bounce detector compatible
+Mikä tahansa palautuksentunnistus-yhteensopiva
+---STRINGEND
+
+---STRING api for sms gateway
+SMS-portin rajapinta
+---STRINGEND
+
+---STRING archival
+Arkistointi
+---STRINGEND
+
+---STRING archived on
+Arkistoitu
+---STRINGEND
+
+---STRING are you sure you wish to send this to the whole campaign
+Oletko varma, että haluat lähettää viestin koko kampanjalle?
+---STRINGEND
+
+---STRING backend for sending email (backend specific configurations in org.openpsa.mail)
+Taustaosa sähköpostin lähetykselle (taustaosan asetukset määritettävissä komponentissa 'org.openpsa.mail')
+---STRINGEND
+
+---STRING bounce detector address (use token to indicate place of the token)
+Palautuksentunnistuksen osoite (aseta "token" merkitäksesi tunnisteen paikan)
+---STRINGEND
+
+---STRING bounce detector configuration (note: requires special mail server configuration as well)
+Palautuksentunnistuksen asetukset (huom: vaatii myös erityiset sähköpostipalvelimen asetukset)
+---STRINGEND
+
+---STRING bounced recipients
+Palautuneita vastaanottajia
+---STRINGEND
+
+---STRING campaign
+Kampanja
+---STRINGEND
+
+---STRING campaigns
+Kampanjat
+---STRINGEND
+
+---STRING choose the target campaign
+Valitse kohdekampanja
+---STRINGEND
+
+---STRING class:generic parameters
+Parametri
+---STRINGEND
+
+---STRING class:group
+Ryhmän ominaisuus
+---STRINGEND
+
+---STRING class:group parameters
+Ryhmän parametri
+---STRINGEND
+
+---STRING class:membership
+Jäsenyyden ominaisuus
+---STRINGEND
+
+---STRING class:membership parameters
+Jäsenyyden parametri
+---STRINGEND
+
+---STRING class:person
+Henkilön ominaisuus
+---STRINGEND
+
+---STRING class:person parameters
+Henkilön parametri
+---STRINGEND
+
+---STRING clickatell (http)
+Clickatell (HTTP)
+---STRINGEND
+
+---STRING client/api id for the sms gateway (not used by all apis)
+Asiakas-/rajapinta-ID SMS-portille (ei käytössä kaikilla rajapinnoilla)
+---STRINGEND
+
+---STRING comma
+pilkku
+---STRINGEND
+
+---STRING contacts found
+Kontakteja löytyi
+---STRINGEND
+
+---STRING contains
+sisältää
+---STRINGEND
+
+---STRING content
+Sisältö
+---STRINGEND
+
+---STRING copy message
+Kopioi viesti
+---STRINGEND
+
+---STRING create campaign
+Luo kampanja
+---STRINGEND
+
+---STRING create campaign from link
+Luo kampanja linkistä
+---STRINGEND
+
+---STRING created on %s
+Luotu %s
+---STRINGEND
+
+---STRING csv
+CSV
+---STRINGEND
+
+---STRING csv column
+CSV-kenttä
+---STRINGEND
+
+---STRING delete campaign
+Poista kampanja
+---STRINGEND
+
+---STRING delete message
+Poista viesti
+---STRINGEND
+
+---STRING detectors and email configuration
+Tunnistimet ja sähköpostin asetukset
+---STRINGEND
+
+---STRING does not contain
+ei sisällä
+---STRINGEND
+
+---STRING edit campaign
+Muokkaa kampanjaa
+---STRINGEND
+
+---STRING edit message
+Muokkaa viestiä
+---STRINGEND
+
+---STRING edit rules
+Muokkaa sääntöjä
+---STRINGEND
+
+---STRING email
+Sähköposti
+---STRINGEND
+
+---STRING email -> sms
+Email -> SMS
+---STRINGEND
+
+---STRING email addresses
+Sähköpostiosoitteet
+---STRINGEND
+
+---STRING email message
+Sähköposti
+---STRINGEND
+
+---STRING email->sms api information
+Sähköposti->tekstiviesti -rajapintatiedot
+---STRINGEND
+
+---STRING equals
+on yhtä kuin
+---STRINGEND
+
+---STRING error when saving rule, errstr: %s
+Virhe sääntöä tallennettaessa, virhekoodi: %s
+---STRINGEND
+
+---STRING example
+Esimerkki
+---STRINGEND
+
+---STRING export as csv
+Tee tilaajista CSV-tiedosto
+---STRINGEND
+
+---STRING failed_add
+Kampanjaan liittäminen epäonnistui
+---STRINGEND
+
+---STRING failed_create
+Luonti epäonnistunut
+---STRINGEND
+
+---STRING field separator
+Kenttäerotin
+---STRINGEND
+
+---STRING fields available for matching are defined in schema
+Tietokantakuvauksessa (schema) määritellään käytettävissä olevat kentät
+---STRINGEND
+
+---STRING file to import
+Sisään tuotava tiedosto
+---STRINGEND
+
+---STRING files to attach
+Liitettävät tiedostot
+---STRINGEND
+
+---STRING first message sent on
+Ensimmäinen lähetys
+---STRINGEND
+
+---STRING first row is headers
+Ensimmäiselle riville tulee otsikkotiedot
+---STRINGEND
+
+---STRING firstname
+Etunimi
+---STRINGEND
+
+---STRING from address
+Lähettäjän osoite
+---STRINGEND
+
+---STRING from link "%s"
+Linkistä "%s"
+---STRINGEND
+
+---STRING generated on %s by %s
+Luotu %s %s:n toimesta
+---STRINGEND
+
+---STRING given rule could not be parsed
+Annettua sääntöä ei voida ymmärtää
+---STRINGEND
+
+---STRING given rule is empty
+Annettua sääntö on tyhjä
+---STRINGEND
+
+---STRING greater than
+on enemmän kuin
+---STRINGEND
+
+---STRING html email
+HTML-sähköposti
+---STRINGEND
+
+---STRING http api information
+HTTP-rajapintatiedot
+---STRINGEND
+
+---STRING import
+Tuo
+---STRINGEND
+
+---STRING import csv
+Tuo CSV-tiedostosta
+---STRINGEND
+
+---STRING import email addresses
+Tuo lista sähköpostiosoitteita
+---STRINGEND
+
+---STRING import subscribers
+Lisää tilaajia tiedostona
+---STRINGEND
+
+---STRING import subscribers to "%s"
+Tuo henkilöitä kampanjaan "%s"
+---STRINGEND
+
+---STRING import subscribers to %s
+Tuo sisään tilaajia kampanjalle %s
+---STRINGEND
+
+---STRING import vcards
+Tuo vCard-tiedostosta
+---STRINGEND
+
+---STRING in domain
+domainissa
+---STRINGEND
+
+---STRING include to campaigns
+Sisällytä kampanjoihin
+---STRINGEND
+
+---STRING iso-latin-1 encoding
+ISO-Latin-1 merkistökoodaus
+---STRINGEND
+
+---STRING last message sent on
+Viimeinen lähetys
+---STRINGEND
+
+---STRING lastname
+Sukunimi
+---STRINGEND
+
+---STRING less than
+on vähemmän kuin
+---STRINGEND
+
+---STRING link
+Linkki
+---STRINGEND
+
+---STRING link and message limits
+Linkki- ja viestisäännöt
+---STRINGEND
+
+---STRING link detector base address (use token to indicate place of the token and url of link)
+Linkintunnistimen perusosoite (käytä "TOKEN"-sanaa merkitäksesi tunnisteen ja "URL"-sanaa linkille)
+---STRINGEND
+
+---STRING link detector configuration
+Linkintunnistuksen asetukset
+---STRINGEND
+
+---STRING link statistics
+Linkkistatistiikka
+---STRINGEND
+
+---STRING longtext:generated_from_found_in_adv_rule
+"generated_from" havaittu tehokäyttäjän säännössä, se on automaattisesti poistettu. Ole hyvä ja varmista että sääntö on yhä OK ennen kuin tallennat
+---STRINGEND
+
+---STRING longtext:wizard_not_available
+Tämän kampanjan sääntöjä ei voida muokata sääntöeditorilla, vaihdettiin tehokäyttäjätilaan
+---STRINGEND
+
+---STRING mail() function (not recommended)
+mail()-funktio (ei suositella)
+---STRINGEND
+
+---STRING match csv columns to database fields
+Yhdistä CSV-kentät tietokannan kenttiin
+---STRINGEND
+
+---STRING match:all
+kaikkiin
+---STRINGEND
+
+---STRING match:any
+mihin tahansa
+---STRINGEND
+
+---STRING match:match
+Täsmää
+---STRINGEND
+
+---STRING match:of the following
+seuraavista
+---STRINGEND
+
+---STRING message
+Viesti
+---STRINGEND
+
+---STRING message %s sent to testers
+Viesti <i>%s</i> lähetettiin testaajille
+---STRINGEND
+
+---STRING message report
+Viestiraportti
+---STRINGEND
+
+---STRING message sent
+Viesti lähetetty
+---STRINGEND
+
+---STRING message statistics
+Viestistatistiikka
+---STRINGEND
+
+---STRING message was copied to the following campaigns
+Viesti kopioitiin seuraaviin kampanjoihin
+---STRINGEND
+
+---STRING message was sent to the following group of testers
+Viesti lähetettiin alla olevalle testaajaryhmälle
+---STRINGEND
+
+---STRING messages
+Viestit
+---STRINGEND
+
+---STRING messages sent
+Viestejä lähetetty
+---STRINGEND
+
+---STRING messto (http)
+Messto (HTTP)
+---STRINGEND
+
+---STRING new %s
+Uusi %s
+---STRINGEND
+
+---STRING new message
+Uusi viesti
+---STRINGEND
+
+---STRING newline
+rivinvaihto
+---STRINGEND
+
+---STRING no rule given
+Ei sääntöä
+---STRINGEND
+
+---STRING no segment
+Ei segmenttiä
+---STRINGEND
+
+---STRING no testers
+Ei testaajia
+---STRINGEND
+
+---STRING no testers have been defined to the campaign %s
+Testaajia ei ole määritelty kampanjalle <i>%s</i>
+---STRINGEND
+
+---STRING normal campaign
+Normaali kampanja
+---STRINGEND
+
+---STRING not equals
+on eri kuin
+---STRINGEND
+
+---STRING not-unsubscribed -limits
+Ei-peruuttanut -säännöt
+---STRINGEND
+
+---STRING nothing sent yet
+Mitään ei ole vielä lähetetty
+---STRINGEND
+
+---STRING one line per subscriber
+Yksi rivi kutakin tilaajaa kohtaan
+---STRINGEND
+
+---STRING or
+Sovittaa yhden
+---STRINGEND
+
+---STRING org.openpsa.directmarketing
+Suoramarkkinointi ja postitus
+---STRINGEND
+
+---STRING password for the sms gateway
+Tekstiviestiportin salasana
+---STRINGEND
+
+---STRING preview
+Esikatselu
+---STRINGEND
+
+---STRING preview message
+Esikatsele viesti
+---STRINGEND
+
+---STRING property:birthdate
+Syntymäpäivä
+---STRINGEND
+
+---STRING property:city
+Kaupunki
+---STRINGEND
+
+---STRING property:country
+Maa
+---STRINGEND
+
+---STRING property:customerId
+Asiakasnumero
+---STRINGEND
+
+---STRING property:email
+Sähköposti
+---STRINGEND
+
+---STRING property:extra
+Lisätiedot
+---STRINGEND
+
+---STRING property:fax
+Fax
+---STRINGEND
+
+---STRING property:firstname
+Etunimi
+---STRINGEND
+
+---STRING property:gid
+Ryhmä ID
+---STRINGEND
+
+---STRING property:guid
+GUID
+---STRINGEND
+
+---STRING property:handphone
+Käsipuhelin
+---STRINGEND
+
+---STRING property:homepage
+Kotisivu
+---STRINGEND
+
+---STRING property:homephone
+Kotipuhelin
+---STRINGEND
+
+---STRING property:id
+ID
+---STRINGEND
+
+---STRING property:invoiceCity
+Kaupunki (laskutusosoite)
+---STRINGEND
+
+---STRING property:invoiceCountry
+Maa (laskutusosoite)
+---STRINGEND
+
+---STRING property:invoicePostcode
+Postinumero (laskutusosoite)
+---STRINGEND
+
+---STRING property:invoiceStreet
+Katuosoite (laskutusosoite)
+---STRINGEND
+
+---STRING property:keywords
+Avaisanat
+---STRINGEND
+
+---STRING property:lastname
+Sukunimi
+---STRINGEND
+
+---STRING property:name
+Y-Tunnus
+---STRINGEND
+
+---STRING property:official
+Virallinen nimi
+---STRINGEND
+
+---STRING property:orgOpenpsaObtype
+Objektin tyyppi
+---STRINGEND
+
+---STRING property:owner
+Omistaja
+---STRINGEND
+
+---STRING property:pgpkey
+PGP Avain
+---STRINGEND
+
+---STRING property:phone
+Puhelinnumero
+---STRINGEND
+
+---STRING property:postalCity
+Kaupunki (postiosoite)
+---STRINGEND
+
+---STRING property:postalCountry
+Maa (postiosoite)
+---STRINGEND
+
+---STRING property:postalPostcode
+Postinumero (postiosoite)
+---STRINGEND
+
+---STRING property:postalStreet
+Katuosoite (postiosoite)
+---STRINGEND
+
+---STRING property:postcode
+Postinumero
+---STRINGEND
+
+---STRING property:street
+Katuosoite
+---STRINGEND
+
+---STRING property:uid
+Henkilön ID
+---STRINGEND
+
+---STRING property:username
+Käyttäjätunnus
+---STRINGEND
+
+---STRING property:workphone
+Työpuhelin
+---STRINGEND
+
+---STRING recipient token length
+Vastaanottajan tunnisteen pituus
+---STRINGEND
+
+---STRING recipients
+Vastaanottajat
+---STRINGEND
+
+---STRING remove %s from campaign
+Poista %s kampanjasta
+---STRINGEND
+
+---STRING remove group
+Poista ryhmä
+---STRINGEND
+
+---STRING remove rule
+Poista sääntö
+---STRINGEND
+
+---STRING reply to address
+Vastausosoite
+---STRINGEND
+
+---STRING report for message %s
+Raportti viestille %s
+---STRINGEND
+
+---STRING rule generation warning
+Varoitus sääntöä luodessa
+---STRINGEND
+
+---STRING rules wizard
+Sääntövelho
+---STRINGEND
+
+---STRING segment "%s" link statistics
+Linkkistatistiikka segmentille "%s"
+---STRINGEND
+
+---STRING segment limits
+Segmenttisäännöt
+---STRINGEND
+
+---STRING semicolon
+puolipiste
+---STRINGEND
+
+---STRING send
+Lähetä
+---STRINGEND
+
+---STRING send message
+Lähetä viesti
+---STRINGEND
+
+---STRING send message to testers
+Lähetä viesti koeryhmälle
+---STRINGEND
+
+---STRING send message to whole campaign
+Lähetä viesti kampanjalle
+---STRINGEND
+
+---STRING send to testers
+Lähetä testaajille
+---STRINGEND
+
+---STRING sending messages
+Viestejä lähetetään
+---STRINGEND
+
+---STRING sendmail
+Sendmail
+---STRINGEND
+
+---STRING sent on %s
+Lähetetty %s
+---STRINGEND
+
+---STRING smart campaign
+Älykäs kampanja
+---STRINGEND
+
+---STRING sms information
+Tekstiviestitiedot
+---STRINGEND
+
+---STRING sms message
+Tekstiviesti
+---STRINGEND
+
+---STRING smtp
+SMTP
+---STRINGEND
+
+---STRING store to field
+Tallenna kenttään
+---STRINGEND
+
+---STRING subject
+Aihe
+---STRINGEND
+
+---STRING subscribed_existing
+Ennestään tilauksia, liitetty kampanjaan
+---STRINGEND
+
+---STRING subscribed_new
+Uusia tilauksia
+---STRINGEND
+
+---STRING system default
+Järjestelmän oletus
+---STRINGEND
+
+---STRING tambur (http)
+Tambur (HTTP)
+---STRINGEND
+
+---STRING testers
+Koeryhmä
+---STRINGEND
+
+---STRING text email
+Sähköposti
+---STRINGEND
+
+---STRING total clicks
+Klikkauksia yhteensä
+---STRINGEND
+
+---STRING total recipients
+Vastaanottajia yhteensä
+---STRINGEND
+
+---STRING type
+Tyyppi
+---STRINGEND
+
+---STRING unique clickers
+Uniikit klikkaajat
+---STRINGEND
+
+---STRING unknown class please use advanced editor
+Säännöissä käytetään tuntematonta luokkaa, ole hyvä ja käytä tehokäyttäjän editoria
+---STRINGEND
+
+---STRING unsubscribed between %s - %s
+Peruuttaneita välillä %s - %s
+---STRINGEND
+
+---STRING unsubscribed since %s
+Peruuttaneita %s lähtien
+---STRINGEND
+
+---STRING unsubscribing failed
+Tilauksen peruuttaminen epäonnistui
+---STRINGEND
+
+---STRING unsubscribing registered
+Tilauksen peruttaminen rekisteröity
+---STRINGEND
+
+---STRING url for a http sms gateway
+URL-osoite 'HTTP SMS'-portille
+---STRINGEND
+
+---STRING username for the sms gateway
+Käyttäjätunnus tekstiviestiportille
+---STRINGEND
+
+---STRING vcards
+Vcard-kortit
+---STRINGEND
+
+---STRING with %s Midgard we can only support "%s" matching for multiple parameters
+Midgard %s:n kanssa voimme käyttää vain "%s" täsmäystä parametrien kanssa
+---STRINGEND
+
+---STRING with name
+nimellä
+---STRINGEND
+
+---STRING write email addresses
+Kirjoita sähköpostiosoitteet
+---STRINGEND
+
+---STRING you can also write the addresses to the text field
+Voit myös kirjoittaa sähköpostiosoitteet tekstikenttään
+---STRINGEND
+
+---STRING you can also write the addresses to the text field, each address on its own row
+Voit myös kirjoittaa sähköpostiosoitteet tekstikenttään, kukin osoite omalle rivilleen
+---STRINGEND
+
+---STRING you can import csv files here
+Voit tuoda CSV-tiedostoja täältä
+---STRINGEND
+
+---STRING you can import simple lists of email addresses here
+Voit lisätä täällä henkilöitä kampanjaan listana sähköpostiosoitteita
+---STRINGEND
+
+---STRING you can import vcards here
+Voit lisätä täällä henkilöitä kampanjaan vCard-muodossa
+---STRINGEND
+
+---STRING you must select "%s" or "%s" for matching
+Sinun täytyy valita "%s" tai "%s" täsmäykseksi
+---STRINGEND
+

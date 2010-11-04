@@ -1,0 +1,365 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE pl
+
+---STRING allowed components (leave empty to allow all)
+Dozwolone komponenty (pozostaw puste aby zezwolić na używanie wszystkich)
+---STRINGEND
+
+---STRING auth configuration
+Konfiguracja autentykacji
+---STRINGEND
+
+---STRING auth_allow_sudo
+Zezwalaj na uruchamianie modułów w trybie SUDO
+---STRINGEND
+
+---STRING auth_backend
+Moduł autentykacji
+---STRINGEND
+
+---STRING auth_backend_simple
+Cookie
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_domain
+Domena autentykacji cookie
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_id
+ID cookie autentykacji
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_path
+Ścieżka autentykacji cookie
+---STRINGEND
+
+---STRING auth_check_client_ip
+Zezwalaj na logowanie tylko z jednego adresu IP
+---STRINGEND
+
+---STRING auth_frontend
+Interfejs autentykacji
+---STRINGEND
+
+---STRING auth_frontend_form
+Formularz
+---STRINGEND
+
+---STRING auth_login_form_httpcode
+Kod HTTP w formularzach autentykacji
+---STRINGEND
+
+---STRING auth_login_form_httpcode_200
+200 OK
+---STRINGEND
+
+---STRING auth_login_form_httpcode_403
+403 Forbidden
+---STRINGEND
+
+---STRING auth_login_session_timeout
+Czas trwania sesji autentykacji (sekundy)
+---STRINGEND
+
+---STRING auth_openid_enable
+Włącz obsługę OpenID
+---STRINGEND
+
+---STRING auth_sitegroup_mode
+Tryb autentykacji do SG
+---STRINGEND
+
+---STRING auth_sitegroup_mode_auto
+Automatycznie
+---STRINGEND
+
+---STRING auth_sitegroup_mode_not-sitegrouped
+Użytkownik musi podać SG
+---STRINGEND
+
+---STRING auth_sitegroup_mode_sitegrouped
+Tylko w bieżącej SG
+---STRINGEND
+
+---STRING cache configuration
+Konfiguracja cache
+---STRINGEND
+
+---STRING cache_base_directory
+Katalog cache
+---STRINGEND
+
+---STRING cache_module_content_default_lifetime
+Domyślny czas aktualności treści
+---STRINGEND
+
+---STRING cache_module_content_headers_strategy
+Typ nagłówków "Cache"
+---STRINGEND
+
+---STRING cache_module_content_uncached
+Wyłącz cache treści
+---STRINGEND
+
+---STRING core configuration
+Konfiguracja Systemu
+---STRINGEND
+
+---STRING cron_day_hours
+Godzina uruchamiania dziennych zadań cron
+---STRINGEND
+
+---STRING cron_day_minutes
+Minuta uruchamiania dziennych zadań cron
+---STRINGEND
+
+---STRING cron_hour_minutes
+Minuta uruchamiania godzinnych zadań cron
+---STRINGEND
+
+---STRING cs-no-cache
+no-cache
+---STRINGEND
+
+---STRING cs-private
+private
+---STRINGEND
+
+---STRING cs-public
+public
+---STRINGEND
+
+---STRING cs-revalidate
+revalidate
+---STRINGEND
+
+---STRING default (%s)
+(Domyślnie: %s )
+---STRINGEND
+
+---STRING excluded components (leave empty to allow all)
+Zablokowane komponenty (pozostaw puste aby zezwolić na używanie wszystkich)
+---STRINGEND
+
+---STRING failed to save settings, reason %s
+Błąd zapisu konfiguracji: %s
+---STRINGEND
+
+---STRING host "%s" not found. try using menu.
+Brak serwisu GUID: "%s". Użyj menu aby wybrać serwis.
+---STRINGEND
+
+---STRING host configuration
+Konfiguracja serwisu.
+---STRINGEND
+
+---STRING i18n_fallback_language
+Domyślny język
+---STRINGEND
+
+---STRING i18n_multilang_strict
+Ukryj zawartość nieprzetłumaczoną
+---STRINGEND
+
+---STRING indexer configuration
+Konfiguracja indeksera
+---STRINGEND
+
+---STRING indexer_backend
+Indexer pełnotekstowy
+---STRINGEND
+
+---STRING indexer_backend_none
+Brak
+---STRINGEND
+
+---STRING indexer_backend_xmltcp
+Apache Lucene (xmltcp protocol)
+---STRINGEND
+
+---STRING indexer_index_name
+Nazwa indeksu
+---STRINGEND
+
+---STRING indexer_xmltcp_host
+Host
+---STRINGEND
+
+---STRING indexer_xmltcp_port
+Port
+---STRINGEND
+
+---STRING log_filename
+Plik dziennika
+---STRINGEND
+
+---STRING log_level
+Poziom logowania
+---STRINGEND
+
+---STRING log_tailurl_enable
+Wyświetlaj log w serwisie
+---STRINGEND
+
+---STRING logging configuration
+Konfiguracja dziennika
+---STRINGEND
+
+---STRING metadata configuration
+Konfiguracja Metadanych
+---STRINGEND
+
+---STRING metadata_approval
+Włącz zatwierdzanie treści
+---STRINGEND
+
+---STRING metadata_scheduling
+Włącz kolejkowanie publikacji treśći
+---STRINGEND
+
+---STRING metadata_schema
+Schemat edycji metadanych
+---STRINGEND
+
+---STRING midcom.admin.settings
+Konfiguracja MidCOM'a
+---STRINGEND
+
+---STRING midcom_log_crit
+Błędy krytyczne
+---STRINGEND
+
+---STRING midcom_log_debug
+Pełna informacja
+---STRINGEND
+
+---STRING midcom_log_error
+Błędy niekrytyczne
+---STRINGEND
+
+---STRING midcom_log_info
+Informacje
+---STRINGEND
+
+---STRING midcom_log_warn
+Ostrzeżenia
+---STRINGEND
+
+---STRING midcom_prefix
+Prefiks URL dla MidCOM'a
+---STRINGEND
+
+---STRING midcom_root_topic_guid
+Folder główny MidCOM'a
+---STRINGEND
+
+---STRING midcom_services_rcs_bin_dir
+Ścieżka do folderu zawierającego polecenia rcs
+---STRINGEND
+
+---STRING midcom_services_rcs_enable
+Włącz kontrolę wersji
+---STRINGEND
+
+---STRING midcom_sgconfig_basedir
+Snippetdir zawierający konfiguracje dla SG
+---STRINGEND
+
+---STRING midcom_site_url
+Adres serwisu
+---STRINGEND
+
+---STRING midcom_tempdir
+Folder tymczasowy
+---STRINGEND
+
+---STRING midcom_temporary_resource_timeout
+Czas przechowywania plików tymczasowych (sekundy)
+---STRINGEND
+
+---STRING nap settings
+Konfiguracja NAP
+---STRINGEND
+
+---STRING positioning_enable
+Włącz geopozycjonowanie treści
+---STRINGEND
+
+---STRING settings saved successfully
+Ustawienia zostały zapisane
+---STRINGEND
+
+---STRING show_hidden_objects
+Pokaż ukrytą treść
+---STRINGEND
+
+---STRING show_unapproved_objects
+Pokaż niezatwierdzoną treść
+---STRINGEND
+
+---STRING staging2live_staging
+Serwis testowy
+---STRINGEND
+
+---STRING utilities
+Ustawienia pomocnicze
+---STRINGEND
+
+---STRING utility_catdoc
+Plik polecenia catdoc
+---STRINGEND
+
+---STRING utility_diff
+Plik polecenia diff
+---STRINGEND
+
+---STRING utility_file
+Plik polecenia file
+---STRINGEND
+
+---STRING utility_find
+Plik polecenia find
+---STRINGEND
+
+---STRING utility_gzip
+Plik polecenia gzip
+---STRINGEND
+
+---STRING utility_imagemagick_base
+Śceiżka instalacji ImageMagick
+---STRINGEND
+
+---STRING utility_jhead
+Plik polecenia jhead
+---STRINGEND
+
+---STRING utility_jpegtran
+Plik polecenia jpegtran
+---STRINGEND
+
+---STRING utility_pdftotext
+Plik polecenia pdftotext
+---STRINGEND
+
+---STRING utility_rcs
+Plik polecenia rcs
+---STRINGEND
+
+---STRING utility_tar
+Plik polecenia tar
+---STRINGEND
+
+---STRING utility_unrtf
+Plik polecenia unrtf
+---STRINGEND
+
+---STRING utility_unzip
+Plik polecenia unzip
+---STRINGEND
+
+---STRING failed to create settings
+Błąd tworzenia ustawień
+---STRINGEND
+

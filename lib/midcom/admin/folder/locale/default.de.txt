@@ -1,0 +1,369 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 24738 2010-01-15 21:44:53Z jval $
+---LANGUAGE de
+
+---STRING %s state
+%s-Status
+---STRINGEND
+
+---STRING a folder with name %s already exists
+Ein Ordner mit dem Namen "%s" existiert bereits!
+---STRINGEND
+
+---STRING all descendants will be deleted
+Alle Inhalte dieses Ordners werden gelöscht:
+---STRINGEND
+
+---STRING all style elements
+Alle Style-Elemente
+---STRINGEND
+
+---STRING alpha
+Alpha
+---STRINGEND
+
+---STRING are you sure you want to delete this folder
+Sind Sie sicher, dass Sie diesen Ordner löschen wollen?
+---STRINGEND
+
+---STRING author
+Verfasser
+---STRINGEND
+
+---STRING authors
+Verfasser
+---STRINGEND
+
+---STRING beta
+Beta
+---STRINGEND
+
+---STRING by score
+von Hand sortiert
+---STRINGEND
+
+---STRING cancelled
+Abgebrochen
+---STRINGEND
+
+---STRING change component
+Komponente ändern
+---STRINGEND
+
+---STRING component default
+Standardeinstellung der Komponente
+---STRINGEND
+
+---STRING copy to editor
+In den Editor kopieren
+---STRINGEND
+
+---STRING could not save folder: %s
+Ordner konnte nicht gespeichert werden. Ursache: %s
+---STRINGEND
+
+---STRING create folder
+Ordner anlegen
+---STRINGEND
+
+---STRING create folder under %s
+Unterordner in "%s" anlegen
+---STRINGEND
+
+---STRING create subfolder
+Unterordner anlegen
+---STRINGEND
+
+---STRING created
+Erstellungszeit
+---STRINGEND
+
+---STRING creator
+Ersteller
+---STRINGEND
+
+---STRING default
+Standard
+---STRINGEND
+
+---STRING default order selected
+Standard-Reihenfolge gewählt
+---STRINGEND
+
+---STRING default sort order
+Standard-Sortierreihenfolge
+---STRINGEND
+
+---STRING delete folder
+Ordner löschen
+---STRINGEND
+
+---STRING delete folder %s
+Ordner "%s" löschen
+---STRINGEND
+
+---STRING edit %s
+'%s' bearbeiten
+---STRINGEND
+
+---STRING edit folder
+Ordner bearbeiten
+---STRINGEND
+
+---STRING edit folder %s
+Ordner "%s" bearbeiten
+---STRINGEND
+
+---STRING edit folder metadata
+Metadaten des Ordners bearbeiten
+---STRINGEND
+
+---STRING edit layout template
+Layout-Vorlage bearbeiten
+---STRINGEND
+
+---STRING edit metadata
+Metadaten bearbeiten
+---STRINGEND
+
+---STRING edit metadata of %s
+Metadaten von '%s' bearbeiten
+---STRINGEND
+
+---STRING experimental, use with your own risk
+Experimentell, Benutzung auf eigene Gefahr
+---STRINGEND
+
+---STRING exported
+Exportiert
+---STRINGEND
+
+---STRING failed to create a new style template
+Neue Stilvorlage konnte nicht erstellt werden!
+---STRINGEND
+
+---STRING folder created
+Ordner erstellt
+---STRINGEND
+
+---STRING folder page class
+Ordner-Klasse
+---STRINGEND
+
+---STRING folder saved
+Ordner gespeichert
+---STRINGEND
+
+---STRING folder type
+Ordner-Typ
+---STRINGEND
+
+---STRING folder with name %s already exists
+Ein Ordner mit dem Namen "%s" existiert bereits!
+---STRINGEND
+
+---STRING folders first
+Ordner zuerst
+---STRINGEND
+
+---STRING hide from navigation
+In der Navigation unsichtbar
+---STRINGEND
+
+---STRING imported
+Importiert
+---STRINGEND
+
+---STRING inherit style
+Stilvorlage an Unterordner vererben
+---STRINGEND
+
+---STRING install more %s from %s
+Weitere <a href="%s">MidCOM-Komponenten</a> können Sie aus dem <a href="%s">PEAR-Repository</a> installieren.
+---STRINGEND
+
+---STRING list of %s folders using the same style template path
+Zeige alle "%s"-Ordner, die den selben Stilvorlagen-Pfad benutzen
+---STRINGEND
+
+---STRING local element
+Lokales Element
+---STRINGEND
+
+---STRING midcom.admin.folder
+Ordnerverwaltung
+---STRINGEND
+
+---STRING move
+Verschieben
+---STRINGEND
+
+---STRING move %s
+Verschiebe %s
+---STRINGEND
+
+---STRING nav order
+Reihenfolge der Navigationselemente
+---STRINGEND
+
+---STRING new layout template
+[Neue Stilvorlage]
+---STRINGEND
+
+---STRING new style created
+Neue Stilvorlage wurde erstellt
+---STRINGEND
+
+---STRING no sortable elements found
+keine sortierbaren Elemente gefunden
+---STRINGEND
+
+---STRING no url name specified
+Kein URL-Name angegeben!
+---STRINGEND
+
+---STRING order navigation
+Navigationselemente anordnen
+---STRINGEND
+
+---STRING order navigation in folder %s
+Navigationselemente im Ordner "%s" anordnen
+---STRINGEND
+
+---STRING owner
+Besitzer
+---STRINGEND
+
+---STRING pages first
+Seiten zuerst
+---STRINGEND
+
+---STRING prevent entering
+Eingabe verhindern
+---STRINGEND
+
+---STRING privilege template_management
+Stilvorlagen-Verwaltung
+---STRINGEND
+
+---STRING privilege topic_management
+Ordner-Verwaltung
+---STRINGEND
+
+---STRING published
+Veröffentlicht
+---STRINGEND
+
+---STRING revised
+Letzte Bearbeitung
+---STRINGEND
+
+---STRING revision
+Revision
+---STRINGEND
+
+---STRING revisor
+Revisor
+---STRINGEND
+
+---STRING saving changes
+Änderungen werden gespeichert
+---STRINGEND
+
+---STRING schedule end
+Anzeigen bis (für unbegrenzte Anzeige frei lassen)
+---STRINGEND
+
+---STRING schedule start
+Veröffentlichen am (für sofortige Veröffentlichung frei lassen)
+---STRINGEND
+
+---STRING scheduling
+Zeitgesteuerte Veröffentlichung
+---STRINGEND
+
+---STRING select the ordering method first to sort the pages
+Wählen Sie eine Sortiermethode, um die Seiten anzuordnen
+---STRINGEND
+
+---STRING size
+Größe
+---STRINGEND
+
+---STRING sort by score
+Nach Score sortieren
+---STRINGEND
+
+---STRING sort folders
+Ordner anordnen
+---STRINGEND
+
+---STRING sort pages
+Seiten anordnen
+---STRINGEND
+
+---STRING style
+Stilvorlage
+---STRINGEND
+
+---STRING style editor
+Style-Editor
+---STRINGEND
+
+---STRING style element list
+Liste der Style-Elemente
+---STRINGEND
+
+---STRING style elements for %s
+Style-Elemente der Stilvorlage %s
+---STRINGEND
+
+---STRING style template
+Stilvorlage
+---STRINGEND
+
+---STRING this component is still being developed and tested and might contain undocumented features
+Diese Komponente befindet sich noch in der Entwicklung und könnte undokumentierte Features enthalten
+---STRINGEND
+
+---STRING title is empty
+Der Titel ist leer!
+---STRINGEND
+
+---STRING warning, might result in data loss
+Warnung! Kann zu Datenverlust führen!
+---STRINGEND
+
+---STRING objects with no navigation entry are still accessible on-site if the url is known
+Objekte ohne Navigationseintrag sind weiterhin verfügbar, insofern die URL bekannt ist
+---STRINGEND
+
+---STRING submitting the form
+Formular wird abgeschickt
+---STRINGEND
+
+---STRING createlink folder %s
+Ordner-Link in "%s" anlegen
+---STRINGEND
+
+---STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
+Dieser Ordner wurde von <a href="%s">%s</a> verlinkt, Bestätigen löscht ausschließlich den Link.
+---STRINGEND
+
+---STRING create folder link
+Unterordner anlegen ("symlink")
+---STRINGEND
+
+---STRING privilege symlinks
+Ordner-Link
+---STRINGEND
+
+---STRING this folder is a symlink to: <a href="%s">%s</a>
+Dieser Ordner wurde von <a href="%s">%s</a> verlinkt.
+---STRINGEND
+
+---STRING symlinks are currently disabled
+(Symlinks are currently disabled.)
+---STRINGEND
+

@@ -1,0 +1,178 @@
+'default' => array
+(
+    'description' => 'hour report',
+    'l10n_db' => 'org.openpsa.projects',
+    'fields'      => array
+    (
+        'date' => array
+        (
+            'title' => 'date',
+            'storage' => 'date',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
+        'hours' => array
+        (
+            'title' => 'hours',
+            'storage' => 'hours',
+            'type' => 'number',
+            'widget'  => 'text',
+            'required' => true,
+        ),
+        'invoiceable' => array
+        (
+            'title'   => 'invoiceable',
+            'storage' => 'invoiceable',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'invoice' => array
+        (
+            'title'   => 'invoice',
+            'storage' => 'invoice',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_invoices_invoice_dba',
+                'component'   => 'org.openpsa.invoices',
+                'titlefield'  => 'number',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'number',
+                        'name' => 'number',
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'number',
+                ),
+                'orders'        => array
+                (
+                    array('number'    => 'ASC'),
+                ),
+            ),
+            'readonly' => true,
+        ),
+        'person' => array
+        (
+            'title'   => 'reporter',
+            'storage' => 'person',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_contacts_person_dba',
+                'component'   => 'org.openpsa.contacts',
+                'titlefield'  => 'name',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'username',
+                        'op'    => '<>',
+                        'value' => '',
+                    ),
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'email',
+                        'name' => 'email',
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'firstname',
+                    'lastname',
+                    'username',
+                ),
+                'orders'        => array
+                (
+                    array('lastname'    => 'ASC'),
+                    array('firstname'    => 'ASC'),
+
+                ),
+            ),
+            'readonly' => true,
+        ),
+        'task' => array
+        (
+            'title'   => 'task',
+            'storage' => 'task',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_projects_task_dba',
+                'component'   => 'org.openpsa.projects',
+                'titlefield'  => 'title',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'title',
+                        'name' => 'label',
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'title',
+                ),
+                'orders'        => array
+                (
+                    array('title'    => 'ASC'),
+                ),
+            ),
+            'readonly' => true,
+        ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => array
+            (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
+    )
+),

@@ -1,0 +1,233 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE fi
+
+---STRING Only show approved articles
+Näytä vain hyväksytyt artikkelit
+---STRINGEND
+
+---STRING activate autoindex
+Luodaanko kansiolle automaattinen etusivu?
+---STRINGEND
+
+---STRING approve
+Hyväksy
+---STRINGEND
+
+---STRING article
+Artikkeli
+---STRINGEND
+
+---STRING article %s deleted
+Artikkeli %s poistettu
+---STRINGEND
+
+---STRING article link
+Artikkelilinkki
+---STRINGEND
+
+---STRING article link deleted
+Artikkelilinkki poistettu
+---STRINGEND
+
+---STRING auto_approve
+Hyväksy uudet artikkelit oletuksena
+---STRINGEND
+
+---STRING autoindex
+Luo automaattinen sisällysluettelo kansiolle?
+---STRINGEND
+
+---STRING autoindex-notes
+Sisällysluettelo korvaa index-artikkelin ja sisältää listan kaikista kansiossa olevista artikkeleista ja liitteistä.
+---STRINGEND
+
+---STRING back to overview
+Takaisin etusivulle
+---STRINGEND
+
+---STRING callback_function
+Luonnin jälkeen kutsuttava callback-funktio jota käytetään esim. sivujen linkitykseen
+---STRINGEND
+
+---STRING callback_snippet
+Luonnin jälkeen kutsuttavan callback-funktion sisältävä snippet-tietue
+---STRINGEND
+
+---STRING content
+Sisältö
+---STRINGEND
+
+---STRING create article
+Luo artikkeli
+---STRINGEND
+
+---STRING default_schema
+Oletus-tietokantakuvaus uusille artikkeleille
+---STRINGEND
+
+---STRING delete article
+Poista artikkeli
+---STRINGEND
+
+---STRING delete article link
+Poista artikkelilinkki
+---STRINGEND
+
+---STRING delete cancelled
+Poistaminen peruutettu
+---STRINGEND
+
+---STRING delete link
+Poista linkki
+---STRINGEND
+
+---STRING delete_link
+Poista linkki
+---STRINGEND
+
+---STRING directory index for %s
+Kansion %s sisällysluettelo
+---STRINGEND
+
+---STRING display settings
+Artikkelien näkyvyysasetukset
+---STRINGEND
+
+---STRING edit article
+Muokkaa artikkelia
+---STRINGEND
+
+---STRING enable_ajax_editing
+Salli sivustolla AJAX-editointi
+---STRINGEND
+
+---STRING enable_article_links
+Salli sivujen linkitys
+---STRINGEND
+
+---STRING failed to delete the article link, contact the site administrator
+Artikkelilinkin poistaminen epäonnistui, ota yhteys sivuston ylläpitäjään.
+---STRINGEND
+
+---STRING file lastmodified
+Viimeksi muokattu
+---STRINGEND
+
+---STRING filedescription
+Kuvaus
+---STRINGEND
+
+---STRING filename
+Tiedostonimi
+---STRINGEND
+
+---STRING filesize
+Koko
+---STRINGEND
+
+---STRING filetype
+Tyyppi
+---STRINGEND
+
+---STRING folder_in_title
+Näytä kansion nimi sivun otsikossa
+---STRINGEND
+
+---STRING from
+Kansiosta
+---STRINGEND
+
+---STRING hide_navigation
+Piilota artikkelit navigaatiosta
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+Jos haluat poistaa alkuperäisen artikkelin, <a href="%s">klikkaa tästä</a>.
+---STRINGEND
+
+---STRING indexinnav
+Näytetäänkö index-artikkeli navigaatiossa?
+---STRINGEND
+
+---STRING net.nehmer.static
+Normaali sisältö
+---STRINGEND
+
+---STRING no files in this directory
+Ei tiedostoja kansiossa
+---STRINGEND
+
+---STRING no index article
+Kansiosta puuttuu <strong>index</strong>-artikkeli. Luo artikkeli jonka tiedostonimenä on <strong>index</strong> tai laita automaattinen sisällysluettelo päälle.
+---STRINGEND
+
+---STRING no schemas available
+Tietokantakuvausta (schema) ei löydy
+---STRINGEND
+
+---STRING schema settings
+Tietokantakuvauksen asetukset
+---STRINGEND
+
+---STRING schemadb
+Tässä kansiossa käytettävä tietokantakuvaus
+---STRINGEND
+
+---STRING select schema
+Valitse tyyppi
+---STRINGEND
+
+---STRING settings
+Asetukset
+---STRINGEND
+
+---STRING show blobs in autoindex
+Näytä liitetiedostot automaattisella etusivulla
+---STRINGEND
+
+---STRING show_blobs_in_autoindex
+Näytä liitetiedostot automaattisessa sisällysluettelossa
+---STRINGEND
+
+---STRING simple_name_handling
+Luodaanko artikkelin URL-nimi automaattisesti?
+---STRINGEND
+
+---STRING sort_order
+Järjestely
+---STRINGEND
+
+---STRING symlink_topic
+Hae sisällöt toisesta kansiosta ("symlink")
+---STRINGEND
+
+---STRING symlink_topic disabled
+Ei kansiota
+---STRINGEND
+
+---STRING taviewer
+Staattinen sisältö
+---STRINGEND
+
+---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
+Tämä artikkeli on linkitetty osoitteesta <a href="%s">%s</a> ja vahvistaminen poistaa vain linkin.
+---STRINGEND
+
+---STRING unapprove
+Poista hyväksyntä
+---STRINGEND
+
+---STRING view article
+Näytä artikkeli
+---STRINGEND
+
+---STRING visible
+Onko kansio näkyvissä
+---STRINGEND
+
+---STRING autoindex settings
+Automaattisen sisällysluettelon asetukset
+---STRINGEND
+

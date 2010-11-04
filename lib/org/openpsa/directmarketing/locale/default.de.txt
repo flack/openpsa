@@ -1,0 +1,885 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE de
+
+---STRING % of clicks
+Anteil Klicks
+---STRINGEND
+
+---STRING % of recipients
+Anteil Empfänger
+---STRINGEND
+
+---STRING %s has bounced
+%s war nicht erreichbar 
+---STRINGEND
+
+---STRING %d members
+%d Mitglieder
+---STRINGEND
+
+---STRING add
+Hinzufügen
+---STRINGEND
+
+---STRING add rule
+Regel hinzufügen
+---STRINGEND
+
+---STRING add to campaign
+Zu Kampagne hinzufügen
+---STRINGEND
+
+---STRING added person %s to campaign %s
+Person %s zu Kampagne %s hinzugefügt
+---STRINGEND
+
+---STRING address for an email->sms gateway
+Adresse des E-Mail->SMS-Gateways
+---STRINGEND
+
+---STRING address separator
+Adresstrenner
+---STRINGEND
+
+---STRING advanced rule editor
+Erweiterter Regel-Editor
+---STRINGEND
+
+---STRING all persons in market segment "%s" who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d
+Alle Personen in Marktsegment "%s", die den Link "%s" in Nachricht #%d geklickt haben und sich nicht von der Kampagne #%d abgemeldet haben
+---STRINGEND
+
+---STRING all persons who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d
+Alle Personen, die den Link "%s" in Nachricht #%d angeklickt haben und sich nicht von der Kampagne #%d abgemeldet haben
+---STRINGEND
+
+---STRING already_subscribed
+Bereits eingetragen
+---STRINGEND
+
+---STRING any bounce detector compatible
+Alle kompatiblen Bounce-Detektoren
+---STRINGEND
+
+---STRING api for sms gateway
+API des SMS-Gateways
+---STRINGEND
+
+---STRING archival
+Archiv
+---STRINGEND
+
+---STRING archived on
+Archiviert am
+---STRINGEND
+
+---STRING are you sure you wish to send this to the whole campaign
+Sind sie sicher, dass sie das an die gesamte Kampagne senden wollen?
+---STRINGEND
+
+---STRING backend for sending email (backend specific configurations in org.openpsa.mail)
+Backend zum Mailversand (backendspezifische Einstellungen in org.openpsa.mail)
+---STRINGEND
+
+---STRING bounce detector address (use token to indicate place of the token)
+Adresse des Bounce-Detektors (verwenden sie "TOKEN", um den Position des Tokens anzugeben)
+---STRINGEND
+
+---STRING bounce detector configuration (note: requires special mail server configuration as well)
+Konfiguration des Bounce-Detektors (Anm: benötigt zusätzlich eine spezielle Mailserver-Konfiguration)
+---STRINGEND
+
+---STRING bounced recipients
+Bounce-Empfänger
+---STRINGEND
+
+---STRING campaign
+Kampagne
+---STRINGEND
+
+---STRING campaigns
+Kampagnen
+---STRINGEND
+
+---STRING choose the target campaign
+Wählen sie die Zielkampagne
+---STRINGEND
+
+---STRING class:generic parameters
+Parameter
+---STRINGEND
+
+---STRING class:group
+Gruppen-Attribut
+---STRINGEND
+
+---STRING class:group parameters
+Gruppen-Parameter
+---STRINGEND
+
+---STRING class:membership
+Mitglieds-Attribut
+---STRINGEND
+
+---STRING class:membership parameters
+Mitglieds-Parameter
+---STRINGEND
+
+---STRING class:person
+Personen-Attribut
+---STRINGEND
+
+---STRING class:person parameters
+Personen-Parameter
+---STRINGEND
+
+---STRING clickatell (http)
+Clickatell (HTTP)
+---STRINGEND
+
+---STRING client/api id for the sms gateway (not used by all apis)
+Client/API ID des SMS-Gateways (nicht für alle APIs benötigt)
+---STRINGEND
+
+---STRING comma
+Komma
+---STRINGEND
+
+---STRING contains
+enthält
+---STRINGEND
+
+---STRING content
+Inhalt
+---STRINGEND
+
+---STRING copy message
+Nachricht kopieren
+---STRINGEND
+
+---STRING create campaign
+Kampagne erstellen
+---STRINGEND
+
+---STRING create campaign from link
+Kampagne aus Link erstellen
+---STRINGEND
+
+---STRING created on %s
+Erstellt am %s
+---STRINGEND
+
+---STRING csv
+CSV
+---STRINGEND
+
+---STRING csv column
+CSV-Spalte
+---STRINGEND
+
+---STRING delete campaign
+Kampagne löschen
+---STRINGEND
+
+---STRING delete message
+Nachricht löschen
+---STRINGEND
+
+---STRING detectors and email configuration
+Detektoren- und E-Mail-Konfiguration
+---STRINGEND
+
+---STRING does not contain
+enthält nicht
+---STRINGEND
+
+---STRING edit campaign
+Kampagne bearbeiten
+---STRINGEND
+
+---STRING edit message
+Nachricht bearbeiten
+---STRINGEND
+
+---STRING edit rules
+Regeln bearbeiten
+---STRINGEND
+
+---STRING email -> sms
+E-Mail -> SMS
+---STRINGEND
+
+---STRING email addresses
+E-Mail-Adressen
+---STRINGEND
+
+---STRING email message
+E-Mail-Nachricht
+---STRINGEND
+
+---STRING email->sms api information
+E-Mail -> SMS API-Information
+---STRINGEND
+
+---STRING equals
+ist gleich
+---STRINGEND
+
+---STRING error when saving rule, errstr: %s
+Fehler beim Speichern der Regel: %s
+---STRINGEND
+
+---STRING example
+Beispiel
+---STRINGEND
+
+---STRING export as csv
+Abonnenten als CSV exportieren
+---STRINGEND
+
+---STRING failed_add
+Hinzufügen fehlgeschlagen
+---STRINGEND
+
+---STRING failed_create
+Erstellen fehlgeschlagen
+---STRINGEND
+
+---STRING field separator
+Feldtrenner
+---STRINGEND
+
+---STRING fields available for matching are defined in schema
+Verfügbare Felder werden im Schema definiert
+---STRINGEND
+
+---STRING file to import
+Zu importierende Datei
+---STRINGEND
+
+---STRING files to attach
+Dateianhänge
+---STRINGEND
+
+---STRING first message sent on
+Die erste Nachricht wurde verschickt am
+---STRINGEND
+
+---STRING first row is headers
+Die erste Zeile enthält Spaltenüberschriften
+---STRINGEND
+
+---STRING from address
+Absenderadresse
+---STRINGEND
+
+---STRING from link "%s"
+von Link "%s"
+---STRINGEND
+
+---STRING generated on %s by %s
+Erstellt am %s von %s
+---STRINGEND
+
+---STRING given rule could not be parsed
+Die Regel konnte nicht geparst werden
+---STRINGEND
+
+---STRING given rule is empty
+Die Regel ist leer
+---STRINGEND
+
+---STRING greater than
+ist größer als
+---STRINGEND
+
+---STRING html email
+HTML-E-Mail
+---STRINGEND
+
+---STRING http api information
+HTTP-API-Information
+---STRINGEND
+
+---STRING import
+Importieren
+---STRINGEND
+
+---STRING import csv
+CSV-Datei importieren
+---STRINGEND
+
+---STRING import email addresses
+E-Mail-Adressen importieren
+---STRINGEND
+
+---STRING import subscribers
+Abonnenten importieren
+---STRINGEND
+
+---STRING import subscribers to "%s"
+Abonnenten in "%s" importieren
+---STRINGEND
+
+---STRING import subscribers to %s
+Abonnenten in %s importieren
+---STRINGEND
+
+---STRING import vcards
+vCards importieren
+---STRINGEND
+
+---STRING in domain
+in Domain
+---STRINGEND
+
+---STRING include to campaigns
+Zu Kampagnen hinzufügen
+---STRINGEND
+
+---STRING iso-latin-1 encoding
+ISO Latin 1-Encoding
+---STRINGEND
+
+---STRING last message sent on
+Die letzte Nachricht wurde verschickt am
+---STRINGEND
+
+---STRING less than
+ist kleiner als
+---STRINGEND
+
+---STRING link
+Link
+---STRINGEND
+
+---STRING link and message limits
+Link- und Nachrichten-Limits
+---STRINGEND
+
+---STRING link detector base address (use token to indicate place of the token and url of link)
+Basis-Adresse des Link-Detektors (verwenden sie "TOKEN", um die Position des Tokens anzugeben und "URL" für die des Links)
+---STRINGEND
+
+---STRING link detector configuration
+Konfiguration des Link-Detektors
+---STRINGEND
+
+---STRING link statistics
+Link-Statistik
+---STRINGEND
+
+---STRING longtext:generated_from_found_in_adv_rule
+"generated_from" in Regel gefunden und automatisch entfernt. Bitte überprüfen sie die Regel, bevor sie die Änderung speichern
+---STRINGEND
+
+---STRING longtext:wizard_not_available
+Die Regeln dieser Kampagne können nicht im Assistenten bearbeitet werden, wechsle zum erweiterten Modus
+---STRINGEND
+
+---STRING mail() function (not recommended)
+mail()-Funktion (nicht empfohlen)
+---STRINGEND
+
+---STRING match csv columns to database fields
+CSV-Spalten und Datenbankfelder abgleichen
+---STRINGEND
+
+---STRING match:all
+alle
+---STRINGEND
+
+---STRING match:any
+beliebige
+---STRINGEND
+
+---STRING match:match
+Treffer erfüllen
+---STRINGEND
+
+---STRING match:of the following
+der folgenden Bedingungen
+---STRINGEND
+
+---STRING message
+Nachricht
+---STRINGEND
+
+---STRING message %s sent to testers
+Nachricht <i>%s</i> an Tester verschickt
+---STRINGEND
+
+---STRING message report
+Nachrichten-Report
+---STRINGEND
+
+---STRING message sent
+Nachricht verschickt
+---STRINGEND
+
+---STRING message statistics
+Nachrichten-Statistik
+---STRINGEND
+
+---STRING message was copied to the following campaigns
+Nachricht wurde in folgende Kampagnen kopiert
+---STRINGEND
+
+---STRING message was sent to the following group of testers
+Nachricht wurde an folgende Testgruppe verschickt
+---STRINGEND
+
+---STRING messages
+Nachrichten
+---STRINGEND
+
+---STRING messages sent
+Nachrichten verschickt
+---STRINGEND
+
+---STRING messto (http)
+Messto (HTTP)
+---STRINGEND
+
+---STRING new %s
+Neue %s
+---STRINGEND
+
+---STRING new message
+Neue Nachricht
+---STRINGEND
+
+---STRING newline
+Zeilenumbruch
+---STRINGEND
+
+---STRING no rule given
+Keine Regel übergeben
+---STRINGEND
+
+---STRING no segment
+Kein Segment
+---STRINGEND
+
+---STRING no testers
+Keine Tester
+---STRINGEND
+
+---STRING no testers have been defined to the campaign %s
+Für die Kampagne <i>%s</i> wurden keine Tester angegeben
+---STRINGEND
+
+---STRING normal campaign
+Normale Kampagne
+---STRINGEND
+
+---STRING not equals
+ist ungleich
+---STRINGEND
+
+---STRING nothing sent yet
+Versand noch nicht erfolgt
+---STRINGEND
+
+---STRING one line per subscriber
+eine Zeile pro Abonnent
+---STRINGEND
+
+---STRING org.openpsa.directmarketing
+Massen-E-Mail-Versand und Direktvermarktung
+---STRINGEND
+
+---STRING password for the sms gateway
+Passwort des SMS-Gateways
+---STRINGEND
+
+---STRING preview message
+Nachrichten-Vorschau
+---STRINGEND
+
+---STRING property:birthdate
+Geburtsdatum
+---STRINGEND
+
+---STRING property:city
+Stadt
+---STRINGEND
+
+---STRING property:country
+Land
+---STRINGEND
+
+---STRING property:customerId
+Kunden-ID
+---STRINGEND
+
+---STRING property:email
+E-Mail
+---STRINGEND
+
+---STRING property:extra
+Extra
+---STRINGEND
+
+---STRING property:fax
+Fax
+---STRINGEND
+
+---STRING property:firstname
+Vorname
+---STRINGEND
+
+---STRING property:gid
+Gruppen-ID
+---STRINGEND
+
+---STRING property:guid
+GUID
+---STRINGEND
+
+---STRING property:handphone
+Mobiltelefon
+---STRINGEND
+
+---STRING property:homepage
+Homepage
+---STRINGEND
+
+---STRING property:homephone
+Telefon (privat)
+---STRINGEND
+
+---STRING property:id
+ID
+---STRINGEND
+
+---STRING property:invoiceCity
+Stadt (Rechnungsadresse)
+---STRINGEND
+
+---STRING property:invoiceCountry
+Land (Rechnungsadresse)
+---STRINGEND
+
+---STRING property:invoicePostcode
+PLZ (Rechnungsadresse)
+---STRINGEND
+
+---STRING property:invoiceStreet
+Adresse (Rechnungsadresse)
+---STRINGEND
+
+---STRING property:keywords
+Schlüsselwörter
+---STRINGEND
+
+---STRING property:lastname
+Nachname
+---STRINGEND
+
+---STRING property:name
+Firmen-ID
+---STRINGEND
+
+---STRING property:official
+Offizieller Name
+---STRINGEND
+
+---STRING property:orgOpenpsaObtype
+Objekttyp
+---STRINGEND
+
+---STRING property:owner
+Besitzer
+---STRINGEND
+
+---STRING property:pgpkey
+PGP-Key
+---STRINGEND
+
+---STRING property:phone
+Telefon
+---STRINGEND
+
+---STRING property:postalCity
+Stadt (Postadresse)
+---STRINGEND
+
+---STRING property:postalCountry
+Land (Postadresse)
+---STRINGEND
+
+---STRING property:postalPostcode
+PLZ (Postadresse)
+---STRINGEND
+
+---STRING property:postalStreet
+Adresse (Postadresse)
+---STRINGEND
+
+---STRING property:postcode
+PLZ
+---STRINGEND
+
+---STRING property:street
+Adresse
+---STRINGEND
+
+---STRING property:uid
+Personen-ID
+---STRINGEND
+
+---STRING property:username
+Benutzername
+---STRINGEND
+
+---STRING property:workphone
+Telefon (geschäftlich)
+---STRINGEND
+
+---STRING recipient token length
+Länge des Empfänger-Tokens
+---STRINGEND
+
+---STRING recipients
+Empfänger
+---STRINGEND
+
+---STRING remove %s from campaign
+%s aus Kampagne entfernen
+---STRINGEND
+
+---STRING remove rule
+Regel entfernen
+---STRINGEND
+
+---STRING reply to address
+Antwortadresse
+---STRINGEND
+
+---STRING report for message %s
+Report für Nachricht "%s"
+---STRINGEND
+
+---STRING rule generation warning
+Regelerstellungs-Warnung
+---STRINGEND
+
+---STRING rules wizard
+Regel-Assistent
+---STRINGEND
+
+---STRING segment "%s" link statistics
+Link-Statistik für Segment "%s"
+---STRINGEND
+
+---STRING segment limits
+Segment-Limits
+---STRINGEND
+
+---STRING semicolon
+Semikolon
+---STRINGEND
+
+---STRING send
+Versenden
+---STRINGEND
+
+---STRING send message
+Nachricht versenden
+---STRINGEND
+
+---STRING send message to testers
+Nachricht an Tester versenden
+---STRINGEND
+
+---STRING send message to whole campaign
+Nachricht an gesamte Kampagne versenden
+---STRINGEND
+
+---STRING send to testers
+An Tester versenden
+---STRINGEND
+
+---STRING sending messages
+Nachrichten werden versendet
+---STRINGEND
+
+---STRING sendmail
+Sendmail
+---STRINGEND
+
+---STRING sent on %s
+Versendet am %s
+---STRINGEND
+
+---STRING smart campaign
+Intelligente Kampagne
+---STRINGEND
+
+---STRING sms information
+SMS-Informationen
+---STRINGEND
+
+---STRING sms message
+SMS-Nachricht
+---STRINGEND
+
+---STRING smtp
+SMTP
+---STRINGEND
+
+---STRING store to field
+Speichern im Feld
+---STRINGEND
+
+---STRING subject
+Betreff
+---STRINGEND
+
+---STRING subscribed_existing
+Existierende Abonnenten
+---STRINGEND
+
+---STRING subscribed_new
+Neue Abonnenten
+---STRINGEND
+
+---STRING system default
+System-Standard
+---STRINGEND
+
+---STRING tambur (http)
+Tambur (HTTP)
+---STRINGEND
+
+---STRING testers
+Tester
+---STRINGEND
+
+---STRING text email
+Text-E-Mail
+---STRINGEND
+
+---STRING total clicks
+Summe Klicks
+---STRINGEND
+
+---STRING total recipients
+Summe Empfänger
+---STRINGEND
+
+---STRING type
+Typ
+---STRINGEND
+
+---STRING unique clickers
+Unterschiedliche Klicker
+---STRINGEND
+
+---STRING unsubscribed between %s - %s
+Abgemeldet zwischen %s - %s
+---STRINGEND
+
+---STRING unsubscribed since %s
+Abgemeldet seit %s
+---STRINGEND
+
+---STRING unsubscribing failed
+Abmeldung fehlgeschlagen
+---STRINGEND
+
+---STRING unsubscribing registered
+Abmeldung gespeichert
+---STRINGEND
+
+---STRING url for a http sms gateway
+URL des HTTP-SMS-Gateways
+---STRINGEND
+
+---STRING username for the sms gateway
+Benutzername des SMS-Gateways
+---STRINGEND
+
+---STRING vcards
+vCards
+---STRINGEND
+
+---STRING with name
+mit Namen
+---STRINGEND
+
+---STRING write email addresses
+Geben sie die E-Mail-Adresse ein
+---STRINGEND
+
+---STRING you can also write the addresses to the text field
+Sie können Adressen auch in das Textfeld eintragen
+---STRINGEND
+
+---STRING you can also write the addresses to the text field, each address on its own row
+Sie können die Adressen auch in das Textfeld eingeben, jede Adresse muss in einer eigenen Zeile stehen
+---STRINGEND
+
+---STRING you can import csv files here
+Hier können sie CSV-Dateien importieren
+---STRINGEND
+
+---STRING you can import simple lists of email addresses here
+hier können sie einfache E-Mail-Adresslisten importieren
+---STRINGEND
+
+---STRING you can import vcards here
+Hier können sie vCards zur Kampagne hinzufügen
+---STRINGEND
+
+---STRING you must select "%s" or "%s" for matching
+Sie müssen "%s" oder "%s" für den Abgleich auswählen
+---STRINGEND
+
+---STRING preview
+Vorschau
+---STRINGEND
+
+---STRING contacts found
+Gefundene Kontakte
+---STRINGEND
+
+---STRING and
+Alle Bedingungen
+---STRINGEND
+
+---STRING or
+Eine der Bedingungen
+---STRINGEND
+
+---STRING add rule
+Regel hinzufügen
+---STRINGEND
+
+---STRING add group
+Gruppe hinzufügen
+---STRINGEND
+
+---STRING remove group
+Gruppe entfernen
+---STRINGEND
+
+---STRING lastname
+Nachname
+---STRINGEND
+
+---STRING firstname
+Vorname
+---STRINGEND
+
+---STRING email
+E-Mail
+---STRINGEND
+
+---STRING unknown class please use advanced editor
+In den Regeln wurden unbekannte Klassen gefunden,
+bitte benutzen Sie den erweiterten Editor.
+---STRINGEND

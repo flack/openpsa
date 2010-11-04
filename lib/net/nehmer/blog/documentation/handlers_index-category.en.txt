@@ -1,0 +1,3 @@
+
+Index view shows a list of latest entries according to [configuration](../01_component_config) settings filtered by category given in __{$args[0]}__.
+

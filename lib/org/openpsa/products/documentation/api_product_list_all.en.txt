@@ -1,0 +1,27 @@
+/api/product/list/
+========================
+
+List all products in the database.
+
+## Authentication
+
+This method does not require authentication.
+
+## Arguments
+
+No arguments.
+
+## Example response
+
+    <products>
+        <product guid="e183eb6e458111dc9ea783038a2603f903f9">
+            <code>130</code>
+            <title>Chianti Colli Senesi</title>
+        </product>
+        ...
+    </products>
+
+## Error Codes
+
+500: Internal Server Error
+:    Some error state has happened in the database

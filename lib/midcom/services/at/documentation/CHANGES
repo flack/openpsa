@@ -1,0 +1,27 @@
+                   midcom.services.at Changelog
+                   ----------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality. 
+- All items marked with "+" represent completely new features.
+
+2006-03-02 rambo
+  + added request_sudo and drop_sudo around all object operations in check.php
+    (in case the sudo requested by cron gets dropped during the execution of the job)
+
+2006-02-08 rambo
+  + automatically add a copy of the job db entry to the arguments
+
+2006-02-07 rambo
+  - added missing documentation.
+  - code readibility improvements.
+  ! added pass of reference to the cron handler to the at job handler method
+    to allow the at handler to report errors via it.
+  ! fixed sitegroup index name in entry.sql.
+  + added index for start in entry.sql.
+  - cleaned newlines to use only LF, added missing docblock declarations
+    to classes.
+
+2006-02-06 rambo
+  + created

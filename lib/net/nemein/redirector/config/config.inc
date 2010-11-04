@@ -1,0 +1,16 @@
+'schemadb_config' => 'file:/net/nemein/redirector/config/schemadb_config.inc',
+'schemadb_tinyurl' => 'file:/net/nemein/redirector/config/schemadb_tinyurl.inc',
+'redirection_type' => null, // subnode or url
+'redirection_url'  => '',
+'redirection_code' => 301,
+'redirection_node' => null,
+'redirection_guid'  => null,
+'redirection_metatag' => false,
+'redirection_metatag_speed' => 5,
+'default_lang_code' => 'en',
+
+'admin_redirection' => true,
+
+// TinyURL generator defaults
+'characters' => '', // Character set for randomizing the URL
+'length' => 6, // Length of the TinyURL

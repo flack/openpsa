@@ -1,0 +1,365 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE sv
+
+---STRING allowed components (leave empty to allow all)
+Tillåtna komponenter (lämna tom för att tillåta alla)
+---STRINGEND
+
+---STRING auth configuration
+Autentiserings konfiguration
+---STRINGEND
+
+---STRING auth_allow_sudo
+Tillåt komponenter att köras i sudo läge
+---STRINGEND
+
+---STRING auth_backend
+Autentiserings backend
+---STRINGEND
+
+---STRING auth_backend_simple
+Enkel kak autentisering
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_domain
+Domän som dom kakorna tillhör
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_id
+Kak ID i enkelt autentisering
+---STRINGEND
+
+---STRING auth_backend_simple_cookie_path
+Väg som tillhör kakorna
+---STRINGEND
+
+---STRING auth_check_client_ip
+Knut autentisering till användarens IP adress
+---STRINGEND
+
+---STRING auth_frontend
+Användarautentiserings gränssnitt
+---STRINGEND
+
+---STRING auth_frontend_form
+Webb formulär
+---STRINGEND
+
+---STRING auth_login_form_httpcode
+HTTP svarskod som anvönds i autentiseringsformulär
+---STRINGEND
+
+---STRING auth_login_form_httpcode_200
+200 OK
+---STRINGEND
+
+---STRING auth_login_form_httpcode_403
+403 Ej tillåten
+---STRINGEND
+
+---STRING auth_login_session_timeout
+Längd i sekunder för autentiserings session (i sekunder)
+---STRINGEND
+
+---STRING auth_openid_enable
+Slå på OpenID plugin
+---STRINGEND
+
+---STRING auth_sitegroup_mode
+Autentisering sitegroup läge
+---STRINGEND
+
+---STRING auth_sitegroup_mode_auto
+Automatisk
+---STRINGEND
+
+---STRING auth_sitegroup_mode_not-sitegrouped
+Användaren måste ange sitegroup
+---STRINGEND
+
+---STRING auth_sitegroup_mode_sitegrouped
+Alltid i nuvarande sitegroup
+---STRINGEND
+
+---STRING cache configuration
+Cache konfiguration
+---STRINGEND
+
+---STRING cache_base_directory
+Folder för cachefiler
+---STRINGEND
+
+---STRING cache_module_content_default_lifetime
+Innehålls livslängd
+---STRINGEND
+
+---STRING cache_module_content_headers_strategy
+Sidhuvuds cache strategi
+---STRINGEND
+
+---STRING cache_module_content_uncached
+Slå av innehållscache
+---STRINGEND
+
+---STRING core configuration
+Core konfiguration
+---STRINGEND
+
+---STRING cron_day_hours
+Timma som används för dagliga cron körningar
+---STRINGEND
+
+---STRING cron_day_minutes
+Minut som används för dagliga cron körningar
+---STRINGEND
+
+---STRING cron_hour_minutes
+Minut som använda för vron körningar varje timma
+---STRINGEND
+
+---STRING cs-no-cache
+no-cache
+---STRINGEND
+
+---STRING cs-private
+privat
+---STRINGEND
+
+---STRING cs-public
+publik
+---STRINGEND
+
+---STRING cs-revalidate
+revalidera
+---STRINGEND
+
+---STRING default (%s)
+Standard (%s)
+---STRINGEND
+
+---STRING excluded components (leave empty to allow all)
+Excludera komponenter (lämna tomt för att tillåta alla)
+---STRINGEND
+
+---STRING failed to create settings
+Misslyckades att skapa inställningar
+---STRINGEND
+
+---STRING failed to save settings, reason %s
+Misslyckades med att spara inställningar, anledning %s
+---STRINGEND
+
+---STRING host "%s" not found. try using menu.
+Värd "%s" hittades inte. Försök att använda menyn.
+---STRINGEND
+
+---STRING host configuration
+Websajts konfiguration
+---STRINGEND
+
+---STRING i18n_fallback_language
+Språk att falla tillbaka till för avsaknade översättningar
+---STRINGEND
+
+---STRING i18n_multilang_strict
+Dölj oöversatt innehåll
+---STRINGEND
+
+---STRING indexer configuration
+Indexer konfiguration
+---STRINGEND
+
+---STRING indexer_backend
+Full.text indexerings backend
+---STRINGEND
+
+---STRING indexer_backend_none
+Ingen indexer
+---STRINGEND
+
+---STRING indexer_backend_xmltcp
+Apache Lucene (xmltcp protocol)
+---STRINGEND
+
+---STRING indexer_index_name
+Indexets namn
+---STRINGEND
+
+---STRING indexer_xmltcp_host
+Värdnamn för indexer xmltcp tjänsten
+---STRINGEND
+
+---STRING indexer_xmltcp_port
+Port för indexer xmltcp tjänst
+---STRINGEND
+
+---STRING log_filename
+Logfil
+---STRINGEND
+
+---STRING log_level
+Lognivå
+---STRINGEND
+
+---STRING log_tailurl_enable
+Tillåt läsning av systemets loggar på websajten
+---STRINGEND
+
+---STRING logging configuration
+Loggnings Konfiguration
+---STRINGEND
+
+---STRING metadata configuration
+Metadata konfiguration
+---STRINGEND
+
+---STRING metadata_approval
+Slå på godkännande av innehåll
+---STRINGEND
+
+---STRING metadata_scheduling
+Slå på schemaläggning av innehållspublicering
+---STRINGEND
+
+---STRING metadata_schema
+Ändra schema för metadata databas
+---STRINGEND
+
+---STRING midcom.admin.settings
+MidCOM inställningar
+---STRINGEND
+
+---STRING midcom_log_crit
+Kristiska felmedelanden
+---STRINGEND
+
+---STRING midcom_log_debug
+Felsöknings meddelanden
+---STRINGEND
+
+---STRING midcom_log_error
+Felmeddelanden
+---STRINGEND
+
+---STRING midcom_log_info
+Info meddelanden
+---STRINGEND
+
+---STRING midcom_log_warn
+Varnngar
+---STRINGEND
+
+---STRING midcom_prefix
+URL prefix för MidCOM
+---STRINGEND
+
+---STRING midcom_root_topic_guid
+Root ämne
+---STRINGEND
+
+---STRING midcom_services_rcs_bin_dir
+Mapp för rcs applikationer
+---STRINGEND
+
+---STRING midcom_services_rcs_enable
+Slå på versionshantering för innehåll
+---STRINGEND
+
+---STRING midcom_sgconfig_basedir
+Mapp för sitegroupspecifik konfiguration
+---STRINGEND
+
+---STRING midcom_site_url
+Websajtens URL
+---STRINGEND
+
+---STRING midcom_tempdir
+MidCOM's temporär mapp
+---STRINGEND
+
+---STRING midcom_temporary_resource_timeout
+Tid som filer sparas (i sekunder)
+---STRINGEND
+
+---STRING nap settings
+NAP inställningar
+---STRINGEND
+
+---STRING positioning_enable
+Slå på geografisk positionering av innehåll
+---STRINGEND
+
+---STRING settings saved successfully
+Inställningar sparade
+---STRINGEND
+
+---STRING show_hidden_objects
+Visa dolt innehåll
+---STRINGEND
+
+---STRING show_unapproved_objects
+Visa ej godkännt innehåll
+---STRINGEND
+
+---STRING staging2live_staging
+Detta är en staging sajt
+---STRINGEND
+
+---STRING utilities
+Verktyg
+---STRINGEND
+
+---STRING utility_catdoc
+Sökväg till catdoc
+---STRINGEND
+
+---STRING utility_diff
+Sökväg till diff
+---STRINGEND
+
+---STRING utility_file
+Sökväg till file
+---STRINGEND
+
+---STRING utility_find
+Säkväg till find
+---STRINGEND
+
+---STRING utility_gzip
+Sökväg till gzip
+---STRINGEND
+
+---STRING utility_imagemagick_base
+Mapp för imagemagick
+---STRINGEND
+
+---STRING utility_jhead
+Sökväg till jhead
+---STRINGEND
+
+---STRING utility_jpegtran
+Sökväg till jpegtran
+---STRINGEND
+
+---STRING utility_pdftotext
+Sökväg till pdftotext
+---STRINGEND
+
+---STRING utility_rcs
+Sökväg till rcs
+---STRINGEND
+
+---STRING utility_tar
+Sökväg till tar
+---STRINGEND
+
+---STRING utility_unrtf
+Sökväg till unrtf
+---STRINGEND
+
+---STRING utility_unzip
+Sökväg till unzip
+---STRINGEND
+

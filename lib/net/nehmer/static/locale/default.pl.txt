@@ -1,0 +1,233 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 25280 2010-03-15 21:34:00Z solt $
+---LANGUAGE pl
+
+---STRING Only show approved articles
+Pokaż tylko zatwierdzone artykuły
+---STRINGEND
+
+---STRING activate autoindex
+Włącz Autoindex
+---STRINGEND
+
+---STRING approve
+Zatwierdź
+---STRINGEND
+
+---STRING article
+Artykuł
+---STRINGEND
+
+---STRING article %s deleted
+Artykuł "%s" został usunięty
+---STRINGEND
+
+---STRING article link deleted
+Link do artykułu został usunięty
+---STRINGEND
+
+---STRING auto_approve
+Automatycznie zatwierdzaj nowe artykuły
+---STRINGEND
+
+---STRING autoindex
+Automatycznie twórz artykuł indeksowy.
+---STRINGEND
+
+---STRING autoindex settings
+Ustawienia autoindeksu
+---STRINGEND
+
+---STRING autoindex-notes
+Artykuł indeksowy to artykuł wyświetlany po podaniu adresu URL kategorii. Składa się z listy artykułów i załączników w folderze.
+---STRINGEND
+
+---STRING back to overview
+Wstecz
+---STRINGEND
+
+---STRING callback_function
+Funkcja zwrotna uruchamiana po utworzeniu artykułu.
+---STRINGEND
+
+---STRING callback_snippet
+Skrypt zawierający kod funkcji zwrotnej.
+---STRINGEND
+
+---STRING content
+Treść
+---STRINGEND
+
+---STRING create article
+Utwórz artykuł
+---STRINGEND
+
+---STRING default_schema
+Domyślny schemat artykułu
+---STRINGEND
+
+---STRING delete article
+Usuń artykuł
+---STRINGEND
+
+---STRING delete article link
+Usuń link
+---STRINGEND
+
+---STRING delete cancelled
+Usuwanie anulowano
+---STRINGEND
+
+---STRING delete link
+Usuń link
+---STRINGEND
+
+---STRING delete_link
+Usuń link
+---STRINGEND
+
+---STRING directory index for %s
+Zawartość folderu %s
+---STRINGEND
+
+---STRING display settings
+Konfiguracja wyświetlania artykułów
+---STRINGEND
+
+---STRING edit article
+Edytuj artykuł
+---STRINGEND
+
+---STRING enable_ajax_editing
+Włącz edycję poprzez AJAX
+---STRINGEND
+
+---STRING enable_article_links
+Linkowanie stron
+---STRINGEND
+
+---STRING failed to delete the article link, contact the site administrator
+Błąd usuwania linku.
+---STRINGEND
+
+---STRING file lastmodified
+Ostatnia modyfikacja
+---STRINGEND
+
+---STRING filedescription
+Opis pliku
+---STRINGEND
+
+---STRING filename
+Nazwa pliku
+---STRINGEND
+
+---STRING filesize
+Rozmiar pliku
+---STRINGEND
+
+---STRING filetype
+Typ pliku
+---STRINGEND
+
+---STRING folder_in_title
+Pokaż nazwę folderu w tytule strony
+---STRINGEND
+
+---STRING from
+Z
+---STRINGEND
+
+---STRING hide_navigation
+Ukryj artykuły w nawigacji
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+Jeśli chcesz usunąć artykuł oryginalny <a href="%s">kliknij tu</a>.
+---STRINGEND
+
+---STRING indexinnav
+Pokaż indeks w nawigacji
+---STRINGEND
+
+---STRING net.nehmer.static
+Treść statyczna
+---STRINGEND
+
+---STRING no files in this directory
+Kategoria jest pusta
+---STRINGEND
+
+---STRING no index article
+Ten folder nie zawiera artykułu indeksowego. Utwórz artykuł o nazwie <strong>index</strong> lub skorzystaj z opcji autoindex.
+---STRINGEND
+
+---STRING no schemas available
+Brak schematów danych.
+---STRINGEND
+
+---STRING schema settings
+Ustawienia schematów danych.
+---STRINGEND
+
+---STRING schemadb
+Schemat danych folderu.
+---STRINGEND
+
+---STRING select schema
+Wybierz schemat
+---STRINGEND
+
+---STRING settings
+Ustawienia
+---STRINGEND
+
+---STRING show blobs in autoindex
+Pokazuj załączniki w indeksie
+---STRINGEND
+
+---STRING show_blobs_in_autoindex
+Pokazuj załączniki w indeksie
+---STRINGEND
+
+---STRING simple_name_handling
+Automatyczne tworzenie URLi.
+---STRINGEND
+
+---STRING sort_order
+Kolejność
+---STRINGEND
+
+---STRING symlink_topic
+Link do innego folderu ("symlink")
+---STRINGEND
+
+---STRING symlink_topic disabled
+Nie wybrano folderu
+---STRINGEND
+
+---STRING taviewer
+Treść statyczna
+---STRINGEND
+
+---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
+Ten artykuł jest linkiem do <a href="%s">%s</a> usunięty zostanie tylko link.
+---STRINGEND
+
+---STRING unapprove
+Odtwierdź
+---STRINGEND
+
+---STRING view article
+Pokaż artykuł
+---STRINGEND
+
+---STRING visible
+Folder jest widoczny
+---STRINGEND
+
+---STRING article link
+Link do artykułu
+---STRINGEND
+

@@ -1,0 +1,133 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.no.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE no
+
+---STRING Only show approved articles
+Vis kun godkjente artikler
+---STRINGEND
+
+---STRING autoindex
+Vis liste over artikler på forsiden?
+---STRINGEND
+
+---STRING approve
+Vis på siden
+---STRINGEND
+
+---STRING auto_approve
+Vis alle nye artikkler automatisk?
+---STRINGEND
+
+---STRING autoindex-notes
+Dette valget skifter ut førstesiden med en liste av alle artikler som ligger under dette emner.
+---STRINGEND
+
+---STRING back to overview
+Tilbake til oversikten
+---STRINGEND
+
+---STRING create article
+Ny artikkel
+---STRINGEND
+
+---STRING net.nehmer.static
+Vanlige sider
+---STRINGEND
+
+---STRING default_schema
+Standardskjema for nye artikler
+---STRINGEND
+
+---STRING delete article
+Slett artikkel
+---STRINGEND
+
+---STRING directory index for %s
+Emneindex for %s
+---STRINGEND
+
+---STRING display settings
+Visningsinnstillinger
+---STRINGEND
+
+---STRING edit article
+Rediger artikkel
+---STRINGEND
+
+---STRING file lastmodified
+Sist endret
+---STRINGEND
+
+---STRING filedescription
+Filbeskrivelse
+---STRINGEND
+
+---STRING filename
+Filnavn
+---STRINGEND
+
+---STRING filesize
+Filstørrelse
+---STRINGEND
+
+---STRING filetype
+Filtype
+---STRINGEND
+
+---STRING no files in this directory
+Det er ingen filer i denne katalogen
+---STRINGEND
+
+---STRING no index article
+Du skal nå lage en forside til denne katalogen. Dersom du er usikker, skriv inn en tittel og trykk lagre.
+---STRINGEND
+
+---STRING no schemas available
+Ingen skjema tilgjengelig.
+---STRINGEND
+
+---STRING schema settings
+Innstillinger for dataskjema
+---STRINGEND
+
+---STRING schemadb
+Skjema som skal brukes i denne mappen
+---STRINGEND
+
+---STRING select schema
+Velg skjema
+---STRINGEND
+
+---STRING settings
+Innstillinger
+---STRINGEND
+
+---STRING symlink_topic
+Link denne mappen til en annen mappe
+---STRINGEND
+
+---STRING symlink_topic disabled
+Ingen mappe valgt
+---STRINGEND
+
+---STRING taviewer
+Statisk innhold
+---STRINGEND
+
+---STRING unapprove
+Ikke vis på siden
+---STRINGEND
+
+---STRING view article
+Vis artikkel
+---STRINGEND
+
+---STRING visible
+Vis mappe?
+---STRINGEND
+
+---STRING net.nehmer.static
+Vanlige sider
+---STRINGEND
+

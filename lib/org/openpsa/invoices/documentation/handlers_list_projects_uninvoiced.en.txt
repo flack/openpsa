@@ -1,0 +1,2 @@
+Shows uninvoiced tasks with hours and the costs of the tasks. Is shown for each customer.
+If $POST['org_openpsa_invoices_invoice'] is set a new invoice for the tasks will be created.

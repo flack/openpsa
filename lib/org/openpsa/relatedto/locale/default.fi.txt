@@ -1,0 +1,37 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 25122 2010-02-19 14:24:55Z flack $
+---LANGUAGE fi
+
+---STRING confirm relation
+Vahvista liitos
+---STRINGEND
+
+---STRING deny relation
+Poista liitos
+---STRINGEND
+
+---STRING details
+Lisätietoja
+---STRINGEND
+
+---STRING org.openpsa.relatedto
+Kohteiden välisten liitosten hallinta
+---STRINGEND
+
+---STRING incoming links
+Tähän liittyy
+---STRINGEND
+
+---STRING outgoing links
+Tämä liittyy seuraaviin
+---STRINGEND
+
+---STRING related objects
+Liittyvät kohteet
+---STRINGEND
+
+---STRING view related information
+Katso tähän liittyvää tietoa
+---STRINGEND
+

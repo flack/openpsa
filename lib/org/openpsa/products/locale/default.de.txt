@@ -1,0 +1,269 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23015 2009-07-28 08:50:55Z flack $
+---LANGUAGE de
+
+---STRING %s includes
+%s enthält
+---STRINGEND
+
+---STRING %s is
+%s ist
+---STRINGEND
+
+---STRING %s is at least
+%s ist mindestens
+---STRINGEND
+
+---STRING %s is at most
+%s ist höchstens
+---STRINGEND
+
+---STRING business area schema database
+Schema-Datenbank für Geschäftsbereiche
+---STRINGEND
+
+---STRING code
+Code
+---STRINGEND
+
+---STRING component
+Komponente
+---STRINGEND
+
+---STRING component group
+Komponenten-Gruppe
+---STRINGEND
+
+---STRING cost
+Kosten
+---STRINGEND
+
+---STRING cost type
+Kostenart
+---STRINGEND
+
+---STRING day
+Tag
+---STRINGEND
+
+---STRING delivery type
+Auslieferungsart
+---STRINGEND
+
+---STRING display search on front page
+Suche auf der Startseite anzeigen
+---STRINGEND
+
+---STRING display settings
+Anzeigeeinstellungen
+---STRINGEND
+
+---STRING export
+Export
+---STRINGEND
+
+---STRING export products
+Produkte exportieren
+---STRINGEND
+
+---STRING field separator
+Feldtrenner
+---STRINGEND
+
+---STRING fields available for matching are defined in schema
+Verfügbare Vergleichs-Felder sind im Schema definiert
+---STRINGEND
+
+---STRING file to import
+Zu importierende Datei
+---STRINGEND
+
+---STRING first row is headers
+Die erste Zeile enthält Überschriften
+---STRINGEND
+
+---STRING groups
+Produktgruppen
+---STRINGEND
+
+---STRING hour
+Stunde
+---STRINGEND
+
+---STRING if we have subgroups and products in group, what shall we show
+Was soll angezeigt werden, wenn in einer Gruppe Produkte und Untergruppen enthalten sind?
+---STRINGEND
+
+---STRING import
+Import
+---STRINGEND
+
+---STRING import products
+Produkte importieren
+---STRINGEND
+
+---STRING index order for products when browsing groups
+Sortierreihenfolge für Produkte beim Browsen von Gruppen
+---STRINGEND
+
+---STRING iso-latin-1 encoding
+ISO-Latin-1-Kodierung
+---STRINGEND
+
+---STRING list group products
+Produktgruppen auflisten
+---STRINGEND
+
+---STRING material goods
+materielle Güter
+---STRINGEND
+
+---STRING month
+Monat
+---STRINGEND
+
+---STRING number of items in feed
+Anzahl der Einträge im Feed
+---STRINGEND
+
+---STRING one line per product
+Eine Zeile pro Produkt
+---STRINGEND
+
+---STRING org.openpsa.products
+Produkt-Datenbank
+---STRINGEND
+
+---STRING parent group
+Übergeordnete Gruppe
+---STRINGEND
+
+---STRING per unit
+pro Einheit
+---STRINGEND
+
+---STRING piece
+Teil
+---STRINGEND
+
+---STRING pieces
+Teile
+---STRINGEND
+
+---STRING price
+Preis
+---STRINGEND
+
+---STRING product
+Produkt
+---STRINGEND
+
+---STRING product components
+Produktkomponenten
+---STRINGEND
+
+---STRING product database
+Podukt-Datenbank
+---STRINGEND
+
+---STRING product group
+Produktgruppe
+---STRINGEND
+
+---STRING product group schema database
+Schema-Datenbank für Produktgruppen
+---STRINGEND
+
+---STRING product schema database
+Schema-Datenbank für Produkte
+---STRINGEND
+
+---STRING products
+Produkte
+---STRINGEND
+
+---STRING products per page
+Produkte pro Seite
+---STRINGEND
+
+---STRING quarter
+Quartal
+---STRINGEND
+
+---STRING root product group
+Oberste Produktgruppe
+---STRINGEND
+
+---STRING schema
+Schema
+---STRINGEND
+
+---STRING search
+Produktsuche
+---STRINGEND
+
+---STRING search all items on default
+Stadardmässig alle Einträge durchsuchen
+---STRINGEND
+
+---STRING search index order
+Reihenfolge für den Suchindex
+---STRINGEND
+
+---STRING service
+Dienstleistung
+---STRINGEND
+
+---STRING single delivery
+einmalige Lieferung
+---STRINGEND
+
+---STRING solution
+Solution
+---STRINGEND
+
+---STRING subscription
+Abonnement
+---STRINGEND
+
+---STRING supplier
+Lieferant
+---STRINGEND
+
+---STRING toplevel
+Oberste Ebene
+---STRINGEND
+
+---STRING type
+Typ
+---STRINGEND
+
+---STRING unit
+Einheit
+---STRINGEND
+
+---STRING updated %s
+Aktualisiert am %S
+---STRINGEND
+
+---STRING updated products
+Aktualisierte Produkte
+---STRINGEND
+
+---STRING whether to enable adding subcomponents to products
+Soll das Hinzufügen von Subkomponenten zu Produkten aktiviert werden?
+---STRINGEND
+
+---STRING year
+Jahr
+---STRINGEND
+
+---STRING you can export csv files here
+Hier können Sie CSV-Dateien exportieren
+---STRINGEND
+
+---STRING you can import csv files here
+Hier können Sie CSV-Dateien importieren
+---STRINGEND
+

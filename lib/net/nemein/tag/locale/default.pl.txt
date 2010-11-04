@@ -1,0 +1,29 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE pl
+
+---STRING tag "%s" is not valid. tags may not be empty
+Tag "%s" jest niepoprawny. Tagi nie mogą być puste.
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not be numeric
+Tag "%s" jest niepoprawny. Tagi nie mogą być liczbami.
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not contain quotes
+Tag "%s" jest niepoprawny. Tagi nie mogą zawierać cudzysłowów.
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags must be valid strings
+Tag "%s" jest niepoprawny. Tagi muszą być napisami.
+---STRINGEND
+
+---STRING tagged
+Otagowano
+---STRINGEND
+
+---STRING net.nemein.tag
+Tagi
+---STRINGEND
+

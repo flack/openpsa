@@ -1,0 +1,25 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE fi
+
+---STRING help_licence
+Lisenssi
+---STRINGEND
+
+---STRING help_markdown
+Tietoa Markdown-tulkista
+---STRINGEND
+
+---STRING help_markdown-extra
+Tietoa Markdown Extra-tulkista
+---STRINGEND
+
+---STRING help_markdown-syntax
+Markdown-kielioppi
+---STRINGEND
+
+---STRING net.nehmer.markdown
+Markdown-jäsentelijä
+---STRINGEND
+

@@ -1,0 +1,369 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 26544 2010-07-11 14:42:47Z flack $
+---LANGUAGE de
+
+---STRING %s cycles in %s months
+%s Zyklen in %s Monaten
+---STRINGEND
+
+---STRING %s cycles, %s - %s
+%s Zyklen, %s - %s
+---STRINGEND
+
+---STRING %s planned
+%s geplant
+---STRINGEND
+
+---STRING %s%% of %s
+%s%% von %s
+---STRINGEND
+
+---STRING action new_subscription_cycle
+Einen neuen Abonnement-Zyklus beginnen
+---STRINGEND
+
+---STRING active
+Aktiv
+---STRINGEND
+
+---STRING add deliverable
+Bestellung hinzufügen
+---STRINGEND
+
+---STRING calculation basis
+Berechnungsgrundlage
+---STRINGEND
+
+---STRING canceled
+Abgebrochen
+---STRINGEND
+
+---STRING code
+Projekt-Code
+---STRINGEND
+
+---STRING contacts
+Kontakte
+---STRINGEND
+
+---STRING continuous subscription
+Fortlaufendes Abonnement
+---STRINGEND
+
+---STRING cost
+Kosten
+---STRINGEND
+
+---STRING cost per unit
+Stückkosten
+---STRINGEND
+
+---STRING cost structure
+Kostenstruktur
+---STRINGEND
+
+---STRING cost type
+Kostenart
+---STRINGEND
+
+---STRING create document
+Dokument anlegen
+---STRINGEND
+
+---STRING create event
+Termin anlegen
+---STRINGEND
+
+---STRING create note
+Notiz anlegen
+---STRINGEND
+
+---STRING create salesproject
+Verkaufsprojekt anlegen
+---STRINGEND
+
+---STRING create task
+Aufgabe anlegen
+---STRINGEND
+
+---STRING created project "%s"
+Projekt "%s" wurde angelegt
+---STRINGEND
+
+---STRING created task "%s"
+Aufgabe "%s" wurde angelegt
+---STRINGEND
+
+---STRING customer
+Kunde
+---STRINGEND
+
+---STRING deliverables
+Bestellungen
+---STRINGEND
+
+---STRING delivered
+Geliefert
+---STRINGEND
+
+---STRING did not mark deliverable "%s" delivered due to other tasks
+Die Bestellung "%s" wurde aufgrund anderer Aufgaben nicht als geliefert markiert
+---STRINGEND
+
+---STRING download as CSV
+Als CSV herunterladen
+---STRINGEND
+
+---STRING estimated closing date
+Geschätztes Abschlussdatum
+---STRINGEND
+
+---STRING estimated delivery
+Geschätztes Lieferdatum
+---STRINGEND
+
+---STRING invoice
+Rechnung
+---STRINGEND
+
+---STRING invoice approved only
+Nur bestätigte Arbeitsstunden abrechnen
+---STRINGEND
+
+---STRING invoice by actual units
+Tatsächliche Stückzahl abrechnen
+---STRINGEND
+
+---STRING invoiced
+Abgerechnet
+---STRINGEND
+
+---STRING invoices
+Rechnungen
+---STRINGEND
+
+---STRING invoicing information
+Rechnungsdaten
+---STRINGEND
+
+---STRING invoicing period
+Rechnungszeitraum
+---STRINGEND
+
+---STRING lost
+Abgelehnt
+---STRINGEND
+
+---STRING mark declined
+abgelehnt
+---STRINGEND
+
+---STRING mark delivered
+geliefert
+---STRINGEND
+
+---STRING mark ordered
+bestellt
+---STRINGEND
+
+---STRING marked deliverable "%s" delivered
+Bestellung "%s" als geliefert markiert
+---STRINGEND
+
+---STRING next action
+Nächste Aktion
+---STRINGEND
+
+---STRING next invoice will be sent on %s
+Die nächste Rechnung wird am %s verschickt
+---STRINGEND
+
+---STRING next run
+Nächster Rechnungslauf
+---STRINGEND
+
+---STRING no action
+Keine Aktion
+---STRINGEND
+
+---STRING no customer
+Kein Kunde
+---STRINGEND
+
+---STRING notify date
+Benachrichtigungsdatum
+---STRINGEND
+
+---STRING ordered
+Bestellt
+---STRINGEND
+
+---STRING org.openpsa.sales
+Verkaufsprojekte
+---STRINGEND
+
+---STRING owner
+Besitzer
+---STRINGEND
+
+---STRING per unit
+pro Stück
+---STRINGEND
+
+---STRING previous action
+Letzte Aktion
+---STRINGEND
+
+---STRING price
+Preis
+---STRINGEND
+
+---STRING price per unit
+Stückpreis
+---STRINGEND
+
+---STRING pricing
+Preisgestaltung
+---STRINGEND
+
+---STRING pricing information
+Preis-Informationen
+---STRINGEND
+
+---STRING probability
+Wahrscheinlichkeit
+---STRINGEND
+
+---STRING product
+Produkt
+---STRINGEND
+
+---STRING profit
+Gewinn
+---STRINGEND
+
+---STRING proposed
+Vorgeschlagen
+---STRINGEND
+
+---STRING purchase invoice
+Verkaufsrechnung OK
+---STRINGEND
+
+---STRING sales report
+Verkaufsbericht
+---STRINGEND
+
+---STRING sales report %s - %s
+Verkaufsbericht für %s - %s
+---STRINGEND
+
+---STRING salesproject
+Verkaufsprojekt
+---STRINGEND
+
+---STRING salesprojects active
+Aktive Verkaufsprojekte
+---STRINGEND
+
+---STRING salesprojects canceled
+Abgebrochene Verkaufsprojekte
+---STRINGEND
+
+---STRING salesprojects won
+Abgeschlossene Verkaufsprojekte
+---STRINGEND
+
+---STRING salesprojects delivered
+Ausgelieferte Verkaufsprojekte
+---STRINGEND
+
+---STRING salesprojects invoiced
+Abgerechnete Verkaufsprojekte
+---STRINGEND
+
+---STRING salesprojects: %s
+Verkaufsprojekte: %s
+---STRINGEND
+
+---STRING select product
+Produkt wählen
+---STRINGEND
+
+---STRING single delivery
+Einmalige Bestellung
+---STRINGEND
+
+---STRING started
+Arbeit begonnen
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING subscription
+Abonnement
+---STRINGEND
+
+---STRING subscription begins
+Abonnement beginnt
+---STRINGEND
+
+---STRING subscription cycle %d closed for agreement %s (%s)
+Abonnement-Zyklus %d für Vereinbarung %s (%s) abgeschlossen
+---STRINGEND
+
+---STRING subscription ends
+Abonnement endet
+---STRINGEND
+
+---STRING subscription starts
+Abonnement beginnt
+---STRINGEND
+
+---STRING supplier
+Zulieferer
+---STRINGEND
+
+---STRING the amount youre trying to invoice %s exceeds the open amount of the deliverable %s
+Die Summe, die sie abrechnen möchten (%s) ist höher als die der Lieferung (%s). Bitte bearbeiten sie die Lieferung
+---STRINGEND
+
+---STRING title
+Titel
+---STRINGEND
+
+---STRING total
+Gesamtsumme
+---STRINGEND
+
+---STRING total cost
+Gesamtkosten
+---STRINGEND
+
+---STRING unit
+Stück
+---STRINGEND
+
+---STRING units
+Stück
+---STRINGEND
+
+---STRING value
+Wert
+---STRINGEND
+
+---STRING weighted value
+Gewichteter Wert
+---STRINGEND
+
+---STRING won
+Abgeschlossen
+---STRINGEND
+
+---STRING salesprojects lost
+Abgelehnte Verkaufsprojekte
+---STRINGEND
+

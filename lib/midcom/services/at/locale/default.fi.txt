@@ -1,0 +1,33 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE fi
+
+---STRING midcom.services.at
+Komentojen ajastus
+---STRINGEND
+
+---STRING running
+Käynnissä
+---STRINGEND
+
+---STRING scheduled
+Ajastettu
+---STRINGEND
+
+---STRING scheduled operations
+Ajastetut toiminnot
+---STRINGEND
+
+---STRING status
+Tila
+---STRINGEND
+
+---STRING time
+Aika
+---STRINGEND
+
+---STRING failed
+Epäonnistunut
+---STRINGEND
+

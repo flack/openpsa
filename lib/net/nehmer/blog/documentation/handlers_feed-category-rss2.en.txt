@@ -1,0 +1,2 @@
+
+Generates {$args[0]} category RSS feeds.

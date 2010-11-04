@@ -1,0 +1,304 @@
+@media print
+{
+  .midcom_services_toolbars_fancy
+  {
+    display: none !important;
+    height: 0 !important;
+  }
+}
+
+.midcom_services_toolbars_fancy
+{
+    display: block;
+    z-index: 9999 !important;
+    height: 20px;
+    position: fixed !important;
+    _position: absolute;
+    background-color: ThreeDFace;
+    color: MenuText !important;
+    margin: 0;
+    padding: 0;
+    border-style: solid;
+    border-width: 1px 2px 2px 1px;
+    border-color: #444444;
+}
+.midcom_services_toolbars_fancy.type_palette
+{
+    -moz-border-radius: 0.6em;
+    -webkit-border-radius: 0.6em;
+}
+.midcom_services_toolbars_fancy,
+.midcom_services_toolbars_fancy a
+{
+    color: #000000;
+}
+
+.midcom_services_toolbars_fancy.type_palette li,
+.midcom_services_toolbars_fancy.type_palette li button,
+.midcom_services_toolbars_fancy.type_menu li,
+.midcom_services_toolbars_fancy.type_menu li button
+{
+  font-size: 11px !important;
+}
+
+
+.midcom_services_toolbars_fancy a:hover,
+.midcom_services_toolbars_fancy.type_palette ul li a.selected,
+.midcom_services_toolbars_fancy.type_palette ul li button:focus,
+.midcom_services_toolbars_fancy.type_menu ul li a.selected,
+.midcom_services_toolbars_fancy.type_menu ul li button:focus,
+.midcom_services_toolbars_fancy button:hover
+{
+    color: HighlightText !important;
+    background-color: Highlight !important;
+}
+
+.midcom_services_toolbars_fancy.type_palette,
+.midcom_services_toolbars_fancy.type_menu
+{
+    border-width: 1px 2px 2px 1px;
+    font-size: 11px;
+    cursor: default;
+    line-height: 18px;
+    vertical-align: middle;
+}
+
+.midcom_services_toolbars_fancy.type_palette,
+.midcom_services_toolbars_fancy.type_palette .midcom_services_toolbars_topic_title,
+.midcom_services_toolbars_fancy.type_palette li,
+.midcom_services_toolbars_fancy.type_palette a,
+.midcom_services_toolbars_fancy.type_palette ul li button,
+.midcom_services_toolbars_fancy.type_menu,
+.midcom_services_toolbars_fancy.type_menu .midcom_services_toolbars_topic_title,
+.midcom_services_toolbars_fancy.type_menu li,
+.midcom_services_toolbars_fancy.type_menu a,
+.midcom_services_toolbars_fancy.type_menu ul li button
+{
+  font-family: 'Verdana', 'Arial', 'Helvetica', sans-serif !important;
+  font-weight: bold;
+  background-image: none;
+}
+
+.midcom_services_toolbars_fancy.type_palette .midcom_services_toolbars_topic_title,
+.midcom_services_toolbars_fancy.type_menu .midcom_services_toolbars_topic_title
+{
+  margin-bottom: 0px;
+  padding: 0 8px 0 3px;
+}
+
+.midcom_services_toolbars_fancy.type_palette ul li,
+.midcom_services_toolbars_fancy.type_menu ul li
+{
+  display: block !important;
+  line-height: 16px;
+  text-align: left;
+  list-style-type: none;
+  white-space: nowrap !important;
+  z-index: 7010 !important;
+  padding: 0;
+  margin: 0px;
+  width: 100%;
+  min-width: 7em;
+}
+
+
+.midcom_services_toolbars_fancy.type_palette .logos,
+.midcom_services_toolbars_fancy.type_menu .logos
+{
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.1em;
+    float: left;
+    clear: right;
+}
+.midcom_services_toolbars_fancy.type_palette .logos img,
+.midcom_services_toolbars_fancy.type_menu .logos img
+{
+    border: none;
+}
+.midcom_services_toolbars_fancy.type_palette .items,
+.midcom_services_toolbars_fancy.type_menu .items
+{
+    margin-top: 2px;
+    margin-left: 5px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    float: left;
+    clear: right;
+}
+.midcom_services_toolbars_fancy.type_palette .items div.item,
+.midcom_services_toolbars_fancy.type_menu .items div.item
+{
+    width: auto;
+    margin: auto 0;
+    padding-left: 1px;
+    padding-bottom: 1px;
+    float: left;
+    clear: right;
+    background-color: transparent;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item .midcom_services_toolbars_topic_title,
+.midcom_services_toolbars_fancy.type_menu .items div.item .midcom_services_toolbars_topic_title
+{
+    display: block;
+}
+.midcom_services_toolbars_fancy.type_palette .items div.item .midcom_services_toolbars_topic_title.hover,
+.midcom_services_toolbars_fancy.type_menu .items div.item .midcom_services_toolbars_topic_title.hover
+{
+    color: #C0111D;
+}
+.midcom_services_toolbars_fancy.type_palette div.dragbar
+{
+    background: url('images/drag-grid.gif') repeat top left;
+    margin-left: 20px;
+    width: 1.5em;
+    height: 20px;
+    min-width: 25px;
+    cursor: move;
+    float: right;
+}
+.midcom_services_toolbars_fancy.type_menu div.dragbar
+{
+    display: none;
+}
+.midcom_services_toolbars_fancy.type_palette .items div.item ul,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul
+{
+    margin-top: 0px;
+    margin-left: -1px;
+    text-align: left;
+    padding: 0;
+    background-color: ThreeDHighlight;
+    border-left: #444444 solid 1px;
+    border-right: #444444 solid 1px;
+    border-bottom: #555555 solid 2px;
+    -moz-border-radius-bottomleft: 0.4em;
+    -webkit-border-bottom-left-radius: 0.4em;
+    -moz-border-radius-bottomright: 0.4em;
+    -webkit-border-bottom-right-radius: 0.4em;
+    color: #000000;
+    position: absolute;
+    display: none;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li.enabled {}
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled img
+{
+    -moz-opacity: 0.3;
+    -webkit-opacity: 0.3;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled abbr,
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li.disabled span
+{
+    color: #b0b0b0;
+    cursor: default;
+    font-weight: bold;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li.separator,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li.separator
+{
+    height: 6px;
+    line-height: 6px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li.separator hr,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li.separator hr
+{
+    margin: 0;
+    padding: 0;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li.last_item,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li.last_item
+{
+    padding-bottom: 6px;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li a,
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li abbr,
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li button,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li a,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li abbr,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li button
+{
+    display: block;
+    font-weight: 300;
+    color: #3F3F3F;
+    text-decoration: none;
+    padding: 0 5px 0 4px;
+    margin: 0 2px;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li button,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li button
+{
+    height: 20px;
+    margin-left: 6px;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li a img,
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li button img,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li a img,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li button img
+{
+    padding: 0;
+    border: 0;
+    vertical-align: middle;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li abbr,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li abbr
+{
+    border-bottom: none;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li form,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li form
+{
+    padding: 0;
+    border: 0px;
+    margin: 0;
+    display: inline;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li button,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li button
+{
+    border: 0;
+    border-spacing: 0;
+    border-style: none;
+    background-color: transparent;
+    color: #3F3F3F;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+}
+
+.midcom_services_toolbars_fancy.type_palette .items div.item ul li button img,
+.midcom_services_toolbars_fancy.type_menu .items div.item ul li button img
+{
+    padding: 0;
+    margin: 0;
+    border: 0;
+    display: inline;
+    vertical-align: middle;
+}
+
+
+.midcom_services_toolbars_fancy.type_menu
+{
+    border-width: 0px 0px 2px 0px;
+    position: absolute;
+    left: 0px !important;
+    top: 0px !important;
+    width: 100%;
+}

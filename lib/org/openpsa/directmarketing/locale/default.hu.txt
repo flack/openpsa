@@ -1,0 +1,349 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE hu
+
+---STRING add rule
+Szabály létrehozása
+---STRINGEND
+
+---STRING campaign
+Kampány
+---STRINGEND
+
+---STRING campaigns
+Kampányok
+---STRINGEND
+
+---STRING class:group
+Csoportok tulajdonságai
+---STRINGEND
+
+---STRING class:group parameters
+Csoportok paraméterei
+---STRINGEND
+
+---STRING class:membership
+Tagok tulajdonságai
+---STRINGEND
+
+---STRING class:membership parameters
+Tagok paraméterei
+---STRINGEND
+
+---STRING class:person
+Személyek tulajdonságai
+---STRINGEND
+
+---STRING class:person parameters
+Személyek paraméterei
+---STRINGEND
+
+---STRING contains
+tartalmaz
+---STRINGEND
+
+---STRING content
+Tartalom
+---STRINGEND
+
+---STRING create campaign
+Kampány létrehozása
+---STRINGEND
+
+---STRING csv column
+CSV oszlop
+---STRINGEND
+
+---STRING does not contain
+nem tartalmaz
+---STRINGEND
+
+---STRING edit rules
+Szabályok szerkesztése
+---STRINGEND
+
+---STRING email message
+Email üzenet
+---STRINGEND
+
+---STRING equals
+egyenlőség
+---STRINGEND
+
+---STRING example
+Példa
+---STRINGEND
+
+---STRING field separator
+Mező elválasztó
+---STRINGEND
+
+---STRING file to import
+Fájl importálása
+---STRINGEND
+
+---STRING greater than
+nagyobb, mint
+---STRINGEND
+
+---STRING html email
+HTML email
+---STRINGEND
+
+---STRING import
+Import
+---STRINGEND
+
+---STRING import csv
+CSV fájl importálása
+---STRINGEND
+
+---STRING import email addresses
+Email cím importálása
+---STRINGEND
+
+---STRING import subscribers
+Előfizető importálása
+---STRINGEND
+
+---STRING import vcards
+vCards importálása
+---STRINGEND
+
+---STRING in domain
+doménban
+---STRINGEND
+
+---STRING last message sent on
+Utolsó üzenet küldésének ideje:
+---STRINGEND
+
+---STRING less than
+kevesebb
+---STRINGEND
+
+---STRING link
+Link
+---STRINGEND
+
+---STRING link and message limits
+Link és üzenet korlát
+---STRINGEND
+
+---STRING link statistics
+Link statisztikák
+---STRINGEND
+
+---STRING match:all
+összes
+---STRINGEND
+
+---STRING match:any
+bármely
+---STRINGEND
+
+---STRING match:match
+Összehasonlít
+---STRINGEND
+
+---STRING message
+Üzenet
+---STRINGEND
+
+---STRING message statistics
+Üzenet statisztikák
+---STRINGEND
+
+---STRING messages
+Üzenetek
+---STRINGEND
+
+---STRING messages sent
+Elküldött üzenetek
+---STRINGEND
+
+---STRING new message
+Új üzenet
+---STRINGEND
+
+---STRING no rule given
+Nincs szabály
+---STRINGEND
+
+---STRING normal campaign
+Normál kampány
+---STRINGEND
+
+---STRING not equals
+nem egyenlő
+---STRINGEND
+
+---STRING org.openpsa.directmarketing
+Direkt Marketing
+---STRINGEND
+
+---STRING property:birthdate
+Születési idő
+---STRINGEND
+
+---STRING property:city
+Város
+---STRINGEND
+
+---STRING property:country
+Ország
+---STRINGEND
+
+---STRING property:customerId
+Ügyfél azonosító
+---STRINGEND
+
+---STRING property:email
+E-Mail
+---STRINGEND
+
+---STRING property:extra
+Extra
+---STRINGEND
+
+---STRING property:fax
+Fax
+---STRINGEND
+
+---STRING property:firstname
+Keresztnév
+---STRINGEND
+
+---STRING property:gid
+Csoport azonosító
+---STRINGEND
+
+---STRING property:guid
+GUID
+---STRINGEND
+
+---STRING property:handphone
+Mobil telefon
+---STRINGEND
+
+---STRING property:homepage
+Honlap
+---STRINGEND
+
+---STRING property:homephone
+Otthoni telefonszám
+---STRINGEND
+
+---STRING property:id
+azonosító
+---STRINGEND
+
+---STRING property:invoiceCity
+Város (számlázási cím)
+---STRINGEND
+
+---STRING property:invoiceCountry
+Ország (számlázási cím)
+---STRINGEND
+
+---STRING property:invoicePostcode
+Irányítószám (számlázási cím)
+---STRINGEND
+
+---STRING property:keywords
+kulcsszó
+---STRINGEND
+
+---STRING property:lastname
+Vezetéknév
+---STRINGEND
+
+---STRING property:name
+Cég azonosító
+---STRINGEND
+
+---STRING property:official
+Hivatalos név
+---STRINGEND
+
+---STRING property:orgOpenpsaObtype
+Objektum típusa
+---STRINGEND
+
+---STRING property:owner
+Tulajdonos
+---STRINGEND
+
+---STRING property:pgpkey
+PGP kulcs
+---STRINGEND
+
+---STRING property:phone
+Telefon
+---STRINGEND
+
+---STRING property:postalCity
+Város (postai cím)
+---STRINGEND
+
+---STRING property:postalCountry
+Ország (postai cím)
+---STRINGEND
+
+---STRING property:postalPostcode
+Irányító szám (postai cím)
+---STRINGEND
+
+---STRING property:postcode
+Irányító szám
+---STRINGEND
+
+---STRING property:uid
+Személy azonosító
+---STRINGEND
+
+---STRING property:username
+Felhasználónév
+---STRINGEND
+
+---STRING property:workphone
+Munkahelyi telefon
+---STRINGEND
+
+---STRING recipients
+Címzettek
+---STRINGEND
+
+---STRING remove rule
+Szabály eltávolítása
+---STRINGEND
+
+---STRING rule generation warning
+Szabály létrehozási figyelmeztetés
+---STRINGEND
+
+---STRING send message
+Üzenet küldés
+---STRINGEND
+
+---STRING send message to testers
+Üzenet küldése a tesztelőknek
+---STRINGEND
+
+---STRING sms message
+SMS üzenet
+---STRINGEND
+
+---STRING subject
+Tárgy
+---STRINGEND
+
+---STRING testers
+Tesztelők
+---STRINGEND
+
+---STRING with name
+névvel
+---STRINGEND
+

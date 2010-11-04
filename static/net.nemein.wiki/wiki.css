@@ -1,0 +1,138 @@
+div.net_nemein_wiki_wikipage a.wiki_missing
+{
+    color: #cc0000;
+    text-decoration: none !important;
+    border-bottom: dashed 1px #cc0000;
+}
+div.net_nemein_wiki_wikipage span.wiki_missing_nouser
+{
+    border-bottom: dashed 1px #c0c0c0;
+}
+div.net_nemein_wiki_wikipage a.edit img
+{
+    border: none;
+}
+
+div.wiki_preview
+{
+    background-color: #e0e0e0;
+    padding: 1em;
+    background-image: url('../midcom.helper.datamanager2/previewbg.gif');
+}
+
+/* Tags view should resemble MediaWiki categories list */
+div.net_nemein_wiki_wikipage dl.tags
+{
+    border: 1px solid #000000;
+    background-color: #eeeeee;
+    padding: 6px;
+    margin-top: 10px;
+    -moz-border-radius: 10px;
+}
+div.net_nemein_wiki_wikipage dl.tags dt
+{
+    display: inline;
+    font-weight: bold;
+}
+div.net_nemein_wiki_wikipage dl.tags dt:after
+{
+    content: ':';
+}
+div.net_nemein_wiki_wikipage dl.tags dd
+{
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Not found page styling */
+div.net_nemein_wiki_notfound ul.midcom_toolbar img
+{
+    border: 0px;
+}
+div.net_nemein_wiki_notfound ul.midcom_toolbar
+{
+    list-style: none;
+    padding: 0px;
+}
+
+/* Table of contents should look quite MediaWiki-like */
+div.net_nemein_wiki_wikipage ol.midcom_helper_toc_formatter
+{
+    border: 1px solid #000000;
+    float: right;
+    width: 30%;
+    background-color: #eeeeee;
+    padding: 6px;
+    margin-left: 10px;
+    list-style: none;
+    -moz-border-radius: 10px;
+}
+div.net_nemein_wiki_wikipage ol.midcom_helper_toc_formatter ol
+{
+    /* TODO: Would be nice to number x.x */
+    list-style: number;
+    padding-left: 20px;
+    margin-left: 4px;
+}
+div.net_nemein_wiki_wikipage ol.midcom_helper_toc_formatter ol li
+{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+/* Centralize included photos */
+div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo
+{
+    text-align: center;
+}
+div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo img
+{
+    /*border: 1px solid #000000;*/
+    border: none;
+}
+div.net_nemein_wiki_wikipage div.org_routamc_photostream_photo h3
+{
+    margin-top: 0px;
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Styles for note, tip & warning copied from M-P.org */
+div.net_nemein_wiki_wikipage div.tip, div.net_nemein_wiki_wikipage div.note, div.net_nemein_wiki_wikipage div.warning
+{
+    padding-left: 70px;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin: 4px;
+    min-height: 64px;
+    /*
+    width: 128px;
+    overflow: auto;
+    */
+    border: 1px solid #c0c0c0;
+    color: #606060;
+    /*
+    float: right;
+    */
+    -moz-border-radius: 10px;
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
+}
+
+div.net_nemein_wiki_wikipage div.note
+{
+    background-image: url('note-area.png');
+}
+
+div.net_nemein_wiki_wikipage div.tip
+{
+    background-image: url('tip-area.png');
+}
+
+div.net_nemein_wiki_wikipage div.warning
+{
+    background-image: url('warning-area.png');
+}
+

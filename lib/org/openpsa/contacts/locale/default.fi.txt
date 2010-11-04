@@ -1,0 +1,481 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 25209 2010-02-25 18:24:54Z flack $
+---LANGUAGE fi
+
+---STRING <title>
+<titteli>
+---STRINGEND
+
+---STRING add buddy
+Lisää omiin yhteyshenkilöihin
+---STRINGEND
+
+---STRING back to person
+Takaisin henkilöön
+---STRINGEND
+
+---STRING basic information
+Perustiedot
+---STRINGEND
+
+---STRING categories
+Tyyppi
+---STRINGEND
+
+---STRING cell %s
+matkapuhelin %s
+---STRINGEND
+
+---STRING choose the person to keep
+Valitse kumpi henkilö säilytetään. Voit myös valita myöhemmin tai säilyttää molemmat.
+---STRINGEND
+
+---STRING city
+Kaupunki
+---STRINGEND
+
+---STRING client
+Asiakas
+---STRINGEND
+
+---STRING company_id
+Y-tunnus
+---STRINGEND
+
+---STRING competence areas
+Osaamisalueet
+---STRINGEND
+
+---STRING contact information
+Yhteystiedot
+---STRINGEND
+
+---STRING contact search
+Yhteystietojen haku
+---STRINGEND
+
+---STRING contacts
+Yhteyshenkilöt
+---STRINGEND
+
+---STRING country
+Maa
+---STRINGEND
+
+---STRING create account
+Luo käyttäjätunnus
+---STRINGEND
+
+---STRING create event
+Luo tapahtuma
+---STRINGEND
+
+---STRING create organization
+Luo yritys
+---STRINGEND
+
+---STRING create person
+Luo henkilö
+---STRINGEND
+
+---STRING create suborganization
+Luo aliorganisaatio
+---STRINGEND
+
+---STRING customers invoices
+Asiakkaan laskut
+---STRINGEND
+
+---STRING daughter organization
+Tytäryhtiö
+---STRINGEND
+
+---STRING decide later
+Päätä myöhemmin
+---STRINGEND
+
+---STRING department
+Osasto
+---STRINGEND
+
+---STRING digital business ecosystem
+Digital Business Ecosystem -verkosto
+---STRINGEND
+
+---STRING edit
+Muokkaa
+---STRINGEND
+
+---STRING edit account
+Muokkaa käyttäjätunnusta
+---STRINGEND
+
+---STRING edit user account: %s %s
+Muokkaa käyttäjätunnusta: %s %s
+---STRINGEND
+
+---STRING email
+Sähköposti
+---STRINGEND
+
+---STRING email %s
+sähköposti %s
+---STRINGEND
+
+---STRING enable calendar
+Salli tapahtumien luonti ryhmäkalenteriin
+---STRINGEND
+
+---STRING enable campaign creation
+Salli kampanjoiden luonti
+---STRINGEND
+
+---STRING enable contact creation
+Salli yhteyshenkilöiden luonti
+---STRINGEND
+
+---STRING enable editing campaigns created by others
+Salli toisten luomien kampanjoiden muokkaus
+---STRINGEND
+
+---STRING enable editing contacts created by others
+Salli muiden luomien yhteyshenkilöiden muokkaus
+---STRINGEND
+
+---STRING enable editing invoices created by others
+Salli toisten luomien laskujen muokkaus
+---STRINGEND
+
+---STRING enable editing organizations created by others
+Salli muiden luomien organisaatioiden muokkaus
+---STRINGEND
+
+---STRING enable invoice creation
+Salli laskujen luonti
+---STRINGEND
+
+---STRING enable organization creation
+Salli organisaatioiden luonti
+---STRINGEND
+
+---STRING enable project creation
+Salli juuritason projektien luonti
+---STRINGEND
+
+---STRING enable salesproject creation
+Salli myyntiprojektien luonti
+---STRINGEND
+
+---STRING failed to create user account, reason
+Käyttäjätunnuksen luonti epäonnistui, syy
+---STRINGEND
+
+---STRING fax
+Faksi
+---STRINGEND
+
+---STRING firstname
+Etunimi
+---STRINGEND
+
+---STRING homepage
+Kotisivu
+---STRINGEND
+
+---STRING homephone
+Kotipuhelin
+---STRINGEND
+
+---STRING invoice address
+Laskutusosoite
+---STRINGEND
+
+---STRING invoicing target percentage
+Tavoiteltu laskutusprosentti
+---STRINGEND
+
+---STRING jabber id
+Jabber-tunnus
+---STRINGEND
+
+---STRING job title
+Titteli
+---STRINGEND
+
+---STRING keep both
+Säilytä molemmat
+---STRINGEND
+
+---STRING keep this
+Säilytä tämä
+---STRINGEND
+
+---STRING lastname
+Sukunimi
+---STRINGEND
+
+---STRING logo
+Logo
+---STRINGEND
+
+---STRING me
+Minä
+---STRINGEND
+
+---STRING member
+Organisaation jäsen
+---STRINGEND
+
+---STRING merge persons
+Yhdistä päällekkäiset henkilöt
+---STRINGEND
+
+---STRING mobile phone
+Matkapuhelin
+---STRINGEND
+
+---STRING my contacts
+Omat yhteyshenkilöt
+---STRINGEND
+
+---STRING new organization
+Uusi organisaatio
+---STRINGEND
+
+---STRING new person
+Uusi henkilö
+---STRINGEND
+
+---STRING no account
+Ei käyttäjätunnusta
+---STRINGEND
+
+---STRING no duplicates found
+Ei päällekkäisyyksiä
+---STRINGEND
+
+---STRING no more duplicates to merge found
+Päällekkäisyyksiä, joiden muuttamiseen sinulla on oikeudet, ei enää löydy
+---STRINGEND
+
+---STRING notes
+Lisätietoja
+---STRINGEND
+
+---STRING notification settings
+Ilmoitusten asetukset
+---STRINGEND
+
+---STRING official
+Virallinen nimi
+---STRINGEND
+
+---STRING org.openpsa.contacts
+Kontaktien hallinta
+---STRINGEND
+
+---STRING organization
+Organisaatio
+---STRINGEND
+
+---STRING organization_type
+Organisaation tyyppi
+---STRINGEND
+
+---STRING organizations
+Organisaatiot
+---STRINGEND
+
+---STRING partner
+Kumppani
+---STRINGEND
+
+---STRING password repeat
+Salasana (uudestaan)
+---STRINGEND
+
+---STRING passwords don't match
+Salasanat eivät täsmää!
+---STRINGEND
+
+---STRING permissions
+Käyttöoikeudet
+---STRINGEND
+
+---STRING person
+Henkilö
+---STRINGEND
+
+---STRING persons
+Henkilöt
+---STRINGEND
+
+---STRING phone
+Puhelin
+---STRINGEND
+
+---STRING photo
+Valokuva
+---STRINGEND
+
+---STRING postal address
+Postiosoite
+---STRINGEND
+
+---STRING postcode
+Postinumero
+---STRINGEND
+
+---STRING project management
+Projektinhallinta
+---STRINGEND
+
+---STRING related notes
+Muistiinpanot
+---STRINGEND
+
+---STRING remove buddy
+Poista omista yhteyshenkilöistäni
+---STRINGEND
+
+---STRING search
+Hae
+---STRINGEND
+
+---STRING skype name
+Skype-tunnus
+---STRINGEND
+
+---STRING store as plain text
+Tallenna selkokielisenä
+---STRINGEND
+
+---STRING street
+Katuosoite
+---STRINGEND
+
+---STRING sub organizations
+Aliorganisaatiot
+---STRINGEND
+
+---STRING tel %s
+puh %s
+---STRINGEND
+
+---STRING treat as workgroup
+Käytä työryhmänä
+---STRINGEND
+
+---STRING user account
+Käyttäjätunnus
+---STRINGEND
+
+---STRING user account for %s
+Käyttäjätunnus henkilölle %s
+---STRINGEND
+
+---STRING vendor
+Toimittaja
+---STRINGEND
+
+---STRING visiting address
+Käyntiosoite
+---STRINGEND
+
+---STRING weekly workhours
+Viikottaiset työtunnit
+---STRINGEND
+
+---STRING work phone
+Työpuhelin
+---STRINGEND
+
+---STRING %s of
+%s
+---STRINGEND
+
+---STRING account blocked %s minutes
+Liian monen väärän salasanayrityksen takia tili on suljettu %s minuutin ajaksi
+---STRINGEND
+
+---STRING cancel
+Peruuta
+---STRINGEND
+
+---STRING current password
+Nykyinen salasana
+---STRINGEND
+
+---STRING current password is wrong
+Nykyinen salasana väärin
+---STRINGEND
+
+---STRING new password
+Uusi salasana
+---STRINGEND
+
+---STRING new password encrypt
+Kryptaa uusi salasana
+---STRINGEND
+
+---STRING new password repeat
+Uusi salasana (uudestaan)
+---STRINGEND
+
+---STRING no current password given
+Nykyistä salasanaa ei syötetty
+---STRINGEND
+
+---STRING no results
+Haullesi ei löytynyt tuloksia
+---STRINGEND
+
+---STRING password expired
+Salasanasi on vanhentunut. Ole hyvä ja syötä uusi salasana.
+---STRINGEND
+
+---STRING password good
+Salasana on turvallinen
+---STRINGEND
+
+---STRING password is the same as the current one
+Salasana on sama kuin nykyinen
+---STRINGEND
+
+---STRING password strong
+Salasana on erittäin turvallinen
+---STRINGEND
+
+---STRING password too short
+Salasana on liian lyhyt
+---STRINGEND
+
+---STRING password was already used
+Uutta salasanaa on jo käytetty
+---STRINGEND
+
+---STRING password weak
+Salasana on liian heikko
+---STRINGEND
+
+---STRING save
+Tallenna
+---STRINGEND
+
+---STRING username
+Käyttäjätunnus
+---STRINGEND
+
+---STRING username already exists
+Käyttäjätunnus on jo olemassa
+---STRINGEND
+
+---STRING username and password identical
+Käyttäjätunnus ja salasana ovat samat
+---STRINGEND
+
+---STRING wrong current password
+Väärä nykyinen salasana
+---STRINGEND
+

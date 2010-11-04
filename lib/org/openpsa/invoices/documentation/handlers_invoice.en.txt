@@ -1,0 +1,2 @@
+$args[0] = GUID of an invoice (org_openpsa_invoices_invoice_dba).
+Shows this invoice.

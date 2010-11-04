@@ -1,0 +1,3 @@
+
+Shows a list of __{$args[0]}__ latest entries. Content is stripped off the layout thus can be used in various external callers ie. AJAX boxes etc.
+

@@ -1,0 +1,556 @@
+/* Message area for both PHP and AJAX-generated status messages */
+#org_openpsa_messagearea {
+    margin-left: 1%;
+    margin-right: 1%;
+    border: 2px solid #807D74;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 4px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background-color: #ffffff;
+    /* Don't display the box by default */
+    display: none;
+    z-index: 256;
+}
+#org_openpsa_messagearea .normal {
+    color: #000000;
+}
+#org_openpsa_messagearea .warning {
+    color: #D1940C;
+}
+#org_openpsa_messagearea .error {
+    color: #990000;
+}
+#org_openpsa_messagearea .ok {
+    color: #267726;
+}
+
+/* Lists in OpenPSA areas */
+div.area dl {
+    margin: 0px;
+}
+div.area dt {
+    font-weight: bold;
+}
+div.area dt a, div.area a.treemenu {
+    text-decoration: none;
+}
+div.area dd {
+    margin-left: 0px;
+    margin-bottom: 5px;
+}
+div.area dl ul {
+    padding-left: 7px;
+    list-style: none;
+}
+div.area dl ul li {
+    margin-bottom: 4px;
+}
+div.area .metadata {
+    color: #BAB5AB;
+    background-color: transparent;
+    font-size: smaller;
+}
+div.area .metadata a {
+    color: #BAB5AB;
+}
+div.area .metadata input {
+    color: #BAB5AB;
+}
+
+/* Workflow toolbars */
+.area ul.task_tools li
+{
+    display: inline;
+    margin-right: 4px;
+    line-height: 20px;
+}
+.area ul.task_tools li a
+{
+    text-decoration: none;
+}
+.area ul.task_tools li input
+{
+    border: 1px solid #AAAAAA;
+    background-color: #EEEEEE;
+    padding: 2px;
+    background-position: 2px;
+}
+.area ul.task_tools li a.yes,
+.area ul.task_tools li input.yes
+{
+    padding-left: 22px;
+    background-image: url('../stock-icons/16x16/ok.png');
+    background-repeat: no-repeat;
+}
+.area ul.task_tools li a.no, 
+.area ul.task_tools li input.no
+{
+    padding-left: 22px;
+    background-image: url('../stock-icons/16x16/cancel.png');
+    background-repeat: no-repeat;
+}
+.area ul.task_tools li input.hours
+{
+    padding-left: 22px;
+    background-image: url('../stock-icons/16x16/stock_event.png');
+    background-position: left;
+    background-repeat: no-repeat;
+}
+.area ul.task_tools li input:hover
+{
+    cursor: pointer;
+}
+
+div.area div.current div.org_openpsa_projects_hourlist
+{
+    display: none;
+    margin-left: 25px;
+}
+
+div.area form.subscribe
+{
+    display: inline;
+}
+div.area form.subscribe input
+{
+    background-color: transparent;
+    color: #314E6C;
+    border: none;
+    padding-left: 16px;
+    background-image: url('../stock-icons/16x16/jump-to.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    margin-left: 8px;
+}
+div.area form.subscribe input:hover
+{
+    color: #FFFFFF;
+    background-color: #c0c0c0;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+/* MidCOM toolbars in OpenPSA areas */
+div.area ul.midcom_toolbar {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    z-index: 256;
+}
+div.area ul.midcom_toolbar {
+    /*float: left;
+    margin-top: -8px;*/
+}
+div.area ul.midcom_toolbar li {
+    /*float: left;*/
+    margin: 0px;
+    padding: 0px;
+    margin-left: 5px;
+    list-style: none;
+}
+div.area ul.midcom_toolbar li.disabled {
+    display: none;
+}
+div.area ul.midcom_toolbar li a {
+    text-decoration: none;
+    padding: 4px;
+    display: block;
+}
+div.area ul.midcom_toolbar li a {
+    padding: 2px;
+}
+div.area ul.midcom_toolbar li a img {
+    border: none;
+    overflow: hidden;
+}
+
+div.buttons ul.midcom_toolbar {
+    float: none;
+    display: block;
+}
+div.buttons ul.midcom_toolbar li {
+    float: none;
+    list-style: none;
+}
+
+/* Message lists in directmarketing and support */
+div.area ul.comments {
+   margin: 0px;
+   padding: 0px;
+}
+div.area ul.comments li {
+   list-style: none;
+   margin-left: 0px;
+}
+div.area ul.comments li div {
+   background-color: #ffffff;
+   border: 1px solid #e0e0e0;
+   padding: 6px;
+   padding-right: 20px;
+   -moz-border-radius: 6px;
+   -webkit-border-radius: 6px;
+   background-image: url('../stock-icons/16x16/stock_mail.png');
+   background-position: top right;
+   background-repeat: no-repeat;
+   margin-bottom: 6px;
+}
+div.area ul.comments li div.mobile {
+    background-image: url('../stock-icons/16x16/stock_cell-phone.png');
+}
+
+
+/* Datamanager-generated view handling*/
+div.midcom_helper_datamanager2_view, 
+div.fieldset {
+    margin-bottom: 1em;
+    display: table;
+}
+div.midcom_helper_datamanager2_view div.field {
+    margin-bottom: 1em;
+    display: table-row;
+}
+div.midcom_helper_datamanager2_view div.field > div{
+    display: table-cell;
+    border-bottom: 1px solid white;
+    padding-top: 2px;
+    padding-left: 5px
+}
+div.midcom_helper_datamanager2_view div.field:hover > div {
+    border-bottom: 1px solid #999;
+}
+div.form_fieldgroup_title {
+    font-weight: bold;
+    font-size: larger;
+    margin-bottom: .5em
+}
+div.form_description {
+    font-weight: bold;
+}
+div.form_viewfield {
+    margin-left: 100px;
+}
+
+/* Ajax handling */
+input.ajax_editable, select.ajax_editable {
+    border: 1px solid transparent;
+    background-color: transparent;
+    background-position: right;
+    background-repeat: no-repeat;
+}
+select.ajax_editable option {
+    background-color: #ffffff;
+}
+
+/* Editing */
+form.datamanager2
+{
+    margin-bottom: 5em
+}
+
+form.datamanager2 > div
+{
+    display: table;
+}
+
+form.datamanager2 > div,
+form.datamanager2 > div > fieldset
+{
+    display: table-row-group;
+}
+
+form.datamanager2 > div > label,
+form.datamanager2 > div > div,
+form.datamanager2 > div > fieldset > label,
+form.datamanager2 > div > fieldset > div
+{
+    display: table-row;
+}
+
+form.datamanager2 > div > * > label,
+form.datamanager2 > div > * > fieldset,
+form.datamanager2 > div > * > *,
+form.datamanager2 > div > fieldset > * > label,
+form.datamanager2 > div > fieldset > * > fieldset,
+form.datamanager2 > div > fieldset > * > *
+{
+    vertical-align: top;
+    display: table-cell;
+    margin: 0.5ex 0 0;
+    padding: 1px;
+}
+
+form.datamanager2 > div > label > textarea.longtext,
+form.datamanager2 > div > fieldset > label > textarea.longtext,
+form.datamanager2 > div > label > textarea.tinymce,
+form.datamanager2 > div > fieldset > label > textarea.tinymce
+
+{
+    display: table-cell;
+}
+
+form.datamanager2 > div > * > span,
+form.datamanager2 > div > * > label,
+form.datamanager2 > div > fieldset > * > span,
+form.datamanager2 > div > fieldset > * > label
+{
+    padding-top: .5em;
+    padding-right: .75em;
+}
+
+form.datamanager2 > div > label > span.field_text,
+form.datamanager2 > div > fieldset > label > span.field_text,
+form.datamanager2 > div > fieldset > div > label,
+form.datamanager2 > div > div > label
+{
+    text-align: right;
+}
+
+form.datamanager2 > div > fieldset > div > label > span.field_text,
+form.datamanager2 > div > div > label > span.field_text
+{
+    margin-right: 0;
+}
+
+
+form.datamanager2 > div > fieldset > legend
+{
+    display: table-caption
+}
+
+form.datamanager2 > div > div.form_toolbar
+{
+    display: block;
+    white-space: nowrap;
+    position: absolute;
+    padding-top: 2em;
+    padding-left: 8em
+}
+
+form.datamanager2 > div > div.required_note
+{
+    display: block;
+    white-space: nowrap;
+    position: absolute;
+}
+
+form.datamanager2 > div > * > input[type="hidden"]
+{
+    display: none
+}
+
+form.datamanager2 > div > * ul.chooser_widget_headers
+{
+    margin: 0
+}
+
+form.datamanager2 > div > * div.chooser_widget_results_holder
+{
+    margin-bottom: 5px
+}
+
+form.datamanager2 > div > div.form_toolbar input
+{
+    display: inline;
+    margin-right: 1.5em
+}
+
+form.datamanager2 > div > div.form_toolbar input:hover
+{
+    cursor: pointer;
+}
+
+input.ajax_editable:hover, form.datamanager input, form.datamanager textarea, form.datamanager select,
+form.datamanager2 input, form.datamanager2 textarea, form.datamanager2 select {
+    border: 1px #B39169 solid;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    padding: 1px
+}
+form.datamanager2 select
+{
+    background-color: white
+}
+
+input.ajax_focused, form.datamanager input:focus, form.datamanager textarea:focus, form.datamanager select:focus,
+form.datamanager2 input:focus, form.datamanager2 textarea:focus, form.datamanager2 select:focus {
+    border: 1px #B39169 solid;
+    background-color: #EFE0CD;
+    color: #000000;
+}
+
+form.datamanager2 fieldset.checkbox label,
+form.datamanager2 fieldset.radiobox label {
+    display: inline;
+    padding-right: 10px;
+    font-weight: normal
+}
+
+form.datamanager2 fieldset.checkbox br,
+form.datamanager2 fieldset.radiobox br {
+    display: none
+}
+
+form.datamanager2 fieldset.radiobox input.radiobutton,
+form.datamanager2 fieldset.checkbox input.checkbox {
+    float: none;
+    clear: none;
+}
+
+input.ajax_saving, select.ajax_saving {
+    background-image: url("../stock-icons/16x16/new-html.png");
+    padding-right: 22px;
+}
+input.ajax_save_failed, select.ajax_save_failed {
+    color: red;
+    background-image: url("../stock-icons/16x16/cancel.png");
+    padding-right: 22px;
+}
+input.ajax_saved_fade, select.ajax_saved_fade {
+    background-image: url("../stock-icons/16x16/ok_fade_50.png");
+    padding-right: 22px;
+}
+input.ajax_saved, select.ajax_saved {
+    background-image: url("../stock-icons/16x16/ok.png");
+    padding-right: 22px;
+}
+
+/* Last updated listings for Mypage */
+ul.updated {
+   margin: 0px;
+   padding: 0px;
+}
+ul.updated li {
+   list-style: none;
+   margin: 0px;
+   padding-left: 20px;
+   background-position: left;
+   background-repeat: no-repeat;
+   background-image: url("../stock-icons/16x16/edit.png");
+   display: block;
+   padding-top: 3px;
+   padding-bottom: 3px;
+}
+ul.updated li.updated-calendar {
+    background-image: url("../stock-icons/16x16/stock_new-event.png");
+}
+ul.updated li.updated-contacts {
+    background-image: url("../stock-icons/16x16/stock_people.png");
+}
+
+dl.campaigns dt.unsubscribed {
+    text-decoration: line-through;
+}
+
+/* Make news items look nicer */
+div.area div.news-item span.postinfo
+{
+    display: block;
+    font-size: smaller;
+    color: #777;
+}
+div.area div.news-item
+{
+    margin-bottom: 4px;
+    margin-top: 2px;
+    padding-left: 22px;
+    background-image: url('../stock-icons/16x16/stock_news.png');
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
+#org_openpsa_projects_savebutton
+{
+    display: block;
+    margin-left: 22%;
+}
+
+/* Better looking business cards */
+#container div.vcard
+{
+    border: 1px solid #807D74;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    background-color: #ffffff;
+    padding: 4px;
+    margin: 4px;
+    float: left;
+    width: 160px;
+    height: 80px;
+    overflow: hidden;
+    font-size: smaller;
+}
+#container div.vcard div.n
+{
+    font-size: larger;
+}
+#container div.vcard a
+{
+    color: #333333;
+}
+#container div.main div.vcard li
+{
+    margin-left: 10px;
+    /*line-height: 16px;*/
+}
+#container div.main div.vcard li.org
+{
+    background-image: none;
+    font-style: italic;
+}
+
+#container div.vcard input.delete
+{
+    display: none;
+}
+
+#container div.vcard:hover input.delete
+{
+    display: block;
+}
+
+/* Related Wiki pages */
+div.net_nemein_wiki ul
+{
+    padding-left: 0px;
+}
+div.net_nemein_wiki ul.related li
+{
+    list-style: none;
+    padding-left: 22px;
+    background-image: url('../stock-icons/16x16/new-text.png');
+    background-position: top left;
+    background-repeat: no-repeat;
+    margin-bottom: 4px;
+}
+div.net_nemein_wiki ul.related li a
+{
+    text-decoration: none;
+}
+
+/* Sort GET links */
+a.sort img
+{
+    border: 0px;
+}
+
+/* Message report table */
+table.link_statistics
+{
+}
+
+table.link_statistics td.numeric
+{
+    text-align: center;
+}
+
+table.link_statistics td.bargraph div.link_count_visualization
+{
+    background-color: #3364a3;
+}
+
+.grid-filters
+{
+    margin-bottom: .6em
+}

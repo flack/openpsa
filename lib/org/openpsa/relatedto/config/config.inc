@@ -1,0 +1,1 @@
+'schemadb_journalentry' => 'file:/org/openpsa/relatedto/config/schemadb_journalentry_default.inc',

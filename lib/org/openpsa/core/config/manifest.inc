@@ -1,0 +1,40 @@
+'name' => 'org.openpsa.core',
+'icon' => 'org.openpsa.core/openpsa-16x16.png',
+'purecode' => true,
+'privileges' => array(),
+'class_definitions' => array(),
+'version' => '8.09.9',
+'state' => 'stable',
+'package.xml' => array
+(
+    'summary' => 'OpenPSA core library',
+    'description' => 'OpenPSA core library',
+    'maintainers' => array
+    (
+        'rambo' => array
+        (
+            'name' => 'Eero af Heurlin',
+            'email' => 'eero.afheurlin@iki.fi',
+            'role' => 'lead',
+        ),
+        'flack' => array
+        (
+            'name' => 'Andreas Flack',
+            'email' => 'flack@contentcontrol-berlin.de',
+            'role' => 'developer',
+        ),
+        'bergie' => array
+        (
+            'name' => 'Henri Bergius',
+            'email' => 'henri.bergius@iki.fi',
+            'role' => 'lead',
+            'active' => 'no',
+        ),
+    ),
+    'dependencies' => array
+    (
+        'org.openpsa.helpers' => array(),
+        'net.nehmer.markdown' => array(),
+        'midcom' => array(),
+    ),
+),

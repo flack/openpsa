@@ -1,0 +1,2 @@
+
+Displays a form to edit subscribed remote feed.

@@ -1,0 +1,73 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt,v 1.1 2006/05/08 13:18:40 rambo Exp $
+---LANGUAGE fi
+
+---STRING contact
+Henkilö
+---STRINGEND
+
+---STRING contacts
+Henkilöitä
+---STRINGEND
+
+---STRING interview
+Haastattelu
+---STRINGEND
+
+---STRING interview %s for "%s"
+Haastattele %s kampanjaan "%s"
+---STRINGEND
+
+---STRING interview summary for "%s"
+Kampanjan "%s" haastatteluyhteenveto
+---STRINGEND
+
+---STRING interviewed
+Haastateltu loppuun
+---STRINGEND
+
+---STRING interviews for "%s"
+Kampanjan "%s" haastattelut
+---STRINGEND
+
+---STRING locked
+Haastattelussa parhaillaan
+---STRINGEND
+
+---STRING next interview
+Seuraava haastattelu
+---STRINGEND
+
+---STRING no members to interview now in "%s"
+Tällä hetkellä ei haastateltavia kampanjassa "%s". Yritä myöhemmin uudestaan.
+---STRINGEND
+
+---STRING org.openpsa.interviews
+Puhelinhaastattelut
+---STRINGEND
+
+---STRING status
+Tila
+---STRINGEND
+
+---STRING suspended
+Odottaa myöhempää
+---STRINGEND
+
+---STRING suspended until
+Yhteydenotto aikaisintaan
+---STRINGEND
+
+---STRING unsubscribed
+Älä ota uudestaan yhteyttä
+---STRINGEND
+
+---STRING waiting
+Odottaa yhteydenottoa
+---STRINGEND
+
+---STRING show interviews
+Näytä haastattelut
+---STRINGEND
+

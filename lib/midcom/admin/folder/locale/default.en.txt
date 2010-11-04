@@ -1,0 +1,369 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 24738 2010-01-15 21:44:53Z jval $
+---LANGUAGE en
+
+---STRING %s state
+%s state
+---STRINGEND
+
+---STRING a folder with name %s already exists
+A folder with name "%s" already exists!
+---STRINGEND
+
+---STRING all descendants will be deleted
+Everything under this folder will be deleted:
+---STRINGEND
+
+---STRING all style elements
+All style elements
+---STRINGEND
+
+---STRING alpha
+Alpha
+---STRINGEND
+
+---STRING are you sure you want to delete this folder
+Are you sure you want to delete this folder?
+---STRINGEND
+
+---STRING author
+Author
+---STRINGEND
+
+---STRING authors
+Authors
+---STRINGEND
+
+---STRING beta
+Beta
+---STRINGEND
+
+---STRING by score
+Manually ordered
+---STRINGEND
+
+---STRING cancelled
+Cancelled
+---STRINGEND
+
+---STRING change component
+Change component
+---STRINGEND
+
+---STRING component default
+Component default
+---STRINGEND
+
+---STRING copy to editor
+Copy to editor
+---STRINGEND
+
+---STRING could not save folder: %s
+Could not save folder. Reason: %s
+---STRINGEND
+
+---STRING create folder
+Create folder
+---STRINGEND
+
+---STRING create folder under %s
+Create subfolder under "%s"
+---STRINGEND
+
+---STRING create subfolder
+Create subfolder
+---STRINGEND
+
+---STRING created
+Created
+---STRINGEND
+
+---STRING creator
+Creator
+---STRINGEND
+
+---STRING default
+Default
+---STRINGEND
+
+---STRING default order selected
+Default order selected
+---STRINGEND
+
+---STRING default sort order
+Default sort order
+---STRINGEND
+
+---STRING delete folder
+Delete folder
+---STRINGEND
+
+---STRING delete folder %s
+Delete folder "%s"
+---STRINGEND
+
+---STRING edit %s
+Edit '%s'
+---STRINGEND
+
+---STRING edit folder
+Edit folder
+---STRINGEND
+
+---STRING edit folder %s
+Edit folder "%s"
+---STRINGEND
+
+---STRING edit folder metadata
+Edit folder metadata
+---STRINGEND
+
+---STRING edit layout template
+Edit layout template
+---STRINGEND
+
+---STRING edit metadata
+Edit metadata
+---STRINGEND
+
+---STRING edit metadata of %s
+Edit metadata of '%s'
+---STRINGEND
+
+---STRING experimental, use with your own risk
+Experimental, use with your own risk
+---STRINGEND
+
+---STRING exported
+Exported
+---STRINGEND
+
+---STRING failed to create a new style template
+Failed to create a new style template!
+---STRINGEND
+
+---STRING folder created
+Folder created
+---STRINGEND
+
+---STRING folder page class
+Folder's class
+---STRINGEND
+
+---STRING folder saved
+Folder saved
+---STRINGEND
+
+---STRING folder type
+Folder type
+---STRINGEND
+
+---STRING folder with name %s already exists
+Folder with name "%s" already exists!
+---STRINGEND
+
+---STRING folders first
+Folder first
+---STRINGEND
+
+---STRING hide from navigation
+Hide from navigation
+---STRINGEND
+
+---STRING imported
+Imported
+---STRINGEND
+
+---STRING inherit style
+Inherit template to subfolders
+---STRINGEND
+
+---STRING install more %s from %s
+You can install more <a href="%s">MidCOM components</a> from the <a href="%s">PEAR repository</a>.
+---STRINGEND
+
+---STRING list of %s folders using the same style template path
+List of "%s" folders using the same style template path
+---STRINGEND
+
+---STRING local element
+Local element
+---STRINGEND
+
+---STRING midcom.admin.folder
+Folder management
+---STRINGEND
+
+---STRING move
+Move
+---STRINGEND
+
+---STRING move %s
+Move %s
+---STRINGEND
+
+---STRING nav order
+Order of navigation items
+---STRINGEND
+
+---STRING new layout template
+[New layout template]
+---STRINGEND
+
+---STRING new style created
+New style created
+---STRINGEND
+
+---STRING no sortable elements found
+No sortable elements found
+---STRINGEND
+
+---STRING no url name specified
+No URL name specified!
+---STRINGEND
+
+---STRING order navigation
+Arrange navigation items
+---STRINGEND
+
+---STRING order navigation in folder %s
+Arrange navigation under folder "%s"
+---STRINGEND
+
+---STRING owner
+Owner
+---STRINGEND
+
+---STRING pages first
+Pages first
+---STRINGEND
+
+---STRING prevent entering
+Prevent entering
+---STRINGEND
+
+---STRING privilege template_management
+Layout template management
+---STRINGEND
+
+---STRING privilege topic_management
+Folder management
+---STRINGEND
+
+---STRING published
+Published
+---STRINGEND
+
+---STRING revised
+Revised
+---STRINGEND
+
+---STRING revision
+Revision
+---STRINGEND
+
+---STRING revisor
+Revisor
+---STRINGEND
+
+---STRING saving changes
+Saving changes
+---STRINGEND
+
+---STRING schedule end
+Display until (leave empty for unlimited display)
+---STRINGEND
+
+---STRING schedule start
+Publish at (leave empty for immediate publication)
+---STRINGEND
+
+---STRING scheduling
+Scheduling
+---STRINGEND
+
+---STRING select the ordering method first to sort the pages
+Select the ordering method first to sort the pages
+---STRINGEND
+
+---STRING size
+Size
+---STRINGEND
+
+---STRING sort by score
+Sort by score
+---STRINGEND
+
+---STRING sort folders
+Sort folders
+---STRINGEND
+
+---STRING sort pages
+Sort pages
+---STRINGEND
+
+---STRING style
+Style template
+---STRINGEND
+
+---STRING style editor
+Style editor
+---STRINGEND
+
+---STRING style element list
+List of style elements
+---STRINGEND
+
+---STRING style elements for %s
+Style elements for style %s
+---STRINGEND
+
+---STRING style template
+Style template
+---STRINGEND
+
+---STRING this component is still being developed and tested and might contain undocumented features
+This component is still being developed and tested and might contain undocumented features
+---STRINGEND
+
+---STRING title is empty
+Title is empty!
+---STRINGEND
+
+---STRING warning, might result in data loss
+Warning! Might result in data loss!
+---STRINGEND
+
+---STRING objects with no navigation entry are still accessible on-site if the url is known
+Objects that are hidden from navigation are still accessible on-site if the URL is known
+---STRINGEND
+
+---STRING submitting the form
+Submitting the form
+---STRINGEND
+
+---STRING createlink folder %s
+Create folder link under folder "%s"
+---STRINGEND
+
+---STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
+This folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink.
+---STRINGEND
+
+---STRING create folder link
+Create subfolder ("symlink")
+---STRINGEND
+
+---STRING privilege symlinks
+Folder symlinks
+---STRINGEND
+
+---STRING this folder is a symlink to: <a href="%s">%s</a>
+This folder is a symlink to: <a href="%s">%s</a>
+---STRINGEND
+
+---STRING symlinks are currently disabled                 
+(Symlinks are currently disabled.)
+---STRINGEND
+

@@ -1,0 +1,369 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 24738 2010-01-15 21:44:53Z jval $
+---LANGUAGE sv
+
+---STRING %s state
+%s status
+---STRINGEND
+
+---STRING a folder with name %s already exists
+En katalog med namnet "%s" finns redan!
+---STRINGEND
+
+---STRING all descendants will be deleted
+Allting i den här katalogen kommer att ta bort:
+---STRINGEND
+
+---STRING all style elements
+Alla stilelement
+---STRINGEND
+
+---STRING alpha
+Alpha
+---STRINGEND
+
+---STRING are you sure you want to delete this folder
+Är du säker på att du vill ta bort denna katalog?
+---STRINGEND
+
+---STRING author
+Författare
+---STRINGEND
+
+---STRING authors
+Författare
+---STRINGEND
+
+---STRING beta
+Beta
+---STRINGEND
+
+---STRING by score
+Manuell ordning
+---STRINGEND
+
+---STRING cancelled
+Avbruten
+---STRINGEND
+
+---STRING change component
+Ändra komponent
+---STRINGEND
+
+---STRING copy to editor
+Kopiera till editor
+---STRINGEND
+
+---STRING could not save folder: %s
+Kunde inte spara katalog. Anledning: %s
+---STRINGEND
+
+---STRING create folder
+Skapa katalog
+---STRINGEND
+
+---STRING create folder under %s
+Skapa underkatalog under "%s"
+---STRINGEND
+
+---STRING create subfolder
+Skapa underkatalog
+---STRINGEND
+
+---STRING created
+Skapad
+---STRINGEND
+
+---STRING creator
+Skapare
+---STRINGEND
+
+---STRING default
+Standard
+---STRINGEND
+
+---STRING default order selected
+Standard ordning vald
+---STRINGEND
+
+---STRING default sort order
+Standard sorterings ordning
+---STRINGEND
+
+---STRING delete folder
+Ta bort katalog
+---STRINGEND
+
+---STRING delete folder %s
+Ta bort katalog "%s"
+---STRINGEND
+
+---STRING edit %s
+Ändra '%s'
+---STRINGEND
+
+---STRING edit folder
+Ändra katalog
+---STRINGEND
+
+---STRING edit folder %s
+Ändra katalog "%s"
+---STRINGEND
+
+---STRING edit folder metadata
+Ändra katalogens metadata
+---STRINGEND
+
+---STRING edit layout template
+Ändra stilens mall
+---STRINGEND
+
+---STRING edit metadata
+Ändra metadata
+---STRINGEND
+
+---STRING edit metadata of %s
+Ändra metadata på "%s"
+---STRINGEND
+
+---STRING experimental, use with your own risk
+Experimentell, använd på egen risk
+---STRINGEND
+
+---STRING exported
+Exporterad
+---STRINGEND
+
+---STRING failed to create a new style template
+Misslyckades att skapa ny stilmall.
+---STRINGEND
+
+---STRING folder created
+Katalog skapad
+---STRINGEND
+
+---STRING folder page class
+Katalogens klass.
+---STRINGEND
+
+---STRING folder saved
+Katalag sparad
+---STRINGEND
+
+---STRING folder type
+Katalogtyp
+---STRINGEND
+
+---STRING folder with name %s already exists
+Katalog med namnet "%s" existerar redan!
+---STRINGEND
+
+---STRING folders first
+Katalog först
+---STRINGEND
+
+---STRING hide from navigation
+Dölj från navigering
+---STRINGEND
+
+---STRING imported
+Importerad
+---STRINGEND
+
+---STRING inherit style
+Ärv template till underkataloger
+---STRINGEND
+
+---STRING install more %s from %s
+Du kan installera flera <a href="%s">MidCOM komponenter</a> från <a href="%s">PEAR trädet</a>.
+---STRINGEND
+
+---STRING list of %s folders using the same style template path
+Lista över "%s" kataloger som använder samma stilmalls sökväg
+---STRINGEND
+
+---STRING local element
+Lokalt element
+---STRINGEND
+
+---STRING midcom.admin.folder
+Kataloghantering
+---STRINGEND
+
+---STRING move
+FLytta
+---STRINGEND
+
+---STRING move %s
+Flytta %s
+---STRINGEND
+
+---STRING nav order
+Ordning på navigations poster
+---STRINGEND
+
+---STRING new layout template
+[Ny stilmall]
+---STRINGEND
+
+---STRING new style created
+Ny stil skapad
+---STRINGEND
+
+---STRING no sortable elements found
+Inga sorteringsbara element funna
+---STRINGEND
+
+---STRING no url name specified
+Inget URL namn specifierat!
+---STRINGEND
+
+---STRING objects with no navigation entry are still accessible on-site if the url is known
+objekt utan navigerings kan fortfarande nås om url är känd
+---STRINGEND
+
+---STRING order navigation
+Ordra navigerings poster
+---STRINGEND
+
+---STRING order navigation in folder %s
+Orda nvaigering under katalog "%s"
+---STRINGEND
+
+---STRING owner
+Ägare
+---STRINGEND
+
+---STRING pages first
+Sidor först
+---STRINGEND
+
+---STRING privilege topic_management
+Katalog hantering
+---STRINGEND
+
+---STRING published
+Publicerad
+---STRINGEND
+
+---STRING revised
+Uppdaterad
+---STRINGEND
+
+---STRING revision
+Uppdatering
+---STRINGEND
+
+---STRING revisor
+Uppdaterare
+---STRINGEND
+
+---STRING saving changes
+Sparar ändringar
+---STRINGEND
+
+---STRING scheduling
+Schemaläggning
+---STRINGEND
+
+---STRING select the ordering method first to sort the pages
+Väld sorteringsmetod för för att sortera sidor
+---STRINGEND
+
+---STRING size
+Storlek
+---STRINGEND
+
+---STRING sort by score
+Sortera efter poäng
+---STRINGEND
+
+---STRING sort folders
+Sortera kataloger
+---STRINGEND
+
+---STRING sort pages
+Sortera sidor
+---STRINGEND
+
+---STRING style
+Stilmall
+---STRINGEND
+
+---STRING style editor
+Stil editor
+---STRINGEND
+
+---STRING style element list
+Lista över stil element
+---STRINGEND
+
+---STRING style elements for %s
+Stil element för stilen %s
+---STRINGEND
+
+---STRING style template
+Stilmall
+---STRINGEND
+
+---STRING submitting the form
+Skickar formuläret
+---STRINGEND
+
+---STRING this component is still being developed and tested and might contain undocumented features
+Den här komponenten är fortfarande under utveckling och kan innehålla odokumenterade features
+---STRINGEND
+
+---STRING title is empty
+Titeln är tom!
+---STRINGEND
+
+---STRING warning, might result in data loss
+Varning! Kan resultera i förlust av data!
+---STRINGEND
+
+---STRING component default
+Komponentens standard inställning
+---STRINGEND
+
+---STRING prevent entering
+Förhindra visning
+---STRINGEND
+
+---STRING privilege template_management
+Stilmalls hantering
+---STRINGEND
+
+---STRING schedule end
+Visa till (lämna tom för obegränsad visning)
+---STRINGEND
+
+---STRING schedule start
+Publisera på (lämna tom för omedelbar publicering)
+---STRINGEND
+
+---STRING createlink folder %s
+Skapa katalog länk under "%s"
+---STRINGEND
+
+---STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
+Den här katalogen är en symlink till <a href="%s">%s</a> och bekräftning kommer endast att radera den här symlinken.
+---STRINGEND
+
+---STRING create folder link
+Skapa underkatalog ("symlink")
+---STRINGEND
+
+---STRING privilege symlinks
+Katalog symlinkar
+---STRINGEND
+
+---STRING this folder is a symlink to: <a href="%s">%s</a>
+Den här katalogen är en symlink till: <a href="%s">%s</a>
+---STRINGEND
+
+---STRING symlinks are currently disabled                 
+(Symlinkar är inaktiva.)
+---STRINGEND
+

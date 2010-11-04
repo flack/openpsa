@@ -1,0 +1,361 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 25209 2010-02-25 18:24:54Z flack $
+---LANGUAGE hu
+
+---STRING %s projects
+%s projektek
+---STRINGEND
+
+---STRING accept
+Elfogva
+---STRINGEND
+
+---STRING accepted by %s
+%s által elfogadva
+---STRINGEND
+
+---STRING agreement
+Megállapodás
+---STRINGEND
+
+---STRING agreement tasks
+Átadás feladatai
+---STRINGEND
+
+---STRING approve
+Jóváhagy
+---STRINGEND
+
+---STRING approved
+Jóváhagyva
+---STRINGEND
+
+---STRING approved by %s
+%s által jóváhagyva
+---STRINGEND
+
+---STRING automatic resource search
+Automatikus erőforrás kereső
+---STRINGEND
+
+---STRING back to task
+Vissza a feladathoz
+---STRINGEND
+
+---STRING basic information
+Alap információk
+---STRINGEND
+
+---STRING booked times
+Foglalások
+---STRINGEND
+
+---STRING closed
+Zárva
+---STRINGEND
+
+---STRING closed by %s
+%s által zárva
+---STRINGEND
+
+---STRING closed tasks
+Lezárt feladatok
+---STRINGEND
+
+---STRING completed
+Befejezett
+---STRINGEND
+
+---STRING completed tasks
+Befejezett feladatok
+---STRINGEND
+
+---STRING contacts
+Ügyfél
+---STRINGEND
+
+---STRING create project
+Projekt létrehozása
+---STRINGEND
+
+---STRING create task
+Feladat létrehozása
+---STRINGEND
+
+---STRING current tasks
+Jelenlegi feladatok
+---STRINGEND
+
+---STRING customer
+Ügyfél
+---STRINGEND
+
+---STRING date
+Dátum
+---STRINGEND
+
+---STRING deadline
+Határidő
+---STRINGEND
+
+---STRING decline
+Visszautasít
+---STRINGEND
+
+---STRING declined by %s
+%s által visszautasítva
+---STRINGEND
+
+---STRING delete task
+Feladat törlése
+---STRINGEND
+
+---STRING description
+Leírás
+---STRINGEND
+
+---STRING dont approve
+Nem hagyja jóvá
+---STRINGEND
+
+---STRING duration
+Időtartam
+---STRINGEND
+
+---STRING edit
+Szerkesztés
+---STRINGEND
+
+---STRING edit task %s
+%s feladat szerkesztése
+---STRINGEND
+
+---STRING end
+Vége
+---STRINGEND
+
+---STRING from %s
+%s által
+---STRINGEND
+
+---STRING hour report
+Ráfordított órák jelentésének
+---STRINGEND
+
+---STRING hour reports
+Időjelentések
+---STRINGEND
+
+---STRING hours
+Órák
+---STRINGEND
+
+---STRING hours are invoiceable by default
+Projektre fordított idő nem kerül számlázásra
+---STRINGEND
+
+---STRING invoiceable
+Nem számlázható
+---STRINGEND
+
+---STRING invoiceable tasks
+Nem számlázható feladatok
+---STRINGEND
+
+---STRING invoiced
+Számlázott
+---STRINGEND
+
+---STRING manager
+Menedzser
+---STRINGEND
+
+---STRING mark completed
+Befejezettként megjelöl
+---STRINGEND
+
+---STRING marked as completed by %s
+%s által befejezettként megjelölve
+---STRINGEND
+
+---STRING my_tasks
+Feladataim
+---STRINGEND
+
+---STRING new project
+Új projekt
+---STRINGEND
+
+---STRING new task
+Új feladat
+---STRINGEND
+
+---STRING new task to project %s
+Új feladat %s projekt számára
+---STRINGEND
+
+---STRING no search
+Nincs keresés
+---STRINGEND
+
+---STRING not_started
+Nincs elkezdve
+---STRINGEND
+
+---STRING ongoing
+Folyamatban
+---STRINGEND
+
+---STRING open tasks
+Feladat megnyitása
+---STRINGEND
+
+---STRING org.openpsa.projects
+Projekt menedzsment
+---STRINGEND
+
+---STRING overtime
+Túlóra
+---STRINGEND
+
+---STRING planned hours
+Tervezett órák
+---STRINGEND
+
+---STRING project
+Projekt
+---STRINGEND
+
+---STRING project status
+Projekt állapota
+---STRINGEND
+
+---STRING project_tasks
+Projekt feladatai
+---STRINGEND
+
+---STRING proposed tasks
+Javasolt feladatok
+---STRINGEND
+
+---STRING re-opened by %s
+%s által újra megnyitva
+---STRINGEND
+
+---STRING rejected by %s
+%s által elutasítva
+---STRINGEND
+
+---STRING reopen
+Újra megnyitás
+---STRINGEND
+
+---STRING report hours
+Időjelentés
+---STRINGEND
+
+---STRING reported
+Jelentve
+---STRINGEND
+
+---STRING reporter
+Jelentő
+---STRINGEND
+
+---STRING resources
+Erősforrás
+---STRINGEND
+
+---STRING resourcing
+Erőforrások menedzselése
+---STRINGEND
+
+---STRING schedule resources
+Erőforrások ütemezése
+---STRINGEND
+
+---STRING skills required
+Szükséges képességek
+---STRINGEND
+
+---STRING start
+Start
+---STRINGEND
+
+---STRING start time
+Start ideje
+---STRINGEND
+
+---STRING status
+Állapot
+---STRINGEND
+
+---STRING status history
+Előzmények
+---STRINGEND
+
+---STRING subscribe
+Megrendelés
+---STRINGEND
+
+---STRING synchronization
+Szinkronizálás
+---STRINGEND
+
+---STRING synchronized with %s by %s
+%s szinkronizálva %s
+---STRINGEND
+
+---STRING system
+rendszer
+---STRINGEND
+
+---STRING task
+Feladat
+---STRINGEND
+
+---STRING task %s
+%s feladat
+---STRINGEND
+
+---STRING task in
+Feladat
+---STRINGEND
+
+---STRING task status
+Feladat állapota
+---STRINGEND
+
+---STRING type
+Fajta
+---STRINGEND
+
+---STRING unsubscribe
+Megrendelés lemondása
+---STRINGEND
+
+---STRING whole openpsa
+Az egész OpenPSA-ból
+---STRINGEND
+
+---STRING work started by %s
+%s által a munka elkezdve
+---STRINGEND
+
+---STRING you are not subscribed to project
+Ön nem megrendelője a projektnek
+---STRINGEND
+
+---STRING you are project participant
+Ön a projekt résztvevője
+---STRINGEND
+
+---STRING you are project subscriber
+Ön a projekt megrendelője
+---STRINGEND
+
+---STRING %s of %s planned hours booked
+%s óra van a naptárba bejegyezve a tervezett %s órából
+---STRINGEND
+

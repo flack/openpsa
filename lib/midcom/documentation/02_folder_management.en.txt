@@ -1,0 +1,56 @@
+Folder management 
+===
+Folders are used to create the site structure and to store and handle data or pages. 
+
+Each folder has a component assigned to it, handling different types of information and displaying the information in various different ways. 
+
+##Creating a new folder 
+
+A new folder is created by selecting **Folder > Create subfolder**
+
+1. Name is the address name of the folder, which will be displayed in the navigation. You can leave this blank as a new name will be created from the Title if necessary. Name should be lower case ASCII (a-z, 0-9), and it should not contain spaces. A good practice is to replace spaces with score -or underscore _
+2. Title is the text that will be shown in navigation 
+3. Component is the subprogram that will help you to display the right type of information 
+4. Style template can be used to define the way content will be presented. Style templates are almost always customized to the needs of the site and you should be informed by your site manager if there is any need for using customized templates. 
+5. Inherit template to subfolders gives a possibility to use the style template selected above in every subsequent subfolder (unless they rule their own style templates, of course). 
+6. Order of navigation items is for choosing the navigational order. This can be usually left to Default sort order. 
+
+There can be differences in the list. Your site might have more or less of items and they might be also 
+component specific. 
+
+##Editing folder 
+
+By clicking **Folder > Edit** folder it is possible to edit the settings and names described above in Creating a 
+new folder. 
+
+You can also change the type of the folder from here. If you chose wrong component when creating the 
+folder, you can choose now a different component. 
+
+##Deleting folder 
+
+If you want to delete a folder, you should first navigate to it. Then click on **Folder > Delete** folder on the 
+toolbar. 
+
+Deleting a folder will remove also all the descending folders and pages, so see carefully, which elements 
+will be removed. 
+
+
+##Arranging the folder 
+
+It is possible to arrange navigational elements to some extent. Folder structure is always sortable, but sorting 
+pages depends on the component of the folder. 
+
+E.g. the most commonly used folder type, Regular content (net.nehmer.static), is sortable. To arrange the navigation 
+items, click on the appropriate tool from **Folder > Arrange navigation items**.
+
+You can choose the preferred order of items from the dropdown list and arrange the items by dragging and dropping them to their places. 
+
+Finally click on the Save button. 
+
+##Moving folder 
+
+It is possible to move folders e.g. to reorganize the folder structure. To move a folder 
+
+1. Navigate to the folder you wish to move 
+2. Click on **Folder > Move** 
+3. Select the target folder and click on Move button 

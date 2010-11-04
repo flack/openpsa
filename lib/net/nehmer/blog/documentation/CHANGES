@@ -1,0 +1,86 @@
+                   net.nehmer.blog Changelog
+                   -------------------------
+CVS Id: $Id: CHANGES 14740 2008-02-05 10:11:20Z adrenalin $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-02-05 adrenalin
+  - Fixed wrong number of archived articles given due to skipping ACL checks
+
+2007-12-14 adrenalin
+  - Enabled scheduled publishing that takes the metadata published of the article into account
+
+2007-10-08 adrenalin
+  - Deletes now all the links pointing to article, which is being deleted
+
+2007-10-05 adrenalin
+  + Added support for linking articles to different net.nehmer.blog topics
+  + Added support for callback function after article creation
+
+2007-09-04 bergie
+  + Added paged news archive display
+
+2007-09-03 bergie
+  + Added configured categories to navigation leaves
+
+2007-08-29 bergie
+  ! Made feed per-item output stylable
+
+2007-07-23 bergie
+  + New option on whether full article contents should be shown in index
+
+2007-07-10 adrenalin
+  - Uniforming changes made to different versions
+  + Added configurable choices for navigation
+  ! Deprecated support for Midgard 1.7
+
+2007-07-05 bergie
+  + Made archive item ordering configurable
+
+2007-03-19 bergie
+  + Added support for linking items in list to an external URL
+
+2007-01-29 bergie
+  + Added support for metaWeblog API
+
+2006-09-07 bergie
+  + Switched order of trying to resolve article by name or GUID because sometimes
+    mgd_is_guid() thought regular article names to be GUIDs
+
+2006-07-14 rambo
+  - made permalink resolution return the article name instead of guid if available
+
+2006-07-12 rambo
+  - made getting article via name and guid both work in both 1.7 and 1.8
+  - version bump for packaging
+
+2006-06-29 bergie
+  + Added email importing system
+
+2006-06-23 bergie
+  + Added support for blog commenting via net.nehmer.comments
+
+2006-06-21 bergie
+  + Added optional geopositioning support for feeds and HTML pages
+
+2006-06-16 bergie
+  + Added categories support in both lists, editor and feeds
+  ! Moved RSS 2.0 feed to /rss.xml for better d.l.newsticker compatibility
+  ! Switched to using "readable" URL names for articles
+
+2006-06-13 bergie
+  + Added Midgard 1.7 compatibility
+  + Added support for inline AJAX editing
+
+2006-05-26 bergie
+  + Made archiving and RSS feeds configurable
+
+2006-02-20 torben
+  ! Initial revision, built from de.linkm.newsticker using newest
+    technology. No 100% compatibility to old components is possible
+    at this point.
+

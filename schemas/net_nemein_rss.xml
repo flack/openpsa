@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="net_nemein_rss_feed" table="net_nemein_rss_feed" parent="midgard_topic" parentfield="node">
+        <property name="id" type="unsigned integer" primaryfield="id"/>
+        <property name="title" type="string"/>
+        <property name="url" type="string"/>
+        <property name="node" link="midgard_topic:id" reverse="no" type="unsigned integer" parentfield="node"/>
+        <property name="defaultauthor" link="midgard_person:id" reverse="no" type="unsigned integer"/>
+        <property name="forceauthor" type="boolean"/>
+        <!-- Whether to keep items removed from the feed -->
+        <property name="keepremoved" type="boolean"/>
+        <!-- Whether to auto-approve new items from feed -->
+        <property name="autoapprove" type="boolean" index="yes"/>
+
+        <property name="itemlang" type="unsigned integer" link="midgard_language:id">
+            <description>Store imported items in this language</description>
+        </property>
+
+        
+        <!-- cached data -->
+        <property name="latestupdate" type="integer" index="yes"/>
+        <property name="latestfetch" type="integer" index="yes"/>
+        <!-- /cached data -->       
+    </type>
+</Schema>

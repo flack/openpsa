@@ -1,0 +1,2 @@
+$args[0] = GUID of an invoice (org_openpsa_invoices_invoice_dba).
+Invoice with this GUID will be marked as sent and with sent-time.

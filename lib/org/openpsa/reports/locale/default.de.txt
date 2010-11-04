@@ -1,0 +1,161 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 25922 2010-05-01 20:35:55Z flack $
+---LANGUAGE de
+
+---STRING %s%% of %s
+%s%% von %s
+---STRINGEND
+
+---STRING %s total
+Summe %s
+---STRINGEND
+
+---STRING average of %s runs
+Mittelwert aus %s Rechnungsläufen
+---STRINGEND
+
+---STRING basic report
+Standard-Bericht
+---STRINGEND
+
+---STRING both
+Beides
+---STRINGEND
+
+---STRING define custom report
+Benutzerdefinierten Bericht erstellen
+---STRINGEND
+
+---STRING edit report %s
+Bericht "%s" bearbeiten
+---STRINGEND
+
+---STRING end time
+Enddatum
+---STRINGEND
+
+---STRING fixed price
+Festpreis
+---STRINGEND
+
+---STRING generate report
+Bericht erstellen
+---STRINGEND
+
+---STRING invoice report %s - %s
+Rechnungsbericht %s - %s
+---STRINGEND
+
+---STRING invoice status
+Rechnungsstatus
+---STRINGEND
+
+---STRING invoiceable hours last month
+Abrechenbare Stunden im letzten Monat
+---STRINGEND
+
+---STRING invoiceable hours this month
+Abrechenbare Stunden in diesem Monat
+---STRINGEND
+
+---STRING no results
+Keine Ergebnisse
+---STRINGEND
+
+---STRING no results found matching the report criteria
+Es wurden keine Ergebnisse zu diesen Suchkriterien gefunden
+---STRINGEND
+
+---STRING only approved
+nur genehmigte
+---STRINGEND
+
+---STRING only invoiceable
+nur abrechenbare
+---STRINGEND
+
+---STRING only invoiced
+nur abgerechnete
+---STRINGEND
+
+---STRING only not approved
+nur nicht genehmigte
+---STRINGEND
+
+---STRING only not invoiced
+nur nicht abgerechnete
+---STRINGEND
+
+---STRING only uninvoiceable
+nur nicht abrechenbare
+---STRINGEND
+
+---STRING org.openpsa.reports
+Bericht-Erstellung
+---STRINGEND
+
+---STRING person
+Person
+---STRINGEND
+
+---STRING query by
+Filtern nach
+---STRINGEND
+
+---STRING report grouping
+Gruppierung
+---STRINGEND
+
+---STRING report style
+Art des Berichts
+---STRINGEND
+
+---STRING root project/process
+Basis-Projekt/-Prozess
+---STRINGEND
+
+---STRING save query for future
+Report speichern
+---STRINGEND
+
+---STRING scope
+Eingrenzung
+---STRINGEND
+
+---STRING show approved
+Genehmigte anzeigen
+---STRINGEND
+
+---STRING show invoiceable
+Abrechenbare anzeigen
+---STRINGEND
+
+---STRING show invoiced
+Abgerechnete anzeigen
+---STRINGEND
+
+---STRING start time
+Startdatum
+---STRINGEND
+
+---STRING timeframe
+Zeitraum
+---STRINGEND
+
+---STRING totals
+Gesamtsummen
+---STRINGEND
+
+---STRING weekly report
+Wöchentlicher Bericht
+---STRINGEND
+
+---STRING workgroup/person
+Arbeitsgruppe/Person
+---STRINGEND
+
+---STRING basic report for %s - %s
+Standard-Bericht %s - %s
+---STRINGEND
+

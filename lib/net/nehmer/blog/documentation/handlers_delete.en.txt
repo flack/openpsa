@@ -1,0 +1,2 @@
+
+Deletes post __{$args[0]}__. Argument is article GUID.

@@ -1,0 +1,197 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 11456 2007-08-01 19:29:16Z flack $
+---LANGUAGE de
+
+---STRING %s items
+%s Einträge importiert
+---STRINGEND
+
+---STRING add new feed
+Neuen Feed hinzufügen
+---STRINGEND
+
+---STRING aggregator mode
+Aggregator-Modus
+---STRINGEND
+
+---STRING aggregator settings
+Aggregator-Einstellungen
+---STRINGEND
+
+---STRING approve new items automatically
+Neue Einträge automatisch freigeben
+---STRINGEND
+
+---STRING bloglines
+Bloglines
+---STRINGEND
+
+---STRING bloglines account
+Bloglines-Account
+---STRINGEND
+
+---STRING cancel
+Abbrechen
+---STRINGEND
+
+---STRING channels
+Einträge nach Kanal sortiert anzeigen
+---STRINGEND
+
+---STRING combined
+Die Einträge aller Kanäle kombinieren und nach Veröffentlichungsdatum sortieren.
+---STRINGEND
+
+---STRING default author for items
+Standard-Verfasser für Einträge
+---STRINGEND
+
+---STRING delete feed
+Feed löschen
+---STRINGEND
+
+---STRING details
+Alle Details
+---STRINGEND
+
+---STRING display items
+Einträge anzeigen als
+---STRINGEND
+
+---STRING edit feed %s
+Feed "%s" bearbeiten
+---STRINGEND
+
+---STRING feed icon url
+URL des Feed-Icons (optional)
+---STRINGEND
+
+---STRING feed title
+Feed-Titel
+---STRINGEND
+
+---STRING feed title display
+Feed-Titel für Anzeige
+---STRINGEND
+
+---STRING feed url
+Feed-URL
+---STRINGEND
+
+---STRING fetch feed %s
+Feed "%s" wurde abgerufen
+---STRINGEND
+
+---STRING import opml subscriptions
+Abonnements im OPML-Format importieren
+---STRINGEND
+
+---STRING keep removed items
+Aus dem Feed gelöschte Einträge lokal beibehalten
+---STRINGEND
+
+---STRING latest fetch %s
+Zuletzt abgerufen: %s
+---STRINGEND
+
+---STRING latest item from %s
+Der neueste Eintrag ist vom %s
+---STRINGEND
+
+---STRING latest items to show
+Wieviele Einträge sollen in der "latest"-Ansicht angezeigt werden?`
+---STRINGEND
+
+---STRING local
+Lokal speichern
+---STRINGEND
+
+---STRING local item
+Lokale Kopie des Eintrags
+---STRINGEND
+
+---STRING manage feeds
+Feeds verwalten
+---STRINGEND
+
+---STRING manage feeds of %s
+Feeds des Ordners "%s" verwalten
+---STRINGEND
+
+---STRING n/a
+n/v
+---STRINGEND
+
+---STRING net.nemein.rss
+RSS und Atom News-Aggregator
+---STRINGEND
+
+---STRING no items found in feed
+Der Feed enthält keine einträge
+---STRINGEND
+
+---STRING opml file
+OPML-Datei
+---STRINGEND
+
+---STRING refresh all feeds
+All Feeds aktualisieren
+---STRINGEND
+
+---STRING refresh feed
+Feed aktualisieren
+---STRINGEND
+
+---STRING remote from feed
+Aus dem Feed entfernen
+---STRINGEND
+
+---STRING remote item
+Eintrag im Feed
+---STRINGEND
+
+---STRING remove feed
+Feed entfernen
+---STRINGEND
+
+---STRING rss aggregator
+RSS und Atom News-Aggregator
+---STRINGEND
+
+---STRING rss description
+RSS-Beschreibung
+---STRINGEND
+
+---STRING rss items to show
+Wieviele Einträge sollen angezeigt werden?
+---STRINGEND
+
+---STRING rss output settings
+Einstellungen für die RSS-Ausgabe
+---STRINGEND
+
+---STRING save
+Speichern
+---STRINGEND
+
+---STRING subscribe feeds
+Neue Feeds abonnieren
+---STRINGEND
+
+---STRING subscribe feeds for %s
+Feeds für Ordner "%s" abonnieren
+---STRINGEND
+
+---STRING subscription mode
+Abonnement-Modus
+---STRINGEND
+
+---STRING titles
+Nur Titel
+---STRINGEND
+
+---STRING untitled
+Unbenannt
+---STRINGEND
+

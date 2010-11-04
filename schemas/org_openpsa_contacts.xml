@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+<!-- Break up to component specific files with this as
+     Master include point when Piotras has solid support for it -->
+
+    <!-- org.openpsa.contacts Objects-->
+    <type name="org_openpsa_organization" table="grp">
+        <!-- Clean extending not supported yet
+             NewMidgardGrp properties -->
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="name" type="string" index="yes" />
+        <property name="official" type="string" index="yes" />
+        <property name="homepage" type="string" />
+        <property name="email" type="string" />
+        <property name="extra" type="text" />
+        <property name="owner" link="midgard_group:id" type="unsigned integer" upfield="owner" />
+        <property name="street" type="string" />
+        <property name="postcode" type="string" />
+        <property name="city" type="string" />
+        <!-- /NewMidgardGrp properties -->
+        <property name="country" type="string" />
+
+        <!-- GTypes *always* converts underscore to dashes, this sucks even more than CamelCase -->
+        <property name="postalStreet" type="string" />
+        <property name="postalPostcode" type="string" />
+        <property name="postalCity" type="string" />
+        <property name="postalCountry" type="string" />
+
+        <property name="invoiceStreet" type="string" />
+        <property name="invoicePostcode" type="string" />
+        <property name="invoiceCity" type="string" />
+        <property name="invoiceCountry" type="string" />
+
+        <property name="customerId" type="string" index="yes" />
+        <property name="phone" type="string" />
+        <property name="fax" type="string" />
+        <property name="keywords" type="string" />
+
+        <property name="invoiceDue" type="unsigned integer" />
+        <property name="invoiceVat" type="unsigned integer" />
+        <property name="invoiceDistribution" type="string" />
+        <property name="vatNo" type="string" />
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Shortcut for various ACL scenarios -->
+        <property name="orgOpenpsaAccesstype" type="integer" />
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" />
+        <!-- will contain bitmask as integer, 00(int=0) not a workgroup, 01(int=1) is workgroup
+             but not active, 11(int=3) active workgroup -->
+        <property name="orgOpenpsaWgtype" type="integer" />
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_person" table="person">
+        <!-- Clean extending not supported yet
+             midgard_person properties -->
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="username" type="string" index="yes" />
+        <property name="password" type="string" dbtype="varchar(13) binary" />
+        <property name="firstname" type="string" index="yes" />
+        <property name="lastname" type="string" index="yes" />
+        <property name="birthdate" type="datetime" />
+        <property name="street" type="string" />
+        <property name="postcode" type="string" />
+        <property name="city" type="string" />
+        <property name="homephone" type="string" />
+        <property name="handphone" type="string" />
+        <property name="workphone" type="string" />
+        <property name="homepage" type="string" />
+        <property name="email" type="string" index="yes" />
+        <property name="extra" type="text" />
+        <!-- <property name="img" link="midgard_person:image" type="unsigned integer" /> -->
+        <property name="info" type="string" dbtype="set('auth')" />
+        <property name="topic" link="midgard_topic:id" type="unsigned integer" />
+        <property name="subtopic" link="midgard_topic:id" type="unsigned integer" />
+        <property name="office" link="midgard_topic:id" type="unsigned integer" />
+        <property name="pgpkey" type="text" />
+        <!-- /midgard_person properties -->
+
+        <property name="country" type="string" />
+        <property name="fax" type="string" />
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Shortcut for various ACL scenarios -->
+        <property name="orgOpenpsaAccesstype" type="integer" />
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" />
+        <!-- will contain bitmask as integer, 00(int=0) not a workgroup, 01(int=1) is workgroup
+             but not active, 11(int=3) active workgroup -->
+        <property name="orgOpenpsaWgtype" type="integer" />
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+    <!-- /org.openpsa.contacts Objects-->
+
+ </Schema>

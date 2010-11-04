@@ -1,0 +1,1 @@
+Shows the unsent, overdue, open and the six most recently paid invoices.

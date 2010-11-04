@@ -1,0 +1,37 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE ru
+
+---STRING %s category %s
+%s: категория "%s"
+---STRINGEND
+
+---STRING add a new entry
+Добавить новую запись
+---STRINGEND
+
+---STRING advanced schema and data settings
+Настройки данных и схемы
+---STRINGEND
+
+---STRING ajax_enable
+Разрешить редактирование с AJAX
+---STRINGEND
+
+---STRING archive
+Архив
+---STRINGEND
+
+---STRING archive_enable
+Разрешить использование архива
+---STRINGEND
+
+---STRING article
+Статья
+---STRINGEND
+
+---STRING available feeds
+Доступные новостные ленты
+---STRINGEND
+

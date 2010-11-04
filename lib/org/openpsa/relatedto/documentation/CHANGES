@@ -1,0 +1,51 @@
+org.openpsa.relatedto Changelog
+                   -------------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+TODO:
+  - register delete watcher to remove links to the deleted object
+  - register cron handler to remove dangling links
+
+2006-10-05
+  - changed wiki creation url to new namespaces compatible one
+
+2006-08-29 rambo
+  + Added support for org.openpsa.contacts person merge
+  - made suspects duplicate check slightly less strict
+
+2006-06-01 bergie
+  + Added support for displaying invoices as relations
+
+2006-05-17 rambo
+  - extra debug messages
+
+2006-05-13 rambo
+  - prevent hour_report relatedtos from being rendered with the default line
+    (also allows components to render them as they see fit by overloading just
+     one method)
+
+2006-05-12 rambo & bergie
+  + simple Ajax handling for the confirm/deny relation controls. (Rambo)
+  + static method for populating create wikinote, document etc buttons
+    to given toolbar properly relatedto:ized. (Rambo)
+  - removed $_MIDCOM->skip_page_style from renderer prototype (bergie)
+
+2006-05-11 rambo & bergie
+  + interface method based system to query all components for possibly
+    objects possibly related to the object given (rambo)
+  - separated rendering methods for normal and email wikinotes
+  - nicer renderings for supported link targets (bergie)
+  + AJAX methods for confirming/denying link relations to handled_protoype (rambo)
+  + AHAH method for displaying details of a related record (bergie)
+
+2006-05-10 rambo
+  + service based backup for moving relatedto information in creates
+    (for DM2)
+  + render relatedto lists for object
+
+2006-05-09 rambo
+  - initial version

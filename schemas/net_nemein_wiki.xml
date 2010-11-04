@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="net_nemein_wiki_link" table="net_nemein_wiki_link" parent="midgard_article" parentfield="frompage">
+        <property name="id" type="unsigned integer" primaryfield="id"/>
+        <property name="frompage" link="midgard_article:id" reverse="no" type="unsigned integer" parentfield="frompage"/>
+        <property name="topage" type="string" index="yes"/>
+        <property name="topageid" link="midgard_article:id" reverse="no" type="unsigned integer"/>     
+    </type>
+</Schema>

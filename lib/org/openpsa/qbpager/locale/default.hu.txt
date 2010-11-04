@@ -1,0 +1,25 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE hu
+
+---STRING next
+következő
+---STRINGEND
+
+---STRING previous
+előző
+---STRINGEND
+
+---STRING first
+&laquo;
+---STRINGEND
+
+---STRING last
+&raquo;
+---STRINGEND
+
+---STRING org.openpsa.qbpager
+Lekérdezés jelentő
+---STRINGEND
+

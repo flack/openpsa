@@ -1,0 +1,51 @@
+                   midgard.admin.asgard Changelog
+                   ------------------------------
+CVS Id: $Id: CHANGES 5537 2007-03-19 12:22:38Z bergie $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-03-11 adrenalin
+  + Added copy and copy tree as a part of basic object management
+
+2008-02-18 adrenalin
+  - Added configuration option for skipping the viewing mode to enter straight to the editing mode
+
+2008-02-12 adrenalin
+  - Improved heuristics for special fields
+
+2008-01-25 adrenalin
+  - Added user preference option for toggling SG0 objects in navigation
+
+2007-12-20 adrenalin
+  ! Moved Revision Control System to Asgard
+
+2007-11-16 adrenalin
+  ! Added user preferences page for customizing Asgard view
+
+2007-10-25 adrenalin
+  - Configuration options for enabling and disabling TinyMCE and Codepress
+
+2007-10-12 solt
+  + More styling
+  + Added interface for plugin navigation
+  + Fixed help on objects reading
+
+2007-07-24 bergie
+  + Started using validation for typical PHP code fields
+
+2007-06-02 bergie
+  + Initial multilingual support
+
+2007-06-01 bergie
+  + Root-level object deletion support
+  + Midgard Page Cache invalidation support
+
+2007-05-04 bergie
+  + Initially created
+  + Added support for basic object operations: viewing, editing creating and deleting
+  + Added support for object parameter management using DM2 composites
+  + Added support for metadata editing

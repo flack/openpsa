@@ -1,0 +1,43 @@
+form.datamanager2 input.universalchooser_search
+{
+    background-position: right !important;
+    background-repeat: no-repeat !important;
+    background-image: url('../stock-icons/16x16/view.png') !important;
+}
+
+form.datamanager2 input.universalchooser_searching
+{
+    /* TODO: Do not require openpsa2 */
+    background-image: url('ajax-loading-small.gif') !important;
+}
+
+form.datamanager2 input.universalchooser_search_ok
+{
+    background-image: url('../stock-icons/16x16/ok.png') !important;
+}
+
+form.datamanager2 input.universalchooser_search_fail
+{
+    background-image: url('../stock-icons/16x16/cancel.png') !important;
+}
+form.datamanager2 div.universalchooser_search_resultscontainer
+{
+    background-color: #eeeeec;
+    border-bottom: 1px solid #d3d7cf;
+    border-left: 1px solid #d3d7cf;
+    border-right: 1px solid #d3d7cf;
+    margin-top: 0px;
+    clear: left;
+}
+
+form.datamanager2 div.universalchooser_search_resultscontainer ul
+{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+.hidden
+{
+    display: none !important;
+}

@@ -1,0 +1,137 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 23195 2009-08-19 16:06:12Z flack $
+---LANGUAGE fi
+
+---STRING basic report
+Perusraportti
+---STRINGEND
+
+---STRING both
+Molemmat
+---STRINGEND
+
+---STRING define custom report
+Määrittele räätälöity raportti
+---STRINGEND
+
+---STRING end time
+Loppuaika
+---STRINGEND
+
+---STRING generate report
+Luo raportti
+---STRINGEND
+
+---STRING invoiceable hours last month
+Laskutettavat tunnit viime kuulta
+---STRINGEND
+
+---STRING invoiceable hours this month
+Laskutettavat tunnit tässä kuussa
+---STRINGEND
+
+---STRING no results
+Ei tuloksia
+---STRINGEND
+
+---STRING no results found matching the report criteria
+Raportin kriteerejä vastaavia tuloksia ei löytynyt.
+---STRINGEND
+
+---STRING only approved
+Vain hyväksytyt
+---STRINGEND
+
+---STRING only invoiceable
+Vain laskutettavat
+---STRINGEND
+
+---STRING only invoiced
+Vain laskutetut
+---STRINGEND
+
+---STRING only not approved
+Vain hyväksymättömät
+---STRINGEND
+
+---STRING only not invoiced
+Vain laskuttamattomat
+---STRINGEND
+
+---STRING only uninvoiceable
+Vain ei-laskutettavat
+---STRINGEND
+
+---STRING org.openpsa.reports
+Raporttigeneraattori
+---STRINGEND
+
+---STRING person
+Henkilö
+---STRINGEND
+
+---STRING query by
+Kysely
+---STRINGEND
+
+---STRING report grouping
+Raportin ryhmittely
+---STRINGEND
+
+---STRING report style
+Raportin tyyli
+---STRINGEND
+
+---STRING root project/process
+Pääprojekti/-prosessi
+---STRINGEND
+
+---STRING scope
+Laajuus
+---STRINGEND
+
+---STRING show approved
+Näytä hyväksytyt
+---STRINGEND
+
+---STRING show invoiceable
+Näytä laskutettavat
+---STRINGEND
+
+---STRING show invoiced
+Näytä laskutetut
+---STRINGEND
+
+---STRING start time
+Alkuaika
+---STRINGEND
+
+---STRING timeframe
+Aikaikkuna
+---STRINGEND
+
+---STRING totals
+Yhteensä
+---STRINGEND
+
+---STRING weekly report
+Viikkoraportit
+---STRINGEND
+
+---STRING workgroup/person
+Työryhmä/henkilö
+---STRINGEND
+
+---STRING %s total
+%s yhteensä
+---STRINGEND
+
+---STRING basic report for %s - %s
+Perusraportti %s - %s
+---STRINGEND
+
+---STRING invoice report %s - %s
+Laskuraportti %s - %s
+---STRINGEND
+

@@ -1,0 +1,49 @@
+Metadata
+===
+Metadata is information describing the content. Through Metadata it is possible to describe e.g. when 
+content should be available and what it is about. Enter to the editing mode with 
+
+1. Page > Edit metadata to edit the page-specific metadata 
+* It depends on the component, which pages allow editing page specific metadata 
+
+2. Folder > Edit folder metadata to edit folder-specific metadata 
+
+##Editable metadata fields 
+
+1. Hide from navigation 
+* Check the box to hide the element from navigation. 
+
+2. Arrangement score 
+* This affects the navigation order. 
+Objects with lower score are usually 
+displayed first, but some components 
+might have different logic (e.g. blog will 
+display the latest articles instead of 
+using the score). 
+
+3. Description 
+* Description of the content can be used 
+to tell verbally what the content is 
+about. Description can be used to 
+provide search engines information of 
+the page. 
+
+4. Keywords 
+* Keywords is a list of words that implies 
+that search engines should direct their results, if someone uses the same search keys. Nowadays 
+keywords is close to useless due to exploitations done in the past. 
+
+5. Tags 
+* Tags are small internal earmarks, which are often used as internal keywords to describe the context 
+of the content. Tags can be very powerful tool to link information. Using tags is highly system and 
+case specific. Consult your site builder if you are willing to link information with tags. 
+
+6. Published 
+* Date when the object was created or published for the first time. 
+
+7. Authors 
+* Authors is a list of people who own the object. 
+
+8. Owner 
+* Owner group of the object or which group has all the privileges for the object editing, deleting and 
+such. 

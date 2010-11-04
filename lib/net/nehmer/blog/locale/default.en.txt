@@ -1,0 +1,393 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 26587 2010-08-05 13:58:52Z jval $
+---LANGUAGE en
+
+---STRING %s category %s
+%s: category "%s"
+---STRINGEND
+
+---STRING add a new entry
+Add a new entry
+---STRINGEND
+
+---STRING advanced schema and data settings
+Advanced schema and data settings
+---STRINGEND
+
+---STRING ajax_enable
+Enable AJAX on-site editing
+---STRINGEND
+
+---STRING archive
+Archive
+---STRINGEND
+
+---STRING archive item order
+Archive item order
+---STRINGEND
+
+---STRING archive_enable
+Enable archive browsing
+---STRINGEND
+
+---STRING article
+Article
+---STRINGEND
+
+---STRING article %s deleted
+Article %s deleted
+---STRINGEND
+
+---STRING article link
+Article link
+---STRINGEND
+
+---STRING ascending
+Ascending
+---STRINGEND
+
+---STRING atom feed
+ATOM feed
+---STRINGEND
+
+---STRING available feeds
+Available feeds
+---STRINGEND
+
+---STRING available feeds introduction
+The following content syndication feed formats are available:
+---STRINGEND
+
+---STRING back to overview
+Back to overview
+---STRINGEND
+
+---STRING blog link deleted
+Blog link deleted
+---STRINGEND
+
+---STRING blog settings
+Blog settings
+---STRINGEND
+
+---STRING categories
+Categories
+---STRINGEND
+
+---STRING comments_enable
+Enable commenting to news items (requires the net.nehmer.comments component)
+---STRINGEND
+
+---STRING ajax_comments_enable
+Show comments in listing (using AJAX, requires the net.nehmer.comments component)
+---STRINGEND
+
+---STRING content
+Content
+---STRINGEND
+
+---STRING create article
+Create Article
+---STRINGEND
+
+---STRING create name from title
+Generate URL names from article titles
+---STRINGEND
+
+---STRING create news article
+Create news article
+---STRINGEND
+
+---STRING delete article
+Delete Article
+---STRINGEND
+
+---STRING delete article link
+Delete article link
+---STRINGEND
+
+---STRING delete cancelled
+Delete cancelled
+---STRINGEND
+
+---STRING delete link
+Delete link
+---STRINGEND
+
+---STRING descending
+Descending
+---STRINGEND
+
+---STRING disable indexing
+Disable indexing contents of this folder for full-text search
+---STRINGEND
+
+---STRING disable permalinks
+Disable resolving PermaLinks to this folder
+---STRINGEND
+
+---STRING display settings
+News item display configuration
+---STRINGEND
+
+---STRING edit article
+Edit Article
+---STRINGEND
+
+---STRING enable blogging apis
+Enable remote editing via MetaWebLog API
+---STRINGEND
+
+---STRING enable date filters get
+Enable date filters (GET parameter)
+---STRINGEND
+
+---STRING enable date filters path
+Enable date filters (in path, format /YYYY/MM/DD)
+---STRINGEND
+
+---STRING enable details
+Enable detail pages
+---STRINGEND
+
+---STRING enable filters get
+Enable field filters (GET parameter)
+---STRINGEND
+
+---STRING enable public posting
+Enable public posting ("Guestbook style")
+---STRINGEND
+
+---STRING enable scheduled publishing
+Enable scheduled publishing
+---STRINGEND
+
+---STRING enable subdirectories
+Include all subtopic's News Articles into Index (and RSS)
+---STRINGEND
+
+---STRING expert settings
+Expert settings
+---STRINGEND
+
+---STRING failed to delete the blog link, contact the site administrator
+Failed to delete the blog link, contact the site administrator
+---STRINGEND
+
+---STRING first post was made on %s.
+The first posting was made on %s.
+---STRINGEND
+
+---STRING from
+From
+---STRINGEND
+
+---STRING help_style
+Style elements
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+If you want to delete the original article, <a href="%s">click here</a>.
+---STRINGEND
+
+---STRING index count
+Index count
+---STRINGEND
+
+---STRING index settings
+Index settings
+---STRINGEND
+
+---STRING index_entries
+List this many items on index page
+---STRINGEND
+
+---STRING index_info
+Prepares index view for component.
+---STRINGEND
+
+---STRING language
+Language
+---STRINGEND
+
+---STRING latest_info
+Displays lastest {$args[0]} entries.
+---STRINGEND
+
+---STRING link_to_external_url
+Link items to external URL if available
+---STRINGEND
+
+---STRING list articles from folders
+List articles also from folders
+---STRINGEND
+
+---STRING folders
+Folders
+---STRINGEND
+
+---STRING list old items in index
+List old items in Index
+---STRINGEND
+
+---STRING navigation options
+Navigation options
+---STRINGEND
+
+---STRING net.nehmer.blog
+News listing
+---STRINGEND
+
+---STRING newsticker
+News listing
+---STRINGEND
+
+---STRING newsticker administration
+News Administration
+---STRINGEND
+
+---STRING no news found.
+No news found.
+---STRINGEND
+
+---STRING no schema available
+No Layout Schema available
+---STRINGEND
+
+---STRING not enough privileges to create articles
+You do not have the privileges required to cretate new articles.
+---STRINGEND
+
+---STRING posted on %s.
+Posted on %s.
+---STRINGEND
+
+---STRING public posting
+Public posting ("Guestbook style")
+---STRINGEND
+
+---STRING public posting password
+Midgard Password to use for public posting (only necessary if an username has been entered)
+---STRINGEND
+
+---STRING public posting schema
+Datamanager schema to use for public posting
+---STRINGEND
+
+---STRING public posting user
+Midgard username to use for public posting (leave empty to use the currently authenticated user)
+---STRINGEND
+
+---STRING related stories
+Related stories
+---STRINGEND
+
+---STRING routes
+Routes
+---STRINGEND
+
+---STRING rss 0.91 feed
+RSS 0.91 feed
+---STRINGEND
+
+---STRING rss 1.0 feed
+RSS 1.0 feed
+---STRINGEND
+
+---STRING rss 2.0 feed
+RSS 2.0 feed
+---STRINGEND
+
+---STRING rss export settings
+RSS export
+---STRINGEND
+
+---STRING rss feed
+RSS Feed
+---STRINGEND
+
+---STRING rss_include_image
+Include full-size image from schema field "image" to RSS items
+---STRINGEND
+
+---STRING rss_subscription_enable
+Enable creating news items from remote RSS and Atom feeds
+---STRINGEND
+
+---STRING schema database
+Path to the schema database
+---STRINGEND
+
+---STRING schema settings
+Schema settings
+---STRINGEND
+
+---STRING schemadb
+Database schema to use for articles
+---STRINGEND
+
+---STRING select article type
+Select Article type
+---STRINGEND
+
+---STRING set this to no if you want to hide feeds and archive links in navigation
+Set this to 'no' if you want to hide 'Feeds' and 'Archive' links in navigation
+---STRINGEND
+
+---STRING set this to no if you want to hide feeds link in navigation
+Set this to "no" if you want to hide feeds link from navigation
+---STRINGEND
+
+---STRING set to no for de.linkm.newsticker compatibility
+Set to no for de.linkm.newsticker compatibility
+---STRINGEND
+
+---STRING settings
+Settings
+---STRINGEND
+
+---STRING show content in index
+Show full articles in index
+---STRINGEND
+
+---STRING show feeds in navigation
+Show available feeds in navigation
+---STRINGEND
+
+---STRING show latest items in navigation
+Show latest items in navigation
+---STRINGEND
+
+---STRING show pseudo leaves in navigation
+Show pseudo leaves in navigation
+---STRINGEND
+
+---STRING sort order
+Sort order
+---STRINGEND
+
+---STRING symlink_topic
+Link to another content topic ("symlink")
+---STRINGEND
+
+---STRING symlink_topic disabled
+No topic selected
+---STRINGEND
+
+---STRING there is a total of %d posts.
+There is a total of %d posts.
+---STRINGEND
+
+---STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
+This blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link.
+---STRINGEND
+
+---STRING use view prefix in url
+Use 'view' prefix in url
+---STRINGEND
+
+---STRING visible
+Should the topic be visible
+---STRINGEND
+

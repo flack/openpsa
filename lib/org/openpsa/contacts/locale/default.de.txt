@@ -1,0 +1,505 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 26257 2010-06-01 15:19:12Z gudd $
+---LANGUAGE de
+
+---STRING %s of
+%s von
+---STRINGEND
+
+---STRING <title>
+<Titel>
+---STRINGEND
+
+---STRING account blocked %s minutes
+Der Zugang wurde wegen zu vieler Versuche für %s Minuten gesperrt
+---STRINGEND
+
+---STRING add buddy
+Zu meinen Kontakten hinzufügen
+---STRINGEND
+
+---STRING back to person
+Zurück zur Person
+---STRINGEND
+
+---STRING basic information
+Basisdaten
+---STRINGEND
+
+---STRING cancel
+Abbrechen
+---STRINGEND
+
+---STRING categories
+Kategorien
+---STRINGEND
+
+---STRING cell %s
+Zelle %s
+---STRINGEND
+
+---STRING choose the person to keep
+Wählen Sie, welche Person beibehalten werden soll. Sie können später auch beide behalten.
+---STRINGEND
+
+---STRING city
+Stadt
+---STRINGEND
+
+---STRING client
+Kunde
+---STRINGEND
+
+---STRING company_id
+Firmen-ID
+---STRINGEND
+
+---STRING competence areas
+Kompetenzgebiete
+---STRINGEND
+
+---STRING contact information
+Kontaktdaten
+---STRINGEND
+
+---STRING contact search
+Kontakt-Suche
+---STRINGEND
+
+---STRING contacts
+Kontakte
+---STRINGEND
+
+---STRING country
+Land
+---STRINGEND
+
+---STRING create account
+Benutzerkonto erstellen
+---STRINGEND
+
+---STRING create event
+Termin erstellen
+---STRINGEND
+
+---STRING create organization
+Organisation erstellen
+---STRINGEND
+
+---STRING create person
+Person erstellen
+---STRINGEND
+
+---STRING create suborganization
+Unterorganisation erstellen
+---STRINGEND
+
+---STRING current password
+Aktuelles Passwort
+---STRINGEND
+
+---STRING customers invoices
+Rechnungen des Kunden
+---STRINGEND
+
+---STRING daughter organization
+Unterorganisation
+---STRINGEND
+
+---STRING decide later
+Später entscheiden
+---STRINGEND
+
+---STRING department
+Abteilung
+---STRINGEND
+
+---STRING digital business ecosystem
+Digital Business Ecosystem
+---STRINGEND
+
+---STRING due
+Fälligkeit
+---STRINGEND
+
+---STRING edit
+Bearbeiten
+---STRINGEND
+
+---STRING edit account
+Benutzerkonto bearbeiten
+---STRINGEND
+
+---STRING edit user account: %s %s
+Benutzerkonto bearbeiten: %s %s
+---STRINGEND
+
+---STRING edit billingdata
+Rechnungsdaten bearbeiten
+---STRINGEND
+
+---STRING email
+E-Mail
+---STRINGEND
+
+---STRING email %s
+E-Mail an %s
+---STRINGEND
+
+---STRING enable calendar
+Darf Termine im Gruppenkalender anlegen
+---STRINGEND
+
+---STRING enable campaign creation
+Darf Kampagnen anlegen
+---STRINGEND
+
+---STRING enable contact creation
+Darf Kontakte anlegen
+---STRINGEND
+
+---STRING enable editing campaigns created by others
+Darf Kampagnen bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable editing contacts created by others
+Darf Kontakte bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable editing invoices created by others
+Darf Rechnungen bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable editing organizations created by others
+Darf Organisationen bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable invoice creation
+Darf Rechnungen anlegen
+---STRINGEND
+
+---STRING enable organization creation
+Darf Organisationen anlegen
+---STRINGEND
+
+---STRING enable product creation
+Darf Produkte anlegen
+---STRINGEND
+
+---STRING enable editing products created by others
+Darf Produkte bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable project creation
+Darf Projekte anlegen
+---STRINGEND
+
+---STRING enable salesproject creation
+Darf Verkaufsprojekte anlegen
+---STRINGEND
+
+---STRING enable wikipage creation
+Darf Wiki-Seiten anlegen
+---STRINGEND
+
+---STRING enable editing wikipages created by others
+Darf Wiki-Seiten bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING failed to create user account, reason
+Benutzerkonto konnte nicht erstellt werden. Ursache:
+---STRINGEND
+
+---STRING fax
+Fax
+---STRINGEND
+
+---STRING firstname
+Vorname
+---STRINGEND
+
+---STRING homepage
+Web-Adresse
+---STRINGEND
+
+---STRING homephone
+Telefon
+---STRINGEND
+
+---STRING invoice defaults
+Standard-Einstellungen für Rechnungen
+---STRINGEND
+
+---STRING invoice address
+Rechnungsanschrift
+---STRINGEND
+
+---STRING invoicing target percentage
+Zielprozentsatz für Rechnungsstellung
+---STRINGEND
+
+---STRING jabber id
+Jabber-ID
+---STRINGEND
+
+---STRING job title
+Position
+---STRINGEND
+
+---STRING keep both
+Beide beibehalten
+---STRINGEND
+
+---STRING keep this
+Diesen beibehalten
+---STRINGEND
+
+---STRING lastname
+Nachname
+---STRINGEND
+
+---STRING logo
+Logo
+---STRINGEND
+
+---STRING me
+Ich
+---STRINGEND
+
+---STRING member
+Mitglied der Organisation
+---STRINGEND
+
+---STRING merge persons
+Doppelte Personen zusammenführen
+---STRINGEND
+
+---STRING mobile phone
+Mobiltelefon
+---STRINGEND
+
+---STRING my contacts
+Meine Kontakte
+---STRINGEND
+
+---STRING new organization
+Neue Organisation
+---STRINGEND
+
+---STRING new password
+Neues Passwort
+---STRINGEND
+
+---STRING new password encrypt
+Neues Passwort verschlüsseln
+---STRINGEND
+
+---STRING new password repeat
+Neues Passwort wiederholen
+---STRINGEND
+
+---STRING new person
+Neue Person
+---STRINGEND
+
+---STRING no account
+Kein Benutzerkonto
+---STRINGEND
+
+---STRING no duplicates found
+Keine Doppelungen gefunden
+---STRINGEND
+
+---STRING no more duplicates to merge found
+Keine Doppelugen gefunden, die mit Ihren Berechtigungen zusammengeführt werden könnten
+---STRINGEND
+
+---STRING no results
+Ihre Suche lieferte keine Treffer
+---STRINGEND
+
+---STRING no current password given
+Es wurde kein akutelles Passwort eingegeben
+---STRINGEND
+
+---STRING notes
+Anmerkungen
+---STRINGEND
+
+---STRING notification settings
+Benachrichtigungseinstellungen
+---STRINGEND
+
+---STRING official
+Offizieller Name
+---STRINGEND
+
+---STRING org.openpsa.contacts
+Kontakt-Verwaltung
+---STRINGEND
+
+---STRING organization
+Organisation
+---STRINGEND
+
+---STRING organization_type
+Organisations-Typ
+---STRINGEND
+
+---STRING organizations
+Organisationen
+---STRINGEND
+
+---STRING partner
+Partner
+---STRINGEND
+
+---STRING password is the same as the current one
+Das Passwort ist gleich dem derzeitigen Passwort
+---STRINGEND
+
+---STRING password too short
+Passwort ist zu kurz
+---STRINGEND
+
+---STRING password weak
+Passwortstärke ist zu gering
+---STRINGEND
+
+---STRING password good
+Passwortstärke ist gut
+---STRINGEND
+
+---STRING password strong
+Passwortstärke ist sehr gut
+---STRINGEND
+
+---STRING password was already used
+Das neue Passwort wurde schon einmal benutzt
+---STRINGEND
+
+---STRING password repeat
+Kennwort (wiederholen)
+---STRINGEND
+
+---STRING passwords don't match
+Kennwörter stimmen nicht überein!
+---STRINGEND
+
+---STRING password expired
+Ihr Passwort ist abgelaufen bitte erstellen Sie ein neues Passwort.
+---STRINGEND
+
+---STRING permissions
+Berechtigungen
+---STRINGEND
+
+---STRING person
+Person
+---STRINGEND
+
+---STRING persons
+Personen
+---STRINGEND
+
+---STRING phone
+Telefon
+---STRINGEND
+
+---STRING photo
+Foto
+---STRINGEND
+
+---STRING postal address
+Postanschrift
+---STRINGEND
+
+---STRING postcode
+PLZ
+---STRINGEND
+
+---STRING project management
+Projekt-Verwaltung
+---STRINGEND
+
+---STRING related notes
+Verbundene Notizen
+---STRINGEND
+
+---STRING remove buddy
+Aus meinen Kontakten entfernen
+---STRINGEND
+
+---STRING save
+Speichern
+---STRINGEND
+
+---STRING search
+Suche
+---STRINGEND
+
+---STRING skype name
+Skype-Name
+---STRINGEND
+
+---STRING store as plain text
+Als einfachen Text speichern
+---STRINGEND
+
+---STRING street
+Straße
+---STRINGEND
+
+---STRING sub organizations
+Unterorganisationen
+---STRINGEND
+
+---STRING tel %s
+Tel. %s
+---STRINGEND
+
+---STRING treat as workgroup
+Als Arbeitsgruppe behandeln
+---STRINGEND
+
+---STRING user account
+Benutzerkonto
+---STRINGEND
+
+---STRING username
+Benutzername
+---STRINGEND
+
+---STRING username already exists
+Ein Benutzer mit diesem Namen existiert bereits
+---STRINGEND
+
+---STRING username and password identical
+Benutzername und Passwort sind identisch
+---STRINGEND
+
+---STRING user account for %s
+Benutzerkonto von %s
+---STRINGEND
+
+---STRING vendor
+Verkäufer
+---STRINGEND
+
+---STRING visiting address
+Besuchsadresse
+---STRINGEND
+
+---STRING weekly workhours
+Wöchentliche Arbeitsstunden
+---STRINGEND
+
+---STRING work phone
+Telefon (geschäftlich)
+---STRINGEND
+
+---STRING wrong current password
+Das aktuelle Passwort ist nicht korrekt
+---STRINGEND
+

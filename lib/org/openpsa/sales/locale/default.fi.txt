@@ -1,0 +1,365 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 23448 2009-09-22 14:42:35Z bergie $
+---LANGUAGE fi
+
+---STRING %s cycles in %s months
+%s kautta %s kuukaudessa
+---STRINGEND
+
+---STRING %s cycles, %s - %s
+%s kautta, %s - %s
+---STRINGEND
+
+---STRING %s planned
+%s arvioitua
+---STRINGEND
+
+---STRING %s%% of %s
+%s%% %s:sta
+---STRINGEND
+
+---STRING action new_subscription_cycle
+Uuden tilaussyklin alku
+---STRINGEND
+
+---STRING active
+Käynnissä
+---STRINGEND
+
+---STRING active salesprojects
+Käynnissä olevat myyntiprojektit
+---STRINGEND
+
+---STRING add deliverable
+Lisää tuote
+---STRINGEND
+
+---STRING calculation basis
+Laskutapa
+---STRINGEND
+
+---STRING canceled
+Peruuntunut
+---STRINGEND
+
+---STRING code
+Projektinumero
+---STRINGEND
+
+---STRING contacts
+Yhteyshenkilöt
+---STRINGEND
+
+---STRING continuous subscription
+Tilaus toistaiseksi
+---STRINGEND
+
+---STRING cost
+Kulu
+---STRINGEND
+
+---STRING cost per unit
+Yksikkökulu
+---STRINGEND
+
+---STRING cost structure
+Kustannusrakenne
+---STRINGEND
+
+---STRING cost type
+Kustannustyyppi
+---STRINGEND
+
+---STRING create document
+Luo dokumentti
+---STRINGEND
+
+---STRING create event
+Luo tapahtuma
+---STRINGEND
+
+---STRING create note
+Luo muistio
+---STRINGEND
+
+---STRING create salesproject
+Luo myyntiprojekti
+---STRINGEND
+
+---STRING create task
+Luo tehtävä
+---STRINGEND
+
+---STRING created project "%s"
+Projekti "%s" luotu
+---STRINGEND
+
+---STRING created task "%s"
+Tehtävä "%s" luotu
+---STRINGEND
+
+---STRING customer
+Asiakas
+---STRINGEND
+
+---STRING deliverables
+Toimitukset
+---STRINGEND
+
+---STRING did not mark deliverable "%s" delivered due to other tasks
+Ei merkitty toimitettavaksi kohdetta "%s" muiden tehtävien takia
+---STRINGEND
+
+---STRING download as CSV
+Lataa CSV-tiedostona
+---STRINGEND
+
+---STRING estimated closing date
+Arvioitu kaupantekopäivä
+---STRINGEND
+
+---STRING estimated delivery
+Arvioitu toimituspäivä
+---STRINGEND
+
+---STRING invoice
+Laskuta
+---STRINGEND
+
+---STRING invoice approved only
+Laskuta vain hyväksytyt
+---STRINGEND
+
+---STRING invoice by actual units
+Laskuta toteutuneen mukaan
+---STRINGEND
+
+---STRING invoiced
+Laskutettu
+---STRINGEND
+
+---STRING invoices
+Laskut
+---STRINGEND
+
+---STRING invoicing information
+Laskutustiedot
+---STRINGEND
+
+---STRING invoicing period
+Laskutuskausi
+---STRINGEND
+
+---STRING lost
+Hävitty
+---STRINGEND
+
+---STRING mark declined
+Merkkaa hylätyksi
+---STRINGEND
+
+---STRING mark delivered
+Merkkaa toimitetuksi
+---STRINGEND
+
+---STRING mark ordered
+Merkkaa tilatuksi
+---STRINGEND
+
+---STRING marked deliverable "%s" delivered
+Merkittiin toimitus "%s" toimitetuksi
+---STRINGEND
+
+---STRING next action
+Seuraava toimenpide
+---STRINGEND
+
+---STRING next invoice will be sent on %s
+Seuraava lasku lähetetään %s
+---STRINGEND
+
+---STRING next run
+Seuraava ajo
+---STRINGEND
+
+---STRING no action
+Ei toimenpidettä
+---STRINGEND
+
+---STRING no customer
+Ei asiakasta
+---STRINGEND
+
+---STRING ordered
+Tilattu
+---STRINGEND
+
+---STRING org.openpsa.sales
+Myyntiprojektit
+---STRINGEND
+
+---STRING owner
+Omistaja
+---STRINGEND
+
+---STRING per unit
+per yksikkö
+---STRINGEND
+
+---STRING planned units
+Suunnitellut yksiköt
+---STRINGEND
+
+---STRING previous action
+Edellinen toimenpide
+---STRINGEND
+
+---STRING price
+Hinta
+---STRINGEND
+
+---STRING price per unit
+Yksikköhinta
+---STRINGEND
+
+---STRING pricing
+Hinnoittelu
+---STRINGEND
+
+---STRING pricing information
+Hinnoittelutiedot
+---STRINGEND
+
+---STRING probability
+Todennäköisyys
+---STRINGEND
+
+---STRING product
+Tuote
+---STRINGEND
+
+---STRING profit
+Kate
+---STRINGEND
+
+---STRING proposed
+Tarjottu
+---STRINGEND
+
+---STRING purchase invoice
+Ostolasku OK
+---STRINGEND
+
+---STRING sales report
+Myyntiraportti
+---STRINGEND
+
+---STRING sales report %s - %s
+Myyntiraportti ajalle %s - %s
+---STRINGEND
+
+---STRING salesproject
+Myyntiprojekti
+---STRINGEND
+
+---STRING salesprojects won
+Voitetut myyntiprojektit
+---STRINGEND
+
+---STRING salesprojects: %s
+Myyntiprojektit: %s
+---STRINGEND
+
+---STRING select product
+Valitse tuote
+---STRINGEND
+
+---STRING single delivery
+Kertatoimitus
+---STRINGEND
+
+---STRING started
+Työ aloitettu
+---STRINGEND
+
+---STRING status
+Tila
+---STRINGEND
+
+---STRING subscription
+Tilaus
+---STRINGEND
+
+---STRING subscription begins
+Tilaus alkaa
+---STRINGEND
+
+---STRING subscription cycle %d closed for agreement %s (%s)
+Tilaussykli %d suljettu sopimukselle %s (%s)
+---STRINGEND
+
+---STRING subscription ends
+Tilaus päättyy
+---STRINGEND
+
+---STRING subscription starts
+Tilaus alkaa
+---STRINGEND
+
+---STRING supplier
+Toimittaja
+---STRINGEND
+
+---STRING title
+Otsikko
+---STRINGEND
+
+---STRING total
+Yhteensä
+---STRINGEND
+
+---STRING total cost
+Kulu yhteensä
+---STRINGEND
+
+---STRING unit
+yksikkö
+---STRINGEND
+
+---STRING units
+Yksiköitä
+---STRINGEND
+
+---STRING value
+Arvo
+---STRINGEND
+
+---STRING weighted value
+Painotettu arvo
+---STRINGEND
+
+---STRING won
+Voitettu
+---STRINGEND
+
+---STRING salesprojects canceled
+Peruuntuneet myyntiprojektit
+---STRINGEND
+
+---STRING salesprojects delivered
+Toimitetut myyntiprojektit
+---STRINGEND
+
+---STRING salesprojects invoiced
+Laskutetut myyntiprojektit
+---STRINGEND
+
+---STRING salesprojects lost
+Hävityt myyntiprojektit
+---STRINGEND
+
+---STRING the amount youre trying to invoice %s exceeds the open amount of the deliverable %s
+Summa jota yrität laskuttaa (%s) ylittää tilauksessa auki olevan summan (%s). Muokkaa ensin tilausta
+---STRINGEND
+

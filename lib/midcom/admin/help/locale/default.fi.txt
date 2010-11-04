@@ -1,0 +1,153 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 24574 2009-12-28 16:22:50Z bergie $
+---LANGUAGE fi
+
+---STRING about midgard
+Tietoa Midgardista
+---STRINGEND
+
+---STRING action
+Käsky
+---STRINGEND
+
+---STRING available url methods
+Käytettävissä olevat URL-metodit
+---STRINGEND
+
+---STRING available urls
+Kansiossa käytettävissä olevat URL-osoitteet
+---STRINGEND
+
+---STRING component help
+Komponentin käyttöohjeet
+---STRINGEND
+
+---STRING controller
+Kontrolleri
+---STRINGEND
+
+---STRING dependencies
+Riippuvuudet
+---STRINGEND
+
+---STRING description
+Kuvaus
+---STRINGEND
+
+---STRING go to help main page
+Takaisin ohjeiden pääsivulle
+---STRINGEND
+
+---STRING handler_id
+Tunniste
+---STRINGEND
+
+---STRING handlers
+URL-
+---STRINGEND
+
+---STRING help
+Ohjeet
+---STRINGEND
+
+---STRING help for %s
+Komponentin %s käyttöohjeet
+---STRINGEND
+
+---STRING help for %s in %s
+Käyttöohjeet toiminnolle %s komponentissa %s
+---STRINGEND
+
+---STRING help_dependencies
+Komponentin riippuvuudet
+---STRINGEND
+
+---STRING help_handlers
+URL-käsittelijät
+---STRINGEND
+
+---STRING help_index
+Sisällysluettelo
+---STRINGEND
+
+---STRING help_mgdschemas
+MgdSchema-tyypit
+---STRINGEND
+
+---STRING help_routes
+Reitit
+---STRINGEND
+
+---STRING help_schemas
+MgdSchema-tyypit
+---STRINGEND
+
+---STRING help_style
+Ulkoasupohjat
+---STRINGEND
+
+---STRING help_urlmethods
+URL-metodit
+---STRINGEND
+
+---STRING info
+Kuvaus
+---STRINGEND
+
+---STRING issue tracker
+Parannusehdotukset
+---STRINGEND
+
+---STRING mgdschemas
+mgdschemat
+---STRINGEND
+
+---STRING mgdschemas in %s
+MgdSchema-tyypit komponentissa %s
+---STRINGEND
+
+---STRING midcom.admin.help
+Käyttöohjeet
+---STRINGEND
+
+---STRING no handlers found
+Käsittelijöitä ei löytynyt
+---STRINGEND
+
+---STRING no routes found
+Ei reittejä.
+---STRINGEND
+
+---STRING no url methods found
+URL-metodeja ei löytynyt
+---STRINGEND
+
+---STRING online documentation
+Käyttöohjeet verkossa
+---STRINGEND
+
+---STRING property
+Ominaisuus
+---STRINGEND
+
+---STRING routes
+Reitit
+---STRINGEND
+
+---STRING toc
+Sisällysluettelo
+---STRINGEND
+
+---STRING urlmethods
+URL-metodit
+---STRINGEND
+
+---STRING user forum
+Käyttäjäfoorumi
+---STRINGEND
+
+---STRING about current handler
+Tietoja tämänhetkisestä näkymästä
+---STRINGEND
+

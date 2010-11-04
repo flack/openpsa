@@ -1,0 +1,241 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 25280 2010-03-15 21:34:00Z solt $
+---LANGUAGE en
+
+---STRING %s items
+%s items imported
+---STRINGEND
+
+---STRING %s was imported from %s
+"%s" was imported from feed %s
+---STRINGEND
+
+---STRING ISO code
+ISO code
+---STRINGEND
+
+---STRING add new feed
+Add new feed
+---STRINGEND
+
+---STRING aggregator mode
+Aggregator mode
+---STRINGEND
+
+---STRING aggregator settings
+Aggregator settings
+---STRINGEND
+
+---STRING approve new items automatically
+Approve new items automatically
+---STRINGEND
+
+---STRING bloglines
+Bloglines
+---STRINGEND
+
+---STRING bloglines account
+Bloglines account
+---STRINGEND
+
+---STRING cancel
+Cancel
+---STRINGEND
+
+---STRING channels
+Display items sorted by channel
+---STRINGEND
+
+---STRING combined
+Combine items from all channels by publication date
+---STRINGEND
+
+---STRING default author for items
+Default author for items
+---STRINGEND
+
+---STRING delete feed
+Delete feed
+---STRINGEND
+
+---STRING details
+Full details
+---STRINGEND
+
+---STRING display items
+Display items as
+---STRINGEND
+
+---STRING edit feed %s
+Edit feed "%s"
+---STRINGEND
+
+---STRING feed icon url
+Feed icon's URL (optional)
+---STRINGEND
+
+---STRING feed title
+Feed title
+---STRINGEND
+
+---STRING feed title display
+Feed title display
+---STRINGEND
+
+---STRING feed url
+Feed URL
+---STRINGEND
+
+---STRING fetch feed %s
+Fetched feed "%s"
+---STRINGEND
+
+---STRING import opml subscriptions
+Import subscriptions in OPML format
+---STRINGEND
+
+---STRING keep removed items
+Keep items removed from feed locally
+---STRINGEND
+
+---STRING language (in english)
+Language
+---STRINGEND
+
+---STRING language (native)
+Language (native)
+---STRINGEND
+
+---STRING latest fetch %s
+Latest fetch was on %s
+---STRINGEND
+
+---STRING latest item from %s
+Latest item is from %s
+---STRINGEND
+
+---STRING latest items to show
+How many latest items to show?
+---STRINGEND
+
+---STRING local
+Local storage
+---STRINGEND
+
+---STRING local item
+Local copy of item
+---STRINGEND
+
+---STRING manage feeds
+Manage feeds
+---STRINGEND
+
+---STRING manage feeds of %s
+Manage feeds of folder "%s"
+---STRINGEND
+
+---STRING n/a
+N/A
+---STRINGEND
+
+---STRING net.nemein.rss
+RSS and Atom news aggregator
+---STRINGEND
+
+---STRING no items found in feed
+No items found in feed.
+---STRINGEND
+
+---STRING opml file
+OPML file
+---STRINGEND
+
+---STRING refresh all feeds
+Refresh all feeds
+---STRINGEND
+
+---STRING refresh feed
+Refresh feed
+---STRINGEND
+
+---STRING remote from feed
+Remote from feed
+---STRINGEND
+
+---STRING remote item
+Item in feed
+---STRINGEND
+
+---STRING remove feed
+Remove feed
+---STRINGEND
+
+---STRING rss aggregator
+RSS and Atom news aggregator
+---STRINGEND
+
+---STRING rss description
+RSS description
+---STRINGEND
+
+---STRING rss items to show
+How many news items to show?
+---STRINGEND
+
+---STRING rss output settings
+RSS output settings
+---STRINGEND
+
+---STRING rss_count
+List this many items in rss.xml
+---STRINGEND
+
+---STRING rss_description
+Description
+---STRINGEND
+
+---STRING rss_enable
+Enable RSS export (activates the URLs rss.xml and rss/$count.xml)
+---STRINGEND
+
+---STRING rss_language
+Feed language
+---STRINGEND
+
+---STRING rss_title
+RSS Feed title (leave empty to use the topic's title)
+---STRINGEND
+
+---STRING rss_webmaster
+Webmaster email address
+---STRINGEND
+
+---STRING save
+Save
+---STRINGEND
+
+---STRING store items in language
+Store items in language
+---STRINGEND
+
+---STRING subscribe feeds
+Subscribe new feeds
+---STRINGEND
+
+---STRING subscribe feeds for %s
+Subscribe feeds for folder "%s"
+---STRINGEND
+
+---STRING subscription mode
+Subscription mode
+---STRINGEND
+
+---STRING titles
+Titles only
+---STRINGEND
+
+---STRING untitled
+Untitled
+---STRINGEND
+

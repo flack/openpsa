@@ -1,0 +1,71 @@
+div.org_openpsa_invoices
+{
+    padding: .75em 0
+}
+
+div.org_openpsa_invoices.unsent table button.yes
+{
+    background-image: url('../stock-icons/16x16/stock_mail-reply.png');
+}
+
+div.org_openpsa_invoices_invoice span.bad
+{
+    color: #A40000;
+}
+
+div.org_openpsa_invoices_invoice .hours
+{
+    margin-top: 1em
+}
+
+div.org_openpsa_invoices table button
+{
+    background: transparent;
+    border: none;
+}
+div.org_openpsa_invoices table button:hover
+{
+    cursor: pointer;
+    text-decoration: underline
+}
+div.org_openpsa_invoices table button.yes
+{
+    padding-left: 22px;
+    background-image: url('../stock-icons/16x16/ok.png');
+    background-position: left;
+    background-repeat: no-repeat;
+}
+
+
+.input_description
+{
+    width: 95%;
+}
+.input_price_per_unit
+{
+    width: 70px;
+}
+.input_units
+{
+    width: 70px;
+}
+.remove
+{
+    background-color: #EDEDEB;
+}
+.add_button
+{
+    background-image: url('../stock-icons/16x16/ok.png');
+    background-repeat:no-repeat;
+}
+.remove_button
+{
+    background-image: url('../stock-icons/16x16/cancel.png');
+    background-repeat:no-repeat;
+}
+.invoice_item_row
+{
+    border-bottom-color:grey;
+    border-bottom-style:dotted;
+    border-bottom-width:1px;
+}

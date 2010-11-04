@@ -1,0 +1,96 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 26667 2010-09-26 11:37:31Z flack $
+---LANGUAGE de
+
+---STRING add journal entry
+Journal-Eintrag hinzufügen
+---STRINGEND
+
+---STRING confirm relation
+Verbindung bestätigen
+---STRINGEND
+
+---STRING delete relation
+Verbindung löschen
+---STRINGEND
+
+---STRING deny relation
+Verbindung aufheben
+---STRINGEND
+
+---STRING details
+Details
+---STRINGEND
+
+---STRING org.openpsa.relatedto
+Verwaltungstool für Objekt-Verbindungen
+---STRINGEND
+
+---STRING incoming links
+Eingehende Verbindungen
+---STRINGEND
+
+---STRING notes for %s %s on %s
+Notizen zu %s "%s" am %s
+---STRINGEND
+
+---STRING outgoing links
+Abgehende Verbindungen
+---STRINGEND
+
+---STRING this is related to
+Verbindungen
+---STRINGEND
+
+---STRING related objects
+Verbundene Objekte
+---STRINGEND
+
+---STRING related to this
+Hiermit verbunden
+---STRINGEND
+
+---STRING view related information
+Verbundene Daten anzeigen
+---STRINGEND
+
+---STRING followUp
+Wiedervorlagedatum
+---STRINGEND
+
+---STRING journal entry
+Journal-Eintrag
+---STRINGEND
+
+---STRING journal entries
+Journal-Einträge
+---STRINGEND
+
+---STRING finished
+Erledigt
+---STRINGEND
+
+---STRING open
+Offen
+---STRINGEND
+
+---STRING entry text
+Text
+---STRINGEND
+
+---STRING entry title
+Titel
+---STRINGEND
+
+---STRING linked object
+Verbundenes Objekt
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING view journal entries
+Zeige Journal-Einträge
+---STRINGEND

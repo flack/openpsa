@@ -1,0 +1,369 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 24738 2010-01-15 21:44:53Z jval $
+---LANGUAGE pl
+
+---STRING %s state
+Stan: %s
+---STRINGEND
+
+---STRING a folder with name %s already exists
+Folder '%s' już istnieje
+---STRINGEND
+
+---STRING all descendants will be deleted
+Cała zawartość folderu zostanie usunięta:
+---STRINGEND
+
+---STRING all style elements
+Wszystkie style
+---STRINGEND
+
+---STRING alpha
+Alfa
+---STRINGEND
+
+---STRING are you sure you want to delete this folder
+Na pewno usunąć ten folder?
+---STRINGEND
+
+---STRING author
+Autor
+---STRINGEND
+
+---STRING authors
+Autorzy
+---STRINGEND
+
+---STRING beta
+Beta
+---STRINGEND
+
+---STRING by score
+Sortowanie ręczne
+---STRINGEND
+
+---STRING cancelled
+Anulowano
+---STRINGEND
+
+---STRING change component
+Zmień moduł
+---STRINGEND
+
+---STRING component default
+Domyślnie dla modułu
+---STRINGEND
+
+---STRING copy to editor
+Kopiuj do edytora
+---STRINGEND
+
+---STRING could not save folder: %s
+Nie mogę zapisać folderu. Powód:
+---STRINGEND
+
+---STRING create folder
+Utwórz folder
+---STRINGEND
+
+---STRING create folder under %s
+Utwórz folder w "%s"
+---STRINGEND
+
+---STRING create subfolder
+Utwórz folder
+---STRINGEND
+
+---STRING created
+Utworzono
+---STRINGEND
+
+---STRING creator
+Twórca
+---STRINGEND
+
+---STRING default
+Domyślnie
+---STRINGEND
+
+---STRING default order selected
+Kolejność domyślna
+---STRINGEND
+
+---STRING default sort order
+Domyślne sortowanie
+---STRINGEND
+
+---STRING delete folder
+Usuń folder
+---STRINGEND
+
+---STRING delete folder %s
+Usuń folder "%s"
+---STRINGEND
+
+---STRING edit %s
+Edytuj "%s"
+---STRINGEND
+
+---STRING edit folder
+Edytuj folder
+---STRINGEND
+
+---STRING edit folder %s
+Edytuj folder "%s"
+---STRINGEND
+
+---STRING edit folder metadata
+Edytuj metadane folderu
+---STRINGEND
+
+---STRING edit layout template
+Edytuj szablony
+---STRINGEND
+
+---STRING edit metadata
+Edytuj metadane
+---STRINGEND
+
+---STRING edit metadata of %s
+Edytuj metadane "%s"
+---STRINGEND
+
+---STRING experimental, use with your own risk
+Eksperymentalny. Tylko na własne ryzyko.
+---STRINGEND
+
+---STRING exported
+Eksportowano
+---STRINGEND
+
+---STRING failed to create a new style template
+Błąd dodania stylu
+---STRINGEND
+
+---STRING folder created
+Folder utworzono
+---STRINGEND
+
+---STRING folder page class
+Styl CSS
+---STRINGEND
+
+---STRING folder saved
+Folder zapisano
+---STRINGEND
+
+---STRING folder type
+Typ folderu
+---STRINGEND
+
+---STRING folder with name %s already exists
+Folder '%s' już istnieje
+---STRINGEND
+
+---STRING folders first
+Najpierw foldery
+---STRINGEND
+
+---STRING hide from navigation
+Ukryj w nawigacji
+---STRINGEND
+
+---STRING imported
+Importowano
+---STRINGEND
+
+---STRING inherit style
+Dziedzicz szablon do podfolderów
+---STRINGEND
+
+---STRING install more %s from %s
+Więcej <a href="%s">Komponentów MidCOM'a</a> znajdziesz w <a href="%s">repozytorium PEAR</a>.
+---STRINGEND
+
+---STRING list of %s folders using the same style template path
+Foldery typu "%s" korzystające z tego samego stylu
+---STRINGEND
+
+---STRING local element
+Element lokalny
+---STRINGEND
+
+---STRING midcom.admin.folder
+Zarządzanie folderami
+---STRINGEND
+
+---STRING move
+Przenieś
+---STRINGEND
+
+---STRING move %s
+Przenieś %s
+---STRINGEND
+
+---STRING nav order
+Kolejność nawigacji
+---STRINGEND
+
+---STRING new layout template
+[Nowy styl]
+---STRINGEND
+
+---STRING new style created
+Utworzono nowy styl
+---STRINGEND
+
+---STRING no sortable elements found
+Brak elementów do sortowania
+---STRINGEND
+
+---STRING no url name specified
+Nie podano URLa
+---STRINGEND
+
+---STRING objects with no navigation entry are still accessible on-site if the url is known
+Obiekty ukryte w nawigacji nadal można osiągną bezpośrednim URLem
+---STRINGEND
+
+---STRING order navigation
+Ustalanie kolejności elementów
+---STRINGEND
+
+---STRING order navigation in folder %s
+Ustalanie kolejności elementów w "%s"
+---STRINGEND
+
+---STRING owner
+Właściciel
+---STRINGEND
+
+---STRING pages first
+Najpierw strony
+---STRINGEND
+
+---STRING prevent entering
+Zabroń dostępu
+---STRINGEND
+
+---STRING privilege template_management
+Zarządzanie szablonami
+---STRINGEND
+
+---STRING privilege topic_management
+Zarządzanie folderami
+---STRINGEND
+
+---STRING published
+Publikacja
+---STRINGEND
+
+---STRING revised
+Zmiana
+---STRINGEND
+
+---STRING revision
+Wersja
+---STRINGEND
+
+---STRING revisor
+Autor zmiany
+---STRINGEND
+
+---STRING saving changes
+Zapisywanie
+---STRINGEND
+
+---STRING schedule end
+Wyświetlaj do (puste - bez limitu)
+---STRINGEND
+
+---STRING schedule start
+Wyświetlaj od (puste - natychmiast)
+---STRINGEND
+
+---STRING scheduling
+Wyświetlanie
+---STRINGEND
+
+---STRING select the ordering method first to sort the pages
+Metoda sortowania
+---STRINGEND
+
+---STRING size
+Rozmiar
+---STRINGEND
+
+---STRING sort by score
+Wg wagi
+---STRINGEND
+
+---STRING sort folders
+Sortowanie folderów
+---STRINGEND
+
+---STRING sort pages
+Sortowanie stron
+---STRINGEND
+
+---STRING style
+Szablon stylu
+---STRINGEND
+
+---STRING style editor
+Edytor szablonów
+---STRINGEND
+
+---STRING style element list
+Lista elementów
+---STRINGEND
+
+---STRING style elements for %s
+Elementy stylu %s
+---STRINGEND
+
+---STRING style template
+Szablon stylu
+---STRINGEND
+
+---STRING submitting the form
+wysyłanie formularza
+---STRINGEND
+
+---STRING this component is still being developed and tested and might contain undocumented features
+Moduł jest w fazie testów i może zawierać niepełny i nieudokumentowany kod
+---STRINGEND
+
+---STRING title is empty
+Tytuł jest pusty!
+---STRINGEND
+
+---STRING warning, might result in data loss
+Uwaga! Możliwa utrata danych!
+---STRINGEND
+
+---STRING createlink folder %s
+Utwórz folder link w "%s"
+---STRINGEND
+
+---STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
+Ten folder jest linkiem do <a href="%s">%s</a> usunięty zostanie tylko link.
+---STRINGEND
+
+---STRING create folder link
+Utwórz folder ("symlink")
+---STRINGEND
+
+---STRING privilege symlinks
+Folder link
+---STRINGEND
+
+---STRING this folder is a symlink to: <a href="%s">%s</a>
+Ten folder jest linkiem do: <a href="%s">%s</a>
+---STRINGEND
+
+---STRING symlinks are currently disabled                 
+(Symlinks are currently disabled.)
+---STRINGEND
+

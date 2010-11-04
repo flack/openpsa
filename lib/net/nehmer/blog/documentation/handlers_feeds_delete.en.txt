@@ -1,0 +1,2 @@
+
+Displays a form to delete subscribed remote feed.

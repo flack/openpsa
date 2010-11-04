@@ -1,0 +1,2 @@
+$args[0] = GUID of the customer (org_openpsa_contacts_group_dba).
+Creates new invoice for this customer.

@@ -1,0 +1,511 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 26257 2010-06-01 15:19:12Z gudd $
+---LANGUAGE en
+
+---STRING %s of
+%s of
+---STRINGEND
+
+---STRING <title>
+&lt;title>
+---STRINGEND
+
+---STRING account blocked %s minutes
+Because of to many attempts with wrong passwords the account is blocked for %s minutes
+---STRINGEND
+
+---STRING add buddy
+Add to my contacts
+---STRINGEND
+
+---STRING back to person
+Back to person
+---STRINGEND
+
+---STRING basic information
+Basic information
+---STRINGEND
+
+---STRING cancel
+Cancel
+---STRINGEND
+
+---STRING categories
+Categories
+---STRINGEND
+
+---STRING cell %s
+cell %s
+---STRINGEND
+
+---STRING choose the person to keep
+Choose which contact person to keep. You can also decide later or keep both.
+---STRINGEND
+
+---STRING city
+City
+---STRINGEND
+
+---STRING client
+Client
+---STRINGEND
+
+---STRING company_id
+Company ID
+---STRINGEND
+
+---STRING competence areas
+Competence areas
+---STRINGEND
+
+---STRING contact information
+Contact information
+---STRINGEND
+
+---STRING contact search
+Contact search
+---STRINGEND
+
+---STRING contacts
+Contacts
+---STRINGEND
+
+---STRING country
+Country
+---STRINGEND
+
+---STRING create account
+Create user account
+---STRINGEND
+
+---STRING create event
+Create event
+---STRINGEND
+
+---STRING create organization
+Create organization
+---STRINGEND
+
+---STRING create person
+Create person
+---STRINGEND
+
+---STRING create suborganization
+Create suborganization
+---STRINGEND
+
+---STRING current password
+Current password
+---STRINGEND
+
+---STRING current password is wrong
+The current password is wrong
+---STRINGEND
+
+---STRING customers invoices
+Customer's invoices
+---STRINGEND
+
+---STRING daughter organization
+Daughter organization
+---STRINGEND
+
+---STRING decide later
+Decide later
+---STRINGEND
+
+---STRING department
+Department
+---STRINGEND
+
+---STRING digital business ecosystem
+Digital Business Ecosystem
+---STRINGEND
+
+---STRING due
+Due
+---STRINGEND
+
+---STRING edit
+Edit
+---STRINGEND
+
+---STRING edit account
+Edit user account
+---STRINGEND
+
+---STRING edit billingdata
+Edit billing data
+---STRINGEND
+
+---STRING edit user account: %s %s
+Edit user account: %s %s
+---STRINGEND
+
+---STRING email
+Email
+---STRINGEND
+
+---STRING email %s
+e-mail %s
+---STRINGEND
+
+---STRING enable calendar
+Allow to create events in the Group Calendar
+---STRINGEND
+
+---STRING enable campaign creation
+Enable campaign creation
+---STRINGEND
+
+---STRING enable contact creation
+Enable contact creation
+---STRINGEND
+
+---STRING enable editing campaigns created by others
+Enable editing campaigns created by others
+---STRINGEND
+
+---STRING enable editing contacts created by others
+Enable editing contacts created by others
+---STRINGEND
+
+---STRING enable editing invoices created by others
+Enable editing of invoices created by others
+---STRINGEND
+
+---STRING enable editing organizations created by others
+Enable editing of organizations created by others
+---STRINGEND
+
+---STRING enable invoice creation
+Enable invoice creation
+---STRINGEND
+
+---STRING enable organization creation
+Enable organization creation
+---STRINGEND
+
+---STRING enable product creation
+Enable product creation
+---STRINGEND
+
+---STRING enable editing products created by others
+Enable editing products created by others
+---STRINGEND
+
+---STRING enable project creation
+Allow to create root-level projects
+---STRINGEND
+
+---STRING enable salesproject creation
+Enable sales project creation
+---STRINGEND
+
+---STRING enable wikipage creation
+Enable wiki page creation
+---STRINGEND
+
+---STRING enable editing wikipages created by others
+Enable editing wiki pages created by others
+---STRINGEND
+
+---STRING failed to create user account, reason
+Failed to create user account, reason
+---STRINGEND
+
+---STRING fax
+Fax
+---STRINGEND
+
+---STRING firstname
+First name
+---STRINGEND
+
+---STRING homepage
+Homepage
+---STRINGEND
+
+---STRING homephone
+Home phone
+---STRINGEND
+
+---STRING invoice address
+Invoicing address
+---STRINGEND
+
+---STRING invoice defaults
+Invoice defaults
+---STRINGEND
+
+---STRING invoicing target percentage
+Invoicing target percentage
+---STRINGEND
+
+---STRING jabber id
+Jabber ID
+---STRINGEND
+
+---STRING job title
+Job title
+---STRINGEND
+
+---STRING keep both
+Keep both
+---STRINGEND
+
+---STRING keep this
+Keep this
+---STRINGEND
+
+---STRING lastname
+Last name
+---STRINGEND
+
+---STRING logo
+Logo
+---STRINGEND
+
+---STRING me
+Me
+---STRINGEND
+
+---STRING member
+Organization member
+---STRINGEND
+
+---STRING merge persons
+Merge duplicate persons
+---STRINGEND
+
+---STRING mobile phone
+Mobile phone
+---STRINGEND
+
+---STRING my contacts
+My contacts
+---STRINGEND
+
+---STRING new organization
+New organization
+---STRINGEND
+
+---STRING new password
+New password
+---STRINGEND
+
+---STRING new password encrypt
+Encrypt new password
+---STRINGEND
+
+---STRING new password repeat
+Repeat new password
+---STRINGEND
+
+---STRING new person
+New person
+---STRINGEND
+
+---STRING no account
+No account
+---STRINGEND
+
+---STRING no current password given
+No current password entered
+---STRINGEND
+
+---STRING no duplicates found
+No duplicates found
+---STRINGEND
+
+---STRING no more duplicates to merge found
+No more duplicates that you have permissions to merge found
+---STRINGEND
+
+---STRING no results
+No results were found for your query
+---STRINGEND
+
+---STRING notes
+Notes
+---STRINGEND
+
+---STRING notification settings
+Notification settings
+---STRINGEND
+
+---STRING official
+Official name
+---STRINGEND
+
+---STRING org.openpsa.contacts
+Contact manager
+---STRINGEND
+
+---STRING organization
+Organization
+---STRINGEND
+
+---STRING organization_type
+Organization type
+---STRINGEND
+
+---STRING organizations
+Organizations
+---STRINGEND
+
+---STRING partner
+Partner
+---STRINGEND
+
+---STRING password expired
+Your password has expired please choose a new password.
+---STRINGEND
+
+---STRING password good
+Password strength is good
+---STRINGEND
+
+---STRING password is the same as the current one
+Password is the same as the current one
+---STRINGEND
+
+---STRING password repeat
+Password (repeat)
+---STRINGEND
+
+---STRING password strong
+Password strength is very good
+---STRINGEND
+
+---STRING password too short
+Password is too short
+---STRINGEND
+
+---STRING password was already used
+The new password was already used
+---STRINGEND
+
+---STRING password weak
+Password strength is too weak
+---STRINGEND
+
+---STRING passwords don't match
+Passwords don't match!
+---STRINGEND
+
+---STRING permissions
+Permissions
+---STRINGEND
+
+---STRING person
+Person
+---STRINGEND
+
+---STRING persons
+Persons
+---STRINGEND
+
+---STRING phone
+Phone
+---STRINGEND
+
+---STRING photo
+Photo
+---STRINGEND
+
+---STRING postal address
+Postal address
+---STRINGEND
+
+---STRING postcode
+ZIP
+---STRINGEND
+
+---STRING project management
+Project management
+---STRINGEND
+
+---STRING related notes
+Related notes
+---STRINGEND
+
+---STRING remove buddy
+Remove from my contacts
+---STRINGEND
+
+---STRING save
+Save
+---STRINGEND
+
+---STRING search
+Search
+---STRINGEND
+
+---STRING skype name
+Skype name
+---STRINGEND
+
+---STRING store as plain text
+Store as plain text
+---STRINGEND
+
+---STRING street
+Street address
+---STRINGEND
+
+---STRING sub organizations
+Suborganizations
+---STRINGEND
+
+---STRING tel %s
+tel %s
+---STRINGEND
+
+---STRING treat as workgroup
+Treat as Workgroup
+---STRINGEND
+
+---STRING user account
+User account
+---STRINGEND
+
+---STRING user account for %s
+User account for %s
+---STRINGEND
+
+---STRING username
+User name
+---STRINGEND
+
+---STRING username already exists
+User name already exists
+---STRINGEND
+
+---STRING username and password identical
+User name and password are identical
+---STRINGEND
+
+
+
+---STRING vendor
+Vendor
+---STRINGEND
+
+---STRING visiting address
+Visiting address
+---STRINGEND
+
+---STRING weekly workhours
+Weekly work hours
+---STRINGEND
+
+---STRING work phone
+Work phone
+---STRINGEND
+
+---STRING wrong current password
+Wrong current password
+---STRINGEND
+

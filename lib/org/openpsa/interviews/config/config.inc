@@ -1,0 +1,1 @@
+'schemadb' => 'file:/org/openpsa/interviews/config/schemadb_default.inc',

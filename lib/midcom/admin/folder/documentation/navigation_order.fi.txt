@@ -1,0 +1,14 @@
+﻿Järjestele navigaatio
+=====================
+
+Navigaatioelementtejä on mahdollista järjestellä tietyin rajauksin. Kaikki alikansiot ovat järjesteltävissä ja riippuen kansion tyypistä (komponentista) kansion sisältöäkin saattaa voida järjestellä.
+
+Esimerkiksi yleisimmin käytetty kansiotyyppi _Normaali kansio_ (_net.nehmer.static_) on järjesteltävissä.
+
+Navigaation järjestelemiseksi klikkaa työkaluvalikosta linkkiä Kansio -> Järjestele navigaatiota.
+
+Voit valita haluamasi järjestyksen pudotusvalikosta ja järjestellä elementit haluamaasi järjestykseen raahaamalla ne oikeaan järjestykseen.
+
+Paina lopuksi _Tallenna_ –painiketta.
+
+![Navigation order](MIDCOM_STATIC_URL/midcom.admin.folder/navigation_order_fi.png)

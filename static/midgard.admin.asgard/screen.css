@@ -1,0 +1,986 @@
+html
+{
+  height: 100%;
+}
+
+body
+{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: white;
+  color: black;
+}
+
+body, td, th
+{
+  font-family: 'Verdana', 'Arial', 'Helvetica', sans-serif;
+  font-size: 10pt;
+}
+
+p
+{
+  margin-bottom: 10px
+}
+
+#container-wrapper
+{
+  position: absolute;
+  min-height: 100%;
+  z-index: 2;
+}
+
+* html #container-wrapper
+{
+  height: expression(document.body.offsetHeight - 58);
+}
+
+#container
+{
+  padding: 10px 10px 58px;
+}
+
+#navigation,
+#content
+{
+  margin: 0em;
+}
+
+#navigation
+{
+  background-color: #d3d7cf;
+  width: 190px;
+  padding: 10px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  padding-top: 16px;
+  overflow: auto;
+  position: fixed !important;
+  position: absolute;
+  top: 10px;
+  bottom: 58px
+}
+
+#asgard_logo
+{
+  float: left;
+  border: none;
+  margin-bottom: 6px;
+  margin-top: -6px;
+}
+
+#navigation div.grouplogo h2
+{
+  margin: 0;
+  font-size: 100%;
+}
+
+#navigation ul
+{
+  padding: 0 0 0 1.3em;
+  margin: 0;
+}
+
+#navigation ul li
+{
+    position: relative;
+}
+
+#navigation ul li .metadata
+{
+    position: absolute;
+    right: 0px;
+    font-size: smaller;
+    color: #000000;
+}
+
+#navigation div.chapter h3
+{
+  background-color: #d3d7cf;
+  text-align:center;
+  font-size: 100%;
+  margin-bottom: 6px;
+}
+
+
+#navigation div.section
+{
+  clear: left;
+  background-color: #eeeeec;
+  margin-bottom: 6px;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+
+#navigation div.section.selected
+{
+  background-color: white;
+  padding-bottom: 1em;
+}
+
+#navigation div.section ul.midgard_admin_asgard_navigation
+{
+  padding: 5px;
+  list-style-type: none;
+  overflow: auto;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation ul
+{
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  list-style-type: none;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li
+{
+    margin: 0px;
+    padding: 0px;
+    line-height: 18px;
+    white-space: nowrap;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation ul li
+{
+    margin-left: 20px;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li a
+{
+    display: block !important;
+    width: 100%;
+    margin-top: 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li a:hover
+{
+    background-color: white;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li.current a
+{
+    font-weight: bold;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li.current li a
+{
+    font-weight: normal;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li.readonly > a
+{
+    color: #444444;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li.unapproved > a
+{
+    background-color: #e9b96e;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li.hidden > a
+{
+    -moz-opacity: 0.7;
+    -webkit-opacity: 0.7;
+}
+#navigation div.section ul.midgard_admin_asgard_navigation li.readonly li a
+{
+}
+
+#navigation h3
+{
+    background-color: #babdb6;
+    margin: 0;
+    padding: 0.2em 0.5em;
+    font-size: 100%;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+#navigation div.expanded h3
+{
+    -moz-border-radius-bottomleft: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -moz-border-radius-bottomright: 0;
+    -webkit-border-bottom-right-radius: 0;
+}
+
+#navigation h3 a
+{
+  color: black !important;
+  display: block;
+}
+
+#midgard_admin_asgard_navigation_chooser
+{
+  font-size:smaller;
+  margin-bottom: 10px;
+}
+
+#search_bar
+{
+  margin-bottom: 10px;
+}
+
+#content
+{
+  background-color: #d3d7cf;
+  margin-left: 230px;
+  padding: 1em;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+#content div.page-title
+{
+  background-color: #555753;
+  color: #ffffff;
+  padding: 0.5em;
+  margin-left: -0.5em;
+  margin-right: -0.5em;
+  margin-bottom: 0;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+}
+
+* html #content div.page-title
+{
+      width: 100%;
+}
+
+#content div.page-title h1
+{
+  font-size: 10pt;
+  margin: 0;
+}
+
+#content div.page-title h1 a
+{
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+#content div.page-title h1 .object_language
+{
+    float: right;
+}
+
+#content-text h1,
+#content-text h2,
+#content-text h3,
+#content-text h4
+{
+  margin: 1em 0 0.5em;
+}
+
+#content-text h1
+{
+  font-size: 150%;
+}
+
+#content-text h2
+{
+  font-size: 130%;
+}
+
+#content-text h3
+{
+  font-size: 120%;
+}
+
+#content div.backtosite
+{
+  width: auto;
+  float: right;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;        
+}
+
+#content .object_view .field,
+#content .object_edit form > div > label,
+#content .object_edit form > div > div
+{
+  clear: left;
+  background-color: #EEEEEC;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  padding: 2px 6px;
+  margin-left: 0 !important;
+  margin-bottom: 0.5em
+}
+
+
+* html #content .object_view .field,
+* html #content .object_edit form div label,
+* html #content .object_edit form div div
+{
+  background-color: #EEEEEC;
+  padding: 2px 6px;
+  margin-left: 0;
+  margin-bottom: 0.5em;
+  height: 2em;
+  padding-right: .5em
+}
+
+#content div.object_edit .form_toolbar,
+#content div.object_edit .required_note
+{
+    background-color: transparent;
+}
+
+* html #content div.object_edit div div div
+{
+    border: 0;
+    background-color: transparent;
+    margin-bottom: 0;
+}
+
+* html #content div.object_edit div div label,
+* html #content div.object_edit div div label label
+{
+    display: inline;
+    border: 0;
+}
+
+#content .object_view .title,
+#content .object_edit .field_text
+{
+  float: left;
+  width: 150px;
+  overflow: hidden;
+  font-size: 100%;
+  padding: 0.3em 0.1em;
+  display: block;
+}
+
+
+* html #content .object_view .title,
+* html #content .object_edit .field_text
+{
+  display: inline-block;
+}
+
+
+#content .object_view .value
+{
+    margin: 0.3em 0;
+    background-color: white;
+    margin-left: 170px !important;
+    display:block;
+    padding: 3px 10px;
+}
+
+* html #content .object_view .value
+{
+    height: 1.6em;
+    display: inline-block;
+}
+
+
+#content .object_view textarea,
+#content .object_edit label textarea
+{
+    width: 600px;
+}
+
+#content .object_edit .shorttext,
+#content .object_view textarea,
+#content .object_edit label textarea
+{
+    font-family: monospace;
+}
+
+#content .object_edit .shorttext,
+#content .object_edit select,
+#content .object_edit .longtext,
+#content .object_edit input.date
+{
+    border: 1px solid #888888;
+    background-color: white;
+    padding: 1px 2px;
+    display: inline !important
+}
+
+
+#content .object_edit .shorttext:focus,
+#content .object_edit select:focus,
+#content .object_edit .longtext:focus,
+#content .object_edit input.date:focus
+{
+    border: 1px solid Highlight;
+}
+
+
+#content .object_edit label > iframe,
+#content .object_edit form > div > label > input.shorttext,
+#content .object_edit form > div > label > input.longtext,
+#content .object_edit label > textarea,
+#content .object_edit label > select.dropdown
+{
+    margin-bottom: 0.4em
+}
+
+#content .object_edit label .mceEditor iframe
+{
+    margin-left: 0
+}
+
+
+#content .object_edit fieldset
+{
+    margin-top: 0;
+    margin-left: 0;
+    padding: 0
+}
+
+#content .object_edit fieldset.rcs
+{
+    border: none;
+    background-color: white;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    padding: 4px;
+}
+#content .object_edit fieldset.rcs legend
+{
+    display: none;
+}
+
+* html #content .object_edit fieldset input,
+* html #content .object_edit fieldset input.shorttext,
+* html #content .object_edit .form_toolbar input
+{
+    margin-left: 0px;
+}
+
+#content .object_edit div div span.field_text
+{
+    display: block
+}
+
+#content select.language_chooser option.exists
+{
+    font-weight: bold;
+    color: blue;
+}
+
+#content form.datamanager2 div.form_toolbar
+{
+    margin-top: 6px;
+}
+#content form.datamanager2 div.form_toolbar input
+{
+    color: #204A87;
+    background-color: #d3d7cf;
+    border: none;
+    margin-right: 14px;
+    padding: 4px;
+    padding-left: 22px;
+    background-position: 4px;
+    cursor: pointer;
+}
+#content form.datamanager2 div.form_toolbar input.save,
+#content form.datamanager2 div.form_toolbar input.delete,
+#content form.datamanager2 div.form_toolbar input.cancel
+{
+    background-color: #eeeeec;
+    color: #000000;
+    border-top: 3px solid #ffffff;
+    border-left: 3px solid #ffffff;
+    border-right: 3px solid #babdb6;
+    border-bottom: 3px solid #babdb6;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+#container a:link,
+#container a:visited
+{
+  color: #204a87;
+  text-decoration: none;
+}
+
+#container a:hover,
+#container a:visited:hover
+{
+  text-decoration: underline;
+}
+
+
+#container #toolbar
+{
+  margin-bottom: 20px;
+}
+
+#container #toolbar ul
+{
+  padding: 0;
+  margin: 0;
+  display: block;
+  list-style: none;
+  background-color: #eeeeef;
+  padding: 0.4em 1em;
+  line-height: 22px;
+  -moz-border-radius-bottomleft: 6px;
+  -webkit-border-bottom-left-radius: 6px;
+  -moz-border-radius-bottomright: 6px;
+  -webkit-border-bottom-right-radius: 6px;
+}
+
+* html #container #toolbar ul
+{
+    padding: 0.4em 0;
+    width: 100%;
+}
+
+#container #toolbar ul li,
+#container #toolbar ul li form
+{
+  display: inline;
+  margin: 0;
+  margin-right: 2px;
+}
+
+#container #toolbar ul li a,
+#container #toolbar ul li abbr,
+#container #toolbar ul li button
+{
+  display: inline-block;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  padding: 4px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+#container #toolbar ul li abbr
+{
+  background-color: #D3D7CF;
+  border: none;
+}
+
+#container #toolbar ul li img
+{
+    border: none;
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+
+#container #toolbar ul li button
+{
+    border: none;
+    background-color: transparent;
+    color: #204a87;
+    font-size: 10pt;
+}
+
+#container #toolbar ul li:hover,
+#container #toolbar ul li:hover a,
+#container #toolbar ul li:hover button,
+#container #toolbar ul li a:hover,
+#container #toolbar ul li.selected,
+#container #toolbar ul li.selected a,
+#container #toolbar ul li button:hover,
+#container #toolbar ul li.selected button
+{
+    background-color: white;
+}
+#container #toolbar ul li.disabled
+{
+    background-color: #d3d7cf;
+}
+
+#breadcrumb
+{
+  margin-bottom: 0.5em;
+  font-size: 90%;
+  border-bottom: solid 1px black;
+  width: 100%;
+}
+
+#siteinfo
+{
+  background-image: url('grid.png');
+  background-position: top left;
+  background-repeat: repeat-x;
+  padding-top: 20px;
+  padding-left: 1em;
+  vertical-align: middle;
+  overflow: hidden;
+  position: fixed !important;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  clear: both;
+}
+
+#siteinfo img
+{
+    vertical-align: middle;
+    margin-right: 1em;
+}
+
+#siteinfo span.copyrights
+{
+  font-size: 80%;
+}
+
+#siteinfo span.copyrights,
+#siteinfo a
+{
+  color: #555753;
+}
+
+#siteinfo a:link,
+#siteinfo a:visited
+{
+  text-decoration: none;
+}
+
+#siteinfo a:hover,
+#siteinfo a:visited:hover
+{
+  text-decoration: underline;
+}
+
+#object_metadata
+{
+  font-size: 80%;
+  margin-top: 2em;
+  border-top: solid 1px black;
+  clear: right;
+}
+
+#latest_objects
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#latest_objects .filter
+{
+    margin-bottom: 5px;
+}
+
+#latest_objects .actions
+{
+    margin-top: 5px;
+}
+
+#latest_objects .filter div,
+#latest_objects .actions .action
+{
+    float: left;
+    margin-right: 10px;
+}
+
+#latest_objects .filter div label
+{
+    white-space: nowrap;
+}
+
+#latest_objects table.results
+{   
+}
+
+#latest_objects table.results th,
+#latest_objects table.results td
+{
+    padding-right: 20px;
+}
+#latest_objects table.results th.icon,
+#latest_objects table.results td.icon
+{
+    padding-right: 5px;
+}
+
+#latest_objects table.results td.revised,
+#latest_objects table.results td.revisor,
+#latest_objects table.results td.revision,
+#latest_objects table.results td.approved
+{
+    text-align: center;
+}
+
+#content table.trash tr
+{
+    vertical-align: top;
+}
+
+#midgard_admin_asgard_resizer
+{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 230px;
+  margin-left: -6px;
+  width: 10px;
+  cursor: w-resize;
+  cursor: col-resize;
+}
+
+#content table.deleted tr td a img
+{
+    border: none;
+}
+
+* html #midgard_admin_asgard_resizer
+{
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+#midgard_admin_asgard_resizer:hover,
+#midgard_admin_asgard_resizer.hover
+{
+  background-color: #eeeeef;
+  visibility: visible;
+}
+
+#container #content div.quicklinks
+{
+  float: right;
+}
+
+#container #content div.quicklinks ul
+{
+  margin: 0;
+  padding: 0;
+  display: block;
+  list-style: none;
+}
+
+#container #content div.quicklinks ul li
+{
+  display: inline;
+}
+
+#container #content div.quicklinks a img
+{
+  border: none;
+}
+
+#content form.datamanager2 span.field_text span.global
+{
+  font-size: smaller;
+  color: red;
+}
+
+#midcom_services_uimessages_wrapper
+{
+    position: static !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages_message
+{
+    background-color: #3465a4;
+    color: #ffffff;
+    font-family: sans-serif;
+    padding: 2px !important;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages_message div.midcom_services_uimessages_message_type
+{
+    display: none;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages_message div.midcom_services_uimessages_message_title
+{
+    font-weight: bold;
+    display: inline;
+    margin-right: 1em;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages_message div.midcom_services_uimessages_message_msg
+{
+    display: inline;
+}
+
+#midcom_services_uimessages_wrapper div.msu_ok
+{
+    background-color: #73d216;
+}
+
+#midcom_services_uimessages_wrapper div.msu_warning
+{
+    background-color: #f57900;
+}
+
+#midcom_services_uimessages_wrapper div.msu_error
+{
+    background-color: #cc0000;
+}
+
+#midgard_admin_asgard_copytree
+{
+  float: right;
+}
+
+div.midgard_admin_asgard_tree ul
+{
+  list-style: none;
+  padding-left: 0;
+}
+
+div.midgard_admin_asgard_tree ul ul
+{
+  padding-left: 20px;
+}
+
+div.midgard_admin_asgard_tree li.readonly
+{
+  color: #888888;
+  font-style: italic;
+}
+
+div.midgard_admin_asgard_tree label
+{
+  display: inline;
+  font-weight: normal;
+}
+
+div.midgard_admin_asgard_tree label.deselected span.title
+{
+  color: red;
+  text-decoration: line-through;
+}
+
+div.midgard_admin_asgard_tree a img,
+table.table_widget a img
+{
+  border: none;
+}
+
+#midgard_admin_asgard_deletetree ul .untranslated
+{
+  font-style: Italic;
+  color: #888a85;
+}
+
+table.midgard_admin_asgard_object_parameters th
+{
+    text-align: left;
+}
+
+table.midgard_admin_asgard_object_parameters ul,
+table.midgard_admin_asgard_object_parameters li
+{
+    display: inline;
+    list-style: none;
+    padding-left: 0px;
+}
+
+#content-text ul.midcom_toolbar
+{
+    list-style: none;
+    padding-left: 0px;
+}
+
+table.midgard_admin_asgard_object_parameters li a img,
+#content-text ul.midcom_toolbar a img
+{
+    vertical-align: middle;
+    border: none;
+}
+
+table.midgard_admin_asgard_object_parameters li span.toolbar_label
+{
+    display: none;
+}
+
+/* Object editing help */
+#content div.midgard_admin_asgard_objecthelper_help
+{
+    background-color: #888a85;
+    background-color: #d3d7cf;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+#content div.midgard_admin_asgard_objecthelper_help h3
+{
+    margin: 0px;
+    padding: 0px;
+}
+#content div.midgard_admin_asgard_objecthelper_help h3 a
+{
+    color: #000000;
+}
+#content div.ui-accordion h3 a
+{
+    background-image: url('../stock-icons/16x16/list-add.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+#content div.ui-accordion h3.selected a
+{
+    background-image: url('../stock-icons/16x16/list-remove.png');
+}
+#content div.midgard_admin_asgard_objecthelper_help > div
+{
+    margin-top: 6px;
+    background-color: #babdb6;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    padding: 6px;
+}
+
+#content div.midgard_admin_asgard_objecthelper_help div ul li.component
+{
+    font-weight: bold;   
+    margin-bottom: 1em;
+}
+#content div.midgard_admin_asgard_objecthelper_help div ul li.component:last-child
+{  
+    margin-bottom: 0px;
+}
+
+#content div.midgard_admin_asgard_objecthelper_help div ul,
+#content div.midgard_admin_asgard_objecthelper_help div ul li.component ul
+{
+     list-style: none;
+     margin-left: 0px;
+     padding-left: 0px;
+     margin-top: 0px;
+     margin-bottom: 0px;
+}
+#content div.midgard_admin_asgard_objecthelper_help div ul li.component ul li
+{
+     display: inline;
+     font-weight: normal;
+     margin-left: 0px;
+     padding-left: 0px;
+     margin-right: 1em;
+}
+#content div.midgard_admin_asgard_objecthelper_help div ul li.component ul li a
+{
+    color: #000000;
+}
+
+#content div.midgard_admin_asgard_objecthelper_help label
+{
+    font-weight: bold;
+    display: block;
+}
+#content div.midgard_admin_asgard_objecthelper_help textarea
+{
+    width: 90%;
+    height: 16em;
+    border: none;
+    background-color: #d3d7cf;
+    color: #555753;
+}
+#content div.midgard_admin_asgard_objecthelper_help button.copy
+{
+    background-image: url('../stock-icons/16x16/editcopy.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}

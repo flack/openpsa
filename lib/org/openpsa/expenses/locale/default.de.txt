@@ -1,0 +1,152 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 25660 2010-04-14 07:45:03Z gudd $
+---LANGUAGE de
+
+---STRING date
+Datum
+---STRINGEND
+
+---STRING delete hour report
+Stundenbericht löschen
+---STRINGEND
+
+---STRING description
+Beschreibung
+---STRINGEND
+
+---STRING expenses in week %s
+Ausgaben in KW %s
+---STRINGEND
+
+---STRING hour report
+Stundenbericht
+---STRINGEND
+
+---STRING hour reports between %s and %s
+Stundenberichte zwischen %s und %s
+---STRINGEND
+
+---STRING hours
+Arbeitsstunden
+---STRINGEND
+
+---STRING hours unit
+h
+---STRINGEND
+
+---STRING hours_edit
+Stundenbericht bearbeiten
+---STRINGEND
+
+---STRING invoiceable
+Abrechenbar
+---STRINGEND
+
+---STRING invoiceable reports
+Abrechenbare Stundenberichte
+---STRINGEND
+
+---STRING invoiced reports
+Abgerechnete Stundenberichte
+---STRINGEND
+
+---STRING list_hours_task %s
+Stundenberichte für Aufgabe "%s"
+---STRINGEND
+
+---STRING next week
+Folgewoche
+---STRINGEND
+
+---STRING org.openpsa.expenses
+Ausgaben-Verwaltung
+---STRINGEND
+
+---STRING person
+Person
+---STRINGEND
+
+---STRING previous week
+vorherige Woche
+---STRINGEND
+
+---STRING report hours
+Arbeitsstunden melden
+---STRINGEND
+
+---STRING show task %s
+Aufgabe "%s" anzeigen
+---STRINGEND
+
+---STRING task
+Aufgabe
+---STRINGEND
+
+---STRING total
+Summe
+---STRINGEND
+
+---STRING uninvoiceable
+Nicht abrechenbar
+---STRINGEND
+
+---STRING uninvoiceable reports
+Nicht abrechenbare Stundenberichte
+---STRINGEND
+
+---STRING hours_delete
+Stundenbericht löschen
+---STRINGEND
+
+---STRING no filter available
+Es ist kein Filter verfügbar
+---STRINGEND
+
+---STRING no filter available for %s
+Der Filter für %s ist nicht verfügbar
+---STRINGEND
+
+---STRING filter error
+Filter Fehler
+---STRINGEND
+
+---STRING the handed filter for %s could not be set as parameter
+Der übergebene Filter für %s konnte nicht als Parameter gespeichert werden
+---STRINGEND
+
+---STRING unset
+zurücksetzen
+---STRINGEND
+
+---STRING person
+Person
+---STRINGEND
+
+---STRING apply
+anwenden
+---STRINGEND
+
+---STRING invoice
+Rechnung
+---STRINGEND
+
+---STRING choose user
+Nutzerfilter
+---STRINGEND
+
+---STRING change_task
+Anderer Aufgabe zuordnen
+---STRINGEND
+
+---STRING change_invoice
+Anderer Rechnung zuordnen
+---STRINGEND
+
+---STRING mark_invoiceable
+Als abrechenbar markieren
+---STRINGEND
+
+---STRING mark_uninvoiceable
+Als nicht abrechenbar markieren
+---STRINGEND

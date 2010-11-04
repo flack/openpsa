@@ -1,0 +1,3 @@
+$args[0] = GUID of a customer (org_openpsa_contacts_group_dba).
+Shows list of unpaid inovoices for this customer.
+Adds new items to toolbar like new invoice for customer.

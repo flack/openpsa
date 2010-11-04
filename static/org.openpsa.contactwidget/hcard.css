@@ -1,0 +1,52 @@
+/* hCard rendering */
+div.vcard div.n {
+    font-weight: bold;
+}
+div.vcard div.n a {
+    text-decoration: none;
+}
+div.vcard ul {
+    padding: 0px;
+    margin: 0px;
+}
+div.vcard ul li {
+    list-style: none;
+    min-height: 18px
+}
+div.vcard ul li a {
+    min-height: 18px;
+    display: block;
+    padding-left: 20px;
+    background-position: left;
+    background-repeat: no-repeat;
+    text-decoration: none;
+}
+div.vcard ul li.org a {
+    background-image: url("../stock-icons/16x16/stock_people.png");
+}
+div.vcard ul li.email a {
+    background-image: url("../stock-icons/16x16/stock_mail.png");
+}
+div.vcard ul li.url a {
+    background-image: url("../stock-icons/16x16/stock_internet.png");
+}
+div.vcard ul li.tel a {
+    background-image: url("../stock-icons/16x16/stock_landline-phone.png");
+}
+div.vcard ul li.cell a {
+    background-image: url("../stock-icons/16x16/stock_cell-phone.png");
+}
+div.vcard ul li.jabber a {
+    background-image: url("../stock-icons/16x16/im-jabber.png");
+}
+
+/* Styles for inline persons */
+span.vcard a {
+    text-decoration: none;
+}
+span.vcard a {
+    padding-left: 20px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-image: url("../stock-icons/16x16/stock_person.png");
+}

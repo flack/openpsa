@@ -1,0 +1,154 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 25280 2010-03-15 21:34:00Z solt $
+---LANGUAGE pl
+
+---STRING component
+Moduł
+---STRINGEND
+
+---STRING core component status
+Status (Core)
+---STRINGEND
+
+---STRING core components
+Moduły systemowe
+---STRINGEND
+
+---STRING default
+domyślne
+---STRINGEND
+
+---STRING edit strings for %s [%s]
+Tłumaczenie modułu "%s" na %s
+---STRINGEND
+
+---STRING language
+Język
+---STRINGEND
+
+---STRING midcom.admin.babel
+Tłumaczenia
+---STRINGEND
+
+---STRING new string
+Dodaj napis
+---STRINGEND
+
+---STRING other component status
+Status (pozostałe)
+---STRINGEND
+
+---STRING other components
+Pozostałe moduły
+---STRINGEND
+
+---STRING percentage
+%
+---STRINGEND
+
+---STRING perm-denied text
+<p>Instalacja MidCOM'a nie pozwala serwerowi Apache na zapis do plików i folderów zawierających lokalizacje.<p>
+<p>Popraw uprawnienia i spróbuj ponownie.</p>
+---STRINGEND
+
+---STRING read information from midgard wiki on how to add languages
+Informacje o tym, jak dodawać nowe tłumaczenia znajdziesz na <a href="http://www.midgard-project.org/midcom-permalink-ded2437586408cd03cd4582ba45b91f2">stronie dokumentacji Midgarda</a>.
+---STRINGEND
+
+---STRING select lang and component
+Wybierz język i moduł
+---STRINGEND
+
+---STRING select language to translate
+Wybierz język
+---STRINGEND
+
+---STRING string-id
+Identyfikator napisu
+---STRINGEND
+
+---STRING strings total
+Wszystkie
+---STRINGEND
+
+---STRING translated strings
+Przetłumaczone
+---STRINGEND
+
+---STRING translation status for language %s
+Stan tłumaczenia %s
+---STRINGEND
+
+---STRING Chinese
+Chiński
+---STRINGEND
+
+---STRING Danish
+Duński
+---STRINGEND
+
+---STRING Dutch
+Holenderski
+---STRINGEND
+
+---STRING English
+Angielski
+---STRINGEND
+
+---STRING Estonian
+Estoński
+---STRINGEND
+
+---STRING Finnish
+Fiński
+---STRINGEND
+
+---STRING French
+Francuski
+---STRINGEND
+
+---STRING Georgian
+Gruziński
+---STRINGEND
+
+---STRING German
+Niemiecki
+---STRINGEND
+
+---STRING Hungarian
+Węgierski
+---STRINGEND
+
+---STRING Italian
+Włoski
+---STRINGEND
+
+---STRING Norwegian
+Norweski
+---STRINGEND
+
+---STRING Polish
+Polski
+---STRINGEND
+
+---STRING Portuguese
+Portugalski
+---STRINGEND
+
+---STRING Russian
+Rosyjski
+---STRINGEND
+
+---STRING Spanish
+Hiszpański
+---STRINGEND
+
+---STRING Swedish
+Szwedzki
+---STRINGEND
+
+---STRING danish
+Duński
+---STRINGEND
+

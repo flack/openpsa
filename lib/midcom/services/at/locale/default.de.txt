@@ -1,0 +1,33 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE de
+
+---STRING failed
+Fehlgeschlagen
+---STRINGEND
+
+---STRING midcom.services.at
+Zeitgesteuerte Befehlsausführung
+---STRINGEND
+
+---STRING running
+Läuft
+---STRINGEND
+
+---STRING scheduled
+Eingetragen
+---STRINGEND
+
+---STRING scheduled operations
+Eingetragene Operationen
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING time
+Zeit
+---STRINGEND
+

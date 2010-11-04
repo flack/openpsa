@@ -1,0 +1,31 @@
+/api/product/get/`Product GUID`
+========================
+
+Get a product identified by a GUID.
+
+## Authentication
+
+This method does not require authentication.
+
+## Arguments
+
+* `Product GUID`: GUID of the product to update
+
+## Example response
+
+    <product guid="e183eb6e458111dc9ea783038a2603f903f9">
+        <code>130</code>
+        <title>Chianti Colli Senesi</title>
+        ...
+    </product>
+
+## Error Codes
+
+200: OK
+:    The requested was successful 
+
+404: Not found
+:    The requested product could not be found
+
+500: Internal Server Error
+:    Some error state has happened in the database

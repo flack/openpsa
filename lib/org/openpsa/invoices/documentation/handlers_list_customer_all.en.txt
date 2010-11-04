@@ -1,0 +1,2 @@
+$args[0] = GUID of a customer (org_openpsa_contacts_group_dba).
+Shows list of all invoices for this customer.

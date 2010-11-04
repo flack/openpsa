@@ -1,0 +1,56 @@
+#midcom_admin_folder_show_save_info
+{
+  background-image: url('../midcom.helper.datamanager2/ajax-loading-black.gif');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: black;
+  color: white;
+  padding: 1em;
+  display: none;
+}
+
+#midcom_admin_folder_order_form input,
+#midcom_admin_folder_order_form img
+{
+  display: inline;
+}
+
+#midcom_admin_folder_order_form li
+{
+  display: block;
+  white-space: nowrap;
+}
+
+#midcom_admin_folder_order_form ul.sortable
+{
+  padding: 0.5em 0;
+  margin: 1em 0;
+}
+
+#midcom_admin_folder_order_form ul.sortable li.node
+{
+  background-image: url('../stock-icons/16x16/folder.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 20px;
+}
+
+#midcom_admin_folder_order_form ul.sortable li.leaf
+{
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 20px;
+}
+
+#midcom_admin_folder_order_form ul.sortable li
+{
+  list-style: none;
+  cursor: move;
+  font-weight: normal;
+  height: 18px;
+}
+
+#midcom_admin_folder_order_form ul.sortable li:hover
+{
+  font-weight: bold;
+}

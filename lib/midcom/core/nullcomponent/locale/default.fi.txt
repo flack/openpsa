@@ -1,0 +1,11 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE fi
+
+---STRING midcom.core.nullcomponent
+Pohjakomponentti
+---STRINGEND
+
+---STRING enable_folder_code_execution
+Salli kansiossa olevan PHP-koodin ajo
+---STRINGEND

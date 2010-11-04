@@ -1,0 +1,37 @@
+/* "Now working on" rendering */
+div.org_openpsa_mypage_workingon
+{
+    border: 1px solid #babdb6;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    padding-left: 24px;
+}
+div.org_openpsa_mypage_workingon h2
+{
+    background-color: #e9ede4;
+    padding: 0 0.5em;
+    margin: 0;
+    border-left: solid 1px #babdb6;
+    border-bottom: solid 1px #babdb6;
+    -moz-border-radius-bottomleft: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+}
+div.org_openpsa_mypage_workingon form
+{
+    margin: 6px;
+}
+div.org_openpsa_mypage_workingon select,
+div.org_openpsa_mypage_workingon textarea
+{
+    border: 1px solid #e9ede4;
+    display: inline;
+    width: 90%;
+}
+div#org_openpsa_mypage_workingon_time
+{
+    color: #333333;
+    font-weight: bold;
+    display: inline;
+    width: 60px;
+    font-size: 90%
+}

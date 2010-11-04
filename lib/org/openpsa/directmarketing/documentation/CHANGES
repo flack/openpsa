@@ -1,0 +1,284 @@
+org.openpsa.directmarketing Changelog
+                   -------------------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2009-10-08 gudd
+  + changed rule-assistant (possibility of adding groups , also changed look)
+  + changed ruleresolver to "convert" rules to constraint of one person-collector
+  + fixed group&parameter rules
+  + added preview
+
+2007-03-08 bergie
+  + Fixed leaf activation in navigation
+  + Fixed breadcrumbs in many places
+  + Fixed tester group person removal
+
+2007-02-27 rambo
+  + message report can now be grouped by "market segment"
+  - fixed a bug where those that have clicked a link were displayed twice as recipients
+  - fixed a bug in "create campaign from link" (didn't remember to change redirect url after DM2 refactoring)
+
+2007-01-26 rambo
+  ! finalized port to Datamanager 2
+
+2007-01-08 bergie
+  ! Started port to Datamanager2
+
+2006-12-12 rambo
+  - converted message send to always get fresh QB instance for each chunk
+  + added possibility to add parameters to message receipts created via the member helper
+  + added UI messages for error output when sending messages in "live" mode (test group being an example)
+  + added logging of failed sends as a new type of message receipt.
+
+2006-11-30 rambo
+  ! started converting to collector based parent guid methods (requires midgard 1.8)
+
+2006-10-18 rambo
+  - CSV export for smart campaigns too
+  - IE fixes for rule editor
+  - localizations
+  + support for group member property/param seach in rule editor
+  - CSS tweaks regarding the rule editor
+  - version bump
+
+2006-10-17 rambo
+  + New string substitutions in email sending
+  - refactored rule generation to separate methods
+  + support for expanding groups and group parameters to smart campaign rule resolver
+  + possibility to skip embedding images in HTML emails
+  - based smart-campaign rule editor in usable condition
+  - localizations
+  - version bump
+
+2006-10-16 rambo
+  + New string substitutions in email sending
+
+2006-10-12 rambo
+  - DOM based smart-campaign rule editor continued
+
+2006-10-11 rambo
+  + DOM based smart-campaign rule editor (for simple rules)
+    (does not yet actually make rules)
+  - renamed the old rule editor to advanced editor.
+
+2006-10-09 bergie & rambo
+  + Finalized CSV importing and matching UI (bergie)
+  + Schema based CSV export (rambo)
+  - version bump (rambo)
+
+2006-09-19 rambo
+  + added total % of recipients click count to message report
+
+2006-09-18 rambo
+  + smart campaign creation from message report
+  - message report localizations
+  - state to manifest, version bump
+
+2006-09-15 rambo
+  - message report continued
+  - moved array2code to org.openpsa.helpers
+
+2006-09-14 rambo
+  + started work on message report (statistics on send and link logger data)
+  + message sendStarted and sendCompleted get some values again (how accurate or
+    useful they actually are is a different matter)
+  + new classes supported in smart-campaign rules
+
+2006-08-29 rambo
+  + added support for org.openpsa.contacts person merge
+
+2006-07-06 rambo
+  - fixed the ACL check in create message
+  - campaign frontpage toolbar populated always and ACL check moved to item enabled
+  - minor code cleanup
+  - version bump
+
+2006-06-19 rambo
+  - disabled memory and execution time limits in subscriber import
+  - version bump for packaging
+
+2006-05-24 rambo
+  - changed the suspended property in mgdschema.sql to alter table statement
+    (all new properties must be handled via alter tables or upgrades become
+    very painfull)
+  - version bump for packaging.
+  - fixed incorrect message style for failure to add person to campaign
+
+2006-05-17 rambo
+  + added component configuration request switch
+
+2006-05-04 rambo
+  + files in schema fields with datatype 'blob' are now automatically added to
+    email attachments.
+  - bumped version
+  - cleaned some really old tests from the debug file
+
+2006-05-03 bergie
+  + Added vCard import tool
+
+2006-04-10 bergie
+  + Created subscriber mass-import tool with simple duplicate checking
+
+2006-04-08 bergie
+  + Added support for subscribing to net.nemein.discussion posts
+  + Background sending uses now dynamic_load instead of fopen() to support hosts with different authentication methods
+
+2006-04-03 rambo
+  + List-Id and List-Unsubscribe headers to outgoing emails
+  + Test-mode outgoing emails subject gets prefixed with "[TEST] "
+
+2006-03-29 rambo
+  - fixed a bug in SMS background sending (would not get content or parameters
+    properly)
+
+2006-03-27 rambo
+  - minor cleanup
+  + made logger/redirect work with campaign testers as well
+  + cron job to clear old tokens from send receipts
+
+2006-03-23 rambo
+  + bounced member indicator to campaign member list
+  + allow to send only HTML body (normally we create text version if not given)
+  + configuration schema for bounce/link detector
+  - minor cleanup
+
+2006-03-21 rambo
+  - cleanup/refactoring in campaign_message.php
+  - cleanup in bounce_detector.php, also added support for https logger
+  - cleanup in link_detector.php, also added support for https logger
+  + method to check whether given token is free for send receipt,
+    and made token generation to check for this before returning
+  + made email token size slightly larger and property of the message class
+  + made token generation default to mt_rand in stead of rand
+  + logger handler to work in conjuction with bounce_detector.php
+  + logger handler to work in conjuction with link_detector.php, UNTESTED
+  + logger handler with link redirection support, to avoid messing with apache
+    to get link_detector.php equivalent functionality.
+  + new object: org_openpsa_directmarketing_link_log
+
+2006-03-17 rambo
+  - fixed incorrect end_group() call in campaign_message.php
+
+2006-03-02 rambo
+  + added robustness to smart campaign members updates
+  + campaign member create/update now prevents creating duplicate memberships
+    for non-testers
+  - fixed a bug in ajax unsubscribe (would unsubsribe testers as well)
+  + campaign method for scheduling member synch
+  + campaign stub method for displaying member synch status (related to last sync time below)
+
+2006-03-01 rambo
+  + smart campaigns rule->member synchronization
+  + first (ugly) UI for editing smart campaign rules
+  - some refactoring and code cleanup
+  - better example in ruleresolver documentation
+  + Cron handler for daily smart campaign member synch
+  + AT handler for background member synch (preferred way, it can be quite
+    resource intensive)
+  + message sending runs the member synchronization before each send as well
+
+2006-02-16 rambo
+  + added _on_resolve_permalink to interface
+  - fixed a bug in campaign and campaign_message that cause both to return stub
+    object in stead of false even when fetch by guid failed
+  - made the archived timestamp in campaign editor visible/editable
+  - added visible campaigns to NAP
+
+2006-02-15 rambo
+  - fixed campaign schema for workgroup filtering
+  - update PEAR packaging information in manifest
+  - refactored toolbars to use top/bottom, also DM save/cancel buttons now use the helper
+
+
+2006-02-14 rambo
+  + unsubscribe from all campaigns
+  + "smart campaigns" search backend works
+  - persons campaign list now shows unsubscribed campaigns in different style
+
+2006-02-13 rambo
+  + started work on "smart campaigns"
+  + made campaign messages list to be paged.
+
+2006-02-08 rambo
+  + background send refactoring complete.
+  + delayed sending supported via url method (add a string parseable with
+    strtotime after ../send/).
+
+2006-02-07 rambo
+  + test case for the new AT service
+  - made campaign unsubsribe to skip the page style
+  + message sending backgrounded via AT service (INCOMPLETE).
+  - refactored message_midcomdba for background sending.
+  + made message send to use the confguration service properly for SMSLib parameters.
+
+2006-02-01 rambo
+  - made the messages sent counter to skip ooAjaxGet timeout (wait infinitely for reply)
+  + added JS confirm before allowing message to be sent to whole campaign
+  - message toolbar buttons reorganized
+
+2006-01-27 rambo
+  ! changed the parameter names for SMS API configuration
+  + Added SMS API chooser to configuration schema (and support for it to handler_message)
+  + Added support for smslib added property client_id to send_sms()
+  - reorganized the configuration schema
+
+2005-11-16 rambo
+  - nicer remove person from campaign button
+  + SMS from string support to schema
+
+2005-11-15 rambo
+  + first version of ajax based "remove person from campaign" button
+  - flag membership type in campaign list (if from person)
+
+2005-11-07 rambo
+  + AJAX based message send counts
+
+2005-10-18 rambo
+  ! Added checks for send receipts when sending messages
+    NOTE: if your repligard table has realm defined as varchar(32)
+    you need to first increase it to varchar(255) and then re-create
+    all receipts to get GUIDs for them. I'll try to make some sort
+    of general script for regenerating those.
+
+2005-10-17 rambo
+  + added "test group" functionality, campaign can now define a group
+    of testers to which a message can be sent before full batch.
+  + campaign edit mode and toolbar entries.
+
+2005-10-13 rambo
+  + made campaign member list to use org.openpsa.qbpager
+
+2005-09-26 rambo
+  + some new substition operators
+  + first try at unsubscribe support
+
+2005-08-18 bergie
+  + ACL-related fixes
+
+2005-08-12 rambo
+  + send handlers now create receipts and set sendStarted and sendComleted
+    correctly
+  + added component configuration for Tambur SMS gw
+  + SMS sending works.
+  + Preview button for messages
+  + Example of slightly more complex compositor style
+
+2005-08-11 rambo
+  - Emailing messages to members of campaign works, there is still some work
+    to be done regarding receipts handling (used to avoid double sends etc).
+
+2005-08-09 rambo
+  + implemented message compositor with substyle support (though substyling
+    is not tested yet).
+
+2005-08-08 bergie
+  + Implemented adding persons (by hand-picking) into campaigns
+  + Message listing and creation based on different schemas
+
+2005-08-05 bergie & rambo
+  - Initially created
+  - Currently can create, list and display campaign object

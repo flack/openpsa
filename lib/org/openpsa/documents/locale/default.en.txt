@@ -1,0 +1,144 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 26686 2010-10-08 16:32:39Z flack $
+---LANGUAGE en
+
+---STRING %s %s document
+%s %s document
+---STRINGEND
+
+---STRING %s document
+%s document
+---STRINGEND
+
+---STRING %s image
+%s image
+---STRINGEND
+
+---STRING %s presentation
+%s presentation
+---STRINGEND
+
+---STRING %s spreadsheet
+%s spreadsheet
+---STRINGEND
+
+---STRING %s text
+%s text
+---STRINGEND
+
+---STRING application/octet-stream
+Binary file
+---STRINGEND
+
+---STRING application/x-zip-compressed
+ZIP archive
+---STRINGEND
+
+---STRING author
+Author
+---STRINGEND
+
+---STRING confirm delete
+Confirm deletion
+---STRINGEND
+
+---STRING create document
+Create document
+---STRINGEND
+
+---STRING directory
+Directory
+---STRINGEND
+
+---STRING document
+Document
+---STRINGEND
+
+---STRING document search
+Document search
+---STRINGEND
+
+---STRING document status
+Document status
+---STRINGEND
+
+---STRING documents
+Documents
+---STRINGEND
+
+---STRING draft
+Draft
+---STRINGEND
+
+---STRING edit directory
+Edit directory
+---STRINGEND
+
+---STRING final
+Final
+---STRINGEND
+
+---STRING folder
+Folder
+---STRINGEND
+
+---STRING folders
+Folders
+---STRINGEND
+
+---STRING new directory
+New directory
+---STRINGEND
+
+---STRING new document
+New document
+---STRINGEND
+
+---STRING no results
+No results
+---STRINGEND
+
+---STRING older versions
+Older versions
+---STRINGEND
+
+---STRING org.openpsa.documents
+Document management
+---STRINGEND
+
+---STRING review
+Review
+---STRINGEND
+
+---STRING score: %d%%
+Score: %d%%
+---STRINGEND
+
+---STRING search
+Search
+---STRINGEND
+
+---STRING text/plain
+Plain text
+---STRINGEND
+
+---STRING use the buttons below or in toolbar
+Use the buttons below or in the toolbar
+---STRINGEND
+
+---STRING file size
+File size
+---STRINGEND
+
+---STRING last modified
+Last modified
+---STRINGEND
+
+---STRING creator
+Creator
+---STRINGEND
+
+---STRING title
+Title
+---STRINGEND

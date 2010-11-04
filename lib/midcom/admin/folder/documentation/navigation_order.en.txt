@@ -1,0 +1,12 @@
+Navigation order
+================
+
+It is possible to arrange navigational elements to some extent. All of the folders are sortable and depending on the type of the folder its content might also offer the sorting feature.
+
+E.g. the most commonly used folder type, _Regular content_ (_net.nehmer.static_), is sortable.
+
+You can choose the preferred order of items from the dropdown list and arrange the items by dragging and dropping them to their places.
+
+Finally click on the _Save_ button.
+
+![Navigation order](MIDCOM_STATIC_URL/midcom.admin.folder/navigation_order_en.png)

@@ -1,0 +1,67 @@
+                   net.nehmer.account Changelog
+                   ----------------------------
+CVS Id: $Id: CHANGES 14594 2008-01-23 15:28:01Z adrenalin $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-01-23 adrenalin
+  - Username check will now also check if there are persons with the same email address, if username
+    has been configured to be email address.
+
+2008-01-19 adrenalin
+  ! Changed to use org.openpsa.mail for sending mail
+
+2008-01-11 adrenalin
+  - Added 'Change password' to navigation
+
+2007-12-07 adrenalin
+  - Changed the table sorting to use jQuery Tablesorter 2.0
+
+2007-10-30 xfade
+  + allow to link by username without 'view' fixed arg. (can be enabled in config)
+
+2007-08-09 adrenalin
+  + It is now possible to require administrator approval
+  ! moved configuration to DM2 based configuration schema
+  ! Big code cleanup and uniforming
+
+2007-07-31 rambo
+  + forward-ported: allow to link to user by username (can be disabled in config)
+  ! forward-ported: disabled linking to users by ID, now one must use GUID or username
+
+2007-05-21 Joonas Bergius
+  - Fixed a problem with username_is_email option.
+
+2007-02-12 bergie
+  ! Switched the component to on-site toolbars
+
+2006-10-26 bergie
+  + Fixed situation where unauthenticated user could trigger error
+    on the profile page
+
+2006-07-17 torben
+  - The change username form now changes its names/headings when
+    the E-Mail is used as username.
+
+2006-06-07 torben
+  + Added username->email synchronization which uses only emails
+    as usernames. Note, that there is no reverse sync from the
+    email field into the username field (yet).
+  - Made the URL of the account activated screen configurable
+    using a HTTP request arg. (Useful to send users back from
+    where they accessed the account registration.)
+  + The config option register_allow_types can now be used to
+    limit the account types that are open for registration. This
+    is independent of the account definitions.
+
+2006-04-06 (1.0.1) torben
+  - Moved username regex checks to the handler classes, so that
+    schema authors don't have to worry about it.
+  - Minor Bugfixing.
+
+2005-10-25 torben
+  - Initial version

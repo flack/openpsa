@@ -1,0 +1,14 @@
+midcom.helper.reflector ChangeLog
+-------------------
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-03-11 adrenalin
+  + Added copy_object and copy_object_tree as statically callable methods
+
+2008-01-01 tarjei
+  + initial version

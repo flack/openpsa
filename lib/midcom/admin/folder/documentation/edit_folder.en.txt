@@ -1,0 +1,11 @@
+Editing folders
+=======
+
+On the page _Edit Folder_ it is possible to edit the folder settings: _URL name_, _Title_, _Style template_, _Inherit template to subfolders_ and _Order of navigation items_.
+
+* _URL name_ is name of the target. Through this name it is possible to define, which URL refers to the currently created folder.
+* _Title_ is the name, which will be shown in the navigation.
+* _Style template_ is to choose the visual layout of the folder
+  - Styles are always customized. Ask your site manager whether your site has customized styles.
+* _Inherit template to subfolders_ will force the lower level subfolders to use the same style elements as defined above in _Style template_.
+* _Order of navigation items defines_ the order of folders and pages under the folder

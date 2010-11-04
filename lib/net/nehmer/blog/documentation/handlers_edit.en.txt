@@ -1,0 +1,2 @@
+
+Provides edit form for post __{$args[0]}__. Argument is article GUID.

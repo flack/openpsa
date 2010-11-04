@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+
+    <type name="org_openpsa_salesproject" table="org_openpsa_salesproject">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="up" upfield="up" link="org_openpsa_salesproject:id" type="unsigned integer">
+        	<description>
+        		In practice all salesprojects will have up of 0 but in case we someday wish to divide 
+        		a huge salesproject to subprojects this is here
+        	</description>
+        </property>
+
+        <property name="start" type="integer" index="yes"/>
+        <property name="end" type="integer" index="yes"/>
+        <property name="code" type="string"/>
+        <property name="title" type="string"/>
+        <property name="description" type="text"/>
+        <property name="status" type="integer" index="yes"/>
+
+        <property name="customer" link="org_openpsa_organization:id" type="unsigned integer"/>
+        <!-- Customer contacts are handled as members to project -->
+
+        <property name="owner" link="midgard_person:id" type="unsigned integer"/>
+
+        <property name="probability" type="integer"/>
+        <property name="value" type="float"/>
+        <property name="profit" type="float"/>
+        <property name="closeEst" type="integer"/>
+
+        <!-- Common OpenPSA properties -->
+        <property name="orgOpenpsaObtype" type="integer">
+        	<description>
+	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+        	</description>
+        </property>
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_salesproject_member" table="org_openpsa_salesproject_member" parent="org_openpsa_salesproject">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="person" link="midgard_person:id" type="unsigned integer"/>
+        <property name="salesproject" link="org_openpsa_salesproject:id" type="unsigned integer" parentfield="salesproject"/>
+        <property name="extra" type="text" />
+
+        <!-- Common OpenPSA properties -->
+        <property name="orgOpenpsaObtype" type="integer">
+        	<description>
+	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+        	</description>
+        </property>
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_salesproject_deliverable" table="org_openpsa_salesproject_deliverable" parent="org_openpsa_salesproject">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="up" link="org_openpsa_salesproject_deliverable:id" upfield="up" type="unsigned integer"/>
+        <property name="product" link="org_openpsa_products_product:id" type="unsigned integer"/>
+        <property name="supplier" link="org_openpsa_organization:id" type="unsigned integer"/>
+        <property name="salesproject" link="org_openpsa_salesproject:id" type="unsigned integer" parentfield="salesproject"/>
+        <property name="title" type="string"/>
+        <property name="description" type="text"/>
+
+        <!-- Pricing information. pricePerUnit and unit are the source of calculations but price is the
+        definitive price of this deliverable -->
+        <property name="price" type="float"/>
+        <property name="invoiced" type="float"/>
+        <property name="units" type="float"/>
+        <property name="plannedUnits" type="float"/>
+        <property name="uninvoiceableUnits" type="float"/>
+        <property name="unit" type="string"/>
+        <property name="pricePerUnit" type="float"/>
+        <property name="invoiceByActualUnits" type="boolean"/>
+        <property name="invoiceApprovedOnly" type="boolean"/>
+        <property name="continuous" type="boolean"/>
+
+        <property name="cost" type="float">
+        	<description>
+        		Actual cost of the delivery 
+        	</description>
+        </property>
+        <property name="plannedCost" type="float">
+        	<description>
+        		Original planned cost
+        	</description>
+        </property>
+        <property name="costPerUnit" type="float">
+        	<description>
+        		Cost per unit, used as basis of calculations for the fields above
+        	</description>
+        </property>
+        <property name="costType" type="string"/>
+
+        <property name="start" type="integer">
+        	<description>
+        		Start can have two different meanings: 
+        		
+        		- for single deliveries, it's the time when delivery can start
+        		- for subscriptions it's the subscription start
+        	</description>
+        </property>
+        <property name="end" type="integer">
+        	<description>
+        		End can have two different meanings: 
+        		
+        		- for single deliveries, it's the delivery deadline
+        		- for subscriptions it's the subscription end
+        	</description>
+        </property>
+        <property name="notify" type="integer" />
+
+        <property name="state" type="integer">
+        	<description>
+        		State of the proposal/order
+        	</description>
+        </property>
+
+        <!-- Common OpenPSA properties -->
+        <property name="orgOpenpsaObtype" type="integer">
+        	<description>
+	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+        	</description>
+        </property>
+        <!-- /Common OpenPSA properties -->
+    </type>
+</Schema>

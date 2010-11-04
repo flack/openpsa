@@ -1,0 +1,92 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23015 2009-07-28 08:50:55Z flack $
+---LANGUAGE de
+
+---STRING %d hours (%d invoiceable) reported
+%d Arbeitsstunden (%d abrechenbar) gemeldet
+---STRINGEND
+
+---STRING create event
+Termin erstellen
+---STRINGEND
+
+---STRING create person
+Person erstellen
+---STRINGEND
+
+---STRING create task
+Aufgabe erstellen
+---STRINGEND
+
+---STRING my summary
+Meine Zusammenfassung
+---STRINGEND
+
+---STRING org.openpsa.mypage
+Persönliche Zusammenfassung
+---STRINGEND
+
+---STRING preview for week %s
+Vorschau auf Kalenderwoche %s
+---STRINGEND
+
+---STRING review of week %s
+Übersicht über Kalenderwoche %s
+---STRINGEND
+
+---STRING updated %s
+%s geändert
+---STRINGEND
+
+---STRING updated today
+Heute geändert
+---STRINGEND
+
+---STRING updated yesterday
+Gestern geändert
+---STRINGEND
+
+---STRING week review
+Wochen-Übersicht
+---STRINGEND
+
+---STRING totals
+Summen
+---STRINGEND
+
+---STRING see all %s hours
+Alle %s Arbeitsstunden anzeigen 
+---STRINGEND
+
+---STRING this week
+Diese Woche
+---STRINGEND
+
+---STRING invoiceable
+Abrechenbar
+---STRINGEND
+
+---STRING uninvoiceable
+Nicht abrechenbar
+---STRINGEND
+
+---STRING not working on a task
+Sie arbeiten nicht an einer Aufgabe
+---STRINGEND
+
+---STRING now working on
+Sie arbeiten an
+---STRINGEND
+
+---STRING reporting %d hours to task %s failed, reason %s
+Melden von %d Arbeitsstunden für Aufgabe "%s" ist fehlgeschlagen, Ursache: %s
+---STRINGEND
+
+---STRING successfully reported %d hours to task %s
+%d Arbeitsstunden für Aufgabe "%s" erfolgreich gemeldet
+---STRINGEND
+
+---STRING worked from %s to %s
+Gearbeitet von %s bis %s
+---STRINGEND

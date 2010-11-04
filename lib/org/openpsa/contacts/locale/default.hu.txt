@@ -1,0 +1,245 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 25209 2010-02-25 18:24:54Z flack $
+---LANGUAGE hu
+
+---STRING categories
+Kategóriák
+---STRINGEND
+
+---STRING city
+Város
+---STRINGEND
+
+---STRING client
+Ügyfél
+---STRINGEND
+
+---STRING company_id
+Cég azonosító
+---STRINGEND
+
+---STRING country
+Ország
+---STRINGEND
+
+---STRING create account
+Felhasználói azonosító létrehozása
+---STRINGEND
+
+---STRING create event
+Esemény létrehozása
+---STRINGEND
+
+---STRING create organization
+Szervezet létrehozása
+---STRINGEND
+
+---STRING create person
+Személy létrehozása
+---STRINGEND
+
+---STRING customers invoices
+Ügyfelek számlái
+---STRINGEND
+
+---STRING daughter organization
+Leány vállalat
+---STRINGEND
+
+---STRING decide later
+Később dönt
+---STRINGEND
+
+---STRING department
+Osztály
+---STRINGEND
+
+---STRING edit
+Szerkesztés
+---STRINGEND
+
+---STRING edit account
+Felhasználói azonosító szerkesztése
+---STRINGEND
+
+---STRING edit user account: %s %s
+Felhasználói azonosító szerkesztése: %s %s
+---STRINGEND
+
+---STRING email
+Email
+---STRINGEND
+
+---STRING email %s
+e-mail %s
+---STRINGEND
+
+---STRING enable salesproject creation
+Értékesítési projekt létrehozásának engedélyezése
+---STRINGEND
+
+---STRING failed to create user account, reason
+A felhasználói azonosító létrehozása sikertelen. Az oka
+---STRINGEND
+
+---STRING fax
+Fax
+---STRINGEND
+
+---STRING firstname
+Keresztnév
+---STRINGEND
+
+---STRING homepage
+Honlap
+---STRINGEND
+
+---STRING homephone
+Otthoni telefonszám
+---STRINGEND
+
+---STRING invoice address
+Számlázási cím
+---STRINGEND
+
+---STRING jabber id
+Jabber azonosító
+---STRINGEND
+
+---STRING job title
+Beosztás
+---STRINGEND
+
+---STRING keep both
+Mindkettő megtartása
+---STRINGEND
+
+---STRING lastname
+Vezetéknév
+---STRINGEND
+
+---STRING logo
+Logo
+---STRINGEND
+
+---STRING me
+Én
+---STRINGEND
+
+---STRING mobile phone
+Mobiltelefon
+---STRINGEND
+
+---STRING no account
+Nincs azonosító
+---STRINGEND
+
+---STRING notes
+Jegyzetek
+---STRINGEND
+
+---STRING notification settings
+Figyelmeztetés beállításai
+---STRINGEND
+
+---STRING person
+Személy
+---STRINGEND
+
+---STRING persons
+Személyek
+---STRINGEND
+
+---STRING phone
+Telefon
+---STRINGEND
+
+---STRING photo
+Fotó
+---STRINGEND
+
+---STRING postal address
+Postai cím
+---STRINGEND
+
+---STRING postcode
+Irányítószám
+---STRINGEND
+
+---STRING project management
+Projekt menedzsment
+---STRINGEND
+
+---STRING related notes
+Kapcsolódó jegyzet
+---STRINGEND
+
+---STRING search
+Keresés
+---STRINGEND
+
+---STRING skype name
+Skype-os név
+---STRINGEND
+
+---STRING user account
+Felhasználói azonosító
+---STRINGEND
+
+---STRING user account for %s
+%s felhasználói azonosítója
+---STRINGEND
+
+---STRING vendor
+Eladó
+---STRINGEND
+
+---STRING visiting address
+Cím
+---STRINGEND
+
+---STRING weekly workhours
+Heti munkaórák
+---STRINGEND
+
+---STRING work phone
+Munkahelyi telefon
+---STRINGEND
+
+---STRING new organization
+Új szervezet
+---STRINGEND
+
+---STRING new person
+Új személy
+---STRINGEND
+
+---STRING organization
+Szervezet
+---STRINGEND
+
+---STRING organization_type
+Szervezet fajtája
+---STRINGEND
+
+---STRING organizations
+Szervezetek
+---STRINGEND
+
+---STRING partner
+Partner
+---STRINGEND
+
+---STRING password repeat
+Jelszó (még egyszer)
+---STRINGEND
+
+---STRING passwords don't match
+A jelszavak nem egyeznek
+---STRINGEND
+
+---STRING permissions
+Engedélyek
+---STRINGEND
+

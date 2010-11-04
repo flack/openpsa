@@ -1,0 +1,1 @@
+<(midcom_services_auth_login_page)>

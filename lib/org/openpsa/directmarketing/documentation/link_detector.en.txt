@@ -1,0 +1,66 @@
+OpenPSA Link Detector
+=====================
+
+The `link_detector.php` script is used to track the specially formatted
+links that a user follows from an HTML email message or a normal HTML page.
+The link detector script acts as a general forwarding mechanism that logs
+all links traversals through it.
+
+The script takes two HTTP GET parameters:
+
+    .../link_detector.php?token=TOKEN&link=LINK
+
+The `token` parameter contains the opaque token associated with the
+link source document (either an email message or a normal HTML page).
+The 'link' parameter contains the full HTTP URI that the user is about
+to open.
+
+In addition to the GET parameters, the script uses two environment variables
+for configuration. The 'logger' variable contains the URI of the link log file
+or the web resource used for logging the link traversal. If a logger has
+not been configured, then link traversals are logged to the standard error log.
+The optional `domains` variable can be used to restrict redirects to a
+comma-separated list of domains.
+
+The link detector script responds with a temporary redirect message
+pointing to the given link URI. The detector script then logs the link
+traversal to the given logger URI. If the logger is a file URI, then
+the token, a space, and the link URI are appended to the referenced
+file as a new line. If the logger is a HTTP URI, then a POST request
+containing the token as the `token` argument and the link URI as the
+`link` argument is made to that URI.
+
+If the `domains` parameter is given and the domain part of the link URI
+does not end with any of the configured domains, then the script simply
+responds with a `403 Forbidden` response.
+
+Apache configuration
+--------------------
+
+The minimum configuration for the link detector script `link_detector.php`
+is to just place it in a publicly visible directory and set the `logger`
+environment variable. In this case the `link_detector_address` configuration
+option should simply be set to something like this:
+
+    http://example.com/link_detector.php?token=TOKEN&link=
+
+where the logger part is the URI of the link traversal logger. The
+directmarketing component will replace the `TOKEN` string with the
+message specific token and append the real link URI to the end of the
+configured address.
+
+It is possible to use the `mod_rewrite` module to achieve prettier link
+addresses. For example:
+
+    RewriteRule ^/(.*)/(.*) link_detector.php?token=$1&link=$2
+
+With such a mapping the `link_detector_address` configuration option can
+be set to the following:
+
+    http://example.com/TOKEN/
+
+The `logger` and `domains` environment variables can be set using the
+Apache `SetEnv` directive:
+
+    SetEnv logger file:///var/log/link.log
+    SetEnv domains example.com,example.fi

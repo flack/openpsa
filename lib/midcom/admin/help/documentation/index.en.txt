@@ -1,0 +1,35 @@
+On-line help reader
+=====
+
+On-line help reader is a MidCOM plugin that reads component's documentation 
+folder in order to present on-line help regarding current component.
+
+It can be invoked several ways:
+
+ * /__ais/help/ - presents help index for current topic's copmponent
+ * /__ais/help/*component* - presents help index for *component*
+ * /__ais/help/*component*/*help_id* - presents contents of *help_id*.*lang*.txt documentation file
+ 
+There is also a special *help_id* named **routes** that lists all available 
+URL routes supported by component. Currently this feature is available only 
+for current component view. 
+
+Request Handler class adds a special *request_switch* key item
+
+    $this->_request_switch[$key]['info'] = $this->_l10n->get($key.'_info');
+    
+to allow include **routes** description in translation file. String identifier for route description
+matches the pattern of ***{$key}_*info**, eg. in blog component, for **ajax-latest** switch it will be
+
+    'info' => $this->_l10n->get('ajax-latest_info'); 
+
+**index** *help_id* creates a Table of Contents on the fly by reading filenames in documentation 
+folder that match the pattern of *help_id*.*lang*.txt. *help_id* is also an localization string
+for translating TOC titles. Help plugin will look for **help_{*help_id*}** string indentifier in 
+given component's translation database except for **index** which is a global item named 'Table of Contents'.
+Once scanned, documentation files are ordered by file names.
+
+A navigation bar is also created upon scanned items of Table of Contents and placed at the top and 
+bottom of each but *index* page..
+
+Help files are parsed using wiki markdown syntax. Refer to [net.nehmer.markdown](__ais/help/net.nehmer.markdown/markdown-syntax/) for more details.

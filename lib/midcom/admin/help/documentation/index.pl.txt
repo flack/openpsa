@@ -1,0 +1,37 @@
+Generator pomocy on-line
+=====
+
+Generator pomocy on-line to wtyczka MidCOMa, która tworzy i udostępnia documentację
+medułu MidCOMa.
+
+Generator może być uruchomiony na kilka sposobów:
+
+ * /__ais/help/ - wyświetla indeks dokumentacji modułu bieżącego folderu
+ * /__ais/help/*component* - wyświetla indeks dokumentacji modułu *component*
+ * /__ais/help/*component*/*help_id* - wyświetla zawartość pliku pomocy *help_id*.*lang*.txt
+ 
+Generator ma także sztuczny *help_id* o nazwie **routes**, który wyświetla wszystkei dostępne
+definicje routingu URLi. Obecnie ta funkcja działa tylko dla dokumentacji modułu bieżącego folderu.
+
+Klasa Request Handler dodaje także specjalny element klucza tabeli *request_switch*
+
+    $this->_request_switch[$key]['info'] = $this->_l10n->get($key.'_info');
+    
+aby umożliwić dodawanie lokalizowanych opisów **routes**. Identyfikator napisu jest tworzony wg schematu
+***{$key}_*info**, np. w module news/blog, dla Handlera **ajax-latest** dodany zostanie klucz
+
+    'info' => $this->_l10n->get('ajax-latest_info'); 
+
+**index** *help_id* dodaje ponadto automatycznie utworzony Spis Treści pomocy. Spis jest tworzony przez skanowanie
+zawartości folderu dokumetacji w poszukiwaniu plików pasujących do schematu *help_id*.*lang*.txt. *help_id* jest także
+kluczem do identyfikatora napisu w bazie tłumaczeń i służy do lokalizacji tytułów paragrafów dokumentacji.
+
+Wtyczka poszukuje identyfikatorów postaci **help_{*help_id*}** w bazie tłumaczeń danego modułu, za wyjątkiem klucza 
+**help_index**, który jest przetłumaczony w globalnej bazie. Po przeskanowaniu elementy są sortowane wg nazw plików.
+
+Ponadto, generator spisu treści tworzy także paski nawigacji prowadzące do poprzedniego i następnego
+elementu w spisie treści, oraz do indeksu pomocy. Paski nawigacji znajdują się na każdej, poza indeksową, stronie.
+
+Pliki pomocy muszą być sformatowane za pomocą zapisu markdown. Przeczytaj 
+[opis składni net.nehmer.markdown](../net.nehmer.markdown/markdown-syntax/) by dowiedzieć się więcej.
+

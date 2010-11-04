@@ -1,0 +1,16 @@
+﻿Luo kansio
+==========
+
+* _Tiedostonimi_ on kohteen nimi. Tällä nimellä on mahdollista määritellä, mikä URL osoittaa luotuun kansioon. Voit myös jättää _URL nimen_ kirjoittamatta ja jättää sen järjestelmän huoleksi.
+  - _URL-nimi_ on kirjoitettava pienillä kirjaimilla ilman välilyöntejä; hyvä tapa on käyttää välilyöntien sijaan viivaa -. 
+* _Otsikko_ on se nimi, joka näytetään navigaatiossa.
+* _Kansion tyyppi_ on komponentin valinta. Yleisin tyyppi on nimeltään _Normaali sisältö_ (_net.nehmer.static_), mutta riippuen asennuksesta käytettävissä voi olla useita eri toimintoja, kuten
+  - Uutiskansio (_net.nehmer.blog_)
+  - Valokuvagalleria (_net.siriux.photos_)
+  - Sivukartta (_de.linkm.sitemap_)
+* _Ulkoasupohjaa voidaan käyttää määrittelemään se, mille sisältö näyttää. Ulkoasupohjat ovat lähestulkoon aina kustomoitu erikseen jokaista sivustoa varten. Jos sinun tarvitsee käyttää erillisiä ulkoasupohjia, sivuston ylläpitäjän tulisi tiedottaa sinua tästä.
+* _Navigaation järjestys_ on kansion navigation järjestelemistä varten. Tämä voidaan jättää kohtaan _Oletus_.
+* Lopulta paina painiketta _Tallenna_.
+
+![Luo kansio](MIDCOM_STATIC_URL/midcom.admin.folder/create_folder_fi.png)
+

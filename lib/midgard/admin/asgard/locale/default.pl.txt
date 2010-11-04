@@ -1,0 +1,849 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 25331 2010-03-18 23:02:08Z solt $
+---LANGUAGE pl
+
+---STRING %s (%s)
+%s (%s)
+---STRINGEND
+
+---STRING %s deleted items
+%s pozycji w koszu
+---STRINGEND
+
+---STRING %s is under type %s
+%s jest podtypem %s
+---STRINGEND
+
+---STRING %s purged
+%s usunięto z kosza
+---STRINGEND
+
+---STRING %s trash
+Kosz %s
+---STRINGEND
+
+---STRING 1 day
+ostatniego dnia
+---STRINGEND
+
+---STRING 1 month
+ostatniego miesiąca
+---STRINGEND
+
+---STRING 1 week
+ostatniego tygodnia
+---STRINGEND
+
+---STRING 2 weeks
+ostatnie 14 dni
+---STRINGEND
+
+---STRING ANONYMOUS
+Anonimy
+---STRINGEND
+
+---STRING EVERYONE
+Wszyscy
+---STRINGEND
+
+---STRING This object has no translation in the current language and cannot be deleted.
+Obiekt nie posiada tłumaczenia w bieżącym języku, które można usunąć
+---STRINGEND
+
+---STRING USERS
+Użytkownicy
+---STRINGEND
+
+---STRING acl_editor
+Edycja uprawnień
+---STRINGEND
+
+---STRING actions
+Akcje
+---STRINGEND
+
+---STRING active url parsing
+Aktywne przetwarzanie URLi
+---STRINGEND
+
+---STRING add assignee
+Dodaj grupę
+---STRINGEND
+
+---STRING add parameter
+Dodaj parametr
+---STRINGEND
+
+---STRING add text file
+Dodaj plik tekstowy
+---STRINGEND
+
+---STRING all of the following items will be deleted
+Następujące elementy zostaną usunięte
+---STRINGEND
+
+---STRING always display in top frame
+Zawsze wyświetlaj w głównej ramce
+---STRINGEND
+
+---STRING any
+Dowolne
+---STRINGEND
+
+---STRING apply to selected
+Zastosuj do zaznaczonych
+---STRINGEND
+
+---STRING asgard
+Asgard
+---STRINGEND
+
+---STRING asgard for
+Asgard dla
+---STRINGEND
+
+---STRING asgard homepage
+Asgard Home
+---STRINGEND
+
+---STRING asgard plugins
+Narzędzia
+---STRINGEND
+
+---STRING attachment
+Załącznik
+---STRINGEND
+
+---STRING attachment %s undeleted
+Załącznik %s odzyskany
+---STRINGEND
+
+---STRING attachments
+Załączniki
+---STRINGEND
+
+---STRING attachments of %s %s
+Załączniki %s "%s"
+---STRINGEND
+
+---STRING back to %s
+Idź do strony "%s"
+---STRINGEND
+
+---STRING back to site
+Powrót do serwisu
+---STRINGEND
+
+---STRING cascading style sheet
+Styl CSS
+---STRINGEND
+
+---STRING changes done in revision %s to %s
+Zmiany z wersji %s do %s
+---STRINGEND
+
+---STRING changes from version %s
+Zmiany z wersji %s
+---STRINGEND
+
+---STRING child types of %s
+Typy podrzędne w %s
+---STRINGEND
+
+---STRING choose action
+Wybierz
+---STRINGEND
+
+---STRING choose the target
+Wybierz cel
+---STRINGEND
+
+---STRING code
+Kod
+---STRINGEND
+
+---STRING compare
+Porównaj
+---STRINGEND
+
+---STRING component
+Moduł
+---STRINGEND
+
+---STRING components
+Moduły
+---STRINGEND
+
+---STRING configuration for %s
+Konfiguracja modułu %s
+---STRINGEND
+
+---STRING configuration save failed: %s
+Błąd zapisu konfiguracji: %s
+---STRINGEND
+
+---STRING configuration saved successfully
+Konfiguracja zapisana
+---STRINGEND
+
+---STRING content
+Treść
+---STRINGEND
+
+---STRING contentchanged
+Zmiana treści
+---STRINGEND
+
+---STRING contentowner
+Właściciel treści
+---STRINGEND
+
+---STRING copy %s
+Kopiuj %s
+---STRINGEND
+
+---STRING copy %s and its descendants
+Kopiuj %s wraz z zawartością
+---STRINGEND
+
+---STRING copy attachments
+Kopiuj załączniki
+---STRINGEND
+
+---STRING copy metadata
+Kopiuj metadane
+---STRINGEND
+
+---STRING copy parameters
+Kopiuj parametry
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the new object
+Kopiowanie zakończone. Zostałeś przeniesiony do nowego obiektu.
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the root of the new object tree
+Kopiowanie zakończone. Zostałeś przeniesiony do węzła głównego nowego obiektu.
+---STRINGEND
+
+---STRING copy tree
+Kopiuj drzewo
+---STRINGEND
+
+---STRING core_components
+Moduły systemowe
+---STRINGEND
+
+---STRING create %s under %s
+Utwórz %s w %s
+---STRINGEND
+
+---STRING created by
+Utworzony przez
+---STRINGEND
+
+---STRING created by %s on %s
+Utworzono %s przez %s
+---STRINGEND
+
+---STRING created on
+Utworzono %s
+---STRINGEND
+
+---STRING date
+Data
+---STRINGEND
+
+---STRING default language
+Język domyślny
+---STRINGEND
+
+---STRING delete %s %s
+Usuń %s %s
+---STRINGEND
+
+---STRING deleted by
+Usunięty przez
+---STRINGEND
+
+---STRING deleted on
+Usunięto %s
+---STRINGEND
+
+---STRING dependencies
+Zależności
+---STRINGEND
+
+---STRING differences between %s and %s
+Zmiany między wersją %s i %s
+---STRINGEND
+
+---STRING differences between versions %s and %s
+Zmiany między wersją %s i %s
+---STRINGEND
+
+---STRING disable rcs
+Wyłącz kontrolę wersji dla tego działania
+---STRINGEND
+
+---STRING dropdown list
+Lista rozwijana
+---STRINGEND
+
+---STRING edit %s %s
+Edytuj %s %s
+---STRINGEND
+
+---STRING edit configuration for %s
+Edycja konfiguracji modułu %s
+---STRINGEND
+
+---STRING edit configuration for %s folder %s
+Edycja konfiguracji modułu %s w folderze %s
+---STRINGEND
+
+---STRING edit file %s
+Edycja pliku %s
+---STRINGEND
+
+---STRING edit text file
+Edycja pliku tekstowego
+---STRINGEND
+
+---STRING editor options
+Opcje edytora
+---STRINGEND
+
+---STRING enable breaking of the editing lock
+Pozwól na obejście blokady edycji
+---STRINGEND
+
+---STRING enable quicklinks
+Pokaż szybkie linki
+---STRINGEND
+
+---STRING exclude
+Wyklucz
+---STRINGEND
+
+---STRING expanded list
+Lista rozwinięta
+---STRINGEND
+
+---STRING failed purging %s, reason %s
+Czyszczenie %s nieudane: %s
+---STRINGEND
+
+---STRING failed purging attachment %s => %s, reason %s
+Czyszczenie załączników %s nieudane: %s, %s
+---STRINGEND
+
+---STRING failed undeleting %s, reason %s
+Odzyskiwanie %s nieudane: %s
+---STRINGEND
+
+---STRING failed undeleting attachment %s, reason %s
+Odzyskiwanie załącznika %s nieudane: %s
+---STRINGEND
+
+---STRING file %s deleted
+Plik '%s' usunięto
+---STRINGEND
+
+---STRING file contents
+Zawartość pliku
+---STRINGEND
+
+---STRING file information
+Info
+---STRINGEND
+
+---STRING filename
+Nazwa pliku
+---STRINGEND
+
+---STRING filter
+Filtr
+---STRINGEND
+
+---STRING floating freely
+Pływające
+---STRINGEND
+
+---STRING folder
+folder
+---STRINGEND
+
+---STRING global
+Wartość globalna
+---STRINGEND
+
+---STRING global value
+Wartość globalna
+---STRINGEND
+
+---STRING group %s
+Grupa %s
+---STRINGEND
+
+---STRING guid
+GUID
+---STRINGEND
+
+---STRING html
+HTML
+---STRINGEND
+
+---STRING in %s
+w %s
+---STRINGEND
+
+---STRING in fallback language
+W języku podstawowym
+---STRINGEND
+
+---STRING in total %s purged
+Wyczyszczono %s
+---STRINGEND
+
+---STRING in total %s undeleted
+Odzyskano %s
+---STRINGEND
+
+---STRING include
+Załącz
+---STRINGEND
+
+---STRING info
+Info
+---STRINGEND
+
+---STRING inherited
+Dziedziczone
+---STRINGEND
+
+---STRING interface language
+Język interfejsu
+---STRINGEND
+
+---STRING invert selection
+Odwróć zaznaczenie
+---STRINGEND
+
+---STRING items in trash
+Obiekty w koszu
+---STRINGEND
+
+---STRING javascript
+JavaScript
+---STRINGEND
+
+---STRING last edited by %s on %s (revision %s)
+Ostatnia zmiana: %s przez %s (Wersja %s)
+---STRINGEND
+
+---STRING libraries
+Biblioteki
+---STRINGEND
+
+---STRING lines
+Linie
+---STRINGEND
+
+---STRING local
+Wartość lokalna
+---STRINGEND
+
+---STRING localisation settings
+Ustawienia lokalizacji
+---STRINGEND
+
+---STRING manage object
+Zarządzaj obiektem
+---STRINGEND
+
+---STRING message
+Info
+---STRINGEND
+
+---STRING metadata of %s %s
+Metadane of %s %s
+---STRINGEND
+
+---STRING mgdschema type visibility in navigation
+Typy MgdSchema widoczne w nawigacji
+---STRINGEND
+
+---STRING midcom:approve
+Zatwierdź
+---STRINGEND
+
+---STRING midcom:component_config
+Konfiguracja
+---STRINGEND
+
+---STRING midcom:urlname
+Edycja URLi
+---STRINGEND
+
+---STRING midgard objects
+Obiekty
+---STRINGEND
+
+---STRING midgard.admin.asgard
+Administracja Midgarda
+---STRINGEND
+
+---STRING midgard:attachments
+Załączniki
+---STRINGEND
+
+---STRING midgard:create
+Tworzenie
+---STRINGEND
+
+---STRING midgard:delete
+Usuwanie
+---STRINGEND
+
+---STRING midgard:owner
+Właściciel
+---STRINGEND
+
+---STRING midgard:parameters
+Parametry
+---STRINGEND
+
+---STRING midgard:read
+Odczyt
+---STRINGEND
+
+---STRING midgard:update
+Zapis
+---STRINGEND
+
+---STRING mimetype
+Typ MIME
+---STRINGEND
+
+---STRING model for selecting navigation types
+Wybór obiektów w nawigacji
+---STRINGEND
+
+---STRING most recently visited
+Ostatnio otwierane obiekty
+---STRINGEND
+
+---STRING navigation options
+Opcje nawigacji
+---STRINGEND
+
+---STRING navigation type
+Typ nawigacji
+---STRINGEND
+
+---STRING navigation width
+Szerokość paska nawigacji
+---STRINGEND
+
+---STRING navigation width (in pixels)
+Szerokość w pikselach
+---STRINGEND
+
+---STRING no changes in content
+Brak zmian w treści
+---STRINGEND
+
+---STRING no files
+Brak plików
+---STRINGEND
+
+---STRING no title
+Bez nazwy
+---STRINGEND
+
+---STRING no.bergfald.rcs
+Kontrola wersji
+---STRINGEND
+
+---STRING not approved
+Nie zatwierdzone
+---STRINGEND
+
+---STRING not inherited
+Nie dziedziczone
+---STRINGEND
+
+---STRING object %s
+Obiekt %s
+---STRINGEND
+
+---STRING object %s approved
+Obiekt %s został zatwierdzony
+---STRINGEND
+
+---STRING object %s has been deleted
+Obiekt %s został usunięty. Aby go odzyskać przejdź do Kosza danego typu.
+---STRINGEND
+
+---STRING object %s removed
+Obiekt %s został usunięty
+---STRINGEND
+
+---STRING object deleted
+Obiekt usunięty
+---STRINGEND
+
+---STRING objects expiring within
+Obiekty wygasające w ciągu
+---STRINGEND
+
+---STRING objects revised within
+Obiekty zmienione w ciągu
+---STRINGEND
+
+---STRING on top of the content area
+Na górze
+---STRINGEND
+
+---STRING only mine
+Tylko moje
+---STRINGEND
+
+---STRING owner
+Właściciel
+---STRINGEND
+
+---STRING parameter
+Parametry
+---STRINGEND
+
+---STRING parameters of %s %s
+Parametry %s %s
+---STRINGEND
+
+---STRING permissions for %s %s
+Uprawnienia dla %s %s
+---STRINGEND
+
+---STRING plain text
+Tekst
+---STRINGEND
+
+---STRING preferences saved
+Preferencje zapisano
+---STRINGEND
+
+---STRING privilege reserve
+Zastrzeżone
+---STRINGEND
+
+---STRING privileges
+Uprawnienia
+---STRINGEND
+
+---STRING purge
+Wyczyść
+---STRINGEND
+
+---STRING regular expression for selecting mgdschema types
+Wyrażenie regularne
+---STRINGEND
+
+---STRING require authentication
+Wymagana autentykacja
+---STRINGEND
+
+---STRING restore this revision (%s)
+Przywróć tą wersję (%s)
+---STRINGEND
+
+---STRING restore to version %s failed, reason %s
+Przywrócenie wersji %s nieudane: %s
+---STRINGEND
+
+---STRING restore to version %s successful
+Przywrócono wersję %s
+---STRINGEND
+
+---STRING restore version %s
+Przywróć wersję %s
+---STRINGEND
+
+---STRING review date
+Data zmiany
+---STRINGEND
+
+---STRING revised by
+Zmieniony przez
+---STRINGEND
+
+---STRING revised on
+Zmieniony
+---STRINGEND
+
+---STRING revision
+Wersja
+---STRINGEND
+
+---STRING revision comment
+Komentarz do wersji
+---STRINGEND
+
+---STRING revision history of %s
+Historia wersji %s
+---STRINGEND
+
+---STRING revision history of %s %s
+Historia zmian %s %s
+---STRINGEND
+
+---STRING search
+Szukaj
+---STRINGEND
+
+---STRING select all
+Zaznacz wszystko
+---STRINGEND
+
+---STRING select exactly two choices
+Wybierz tylko dwie ocje
+---STRINGEND
+
+---STRING select the types
+Wybierz typy
+---STRINGEND
+
+---STRING show %s %s children
+Pokaż %s %s potomków
+---STRINGEND
+
+---STRING show differences
+Pokaż zmiany
+---STRINGEND
+
+---STRING show history
+Pokaż historię
+---STRINGEND
+
+---STRING show sg0 objects in navigation
+Pokaż obiekty SG0
+---STRINGEND
+
+---STRING size
+Rozmiar
+---STRINGEND
+
+---STRING this is a midgard core type
+To jest typ systemowy
+---STRINGEND
+
+---STRING this type belongs to %s component
+Ten typ należy do komponentu %s
+---STRINGEND
+
+---STRING title
+Tytuł
+---STRINGEND
+
+---STRING toolbar mode
+Tryb menu
+---STRINGEND
+
+---STRING topic privileges
+Uprawnienia folderu
+---STRINGEND
+
+---STRING trash
+Kosz
+---STRINGEND
+
+---STRING trash is empty
+Kosz jest pusty
+---STRINGEND
+
+---STRING type
+Typ
+---STRINGEND
+
+---STRING type documentation
+Dokumentacja typu danych
+---STRINGEND
+
+---STRING undelete
+Odzyskaj
+---STRINGEND
+
+---STRING under %s
+W %s
+---STRINGEND
+
+---STRING upload file
+Wyślij plik
+---STRINGEND
+
+---STRING url
+URL
+---STRINGEND
+
+---STRING use edit mode instead of view mode as the primary object management page
+Wejście w obiekt oznacza edycję
+---STRINGEND
+
+---STRING use editarea editor for editing code snippets
+Używaj EditArea do edycji kodu
+---STRINGEND
+
+---STRING use tinymce editor for editing content
+Używaj TinyMCE do edycji zawartości
+---STRINGEND
+
+---STRING user
+Użytkownik
+---STRINGEND
+
+---STRING user preferences
+Preferencje
+---STRINGEND
+
+---STRING validation error in field %s: %s
+Błąd pola %s: %s
+---STRINGEND
+
+---STRING value
+Wartość
+---STRINGEND
+
+---STRING version %s
+Wersja %s
+---STRINGEND
+
+---STRING view %s differences with next (%s)
+Zobacz zmiany między %s a %s
+---STRINGEND
+
+---STRING view %s differences with previous (%s)
+Zobacz zmiany między %s a %s
+---STRINGEND
+
+---STRING view on site
+Pokaż w serwisie
+---STRINGEND
+
+---STRING view this revision (%s)
+Zobacz wersję %s
+---STRINGEND
+
+---STRING viewing version %s of %s
+%s: wersja %s
+---STRINGEND
+
+---STRING xml
+XML
+---STRINGEND
+
+---STRING core_libraries
+Biblioteki systemowe
+---STRINGEND
+

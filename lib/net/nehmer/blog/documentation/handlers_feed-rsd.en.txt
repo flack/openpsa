@@ -1,0 +1,2 @@
+
+Generates RSD feed according to [configuration](../01_component_config) settings.

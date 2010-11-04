@@ -1,0 +1,100 @@
+                   midcom.helper.datamanager2 Changelog
+                   ------------------------------------
+CVS Id: $Id: CHANGES 16822 2008-07-08 15:45:54Z adrenalin $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-06-17 adrenalin
+  + Widgets 'images' and 'downloads' can now be organized by editors
+  + Added new type and widget 'tabledata' for storing tabled information
+
+2008-06-01 adrenalin
+  + Chooser widget can store order information now
+  - Documented Chooser widget JavaScript files
+
+2008-05-28 adrenalin
+  + Added locking feature for disabling simultaneous editing
+
+2008-02-12 adrenalin
+  - Added configuration option for choosing the separating character for multiple storage
+
+2007-12-19 adrenalin
+  - Added configurable file and image amount limits to types 'blobs' and 'images'
+
+2007-12-18 adrenalin
+  + Added midcom.helper.datamanager compatible fieldset support
+
+2007-07-24 bergie
+  + Implemented new "php" type that will validate code for parse errors
+
+2007-07-09 bergie
+  + Implemented new "rcsmessage" type for change log messages in objects
+  + Implemented new "markdown" widget for editing Markdown-formatted content
+
+2007-06-14 adrenalin
+  ! Fixed misspelled 'Datamanger' to 'Datamanager' and implemented backwards compatibility
+
+2007-05-31 bergie
+  + Enabled CSV export of blob and image fields (gives comma-separated list of file URLs)
+
+2007-04-17 adrenalin
+  - TinyMCE configuration change: HTML entity encoding set to raw as default
+
+2007-01-01 rambo
+  + bulletproofing to images handling
+
+2007-01-24 bergie
+  + Enabling readonly mode with the Universal Chooser
+
+2006-11-11 bergie
+  + Added support for multiple UniversalChooser per schema
+  + Added a "wide mode" for composites
+
+2006-09-27 bergie
+  + Made AJAX editing work on IE (no TinyMCE yet though)
+  + Fixed some DOM issues with AJAX editing
+  + Some consistency fixes to select and date rendering
+
+2006-07-21 rambo
+  + universalchooser search backend and frontend to working order
+
+2006-07-20 rambo
+  + started work on "universal chooser" which can drive the array (select)
+    datatypes, does nothing usable yet.
+
+2006-06-28 torben
+  - Moved the TinyMCE default settings into the DM2 config file, so
+    that they can be set sitewide.
+
+2006-06-12 torben
+  ! sync_type_with_widget is now called always. If the entry was
+    missing in the resultset, null is added by the formmanager
+    implicitly.
+
+2006-05-30 torben
+  + Added Captcha verification widget
+  - The URL of the attachment server used for the blob type and its
+    subclasses is now configurable.
+
+2006-05-24 bergie
+  + Implemented first version of the AJAX edit-in-place controller
+
+2006-05-23 torben
+  + Made the storage format for multiselect configurable, currently
+    supportd is the original serialized storage and two forms of
+    storage using implode().
+
+2006-05-12 bergie
+  + Connected accesskey "S" to saving form
+
+2006-05-10 torben
+  ! Renamed the "privilege" type to "privilegeset"
+  + Added the "privilege" type and widget designed to manage a
+    single privilege.
+
+2006-09-21 Tarjei
+  + Fixed the tinymce 

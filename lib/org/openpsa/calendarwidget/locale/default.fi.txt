@@ -1,0 +1,13 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE fi
+
+---STRING week
+Viikko
+---STRINGEND
+
+---STRING time
+Kellonaika
+---STRINGEND
+

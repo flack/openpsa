@@ -1,0 +1,245 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 25280 2010-03-15 21:34:00Z solt $
+---LANGUAGE pl
+
+---STRING %s items
+Elementów zaimportowanych: %s
+---STRINGEND
+
+---STRING add new feed
+Dodaj RSS
+---STRINGEND
+
+---STRING aggregator mode
+Agregator
+---STRINGEND
+
+---STRING aggregator settings
+Ustawienia
+---STRINGEND
+
+---STRING approve new items automatically
+Automatycznie zatwierdzaj nowe elementy
+---STRINGEND
+
+---STRING bloglines
+Bloglines
+---STRINGEND
+
+---STRING bloglines account
+Konto Bloglines
+---STRINGEND
+
+---STRING cancel
+Anuluj
+---STRINGEND
+
+---STRING channels
+Sortuj wg kanałów
+---STRINGEND
+
+---STRING combined
+Połącz różne kanaly wg daty
+---STRINGEND
+
+---STRING default author for items
+Domyślny autor
+---STRINGEND
+
+---STRING delete feed
+Usuń wsad
+---STRINGEND
+
+---STRING details
+Szczegóły
+---STRINGEND
+
+---STRING display items
+Wyświetl elementy jako
+---STRINGEND
+
+---STRING edit feed %s
+Edytuj wsad "%s"
+---STRINGEND
+
+---STRING feed icon url
+Ikona (opcja)
+---STRINGEND
+
+---STRING feed title
+Tytuł
+---STRINGEND
+
+---STRING feed title display
+Wyświetlanie tytułu
+---STRINGEND
+
+---STRING feed url
+URL
+---STRINGEND
+
+---STRING fetch feed %s
+Pobrano wsad "%s"
+---STRINGEND
+
+---STRING import opml subscriptions
+Importuj w formacie OPML
+---STRINGEND
+
+---STRING keep removed items
+Zachowaj lokalnekopie usuniętych elementów wsadu
+---STRINGEND
+
+---STRING latest fetch %s
+Ostatnie pobranie: %s
+---STRINGEND
+
+---STRING latest item from %s
+Ostatni element: %s
+---STRINGEND
+
+---STRING latest items to show
+Ilość elementów
+---STRINGEND
+
+---STRING local
+Ustawienia lokalne
+---STRINGEND
+
+---STRING local item
+Lokalna kopia elementu
+---STRINGEND
+
+---STRING manage feeds
+Zarządzaj wsadami
+---STRINGEND
+
+---STRING manage feeds of %s
+Zarządzaj wsadami w folderze "%s"
+---STRINGEND
+
+---STRING n/a
+N/A
+---STRINGEND
+
+---STRING net.nemein.rss
+Agregator RSS
+---STRINGEND
+
+---STRING no items found in feed
+Brak elementów
+---STRINGEND
+
+---STRING opml file
+Plik OPML
+---STRINGEND
+
+---STRING refresh all feeds
+Odśwież wszystkie wsady
+---STRINGEND
+
+---STRING refresh feed
+Odśwież wsad
+---STRINGEND
+
+---STRING remote from feed
+Ustawienia zdalne
+---STRINGEND
+
+---STRING remote item
+Element wsadu
+---STRINGEND
+
+---STRING remove feed
+Usuń feed
+---STRINGEND
+
+---STRING rss aggregator
+Agregator RSS
+---STRINGEND
+
+---STRING rss description
+Opis
+---STRINGEND
+
+---STRING rss items to show
+Ilość elementów do pokazania
+---STRINGEND
+
+---STRING rss output settings
+Ustawienia wyświetlania RSS
+---STRINGEND
+
+---STRING save
+Zapisz
+---STRINGEND
+
+---STRING subscribe feeds
+Dodaj wsady
+---STRINGEND
+
+---STRING subscribe feeds for %s
+Dodaj wsady do folderu "%s"
+---STRINGEND
+
+---STRING subscription mode
+Tryb subskrybcji
+---STRINGEND
+
+---STRING titles
+Tylko tytuly
+---STRINGEND
+
+---STRING untitled
+Bez tytułu
+---STRINGEND
+
+---STRING %s was imported from %s
+"%s" został zaimportowany z wsadu %s
+---STRINGEND
+
+---STRING ISO code
+kod ISO
+---STRINGEND
+
+---STRING language (in english)
+Język
+---STRINGEND
+
+---STRING language (native)
+Język (naturalny)
+---STRINGEND
+
+---STRING rss export settings
+Ustawienia eksportu RSS
+---STRINGEND
+
+---STRING rss_count
+Wyświetl tyle elementów w rss.xml
+---STRINGEND
+
+---STRING rss_description
+Opis
+---STRINGEND
+
+---STRING rss_enable
+Włącz eksport ESS (aktywuje link rss.xml oraz rss/$liczba.xml)
+---STRINGEND
+
+---STRING rss_language
+Język wsadu
+---STRINGEND
+
+---STRING rss_title
+Tytuł wsadu (puste = tytuł folderu)
+---STRINGEND
+
+---STRING rss_webmaster
+Adres webmastera
+---STRINGEND
+
+---STRING store items in language
+Sortuj elementy w języku
+---STRINGEND
+

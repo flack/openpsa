@@ -1,0 +1,163 @@
+/* Sales project listing */
+table.salesprojects
+{
+    border-collapse: collapse;
+}
+table.salesprojects thead th
+{
+    background-color: #c0c0c0 !important;
+    color: #ffffff;
+    text-align: left;
+    padding-right: 8px;
+}
+table.salesprojects tr td
+{
+    vertical-align: top;
+}
+table.salesprojects tr td.salesproject
+{
+    font-weight: bold;
+}
+table.salesprojects tr.even td
+{
+    background-color: #e0e0e0;
+}
+
+/* Individual sales project display */
+div.salesproject table.info
+{
+    padding-right: 10px;
+}
+
+div.salesproject table.info th
+{
+    vertical-align: top;
+    text-align: left;
+}
+
+div.salesproject div.contacts
+{
+    float: right;
+    width: 168px;
+    margin-right: 10px;
+}
+div.salesproject div.deliverables ol.deliverable_list
+{
+    list-style: none;
+    margin: 0px;
+    padding: 4px;
+}
+div.salesproject div.deliverables ol.deliverable_list li
+{
+    margin-bottom: 1em;
+    list-style: none;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #babdb6;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+}
+
+div.salesproject div.deliverables ol.deliverable_list .icon 
+{
+    float: left;
+    display: block;
+    background-position: 4px 4px;
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    cursor: pointer
+}
+
+div.salesproject div.deliverables ol.deliverable_list li.collapsed .icon
+{
+    background-image:url('../stock-icons/16x16/list-add.png');
+}
+div.salesproject div.deliverables ol.deliverable_list li.expanded .icon
+{
+    background-image:url('../stock-icons/16x16/list-remove.png');
+}
+
+div.salesproject div.deliverables ol.deliverable_list li h3
+{
+    background-color: #e9ede4;
+    padding: 0 0.5em;
+    margin: 0;
+    margin-left: 24px;
+    border-left: solid 1px #babdb6;
+    border-bottom: solid 1px #babdb6;
+    -moz-border-radius-bottomleft: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    display: block;
+    line-height: 24px;
+    font-weight: bold;
+}
+
+div.salesproject div.deliverables ol.deliverable_list li div.information,
+div.salesproject div.deliverables ol.deliverable_list li div.invoices,
+div.salesproject div.deliverables ol.deliverable_list li div.tasks,
+div.salesproject div.deliverables ol.deliverable_list li div.toolbar
+{
+    margin-left: 24px;
+}
+
+div.salesproject div.deliverables ol.deliverable_list li div.tasks
+{
+    margin-top: .5em
+}
+
+div.salesproject div.deliverables ol.deliverable_list li div.tags
+{
+    float: right;
+    margin-right: 24px;
+    font-size: 0.9em;
+}
+div.salesproject div.deliverables ol.deliverable_list li div.information
+{
+    display: none;
+}
+div.salesproject div.deliverables ol.deliverable_list li div.description
+{
+    width: 65%;
+}
+div.salesproject div.deliverables ol.deliverable_list li table.details
+{
+    float: right;
+    width: 30%;
+    font-size: smaller;
+}
+div.salesproject div.deliverables ol.deliverable_list li table.details th
+{
+    text-align: left;
+}
+div.salesproject div.deliverables ol.deliverable_list li div.components
+{
+    clear: right;
+}
+
+/* Individual deliverable view */
+div.org_openpsa_sales_salesproject_deliverable div.tags
+{
+    float: right;
+    color: #c0c0c0;
+}
+
+div.org_openpsa_sales_salesproject_deliverable table.agreement tbody th
+{
+    text-align: right;
+}
+div.org_openpsa_sales_salesproject_deliverable table.agreement tbody th.area
+{
+    padding-top: 16px;
+    text-align: left;
+}
+div.org_openpsa_sales_salesproject_deliverable table.agreement tbody td ul
+{
+    padding-left: 100px;
+    font-size: 0.9em;
+    margin-top: 0px;
+}
+div.org_openpsa_sales_salesproject_deliverable div.at table th
+{
+    text-align: left;
+}

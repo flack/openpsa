@@ -1,0 +1,15 @@
+org.openpsa.jabber Changelog
+                   ----------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2006-02-15 rambo
+  + Added PEAR packaging info to manifest
+
+2005-06-22 bergie
+  + Initial creation of the component
+  + Implemented the JabberApplet (http://jabberapplet.jabberstudio.org/)
+    as a popup for instant messaging use

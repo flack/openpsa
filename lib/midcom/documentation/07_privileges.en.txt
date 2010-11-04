@@ -1,0 +1,67 @@
+Privileges 
+===
+Permissions come from two sources: 
+
+1. User database 
+2. Content objects 
+
+Both have to respect the object hierarchy, giving a merging chain and the most specific assignation 
+overrules the less specific ones: if a folder has edit permission for imaginary Group A, but a specific article 
+has denied editing, it is more specific and thus overrules folder permissions and will not be editable by 
+Group A. 
+
+Core privileges 
+
+There are five core privileges: Create, Read, Update, Delete, Owner 
+
+In addition to this, e.g. folders have additional privileges for 
+
+* Folder management 
+* Layout template management 
+* Configuration 
+
+Planning privileges 
+
+Midgard applies the privileges in order of creation. If the first rule allows all Users to read and the second 
+rule denies All from reading, then no one (except the users of administrator group) is allowed to read the 
+content. 
+
+Note: Always plan your privileges before starting to assign them! 
+
+Planning should start from the site structure and to locate the restricted areas. From this it is easiest to see 
+what groups are required. 
+
+When the site structure is ready it is time for planning the group structure. Since persons get their 
+privileges according to the group inheritance, tree structure is recommended. 
+
+Note: If you have a case where content managers are in Content Managers group and 
+there are six groups under that and two of them should not have the editing 
+permission, while the four should, the correct way would be to give editing permission 
+to the Content Managers group and to deny editing from two groups. In this case three 
+privilege assignations are needed, since subgroups will share the upper group 
+privileges, unless they have their own privileges assigned. 
+
+Handling the privileges 
+
+To edit permissions for page, select Page > Permissions or for folder Folder > Folder permissions 
+correspondingly. 
+
+To assign privileges for a new group 
+
+1. Select the group from the dropdown list 
+2. Click on the box on the privilege button to rotate through the privilege types 
+* inherited (not assigned) 
+* allow 
+* deny 
+
+3. Finally click on the Save button 
+
+Note: If you have JavaScript disabled, you need to click on the button Save after 
+selecting the group and selecting the corresponding privilege from the dropdown list. 
+
+If you want to remove a group from the list, simply click on the symbol to remove it from the list. 
+
+Note: If JavaScript is disabled and there is need to remove a group from the list, select 
+Not set (inherited) to all the privileges and click on save. Groups without assigned 
+privileges for the object will not be shown on the list. 
+

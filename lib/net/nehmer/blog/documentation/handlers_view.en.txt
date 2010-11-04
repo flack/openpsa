@@ -1,0 +1,2 @@
+
+Displays __{$args[0]}__ article. __{$args[0]}__ is article name or GUID.

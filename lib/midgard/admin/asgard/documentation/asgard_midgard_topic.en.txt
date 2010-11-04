@@ -1,0 +1,1 @@
+Topic is a core Midgard type. It is usually used for storing content in similar to folders way.

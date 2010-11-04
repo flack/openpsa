@@ -1,0 +1,33 @@
+#content
+{
+  font-size: 90%;
+  margin-left: 0 !important;
+}
+
+#branding,
+#leftframe,
+#content-menu .context,
+#org_openpsa_toolbar,
+#template_openpsa2_resizer
+{
+  display: none;
+}
+
+#breadcrumb
+{
+  font-size: 90%;
+  border-style: none none solid;
+  border-width: 1px;
+  border-color: #000000;
+}
+
+#content-text
+{
+    padding: 0 !important
+}
+
+a
+{
+    color: black;
+    text-decoration: none
+}

@@ -1,0 +1,61 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23195 2009-08-19 16:06:12Z flack $
+---LANGUAGE hu
+
+---STRING %s document
+%s dokumentum
+---STRINGEND
+
+---STRING application/vnd.ms-powerpoint
+Powerpoint
+---STRINGEND
+
+---STRING create document
+Dokumentum létrehozása
+---STRINGEND
+
+---STRING document search
+Dokumentum keresése
+---STRINGEND
+
+---STRING documents
+Dokumentumok
+---STRINGEND
+
+---STRING edit directory
+Könyvtár szerkesztése
+---STRINGEND
+
+---STRING folder
+Mappa
+---STRINGEND
+
+---STRING folders
+Mappák
+---STRINGEND
+
+---STRING new directory
+Új könyvtár
+---STRINGEND
+
+---STRING new document
+Új dokumentum
+---STRINGEND
+
+---STRING older versions
+Régebbi verzió
+---STRINGEND
+
+---STRING org.openpsa.documents
+Dokumentumkezelés
+---STRINGEND
+
+---STRING search
+Keresés
+---STRINGEND
+
+---STRING text/plain
+Szöveg
+---STRINGEND
+

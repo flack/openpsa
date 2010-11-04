@@ -1,0 +1,4 @@
+## machine tags
+
+* Add value field to tag_link object, refactor machine tags support to use that.
+* Helper to read machine tags from content.

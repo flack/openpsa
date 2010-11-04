@@ -1,0 +1,73 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE en
+
+---STRING contact
+Contact
+---STRINGEND
+
+---STRING contacts
+Contacts
+---STRINGEND
+
+---STRING interview
+Interview
+---STRINGEND
+
+---STRING interview %s for "%s"
+Interview %s for "%s"
+---STRINGEND
+
+---STRING interview summary for "%s"
+Interview summary for "%s"
+---STRINGEND
+
+---STRING interviewed
+Interview completed
+---STRINGEND
+
+---STRING interviews for "%s"
+Interviews for "%s"
+---STRINGEND
+
+---STRING locked
+Being interviewed
+---STRINGEND
+
+---STRING next interview
+Next interview
+---STRINGEND
+
+---STRING no members to interview now in "%s"
+No members to interview now in "%s". Try again later.
+---STRINGEND
+
+---STRING org.openpsa.interviews
+Phone interviews
+---STRINGEND
+
+---STRING show interviews
+Show interviews
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING suspended
+Suspended for later
+---STRINGEND
+
+---STRING suspended until
+Contact earliest
+---STRINGEND
+
+---STRING unsubscribed
+Don't contact again
+---STRINGEND
+
+---STRING waiting
+Waiting for contact
+---STRINGEND
+

@@ -1,0 +1,85 @@
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <!-- org.openpsa.calendar objects -->
+    <type name="org_openpsa_event" table="event">
+        <!-- Copied from NewMidgardevent -->
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="start" type="integer"/>
+        <property name="end" type="integer"/>
+        <property name="title" type="string"/>
+        <property name="description" type="text"/>
+        <property name="type" type="integer"/>
+        <property name="extra" type="text"/>
+        <property name="busy" type="boolean"/>
+        <property name="up" upfield="up" type="unsigned integer" link="org_openpsa_event:id"/>
+        <!-- /Copied from NewMidgardevent -->
+
+        <property name="location" type="string" />
+        <property name="tentative" type="boolean" />
+        <!-- At least until we have mRFC 0018 -->
+        <property name="externalGuid" type="string" />
+        <!-- At least until we can store arrays with DBA -->
+        <property name="vCalSerialized"  type="text" />
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Shortcut for various ACL scenarios -->
+        <property name="orgOpenpsaAccesstype" type="integer"/>
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer"/>
+        <!-- will contain bitmask as integer, 00(int=0) not a workgroup, 01(int=1) is workgroup
+             but not active, 11(int=3) active workgroup -->
+        <property name="orgOpenpsaWgtype" type="integer"/>
+        <!-- The "owner" workgroup of this object -->
+        <property name="orgOpenpsaOwnerWg" type="string"/>
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_eventmember" table="eventmember" parent="org_openpsa_event">
+        <!-- NewMidgardEventmember properties -->
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="period" type="integer"/>
+        <property name="count" type="integer"/>
+        <property name="extra" type="text"/>
+        <property name="uid" link="midgard_person:id" type="unsigned integer"/>
+        <property name="eid" link="org_openpsa_event:id" type="unsigned integer" parentfield="eid"/>
+        <!-- /NewMidgardEventmember properties -->
+
+        <property name="hoursReported" type="integer" />
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer"/>
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_calendar_resource" table="org_openpsa_calendar_resource" parent="midgard_person">
+        <property name="id" type="unsigned integer" primaryfield="id"/>
+        <property name="name" type="string"/>
+        <property name="title" type="string"/>
+        <property name="description" type="text"/>
+        <property name="location" type="string"/>
+        <property name="capacity" type="float"/>
+        <property name="type" type="string"/>
+        <property name="period" type="string" dbtype="varchar(1)" />
+        <property name="owner" link="midgard_person:id" type="unsigned integer" parentfield="owner"/>
+    </type>
+
+    <type name="org_openpsa_calendar_event_resource" table="org_openpsa_calendar_event_resource" parent="org_openpsa_event">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+
+        <property name="resource" link="org_openpsa_calendar_resource:id" type="unsigned integer"/>
+        <property name="event" link="org_openpsa_event:id" type="unsigned integer" parentfield="event"/>
+
+        <property name="description" type="text"/>
+    </type>
+    <!-- /org.openpsa.calendar objects -->
+</Schema>

@@ -1,0 +1,75 @@
+URL Methods to the root page
+===
+The following URL parameters are recognized by the _process function and are
+executed before any component processing is done. They all belong to the
+domain "midcom", e.g. they are executed like this: midcom-$name-$value.
+
+<b>string substyle</b>
+
+This will set a substyle to the current component, which is appended to the
+style selected by the component at the moment the component style is loaded.
+The methods substyle_(append|prepend)'s work on the basis of this value then.
+
+Note, that this first assignment is done between can_handle and handle, so
+it will serve as a basis for all component-side style switching operations.
+
+The substyle URL switch is most useful in conjunction with
+midcom_application::dynamic_load().
+
+<b>int serveattachment; GUID serveattachmentguid</b>
+
+This pair of methods will serve the attachment denoted by the given ID/GUID.
+It uses the default expiration time of serve_attachment (see there).
+
+<b>int servesnippet; GUID servesnippetguid</b>
+
+This pair will serve the code field of a snippet denoted by the given ID/GUID,
+see serve_snippet for further options. For security purposes, the snippets that
+may be served using this function MUST have the parameter midcom/allow_serve
+set to "true". If this is not the case, snippet serving will be aborted with an
+access denied error. See the serve_snippet method documentation for further details.
+
+<b>GUID permalink</b>
+
+This will resolve the given GUID into the MidCOM NAP tree, relocating to the
+URL corresponding to the node/leaf. The Permalink can be created by using the
+key MIDCOM_NAV_PERMALINK of any NAP data array. Upon resolving it, MidCOM will
+relocate to the automatically computed MIDCOM_NAV_FULLURL.
+
+<b>string exec</b>
+
+Allows you to execute certain php files directly, in full MidCOM context.
+The argument is the name of the component, which holds the script to be
+executed. Script files are searched in the subdirectory "exec" of the component.
+If you use "midcom" as component name, MidCOM core scripts, located in
+lib/midcom/exec will be accessible. The next argument on the command line must
+be the name of the script file. Accessing subdirectories is not possible, only
+a single argument will be taken.
+
+The scripts executed need to do their own permission checks, they will work with
+the credentials of the current MidCOM instance unconditionally.
+
+Example: http://$host/midcom-exec-midcom/upgrade_metadata.php
+
+The remaining URL arguments are put into the globals $argc/$argv.
+
+<b>string cache</b>
+
+May take one of the following values: "invalidate" will clear the cache of the
+current site, "nocache" will bypass the cache for the current request by
+calling $this->cache->content->no_cache();
+
+<b>mixed log</b>
+
+Shows the contents of the current debuglog. You have to enable this interface
+by setting the config option <i>log_tailurl_enable</i> to true.
+Note, that this method is using the debug log path
+of the current MidCOM logger automatically, it is not possible to switch to
+another logfile dynamically due to security reasons. The parameter can be
+either "all" which will yield the complete log (beware of huge logfiles), or
+an integer, which is the number of lines counting from the file backwards you
+want to display (this uses the systems tail command via exec).
+
+NOTE: This function is limited by PHP's memory limit, as the (f)passthru
+functions are really intelligent and try to load the complete file into memory
+instead streaming it to the client.

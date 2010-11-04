@@ -1,0 +1,130 @@
+body
+{
+    font-family: 'Lucida Grande', 'Lucida Sans', 'Arial', sans-serif
+}
+
+#content-text div.main
+{
+    margin-right: 32%;
+}
+
+#content-text > div.main
+{
+    margin-right: 32%;
+}
+
+#content-text div.sidebar
+{
+    float: right;
+    width: 30%;
+    padding-left: 2%;
+}
+
+#content-text div.sidebar div.vcard
+{
+    float: none;
+}
+
+#content-text div.wide
+{
+  width: 100%;
+}
+
+#content-text
+{
+  background-color: #ffffff;
+  padding: 1em 0.5em 1em 1em;
+  overflow: auto
+}
+
+#content-text h1
+{
+  display: none;
+}
+
+#content-text h2
+{
+  font-size: 120%;
+}
+
+#content-text h3
+{
+  font-size: 100%;
+}
+
+#content-text h4
+{
+  font-size: 100%;
+}
+
+#content-text div.content-text
+{
+  display: block;
+  float: left;
+  width: 49%;
+  margin: 0;
+  margin-right: 1%;
+  padding: 0;
+}
+
+#content-text div.org_openpsa_helper_box
+{
+    background-color: #ffffff;
+    font-size: 90%;
+    padding: 0;
+    margin: 1em 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #babdb6;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-right: 10px;
+}
+
+#content-text div.org_openpsa_helper_box a.hide-ticker
+{
+  display: block;
+  float: right;
+  padding: 0 0.2em;
+}
+
+#content-text div.org_openpsa_helper_box h3
+{
+  background-color: #e9ede4;
+  padding: 0 0.5em;
+  margin: 0;
+  border-bottom: solid 1px #babdb6;
+  margin-left: -4px;
+  margin-right: -4px;
+}
+
+#content-text div.org_openpsa_helper_box ul
+{
+  margin-left: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+#content-text div.org_openpsa_helper_box ul li
+{
+  margin-top: 4px;
+}
+
+#content-text div.org_openpsa_helper_box span.date
+{
+  font-weight: bold;
+}
+
+#content-text div.org_openpsa_helper_box span.tip
+{
+  display: block;
+  padding: 0.5em;
+}
+
+#content-text div.status div.current-status
+{
+  font-size: larger;
+  margin-bottom: 4px;
+}

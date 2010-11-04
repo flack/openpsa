@@ -1,0 +1,85 @@
+.list_item
+{
+    float: left;
+    height: 95px;
+    width: 80px;
+    overflow: hidden;
+    margin: 7px;
+    text-align: center;
+}
+
+.new
+{
+    font-weight: bold;
+}
+
+.document_icon
+{
+    border: 0px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.folder_icon
+{
+    border: 0px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.wide #document_search
+{
+    margin-bottom: .4em
+}
+.wide #document_search h2
+{
+    display: inline;
+    font-size: 1em;
+    font-weight: normal
+}
+
+.wide #document_search form
+{
+    display: inline;
+}
+
+dl.search_results dt a
+{
+    font-weight: bold;
+    padding-bottom: .3em;
+    display: block;
+    clear: left
+}
+
+dl.search_results dd
+{
+    margin-bottom: 1em
+}
+
+dl.search_results dd .icon
+{
+    margin: .3em .5em 1em 0;
+    float: left
+}
+
+dl.search_results dd .icon img
+{
+    float: left
+}
+
+dl.search_results ul
+{
+    list-style-type: none
+}
+.jqgrid_size, .jqgrid_person, .jqgrid_date
+{
+    width: 100%;
+    display: block;
+}
+
+.jqgrid_size
+{
+    text-align: right;
+}

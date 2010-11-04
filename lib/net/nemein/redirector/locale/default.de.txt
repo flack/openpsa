@@ -1,0 +1,73 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE de
+
+---STRING create a new tinyurl
+Neue TinyURL erstellen
+---STRINGEND
+
+---STRING delete tinyurl
+TinyURL löschen
+---STRINGEND
+
+---STRING edit tinyurl
+TinyURL bearbeiten
+---STRINGEND
+
+---STRING first subfolder
+Erster Unterordner dieses Ordners
+---STRINGEND
+
+---STRING list of tinyurls
+Liste der TinyURLs
+---STRINGEND
+
+---STRING location
+Ort
+---STRINGEND
+
+---STRING net.nemein.redirector
+Automatische Weiterleitung
+---STRINGEND
+
+---STRING redirect administrators
+Administratoren weiterleiten
+---STRINGEND
+
+---STRING redirection http code
+HTTP-Rückgabecode der Weiterleitung
+---STRINGEND
+
+---STRING redirection node
+Zielordner der Weiterleitung
+---STRINGEND
+
+---STRING redirection settings
+Weiterleitungs-Einstellungen
+---STRINGEND
+
+---STRING redirection type
+Art der Weiterleitung
+---STRINGEND
+
+---STRING redirection url
+Ziel-URL für die Weiterleitung
+---STRINGEND
+
+---STRING selected node
+Ausgewählter Ordner
+---STRINGEND
+
+---STRING this page links to
+Diese Seite verweist auf
+---STRINGEND
+
+---STRING tinyurl
+TinyURL
+---STRINGEND
+
+---STRING url entered below
+URL-Eingabe
+---STRINGEND
+

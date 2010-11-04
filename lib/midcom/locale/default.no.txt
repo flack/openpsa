@@ -1,0 +1,344 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.no.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE no
+
+---STRING Edit this page
+Rediger
+---STRINGEND
+
+---STRING abstract
+Ingress
+---STRINGEND
+
+---STRING advanced schema and data settings
+Avanserte skjema- og databaseinnstillinger
+---STRINGEND
+
+---STRING approve
+Vis på siden
+---STRINGEND
+
+---STRING approved
+Synlig
+---STRINGEND
+
+---STRING back
+Tilbake
+---STRINGEND
+
+---STRING back to configuration
+Tilbake til innstillinger
+---STRINGEND
+
+---STRING back to index
+Tilbake til visningssiden
+---STRINGEND
+
+---STRING body
+Body
+---STRINGEND
+
+---STRING cancel
+Avbryt
+---STRINGEND
+
+---STRING component
+Komponent
+---STRINGEND
+
+---STRING component configuration
+Innstillinger
+---STRINGEND
+
+---STRING component configuration helptext
+Her kan du redigere innstillinger som gjelder denne katalogen.
+---STRINGEND
+
+---STRING create
+Lag
+---STRINGEND
+
+---STRING create %s
+Lag %s
+---STRINGEND
+
+---STRING create page
+Lag ny side
+---STRINGEND
+
+---STRING date
+Dato
+---STRINGEND
+
+---STRING default setting
+Standardinnstilling
+---STRINGEND
+
+---STRING delete
+Slett
+---STRINGEND
+
+---STRING description
+Beskrivelse
+---STRINGEND
+
+---STRING discussion in %s
+diskusjon i %s
+---STRINGEND
+
+---STRING download %s
+Last ned %s
+---STRINGEND
+
+---STRING edit
+Rediger
+---STRINGEND
+
+---STRING edit design
+Rediger utseende
+---STRINGEND
+
+---STRING edit page
+Rediger side
+---STRINGEND
+
+---STRING edit photos
+Rediger bilder
+---STRINGEND
+
+---STRING encrypted
+Kryptert
+---STRINGEND
+
+---STRING end date
+Sluttdato
+---STRINGEND
+
+---STRING get help
+Hjelpesider
+---STRINGEND
+
+---STRING id
+ID
+---STRINGEND
+
+---STRING image
+Bilde
+---STRINGEND
+
+---STRING in %s
+i %s
+---STRINGEND
+
+---STRING inherited from parent
+Arvet fra elementet over
+---STRINGEND
+
+---STRING login
+Logg inn
+---STRINGEND
+
+---STRING logout
+Logg av
+---STRINGEND
+
+---STRING lowercase, no special characters or spaces
+Små bokstaver, ikke æøå, mellomrom eller andre "sære" tegn.
+---STRINGEND
+
+---STRING midcom administration
+Midcom administrasjon
+---STRINGEND
+
+---STRING move
+Flytt
+---STRINGEND
+
+---STRING move down
+Flytt ned
+---STRINGEND
+
+---STRING move up
+Flytt opp
+---STRINGEND
+
+---STRING new
+Ny
+---STRINGEND
+
+---STRING next
+Neste
+---STRINGEND
+
+---STRING no
+Nei
+---STRINGEND
+
+---STRING optional
+Valgfri
+---STRINGEND
+
+---STRING owner
+Eier
+---STRINGEND
+
+---STRING password
+Passord
+---STRINGEND
+
+---STRING password mismatch
+Passordene er ikke like
+---STRINGEND
+
+---STRING photo in %s
+Bilde i %s
+---STRINGEND
+
+---STRING reject
+Avvist
+---STRINGEND
+
+---STRING reset
+Reset
+---STRINGEND
+
+---STRING revert to default setting
+Set til standardinnstillingen
+---STRINGEND
+
+---STRING save
+Lagre
+---STRINGEND
+
+---STRING save and close
+Lagre og lukk
+---STRINGEND
+
+---STRING schema database
+Skjemadatabase
+---STRINGEND
+
+---STRING select
+Velg
+---STRINGEND
+
+---STRING settings
+Innstillinger
+---STRINGEND
+
+---STRING calendar
+etter dato laget (siste først)
+---STRINGEND
+
+---STRING name
+navn
+---STRINGEND
+
+---STRING reverse calendar
+etter dato laget (eldste først)
+---STRINGEND
+
+---STRING reverse name
+etter navn (Z .. A)
+---STRINGEND
+
+---STRING reverse revised
+etter sist endret (eldste først)
+---STRINGEND
+
+---STRING reverse score
+bruk "rediger rekkefølge"
+---STRINGEND
+
+---STRING revised
+etter sist endret (siste først)
+---STRINGEND
+
+---STRING score
+bruk "rediger rekkefølge"
+---STRINGEND
+
+---STRING sort_leaves
+Hvordan skal saker listes opp?
+---STRINGEND
+
+---STRING sorting position
+Sorteringsposisjon
+---STRINGEND
+
+---STRING start date
+Startdato
+---STRINGEND
+
+---STRING stats
+Besøksstatistikk
+---STRINGEND
+
+---STRING text
+Tekst
+---STRINGEND
+
+---STRING title
+Tittel
+---STRINGEND
+
+---STRING topic
+Emne
+---STRINGEND
+
+---STRING unapprove
+Fjern fra siden
+---STRINGEND
+
+---STRING unapproved
+Ikke vist på siden
+---STRINGEND
+
+---STRING update
+Oppdater
+---STRINGEND
+
+---STRING update configuration
+Oppdater innstillinger
+---STRINGEND
+
+---STRING update preferences
+Oppdater innstillinger
+---STRINGEND
+
+---STRING updated
+Oppdatert
+---STRINGEND
+
+---STRING upload
+Last opp
+---STRINGEND
+
+---STRING url name
+Internetadresse
+---STRINGEND
+
+---STRING user
+Bruker
+---STRINGEND
+
+---STRING username
+Brukernavn
+---STRINGEND
+
+---STRING verify password
+Gjenta passord
+---STRINGEND
+
+---STRING view
+Vis
+---STRINGEND
+
+---STRING yes
+Ja
+---STRINGEND
+
+---STRING sitegroup
+Kunde
+---STRINGEND

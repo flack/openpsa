@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="org_openpsa_products_product" table="org_openpsa_products_product" parent="org_openpsa_products_product_group" parentfield="productGroup">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="productGroup" link="org_openpsa_products_product_group:id" type="unsigned integer" parentfield="productGroup"/>
+
+        <property name="code" type="string" index="yes"/>
+
+        <property name="title" multilang="yes" table="org_openpsa_products_product_i" type="string"/>
+        <property name="description" multilang="yes" table="org_openpsa_products_product_i" type="text"/>
+        <property name="lang" multilang="yes" table="org_openpsa_products_product_i" type="unsigned integer" />
+        <property name="sid" multilang="yes" table="org_openpsa_products_product_i" type="unsigned integer" />
+
+        <!-- Pricing information -->
+        <property name="price" type="float" index="yes"/>
+        <property name="unit" type="string"/>
+        <property name="cost" type="string"/>
+        <property name="costType" type="string"/>
+
+        <!-- When product is "on market" -->
+        <property name="start" type="integer" index="yes"/>
+        <property name="end" type="integer" index="yes"/>
+
+        <property name="owner" link="midgard_person:id" type="unsigned integer"/>
+        <property name="supplier" link="midgard_group:id" type="unsigned integer"/>
+
+        <!-- Delivery type: single or subscription -->
+        <property name="delivery" type="integer"/>
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (goods, service, component) -->
+        <property name="orgOpenpsaObtype" type="integer" index="yes"/>
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_products_product_group" table="org_openpsa_products_product_group" upfield="up">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+
+        <property name="up" upfield="up" link="org_openpsa_products_product_group:id" type="unsigned integer"/>
+
+        <property name="code" type="string" index="yes"/>
+
+        <property name="title" multilang="yes" table="org_openpsa_products_product_group_i" type="string"/>
+        <property name="description" multilang="yes" table="org_openpsa_products_product_group_i" type="text"/>
+        <property name="lang" multilang="yes" table="org_openpsa_products_product_group_i" type="unsigned integer" />
+        <property name="sid" multilang="yes" table="org_openpsa_products_product_group_i" type="unsigned integer" />
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" index="yes"/>
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_products_product_member" table="org_openpsa_products_product_member" parent="org_openpsa_products_product" parentfield="product">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+
+        <property name="product" link="org_openpsa_products_product:id" type="unsigned integer" parentfield="product"/>
+        <property name="componentGroup" link="org_openpsa_products_product_group:id" type="unsigned integer"/>
+        <property name="component" link="org_openpsa_products_product:id" type="unsigned integer"/>
+
+        <property name="pieces" type="integer"/>
+
+        <property name="description" type="text"/>
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" index="yes"/>
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+    <type name="org_openpsa_products_product_link" table="org_openpsa_products_product_link" parent="org_openpsa_products_product_group" parentfield="productGroup">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+
+        <property name="productGroup" link="org_openpsa_products_product_group:id" type="unsigned integer" parentfield="productGroup">
+            <description>Id of the product group of link</description>
+        </property>
+
+        <property name="product" link="org_openpsa_products_product:id" type="unsigned integer">
+            <description>Link to the product we wan't to show</description>
+        </property>
+
+    </type>
+</Schema>

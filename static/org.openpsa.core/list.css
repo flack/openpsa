@@ -1,0 +1,123 @@
+/* Entry listings */
+table.list
+{
+    border-collapse: collapse;
+    min-width: 80%;
+}
+
+table.list a,
+table.list td.multivalue a.celltitle
+{
+    display: block;
+}
+
+table.list td.multivalue a
+{
+    display: inline;
+}
+
+table.list td.multivalue a.celltitle,
+table.list td.multivalue .celltitle a
+{
+    font-weight: bold;
+}
+
+table.list thead th
+{
+    background-color: #3465a4;
+    color: #ffffff;
+    text-align: left;
+    padding-right: 8px;
+    white-space: nowrap
+}
+
+table.list tbody th
+{
+    text-align: left;
+    border-top:1px solid #aaaaaa;
+    padding-top:5px;
+    text-align:left;
+}
+
+table.list tr
+{
+    vertical-align: top;
+}
+
+table.list tr:hover td
+{
+    background-color: #cedff4
+}
+
+table.list tr.even:hover td
+{
+    background-color: #cadaf3
+}
+
+table.list a:hover
+{
+    color: #14334A !important;
+}
+
+table.list td
+{
+    padding-right: 8px;
+    vertical-align: middle;
+}
+table.list td.title
+{
+    font-weight: bold;
+}
+table.list th.numeric,
+table.list td.numeric
+{
+    text-align: right;
+}
+table.list th.status,
+table.list td.status
+{
+    text-align: right;
+}
+table.list tr.even td
+{
+    background-color: #f0f0f0;
+}
+
+table.list button
+{
+    background: transparent;
+    border: none;
+}
+table.list button:hover
+{
+    cursor: pointer;
+    text-decoration: underline
+}
+table.list button.yes
+{
+    padding-left: 22px;
+    background-image: url('../stock-icons/16x16/ok.png');
+    background-position: left;
+    background-repeat: no-repeat;
+}
+
+table.list tfoot
+{
+    margin-top: 10px;
+}
+
+table.list tfoot td,
+table.list tr.subtotal td
+{
+    border-top: 1px solid #000000;
+}
+
+table.list tfoot tr.secondary td
+{
+    border-top: none
+}
+
+table.list tfoot tr.primary td
+{
+    font-weight: bold
+}

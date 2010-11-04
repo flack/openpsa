@@ -1,0 +1,25 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE de
+
+---STRING help_licence
+Lizenz
+---STRINGEND
+
+---STRING help_markdown
+Über PHP Markdown
+---STRINGEND
+
+---STRING help_markdown-extra
+Über PHP Markdown
+---STRINGEND
+
+---STRING help_markdown-syntax
+Markdown-Syntax
+---STRINGEND
+
+---STRING net.nehmer.markdown
+Markdown-Parser
+---STRINGEND
+

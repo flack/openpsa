@@ -1,0 +1,58 @@
+Revisions
+===
+Revision Control System or RCS is for viewing the differences between different versions of a page and 
+makes it possible to restore an earlier version. 
+
+Note: It is possible to return to the original page in any point by clicking on Back to page 
+title 
+
+Viewing the revision history 
+
+To get to see the list of changes made in a page in its history of existence click on Page -> Show revision 
+history. 
+
+Selecting the version 
+
+After clicking on Show revision history there should be now a list of versions stored of the page. There are 
+five columns describing each of the revisions 
+
+1. Revision 
+* The version number of the revision. This will increase every time a change is made. 
+
+2. Date 
+* Date the revision was made. This is the date when the page was saved. 
+
+3. User 
+* Name of the user who committed the change. 
+
+4. Lines 
+* Number of the lines changed. 
+
+5. Message 
+* System message describing the change 
+
+Click on the revision version number (first column) you wish to view. 
+
+Viewing the difference 
+
+To view the difference to either newer or older revision, click on the appropriate action from the toolbar. 
+
+Note: Depending on the version viewed there might be also link to view the 
+difference with later revisions. 
+
+Difference between revisions 
+
+Differences in the revisions are indicated with colors. There are two main colors, which indicate the 
+
+changes and the lack of color will indicate the parts that haven’t changed between the revisions. 
+
+1. Green text highlights those parts that have been added to the latter version 
+2. Red, over lined text highlights those parts that have been removed from the latter version. 
+
+Restoring a revision 
+
+To restore an older revision version click on Restore to this version (1.x) on the Page 
+section of the toolbar. This will create a new version of the page, which will appear on top 
+of the revision history, so it will be possible to still restore back to the original even after 
+restoring another version. 
+

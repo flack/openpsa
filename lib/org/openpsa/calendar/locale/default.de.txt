@@ -1,0 +1,177 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE de
+
+---STRING available slot
+Verfügbarer Time-Slot
+---STRINGEND
+
+---STRING back to calendar
+Zurück zum Kalender
+---STRINGEND
+
+---STRING choose calendars
+Kalender auswählen
+---STRINGEND
+
+---STRING create event
+Termin erstellen
+---STRINGEND
+
+---STRING create note
+Notiz erstellen
+---STRINGEND
+
+---STRING day view
+Tagesansicht
+---STRINGEND
+
+---STRING delete event
+Termin löschen
+---STRINGEND
+
+---STRING dont allow overlapping
+Überlappungen nicht zulassen
+---STRINGEND
+
+---STRING edit %s
+%s bearbeiten
+---STRINGEND
+
+---STRING end time
+Endzeit
+---STRINGEND
+
+---STRING event %s
+Termin %s
+---STRINGEND
+
+---STRING event %s deleted
+Termin %s gelöscht
+---STRINGEND
+
+---STRING event after
+Nachfolgender Termin
+---STRINGEND
+
+---STRING event before
+Vorheriger Termin
+---STRINGEND
+
+---STRING event deleted
+Termin gelöscht
+---STRINGEND
+
+---STRING event information
+Termin-Daten
+---STRINGEND
+
+---STRING events on %s
+Termine am %s
+---STRINGEND
+
+---STRING failed to delete event, reason
+Termin konnte nicht gelöscht werden. Ursache:
+---STRINGEND
+
+---STRING go to
+Gehe zu
+---STRINGEND
+
+---STRING location
+Ort
+---STRINGEND
+
+---STRING me
+Ich
+---STRINGEND
+
+---STRING meeting note for %s on %s by %s
+Meeting-Benachrichtigung für %s am %s von %s
+---STRINGEND
+
+---STRING month view
+Monatsansicht
+---STRINGEND
+
+---STRING next
+Vorwärts
+---STRINGEND
+
+---STRING no event
+Kein Termin
+---STRINGEND
+
+---STRING org.openpsa.calendar
+Kalender
+---STRINGEND
+
+---STRING participants
+Teilnehmer
+---STRINGEND
+
+---STRING popup
+Pop-Up
+---STRINGEND
+
+---STRING previous
+Rückwärts
+---STRINGEND
+
+---STRING print
+Drucken
+---STRINGEND
+
+---STRING private event
+Privater Termin
+---STRINGEND
+
+---STRING privilege read
+Privaten Termin lesen
+---STRINGEND
+
+---STRING really delete event
+Termin wirklich löschen?
+---STRINGEND
+
+---STRING start time
+Anfangszeit
+---STRINGEND
+
+---STRING time
+Uhrzeit
+---STRINGEND
+
+---STRING today
+Heute
+---STRINGEND
+
+---STRING week #%s %s
+Kalenderwoche %s %s
+---STRINGEND
+
+---STRING week view
+Wochenansicht
+---STRINGEND
+
+---STRING calendar
+Kalender
+---STRINGEND
+
+---STRING groups
+Gruppen
+---STRINGEND
+
+---STRING people
+Leute
+---STRINGEND
+
+---STRING resources
+Ressourcen
+---STRINGEND
+
+---STRING week %s
+Kalenderwoche %s
+---STRINGEND
+

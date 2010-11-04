@@ -1,0 +1,41 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE sv
+
+---STRING help
+Hjälp
+---STRINGEND
+
+---STRING help for %s in %s
+Hjälp online för %s i %s
+---STRINGEND
+
+---STRING midcom.admin.help
+Hjälp online
+---STRINGEND
+
+---STRING about midgard
+Om Midgard
+---STRINGEND
+
+---STRING available urls
+Tillgängliga URLr i den här mappen
+---STRINGEND
+
+---STRING component help
+Komponentens dokumentation
+---STRINGEND
+
+---STRING help for %s
+Hjälp online för %s
+---STRINGEND
+
+---STRING online documentation
+Dokumentation online
+---STRINGEND
+
+---STRING user forum
+Discussionsforum
+---STRINGEND
+

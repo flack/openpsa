@@ -1,0 +1,341 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 25254 2010-03-09 16:19:26Z rambo $
+---LANGUAGE sv
+
+---STRING %s category %s
+%s: kategori "%s"
+---STRINGEND
+
+---STRING add a new entry
+Lägg till nytt inlägg
+---STRINGEND
+
+---STRING advanced schema and data settings
+Avancerade schema och data inställningar
+---STRINGEND
+
+---STRING archive
+Arkiv
+---STRINGEND
+
+---STRING article
+Artikel
+---STRINGEND
+
+---STRING article %s deleted
+Artikeln %s raderad
+---STRINGEND
+
+---STRING ascending
+Ascending
+---STRINGEND
+
+---STRING atom feed
+ATOM feed
+---STRINGEND
+
+---STRING available feeds
+Tillgängliga feeds
+---STRINGEND
+
+---STRING back to overview
+Tillbaka till överblick
+---STRINGEND
+
+---STRING blog link deleted
+Blog länk raderad
+---STRINGEND
+
+---STRING blog settings
+Blog inställningar
+---STRINGEND
+
+---STRING categories
+Kategorier
+---STRINGEND
+
+---STRING comments_enable
+Slå på kommentering av nyhetsartiklar (kräver net.nehmer.comments komponenten)
+---STRINGEND
+
+---STRING content
+Innehåll
+---STRINGEND
+
+---STRING create article
+Skapa Artikel
+---STRINGEND
+
+---STRING create name from title
+Skapa URL-namn från artikel titlar
+---STRINGEND
+
+---STRING create news article
+Skapa nyhets artikel
+---STRINGEND
+
+---STRING delete article
+Radera Artikel
+---STRINGEND
+
+---STRING delete article link
+Radera artiklens länk
+---STRINGEND
+
+---STRING delete cancelled
+Radering avbruten
+---STRINGEND
+
+---STRING delete link
+Radera länk
+---STRINGEND
+
+---STRING descending
+Descending
+---STRINGEND
+
+---STRING display settings
+Nyhets inlägg visnings konfiguration
+---STRINGEND
+
+---STRING edit article
+Ändra Artikel
+---STRINGEND
+
+---STRING enable blogging apis
+Slå på fjärrändring via MetaWebLog API
+---STRINGEND
+
+---STRING enable date filters get
+Slå på datum filer (GET parameter)
+---STRINGEND
+
+---STRING enable date filters path
+Slå på datum filer (i sökväg, format /YYYY/MM/DD)
+---STRINGEND
+
+---STRING enable details
+Slå på detaljerade sidor
+---STRINGEND
+
+---STRING enable filters get
+Slå på fält filter (GET parameter)
+---STRINGEND
+
+---STRING enable public posting
+Slå på publik postning ("Gästbok och liknande")
+---STRINGEND
+
+---STRING enable scheduled publishing
+Slå på schemalagd publicering
+---STRINGEND
+
+---STRING enable subdirectories
+Inkludera alla underämnenas Nyhets Artiklar i Index (och RSS)
+---STRINGEND
+
+---STRING expert settings
+Avancerade inställningar
+---STRINGEND
+
+---STRING first post was made on %s.
+Första postningen vad gjord %s.
+---STRINGEND
+
+---STRING from
+Från
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+Om du vill radera orginalartikeln, < href="%s">klicka här</a>
+---STRINGEND
+
+---STRING index count
+Antal som ska visas i Index
+---STRINGEND
+
+---STRING index settings
+Index inställningar
+---STRINGEND
+
+---STRING index_entries
+Lista såhär många artiklar på index sidan
+---STRINGEND
+
+---STRING language
+Språk
+---STRINGEND
+
+---STRING link_to_external_url
+Länka artiklar till extern URL om tillgänglig
+---STRINGEND
+
+---STRING list old items in index
+Lista gamla artiklar i Index
+---STRINGEND
+
+---STRING navigation options
+Navigerings inställningar
+---STRINGEND
+
+---STRING net.nehmer.blog
+Nyhets listning
+---STRINGEND
+
+---STRING newsticker
+Nyhets lista
+---STRINGEND
+
+---STRING newsticker administration
+Administrera nyheter
+---STRINGEND
+
+---STRING no news found.
+Inga nyheter funna.
+---STRINGEND
+
+---STRING no schema available
+Inget Schema tillgängligt
+---STRINGEND
+
+---STRING not enough privileges to create articles
+Du saknar rättigheter för att skapa nya artiklar
+---STRINGEND
+
+---STRING posted on %s.
+Postad %s.
+---STRINGEND
+
+---STRING public posting
+Publik postning ("Gästbok och liknande")
+---STRINGEND
+
+---STRING public posting password
+Midgard Lösenord att använda för publik access (endast nödvändigt om ett användarnamn har angivits)
+---STRINGEND
+
+---STRING public posting schema
+Datamanager schema att abvända för publik postning
+---STRINGEND
+
+---STRING public posting user
+Midgard användarnamn att använda för publik postning (lämna tomt för att använda inloggad användare)
+---STRINGEND
+
+---STRING related stories
+Relaterade artiklar
+---STRINGEND
+
+---STRING rss 0.91 feed
+RSS 0.91 feed
+---STRINGEND
+
+---STRING rss 1.0 feed
+RSS 1.0 feed
+---STRINGEND
+
+---STRING rss 2.0 feed
+RSS 2.0 feed
+---STRINGEND
+
+---STRING rss export settings
+RSS export
+---STRINGEND
+
+---STRING rss feed
+RSS Feed
+---STRINGEND
+
+---STRING rss_include_image
+Inkludera orginalstorlek på bilder från schema fält "image" till rss artiklar
+---STRINGEND
+
+---STRING schema database
+Sökväg till schema databas
+---STRINGEND
+
+---STRING schema settings
+Schemainställningar
+---STRINGEND
+
+---STRING schemadb
+Databasschema för artiklar
+---STRINGEND
+
+---STRING select article type
+Välj artikel typ
+---STRINGEND
+
+---STRING settings
+Inställningar
+---STRINGEND
+
+---STRING show content in index
+Visa hela artiklar i index
+---STRINGEND
+
+---STRING show latest items in navigation
+Visa senaste artiklar i navigering
+---STRINGEND
+
+---STRING sort order
+Sorterings ordning
+---STRINGEND
+
+---STRING symlink_topic
+Länk till annat ämne ("mjuk länk")
+---STRINGEND
+
+---STRING symlink_topic disabled
+Inget ämne valt
+---STRINGEND
+
+---STRING there is a total of %d posts.
+Det finns totalt %d postningar.
+---STRINGEND
+
+---STRING use view prefix in url
+Använd 'view' prefix i url
+---STRINGEND
+
+---STRING visible
+Ska ämnet vara synligt?
+---STRINGEND
+
+---STRING archive item order
+Arkivets ordning
+---STRINGEND
+
+---STRING archive_enable
+Slå på bläddring för arkiv
+---STRINGEND
+
+---STRING available feeds introduction
+Följande innehålls syndikerings format är tillgängliga:
+---STRINGEND
+
+---STRING failed to delete the blog link, contact the site administrator
+Misslyckades att radera blog länken, kontakta sajt administratören
+---STRINGEND
+
+---STRING rss_subscription_enable
+Slå på skapande av nyhetsartiklar från andra RSS och Atom feeds
+---STRINGEND
+
+---STRING set this to no if you want to hide feeds and archive links in navigation
+Sätt detta till 'Nej' om du vill dölja 'Feeds' och 'Arkiv' länkar i navigering
+---STRINGEND
+
+---STRING set to no for de.linkm.newsticker compatibility
+Sätt till nej för kompabilitet med de.linkm.newsticker
+---STRINGEND
+
+---STRING show pseudo leaves in navigation
+Visa pseudo leaves i navigering
+---STRINGEND
+
+---STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
+Detta blog inlägg är länkat från < href="%s">%s</a> och bekräftning kommer bara att ta bort länken.
+---STRINGEND
+

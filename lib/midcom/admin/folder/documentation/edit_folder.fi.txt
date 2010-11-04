@@ -1,0 +1,11 @@
+﻿Kansioiden muokkaus
+======
+
+_Kansion asetukset_-sivulla on mahdollista muokata kansion asetuksia: _Tiedostonimi_, _Otsikko_, _Ulkoasupohja_, _Ulkoasupohjan periytyminen_ ja _Navigaation järjestys_.
+
+* _Tiedostonimi_ on kohteen nimi. Tämä nimi vaikuttaa siihen, mikä osoite näkyy selaimen osoiterivillä.
+* _Otsikko_ on se nimi, joka näytetään navigaatiossa.
+* _Ulkoasupohjalla_ määritellään se, miten kansion sisältämää tietoa näytetään.
+  - Tyylit on aina kustomoitu sivustokohtaisesti. Kysy sivustosi ylläpitäjältä, onko sivustolla kustomoituja tyylejä.
+* _Periytä ulkoasupohja alikansioille_ pakottaa kansion alla olevat alikansiot käyttämään samoja kustomoituja elementtejä, jotka määritellään kohdassa _Ulkoasupohja_.
+* _Navigaation järjestys_ määrittelee kansiossa olevien alikansioiden ja sivujen järjestyksen.

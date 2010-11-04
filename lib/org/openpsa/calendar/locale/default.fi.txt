@@ -1,0 +1,177 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE fi
+
+---STRING available slot
+Saatavilla oleva aika
+---STRINGEND
+
+---STRING back to calendar
+Takaisin kalenteriin
+---STRINGEND
+
+---STRING calendar
+Kalenteri
+---STRINGEND
+
+---STRING choose calendars
+Valitse näytettävät kalenterit
+---STRINGEND
+
+---STRING create event
+Luo tapahtuma
+---STRINGEND
+
+---STRING create note
+Luo muistiinpanot
+---STRINGEND
+
+---STRING day view
+Päivänäkymä
+---STRINGEND
+
+---STRING delete event
+Poista tapahtuma
+---STRINGEND
+
+---STRING dont allow overlapping
+Älä salli päällekkäisiä
+---STRINGEND
+
+---STRING edit %s
+Muokkaa %s
+---STRINGEND
+
+---STRING end time
+Päättyy
+---STRINGEND
+
+---STRING event %s
+Tapahtuma %s
+---STRINGEND
+
+---STRING event %s deleted
+Tapahtuma %s poistettu
+---STRINGEND
+
+---STRING event after
+Seuraava varaus
+---STRINGEND
+
+---STRING event before
+Edellinen varaus
+---STRINGEND
+
+---STRING event deleted
+Tapahtuma poistettu
+---STRINGEND
+
+---STRING event information
+Tapahtuman tiedot
+---STRINGEND
+
+---STRING events on %s
+Kalenterissa %s
+---STRINGEND
+
+---STRING failed to delete event, reason
+Tapahtuman poistaminen epäonnistui, syy
+---STRINGEND
+
+---STRING go to
+Mene ajankohtaan
+---STRINGEND
+
+---STRING groups
+Ryhmät
+---STRINGEND
+
+---STRING location
+Paikka
+---STRINGEND
+
+---STRING me
+Minä
+---STRINGEND
+
+---STRING meeting note for %s on %s by %s
+Palaverin %s muistio, kirjoittanut %s %s
+---STRINGEND
+
+---STRING month view
+Kuukausinäkymä
+---STRINGEND
+
+---STRING next
+Seuraava
+---STRINGEND
+
+---STRING no event
+Ei tapahtumaa
+---STRINGEND
+
+---STRING org.openpsa.calendar
+Kalenteri
+---STRINGEND
+
+---STRING participants
+Osallistujat
+---STRINGEND
+
+---STRING people
+Henkilöt
+---STRINGEND
+
+---STRING popup
+Pop-up -ikkuna
+---STRINGEND
+
+---STRING previous
+Edellinen
+---STRINGEND
+
+---STRING print
+Tulosta
+---STRINGEND
+
+---STRING private event
+Yksityinen tapahtuma
+---STRINGEND
+
+---STRING privilege read
+Yksityisen tapahtuman luku
+---STRINGEND
+
+---STRING really delete event
+Oletko varma että haluat poistaa tapahtuman?
+---STRINGEND
+
+---STRING resources
+Resurssit
+---STRINGEND
+
+---STRING start time
+Alkaa
+---STRINGEND
+
+---STRING time
+klo
+---STRINGEND
+
+---STRING today
+Tänään
+---STRINGEND
+
+---STRING week #%s %s
+Viikko %s. %s
+---STRINGEND
+
+---STRING week view
+Viikkonäkym
+---STRINGEND
+
+---STRING week %s
+Viikko %s
+---STRINGEND
+

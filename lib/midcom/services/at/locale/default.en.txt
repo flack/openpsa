@@ -1,0 +1,33 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE en
+
+---STRING failed
+Failed
+---STRINGEND
+
+---STRING midcom.services.at
+Scheduled command execution
+---STRINGEND
+
+---STRING running
+Running
+---STRINGEND
+
+---STRING scheduled
+Scheduled
+---STRINGEND
+
+---STRING scheduled operations
+Scheduled operations
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING time
+Time
+---STRINGEND
+

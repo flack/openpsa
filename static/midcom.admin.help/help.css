@@ -1,0 +1,150 @@
+BODY 
+{
+    font-family: "Verdana", "Arial", "Helvetica", sans-serif;
+    padding-left: 180px;
+    padding-right: 10%;
+    background-image: url("../stock-icons/logos/midgard-150x150.png");
+    background-position: 35px 20px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-size: 80%;
+}
+
+a
+{
+    font-weight:bold;
+    color:brown;
+}
+
+pre
+{
+    background: #ddd;
+    display: block;
+    padding: 5px;
+}
+code
+{
+    background: #ddd;
+    padding: 5px;
+}
+
+blockquote
+{
+    border: 1px solid #826647;
+    -moz-border-radius: 8px;
+    font-style: italic;
+    padding-left: 70px;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    background: url(note-area.png) no-repeat 8px 8px;
+    min-height: 55px;
+    _height: 55px;
+}
+
+pre code
+{
+    padding: 0px;
+}
+.navi
+{
+    font-size: 0.8em;
+}
+            
+dt
+{
+    font-weight:bold;
+    border-bottom: solid 1px black;
+    margin-bottom: 3px;
+    padding-bottom: 3px;
+}
+dd table
+{
+    margin: 10px;
+    width:100%;
+}
+dd th
+{
+    background: #ddd;
+    padding: 3px;
+}
+dd td.even
+{
+    background: #dee;
+}
+dd td.odd
+{
+    background: #eed;
+}
+dd td.property
+{
+    width: 200px;
+    padding: 3px 5px 3px 3px;
+    text-align:right;
+    border-right: solid 1px black;
+    vertical-align: top;
+    font-weight: bold;
+    font-size:0.9em
+}
+dd td p
+{
+    margin: 0px;
+}
+
+dd td span.mgdtype
+{
+    font-weight:normal;
+    color: #666;
+}
+
+dd th.description
+{
+    text-align:left;
+    border-right: solid 1px black;
+}
+div.components h2
+{
+    font-size: 1.2em;
+    margin-bottom: 0px;
+    background-color: #eeeeef;
+    padding: 0.4em 1em;
+    line-height: 22px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+div.components hr
+{
+    margin-top: 10px;
+    clear: left;
+    background-color: transparent;
+    border: none;
+}
+
+div.components ul
+{
+    margin: 0px;
+    margin-left: 8px;
+    padding: 0px;
+    background-color: #EEEEEC;
+}
+
+div.components ul li
+{
+    padding: 1px;
+    list-style:none;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    margin: 6px;
+}
+
+div.components ul li img
+{
+    border: none;
+    vertical-align: middle;
+}
+
+div.components ul li span
+{
+    padding-left: 6px;
+}

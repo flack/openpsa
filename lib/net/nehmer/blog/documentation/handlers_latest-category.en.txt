@@ -1,0 +1,3 @@
+
+Shows a list of __{$args[1]}__ latest entries from __{$args[0]}__ category.
+

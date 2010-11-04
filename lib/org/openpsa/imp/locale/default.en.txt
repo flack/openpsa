@@ -1,0 +1,9 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE en
+
+---STRING org.openpsa.imp
+Horde IMP "single sign-on"
+---STRINGEND
+

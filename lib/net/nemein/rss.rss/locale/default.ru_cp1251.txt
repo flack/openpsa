@@ -1,0 +1,33 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.ru_cp1251.txt 334 2005-01-13 18:13:00Z torben $
+---LANGUAGE ru_cp1251
+
+---STRING add new feed
+Добавить новую ленту новостей
+---STRINGEND
+
+---STRING cancel
+Отменить
+---STRINGEND
+
+---STRING feed title
+Заголовок ленты новостей
+---STRINGEND
+
+---STRING feed url
+URL ленты новостей
+---STRINGEND
+
+---STRING remove feed
+Удалить ленту новостей
+---STRINGEND
+
+---STRING rss aggregator
+Информационный центр RSS
+---STRINGEND
+
+---STRING save
+Сохранить
+---STRINGEND
+

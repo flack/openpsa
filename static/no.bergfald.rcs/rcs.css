@@ -1,0 +1,14 @@
+dl.no_bergfald_rcs_diff dt
+{
+    font-weight: bold;
+}
+dl.no_bergfald_rcs_diff span.deleted
+{
+    color: #cc0000;
+    text-decoration: line-through;
+}
+dl.no_bergfald_rcs_diff span.inserted
+{
+    background-color: #e0ffa0;
+    color: #000000;
+}

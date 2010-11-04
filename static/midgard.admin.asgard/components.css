@@ -1,0 +1,136 @@
+#content div.components h2
+{
+    font-size: 1.2em;
+    margin-bottom: 0px;
+    background-color: #eeeeef;
+    padding: 0.4em 1em;
+    line-height: 22px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+#content div.components hr
+{
+    margin-top: 10px;
+    clear: left;
+    background-color: transparent;
+    border: none;
+}
+
+#content div.components ul
+{
+    list-style: none;
+    margin: 0px;
+    margin-left: 8px;
+    padding: 0px;
+}
+
+#content div.components ul li
+{
+    list-style: none;
+    width: 28%;
+    height: 8em;
+    overflow: hidden;
+    float: left;
+    background-color: #EEEEEC;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    margin: 6px;
+}
+
+#content div.components ul li h3
+{
+    margin: 0px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    background-color: #BABDB6;
+    font-size: 100%;
+    padding: 0.2em 0.5em;
+}
+
+#content div.components ul li h3 a
+{
+	width: 100%;
+	display:block
+}
+ 
+#content div.components ul li h3 img
+{
+    border: none;
+    vertical-align: middle;
+}
+
+#content div.components ul li span
+{
+	padding-left: 6px;
+}
+
+#content div.components ul.midcom_toolbar
+{
+    margin-left: 0px;
+}
+#content div.components ul.midcom_toolbar li
+{
+    width: 95%;
+    float: none;
+    white-space: nowrap;
+    font-size: smaller;
+    height: auto;
+}
+
+#content div.components ul.midcom_toolbar li img
+{
+    border: none;
+    vertical-align: middle;
+}
+
+#content div.midgard_admin_asgard_components_component
+{
+    min-width: 500px;
+}
+
+#content div.midgard_admin_asgard_components_component a img
+{
+    border: none;
+    vertical-align: middle;
+}
+
+#content div.midgard_admin_asgard_components_component div.maintainers
+{
+    width: 200px;
+    float: right;
+}
+
+#content div.midgard_admin_asgard_components_component div.maintainers h3
+{
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+#content div.midgard_admin_asgard_components_component div.maintainers ul,
+#content div.midgard_admin_asgard_components_component div.maintainers ul li
+{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 1em;
+}
+
+#content div.midgard_admin_asgard_components_component div.maintainers ul li span.photoarea
+{
+    display: block;
+    clear: left;
+    float: left;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#content div.midgard_admin_asgard_components_component div.maintainers ul li.passive,
+#content div.midgard_admin_asgard_components_component div.maintainers ul li.passive a
+{
+    color: #eeeeee;
+}

@@ -1,0 +1,478 @@
+'default' => array
+(
+    'description' => 'single delivery',
+    'fields'      => array
+    (
+        'title' => Array
+        (
+            // COMPONENT-REQUIRED
+            'title' => 'title',
+            'storage' => 'title',
+            'type' => 'text',
+            'widget'  => 'text',
+        ),
+        'tags' => Array
+        (
+            'title' => 'tags',
+            'storage' => null,
+            'type' => 'tags',
+            'widget' => 'text',
+        ),
+        'supplier' => array
+        (
+            'title'   => 'supplier',
+            'storage' => 'supplier',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_contacts_group_dba',
+                'component'   => 'org.openpsa.contacts',
+                'titlefield'  => 'official',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                ),
+                'searchfields'  => array
+                (
+                    'name',
+                    'official'
+                ),
+		        'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'official',
+                        'name' => 'official',
+                    ),
+                ),
+                'orders'        => array
+                (
+                    array('official'    => 'ASC'),
+                ),
+            ),
+        ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => Array (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
+        'end' => Array
+        (
+            'title' => 'estimated delivery',
+            'storage' => 'end',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
+        'notify' => Array
+        (
+            'title' => 'notify date',
+            'storage' => null,
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
+        'pricePerUnit' => Array
+        (
+            'title' => 'price per unit',
+            'storage' => 'pricePerUnit',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'unit' => Array
+        (
+            'title' => 'unit',
+            'storage' => 'unit',
+            'type' => 'select',
+            'type_config' => Array
+            (
+                'options' => Array
+                (
+                    'p' => 'unit',    // per piece
+                    'h' => 'hour',    // per hour
+                    'd' => 'day',     // per day
+                    'm' => 'month',   // per month
+                    'q' => 'quarter', // per quarter
+                    'y' => 'year',    // per annum
+                ),
+            ),
+            'readonly' => true,
+            'widget' => 'select',
+        ),
+        'units' => Array
+        (
+            'title' => 'units',
+            'storage' => 'units',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'plannedUnits' => Array
+        (
+            'title' => 'planned units',
+            'storage' => 'plannedUnits',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'price' => Array
+        (
+            'title' => 'price',
+            'storage' => 'price',
+            'type' => 'number',
+            'widget'  => 'text',
+            'readonly' => true,
+        ),
+        'invoiceByActualUnits' => Array
+        (
+            'title'   => 'invoice by actual units',
+            'storage' => 'invoiceByActualUnits',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'invoiceApprovedOnly' => Array
+        (
+            'title'   => 'invoice approved only',
+            'storage' => 'invoiceApprovedOnly',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'costPerUnit' => Array
+        (
+            'title' => 'cost per unit',
+            'storage' => 'costPerUnit',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'costType' => Array
+        (
+            'title' => 'cost type',
+            'storage' => 'costType',
+            'type' => 'select',
+            'type_config' => Array
+            (
+                'options' => Array
+                (
+                    'm' => 'per unit',
+                    '%' => '%',
+                ),
+            ),
+            'widget' => 'select',
+            'readonly' => true,
+        ),
+        'cost' => Array
+        (
+            'title' => 'cost',
+            'storage' => 'cost',
+            'type' => 'number',
+            'widget'  => 'text',
+            'readonly' => true,
+        ),
+        'components' => Array
+        (
+            'title' => 'components',
+            'storage' => null,
+            'type' => 'composite',
+            'type_config' => Array
+            (
+                'child_class' => 'org_openpsa_sales_salesproject_deliverable_dba',
+                'child_schemadb' => 'file:/org/openpsa/sales/config/schemadb_deliverable_component_default.inc',
+                'child_foreign_key_fieldname' => 'up',
+                'style_element_name' => 'deliverable',
+                'enable_creation' => false,
+                'area_element' => 'tr',
+            ),
+            'widget' => 'composite',
+        ),
+    )
+),
+'subscription' => array
+(
+    'description' => 'recurring subscription',
+    'fields'      => array
+    (
+        'title' => Array
+        (
+            // COMPONENT-REQUIRED
+            'title' => 'title',
+            'storage' => 'title',
+            'type' => 'text',
+            'widget'  => 'text',
+        ),
+        'tags' => Array
+        (
+            'title' => 'tags',
+            'storage' => null,
+            'type' => 'tags',
+            'widget' => 'text',
+        ),
+        'supplier' => array
+        (
+            'title'   => 'supplier',
+            'storage' => 'supplier',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_contacts_group_dba',
+                'component'   => 'org.openpsa.contacts',
+                'titlefield'  => 'official',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                ),
+                'searchfields'  => array
+                (
+                    'name',
+                    'official'
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'official',
+                        'name' => 'official',
+                    ),
+                ),
+                'orders'        => array
+                (
+                    array('official'    => 'ASC'),
+                ),
+            ),
+        ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => Array (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
+        'start' => Array
+        (
+            'title' => 'subscription begins',
+            'storage' => 'start',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
+        'end' => Array
+        (
+            'title' => 'subscription ends',
+            'storage' => 'end',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
+        'notify' => Array
+        (
+            'title' => 'notify date',
+            'storage' => 'notify',
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+        ),
+
+        'at_entry' => Array
+        (
+            'title'   => '',
+            'storage' => null,
+            'type'    => 'number',
+            'widget'  => 'hidden',
+        ),
+        'next_cycle' => Array
+        (
+            'title' => 'next run',
+            'storage' => null,
+            'type' => 'date',
+            'type_config' => Array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => Array
+            (
+                'show_time' => false,
+            ),
+            'hidden' => true
+        ),
+
+        'continuous' => Array
+        (
+            'title'   => 'continuous subscription',
+            'storage' => 'continuous',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'pricePerUnit' => Array
+        (
+            'title' => 'price per unit',
+            'storage' => 'pricePerUnit',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'units' => Array
+        (
+            'title' => 'units',
+            'storage' => 'units',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'plannedUnits' => Array
+        (
+            'title' => 'planned units',
+            'storage' => 'plannedUnits',
+            'type' => 'number',
+            'widget'  => 'text',
+            'hidden' => true
+        ),
+        'unit' => Array
+        (
+            'title' => 'invoicing period',
+            'storage' => 'unit',
+            'type' => 'select',
+            'type_config' => Array
+            (
+                'options' => Array
+                (
+                    'd' => $_MIDCOM->i18n->get_string('day' , 'org.openpsa.products'),     // per day
+                    'm' => $_MIDCOM->i18n->get_string('month' , 'org.openpsa.products'),   // per month
+                    'q' => $_MIDCOM->i18n->get_string('quarter' , 'org.openpsa.products'), // per quarter
+                    'y' => $_MIDCOM->i18n->get_string('year' , 'org.openpsa.products'),    // per annum
+                ),
+            ),
+            'readonly' => false,
+            'widget' => 'select',
+        ),
+        'price' => Array
+        (
+            'title' => 'price',
+            'storage' => 'price',
+            'type' => 'number',
+            'widget'  => 'text',
+            'readonly' => true,
+        ),
+        'invoiceByActualUnits' => Array
+        (
+            'title'   => 'invoice by actual units',
+            'storage' => 'invoiceByActualUnits',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'invoiceApprovedOnly' => Array
+        (
+            'title'   => 'invoice approved only',
+            'storage' => 'invoiceApprovedOnly',
+            'type'    => 'boolean',
+            'widget'  => 'checkbox',
+        ),
+        'costPerUnit' => Array
+        (
+            'title' => 'cost per unit',
+            'storage' => 'costPerUnit',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'costType' => Array
+        (
+            'title' => 'cost type',
+            'storage' => 'costType',
+            'type' => 'select',
+            'type_config' => Array
+            (
+                'options' => Array
+                (
+                    'm' => 'per unit',
+                    '%' => '%',
+                ),
+            ),
+            'widget' => 'select',
+            'readonly' => true,
+        ),
+        'cost' => Array
+        (
+            'title' => 'cost',
+            'storage' => 'cost',
+            'type' => 'number',
+            'widget'  => 'text',
+            'hidden' => true,
+        ),
+        'components' => Array
+        (
+            'title' => 'components',
+            'storage' => null,
+            'type' => 'composite',
+            'type_config' => Array
+            (
+                'child_class' => 'org_openpsa_sales_salesproject_deliverable_dba',
+                'child_schemadb' => 'file:/org/openpsa/sales/config/schemadb_deliverable_component_default.inc',
+                'child_foreign_key_fieldname' => 'up',
+                'style_element_name' => 'deliverable',
+                'enable_creation' => false,
+                'area_element' => 'tr',
+            ),
+            'widget' => 'composite',
+        ),
+    )
+),

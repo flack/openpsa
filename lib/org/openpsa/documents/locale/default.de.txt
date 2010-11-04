@@ -1,0 +1,144 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 26686 2010-10-08 16:32:39Z flack $
+---LANGUAGE de
+
+---STRING %s document
+%s-Dokument
+---STRINGEND
+
+---STRING %s image
+%s-Grafik
+---STRINGEND
+
+---STRING %s presentation
+%s-Präsentation
+---STRINGEND
+
+---STRING %s spreadsheet
+%s-Tabelle
+---STRINGEND
+
+---STRING %s text
+%s-Textdatei
+---STRINGEND
+
+---STRING %s %s document
+%s %s-Dokument
+---STRINGEND
+
+---STRING application/octet-stream
+Binärdatei
+---STRINGEND
+
+---STRING application/x-zip-compressed
+ZIP-Archiv
+---STRINGEND
+
+---STRING author
+Verfasser
+---STRINGEND
+
+---STRING confirm delete
+Löschen bestätigen
+---STRINGEND
+
+---STRING create document
+Dokument erstellen
+---STRINGEND
+
+---STRING directory
+Verzeichnis
+---STRINGEND
+
+---STRING document
+Dokument
+---STRINGEND
+
+---STRING document search
+Dokumenten-Suche
+---STRINGEND
+
+---STRING document status
+Dokumenten-Status
+---STRINGEND
+
+---STRING documents
+Dokumente
+---STRINGEND
+
+---STRING draft
+Entwurf
+---STRINGEND
+
+---STRING edit directory
+Verzeichnis bearbeiten
+---STRINGEND
+
+---STRING final
+Final
+---STRINGEND
+
+---STRING folder
+Ordner
+---STRINGEND
+
+---STRING folders
+Ordner
+---STRINGEND
+
+---STRING new directory
+Neues Verzeichnis
+---STRINGEND
+
+---STRING new document
+Neues Dokument
+---STRINGEND
+
+---STRING older versions
+Ältere Versionen
+---STRINGEND
+
+---STRING org.openpsa.documents
+Dokumenten-Verwaltung
+---STRINGEND
+
+---STRING review
+Überprüfung
+---STRINGEND
+
+---STRING score: %d%%
+Bewertung: %d%%
+---STRINGEND
+
+---STRING search
+Suchen
+---STRINGEND
+
+---STRING text/plain
+Einfacher Text
+---STRINGEND
+
+---STRING use the buttons below or in toolbar
+Benutzen sie die nachfolgenden Buttons oder die in der Toolbar
+---STRINGEND
+
+---STRING no results
+Keine Ergebnisse
+---STRINGEND
+
+---STRING file size
+Dateigröße
+---STRINGEND
+
+---STRING last modified
+Letzte Bearbeitung
+---STRINGEND
+
+---STRING creator
+Ersteller
+---STRINGEND
+
+---STRING title
+Titel
+---STRINGEND

@@ -1,0 +1,785 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE sv
+
+---STRING %s in %s
+%s i %s
+---STRINGEND
+
+---STRING %s of packages of type %s
+%s paket av typen %s
+---STRINGEND
+
+---STRING Edit this page
+Ändra sidan
+---STRINGEND
+
+---STRING More...
+Mera...
+---STRINGEND
+
+---STRING OK
+OK
+---STRINGEND
+
+---STRING abstract
+Resumé
+---STRINGEND
+
+---STRING access control
+Åtkomst kontroll
+---STRINGEND
+
+---STRING access denied
+Åtkomst nekad
+---STRINGEND
+
+---STRING access denied: admin level privileges required
+Åtkomst nekad: Du behöver administratörs rättigheter.
+---STRINGEND
+
+---STRING access denied: privilege %s not granted
+Åtkomst nekad: Du behöver privilegie %s
+---STRINGEND
+
+---STRING access denied: user is not member of the group %s
+Åtkomst nekad: Du är inte medlem i grupp %s.
+---STRINGEND
+
+---STRING access denied: you do not have write permission
+Åtkomst nekad: Du har inte skriv rättigheter.
+---STRINGEND
+
+---STRING access denied: you must be logged in
+Åtkomst nekad: Du måste vara inloggad.
+---STRINGEND
+
+---STRING access type
+Åtkomst typ
+---STRINGEND
+
+---STRING advanced schema and data settings
+Avancerade schema och data inställningar
+---STRINGEND
+
+---STRING all
+allt
+---STRINGEND
+
+---STRING and
+och
+---STRINGEND
+
+---STRING anonymous
+anonym
+---STRINGEND
+
+---STRING approval
+Godkännande
+---STRINGEND
+
+---STRING approvals
+Godkännande
+---STRINGEND
+
+---STRING approve
+Godkänn
+---STRINGEND
+
+---STRING approve topic
+Godkänn katalog
+---STRINGEND
+
+---STRING approved
+Godkänd
+---STRINGEND
+
+---STRING approved changes will be replicated within next minute
+Replikationen av godkända ändringar kommer starta om en minut.
+---STRINGEND
+
+---STRING approver
+Godkännd av
+---STRINGEND
+
+---STRING arrangement score
+poäng
+---STRINGEND
+
+---STRING back
+Tillbaka
+---STRINGEND
+
+---STRING back to configuration
+Tillbaka till inställningarna
+---STRINGEND
+
+---STRING back to index
+Tillbaka till ämnets index
+---STRINGEND
+
+---STRING body
+Innehåll
+---STRINGEND
+
+---STRING bottom
+nederst
+---STRINGEND
+
+---STRING by name
+efter namn
+---STRINGEND
+
+---STRING calendar
+efter skapande datum
+---STRINGEND
+
+---STRING cancel
+Avbryt
+---STRINGEND
+
+---STRING captcha field title
+Säkerhetskod
+---STRINGEND
+
+---STRING close configuration screen
+Stäng konfigurations skärmen
+---STRINGEND
+
+---STRING component
+Komponent
+---STRINGEND
+
+---STRING component %s configuration for folder %s
+Komponent %s konfiguration för katalog "%s"
+---STRINGEND
+
+---STRING component configuration
+Komponent inställningar
+---STRINGEND
+
+---STRING component configuration helptext
+Klicka på den här menyn för att konfigurera spceifika inställningar för den här foldern.
+---STRINGEND
+
+---STRING component depends on
+Komponenten beror på
+---STRINGEND
+
+---STRING copy
+Kopiera
+---STRINGEND
+
+---STRING country
+Land
+---STRINGEND
+
+---STRING create
+Skapa
+---STRINGEND
+
+---STRING create %s
+Skapa %s
+---STRINGEND
+
+---STRING create page
+Skapa sida
+---STRINGEND
+
+---STRING created
+efter datum (äldst först)
+---STRINGEND
+
+---STRING created on
+Skapad den
+---STRINGEND
+
+---STRING creator
+Skapad av
+---STRINGEND
+
+---STRING date
+Datum
+---STRINGEND
+
+---STRING default setting
+Standard inställning
+---STRINGEND
+
+---STRING delete
+Radera
+---STRINGEND
+
+---STRING description
+Beskrivning
+---STRINGEND
+
+---STRING developer
+Utvecklare
+---STRINGEND
+
+---STRING discussion in %s
+Diskussion i %s
+---STRINGEND
+
+---STRING down
+ner
+---STRINGEND
+
+---STRING download %s
+Ladda ner %s
+---STRINGEND
+
+---STRING edit
+Ändra
+---STRINGEND
+
+---STRING edit %s
+Ändra %s
+---STRINGEND
+
+---STRING edit design
+Ändra design
+---STRINGEND
+
+---STRING edit page
+Ändra sida
+---STRINGEND
+
+---STRING edit photos
+Ändra bild
+---STRINGEND
+
+---STRING edited
+Ändrad
+---STRINGEND
+
+---STRING editor
+Ändrad av
+---STRINGEND
+
+---STRING encrypted
+Krypterad
+---STRINGEND
+
+---STRING end date
+Slut datum
+---STRINGEND
+
+---STRING folder
+Katalog
+---STRINGEND
+
+---STRING get help
+Hämta hjälp
+---STRINGEND
+
+---STRING get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
+Hämta fler komponenter från <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
+---STRINGEND
+
+---STRING hidden
+Dold
+---STRINGEND
+
+---STRING hide
+Dölj
+---STRINGEND
+
+---STRING host
+Websida
+---STRINGEND
+
+---STRING id
+ID (Internt)
+---STRINGEND
+
+---STRING image
+Bild
+---STRINGEND
+
+---STRING in %s
+i %s
+---STRINGEND
+
+---STRING inherited from parent
+Ärvd från förälder objekt
+---STRINGEND
+
+---STRING internal metadata
+Intern metadata
+---STRINGEND
+
+---STRING invalidate cache
+Invalidera MidCOM's cache
+---STRINGEND
+
+---STRING keywords
+Nyckelord
+---STRINGEND
+
+---STRING last modified
+Senast ändrad
+---STRINGEND
+
+---STRING lead
+Huvudutvecklare
+---STRINGEND
+
+---STRING library
+Bibliotek
+---STRINGEND
+
+---STRING login
+Logga in
+---STRINGEND
+
+---STRING login message - insufficient privileges
+Ditt användarkonto saknas nödvändiga rättigheter.
+---STRINGEND
+
+---STRING login message - please enter credentials
+Skriv in användarnamn och lösenord.
+---STRINGEND
+
+---STRING login message - user or password wrong
+Användarnamn eller lösenord är felaktigt.
+---STRINGEND
+
+---STRING logout
+Logga ut
+---STRINGEND
+
+---STRING long date
+%A %B %d, %Y
+---STRINGEND
+
+---STRING lowercase, no special characters or spaces
+Gemener, inga specialtecken eller mellanslag
+---STRINGEND
+
+---STRING metadata
+Metadata
+---STRINGEND
+
+---STRING midcom administration
+Midgard CMS Administration
+---STRINGEND
+
+---STRING move
+Flytta
+---STRINGEND
+
+---STRING move down
+Flytta ner
+---STRINGEND
+
+---STRING move up
+Flytta upp
+---STRINGEND
+
+---STRING name
+Namn
+---STRINGEND
+
+---STRING nav_noentry
+Dölj från navigering
+---STRINGEND
+
+---STRING nav_noentry_helptext
+Objekt som inte finns i menyn kan ändå kommas åt om url är kännd.
+---STRINGEND
+
+---STRING new
+Ny
+---STRINGEND
+
+---STRING next
+Nästa
+---STRINGEND
+
+---STRING next page
+Nästa sida
+---STRINGEND
+
+---STRING no
+Nej
+---STRINGEND
+
+---STRING not active %s
+Inte aktiv %s
+---STRINGEND
+
+---STRING not hidden
+Synlig
+---STRINGEND
+
+---STRING offline
+Offline
+---STRINGEND
+
+---STRING online
+Online
+---STRINGEND
+
+---STRING online state
+Online status
+---STRINGEND
+
+---STRING optional
+Valfri
+---STRINGEND
+
+---STRING owner
+Ägare
+---STRINGEND
+
+---STRING page
+Sida
+---STRINGEND
+
+---STRING page %d of %d
+Sida %d av %d
+---STRINGEND
+
+---STRING parameters
+Parametrar
+---STRINGEND
+
+---STRING password
+Lösenord
+---STRINGEND
+
+---STRING password mismatch
+Lösenorden matchar inte
+---STRINGEND
+
+---STRING permalink
+Permalänk
+---STRINGEND
+
+---STRING photo in %s
+Bilder i %s
+---STRINGEND
+
+---STRING previous
+Föregående
+---STRINGEND
+
+---STRING previous page
+Föregående sida
+---STRINGEND
+
+---STRING privileges
+Rättigheter
+---STRINGEND
+
+---STRING reject
+Neka
+---STRINGEND
+
+---STRING reset
+Nollställ
+---STRINGEND
+
+---STRING reverse calendar
+efter skapande datum (baklänges)
+---STRINGEND
+
+---STRING reverse created
+efter skapande datum (nyast först)
+---STRINGEND
+
+---STRING reverse name
+efter namn (baklänges)
+---STRINGEND
+
+---STRING reverse revised
+efter datum senast ändrad(baklänges)
+---STRINGEND
+
+---STRING reverse score
+efter poäng (baklänges)
+---STRINGEND
+
+---STRING revert to default setting
+Återställ standard inställningar
+---STRINGEND
+
+---STRING revised
+efter datum senast ändrad
+---STRINGEND
+
+---STRING robots
+Kontrollera extern indexering
+---STRINGEND
+
+---STRING robots-follow
+Tillåt indexering, sökmotor får följa länkar
+---STRINGEND
+
+---STRING robots-index
+Tillåt indexering
+---STRINGEND
+
+---STRING robots-nofollow
+Tillåt indexering, sökmotor får inte följa länkar
+---STRINGEND
+
+---STRING robots-noindex
+Tillåt inte indexering
+---STRINGEND
+
+---STRING robots-not-specified
+Inte satt, använd robots.txt
+---STRINGEND
+
+---STRING run replication
+Kör replikering
+---STRINGEND
+
+---STRING save
+Spara
+---STRINGEND
+
+---STRING save and close
+Spara och stäng
+---STRINGEND
+
+---STRING schedule_end
+Visa till (lämna tomt för obegränsad visning)
+---STRINGEND
+
+---STRING schedule_start
+Publicera på (lämna tomt för omedelbar publicering)
+---STRINGEND
+
+---STRING scheduled and shown
+Schemalagda och visade
+---STRINGEND
+
+---STRING scheduled but hidden
+Schemalagda men dolda
+---STRINGEND
+
+---STRING scheduling
+Schemaläggning
+---STRINGEND
+
+---STRING schema database
+Schema databas
+---STRINGEND
+
+---STRING score
+efter poäng
+---STRINGEND
+
+---STRING search
+Sök
+---STRINGEND
+
+---STRING select
+Välj
+---STRINGEND
+
+---STRING settings
+Inställningar
+---STRINGEND
+
+---STRING short date
+%Y-%m-%d
+---STRINGEND
+
+---STRING shown from %s
+Visade från %s
+---STRINGEND
+
+---STRING shown from %s to %s
+Visade från %s till %s
+---STRINGEND
+
+---STRING shown until %s
+Visade till %s
+---STRINGEND
+
+---STRING sitegroup
+Sitegrupp
+---STRINGEND
+
+---STRING sort_by_calendar
+Sortera efter kalender
+---STRINGEND
+
+---STRING sort_by_name
+Sortera efter namn
+---STRINGEND
+
+---STRING sort_by_reverse_calendar
+Sortera efter kalender (baklänges)
+---STRINGEND
+
+---STRING sort_by_reverse_name
+Sortera efter namn (baklänges)
+---STRINGEND
+
+---STRING sort_by_reverse_revised
+Sortera efter senast ändrad (baklänges)
+---STRINGEND
+
+---STRING sort_by_reverse_score
+Sortera efter poäng
+---STRINGEND
+
+---STRING sort_by_revised
+Sortera efter senast ändrad
+---STRINGEND
+
+---STRING sort_by_score
+Sortera efter poäng
+---STRINGEND
+
+---STRING sort_leaves
+Sortera artiklar
+---STRINGEND
+
+---STRING sort_order
+Hur ska artiklar bli sorterade?
+---STRINGEND
+
+---STRING sorting position
+Sorterings plats
+---STRINGEND
+
+---STRING start date
+Start datum
+---STRINGEND
+
+---STRING stats
+Website statistik
+---STRINGEND
+
+---STRING style
+Stil
+---STRINGEND
+
+---STRING tags
+Taggar
+---STRINGEND
+
+---STRING test settings
+Testa inställningar
+---STRINGEND
+
+---STRING text
+Text
+---STRINGEND
+
+---STRING thumbnail
+Miniatyr
+---STRINGEND
+
+---STRING title
+Titel
+---STRINGEND
+
+---STRING top
+överst
+---STRINGEND
+
+---STRING topic
+Ämne
+---STRINGEND
+
+---STRING unapprove
+Godkänn inte
+---STRINGEND
+
+---STRING unapprove topic
+Godkänn inte folder
+---STRINGEND
+
+---STRING unapproved
+Ej godkännd
+---STRINGEND
+
+---STRING unhide
+Visa
+---STRINGEND
+
+---STRING unknown
+Okänd
+---STRINGEND
+
+---STRING up
+upp
+---STRINGEND
+
+---STRING update
+Uppdatera
+---STRINGEND
+
+---STRING update configuration
+Uppdatera konfiguration
+---STRINGEND
+
+---STRING update preferences
+Uppdatera inställningar
+---STRINGEND
+
+---STRING updated
+Updaterad
+---STRINGEND
+
+---STRING upload
+Ladda upp
+---STRINGEND
+
+---STRING upload image
+Ladda upp bild
+---STRINGEND
+
+---STRING url
+Url
+---STRINGEND
+
+---STRING url name
+URL Namn (Internt)
+---STRINGEND
+
+---STRING user
+Användare
+---STRINGEND
+
+---STRING username
+Användarnamn
+---STRINGEND
+
+---STRING verify password
+Verifiera lösenord
+---STRINGEND
+
+---STRING view
+Visa
+---STRINGEND
+
+---STRING visibility settings
+Synlighets inställningar
+---STRINGEND
+
+---STRING visibilty settings
+Synlighets inställningar
+---STRINGEND
+
+---STRING workgroup
+Arbetsgrupp
+---STRINGEND
+
+---STRING write mail
+Skriv mail
+---STRINGEND
+
+---STRING yes
+Ja
+---STRINGEND
+

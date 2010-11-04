@@ -1,0 +1,25 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE hu
+
+---STRING failed
+Nem sikerült
+---STRINGEND
+
+---STRING midcom.services.at
+Időzített parancs végrehajtás
+---STRINGEND
+
+---STRING scheduled
+Időzített
+---STRINGEND
+
+---STRING status
+Állapot
+---STRINGEND
+
+---STRING time
+Idő
+---STRINGEND
+

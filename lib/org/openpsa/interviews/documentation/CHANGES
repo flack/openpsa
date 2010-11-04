@@ -1,0 +1,13 @@
+org.openpsa.interviews Changelog
+                   --------------------------------
+CVS Id: $Id: CHANGES,v 1.1 2006/05/08 13:18:40 rambo Exp $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2006-05-08 bergie
+  ! Initial release. Needs org.openpsa.directmarketing for actual
+    campaign management

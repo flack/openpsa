@@ -1,0 +1,44 @@
+Replication 
+===
+
+Replication is a tool for replicating the information between two separate systems. Some of the mostly 
+used applications are 
+
+1. Staging/Live 
+2. Mirroring a website 
+
+Staging/Live 
+
+As described in 11.1 Approvals in Staging/Live, Staging/Live is a system, where there are two databases. 
+One of the databases is for public viewing and one is for content production. 
+
+If your website uses Staging/Live, content will be replicated after pressing the Approve button described in 
+the chapter 11 Approvals. 
+
+Note: Depending on the system configuration, it will take some time for the content to 
+become public. Usually it takes some minutes. 
+
+Mirroring a website 
+
+Mirroring system might be relevant e.g. when there is a heavy-traffic website that needs mirroring servers 
+to balance the load. 
+
+Mirroring can be also used as an external backup. 
+
+Mirroring and sometimes Staging/Live usually will push the replicated information into a queue, which will 
+be processed in configured intervals. The speed of replication depends on the configuration and times may 
+vary from almost immediate to as long as it takes for the information (e.g. when using email interface) to 
+reach the destination. 
+
+Replication information 
+
+Although replication information will provide only very detailed technical information, it might give an idea 
+if the object has been included in the replication queue. 
+
+Click on Page > Replication information or Folder > Replication information to view the replication 
+information correspondingly. 
+
+The most relevant information of the information page is the date and time of the last exporting (or 
+importing, when viewing the details of the live site in Staging/Live), which will show when the last 
+replication took place. 
+

@@ -1,0 +1,1 @@
+Topic, zwany także folderem stanowi podstawowy kontener treści w MidCOMie serii 2.x.

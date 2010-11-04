@@ -1,0 +1,249 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23272 2009-09-01 15:38:29Z flack $
+---LANGUAGE de
+
+---STRING action page_updated
+Seite aktualisiert
+---STRINGEND
+
+---STRING allow_anonymous
+Anonyme Beiträge erlauben
+---STRINGEND
+
+---STRING anonymous
+Anonym
+---STRINGEND
+
+---STRING anonymous password
+Passwort für den anonymen Zugriff
+---STRINGEND
+
+---STRING anonymous posting
+Anonyme Beiträge
+---STRINGEND
+
+---STRING anonymous username
+Benutzername für den anonymen Zugriff
+---STRINGEND
+
+---STRING author
+Autor
+---STRINGEND
+
+---STRING autogenerate_toc
+Inhaltsverzeichnis für Seiten automatisch generieren
+---STRINGEND
+
+---STRING change message
+Änderungsnachricht
+---STRINGEND
+
+---STRING change to %s
+In %s-Seite ändern
+---STRINGEND
+
+---STRING click to create
+Eine Wiki-Seite erstellen
+---STRINGEND
+
+---STRING content
+Inhalt
+---STRINGEND
+
+---STRING create note
+Notiz erstellen
+---STRINGEND
+
+---STRING create page %s
+Seite "%s" erstellen
+---STRINGEND
+
+---STRING create pages by linking
+Sie können Seiten zu diesem <a href="http://de.wikipedia.org/wiki/Wiki">Wiki</a> hinzufügen, indem sie auf nichtexistente Seiten im <a href="http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f">Wiki linking</a>-Format verweisen. Beginnen sie mit der Bearbietung der Startseite.
+---STRINGEND
+
+---STRING create redirection page %s
+Weiterleitungsseite "%s" erstellen
+---STRINGEND
+
+---STRING create wikipage %s
+Wiki-Seite "%s" erstellen
+---STRINGEND
+
+---STRING default schema
+Standard Seiten-Schema
+---STRINGEND
+
+---STRING display settings
+Anzeigeeinstellungen
+---STRINGEND
+
+---STRING display_related_to
+Zeige Objekte, die mit dieser Seite verbunden sind
+---STRINGEND
+
+---STRING edit %s
+%s bearbeiten
+---STRINGEND
+
+---STRING edit wikipage
+Wiki-Seite editieren
+---STRINGEND
+
+---STRING latest updates in %s
+Letzte Updates in %s
+---STRINGEND
+
+---STRING link to page
+Link auf Seite
+---STRINGEND
+
+---STRING login to create
+Um diese fehlende Seite zu erstellen müssen Sie sich anmelden
+---STRINGEND
+
+---STRING look for %s in wikipedia
+"%s" in Wikipedia suchen
+---STRINGEND
+
+---STRING net.nemein.wiki
+Wiki
+---STRINGEND
+
+---STRING no links to page
+Keine Verweise zu dieser Wiki-Seite
+---STRINGEND
+
+---STRING no orphans
+Keine verwaisten Seiten
+---STRINGEND
+
+---STRING orphaned pages
+Verwaiste Seiten
+---STRINGEND
+
+---STRING orphaned pages in wiki %s
+Verwaiste Seiten in Wiki "%s"
+---STRINGEND
+
+---STRING page %s
+Seite "%s"
+---STRINGEND
+
+---STRING page %s added
+Wiki-Seite "%s" wurde erstellt
+---STRINGEND
+
+---STRING page %s deleted
+Wiki-Seite "%s" wurde gelöscht
+---STRINGEND
+
+---STRING page %s has been updated by %s
+Seite "%s" wurde aktualisiert von %s
+---STRINGEND
+
+---STRING page %s not found in wiki %s
+Seite "%s" wurde im Wiki %s nicht gefunden
+---STRINGEND
+
+---STRING page %s saved
+Wiki-Seite "%s" wurde gespeichert
+---STRINGEND
+
+---STRING page modifications
+Veränderungen an der Seite
+---STRINGEND
+
+---STRING pages linking to %s
+Wiki-Seiten, die auf "%s" verweisen
+---STRINGEND
+
+---STRING preview
+Vorschau
+---STRINGEND
+
+---STRING really delete page
+Seite wirklich löschen?
+---STRINGEND
+
+---STRING recipients
+Empfänger
+---STRINGEND
+
+---STRING redirect page
+Seite weiterleiten nach
+---STRINGEND
+
+---STRING redirection
+Weiterleitung
+---STRINGEND
+
+---STRING related notes
+Verbundene Notizen
+---STRINGEND
+
+---STRING related to
+Verbunden mit
+---STRINGEND
+
+---STRING rss_count
+Wie viele Einträge sollen im RSS-Feed angezeigt werden
+---STRINGEND
+
+---STRING sender
+Absender
+---STRINGEND
+
+---STRING subscribe
+Seitenänderungen abonnieren
+---STRINGEND
+
+---STRING subscribed to changes in %s
+Sie haben Änderungen an %s abonniert
+---STRINGEND
+
+---STRING tags
+Tags
+---STRINGEND
+
+---STRING this page is stub
+Diese Wiki-Seite hat noch keinen Inhalt. Bitte klicken Sie auf "Bearbeiten" um Inhalte einzugeben.
+---STRINGEND
+
+---STRING unsubscribe
+Abonnement der Seitenänderungen beenden
+---STRINGEND
+
+---STRING unsubscribed from changes in %s
+Ihr Abonnement der Änderungen an %s wurde beendet
+---STRINGEND
+
+---STRING what links
+Welche Seiten verweisen hierher
+---STRINGEND
+
+---STRING whole wiki %s
+Ganzes Wiki "%s"
+---STRINGEND
+
+---STRING wiki
+Wiki
+---STRINGEND
+
+---STRING wiki default page content
+Dies ist die Startseite ihres [Midgard CMS][1]-gestützten [wiki: Wiki]s. Wikis sind Online-Notizblöcke, mit denen Dokumentationen oder Anmerkungen auf kollaborative Weise verfasst werden können. 
+
+Die Inhalte dieses Wikis können in [Markdown syntax][2] bearbeitet werden, Links auf Seiten werden mit `[!!Eckigen Klammern]` erstellt. Neue Seiten werden erstellt, indem man einen Link auf ihren Namen erzeugt und diesen dann anklickt. 
+
+Bitte konsultieren sie die [Link-Dokumentation][3] für weitere Informationen. 
+
+[1]: http://www.midgard-project.org/
+[2]: http://daringfireball.net/projects/markdown/syntax
+[3]: http://www.midgard-project.org/midcom-permalink-7276f817dcdefcf40d30a9ec69a7241f
+---STRINGEND
+
+---STRING wikilink_regexp
+Regulärer Ausdruck für Wiki-Links
+---STRINGEND
+

@@ -1,0 +1,248 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 25254 2010-03-09 16:19:26Z rambo $
+---LANGUAGE fi
+
+---STRING %s items
+%s uutista tuotu
+---STRINGEND
+
+---STRING ISO code
+ISO kielikoodi
+---STRINGEND
+
+---STRING add new feed
+Lisää uusi RSS-lähde
+---STRINGEND
+
+---STRING aggregator mode
+Aggregaattorin moodi
+---STRINGEND
+
+---STRING aggregator settings
+Aggregaattorin asetukset
+---STRINGEND
+
+---STRING approve new items automatically
+Hyväksy uudet uutiset automaattisesti
+---STRINGEND
+
+---STRING bloglines
+Bloglines-palvelu
+---STRINGEND
+
+---STRING bloglines account
+Bloglines-tunnus
+---STRINGEND
+
+---STRING cancel
+Peruuta
+---STRINGEND
+
+---STRING channels
+Järjestele uutiset lähteen mukaan
+---STRINGEND
+
+---STRING combined
+Järjestele uutiset yhteen julkaisuajan mukaan
+---STRINGEND
+
+---STRING default author for items
+Uutisten oletuskirjoittaja
+---STRINGEND
+
+---STRING delete feed
+Poista syöte
+---STRINGEND
+
+---STRING details
+Koko uutinen
+---STRINGEND
+
+---STRING display items
+Näytä uutiset muodossa
+---STRINGEND
+
+---STRING edit feed %s
+Muokkaa uutissyötettä "%s"
+---STRINGEND
+
+---STRING feed icon url
+Lähteen kuvakkeen osoite (valinnainen)
+---STRINGEND
+
+---STRING feed title
+Lähteen otsikko
+---STRINGEND
+
+---STRING feed title display
+Lähteen otsikon näyttö
+---STRINGEND
+
+---STRING feed url
+Lähteen URL-osoite
+---STRINGEND
+
+---STRING fetch feed %s
+Päivitetty uutissyöte "%s"
+---STRINGEND
+
+---STRING import opml subscriptions
+Lisää lähteitä OPML-muodossa
+---STRINGEND
+
+---STRING %s was imported from %s
+"%s" tuotiin syötteestä %s
+---STRINGEND
+
+---STRING keep removed items
+Säilytä syötteestä poistetut uutiset paikallisesti
+---STRINGEND
+
+---STRING language (in english)
+Kieli (ENG)
+---STRINGEND
+
+---STRING latest fetch %s
+Viimeisin sisäänluku oli %s
+---STRINGEND
+
+---STRING latest item from %s
+Viimeisin uutinen on päivätty %s
+---STRINGEND
+
+---STRING latest items to show
+Kuinka monta viimeisintä uutista näytetään?
+---STRINGEND
+
+---STRING local
+Paikallinen tietokanta
+---STRINGEND
+
+---STRING local item
+Uutisen paikallinen kopio
+---STRINGEND
+
+---STRING manage feeds
+Hallinnoi uutissyötteitä
+---STRINGEND
+
+---STRING manage feeds of %s
+Hallinnoi kansion "%s" uutissyötteitä
+---STRINGEND
+
+---STRING n/a
+E/S
+---STRINGEND
+
+---STRING net.nemein.rss
+RSS- ja Atom-lukija
+---STRINGEND
+
+---STRING no items found in feed
+Syötteestä ei löytynyt uutisia.
+---STRINGEND
+
+---STRING opml file
+OPML-tiedosto
+---STRINGEND
+
+---STRING refresh all feeds
+Päivitä kaikki syötteet
+---STRINGEND
+
+---STRING refresh feed
+Päivitä syöte
+---STRINGEND
+
+---STRING remote from feed
+Luetaan lähteestä
+---STRINGEND
+
+---STRING remote item
+Uutinen syötteessä
+---STRINGEND
+
+---STRING remove feed
+Poista lähde
+---STRINGEND
+
+---STRING rss aggregator
+RSS- ja Atom-uutisaggregaattori
+---STRINGEND
+
+---STRING rss description
+RSS:n kuvaus
+---STRINGEND
+
+---STRING rss items to show
+Kuinka monta uutista näytetään RSS:ssä?
+---STRINGEND
+
+---STRING rss output settings
+RSS-tulosteen asetukset
+---STRINGEND
+
+---STRING save
+Tallenna
+---STRINGEND
+
+---STRING store items in language
+Tallenna kieleen
+---STRINGEND
+
+---STRING subscribe feeds
+Tilaa uusia uutissyötteitä
+---STRINGEND
+
+---STRING subscribe feeds for %s
+Tilaa uutissyötteitä kansioon "%s"
+---STRINGEND
+
+---STRING subscription mode
+Tilausten hallinta
+---STRINGEND
+
+---STRING titles
+Pelkkä otsikko
+---STRINGEND
+
+---STRING untitled
+Nimetön
+---STRINGEND
+
+---STRING language (native)
+Kieli
+---STRINGEND
+
+---STRING rss_title
+RSS-syötteen otsikko
+---STRINGEND
+
+---STRING rss_description
+Kuvaus
+---STRINGEND
+
+---STRING rss_webmaster
+Ylläpitäjän sähköpostiosoite
+---STRINGEND
+
+---STRING rss_language
+Kieli
+---STRINGEND
+
+---STRING rss export settings
+RSS-asetukset
+---STRINGEND
+
+---STRING rss_count
+Näytä näin monta uutista/tapahtumaa RSS-syötteessä
+---STRINGEND
+
+---STRING rss_description
+Kuvaus
+---STRINGEND
+
+---STRING rss_enable
+Salli RSS-syöte
+---STRINGEND

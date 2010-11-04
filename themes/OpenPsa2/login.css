@@ -1,0 +1,73 @@
+body {
+    color: #000000;
+    background-color: #FFFFFF;
+    font-family: "Verdana", "Arial", "Helvetica", sans-serif;
+    background-image: url(../org.openpsa.core/rorschach.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    width: 30%;
+    min-width: 26em;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+}
+
+div.login-header img {
+    margin-left: 50px;
+    border: none;
+}
+div.login-header h1 {
+    color: #314E6C;
+}
+.login_warning {
+    color: red;
+}
+
+#midcom_login_form {
+    padding: 0 1ex;
+    border: 1px solid #777;
+    -moz-border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    position: relative;
+    background-color: white;
+    min-width: 25em
+}
+
+#midcom_login_form label {
+    margin-left: 0;
+    padding-left: 0;
+    display: block;
+}
+
+#midcom_login_form label br {
+    display: none;
+}
+
+#midcom_login_form input {
+    margin: 0.2em 0 0 0;
+    position: absolute;
+    left: 12em
+}
+
+#midcom_login_form .input {
+    width: 12em
+}
+
+#midcom_login_form .clear {
+    height: 3em;
+}
+
+div.org_openpsa_softwareinfo {
+    font-size: smaller;
+    padding-left: .8em;
+    color: #777
+}
+
+div.org_openpsa_softwareinfo a {
+    text-decoration: none;
+    color: #777
+}
+
+div.org_openpsa_softwareinfo a:hover {
+    text-decoration: underline;
+}

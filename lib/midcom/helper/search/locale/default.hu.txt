@@ -1,0 +1,61 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE hu
+
+---STRING advanced search
+Részletes keresés
+---STRINGEND
+
+---STRING next page
+Következő oldal
+---STRINGEND
+
+---STRING midcom.helper.search
+Honlap keresés
+---STRINGEND
+
+---STRING pages
+Oldalak
+---STRINGEND
+
+---STRING previous page
+Elöző oldal
+---STRINGEND
+
+---STRING results_per_page
+Eredmények száma oldalanként
+---STRINGEND
+
+---STRING score
+Pontszám
+---STRINGEND
+
+---STRING search
+Keresés
+---STRINGEND
+
+---STRING search hints
+Keresési tippek
+---STRINGEND
+
+---STRING search results
+Keresés eredménye
+---STRINGEND
+
+---STRING since 1 month
+Egy hónap
+---STRINGEND
+
+---STRING since 1 year
+Egy év
+---STRINGEND
+
+---STRING since 3 months
+Három hónap
+---STRINGEND
+
+---STRING since 6 months
+Hat hónap
+---STRINGEND
+

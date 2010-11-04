@@ -1,0 +1,2 @@
+$args[0] = GUID of a deliverable (org_openpsa_sales_salesproject_deliverable_dba).
+Lists all invoices for the deliverable with GUID $args[0].

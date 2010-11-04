@@ -1,0 +1,341 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE hu
+
+---STRING Edit this page
+Oldal szerkesztése
+---STRINGEND
+
+---STRING More...
+Tovább
+---STRINGEND
+
+---STRING OK
+OK
+---STRINGEND
+
+---STRING all
+összes
+---STRINGEND
+
+---STRING and
+és
+---STRINGEND
+
+---STRING back
+Vissza
+---STRINGEND
+
+---STRING cancel
+Mégsem
+---STRINGEND
+
+---STRING component
+Komponens
+---STRINGEND
+
+---STRING component configuration
+Komponens beállítása
+---STRINGEND
+
+---STRING copy
+Másolás
+---STRINGEND
+
+---STRING create
+Létrehozás
+---STRINGEND
+
+---STRING create %s
+%s létrehozása
+---STRINGEND
+
+---STRING create page
+Oldal étrehozása
+---STRINGEND
+
+---STRING date
+Dátum
+---STRINGEND
+
+---STRING default setting
+Alapértelmezett beállítás
+---STRINGEND
+
+---STRING delete
+Törlés
+---STRINGEND
+
+---STRING description
+Leírás
+---STRINGEND
+
+---STRING down
+Le
+---STRINGEND
+
+---STRING download %s
+Letöltés
+---STRINGEND
+
+---STRING edit
+Szerkesztés
+---STRINGEND
+
+---STRING edit design
+Design szerkesztése
+---STRINGEND
+
+---STRING edit page
+Oldal szerkesztése
+---STRINGEND
+
+---STRING edit photos
+Képek szerkesztése
+---STRINGEND
+
+---STRING encrypted
+Titkosított
+---STRINGEND
+
+---STRING end date
+Befejezés dátuma
+---STRINGEND
+
+---STRING folder
+Mappa
+---STRINGEND
+
+---STRING get help
+Segítség kérése
+---STRINGEND
+
+---STRING hidden
+Rejtett
+---STRINGEND
+
+---STRING host
+Weboldal
+---STRINGEND
+
+---STRING id
+Belső azonosító
+---STRINGEND
+
+---STRING image
+Kép
+---STRINGEND
+
+---STRING keywords
+Kulcsszó
+---STRINGEND
+
+---STRING last modified
+Útoljára módosítva
+---STRINGEND
+
+---STRING login
+Belépés
+---STRINGEND
+
+---STRING logout
+Kijelentkezés
+---STRINGEND
+
+---STRING metadata
+Metaadat
+---STRINGEND
+
+---STRING name
+Név
+---STRINGEND
+
+---STRING new
+Új
+---STRINGEND
+
+---STRING next
+Következő
+---STRINGEND
+
+---STRING next page
+Következő oldal
+---STRINGEND
+
+---STRING no
+Nem
+---STRINGEND
+
+---STRING not hidden
+Látható
+---STRINGEND
+
+---STRING owner
+Tulajdonos
+---STRINGEND
+
+---STRING page
+Oldal
+---STRINGEND
+
+---STRING password
+Jelszó
+---STRINGEND
+
+---STRING password mismatch
+Hibás jelszó
+---STRINGEND
+
+---STRING previous
+Előző
+---STRINGEND
+
+---STRING previous page
+Előző oldal
+---STRINGEND
+
+---STRING privileges
+Engedélyek
+---STRINGEND
+
+---STRING robots-index
+Indexelés engedélyezése
+---STRINGEND
+
+---STRING robots-noindex
+Indexelés tiltása
+---STRINGEND
+
+---STRING run replication
+Repikáció futtatása
+---STRINGEND
+
+---STRING save
+Mentés
+---STRINGEND
+
+---STRING scheduling
+Ütemezés
+---STRINGEND
+
+---STRING search
+Keresés
+---STRINGEND
+
+---STRING settings
+Beállítások
+---STRINGEND
+
+---STRING sort_by_calendar
+Naptár alapján rendez
+---STRINGEND
+
+---STRING sort_by_name
+Név alapján rendez
+---STRINGEND
+
+---STRING tags
+Hozzáfűzés
+---STRINGEND
+
+---STRING text
+Szöveg
+---STRINGEND
+
+---STRING title
+Megnevezés
+---STRINGEND
+
+---STRING user
+Felhasználó
+---STRINGEND
+
+---STRING username
+Felhasználónév
+---STRINGEND
+
+---STRING verify password
+Jelszó jóváhagyása
+---STRINGEND
+
+---STRING write mail
+Levél írása
+---STRINGEND
+
+---STRING yes
+Igen
+---STRINGEND
+
+---STRING access denied
+Hozzáférés megtagadva
+---STRINGEND
+
+---STRING access denied: admin level privileges required
+Hozzáférés megtagadva! Adminisztrátori jogok szükségesek.
+---STRINGEND
+
+---STRING access denied: privilege %s not granted
+Hozzáférés megtagadva! Szüksége van %s jogra.
+---STRINGEND
+
+---STRING access denied: user is not member of the group %s
+Hozzáférés megtagadva! Nem tagja a(z) %s csoportnak.
+---STRINGEND
+
+---STRING access denied: you do not have write permission
+Hozzáférés megtagadva! Nincs íráshoz jogosultsága.
+---STRINGEND
+
+---STRING access denied: you must be logged in
+Hozzáférés megtagadva! Nincs bejelentkezve.
+---STRINGEND
+
+---STRING access type
+Hozzáférés típusa
+---STRINGEND
+
+---STRING anonymous
+anonim
+---STRINGEND
+
+---STRING created on
+Létrehozva
+---STRINGEND
+
+---STRING creator
+Létrehozta:
+---STRINGEND
+
+---STRING edited
+Szerkesztve
+---STRINGEND
+
+---STRING editor
+Szerlesztette
+---STRINGEND
+
+---STRING hide
+Elrejt
+---STRINGEND
+
+---STRING login message - user or password wrong
+Hibás felhasználó név vagy jelszó.
+---STRINGEND
+
+---STRING save and close
+Ment és bezár
+---STRINGEND
+
+---STRING select
+Kiválaszt
+---STRINGEND
+
+---STRING view
+Megnéz
+---STRINGEND
+
+---STRING workgroup
+Munkacsoport
+---STRINGEND
+

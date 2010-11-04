@@ -1,0 +1,29 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE fi
+
+---STRING net.nemein.tag
+Sisällön merkintä
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not be empty
+Merkintä "%s" ei kelpaa. Merkinnät eivät saa olla tyhjiä.
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not be numeric
+Merkintä "%s" ei kelpaa. Merkinnät eivät saa olla numeroita.
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags must be valid strings
+Merkintä "%s" ei kelpaa. Merkintöjen täytyy olla merkkijonoja.
+---STRINGEND
+
+---STRING tagged
+Merkitty
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not contain quotes
+Merkintä "%s" ei kelpaa. Merkinnät eivät saa sisältää lainausmerkkejä.
+---STRINGEND
+

@@ -1,0 +1,377 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 26587 2010-08-05 13:58:52Z jval $
+---LANGUAGE fi
+
+---STRING %s category %s
+%s: kategoria "%s"
+---STRINGEND
+
+---STRING add a new entry
+Lisää uusi artikkeli
+---STRINGEND
+
+---STRING advanced schema and data settings
+Tehokäyttäjän asetukset
+---STRINGEND
+
+---STRING ajax_enable
+Salli sisällön muokkaaminen AJAXilla suoraan sivulla
+---STRINGEND
+
+---STRING archive
+Arkisto
+---STRINGEND
+
+---STRING archive item order
+Arkiston järjestys
+---STRINGEND
+
+---STRING archive_enable
+Salli arkistojen käyttö
+---STRINGEND
+
+---STRING article
+Artikkeli
+---STRINGEND
+
+---STRING article %s deleted
+Artikkeli %s poistettu
+---STRINGEND
+
+---STRING article link
+Artikkelilinkki
+---STRINGEND
+
+---STRING ascending
+Nouseva
+---STRINGEND
+
+---STRING atom feed
+Atom-syöte
+---STRINGEND
+
+---STRING available feeds
+Uutissyötteet
+---STRINGEND
+
+---STRING available feeds introduction
+Seuraavat sisällön syndikointiformaatit ovat saatavilla:
+---STRINGEND
+
+---STRING back to overview
+Takaisin etusivulle
+---STRINGEND
+
+---STRING blog link deleted
+Blogilinkki poistettu
+---STRINGEND
+
+---STRING blog settings
+Blogin asetukset
+---STRINGEND
+
+---STRING categories
+Kategoriat
+---STRINGEND
+
+---STRING comments_enable
+Salli uutisten kommentointi (vaatii net.nehmer.comments -komponentin)
+---STRINGEND
+
+---STRING content
+Sisältö
+---STRINGEND
+
+---STRING create article
+Luo artikkeli
+---STRINGEND
+
+---STRING create name from title
+Luo tiedostonimet artikkelien otsikoista
+---STRINGEND
+
+---STRING create news article
+Luo uutisartikkeli
+---STRINGEND
+
+---STRING delete article
+Poista artikkeli
+---STRINGEND
+
+---STRING delete article link
+Poista artikkelilinkki
+---STRINGEND
+
+---STRING delete cancelled
+Poistaminen peruutettu
+---STRINGEND
+
+---STRING delete link
+Poista linkki
+---STRINGEND
+
+---STRING descending
+Laskeva
+---STRINGEND
+
+---STRING display settings
+Uutisten näyttöasetukset
+---STRINGEND
+
+---STRING edit article
+Muokkaa artikkelia
+---STRINGEND
+
+---STRING enable blogging apis
+Salli artikkelien etähallinta MetaWebLog API:lla
+---STRINGEND
+
+---STRING enable date filters get
+Salli päivämäärällä suodatus (GET-parametri)
+---STRINGEND
+
+---STRING enable date filters path
+Salli päivämäärällä suodatus (polussa muodossa /VVVV/KK/PP)
+---STRINGEND
+
+---STRING enable details
+Salli lisätietosivut
+---STRINGEND
+
+---STRING enable filters get
+Salli sisältökentillä suodatus (GET-parametri)
+---STRINGEND
+
+---STRING enable public posting
+Salli avoin artikkelien lisäys ("vieraskirja-tyylisesti")
+---STRINGEND
+
+---STRING enable scheduled publishing
+Käytä ajastettua julkaisua
+---STRINGEND
+
+---STRING enable subdirectories
+Lisää alikansioiden artikkelit listaan (ja RSS-listaan)
+---STRINGEND
+
+---STRING expert settings
+Tehokäyttäjän asetukset
+---STRINGEND
+
+---STRING failed to delete the blog link, contact the site administrator
+Blogilinkin poistaminen epäonnistui, ota yhteyttä sivuston ylläpitäjään
+---STRINGEND
+
+---STRING first post was made on %s.
+Julkaistu %s.
+---STRINGEND
+
+---STRING from
+Kansiosta
+---STRINGEND
+
+---STRING help_style
+Ulkoasupohjat
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+Jos haluat poistaa alkuperäisen artikkelin, <a href="%s">klikkaa tästä</a>.
+---STRINGEND
+
+---STRING index count
+Listan määrä
+---STRINGEND
+
+---STRING index settings
+Listan asetukset
+---STRINGEND
+
+---STRING index_entries
+Näytä näin monta artikkelia etusivulla
+---STRINGEND
+
+---STRING index_info
+Komponentin kansion etusivu.
+---STRINGEND
+
+---STRING language
+Kieli
+---STRINGEND
+
+---STRING latest_info
+Viimeisimmän {$args[0]} uutisen näyttö.
+---STRINGEND
+
+---STRING link_to_external_url
+Linkitä artikkelit ulkoiseen osoitteeseen jos saatavilla
+---STRINGEND
+
+---STRING list old items in index
+Näytä vanhat artikkelit listassa
+---STRINGEND
+
+---STRING navigation options
+Navigaatioasetukset
+---STRINGEND
+
+---STRING net.nehmer.blog
+Uutiskansio
+---STRINGEND
+
+---STRING newsticker
+Uutiskansio
+---STRINGEND
+
+---STRING newsticker administration
+Uutiskansion ylläpito
+---STRINGEND
+
+---STRING no news found.
+Ei uutisia.
+---STRINGEND
+
+---STRING no schema available
+Tietokantakuvausta (schema) ei löydy
+---STRINGEND
+
+---STRING not enough privileges to create articles
+Sinulla ei ole riittäviä oikeuksia artikkelien luontiin.
+---STRINGEND
+
+---STRING posted on %s.
+Julkaistu %s.
+---STRINGEND
+
+---STRING public posting
+Avoin artikkelien lisäys ("vieraskirja-tyyliin")
+---STRINGEND
+
+---STRING public posting password
+Midgard-salasana avoimeen artikkelien lisäykseen (tarvitaan vain jos käyttäjätunnus on lisätty)
+---STRINGEND
+
+---STRING public posting schema
+Avoimessa lisäyksessä käytettävä tietokantakuvaus
+---STRINGEND
+
+---STRING public posting user
+Midgard-käyttäjätunnus avoimeen artikkelien lisäykseen (jätä tyhjäksi käyttääksesi kirjautunutta tunnusta)
+---STRINGEND
+
+---STRING related stories
+Lisää aiheesta
+---STRINGEND
+
+---STRING routes
+Reitit
+---STRINGEND
+
+---STRING rss 0.91 feed
+RSS 0.91 -syöte
+---STRINGEND
+
+---STRING rss 1.0 feed
+RSS 1.0 -syöte
+---STRINGEND
+
+---STRING rss 2.0 feed
+RSS 2.0 -syöte
+---STRINGEND
+
+---STRING rss feed
+RSS-syöte
+---STRINGEND
+
+---STRING rss_include_image
+Lisää täysikokoinen kuva tietokantakuvauksen kentästä "image" RSS-syötteeseen
+---STRINGEND
+
+---STRING rss_subscription_enable
+Salli uutisten luonti ulkoisista RSS- ja Atom-syötteistä
+---STRINGEND
+
+---STRING schema database
+Tietokantakuvauksen (schema) snippet-tietue
+---STRINGEND
+
+---STRING schema settings
+Tietokanta-asetukset
+---STRINGEND
+
+---STRING schemadb
+Artikkeleille käytettävä tietokantakuvaus
+---STRINGEND
+
+---STRING select article type
+Valitse artikkelin tyyppi
+---STRINGEND
+
+---STRING set this to no if you want to hide feeds and archive links in navigation
+Aseta tämä kohtaan 'ei' jos haluat piilottaa linkit 'Syötteet' ja 'Arkisto' navigaatiosta
+---STRINGEND
+
+---STRING set this to no if you want to hide feeds link in navigation
+Aseta tämä pois päältä mikäli et halua näyttää syötteet-linkkiä navigaatiosta
+---STRINGEND
+
+---STRING set to no for de.linkm.newsticker compatibility
+Aseta kohtaan ei, jos haluat de.linkm.newsticker -yhteensopivuuden
+---STRINGEND
+
+---STRING settings
+Asetukset
+---STRINGEND
+
+---STRING show content in index
+Näytä artikkelien sisältö listaussivulla
+---STRINGEND
+
+---STRING show feeds in navigation
+Näytä saatavilla olevat syötteet navigaatiossa
+---STRINGEND
+
+---STRING show latest items in navigation
+Näytä viimeisimmät kohteet navigaatiossa
+---STRINGEND
+
+---STRING show pseudo leaves in navigation
+Näytä valesivut navigaatiossa
+---STRINGEND
+
+---STRING sort order
+Järjestys
+---STRINGEND
+
+---STRING symlink_topic
+Hae sisältö toisesta ("symlink"-) kansiosta
+---STRINGEND
+
+---STRING symlink_topic disabled
+Kansiota ei valittu
+---STRINGEND
+
+---STRING there is a total of %d posts.
+Yhteensä %s uutista.
+---STRINGEND
+
+---STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
+Tämä blogiartikkeli on linkitetty kansiosta <a href="%s">%s</a> ja vahvistaminen poistaa vain linkin.
+---STRINGEND
+
+---STRING use view prefix in url
+Käytä 'view'-etuliitettä osoitteissa
+---STRINGEND
+
+---STRING visible
+Näytetäänkö kansio
+---STRINGEND
+
+---STRING list articles from folders
+Näytä uutiset myös kansioista
+---STRINGEND
+
+---STRING folders
+Kansiot
+---STRINGEND
+

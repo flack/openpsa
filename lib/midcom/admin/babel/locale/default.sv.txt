@@ -1,0 +1,81 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE sv
+
+---STRING component
+Komponent
+---STRINGEND
+
+---STRING core component status
+Status (huvudkomponenter)
+---STRINGEND
+
+---STRING default
+standard
+---STRINGEND
+
+---STRING edit strings for %s [%s]
+Översätt strängar i %s till %s
+---STRINGEND
+
+---STRING language
+Språk
+---STRINGEND
+
+---STRING midcom.admin.babel
+MidCOM Lokaliserings verktyg
+---STRINGEND
+
+---STRING other component status
+Status (annat)
+---STRINGEND
+
+---STRING perm-denied text
+<p>Den är MidCOM installationen är inte rätt konfigurerad för att skriva till översättnings tabellen.</p><p>Se till att Apache användaren kan skriva i alla locale mappar och filer som finns beskrivna i MidComs installations instruktioner (se INSTALL).</p>
+---STRINGEND
+
+---STRING read information from midgard wiki on how to add languages
+Information om hur man lägger till nya användar interface språk kan hittar på <a href="http://www.midgard-project.org/midcom-permalink-ded2437586408cd03cd4582ba45b91f2">Midgard Wiki</a>.
+---STRINGEND
+
+---STRING select lang and component
+Välj språk och komponent
+---STRINGEND
+
+---STRING select language to translate
+Välj språk att översätta
+---STRINGEND
+
+---STRING string-id
+Sträng ID
+---STRINGEND
+
+---STRING translation status for language %s
+Översättnings status av %s
+---STRINGEND
+
+---STRING core components
+Core komponenter
+---STRINGEND
+
+---STRING new string
+Ny sträng
+---STRINGEND
+
+---STRING other components
+Andra komponenter
+---STRINGEND
+
+---STRING percentage
+Procenttal
+---STRINGEND
+
+---STRING strings total
+Antal strängar
+---STRINGEND
+
+---STRING translated strings
+Översatta strängar
+---STRINGEND
+

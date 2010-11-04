@@ -1,0 +1,10 @@
+net.nehmer.static style elements
+================================
+
+<(show-article)> is the main element of this component. It is used for displaying a single article on the page.
+
+## Automatic directory index
+
+Folders using net.nehmer.static can be configured to display an automatic index of articles under them if the _index article_ is missing. 
+
+<(autoindex-start)> begins the listing, <(autoindex-item)> is shown for each article in the listing and <(autoindex-end)> ends the listing. For empty listings <(autoindex-directory-empty)> is used instead of <(autoindex-item)>.

@@ -1,0 +1,121 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE de
+
+---STRING city
+Stadt
+---STRINGEND
+
+---STRING coordinates
+Koordinaten
+---STRINGEND
+
+---STRING country
+Land
+---STRINGEND
+
+---STRING georss
+GeoRSS-Feed
+---STRINGEND
+
+---STRING georss_url
+URL für den GeoRSS-Feed
+---STRINGEND
+
+---STRING html
+Metadaten im Remote HTML-Dokument
+---STRINGEND
+
+---STRING latitude
+Länge
+---STRINGEND
+
+---STRING longitude
+Breite
+---STRINGEND
+
+---STRING manual
+manuelle Eingabe
+---STRINGEND
+
+---STRING map
+Karte
+---STRINGEND
+
+---STRING map_api_key
+API-Key für die Karte
+---STRINGEND
+
+---STRING map_provider
+Karten-Provider
+---STRINGEND
+
+---STRING org.routamc.positioning
+Geopositionierungs-Toolkit
+---STRINGEND
+
+---STRING plazes_developer_key
+Plazes.com Developer-Key
+---STRINGEND
+
+---STRING plazes_password
+Plazes-Passwort
+---STRINGEND
+
+---STRING plazes_username
+Plazes-Benutzername
+---STRINGEND
+
+---STRING postalcode
+Postleitzahl
+---STRINGEND
+
+---STRING region
+Region
+---STRINGEND
+
+---STRING select your country
+Bitte wählen sie ihr Land
+---STRINGEND
+
+---STRING sms_import_enable
+SMS-Import aktivieren
+---STRINGEND
+
+---STRING sms_import_ip
+Zugelassene IP für den SMS-Import
+---STRINGEND
+
+---STRING source %s
+Quelle: %s
+---STRINGEND
+
+---STRING street
+Strasse
+---STRINGEND
+
+---STRING xep_city
+Stadt
+---STRINGEND
+
+---STRING xep_country
+Land
+---STRINGEND
+
+---STRING xep_postalcode
+Postleitzahö
+---STRINGEND
+
+---STRING xep_region
+Region
+---STRINGEND
+
+---STRING xep_street
+Postanschrift
+---STRINGEND
+
+---STRING yahoo_application_key
+Yahoo! Application-Key
+---STRINGEND
+

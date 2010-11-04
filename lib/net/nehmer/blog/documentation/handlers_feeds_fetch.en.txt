@@ -1,0 +1,2 @@
+
+Refreshes subscribed __{$args[0]}__ feed and fetches new or updated posts. Can be run by cron utility.

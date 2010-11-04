@@ -1,0 +1,148 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 25660 2010-04-14 07:45:03Z gudd $
+---LANGUAGE en
+
+---STRING apply
+apply
+---STRINGEND
+
+---STRING date
+Date
+---STRINGEND
+
+---STRING delete hour report
+Delete hour report
+---STRINGEND
+
+---STRING description
+Description
+---STRINGEND
+
+---STRING expenses in week %s
+Expenses in week %s
+---STRINGEND
+
+---STRING filter error
+Filter error
+---STRINGEND
+
+---STRING hour report
+Hour report
+---STRINGEND
+
+---STRING hour reports between %s and %s
+Hour reports between %s and %s
+---STRINGEND
+
+---STRING hours
+Hours
+---STRINGEND
+
+---STRING hours unit
+h
+---STRINGEND
+
+---STRING hours_delete
+Delete Hour Report
+---STRINGEND
+
+---STRING hours_edit
+Edit Hour Report
+---STRINGEND
+
+---STRING invoiceable
+Invoiceable
+---STRINGEND
+
+---STRING invoiceable reports
+Invoiceable Reports
+---STRINGEND
+
+---STRING invoiced reports
+Invoiced Reports
+---STRINGEND
+
+---STRING list_hours_task %s
+Hour reports for Task %s
+---STRINGEND
+
+---STRING next week
+next week
+---STRINGEND
+
+---STRING no filter available
+There is no filter available
+---STRINGEND
+
+---STRING no filter available for %s
+There is no filter available for %s
+---STRINGEND
+
+---STRING org.openpsa.expenses
+Expense tracking
+---STRINGEND
+
+---STRING person
+Person
+---STRINGEND
+
+---STRING previous week
+previous week
+---STRINGEND
+
+---STRING report hours
+Report hours
+---STRINGEND
+
+---STRING show task %s
+Show task "%s"
+---STRINGEND
+
+---STRING task
+Task
+---STRINGEND
+
+---STRING the handed filter for %s could not be set as parameter
+The handed filter for %s could not be set as parameter
+---STRINGEND
+
+---STRING total
+Total
+---STRINGEND
+
+---STRING uninvoiceable
+Not invoiceable
+---STRINGEND
+
+---STRING uninvoiceable reports
+Uninvoiceable Reports
+---STRINGEND
+
+---STRING unset
+unset
+---STRINGEND
+
+---STRING invoice
+Invoice
+---STRINGEND
+
+---STRING choose user
+Choose user
+---STRINGEND
+
+---STRING change_task
+Change task
+---STRINGEND
+
+---STRING change_invoice
+Change invoice
+---STRINGEND
+
+---STRING mark_invoiceable
+Mark as invoiceable
+---STRINGEND
+
+---STRING mark_uninvoiceable
+Mark as uninvoiceable
+---STRINGEND

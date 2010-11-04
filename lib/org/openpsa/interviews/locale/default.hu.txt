@@ -1,0 +1,17 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE hu
+
+---STRING interview
+Interjú
+---STRINGEND
+
+---STRING org.openpsa.interviews
+Telefon interjúk
+---STRINGEND
+
+---STRING status
+Állapot
+---STRINGEND
+

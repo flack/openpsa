@@ -1,0 +1,217 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE sv
+
+---STRING Only show approved articles
+Visa endast godkända artiklar
+---STRINGEND
+
+---STRING activate autoindex
+Automatisk skapa ett index för det här ämnet
+---STRINGEND
+
+---STRING approve
+Godkänn
+---STRINGEND
+
+---STRING article
+Artikel
+---STRINGEND
+
+---STRING article %s deleted
+Artikeln %s raderad
+---STRINGEND
+
+---STRING article link deleted
+Artikellänk raderad
+---STRINGEND
+
+---STRING auto_approve
+Godkänn nya artiklar automatiskt
+---STRINGEND
+
+---STRING autoindex
+Automatiskt skapa en index sida för det här ämnet?
+---STRINGEND
+
+---STRING autoindex-notes
+Index sidan ersätter artikeln vars URL namn är index och innehåller en lista av alla artiklar och bifogade filer under det nuvarande ämnet.
+---STRINGEND
+
+---STRING back to overview
+Tillbaka till översikten
+---STRINGEND
+
+---STRING content
+Innehåll
+---STRINGEND
+
+---STRING create article
+Skapa artikel
+---STRINGEND
+
+---STRING default_schema
+Standard schema för artiklar
+---STRINGEND
+
+---STRING delete article
+Radera artikel
+---STRINGEND
+
+---STRING delete article link
+Radera artikellänken
+---STRINGEND
+
+---STRING delete cancelled
+Radering avbruten
+---STRINGEND
+
+---STRING delete link
+Radera länk
+---STRINGEND
+
+---STRING delete_link
+Radera länk
+---STRINGEND
+
+---STRING directory index for %s
+Katalogs index för %s
+---STRINGEND
+
+---STRING edit article
+Ändra artikel
+---STRINGEND
+
+---STRING enable_article_links
+Sidlänknings system
+---STRINGEND
+
+---STRING failed to delete the article link, contact the site administrator
+Misslyckades med att radera artikellänken, kontakta administratören
+---STRINGEND
+
+---STRING file lastmodified
+Senast ändrat datum
+---STRINGEND
+
+---STRING filedescription
+Filbeskrivning
+---STRINGEND
+
+---STRING filename
+Filnamn
+---STRINGEND
+
+---STRING filesize
+Filstorlek
+---STRINGEND
+
+---STRING filetype
+Filtyp
+---STRINGEND
+
+---STRING folder_in_title
+Visa mappens namn i sidans titel
+---STRINGEND
+
+---STRING from
+Från
+---STRINGEND
+
+---STRING hide_navigation
+Dölj artiklar från navigation
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+Om du vill radera orginal artikeln, <a href="%s">klicka här</a>
+---STRINGEND
+
+---STRING indexinnav
+Visa index artikeln i navigering?
+---STRINGEND
+
+---STRING net.nehmer.static
+Vanligt innehåll
+---STRINGEND
+
+---STRING no files in this directory
+Det finns inga  filer i den här katalogen
+---STRINGEND
+
+---STRING no index article
+Den här katalogen har ingen <strong>index</strong> artikel. Var vänlig att skapa en med URL namn <strong>index</strong> eller aktivera autoindex läge.
+---STRINGEND
+
+---STRING no schemas available
+Inga scheman tillgängliga
+---STRINGEND
+
+---STRING schema settings
+Data schemats inställningar
+---STRINGEND
+
+---STRING schemadb
+Schemadatabas för det här ämnet
+---STRINGEND
+
+---STRING select schema
+Välj schema
+---STRINGEND
+
+---STRING settings
+Inställningar
+---STRINGEND
+
+---STRING show blobs in autoindex
+Visa blobs i autoindex
+---STRINGEND
+
+---STRING show_blobs_in_autoindex
+Visa blobs i autoindex
+---STRINGEND
+
+---STRING sort_order
+Sorterings ordning
+---STRINGEND
+
+---STRING symlink_topic
+Hämta innehåll från ett annat ämne ("mjuklänk")
+---STRINGEND
+
+---STRING symlink_topic disabled
+Inget ämne valt
+---STRINGEND
+
+---STRING taviewer
+Statisk innehåll
+---STRINGEND
+
+---STRING unapprove
+Godkänn inte
+---STRINGEND
+
+---STRING view article
+Visa artikel
+---STRINGEND
+
+---STRING visible
+Ska ämnet vara synligt
+---STRINGEND
+
+---STRING callback_function
+
+---STRINGEND
+
+---STRING display settings
+Artikel visnings konfiguration
+---STRINGEND
+
+---STRING simple_name_handling
+Ska artikelns URL genereras automatiskt?
+---STRINGEND
+
+---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
+Den här artikeln är länkad från <a href="%s">%s</a> och bekräftning kommer endast att radera länken.
+---STRINGEND
+

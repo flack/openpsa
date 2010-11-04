@@ -1,0 +1,143 @@
+#net_nehmer_account_pending table thead th a img
+{
+  border-style: none;
+}
+
+#net_nehmer_account_pending table thead th.marker a
+{
+  display: none !important;
+}
+
+#net_nehmer_account_rejected_message h2
+{
+  cursor: pointer;
+}
+
+#net_nehmer_account_rejected_message_contents label,
+#net_nehmer_account_rejected_message_contents span.label
+{
+  display: block;
+}
+
+#net_nehmer_account_rejected_message_contents span.label
+{
+  font-weight: bold;
+}
+
+#net_nehmer_account_rejected_message_contents label
+{
+  margin-bottom: 1em;
+}
+
+
+#net_nehmer_account_rejected_message_contents input,
+#net_nehmer_account_rejected_message_contents textarea
+{
+  width: 90%;
+}
+
+#net_nehmer_account_rejected_message_contents textarea
+{
+  height: 20em;
+}
+
+#net_nehmer_account_pending div.form_toolbar input
+{
+  background-image: url('');
+  background-repeat: no-repeat;
+  background-position: 2px center;
+  padding-left: 18px;
+}
+
+#net_nehmer_account_pending div.form_toolbar input.approve
+{
+  background-image: url('../stock-icons/16x16/ok.png');
+}
+
+#net_nehmer_account_pending div.form_toolbar input.reject
+{
+  background-image: url('../stock-icons/16x16/trash.png');
+}
+
+#net_nehmer_account_pending div.form_toolbar input.cancel
+{
+  background-image: url('../stock-icons/16x16/cancel.png');
+}
+
+div.person_toolbar
+{
+    width: 180px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    background-color: #eae8e3;
+    -moz-border-radius: 0.6em 0.6em 0.6em 0.6em;
+    border-style: solid;
+    border-width: 1px 2px 2px 1px;
+    text-align: center;
+}
+div.person_toolbar ul
+{
+    margin: 2px 0 0 0;
+    padding: 0;
+    list-style-type: none;
+}
+div.person_toolbar ul li
+{
+    margin: 0 5px 0 0;
+    padding: 0;    
+    display: inline;
+}
+div.person_toolbar ul li a
+{
+    text-decoration: none;
+}
+div.person_toolbar ul li img
+{
+    border: 0;
+}
+div.person_toolbar ul li button
+{
+    border: 0;
+    background: none;
+}
+
+div.vcard img.photo
+{
+    border: none;
+}
+div.vcard h2.fn
+{
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
+div.vcard p.status
+{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+div.vcard dt
+{
+    float: left;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#net_nehmer_account_pending table thead th
+{
+  background-position: right center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  text-align: left;
+  padding-right: 16px;
+}
+
+#net_nehmer_account_pending table thead th.headerSortUp
+{
+  background-image: url('arrow-up.gif');
+}
+
+#net_nehmer_account_pending table thead th.headerSortDown
+{
+  background-image: url('arrow-down.gif');
+}
+

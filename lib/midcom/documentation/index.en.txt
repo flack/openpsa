@@ -1,0 +1,34 @@
+Introduction to Midgard
+=======================
+
+Midgard is a capable open source content management system for running mid-to-high-end websites. In addition to the built-in content management features, Midgard also provides highly object-oriented component architecture for building interactive web applications that integrate seamlessly with the website. 
+
+Midgard Project was founded in Helsinki, Finland in 1998 by Henri Bergius and Jukka Zitting. Open Source model was chosen for creating a  community of contributors to the system. The version 1.0 of Midgard was released to the public on May 8th 1999. It attracted a steady stream of users, and the development project has flourished ever since. 
+
+The name Midgard comes from Nordic mythology, meaning Middle earth, the world of humans. Most of the Midgard developer community comes from the Baltic region, but there are both users and developers all around the world. 
+
+MidCOM 
+------
+
+Midgard Component Framework, or MidCOM is the user interface to Midgard. In other words, everything you see or do goes through MidCOM, which translates the computer language to human-readable content and makes it look nice for your customers. 
+
+Your own system 
+---------------
+
+Since virtually everything visual is customizable, your site might look very different from this document. Do not let it distract you and try to see the logic behind instead of looking only at the surface, as the operating logic remains the same. 
+
+The goal of this document is to give an overall view over the major aspects of the content producing. 
+
+Folders and pages 
+-----------------
+
+Folders are the main operating logic of your system. They define the structure of your website. Each folder will have a component assigned to it (for more information see Components below) Pages are the information folders show. Usually pages are editable information, but might also refer to virtual pages (e.g. archive page that shows when blog entries have been written). 
+
+Components 
+----------
+
+All the content you see is run by components. They are your best friend, when you want to minimize your effort and let automation take care of displaying the correct information. There are numerous components, which are specialized either in a very small niche or in various operations. Usually whatever is the need, there is a component for it. 
+
+Each component is a subprogram that will aid you in handling the information, e.g. if you want to show photos or create a contact form for your customers. Blog will provide automatically RSS feeds and Event calendar will show automatically the future events. 
+ 
+>Note: Each server has a different set of components. If you need a specific tool to hammer down the nail instead of using a screw driver for everything, ask your site manager for information and help to find out the correct set of tools for your tasks. 

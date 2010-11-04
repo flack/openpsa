@@ -1,0 +1,45 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE sv
+
+---STRING first subfolder
+Första underkatalogen i denna katalog
+---STRINGEND
+
+---STRING net.nemein.redirector
+Omderigerings katalog
+---STRINGEND
+
+---STRING redirect administrators
+Omderigera administratörer
+---STRINGEND
+
+---STRING redirection http code
+HTTP svarskod som avänds för omderigering
+---STRINGEND
+
+---STRING redirection node
+Omderingerings nod
+---STRINGEND
+
+---STRING redirection settings
+Omderigerings inställningar
+---STRINGEND
+
+---STRING redirection type
+Omderigerings typ
+---STRINGEND
+
+---STRING redirection url
+Omderigerings URL
+---STRINGEND
+
+---STRING selected node
+Vald nod
+---STRINGEND
+
+---STRING url entered below
+URL inmatad nedan
+---STRINGEND
+

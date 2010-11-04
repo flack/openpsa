@@ -1,0 +1,42 @@
+OpenPSA Bounce Detector
+=======================
+
+The `bounce_detector.php` script is used to receive bounce messages from
+the Mail Transport Agent (MTA). The bounce detector script acts as the
+local delivery agent for the wildcard address configured as the bounce
+address in the OpenPSA directmarketing component.
+
+The script takes two command line arguments:
+
+    php bounce_detector.php TEMPLATE LOGGER
+
+The `TEMPLATE` argument is an address template like
+`bounce-TOKEN@openpsa.org`. The `TOKEN` part of the template matches
+any sequence of one or more characters while the rest of the template
+is matched verbatim to the recipient address of the incoming message.
+If the recipient address matches the template, then the `TOKEN` part is
+taken as the bounce token to be logged.
+
+The `LOGGER` argument is the URI of the bounce log file or the web
+resource used for logging the detected bounce tokens. If the argument
+is a file URI, then the bounce token is simply appended to the
+referenced file as a new line. It is up to the implementation to process
+the log file in whatever way it chooses. If the argument is an HTTP
+URI, then a POST request containing the bounce token as the `token`
+argument is made to that URI.
+
+The bounce detector script will always return with success even if
+there is a problem processing the message. The rationale for this is
+that it is not too dangerous to accidentally lose a bounce message,
+but that double-bounces are generally rather annoying. Possible error
+messages are written to standard output to be stored by the MTA that
+invokes the script.
+
+Postfix and qmail configuration
+-------------------------------
+
+The bounce detector can be used as a drop-in tool in Postfix `aliases`
+or `.forward` files or in qmail `.qmail-default` files. Just configure
+a wildcard address and define the bounce detector script to process all
+messages to that address. The script only expects that the `RECIPIENT`
+environment variable contains the full SMTP envelope recipient address.

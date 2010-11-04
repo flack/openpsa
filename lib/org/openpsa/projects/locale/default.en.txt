@@ -1,0 +1,468 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 26225 2010-05-30 08:29:21Z flack $
+---LANGUAGE en
+
+---STRING %d closed projects
+%d closed projects
+---STRINGEND
+
+---STRING %s of %s planned hours booked
+%s of %s planned hours booked in calendar
+---STRINGEND
+
+---STRING %s projects
+%s projects
+---STRINGEND
+
+---STRING accept
+Accept
+---STRINGEND
+
+---STRING accepted by %s
+Accepted by %s
+---STRINGEND
+
+---STRING agreement
+Agreement
+---STRINGEND
+
+---STRING agreement tasks
+Delivery tasks
+---STRINGEND
+
+---STRING approve
+Approve
+---STRINGEND
+
+---STRING approved
+Approved
+---STRINGEND
+
+---STRING approved by %s
+Approved by %s
+---STRINGEND
+
+---STRING automatic resource search
+Automatic resource search
+---STRINGEND
+
+---STRING back to project
+Back to project
+---STRINGEND
+
+---STRING back to task
+Back to task
+---STRINGEND
+
+---STRING basic information
+Basic information
+---STRINGEND
+
+---STRING booked times
+Booked times
+---STRINGEND
+
+---STRING closed
+Closed
+---STRINGEND
+
+---STRING closed by %s
+Closed by %s
+---STRINGEND
+
+---STRING closed tasks
+Closed tasks
+---STRINGEND
+
+---STRING completed
+Completed
+---STRINGEND
+
+---STRING completed tasks
+Completed tasks
+---STRINGEND
+
+---STRING contacts
+Contacts
+---STRINGEND
+
+---STRING create project
+Create project
+---STRINGEND
+
+---STRING create task
+Create task
+---STRINGEND
+
+---STRING create workgroups for this project
+Create workgroups for this project
+---STRINGEND
+
+---STRING current projects
+Current projects
+---STRINGEND
+
+---STRING current tasks
+Current tasks
+---STRINGEND
+
+---STRING customer
+Customer
+---STRINGEND
+
+---STRING date
+Date
+---STRINGEND
+
+---STRING deadline
+Deadline
+---STRINGEND
+
+---STRING decline
+Decline
+---STRINGEND
+
+---STRING declined by %s
+Declined by %s
+---STRINGEND
+
+---STRING delete task
+Delete task
+---STRINGEND
+
+---STRING description
+Description
+---STRINGEND
+
+---STRING dont approve
+Don't approve
+---STRINGEND
+
+---STRING duration
+Duration
+---STRINGEND
+
+---STRING edit
+Edit
+---STRINGEND
+
+---STRING edit project %s
+Edit project %s
+---STRINGEND
+
+---STRING edit task %s
+Edit task %s
+---STRINGEND
+
+---STRING end
+End
+---STRINGEND
+
+---STRING from %s
+From %s
+---STRINGEND
+
+---STRING hour report
+hour report
+---STRINGEND
+
+---STRING hour reports
+Hour reports
+---STRINGEND
+
+---STRING hours
+Hours
+---STRINGEND
+
+---STRING hours are invoiceable by default
+Hours are invoiceable by default
+---STRINGEND
+
+---STRING invoiceable
+Invoiceable
+---STRINGEND
+
+---STRING invoiceable tasks
+Invoiceable tasks
+---STRINGEND
+
+---STRING invoiced
+Invoiced
+---STRINGEND
+
+---STRING invoiced tasks
+Invoiced tasks
+---STRINGEND
+
+---STRING manager
+Manager
+---STRINGEND
+
+---STRING mark completed
+Mark completed
+---STRINGEND
+
+---STRING marked %s hours as invoiced in task "%s"
+Marked %s hours as invoiced in task "%s"
+---STRINGEND
+
+---STRING marked as completed by %s
+Marked as completed by %s
+---STRINGEND
+
+---STRING marked task "%s" closed
+Marked task "%s" closed
+---STRINGEND
+
+---STRING minimum time slot needed for task bookings
+Minimum time slot needed for task bookings
+---STRINGEND
+
+---STRING my organization
+From my organization
+---STRINGEND
+
+---STRING my_tasks
+My tasks
+---STRINGEND
+
+---STRING new project
+New project
+---STRINGEND
+
+---STRING new task
+New task
+---STRINGEND
+
+---STRING new task to project %s
+New task to project %s
+---STRINGEND
+
+---STRING no customer
+No Customer
+---STRINGEND
+
+---STRING no search
+No search
+---STRINGEND
+
+---STRING not_started
+Not started
+---STRINGEND
+
+---STRING not_started tasks
+Not Started Tasks
+---STRINGEND
+
+---STRING on_hold
+On hold
+---STRINGEND
+
+---STRING ongoing
+Ongoing
+---STRINGEND
+
+---STRING ongoing tasks
+Ongoing Tasks
+---STRINGEND
+
+---STRING open tasks
+Open tasks
+---STRINGEND
+
+---STRING org.openpsa.projects
+Project management
+---STRINGEND
+
+---STRING overtime
+Overtime
+---STRINGEND
+
+---STRING pending approval by %s
+Waiting for approval by %s
+---STRINGEND
+
+---STRING pending_accept tasks
+Tasks pending acceptance
+---STRINGEND
+
+---STRING pending_approve tasks
+Tasks pending approval
+---STRINGEND
+
+---STRING planned hours
+Planned hours
+---STRINGEND
+
+---STRING project
+Project
+---STRINGEND
+
+---STRING project status
+Project status
+---STRINGEND
+
+---STRING project_tasks
+Project's tasks
+---STRINGEND
+
+---STRING projects
+Projects
+---STRINGEND
+
+---STRING proposed tasks
+Proposed tasks
+---STRINGEND
+
+---STRING proposed to %s
+Proposed to %s
+---STRINGEND
+
+---STRING proposed to %s by %s
+Proposed to %2$s by %1$s
+---STRINGEND
+
+---STRING put on hold by %s
+Put on hold by %s
+---STRINGEND
+
+---STRING re-opened by %s
+Re-opened by %s
+---STRINGEND
+
+---STRING rejected by %s
+Rejected by %s
+---STRINGEND
+
+---STRING reopen
+Re-open
+---STRINGEND
+
+---STRING report hours
+Report hours
+---STRINGEND
+
+---STRING reported
+Reported
+---STRINGEND
+
+---STRING reporter
+Reporter
+---STRINGEND
+
+---STRING resources
+Resources
+---STRINGEND
+
+---STRING resourcing
+Resourcing
+---STRINGEND
+
+---STRING schedule resources
+Schedule resources
+---STRINGEND
+
+---STRING skills required
+Skills required
+---STRINGEND
+
+---STRING start
+Start
+---STRINGEND
+
+---STRING start time
+Start time
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING status history
+Status history
+---STRINGEND
+
+---STRING subscribe
+Subscribe
+---STRINGEND
+
+---STRING synchronization
+Synchronization
+---STRINGEND
+
+---STRING synchronized with %s by %s
+Synchronized with %s by %s
+---STRINGEND
+
+---STRING system
+system
+---STRINGEND
+
+---STRING task
+Task
+---STRINGEND
+
+---STRING task %s
+Task %s
+---STRINGEND
+
+---STRING task deletion now allowed because of hour reports
+Task deletion now allowed because of hour reports
+---STRINGEND
+
+---STRING task in
+Task in
+---STRINGEND
+
+---STRING task status
+Task status
+---STRINGEND
+
+---STRING tasks
+Tasks
+---STRINGEND
+
+---STRING totals
+Totals
+---STRINGEND
+
+---STRING type
+Type
+---STRINGEND
+
+---STRING unsubscribe
+Unsubscribe
+---STRINGEND
+
+---STRING whole openpsa
+From whole OpenPSA
+---STRINGEND
+
+---STRING work for task %s
+Work for task %s
+---STRINGEND
+
+---STRING work started by %s
+Work started by %s
+---STRINGEND
+
+---STRING you are not subscribed to project
+You are not subscribed to project
+---STRINGEND
+
+---STRING you are project participant
+You are project participant
+---STRINGEND
+
+---STRING you are project subscriber
+You are project subscriber
+---STRINGEND
+
+---STRING priority
+Priority
+---STRINGEND
+
+---STRING only tasks with priority
+Show only Tasks with priority
+---STRINGEND

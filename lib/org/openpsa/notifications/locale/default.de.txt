@@ -1,0 +1,37 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE de
+
+---STRING default
+Standard
+---STRINGEND
+
+---STRING email
+E-Mail
+---STRINGEND
+
+---STRING inherit
+Vererbt
+---STRINGEND
+
+---STRING nabaztag
+Nabaztag-Bunny
+---STRINGEND
+
+---STRING none
+Keine Benachrichtigung
+---STRINGEND
+
+---STRING notification preferences
+Benachrichtigungs-Einstellungen
+---STRINGEND
+
+---STRING notification sent to %s
+Benachrichtigung verschickt an %s
+---STRINGEND
+
+---STRING org.openpsa.notifications
+Benachrichtigungs-Verwaltung
+---STRINGEND
+

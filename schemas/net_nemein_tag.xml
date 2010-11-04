@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="net_nemein_tag" table="net_nemein_tag" >
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>
+                Local non-replication-safe database identifier
+            </description>
+        </property>
+        <property name="tag" type="string" index="yes">
+            <description>
+                The tag itself
+            </description>
+        </property>
+        <property name="url" type="string">
+            <description>
+                A URI or URL pointing to information about the tag
+            </description>
+        </property>
+    </type>
+
+    <type name="net_nemein_tag_link" table="net_nemein_tag_link">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>
+                Local non-replication-safe database identifier
+            </description>
+        </property>
+        <property name="fromGuid" type="guid" parentfield="fromGuid">
+            <description>
+                Tagged object's GUID
+            </description>
+        </property>
+        <property name="fromComponent" type="string" index="yes">
+            <description>
+                Tagged object's component
+            </description>
+        </property>
+        <property name="fromClass" type="string" index="yes">
+            <description>
+                Tagged object's class
+            </description>
+        </property>
+        <property name="tag" link="net_nemein_tag:id" reverse="no" type="unsigned integer">
+            <description>
+                Link to the tag object
+            </description>
+        </property>
+        <property name="context" type="string" index="yes">
+            <description>
+                Context to be used with machine tags
+            </description>
+        </property>
+        <property name="value" type="string">
+            <description>
+                Value to be used with machine tags
+            </description>
+        </property>
+    </type>
+</Schema>

@@ -1,0 +1,369 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 24738 2010-01-15 21:44:53Z jval $
+---LANGUAGE fi
+
+---STRING %s state
+%s-aste
+---STRINGEND
+
+---STRING a folder with name %s already exists
+Kansio nimellä "%s" on jo olemassa!
+---STRINGEND
+
+---STRING all descendants will be deleted
+Kaikki tämän kansion alla oleva poistetaan:
+---STRINGEND
+
+---STRING all style elements
+Kaikki tyylielementit
+---STRINGEND
+
+---STRING alpha
+Alfa
+---STRINGEND
+
+---STRING are you sure you want to delete this folder
+Oletko varma että haluat poistaa tämän kansion?
+---STRINGEND
+
+---STRING author
+Tekijä
+---STRINGEND
+
+---STRING authors
+Tekijät
+---STRINGEND
+
+---STRING beta
+Beta
+---STRINGEND
+
+---STRING by score
+Järjestellyn mukaan
+---STRINGEND
+
+---STRING cancelled
+Peruutettu
+---STRINGEND
+
+---STRING change component
+Vaihda komponenttia
+---STRINGEND
+
+---STRING component default
+Komponentin vakiotyyli
+---STRINGEND
+
+---STRING copy to editor
+Kopioi editoriin
+---STRINGEND
+
+---STRING could not save folder: %s
+Kansion tallennus epäonnistui. Syy: %s
+---STRINGEND
+
+---STRING create folder
+Luo kansio
+---STRINGEND
+
+---STRING create folder under %s
+Luo alikansio kansion "%s" alle
+---STRINGEND
+
+---STRING create subfolder
+Luo alikansio
+---STRINGEND
+
+---STRING created
+Luotu
+---STRINGEND
+
+---STRING creator
+Luoja
+---STRINGEND
+
+---STRING default
+Oletus
+---STRINGEND
+
+---STRING default order selected
+Oletusjärjestys valittu
+---STRINGEND
+
+---STRING default sort order
+Oletus
+---STRINGEND
+
+---STRING delete folder
+Poista kansio
+---STRINGEND
+
+---STRING delete folder %s
+Poista kansio "%s"
+---STRINGEND
+
+---STRING edit %s
+Muokkaa kohdetta '%s'
+---STRINGEND
+
+---STRING edit folder
+Muokkaa kansiota
+---STRINGEND
+
+---STRING edit folder %s
+Muokkaa kansiota "%s"
+---STRINGEND
+
+---STRING edit folder metadata
+Muokkaa kansion metatietoja
+---STRINGEND
+
+---STRING edit layout template
+Muokkaa ulkoasupohjaa
+---STRINGEND
+
+---STRING edit metadata
+Muokkaa metatietoja
+---STRINGEND
+
+---STRING edit metadata of %s
+Muokkaa kohteen '%s' metatietoja
+---STRINGEND
+
+---STRING experimental, use with your own risk
+Kokeellinen, käytä omalla vastuulla
+---STRINGEND
+
+---STRING exported
+Viety
+---STRINGEND
+
+---STRING failed to create a new style template
+Uuden tyylipohjan luominen epäonnistui!
+---STRINGEND
+
+---STRING folder created
+Kansio luotu
+---STRINGEND
+
+---STRING folder page class
+Kansion luokka
+---STRINGEND
+
+---STRING folder saved
+Kansio tallennettu
+---STRINGEND
+
+---STRING folder type
+Kansion tyyppi
+---STRINGEND
+
+---STRING folder with name %s already exists
+Kansio nimellä "%s" on jo olemassa!
+---STRINGEND
+
+---STRING folders first
+Kansiot ensin
+---STRINGEND
+
+---STRING hide from navigation
+Piilota navigaatiosta
+---STRINGEND
+
+---STRING imported
+Tuotu sisään
+---STRINGEND
+
+---STRING inherit style
+Periytä ulkoasupohja alikansioille
+---STRINGEND
+
+---STRING install more %s from %s
+Lisää <a href="%s">MidCOM-komponentteja</a> voi asentaa <a href="%s">PEAR-paketeista</a>.
+---STRINGEND
+
+---STRING list of %s folders using the same style template path
+Lista komponenttia "%s" käyttävistä kansioista, joissa käytetään samaa tyylipolkua
+---STRINGEND
+
+---STRING local element
+Paikallinen elementti
+---STRINGEND
+
+---STRING midcom.admin.folder
+Kansioiden hallinta
+---STRINGEND
+
+---STRING move
+Siirrä
+---STRINGEND
+
+---STRING move %s
+Siirrä %s
+---STRINGEND
+
+---STRING nav order
+Navigaation järjestys
+---STRINGEND
+
+---STRING new layout template
+[Uusi ulkoasupohja]
+---STRINGEND
+
+---STRING new style created
+Uusi tyyli luotu
+---STRINGEND
+
+---STRING no sortable elements found
+Järjesteltäviä tietueita ei löytynyt
+---STRINGEND
+
+---STRING no url name specified
+URL-nimeä ei määritelty!
+---STRINGEND
+
+---STRING objects with no navigation entry are still accessible on-site if the url is known
+Tietueet jotka eivät näy navigaatiossa ovat silti saatavilla suoran URL-osoitteen kautta
+---STRINGEND
+
+---STRING order navigation
+Järjestele navigaatio
+---STRINGEND
+
+---STRING order navigation in folder %s
+Järjestele navigaatio kansion "%s" alla
+---STRINGEND
+
+---STRING owner
+Omistaja
+---STRINGEND
+
+---STRING pages first
+Sivut ensin
+---STRINGEND
+
+---STRING prevent entering
+Estä pääsy kohteeseen
+---STRINGEND
+
+---STRING privilege template_management
+Ulkoasupohjien hallinta
+---STRINGEND
+
+---STRING privilege topic_management
+Kansion hallinta
+---STRINGEND
+
+---STRING published
+Julkaistu
+---STRINGEND
+
+---STRING revised
+Muokattu
+---STRINGEND
+
+---STRING revision
+Revisio
+---STRINGEND
+
+---STRING revisor
+Muokannut
+---STRINGEND
+
+---STRING saving changes
+Muutoksia tallennetaan
+---STRINGEND
+
+---STRING schedule end
+Näytä päivämäärään asti (jätä tyhjäksi näyttääksesi aina)
+---STRINGEND
+
+---STRING schedule start
+Julkaise päivämääränä (jätä tyhjäksi julkaistaksesi heti)
+---STRINGEND
+
+---STRING scheduling
+Ajastus
+---STRINGEND
+
+---STRING select the ordering method first to sort the pages
+Valitse järjestelytapa ensin järjestelläksesi sivuja
+---STRINGEND
+
+---STRING size
+Tiedoston koko
+---STRINGEND
+
+---STRING sort by score
+Järjestä pisteiden mukaisesti
+---STRINGEND
+
+---STRING sort folders
+Järjestele kansioita
+---STRINGEND
+
+---STRING sort pages
+Järjestele sivuja
+---STRINGEND
+
+---STRING style
+Ulkoasupohja
+---STRINGEND
+
+---STRING style editor
+Ulkoasueditori
+---STRINGEND
+
+---STRING style element list
+Tyylielementtilista
+---STRINGEND
+
+---STRING style elements for %s
+Tyylielementit tyylille %s
+---STRINGEND
+
+---STRING style template
+Ulkoasupohja
+---STRINGEND
+
+---STRING submitting the form
+Tallennetaan muutos
+---STRINGEND
+
+---STRING this component is still being developed and tested and might contain undocumented features
+Tätä komponenttia kehitetään ja testataan edelleen ja se saattaa sisältää kartoittamattomia toiminnallisuuksia
+---STRINGEND
+
+---STRING title is empty
+Otsikko on tyhjä!
+---STRINGEND
+
+---STRING warning, might result in data loss
+Varoitus! Saattaa johtaa tietojen katoamiseen!
+---STRINGEND
+
+---STRING createlink folder %s
+Luo kansiolinkki kansion "%s" alle
+---STRINGEND
+
+---STRING this folder is a symlink to <a href="%s">%s</a> and confirming will delete only this symlink
+Tämä kansio on symlink kansioon <a href="%s">%s</a> ja vahvistaminen poistaa vain tämän symlinkin.
+---STRINGEND
+
+---STRING create folder link
+Luo alikansio ("symlink")
+---STRINGEND
+
+---STRING privilege symlinks
+Kansioiden symlinkit
+---STRINGEND
+
+---STRING this folder is a symlink to: <a href="%s">%s</a>
+Tämä kansio on symlink kansioon: <a href="%s">%s</a>
+---STRINGEND
+
+---STRING symlinks are currently disabled                 
+(Symlinkit on tällä hetkellä kytketty pois päältä.)
+---STRINGEND
+

@@ -1,0 +1,143 @@
+body
+{
+    background-color: #babdb6;
+    color: #333333;
+    font-family: "Arial", "Helvetica", "Geneva", sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+body div.midcom_helper_imagepopup h1
+{
+    background-color: #204a87;
+    color: #ffffff;
+    margin: 0px;
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    height: 10%;
+}
+
+ul
+{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+ul li
+{
+	height: 59px;
+	margin: 0 0 5px 0;
+	padding: 5px;
+	border-bottom: 1px solid #D7DBD1;
+	
+}
+
+#top_navigation
+{
+    margin:0;
+    padding:0;
+}
+
+#top_navigation ul
+{
+    margin:3px;
+    margin-bottom:0;
+    padding:0;
+    margin-left: 20px;
+}
+
+
+#top_navigation a
+{
+    text-decoration: none;
+    color: #204a87;
+    margin-bottom: 2px;
+}
+
+#top_navigation ul li
+{
+    background-color: #D7DBD1;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: inline;
+    margin-right: 10px;
+    height: auto
+}
+
+#top_navigation ul li.selected
+{
+    background-color: #FFFFFF;
+}
+
+#top_navigation ul li.selected a
+{
+    color: #000000;
+}
+
+
+
+#files, #search
+{
+    padding-left: 2%;
+    padding-right: 2%;
+    height: 88%;
+    overflow: auto;
+    background-color: #ffffff; 
+}
+#files form label span.field_text
+{
+    margin-top: 4px;
+    font-weight: bold;
+    display: block;
+}
+#files table tr
+{
+    vertical-align: top;
+}
+
+#files table th {
+	border-bottom:solid 1px #D7DBD1; 
+	padding-bottom:3px;
+}
+#files input {
+	width: 8.5em;
+}
+#files input.file {
+	width: 21em;
+}
+#files table .new {
+	border-top:solid 1px #D7DBD1; 
+	margin-top:7px;
+}
+
+#files table td.filename
+{
+    text-align: left;
+    font-size: smaller;
+    width: 50px;
+    overflow: hidden;
+    padding-left:10px;
+}
+#files table td.filename a
+{
+    text-decoration: none;
+    color: #204a87;
+}
+#files table td.upload
+{
+    white-space: nowrap;
+}
+#files table th
+{
+    text-align: left;
+}
+#files div.form_toolbar
+{
+    text-align: center;
+}
+
+.search-form
+{
+	margin: 10px 0 10px 0;
+}

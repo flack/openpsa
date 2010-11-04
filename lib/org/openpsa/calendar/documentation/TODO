@@ -1,0 +1,47 @@
+org.openpsa.calendar TODO
+=========================
+
+## Datamanager 2 migration
+
+* o.o.calendar should be converted to use Datamanager 2 for event editing and
+  rendering instead of Datamanager 1
+* Datamanager 2 would provide the new universalchooser widget for selecting
+  event participants, supporting person creation
+
+## On-demand handlers migration
+
+* `viewer.php` should be split into different handler classes for calendar list
+  views, event editing, etc
+
+## Tagging
+
+* Support for tagging events
+* Transmit event's tags also to event note wiki pages
+* Enable setting colors for tags, using color of event's first tag in the views
+
+## Calendar subscription
+
+* Subscribing to remote iCalendars via HTTP GET request
+* Multiple calendar subscriptions possible per person
+* Default tags and privacy settings per subscription
+* Updating manually and via cron
+* Subscribed events are read-only
+* iCal Events WordPress plugin may have useful code for this
+* Utilize helpers for HTTP fetching from org.openpsa.httplib
+
+## Reminders
+
+* Register midcom.services.at processes for firing event reminders
+  some time before event
+* Use org.openpsa.notifications for reminder sending to allow multiple
+  formats like Growl, SMS, Email and Jabber
+
+## Travel support and time zones
+
+* Different event schema including From and To (fields that recognize airport
+  codes, city names etc)
+* Recognize time zones for the From and To locations to enable inputting
+  times in local time (to aid entering flights)
+* Generally utilize org.routamc.positioning to determine user's local time zone,
+  and display times accordingly (this should probably be handled in MidCOM
+  core level actually)

@@ -1,0 +1,42 @@
+                   net.nehmer.static Changelog
+                   ---------------------------
+CVS Id: $Id: CHANGES 14687 2008-01-29 14:53:56Z adrenalin $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-01-29 adrenalin
+  - Autoindex obeys now folder order
+
+2008-01-25 adrenalin
+  ! Deprecated DM1 configuration, using now midcom.helper.dm2config
+
+2007-10-30 adrenalin
+  - Fixed the including of linked articles to navigation
+
+2007-10-25 adrenalin
+  - Added a configuration key for hiding blobs from autoindex list
+
+2007-10-19 adrenalin
+  ! Added article linking support similar to the one of net.nehmer.blog
+
+2007-04-24 adrenalin
+  - Ported some new stuff to branch-26
+
+2007-02-05 bergie
+  + Documented the style elements used in the component
+
+2006-07-25 bergie
+  + Fixed somebody's half-done automatic URL name generation
+
+2006-05-30 bergie
+  + Added configurable support for on-site AJAX editing
+
+2006-02-15 torben
+  ! Initial revision, built from de.linkm.taviewer using newest
+    technology. No 100% compatibility to old components is possible
+    at this point.
+

@@ -1,0 +1,68 @@
+.table_widget
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table_widget thead
+{
+    background-color: #555753;
+    color: #ffffff;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.table_widget thead th,
+.table_widget td
+{
+    padding-left: 4px;
+    padding-right: 2px;
+    text-align: left;
+}
+
+.table_widget thead th
+{
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding: 2px 20px 2px 5px;
+  cursor: pointer;
+  white-space: nowrap
+}
+
+.table_widget thead th.headerSortDown
+{
+  background-image: url('../stock-icons/16x16/down.png');
+}
+
+.table_widget thead th.headerSortUp
+{
+  background-image: url('../stock-icons/16x16/up.png');
+}
+.table_widget td
+{
+    padding: 2px 5px
+}
+.table_widget tr.even td
+{
+    background-color: #eeeeef;
+}
+
+.table_widget tr.odd td
+{
+    background-color: white;
+}
+.table_widget tr.row_selected td
+{
+    background-color: #C0CEDE;
+    color: #000000;
+}
+
+.table_widget tr.even.row_selected td
+{
+    background-color: #DFE6EE;
+}
+
+.table_widget td.nowrap
+{
+    white-space: nowrap
+}

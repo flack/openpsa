@@ -1,0 +1,177 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE en
+
+---STRING available slot
+Available time slot
+---STRINGEND
+
+---STRING back to calendar
+Back to calendar
+---STRINGEND
+
+---STRING calendar
+Calendar
+---STRINGEND
+
+---STRING choose calendars
+Choose calendars to display
+---STRINGEND
+
+---STRING create event
+Create event
+---STRINGEND
+
+---STRING create note
+Create note
+---STRINGEND
+
+---STRING day view
+Day view
+---STRINGEND
+
+---STRING delete event
+Delete event
+---STRINGEND
+
+---STRING dont allow overlapping
+Don't allow overlapping
+---STRINGEND
+
+---STRING edit %s
+Edit %s
+---STRINGEND
+
+---STRING end time
+End time
+---STRINGEND
+
+---STRING event %s
+Event %s
+---STRINGEND
+
+---STRING event %s deleted
+Event %s deleted
+---STRINGEND
+
+---STRING event after
+Event after
+---STRINGEND
+
+---STRING event before
+Event before
+---STRINGEND
+
+---STRING event deleted
+Event deleted
+---STRINGEND
+
+---STRING event information
+Event information
+---STRINGEND
+
+---STRING events on %s
+Events on %s
+---STRINGEND
+
+---STRING failed to delete event, reason
+Failed to delete event, reason
+---STRINGEND
+
+---STRING go to
+Go to
+---STRINGEND
+
+---STRING groups
+Groups
+---STRINGEND
+
+---STRING location
+Location
+---STRINGEND
+
+---STRING me
+Me
+---STRINGEND
+
+---STRING meeting note for %s on %s by %s
+Meeting note for %s on %s by %s
+---STRINGEND
+
+---STRING month view
+Month view
+---STRINGEND
+
+---STRING next
+Next
+---STRINGEND
+
+---STRING no event
+No event
+---STRINGEND
+
+---STRING org.openpsa.calendar
+Calendar
+---STRINGEND
+
+---STRING participants
+Participants
+---STRINGEND
+
+---STRING people
+People
+---STRINGEND
+
+---STRING popup
+Pop-Up
+---STRINGEND
+
+---STRING previous
+Previous
+---STRINGEND
+
+---STRING print
+Print
+---STRINGEND
+
+---STRING private event
+Private event
+---STRINGEND
+
+---STRING privilege read
+Read private event
+---STRINGEND
+
+---STRING really delete event
+Really delete event?
+---STRINGEND
+
+---STRING resources
+Resources
+---STRINGEND
+
+---STRING start time
+Start time
+---STRINGEND
+
+---STRING time
+time
+---STRINGEND
+
+---STRING today
+Today
+---STRINGEND
+
+---STRING week #%s %s
+Week #%s %s
+---STRINGEND
+
+---STRING week %s
+Week %s
+---STRINGEND
+
+---STRING week view
+Week view
+---STRINGEND
+

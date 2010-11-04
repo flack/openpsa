@@ -1,0 +1,61 @@
+org.openpsa.mypage Changelog
+                   ----------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2006-11-06 bergie
+  + Redesigned the main "my page" screen to show task user is currently
+    working on, etc
+
+2006-09-27 bergie
+  + Added new "week review" screen
+
+2006-06-13 rambo
+  - bumped version for packaging
+
+2006-06-08 rambo & bergie
+  - fixed the frontpage weekly report to use NAP data for location (rambo)
+  - fixed some fixed line endings to LF (Rambo)
+
+2006-05-02 bergie
+  + Gave more space to the task list and hour editor
+
+2006-02-15 rambo
+  - refactored toolbars to use top/bottom
+  - refactored some large if/elseifs to switch in viewer and moved some code
+    out of an loop that should have been outside it
+  - PEAR packaging info in manifest
+  - made create event to check ACL properly
+
+2006-01-12 rambo
+  - added ACL check to create task toolbar button
+
+2006-01-09 rambo
+  - changed "create event" button to use the new o.o.calendar interface method
+    for the JS code.
+
+2005-12-21 bergie
+  + Made it configurable whether to load buddy list to the front page
+  + If buddy list is not populated latest updates are moved to right sidebar
+  + Added event creation button to toolbar
+  + Added person creation button to toolbar
+
+2005-08-31 bergie
+  + Added editor/creator name into the "updated today"/"yesterday" views
+  + Added possible news and discussion areas of selected project filter
+    into the view
+
+2005-07-14 bergie
+  + Directed the logout call to OpenPsa front page to avoid errors
+    due to getting "unauthorized" after logout
+
+2005-06-22 bergie
+  + Initial creation of the component
+  + Created "user information" view for the user session box in OpenPSA layout
+  + Created AJAX saving handler for user's workgroup filtering selection
+  + Implemented dynamic loading of "my" data from de.linkm.newsticker,
+    net.nemein.discussion, org.openpsa.jabber, org.openpsa.contacts and
+    org.openpsa.projects

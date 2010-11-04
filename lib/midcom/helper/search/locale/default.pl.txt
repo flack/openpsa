@@ -1,0 +1,117 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE pl
+
+---STRING advanced search
+Zaawansowane
+---STRINGEND
+
+---STRING found %s documents, showing %s documents.
+Znaleziono %s dokumentów, pokazuję %s dokumentów na tej stronie.
+---STRINGEND
+
+---STRING limit search by content type
+Szukaj tylko tego typu danych.
+---STRINGEND
+
+---STRING limit search by last modified
+Szukaj dokumentów zmienionych między
+---STRINGEND
+
+---STRING limit search by topic tree
+Szukaj tylko w tej części serwisu
+---STRINGEND
+
+---STRING next page
+Następne
+---STRINGEND
+
+---STRING no limit
+Bez limitu
+---STRINGEND
+
+---STRING pages
+Strony
+---STRINGEND
+
+---STRING previous page
+Poprzednie
+---STRINGEND
+
+---STRING query
+Szukaj
+---STRINGEND
+
+---STRING results_per_page
+Ilość wyników na stronę
+---STRINGEND
+
+---STRING score
+Wynik
+---STRINGEND
+
+---STRING search
+Szukaj
+---STRINGEND
+
+---STRING search all content types
+Szukaj wszystkich typów
+---STRINGEND
+
+---STRING search anywhere
+Wszędzie
+---STRINGEND
+
+---STRING search hints
+Podpowiedź
+---STRINGEND
+
+---STRING search hints lucene
+Grupuj zapytanie używając cudzysłowia ("ta fraza").<br /> Możesz używać operatorów logicznych AND, OR oraz NOT (dużymi literami).<br /> Zobacz stronę <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> po dalsze wskazówki.
+---STRINGEND
+
+---STRING search hints plucene
+Grupuj zapytanie używając cudzysłowia ("ta fraza").<br /> Możesz używać operatorów logicznych AND, OR oraz NOT (dużymi literami).<br /> Zobacz strony <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> i <a href="http://search.cpan.org/dist/Plucene/lib/Plucene.pm">Plucene</a> po dalsze wskazówki.
+---STRINGEND
+
+---STRING search results
+Wyniki szukania
+---STRINGEND
+
+---STRING search_help_message
+Wersja informacji z pomocą
+---STRINGEND
+
+---STRING showing %s to %s.
+Dokumenty %s do %s.
+---STRINGEND
+
+---STRING showing %s.
+Dokument %s.
+---STRINGEND
+
+---STRING since 1 month
+Miesiąc
+---STRINGEND
+
+---STRING since 1 year
+Rok
+---STRINGEND
+
+---STRING since 3 months
+3 m-ce
+---STRINGEND
+
+---STRING since 6 months
+6 m-cy
+---STRINGEND
+
+---STRING your query returned no results
+Nie znaleziono wyników.
+---STRINGEND
+
+---STRING midcom.helper.search
+Wyszukiwarka
+---STRINGEND
+

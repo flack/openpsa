@@ -1,0 +1,150 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 24731 2010-01-15 19:51:41Z adrenalin $
+---LANGUAGE en
+
+---STRING Chinese
+Chinese
+---STRINGEND
+
+---STRING Dutch
+Dutch
+---STRINGEND
+
+---STRING English
+English
+---STRINGEND
+
+---STRING Estonian
+Estonian
+---STRINGEND
+
+---STRING Finnish
+Finnish
+---STRINGEND
+
+---STRING French
+French
+---STRINGEND
+
+---STRING Georgian
+Georgian
+---STRINGEND
+
+---STRING German
+German
+---STRINGEND
+
+---STRING Hungarian
+Hungarian
+---STRINGEND
+
+---STRING Italian
+Italian
+---STRINGEND
+
+---STRING Norwegian
+Norwegian
+---STRINGEND
+
+---STRING Polish
+Polish
+---STRINGEND
+
+---STRING Portuguese
+Portuguese
+---STRINGEND
+
+---STRING Russian
+Russian
+---STRINGEND
+
+---STRING Spanish
+Spanish
+---STRINGEND
+
+---STRING Swedish
+Swedish
+---STRINGEND
+
+---STRING component
+Component
+---STRINGEND
+
+---STRING core component status
+Status (core components)
+---STRINGEND
+
+---STRING core components
+Core components
+---STRINGEND
+
+---STRING danish
+Danish
+---STRINGEND
+
+---STRING default
+default
+---STRINGEND
+
+---STRING edit strings for %s [%s]
+Translate strings in %s into %s
+---STRINGEND
+
+---STRING language
+Language
+---STRINGEND
+
+---STRING midcom.admin.babel
+Localization tool
+---STRINGEND
+
+---STRING new string
+New string
+---STRINGEND
+
+---STRING other component status
+Status (others)
+---STRINGEND
+
+---STRING other components
+Other components
+---STRINGEND
+
+---STRING percentage
+Percentage
+---STRINGEND
+
+---STRING perm-denied text
+<p>This MidCOM installation is not correctly configured to allow write access to the localization string table.</p>
+<p>Ensure, that the Apache user does have write permission to all locale directories and files as outlined in the MidCOM installation instructions (see INSTALL).</p>
+---STRINGEND
+
+---STRING read information from midgard wiki on how to add languages
+Information on how to add new user interface languages can be found from the <a href="http://www.midgard-project.org/midcom-permalink-ded2437586408cd03cd4582ba45b91f2">Midgard Wiki</a>.
+---STRINGEND
+
+---STRING select lang and component
+Select language and component
+---STRINGEND
+
+---STRING select language to translate
+Select language to translate
+---STRINGEND
+
+---STRING string-id
+String ID
+---STRINGEND
+
+---STRING strings total
+Strings total
+---STRINGEND
+
+---STRING translated strings
+Translated strings
+---STRINGEND
+
+---STRING translation status for language %s
+Translation status of %s
+---STRINGEND
+

@@ -1,0 +1,30 @@
+                   midcom.helper.search Changelog
+                   ------------------------------
+CVS Id: $Id: CHANGES,v 1.6 2005/02/25 12:26:25 torben Exp $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality. 
+- All items marked with "+" represent completely new features.
+
+2006-01-26 netblade
+  + added to advanced search topic2-named input that makes possible
+    to search from more than one topics. 
+
+2005-12-20 rambo
+  + added privilege check before populating toolbar
+  
+2005-08-04 bergie
+  + Added dynamic-loadable "/simplesearch" URL method for loading
+    search form into site style
+
+2005-07-12 bergie, torben
+  + Added Finnish localization
+  - The header now prints the topic's name instead of a simple "search"
+
+2005-04-16 bergie
+  - Started style cleaning
+
+2005-02-28 torben
+  - Initial commit

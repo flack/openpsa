@@ -1,0 +1,121 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE fi
+
+---STRING advanced search
+Laajennettu haku
+---STRINGEND
+
+---STRING found %s documents, showing %s documents.
+Löydetty %s hakua vastaavaa sivua. Tällä sivulla näytetään %s hakutulosta.
+---STRINGEND
+
+---STRING limit search by content type
+Hae vain tätä sisältötyyppiä
+---STRINGEND
+
+---STRING limit search by last modified
+Hae ajankohtana muokattuja dokumentteja
+---STRINGEND
+
+---STRING limit search by topic tree
+Hae vain tästä sivuston osasta
+---STRINGEND
+
+---STRING midcom.helper.search
+Sivuston hakukone
+---STRINGEND
+
+---STRING next page
+Seuraava
+---STRINGEND
+
+---STRING no limit
+Ei rajoituksia
+---STRINGEND
+
+---STRING pages
+Sivut
+---STRINGEND
+
+---STRING previous page
+Edellinen
+---STRINGEND
+
+---STRING query
+Hakusanat
+---STRINGEND
+
+---STRING results_per_page
+Tulosta sivulla
+---STRINGEND
+
+---STRING score
+Pisteet
+---STRINGEND
+
+---STRING search
+Sivuston haku
+---STRINGEND
+
+---STRING search all content types
+Hae kaikkia sisältötyyppejä
+---STRINGEND
+
+---STRING search anywhere
+Hae kaikkialta
+---STRINGEND
+
+---STRING search hints
+Hakuohjeet
+---STRINGEND
+
+---STRING search hints lucene
+Ryhmittele hakusanat käyttäen lainausmerkkejä ("minun hakuni").<br />
+Voit käyttää hakurajoittimia AND, OR ja NOT joiden täytyy olla isoilla kirjaimilla.<br />
+Lisää hakuohjeita löydät <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucenen hakuohjeista</a>.
+---STRINGEND
+
+---STRING search results
+Hakutulokset
+---STRINGEND
+
+---STRING search_help_message
+Näytettävä hakuohje
+---STRINGEND
+
+---STRING showing %s to %s.
+Näytetään tulokset %s-%s
+---STRINGEND
+
+---STRING showing %s.
+Näytetään tulokset %s
+---STRINGEND
+
+---STRING since 1 month
+Kuukausi
+---STRINGEND
+
+---STRING since 1 year
+Vuosi
+---STRINGEND
+
+---STRING since 3 months
+Kolme kuukautta
+---STRINGEND
+
+---STRING since 6 months
+Kuusi kuukautta
+---STRINGEND
+
+---STRING your query returned no results
+Hakusi ei tuottanut tuloksia.
+---STRINGEND
+
+---STRING search hints plucene
+Ryhmittele termejä käyttäen lainausmerkkejä ("minun hakusanani").<br />
+Voit käyttää operaattoreita AND, OR ja NOT (isoilla kirjoitettuna).<br />
+Katso <a href="http://search.cpan.org/dist/Plucene/lib/Plucene.pm">Plucene</a> ja <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a>, jos haluat lisätietoja.
+---STRINGEND
+

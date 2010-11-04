@@ -1,0 +1,269 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 23015 2009-07-28 08:50:55Z flack $
+---LANGUAGE fi
+
+---STRING %s includes
+%s sisältää
+---STRINGEND
+
+---STRING %s is
+%s on
+---STRINGEND
+
+---STRING %s is at least
+%s on vähintään
+---STRINGEND
+
+---STRING %s is at most
+%s on enintään
+---STRINGEND
+
+---STRING business area schema database
+Bisnesalueen tietokantakuvaus
+---STRINGEND
+
+---STRING code
+Koodi
+---STRINGEND
+
+---STRING component
+Komponentti
+---STRINGEND
+
+---STRING component group
+Komponenttiryhmä
+---STRINGEND
+
+---STRING cost
+Kulu
+---STRINGEND
+
+---STRING cost type
+Kulutyyppi
+---STRINGEND
+
+---STRING day
+päivä
+---STRINGEND
+
+---STRING delivery type
+Toimitustapa
+---STRINGEND
+
+---STRING fields available for matching are defined in schema
+Käytettävissä olevat kentät on määritelty tietokantakuvauksessa
+---STRINGEND
+
+---STRING file to import
+Tuotava tiedosto
+---STRINGEND
+
+---STRING first row is headers
+Ensimmäinen rivi on otsikkotiedoille
+---STRINGEND
+
+---STRING groups
+Tuoteryhmät
+---STRINGEND
+
+---STRING hour
+tunti
+---STRINGEND
+
+---STRING import
+Tuo kantaan
+---STRINGEND
+
+---STRING iso-latin-1 encoding
+ISO-Latin1 -merkistö
+---STRINGEND
+
+---STRING list group products
+Listaa tuoteryhmät
+---STRINGEND
+
+---STRING material goods
+Tavara
+---STRINGEND
+
+---STRING month
+kuukausi
+---STRINGEND
+
+---STRING number of items in feed
+Syötteen kohteiden lukumäärä
+---STRINGEND
+
+---STRING org.openpsa.products
+Tuotetietokanta
+---STRINGEND
+
+---STRING parent group
+Ylempi ryhmä
+---STRINGEND
+
+---STRING per unit
+per kappale
+---STRINGEND
+
+---STRING piece
+kappale
+---STRINGEND
+
+---STRING pieces
+Kappaletta
+---STRINGEND
+
+---STRING price
+Hinta
+---STRINGEND
+
+---STRING product
+Tuote
+---STRINGEND
+
+---STRING product components
+Tuotteen komponentit
+---STRINGEND
+
+---STRING product database
+Tuotetietokanta
+---STRINGEND
+
+---STRING product group
+Tuoteryhmä
+---STRINGEND
+
+---STRING products
+Tuotteet
+---STRINGEND
+
+---STRING quarter
+kvartaali
+---STRINGEND
+
+---STRING search
+Tuotehaku
+---STRINGEND
+
+---STRING search all items on default
+Etsi kaikista kohteista oletuksena
+---STRINGEND
+
+---STRING search index order
+Haun tulosten järjestely
+---STRINGEND
+
+---STRING service
+Palvelu
+---STRINGEND
+
+---STRING single delivery
+Kertatoimitus
+---STRINGEND
+
+---STRING solution
+Ratkaisu
+---STRINGEND
+
+---STRING subscription
+Toistuva tilaus
+---STRINGEND
+
+---STRING supplier
+Toimittaja
+---STRINGEND
+
+---STRING toplevel
+Päätaso
+---STRINGEND
+
+---STRING type
+Tyyppi
+---STRINGEND
+
+---STRING unit
+Yksikkö
+---STRINGEND
+
+---STRING updated %s
+päivitetty %s
+---STRINGEND
+
+---STRING updated products
+Päivitetyt tuotteet
+---STRINGEND
+
+---STRING whether to enable adding subcomponents to products
+Sallitaanko komponenttien lisääminen tuotteisiin
+---STRINGEND
+
+---STRING year
+vuosi
+---STRINGEND
+
+---STRING you can import csv files here
+Voit tuoda CSV-tiedostoja kantaan täällä
+---STRINGEND
+
+---STRING display search on front page
+Näytä haku etusivulla
+---STRINGEND
+
+---STRING display settings
+Näytä asetukset
+---STRINGEND
+
+---STRING export
+Tuo kannasta
+---STRINGEND
+
+---STRING export products
+Tuo tuotteet kannasta
+---STRINGEND
+
+---STRING field separator
+Kenttäerotin
+---STRINGEND
+
+---STRING if we have subgroups and products in group, what shall we show
+Jos tuoteryhmällä on alaryhmiä ja tuotteita, mitä näytetään?
+---STRINGEND
+
+---STRING import products
+Tuo tuotteita kantaan
+---STRINGEND
+
+---STRING index order for products when browsing groups
+Tuotteiden järjestys tuoteryhmiä selattaessa
+---STRINGEND
+
+---STRING one line per product
+Yksi tuote per rivi
+---STRINGEND
+
+---STRING product group schema database
+Tuoteryhmien tietokantakuvaus
+---STRINGEND
+
+---STRING product schema database
+Tuotteiden tietokantakuvaus
+---STRINGEND
+
+---STRING products per page
+Tuotteita per sivu
+---STRINGEND
+
+---STRING root product group
+Juuritason tuoteryhmä
+---STRINGEND
+
+---STRING schema
+Tietokantakuvaus
+---STRINGEND
+
+---STRING you can export csv files here
+Voit tuoda CSV-tiedostoja kannasta täällä
+---STRINGEND
+

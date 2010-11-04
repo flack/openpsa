@@ -1,0 +1,105 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 24733 2010-01-15 20:30:49Z adrenalin $
+---LANGUAGE fi
+
+---STRING %s document
+%s dokumentti
+---STRINGEND
+
+---STRING application/vnd.ms-powerpoint
+Powerpoint
+---STRINGEND
+
+---STRING author
+Tekijä
+---STRINGEND
+
+---STRING confirm delete
+Vahvista poisto
+---STRINGEND
+
+---STRING create document
+Luo dokumentti
+---STRINGEND
+
+---STRING directory
+Kansio
+---STRINGEND
+
+---STRING document
+Dokumentti
+---STRINGEND
+
+---STRING document search
+Hae dokumenteista
+---STRINGEND
+
+---STRING document status
+Dokumentin tila
+---STRINGEND
+
+---STRING documents
+Dokumentit
+---STRINGEND
+
+---STRING draft
+Luonnos
+---STRINGEND
+
+---STRING edit directory
+Muokkaa kansiota
+---STRINGEND
+
+---STRING final
+Lopullinen
+---STRINGEND
+
+---STRING folder
+Kansio
+---STRINGEND
+
+---STRING folders
+Kansiot
+---STRINGEND
+
+---STRING new directory
+Luo kansio
+---STRINGEND
+
+---STRING new document
+Luo dokumentti
+---STRINGEND
+
+---STRING no results
+Ei tuloksia
+---STRINGEND
+
+---STRING older versions
+Aiemmat versiot
+---STRINGEND
+
+---STRING org.openpsa.documents
+Dokumenttien hallinta
+---STRINGEND
+
+---STRING review
+Esikatselu
+---STRINGEND
+
+---STRING search
+Hae
+---STRINGEND
+
+---STRING text/plain
+Teksti
+---STRINGEND
+
+---STRING use the buttons below or in toolbar
+Käytä työkalupalkissa tai alla olevia painikkeita
+---STRINGEND
+
+---STRING score: %d%%
+Pisteet: %d%%
+---STRINGEND
+

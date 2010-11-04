@@ -1,0 +1,268 @@
+Editing elements 
+===
+
+##TinyMCE 
+
+TinyMCE is a third party open source software bundled with MidCOM and has found its way as the main 
+content editor. TinyMCE is a so-called WYSIWYG editor or What You See Is What You Get -there is no need 
+for learning any HTML to produce content 
+
+TinyMCE is very easy to use and the user interface is familiar to anyone who has been using word 
+processors like Writer of OpenOffice or Word of Microsoft Office. 
+
+>Note: Screenshots were taken with the default configuration for MidCOM. Your site 
+>might be customized and the toolbar can look different with less or more buttons and 
+>features available. 
+
+This chapter will go through some of the main features and [more extensive documentation][1] can be found 
+online.
+
+##Formatting 
+
+Each paragraph has a style assigned to it. This major style can be the level of heading, preformatted block 
+or just a plain paragraph, for example. 
+
+To change the paragraph style 
+
+1. Click on the paragraph you wish to change 
+2. Choose the formatting style from the dropdown menu 
+
+##Styling 
+
+The basic set of styling tools consists of bold, italics, strikethrough and both subscript and superscript. 
+
+As stated before, there might be more or less of styling options available on your website. 
+To change the text style 
+
+1. Select the area you wish to alter by marking it with your mouse 
+2. Click on the styling symbol you wish to use 
+
+Removing text style works the same way: 
+
+1. Select the area that already has been stylized 
+2. Click on the highlighted symbol of the corresponding style on the toolbar 
+
+##Cut, copy and paste 
+
+One of the most used features in every word processor is arguably copying and pasteing information. 
+
+Since different web browsers have different security and [safety policies][2], not all the methods work with 
+every browser. That is why there are several methods available. This chapter goes through some of them. 
+
+1. Toolbar buttons 
+ * the first three buttons are for cutting, copying and pasting 
+ 
+2. Right-click context menu 
+* right-clicking on the selected area will show a context menu, which shows also the options for cut, 
+copy, paste 
+
+3. Keyboard shortcuts 
+* Ctrl-X for cutting 
+* Ctrl-C for copying 
+* Ctrl-V for pasteing 
+
+3. Browser menu 
+* found from the top of the screen 
+* usually cut, copy and paste are found under Edit menu of the browser 
+
+>Note: The recommended content producing browser, Mozilla Firefox, prevents 
+>unpriviledged scripts from accessing the clipboard. It is possible to either use the 
+>methods 3 and 4 or to set preferences for [Mozilla Rich Text Editor][2]
+
+
+###To cut or copy 
+
+1. Select the area with mouse 
+2. Perform the wished action 
+
+* click on the toolbar symbol 
+* right-click on the selected area and select cut or copy 
+* press Ctrl-X or Ctrl-C 
+* select Cut or Copy from the browser Edit menu 
+
+###To paste 
+
+1. Click on the place you wish to paste the information 
+2. Paste by 
+* clicking on the toolbar symbol 
+* right-click on the spot and select paste 
+* press Ctrl-V 
+* select Paste from the browser Edit menu 
+
+##Undo and Redo 
+
+We all make mistakes. That is why your browser will remember a certain amount of actions you have been 
+performing in the content editor. It is often possible -possibly with limitations, though -to Undo and Redo 
+these errors. 
+
+##Lists 
+
+People read 25% slower on the screen than they would do on a printed paper, according to usability expert 
+Jakob Nielsen. This is why internet users have developed scanning technique for the eyes: first words of the 
+paragraph should reveal the context. 
+
+Lists are easy to read on the screen, since they collect information in small parts and are quick to scan. 
+
+There are two main types of lists 
+
+1. Ordered lists with numbering 
+2. Unordered lists with symbols 
+
+To use these lists 
+
+1. Click on the wished list type 
+2. Write the list entry 
+3. Press enter to create a new list item and repeat steps 2. and 3. until you have written the 
+whole list 
+4. End the list by pressing enter twice or clicking again on the list symbol 
+
+>Note: To create lists inside lists, click on button from the toolbar. To return to the main level, click on the button. 
+
+##Creating a hyperlink 
+
+To create a hyperlink 
+
+1. Select the area you wish to transform into a link 
+2. Click on the Insert/edit link button 
+3. Write the information of the link 
+* The only required field is Link URL, write here the address 
+* If you want the link to open to a new window, you can select Open in new window (_blank) 
+from the Target dropdown list 
+
+4. Click on Insert to create the link.
+
+To unlink select the existing, link and right-click on it. Then select Unlink from the context menu.
+
+>Note: A good practice with links is to always write the complete address, which is 
+>required always when linking outside of the site domain. If you are unsure of the 
+>correct form the surest way is to visit the page you wish to link to and copy the 
+>address as it is from the address bar (including HTTP-protocol definitions and all). 
+
+##Using tables 
+
+There are two ways to create a new table: either click on the Inserts a new table icon or right-click on 
+the spot in the editor and select it from the context menu. 
+
+Define the table proportions (Columns and Rows, both can be altered also afterwards) to the popup 
+window and click on Insert button. 
+
+There are three different levels of table properties 
+
+1. The whole table 
+2. Table row 
+3. Single cell 
+
+All the table operations will be found from the right-click context menu. Before right-clicking select the area 
+you wish to edit. 
+
+###Adding and deleting rows and columns 
+
+Adding both rows and columns works equally. Either click on the corresponding symbol or select the action 
+from the right-click context menu: 
+
+* Insert row before inserts a row on top of the selection/cursor 
+* Insert row after inserts a row under the selection/cursor 
+* Insert column before inserts a column on the left side of the selection/cursor 
+* Insert column after inserts a column on the right side of the selection/cursor 
+* Delete row removes the currently selected or active row(s) 
+* Delete column removes the currently selected or active column(s) 
+
+###Changing the properties 
+
+Depending on the level of action (single cell/table row/whole table), select the corresponding action. 
+
+* Table properties for affecting the whole table 
+ * choose eg. the horizontal Alignment, Border width and table dimensions (Width and Height) 
+* Table row properties for affecting the selected rows 
+ * choose whether the rows represent table body, head or foot 
+ * general alignments 
+ * with Table row properties it is also possible to change either the currently selected rows, all the 
+rows or all the odd/even rows of the table 
+* Table cell properties for individual table cells 
+ * cell specific alignments and Cell type 
+ * cell dimensions (Width and Height) 
+ * with Table cell properties it is also possible to change either the currently selected cells, all the 
+cells on the currently selected rows or every cell in the table 
+
+>Note: Many of the actions for cells and rows are the same, although some functionalities 
+>are available only for either cells or rows. 
+
+###Other table actions 
+
+To merge or split cells 
+
+1. Select the corresponding table cells 
+2. Click on the toolbar or right-click and choose from the context menu 
+* Split table cells to split the merged cells 
+* Merge table cells to merge the selected cells into one single cell 
+
+##Images and image properties 
+
+To add an image into the content click on the Insert image or attachment symbol. There should 
+appear a popup window. 
+
+1. Click on Browse on Images 
+2. Search for the image you wish to add from your computer or local network 
+* when it has been found click on Open 
+3. Define the Name and Title (both optional) 
+4. Click on Upload file to upload the image to the server 
+5. To attach the image in the content: click on the thumbnail, which appears after uploading the file 
+
+Other functionalities of the image popup are 
+
+* Replace file 
+ * replace a file that is currently on the server eg. after changes 
+* Delete file 
+ * delete a file from the server 
+ 
+>Note: If you are using the same image many times eg. in the same folder (but not the same 
+>article) you can also attach the image to the folder instead of the currently edited page. To 
+>do this click on Folder on the image popup window and attach and use the image as 
+>described above. 
+
+To change the image size 
+
+* Click on the image 
+* There are white boxes in each of the corners and in the middle of each side 
+ * to change the proportional size click and drag from a corner 
+ * to change the horizontal size click and drag from the sides 
+ * to change the vertical size click and drag from the top or bottom 
+ 
+###Image properties 
+
+It is also possible to enter numerical values. To edit the image properties right click on the image and click 
+on Image properties. 
+
+Resizing and aligning image: 
+
+1. Click on the Appearance tab 
+2. Choose the alignment 
+* defines how the text will flow around the image 
+
+3. Define the dimensions 
+* By default Constrain proportions is checked. This will keep the image in correct proportions. 
+
+4. Define the additional properties as you wish 
+5. Click on Update 
+
+Image description (e.g. for visually impaired) 
+
+1. Click on the General tab if it isn't already selected 
+2. Image description is used when the image fails to load or when the person viewing it is visually 
+impaired 
+3. Title will be displayed as text when the mouse has been left to hover on top of the image 
+Adding an image to a predefined place 
+
+Below the content area there is a field for an image that will be set in a predefined place. 
+
+1. Click on Browse 
+2. Search for the image you wish to add from your computer or local network 
+* when it has been found click on Open 
+
+3. Click on Upload file 
+
+To remove an image from this section, simply click on Delete file. 
+
+
+[1]: http://tinymce.moxiecode.com/ 
+[2]: http://www.mozilla.org/editor/midasdemo/securityprefs.html 

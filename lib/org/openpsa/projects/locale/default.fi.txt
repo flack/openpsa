@@ -1,0 +1,453 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 25209 2010-02-25 18:24:54Z flack $
+---LANGUAGE fi
+
+---STRING %d closed projects
+%d suljetut projektit
+---STRINGEND
+
+---STRING %s of %s planned hours booked
+%sh %s:stä arvioidusta tunnista varattu kalenterista
+---STRINGEND
+
+---STRING %s projects
+%s projektia
+---STRINGEND
+
+---STRING accept
+Hyväksy
+---STRINGEND
+
+---STRING accepted by %s
+Hyväksynyt %s
+---STRINGEND
+
+---STRING agreement
+Sopimus
+---STRINGEND
+
+---STRING agreement tasks
+Toimituksen tehtävät
+---STRINGEND
+
+---STRING approve
+Hyväksy
+---STRINGEND
+
+---STRING approved
+Hyväksytty
+---STRINGEND
+
+---STRING approved by %s
+Hyväksynyt valmiiksi %s
+---STRINGEND
+
+---STRING automatic resource search
+Automaattinen resurssien haku
+---STRINGEND
+
+---STRING back to project
+Takaisin projektiin
+---STRINGEND
+
+---STRING back to task
+Takaisin tehtävään
+---STRINGEND
+
+---STRING basic information
+Perustiedot
+---STRINGEND
+
+---STRING booked times
+Aikavaraukset
+---STRINGEND
+
+---STRING closed
+Suljettu
+---STRINGEND
+
+---STRING closed by %s
+Sulkenut %s
+---STRINGEND
+
+---STRING closed tasks
+Suljetut tehtävät
+---STRINGEND
+
+---STRING completed
+Valmis
+---STRINGEND
+
+---STRING completed tasks
+Valmiiksi merkityt tehtävät
+---STRINGEND
+
+---STRING contacts
+Yhteyshenkilöt
+---STRINGEND
+
+---STRING create project
+Luo projekti
+---STRINGEND
+
+---STRING create task
+Luo tehtävä
+---STRINGEND
+
+---STRING current tasks
+Avoimet tehtävät
+---STRINGEND
+
+---STRING customer
+Asiakas
+---STRINGEND
+
+---STRING date
+Päivämäärä
+---STRINGEND
+
+---STRING deadline
+Eräpäivä
+---STRINGEND
+
+---STRING decline
+Hylkää
+---STRINGEND
+
+---STRING declined by %s
+Hylännyt %s
+---STRINGEND
+
+---STRING delete task
+Poista tehtävä
+---STRINGEND
+
+---STRING description
+Kuvaus
+---STRINGEND
+
+---STRING dont approve
+Älä hyväksy
+---STRINGEND
+
+---STRING duration
+Kesto
+---STRINGEND
+
+---STRING edit
+Muokkaa
+---STRINGEND
+
+---STRING edit project %s
+Muokkaa projektia %s
+---STRINGEND
+
+---STRING edit task %s
+Muokkaa tehtävää %s
+---STRINGEND
+
+---STRING end
+Päättymisaika
+---STRINGEND
+
+---STRING from %s
+%s:ltä
+---STRINGEND
+
+---STRING hour report
+tuntiraportti
+---STRINGEND
+
+---STRING hour reports
+Tuntiraportit
+---STRINGEND
+
+---STRING hours
+Tunnit
+---STRINGEND
+
+---STRING hours are invoiceable by default
+Tunnit ovat oletuksena laskutettavia
+---STRINGEND
+
+---STRING invoiceable
+Laskutettava
+---STRINGEND
+
+---STRING invoiceable tasks
+Laskutettavat tehtävät
+---STRINGEND
+
+---STRING invoiced
+Laskutettu
+---STRINGEND
+
+---STRING invoiced tasks
+Laskutetut tehtävät
+---STRINGEND
+
+---STRING manager
+Vastuullinen
+---STRINGEND
+
+---STRING mark completed
+Merkkaa valmiiksi
+---STRINGEND
+
+---STRING marked %s hours as invoiced in task "%s"
+Merkitty %s tuntia laskutettavaksi tehtävässä "%s"
+---STRINGEND
+
+---STRING marked as completed by %s
+Merkannut valmiiksi %s
+---STRINGEND
+
+---STRING marked task "%s" closed
+Merkitty tehtävä "%s" suljetuksi
+---STRINGEND
+
+---STRING minimum time slot needed for task bookings
+Aikavarauksissä käytettävä pienin hyväksyttävä kesto
+---STRINGEND
+
+---STRING my organization
+Omasta organisaatiosta
+---STRINGEND
+
+---STRING my_tasks
+Minun tehtäväni
+---STRINGEND
+
+---STRING new project
+Uusi projekti
+---STRINGEND
+
+---STRING new task
+Uusi tehtävä
+---STRINGEND
+
+---STRING new task to project %s
+Uusi tehtävä projektiin %s
+---STRINGEND
+
+---STRING no customer
+Ei asiakasta
+---STRINGEND
+
+---STRING no search
+Ei hakua
+---STRINGEND
+
+---STRING not_started
+Ei aloitettu
+---STRINGEND
+
+---STRING not_started tasks
+Aloittamattomat tehtävät
+---STRINGEND
+
+---STRING on_hold
+Pidossa
+---STRINGEND
+
+---STRING ongoing
+Käynnissä
+---STRINGEND
+
+---STRING ongoing tasks
+Käynnissä olevat tehtävät
+---STRINGEND
+
+---STRING open tasks
+Avoimet tehtävät
+---STRINGEND
+
+---STRING org.openpsa.projects
+Projektinhallinta
+---STRINGEND
+
+---STRING overtime
+Myöhässä
+---STRINGEND
+
+---STRING pending approval by %s
+Odottaa %s hyväksyntää
+---STRINGEND
+
+---STRING pending_accept tasks
+Hyväksyntää odottavat tehtävät
+---STRINGEND
+
+---STRING pending_approve tasks
+Hyväksyntää odottavat tehtävät
+---STRINGEND
+
+---STRING planned hours
+Tuntiarvio
+---STRINGEND
+
+---STRING project
+Projekti
+---STRINGEND
+
+---STRING project status
+Projektin tila
+---STRINGEND
+
+---STRING project_tasks
+Projektin tehtävät
+---STRINGEND
+
+---STRING projects
+Projektit
+---STRINGEND
+
+---STRING proposed tasks
+Ehdotetut tehtävät
+---STRINGEND
+
+---STRING proposed to %s
+Ehdotettu %s:lle
+---STRINGEND
+
+---STRING proposed to %s by %s
+Ehdotettu käyttäjälle %2$s (%1$s)
+---STRINGEND
+
+---STRING put on hold by %s
+Laittanut odottamaan %s
+---STRINGEND
+
+---STRING re-opened by %s
+Avannut uudelleen %s
+---STRINGEND
+
+---STRING rejected by %s
+Hylännyt %s
+---STRINGEND
+
+---STRING reopen
+Avaa uudestaan
+---STRINGEND
+
+---STRING report hours
+Raportoi tunteja
+---STRINGEND
+
+---STRING reported
+Raportoitu
+---STRINGEND
+
+---STRING reporter
+Raportoija
+---STRINGEND
+
+---STRING resources
+Resurssit
+---STRINGEND
+
+---STRING resourcing
+Resurssointi
+---STRINGEND
+
+---STRING schedule resources
+Aikatauluta resursseja
+---STRINGEND
+
+---STRING skills required
+Vaadittava osaaminen
+---STRINGEND
+
+---STRING start
+Alkaa
+---STRINGEND
+
+---STRING start time
+Alkupvm
+---STRINGEND
+
+---STRING status
+Tila
+---STRINGEND
+
+---STRING status history
+Historia
+---STRINGEND
+
+---STRING subscribe
+Liity
+---STRINGEND
+
+---STRING synchronization
+Synkronointi
+---STRINGEND
+
+---STRING synchronized with %s by %s
+Synkronoinut %s:n kanssa %s
+---STRINGEND
+
+---STRING system
+järjestelmä
+---STRINGEND
+
+---STRING task
+Tehtävä
+---STRINGEND
+
+---STRING task %s
+Tehtävä %s
+---STRINGEND
+
+---STRING task in
+Tehtävä projektissa
+---STRINGEND
+
+---STRING task status
+Tehtävän tila
+---STRINGEND
+
+---STRING tasks
+Tehtävät
+---STRINGEND
+
+---STRING totals
+Yhteensä
+---STRINGEND
+
+---STRING type
+Tyyppi
+---STRINGEND
+
+---STRING unsubscribe
+Poista itsesi
+---STRINGEND
+
+---STRING whole openpsa
+Koko OpenPSA:sta
+---STRINGEND
+
+---STRING work for task %s
+Tee tehtävää %s
+---STRINGEND
+
+---STRING work started by %s
+Työn aloittanut %s
+---STRINGEND
+
+---STRING you are not subscribed to project
+Et ole projektissa yhteyshenkilönä
+---STRINGEND
+
+---STRING you are project participant
+Olet projektin osallistuja
+---STRINGEND
+
+---STRING you are project subscriber
+Olet projektin yhteyshenkilö
+---STRINGEND
+
+---STRING task deletion now allowed because of hour reports
+Tehtävän poisto ei ole mahdollinen koska siinä on tuntiraportteja
+---STRINGEND
+

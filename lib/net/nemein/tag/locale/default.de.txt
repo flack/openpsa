@@ -1,0 +1,29 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE de
+
+---STRING net.nemein.tag
+Content-Tagging
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not be empty
+Das Tag "%s" ist ungültig. Tags dürfen nicht leer sein
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not be numeric
+Das Tag "%s" ist ungültig. Tags dürfen nicht numerisch sein.
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags may not contain quotes
+Das Tag "%s" ist ungültig. Tags dürfen keine Anführungszeichen enthalten
+---STRINGEND
+
+---STRING tag "%s" is not valid. tags must be valid strings
+Das Tag "%s" ist ungültig. Tags nur aus einer Zeichenkette bestehen
+---STRINGEND
+
+---STRING tagged
+Getagged
+---STRINGEND
+

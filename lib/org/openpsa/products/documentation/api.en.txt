@@ -1,0 +1,32 @@
+Product database web services
+=============================
+
+The org.openpsa.products product database provides RESTful web services for getting and managing information in the database.
+
+## API in general
+
+Each method in the API is found under its own URL. The URLs are relative to the location of the products database. For example, if the product database is located in `http://www.example.net/products`, then the product listing XML is found in `http://www.example.net/products/api/product/list`.
+
+## Methods for fetching information
+
+Information fetching APIs are to be accessed via HTTP GET requests to their specific URLs. They do not require authentication and provide their data in XML format. The documentation pages below show the 
+
+[/api/product/list/](../api_product_list_all/)
+:    List all products
+
+[/api/product/list/`Group GUID`](../api_product_list/)
+:    List products in a product group
+
+[/api/product/get/`Product GUID`](../api_product_get/)
+:    Get information about a product
+
+## Methods for managing information
+
+[/api/product/create/](../api_product_create/)
+:    Create a product
+
+[/api/product/update/`Product GUID`](../api_product_update/)
+:    Update a product
+
+[/api/product/delete/`Product GUID`](../api_product_delete/)
+:    Delete a product

@@ -1,0 +1,118 @@
+table.midcom_admin_babel_languages
+{
+  background-color: #eeeeef;
+  padding: 0.5em;
+  -moz-border-radius: 10px;
+  width: 600px;
+  border-bottom: solid 1px #000;
+  border-right: solid 1px #000;
+
+}
+
+table.midcom_admin_babel_languages tr td
+{
+    text-align: right;
+}
+
+table.midcom_admin_babel_languages tr.ok
+{
+    color: #4e9a06;
+}
+table.midcom_admin_babel_languages tr.acceptable
+{
+    color: #c4a000;
+}
+table.midcom_admin_babel_languages tr.bad
+{
+    color: #a40000;
+}
+table.midcom_admin_babel_languages tr th.component
+{
+    text-align: left;
+    font-weight: bold;
+}
+
+table.midcom_admin_babel_languages tr th.component img
+{
+    border: none;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+table.midcom_admin_babel_languages tr.header th
+{
+  background-color: #dddddf;
+  border-bottom: solid 1px #000;
+  border-right: solid 1px #000;
+  -moz-border-radius: 6px;
+}
+
+table.midcom_admin_babel_languages tr.subheader th
+{
+  background-color: #f8eeff;
+  border-bottom: solid 1px #000;
+  border-right: solid 1px #000;
+  -moz-border-radius: 6px;
+}
+
+table.midcom_admin_babel_languages tr td.footer
+{
+    text-align: right;
+    font-weight: bold;
+    border-top: solid 1px #000;
+}
+
+table.midcom_admin_babel_languages tr.newstring td
+{
+    vertical-align:bottom;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+
+}
+
+table.midcom_admin_babel_languages tr.newstring
+{
+    background: #33cc33;
+    -moz-border-radius: 6px;
+
+}
+
+table.midcom_admin_babel_languages tr td
+{
+    width: 33%;
+    padding: 4px;
+}
+
+table.midcom_admin_babel_languages tr td span
+{
+    display: block;
+    overflow: auto;
+}
+
+table.midcom_admin_babel_languages tr.string-even
+{
+    background: #d3d7cf;
+    -moz-border-radius: 6px;
+}
+
+table.midcom_admin_babel_languages tr.string-odd
+{
+    background: #cccccc;
+    -moz-border-radius: 6px;
+}
+
+#content-text h1
+{
+    padding-left: 0.5em;
+    font-size: 150%;
+}
+
+.processing_message
+{
+    background: #eeeeef;
+    -moz-border-radius: 6px;
+    border: solid 1px red;
+    margin-top: 1em;
+    padding-left: 0.5em;
+}

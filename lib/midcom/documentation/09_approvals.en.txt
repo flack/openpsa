@@ -1,0 +1,45 @@
+Approvals
+===
+
+Approval is a switch, which is used to define if the content has been approved to be published. If approvals 
+have been enabled, unapproved content will not be displayed in the public web site. 
+
+>Note: Approval is off as default and usually affects very heavily the whole site structure. If 
+>you are interested in using approvals, you can discuss the possibilities with your site 
+>manager. 
+
+Newly created objects will start with unapproved status. Also, when an object is updated, it will lose its 
+approval status as well. In approvals it is essential to have the whole parent path of the object approved. 
+
+E.g. if there is a news article called New web site launched, which is located in folder 
+**http://www.example.com/en/news/**, all of the following objects need to be approved in order to publish 
+the page: 
+
+1. folder en 
+2. folder news 
+3. page New web site launched 
+
+>Note for administrators: the site root folder has also to be approved. Otherwise no 
+>content will be displayed! 
+
+##Approvals in Staging/Live 
+
+Staging/Live is a system, which uses two databases: one for the public web site and one for the content 
+production. In Staging/Live old content will be public until new content has been approved. 
+
+This makes it possible to e.g. have a large amount of editors doing their work independently and having a 
+chief editor to approve them, as it would be in newspaper production. 
+
+>Note: If you are not sure whether the system you are using is Staging/Live or not, 
+>consult your site manager. 
+
+##Approving and unapproving a page 
+
+To approve or unapprove a page simply click on **Page -> Approve or Page -> Unapprove** correspondingly on 
+MidCOM toolbar. 
+
+##Approving and unapproving a folder 
+
+To approve or unapprove a folder simply click on **Folder -> Approve or Folder -> Unapprove** correspondingly 
+on MidCOM toolbar. 
+

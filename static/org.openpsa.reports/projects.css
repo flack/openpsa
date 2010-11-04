@@ -1,0 +1,36 @@
+/* Report table header */
+div.org_openpsa_reports_basic table.report thead th {
+    text-align: left;
+    border-bottom: 1px dashed #807D74;
+}
+
+/* Group of report results */
+div.org_openpsa_reports_basic table.report tbody.group {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+div.org_openpsa_reports_basic table.report tbody.group tr.header {
+    background-color: #EAE8E3;
+    text-align: left;
+}
+div.org_openpsa_reports_basic table.report tbody.group tr.item {
+}
+/* div.org_openpsa_reports_basic */
+ table.report tbody.group tr.totals td {
+    border-top: 1px dotted #807D74;
+    text-align: right;
+}
+/* div.org_openpsa_reports_basic */
+ table.report tbody.group tr.totals td.numeric {
+    text-align: right;
+}
+div.org_openpsa_reports_basic table.report tbody.group tr.item td.numeric {
+    text-align: right;
+}
+
+/* Grand totals of report */
+div.org_openpsa_reports_basic table.report tbody.totals tr td {
+    border-top: 1px solid #565248;
+    font-weight: bold;
+    text-align: right;
+}

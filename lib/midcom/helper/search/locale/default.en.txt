@@ -1,0 +1,121 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE en
+
+---STRING advanced search
+Advanced search
+---STRINGEND
+
+---STRING found %s documents, showing %s documents.
+Found %s documents, showing %s documents on this page.
+---STRINGEND
+
+---STRING limit search by content type
+Search only this content type
+---STRINGEND
+
+---STRING limit search by last modified
+Search for documents modified within
+---STRINGEND
+
+---STRING limit search by topic tree
+Search only this part of the site
+---STRINGEND
+
+---STRING midcom.helper.search
+Site search
+---STRINGEND
+
+---STRING next page
+Next page
+---STRINGEND
+
+---STRING no limit
+No limit
+---STRINGEND
+
+---STRING pages
+Pages
+---STRINGEND
+
+---STRING previous page
+Previous page
+---STRINGEND
+
+---STRING query
+Query
+---STRINGEND
+
+---STRING results_per_page
+Number of results per page
+---STRINGEND
+
+---STRING score
+Score
+---STRINGEND
+
+---STRING search
+Search
+---STRINGEND
+
+---STRING search all content types
+Search all content types
+---STRINGEND
+
+---STRING search anywhere
+Search anywhere
+---STRINGEND
+
+---STRING search hints
+Search hints
+---STRINGEND
+
+---STRING search hints lucene
+Group terms using double-quotes ("my term").<br />
+You can use the boolean operators AND, OR and NOT (must be capitalized).<br/>
+Check the <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> for further details.
+---STRINGEND
+
+---STRING search hints plucene
+Group terms using double-quotes ("my term").<br />
+You can use the boolean operators AND, OR and NOT (must be capitalized).<br/>
+Check the <a href="http://search.cpan.org/dist/Plucene/lib/Plucene.pm">Plucene</a> and <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> for further details.
+---STRINGEND
+
+---STRING search results
+Search results
+---STRINGEND
+
+---STRING search_help_message
+The search help message to show
+---STRINGEND
+
+---STRING showing %s to %s.
+Showing documents %s - %s.
+---STRINGEND
+
+---STRING showing %s.
+Showing document %s.
+---STRINGEND
+
+---STRING since 1 month
+One month
+---STRINGEND
+
+---STRING since 1 year
+One year
+---STRINGEND
+
+---STRING since 3 months
+Three months
+---STRINGEND
+
+---STRING since 6 months
+Six months
+---STRINGEND
+
+---STRING your query returned no results
+Your search query did not return any documents.
+---STRINGEND
+

@@ -1,0 +1,280 @@
+ 'default' => array
+(
+    'name'        => 'default',
+    'description' => 'Permissions',
+    'fields'      => array
+    (
+        // Metadata
+        'calendar' => array
+        (
+            'title'       => 'enable calendar',
+            'type'        => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_calendar_event_dba',
+                /* Set the calendar root event and the assignee prior to initializing DM */
+            ),
+            'widget'      => 'privilege',
+            'storage'     => null,
+            'start_fieldgroup' => array
+            (
+                'title' => $_MIDCOM->i18n->get_string('org.openpsa.calendar', 'org.openpsa.calendar'),
+                'css_group' => 'area',
+            ),
+            'end_fieldgroup' => '',
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.calendar'),
+        ),
+
+        'projects' => array
+        (
+            'title' => 'enable project creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_projects_project',
+            ),
+
+            'widget'      => 'privilege',
+            'start_fieldset' => array
+            (
+                'title' => $_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'),
+                'css_group' => 'area',
+            ),
+            'end_fieldset' => '',
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.calendar'),
+        ),
+
+        'contact_creation' => array
+        (
+            'title' => 'enable contact creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_contacts_person_dba',
+                /* Set the contacts root group and assignee prior to initializing */
+            ),
+
+            'widget'      => 'privilege',
+            'start_fieldset' => array
+            (
+                'title' => 'org.openpsa.contacts',
+                'css_group' => 'area',
+            ),
+        ),
+
+        'contact_editing' => array
+        (
+            'title' => 'enable editing contacts created by others',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:update',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_contacts_person_dba',
+                /* Set the contacts root group and assignee prior to initializing */
+            ),
+
+            'widget'      => 'privilege',
+        ),
+
+        'organization_creation' => array
+        (
+            'title' => 'enable organization creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_contacts_group_dba',
+            ),
+
+            'widget'      => 'privilege',
+        ),
+
+        'organization_editing' => array
+        (
+            'title' => 'enable editing organizations created by others',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:update',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_contacts_group_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'end_fieldset' => '',
+        ),
+
+        'invoices_creation' => array
+        (
+            'title' => 'enable invoice creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_invoices_invoice_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'start_fieldset' => array
+            (
+                'title' => $_MIDCOM->i18n->get_string('org.openpsa.invoices', 'org.openpsa.invoices'),
+                'css_group' => 'area',
+            ),
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.invoices'),
+        ),
+
+        'invoices_editing' => array
+        (
+            'title' => 'enable editing invoices created by others',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:update',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_invoices_invoice_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'end_fieldset' => '',
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.invoices'),
+        ),
+
+        'wiki_creation' => array
+        (
+            'title' => 'enable wikipage creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'net_nemein_wiki_wikipage',
+            ),
+
+            'widget'      => 'privilege',
+            'start_fieldset' => array
+            (
+                'title' => $_MIDCOM->i18n->get_string('net.nemein.wiki', 'net.nemein.wiki'),
+                'css_group' => 'area',
+            ),
+            'hidden' => !$_MIDCOM->componentloader->is_installed('net.nemein.wiki'),
+        ),
+
+        'wiki_editing' => array
+        (
+            'title' => 'enable editing wikipages created by others',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:update',
+                'assignee'       => 'SELF',
+                'classname'      => 'net_nemein_wiki_wikipage',
+            ),
+
+            'widget'      => 'privilege',
+            'end_fieldset' => '',
+            'hidden' => !$_MIDCOM->componentloader->is_installed('net.nemein.wiki'),
+        ),
+
+        'products_creation' => array
+        (
+            'title' => 'enable product creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_products_product_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'start_fieldset' => array
+            (
+                'title' => $_MIDCOM->i18n->get_string('org.openpsa.products', 'org.openpsa.products'),
+                'css_group' => 'area',
+            ),
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.products'),
+        ),
+
+        'products_editing' => array
+        (
+            'title' => 'enable editing products created by others',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:update',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_products_product_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'end_fieldset' => '',
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.products'),
+        ),
+
+        'campaigns_creation' => array
+        (
+            'title' => 'enable campaign creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_directmarketing_campaign_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'start_fieldset' => array
+            (
+                'title' => $_MIDCOM->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'),
+                'css_group' => 'area',
+            ),
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.directmarketing'),
+        ),
+
+        'campaigns_editing' => array
+        (
+            'title' => 'enable editing campaigns created by others',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:update',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_directmarketing_campaign_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'end_fieldset' => '',
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.directmarketing'),
+        ),
+
+        'salesproject_creation' => array
+        (
+            'title' => 'enable salesproject creation',
+            'type'    => 'privilege',
+            'type_config' => array
+            (
+                'privilege_name' => 'midgard:create',
+                'assignee'       => 'SELF',
+                'classname'      => 'org_openpsa_sales_salesproject_dba',
+            ),
+
+            'widget'      => 'privilege',
+            'start_fieldset' => array
+            (
+                'title' => $_MIDCOM->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
+                'css_group' => 'area',
+            ),
+            'end_fieldset' => '',
+            'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.sales'),
+        ),
+    )
+)

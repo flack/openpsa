@@ -1,0 +1,109 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23195 2009-08-19 16:06:12Z flack $
+---LANGUAGE hu
+
+---STRING all invoices
+Összes számla
+---STRINGEND
+
+---STRING all invoices for customer %s
+%s összes számlája
+---STRINGEND
+
+---STRING basic information
+Alap információk
+---STRINGEND
+
+---STRING create invoice
+Számla létrehozása
+---STRINGEND
+
+---STRING customer
+Ügyfél
+---STRINGEND
+
+---STRING customer contact
+Ügyfél elérhetősége
+---STRINGEND
+
+---STRING delete invoice
+Számla törlése
+---STRINGEND
+
+---STRING invoice
+Számla
+---STRINGEND
+
+---STRING invoice number
+Számla száma
+---STRINGEND
+
+---STRING invoicing information
+Számlázási információ
+---STRINGEND
+
+---STRING mark paid
+Megjelölés fizetettként
+---STRINGEND
+
+---STRING mark sent
+Megjelenés elküldöttként
+---STRINGEND
+
+---STRING marked invoice "%s" paid
+"%" számla megjelölése fizetetként
+---STRINGEND
+
+---STRING marked invoice "%s" sent
+"%s" számla megjelőlése elküldöttként
+---STRINGEND
+
+---STRING not paid
+Nincs kifizetve
+---STRINGEND
+
+---STRING open invoices
+Számlák megnyitása
+---STRINGEND
+
+---STRING price
+Ár
+---STRINGEND
+
+---STRING project invoicing
+Projekt számlázás
+---STRINGEND
+
+---STRING sent
+Elküldés ideje
+---STRINGEND
+
+---STRING sum
+Összeg
+---STRINGEND
+
+---STRING totals
+Végösszeg
+---STRINGEND
+
+---STRING unsent invoices
+El nem küldött számlák
+---STRINGEND
+
+---STRING vat
+ÁFA
+---STRINGEND
+
+---STRING marked task "%s" finished
+%s feladat befejezettként megjelölése
+---STRINGEND
+
+---STRING no customer
+Nincs ügyfél
+---STRINGEND
+
+---STRING paid
+Fizetés ideje
+---STRINGEND
+

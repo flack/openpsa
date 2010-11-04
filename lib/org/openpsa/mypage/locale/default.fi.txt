@@ -1,0 +1,93 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 23015 2009-07-28 08:50:55Z flack $
+---LANGUAGE fi
+
+---STRING %d hours (%d invoiceable) reported
+%d tuntia (%d laskutettavaa) raportoitu
+---STRINGEND
+
+---STRING create event
+Luo tapahtuma
+---STRINGEND
+
+---STRING create person
+Luo henkilö
+---STRINGEND
+
+---STRING create task
+Luo tehtävä
+---STRINGEND
+
+---STRING my summary
+Yhteenveto
+---STRINGEND
+
+---STRING not working on a task
+Ei tehtävää
+---STRINGEND
+
+---STRING now working on
+Nyt työn alla
+---STRINGEND
+
+---STRING org.openpsa.mypage
+Henkilökohtainen yhteenveto
+---STRINGEND
+
+---STRING preview for week %s
+Viikon %s esikatselu
+---STRINGEND
+
+---STRING review of week %s
+Viikon %s yhteenveto
+---STRINGEND
+
+---STRING totals
+Yhteensä
+---STRINGEND
+
+---STRING updated %s
+Päivitetty %s
+---STRINGEND
+
+---STRING updated today
+Päivitetty tänään
+---STRINGEND
+
+---STRING updated yesterday
+Päivitetty eilen
+---STRINGEND
+
+---STRING week review
+Viikon yhteenveto
+---STRINGEND
+
+---STRING invoiceable
+Laskutettava
+---STRINGEND
+
+---STRING reporting %d hours to task %s failed, reason %s
+%d tunnin raportointi tehtävään %s epäonnistui, syy %s
+---STRINGEND
+
+---STRING see all %s hours
+Näytä kaikki %s tunnit
+---STRINGEND
+
+---STRING successfully reported %d hours to task %s
+%d tunnin raportointi tehtävään %s onnistui
+---STRINGEND
+
+---STRING this week
+Tämä viikko
+---STRINGEND
+
+---STRING uninvoiceable
+Ei-laskutettava
+---STRINGEND
+
+---STRING worked from %s to %s
+Työskennelty %s-%s
+---STRINGEND
+

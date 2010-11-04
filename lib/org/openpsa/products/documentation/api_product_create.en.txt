@@ -1,0 +1,26 @@
+/api/product/create/
+========================
+
+Add a product to the database.
+
+## Authentication
+
+This method requires HTTP Basic authentication
+
+## HTTP POST arguments
+
+[callback:schemafields2postargs]
+
+## Error Codes
+
+200: OK
+:    Product was successfully created
+
+401: Authorization required
+:    HTTP Basic authentication needed
+
+404: Not found
+:    The requested product could not be found
+
+500: Internal Server Error
+:    Some error state has happened in the database, the message includes details

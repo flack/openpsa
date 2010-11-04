@@ -1,0 +1,29 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23195 2009-08-19 16:06:12Z flack $
+---LANGUAGE hu
+
+---STRING define custom report
+Egyedi jelentés létrehozása
+---STRINGEND
+
+---STRING invoiceable hours last month
+Múlt havi számlázható órák
+---STRINGEND
+
+---STRING invoiceable hours this month
+Ehavi számlázható órák
+---STRINGEND
+
+---STRING no results
+Nincs eredmény
+---STRINGEND
+
+---STRING org.openpsa.reports
+Jelentés készítő
+---STRINGEND
+
+---STRING no results found matching the report criteria
+A jelentési kritérium szerint nincs megfelelő eredmény
+---STRINGEND
+

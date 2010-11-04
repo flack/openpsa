@@ -1,0 +1,35 @@
+Logging in and toolbar 
+===
+Depending on the layout there might be a login link. If there is no link, it is possible to type midcom-login-to the end of the address of your website, eg. http://www.example.com/midcom-login-
+
+*Note:* The last score (-) is part of the address. 
+
+After logging in there should appear a toolbar on the top center of the screen. This toolbar contains the functionalities you can use to 
+produce content. It is divided into three or four sections 
+
+1. Page 
+2. Folder 
+3. Website 
+4. Help 
+
+##Page 
+
+Under the section Page there are the operations available for the currently viewed page. Usually it is possible -depending on the granted privileges -to edit and delete pages or to view the metadata and revision history. Depending on the system configuration and the folder component there might also be other features, like approving and disapproving or viewing the replication information. 
+
+Common actions under the Page section are discussed under the chapter 5 Page Management. 
+
+##Folder 
+
+Folder menu contains the tools for the current folder. If the folder type, i.e. component, allows to create new pages, folder section is the correct place. 
+
+Actions under the Folder section are discussed under the chapter 4 Folder Management. 
+
+##Website 
+
+Website section contains operations for configuring the website. These features are only for site administrators. 
+
+For non administrators the most important item of the Website section of the toolbar is arguably Logout, which will end the session and sign you out from the system. 
+
+##Moving the toolbar 
+
+It is possible to move the toolbar around to a better position. Simply drag and drop the toolbar by pressing down on the moving grid located at the right side of the toolbar. 

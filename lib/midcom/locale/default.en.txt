@@ -1,0 +1,853 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 25987 2010-05-04 14:10:09Z bergie $
+---LANGUAGE en
+
+---STRING %s in %s
+
+---STRINGEND
+
+---STRING %s of packages of type %s
+%s of packages of type %s
+---STRINGEND
+
+---STRING Edit this page
+Edit this page
+---STRINGEND
+
+---STRING More...
+More...
+---STRINGEND
+
+---STRING OK
+OK
+---STRINGEND
+
+---STRING abstract
+Abstract
+---STRINGEND
+
+---STRING access control
+Access control
+---STRINGEND
+
+---STRING access denied
+Access denied
+---STRINGEND
+
+---STRING access denied: admin level privileges required
+Access denied: You need administrator privileges.
+---STRINGEND
+
+---STRING access denied: privilege %s not granted
+Access denied: You need the privilege %s.
+---STRINGEND
+
+---STRING access denied: user is not member of the group %s
+Access denied: You are not a member of the group %s.
+---STRINGEND
+
+---STRING access denied: you do not have write permission
+Access denied: You do not have write permission.
+---STRINGEND
+
+---STRING access denied: you must be logged in
+Access denied: You must be logged in.
+---STRINGEND
+
+---STRING access type
+Access type
+---STRINGEND
+
+---STRING actions
+Actions
+---STRINGEND
+
+---STRING advanced schema and data settings
+Advanced schema and data settings
+---STRINGEND
+
+---STRING all
+all
+---STRINGEND
+
+---STRING and
+and
+---STRINGEND
+
+---STRING anonymous
+anonymous
+---STRINGEND
+
+---STRING approval
+Approval
+---STRINGEND
+
+---STRING approvals
+Approvals
+---STRINGEND
+
+---STRING approve
+Approve
+---STRINGEND
+
+---STRING approve topic
+Approve folder
+---STRINGEND
+
+---STRING approved
+Approved
+---STRINGEND
+
+---STRING approved changes will be replicated within next minute
+Replication of approved changes will start in one minute
+---STRINGEND
+
+---STRING approver
+Approved by
+---STRINGEND
+
+---STRING arrangement score
+Arrangement score
+---STRINGEND
+
+---STRING back
+Back
+---STRINGEND
+
+---STRING back to configuration
+Back to configuration
+---STRINGEND
+
+---STRING back to index
+Back to folder index
+---STRINGEND
+
+---STRING body
+Body
+---STRINGEND
+
+---STRING bottom
+bottom
+---STRINGEND
+
+---STRING by name
+by name
+---STRINGEND
+
+---STRING calendar
+by date created
+---STRINGEND
+
+---STRING cancel
+Cancel
+---STRINGEND
+
+---STRING captcha field title
+Security code
+---STRINGEND
+
+---STRING close configuration screen
+Close configuration screen
+---STRINGEND
+
+---STRING component
+Component
+---STRINGEND
+
+---STRING component %s configuration for folder %s
+Component %s configuration for folder "%s"
+---STRINGEND
+
+---STRING component configuration
+Component configuration
+---STRINGEND
+
+---STRING component configuration helptext
+Click this menu to configure the component settings specific to this folder.
+---STRINGEND
+
+---STRING component depends on
+Component depends on
+---STRINGEND
+
+---STRING confirm
+Confirm
+---STRINGEND
+
+---STRING copy
+Copy
+---STRINGEND
+
+---STRING country
+Country
+---STRINGEND
+
+---STRING create
+Create
+---STRINGEND
+
+---STRING create %s
+Create %s
+---STRINGEND
+
+---STRING create page
+Create page
+---STRINGEND
+
+---STRING created
+by date created (oldest first)
+---STRINGEND
+
+---STRING created on
+Created on
+---STRINGEND
+
+---STRING creator
+Created by
+---STRINGEND
+
+---STRING date
+Date
+---STRINGEND
+
+---STRING decimal point
+.
+---STRINGEND
+
+---STRING default setting
+Default setting
+---STRINGEND
+
+---STRING delete
+Delete
+---STRINGEND
+
+---STRING delete %s
+Delete %s
+---STRINGEND
+
+---STRING description
+Description
+---STRINGEND
+
+---STRING developer
+Developer
+---STRINGEND
+
+---STRING discussion in %s
+Discussion in %s
+---STRINGEND
+
+---STRING do not index (midcom's indexer)
+Do not index for site search
+---STRINGEND
+
+---STRING domain
+Domain
+---STRINGEND
+
+---STRING down
+down
+---STRINGEND
+
+---STRING download %s
+Download %s
+---STRINGEND
+
+---STRING edit
+Edit
+---STRINGEND
+
+---STRING edit %s
+Edit %s
+---STRINGEND
+
+---STRING edit design
+Edit design
+---STRINGEND
+
+---STRING edit page
+Edit page
+---STRINGEND
+
+---STRING edit photos
+Edit photos
+---STRINGEND
+
+---STRING edited
+Edited on
+---STRINGEND
+
+---STRING editor
+Edited by
+---STRINGEND
+
+---STRING encrypted
+Encrypted
+---STRINGEND
+
+---STRING end date
+End date
+---STRINGEND
+
+---STRING folder
+Folder
+---STRINGEND
+
+---STRING get help
+Get help
+---STRINGEND
+
+---STRING get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
+Get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
+---STRINGEND
+
+---STRING hidden
+Hidden
+---STRINGEND
+
+---STRING hide
+Hide
+---STRINGEND
+
+---STRING host
+Website
+---STRINGEND
+
+---STRING id
+ID (internal)
+---STRINGEND
+
+---STRING image
+Image
+---STRINGEND
+
+---STRING in %s
+in %s
+---STRINGEND
+
+---STRING inherited from parent
+Inherited from parent element
+---STRINGEND
+
+---STRING internal metadata
+Internal Metadata
+---STRINGEND
+
+---STRING invalidate cache
+Invalidate Midgard's cache
+---STRINGEND
+
+---STRING keywords
+Keywords
+---STRINGEND
+
+---STRING last modified
+Last modified
+---STRINGEND
+
+---STRING lead
+Lead developer
+---STRINGEND
+
+---STRING library
+Library
+---STRINGEND
+
+---STRING login
+Login
+---STRINGEND
+
+---STRING login message - insufficient privileges
+Your user account does not have sufficient privileges.
+---STRINGEND
+
+---STRING login message - please enter credentials
+Please enter your username and password.
+---STRINGEND
+
+---STRING login message - user or password wrong
+Username or password was invalid.
+---STRINGEND
+
+---STRING logout
+Logout
+---STRINGEND
+
+---STRING long date
+%A %B %d, %Y
+---STRINGEND
+
+---STRING lowercase, no special characters or spaces
+Lowercase, no special characters or spaces
+---STRINGEND
+
+---STRING metadata
+Metadata
+---STRINGEND
+
+---STRING midcom
+MidCOM CMS Framework
+---STRINGEND
+
+---STRING midcom administration
+Midgard CMS Administration
+---STRINGEND
+
+---STRING move
+Move
+---STRINGEND
+
+---STRING move down
+Move down
+---STRINGEND
+
+---STRING move up
+Move up
+---STRINGEND
+
+---STRING name
+Name
+---STRINGEND
+
+---STRING nav_noentry
+Hide from navigation
+---STRINGEND
+
+---STRING nav_noentry_helptext
+Objects with no navigation entry are still accessible on-site if the URL is known.
+---STRINGEND
+
+---STRING new
+New
+---STRINGEND
+
+---STRING next
+Next
+---STRINGEND
+
+---STRING next page
+Next page
+---STRINGEND
+
+---STRING no
+No
+---STRINGEND
+
+---STRING not active %s
+Not active %s
+---STRINGEND
+
+---STRING not hidden
+Visible
+---STRINGEND
+
+---STRING offline
+Offline
+---STRINGEND
+
+---STRING online
+Online
+---STRINGEND
+
+---STRING online state
+Online state
+---STRINGEND
+
+---STRING opengraph information
+Open Graph Protocol
+---STRINGEND
+
+---STRING opengraph type
+Open Graph type
+---STRINGEND
+
+---STRING opengraph type select
+Select type for the page
+---STRINGEND
+
+---STRING optional
+opt.
+---STRINGEND
+
+---STRING owner
+Owner
+---STRINGEND
+
+---STRING page
+Page
+---STRINGEND
+
+---STRING page %d of %d
+Page %d of %d
+---STRINGEND
+
+---STRING parameters
+Parameters
+---STRINGEND
+
+---STRING parentguid
+Parent GUID
+---STRINGEND
+
+---STRING password
+Password
+---STRINGEND
+
+---STRING password mismatch
+Passwords do not match
+---STRINGEND
+
+---STRING permalink
+Permalink
+---STRINGEND
+
+---STRING photo in %s
+Photo in %s
+---STRINGEND
+
+---STRING previous
+Previous
+---STRINGEND
+
+---STRING previous page
+Previous page
+---STRINGEND
+
+---STRING privileges
+Permissions
+---STRINGEND
+
+---STRING recreate images
+Recreate images
+---STRINGEND
+
+---STRING recreate images for folder %s
+Recreate images for folder %s
+---STRINGEND
+
+---STRING reject
+Reject
+---STRINGEND
+
+---STRING reset
+Reset
+---STRINGEND
+
+---STRING restore submitted form data
+Restore submitted form data
+---STRINGEND
+
+---STRING reverse calendar
+by date created (reverse)
+---STRINGEND
+
+---STRING reverse created
+by date created (newest first)
+---STRINGEND
+
+---STRING reverse name
+by name (reverse)
+---STRINGEND
+
+---STRING reverse revised
+by date last changed (reverse)
+---STRINGEND
+
+---STRING reverse score
+by score (reverse)
+---STRINGEND
+
+---STRING revert to default setting
+Revert to default setting
+---STRINGEND
+
+---STRING revised
+by date last changed
+---STRINGEND
+
+---STRING robots
+Control external indexing
+---STRINGEND
+
+---STRING robots-follow
+Allow indexing, indexer may follow links
+---STRINGEND
+
+---STRING robots-index
+Allow Indexing
+---STRINGEND
+
+---STRING robots-nofollow
+Allow indexing, indexer must not follow links
+---STRINGEND
+
+---STRING robots-noindex
+Disallow Indexing
+---STRINGEND
+
+---STRING robots-not-specified
+Not specified, uses robots.txt.
+---STRINGEND
+
+---STRING run replication
+Run replication
+---STRINGEND
+
+---STRING save
+Save
+---STRINGEND
+
+---STRING save and close
+Save and close
+---STRINGEND
+
+---STRING schedule_end
+Display until (leave empty for unlimited display)
+---STRINGEND
+
+---STRING schedule_start
+Publish at (leave empty for immediate publication)
+---STRINGEND
+
+---STRING scheduled and shown
+Scheduled and currently shown
+---STRINGEND
+
+---STRING scheduled but hidden
+Scheduled but currently hidden
+---STRINGEND
+
+---STRING scheduling
+Scheduling
+---STRINGEND
+
+---STRING schema database
+Schema database
+---STRINGEND
+
+---STRING score
+by score
+---STRINGEND
+
+---STRING search
+Search
+---STRINGEND
+
+---STRING select
+Select
+---STRINGEND
+
+---STRING settings
+Settings
+---STRINGEND
+
+---STRING short date
+%Y-%m-%d
+---STRINGEND
+
+---STRING short date csv
+%Y-%m-%d
+---STRINGEND
+
+---STRING shown from %s
+Shown from %s
+---STRINGEND
+
+---STRING shown from %s to %s
+Shown from %s to %s
+---STRINGEND
+
+---STRING shown until %s
+Shown until %s
+---STRINGEND
+
+---STRING sitegroup
+Sitegroup
+---STRINGEND
+
+---STRING sort_by_calendar
+Sort by calendar
+---STRINGEND
+
+---STRING sort_by_name
+Sort by name
+---STRINGEND
+
+---STRING sort_by_reverse_calendar
+Sort by calendar (reversed)
+---STRINGEND
+
+---STRING sort_by_reverse_name
+Sort by name (reversed)
+---STRINGEND
+
+---STRING sort_by_reverse_revised
+Sort by last-modified (reversed)
+---STRINGEND
+
+---STRING sort_by_reverse_score
+Sort by score (reversed)
+---STRINGEND
+
+---STRING sort_by_revised
+Sort by last-modified
+---STRINGEND
+
+---STRING sort_by_score
+Sort by score
+---STRINGEND
+
+---STRING sort_leaves
+Keep component sort order stable
+---STRINGEND
+
+---STRING sort_order
+How should leaves be sorted?
+---STRINGEND
+
+---STRING sorting position
+Sorting position
+---STRINGEND
+
+---STRING stagin2live
+Staging-to-live system
+---STRINGEND
+
+---STRING start date
+Start date
+---STRINGEND
+
+---STRING stats
+website stats
+---STRINGEND
+
+---STRING style
+Style
+---STRINGEND
+
+---STRING tags
+Tags
+---STRINGEND
+
+---STRING test settings
+Test settings
+---STRINGEND
+
+---STRING text
+Text
+---STRINGEND
+
+---STRING thumbnail
+Thumbnail
+---STRINGEND
+
+---STRING title
+Title
+---STRINGEND
+
+---STRING top
+top
+---STRINGEND
+
+---STRING topic
+Folder
+---STRINGEND
+
+---STRING unapprove
+Unapprove
+---STRINGEND
+
+---STRING unapprove topic
+Unapprove folder
+---STRINGEND
+
+---STRING unapproved
+Not approved
+---STRINGEND
+
+---STRING unhide
+Unhide
+---STRINGEND
+
+---STRING unknown
+Unknown
+---STRINGEND
+
+---STRING up
+up
+---STRINGEND
+
+---STRING update
+Update
+---STRINGEND
+
+---STRING update configuration
+Update configuration
+---STRINGEND
+
+---STRING update preferences
+Update preferences
+---STRINGEND
+
+---STRING updated
+Updated
+---STRINGEND
+
+---STRING upload
+Upload
+---STRINGEND
+
+---STRING upload image
+Upload image
+---STRINGEND
+
+---STRING url
+Url
+---STRINGEND
+
+---STRING url name
+URL name (internal)
+---STRINGEND
+
+---STRING user
+User
+---STRINGEND
+
+---STRING username
+User name
+---STRINGEND
+
+---STRING value
+Value
+---STRINGEND
+
+---STRING verify password
+Verify password
+---STRINGEND
+
+---STRING view
+View
+---STRINGEND
+
+---STRING visibility settings
+Visibility settings
+---STRINGEND
+
+---STRING visibilty settings
+Visibility Settings
+---STRINGEND
+
+---STRING workgroup
+Workgroup
+---STRINGEND
+
+---STRING write mail
+Write mail
+---STRINGEND
+
+---STRING yes
+Yes
+---STRINGEND
+

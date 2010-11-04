@@ -1,0 +1,49 @@
+/**
+ * Styles for ui messages with javascript
+**/
+
+#midcom_services_uimessages_wrapper
+{
+    margin: 15px;
+    padding: 5px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    color: #000000;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.85;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages
+{
+    background-color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #ffffff;
+    color: #ffffff;
+    width: 312px;
+    padding: 16px;
+    margin: 10px 0 10px 0;
+}
+
+#midcom_services_uimessages_wrapper img.close
+{
+  position: absolute;
+  margin-left: 310px;
+  margin-top: -14px;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages h3
+{
+  font-size: 100%;
+  margin: 0 0 6px;
+  color: #ff0000;
+}
+
+#midcom_services_uimessages_wrapper div.midcom_services_uimessages a
+{
+  color: #ffffff;
+}

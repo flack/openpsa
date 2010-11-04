@@ -1,0 +1,1 @@
+<p>Choose component configuration to set global server URL</p>

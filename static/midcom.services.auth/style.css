@@ -1,0 +1,266 @@
+/* Midgard Error Page .css */
+
+body,
+html
+{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body
+{
+  background-color: #f2f2f2;
+  color: #d3d7cf;
+  font-size: 62.5%;
+  font-family: 'Trebuchet MS', 'Helvetica', 'Arial', sans-serif;
+  text-align: center;
+}
+
+#container
+{
+  color: #000000;
+  width: 662px;
+  height: 502px;
+  background-image: url('images/login-background.jpg');
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: top left;
+  top: 50%;
+  position: absolute;
+  margin-top: -251px;
+  left: 50%;
+  margin-left: -331px;
+}
+
+.clear
+{
+  clear: both;
+}
+
+/* Branding Elements */
+#branding
+{
+  height: 150px;
+}
+
+#branding #title
+{
+  float: left;
+  padding-top: 10px;
+  width: 300px;
+  text-align: right;
+}
+
+#branding #title h1
+{
+  margin-bottom: 0;
+  padding-bottom: 0;
+  font-size: 4.2em;
+}
+
+#branding #title h2
+{
+  padding: 0;
+  margin: 0;
+  font-size: 1.8em;
+}
+
+#branding #grouplogo
+{
+  float: right;
+  margin: 18px 25px 0 0;
+}
+#branding #grouplogo img
+{
+  border: none;
+}
+
+/* Content Elements */
+#content
+{
+  font-size: 1.6em;
+  text-align: center;
+  width: 300px;
+  margin: 0 auto;
+  height: 250px;
+}
+
+#content #login
+{
+  padding-top: 75px;
+  padding-left: 5px;
+  text-align: left;
+  border-bottom: 2px solid #000000;
+  height: 125px;
+}
+
+#content #login label
+{
+  clear:  both;
+  margin: 1px 0 0;
+  padding: 0;
+  /*overflow: visible;*/
+}
+
+#content #login p
+{
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-size: 0.875em;
+}
+
+#content #login #password,
+#content #login #username,
+#content #login #openid_url
+{
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-color: #fddb00;
+  border: 0;
+  margin: 0;
+  padding: 0 0 0 5px;
+  width: 210px;
+  overflow: hidden;
+  height: 24px;
+}
+
+html > body #content #login #password,
+html > body #content #login #username,
+html > body #content #login #openid_url
+{
+  width: 205px !important;
+}
+
+#content #login #password
+{
+  background-image: url('images/input-password.png');
+}
+
+#content #login #username,
+#content #login #openid_url
+{
+  background-image: url('images/input-username.png');
+}
+
+#content #submit
+{
+  margin: 15px 15px 25px 0;
+  float: right;
+}
+#content #error,
+#content #ok
+{
+  padding-left: 32px;
+  text-align: left;
+  font-size: 0.75em;
+  height: 16px;
+}
+
+#content > #error,
+#content > #ok
+{
+  padding-top: 15px;
+}
+
+#content #error
+{
+  background-image: url('images/icon-error2.gif');
+  background-repeat: no-repeat;
+  background-position: 5px 13px;
+  color: #ef0000;
+}
+
+#content #ok
+{
+  color: #ffffff;
+}
+
+#content a
+{
+  color: #a40000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#content table caption
+{
+  font-weight: bold;
+  text-align: left;
+  margin-top: 6px;
+  min-width: 300px;
+}
+#content table td
+{
+  vertical-align: top;
+}
+#content table td h2
+{
+  margin-top: 0px;
+}
+
+#content table td dl
+{
+  margin-top: 0px;
+}
+
+/* Bottom Elements */
+#bottom
+{
+  font-size: 1.2em;
+  height: 96px;
+}
+
+#bottom #retrieve,
+#bottom #version
+{
+  padding-top: 60px;
+}
+
+#bottom #retrieve
+{
+  float: left;
+  padding-left: 50px;
+}
+
+#bottom #retrieve a
+{
+  color: #ffffff;
+}
+
+#bottom #version
+{
+  color: #9a5500;
+  padding-right: 30px;
+  float: right;
+}
+#bottom #version a
+{
+  color: #9a5500;
+  text-decoration: none;
+}
+
+/* Footer Elements */
+
+#footer
+{
+  background-color: #f2f2f2 !important;
+  text-align: center;
+  margin: 10px auto;
+  color: #d3d7cf;
+  color: #a0a0a0;
+  font-size: 1em;
+  width: 632px;
+}
+
+#footer div
+{
+  text-align: left;
+  font-size: 1.1em;
+}
+
+#footer div a
+{
+  color: #a0a0a0;
+}

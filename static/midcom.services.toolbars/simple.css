@@ -1,0 +1,8 @@
+@media print
+{
+  .midcom_services_toolbars_simple
+  {
+    display: none !important;
+    height: 0 !important;
+  }
+}

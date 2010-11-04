@@ -1,0 +1,229 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE de
+
+---STRING Only show approved articles
+Sollen nur freigegebene Artikel angezeigt werden?
+---STRINGEND
+
+---STRING activate autoindex
+Soll für diese Rubrik automatisch eine Index-Seite erstellt werden?
+---STRINGEND
+
+---STRING approve
+Freigeben
+---STRINGEND
+
+---STRING article
+Artikel
+---STRINGEND
+
+---STRING article %s deleted
+Artikel "%s" wurde gelöscht
+---STRINGEND
+
+---STRING article link deleted
+Artikel-Link gelöscht
+---STRINGEND
+
+---STRING auto_approve
+Neue Artikel standardmäßig freigegeben
+---STRINGEND
+
+---STRING autoindex
+Soll für diese Rubrik automatisch eine Index-Seite erstellt werden?
+---STRINGEND
+
+---STRING autoindex settings
+Auto-Index-Einstellungen
+---STRINGEND
+
+---STRING autoindex-notes
+Die automatische Index-Seite ersetzt den Artikel mit dem URL-Namen index und besteht aus einer Liste aller Artikel und Dateianhängen der aktuellen Rubrik.
+---STRINGEND
+
+---STRING back to overview
+Zurück zur Übersicht
+---STRINGEND
+
+---STRING callback_function
+Callback-Funktion, die nach Erstellung ausgeführt wird, um z.B. ein Interface zum Seitenverlinkungssystem bereitzustellen
+---STRINGEND
+
+---STRING callback_snippet
+Callback-Snippet für site-spezifische Funktion bei Erstellung
+---STRINGEND
+
+---STRING content
+Inhalt
+---STRINGEND
+
+---STRING create article
+Artikel anlegen
+---STRINGEND
+
+---STRING default_schema
+Default
+---STRINGEND
+
+---STRING delete article
+Artikel löschen
+---STRINGEND
+
+---STRING delete article link
+Artikel-Link löschen
+---STRINGEND
+
+---STRING delete cancelled
+Löschen abgebrochen
+---STRINGEND
+
+---STRING delete link
+Link löschen
+---STRINGEND
+
+---STRING delete_link
+Link löschen
+---STRINGEND
+
+---STRING directory index for %s
+Verzeichnis-Index für %s
+---STRINGEND
+
+---STRING display settings
+Konfiguration der Anzeige
+---STRINGEND
+
+---STRING edit article
+Artikel bearbeiten
+---STRINGEND
+
+---STRING enable_ajax_editing
+AJAX-basierte on-site-Bearbeitung aktivieren
+---STRINGEND
+
+---STRING enable_article_links
+Seitenverlinkungs-System
+---STRINGEND
+
+---STRING failed to delete the article link, contact the site administrator
+Artikel-Link konnte nicht gelöscht werden, verständigen Sie den Site-Administrator
+---STRINGEND
+
+---STRING file lastmodified
+Letzte Änderung
+---STRINGEND
+
+---STRING filedescription
+Dateibeschreibung
+---STRINGEND
+
+---STRING filename
+Dateiname
+---STRINGEND
+
+---STRING filesize
+Dateigröße
+---STRINGEND
+
+---STRING filetype
+Dateityp
+---STRINGEND
+
+---STRING from
+Von
+---STRINGEND
+
+---STRING hide_navigation
+Artikel in der Navigation verstecken
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+<a href="%s">Klicken Sie hier</a>, um den Original-Artikel zu löschen
+---STRINGEND
+
+---STRING indexinnav
+Soll der Index-Artikel in die Navigation aufgenommen werden, wenn der Autoindex-Modus deaktiviert ist?
+---STRINGEND
+
+---STRING net.nehmer.static
+Statische Inhalte
+---STRINGEND
+
+---STRING no files in this directory
+In diesem Verzeichnis gibt es keine Dateien
+---STRINGEND
+
+---STRING no index article
+Dieser Ordner hat keinen <strong>index</strong>-Artikel. Bitte legen Sie einen Artikel mit dem URL Namen <strong>index</strong> an oder aktivieren Sie den Autoindex-Modus.
+---STRINGEND
+
+---STRING no schemas available
+Keine Schemata verfügbar
+---STRINGEND
+
+---STRING schema settings
+Datenschema-Einstellungen
+---STRINGEND
+
+---STRING schemadb
+Schema-Datenbank, die für diesen Ordner verwendet werden soll
+---STRINGEND
+
+---STRING select schema
+Schema auswählen
+---STRINGEND
+
+---STRING settings
+Einstellungen
+---STRINGEND
+
+---STRING show blobs in autoindex
+Dateianhänge im automatischen Index anzeigen
+---STRINGEND
+
+---STRING show_blobs_in_autoindex
+Blobs im automatischen Index anzeigen
+---STRINGEND
+
+---STRING simple_name_handling
+Soll die URL des Artikels automatisch generiert werden?
+---STRINGEND
+
+---STRING sort_order
+Sortierreihenfolge
+---STRINGEND
+
+---STRING symlink_topic
+Daten aus einem anderen Ordner nehmen ("Symlink")
+---STRINGEND
+
+---STRING symlink_topic disabled
+Kein Ordner ausgewählt
+---STRINGEND
+
+---STRING taviewer
+Statische Inhalte
+---STRINGEND
+
+---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
+Dieser Artikel wurde von <a href="%s">%s</a> verlinkt, Bestätigen löscht ausschließlich den Link.
+---STRINGEND
+
+---STRING unapprove
+Freigabe zurücknehmen
+---STRINGEND
+
+---STRING view article
+Artikel anzeigen
+---STRINGEND
+
+---STRING visible
+Ordner-Sichtbarkeit
+---STRINGEND
+
+---STRING folder_in_title
+Ordnername im Seitentitel anzeigen
+---STRINGEND
+

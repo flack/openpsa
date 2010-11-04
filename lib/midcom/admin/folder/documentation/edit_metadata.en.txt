@@ -1,0 +1,78 @@
+Edit metadata
+=============
+
+Metadata is information describing the content. Through the metadata it is possible to describe e.g. when the content should be available, what it is about and how external indexers or search robots should index it.
+
+![Edit Metadata](MIDCOM_STATIC_URL/midcom.admin.folder/edit_metadata_en.png)
+
+Visibility settings
+-------------------
+
+There are three main settings for visibility:
+
+1. Date _Publish at_
+  * Sets the point when the content will be shown on the web site.
+    Content will be visible only after this point.
+2. Date _Display until_
+  * Sets the point when the content will be hidden from the public web
+    site. Content will be visible up to this point.
+3. _Hide from navigation_
+  * This switch will toggle the visibility of the page on navigation.
+    Hidden _pages_ and _folders_ are still reachable by writing the
+    exact URL.
+
+To choose the date:
+
+1. Click on the calendar icon on the right side of the text field
+2. Select the date
+  * Change the month by clicking on single angle brackets (either side of the text _Today_) or by holding it down and selecting from the dropdown menu.
+  * Click on the day number to select the date
+3. Select the time
+  * Press the left mouse button down on either the hours or minutes and select the correct time by dragging sideways.
+  * Dragging to left will decrease the time and dragging to right increases it.
+4. Click on the symbol ![X](MIDCOM_STATIC_URL/midcom.admin.folder/x.png) on the top right corner to close and save the chosen time.
+
+![Calendar widget](MIDCOM_STATIC_URL/midcom.admin.folder/calendar_widget_en.png)
+
+Metadata
+--------
+
+The actual metadata fields are for describing what the content is about. This information is mainly for the search engines such as Google, who will be using this information in ranking the pages.
+
+### Keywords
+
+Keywords are a list of search words, which describe what search words should find this address.
+
+### Description
+
+Description field is for describing shortly the content. This field should be a short summary of the data. Usually description will be displayed, when a search engine offers the page as a possible hit for search result.
+
+[note: Using metadata keywords and description is appreciated both by external indexers and people, who use search engines to find information.]
+
+
+Control external indexing
+-------------------------
+
+_Control external indexing_ is a switch, which will tell the search engines how they should act with the requested page.
+
+There are several switches for controlling the external indexers:
+
+1. _Not specified, uses `robots.txt`_
+  * The default settings, where a text file `robots.txt` will be used to define, which parts of the web site should be indexed.
+2. _Disallow indexing_
+  * If _Disallow indexing_ has been chosen, this page will not be indexed at all by external indexers.
+3. _Allow indexing_
+  * This is basically the same as _Not specified_, but it is possible
+    to override what appears in `robots.txt`.
+4. _Allow indexing, indexer may follow links_
+5. _Allow indexing, indexed must not follow links_
+  * Indexer may index the currently viewed page, but it shouldn't 
+    index any links on the page. This feature is useful, when preventing
+    indexer from indexing items, which are change the URL address e.g.
+    according to the date.
+
+
+Internal Metadata
+-----------------
+
+_Internal Metadata_ provides information of the changes on the page or folder. _Created_ metadata tells of the initial creation and _Edited_ metadata points out the last revision. _Approved_ shows the status of [Approvals with MidCOM|Approvals].

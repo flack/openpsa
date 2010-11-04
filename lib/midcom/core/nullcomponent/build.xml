@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="MidCOM" default="install" basedir=".">
+	
+	<property file="build.properties"  />	
+<!-- plan:
+	target scaffold is the one that will create a 
+	new module directory
+	It will:
+	a) create the module directory (and fail if it exists)
+	b) create the config,handler,midcom,style and doc subdirs.
+	c) generate a simple manifest.inc file.
+	d) generate simple view.php and admin.php files
+	
+	todo:
+	create targets for handling modules outside the offcial repository.
+	
+-->
+	
+	<target name="package">
+
+	</target>
+	<target name="install" >
+		
+	</target>
+	
+	<target name="checksetup">
+		
+	</target>
+</project>
+	

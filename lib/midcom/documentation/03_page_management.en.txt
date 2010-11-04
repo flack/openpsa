@@ -1,0 +1,32 @@
+Page management 
+===
+There are several types or pages and all of them have their own characteristic properties (e.g. article, event 
+or person information). In this section we will go through the most common features. 
+
+##Creating a new page 
+
+Click on ***Folder > Create default*** article to create a new page. 
+
+Note: Your website might have customized names. Names change also depending on the used component, 
+
+e.g. for Event Calendar there is a link to create event instead of an article. 
+Required fields are marked with an asterisk (*) 
+
+##Editing a page 
+
+To edit an existing page 
+
+1. Navigate to the page you wish to edit 
+2. Click on ***Page > Edit*** 
+3. Confirm the changes by clicking on ***Save*** button 
+If your site has AJAX enabled, it is also possible to edit a page by double clicking on the text as described in 
+chapter 10 AJAX Editing. 
+
+##Deleting a page 
+
+To delete an existing page 
+
+1. Navigate to the page you wish to delete 
+2. Click on ***Page > Delete*** 
+3. Confirm the request by clicking on the button ***Delete***
+

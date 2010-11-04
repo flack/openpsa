@@ -1,0 +1,837 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 25280 2010-03-15 21:34:00Z solt $
+---LANGUAGE pl
+
+---STRING %s in %s
+%s w %s
+---STRINGEND
+
+---STRING %s of packages of type %s
+%s pakietów typu %s
+---STRINGEND
+
+---STRING Edit this page
+Edytuj stronę
+---STRINGEND
+
+---STRING More...
+Więcej...
+---STRINGEND
+
+---STRING OK
+OK
+---STRINGEND
+
+---STRING abstract
+Skrót
+---STRINGEND
+
+---STRING access control
+Kontrola dostępu
+---STRINGEND
+
+---STRING access denied
+Brak dostępu
+---STRINGEND
+
+---STRING access denied: admin level privileges required
+Brak dostępu: Wymagane uprawnienia administratora.
+---STRINGEND
+
+---STRING access denied: privilege %s not granted
+Brak dostępu: Wymagane uprawnienia %s.
+---STRINGEND
+
+---STRING access denied: user is not member of the group %s
+Brak dostępu: Wymagane członkostwo w grupie %s.
+---STRINGEND
+
+---STRING access denied: you do not have write permission
+Brak dostępu: Wymagane uprawnienia do zapisu.
+---STRINGEND
+
+---STRING access denied: you must be logged in
+Brak dostępu: Musisz być zalogowany.
+---STRINGEND
+
+---STRING access type
+Typ dostępu
+---STRINGEND
+
+---STRING actions
+Zadania
+---STRINGEND
+
+---STRING advanced schema and data settings
+Zaawansowane ustawienia danych
+---STRINGEND
+
+---STRING all
+wszystko
+---STRINGEND
+
+---STRING and
+i
+---STRINGEND
+
+---STRING anonymous
+anonim
+---STRINGEND
+
+---STRING approval
+Zatwierdzanie
+---STRINGEND
+
+---STRING approvals
+Zatwierdzenia
+---STRINGEND
+
+---STRING approve
+Zatwierdź
+---STRINGEND
+
+---STRING approve topic
+Zatwierdź folder
+---STRINGEND
+
+---STRING approved
+Zatwierdzono dnia
+---STRINGEND
+
+---STRING approved changes will be replicated within next minute
+Replikacja zatwierdzonych zmian rozpocznie się za minutę.
+---STRINGEND
+
+---STRING approver
+Zatwierdził
+---STRINGEND
+
+---STRING arrangement score
+Pozycja
+---STRINGEND
+
+---STRING back
+Wstecz
+---STRINGEND
+
+---STRING back to configuration
+Powrót do konfiguracji
+---STRINGEND
+
+---STRING back to index
+Powrót do folderu
+---STRINGEND
+
+---STRING body
+Treść
+---STRINGEND
+
+---STRING bottom
+dół
+---STRINGEND
+
+---STRING by name
+wg nazwy
+---STRINGEND
+
+---STRING calendar
+wg daty utworzenia
+---STRINGEND
+
+---STRING cancel
+Anuluj
+---STRINGEND
+
+---STRING captcha field title
+Kod dostępu
+---STRINGEND
+
+---STRING close configuration screen
+Zamknij konfigurację
+---STRINGEND
+
+---STRING component
+Moduł
+---STRINGEND
+
+---STRING component %s configuration for folder %s
+Konfiguracja modułu %s w folderze %s
+---STRINGEND
+
+---STRING component configuration
+Konfiguracja modułu
+---STRINGEND
+
+---STRING component configuration helptext
+Kliknij by skonfigurować moduł
+---STRINGEND
+
+---STRING component depends on
+Moduł zależny od
+---STRINGEND
+
+---STRING confirm
+Potwierdź
+---STRINGEND
+
+---STRING copy
+Kopiuj
+---STRINGEND
+
+---STRING country
+Kraj
+---STRINGEND
+
+---STRING create
+Utwórz
+---STRINGEND
+
+---STRING create %s
+Utwórz %s
+---STRINGEND
+
+---STRING create page
+Dodaj stronę
+---STRINGEND
+
+---STRING created
+Utworzono dnia
+---STRINGEND
+
+---STRING created on
+Utworzono
+---STRINGEND
+
+---STRING creator
+Autor
+---STRINGEND
+
+---STRING date
+Data
+---STRINGEND
+
+---STRING decimal point
+separator dziesiętny
+---STRINGEND
+
+---STRING default setting
+Domyślne
+---STRINGEND
+
+---STRING delete
+Usuń
+---STRINGEND
+
+---STRING delete %s
+Usuń %s
+---STRINGEND
+
+---STRING description
+Opis
+---STRINGEND
+
+---STRING developer
+Programista
+---STRINGEND
+
+---STRING discussion in %s
+Dyskusja w %s
+---STRINGEND
+
+---STRING domain
+Domena
+---STRINGEND
+
+---STRING down
+dół
+---STRINGEND
+
+---STRING download %s
+Pobierz %s
+---STRINGEND
+
+---STRING edit
+Edytuj
+---STRINGEND
+
+---STRING edit %s
+Edytuj %s
+---STRINGEND
+
+---STRING edit design
+Edytuj szablon
+---STRINGEND
+
+---STRING edit page
+Edytuj stronę
+---STRINGEND
+
+---STRING edit photos
+Edytuj zdjęcia
+---STRINGEND
+
+---STRING edited
+Zmodyfikowano dnia
+---STRINGEND
+
+---STRING editor
+Zmodyfikował
+---STRINGEND
+
+---STRING encrypted
+Szyfrowane
+---STRINGEND
+
+---STRING end date
+Koniec
+---STRINGEND
+
+---STRING folder
+Folder
+---STRINGEND
+
+---STRING get help
+Pomoc
+---STRINGEND
+
+---STRING get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
+Get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
+---STRINGEND
+
+---STRING hidden
+Ukryte
+---STRINGEND
+
+---STRING hide
+Ukryj
+---STRINGEND
+
+---STRING host
+Serwis
+---STRINGEND
+
+---STRING id
+ID (systemowy)
+---STRINGEND
+
+---STRING image
+Obraz
+---STRINGEND
+
+---STRING in %s
+w %s
+---STRINGEND
+
+---STRING inherited from parent
+Dziedziczone
+---STRINGEND
+
+---STRING internal metadata
+Metadane systemowe
+---STRINGEND
+
+---STRING invalidate cache
+Odśwież pamięć podręczną systemu
+---STRINGEND
+
+---STRING keywords
+Słowa kluczowe
+---STRINGEND
+
+---STRING last modified
+Ostatnia modyfikacja
+---STRINGEND
+
+---STRING lead
+Główny programista
+---STRINGEND
+
+---STRING library
+Biblioteka
+---STRINGEND
+
+---STRING login
+Login
+---STRINGEND
+
+---STRING login message - insufficient privileges
+Brak wymaganych uprawnień.
+---STRINGEND
+
+---STRING login message - please enter credentials
+Podaj użytkownika i hasło.
+---STRINGEND
+
+---STRING login message - user or password wrong
+Niepoprawny użytkownik lub hasło.
+---STRINGEND
+
+---STRING logout
+Logout
+---STRINGEND
+
+---STRING long date
+%A %B %d, %Y
+---STRINGEND
+
+---STRING lowercase, no special characters or spaces
+Małe litery, bez znaków specjalnych i spacji
+---STRINGEND
+
+---STRING metadata
+Metadane
+---STRINGEND
+
+---STRING midcom
+Framework MidCOM CMS
+---STRINGEND
+
+---STRING midcom administration
+Administracja Midgard CMS
+---STRINGEND
+
+---STRING move
+Przenieś
+---STRINGEND
+
+---STRING move down
+W dół
+---STRINGEND
+
+---STRING move up
+W górę
+---STRINGEND
+
+---STRING name
+Nazwa
+---STRINGEND
+
+---STRING nav_noentry
+Ukryj w menu
+---STRINGEND
+
+---STRING nav_noentry_helptext
+Obiekty ukryte w menu są nadal dostępne poprzez bezpośredni URL
+---STRINGEND
+
+---STRING new
+Nowy
+---STRINGEND
+
+---STRING next
+Dalej
+---STRINGEND
+
+---STRING next page
+Następna strona
+---STRINGEND
+
+---STRING no
+Nie
+---STRINGEND
+
+---STRING not active %s
+Nieaktywny %s
+---STRINGEND
+
+---STRING not hidden
+Widoczne
+---STRINGEND
+
+---STRING offline
+Offline
+---STRINGEND
+
+---STRING online
+Online
+---STRINGEND
+
+---STRING online state
+Stan
+---STRINGEND
+
+---STRING optional
+Opcjonalnie
+---STRINGEND
+
+---STRING owner
+Właściciel
+---STRINGEND
+
+---STRING page
+Strona
+---STRINGEND
+
+---STRING page %d of %d
+Strona %d z %d
+---STRINGEND
+
+---STRING parameters
+Parametry
+---STRINGEND
+
+---STRING parentguid
+GUID rodzica
+---STRINGEND
+
+---STRING password
+Hasło
+---STRINGEND
+
+---STRING password mismatch
+Hasło nie pasuje
+---STRINGEND
+
+---STRING permalink
+Permalink
+---STRINGEND
+
+---STRING photo in %s
+Zdjęcia w %s
+---STRINGEND
+
+---STRING previous
+Wstecz
+---STRINGEND
+
+---STRING previous page
+Poprzednia strona
+---STRINGEND
+
+---STRING privileges
+Uprawnienia
+---STRINGEND
+
+---STRING reject
+Odrzuć
+---STRINGEND
+
+---STRING reset
+Wyczyść
+---STRINGEND
+
+---STRING reverse calendar
+wg daty utworzenia (malejąco)
+---STRINGEND
+
+---STRING reverse created
+wg daty utworzenia (nowsze pierwsze)
+---STRINGEND
+
+---STRING reverse name
+wg nazw (malejąco)
+---STRINGEND
+
+---STRING reverse revised
+wg daty modyfikacji (malejąco)
+---STRINGEND
+
+---STRING reverse score
+wg wag (malejąco)
+---STRINGEND
+
+---STRING revert to default setting
+Przywróć domyślne
+---STRINGEND
+
+---STRING revised
+wg daty modyfikacji
+---STRINGEND
+
+---STRING robots
+Kontrola robotów indeksujących
+---STRINGEND
+
+---STRING robots-follow
+Pozwól indeksować i podążać za linkami
+---STRINGEND
+
+---STRING robots-index
+Pozwól indeksować
+---STRINGEND
+
+---STRING robots-nofollow
+Pozwól indeksować, zabroń podążania za linkami
+---STRINGEND
+
+---STRING robots-noindex
+Zabroń indeksowania
+---STRINGEND
+
+---STRING robots-not-specified
+Nie ustawiona. Użyj pliku robots.txt
+---STRINGEND
+
+---STRING run replication
+Uruchom replikację
+---STRINGEND
+
+---STRING save
+Zapisz
+---STRINGEND
+
+---STRING save and close
+Zapisz i zamknij
+---STRINGEND
+
+---STRING schedule_end
+Wyświetlanie do dnia (puste - bez limitu)
+---STRINGEND
+
+---STRING schedule_start
+Wyświetlanie od dnia (puste - natychmiast)
+---STRINGEND
+
+---STRING scheduled and shown
+Wg harmonogramu, obecnie wyświetlane.
+---STRINGEND
+
+---STRING scheduled but hidden
+Wg harmonogramu, obecnie niewyświetlane.
+---STRINGEND
+
+---STRING scheduling
+Harmonogram wyświetlania
+---STRINGEND
+
+---STRING schema database
+Baza schematu danych
+---STRINGEND
+
+---STRING score
+wg wag
+---STRINGEND
+
+---STRING search
+Szukaj
+---STRINGEND
+
+---STRING select
+Wybierz
+---STRINGEND
+
+---STRING settings
+Ustawienia
+---STRINGEND
+
+---STRING short date
+%Y-%m-%d
+---STRINGEND
+
+---STRING short date csv
+%Y-%m-%d
+---STRINGEND
+
+---STRING shown from %s
+Wyświetlane od %s
+---STRINGEND
+
+---STRING shown from %s to %s
+Wyświetlane od %s do %s
+---STRINGEND
+
+---STRING shown until %s
+Wyświetlane do %s
+---STRINGEND
+
+---STRING sitegroup
+Sitegroup
+---STRINGEND
+
+---STRING sort_by_calendar
+wg daty utworzenia
+---STRINGEND
+
+---STRING sort_by_name
+wg nazwy URL
+---STRINGEND
+
+---STRING sort_by_reverse_calendar
+wg daty utworzenia malejąco
+---STRINGEND
+
+---STRING sort_by_reverse_name
+wg nazwy URL malejąco
+---STRINGEND
+
+---STRING sort_by_reverse_revised
+wg daty modyfikacji malejąco
+---STRINGEND
+
+---STRING sort_by_reverse_score
+wg wag malejąco
+---STRINGEND
+
+---STRING sort_by_revised
+wg daty modyfikacji
+---STRINGEND
+
+---STRING sort_by_score
+wg wag
+---STRINGEND
+
+---STRING sort_leaves
+Sortowanie elementów
+---STRINGEND
+
+---STRING sort_order
+Metoda sortowania obiektów
+---STRINGEND
+
+---STRING sorting position
+Pozycja sortowania
+---STRINGEND
+
+---STRING stagin2live
+Serwis produkcyjno-rozwojowy
+---STRINGEND
+
+---STRING start date
+Start
+---STRINGEND
+
+---STRING stats
+statystyka
+---STRINGEND
+
+---STRING style
+Styl
+---STRINGEND
+
+---STRING tags
+Tagi
+---STRINGEND
+
+---STRING test settings
+Test ustawień
+---STRINGEND
+
+---STRING text
+Tekst
+---STRINGEND
+
+---STRING thumbnail
+Miniatura
+---STRINGEND
+
+---STRING title
+Tytuł
+---STRINGEND
+
+---STRING top
+góra
+---STRINGEND
+
+---STRING topic
+Folder
+---STRINGEND
+
+---STRING unapprove
+Odtwierdź
+---STRINGEND
+
+---STRING unapprove topic
+Odtwierdź folder
+---STRINGEND
+
+---STRING unapproved
+Niezatwierdzone
+---STRINGEND
+
+---STRING unhide
+Odkryj
+---STRINGEND
+
+---STRING unknown
+Nieznane
+---STRINGEND
+
+---STRING up
+góra
+---STRINGEND
+
+---STRING update
+Aktualizuj
+---STRINGEND
+
+---STRING update configuration
+Aktualizuj konfigurację
+---STRINGEND
+
+---STRING update preferences
+Aktualizuj preferencje
+---STRINGEND
+
+---STRING updated
+Zaktualizowano
+---STRINGEND
+
+---STRING upload
+Wyślij
+---STRINGEND
+
+---STRING upload image
+Wyślij obraz
+---STRINGEND
+
+---STRING url
+Url
+---STRINGEND
+
+---STRING url name
+URL (systemowy)
+---STRINGEND
+
+---STRING user
+Użytkownik
+---STRINGEND
+
+---STRING username
+Nazwa użytkownika
+---STRINGEND
+
+---STRING value
+Wartość
+---STRINGEND
+
+---STRING verify password
+Hasło
+---STRINGEND
+
+---STRING view
+Pokaż
+---STRINGEND
+
+---STRING visibility settings
+Ustawienia widoczności
+---STRINGEND
+
+---STRING visibilty settings
+Ustawienia widoczności
+---STRINGEND
+
+---STRING workgroup
+Grupa robocza
+---STRINGEND
+
+---STRING write mail
+Napisz maila
+---STRINGEND
+
+---STRING yes
+Tak
+---STRINGEND
+
+---STRING recreate images
+Odtwórz obrazy
+---STRINGEND
+
+---STRING recreate images for folder %s
+Odtwórz obrazy w folderze %s
+---STRINGEND
+
+---STRING restore submitted form data
+Odzyskaj dane z wysłanego formularza
+---STRINGEND
+

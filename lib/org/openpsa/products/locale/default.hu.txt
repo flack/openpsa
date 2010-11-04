@@ -1,0 +1,153 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23015 2009-07-28 08:50:55Z flack $
+---LANGUAGE hu
+
+---STRING %s includes
+%s tartalmaz
+---STRINGEND
+
+---STRING code
+Kód
+---STRINGEND
+
+---STRING component
+Összetevő
+---STRINGEND
+
+---STRING component group
+Összetevő csoportja
+---STRINGEND
+
+---STRING cost
+Költség
+---STRINGEND
+
+---STRING cost type
+Költség típus
+---STRINGEND
+
+---STRING day
+nap
+---STRINGEND
+
+---STRING delivery type
+Szállítása fajtája
+---STRINGEND
+
+---STRING groups
+Termék csoportok
+---STRINGEND
+
+---STRING hour
+óra
+---STRINGEND
+
+---STRING material goods
+Anyagi javak
+---STRINGEND
+
+---STRING month
+hónap
+---STRINGEND
+
+---STRING org.openpsa.products
+Termék adatbázis
+---STRINGEND
+
+---STRING parent group
+Szülő csoport
+---STRINGEND
+
+---STRING per unit
+egységenként
+---STRINGEND
+
+---STRING piece
+darab
+---STRINGEND
+
+---STRING pieces
+darabok
+---STRINGEND
+
+---STRING price
+Ár
+---STRINGEND
+
+---STRING product
+Termék
+---STRINGEND
+
+---STRING product components
+Termék összettevők
+---STRINGEND
+
+---STRING product database
+Termék adatbázis
+---STRINGEND
+
+---STRING product group
+Termékcsoport
+---STRINGEND
+
+---STRING products
+Termékek
+---STRINGEND
+
+---STRING quarter
+negyed
+---STRINGEND
+
+---STRING search
+Termék keresése
+---STRINGEND
+
+---STRING service
+Szolgáltatás
+---STRINGEND
+
+---STRING single delivery
+Egyszeri szállítás
+---STRINGEND
+
+---STRING solution
+Megoldás
+---STRINGEND
+
+---STRING subscription
+Előfizetés
+---STRINGEND
+
+---STRING supplier
+Szállító
+---STRINGEND
+
+---STRING toplevel
+Terméklista teteje
+---STRINGEND
+
+---STRING type
+Típus
+---STRINGEND
+
+---STRING unit
+Egység
+---STRINGEND
+
+---STRING year
+Év
+---STRINGEND
+
+---STRING %s is
+%s
+---STRINGEND
+
+---STRING %s is at least
+%s a legkevesebb
+---STRINGEND
+
+---STRING %s is at most
+%s a legtöbb
+---STRINGEND
+

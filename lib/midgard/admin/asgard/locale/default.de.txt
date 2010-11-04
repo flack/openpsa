@@ -1,0 +1,829 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE de
+
+---STRING %s (%s)
+%s (%s)
+---STRINGEND
+
+---STRING %s deleted items
+%s gelöschte Objekte
+---STRINGEND
+
+---STRING %s purged
+%s entfernt
+---STRINGEND
+
+---STRING %s trash
+%s-Papierkorb
+---STRINGEND
+
+---STRING 1 day
+1 Tag
+---STRINGEND
+
+---STRING 1 month
+1 Monat
+---STRINGEND
+
+---STRING 1 week
+1 Woche
+---STRINGEND
+
+---STRING 2 weeks
+2 Wochen
+---STRINGEND
+
+---STRING ANONYMOUS
+Anonyme Benutzer
+---STRINGEND
+
+---STRING EVERYONE
+Jeder
+---STRINGEND
+
+---STRING This object has no translation in the current language and cannot be deleted.
+Dieses Objekt hat keine Übersetzung in der aktuellen Sprache und kann nicht gelöscht werden
+---STRINGEND
+
+---STRING USERS
+Alle angemeldeten Benutzer
+---STRINGEND
+
+---STRING acl_editor
+Editor für Zugriffsrechte
+---STRINGEND
+
+---STRING actions
+Aktionen
+---STRINGEND
+
+---STRING active url parsing
+Aktives URL-Parsing
+---STRINGEND
+
+---STRING add assignee
+Gruppe zur Rechtevergabe hinzufügen
+---STRINGEND
+
+---STRING add parameter
+Parameter hinzufügen
+---STRINGEND
+
+---STRING add text file
+Text-Datei hinzufügen
+---STRINGEND
+
+---STRING all of the following items will be deleted
+Alle nachfolgenden Objekte werden gelöscht
+---STRINGEND
+
+---STRING always display in top frame
+Immer im obersten Frame anzeigen
+---STRINGEND
+
+---STRING any
+Alle
+---STRINGEND
+
+---STRING apply to selected
+Auf ausgewählte anwenden
+---STRINGEND
+
+---STRING asgard
+Asgard
+---STRINGEND
+
+---STRING asgard homepage
+Asgard-Startseite
+---STRINGEND
+
+---STRING asgard plugins
+Asgard-Plugins
+---STRINGEND
+
+---STRING attachment
+Dateianhang
+---STRINGEND
+
+---STRING attachment %s undeleted
+Datei %s wiederhergestellt
+---STRINGEND
+
+---STRING attachments
+Dateianhänge
+---STRINGEND
+
+---STRING attachments of %s %s
+Dateianhänge von %s "%s"
+---STRINGEND
+
+---STRING back to %s
+zurück zu "%s"
+---STRINGEND
+
+---STRING back to site
+zurück zur Website
+---STRINGEND
+
+---STRING cascading style sheet
+Cascading Style Sheet
+---STRINGEND
+
+---STRING changes done in revision %s to %s
+Änderungen in Revision %s von "%s"
+---STRINGEND
+
+---STRING changes from version %s
+Änderungen seit Version %s
+---STRINGEND
+
+---STRING child types of %s
+Kind-Typen von %s
+---STRINGEND
+
+---STRING choose action
+Aktion auswählen
+---STRINGEND
+
+---STRING choose the target
+Ziel auswählen
+---STRINGEND
+
+---STRING code
+Code
+---STRINGEND
+
+---STRING compare
+Vergleichen
+---STRINGEND
+
+---STRING component
+Komponente
+---STRINGEND
+
+---STRING components
+Komponenten
+---STRINGEND
+
+---STRING configuration for %s
+Konfiguration für Komponente %s
+---STRINGEND
+
+---STRING configuration save failed: %s
+Sichern der Konfiguration fehlgeschlagen: %s
+---STRINGEND
+
+---STRING configuration saved successfully
+Konfiguration erfolgreich gespeichert
+---STRINGEND
+
+---STRING content
+Inhalt
+---STRINGEND
+
+---STRING contentchanged
+Inhalt verändert
+---STRINGEND
+
+---STRING contentowner
+Inhalts-Besitzer
+---STRINGEND
+
+---STRING copy %s
+%s kopieren
+---STRINGEND
+
+---STRING copy %s and its descendants
+Kopiere '%s' und Kindelemente
+---STRINGEND
+
+---STRING copy attachments
+Dateianhänge kopieren
+---STRINGEND
+
+---STRING copy metadata
+Metadaten kopieren
+---STRINGEND
+
+---STRING copy parameters
+Parameter kopieren
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the new object
+Kopiervorgang erfolgreich, Sie wurden zum neuen Objekt weitergeleitet
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the root of the new object tree
+Kopiervorgang erfolgreich, Sie wurden zum Wurzelement des neuen Objektbaums weitergeleitet
+---STRINGEND
+
+---STRING copy tree
+Objektbaum kopieren
+---STRINGEND
+
+---STRING core_components
+MidCOM-Hauptkomponenten
+---STRINGEND
+
+---STRING create %s under %s
+%s unter %s anlegen
+---STRINGEND
+
+---STRING created by
+Erstellt von
+---STRINGEND
+
+---STRING created by %s on %s
+Erstellt von %s am %s
+---STRINGEND
+
+---STRING created on
+Erstellt am
+---STRINGEND
+
+---STRING date
+Datum
+---STRINGEND
+
+---STRING default language
+Standardsprache
+---STRINGEND
+
+---STRING delete %s %s
+%s "%s" löschen
+---STRINGEND
+
+---STRING deleted by
+Gelöscht von
+---STRINGEND
+
+---STRING deleted on
+Gelöscht am
+---STRINGEND
+
+---STRING dependencies
+Abhängigkeiten
+---STRINGEND
+
+---STRING differences between %s and %s
+Unterschiede zwischen %s und %s
+---STRINGEND
+
+---STRING differences between versions %s and %s
+Unterschiede zwischen Versionen %s und %s
+---STRINGEND
+
+---STRING disable rcs
+RCS für diese Aktion deaktivieren
+---STRINGEND
+
+---STRING dropdown list
+Dropdown-Liste
+---STRINGEND
+
+---STRING edit %s %s
+%s "%s" bearbeiten
+---STRINGEND
+
+---STRING edit configuration for %s
+Konfiguration von Komponente %s bearbeiten
+---STRINGEND
+
+---STRING edit configuration for %s folder %s
+Konfiguration von Komponente %s im Ordner %s bearbeiten
+---STRINGEND
+
+---STRING edit file %s
+Datei %s bearbeiten
+---STRINGEND
+
+---STRING edit text file
+Text-Datei bearbeiten
+---STRINGEND
+
+---STRING editor options
+Editor-Optionen
+---STRINGEND
+
+---STRING enable breaking of the editing lock
+Aufheben der Bearbeitungssperre zulassen
+---STRINGEND
+
+---STRING enable quicklinks
+Quicklinks aktivieren
+---STRINGEND
+
+---STRING exclude
+Ausschließen
+---STRINGEND
+
+---STRING expanded list
+Aufgeklappte Liste
+---STRINGEND
+
+---STRING failed purging %s, reason %s
+%s konnte nicht entfernt werden, Ursache: %s
+---STRINGEND
+
+---STRING failed purging attachment %s => %s, reason %s
+Attachment %s => %s konnte nicht entfernt werden, Ursache: %s
+---STRINGEND
+
+---STRING failed undeleting %s, reason %s
+%s konnte nicht wiederhergestellt werden, Ursache: %s
+---STRINGEND
+
+---STRING failed undeleting attachment %s, reason %s
+Attachment %s konnte nicht wiederhergestellt werden, Ursache: %s
+---STRINGEND
+
+---STRING file %s deleted
+Datei '%s' gelöscht
+---STRINGEND
+
+---STRING file contents
+Datei-Inhalt
+---STRINGEND
+
+---STRING file information
+Datei-Übersicht
+---STRINGEND
+
+---STRING filename
+Dateiname
+---STRINGEND
+
+---STRING filter
+Filtern
+---STRINGEND
+
+---STRING floating freely
+Freischwebend
+---STRINGEND
+
+---STRING folder
+Ordner
+---STRINGEND
+
+---STRING global
+Global
+---STRINGEND
+
+---STRING global value
+Globale Einstellung
+---STRINGEND
+
+---STRING group %s
+Gruppe %s
+---STRINGEND
+
+---STRING guid
+Eindeutiger Bezeichner
+---STRINGEND
+
+---STRING html
+HTML
+---STRINGEND
+
+---STRING in %s
+in %s
+---STRINGEND
+
+---STRING in fallback language
+in Fallback-Sprache
+---STRINGEND
+
+---STRING in total %s purged
+Insgesamt %s entfernt
+---STRINGEND
+
+---STRING in total %s undeleted
+Insgesamt %s wiederhergestellt
+---STRINGEND
+
+---STRING include
+Einschließen
+---STRINGEND
+
+---STRING info
+Information
+---STRINGEND
+
+---STRING inherited
+Vererbt
+---STRINGEND
+
+---STRING interface language
+Interface-Sprache
+---STRINGEND
+
+---STRING invert selection
+Auswahl umkehren
+---STRINGEND
+
+---STRING items in trash
+Objekte im Papierkorb
+---STRINGEND
+
+---STRING javascript
+JavaScript
+---STRINGEND
+
+---STRING last edited by %s on %s (revision %s)
+Zuletzt bearbeitet von %s am %s (Revision %s)
+---STRINGEND
+
+---STRING libraries
+Bibliotheken
+---STRINGEND
+
+---STRING lines
+Zeilen
+---STRINGEND
+
+---STRING local
+Lokal
+---STRINGEND
+
+---STRING localisation settings
+Spracheinstellungen
+---STRINGEND
+
+---STRING manage object
+Objekt-Verwaltung
+---STRINGEND
+
+---STRING message
+Nachricht
+---STRINGEND
+
+---STRING metadata of %s %s
+Metadaten von %s "%s"
+---STRINGEND
+
+---STRING mgdschema type visibility in navigation
+In der Navigation sichtbare MgdSchema-Typen
+---STRINGEND
+
+---STRING midcom:approve
+Freigeben
+---STRINGEND
+
+---STRING midcom:component_config
+Konfiguration
+---STRINGEND
+
+---STRING midcom:urlname
+URL bearbeiten
+---STRINGEND
+
+---STRING midgard objects
+Midgard-Objekte
+---STRINGEND
+
+---STRING midgard.admin.asgard
+Midgard-Administrationsoberfläche
+---STRINGEND
+
+---STRING midgard:attachments
+Dateianhänge
+---STRINGEND
+
+---STRING midgard:create
+Anlegen
+---STRINGEND
+
+---STRING midgard:delete
+Löschen
+---STRINGEND
+
+---STRING midgard:owner
+Besitzer
+---STRINGEND
+
+---STRING midgard:parameters
+Parameter
+---STRINGEND
+
+---STRING midgard:read
+Lesen
+---STRINGEND
+
+---STRING midgard:update
+Bearbeiten
+---STRINGEND
+
+---STRING mimetype
+MIME-Typ
+---STRINGEND
+
+---STRING model for selecting navigation types
+Auswahlverfahren für Navigationstypen
+---STRINGEND
+
+---STRING most recently visited
+Zuletzt besuchte Objekte
+---STRINGEND
+
+---STRING navigation options
+Navigationseinstellungen
+---STRINGEND
+
+---STRING navigation type
+Art der Navigation
+---STRINGEND
+
+---STRING navigation width
+Navigationsbreite
+---STRINGEND
+
+---STRING navigation width (in pixels)
+Navigationsbreite (in Pixeln)
+---STRINGEND
+
+---STRING no changes in content
+Keine Änderungen im Inhalt
+---STRINGEND
+
+---STRING no files
+Keine Dateien vorhanden
+---STRINGEND
+
+---STRING no title
+Kein Titel
+---STRINGEND
+
+---STRING no.bergfald.rcs
+Revisionskontrolle
+---STRINGEND
+
+---STRING not approved
+Nicht freigegeben
+---STRINGEND
+
+---STRING not inherited
+Nicht vererbt
+---STRINGEND
+
+---STRING object %s
+Objekt "%s"
+---STRINGEND
+
+---STRING object %s approved
+Objekt "%s" freigegeben
+---STRINGEND
+
+---STRING object %s removed
+Objekt "%s" gelöscht
+---STRINGEND
+
+---STRING objects expiring within
+Objekte mit Ablaufdatum innerhalb
+---STRINGEND
+
+---STRING objects revised within
+Objekte mit Änderungen seit
+---STRINGEND
+
+---STRING on top of the content area
+Am Kopfende des Inhaltsbereichs
+---STRINGEND
+
+---STRING only mine
+Nur eigene
+---STRINGEND
+
+---STRING owner
+Besitzer
+---STRINGEND
+
+---STRING parameter
+Parameter
+---STRINGEND
+
+---STRING parameters of %s %s
+Parameter von %s "%s"
+---STRINGEND
+
+---STRING permissions for %s %s
+Berechtigungen für %s "%s"
+---STRINGEND
+
+---STRING plain text
+Plain text
+---STRINGEND
+
+---STRING preferences saved
+Benutzereinstellungen gespeichert
+---STRINGEND
+
+---STRING privilege reserve
+Reservieren
+---STRINGEND
+
+---STRING privileges
+Berechtigungen
+---STRINGEND
+
+---STRING purge
+Entfernen
+---STRINGEND
+
+---STRING regular expression for selecting mgdschema types
+Regulärer Ausdruck zur Auswahl von MgdSchema-Typen
+---STRINGEND
+
+---STRING require authentication
+Authentifizierung verlangen
+---STRINGEND
+
+---STRING restore this revision (%s)
+Diese Revision wiederherstellen
+---STRINGEND
+
+---STRING restore to version %s failed, reason %s
+Die Wiederherstellung der Revision %s ist fehlgeschlagen, Ursache: %s
+---STRINGEND
+
+---STRING restore to version %s successful
+Die Wiederherstellung der Revision %s war erfolgreich
+---STRINGEND
+
+---STRING restore version %s
+Revision %s wiederherstellen
+---STRINGEND
+
+---STRING review date
+Review-Datum
+---STRINGEND
+
+---STRING revised by
+Bearbeitet von
+---STRINGEND
+
+---STRING revised on
+Bearbeitet am
+---STRINGEND
+
+---STRING revision
+Revision
+---STRINGEND
+
+---STRING revision history of %s
+Revisionsgeschichte von %s
+---STRINGEND
+
+---STRING revision history of %s %s
+Revisionsgeschichte von %s %s
+---STRINGEND
+
+---STRING search
+Suche
+---STRINGEND
+
+---STRING select all
+Alle auswählen
+---STRINGEND
+
+---STRING select exactly two choices
+Genau zwei Möglichkeiten zeigen
+---STRINGEND
+
+---STRING select the types
+Typen auswählen
+---STRINGEND
+
+---STRING show %s %s children
+%s %s-Kindelemente anzeigen
+---STRINGEND
+
+---STRING show differences
+Unterschiede anzeigen
+---STRINGEND
+
+---STRING show history
+Revisionsgeschichte
+---STRINGEND
+
+---STRING show sg0 objects in navigation
+Objekte der Sitegroup 0 in der Navigation anzeigen
+---STRINGEND
+
+---STRING size
+Größe
+---STRINGEND
+
+---STRING this is a midgard core type
+Dies ist ein Midgard CMS Core-Typ.
+---STRINGEND
+
+---STRING this type belongs to %s component
+Dieser Typ gehört zur Komponente %s
+---STRINGEND
+
+---STRING title
+Titel
+---STRINGEND
+
+---STRING toolbar mode
+Toolbar-Modus
+---STRINGEND
+
+---STRING topic privileges
+Ordner-Zugriffsrechte
+---STRINGEND
+
+---STRING trash
+Papierkorb
+---STRINGEND
+
+---STRING trash is empty
+Der Papierkorb ist leer
+---STRINGEND
+
+---STRING type
+Typ
+---STRINGEND
+
+---STRING type documentation
+Typen-Dokumentation
+---STRINGEND
+
+---STRING undelete
+Wiederherstellen
+---STRINGEND
+
+---STRING under %s
+Unter %s
+---STRINGEND
+
+---STRING upload file
+Datei hochladen
+---STRINGEND
+
+---STRING url
+URL
+---STRINGEND
+
+---STRING use edit mode instead of view mode as the primary object management page
+Bearbeitungsmodus anstelle des Ansichtsmodus als Startseite der Objektverwaltung verwenden
+---STRINGEND
+
+---STRING use editarea editor for editing code snippets
+EditArea-Editor zum Bearbeiten von Quellcode verwenden
+---STRINGEND
+
+---STRING use tinymce editor for editing content
+TinyMCE-Editor zum Bearbeiten von Inhalten verwenden
+---STRINGEND
+
+---STRING user
+Benutzer
+---STRINGEND
+
+---STRING user preferences
+Benutzer-Einstellungen
+---STRINGEND
+
+---STRING validation error in field %s: %s
+Validationsfehler im Feld %s: %s
+---STRINGEND
+
+---STRING value
+Wert
+---STRINGEND
+
+---STRING version %s
+Version %s
+---STRINGEND
+
+---STRING view %s differences with next (%s)
+Unterschiede zwischen Version %s und der folgenden (%s) anzeigen
+---STRINGEND
+
+---STRING view %s differences with previous (%s)
+Unterschiede zwischen Version %s und der vorherigen (%s) anzeigen
+---STRINGEND
+
+---STRING view on site
+Auf der Site anzeigen
+---STRINGEND
+
+---STRING view this revision (%s)
+Diese Revision (%s) anzeigen
+---STRINGEND
+
+---STRING viewing version %s of %s
+Version %s von %s
+---STRINGEND
+
+---STRING xml
+XML
+---STRINGEND
+
+---STRING asgard for
+Asgard für
+---STRINGEND
+

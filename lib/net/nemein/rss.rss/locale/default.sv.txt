@@ -1,0 +1,221 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 25254 2010-03-09 16:19:26Z rambo $
+---LANGUAGE sv
+
+---STRING %s items
+%s artiklar importerade
+---STRINGEND
+
+---STRING add new feed
+Lägg till ny kanal
+---STRINGEND
+
+---STRING aggregator mode
+Aggregator läge
+---STRINGEND
+
+---STRING aggregator settings
+Aggregator inställningar
+---STRINGEND
+
+---STRING approve new items automatically
+Godkänn nya artiklar automatiskt
+---STRINGEND
+
+---STRING bloglines
+Bloglines
+---STRINGEND
+
+---STRING bloglines account
+Bloglines konto
+---STRINGEND
+
+---STRING cancel
+Avbryt
+---STRINGEND
+
+---STRING channels
+Visa objekt sortterade per kanal
+---STRINGEND
+
+---STRING combined
+Kombinera objekt från alla kanaler efter publiceringsdatum
+---STRINGEND
+
+---STRING default author for items
+Standard författare för artiklar
+---STRINGEND
+
+---STRING delete feed
+Radera feed
+---STRINGEND
+
+---STRING details
+Alla detaljer
+---STRINGEND
+
+---STRING display items
+Visa objekt som
+---STRINGEND
+
+---STRING edit feed %s
+Ändra feed "%s"
+---STRINGEND
+
+---STRING feed icon url
+Kanalens icon url
+---STRINGEND
+
+---STRING feed title
+Kanalens titel
+---STRINGEND
+
+---STRING feed title display
+Kanalens titel
+---STRINGEND
+
+---STRING feed url
+Kanalens URL
+---STRINGEND
+
+---STRING fetch feed %s
+Hämtade feed "%s"
+---STRINGEND
+
+---STRING import opml subscriptions
+Importera prenumerationer i OPML
+---STRINGEND
+
+---STRING keep removed items
+Spara artiklar raderade från feed lokalt
+---STRINGEND
+
+---STRING latest fetch %s
+Senaste hämtning gjordes %s
+---STRINGEND
+
+---STRING latest item from %s
+Senaste artikel är från %s
+---STRINGEND
+
+---STRING latest items to show
+Hur många senaste objekt ska visas?
+---STRINGEND
+
+---STRING local
+Spara lokalt
+---STRINGEND
+
+---STRING local item
+Lokalt kopia av artikel
+---STRINGEND
+
+---STRING manage feeds
+Hantera feeds
+---STRINGEND
+
+---STRING manage feeds of %s
+Hantera feeds för katalog "%s"
+---STRINGEND
+
+---STRING n/a
+N/A
+---STRINGEND
+
+---STRING net.nemein.rss
+RSS och Atom nyhets samlare
+---STRINGEND
+
+---STRING no items found in feed
+Inga artiklar funna i feed.
+---STRINGEND
+
+---STRING opml file
+OPML fil
+---STRINGEND
+
+---STRING remote from feed
+Från feed
+---STRINGEND
+
+---STRING remote item
+Artikel i feed
+---STRINGEND
+
+---STRING remove feed
+Radera feed
+---STRINGEND
+
+---STRING rss aggregator
+RSS nyhets aggregator
+---STRINGEND
+
+---STRING rss description
+RSS beskrivning
+---STRINGEND
+
+---STRING rss items to show
+Hur många RSS objekt ska visas?
+---STRINGEND
+
+---STRING rss output settings
+RSS vinsings inställningar
+---STRINGEND
+
+---STRING save
+Spara
+---STRINGEND
+
+---STRING subscribe feeds
+Prenumerera på nya feeds
+---STRINGEND
+
+---STRING subscription mode
+Prenumerations läge
+---STRINGEND
+
+---STRING titles
+Endast titlar
+---STRINGEND
+
+---STRING untitled
+Har ingen titel
+---STRINGEND
+
+---STRING refresh all feeds
+Laddaom alla feeds
+---STRINGEND
+
+---STRING refresh feed
+Ladda om feed
+---STRINGEND
+
+---STRING subscribe feeds for %s
+Prenumerera på feeds för katalog "%s"
+---STRINGEND
+
+---STRING rss_count
+Lista så är många artiklar i rss.xml
+---STRINGEND
+
+---STRING rss_description
+Beskrivning
+---STRINGEND
+
+---STRING rss_enable
+Slå på RSS export (aktiverar rss.xml och rss/$siffra.xml)
+---STRINGEND
+
+---STRING rss_title
+RSS titel (lämna tomt för att använda ämnets titel)
+---STRINGEND
+
+---STRING rss_webmaster
+Webmasterns epost adress
+---STRINGEND
+
+---STRING rss_language
+Språk
+---STRINGEND
+

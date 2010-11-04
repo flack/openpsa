@@ -1,0 +1,26 @@
+                   midcom.admin.babel Changelog
+                   ----------------------------
+CVS Id: $Id: CHANGES 3757 2006-07-27 14:32:42Z bergie $
+                                      
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-05-27 adrenalin
+  + Allow the fallback language to be chosen instead of forced English
+
+2007-10-13 solt
+  + Moved to Asgard plugin
+  + Made nicer look
+  + Added navigation in Asgard
+
+2006-10-30 bergie
+  + Split components in listing and statistics to "core" and "others"
+
+2006-10-26 bergie
+  ! Switched UI to be more navigateable, added statistics of translation status in languages
+
+2005-10-22 bergie
+  + Various XHTML syntax fixes

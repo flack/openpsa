@@ -1,0 +1,157 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE hu
+
+---STRING back to calendar
+Vissza a naptárhoz
+---STRINGEND
+
+---STRING choose calendars
+Válasszon megjelenítendő naptárt
+---STRINGEND
+
+---STRING create event
+Esemény létrehozása
+---STRINGEND
+
+---STRING create note
+Jegyzet létrehozása
+---STRINGEND
+
+---STRING day view
+Napi nézet
+---STRINGEND
+
+---STRING delete event
+Esemény törlése
+---STRINGEND
+
+---STRING dont allow overlapping
+Átfedés megtiltása
+---STRINGEND
+
+---STRING edit %s
+%s szerkesztése
+---STRINGEND
+
+---STRING end time
+Befejezés időpontja
+---STRINGEND
+
+---STRING event %s
+%s esemény
+---STRINGEND
+
+---STRING event %s deleted
+%s esemény törlése
+---STRINGEND
+
+---STRING event after
+Esemény után
+---STRINGEND
+
+---STRING event before
+Esemény elött
+---STRINGEND
+
+---STRING event deleted
+Törölt esemény
+---STRINGEND
+
+---STRING event information
+Esemény adatai
+---STRINGEND
+
+---STRING failed to delete event, reason
+Az esemény törlése nem sikerült, az oka
+---STRINGEND
+
+---STRING go to
+Ugorj
+---STRINGEND
+
+---STRING location
+Helyszín
+---STRINGEND
+
+---STRING me
+Saját
+---STRINGEND
+
+---STRING month view
+Havi nézet
+---STRINGEND
+
+---STRING next
+Következő
+---STRINGEND
+
+---STRING no event
+Nincs esemény
+---STRINGEND
+
+---STRING org.openpsa.calendar
+Naptár
+---STRINGEND
+
+---STRING participants
+Résztvevők
+---STRINGEND
+
+---STRING previous
+Elöző
+---STRINGEND
+
+---STRING print
+Nyomtatás
+---STRINGEND
+
+---STRING really delete event
+Biztos, hogy törli az eseményt?
+---STRINGEND
+
+---STRING start time
+Kezdés időpontja
+---STRINGEND
+
+---STRING time
+idő
+---STRINGEND
+
+---STRING today
+Ma
+---STRINGEND
+
+---STRING week #%s %s
+#%s hét, %s
+---STRINGEND
+
+---STRING week view
+Heti nézet
+---STRINGEND
+
+---STRING available slot
+Rendelkezésre álló idő rubrika
+---STRINGEND
+
+---STRING events on %s
+%s eseményei
+---STRINGEND
+
+---STRING meeting note for %s on %s by %s
+%s számára jegyzet a %s napi találkozóról %s által
+---STRINGEND
+
+---STRING popup
+Pop-Up
+---STRINGEND
+
+---STRING private event
+Privát esemény
+---STRINGEND
+
+---STRING privilege read
+Privát esemény olvasása
+---STRINGEND
+

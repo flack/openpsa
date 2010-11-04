@@ -1,0 +1,570 @@
+html, body
+{
+    height: 100%
+}
+
+body
+{
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #d3d7cf;
+  color: #222;
+}
+
+body, 
+input,
+button,
+select
+{
+    font-family: 'Lucida Grande', 'Lucida Sans', 'Arial', sans-serif;
+    font-size: 12px;
+}
+
+
+#container
+{
+  height: 100%;
+}
+
+#container a
+{
+  color: #14335e;
+}
+
+#container a:link,
+#container a:visited
+{
+  text-decoration: none;
+}
+
+#container a:hover,
+#container a:visited:hover
+{
+  text-decoration: underline;
+}
+
+#leftframe
+{
+  min-height: 100%;
+  background-color: #24436e;
+  width: 240px;
+  position: fixed;
+  left: 0px;
+  overflow-x: hidden
+}
+
+#leftframe:hover
+{
+    z-index: 5;
+    overflow-x: visible
+}
+
+#branding
+{
+}
+
+#branding div.grouplogo
+{
+  background-color: #ffffff;
+  text-align: center;
+  padding: 1em 0.5em;
+}
+
+#branding a img
+{
+  border: none;
+}
+
+#nav
+{
+  background-image: url('midcom_toolbar_list_gradient.gif');
+  background-repeat: repeat-x;
+  background-position: top left;
+  padding: 0.5em 0;
+}
+
+#nav ul
+{
+  padding: 0 0.5em;
+  margin: 0;
+  list-style: none;
+}
+
+#nav ul li
+{
+    position: relative;
+}
+
+#nav li ul
+{
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 80px;
+    padding: 0;
+}
+
+#nav > ul > li:hover
+{
+    background-color: #34537e;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    z-index: 6;
+}
+
+#nav li:hover ul
+{
+    background-color: #34537e;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    z-index: 6;
+    display: block
+}
+
+#nav li.selected ul
+{
+    display: block
+}
+
+#nav li.selected ul li
+{
+    display: none;
+}
+
+#nav li.selected ul li.active
+{
+    display: block;
+    z-index: 0;
+}
+
+#nav li.selected:hover ul li
+{
+    display: block;
+}
+
+
+#nav ul li a
+{
+  display: block;
+  color: #ffffff;
+  padding: 0.5em 0.8em;
+}
+
+#nav ul li a
+{
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+}
+
+#nav ul li.active a
+{
+  font-weight: bold;
+  background-color: #3364a3;
+}
+
+#nav ul li.active li a
+{
+  background: none;
+}
+
+#nav ul li.selected > a
+{
+  background-color: #3364a3;
+}
+
+#nav ul li.selected ul a:hover
+{
+  background-color: #386db2;
+}
+
+#nav ul li.active li a
+{
+  font-weight: normal;
+}
+
+#nav ul li a:hover
+{
+  background-color: #3364a3;
+}
+
+#container #template_openpsa2_resizer
+{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  cursor: w-resize;
+  cursor: col-resize;
+  background-color: #ce5c00;
+  width: 2px;
+}
+
+* html #container #template_openpsa2_resizer
+{
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+#container #template_openpsa2_resizer:hover,
+#container #template_openpsa2_resizer.hover,
+#container #template_openpsa2_resizer.ui-draggable-dragging
+{
+  background-color: #eeeeef;
+  visibility: visible;
+  width: 10px;
+  z-index: 1000
+}
+
+#content
+{
+  background-color: #ffffff;
+  min-height: 100%;
+  height: 100%;
+  margin-left: 240px;
+  /*overflow-x: auto;*/
+}
+
+
+#container > #content
+{
+  height: auto;
+}
+
+#content-menu
+{
+  background-color: #ededeb;
+  height: 40px;
+  /*background-image: url('midcom_search_gradient.gif');
+  background-repeat: repeat-x;
+  background-position: bottom left;*/
+  padding: 0.5em 1em 2em 1em;
+  font-weight: bold;
+  font-size: 90%;
+  text-align: right;
+}
+
+
+#content-menu input.submit
+{
+  background-color: #d3d7cf;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  padding: 0 0.5em;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 90%;
+}
+
+#content-menu input.submit:hover
+{
+  background-color: #abb4c4;
+  border-color: #888888;
+}
+
+#content-menu #breadcrumb
+{
+  font-size: 80%;
+  font-weight: bold;
+  float: left;
+  text-align: left;
+}
+
+#content-menu #breadcrumb span.pagetitle
+{
+  display: block;
+  font-size: 200%;
+  padding-top: 0.7em;
+  color: black
+}
+
+#content-menu div.context
+{
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 10px
+}
+
+#content-menu ul
+{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#content-menu ul li
+{
+  border-left: solid 1px #000000;
+  padding: 0 0.5em;
+  display: inline;
+}
+#content-menu ul li.disabled
+{
+  display: none;
+}
+#content-menu ul li:first-child
+{
+  border: none;
+}
+
+#content-menu a
+{
+  color: #000000;
+}
+
+#content-menu img
+{
+  border: none;
+  vertical-align: bottom;
+}
+
+#org_openpsa_search_form
+{
+    position: relative;
+    margin-top: 0.5em;
+}
+
+ul#org_openpsa_search_providers
+{
+    display: none;
+    text-align: left;
+    position: absolute;
+    top: 20px;
+    background-color: white;
+    font-weight: normal;
+    padding: .2em 0;
+    z-index: 10;
+    border: 1px solid #777;
+    border-top: 0;
+}
+
+ul#org_openpsa_search_providers li
+{
+    display: block;
+    border: none;
+    padding: .2em .4em;
+    font-size: 1em
+}
+
+ul#org_openpsa_search_providers li.hover
+{
+    background-color: #3364A3;
+    color: white;
+    cursor: pointer
+}
+
+ul#org_openpsa_search_providers li.current
+{
+    font-weight: bold
+}
+
+#org_openpsa_search_trigger
+{
+    height: 18px;
+    width: 20px;
+    background-color: #eeeeec;
+    border: 1px solid #BABDB6;
+    -moz-border-radius: .8em 0 0 .8em;
+    position: absolute;
+    background-image:url('../stock-icons/16x16/search.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer
+}
+
+input#org_openpsa_search_query
+{
+    display: none;
+    background-color: #eeeeec;
+    border: 1px solid #babdb6;
+    -moz-border-radius: 0 .8em .8em 0;
+    padding: 0;
+    text-align: left;
+    height: 18px;
+    width: 10.5em;
+    color: #777
+}
+
+#org_openpsa_search_trigger.focused
+{
+    -moz-border-radius: .8em 0 0 0;
+}
+
+#org_openpsa_search_query.focused,
+#org_openpsa_search_trigger.focused
+{
+    background-color: white;
+    color: #222;
+    border-color: #777
+}
+#org_openpsa_search_query:hover,
+#org_openpsa_search_trigger:hover
+{
+    border-color: #777;
+    color: #222;
+}
+
+.org_openpsa_toolbar
+{
+  background-color: #cccec9;
+  font-weight: bold;
+  font-size: 10px;
+  padding: .2em .4em;
+  white-space: nowrap;
+  position: relative;
+  border-bottom: 1px solid #aaa
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar
+{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  overflow: hidden;
+}
+
+#container .org_openpsa_toolbar ul.midcom_toolbar a
+{
+  display: inline-block;
+  color: #000000;
+  text-decoration: none !important;
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar a img,
+.org_openpsa_toolbar ul.midcom_toolbar button img
+{
+  border: none;
+  vertical-align: bottom;
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar li
+{
+  display: inline-block;
+  padding: 0
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar li form
+{
+    padding: 0;
+    display: inline;
+    border: none;
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar li button
+{
+  border-style: none;
+  display: inline;
+  text-decoration: none;
+  background-color: transparent;
+  color: #000000;
+  cursor: pointer;
+  margin: 0 !important;
+  font-weight: bold;
+  font-size: 10px
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar li a,
+.org_openpsa_toolbar ul.midcom_toolbar li button
+{
+  padding: .3em .5em;
+  white-space: nowrap;
+  overflow: visible;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+
+.org_openpsa_toolbar ul.midcom_toolbar a:hover,
+.org_openpsa_toolbar ul.midcom_toolbar button:hover
+{
+  background-color: white;
+}
+
+.org_openpsa_toolbar ul.view_toolbar li a,
+.org_openpsa_toolbar ul.view_toolbar li button
+{
+  border-left: 1px solid #777
+}
+
+.org_openpsa_toolbar ul.view_toolbar a:hover,
+.org_openpsa_toolbar ul.view_toolbar button:hover
+{
+  border-left: 1px solid #cccec9;
+}
+
+.org_openpsa_toolbar ul.midcom_toolbar li.disabled
+{
+  display: none;
+}
+
+.org_openpsa_toolbar ul.view_toolbar li:first-child
+{
+  border: none;
+  padding-left: 0;
+}
+
+.org_openpsa_toolbar ul.view_toolbar li:first-child a,
+.org_openpsa_toolbar ul.view_toolbar li:first-child button
+{
+  border-left: 1px solid #cccec9;
+}
+
+.org_openpsa_toolbar #toolbar_dropdown
+{
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  background-image:url('../stock-icons/16x16/preferences-desktop.png');
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+.org_openpsa_toolbar #toolbar_dropdown.expanded
+{
+  position: absolute;
+  min-width: 200px;
+  height: auto;
+}
+
+.org_openpsa_toolbar #toolbar_dropdown ul
+{
+  background-color: #cccec9;
+  display: none;
+  margin: 0;
+  margin-top: 22px;
+  padding: 5px;
+  -moz-border-radius-bottomleft: 0.5em;
+  -moz-border-radius-bottomright: 0.5em;
+  -webkit-border-bottom-left-radius: 0.5em;
+  -webkit-border-bottom-right-radius: 0.5em;
+  border: 1px solid #aaa;
+  border-top: 0px
+}
+
+.org_openpsa_toolbar #toolbar_dropdown.expanded ul,
+.org_openpsa_toolbar #toolbar_dropdown li
+{
+  display: block;
+}
+
+.org_openpsa_toolbar #toolbar_dropdown li a,
+.org_openpsa_toolbar #toolbar_dropdown li button
+{
+  display: block
+}
+
+#org_openpsa_toolbar_trigger:hover
+{
+    cursor: pointer
+}
+
+#org_openpsa_calendar_calendarwidget
+{
+    position: absolute;
+    z-index: 101;
+}
+

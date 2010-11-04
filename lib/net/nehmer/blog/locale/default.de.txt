@@ -1,0 +1,364 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE de
+
+---STRING %s category %s
+%s: Kategorie "%s"
+---STRINGEND
+
+---STRING add a new entry
+Einen neuen Eintrag hinzufügen
+---STRINGEND
+
+---STRING advanced schema and data settings
+Erweiterte Einstellungen zu Schema und Daten
+---STRINGEND
+
+---STRING ajax_enable
+AJAX-basierte on-site-Bearbeitung aktivieren
+---STRINGEND
+
+---STRING archive
+Archiv
+---STRINGEND
+
+---STRING archive item order
+Reihenfolge der Einträge im Archiv
+---STRINGEND
+
+---STRING archive_enable
+Archivzugriff aktivieren
+---STRINGEND
+
+---STRING article
+Artikel
+---STRINGEND
+
+---STRING article %s deleted
+Artikel %s gelöscht
+---STRINGEND
+
+---STRING ascending
+Aufsteigend
+---STRINGEND
+
+---STRING atom feed
+ATOM-Feed
+---STRINGEND
+
+---STRING available feeds
+Verfügbare Newsfeeds
+---STRINGEND
+
+---STRING available feeds introduction
+Die folgenden Formate zur Content Syndication sind verfügbar:
+---STRINGEND
+
+---STRING back to overview
+Zurück zur Übersicht
+---STRINGEND
+
+---STRING blog link deleted
+Blog-link gelöscht
+---STRINGEND
+
+---STRING blog settings
+Blog-Einstellungen
+---STRINGEND
+
+---STRING categories
+Kategorien
+---STRINGEND
+
+---STRING comments_enable
+Kommentare zu News-Beiträgen erlauben (benötigt die net.nehmer.comments-Komponente)
+---STRINGEND
+
+---STRING content
+Inhalt
+---STRINGEND
+
+---STRING create article
+Artikel anlegen
+---STRINGEND
+
+---STRING create name from title
+URL Namen automatisch aus dem Titel des Artikels generieren
+---STRINGEND
+
+---STRING create news article
+Neuen News-Artikel erstellen
+---STRINGEND
+
+---STRING delete article
+Artikel löschen
+---STRINGEND
+
+---STRING delete article link
+Artikel-Link löschen
+---STRINGEND
+
+---STRING delete cancelled
+Löschvorgang abgebrochen
+---STRINGEND
+
+---STRING delete link
+Link löschen
+---STRINGEND
+
+---STRING descending
+Absteigend
+---STRINGEND
+
+---STRING display settings
+Konfiguration der Anzeige
+---STRINGEND
+
+---STRING edit article
+Artikel bearbeiten
+---STRINGEND
+
+---STRING enable blogging apis
+Fernzugriff über die MetaWebLog API aktivieren
+---STRINGEND
+
+---STRING enable date filters get
+Datumsfilter via HTTP GET aktivieren
+---STRINGEND
+
+---STRING enable date filters path
+Datumsfilter via URL (.../JJJJ/MM/TT) aktivieren
+---STRINGEND
+
+---STRING enable details
+Detail-Seiten aktivieren
+---STRINGEND
+
+---STRING enable filters get
+Feldfilter via HTTP GET aktivieren
+---STRINGEND
+
+---STRING enable public posting
+Öffentliche Eingaben aktivieren ("Gästebuch-Stil")
+---STRINGEND
+
+---STRING enable subdirectories
+News-Artikel aus Unterordnern in die Übersicht einbeziehen (auch RSS)
+---STRINGEND
+
+---STRING expert settings
+Experten-Einstellungen
+---STRINGEND
+
+---STRING failed to delete the blog link, contact the site administrator
+Der Blog-Link konnte nicht gelöscht werden, verständigen Sie bitte den Site-Administrator
+---STRINGEND
+
+---STRING first post was made on %s.
+Die erste Nachricht wurde am %s veröffentlicht.
+---STRINGEND
+
+---STRING from
+Von
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+Wenn Sie den ursprünglichen Artikel löschen möchten, <a href="%s">klicken Sie bitte hier</a>.
+---STRINGEND
+
+---STRING index count
+Anzahl Artikel in der Übersicht
+---STRINGEND
+
+---STRING index settings
+Übersichts-Einstellungen
+---STRINGEND
+
+---STRING index_entries
+Wieviele Einträge sollen auf der Übersichtsseite angezeigt werden
+---STRINGEND
+
+---STRING link_to_external_url
+Einträge mit externer URL verknüpfen falls möglich
+---STRINGEND
+
+---STRING list old items in index
+Vergangene Artikel in der Übersicht
+---STRINGEND
+
+---STRING navigation options
+Navigations-Optionen
+---STRINGEND
+
+---STRING net.nehmer.blog
+News-Liste
+---STRINGEND
+
+---STRING newsticker
+News-Liste
+---STRINGEND
+
+---STRING newsticker administration
+News-Verwaltung
+---STRINGEND
+
+---STRING no news found.
+Keine Artikel gefunden.
+---STRINGEND
+
+---STRING no schema available
+Kein Layout-Schema verfügbar
+---STRINGEND
+
+---STRING not enough privileges to create articles
+Sie haben keine ausreichenden Berechtigungen, um neue Artikel zu erstellen.
+---STRINGEND
+
+---STRING posted on %s.
+Veröffentlicht am %s.
+---STRINGEND
+
+---STRING public posting
+Öffentliche Eingaben ("Gästebuch-Stil")
+---STRINGEND
+
+---STRING public posting password
+Midgard Passwort für die öffentlichen Eingaben (nur notwendig, wenn ein Benutzername eingegeben wurde)
+---STRINGEND
+
+---STRING public posting schema
+Datamanager-Schema für die öffentlichen Beiträge
+---STRINGEND
+
+---STRING public posting user
+Midgard Benutzername für die öffentlichen Eingaben (leer um den gerade aktiven Benutzer zu verwenden)
+---STRINGEND
+
+---STRING related stories
+Verwandte Artikel
+---STRINGEND
+
+---STRING rss 0.91 feed
+RSS 0.91-Feed
+---STRINGEND
+
+---STRING rss 1.0 feed
+RSS 1.0-Feed
+---STRINGEND
+
+---STRING rss 2.0 feed
+RSS 2.0-Feed
+---STRINGEND
+
+---STRING rss export settings
+RSS-Export
+---STRINGEND
+
+---STRING rss feed
+RSS-Feed
+---STRINGEND
+
+---STRING rss_count
+Anzahl der Artikel, die in rss.xml gelistet werden sollen
+---STRINGEND
+
+---STRING rss_description
+Beschreibung
+---STRINGEND
+
+---STRING rss_enable
+RSS-Export aktivieren (stellt die URLs rss.xml und rss/$anzahl.xml bereit)
+---STRINGEND
+
+---STRING rss_include_image
+Das Bild aus dem Schema-Feld "image" den RSS-Einträgen in voller Auflösung hinzufügen
+---STRINGEND
+
+---STRING rss_language
+Sprache
+---STRINGEND
+
+---STRING rss_subscription_enable
+Das Erstellen von Einträgen über entfernte RSS- und ATOM-Feeds zulassen
+---STRINGEND
+
+---STRING rss_title
+Titel des RSS-Feeds (keine Eingabe verwendet den Titel des Ordners als Standardwert)
+---STRINGEND
+
+---STRING rss_webmaster
+E-Mail-Adresse des Webmasters
+---STRINGEND
+
+---STRING schema database
+Pfad zur Schema-Datenbank
+---STRINGEND
+
+---STRING schema settings
+Schema-Einstellungen
+---STRINGEND
+
+---STRING schemadb
+Schema-Datenbank für Artikel
+---STRINGEND
+
+---STRING select article type
+Artikel-Typ auswählen
+---STRINGEND
+
+---STRING set this to no if you want to hide feeds and archive links in navigation
+Wählen Sie hier "Nein", um Feed- und Archiv-Links aus der Navigation auszublenden
+---STRINGEND
+
+---STRING set to no for de.linkm.newsticker compatibility
+Wählen Sie hier "Nein" für de.linkm.newsticker-Kompatibilität
+---STRINGEND
+
+---STRING settings
+Einstellungen
+---STRINGEND
+
+---STRING show latest items in navigation
+Die letzten Einträge in der Navigation anzeigen
+---STRINGEND
+
+---STRING show pseudo leaves in navigation
+Pseudo-Leaves in der Navigation anzeigen
+---STRINGEND
+
+---STRING sort order
+Sortierreihenfolge
+---STRINGEND
+
+---STRING symlink_topic
+Daten aus einem anderen Ordner nehmen ("Symlink")
+---STRINGEND
+
+---STRING symlink_topic disabled
+Kein Ordner ausgewählt
+---STRINGEND
+
+---STRING there is a total of %d posts.
+Es sind insgesamt %d Nachrichten vorhanden.
+---STRINGEND
+
+---STRING this blog entry has been linked from <a href="%s">%s</a> and confirming will delete only the link
+Dieser Blog-Eintrag wurde von<a href="%s">%s</a> verlinkt, Bestätigung löscht lediglich den Link.
+---STRINGEND
+
+---STRING use view prefix in url
+'view' als URL-Präfix verwenden
+---STRINGEND
+
+---STRING visible
+Ordner-Sichtbarkeit
+---STRINGEND
+
+---STRING language
+Sprache
+---STRINGEND
+
+---STRING enable scheduled publishing
+Zeitversetzte Veröffentlichung aktivieren
+---STRINGEND

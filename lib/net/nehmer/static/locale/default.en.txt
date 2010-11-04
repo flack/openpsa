@@ -1,0 +1,233 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE en
+
+---STRING Only show approved articles
+Only show approved articles
+---STRINGEND
+
+---STRING activate autoindex
+Automatically create an index page for this topic?
+---STRINGEND
+
+---STRING approve
+Approve
+---STRINGEND
+
+---STRING article
+Article
+---STRINGEND
+
+---STRING article %s deleted
+Article %s deleted
+---STRINGEND
+
+---STRING article link
+Article link
+---STRINGEND
+
+---STRING article link deleted
+Article link deleted
+---STRINGEND
+
+---STRING auto_approve
+Approve new articles by default
+---STRINGEND
+
+---STRING autoindex
+Automatically create an index page for this topic?
+---STRINGEND
+
+---STRING autoindex settings
+Automatical Index Settings
+---STRINGEND
+
+---STRING autoindex-notes
+The index page replaces the article with the URL name index and consists of a list of all articles and attachments of the current topic.
+---STRINGEND
+
+---STRING back to overview
+Back to overview
+---STRINGEND
+
+---STRING callback_function
+Callback function will be called after creation e.g. to provide interface for page linking system
+---STRINGEND
+
+---STRING callback_snippet
+Creation callback snippet for defining site-specific function
+---STRINGEND
+
+---STRING content
+Content
+---STRINGEND
+
+---STRING create article
+Create Article
+---STRINGEND
+
+---STRING default_schema
+Default schema for new articles
+---STRINGEND
+
+---STRING delete article
+Delete Article
+---STRINGEND
+
+---STRING delete article link
+Delete article link
+---STRINGEND
+
+---STRING delete cancelled
+Delete cancelled
+---STRINGEND
+
+---STRING delete link
+Delete link
+---STRINGEND
+
+---STRING delete_link
+Delete link
+---STRINGEND
+
+---STRING directory index for %s
+Directory index for %s
+---STRINGEND
+
+---STRING display settings
+Article display configuration
+---STRINGEND
+
+---STRING edit article
+Edit Article
+---STRINGEND
+
+---STRING enable_ajax_editing
+Enable AJAX on-site editing
+---STRINGEND
+
+---STRING enable_article_links
+Page linking system
+---STRINGEND
+
+---STRING failed to delete the article link, contact the site administrator
+Failed to delete the article link, contact the site administrator
+---STRINGEND
+
+---STRING file lastmodified
+Last modified date
+---STRINGEND
+
+---STRING filedescription
+File Description
+---STRINGEND
+
+---STRING filename
+File Name
+---STRINGEND
+
+---STRING filesize
+File Size
+---STRINGEND
+
+---STRING filetype
+File Type
+---STRINGEND
+
+---STRING folder_in_title
+Show folder name in page title
+---STRINGEND
+
+---STRING from
+From
+---STRINGEND
+
+---STRING hide_navigation
+Hide articles from navigation
+---STRINGEND
+
+---STRING if you want to delete the original article, <a href="%s">click here</a>
+If you want to delete the original article, <a href="%s">click here</a>.
+---STRINGEND
+
+---STRING indexinnav
+Show the index article in navigation?
+---STRINGEND
+
+---STRING net.nehmer.static
+Regular content
+---STRINGEND
+
+---STRING no files in this directory
+There are no files in this directory
+---STRINGEND
+
+---STRING no index article
+This folder does not have an <strong>index</strong> article. Please create an article with URL name <strong>index</strong> or activate the autoindex mode to get started.
+---STRINGEND
+
+---STRING no schemas available
+No Schemas available
+---STRINGEND
+
+---STRING schema settings
+Data schema settings
+---STRINGEND
+
+---STRING schemadb
+Schema database to use for this topic
+---STRINGEND
+
+---STRING select schema
+Select Schema
+---STRINGEND
+
+---STRING settings
+Settings
+---STRINGEND
+
+---STRING show blobs in autoindex
+Show blobs in autoindex
+---STRINGEND
+
+---STRING show_blobs_in_autoindex
+Show blobs in autoindex
+---STRINGEND
+
+---STRING simple_name_handling
+Should the article's URL be generated automatically?
+---STRINGEND
+
+---STRING sort_order
+Sort order
+---STRINGEND
+
+---STRING symlink_topic
+Get content from another topic ("symlink")
+---STRINGEND
+
+---STRING symlink_topic disabled
+No topic selected
+---STRINGEND
+
+---STRING taviewer
+Static Content
+---STRINGEND
+
+---STRING this article has been linked from <a href="%s">%s</a> and confirming will delete only the link
+This article has been linked from <a href="%s">%s</a> and confirming will delete only the link.
+---STRINGEND
+
+---STRING unapprove
+Unapprove
+---STRINGEND
+
+---STRING view article
+View Article
+---STRINGEND
+
+---STRING visible
+Should the topic be visible
+---STRINGEND
+

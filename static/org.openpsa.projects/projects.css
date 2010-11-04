@@ -1,0 +1,169 @@
+/* Individual task view */
+div.org_openpsa_projects_task div.tags
+{
+    float: right;
+    color: #c0c0c0;
+}
+div.org_openpsa_projects_task div.bookings p.ok
+{
+    color: #4e9a06;
+}
+div.org_openpsa_projects_task div.bookings p.acceptable
+{
+    color: #c4a000;
+}
+div.org_openpsa_projects_task div.bookings p.bad
+{
+    color: #a40000;
+}
+
+/* Composite hour reporting element */
+div.hours table.composite thead th
+{
+    font-size: 9px;
+}
+div.hours table tr td
+{
+    vertical-align: top;
+}
+div.hours table td p
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+div.hours td.date
+{
+    width: 90px;
+}
+
+div.hours td.description
+{
+    width: 200px;
+}
+
+div.org_openpsa_projects_project table.tasks
+{
+    margin-top: 1.5em
+}
+
+/* Project broker styling */
+div.org_openpsa_projects_projectbroker ul.prospects
+{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok
+{
+    border: 2px solid #babdb6;
+    -moz-border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok div.vcard
+{
+    float: none;
+    border: none;
+    clear: both;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table
+{
+    clear: both;
+    border-collapse: collapse;
+    width: 100%;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table tbody
+{
+    height: 200px;
+    overflow-x: auto;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table thead th
+{
+    background-color: #3465a4;
+    color: #ffffff;
+    text-align: left;
+    padding-right: 8px;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table thead th,
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table tbody td
+{
+    padding: 4px;
+    border-bottom: 1px solid #babdb6;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table td abbr
+{
+    border-bottom: none;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table td.previous,
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table td.next
+{
+    background-color: #e0e0e0;
+}
+
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table td.slot label.checkbox_checked
+{
+    background: #d1f899;
+    border: 1px solid #c2e78c;
+    color: #7a9751;
+    padding: 5px;
+    margin: 3px;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_search_ok table td.slot label.checkbox_unchecked
+{
+    background: #eee;
+    border: 1px solid #e5e5e5;
+    color: #979797;
+    padding: 5px;
+    margin: 3px;
+}
+
+div.org_openpsa_projects_projectbroker ul.prospects
+{
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+div.org_openpsa_projects_projectbroker ul.project_prospects_renderer_searching
+{
+    background-image: url("../midcom.helper.datamanager2/ajax-loading.gif");
+    padding-top: 32px;
+}
+div.org_openpsa_projects_projectbroker ul.project_prospects_renderer_search_fail
+{
+    /* TODO: Display error */
+}
+div.org_openpsa_projects_projectbroker ul.project_prospects_renderer_search_ok
+{
+}
+div.org_openpsa_projects_projectbroker ul.prospects > li
+{
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+div.org_openpsa_projects_projectbroker ul.prospects li.project_prospects_renderer_searching
+{
+    background-image: url("../midcom.helper.datamanager2/ajax-loading-small.gif");
+    padding-right: 16px;
+}
+div.org_openpsa_projects_project .filter_form
+{
+    float:right;
+}
+.status-icon
+{
+    vertical-align: middle;
+}
+.expand-icon
+{
+    vertical-align: middle;
+}
+.hidden-icon
+{
+    vertical-align: middle;
+    visibility: hidden;
+}
+.list td
+{
+    padding-top:0px;
+    padding-bottom:0px;
+}

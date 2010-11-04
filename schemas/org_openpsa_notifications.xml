@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="org_openpsa_notifications_notification" table="org_openpsa_notifications_notification" parent="midgard_person">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>
+                Local non-replication-safe database identifier
+            </description>
+        </property>
+
+        <!-- What is the notification about -->
+        <property name="component" type="string" index="yes">
+            <description>
+                Component that sent the notification
+            </description>
+        </property>
+        <property name="componentaction" type="string" index="yes">
+            <description>
+                Component's action that sent the notification
+            </description>
+        </property>
+
+        <!-- The persons involved -->
+        <property name="recipient" link="midgard_person:id" type="unsigned integer" parentfield="recipient">
+            <description>
+                Recipient of the notification
+            </description>
+        </property>
+        <property name="sender" link="midgard_person:id" type="unsigned integer">
+            <description>
+                Sender of the notification in case an user action caused it
+            </description>
+        </property>
+
+        <!-- Actual notification -->
+        <property name="title" type="string">
+            <description>
+                Title for the notification
+            </description>
+        </property>
+        <property name="abstract" type="text">
+            <description>
+                Short description of the notification
+            </description>
+        </property>
+        <property name="content" type="text">
+            <description>
+                Full notification text
+            </description>
+        </property>
+        <property name="objectguid" type="guid" index="yes">
+            <description>
+                GUID of object the notification is about
+            </description>
+        </property>
+    </type>
+</Schema>

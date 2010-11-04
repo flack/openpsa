@@ -1,0 +1,121 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 22990 2009-07-23 15:46:03Z flack $
+---LANGUAGE de
+
+---STRING advanced search
+Erweiterte Suche
+---STRINGEND
+
+---STRING found %s documents, showing %s documents.
+%s Dokumente wurden gefunden, auf dieser Seite werden %s Dokumente angezeigt.
+---STRINGEND
+
+---STRING limit search by content type
+Nur diesen Typ an Inhalten durchsuchen
+---STRINGEND
+
+---STRING limit search by last modified
+Nur Dokumente anzeigen, die verändert wurden seit
+---STRINGEND
+
+---STRING limit search by topic tree
+Nur diesen Teil der Website durchsuchen
+---STRINGEND
+
+---STRING midcom.helper.search
+Benutzeroberfläche für den MidCOM Indexer
+---STRINGEND
+
+---STRING next page
+Nächste Seite
+---STRINGEND
+
+---STRING no limit
+Kein Limit
+---STRINGEND
+
+---STRING pages
+Seiten
+---STRINGEND
+
+---STRING previous page
+Vorherige Seite
+---STRINGEND
+
+---STRING query
+Suchbegriff
+---STRINGEND
+
+---STRING results_per_page
+Anzahl der Treffer pro Seite
+---STRINGEND
+
+---STRING score
+Relevanz
+---STRINGEND
+
+---STRING search
+Suche
+---STRINGEND
+
+---STRING search all content types
+Alle Arten von Inhalten anzeigen
+---STRINGEND
+
+---STRING search anywhere
+Überall suchen
+---STRINGEND
+
+---STRING search hints
+Tipps zur Suche
+---STRINGEND
+
+---STRING search hints lucene
+Wörter können mit Anführungszeichen zusammengefasst werden("meine Abfrage").<br />
+Die Boolschen Operatoren AND (und), OR (oder) und NOT (nicht) können verwendet werden.<br/>
+Weitere Informationen können in der <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Dokumentation von Lucene</a> gefunden werden.
+---STRINGEND
+
+---STRING search hints plucene
+Wörter können mit Anführungszeichen zusammengefasst werden("meine Abfrage").<br />
+Die Boolschen Operatoren AND (und), OR (oder) und NOT (nicht) können verwendet werden.<br/>
+Weitere Informationen können in der Dokumentation von <a href="http://search.cpan.org/dist/Plucene/lib/Plucene.pm">Plucene</a>  und <a href="http://lucene.apache.org/java/2_4_1/queryparsersyntax.html">Lucene Documentation</a> gefunden werden.
+---STRINGEND
+
+---STRING search results
+Suchergebnis
+---STRINGEND
+
+---STRING search_help_message
+Der anzuzeigende Hilfe-Text
+---STRINGEND
+
+---STRING showing %s to %s.
+Die Dokumente %s bis %s werden angezeigt.
+---STRINGEND
+
+---STRING showing %s.
+Das Dokument %s wird angezeigt.
+---STRINGEND
+
+---STRING since 1 month
+Einem Monat
+---STRINGEND
+
+---STRING since 1 year
+Einem Jahr
+---STRINGEND
+
+---STRING since 3 months
+Drei Monaten
+---STRINGEND
+
+---STRING since 6 months
+Sechs Monaten
+---STRINGEND
+
+---STRING your query returned no results
+Ihre Suchanfrage lieferte keine Dokumente zurück.
+---STRINGEND
+

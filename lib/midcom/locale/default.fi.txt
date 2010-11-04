@@ -1,0 +1,849 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 25979 2010-05-04 11:55:39Z bergie $
+---LANGUAGE fi
+
+---STRING %s in %s
+%s kansiossa %s
+---STRINGEND
+
+---STRING %s of packages of type %s
+%s paketeille tyyppiä %s
+---STRINGEND
+
+---STRING Edit this page
+Muokkaa sivua
+---STRINGEND
+
+---STRING More...
+Lisää...
+---STRINGEND
+
+---STRING OK
+OK
+---STRINGEND
+
+---STRING abstract
+Ingressi
+---STRINGEND
+
+---STRING access control
+Pääsynhallinta
+---STRINGEND
+
+---STRING access denied
+Pääsy estetty
+---STRINGEND
+
+---STRING access denied: admin level privileges required
+Pääsy estetty: toiminto vaatii pääkäyttäjäoikeudet
+---STRINGEND
+
+---STRING access denied: privilege %s not granted
+Pääsy estetty: sinulla ei ole %s oikeutta.
+---STRINGEND
+
+---STRING access denied: user is not member of the group %s
+Pääsy estetty: et ole ryhmän %s jäsen
+---STRINGEND
+
+---STRING access denied: you do not have write permission
+Pääsy estetty: sinulla ei ole kirjoitusoikeutta.
+---STRINGEND
+
+---STRING access denied: you must be logged in
+Pääsy estetty: sisäänkirjautuminen vaaditaan
+---STRINGEND
+
+---STRING access type
+Tyyppi
+---STRINGEND
+
+---STRING actions
+Toiminnot
+---STRINGEND
+
+---STRING advanced schema and data settings
+Tehokäyttäjän tietokanta-asetukset
+---STRINGEND
+
+---STRING all
+kaikki
+---STRINGEND
+
+---STRING and
+ja
+---STRINGEND
+
+---STRING anonymous
+tunnistamaton
+---STRINGEND
+
+---STRING approval
+Hyväksyntä
+---STRINGEND
+
+---STRING approvals
+Hyväksynnät
+---STRINGEND
+
+---STRING approve
+Hyväksy
+---STRINGEND
+
+---STRING approve topic
+Hyväksy kansio
+---STRINGEND
+
+---STRING approved
+Hyväksytty
+---STRINGEND
+
+---STRING approved changes will be replicated within next minute
+Hyväksyttyjen muutosten replikointi alkaa minuutin kuluessa
+---STRINGEND
+
+---STRING approver
+Hyväksynyt
+---STRINGEND
+
+---STRING arrangement score
+Järjestelyarvo
+---STRINGEND
+
+---STRING back
+Takaisin
+---STRINGEND
+
+---STRING back to configuration
+Takaisin asetuksiin
+---STRINGEND
+
+---STRING back to index
+Takaisin kansion pääsivulle
+---STRINGEND
+
+---STRING body
+Sisältö
+---STRINGEND
+
+---STRING bottom
+loppu
+---STRINGEND
+
+---STRING by name
+nimen mukaan
+---STRINGEND
+
+---STRING calendar
+luontiajankohdan mukaan
+---STRINGEND
+
+---STRING cancel
+Peruuta
+---STRINGEND
+
+---STRING captcha field title
+Turvatarkastus
+---STRINGEND
+
+---STRING close configuration screen
+Sulje asetukset
+---STRINGEND
+
+---STRING component
+Komponentti
+---STRINGEND
+
+---STRING component %s configuration for folder %s
+Komponentin %s asetukset kansiossa "%s"
+---STRINGEND
+
+---STRING component configuration
+Komponentin asetukset
+---STRINGEND
+
+---STRING component configuration helptext
+Klikkaa valikkoa muokataksesi komponentin tämän kansion kohtaisia asetuksia.
+---STRINGEND
+
+---STRING component depends on
+Komponentin vaatimat kirjastot
+---STRINGEND
+
+---STRING confirm
+Vahvista
+---STRINGEND
+
+---STRING copy
+Kopioi
+---STRINGEND
+
+---STRING country
+Maa
+---STRINGEND
+
+---STRING create
+Luo
+---STRINGEND
+
+---STRING create %s
+Luo %s
+---STRINGEND
+
+---STRING create page
+Luo sivu
+---STRINGEND
+
+---STRING created
+Luotu
+---STRINGEND
+
+---STRING created on
+Luotu
+---STRINGEND
+
+---STRING creator
+Luonut
+---STRINGEND
+
+---STRING date
+Päivämäärä
+---STRINGEND
+
+---STRING default setting
+Oletus
+---STRINGEND
+
+---STRING delete
+Poista
+---STRINGEND
+
+---STRING description
+Kuvaus
+---STRINGEND
+
+---STRING developer
+Kehittäjä
+---STRINGEND
+
+---STRING discussion in %s
+keskustelu kansiossa %s
+---STRINGEND
+
+---STRING do not index (midcom's indexer)
+Älä indeksoi sivuston omaan hakuun
+---STRINGEND
+
+---STRING domain
+Nimialue
+---STRINGEND
+
+---STRING down
+alas
+---STRINGEND
+
+---STRING download %s
+Lataa %s
+---STRINGEND
+
+---STRING edit
+Muokkaa
+---STRINGEND
+
+---STRING edit %s
+Muokkaa %s
+---STRINGEND
+
+---STRING edit design
+Muokkaa ulkoasua
+---STRINGEND
+
+---STRING edit page
+Muokkaa sivua
+---STRINGEND
+
+---STRING edit photos
+Muokkaa valokuvia
+---STRINGEND
+
+---STRING edited
+Muokattu
+---STRINGEND
+
+---STRING editor
+Muokannut
+---STRINGEND
+
+---STRING encrypted
+Salattu
+---STRINGEND
+
+---STRING end date
+Päättymispäivämäärä
+---STRINGEND
+
+---STRING folder
+Kansio
+---STRINGEND
+
+---STRING get help
+Apu
+---STRINGEND
+
+---STRING get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>
+Saat lisää komponentteja <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a>-kanavalta <a href="http://%s/">%s</a>
+---STRINGEND
+
+---STRING hidden
+Piilotettu
+---STRINGEND
+
+---STRING hide
+Piilota
+---STRINGEND
+
+---STRING host
+Sivusto
+---STRINGEND
+
+---STRING id
+ID-tunnus
+---STRINGEND
+
+---STRING image
+Kuva
+---STRINGEND
+
+---STRING in %s
+kansiossa %s
+---STRINGEND
+
+---STRING inherited from parent
+Peritty ylemmältä tasolta
+---STRINGEND
+
+---STRING internal metadata
+Sisäinen metadata
+---STRINGEND
+
+---STRING invalidate cache
+Tyhjennä Midgardin välimuisti
+---STRINGEND
+
+---STRING keywords
+Avainsanat
+---STRINGEND
+
+---STRING last modified
+Viimeksi muokattu
+---STRINGEND
+
+---STRING lead
+Pääkehittäjä
+---STRINGEND
+
+---STRING library
+Kirjasto
+---STRINGEND
+
+---STRING login
+Kirjaudu
+---STRINGEND
+
+---STRING login message - insufficient privileges
+Käyttäjätunnuksellasi ei ole riittäviä oikeuksia
+---STRINGEND
+
+---STRING login message - please enter credentials
+Syötä käyttäjätunnus ja salasana
+---STRINGEND
+
+---STRING login message - user or password wrong
+Käyttäjätunnus tai salasana oli virheellinen
+---STRINGEND
+
+---STRING logout
+Kirjaudu ulos
+---STRINGEND
+
+---STRING long date
+%x %X
+---STRINGEND
+
+---STRING lowercase, no special characters or spaces
+Pienet kirjaimet, ei erikoismerkkejä, ääkkösiä tai välejä
+---STRINGEND
+
+---STRING metadata
+Metatiedot
+---STRINGEND
+
+---STRING midcom administration
+Midgard CMS:n ylläpito
+---STRINGEND
+
+---STRING move
+Siirrä
+---STRINGEND
+
+---STRING move down
+Siirrä alas
+---STRINGEND
+
+---STRING move up
+Siirrä ylös
+---STRINGEND
+
+---STRING name
+Nimi
+---STRINGEND
+
+---STRING nav_noentry
+Piilota navigaatiosta
+---STRINGEND
+
+---STRING nav_noentry_helptext
+Tietueet jotka eivät näy navigaatiossa ovat silti saatavilla suoran URL-osoitteen kautta
+---STRINGEND
+
+---STRING new
+Uusi
+---STRINGEND
+
+---STRING next
+Seuraava
+---STRINGEND
+
+---STRING next page
+Seuraava
+---STRINGEND
+
+---STRING no
+Ei
+---STRINGEND
+
+---STRING not active %s
+Ei-aktiivinen %s
+---STRINGEND
+
+---STRING not hidden
+Näkyvä
+---STRINGEND
+
+---STRING offline
+Poissa verkosta
+---STRINGEND
+
+---STRING online
+Verkossa
+---STRINGEND
+
+---STRING online state
+Tila
+---STRINGEND
+
+---STRING optional
+val.
+---STRINGEND
+
+---STRING owner
+Omistaja
+---STRINGEND
+
+---STRING page
+Sivu
+---STRINGEND
+
+---STRING page %d of %d
+Sivu %s/%s
+---STRINGEND
+
+---STRING parameters
+Parametrit
+---STRINGEND
+
+---STRING parentguid
+Vanhemman GUID
+---STRINGEND
+
+---STRING password
+Salasana
+---STRINGEND
+
+---STRING password mismatch
+Salasanat eivät täsmää
+---STRINGEND
+
+---STRING permalink
+Pysyvä linkki
+---STRINGEND
+
+---STRING photo in %s
+valokuva kansiossa %s
+---STRINGEND
+
+---STRING previous
+Edellinen
+---STRINGEND
+
+---STRING previous page
+Edellinen
+---STRINGEND
+
+---STRING privileges
+Käyttöoikeudet
+---STRINGEND
+
+---STRING recreate images
+Luo kuvat uudelleen
+---STRINGEND
+
+---STRING recreate images for folder %s
+Luo kansion %s kuvat uudelleen
+---STRINGEND
+
+---STRING reject
+Hylkää
+---STRINGEND
+
+---STRING reset
+Palauta
+---STRINGEND
+
+---STRING reverse calendar
+Käänteisessä luontijärjestyksessä
+---STRINGEND
+
+---STRING reverse created
+Luontijärjestyksessä (viimeisin ensin)
+---STRINGEND
+
+---STRING reverse name
+Nimijärjestyksessä
+---STRINGEND
+
+---STRING reverse revised
+Muokkausjärjestyksessä
+---STRINGEND
+
+---STRING reverse score
+Arvon mukaan
+---STRINGEND
+
+---STRING revert to default setting
+Palauta oletukset
+---STRINGEND
+
+---STRING revised
+Muokkausjärjestyksessä
+---STRINGEND
+
+---STRING robots
+Ulkoisten hakukoneiden hallinnointi
+---STRINGEND
+
+---STRING robots-follow
+Salli haut, hakukone saa seurata linkkejä
+---STRINGEND
+
+---STRING robots-index
+Salli haut
+---STRINGEND
+
+---STRING robots-nofollow
+Salli haut, hakukone ei saa seurata linkkejä
+---STRINGEND
+
+---STRING robots-noindex
+Älä salli hakuja
+---STRINGEND
+
+---STRING robots-not-specified
+Ei määritelty, käyttää robots.txt:tä
+---STRINGEND
+
+---STRING run replication
+Käynnistä replikointi
+---STRINGEND
+
+---STRING save
+Tallenna
+---STRINGEND
+
+---STRING save and close
+Tallenna ja sulje
+---STRINGEND
+
+---STRING schedule_end
+Näytä päivämäärään asti (jätä tyhjäksi näyttääksesi aina)
+---STRINGEND
+
+---STRING schedule_start
+Julkaise päivämääränä (jätä tyhjäksi julkaistaksesi heti)
+---STRINGEND
+
+---STRING scheduled and shown
+Ajastettu ja näkyvissä
+---STRINGEND
+
+---STRING scheduled but hidden
+Ajastettu ja piilossa
+---STRINGEND
+
+---STRING scheduling
+Ajastus
+---STRINGEND
+
+---STRING schema database
+Tietokantakuvaus
+---STRINGEND
+
+---STRING score
+Arvon mukaan
+---STRINGEND
+
+---STRING search
+Hae
+---STRINGEND
+
+---STRING select
+Valitse
+---STRINGEND
+
+---STRING settings
+Asetukset
+---STRINGEND
+
+---STRING short date
+%d.%m.%Y
+---STRINGEND
+
+---STRING shown from %s
+Näytä %s alkaen
+---STRINGEND
+
+---STRING shown from %s to %s
+Näytä %s-%s
+---STRINGEND
+
+---STRING shown until %s
+Näytä %s asti
+---STRINGEND
+
+---STRING sitegroup
+Yritystietokanta
+---STRINGEND
+
+---STRING sort_by_calendar
+Järjestä ajan mukaan
+---STRINGEND
+
+---STRING sort_by_name
+Järjestä nimen mukaan
+---STRINGEND
+
+---STRING sort_by_reverse_calendar
+Järjestä ajan mukaan (käänteisesti)
+---STRINGEND
+
+---STRING sort_by_reverse_name
+Järjestä nimen mukaan (käänteisesti)
+---STRINGEND
+
+---STRING sort_by_reverse_revised
+Järjestä muokkausajan mukaan (käänteisesti)
+---STRINGEND
+
+---STRING sort_by_reverse_score
+Järjestä arvon mukaan (käänteisesti)
+---STRINGEND
+
+---STRING sort_by_revised
+Järjestä muokkausajan mukaan
+---STRINGEND
+
+---STRING sort_by_score
+Järjestä arvon mukaan
+---STRINGEND
+
+---STRING sort_leaves
+Säilytä komponentin oletusjärjestys
+---STRINGEND
+
+---STRING sort_order
+Kuinka sivut pitäisi järjestellä?
+---STRINGEND
+
+---STRING sorting position
+sijainti järjestelyssä
+---STRINGEND
+
+---STRING stagin2live
+Esikatselu-tuotanto -ympäristö
+---STRINGEND
+
+---STRING start date
+Alkupäivämäärä
+---STRINGEND
+
+---STRING stats
+Statistiikka
+---STRINGEND
+
+---STRING style
+Ulkoasu
+---STRINGEND
+
+---STRING tags
+Tag-merkinnät
+---STRINGEND
+
+---STRING test settings
+Testaa asetukset
+---STRINGEND
+
+---STRING text
+Teksti
+---STRINGEND
+
+---STRING thumbnail
+Esikatselukuva
+---STRINGEND
+
+---STRING title
+Otsikko
+---STRINGEND
+
+---STRING top
+alku
+---STRINGEND
+
+---STRING topic
+Kansio
+---STRINGEND
+
+---STRING unapprove
+Poista hyväksyntä
+---STRINGEND
+
+---STRING unapprove topic
+Poista kansion hyväksyntä
+---STRINGEND
+
+---STRING unapproved
+Ei hyväksytty
+---STRINGEND
+
+---STRING unhide
+Paljasta
+---STRINGEND
+
+---STRING unknown
+Tuntematon
+---STRINGEND
+
+---STRING up
+ylös
+---STRINGEND
+
+---STRING update
+Päivitä
+---STRINGEND
+
+---STRING update configuration
+Päivitä asetukset
+---STRINGEND
+
+---STRING update preferences
+Päivitä asetukset
+---STRINGEND
+
+---STRING updated
+Päivitetty
+---STRINGEND
+
+---STRING upload
+Lataa
+---STRINGEND
+
+---STRING upload image
+Lataa kuva
+---STRINGEND
+
+---STRING url
+URL-Osoite
+---STRINGEND
+
+---STRING url name
+Tiedostonimi (pienet kirjaimet, ei erikoismerkkejä, välejä tai ääkkösiä)
+---STRINGEND
+
+---STRING user
+Käyttäjä
+---STRINGEND
+
+---STRING username
+Käyttäjän nimi
+---STRINGEND
+
+---STRING value
+Arvo
+---STRINGEND
+
+---STRING verify password
+Varmista salasana
+---STRINGEND
+
+---STRING view
+Näyttö
+---STRINGEND
+
+---STRING visibility settings
+Näkyvyysasetukset
+---STRINGEND
+
+---STRING visibilty settings
+Näkyvyysasetukset
+---STRINGEND
+
+---STRING workgroup
+Työryhmä
+---STRINGEND
+
+---STRING write mail
+Kirjoita sähköposti
+---STRINGEND
+
+---STRING yes
+Kyllä
+---STRINGEND
+
+---STRING decimal point
+,
+---STRINGEND
+
+---STRING delete %s
+Poista %s
+---STRINGEND
+
+---STRING midcom
+MidCOM CMS Framework
+---STRINGEND
+
+---STRING short date csv
+%d.%m.%Y
+---STRINGEND
+
+---STRING restore submitted form data
+Palauta lähetetyt lomaketiedot
+---STRINGEND
+
+---STRING article
+Artikkeli
+---STRINGEND
+
+---STRING person
+Henkilö
+---STRINGEND
+

@@ -1,0 +1,48 @@
+/**
+ * Styles for ui messages without javascript
+**/
+
+div.midcom_services_uimessages_holder
+{
+    margin: 15px;
+    padding: 5px;
+    color: #000000;
+}
+
+div.midcom_services_uimessages_message
+{
+    margin: 10px 0 10px 0;
+}
+div.msu_info
+{
+    border: 1px solid #008000;
+}
+div.msu_ok
+{
+    border: 1px solid #008000;
+}
+div.msu_warning
+{
+    border: 1px solid #ff0000;
+}
+div.msu_error
+{
+    border: 1px solid #ff0000;
+}
+div.msu_debug
+{
+    border: 1px solid #ffff00;
+}
+
+div.midcom_services_uimessages_message_type
+{
+    display: none;
+}
+div.midcom_services_uimessages_message_title
+{
+    font-weight: bold;
+}
+div.midcom_services_uimessages_message_msg
+{
+    
+}

@@ -1,0 +1,269 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 23015 2009-07-28 08:50:55Z flack $
+---LANGUAGE en
+
+---STRING %s includes
+%s includes
+---STRINGEND
+
+---STRING %s is
+%s is
+---STRINGEND
+
+---STRING %s is at least
+%s is at least
+---STRINGEND
+
+---STRING %s is at most
+%s is at most
+---STRINGEND
+
+---STRING business area schema database
+Business area schema database
+---STRINGEND
+
+---STRING code
+Code
+---STRINGEND
+
+---STRING component
+Component
+---STRINGEND
+
+---STRING component group
+Component group
+---STRINGEND
+
+---STRING cost
+Cost
+---STRINGEND
+
+---STRING cost type
+Cost type
+---STRINGEND
+
+---STRING day
+day
+---STRINGEND
+
+---STRING delivery type
+Delivery type
+---STRINGEND
+
+---STRING display search on front page
+Display search on the front page
+---STRINGEND
+
+---STRING display settings
+Display Settings
+---STRINGEND
+
+---STRING export
+Export
+---STRINGEND
+
+---STRING export products
+Export products
+---STRINGEND
+
+---STRING field separator
+Field separator
+---STRINGEND
+
+---STRING fields available for matching are defined in schema
+Fields available for matching are defined in schema
+---STRINGEND
+
+---STRING file to import
+File to import
+---STRINGEND
+
+---STRING first row is headers
+First row is headers
+---STRINGEND
+
+---STRING groups
+Product groups
+---STRINGEND
+
+---STRING hour
+hour
+---STRINGEND
+
+---STRING if we have subgroups and products in group, what shall we show
+If we have subgroups and products in a group, what shall we show?
+---STRINGEND
+
+---STRING import
+Import
+---STRINGEND
+
+---STRING import products
+Import products
+---STRINGEND
+
+---STRING index order for products when browsing groups
+Index order for products when browsing groups
+---STRINGEND
+
+---STRING iso-latin-1 encoding
+ISO-Latin-1 encoding
+---STRINGEND
+
+---STRING list group products
+List group products
+---STRINGEND
+
+---STRING material goods
+Material goods
+---STRINGEND
+
+---STRING month
+month
+---STRINGEND
+
+---STRING number of items in feed
+Number of items in feed
+---STRINGEND
+
+---STRING one line per product
+One line per product
+---STRINGEND
+
+---STRING org.openpsa.products
+Product database
+---STRINGEND
+
+---STRING parent group
+Parent group
+---STRINGEND
+
+---STRING per unit
+per unit
+---STRINGEND
+
+---STRING piece
+piece
+---STRINGEND
+
+---STRING pieces
+Pieces
+---STRINGEND
+
+---STRING price
+Price
+---STRINGEND
+
+---STRING product
+Product
+---STRINGEND
+
+---STRING product components
+Product components
+---STRINGEND
+
+---STRING product database
+Product database
+---STRINGEND
+
+---STRING product group
+Product group
+---STRINGEND
+
+---STRING product group schema database
+Product group schema database
+---STRINGEND
+
+---STRING product schema database
+Product schema database
+---STRINGEND
+
+---STRING products
+Products
+---STRINGEND
+
+---STRING products per page
+Products per page
+---STRINGEND
+
+---STRING quarter
+quarter
+---STRINGEND
+
+---STRING root product group
+Root product group
+---STRINGEND
+
+---STRING schema
+Schema
+---STRINGEND
+
+---STRING search
+Product search
+---STRINGEND
+
+---STRING search all items on default
+Search all items on default
+---STRINGEND
+
+---STRING search index order
+Search index order
+---STRINGEND
+
+---STRING service
+Service
+---STRINGEND
+
+---STRING single delivery
+Single delivery
+---STRINGEND
+
+---STRING solution
+Solution
+---STRINGEND
+
+---STRING subscription
+Subscription
+---STRINGEND
+
+---STRING supplier
+Supplier
+---STRINGEND
+
+---STRING toplevel
+Top level
+---STRINGEND
+
+---STRING type
+Type
+---STRINGEND
+
+---STRING unit
+Unit
+---STRINGEND
+
+---STRING updated %s
+updated %s
+---STRINGEND
+
+---STRING updated products
+Updated products
+---STRINGEND
+
+---STRING whether to enable adding subcomponents to products
+Whether to enable adding subcomponents to products
+---STRINGEND
+
+---STRING year
+year
+---STRINGEND
+
+---STRING you can export csv files here
+You can export csv files here
+---STRINGEND
+
+---STRING you can import csv files here
+You can import csv files here
+---STRINGEND
+

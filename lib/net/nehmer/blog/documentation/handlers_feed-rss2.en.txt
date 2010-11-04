@@ -1,0 +1,2 @@
+
+Generates RRS 2.0 feed according to [configuration](../01_component_config) settings.

@@ -1,0 +1,356 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 26649 2010-09-15 09:03:07Z flack $
+---LANGUAGE de
+
+---STRING account number
+Konto-Nummer
+---STRINGEND
+
+---STRING add new invoice item
+Neue Rechnungsposition hinzufügen
+---STRINGEND
+
+---STRING all invoices
+Alle Rechnungen
+---STRINGEND
+
+---STRING all invoices for customer %s
+Rechnungen des Kunden %s
+---STRINGEND
+
+---STRING all invoices for deliverable %s
+Rechnungen zu Lieferung %s
+---STRINGEND
+
+---STRING amount
+Betrag
+---STRINGEND
+
+---STRING back to invoice
+Zurück zur Rechnung
+---STRINGEND
+
+---STRING bank code
+BLZ
+---STRINGEND
+
+---STRING basic information
+Basisdaten
+---STRINGEND
+
+---STRING billing data
+Rechnungsdaten
+---STRINGEND
+
+---STRING create invoice
+Rechnung erstellen
+---STRINGEND
+
+---STRING created "%s" task to %s
+Aufgabe "%s" für %s erstellt
+---STRINGEND
+
+---STRING customer
+Kunde
+---STRINGEND
+
+---STRING customer contact
+Kundenkontakt
+---STRINGEND
+
+---STRING dashboard
+Übersicht
+---STRINGEND
+
+---STRING delete invoice
+Rechnung löschen
+---STRINGEND
+
+---STRING due
+Fällig
+---STRINGEND
+
+---STRING due date
+Fälligkeitsdatum
+---STRINGEND
+
+---STRING due on %s
+Fällig am %s
+---STRINGEND
+
+---STRING edit invoice items
+Rechnungspositionen bearbeiten
+---STRINGEND
+
+---STRING failed to create invoice, reason
+Rechnung konnte nicht erstellt werden. Ursache:
+---STRINGEND
+
+---STRING files
+Dateien
+---STRINGEND
+
+---STRING go to customer
+Kunden anzeigen
+---STRINGEND
+
+---STRING invoice
+Rechnung
+---STRINGEND
+
+---STRING invoices
+Rechnungen
+---STRINGEND
+
+---STRING invoice address
+Rechnungsadresse
+---STRINGEND
+
+---STRING invoice date
+Rechnungsdatum
+---STRINGEND
+
+---STRING invoice %s created
+Rechnung %s wurde erstellt
+---STRINGEND
+
+---STRING invoice data
+Rechnungsdaten
+---STRINGEND
+
+---STRING invoice items
+Rechnungspositionen
+---STRINGEND
+
+---STRING invoice number
+Rechnungsnummer
+---STRINGEND
+
+---STRING invoice status
+Rechnungs-Status
+---STRINGEND
+
+---STRING invoiced hour reports
+Abgerechnete Stunden-Berichte
+---STRINGEND
+
+---STRING invoicing information
+Rechnungsdaten
+---STRINGEND
+
+---STRING mark paid
+bezahlt
+---STRINGEND
+
+---STRING mark sent
+verschickt
+---STRINGEND
+
+---STRING marked %s hours as invoiced
+%s Arbeitsstunden als abgerechnet markiert
+---STRINGEND
+
+---STRING marked invoice "%s" paid
+Rechnung "%s" wurde als bezahlt markiert
+---STRINGEND
+
+---STRING marked invoice "%s" sent
+Rechnung "%s" wurde als verschickt markiert
+---STRINGEND
+
+---STRING marked task "%s" finished
+Aufgabe "%s" wurde als fertiggestellt markiert
+---STRINGEND
+
+---STRING name of bank
+Name des Geldinstituts
+---STRINGEND
+
+---STRING next action
+Nächste Aktion
+---STRINGEND
+
+---STRING no customer
+Kein Kunde
+---STRINGEND
+
+---STRING not paid
+Nicht bezahlt
+---STRINGEND
+
+---STRING open
+Offen
+---STRINGEND
+
+---STRING open invoices
+Offene Rechnungen
+---STRINGEND
+
+---STRING org.openpsa.invoices
+Rechnungs-Tracking
+---STRINGEND
+
+---STRING overdue
+Überfällig
+---STRINGEND
+
+---STRING overdue invoices
+Überfällige Rechnungen
+---STRINGEND
+
+---STRING overdue since %s
+Überfällig seit %s
+---STRINGEND
+
+---STRING paid
+Bezahlt
+---STRINGEND
+
+---STRING paid date
+Zahlungsdatum
+---STRINGEND
+
+---STRING paid invoices
+Bezahlte Rechnungen
+---STRINGEND
+
+---STRING paid on %s
+Bezahlt am %s
+---STRINGEND
+
+---STRING pdf file
+PDF Datei
+---STRINGEND
+
+---STRING price
+Preis
+---STRINGEND
+
+---STRING project invoicing
+Projekt-Abrechnung
+---STRINGEND
+
+---STRING quantity
+Menge
+---STRINGEND
+
+---STRING recipient
+Empfänger
+---STRINGEND
+
+---STRING recently paid invoices
+Neueste Zahlungseingänge
+---STRINGEND
+
+---STRING scheduled
+Geplant
+---STRINGEND
+
+---STRING scheduled invoices
+Geplante Rechnungsläufe
+---STRINGEND
+
+---STRING sent
+Versanddatum
+---STRINGEND
+
+---STRING sent date
+Versanddatum
+---STRINGEND
+
+---STRING sum
+Summe
+---STRINGEND
+
+---STRING sum including vat
+Betrag inkl. MwSt
+---STRINGEND
+
+---STRING sum excluding vat
+Netto-Betrag
+---STRINGEND
+
+---STRING totals
+Gesamtsumme
+---STRINGEND
+
+---STRING unsent
+Unverschickt
+---STRINGEND
+
+---STRING unsent invoices
+Unverschickte Rechnungen
+---STRINGEND
+
+---STRING vat
+MwSt-Satz
+---STRINGEND
+
+---STRING VAT No.
+USt-IdNr.
+---STRINGEND
+
+---STRING vat sum
+MwSt-Betrag
+---STRINGEND
+
+---STRING there is no invoice with number %s
+Es gibt keine Rechnung mit der Nummer %s
+---STRINGEND
+
+---STRING invoice was not found
+Die Rechnung wurde nicht gefunden
+---STRINGEND
+
+---STRING go to invoice number
+Zeige Rechnung Nummer
+---STRINGEND
+
+---STRING search
+Suche
+---STRINGEND
+
+---STRING goto
+Zeige
+---STRINGEND
+
+---STRING no invoice number was handed over
+Es wurde keine Nummer zu einer Rechnung übergeben
+---STRINGEND
+
+---STRING recalculate_by_reports
+Neuberechnung mittels Stundenberichten
+---STRINGEND
+
+---STRING invoice sum
+Rechnungssumme
+---STRINGEND
+
+---STRING fix price
+Festpreis
+---STRINGEND
+
+---STRING price per unit
+Preis pro Einheit
+---STRINGEND
+
+---STRING units
+Einheiten
+---STRINGEND
+
+---STRING use contact address
+Adresse aus Kontaktdaten benutzen
+---STRINGEND
+
+---STRING no description given
+Keine Beschreibung angegeben
+---STRINGEND
+
+---STRING current pdf file was manually uploaded shall it be replaced ?
+Die derzeitige PDF-Datei wurde manuell hochgeladen. Soll diese Datei wirklich ersetzt werden?
+---STRINGEND
+
+---STRING create pdf for invoice
+Erstelle PDF für Rechnung
+---STRINGEND

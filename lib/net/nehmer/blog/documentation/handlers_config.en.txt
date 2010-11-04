@@ -1,0 +1,3 @@
+
+Provides [configuration](../01_component_config) settings form.
+

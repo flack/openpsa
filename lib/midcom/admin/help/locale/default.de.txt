@@ -1,0 +1,149 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE de
+
+---STRING about midgard
+Über Midgard
+---STRINGEND
+
+---STRING action
+Aktion
+---STRINGEND
+
+---STRING available url methods
+Verfügbare URL-Methoden
+---STRINGEND
+
+---STRING available urls
+Verfügbare URLs in diesem Ordner
+---STRINGEND
+
+---STRING component help
+Komponenten-Dokumentation
+---STRINGEND
+
+---STRING controller
+Controller
+---STRINGEND
+
+---STRING dependencies
+Abhängigkeiten
+---STRINGEND
+
+---STRING description
+Beschreibung
+---STRINGEND
+
+---STRING go to help main page
+Zur Startseite der Hilfe
+---STRINGEND
+
+---STRING handler_id
+Handler-ID
+---STRINGEND
+
+---STRING help
+Online-Hilfe
+---STRINGEND
+
+---STRING help for %s
+Online-Hilfe für "%s"
+---STRINGEND
+
+---STRING help for %s in %s
+Online-Hilfe für %s in %s
+---STRINGEND
+
+---STRING help_dependencies
+Komponenten-Abhängigkeiten
+---STRINGEND
+
+---STRING help_index
+Inhaltsverzeichnis
+---STRINGEND
+
+---STRING help_mgdschemas
+MgdSchema-Klassen
+---STRINGEND
+
+---STRING help_routes
+Routen
+---STRINGEND
+
+---STRING help_schemas
+MgdSchema-Klassen
+---STRINGEND
+
+---STRING help_style
+Layout-Vorlagen
+---STRINGEND
+
+---STRING help_urlmethods
+URL-Methoden
+---STRINGEND
+
+---STRING info
+Beschreibung
+---STRINGEND
+
+---STRING mgdschemas in %s
+MgdSchemas in "%s"
+---STRINGEND
+
+---STRING midcom.admin.help
+Online-Hilfe
+---STRINGEND
+
+---STRING no routes found
+Keine Routen gefunden
+---STRINGEND
+
+---STRING no url methods found
+Keine URL-Methoden gefunden
+---STRINGEND
+
+---STRING online documentation
+Online-Dokumentation
+---STRINGEND
+
+---STRING property
+Eigenschaft
+---STRINGEND
+
+---STRING routes
+Routen
+---STRINGEND
+
+---STRING toc
+Inhaltsverzeichnis
+---STRINGEND
+
+---STRING urlmethods
+URL-Methoden
+---STRINGEND
+
+---STRING user forum
+User-Forum
+---STRINGEND
+
+---STRING about current handler
+Über den aktuellen Handler
+---STRINGEND
+
+---STRING handlers
+URL-Handler
+---STRINGEND
+
+---STRING help_handlers
+URL-Handler
+---STRINGEND
+
+---STRING mgdschemas
+MgdSchemas
+---STRINGEND
+
+---STRING no handlers found
+keine Handler gefunden
+---STRINGEND
+

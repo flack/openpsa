@@ -1,0 +1,217 @@
+'default' => array
+(
+    'description' => 'salesproject',
+    'fields'      => array
+    (
+        'code' => array
+        (
+            // COMPONENT-REQUIRED
+            'title' => 'code',
+            'storage' => 'code',
+            'required' => true,
+            'type' => 'text',
+            'widget'  => 'text',
+        ),
+        'title' => array
+        (
+            // COMPONENT-REQUIRED
+            'title' => 'title',
+            'storage' => 'title',
+            'required' => true,
+            'type' => 'text',
+            'widget'  => 'text',
+        ),
+        'description' => array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => array
+            (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
+        'status' => array
+        (
+            'title' => 'status',
+            'storage' => 'status',
+            'type' => 'select',
+            'type_config' => array
+            (
+                'options' => array
+                (
+                    ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE    => 'active',
+                    ORG_OPENPSA_SALESPROJECTSTATUS_CANCELED  => 'canceled',
+                    ORG_OPENPSA_SALESPROJECTSTATUS_LOST      => 'lost',
+                    ORG_OPENPSA_SALESPROJECTSTATUS_WON       => 'won',
+                    ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED => 'delivered',
+                    ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED  => 'invoiced',
+                ),
+            ),
+            'widget' => 'select',
+        ),
+        'close_est' => array
+        (
+            'title' => 'estimated closing date',
+            'storage' => 'closeEst',
+            'type' => 'date',
+            'type_config' => array
+            (
+                'storage_type' => 'UNIXTIME'
+            ),
+            'widget' => 'jsdate',
+            'widget_config' => array
+            (
+                'show_time' => false,
+            ),
+        ),
+        'probability' => array
+        (
+            'title' => 'probability',
+            'storage' => 'probability',
+            'type' => 'select',
+            'type_config' => array
+            (
+                'options' => array
+                (
+                    25 => '25%',
+                    50 => '50%',
+                    75 => '75%',
+                    100 => '100%',
+                ),
+            ),
+            'widget' => 'select',
+        ),
+        'value' => array
+        (
+            'title' => 'value',
+            'storage' => 'value',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'profit' => array
+        (
+            'title' => 'profit',
+            'storage' => 'profit',
+            'type' => 'number',
+            'widget'  => 'text',
+         ),
+        'owner' => array
+        (
+            'title'   => 'owner',
+            'storage' => 'owner',
+            //'required' => true,
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_contacts_person_dba',
+                'component'   => 'org.openpsa.contacts',
+                'titlefield'  => 'name',
+                'id_field'     => 'id',
+                'constraints' => array
+                (
+                    array
+                    (
+                        'field' => 'username',
+                        'op'    => '<>',
+                        'value' => '',
+                    ),
+                ),
+                'searchfields'  => array
+                (
+                    'firstname',
+                    'lastname',
+                    'username',
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'email',
+                        'name' => 'email',
+                    ),
+                ),
+                'orders'        => array
+                (
+                    array('lastname'    => 'ASC'),
+                    array('firstname'    => 'ASC'),
+
+                ),
+            ),
+        ),
+        'contacts' => array
+        (
+            'title' => 'contacts',
+            'storage' => null,
+            'type' => 'mnrelation',
+            'type_config' => array
+            (
+                'mapping_class_name' => 'org_openpsa_sales_salesproject_member_dba',
+                'master_fieldname' => 'salesproject',
+                'member_fieldname' => 'person',
+                'master_is_id' => true,
+                'allow_multiple' => true,
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class' => 'org_openpsa_contacts_person_dba',
+                'component' => 'org.openpsa.contacts',
+                'titlefield' => 'name',
+
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'email',
+                        'name' => 'email',
+                    ),
+                ),
+
+                'searchfields' => array
+                (
+                    'firstname',
+                    'lastname',
+                    'username',
+                ),
+                'orders' => array
+                (
+                    array('lastname' => 'ASC'),
+                    array('firstname' => 'ASC'),
+                ),
+                'id_field' => 'id',
+                'creation_mode_enabled' => true,
+                'creation_handler' => "{$_MIDGARD['self']}__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
+                'creation_default_key' => 'openpsa',
+            ),
+        ),
+        'customer' => array 
+        (
+            'title' => 'customer',
+            'storage' => 'customer',
+            'type' => 'select',
+            'type_config' => array
+            (
+                'options' => array(),
+            ),
+            'widget' => 'select',
+        ),
+    )
+),

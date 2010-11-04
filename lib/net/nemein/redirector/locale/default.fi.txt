@@ -1,0 +1,121 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 25148 2010-02-22 14:31:05Z adrenalin $
+---LANGUAGE fi
+
+---STRING 301 Moved Permanently
+301 Siirretty pysyvästi
+---STRINGEND
+
+---STRING 302 Found
+302 Löytyi
+---STRINGEND
+
+---STRING 410 Gone
+410 Poissa
+---STRINGEND
+
+---STRING click here
+paina tästä
+---STRINGEND
+
+---STRING create a new tinyurl
+Luo uusi LyhytURL
+---STRINGEND
+
+---STRING delete tinyurl
+Poista LyhytURL
+---STRINGEND
+
+---STRING edit tinyurl
+Muokkaa LyhytURL:ää
+---STRINGEND
+
+---STRING first subfolder
+Ensimmäinen tämän kansion alapuolinen kansio
+---STRINGEND
+
+---STRING if redirection fails, %s
+Jos uudelleenohjaus epäonnistuu, %s
+---STRINGEND
+
+---STRING list of tinyurls
+LyhytURL-listaus
+---STRINGEND
+
+---STRING location
+Sijainti
+---STRINGEND
+
+---STRING metatag refresh speed
+Meta-tagin päivitysnopeus
+---STRINGEND
+
+---STRING net.nemein.redirector
+Uudelleenohjauskansio
+---STRINGEND
+
+---STRING no guid found for permalink
+GUID-tunnistetta ei löytynyt pysyvää linkkiä varten
+---STRINGEND
+
+---STRING no url found for guid %s
+GUID:lle %s ei löytynyt osoitetta
+---STRINGEND
+
+---STRING permalink guid
+Pysyvä linkki GUID:lla
+---STRINGEND
+
+---STRING redirect administrators
+Uudelleenohjaa pääkäyttäjät
+---STRINGEND
+
+---STRING redirect with metatag
+Uudelleenohjaa meta-tagilla
+---STRINGEND
+
+---STRING redirection http code
+Uudelleenohjaukseen käytetty HTTP-vastaus
+---STRINGEND
+
+---STRING redirection node
+Kansio, johon ohjataan
+---STRINGEND
+
+---STRING redirection settings
+Uudelleenohjauksen asetukset
+---STRINGEND
+
+---STRING redirection type
+Ohjauksen tyyppi
+---STRINGEND
+
+---STRING redirection url
+URL-osoite johon ohjataan
+---STRINGEND
+
+---STRING selected node
+Valittu kansio
+---STRINGEND
+
+---STRING this page links to
+Tämä sivu linkittää osoitteeseen
+---STRINGEND
+
+---STRING tinyurl
+LyhytURL
+---STRINGEND
+
+---STRING url entered below
+Alle kirjoitettu URL-osoite
+---STRINGEND
+
+---STRING you are being redirected to %s in %s seconds
+Sinut ohjataan osoitteeseen %s %s sekunnissa
+---STRINGEND
+
+---STRING privilege noredirect
+Uudelleenohjaus pois päältä
+---STRINGEND
+

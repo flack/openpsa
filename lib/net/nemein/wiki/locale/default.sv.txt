@@ -1,0 +1,61 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.sv.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE sv
+
+---STRING allow_anonymous
+Tillåt anonyma onlägg
+---STRINGEND
+
+---STRING anonymous password
+Anonymt lösenord
+---STRINGEND
+
+---STRING anonymous posting
+Anonyma inlägg
+---STRINGEND
+
+---STRING anonymous username
+Anonymt anmndarnamn
+---STRINGEND
+
+---STRING click to create
+Klicka för att skapa Wiki sida
+---STRINGEND
+
+---STRING create pages by linking
+Du kan lägga till sidor genom att länka till icke exiterande sidor genom att använda <a href="http://sv.wikipedia.org/wiki/CamelCase">CamelCase</a> notering.
+---STRINGEND
+
+---STRING edit wikipage
+Ändra Wiki sida
+---STRINGEND
+
+---STRING login to create
+Logga in för att skapa saknad sida
+---STRINGEND
+
+---STRING net.nemein.wiki
+Wiki
+---STRINGEND
+
+---STRING no links to page
+Inga länkar till den här Wiki sidan
+---STRINGEND
+
+---STRING pages linking to %s
+Wikisidor länkade till %s
+---STRINGEND
+
+---STRING this page is stub
+Denna wiki sidan har inget innehåll än. Klicka på ändra för att lägga till information.
+---STRINGEND
+
+---STRING what links
+Vad länkar hit
+---STRINGEND
+
+---STRING wiki
+Wiki
+---STRINGEND
+

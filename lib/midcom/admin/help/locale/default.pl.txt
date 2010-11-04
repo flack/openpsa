@@ -1,0 +1,153 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.pl.txt 25280 2010-03-15 21:34:00Z solt $
+---LANGUAGE pl
+
+---STRING about current handler
+O bieżącym URLu
+---STRINGEND
+
+---STRING about midgard
+O Midgardzie
+---STRINGEND
+
+---STRING action
+Metoda
+---STRINGEND
+
+---STRING available url methods
+Dostępne metody URL
+---STRINGEND
+
+---STRING available urls
+Dostępne linki w tym folderze
+---STRINGEND
+
+---STRING component help
+Dokumentacja modułu
+---STRINGEND
+
+---STRING controller
+Kontroler
+---STRINGEND
+
+---STRING dependencies
+Zależności
+---STRINGEND
+
+---STRING description
+Opis
+---STRINGEND
+
+---STRING go to help main page
+Strona główna Pomocy
+---STRINGEND
+
+---STRING handler_id
+Handler
+---STRINGEND
+
+---STRING handlers
+Routing URLi
+---STRINGEND
+
+---STRING help
+Pomoc
+---STRINGEND
+
+---STRING help for %s
+Pomoc online dla %s
+---STRINGEND
+
+---STRING help for %s in %s
+Pomoc online dla %s w %s
+---STRINGEND
+
+---STRING help_dependencies
+Zależności modułu
+---STRINGEND
+
+---STRING help_handlers
+Routing URLi
+---STRINGEND
+
+---STRING help_index
+Spis treści
+---STRINGEND
+
+---STRING help_mgdschemas
+Klasy MgdSchema
+---STRINGEND
+
+---STRING help_routes
+Routing URLi
+---STRINGEND
+
+---STRING help_schemas
+Klasy MgdSchema
+---STRINGEND
+
+---STRING help_style
+Elementy szablonów
+---STRINGEND
+
+---STRING help_urlmethods
+Routing URLi
+---STRINGEND
+
+---STRING info
+Opis
+---STRINGEND
+
+---STRING mgdschemas
+Klasy MgdSchema
+---STRINGEND
+
+---STRING mgdschemas in %s
+Klasy MgdSchema w module %s
+---STRINGEND
+
+---STRING midcom.admin.help
+Pomoc
+---STRINGEND
+
+---STRING no handlers found
+Brak definicji routingu URLi
+---STRINGEND
+
+---STRING no routes found
+brak obslugi URLi
+---STRINGEND
+
+---STRING no url methods found
+brak metod URL
+---STRINGEND
+
+---STRING online documentation
+Dokumentacja Midgarda
+---STRINGEND
+
+---STRING property
+Właściwość
+---STRINGEND
+
+---STRING routes
+Routing URLi
+---STRINGEND
+
+---STRING toc
+Spis treści
+---STRINGEND
+
+---STRING urlmethods
+Routing URLi
+---STRINGEND
+
+---STRING user forum
+Forum
+---STRINGEND
+
+---STRING issue tracker
+System kontroli błędów
+---STRINGEND
+

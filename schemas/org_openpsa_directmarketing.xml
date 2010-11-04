@@ -1,0 +1,81 @@
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <!-- org.openpsa.spammer objects  -->
+    <type name="org_openpsa_campaign" table="org_openpsa_campaign" parent="midgard_topic">
+        <property name="id" type="unsigned integer" primaryfield="id" />
+        <property name="title" type="string" />
+        <property name="description" type="text" />
+        <property name="node" link="midgard_topic:id" reverse="no" type="unsigned integer" parentfield="node" />        
+        <property name="archived" type="integer" index="yes" />
+        <property name="rulesSerialized" type="text" />
+
+
+        <!-- Common OpenPSA properties -->
+
+        <!-- Shortcut for various ACL scenarios -->
+        <property name="orgOpenpsaAccesstype" type="integer" />
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" />
+        <!-- will contain bitmask as integer, 00(int=0) not a workgroup, 01(int=1) is workgroup
+             but not active, 11(int=3) active workgroup -->
+        <property name="orgOpenpsaWgtype" type="integer" />
+        <!-- The "owner" workgroup of this object -->
+        <property name="orgOpenpsaOwnerWg" type="string" />
+
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_campaign_member" table="org_openpsa_campaign_member">
+        <property name="id" type="unsigned integer" primaryfield="id" />
+        <property name="person" link="midgard_person:id" reverse="no" type="unsigned integer" />
+        <property name="campaign" link="org_openpsa_campaign:id" type="unsigned integer" />
+        <property name="suspended" type="integer" index="yes" />
+        <!-- Common OpenPSA properties -->
+
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" />
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_campaign_message" table="org_openpsa_campaign_message" parent="org_openpsa_campaign">
+        <property name="id" type="unsigned integer" primaryfield="id" />
+        <property name="campaign" link="org_openpsa_campaign:id" type="unsigned integer" parentfield="campaign" />
+        <property name="title" type="string" />
+        <property name="description" type="text" />
+
+        <!-- Used for backgrounding the actual sending -->
+        <property name="sendStarted" type="integer" />
+        <!-- To avoid unnecessary checks against the receipt list and
+             more importantly old spam for new campaign members -->
+        <property name="sendCompleted" type="integer" />
+
+        <!-- Common OpenPSA properties -->
+        <!-- Shortcut for various ACL scenarios -->
+        <property name="orgOpenpsaAccesstype" type="integer" />
+        <!-- Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc) -->
+        <property name="orgOpenpsaObtype" type="integer" />
+        <!-- The "owner" workgroup of this object -->
+        <property name="orgOpenpsaOwnerWg" type="string" />
+        <!-- /Common OpenPSA properties -->
+    </type>
+
+    <type name="org_openpsa_campaign_message_receipt" table="org_openpsa_campaign_message_receipt" parent="org_openpsa_campaign_message" parentfield="message">
+        <property name="id" type="unsigned integer" primaryfield="id" />
+        <property name="message" link="org_openpsa_campaign_message:id" type="unsigned integer" parentfield="message" />
+        <property name="person" link="midgard_person:id" reverse="no" type="unsigned integer" />
+        <property name="token" type="string" />
+        <property name="bounced" type="integer" />
+        <property name="timestamp" type="integer" />
+        <property name="orgOpenpsaObtype" type="integer" />
+    </type>
+
+    <type name="org_openpsa_link_log" table="org_openpsa_link_log" parent="org_openpsa_campaign_message" parentfield="message">
+        <property name="id" type="unsigned integer" primaryfield="id" />
+        <property name="person" link="midgard_person:id" reverse="no" type="unsigned integer" />
+        <property name="message" link="org_openpsa_campaign_message:id" type="unsigned integer" parentfield="message" />
+        <property name="target" type="string" />
+        <property name="referrer" type="string" />
+        <property name="token" type="string" />
+        <property name="timestamp" type="integer" />
+        <property name="orgOpenpsaObtype" type="integer" />
+    </type>
+</Schema>

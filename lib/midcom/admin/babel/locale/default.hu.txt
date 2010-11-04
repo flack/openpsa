@@ -1,0 +1,57 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE hu
+
+---STRING component
+Komponens
+---STRINGEND
+
+---STRING core component status
+Állapot
+---STRINGEND
+
+---STRING default
+Alapértelmezett
+---STRINGEND
+
+---STRING edit strings for %s [%s]
+%s sztringjeinek fordítása %s nyelvre
+---STRINGEND
+
+---STRING language
+Nyelv
+---STRINGEND
+
+---STRING midcom.admin.babel
+MidCOM helymeghatározó eszköz
+---STRINGEND
+
+---STRING other component status
+Egyéb állapot
+---STRINGEND
+
+---STRING perm-denied text
+Ez a MidCOM nem képes a helymeghatározó táblába írni.
+---STRINGEND
+
+---STRING read information from midgard wiki on how to add languages
+Új nyelv hozzáadásáról további információ<a href="http://www.midgard-project.org/midcom-permalink-ded2437586408cd03cd4582ba45b91f2">Midgard Wiki</a>-ben található.
+---STRINGEND
+
+---STRING select lang and component
+Válasszon nyelvet és komponenst
+---STRINGEND
+
+---STRING select language to translate
+Válasszon nyelvet a lefordításhoz
+---STRINGEND
+
+---STRING string-id
+Sztring ID
+---STRINGEND
+
+---STRING translation status for language %s
+%s nyelv fordítási állapota
+---STRINGEND
+

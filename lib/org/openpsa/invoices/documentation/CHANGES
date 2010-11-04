@@ -1,0 +1,28 @@
+org.openpsa.invoices Changelog
+                   ------------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2010-06-01 gudd
+  + added new table with billing data , 
+    now persons & organizations have billing data
+
+2010-05-11 gudd
+  + Now Invoices have invoice items 
+
+2010-03-08 gudd
+  + Added possibility of recalculating the invoice by linked hour_reports
+
+2009-01-26 
+  + Added goto invoice in the invoice
+
+2006-11-03 rambo
+  - added approved data to the hour reports invoiced list
+  - version bump
+
+2006-10-10 rambo & bergie
+  + Added display of hour reports invoiced in the invoice
+

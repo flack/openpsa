@@ -1,0 +1,59 @@
+<?php
+/*
+ * Simple example for calendar widget usage
+ */
+$_MIDCOM->load_library('org.openpsa.calendarwidget');
+$calendar = new org_openpsa_calendarwidget();
+//$calendar->day = 30;
+//$calendar->month = 12;
+//$calendar->year = 2004;
+$calendar->calendar_slot_length = 3600;
+$calendar->_resources[] = Array(
+    'name' => 'CAU',
+    'css_class' => 'red',
+    'reservations' => Array(
+            '1' => Array (
+                'name'      => 'Training flight',
+                'location'  => 'Helsinki-Malmi airport',
+                'start'  => 1118061800,
+                'end'  => 1118062809,
+            ),
+            '2' => Array (
+                'name'      => 'Training flight',
+                'location'  => 'Helsinki-Malmi airport',
+                'start'  => 1118071800,
+                'end'  => 1118092809,
+            ),
+            '3' => Array (
+                'name'      => 'Training flight',
+                'location'  => 'Helsinki-Malmi airport',
+                'start'  => 1118128800,
+                'end'  => 1118139809,
+            ),
+            '4' => Array (
+                'name'      => 'Training flight',
+                'location'  => 'Helsinki-Malmi airport',
+                'start'  => 1118155800,
+                'end'  => 1118176809,
+            ),
+    ),
+);
+$calendar->_resources[] = Array(
+    'name' => 'COX',
+    'reservations' => Array(
+            '12' => Array (
+                'name'      => 'Training flight',
+                'location'  => 'Helsinki-Malmi airport',
+                'start'  => 1118050800,
+                'end'  => 1118060809,
+            ),
+            '13' => Array (
+                'name'      => 'Training flight',
+                'location'  => 'Helsinki-Malmi airport',
+                'start'  => 1118128800,
+                'end'  => 1118139809,
+            ),
+    ),
+);
+$calendar->show();
+?>

@@ -1,0 +1,84 @@
+/**
+ * This is the configuration file for the module.
+ * This is where you set default values for different configuration variables
+ */
+/* The schema databases to use */
+'schemadb_product' => 'file:/org/openpsa/products/config/schemadb_product_default.inc',
+'schemadb_group' => 'file:/org/openpsa/products/config/schemadb_group_default.inc',
+'schemadb_productlink' => 'file:/org/openpsa/products/config/schemadb_productlink_default.inc',
+'schemadb_config' => 'file:/org/openpsa/products/config/config_schemadb.inc',
+
+// Whether to enable adding subcomponents to products
+'enable_components' => true,
+
+// Whether to enable adding productlinks to products
+'enable_productlinks' => false,
+
+'root_group' => 0,
+
+'code_in_title' => false,
+
+// Search related
+'search_first' => false,
+'search_default_to_all' => true,
+// How the search results should be indexed. You can use metadata and linked options, for example metadata.score
+'search_index_order' => array('productGroup', 'code'),
+
+// Indexer related
+'index_products' => true, // wheter to index products
+'index_groups' => true, // wheter to index groups
+
+// How to list groups when browsing groups
+'groups_listing_order' => array('code', 'title'),
+
+// How to list products when browsing groups
+'products_listing_order' => array('code', 'title'),
+'enable_scheduling' => false,
+
+'group_list_products' => true,
+'products_per_page' => 30,
+'show_items_in_feed' => 10,
+
+'api_products_enable' => true,
+'api_products_schema' => 'default',
+
+// default schema to use when exporting products
+'csv_export_schema' => 'default',
+
+// default schema to use when importing products
+'csv_import_schema' => 'default',
+
+// Navigation
+'display_navigation' => true,
+
+// Use custom rss feeds
+'custom_rss_feeds' => false, // array('title' => 'http://example.com')
+
+//When using the subgroups sidebar, you can disable the subgroups block on the frontpage.
+'disable_subgroups_on_frontpage' => false,
+
+// if we have subgroups and products in group, what shall we show. Allowed options 'products' and 'groups'.
+'listing_primary' => 'products',
+
+'import_csv_data_percentage' => 0,
+
+'export_skip_fields' => '',
+'import_skip_fields' => 'productGroup', // comma separated, note that not skipping productGroup is asking for trouble
+// These are used to detect charset of imported data and convert to local
+'mb_detect_encoding_list' => 'ASCII,JIS,UTF-8,ISO-8859-1,EUC-JP,SJIS',
+'iconv_append_target' => '//TRANSLIT', //Transliterate by default (other valid options '//IGNORE' or null)
+
+
+'redirect_to_first_product' => false,
+'redirect_order_by' => 'code',
+
+// Options for the "groupsync" see http://trac.midgard-project.org/ticket/1149
+'groupsync_watches_enabled' => false,
+'groupsync_cron_enabled' => false, // If watches are enabled you should enable also cron
+'groupsync_root_topic' => null,
+'groupsync_root_group' => null,
+'groupsync_topic_name_from' => 'code', // You can specify 'title' here safely, it will be passed through the standard url-name generation
+'groupsync_topic_title_from' => 'title',
+'groupsync_multilang_languages' => false, // This feature is not supported yet.
+
+'product_page_title' => '<TOPIC_TITLE>: <PRODUCT_TITLE>',

@@ -1,0 +1,2 @@
+
+Displays links to supported RSS feeds.

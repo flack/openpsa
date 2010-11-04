@@ -1,0 +1,25 @@
+org.openpsa.contacts TODO
+=========================
+
+## Duplicate finder
+
+* refactor to operate in small chunks (less efficient but also less prone
+to crashing)
+
+## Semantic web
+
+* Organization and person URLs could be checked for much more data, including:
+  - FOAF file listing personnel or more data about person
+    `<link rel="meta" type="application/rdf+xml" href="http://example.net/foaf.rdf" />`
+  - iCal freebusy file
+  - RSS feed (populate to n.n.rss?)
+    `<link rel="alternate" type="application/rss+xml"  href="http://example.net/rss.xml" />`
+  - hResume
+    - Populate "competence area" tags of person from skills
+  - hCard
+
+## Position for organizations
+
+* Try to geocode organization address to coordinates if ICBM is not available.
+  Store as a ORG_ROUTAMC_POSITIONING_RELATION_LOCATED type of
+  org_routamc_positioning_location_dba object

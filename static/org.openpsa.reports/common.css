@@ -1,0 +1,35 @@
+body
+{
+    margin: 0px;
+    padding: 0px;
+    font-family: "Tahoma", "Lucida Grande Regular", "Arial", "Helvetica", sans-serif;
+    font-size: 70%;
+}
+
+/* Main report area */
+div.org_openpsa_reports_report
+{
+}
+
+/* Report overall header */
+div.org_openpsa_reports_report div.header
+{
+}
+div.org_openpsa_reports_report div.header div.logoarea
+{
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+/* General alert class */
+.alert
+{
+    color: red;
+}
+
+/* Report table in general */
+div.org_openpsa_reports_report table.report
+{
+    width: 100%;
+}

@@ -1,0 +1,137 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 24574 2009-12-28 16:22:50Z bergie $
+---LANGUAGE en
+
+---STRING about current handler
+About current view
+---STRINGEND
+
+---STRING about midgard
+About Midgard
+---STRINGEND
+
+---STRING action
+Action
+---STRINGEND
+
+---STRING available url methods
+Available URL methods
+---STRINGEND
+
+---STRING available urls
+Available URLs in this folder
+---STRINGEND
+
+---STRING component help
+Component documentation
+---STRINGEND
+
+---STRING controller
+Controller
+---STRINGEND
+
+---STRING dependencies
+Dependencies
+---STRINGEND
+
+---STRING description
+Description
+---STRINGEND
+
+---STRING go to help main page
+Go to Help main page
+---STRINGEND
+
+---STRING handler_id
+Handler identifier
+---STRINGEND
+
+---STRING handlers
+URL handlers
+---STRINGEND
+
+---STRING help
+Online help
+---STRINGEND
+
+---STRING help for %s
+Online help for %s
+---STRINGEND
+
+---STRING help for %s in %s
+Online help for %s in %s
+---STRINGEND
+
+---STRING help_dependencies
+Component dependencies
+---STRINGEND
+
+---STRING help_handlers
+URL Handlers
+---STRINGEND
+
+---STRING help_index
+Table of Contents
+---STRINGEND
+
+---STRING help_mgdschemas
+MgdSchema classes
+---STRINGEND
+
+---STRING help_schemas
+MgdSchema classes
+---STRINGEND
+
+---STRING help_style
+Styles
+---STRINGEND
+
+---STRING help_urlmethods
+Additional URL methods
+---STRINGEND
+
+---STRING info
+Description
+---STRINGEND
+
+---STRING issue tracker
+Issue tracker
+---STRINGEND
+
+---STRING mgdschemas in %s
+MgdSchemas in component %s
+---STRINGEND
+
+---STRING midcom.admin.help
+Online help
+---STRINGEND
+
+---STRING no handlers found
+No handlers found
+---STRINGEND
+
+---STRING no url methods found
+No URL mehtods found
+---STRINGEND
+
+---STRING online documentation
+Online documentation
+---STRINGEND
+
+---STRING property
+Property
+---STRINGEND
+
+---STRING toc
+Table of Contents
+---STRINGEND
+
+---STRING urlmethods
+URL Methods
+---STRINGEND
+
+---STRING user forum
+User discussion forum
+---STRINGEND
+

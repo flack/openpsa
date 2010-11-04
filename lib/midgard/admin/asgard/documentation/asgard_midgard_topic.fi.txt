@@ -1,0 +1,1 @@
+_Topic_ (kansio) on yksi Midgardin pääobjektityypeistä. Sitä käytetään sisällön säilyttämiseen vastaavalla tavalla.

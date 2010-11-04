@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="org_openpsa_invoice" table="org_openpsa_invoice">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+
+        <!-- Time related fields -->
+        <property name="sent" type="integer" index="yes"/>
+        <property name="due" type="integer" index="yes"/>
+        <property name="paid" type="integer" index="yes"/>
+
+        <!-- The invoice itself, date, comment, sum and VAT % -->
+        <property name="date" type="integer" index="yes"/>
+        <property name="number" type="integer" index="yes"/>
+        <property name="description" type="text"/>
+        <property name="sum" type="float"/>
+        <property name="vat" type="integer"/>
+
+        <!-- Legacy property for converting to the new number field -->
+        <property name="invoiceNumber" type="string"/>
+
+        <!-- Customer contacts -->
+        <property name="customer" link="org_openpsa_organization:id" type="unsigned integer"/>
+        <property name="customerContact" link="midgard_person:id" type="unsigned integer"/>
+
+        <property name="owner" link="midgard_person:id" type="unsigned integer">
+        	<description>
+        		Sender of the invoice
+        	</description>
+        </property>
+    </type>
+    
+    <type name="org_openpsa_invoice_item" table="org_openpsa_invoice_item" parent="org_openpsa_invoice">
+        <property name="id" type="unsigned integer" primaryfield="id" />
+        
+        <property name="invoice" link="org_openpsa_invoice:id" type="unsigned integer" parentfield="invoice"/>
+        <property name="task" link="org_openpsa_task:id" type="unsigned integer" />
+        
+        <property name="description" type="text" />
+        <property name="pricePerUnit" type="float" />
+        <property name="units" type="float" />
+        
+    </type>
+    
+    <!-- This table is going to be removed and should only be used for content migration -->
+    <type name="org_openpsa_invoice_hour" table="org_openpsa_invoice_hour" parent="org_openpsa_invoice">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="invoice" link="org_openpsa_invoice:id" type="unsigned integer" parentfield="invoice"/>
+        <property name="hourReport" link="org_openpsa_hour_report:id" type="unsigned integer"/>
+    </type>
+    
+    <type name="org_openpsa_billing_data" table="org_openpsa_billing_data">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+
+        <property name="recipient" type="text" />
+        <property name="street" type="string" />
+        <property name="postcode" type="string" />
+        <property name="city" type="string" />
+        <property name="country" type="string" />
+        <property name="email" type="string" />
+        
+        <property name="accountNumber" type="string" />
+        <property name="bankCode" type="string" />
+        <property name="iban" type="string" />
+        <property name="bic" type="string" />
+        <property name="bankName" type="string" />
+        <property name="vatNo" type="string" />
+        <property name="vat" type="integer" />
+        <property name="delivery" type="string" />
+        <property name="due" type="unsigned integer" />
+        
+        <property name="useContactAddress" type="boolean" />
+        <!-- guid of the object the billing data belongs to -->
+        <property name="linkGuid" type="string" />
+        
+    </type>
+</Schema>

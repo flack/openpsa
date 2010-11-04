@@ -1,0 +1,98 @@
+---# MidCOM String Database
+
+---VERSION 2.1.0
+---CVS $Id: default.da.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE da
+
+---STRING abstract
+Resume
+---STRINGEND
+
+---STRING body
+Krop
+---STRINGEND
+
+---STRING cancel
+Annuler
+---STRINGEND
+
+---STRING create
+Opret
+---STRINGEND
+
+---STRING delete
+Slet
+---STRINGEND
+
+---STRING edit
+Ret
+---STRINGEND
+
+---STRING id
+ID (intern)
+---STRINGEND
+
+---STRING image
+Billede
+---STRINGEND
+
+---STRING midcom administration
+MidCOM Adminstration
+---STRINGEND
+
+---STRING move
+Flyt
+---STRINGEND
+
+---STRING move down
+Flyt ned
+---STRINGEND
+
+---STRING move up
+Flyt op
+---STRINGEND
+
+---STRING new
+Ny
+---STRINGEND
+
+---STRING next
+Næste
+---STRINGEND
+
+---STRING no
+Nej
+---STRINGEND
+
+---STRING optional
+valgfri
+---STRINGEND
+
+---STRING reset
+Nulstil
+---STRINGEND
+
+---STRING save
+Gem
+---STRINGEND
+
+---STRING select
+Vælg
+---STRINGEND
+
+---STRING title
+Titel
+---STRINGEND
+
+---STRING upload
+Send
+---STRINGEND
+
+---STRING url name
+URL navn (internt)
+---STRINGEND
+
+---STRING yes
+Ja
+---STRINGEND
+

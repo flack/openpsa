@@ -1,0 +1,845 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.fi.txt 25388 2010-03-24 14:29:52Z adrenalin $
+---LANGUAGE fi
+
+---STRING %s (%s)
+%s (%s)
+---STRINGEND
+
+---STRING %s deleted items
+%s poistettua kohdetta
+---STRINGEND
+
+---STRING %s purged
+%s poistettu lopullisesti
+---STRINGEND
+
+---STRING %s trash
+Tyypin %s roskakori
+---STRINGEND
+
+---STRING 1 day
+1 päivä
+---STRINGEND
+
+---STRING 1 month
+1 kuukausi
+---STRINGEND
+
+---STRING 1 week
+1 viikko
+---STRINGEND
+
+---STRING 2 weeks
+2 viikkoa
+---STRINGEND
+
+---STRING ANONYMOUS
+Tunnistamattomat käyttäjät
+---STRINGEND
+
+---STRING EVERYONE
+Kaikki
+---STRINGEND
+
+---STRING This object has no translation in the current language and cannot be deleted.
+Tällä kohteella ei ole käännöstä nykyiselle kielelle, eikä sitä voida poistaa.
+---STRINGEND
+
+---STRING USERS
+Kaikki tunnistautuneet käyttäjät
+---STRINGEND
+
+---STRING acl_editor
+Käyttöoikeuksien hallinta
+---STRINGEND
+
+---STRING actions
+Toiminnot
+---STRINGEND
+
+---STRING active url parsing
+Aktiivinen URL-jäsennys
+---STRINGEND
+
+---STRING add assignee
+Lisää ryhmä käyttöoikeuksia varten
+---STRINGEND
+
+---STRING add parameter
+Lisää parametri
+---STRINGEND
+
+---STRING add text file
+Lisää tekstitiedosto
+---STRINGEND
+
+---STRING all of the following items will be deleted
+Kaikki seuraavat kohteet poistetaan
+---STRINGEND
+
+---STRING always display in top frame
+Näytä aina yläpalkissa
+---STRINGEND
+
+---STRING any
+Mikä tahansa
+---STRINGEND
+
+---STRING apply to selected
+Tee valituille
+---STRINGEND
+
+---STRING asgard
+Asgard
+---STRINGEND
+
+---STRING asgard for
+Asgard palvelulle
+---STRINGEND
+
+---STRING asgard homepage
+Asgardin etusivu
+---STRINGEND
+
+---STRING asgard plugins
+Asgardin lisätoiminnot
+---STRINGEND
+
+---STRING attachment
+Liite
+---STRINGEND
+
+---STRING attachment %s undeleted
+Liitetiedosto %s palautettu
+---STRINGEND
+
+---STRING attachments
+Liitteet
+---STRINGEND
+
+---STRING attachments of %s %s
+%s %s liitteet
+---STRINGEND
+
+---STRING back to %s
+Takaisin sivulle "%s"
+---STRINGEND
+
+---STRING back to site
+Takaisin sivustolle
+---STRINGEND
+
+---STRING cascading style sheet
+CSS-tyylitiedosto
+---STRINGEND
+
+---STRING changes done in revision %s to %s
+Version %s muutokset kohteeseen %s
+---STRINGEND
+
+---STRING changes from version %s
+Muutokset versiosta %s
+---STRINGEND
+
+---STRING child types of %s
+Tyypin %s alatyypit
+---STRINGEND
+
+---STRING choose action
+Valitse toiminto
+---STRINGEND
+
+---STRING choose the target
+Valitse kohde
+---STRINGEND
+
+---STRING code
+Koodi
+---STRINGEND
+
+---STRING compare
+Vertaa
+---STRINGEND
+
+---STRING component
+Komponentti
+---STRINGEND
+
+---STRING components
+Komponentit
+---STRINGEND
+
+---STRING configuration for %s
+Komponentin %s asetukset
+---STRINGEND
+
+---STRING configuration save failed: %s
+Asetusten tallennus epäonnistui: %s
+---STRINGEND
+
+---STRING configuration saved successfully
+Asetukset tallennettu
+---STRINGEND
+
+---STRING content
+Sisältö
+---STRINGEND
+
+---STRING contentchanged
+Sisältöä muutettu
+---STRINGEND
+
+---STRING contentowner
+Sisällön omistaja
+---STRINGEND
+
+---STRING copy %s
+Kopioi %s
+---STRINGEND
+
+---STRING copy %s and its descendants
+Kopioi '%s' ja sen alla olevat kohteet
+---STRINGEND
+
+---STRING copy attachments
+Kopioi liitetiedostot
+---STRINGEND
+
+---STRING copy metadata
+Kopioi metatiedot
+---STRINGEND
+
+---STRING copy parameters
+Kopioi parametrit
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the new object
+Kopiointi onnistui, sinut on ohjattu kopioituun kohteeseen.
+---STRINGEND
+
+---STRING copy successful, you have been relocated to the root of the new object tree
+Kopiointi onnistui, sinut on uudelleenohjattu uuden objektipuun juurelle.
+---STRINGEND
+
+---STRING copy tree
+Kopioi puu
+---STRINGEND
+
+---STRING core_components
+MidCOMin pääkomponentit
+---STRINGEND
+
+---STRING create %s under %s
+Luo %s %s:n alle
+---STRINGEND
+
+---STRING created by
+Luonut
+---STRINGEND
+
+---STRING created by %s on %s
+Luonut %s %s
+---STRINGEND
+
+---STRING created on
+Luotu
+---STRINGEND
+
+---STRING date
+Päivämäärä
+---STRINGEND
+
+---STRING default language
+Oletuskieli
+---STRINGEND
+
+---STRING delete %s %s
+Poista %s %s
+---STRINGEND
+
+---STRING deleted by
+Poistaja
+---STRINGEND
+
+---STRING deleted on
+Poistettu päivämäärällä
+---STRINGEND
+
+---STRING dependencies
+Vaatimukset
+---STRINGEND
+
+---STRING differences between %s and %s
+Versioiden %s ja %s väliset erot
+---STRINGEND
+
+---STRING differences between versions %s and %s
+Versioiden %s ja %s väliset erot
+---STRINGEND
+
+---STRING disable rcs
+Älä käytä versionhallintaa
+---STRINGEND
+
+---STRING dropdown list
+Pudotusvalikko
+---STRINGEND
+
+---STRING edit %s %s
+Muokkaa %s %s
+---STRINGEND
+
+---STRING edit configuration for %s
+Muokkaa komponentin %s asetuksia
+---STRINGEND
+
+---STRING edit configuration for %s folder %s
+Muokkaa komponentin %s asetuksia kansiossa %s
+---STRINGEND
+
+---STRING edit file %s
+Muokkaa tiedostoa %s
+---STRINGEND
+
+---STRING edit text file
+Muokkaa tekstitiedostoa
+---STRINGEND
+
+---STRING editor options
+Tekstieditorien ominaisuudet
+---STRINGEND
+
+---STRING enable breaking of the editing lock
+Salli muokkauslukon murtaminen
+---STRINGEND
+
+---STRING enable quicklinks
+Käytä pikalinkkejä
+---STRINGEND
+
+---STRING exclude
+Sulje pois
+---STRINGEND
+
+---STRING expanded list
+Laajennettu lista
+---STRINGEND
+
+---STRING failed purging %s, reason %s
+Kohteen %s tyhjentäminen epäonnistui, syy %s
+---STRINGEND
+
+---STRING failed purging attachment %s => %s, reason %s
+Liitetiedoston %s => %s tyhjentäminen epäonnistui, syy %s
+---STRINGEND
+
+---STRING failed undeleting %s, reason %s
+Kohteen %s palauttaminen epäonnistui, syy %s
+---STRINGEND
+
+---STRING failed undeleting attachment %s, reason %s
+Liitetiedoston %s palauttaminen epäonnistui, syy %s
+---STRINGEND
+
+---STRING file %s deleted
+Tiedosto '%s' poistettu
+---STRINGEND
+
+---STRING file contents
+Tiedoston sisältö
+---STRINGEND
+
+---STRING file information
+Tiedoston tiedot
+---STRINGEND
+
+---STRING filename
+Tiedostonimi
+---STRINGEND
+
+---STRING filter
+Suodatin
+---STRINGEND
+
+---STRING floating freely
+Vapaasti kelluva
+---STRINGEND
+
+---STRING folder
+kansio
+---STRINGEND
+
+---STRING global
+Globaali
+---STRINGEND
+
+---STRING global value
+Globaali arvo
+---STRINGEND
+
+---STRING group %s
+Ryhmä %s
+---STRINGEND
+
+---STRING guid
+GUID-tunniste
+---STRINGEND
+
+---STRING html
+HTML
+---STRINGEND
+
+---STRING in %s
+%s:ssa
+---STRINGEND
+
+---STRING in fallback language
+oletuskielellä
+---STRINGEND
+
+---STRING in total %s purged
+Yhteensä %s tyhjennetty
+---STRINGEND
+
+---STRING in total %s undeleted
+Yhteensä %s palautettu
+---STRINGEND
+
+---STRING include
+Liitä mukaan
+---STRINGEND
+
+---STRING info
+Info
+---STRINGEND
+
+---STRING inherited
+Periytyy
+---STRINGEND
+
+---STRING interface language
+Käyttöliittymän kieli
+---STRINGEND
+
+---STRING invert selection
+Käännä valinnat päinvastaisiksi
+---STRINGEND
+
+---STRING items in trash
+Kohteita roskakorissa
+---STRINGEND
+
+---STRING javascript
+JavaScript
+---STRINGEND
+
+---STRING last edited by %s on %s (revision %s)
+Viimeksi muokannut %s %s (muutos %s)
+---STRINGEND
+
+---STRING libraries
+Kirjastot
+---STRINGEND
+
+---STRING lines
+Rivit
+---STRINGEND
+
+---STRING local
+Paikallinen
+---STRINGEND
+
+---STRING localisation settings
+Kieliasetukset
+---STRINGEND
+
+---STRING manage object
+Hallinnointi
+---STRINGEND
+
+---STRING message
+Viesti
+---STRINGEND
+
+---STRING metadata of %s %s
+%s %s metatiedot
+---STRINGEND
+
+---STRING mgdschema type visibility in navigation
+MgdSchema-tyyppien näkyvyys navigaatiossa
+---STRINGEND
+
+---STRING midcom:approve
+Hyväksyntä
+---STRINGEND
+
+---STRING midcom:component_config
+Asetukset
+---STRINGEND
+
+---STRING midcom:urlname
+URL-nimen muokkaus
+---STRINGEND
+
+---STRING midgard objects
+Midgardin tyypit
+---STRINGEND
+
+---STRING midgard.admin.asgard
+Midgardin hallintakäyttöliittymä
+---STRINGEND
+
+---STRING midgard:attachments
+Liitetiedostot
+---STRINGEND
+
+---STRING midgard:create
+Luonti
+---STRINGEND
+
+---STRING midgard:delete
+Poisto
+---STRINGEND
+
+---STRING midgard:owner
+Omistus
+---STRINGEND
+
+---STRING midgard:parameters
+Parametrit
+---STRINGEND
+
+---STRING midgard:read
+Luku
+---STRINGEND
+
+---STRING midgard:update
+Päivitys
+---STRINGEND
+
+---STRING mimetype
+MIME-tyyppi
+---STRINGEND
+
+---STRING model for selecting navigation types
+Navigaatiotyyppien valintamalli
+---STRINGEND
+
+---STRING most recently visited
+Viimeksi katsellut kohteet
+---STRINGEND
+
+---STRING navigation options
+Navigaatio-ominaisuudet
+---STRINGEND
+
+---STRING navigation type
+Navigaation tyyppi
+---STRINGEND
+
+---STRING navigation width
+Navigaation leveys
+---STRINGEND
+
+---STRING navigation width (in pixels)
+Navigaation leveys (pikseleinä)
+---STRINGEND
+
+---STRING no changes in content
+Sisällössä ei muutoksia
+---STRINGEND
+
+---STRING no files
+Ei tiedostoja
+---STRINGEND
+
+---STRING no title
+Ei otsikkoa
+---STRINGEND
+
+---STRING no.bergfald.rcs
+Versionhallinta
+---STRINGEND
+
+---STRING not approved
+Ei hyväksytty
+---STRINGEND
+
+---STRING not inherited
+Ei periydy
+---STRINGEND
+
+---STRING object %s
+Kohde %s
+---STRINGEND
+
+---STRING object %s approved
+Kohde %s hyväksytty
+---STRINGEND
+
+---STRING object %s has been deleted
+Kohde %s on poistettu. Palauttaaksesi sen mene kyseisen tyypin roskakoriin.
+---STRINGEND
+
+---STRING object %s removed
+Kohde %s poistettu
+---STRINGEND
+
+---STRING object deleted
+Kohde poistettu
+---STRINGEND
+
+---STRING objects expiring within
+Ajan sisällä tarkistettavat kohteet
+---STRINGEND
+
+---STRING objects revised within
+Kohteet muutettu aikavälillä
+---STRINGEND
+
+---STRING on top of the content area
+Sisältöalueen yläreunassa
+---STRINGEND
+
+---STRING only mine
+Vain omani
+---STRINGEND
+
+---STRING owner
+Omistaja
+---STRINGEND
+
+---STRING parameter
+Parametri
+---STRINGEND
+
+---STRING parameters of %s %s
+%s %s parametrit
+---STRINGEND
+
+---STRING permissions for %s %s
+Käyttöoikeudet %s-olioon %s
+---STRINGEND
+
+---STRING plain text
+Pelkkä teksti
+---STRINGEND
+
+---STRING preferences saved
+Asetukset tallennettu
+---STRINGEND
+
+---STRING privilege reserve
+Varaus
+---STRINGEND
+
+---STRING privileges
+Käyttöoikeudet
+---STRINGEND
+
+---STRING purge
+Poista lopullisesti
+---STRINGEND
+
+---STRING regular expression for selecting mgdschema types
+Säännöllinen lauseke MgdSchema-tyyppien valintaan
+---STRINGEND
+
+---STRING require authentication
+Vaadi sisäänkirjautumista
+---STRINGEND
+
+---STRING restore this revision (%s)
+Palauta tähän versioon (%s)
+---STRINGEND
+
+---STRING restore to version %s failed, reason %s
+Palautus versioon %s epäonnistui, syy %s
+---STRINGEND
+
+---STRING restore to version %s successful
+Palautus versioon %s onnistui
+---STRINGEND
+
+---STRING restore version %s
+Palauta versio %s
+---STRINGEND
+
+---STRING review date
+Tarkistuspäivä
+---STRINGEND
+
+---STRING revised by
+Muokannut
+---STRINGEND
+
+---STRING revised on
+Muokattu
+---STRINGEND
+
+---STRING revision
+Versio
+---STRINGEND
+
+---STRING revision comment
+Muutoskommentti
+---STRINGEND
+
+---STRING revision history of %s
+Muutoshistoria kohteelle %s
+---STRINGEND
+
+---STRING revision history of %s %s
+%s %s versiohistoria
+---STRINGEND
+
+---STRING search
+Hae
+---STRINGEND
+
+---STRING select all
+Valitse kaikki
+---STRINGEND
+
+---STRING select exactly two choices
+Valitse täsmälleen kaksi vaihtoehtoa
+---STRINGEND
+
+---STRING select the types
+Valitse tyypit
+---STRINGEND
+
+---STRING show %s %s children
+Näytä %s %s lapset
+---STRINGEND
+
+---STRING show differences
+Näytä erot
+---STRINGEND
+
+---STRING show history
+Näytä versiohistoria
+---STRINGEND
+
+---STRING show sg0 objects in navigation
+Näytä sivuryhmä 0:n kohteet navigaatiossa
+---STRINGEND
+
+---STRING size
+Koko
+---STRINGEND
+
+---STRING this is a midgard core type
+Tämä tyyppi on osa Midgard-julkaisujärjestelmää.
+---STRINGEND
+
+---STRING this type belongs to %s component
+Tämä tyyppi on osa komponenttia %s.
+---STRINGEND
+
+---STRING title
+Otsikko
+---STRINGEND
+
+---STRING toolbar mode
+Työkalupalkin tila
+---STRINGEND
+
+---STRING topic privileges
+Kansion käyttöoikeudet
+---STRINGEND
+
+---STRING trash
+Roskakori
+---STRINGEND
+
+---STRING trash is empty
+Roskakori on tyhjä
+---STRINGEND
+
+---STRING type
+Tyyppi
+---STRINGEND
+
+---STRING type documentation
+Tyypin dokumentaatio
+---STRINGEND
+
+---STRING undelete
+Palauta
+---STRINGEND
+
+---STRING under %s
+%s alla
+---STRINGEND
+
+---STRING upload file
+Lisää tiedosto
+---STRINGEND
+
+---STRING url
+URL
+---STRINGEND
+
+---STRING use edit mode instead of view mode as the primary object management page
+Käytä muokkausnäkymää objektien päänäkymänä
+---STRINGEND
+
+---STRING use editarea editor for editing code snippets
+Käytä EditArea-editoria koodin muokkaukseen
+---STRINGEND
+
+---STRING use tinymce editor for editing content
+Käytä TinyMCE-editoria sisällönmuokkaamiseen
+---STRINGEND
+
+---STRING user
+Käyttäjä
+---STRINGEND
+
+---STRING user preferences
+Käyttöasetukset
+---STRINGEND
+
+---STRING validation error in field %s: %s
+Validointivirhe kentässä %s: %s
+---STRINGEND
+
+---STRING value
+Arvo
+---STRINGEND
+
+---STRING version %s
+Versio %s
+---STRINGEND
+
+---STRING view %s differences with next (%s)
+Näytä version %s erot seuraavaan (%s)
+---STRINGEND
+
+---STRING view %s differences with previous (%s)
+Näytä version %s erot edelliseen (%s)
+---STRINGEND
+
+---STRING view on site
+Katso sivustolla
+---STRINGEND
+
+---STRING view this revision (%s)
+Näytä tämä versio (%s)
+---STRINGEND
+
+---STRING viewing version %s of %s
+Versio %s kohteesta %s
+---STRINGEND
+
+---STRING xml
+XML
+---STRINGEND
+
+---STRING copy multilingual content
+Kopioi monikielinen sisältö
+---STRINGEND
+

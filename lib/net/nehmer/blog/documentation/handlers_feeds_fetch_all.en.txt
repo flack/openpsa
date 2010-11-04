@@ -1,0 +1,2 @@
+
+Refreshes all subscribed feeds and fetches new or updated posts. Can be run by cron utility.

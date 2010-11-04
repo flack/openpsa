@@ -1,0 +1,33 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 22916 2009-07-15 09:53:28Z flack $
+---LANGUAGE de
+
+---STRING first
+Anfang
+---STRINGEND
+
+---STRING last
+Ende
+---STRINGEND
+
+---STRING newer
+Neuer
+---STRINGEND
+
+---STRING next
+Weiter
+---STRINGEND
+
+---STRING older
+Älter
+---STRINGEND
+
+---STRING org.openpsa.qbpager
+Seitenweise Ausgabe von Abfragen
+---STRINGEND
+
+---STRING previous
+Zurück
+---STRINGEND
+

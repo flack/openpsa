@@ -1,0 +1,488 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 26225 2010-05-30 08:29:21Z flack $
+---LANGUAGE de
+
+---STRING %d closed projects
+%d abgeschlosse Projekte
+---STRINGEND
+
+---STRING %s of %s planned hours booked
+%s von %s geplanten Arbeitsstunden sind im Kalender gebucht
+---STRINGEND
+
+---STRING %s projects
+%s Projekte
+---STRINGEND
+
+---STRING accept
+Annehmen
+---STRINGEND
+
+---STRING accepted by %s
+Angenommen von %s
+---STRINGEND
+
+---STRING agreement
+Vereinbarung
+---STRINGEND
+
+---STRING agreement tasks
+Aufgaben zur Vereinbarung
+---STRINGEND
+
+---STRING approve
+Genehmigen
+---STRINGEND
+
+---STRING approved
+Genehmigt
+---STRINGEND
+
+---STRING approved by %s
+Genehmigt durch %s
+---STRINGEND
+
+---STRING automatic resource search
+Automatische Ressourcen-Suche
+---STRINGEND
+
+---STRING back to project
+Zurück zum Projekt
+---STRINGEND
+
+---STRING back to task
+Zurück zur Aufgabe
+---STRINGEND
+
+---STRING basic information
+Basis-Informationen
+---STRINGEND
+
+---STRING booked times
+Gebuchte Zeiten
+---STRINGEND
+
+---STRING closed
+Abgeschlossen
+---STRINGEND
+
+---STRING closed by %s
+Abgeschlossen durch %s
+---STRINGEND
+
+---STRING closed tasks
+Erledigte Aufgaben
+---STRINGEND
+
+---STRING completed
+Fertiggestellt
+---STRINGEND
+
+---STRING completed tasks
+Fertiggestellte Aufgaben
+---STRINGEND
+
+---STRING contacts
+Kontakte
+---STRINGEND
+
+---STRING create project
+Projekt anlegen
+---STRINGEND
+
+---STRING create task
+Aufgabe anlegen
+---STRINGEND
+
+---STRING create workgroups for this project
+Arbeitsgruppen für dieses Projekt anlegen
+---STRINGEND
+
+---STRING current projects
+Aktuelle Projekte
+---STRINGEND
+
+---STRING current tasks
+Aktuelle Aufgaben
+---STRINGEND
+
+---STRING customer
+Kunde
+---STRINGEND
+
+---STRING date
+Datum
+---STRINGEND
+
+---STRING deadline
+Deadline
+---STRINGEND
+
+---STRING decline
+Ablehnen
+---STRINGEND
+
+---STRING declined by %s
+Abgelehnt von %s
+---STRINGEND
+
+---STRING delete task
+Aufgabe löschen
+---STRINGEND
+
+---STRING description
+Beschreibung
+---STRINGEND
+
+---STRING dont approve
+Nicht genehmigen
+---STRINGEND
+
+---STRING duration
+Dauer
+---STRINGEND
+
+---STRING edit
+Bearbeiten
+---STRINGEND
+
+---STRING edit project %s
+Projekt %s bearbeiten
+---STRINGEND
+
+---STRING edit task %s
+Aufgabe %s bearbeiten
+---STRINGEND
+
+---STRING end
+Ende
+---STRINGEND
+
+---STRING from %s
+von %s
+---STRINGEND
+
+---STRING hour report
+Stundenbericht
+---STRINGEND
+
+---STRING hour reports
+Stundenberichte
+---STRINGEND
+
+---STRING hours
+Arbeitsstunden
+---STRINGEND
+
+---STRING hours are invoiceable by default
+Arbeitsstunden sind standardmäßig abrechenbar
+---STRINGEND
+
+---STRING invoiceable
+Abrechenbar
+---STRINGEND
+
+---STRING invoiceable tasks
+Abrechenbare Aufgaben
+---STRINGEND
+
+---STRING invoiced
+Abgerechnet
+---STRINGEND
+
+---STRING invoiced tasks
+Abgerechnete Aufgaben
+---STRINGEND
+
+---STRING manager
+Manager
+---STRINGEND
+
+---STRING mark completed
+Als fertiggestellt kennzeichnen
+---STRINGEND
+
+---STRING marked %s hours as invoiced in task "%s"
+%s Arbeitsstunden in Aufgabe "%s" als abgerechnet markiert
+---STRINGEND
+
+---STRING marked as completed by %s
+Als fertiggestellt gekennzeichnet durch %s
+---STRINGEND
+
+---STRING marked task "%s" closed
+Aufgabe "%s" als abgeschlossen markiert
+---STRINGEND
+
+---STRING minimum time slot needed for task bookings
+Kleinste Zeiteinheit für Aufgaben-Buchungen
+---STRINGEND
+
+---STRING my organization
+Von meiner Organisation
+---STRINGEND
+
+---STRING my_tasks
+Meine Aufgaben
+---STRINGEND
+
+---STRING new project
+Neues Projekt
+---STRINGEND
+
+---STRING new task
+Neue Aufgabe
+---STRINGEND
+
+---STRING new task to project %s
+Neue Aufgabe zu Projekt %s
+---STRINGEND
+
+---STRING no customer
+Kein Kunde
+---STRINGEND
+
+---STRING no search
+Keine Suche
+---STRINGEND
+
+---STRING not_started
+Nicht begonnen
+---STRINGEND
+
+---STRING not_started tasks
+Noch nicht begonnene Aufgaben
+---STRINGEND
+
+---STRING on_hold
+Unterbrochen
+---STRINGEND
+
+---STRING ongoing
+In Bearbeitung
+---STRINGEND
+
+---STRING ongoing tasks
+Aktuelle Aufgaben
+---STRINGEND
+
+---STRING open tasks
+Offene Aufgaben
+---STRINGEND
+
+---STRING org.openpsa.projects
+Projekt-Management
+---STRINGEND
+
+---STRING overtime
+Überstunden
+---STRINGEND
+
+---STRING pending approval by %s
+Benötigt Genehmigung durch %s
+---STRINGEND
+
+---STRING pending_approve tasks
+Aufgaben, die auf Genehmigung warten
+---STRINGEND
+
+---STRING planned hours
+Geplante Arbeitsstunden
+---STRINGEND
+
+---STRING project
+Projekt
+---STRINGEND
+
+---STRING project status
+Projekt-Status
+---STRINGEND
+
+---STRING project_tasks
+Aufgaben in diesem Projekt
+---STRINGEND
+
+---STRING projects
+Projekte
+---STRINGEND
+
+---STRING proposed tasks
+Vorgeschlagene Aufgaben
+---STRINGEND
+
+---STRING proposed to %s
+Vorgeschlagen an %s
+---STRINGEND
+
+---STRING proposed to %s by %s
+Vorgeschlagen an %2$s von %1$s
+---STRINGEND
+
+---STRING put on hold by %s
+Unterbrochen von %s
+---STRINGEND
+
+---STRING re-opened by %s
+Erneut eröffnet durch %s
+---STRINGEND
+
+---STRING rejected by %s
+Abgelehnt von %s
+---STRINGEND
+
+---STRING reopen
+Erneut eröffnen
+---STRINGEND
+
+---STRING report hours
+Arbeitsstunden melden
+---STRINGEND
+
+---STRING reported
+Gemeldet
+---STRINGEND
+
+---STRING reporter
+Berichterstatter
+---STRINGEND
+
+---STRING resources
+Ressourcen
+---STRINGEND
+
+---STRING resourcing
+Ressourcen-Planung
+---STRINGEND
+
+---STRING schedule resources
+Ressourcen planen
+---STRINGEND
+
+---STRING skills required
+Benötigte Fähigkeiten
+---STRINGEND
+
+---STRING start
+Beginn
+---STRINGEND
+
+---STRING start time
+Anfangszeit
+---STRINGEND
+
+---STRING status
+Status
+---STRINGEND
+
+---STRING status history
+Status-Verlauf
+---STRINGEND
+
+---STRING subscribe
+Abonnieren
+---STRINGEND
+
+---STRING synchronization
+Synchronisation
+---STRINGEND
+
+---STRING synchronized with %s by %s
+Synchronisiert mit %s von %s
+---STRINGEND
+
+---STRING system
+System
+---STRINGEND
+
+---STRING task
+Aufgabe
+---STRINGEND
+
+---STRING task %s
+Aufgabe %s
+---STRINGEND
+
+---STRING task deletion now allowed because of hour reports
+Die Aufgabe kann aufgrund von Stundenberichten nicht gelöscht werden
+---STRINGEND
+
+---STRING task in
+Aufgabe von
+---STRINGEND
+
+---STRING task status
+Aufgaben-Status
+---STRINGEND
+
+---STRING tasks
+Aufgaben
+---STRINGEND
+
+---STRING totals
+Gesamtsummen
+---STRINGEND
+
+---STRING type
+Typ
+---STRINGEND
+
+---STRING unsubscribe
+Abonnement beenden
+---STRINGEND
+
+---STRING whole openpsa
+Aus dem gesamten OpenPSA-System
+---STRINGEND
+
+---STRING work for task %s
+Arbeit an Aufgabe %s
+---STRINGEND
+
+---STRING work started by %s
+Arbeit begonnen von %s
+---STRINGEND
+
+---STRING you are not subscribed to project
+Sie haben dieses Projekt nicht abonniert
+---STRINGEND
+
+---STRING you are project participant
+Sie sind Projektteilehmer
+---STRINGEND
+
+---STRING you are project subscriber
+Sie haben das Projekt abonniert
+---STRINGEND
+
+---STRING pending_accept tasks
+Aufgaben, die auf Annahme warten
+---STRINGEND
+
+---STRING priority
+Priorität
+---STRINGEND
+
+---STRING very high
+sehr hoch
+---STRINGEND
+
+---STRING high
+hoch
+---STRINGEND
+
+---STRING average
+normal
+---STRINGEND
+
+---STRING low
+gering
+---STRINGEND
+
+---STRING very low
+sehr gering
+---STRINGEND
+
+---STRING only tasks with priority
+Nur Aufgaben mit Priorität
+---STRINGEND

@@ -1,0 +1,44 @@
+org.openpsa.qbpager Changelog
+                   ----------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2007-10-16 xfade
+  + Added ability to pass the current query string to pager links.
+
+2007-09-04 bergie
+  + Added new "show_previousnext" method for displaying simpler page navigation
+
+2006-11-24 rambo
+  - better workaround for references trouble
+  - version bump
+
+2006-11-21 rambo
+  - workaround for 1.8 QB behaviour (where the core object is always referenced)
+  - version bump
+
+2006-04-05 bergie
+  + Localized the next/previous links
+
+2006-03-10 rambo
+  - silenced the direct qb execute (empty resultset gives warning otherwise)
+
+2006-02-24 bergie
+  + Added next/previous links to the pager
+
+2006-02-15 rambo
+  - corrected PEAR packaging information
+
+2006-01-10 rambo
+  + added org_openpsa_qbpager_direct class for skipping midcom DBA where
+    direct MgdSchema access is required.
+  - Made the show_pages method not to silenty return if we only have one page
+
+2005-10-13 rambo
+  - minor bugfixes, tested to work with org.openpsa.directmarketing campaigns
+
+2005-10-10 rambo
+  + initial version, should work as QB replacement, no paging yet, UNTESTED.

@@ -1,0 +1,29 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.da.txt 23016 2009-07-28 09:06:55Z flack $
+---LANGUAGE da
+
+---STRING create article
+Opret artikel
+---STRINGEND
+
+---STRING delete article
+Slet artikel
+---STRINGEND
+
+---STRING edit article
+Rediger artikel
+---STRINGEND
+
+---STRING no schemas available
+Ingen skemaer tilgængelige
+---STRINGEND
+
+---STRING select schema
+Vælg skema
+---STRINGEND
+
+---STRING taviewer
+Statisk indhold
+---STRINGEND
+

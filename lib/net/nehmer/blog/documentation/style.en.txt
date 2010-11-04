@@ -1,0 +1,20 @@
+net.nehmer.blog style elements
+==============================
+
+## Article display index
+
+<(index-start)> begins the article index, <(index-item)> displays an individual article and <(index-end)> ends the index. If there are no articles, <(index-empty)> is shown between <(index-start)> and <(index-end)> instead.
+
+## Individual article display
+
+The <(view)> element is used for displaying individual news items.
+
+## Archive of old articles
+
+The archive welcome page begins with the <(archive-welcome-start)> element. Each year is shown with the <(archive-welcome-year)> element. The list ends with <(archive-welcome-end)>.
+
+The month archives begin with <(archive-list-start)>, <(archive-list-item)> displays an individual article and <(archive-list-end)> ends the index. If there are no articles, <(archive-list-empty)> is shown between <(archive-list-start)> and <(archive-list-end)> instead.
+
+## Feeds listing page
+
+<(feeds)> element lists the available news feeds in human-readable format.

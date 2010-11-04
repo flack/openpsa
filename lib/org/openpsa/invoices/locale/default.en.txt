@@ -1,0 +1,352 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 26542 2010-07-11 12:18:43Z flack $
+---LANGUAGE en
+
+---STRING account number
+Account number
+---STRINGEND
+
+---STRING add new invoice item
+Add a new invoice item
+---STRINGEND
+
+---STRING all invoices
+All invoices
+---STRINGEND
+
+---STRING all invoices for customer %s
+All invoices for customer %s
+---STRINGEND
+
+---STRING all invoices for deliverable %s
+All invoices for deliverable %s
+---STRINGEND
+
+---STRING amount
+Amount
+---STRINGEND
+
+---STRING back to invoice
+Back to invoice
+---STRINGEND
+
+---STRING bank code
+Bankcode
+---STRINGEND
+
+---STRING basic information
+Basic information
+---STRINGEND
+
+---STRING billing data
+Billing data
+---STRINGEND
+
+---STRING create invoice
+Create invoice
+---STRINGEND
+
+---STRING created "%s" task to %s
+Created "%s" task to %s
+---STRINGEND
+
+---STRING customer
+Customer
+---STRINGEND
+
+---STRING customer contact
+Customer contact
+---STRINGEND
+
+---STRING dashboard
+Dashboard
+---STRINGEND
+
+---STRING delete invoice
+Delete invoice
+---STRINGEND
+
+---STRING due
+Due date
+---STRINGEND
+
+---STRING due date
+Due date
+---STRINGEND
+
+---STRING due on %s
+Due on %s
+---STRINGEND
+
+---STRING edit invoice items
+Edit invoice items
+---STRINGEND
+
+---STRING failed to create invoice, reason
+Failed to create invoice, reason
+---STRINGEND
+
+---STRING files
+Files
+---STRINGEND
+
+---STRING go to customer
+Go to customer
+---STRINGEND
+
+---STRING go to invoice number
+Go to invoice number
+---STRINGEND
+
+---STRING goto
+goto
+---STRINGEND
+
+---STRING invoice
+Invoice
+---STRINGEND
+
+---STRING invoices
+Invoices
+---STRINGEND
+
+---STRING invoice address
+Invoice address
+---STRINGEND
+
+---STRING invoice date
+Invoice date
+---STRINGEND
+
+---STRING invoice %s created
+Invoice %s created
+---STRINGEND
+
+---STRING invoice data
+Invoice data
+---STRINGEND
+
+---STRING invoice items
+Invoice items
+---STRINGEND
+
+---STRING invoice number
+Invoice number
+---STRINGEND
+
+---STRING invoice status
+Invoice status
+---STRINGEND
+
+---STRING invoice was not found
+The invoice was not found
+---STRINGEND
+
+---STRING invoiced hour reports
+Invoiced hour reports
+---STRINGEND
+
+---STRING invoicing information
+Invoicing information
+---STRINGEND
+
+---STRING mark paid
+Mark paid
+---STRINGEND
+
+---STRING mark sent
+Mark sent
+---STRINGEND
+
+---STRING marked %s hours as invoiced
+Marked %s hours as invoiced
+---STRINGEND
+
+---STRING marked invoice "%s" paid
+Marked invoice "%s" as paid
+---STRINGEND
+
+---STRING marked invoice "%s" sent
+Marked invoice "%s" as sent
+---STRINGEND
+
+---STRING marked task "%s" finished
+Marked task "%s" as finished
+---STRINGEND
+
+---STRING name of bank
+Name of institute
+---STRING
+
+---STRING next action
+Next Action
+---STRINGEND
+
+---STRING no customer
+No customer
+---STRINGEND
+
+---STRING no invoice number was handed over
+No invoice number was handed over
+---STRINGEND
+
+---STRING not paid
+Not paid
+---STRINGEND
+
+---STRING open
+Open
+---STRINGEND
+
+---STRING open invoices
+Open invoices
+---STRINGEND
+
+---STRING org.openpsa.invoices
+Invoice tracking
+---STRINGEND
+
+---STRING overdue
+Overdue
+---STRINGEND
+
+---STRING overdue invoices
+Overdue invoices
+---STRINGEND
+
+---STRING overdue since %s
+Overdue since %s
+---STRINGEND
+
+---STRING recipient
+Recipient
+---STRINGEND
+
+---STRING paid
+paid
+---STRINGEND
+
+---STRING paid date
+Paid date
+---STRINGEND
+
+---STRING paid invoices
+Paid invoices
+---STRINGEND
+
+---STRING paid on %s
+Paid on %s
+---STRINGEND
+
+---STRING pdf file
+PDF file
+---STRINGEND
+
+---STRING price
+Price
+---STRINGEND
+
+---STRING project invoicing
+Project invoicing
+---STRINGEND
+
+---STRING quantity
+Quantity
+---STRINGEND
+
+---STRING recently paid invoices
+Recently paid invoices
+---STRINGEND
+
+---STRING scheduled
+Scheduled
+---STRINGEND
+
+---STRING scheduled invoices
+Scheduled invoices
+---STRINGEND
+
+---STRING search
+search
+---STRINGEND
+
+---STRING sent
+Sending date
+---STRINGEND
+
+---STRING sent date
+Sent date
+---STRINGEND
+
+---STRING sum
+Sum
+---STRINGEND
+
+---STRING sum including vat
+Sum including VAT
+---STRINGEND
+
+---STRING sum excluding vat
+Sum (excl. VAT)
+---STRINGEND
+
+---STRING there is no invoice with number %s
+There is no invoice with number %s
+---STRINGEND
+
+---STRING totals
+Totals
+---STRINGEND
+
+---STRING unsent
+Unsent
+---STRINGEND
+
+---STRING unsent invoices
+Unsent invoices
+---STRINGEND
+
+---STRING vat
+VAT
+---STRINGEND
+
+---STRING VAT No.
+VAT No.
+---STRINGEND
+
+---STRING vat sum
+VAT amount
+---STRINGEND
+
+---STRING recalculate_by_reports
+Recalculate by hour-reports
+---STRINGEND
+
+---STRING invoice sum
+Invoice sum
+---STRINGEND
+
+---STRING fix price
+Fix price
+---STRINGEND
+
+---STRING price per unit
+Price per unit
+---STRINGEND
+
+---STRING units
+Units
+---STRINGEND
+
+---STRING use contact address
+Use the address given in contact 
+---STRINGEND
+
+---STRING current pdf file was manually uploaded shall it be replaced ?
+The current pdf-file was manually uploaded. So shall it really be replaced ?
+---STRINGEND
+
+---STRING create pdf for invoice
+Create PDF for invoice
+---STRINGEND

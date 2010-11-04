@@ -1,0 +1,309 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.hu.txt 23195 2009-08-19 16:06:12Z flack $
+---LANGUAGE hu
+
+---STRING %s cycles in %s months
+%s ciklus %s hónapban
+---STRINGEND
+
+---STRING %s cycles, %s - %s
+%s ciklus, %s - %s
+---STRINGEND
+
+---STRING %s planned
+%s tervezett
+---STRINGEND
+
+---STRING %s%% of %s
+%s%% %s elemében
+---STRINGEND
+
+---STRING action new_subscription_cycle
+Új előfizetési ciklus kezdete
+---STRINGEND
+
+---STRING active
+Aktív
+---STRINGEND
+
+---STRING active salesprojects
+Aktív értékesítési projektek
+---STRINGEND
+
+---STRING add deliverable
+Szállítás hozzáadása
+---STRINGEND
+
+---STRING calculation basis
+számítási alap
+---STRINGEND
+
+---STRING canceled
+Visszavont
+---STRINGEND
+
+---STRING code
+Projekt kód
+---STRINGEND
+
+---STRING contacts
+Kapcsolatok
+---STRINGEND
+
+---STRING continuous subscription
+Folyamatos megrendelés
+---STRINGEND
+
+---STRING cost
+Költség
+---STRINGEND
+
+---STRING cost per unit
+Darab költség
+---STRINGEND
+
+---STRING cost structure
+Költség szerkezet
+---STRINGEND
+
+---STRING create document
+Dokumentum létrehozása
+---STRINGEND
+
+---STRING create event
+Esemény létrehozása
+---STRINGEND
+
+---STRING create note
+Jegyzet létrehozása
+---STRINGEND
+
+---STRING create salesproject
+Értékesítési projekt létrehozása
+---STRINGEND
+
+---STRING create task
+Feladat létrehozása
+---STRINGEND
+
+---STRING customer
+Vevő
+---STRINGEND
+
+---STRING deliverables
+a projekt végrehajtásával kapcsolatos dokumentumok/produktumok
+---STRINGEND
+
+---STRING download as CSV
+Ment CSV-ként
+---STRINGEND
+
+---STRING estimated closing date
+Várható befejezési idő
+---STRINGEND
+
+---STRING estimated delivery
+Várható átadás
+---STRINGEND
+
+---STRING invoice
+Számla
+---STRINGEND
+
+---STRING invoice approved only
+Csak a jóváhagyott egységek számlázása
+---STRINGEND
+
+---STRING invoice by actual units
+Aktuális egységek számlázása
+---STRINGEND
+
+---STRING invoiced
+Számlázva
+---STRINGEND
+
+---STRING invoices
+Számlák
+---STRINGEND
+
+---STRING invoicing information
+Számlázási információ
+---STRINGEND
+
+---STRING invoicing period
+Számlázási időszak
+---STRINGEND
+
+---STRING lost
+Elveszett
+---STRINGEND
+
+---STRING mark declined
+Visszautasítottként megjelöl
+---STRINGEND
+
+---STRING mark delivered
+Átadottként megjelöl
+---STRINGEND
+
+---STRING mark ordered
+Megrendeltnek megjelöl
+---STRINGEND
+
+---STRING next action
+Következő esemény
+---STRINGEND
+
+---STRING no action
+Nincs esemény
+---STRINGEND
+
+---STRING no customer
+Nincs vevő
+---STRINGEND
+
+---STRING ordered
+Megrendelt
+---STRINGEND
+
+---STRING org.openpsa.sales
+Értékesítési projektek
+---STRINGEND
+
+---STRING owner
+Tulajdonos
+---STRINGEND
+
+---STRING per unit
+egységenként
+---STRINGEND
+
+---STRING previous action
+Elöző esemény
+---STRINGEND
+
+---STRING price
+Ár
+---STRINGEND
+
+---STRING price per unit
+Darab ár
+---STRINGEND
+
+---STRING pricing
+Árazás
+---STRINGEND
+
+---STRING pricing information
+Árazási információ
+---STRINGEND
+
+---STRING probability
+Valószínüség
+---STRINGEND
+
+---STRING product
+Termék
+---STRINGEND
+
+---STRING profit
+Nyereség
+---STRINGEND
+
+---STRING proposed
+Tevezett
+---STRINGEND
+
+---STRING purchase invoice
+Vételi számlák rendben
+---STRINGEND
+
+---STRING sales report
+Értékesítési jelentés
+---STRINGEND
+
+---STRING sales report %s - %s
+%s - %s értékesítési jelentése
+---STRINGEND
+
+---STRING salesproject
+Értékesítési projekt
+---STRINGEND
+
+---STRING salesprojects: %s
+Értékesítési projektek: %s
+---STRINGEND
+
+---STRING select product
+Válasszon terméket
+---STRINGEND
+
+---STRING single delivery
+Egyszeri szállítás
+---STRINGEND
+
+---STRING started
+Munka kezdete
+---STRINGEND
+
+---STRING status
+Állapot
+---STRINGEND
+
+---STRING subscription
+Előfizetés
+---STRINGEND
+
+---STRING subscription begins
+Előfizetés kezdete
+---STRINGEND
+
+---STRING subscription ends
+Előfizetés vége
+---STRINGEND
+
+---STRING subscription starts
+Előfizetés startol
+---STRINGEND
+
+---STRING supplier
+Szállító
+---STRINGEND
+
+---STRING title
+Cím
+---STRINGEND
+
+---STRING total
+Összesen
+---STRINGEND
+
+---STRING total cost
+Összes költség
+---STRINGEND
+
+---STRING unit
+egység
+---STRINGEND
+
+---STRING units
+Egységek
+---STRINGEND
+
+---STRING value
+Érték
+---STRINGEND
+
+---STRING weighted value
+Súlyozott érték
+---STRINGEND
+
+---STRING won
+Nyert
+---STRINGEND
+
+---STRING salesprojects won
+Megnyert értékesítési projektek
+---STRINGEND
+

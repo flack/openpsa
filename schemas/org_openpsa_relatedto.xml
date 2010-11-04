@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
+    <type name="org_openpsa_relatedto" table="org_openpsa_relatedto" >
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="fromComponent" type="string" index="yes"/>
+        <property name="fromGuid" type="guid" index="yes"/>
+        <property name="fromClass" type="string" index="yes"/>
+        <property name="fromExtra" type="text"/>
+        <property name="toComponent" type="string" index="yes"/>
+        <property name="toGuid" type="guid" index="yes"/>
+        <property name="toClass" type="string" index="yes"/>
+        <property name="toExtra" type="text"/>
+        <property name="status" type="integer"/>
+    </type>
+    
+    <type name="org_openpsa_relatedto_journal_entry" table="org_openpsa_relatedto_journal_entry" >
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="linkGuid" type="guid" index="yes"/>
+        <property name="title" type="string" />
+        <property name="text" type="string" />
+        <!--
+            date to show up the entry 
+        -->
+        <property name="followUp" type="integer" />
+        <property name="status" type="integer"/>
+        <property name="closed" type="boolean" />
+    </type>
+</Schema>

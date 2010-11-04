@@ -1,0 +1,53 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.de.txt 26657 2010-09-22 14:37:35Z flack $
+---LANGUAGE de
+
+---STRING aggregated
+Aggregiert
+---STRINGEND
+
+---STRING download as CSV
+Als CSV herunterladen
+---STRINGEND
+
+---STRING group by
+Gruppiert nach
+---STRINGEND
+
+---STRING loading
+Lade Daten
+---STRINGEND
+
+---STRING no grouping
+keine Gruppierung
+---STRINGEND
+
+---STRING org.openpsa.core
+OpenPSA
+---STRINGEND
+
+---STRING owner organization couldnt be found
+Die Eigentümer-Gruppe konnte nicht gefunden werden
+---STRINGEND
+
+---STRING private
+Privat
+---STRINGEND
+
+---STRING public
+Öffentlich
+---STRINGEND
+
+---STRING workgroup private
+Privat (Arbeitsgruppe)
+---STRINGEND
+
+---STRING workgroup restricted
+Auf Arbeitsgruppe beschränkt
+---STRINGEND
+
+---STRING org.openpsa.core
+OpenPSA
+---STRINGEND
+
