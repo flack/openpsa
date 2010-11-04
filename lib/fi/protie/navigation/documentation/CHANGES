@@ -1,0 +1,29 @@
+                   fi.protie.navigation Changelog
+                   ------------------------------
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-01-09 adrenalin
+  - Added configurable option for inserting the class name to the link tag as well.
+
+2007-11-23 adrenalin
+  ! Corrected mispelled 'childs' to 'children', which might force someone to change the
+    CSS class names
+
+2007-06-12 adrenalin
+  - Added (again) 'untranslated' to class name for multilang
+
+2007-05-23 adrenalin
+  - Fixed someone's buggy implementation of setting the ID of the root ul element
+
+2006-12-13 adrenalin
+  - Added the files `csshover.htc` and `dropdown.css` to support CSS
+    dropdown menus
+
+2006-11-03 adrenalin
+  - First changelog entry
+  + Added support for restricting navigation to a certain amount of levels
+
