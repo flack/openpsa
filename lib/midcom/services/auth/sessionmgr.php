@@ -104,19 +104,9 @@ class midcom_services_auth_sessionmgr
         if (!$user)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to create a new login session: User ID {$_MIDCOM['user']} is invalid.", MIDCOM_LOG_ERROR);
+            debug_add("Failed to create a new login session: User ID {$_MIDGARD['user']} is invalid.", MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
-        }
-
-        if ($user->_storage->password == '')
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("User #{$user->_storage->id} has no password associated with him (Most likely we just failed to read it)", MIDCOM_LOG_ERROR);
-            debug_pop();
-            // Undo Midgard auth.
-            //mgd_unsetuid();
-            //return false;
         }
 
         $session = new midcom_core_login_session_db();
@@ -133,9 +123,6 @@ class midcom_services_auth_sessionmgr
             debug_pop();
             return false;
         }
-
-        // WORKAROUND for #72 Auto-populate the GUID as the core does not do this yet.
-        $session->get_by_id($session->id);
 
         $result = array
         (
@@ -338,6 +325,37 @@ class midcom_services_auth_sessionmgr
         return $return;
     }
 
+    private function prepare_midgard2_tokens($username, $password)
+    {
+        $auth_type = 'Plaintext';
+        $login_tokens = array
+        (
+            'login' => $username,
+            'authtype' => $auth_type,
+        );
+        switch ($auth_type)
+        {
+            case 'Plaintext':
+                // Compare plaintext to plaintext
+                $login_tokens['password'] = $password;
+                break;
+            case 'SHA1':
+                $login_tokens['password'] = sha1($password);
+                break;
+            case 'SHA256':
+                $login_tokens['password'] = hash('sha256', $password);
+                break;
+            case 'MD5':
+                $login_tokens['password'] = md5($password);
+                break;
+            default:
+                throw new Exception('Unsupported authentication type attempted', 500);
+        }
+        // TODO: Support other types
+        
+        return $login_tokens;
+    }
+
     /**
      * Internal helper, which does the actual Midgard authentication.
      *
@@ -355,7 +373,22 @@ class midcom_services_auth_sessionmgr
             return false;
         }
 
-        $this->user = midgard_user::auth($username, $password, self::sitegroup_for_auth(), false);
+        if (method_exists('midgard_user', 'login'))
+        {
+            // Ratatoskr
+            $user = new midgard_user($this->prepare_midgard2_tokens($username, $password));
+            if (!$user->login())
+            {
+                return false;
+            }
+            $this->user = $user;
+            $_MIDGARD['admin'] = $user->is_admin();
+        }
+        else
+        {
+            // Ragnaroek
+            $this->user = midgard_user::auth($username, $password, self::sitegroup_for_auth(), false);
+        }
 
         if (!$this->user)
         {
@@ -366,7 +399,13 @@ class midcom_services_auth_sessionmgr
             return false;
         }
         $this->person = $this->user->get_person();
-
+        $person_class = new $GLOBALS['midcom_config']['person_class'];
+        if (get_class($this->person) != $person_class)
+        {
+            // Cast the person object to correct person class
+            $this->person = new $person_class($this->person->guid);
+            $this->person->username = $username;
+        }
         return true;
     }
 

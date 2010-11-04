@@ -513,6 +513,7 @@ class midcom_core_privilege
         $mc->add_value_property('assignee');
         $mc->add_value_property('classname');
         $mc->add_value_property('value');
+        midcom_application::set_error(MGD_ERR_OK);
         $mc->execute();
         $privileges = $mc->list_keys();
         if (!$privileges)
@@ -520,7 +521,7 @@ class midcom_core_privilege
             if (midcom_application::get_error() != MGD_ERR_OK)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to retrieve all privileges for the Object GUID {$guid}: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add("Failed to retrieve all {$type} privileges for the Object GUID {$guid}: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
                 debug_print_r('Result was:', $result);
                 if (isset($php_errormsg))
                 {
@@ -528,7 +529,7 @@ class midcom_core_privilege
                 }
                 debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Collector failed to execute, see the log file for more information.');
+                    'Privilege collector failed to execute: ' . midcom_application::get_error_string());
                 // This will exit.
             }
 
