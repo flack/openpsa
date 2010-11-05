@@ -86,7 +86,6 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         $session_id = $data[0];
         $user_id = $data[1];
         $this->user = $this->auth->get_user($user_id);
-
         if (! $this->user)
         {
             debug_push_class(__CLASS__, __FUNCTION__);

@@ -267,7 +267,6 @@ class midcom_services_auth
     function _check_for_new_login_session()
     {
         $credentials = $this->_auth_frontend->read_authentication_data();
-
         if (! $credentials)
         {
             return false;
@@ -1093,7 +1092,7 @@ class midcom_services_auth
                 $id = $id->id;
                 $object = null;
             }
-            elseif (is_a($id, 'midgard_person'))
+            elseif (is_a($id, $GLOBALS['midcom_config']['person_class']))
             {
                 $object = $id;
                 $id = $object->id;

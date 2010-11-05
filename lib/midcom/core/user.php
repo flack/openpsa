@@ -297,7 +297,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         }
         
         if (   !is_object($this->_storage)
-            || !isset($this->_storage->username))
+            || !isset($this->_storage->guid))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Tried to load a midcom_core_user, _storage is not an object (has no username property)', MIDCOM_LOG_ERROR);
