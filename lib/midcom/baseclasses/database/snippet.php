@@ -46,6 +46,26 @@ class midcom_baseclasses_database_snippet extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function __set($property, $value) 
+    {
+        if (   $property == 'up'
+            && extension_loaded('midgard2'))
+        {
+            $property = 'snippetdir';
+        }
+        return parent::__set($property, $value);
+    }
+
+    public function __get($property) 
+    {
+        if (   $property == 'up'
+            && extension_loaded('midgard2'))
+        {
+            $property = 'snippetdir';
+        }
+        return parent::__get($property);
+    }
+
     /**
      * Returns the Parent of the Snippet.
      *

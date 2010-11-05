@@ -83,7 +83,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         $root_event = false;
         $root_guid = $data['config']->get('calendar_root_event');
         
-        if(mgd_is_guid($root_guid))
+        if (mgd_is_guid($root_guid))
         {
             $root_event = new org_openpsa_calendar_event_dba($root_guid);
         }
@@ -101,7 +101,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 $root_event = $ret[0];
                 $siteconfig = org_openpsa_core_siteconfig::get_instance();
                 $topic_guid = $siteconfig->get_node_guid('org.openpsa.calendar');
-                if($topic_guid)
+                if ($topic_guid)
                 {
                     $topic = new midcom_db_topic($topic_guid);
                     $topic->set_parameter('org.openpsa.calendar', 'calendar_root_event', $root_event->guid);
