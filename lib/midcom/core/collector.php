@@ -157,6 +157,15 @@ class midcom_core_collector
             $_class_mapping_cache[$classname] = $mgdschemaclass;
         }
 
+        if (   $domain == 'sitegroup'
+            && isset($_MIDGARD['config']['sitegroup'])
+            && !$_MIDGARD['config']['sitegroup'])
+        {
+            // Midgard2 doesn't have sitegroups, change the constraint
+            $domain = 'metadata.deleted';
+            $value = false;
+        }
+
         $this->_mc = new midgard_collector($mgdschemaclass, $domain, $value);
 
         // MidCOM's collector always uses the GUID as the key for ACL purposes
