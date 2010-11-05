@@ -30,6 +30,11 @@ if (!$midgard->open_config($config))
     die("Failed to open Midgard database connection to {$argv[1]}: " . $midgard->get_error_string() ."\n");
 }
 
+if (!$config->create_blobdir())
+{
+    die("Failed to create file attachment storage directory to {$config->blobdir}:" . $midgard->get_error_string() . "\n");
+}
+
 // Create storage
 midgard_storage::create_base_storage();
 echo "Database initialized, preparing storage for MgdSchema classes:\n";
