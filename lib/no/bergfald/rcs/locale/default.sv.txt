@@ -1,0 +1,101 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE sv
+
+---STRING back to %s
+Tillbaka till sida %s
+---STRINGEND
+
+---STRING changes done in revision %s to %s
+Ändringar gjorda i revision %s till %s
+---STRINGEND
+
+---STRING changes from version %s
+Ändringar från version %s
+---STRINGEND
+
+---STRING date
+Datum
+---STRINGEND
+
+---STRING differences between %s and %s
+Skillnader mellan %s och %s
+---STRINGEND
+
+---STRING differences between versions %s and %s
+Skillnader mellan versioner %s och %s
+---STRINGEND
+
+---STRING lines
+Rader
+---STRINGEND
+
+---STRING message
+Medelande
+---STRINGEND
+
+---STRING no changes in content
+Inga ändringar i innehållet
+---STRINGEND
+
+---STRING no.bergfald.rcs
+Versions hantering
+---STRINGEND
+
+---STRING restore this revision (%s)
+Återställ till version (%s)
+---STRINGEND
+
+---STRING restore to version %s failed, reason %s
+Återställning till version %s misslyckades, anledning %s
+---STRINGEND
+
+---STRING restore to version %s successful
+Återställning till version %s lyckades
+---STRINGEND
+
+---STRING revision
+Version
+---STRINGEND
+
+---STRING revision history of %s
+Versionshistorik av %s
+---STRINGEND
+
+---STRING show differences
+Visa skillnader
+---STRINGEND
+
+---STRING show history
+Visa  versionshistorik
+---STRINGEND
+
+---STRING title
+Titel
+---STRINGEND
+
+---STRING user
+Användare
+---STRINGEND
+
+---STRING version %s
+Version %s
+---STRINGEND
+
+---STRING view %s differences with next (%s)
+Visa skillnader av version %s med nästa (%s)
+---STRINGEND
+
+---STRING view %s differences with previous (%s)
+Visa skillnader av version %s med föregående (%s)
+---STRINGEND
+
+---STRING view this revision (%s)
+Visa denna version (%s)
+---STRINGEND
+
+---STRING viewing version %s of %s
+Version %s av %s
+---STRINGEND
+

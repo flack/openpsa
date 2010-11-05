@@ -1,0 +1,101 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id$
+---LANGUAGE pl
+
+---STRING back to %s
+Idź do strony "%s"
+---STRINGEND
+
+---STRING changes done in revision %s to %s
+Zmiany z wersji %s do %s
+---STRINGEND
+
+---STRING changes from version %s
+Zmiany z wersji %s
+---STRINGEND
+
+---STRING date
+Data
+---STRINGEND
+
+---STRING lines
+Linie
+---STRINGEND
+
+---STRING message
+Info
+---STRINGEND
+
+---STRING no.bergfald.rcs
+Kontrola wersji
+---STRINGEND
+
+---STRING restore this revision (%s)
+Przywróć tą wersję (%s)
+---STRINGEND
+
+---STRING restore to version %s failed, reason %s
+Przywrócenie wersji %s nieudane: %s
+---STRINGEND
+
+---STRING restore to version %s successful
+Przywrócono wersję %s
+---STRINGEND
+
+---STRING revision
+Wersja
+---STRINGEND
+
+---STRING revision history of %s
+Historia wersji %s
+---STRINGEND
+
+---STRING show history
+Pokaż historię
+---STRINGEND
+
+---STRING user
+Użytkownik
+---STRINGEND
+
+---STRING version %s
+Wersja %s
+---STRINGEND
+
+---STRING view %s differences with next (%s)
+Zobacz zmiany między %s a %s
+---STRINGEND
+
+---STRING view %s differences with previous (%s)
+Zobacz zmiany między %s a %s
+---STRINGEND
+
+---STRING view this revision (%s)
+Zobacz wersję %s
+---STRINGEND
+
+---STRING viewing version %s of %s
+%s: wersja %s
+---STRINGEND
+
+---STRING differences between %s and %s
+Zmiany między wersją %s i %s
+---STRINGEND
+
+---STRING differences between versions %s and %s
+Zmiany między wersją %s i %s
+---STRINGEND
+
+---STRING no changes in content
+Brak zmian w treści
+---STRINGEND
+
+---STRING show differences
+Pokaż zmiany
+---STRINGEND
+
+---STRING title
+Tytuł
+---STRINGEND
+
