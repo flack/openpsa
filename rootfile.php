@@ -41,7 +41,11 @@ require(MIDCOM_ROOT . '/midcom.php');
 $_MIDCOM->codeinit();
 
 // Run Midgard1-compatible pseudo-templating
-eval('?>' . mgd_preparse('<(ROOT)>'));
+$template = mgd_preparse('<(ROOT)>');
+$template_parts = explode('<(content)>', $template);
+eval('?>' . $template_parts[0]);
+$_MIDCOM->content();
+eval('?>' . $template_parts[1]);
 
 $_MIDCOM->finish();
 ?>

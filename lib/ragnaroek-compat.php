@@ -65,9 +65,7 @@ function mgd_element($name)
         case 'title':
             return 'OpenPSA';
         case 'content':
-            ob_start();
-            $_MIDCOM->content();
-            return ob_get_clean();
+            return '<(content)>';
         default:
             $element_file = MIDCOM_ROOT . "/../themes/OpenPsa2/style/{$element}.php";
             if (!file_exists($element_file))
@@ -95,8 +93,16 @@ function mgd_is_element_loaded($element)
 function mgd_variable($variable)
 {
     //echo "<br />\nxxX{$variable[1]}Xxx";
+
     $variable_parts = explode(':', $variable[1]);
     // TODO: Formatter support
+    $variable = $variable_parts[0];
+
+    if (strpos($variable, '.') !== false)
+    {
+        $parts = explode('.', $variable);
+        return "<?php echo \${$parts[0]}->{$parts[1]}; ?>";
+    }
     return "<?php echo \${$variable_parts[0]}; ?>";
 }
 
