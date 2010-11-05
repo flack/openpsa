@@ -54,9 +54,16 @@ $_MIDCOM->auth->require_valid_user();
             <p>
                     <a href="http://www.midgard-project.org/">Midgard CMS</a> is a Content management Toolkit. It is Free Software that can be used to construct interactive web applications. <a href="http://www.midgard-project.org/midgard/">Learn more &raquo;</a>
             </p>
-            <p>
-                    The <a href="http://www.midgard-project.org/midgard/8.09/">Ragnaroek LTS</a> generation of Midgard is supported until <strong>October 1st 2013</strong>.
-            <p>
+            <?php
+            if (extension_loaded('midgard'))
+            {
+                ?>
+                <p>
+                        The <a href="http://www.midgard-project.org/midgard/8.09/">Ragnaroek LTS</a> generation of Midgard is supported until <strong>October 1st 2013</strong>.
+                <p>
+                <?php
+            }
+            ?>
                     Copyright &copy;1999&ndash;<?php echo date('Y'); ?> <a href="http://www.midgard-project.org/community/">The Midgard Project</a>. <a href="http://www.gnu.org/licenses/lgpl.html">Free software</a>.
             </p>            
             <table class="apps">
