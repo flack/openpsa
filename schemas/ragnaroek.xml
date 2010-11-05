@@ -7,6 +7,15 @@
         <property name="password" type="string">
             <description> Password (legacy Midgard1) of the person</description>
         </property>
+        <property name="homephone" type="string">
+            <description>Home phone number of the person</description>
+        </property>
+        <property name="handphone" type="string">
+            <description>Cell phone number of the person</description>
+        </property>
+        <property name="workphone" type="string">
+            <description>Work phone name of the person</description>
+        </property>
         <property name="homepage" type="string">
             <description>Homepage URL of the person</description>
         </property>
