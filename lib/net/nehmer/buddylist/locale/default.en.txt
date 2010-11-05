@@ -1,0 +1,89 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---CVS $Id: default.en.txt 4586 2006-11-09 11:38:34Z bergie $
+---LANGUAGE en
+
+---STRING %u new buddy requests.
+%u new buddy request(s).
+---STRINGEND
+
+---STRING approve
+Approve
+---STRINGEND
+
+---STRING approve and add
+Approve and add
+---STRINGEND
+
+---STRING back to the buddy list.
+Back to the buddy list.
+---STRINGEND
+
+---STRING buddies deleted
+Buddies deleted
+---STRINGEND
+
+---STRING buddy request
+Buddy request
+---STRINGEND
+
+---STRING buddy request from %s:
+Buddy request from %s:
+---STRINGEND
+
+---STRING buddy request sent.
+Buddy request sent.
+---STRINGEND
+
+---STRING buddy requests
+Buddy requests
+---STRINGEND
+
+---STRING delete selected
+Delete selected
+---STRINGEND
+
+---STRING expiration_days
+Timeout for pending requests in days
+---STRINGEND
+
+---STRING net.nehmer.buddylist
+Buddylist
+---STRINGEND
+
+---STRING new buddy requests pending.
+New buddy requests are waiting for your approval.
+---STRINGEND
+
+---STRING no buddies found.
+No buddies found.
+---STRINGEND
+
+---STRING reject
+Reject
+---STRINGEND
+
+---STRING request approved and buddy added to own list.
+Buddy request has been approved and and added to your own list as well.
+---STRINGEND
+
+---STRING request approved and buddy request sent.
+Buddy request has been approved and a request has been sent to the user.
+---STRINGEND
+
+---STRING request approved.
+Buddy request has been approved.
+---STRINGEND
+
+---STRING request rejected.
+Buddy request was rejected.
+---STRINGEND
+
+---STRING the buddies have been deleted.
+The buddies have been deleted.
+---STRINGEND
+
+---STRING user already on your buddylist.
+This user is already on your buddylist.
+---STRINGEND
+

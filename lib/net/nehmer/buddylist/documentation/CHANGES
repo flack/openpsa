@@ -1,0 +1,18 @@
+                   net.nehmer.buddylist Changelog
+                   ------------------------------
+CVS Id: $Id: CHANGES 13624 2007-11-25 09:44:35Z flack $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2006-08-29 rambo
+  + added support for org.openpsa.contacts person merge
+
+2006-05-11 bergie
+  + Added "blacklisted" property to the data model
+
+2005-12-29 torben
+  - Initial version
