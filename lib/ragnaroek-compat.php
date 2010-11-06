@@ -162,25 +162,7 @@ function openpsa_prepare_superglobal()
         $_MIDGARD['argv'][] = $part;
     }
 
-    if (   count($_MIDGARD['argv']) > 1
-        && $_MIDGARD['argv'][0] == 'midcom-static')
-    {
-        array_shift($_MIDGARD['argv']);
-        $filename = realpath(MIDCOM_ROOT . '/../static/' . implode('/', $_MIDGARD['argv']));
-
-        $mimetype = mime_content_type($filename);
-        if (strpos($filename, '.css') !== false)
-        {
-            $mimetype = 'text/css';
-        }
-
-        header('Content-type: ' . $mimetype);
-        echo file_get_contents($filename);
-        die();
-    }
-
     $_MIDGARD['argc'] = count($_MIDGARD['argv']);
-
 
     $_MIDGARD['user'] = 0;
     $_MIDGARD['admin'] = false;
