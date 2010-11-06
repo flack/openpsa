@@ -460,8 +460,18 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
      */
     function check_account_exists($name)
     {
-        $mc = new midgard_collector('midgard_person', 'username', $name);
-        $mc->set_key_property('username');
+        if (method_exists('midgard_user', 'login'))
+        {
+            //Midgard2
+            $mc = new midgard_collector('midgard_user', 'login', $name);
+            $mc->set_key_property('login');
+        }
+        else
+        {
+            //Midgard1
+            $mc = new midgard_collector($GLOBALS['midcom_config']['person_class'], 'username', $name);
+            $mc->set_key_property('username');
+        }
         $mc->execute();
         $keys = $mc->list_keys();
         if (empty($keys))
