@@ -234,7 +234,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
     function load_classes($component, $filename, $definition_list = null, $skip_cache_generation = false)
     {
         $this->_create_class_definition_filename($component, $filename);
-        
+
         if (is_null($definition_list))
         {
             $contents = $this->_read_class_definition_file();
@@ -464,7 +464,8 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             $this->_mgdschema_class_handler[$entry['midcom_class_name']] = $component;
 
             if (   substr($entry['mgdschema_class_name'], 0, 8) == 'midgard_'
-                || substr($entry['mgdschema_class_name'], 0, 12) == 'midcom_core_')
+                || substr($entry['mgdschema_class_name'], 0, 12) == 'midcom_core_'
+                || $entry['mgdschema_class_name'] == $GLOBALS['midcom_config']['person_class'])
             {
                 $this->_midgard_classes[] = $entry;
             }
@@ -808,7 +809,15 @@ EOF;
             return false;
         }
 
-        $component = $this->get_component_for_class($classname);
+        $component = false;
+        if ($classname == $GLOBALS['midcom_config']['person_class'])
+        {
+            $component = 'midcom';
+        }
+        else
+        {
+            $component = $this->get_component_for_class($classname);
+        }
 
         if (!$component)
         {

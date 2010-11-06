@@ -105,6 +105,11 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         try
         {
             $tmp = midgard_object_class::get_object_by_guid($guid);
+            if (   get_class($tmp) == 'midgard_person'
+                && $GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+            {
+                $tmp = new $GLOBALS['midcom_config']['person_class']($guid);
+            }
 
             // Construct object if automated/transparent MultiLang workflows are enabled
             // This is a workaround for #1886
@@ -240,6 +245,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         if ($_MIDCOM->dbclassloader->is_mgdschema_object($object))
         {
             $classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($object);
+
             if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($classname))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
