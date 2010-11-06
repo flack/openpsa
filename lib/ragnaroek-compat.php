@@ -12,7 +12,7 @@ $GLOBALS['midgard_filters'] = array
 /**
  * Register PHP function as string formatter to the Midgard formatting engine.
  * @see http://www.midgard-project.org/documentation/reference-other-mgd_register_filter/
- */ 
+ */
 function mgd_register_filter($name, $function)
 {
     $GLOBALS['midgard_filters']["x{$name}"] = $function;
@@ -28,7 +28,7 @@ function mgd_format($content, $name)
     {
         return $content;
     }
-    
+
     ob_start();
     call_user_func($GLOBALS['midgard_filters'][$name], $content);
     return ob_get_clean();
@@ -65,11 +65,9 @@ function mgd_element($name)
         case 'title':
             return 'OpenPSA';
         case 'content':
-            ob_start();
-            $_MIDCOM->content();
-            return ob_get_clean();
+            return '<(content)>';
         default:
-            $element_file = MIDCOM_ROOT . "/../themes/OpenPsa2/{$element}.php";
+            $element_file = MIDCOM_ROOT . "/../themes/OpenPsa2/style/{$element}.php";
             if (!file_exists($element_file))
             {
                 if ($element == 'ROOT')
@@ -86,7 +84,7 @@ function mgd_element($name)
 function mgd_is_element_loaded($element)
 {
     return false;
-    return file_exists(MIDCOM_ROOT . "/../themes/OpenPsa2/{$element}.php");
+    return file_exists(MIDCOM_ROOT . "/../themes/OpenPsa2/style/{$element}.php");
 }
 
 /**
@@ -95,13 +93,21 @@ function mgd_is_element_loaded($element)
 function mgd_variable($variable)
 {
     //echo "<br />\nxxX{$variable[1]}Xxx";
+
     $variable_parts = explode(':', $variable[1]);
     // TODO: Formatter support
+    $variable = $variable_parts[0];
+
+    if (strpos($variable, '.') !== false)
+    {
+        $parts = explode('.', $variable);
+        return "<?php echo \${$parts[0]}->{$parts[1]}; ?>";
+    }
     return "<?php echo \${$variable_parts[0]}; ?>";
 }
 
 /**
- * Preparse a string to handle element inclusion and variable 
+ * Preparse a string to handle element inclusion and variable
  *
  * @see mgd_preparse
  */
@@ -184,13 +190,13 @@ function openpsa_prepare_superglobal()
 
     $_MIDGARD['auth'] = false;
     $_MIDGARD['cookieauth'] = false;
-    
+
     // General host setup
     $_MIDGARD['lang'] = 0;
     $_MIDGARD['sitegroup'] = 0;
     $_MIDGARD['page'] = 0;
     $_MIDGARD['debug'] = false;
-    
+
     $_MIDGARD['host'] = null;
     $_MIDGARD['style'] = 0;
     $_MIDGARD['author'] = 0;
@@ -250,7 +256,7 @@ function openpsa_prepare_topics()
     {
         return $topics[0]->guid;
     }
-    
+
     // Create a new root topic for OpenPSA
     $root_topic = new midgard_topic();
     $root_topic->name = 'openpsa';

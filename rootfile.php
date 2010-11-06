@@ -21,6 +21,8 @@ define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
 // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
 require(MIDCOM_ROOT . '/ragnaroek-compat.php');
 
+midgard_connection::get_instance()->set_loglevel('warn');
+
 // Initialize the $_MIDGARD superglobal
 openpsa_prepare_superglobal();
 
@@ -39,7 +41,11 @@ require(MIDCOM_ROOT . '/midcom.php');
 $_MIDCOM->codeinit();
 
 // Run Midgard1-compatible pseudo-templating
-eval('?>' . mgd_preparse('<(ROOT)>'));
+$template = mgd_preparse('<(ROOT)>');
+$template_parts = explode('<(content)>', $template);
+eval('?>' . $template_parts[0]);
+$_MIDCOM->content();
+eval('?>' . $template_parts[1]);
 
 $_MIDCOM->finish();
 ?>

@@ -598,6 +598,7 @@ class midcom_services_i18n
         }
 
         $this->_read_http_negotiation();
+
         if (count ($this->_http_lang) > 0)
         {
             foreach ($this->_http_lang as $name => $q)
@@ -655,25 +656,18 @@ class midcom_services_i18n
      */
     function _read_http_negotiation ()
     {
-        if (!function_exists('getallheaders'))
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
         {
-            // Running on cgi, Apache headers function not available
-            // TODO: Get the headers some other way
-            return;
-        }
+            $accept_langs = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
 
-        $headers = getallheaders();
-
-        if (array_key_exists("Accept-Language", $headers))
-        {
-            $rawdata = explode(",", $headers["Accept-Language"]);
+            $rawdata = explode(",", $accept_langs);
             foreach ($rawdata as $data)
             {
                 $params = explode(";",$data);
                 $lang = array_shift($params);
-
+            
                 //Fix for Safari
-                if (isset($_SERVER['HTTP_USER_AGENT'])
+                if (   isset($_SERVER['HTTP_USER_AGENT'])
                     && strstr($_SERVER['HTTP_USER_AGENT'], 'Safari'))
                 {
                     $lang = array_shift(explode("-",$lang));
@@ -709,12 +703,12 @@ class midcom_services_i18n
                 }
                 $this->_http_lang[$lang] = $q;
             }
-            arsort($this->_http_lang, SORT_NUMERIC);
         }
+        arsort($this->_http_lang, SORT_NUMERIC);
 
-        if (array_key_exists("Accept-Charset", $headers))
+        if (isset($_SERVER['HTTP_ACCEPT_CHARSET']))
         {
-            $rawdata = explode(",", $headers["Accept-Charset"]);
+            $rawdata = explode(",", $_SERVER['HTTP_ACCEPT_CHARSET']);
             foreach ($rawdata as $data)
             {
                 $params = explode(";",$data);
