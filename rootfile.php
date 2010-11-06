@@ -28,7 +28,7 @@ openpsa_prepare_superglobal();
 
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['log_level'] = 5;
-$GLOBALS['midcom_config_local']['log_filename'] = '/tmp/openpsa-midcom.log';
+$GLOBALS['midcom_config_local']['log_filename'] = dirname(midgard_connection::get_instance()->config->logfilename) . '/midcom.log';
 $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
 $GLOBALS['midcom_config_local']['midcom_services_rcs_enable'] = false;
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
