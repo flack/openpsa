@@ -1,0 +1,25 @@
+'name' => 'de.bitfolge.feedcreator',
+'icon' => 'net.nemein.rss/rss-16.png',
+'purecode' => true,
+'version' => '8.09.9',
+'state' => 'stable',
+'privileges' => array(),
+'class_definitions' => array(),
+'package.xml' => array
+(
+    'summary' => 'News feed generator',
+    'description' => 'RSS and Atom feed generator by Kai Blankenhorn',
+    'maintainers' => array
+    (
+        'bergie' => array
+        (
+            'name' => 'Henri Bergius',
+            'email' => 'henri.bergius@iki.fi',
+            'role' => 'lead',
+        ),
+    ),
+    'dependencies' => array
+    (
+        'midcom' => array(),
+    ),
+),
