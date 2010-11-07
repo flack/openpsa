@@ -142,6 +142,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function _sg_constraints(&$qb)
     {
+        if (    isset($_MIDGARD['config']['sitegroup'])
+             && !$_MIDGARD['config']['sitegroup'])
+        {
+            return;
+        }
         $sgs_to_show = array( 0 => &$this->sg_context );
         if ($this->show_sg0_objects)
         {
@@ -893,7 +898,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_pop();
             return false;
         }
-        $qb->add_order('sitegroup', 'DESC');
+        if (    !isset($_MIDGARD['config']['sitegroup'])
+             || $_MIDGARD['config']['sitegroup'])
+        {
+            $qb->add_order('sitegroup', 'DESC');
+        }        
 
         // Sort by title and name if available
         midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $schema_type);
@@ -965,6 +974,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             $child_classes = $this->_resolve_child_classes();
         }
+
         return $child_classes;
     }
 

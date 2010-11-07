@@ -94,6 +94,7 @@
     'midgard_parameter',
     'midgard_attachment',
     'midcom_core_privilege_db',
+    'midgardmvc_core_privilege_db',
 ),
 
 // Always search these fields (used by get_search_properties), keyed by MgdSchema class name
