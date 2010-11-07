@@ -18,6 +18,8 @@ ini_set('memory_limit', '68M');
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
 
+header('Content-Type: text/html; charset=utf-8');
+
 // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
 require(MIDCOM_ROOT . '/ragnaroek-compat.php');
 
@@ -27,20 +29,26 @@ midgard_connection::get_instance()->set_loglevel('warn');
 openpsa_prepare_superglobal();
 
 $GLOBALS['midcom_config_local'] = array();
-$GLOBALS['midcom_config_local']['log_level'] = 5;
-$GLOBALS['midcom_config_local']['log_filename'] = dirname(midgard_connection::get_instance()->config->logfilename) . '/midcom.log';
-$GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
-$GLOBALS['midcom_config_local']['auth_backend_simple_cookie_secure'] = false;
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
+if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
+{
+    include(MIDCOM_ROOT . '/../config.inc.php');
+}
+else
+{
+    //TODO: Hook in an installation wizard here, once it is written
+    $GLOBALS['midcom_config_local']['log_level'] = 5;
+    $GLOBALS['midcom_config_local']['log_filename'] = dirname(midgard_connection::get_instance()->config->logfilename) . '/midcom.log';
+    $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
+    $GLOBALS['midcom_config_local']['auth_backend_simple_cookie_secure'] = false;
+}
 
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
 
 // Start request processing
-
-header('Content-Type: text/html; charset=utf-8');
 $_MIDCOM->codeinit();
 
 // Run Midgard1-compatible pseudo-templating
