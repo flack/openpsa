@@ -67,7 +67,7 @@ function mgd_element($name)
         case 'content':
             return '<(content)>';
         default:
-            $element_file = MIDCOM_ROOT . "/../themes/OpenPsa2/style/{$element}.php";
+            $element_file = MIDCOM_ROOT . "/../themes/" . $GLOBALS['midcom_config']['theme'] . "/style/{$element}.php";
             if (!file_exists($element_file))
             {
                 if ($element == 'ROOT')
@@ -84,7 +84,7 @@ function mgd_element($name)
 function mgd_is_element_loaded($element)
 {
     return false;
-    return file_exists(MIDCOM_ROOT . "/../themes/OpenPsa2/style/{$element}.php");
+    return file_exists(MIDCOM_ROOT . "/../themes/" . $GLOBALS['midcom_config']['theme'] . "/style/{$element}.php");
 }
 
 /**

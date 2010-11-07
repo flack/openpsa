@@ -192,25 +192,27 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     function _process_delete_form()
     {
-        $_MIDCOM->auth->request_sudo('midcom.admin.folder');
-        $qb_topic = midcom_db_topic::new_query_builder();
-        $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
-        $symlinks = $qb_topic->execute();
-        if (!empty($symlinks))
+        if ($GLOBALS['midcom_config']['symlinks'])
         {
-            $msg = 'Refusing to delete Folder because it has symlinks:';
-            $nap = new midcom_helper_nav();
-            foreach ($symlinks as $symlink)
+            $_MIDCOM->auth->request_sudo('midcom.admin.folder');
+            $qb_topic = midcom_db_topic::new_query_builder();
+            $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
+            $symlinks = $qb_topic->execute();
+            if (!empty($symlinks))
             {
-                $node = $nap->get_node($symlink->id);
-                $msg .= ' ' . $node[MIDCOM_NAV_FULLURL];
+                $msg = 'Refusing to delete Folder because it has symlinks:';
+                $nap = new midcom_helper_nav();
+                foreach ($symlinks as $symlink)
+                {
+                    $node = $nap->get_node($symlink->id);
+                    $msg .= ' ' . $node[MIDCOM_NAV_FULLURL];
+                }
+
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $msg);
+                // This will exit
             }
-
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $msg);
-            // This will exit
+            $_MIDCOM->auth->drop_sudo();
         }
-        $_MIDCOM->auth->drop_sudo();
-
         $this->_delete_topic_update_index();
 
         if (!midcom_admin_folder_handler_delete::_delete_children($this->_topic))

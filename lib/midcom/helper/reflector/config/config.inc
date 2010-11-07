@@ -46,6 +46,7 @@
 (
     'midgard_topic' => 'extra',
     'midgard_group' => 'official',
+    'openpsa_person' => 'lastname',
     'org_openpsa_organization' => 'official',
     'midgard_host' => 'name',
 ),
@@ -74,6 +75,7 @@
     'net_nemein_tag',
     /* Persons and groups as toplevel is mostly harmful as there can be really many entries */
     'midgard_person',
+    'openpsa_person',
     'org_openpsa_person',
     'midgard_group',
     'org_openpsa_organization',
@@ -92,6 +94,7 @@
     'midgard_parameter',
     'midgard_attachment',
     'midcom_core_privilege_db',
+    'midgardmvc_core_privilege_db',
 ),
 
 // Always search these fields (used by get_search_properties), keyed by MgdSchema class name

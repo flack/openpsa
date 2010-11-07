@@ -601,14 +601,28 @@ class midcom_helper__styleloader
             }
             else
             {
-                for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$_MIDCOM->get_current_context()]; $i++)
+                if (array_key_exists('theme', $GLOBALS['midcom_config']))
                 {
-                    $filename = MIDCOM_ROOT . $this->_styledirs[$_MIDCOM->get_current_context()][$i] .  "/{$_element}.php";
+                    $filename = preg_replace('/lib$/', 'themes', MIDCOM_ROOT) . '/' . $GLOBALS['midcom_config']['theme'] .  "/style/{$_element}.php";
                     if (file_exists($filename))
                     {
                         $_style = file_get_contents($filename);
                         $src = $filename;
                         $this->_snippets[$src] = $_style;
+                    }       
+                }
+
+                if (!isset($_style))
+                {
+                    for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$_MIDCOM->get_current_context()]; $i++)
+                    {
+                        $filename = MIDCOM_ROOT . $this->_styledirs[$_MIDCOM->get_current_context()][$i] .  "/{$_element}.php";
+                        if (file_exists($filename))
+                        {
+                            $_style = file_get_contents($filename);
+                            $src = $filename;
+                            $this->_snippets[$src] = $_style;
+                        }
                     }
                 }
             }
