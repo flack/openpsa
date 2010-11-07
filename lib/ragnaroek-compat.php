@@ -67,7 +67,7 @@ function mgd_element($name)
         case 'content':
             return '<(content)>';
         default:
-            $element_file = MIDCOM_ROOT . "/../themes/" . $GLOBALS['midcom_config']['theme'] . "/style/{$element}.php";
+            $element_file = MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . '/style' . $_MIDGARD['page_style'] . "/{$element}.php";
             if (!file_exists($element_file))
             {
                 if ($element == 'ROOT')
@@ -84,7 +84,7 @@ function mgd_element($name)
 function mgd_is_element_loaded($element)
 {
     return false;
-    return file_exists(MIDCOM_ROOT . "/../themes/" . $GLOBALS['midcom_config']['theme'] . "/style/{$element}.php");
+    return file_exists(MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . "/style/{$element}.php");
 }
 
 /**
@@ -140,29 +140,45 @@ function openpsa_auth_changed_callback()
     openpsa_update_midgard();
 }
 
-function openpsa_prepare_superglobal()
+function openpsa_parse_url()
 {
-    // Set up necessary parts of the _MIDGARD superglobal
-    $_MIDGARD = array();
-
-    // URLs and request path
     $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
-    $_MIDGARD['uri'] = $url_components['path'];
-    $_MIDGARD['self'] = '/';
-    $_MIDGARD['prefix'] = substr($_MIDGARD['self'], 0, -1);
+    $path = '/';
+    $path_parts = explode('/', $url_components['path']);
 
-    $_MIDGARD['argv'] = array();
-    $path_parts = explode('/', $_MIDGARD['uri']);
+    $args_started = false;
     foreach ($path_parts as $part)
     {
         if (empty($part))
         {
             continue;
         }
-        $_MIDGARD['argv'][] = $part;
+        if (    !$args_started
+             && is_dir(MIDCOM_ROOT . '/../themes/' . $_MIDGARD['theme'] . '/' . $part))
+        {
+            $_MIDGARD['page_style'] .= '/' . $part;
+        }
+        else
+        {
+            $_MIDGARD['argv'][] = $part;
+            $path .= $part . '/';
+            $args_started = true;
+        }
     }
 
+    $_MIDGARD['uri'] = $path;
+    $_MIDGARD['self'] = '/';
+    $_MIDGARD['prefix'] = substr($_MIDGARD['self'], 0, -1);
+
     $_MIDGARD['argc'] = count($_MIDGARD['argv']);
+}
+
+function openpsa_prepare_superglobal()
+{
+    // Set up necessary parts of the _MIDGARD superglobal
+    $_MIDGARD = array();
+
+    $_MIDGARD['argv'] = array();
 
     $_MIDGARD['user'] = 0;
     $_MIDGARD['admin'] = false;
@@ -212,6 +228,9 @@ function openpsa_prepare_superglobal()
 
     $_MIDGARD['config']['unique_host_name'] = 'openpsa';
     $_MIDGARD['config']['auth_cookie_id'] = 1;
+
+    $_MIDGARD['theme'] = 'OpenPsa2';
+    $_MIDGARD['page_style'] = '';
 
     $_MIDGARD_CONNECTION =& midgard_connection::get_instance();
 }

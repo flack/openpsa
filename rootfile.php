@@ -30,7 +30,6 @@ openpsa_prepare_superglobal();
 
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
-$GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
 if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
 {
@@ -45,6 +44,8 @@ else
     $GLOBALS['midcom_config_local']['auth_backend_simple_cookie_secure'] = false;
 }
 
+openpsa_parse_url();
+
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
 
@@ -56,7 +57,9 @@ $template = mgd_preparse('<(ROOT)>');
 $template_parts = explode('<(content)>', $template);
 eval('?>' . $template_parts[0]);
 $_MIDCOM->content();
-eval('?>' . $template_parts[1]);
-
+if (isset($template_parts[1]))
+{
+    eval('?>' . $template_parts[1]);
+}
 $_MIDCOM->finish();
 ?>
