@@ -99,6 +99,8 @@ class midcom_services_cache_module
      */
     function _create_backend($name, $config)
     {
+        $name .= $this->_prefix .= $_SERVER['SERVER_NAME'];
+
         if (array_key_exists($name, $this->_backends))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
