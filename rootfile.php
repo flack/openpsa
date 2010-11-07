@@ -32,6 +32,8 @@ $GLOBALS['midcom_config_local']['log_filename'] = dirname(midgard_connection::ge
 $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 $GLOBALS['midcom_config_local']['auth_backend_simple_cookie_secure'] = false;
+$GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
+
 
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
