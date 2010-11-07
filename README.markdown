@@ -58,7 +58,7 @@ Then just configure your Lighttpd to pass all requests to the OpenPSA "rootfile"
     url.rewrite-once = ( 
         "^/midcom-static/OpenPsa2/(.*)$" => "/openpsa/themes/OpenPsa2/static/$1",
         "^/midcom-static/(.*)$" => "/openpsa/static/$1",
-        "^(.*)\.*" => "openpsa/rootfile.php"
+        "^([^\?]*)(\?(.+))?$" => "openpsa/rootfile.php$2"
     )
 
 *Note:* this rewrite rule is a bit too inclusive, to be improved.
