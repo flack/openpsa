@@ -75,6 +75,7 @@
     'net_nemein_tag',
     /* Persons and groups as toplevel is mostly harmful as there can be really many entries */
     'midgard_person',
+    'openpsa_person',
     'org_openpsa_person',
     'midgard_group',
     'org_openpsa_organization',
