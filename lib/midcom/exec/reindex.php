@@ -53,7 +53,13 @@ switch($_SERVER['SERVER_PORT'])
         {
             $current_uri = 'http://';
         }
-        $current_uri .= "{$_SERVER['SERVER_NAME']}:{$_SERVER['SERVER_PORT']}{$_SERVER['REQUEST_URI']}";
+        $current_uri .= "{$_SERVER['SERVER_NAME']}";
+
+        if (!preg_match('/:' . $_SERVER['SERVER_PORT'] . '/', $_SERVER['SERVER_NAME']))
+        {
+            $current_uri .= ":{$_SERVER['SERVER_PORT']}";
+        }
+        $current_uri .= $_SERVER['REQUEST_URI'];
         break;
 }
 
