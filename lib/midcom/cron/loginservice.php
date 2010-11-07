@@ -27,7 +27,11 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
 
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('timestamp', '<', time() - $GLOBALS['midcom_config']['auth_login_session_timeout']);
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
+        if (   !isset($_MIDGARD['config']['sitegroup'])
+            || $_MIDGARD['config']['sitegroup'])
+        {
+            $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
+        }
         $qb->set_limit(500);
         $result = $qb->execute();
         //debug_print_r('$result', $result);
