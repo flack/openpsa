@@ -22,6 +22,12 @@
         <property name="email"    type="string" index="yes">
             <description>Email address of the person</description>
         </property>
+        <property name="street"   type="string">
+            <description>Street address of the person</description>
+        </property>
+        <property name="postcode" type="string">
+            <description>Zip code of the person</description>
+        </property>
         <property name="city"     type="string">
             <description>City of the person</description>
         </property>
