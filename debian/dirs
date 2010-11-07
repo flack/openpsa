@@ -1,0 +1,12 @@
+etc/openpsa2
+etc/openpsa2/themes
+etc/midgard2/conf.d
+etc/php5/cgi/conf.d
+etc/lighttpd/conf-enabled
+usr/share/openpsa2/schema
+usr/share/openpsa2/views
+usr/share/openpsa2/www
+usr/share/php5/openpsa2/lib
+var/lib/openpsa2
+var/lib/openpsa2/blobs
+var/cache/openpsa2

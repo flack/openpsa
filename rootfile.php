@@ -17,6 +17,8 @@ ini_set('memory_limit', '68M');
 
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
+define('MIDCOM_STATIC_ROOT', '/openpsa2-static');
+define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
 
 // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
 require(MIDCOM_ROOT . '/ragnaroek-compat.php');
@@ -45,7 +47,9 @@ $template = mgd_preparse('<(ROOT)>');
 $template_parts = explode('<(content)>', $template);
 eval('?>' . $template_parts[0]);
 $_MIDCOM->content();
-eval('?>' . $template_parts[1]);
-
+if (isset($template_parts[1]))
+{
+    eval('?>' . $template_parts[1]);
+}
 $_MIDCOM->finish();
 ?>

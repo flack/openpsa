@@ -1,0 +1,424 @@
+Description: Upstream changes introduced in version 8.09.10beta1-1
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ openpsa2 (8.09.10beta1-1) unstable; urgency=low
+ .
+   * Initial release
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Henri Bergius <henri.bergius@iki.fi>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- openpsa2-8.09.10beta1.orig/quick_init.php
++++ openpsa2-8.09.10beta1/quick_init.php
+@@ -1,27 +1,29 @@
+ <?php
+-if (count($argv) != 2)
+-{
+-    die("Usage: php quick_init.php midgardconffile\n");
+-}
+-
+ if (!extension_loaded('midgard2'))
+ {
+     die("Midgard2 is not installed in your PHP environment.\n");
+ }
+ 
+-// Create a config file
+ $config = new midgard_config();
+-$config->dbtype = 'SQLite';
+-$config->database = $argv[1];
+-$config->databasedir = '/tmp';
+-$config->tablecreate = true;
+-$config->tableupdate = true;
+-$config->loglevel = 'debug';
+-if (!$config->save_file($argv[1], false))
++if (!$config->read_file('openpsa2', false))
+ {
+-    die("Failed to save Midgard2 config file");
++    // Create a config file
++    $config = new midgard_config();
++    $config->dbtype = 'SQLite';
++    $config->database = $argv[1];
++    $config->dbdir = '/var/lib/openpsa2';
++    $config->blobdir = '/var/lib/openpsa2/blobs';
++    $config->sharedir = '/usr/share/openpsa2';
++    $config->vardir = '/var/lib/openpsa2';
++    $config->cachedir = '/var/cache/openpsa2';
++    $config->logfilename = '/var/log/openpsa2/midgard.log';
++    $config->loglevel = 'debug';
++    if (!$config->save_file('openpsa2', false))
++    {
++        die("Failed to save Midgard2 config file to /etc/midgard2/conf.d\n");
++    }
++    echo "Configuration file /etc/midgard2/conf.d/openpsa2 created.\n";
+ }
+-echo "Configuration file /etc/midgard2/conf.d/{$argv[1]} created.\n";
+ 
+ // Open a DB connection with the config
+ $midgard = midgard_connection::get_instance();
+@@ -36,8 +38,17 @@ if (!$config->create_blobdir())
+ }
+ 
+ // Create storage
+-midgard_storage::create_base_storage();
+-echo "Database initialized, preparing storage for MgdSchema classes:\n";
++if (!midgard_storage::create_base_storage())
++{
++    if ($midgard->get_error_string() != 'MGD_ERR_OK')
++    {
++        die("Failed to create base database structures" . $midgard->get_error_string() . "\n");
++    }
++}
++else
++{
++    echo "Database initialized, preparing storage for MgdSchema classes:\n";
++}
+ 
+ $re = new ReflectionExtension('midgard2');
+ $classes = $re->getClasses();
+@@ -55,6 +66,7 @@ foreach ($classes as $refclass)
+     $type = $refclass->getName();
+             
+     midgard_storage::create_class_storage($type);
++    midgard_storage::update_class_storage($type);
+     echo "  Created storage for {$type}\n";
+ }
+ ?>
+--- openpsa2-8.09.10beta1.orig/rootfile.php
++++ openpsa2-8.09.10beta1/rootfile.php
+@@ -17,6 +17,8 @@ ini_set('memory_limit', '68M');
+ 
+ // Path to the MidCOM environment
+ define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
++define('MIDCOM_STATIC_ROOT', '/openpsa2-static');
++define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
+ 
+ // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
+ require(MIDCOM_ROOT . '/ragnaroek-compat.php');
+--- openpsa2-8.09.10beta1.orig/lib/ragnaroek-compat.php
++++ openpsa2-8.09.10beta1/lib/ragnaroek-compat.php
+@@ -148,11 +148,11 @@ function openpsa_prepare_superglobal()
+     // URLs and request path
+     $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
+     $_MIDGARD['uri'] = $url_components['path'];
+-    $_MIDGARD['self'] = '/';
++    $_MIDGARD['self'] = OPENPSA2_PREFIX . '/';
+     $_MIDGARD['prefix'] = substr($_MIDGARD['self'], 0, -1);
+ 
+     $_MIDGARD['argv'] = array();
+-    $path_parts = explode('/', $_MIDGARD['uri']);
++    $path_parts = explode('/', substr($_MIDGARD['uri'], strlen($_MIDGARD['prefix'])));
+     foreach ($path_parts as $part)
+     {
+         if (empty($part))
+--- /dev/null
++++ openpsa2-8.09.10beta1/config/php.ini
+@@ -0,0 +1,5 @@
++[midgard2]
++midgard.engine = On
++midgard.http = On
++midgard.configuration_file="/etc/midgard2/conf.d/openpsa2"
++midgard.superglobals_compat = On
+--- /dev/null
++++ openpsa2-8.09.10beta1/config/lighttpd.conf
+@@ -0,0 +1,26 @@
++## OpenPSA2 configuration for Lighttpd
++
++server.modules += ( 
++    "mod_fastcgi",
++    "mod_rewrite",
++    "mod_alias"
++)
++
++fastcgi.server = ( 
++    ".php" => (
++        (
++            "bin-path" => "/usr/bin/php-cgi",
++            "socket" => "/tmp/php.socket"
++        )
++    )
++)
++
++alias.url = ( 
++    "/openpsa2/" => "/usr/share/php5/openpsa2/",
++    "/openpsa2-static/" => "/usr/share/openpsa2/www/"
++)
++
++url.rewrite-once = ( 
++    "^/openpsa2-static/(.*)$" => "/openpsa2-static/$1",
++    "^(.*)\.*" => "/openpsa2/rootfile.php"
++)
+--- /dev/null
++++ openpsa2-8.09.10beta1/config/MidgardObjects.xml
+@@ -0,0 +1,138 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Schema xmlns="http://www.midgard-project.org/repligard/1.4">
++    <type name="midgard_person" table="person">
++        <property name="id" type="unsigned integer" primaryfield="id">
++            <description>Local non-replication-safe database identifier</description>
++        </property>
++        <property name="firstname" type="string" index="yes" unique="yes">
++            <description>First name of the person</description>
++        </property>
++        <property name="lastname" type="string" index="yes">
++            <description>Last name of the person</description>
++        </property>
++    </type>
++
++    <type name="midgard_attachment" table="blobs">
++        <property name="id" type="unsigned integer" primaryfield="id">
++            <description>Local non-replication-safe database identifier</description>
++        </property>
++        <property name="name"     type="string" index="yes">
++            <description>Filename of the attachment</description>
++        </property>
++        <property name="title"    type="string">
++            <description>Title of the attachment</description>
++        </property>
++        <property name="location" type="string" index="yes">
++            <description>Location of the attachment in the blob directory structure</description>
++        </property>
++        <property name="mimetype" type="string" index="yes">
++            <description>MIME type of the attachment</description>
++        </property>
++        <property name="parentguid" type="guid" field="parent_guid" parentfield="parent_guid">
++            <description>GUID of the object the attachment is attached to</description>
++        </property>
++    </type>
++
++    <type name="midgard_parameter" table="record_extension">
++        <property name="id" type="unsigned integer" primaryfield="id">
++            <description>Local non-replication-safe database identifier</description>
++        </property>
++        <property name="domain"   type="string" index="yes">
++            <description>Namespace of the parameter</description>
++        </property>
++        <property name="name"     type="string" index="yes">
++            <description>Key of the parameter</description>
++        </property>
++        <property name="value"    type="text">
++            <description>Value of the parameter</description>
++        </property>
++        <property name="parentguid" type="guid" field="parent_guid" parentfield="parent_guid">
++            <description>GUID of the object the parameter extends</description>
++        </property>
++    </type>
++
++    <type name="midgard_snippetdir" table="snippetdir">
++        <property name="id" type="unsigned integer" primaryfield="id">
++            <description>Local non-replication-safe database identifier</description>
++        </property>
++        <property name="name" type="string" index="yes" unique="yes">
++            <description>Path name of the snippetdir</description>
++        </property>
++        <property name="up" type="unsigned integer" link="midgard_snippetdir:id" upfield="up">
++            <description>Snippetdir the snippetdir is under</description>
++        </property>
++    </type>
++
++    <type name="midgard_snippet" table="snippet" parent="midgard_snippetdir">
++        <property name="id" type="unsigned integer" primaryfield="id">
++            <description>Local non-replication-safe database identifier</description>
++        </property>
++        <property name="name" type="string" index="yes" unique="yes">
++            <description>Path name of the snippet</description>
++        </property>
++        <property name="snippetdir" type="unsigned integer" link="midgard_snippetdir:id" parentfield="snippetdir">
++            <description>Snippetdir the snippet is under</description>
++        </property>
++        <property name="code" type="text">
++            <description>Code of the snippet</description>
++        </property>
++        <property name="doc" type="text">
++            <description>Documentation of the snippet</description>
++        </property>
++    </type>
++
++    <type name="midgard_quota" table="quota">
++        <property name="id" type="unsigned integer" primaryfield="id">
++            <description>Local non-replication-safe database identifier</description>
++        </property>
++        <property name="sgsizelimit" type="integer" field="limit_sg_size">
++            <description>Quota for the sitegroup (in bytes)</description>
++        </property>
++        <property name="sgsize"       type="integer"     field="sg_size">
++            <description>Disk usage of the sitegroup (in bytes)</description>
++        </property>
++        <property name="sgrecordslimit" type="integer" field="limit_sg_records">
++            <description>Limit of number of records for the sitegroup</description>
++        </property>
++        <property name="sgrecords"     type="integer"     field="sg_records">
++            <description>Number of records for the sitegroup</description>
++        </property>
++        <property name="typename"     type="string" index="yes">
++            <description>MgdSchema type the quota applies to</description>
++        </property>
++        <property name="typesizelimit" type="integer" field="limit_type_size">
++            <description>Quota of the type for the sitegroup (in bytes)</description>
++        </property>
++        <property name="typesize"     type="integer"     field="type_size">
++            <description>Disk usage of the type of the sitegroup (in bytes)</description>
++        </property>
++        <property name="typerecordslimit" type="integer" field="limit_type_records">
++            <description>Limit of number of records of the type for the sitegroup</description>
++        </property>
++        <property name="typerecords" type="integer" field="type_records">
++            <description>Number of records of the type for the sitegroup</description>
++        </property>
++    </type>
++
++    <type name="midgard_activity" table="midgard_activity">
++        <property name="id" type="unsigned integer" primaryfield="id">
++            <description>Local non-replication-safe database identifier</description>
++        </property>
++        <property name="actor" link="midgard_person:id" type="unsigned integer" parentfield="actor">
++            <description>The person who performed the activity</description>
++        </property>
++        <property name="verb" type="string" index="yes">
++            <!-- Note: there must be multiple verbs when Midgard supports it -->
++            <description>The action performed, following Atom Activity Extension URL schema (for example: http://activitystrea.ms/schema/1.0/post)</description>
++        </property>
++        <property name="target" type="guid">
++            <description>The object that the action was done to</description>
++        </property>
++        <property name="summary" type="string">
++            <description>A human-readable description of the activity</description>
++        </property>
++        <property name="application" type="string" index="yes">
++            <description>Application the activity was performed with. In case of MidCOM, a component</description>
++        </property>
++    </type>
++</Schema>
+--- /dev/null
++++ openpsa2-8.09.10beta1/config/midgard_auth_types.xml
+@@ -0,0 +1,69 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Authentication xmlns="http://www.midgard-project.org/authentication/types">
++
++  <type name="Legacy">
++    <description/>
++    <id>1</id>
++  </type>
++
++  <type name="Plaintext">
++    <description/>
++    <id>2</id>
++  </type>
++  
++  <type name="OpenID">
++    <description/>
++    <id>3</id>
++  </type>
++  
++  <type name="PAM">
++    <description/>
++    <id>4</id>
++  </type>
++  
++  <type name="Kerberos">
++    <description/>
++    <id>5</id>
++  </type>
++
++  <type name="gpg">
++    <description/>
++    <id>6</id>
++  </type>
++  
++  <type name="Shibboleth">
++    <description/>
++    <id>7</id>
++  </type>
++  
++  <type name="OAuth">
++    <description/>
++    <id>8</id>
++  </type>
++ 
++  <type name="Facebook">
++    <description/>
++    <id>9</id>
++  </type>
++
++  <type name="SHA1">
++    <description/>
++    <id>10</id>
++  </type>
++
++  <type name="SHA256">
++    <description/>
++    <id>11</id>
++  </type>
++
++  <type name="MD5">
++    <description/>
++    <id>12</id>
++  </type>
++
++  <type name="APIkey">
++    <description/>
++    <id>13</id>
++  </type>
++
++</Authentication>
+--- /dev/null
++++ openpsa2-8.09.10beta1/config/midgard.conf
+@@ -0,0 +1,44 @@
++
++[MidgardDatabase]
++#Database type ( by default MySQL )
++Type=SQLite
++#Name of the database
++Name=openpsa2
++#Database port ( 0 by default )
++Port=0
++#Username for user who is able to connect to database
++Username=midgard
++#Password used by user who is able to connect to database
++Password=midgard
++#Directory for SQLite database file ('~/.midgard2/data' by default)
++DatabaseDir=/var/lib/openpsa2
++#Database host ( 'localhost' by default )
++Host=localhost
++#Location of the log file
++Logfile=/var/log/openpsa2/midgard.log
++#Log level
++Loglevel=warn
++#Database creation switch
++TableCreate=true
++#Database update switch
++TableUpdate=true
++#Database and objects testing switch
++TestUnit=false
++#Midgard user's login
++MidgardUsername=admin
++#Midgard user's password
++MidgardPassword=password
++#Authentication type used with connection.
++AuthType=
++#Name of the file used with PAM authentication type
++PamFile=
++
++[MidgardDir]
++#Location of the blobs directory.
++BlobDir=/var/lib/openpsa2/blobs
++#Directory for shared, architecture independent files.
++ShareDir=/usr/share/openpsa2
++#Application specific directories.
++VarDir=/var/lib/openpsa2
++#Cached files
++CacheDir=/var/cache/openpsa2

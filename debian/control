@@ -1,0 +1,15 @@
+Source: openpsa2
+Section: web
+Priority: extra
+Maintainer: Henri Bergius <henri.bergius@iki.fi>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: http://openpsa2.org/
+Vcs-Git: git://github.com/nemein/openpsa.git
+Vcs-Browser: https://github.com/nemein/openpsa
+
+Package: openpsa2
+Architecture: all
+Depends: php5-midgard2, lighttpd, php5-cgi
+Description: Management software suite for consulting companies
+ OpenPSA is a management software suite for consultancies. It provides tools for managing contacts, calendars, products, sales processes, projects, expenses and invoicing.

@@ -148,11 +148,11 @@ function openpsa_prepare_superglobal()
     // URLs and request path
     $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
     $_MIDGARD['uri'] = $url_components['path'];
-    $_MIDGARD['self'] = '/';
+    $_MIDGARD['self'] = OPENPSA2_PREFIX . '/';
     $_MIDGARD['prefix'] = substr($_MIDGARD['self'], 0, -1);
 
     $_MIDGARD['argv'] = array();
-    $path_parts = explode('/', $_MIDGARD['uri']);
+    $path_parts = explode('/', substr($_MIDGARD['uri'], strlen($_MIDGARD['prefix'])));
     foreach ($path_parts as $part)
     {
         if (empty($part))
