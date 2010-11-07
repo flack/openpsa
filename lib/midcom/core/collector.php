@@ -431,6 +431,14 @@ class midcom_core_collector
             return false;
         }
 
+        if (   $field == 'sitegroup'
+            && isset($_MIDGARD['config']['sitegroup'])
+            && !$_MIDGARD['config']['sitegroup'])
+        {
+            // This Midgard setup doesn't support sitegroups
+            return false;
+        }
+
         if (! $this->_mc->add_constraint($field, $operator, $value))
         {
             debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
