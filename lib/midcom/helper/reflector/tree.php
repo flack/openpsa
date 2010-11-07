@@ -278,7 +278,23 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         $ref = $this->get($this->mgdschema_class);
         $qb->add_order('sitegroup', 'DESC');
-        $qb->add_order($ref->get_label_property());
+
+        $label_property = $ref->get_label_property();
+
+        if (   is_string($label_property) 
+            && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $label_property)) 
+        {
+            $qb->add_order($label_property);
+        }
+        else
+        {
+            $title_property = $ref->get_title_property(new $this->mgdschema_class());
+            if (   is_string($title_property) 
+                && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $title_property)) 
+            {
+                $qb->add_order($title_property);
+            }
+        }
         $objects = $qb->execute();
 
         return $objects;

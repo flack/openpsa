@@ -46,6 +46,7 @@
 (
     'midgard_topic' => 'extra',
     'midgard_group' => 'official',
+    'openpsa_person' => 'lastname',
     'org_openpsa_organization' => 'official',
     'midgard_host' => 'name',
 ),
