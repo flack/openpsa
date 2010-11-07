@@ -156,9 +156,10 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $tmp = $this->_object;
         
         $i = 0;
-        while ($tmp->guid
-            && !$_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic')
-            && $i < 100)
+        while (   $tmp 
+               && $tmp->guid
+               && !$_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic')
+               && $i < 100)
         {
             // Get the parent; wishing eventually to get a topic
             $tmp = $tmp->get_parent();
