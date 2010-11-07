@@ -7,6 +7,7 @@ usr/share/openpsa2/schema
 usr/share/openpsa2/views
 usr/share/openpsa2/www
 usr/share/php5/openpsa2/lib
+usr/share/doc/openpsa2
 var/lib/openpsa2
 var/lib/openpsa2/blobs
 var/cache/openpsa2

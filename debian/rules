@@ -18,6 +18,8 @@ binary-indep: build install
 
 binary: binary-indep
 
+binary-arch: binary-indep
+
 build:
 	dh_testdir
 
@@ -26,6 +28,8 @@ install: build
 	dh_testroot
 	dh_installdirs
 
+	cp -a README.markdown $(CURDIR)/debian/openpsa2/usr/share/doc/openpsa2/
+	cp -a debian/copyright $(CURDIR)/debian/openpsa2/usr/share/doc/openpsa2/
 	cp -a config/midgard.conf $(CURDIR)/debian/openpsa2/etc/midgard2/conf.d/openpsa2
 	cp -a config/midgard_auth_types.xml $(CURDIR)/debian/openpsa2/usr/share/openpsa2/
 	cp -a config/MidgardObjects.xml $(CURDIR)/debian/openpsa2/usr/share/openpsa2/ 

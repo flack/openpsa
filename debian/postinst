@@ -1,7 +1,7 @@
 #!/bin/sh
 # postinst script for openpsa2
 
-/usr/bin/php5 /usr/share/openpsa2/quick_init.php
+php5 /usr/share/openpsa2/quick_init.php
 
 # Ensure web server can write to database and blobs
 chown -R www-data:www-data /var/lib/openpsa2

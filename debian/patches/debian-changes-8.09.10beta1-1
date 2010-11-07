@@ -23,6 +23,219 @@ Forwarded: <no|not-needed|url proving that it has been forwarded>
 Reviewed-By: <name and email of someone who approved the patch>
 Last-Update: <YYYY-MM-DD>
 
+--- /dev/null
++++ openpsa2-8.09.10beta1/lintian-complains.txt
+@@ -0,0 +1,210 @@
++E: openpsa2: changelog-file-not-compressed changelog.Debian
++N: 
++N:    Changelog files should be compressed using "gzip -9". Even if they start
++N:    out small, they will become large with time.
++N:    
++N:    Refer to Debian Policy Manual section 12.7 (Changelog files) for
++N:    details.
++N:    
++N:    Severity: important, Certainty: certain
++N: 
++W: openpsa2: new-package-should-close-itp-bug
++N: 
++N:    This package appears to be the first packaging of a new upstream
++N:    software package (there is only one changelog entry and the Debian
++N:    revision is 1), but it does not close any bugs. The initial upload of a
++N:    new package should close the corresponding ITP bug for that package.
++N:    
++N:    This warning can be ignored if the package is not intended for Debian or
++N:    if it is a split of an existing Debian package.
++N:    
++N:    Refer to Debian Developer's Reference section 5.1 (New packages) for
++N:    details.
++N:    
++N:    Severity: normal, Certainty: certain
++N: 
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/documentation/asgard_midgard_topic.fi.txt
++N: 
++N:    This executable file is not an ELF format binary, and does not start
++N:    with the #! sequence that marks interpreted scripts. It might be a sh
++N:    script that fails to name /bin/sh as its shell, or it may be incorrectly
++N:    marked as executable. Sometimes upstream files developed on Windows are
++N:    marked unnecessarily as executable on other systems.
++N:    
++N:    If you are using debhelper to build your package, running dh_fixperms
++N:    will often correct this problem for you.
++N:    
++N:    Refer to Debian Policy Manual section 10.4 (Scripts) for details.
++N:    
++N:    Severity: normal, Certainty: certain
++N: 
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nemein/tag/tag.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/exec/fckeditor/fb_connectors_util.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/config/schemadb_permissions.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/config/schemadb_parameter.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/exec/fckeditor/fb_connectors_commands.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/widget/video.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/config/schemadb_config.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/services/i18n.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/blog/config/schemadb_link.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/interviews/viewer.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/widget/tabledata.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/mypage/style/show-workingon-xml.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/exec/test.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/misc.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendar/style/show-event-raw.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-day-event.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/admin/babel/plugin.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-month-footer.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/midcom/interfaces.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/documentation/asgard_midgard_topic.en.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/mypage/documentation/CHANGES
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/blog/link.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/markdown/locale/default.pl.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/services/_sessioning.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/projects/config/midcom_dba_classes.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendar/style/show-day-footer.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/static/link.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/config/schemadb_parameters.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-day-events-footer.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/services/at/cron/clean.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/services/session.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/directmarketing/style/show-message-copy-ok.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/static/style/admin-delete-link.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/routamc/positioning/importer.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/blog/config/midcom_dba_classes.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/_styleloader.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/widget/colorpicker.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/static/config/midcom_dba_classes.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/exec/fckeditor/fb_connectors_connector.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/admin/settings/documentation/CHANGES
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/admin/babel/style/midcom_admin_babel_edit.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/admin/babel/style/midcom_admin_babel_select.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/exec/fckeditor/fb_connectors_config.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/directmarketing/config/schemadb_default_message_copy.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nemein/wiki/documentation/markdown.en.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/blog/style/admin-delete-link.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-week-start.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/openpsa2/schema/net_nehmer_static.xml
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/documentation/asgard_midgard_topic.pl.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/services/_i18n_l10n.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/net/nehmer/blog/style/admin-create-link.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendar/style/show-day-header.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-day-events-header.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/routamc/positioning/locale/default.sv.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/directmarketing/style/show-message-copy.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/jabber/style/show-userinfo.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/configuration.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/openpsa2/schema/net_nehmer_blog.xml
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/mypage/midcom/interfaces.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/routamc/positioning/locale/default.fi.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/routamc/positioning/exec/manual-position.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/routamc/positioning/locale/default.en.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/mypage/style/show-userinfo.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/contacts/style/show-buddylist-header.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/type/tabledata.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-day-header.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-week-end.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/exec/fckeditor/fb_connectors_basexml.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendar/style/show-day-item.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/xsspreventer/static/xsspreventer.png
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/sales/style/show-deliverable-edit.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/notifications/documentation/CHANGES
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/config/schemadb_default.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midgard/admin/asgard/config/schemadb_preferences.inc
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-day-footer.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/mailtemplate.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/admin/folder/style/midcom-admin-show-folder-actions.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/constants.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/routamc/positioning/log.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/contacts/buddy.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/calendarwidget/style/calendarwidget-month-header.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/routamc/positioning/locale/default.pl.txt
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/org/openpsa/contacts/style/show-buddylist-footer.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/debug.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/nav.php
++W: openpsa2: executable-not-elf-or-script ./usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/exec/fckeditor/fb_connectors_io.php
++W: openpsa2: maintainer-script-ignores-errors postinst
++N: 
++N:    The maintainer script doesn't seem to set the -e flag which ensures that
++N:    the script's execution is aborted when any executed command fails.
++N:    
++N:    Refer to Debian Policy Manual section 10.4 (Scripts) for details.
++N:    
++N:    Severity: normal, Certainty: certain
++N: 
++W: openpsa2: extra-license-file usr/share/openpsa2/www/jQuery/jquery.ui-1.8.2/GPL-LICENSE.txt
++N: 
++N:    All license information should be collected in the debian/copyright
++N:    file. This usually makes it unnecessary for the package to install this
++N:    information in other places as well.
++N:    
++N:    Refer to Debian Policy Manual section 12.5 (Copyright information) for
++N:    details.
++N:    
++N:    Severity: normal, Certainty: possible
++N: 
++W: openpsa2: extra-license-file usr/share/openpsa2/www/jQuery/jquery.ui-1.8.2/MIT-LICENSE.txt
++W: openpsa2: extra-license-file usr/share/openpsa2/www/jQuery/ui/GPL-LICENSE.txt
++W: openpsa2: extra-license-file usr/share/openpsa2/www/jQuery/ui/MIT-LICENSE.txt
++W: openpsa2: embedded-javascript-library usr/share/openpsa2/www/midcom.helper.datamanager2/colorpicker/jquery.js
++N: 
++N:    This package contains an embedded copy of JavaScript libraries that are
++N:    now available in their own packages (for example, JQuery, Prototype,
++N:    Mochikit or "Cropper"). Please depend on the appropriate package and
++N:    symlink the library into the appropriate location.
++N:    
++N:    Refer to Debian Policy Manual section 4.13 (Convenience copies of code)
++N:    for details.
++N:    
++N:    Severity: normal, Certainty: possible
++N: 
++W: openpsa2: embedded-javascript-library usr/share/openpsa2/www/midcom.helper.datamanager2/fckeditor/fckeditor.js
++W: openpsa2: extra-license-file usr/share/openpsa2/www/midcom.helper.datamanager2/fckeditor/license.txt
++W: openpsa2: extra-license-file usr/share/openpsa2/www/midcom.helper.datamanager2/tinymce/license.txt
++W: openpsa2: embedded-javascript-library usr/share/openpsa2/www/midcom.helper.datamanager2/tinymce/tiny_mce.js
++W: openpsa2: embedded-javascript-library usr/share/openpsa2/www/midcom.helper.datamanager2/tinymce/tiny_mce_popup.js
++W: openpsa2: embedded-javascript-library usr/share/openpsa2/www/midcom.helper.datamanager2/tinymce/tiny_mce_src.js
++I: openpsa2: font-in-non-font-package usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/widget/captcha-font.ttf
++N: 
++N:    This package contains a *.ttf, *.otf, or *.pfb file, file extensions
++N:    used by TrueType, OpenType, or Type 1 fonts, but the package does not
++N:    appear to be a dedicated font package. Dedicated font package names
++N:    should begin with ttf-, otf-, or t1-, depending on the types of fonts
++N:    included. (Type 1 fonts are also allowed in packages starting with
++N:    xfonts-.) If the font is already packaged, you should depend on that
++N:    package instead. Otherwise, normally the font should be packaged
++N:    separately, since fonts are usually useful outside of the package that
++N:    embeds them.
++N:    
++N:    Severity: wishlist, Certainty: possible
++N: 
++W: openpsa2: embedded-php-library usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/widget/markdown.php
++N: 
++N:    This package appears to contain an embedded copy of a PHP library.
++N:    Please depend on the respective package providing the library and make
++N:    sure it can be found by the scripts via the include_path.
++N:    
++N:    Refer to Debian Policy Manual section 4.13 (Convenience copies of code)
++N:    for details.
++N:    
++N:    Severity: normal, Certainty: possible
++N: 
++W: openpsa2: extra-license-file usr/share/php5/openpsa2/lib/midcom/helper/datamanager2/widget/recaptcha/LICENSE
++W: openpsa2: extra-license-file usr/share/php5/openpsa2/lib/net/nehmer/markdown/documentation/licence.en.txt
++W: openpsa2: embedded-php-library usr/share/php5/openpsa2/lib/net/nehmer/markdown/lib/markdown.php
++W: openpsa2: embedded-php-library usr/share/php5/openpsa2/lib/net/nehmer/markdown/markdown.php
++W: openpsa2: embedded-php-library usr/share/php5/openpsa2/lib/net/nemein/rss/magpierss/rss_parse.inc
++I: openpsa2: package-contains-empty-directory usr/share/openpsa2/views/
++N: 
++N:    This package installs an empty directory. This might be intentional but
++N:    it's normally a mistake. If it is intentional, add a lintian override.
++N:    
++N:    If a package ships with or installs empty directories, you can remove
++N:    them in debian/rules by calling:
++N:    
++N:     $ find path/to/base/dir -type d -empty -delete
++N:    
++N:    Severity: wishlist, Certainty: possible
++N: 
 --- openpsa2-8.09.10beta1.orig/quick_init.php
 +++ openpsa2-8.09.10beta1/quick_init.php
 @@ -1,27 +1,29 @@
@@ -109,6 +322,27 @@ Last-Update: <YYYY-MM-DD>
  
  // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
  require(MIDCOM_ROOT . '/ragnaroek-compat.php');
+@@ -28,7 +30,7 @@ openpsa_prepare_superglobal();
+ 
+ $GLOBALS['midcom_config_local'] = array();
+ $GLOBALS['midcom_config_local']['log_level'] = 5;
+-$GLOBALS['midcom_config_local']['log_filename'] = '/tmp/openpsa-midcom.log';
++$GLOBALS['midcom_config_local']['log_filename'] = dirname(midgard_connection::get_instance()->config->logfilename) . '/midcom.log';
+ $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
+ $GLOBALS['midcom_config_local']['midcom_services_rcs_enable'] = false;
+ $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
+@@ -45,7 +47,9 @@ $template = mgd_preparse('<(ROOT)>');
+ $template_parts = explode('<(content)>', $template);
+ eval('?>' . $template_parts[0]);
+ $_MIDCOM->content();
+-eval('?>' . $template_parts[1]);
+-
++if (isset($template_parts[1]))
++{
++    eval('?>' . $template_parts[1]);
++}
+ $_MIDCOM->finish();
+ ?>
 --- openpsa2-8.09.10beta1.orig/lib/ragnaroek-compat.php
 +++ openpsa2-8.09.10beta1/lib/ragnaroek-compat.php
 @@ -148,11 +148,11 @@ function openpsa_prepare_superglobal()

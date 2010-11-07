@@ -10,6 +10,10 @@ Vcs-Browser: https://github.com/nemein/openpsa
 
 Package: openpsa2
 Architecture: all
-Depends: php5-midgard2, lighttpd, php5-cgi
+Depends: ${misc:Depends}, php5-midgard2, lighttpd, php5-cgi, php5-cli
 Description: Management software suite for consulting companies
- OpenPSA is a management software suite for consultancies. It provides tools for managing contacts, calendars, products, sales processes, projects, expenses and invoicing.
+ OpenPSA is a management suite for web agencies and consultants that
+ provides a unified interface for handling many common business processes.
+ The OpenPSA suite includes functionalities like calendaring and
+ contact management, product configurations, sales processes, project
+ management and invoicing.
