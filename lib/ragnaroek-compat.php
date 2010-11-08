@@ -73,7 +73,7 @@ function mgd_element($name)
         case 'content':
             return '<(content)>';
         default:
-            $element_file = MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . '/style' . $_MIDGARD['page_style'] . "/{$element}.php";
+            $element_file = OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/style' . $_MIDGARD['page_style'] . "/{$element}.php";
 
             if (!file_exists($element_file))
             {
@@ -90,7 +90,7 @@ function mgd_element($name)
 
 function mgd_is_element_loaded($element)
 {
-    return file_exists(MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . '/style/' . $_MIDGARD['page_style'] . "/{$element}.php");
+    return file_exists(OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/style/' . $_MIDGARD['page_style'] . "/{$element}.php");
 }
 
 /**
@@ -162,7 +162,7 @@ function openpsa_parse_url()
             continue;
         }
         if (    !$args_started
-             && is_dir(MIDCOM_ROOT . '/../themes/' . $_MIDGARD['theme'] . '/' . $part))
+             && is_dir(OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/' . $part))
         {
             $_MIDGARD['page_style'] .= '/' . $part;
         }
