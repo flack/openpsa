@@ -55,8 +55,14 @@ function mgd_element($name)
 {
     static $style = null;
 
-    $element = $name[1];
-
+    if (is_array($name))
+    {
+        $element = $name[1];
+    }
+    else
+    {
+        $element = $name;
+    }
     // Sensible fallback if we don't have a style or ROOT element
     $root_fallback = '<html><head><?php $_MIDCOM->print_head_elements(); ?><title><?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title></head><body class="<?php echo $_MIDCOM->metadata->get_page_class(); ?>"><?php $_MIDCOM->content(); $_MIDCOM->uimessages->show(); $_MIDCOM->toolbars->show(); $_MIDCOM->finish(); ?></body></html>';
 
@@ -83,8 +89,7 @@ function mgd_element($name)
 
 function mgd_is_element_loaded($element)
 {
-    return false;
-    return file_exists(MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . "/style/{$element}.php");
+    return file_exists(MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . '/style/' . $_MIDGARD['page_style'] . "/{$element}.php");
 }
 
 /**
