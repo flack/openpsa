@@ -155,7 +155,7 @@ function openpsa_prepare_superglobal()
     $path_parts = explode('/', substr($_MIDGARD['uri'], strlen($_MIDGARD['prefix'])));
     foreach ($path_parts as $part)
     {
-        if (empty($part))
+        if ($part == '')
         {
             continue;
         }
