@@ -19,6 +19,7 @@ ini_set('memory_limit', '68M');
 define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
 define('MIDCOM_STATIC_URL', '/openpsa2-static');
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
+define('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
 
 // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
 require(MIDCOM_ROOT . '/ragnaroek-compat.php');
