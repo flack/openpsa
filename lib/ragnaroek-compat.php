@@ -64,7 +64,7 @@ function mgd_element($name)
         $element = $name;
     }
     // Sensible fallback if we don't have a style or ROOT element
-    $root_fallback = '<html><head><?php $_MIDCOM->print_head_elements(); ?><title><?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title></head><body class="<?php echo $_MIDCOM->metadata->get_page_class(); ?>"><?php $_MIDCOM->content(); $_MIDCOM->uimessages->show(); $_MIDCOM->toolbars->show(); $_MIDCOM->finish(); ?></body></html>';
+    $root_fallback = '<html><head><?php $_MIDCOM->print_head_elements(); ?><title><?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title></head><body class="<?php echo $_MIDCOM->metadata->get_page_class(); ?>"><(content)><?php $_MIDCOM->uimessages->show(); $_MIDCOM->toolbars->show(); $_MIDCOM->finish(); ?></body></html>';
 
     switch ($element)
     {
@@ -73,7 +73,11 @@ function mgd_element($name)
         case 'content':
             return '<(content)>';
         default:
+<<<<<<< HEAD
             $element_file = MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . '/style' . $_MIDGARD['page_style'] . "/{$element}.php";
+=======
+            $element_file = OPENPSA2_THEME_ROOT . "/OpenPsa2/style/{$element}.php";
+>>>>>>> ca680d6a4aaea61469a09af073df9ce3e39df742
             if (!file_exists($element_file))
             {
                 if ($element == 'ROOT')
@@ -89,7 +93,12 @@ function mgd_element($name)
 
 function mgd_is_element_loaded($element)
 {
+<<<<<<< HEAD
     return file_exists(MIDCOM_ROOT . "/../themes/" . $_MIDGARD['theme'] . '/style/' . $_MIDGARD['page_style'] . "/{$element}.php");
+=======
+    return false;
+    return file_exists(OPENPSA2_THEME_ROOT . "/OpenPsa2/style/{$element}.php");
+>>>>>>> ca680d6a4aaea61469a09af073df9ce3e39df742
 }
 
 /**
@@ -148,13 +157,22 @@ function openpsa_auth_changed_callback()
 function openpsa_parse_url()
 {
     $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
+<<<<<<< HEAD
     $path = '/';
     $path_parts = explode('/', $url_components['path']);
 
     $args_started = false;
+=======
+    $_MIDGARD['uri'] = $url_components['path'];
+    $_MIDGARD['self'] = OPENPSA2_PREFIX . '/';
+    $_MIDGARD['prefix'] = substr($_MIDGARD['self'], 0, -1);
+
+    $_MIDGARD['argv'] = array();
+    $path_parts = explode('/', substr($_MIDGARD['uri'], strlen($_MIDGARD['prefix'])));
+>>>>>>> ca680d6a4aaea61469a09af073df9ce3e39df742
     foreach ($path_parts as $part)
     {
-        if (empty($part))
+        if ($part == '')
         {
             continue;
         }
