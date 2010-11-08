@@ -20,7 +20,8 @@ if (!$config->read_file('openpsa2', false))
     $config->loglevel = 'debug';
     if (!$config->save_file('openpsa2', false))
     {
-        die("Failed to save Midgard2 config file to /etc/midgard2/conf.d\n");
+        echo "Failed to save Midgard2 config file to /etc/midgard2/conf.d\n";
+        exit(1);
     }
     echo "Configuration file /etc/midgard2/conf.d/openpsa2 created.\n";
 }
@@ -29,12 +30,14 @@ if (!$config->read_file('openpsa2', false))
 $midgard = midgard_connection::get_instance();
 if (!$midgard->open_config($config))
 {
-    die("Failed to open Midgard database connection to {$argv[1]}: " . $midgard->get_error_string() ."\n");
+    echo "Failed to open Midgard database connection to {$argv[1]}: " . $midgard->get_error_string() ."\n";
+    exit(1);
 }
 
 if (!$config->create_blobdir())
 {
-    die("Failed to create file attachment storage directory to {$config->blobdir}:" . $midgard->get_error_string() . "\n");
+    echo "Failed to create file attachment storage directory to {$config->blobdir}:" . $midgard->get_error_string() . "\n";
+    exit(1);
 }
 
 // Create storage
@@ -42,7 +45,8 @@ if (!midgard_storage::create_base_storage())
 {
     if ($midgard->get_error_string() != 'MGD_ERR_OK')
     {
-        die("Failed to create base database structures" . $midgard->get_error_string() . "\n");
+        echo "Failed to create base database structures" . $midgard->get_error_string() . "\n";
+        exit(1);
     }
 }
 else
