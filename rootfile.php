@@ -17,7 +17,6 @@ ini_set('memory_limit', '68M');
 
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
-define('MIDCOM_STATIC_URL', '/openpsa2-static');
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
 define('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
 
@@ -26,10 +25,12 @@ header('Content-Type: text/html; charset=utf-8');
 // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
 require(MIDCOM_ROOT . '/ragnaroek-compat.php');
 
-midgard_connection::get_instance()->set_loglevel('warn');
 
 // Initialize the $_MIDGARD superglobal
 openpsa_prepare_superglobal();
+
+midgard_connection::get_instance()->set_loglevel('warn');
+midgard_connection::get_instance()->connect('auth-changed', 'openpsa_auth_changed_callback', array());
 
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
@@ -45,6 +46,11 @@ else
     $GLOBALS['midcom_config_local']['log_filename'] = dirname(midgard_connection::get_instance()->config->logfilename) . '/midcom.log';
     $GLOBALS['midcom_config_local']['midcom_root_topic_guid'] = openpsa_prepare_topics();
     $GLOBALS['midcom_config_local']['auth_backend_simple_cookie_secure'] = false;
+}
+
+if (! defined('MIDCOM_STATIC_URL'))
+{
+    define('MIDCOM_STATIC_URL', '/openpsa2-static');
 }
 
 openpsa_parse_url();
