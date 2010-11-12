@@ -331,42 +331,33 @@ class midcom_services_auth_sessionmgr
         return $return;
     }
 
-    private function prepare_midgard2_tokens($username, $password)
+    private function prepare_midgard2_password($auth_type, $password)
     {
-        //TODO: This has to be smarter!
-        $auth_type = 'Plaintext';
-
-        $login_tokens = array
-        (
-            'login' => $username,
-            'authtype' => $auth_type,
-        );
         switch ($auth_type)
         {
             case 'Plaintext':
                 // Compare plaintext to plaintext
-                $login_tokens['password'] = $password;
                 break;
             case 'Legacy':
                 // Midgard1 legacy auth
                 $salt = ''; //TODO: How to determine the correct one?
-                $login_tokens['password'] = crypt($password, $salt);
+                $password = crypt($password, $salt);
                 break;
             case 'SHA1':
-                $login_tokens['password'] = sha1($password);
+                $password = sha1($password);
                 break;
             case 'SHA256':
-                $login_tokens['password'] = hash('sha256', $password);
+                $password = hash('sha256', $password);
                 break;
             case 'MD5':
-                $login_tokens['password'] = md5($password);
+                $password = md5($password);
                 break;
             default:
                 throw new Exception('Unsupported authentication type attempted', 500);
         }
         // TODO: Support other types
 
-        return $login_tokens;
+        return $password;
     }
 
     /**
@@ -389,51 +380,75 @@ class midcom_services_auth_sessionmgr
         if (method_exists('midgard_user', 'login'))
         {
             // Ratatoskr
+
+            //TODO: This has to be smarter!
+            $auth_type = 'Plaintext';
+
+            $login_tokens = array
+            (
+                'login' => $username,
+                'authtype' => $auth_type,
+            );
+
+            $user = midgard_user::get($login_tokens);
+
+            if (is_null($user))
+            {
+                //the account apparently has not yet been migrated. Do this now
+                $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+                $qb->add_constraint('username', '=', $username);
+                $results = $qb->execute();
+                if (sizeof($results) != 1)
+                {
+                    return false;
+                }
+
+                $person = $results[0];
+                $user = new midgard_user();
+                $db_password = $person->password;
+
+                if (substr($person->password, 0, 2) == '**')
+                {
+                    $user->authtype = 'Plaintext';
+                    $db_password = substr($db_password, 2);
+                }
+                else
+                {
+                    $user->authtype = 'Legacy';
+                }
+                $user->password = $db_password;
+                $user->login = $person->username;
+
+                if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+                {
+                    $mgd_person = new midgard_person($person->guid);
+                }
+                else
+                {
+                    $mgd_person = $person;
+                }
+
+                $user->set_person($mgd_person);
+
+                try
+                {
+                    $user->create();
+                }
+                catch (midgard_error_exception $e)
+                {
+                    return false;
+                }
+            }
+
+            $login_tokens['password'] = $this->prepare_midgard2_password($login_tokens['authtype'], $password);
+
             try
             {
-                $user = new midgard_user($this->prepare_midgard2_tokens($username, $password));
+                $user = new midgard_user($login_tokens);
             }
             catch (midgard_error_exception $e)
             {
-                // Should be: (midgard_connection::get_instance()->get_error() == MGD_ERR_NOT_EXISTS), but
-                // but there's a problem in core apparently
-                if (midgard_connection::get_instance()->get_error_string() == 'Object does not exist.')
-                {
-                    $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
-                    $qb->add_constraint('username', '=', $username);
-                    $results = $qb->execute();
-                    if (sizeof($results) != 1)
-                    {
-                        return false;
-                    }
-
-                    $person = $results[0];
-                    $user = new midgard_user();
-
-                    $password = $person->password;
-
-                    if (substr($person->password, 0, 2) == '**')
-                    {
-                        $user->authtype = 'Plaintext';
-                        $password = substr($password, 2);
-                    }
-                    else
-                    {
-                        $user->authtype = 'Legacy';
-                    }
-                    $user->password = $password;
-                    $user->login = $person->username;
-                    $user->person = $person->guid;
-
-                    try
-                    {
-                        $user->create();
-                    }
-                    catch (midgard_error_exception $e)
-                    {
-                        return false;
-                    }
-                }
+                return false;
             }
 
             if (!$user->login())
