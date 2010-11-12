@@ -63,5 +63,4 @@
             'default' => 'email',
         ),
     ),
-    'skip_cache_generation' => true,
 ),

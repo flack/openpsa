@@ -61,6 +61,7 @@
     'midgard_activity',
     /* members should not be root classes by MgSchema, workaround a bug */
     'midgard_member',
+    'org_openpsa_campaign_member',
     /* These use GUID to link to many parents */
     'net_nemein_tag_link',
     'net_nehmer_comments_comment_db',

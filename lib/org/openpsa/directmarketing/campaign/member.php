@@ -11,8 +11,11 @@
  *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_campaign_member_dba extends __org_openpsa_directmarketing_campaign_member_dba
+class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobject
 {
+    var $__midcom_class_name__ = __CLASS__;
+    var $__mgdschema_class_name__ = 'org_openpsa_campaign_member';
+
     function __construct($id = null)
     {
         $this->_use_rcs = false;
@@ -23,6 +26,21 @@ class org_openpsa_directmarketing_campaign_member_dba extends __org_openpsa_dire
             $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
         }
         return $ret;
+    }
+
+    static function new_query_builder()
+    {
+        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+    }
+
+    static function new_collector($domain, $value)
+    {
+        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
     /**

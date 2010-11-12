@@ -314,19 +314,7 @@ class midcom_helper__componentloader
         // Make DBA Classes known, bail out if we encounter an invalid class
         foreach ($this->manifests[$path]->class_definitions as $filename => $data)
         {
-            /*
-             * Temporary code until all dba classes have been converted to extend midcom_core_dbaobject directly
-             * See http://trac.midgard-project.org/ticket/700
-             */
-            if (array_key_exists('skip_cache_generation', $this->manifests[$path]->customdata))
-            {
-                $skip_cache_generation = $this->manifests[$path]->customdata['skip_cache_generation'];
-            }
-            else
-            {
-                $skip_cache_generation = false;
-            }
-            if (! $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, $filename, $data, $skip_cache_generation))
+            if (! $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, $filename, $data))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the component manifest for {$this->manifests[$path]->name}: The DBA classes failed to load.", MIDCOM_LOG_WARN);

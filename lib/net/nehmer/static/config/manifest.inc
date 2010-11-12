@@ -48,7 +48,3 @@
         'midcom' => array(),
     ),
 ),
-'customdata' => array
-(
-    'skip_cache_generation' => true,
-),

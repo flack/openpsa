@@ -39,5 +39,4 @@
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
     ),
-    'skip_cache_generation' => true,
 ),

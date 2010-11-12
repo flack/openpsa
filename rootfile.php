@@ -25,10 +25,12 @@ header('Content-Type: text/html; charset=utf-8');
 // Include Midgard1 compatibility APIs needed for running OpenPSA under Midgard2
 require(MIDCOM_ROOT . '/ragnaroek-compat.php');
 
-midgard_connection::get_instance()->set_loglevel('warn');
 
 // Initialize the $_MIDGARD superglobal
 openpsa_prepare_superglobal();
+
+midgard_connection::get_instance()->set_loglevel('warn');
+midgard_connection::get_instance()->connect('auth-changed', 'openpsa_auth_changed_callback', array());
 
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';

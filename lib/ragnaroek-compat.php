@@ -98,11 +98,10 @@ function mgd_is_element_loaded($element)
  */
 function mgd_variable($variable)
 {
-    //echo "<br />\nxxX{$variable[1]}Xxx";
-
     $variable_parts = explode(':', $variable[1]);
-    // TODO: Formatter support
+
     $variable = $variable_parts[0];
+    // TODO: Formatter support
 
     if (strpos($variable, '.') !== false)
     {
@@ -126,7 +125,7 @@ function mgd_preparse($code)
     return $code;
 }
 
-function openpsa_update_midgard()
+function openpsa_auth_changed_callback()
 {
     $user = midgard_connection::get_instance()->get_user();
     if (!$user)
@@ -139,11 +138,6 @@ function openpsa_update_midgard()
     $person = $user->get_person();
     $_MIDGARD['user'] = $person->id;
     $_MIDGARD['admin'] = $user->is_admin();
-}
-
-function openpsa_auth_changed_callback()
-{
-    openpsa_update_midgard();
 }
 
 function openpsa_parse_url()
@@ -181,44 +175,51 @@ function openpsa_parse_url()
     $_MIDGARD['argc'] = count($_MIDGARD['argv']);
 }
 
+/**
+ * Set up necessary parts of the _MIDGARD superglobal
+ */
 function openpsa_prepare_superglobal()
 {
-    // Set up necessary parts of the _MIDGARD superglobal
-    $_MIDGARD = array();
-
-    $_MIDGARD['argv'] = array();
-
-    $_MIDGARD['user'] = 0;
-    $_MIDGARD['admin'] = false;
-    $_MIDGARD['root'] = false;
-
-    midgard_connection::get_instance()->connect('auth-changed', 'openpsa_auth_changed_callback', array());
-
-    $_MIDGARD['auth'] = false;
-    $_MIDGARD['cookieauth'] = false;
-
-    // General host setup
-    $_MIDGARD['lang'] = 0;
-    $_MIDGARD['sitegroup'] = 0;
-    $_MIDGARD['page'] = 0;
-    $_MIDGARD['debug'] = false;
-
-    $_MIDGARD['host'] = null;
-    $_MIDGARD['style'] = 0;
-    $_MIDGARD['author'] = 0;
-    $_MIDGARD['config'] = array
+    $_MIDGARD = array
     (
-        'prefix' => '',
-        'multilang' => false,
-        'quota' => false,
-        'sitegroup' => false,
+        'argv' => array(),
+
+        'user' => 0,
+        'admin' => false,
+        'root' => false,
+
+        'auth' => false,
+        'cookieauth' => false,
+
+        // General host setup
+        'lang' => 0,
+        'sitegroup' => 0,
+        'page' => 0,
+        'debug' => false,
+
+        'host' => null,
+        'style' => 0,
+        'author' => 0,
+        'config' => array
+        (
+            'prefix' => '',
+            'multilang' => false,
+            'quota' => false,
+            'sitegroup' => false,
+            'unique_host_name' => 'openpsa',
+            'auth_cookie_id' => 1,
+        ),
+
+        'schema' => array
+        (
+            'types' => array(),
+        ),
+
+        'theme' => 'OpenPsa2',
+        'page_style' => '',
     );
 
     // Get the classes from PHP5 reflection
-    $_MIDGARD['schema'] = array
-    (
-        'types' => array(),
-    );
     $re = new ReflectionExtension('midgard2');
     $classes = $re->getClasses();
     foreach ($classes as $refclass)
@@ -233,12 +234,6 @@ function openpsa_prepare_superglobal()
             $_MIDGARD['schema']['types'][$refclass->getName()] = '';
         }
     }
-
-    $_MIDGARD['config']['unique_host_name'] = 'openpsa';
-    $_MIDGARD['config']['auth_cookie_id'] = 1;
-
-    $_MIDGARD['theme'] = 'OpenPsa2';
-    $_MIDGARD['page_style'] = '';
 
     $_MIDGARD_CONNECTION =& midgard_connection::get_instance();
 }
