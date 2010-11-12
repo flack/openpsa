@@ -349,7 +349,8 @@ class midcom_services_auth_sessionmgr
                 break;
             case 'Legacy':
                 // Midgard1 legacy auth
-                $login_tokens['password'] = $password;
+                $salt = ''; //TODO: How to determine the correct one?
+                $login_tokens['password'] = crypt($password, $salt);
                 break;
             case 'SHA1':
                 $login_tokens['password'] = sha1($password);
@@ -409,24 +410,27 @@ class midcom_services_auth_sessionmgr
                     $person = $results[0];
                     $user = new midgard_user();
 
+                    $password = $person->password;
+
                     if (substr($person->password, 0, 2) == '**')
                     {
                         $user->authtype = 'Plaintext';
+                        $password = substr($password, 2);
                     }
                     else
                     {
                         $user->authtype = 'Legacy';
                     }
-                    $user->password = $person->password;
+                    $user->password = $password;
                     $user->login = $person->username;
                     $user->person = $person->guid;
+
                     try
                     {
                         $user->create();
                     }
                     catch (midgard_error_exception $e)
                     {
-                        var_dump($e);
                         return false;
                     }
                 }
@@ -436,6 +440,7 @@ class midcom_services_auth_sessionmgr
             {
                 return false;
             }
+
             $this->user = $user;
             $_MIDGARD['admin'] = $user->is_admin();
         }
