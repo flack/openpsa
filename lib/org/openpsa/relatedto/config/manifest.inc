@@ -68,5 +68,4 @@
         'name' => 'Related information',
         'config' => '',
     ),
-    'skip_cache_generation' => true,
 ),

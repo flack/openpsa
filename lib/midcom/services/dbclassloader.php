@@ -231,7 +231,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
      *
      * @return boolean Indicating success
      */
-    function load_classes($component, $filename, $definition_list = null, $skip_cache_generation = false)
+    function load_classes($component, $filename, $definition_list = null)
     {
         $this->_create_class_definition_filename($component, $filename);
 
@@ -255,46 +255,6 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             return false;
         }
         
-        if ($skip_cache_generation)
-        {
-            return true;
-        }
-
-        $cache_identifier = $_MIDCOM->cache->phpscripts->create_identifier('midcom.dba', "{$component}-{$filename}");
-
-        if (! $cache_identifier)
-        {
-            $cache_hit = false;
-        }
-        else
-        {
-            // Check the last modified stamps of both this script and the loaded
-            // class definition file to get a hold on all API changes.
-            $cache_hit = $_MIDCOM->cache->phpscripts->load
-            (
-                $cache_identifier,
-                filemtime($this->_class_definition_filename),
-                filemtime(__FILE__)
-            );
-        }
-
-        if ($cache_hit)
-        {
-            //debug_add("We had a cache hit for {$component}/{$filename}.");
-            return true;
-        }
-
-        $code = $this->_process_class_definition_list($definition_list, $component);
-
-        if (! $_MIDCOM->cache->phpscripts->add($cache_identifier, $code))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Could not add the generated classes for {$component}/{$filename} to the PHP script cache.", MIDCOM_LOG_ERROR);
-            debug_add('We fall back to direct evaluation to keep MidCOM running.');
-            debug_pop();
-            eval($code);
-        }
-
         return true;
     }
 
@@ -422,27 +382,6 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
     }
 
     /**
-     * Process an entire array of class definitions, collect the generated listings and return
-     * a complete PHP file string for all classes in the list.
-     *
-     * @param Array $definition_list A list of classes to be defined.
-     * @param string $component The name of the component that is assigned to handle the
-     *     classes.
-     * @return string The code for these classes surrounded by php opening and closing tags.
-     */
-    function _process_class_definition_list($definition_list, $component)
-    {
-        $result = '';
-
-        foreach ($definition_list as $definition)
-        {
-            $result .= $this->_generate_class($definition);
-        }
-
-        return $result;
-    }
-
-    /**
      * Simple helper that adds a list of classes to the loaded classes listing.
      *
      * This creates a mapping of which class is handled by which component.
@@ -472,164 +411,6 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
         }
         
         return true;
-    }
-
-    /**
-     * Generates a complete class out of the definition passed to the method.
-     *
-     * @param Array $definition The class definition to use.
-     * @return string The generated class without any php opening/closing tags.
-     * @access private
-     */
-    function _generate_class($definition)
-    {
-        $this->_class_string = '';
-        $this->_class_definition = $definition;
-        $this->_write_header();
-        $this->_write_class();
-        $this->_write_footer();
-        $result = $this->_class_string;
-        $this->_class_string = '';
-        $this->_class_definition = null;
-        return $result;
-    }
-
-    /**
-     * Writes the actual class definition, uses some helpers for this.
-     *
-     * @access private
-     */
-    function _write_class()
-    {
-        // We first produce the class header
-        //$this->_class_string .= "class __{$this->_class_definition['midcom_class_name']} extends {$this->_class_definition['mgdschema_class_name']}\n";
-        $this->_class_string .= "class __{$this->_class_definition['midcom_class_name']} extends midcom_core_dbaobject\n";
-        $this->_class_string .= "{\n";
-        $this->_class_string .= "    \n";
-
-        // This includes the meta __blah__ properties related to this class builder.
-        $this->_write_meta_members();
-
-        // Write the class' constructor
-        $this->_write_constructor();
-
-        // Write main API
-        $this->_write_main_api();
-
-        // Close the class.
-        $this->_class_string .= "}\n\n";
-    }
-
-    /**
-     * Helper, writes the constructor to the class.
-     *
-     * @access private
-     */
-    private function _write_constructor()
-    {
-        $this->_class_string .= <<<EOF
-    public function __construct(\$id = null)
-    {
-        parent::__construct(\$id);
-    }
-EOF;
-        $this->_class_string .= "\n    \n";
-    }
-
-    /**
-     * Helper, writes the main API to the class.
-     *
-     * @access private
-     */
-    function _write_main_api()
-    {
-        $this->_class_string .= <<<EOF
-
-    static function new_query_builder() { return \$_MIDCOM->dbfactory->new_query_builder('{$this->_class_definition['midcom_class_name']}'); }
-    static function new_collector(\$domain, \$value) { return \$_MIDCOM->dbfactory->new_collector('{$this->_class_definition['midcom_class_name']}', \$domain, \$value); }
-    static function &get_cached(\$src) { return \$_MIDCOM->dbfactory->get_cached('{$this->_class_definition['midcom_class_name']}', \$src);
-    }
-
-EOF;
-        $this->_class_string .= "\n    \n";
-    }
-
-    /**
-     * This helper adds all definition properties as __$key__ = '$value' members.
-     * Objects and arrays are skipped.
-     *
-     * Assumes safe contents of $key and $value already.
-     *
-     * @access private
-     */
-    function _write_meta_members()
-    {
-        foreach ($this->_class_definition as $key => $value)
-        {
-            if (   is_object($value)
-                || is_array($value))
-            {
-                continue;
-            }
-            else if (is_null($value))
-            {
-                $this->_class_string .= "    var \$__{$key}__ = null;\n";
-            }
-            else if (is_bool($value))
-            {
-                if ($value)
-                {
-                    $this->_class_string .= "    var \$__{$key}__ = true;\n";
-                }
-                else
-                {
-                    $this->_class_string .= "    var \$__{$key}__ = false;\n";
-                }
-            }
-            else
-            {
-                $this->_class_string .= "    var \$__{$key}__ = '{$value}';\n";
-            }
-        }
-
-        // Add the generator metadata revision
-        $this->_class_string .= "    private \$__midcom_generator__ = 'midcom_services_dbclassloader';\n";
-        $this->_class_string .= "    private \$__midcom_generator_version__ = '{$GLOBALS['midcom_version']}';\n";
-
-        $this->_class_string .= "    \n";
-    }
-
-    /**
-     * Writes the header to the class, this includes a dump of the
-     * definition used and the generation timestamp.
-     *
-     * @access private
-     */
-    function _write_header()
-    {
-        $this->_class_string .= "/**\n";
-        $this->_class_string .= " * Autogenerated MidCOM Database Interface Class\n";
-        $this->_class_string .= " * Acts as a decorator to Midgard's MgdSchema objects\n";
-        $this->_class_string .= " *\n";
-        $this->_class_string .= " * Description used:\n";
-        foreach ($this->_class_definition as $key => $value)
-        {
-            $this->_class_string .= " * {$key} => {$value}\n";
-        }
-        $this->_class_string .= " *\n";
-        $timestamp = time();
-        $this->_class_string .= ' * File created: ' . gmstrftime('%Y-%m-%dT%T GMT', $timestamp) . " ({$timestamp})\n";
-        $this->_class_string .= " */\n\n";
-    }
-
-    /**
-     * Writes the footer to the class, currently empty.
-     *
-     * @access private
-     */
-    function _write_footer()
-    {
-        // Nothing to do yet.
     }
 
     /**

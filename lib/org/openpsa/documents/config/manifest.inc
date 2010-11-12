@@ -37,7 +37,3 @@
     ),
 ),
 'state' => 'stable',
-'customdata' => array
-(
-    'skip_cache_generation' => true,
-),

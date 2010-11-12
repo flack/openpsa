@@ -57,5 +57,4 @@
             'recurrence' => MIDCOM_CRON_DAY,
         ),
     ),
-    'skip_cache_generation' => true,
 ),

@@ -11,8 +11,11 @@
  *
  * @package org.openpsa.directmarketing
  */
-class org_openpsa_directmarketing_campaign_message_dba extends __org_openpsa_directmarketing_campaign_message_dba
+class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaobject
 {
+    var $__midcom_class_name__ = __CLASS__;
+    var $__mgdschema_class_name__ = 'org_openpsa_campaign_member';
+
     var $send_output = false;
     var $sms_lib = 'org.openpsa.smslib';
     var $sms_lib_api = 'tambur';
@@ -53,6 +56,21 @@ class org_openpsa_directmarketing_campaign_message_dba extends __org_openpsa_dir
         $this->chunk_size = $config->get('chunk_size');
         
         return $stat;
+    }
+
+    static function new_query_builder()
+    {
+        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+    }
+
+    static function new_collector($domain, $value)
+    {
+        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
     function get_parent_guid_uncached()

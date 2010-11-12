@@ -55,7 +55,6 @@
 ),
 'customdata' => array
 (
-    'skip_cache_generation' => true,
     'midcom.services.cron' => array
     (
         array
