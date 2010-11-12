@@ -109,16 +109,6 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         }
     }
     
-    static function new_query_builder()
-    {
-        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
-    }
-
-    static function new_collector($domain, $value)
-    {
-        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
-    }
- 
     static function get($limit = 20, $offset = 0, $unique = false)
     {
         $qb = midcom_helper_activitystream_activity_dba::new_query_builder();

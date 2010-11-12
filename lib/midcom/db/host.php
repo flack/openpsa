@@ -51,8 +51,10 @@ class midcom_db_host extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
 
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_host';
+    static function new_collector($domain, $value)
+    {
+        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
 
     static function &get_cached($src)
     {
