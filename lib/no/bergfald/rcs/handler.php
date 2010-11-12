@@ -51,7 +51,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
 
     /**
      * Pointer to midgard object
-     * @var midcom_baseclasses_database_object
+     * @var midcom_db_object
      * @access private
      */
     var $_object = null;
@@ -191,7 +191,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         $rcs = $_MIDCOM->get_service('rcs');
         $this->_backend = $rcs->load_handler($this->_object);
 
-        if (get_class($this->_object) != 'midcom_baseclasses_database_topic')
+        if (get_class($this->_object) != 'midcom_db_topic')
         {
             $_MIDCOM->bind_view_to_object($this->_object);
         }
@@ -202,7 +202,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     function _prepare_breadcrumb()
     {
         $tmp = Array();
-        if (!is_a($this->_object, 'midcom_baseclasses_database_topic'))
+        if (!is_a($this->_object, 'midcom_db_topic'))
         {
             $tmp[] = Array
             (

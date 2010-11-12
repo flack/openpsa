@@ -64,7 +64,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         return $session->set('org_routamc_positioning_user_location', $location);
     }
     
-    static public function set_location_for_person(array $location, midcom_baseclasses_database_person $person)
+    static public function set_location_for_person(array $location, midcom_db_person $person)
     {
         if (   !isset($location['latitude'])
             || !isset($location['longitude']))
@@ -106,7 +106,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         return $session->get('org_routamc_positioning_user_location');
     }
     
-    static public function get_location_for_person(midcom_baseclasses_database_person $person, $when = null)
+    static public function get_location_for_person(midcom_db_person $person, $when = null)
     {
         $person_position = new org_routamc_positioning_person($person);
         return $person_position->get_coordinates($when);

@@ -173,7 +173,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
                 return false;
             }
             // No topics matching path, check for attachments
-            $att_qb =  midcom_baseclasses_database_attachment::new_query_builder();
+            $att_qb =  midcom_db_attachment::new_query_builder();
             $att_qb->add_constraint('name', '=', $this->argv[0]);
             $att_qb->add_constraint('parentguid', '=', $this->current_object->guid);
             if ($att_qb->count() == 0)

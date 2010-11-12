@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.baseclasses
+ * @package midcom.db
  * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: privilege.php 24773 2010-01-18 08:15:45Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -10,9 +10,9 @@
 /**
  * MidCOM DBA class for MidCOM privileges
  *
- * @package midcom.baseclasses
+ * @package midcom.db
  */
-class midcom_baseclasses_database_privilege extends midcom_core_dbaobject
+class midcom_db_privilege extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'midcom_core_privilege_db';

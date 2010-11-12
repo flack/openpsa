@@ -108,7 +108,7 @@ class midcom_core_group_midgard extends midcom_core_group
             }
         }
         else if (   is_object($id)
-                 && (   is_a($id, 'midcom_baseclasses_database_group')
+                 && (   is_a($id, 'midcom_db_group')
                      || is_a($id, 'midgard_group')))
         {
             $this->_storage = $id;

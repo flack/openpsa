@@ -191,7 +191,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         {
             foreach ($data['memberships'] as $k => $membership)
             {
-                $data['campaign_members'][$k] = new midcom_baseclasses_database_person($membership->person);
+                $data['campaign_members'][$k] = new midcom_db_person($membership->person);
             }
         }
 

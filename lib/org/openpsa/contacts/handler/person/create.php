@@ -172,7 +172,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
                 // Add person to group if requested
                 if ($this->_group)
                 {
-                    $member = new midcom_baseclasses_database_member();
+                    $member = new midcom_db_member();
                     $member->uid = $this->_person->id;
                     $member->gid = $this->_group->id;
                     $member->create();

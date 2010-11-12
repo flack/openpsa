@@ -954,7 +954,7 @@ class midcom_helper__styleloader
          */
         $ml_strict_backup = $GLOBALS['midcom_config']['i18n_multilang_strict'];
         $GLOBALS['midcom_config']['i18n_multilang_strict'] = false;
-        $mc = midcom_baseclasses_database_attachment::new_collector('parentguid', $style->guid);
+        $mc = midcom_db_attachment::new_collector('parentguid', $style->guid);
         $GLOBALS['midcom_config']['i18n_multilang_strict'] = $ml_strict_backup;
         unset($ml_strict_backup);
         /** 

@@ -536,7 +536,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         // Figure out label for the object's class
         switch (get_class($this->_object))
         {
-            case 'midcom_baseclasses_database_topic':
+            case 'midcom_db_topic':
                 $type = $_MIDCOM->i18n->get_string('folder', 'midgard.admin.asgard');
                 break;
             default:

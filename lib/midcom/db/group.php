@@ -8,18 +8,21 @@
  */
 
 /**
- * MidCOM Legacy Database Abstraction Layer
- *
- * This class encapsulates a classic MidgardGroup with its original features.
- *
- * <i>Preliminary Implementation:</i>
- *
- * Be aware that this implementation is incomplete, and grows on a is-needed basis.
- *
+ * MidCOM level replacement for the Midgard Group record with framework support.
+ * 
+ * Note, as with all MidCOM DB layer objects, you should not use the GetBy*
+ * operations directly, instead, you have to use the constructor's $id parameter.
+ * 
+ * Also, all QueryBuilder operations need to be done by the factory class 
+ * obtainable as midcom_application::dbfactory.
+ * 
+ * @see midcom_services_dbclassloader
  * @package midcom.db
  */
-class midcom_db_group extends midcom_baseclasses_database_group
+class midcom_db_group extends midcom_core_dbaobject
 {
+    var $__midcom_class_name__ = __CLASS__;
+    var $__mgdschema_class_name__ = 'midgard_group';
 
     /**
      * The default constructor will create an empty object. Optionally, you can pass
@@ -46,9 +49,65 @@ class midcom_db_group extends midcom_baseclasses_database_group
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
     
+    static function new_collector($domain, $value)
+    {
+        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
+
+    function get_label()
+    {
+        return $this->official;
+    }
+
+    /**
+     * Updates all computed members.
+     *
+     * @access protected
+     */
+    function _on_loaded()
+    {
+        if (empty($this->official))
+        {
+            $this->official = $this->name;
+        }
+        
+        if (empty($this->official))
+        {
+            $this->official = "Group #{$this->id}";
+        }
+        return true;
+    }
+    
+    /**
+     * Gets the parent object of the current one. 
+     * 
+     * Groups that have an owner group return the owner group as a parent.
+     * 
+     * @return midcom_db_group Owner group or null if there is none.
+     */
+    function get_parent_guid_uncached()
+    {
+        if ($this->owner == 0)
+        {
+            return null;
+        }
+        
+        $parent = new midcom_db_group($this->owner);
+        if (! $parent)
+        {
+            debug_push_class(__CLASS__, __FUNCTION__);
+            debug_add("Could not load Group ID {$this->owner} from the database, aborting.", 
+                MIDCOM_LOG_INFO);
+            debug_pop();
+            return null;
+        }
+        
+        return $parent->guid;
     }
 
     /**
@@ -56,7 +115,7 @@ class midcom_db_group extends midcom_baseclasses_database_group
      * midgard:create privileges on this object for this to succeed. If the person is
      * already a member of this group, nothing is done.
      *
-     * @param midcom_baseclasses_database_person The person to add.
+     * @param midcom_db_person The person to add.
      * @return boolean Indicating success.
      */
     function add_member($person)
@@ -86,7 +145,7 @@ class midcom_db_group extends midcom_baseclasses_database_group
     /**
      * Checks whether the given user is a member of this group.
      *
-     * @param midcom_baseclasses_database_person The person to check.
+     * @param midcom_db_person The person to check.
      * @return boolean Indicating membership.
      */
     function is_member($person)

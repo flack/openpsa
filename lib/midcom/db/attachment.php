@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.baseclasses
+ * @package midcom.db
  * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: attachment.php 26707 2010-10-19 14:14:12Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -16,10 +16,10 @@
  * Also, all QueryBuilder operations need to be done by the factory class
  * obtainable as midcom_application::dbfactory.
  *
- * @package midcom.baseclasses
+ * @package midcom.db
  * @see midcom_services_dbclassloader
  */
-class midcom_baseclasses_database_attachment extends midcom_core_dbaobject
+class midcom_db_attachment extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'midgard_attachment';
@@ -167,7 +167,7 @@ class midcom_baseclasses_database_attachment extends midcom_core_dbaobject
                 break;
 
             default:
-                trigger_error('midcom_baseclasses_database_attachment takes either zero or one arguments.', E_USER_ERROR);
+                trigger_error('midcom_db_attachment takes either zero or one arguments.', E_USER_ERROR);
                 // This should exit.
         }
 
@@ -244,7 +244,7 @@ class midcom_baseclasses_database_attachment extends midcom_core_dbaobject
      * 
      * @return string
      */
-    static function get_cache_path(midcom_baseclasses_database_attachment $attachment, $check_privileges = true)
+    static function get_cache_path(midcom_db_attachment $attachment, $check_privileges = true)
     {
 
         if (!$GLOBALS['midcom_config']['attachment_cache_enabled'])
@@ -292,7 +292,7 @@ class midcom_baseclasses_database_attachment extends midcom_core_dbaobject
             return;
         }
 
-        $filename = midcom_baseclasses_database_attachment::get_cache_path($this);
+        $filename = midcom_db_attachment::get_cache_path($this);
 
         if (!$filename)
         {
@@ -415,7 +415,7 @@ class midcom_baseclasses_database_attachment extends midcom_core_dbaobject
             $location = strtoupper(substr($name, 0, 1) . '/' . substr($name, 1, 1) . '/') . $name;
 
             // Check uniqueness
-            $qb = midcom_baseclasses_database_attachment::new_query_builder();
+            $qb = midcom_db_attachment::new_query_builder();
             $qb->add_constraint('location', '=', $location);
             if (   isset($this->id)
                 && !empty($this->id))
@@ -526,14 +526,14 @@ class midcom_baseclasses_database_attachment extends midcom_core_dbaobject
         if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
         {
             // Check if other attachments point to the same file
-            //$mc = midcom_baseclasses_database_attachment::new_collector('name', $this->name);
+            //$mc = midcom_db_attachment::new_collector('name', $this->name);
             //$mc->execute();
             //if (count($mc->list_keys()) > 0)
             //{
             //}
 
             // Remove attachment cache
-            $filename = midcom_baseclasses_database_attachment::get_cache_path($this, false);
+            $filename = midcom_db_attachment::get_cache_path($this, false);
             if (   !is_null($filename)
                 && file_exists($filename))
             {

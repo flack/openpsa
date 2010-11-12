@@ -300,10 +300,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $property = $obj->get_label_property();
                 break;
             // TODO: Switch to use the get_name/title_property helpers below
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_topic')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_topic')):
                 $property = 'extra';
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_person')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_person')):
                 $property = array
                 (
                     'rname',
@@ -376,7 +376,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             case (method_exists($obj, 'get_label')):
                 $label = $obj->get_label();
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_person')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_person')):
                 if ($obj->rname)
                 {
                     $label = $obj->rname;
@@ -387,7 +387,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 }
                 break;
 
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_topic')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_topic')):
                 if ($obj->extra)
                 {
                     $label = $obj->extra;
@@ -397,7 +397,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                     $label = $obj->name;
                 }
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_event')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_event')):
             case ($_MIDCOM->dbfactory->is_a($obj, 'org_openpsa_calendar_event')):
                 if ($obj->start == 0)
                 {
@@ -408,17 +408,17 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                     $label = strftime('%x', $obj->start) . " {$obj->title}";
                 }
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_eventmember')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_eventmember')):
                 $person = new midcom_db_person($obj->uid);
                 $event = new midcom_db_event($obj->eid);
                 $label = sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $event->title);
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_member')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_member')):
                 $person = new midcom_db_person($obj->uid);
                 $grp = new midcom_db_group($obj->gid);
                 $label = sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_host')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_host')):
                 if (   $obj->port
                     && $obj->port != '80')
                 {
@@ -596,10 +596,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon='stock_people.png';
                 break;
             // FIXME: Remove hardcoded class logic
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_host')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_host')):
                 $icon='stock_internet.png';
                 break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_snippet')):
+            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_snippet')):
                 $icon='script.png';
                 break;
             case (strpos($object_class, 'element') !== false):
@@ -1191,7 +1191,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         
         // Try to get the parent property for determining, which property should be
         // used to point the parent of the new object. Attachments are a special case.
-        if (!$_MIDCOM->dbfactory->is_a($object, 'midcom_baseclasses_database_attachment'))
+        if (!$_MIDCOM->dbfactory->is_a($object, 'midcom_db_attachment'))
         {
             $parent_property = midgard_object_class::get_property_parent($mgdschema_object);
         }

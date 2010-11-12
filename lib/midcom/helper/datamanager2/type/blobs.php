@@ -38,7 +38,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 {
     /**
      * All attachments covered by this field. 
-     * The array contains midcom_baseclasses_database_attachment objects indexed by their 
+     * The array contains midcom_db_attachment objects indexed by their 
      * identifier within the field.
      *
      * See the $attachments_info member for a more general approach easily usable
@@ -246,8 +246,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * See the usort() documentation for further details.
      *
      * @access public
-     * @param midcom_baseclasses_database_attachment $a The first attachment.
-     * @param midcom_baseclasses_database_attachment $b The second attachment.
+     * @param midcom_db_attachment $a The first attachment.
+     * @param midcom_db_attachment $b The second attachment.
      * @return int A value according to the rules from strcmp().
      */
     static function sort_attachments_cmp($a, $b)
@@ -299,7 +299,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      */
     function _load_attachment($identifier, $guid)
     {
-        $attachment = new midcom_baseclasses_database_attachment($guid);
+        $attachment = new midcom_db_attachment($guid);
         if (   ! $attachment
             || !$attachment->guid)
         {
@@ -347,7 +347,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             // Uncached attachment served straight out of MidCOM
             if (   $this->storage->object
-                && is_a($this->storage->object, 'midcom_baseclasses_database_topic'))
+                && is_a($this->storage->object, 'midcom_db_topic'))
             {
                 // Topic attachment, try to generate "clean" URL
                 $nap = new midcom_helper_nav();
@@ -388,7 +388,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * With images, it evaluates reads image size information from parameters.
      *
      * @param $info Information array
-     * @param midcom_baseclasses_database_attachment $att Attachment to update information from
+     * @param midcom_db_attachment $att Attachment to update information from
      */
     function _update_attachment_info_additional(&$info, $att)
     {
@@ -650,7 +650,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
         // Make sure we have unique filename
         // TODO: refactor to separate method for cleanlines, preferably add to reflector itself a "filename mode"
-        $attachment = new midcom_baseclasses_database_attachment();
+        $attachment = new midcom_db_attachment();
         $attachment->name = $filename;
         $attachment->parentguid = $this->storage->object->guid;
 

@@ -33,7 +33,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Current file being edited
      *
-     * @var midcom_baseclasses_database_attachment
+     * @var midcom_db_attachment
      * @access private
      */
     var $_file = null;
@@ -118,7 +118,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             if (!$local_file)
             {
                 // New file, create
-                $local_file = new midcom_baseclasses_database_attachment();
+                $local_file = new midcom_db_attachment();
                 $local_file->name = $local_filename;
                 $local_file->parentguid = $this->_object->guid;
                 $local_file->mimetype = $uploaded_file['type'];
@@ -177,7 +177,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             if (!$local_file)
             {
                 // New file, create
-                $local_file = new midcom_baseclasses_database_attachment();
+                $local_file = new midcom_db_attachment();
                 $local_file->name = $local_filename;
                 $local_file->parentguid = $this->_object->guid;
 
@@ -241,7 +241,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     function _get_file($filename)
     {
-        $qb = midcom_baseclasses_database_attachment::new_query_builder();
+        $qb = midcom_db_attachment::new_query_builder();
         $qb->add_constraint('parentguid', '=', $this->_object->guid);
         $qb->add_constraint('name', '=', $filename);
 
@@ -255,7 +255,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     function _list_files()
     {
-        $qb = midcom_baseclasses_database_attachment::new_query_builder();
+        $qb = midcom_db_attachment::new_query_builder();
         $qb->add_constraint('parentguid', '=', $this->_object->guid);
         $qb->add_order('mimetype');
         $qb->add_order('metadata.score', 'DESC');

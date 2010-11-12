@@ -188,7 +188,7 @@ class midcom_core_group extends midcom_baseclasses_core_object
      * Also, as outlined in the member $_storage, not all groups may have a DBA object associated
      * with them, therefore this call may return null.
      *
-     * The default implementation will return an instance of midcom_baseclasses_database_group based
+     * The default implementation will return an instance of midcom_db_group based
      * on the member $this->_storage->id if that object is defined, or null otherwise.
      *
      * @return MidgardObject Any MidCOM DBA level object that holds the information associated with
@@ -200,7 +200,7 @@ class midcom_core_group extends midcom_baseclasses_core_object
         {
             return null;
         }
-        return new midcom_baseclasses_database_group($this->_storage);
+        return new midcom_db_group($this->_storage);
     }
 
 

@@ -129,7 +129,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     /**
      * Helper function to load the document's attachment 
      *
-     * @return midcom_baseclasses_database_attachment The attachment object 
+     * @return midcom_db_attachment The attachment object 
      */
     public function load_attachment()
     {
@@ -172,7 +172,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             $identifier = $info[0];
             $guid = $info[1];
 
-            $attachment = new midcom_baseclasses_database_attachment($guid);
+            $attachment = new midcom_db_attachment($guid);
             if (   !$attachment
                 || !$attachment->guid)
             {

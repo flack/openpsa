@@ -88,7 +88,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 
         // List all parameters for display
-        $qb = midcom_baseclasses_database_parameter::new_query_builder();
+        $qb = midcom_db_parameter::new_query_builder();
         $qb->add_constraint('parentguid', '=', $this->_object->guid);
         $qb->add_order('domain');
         $qb->add_order('name');

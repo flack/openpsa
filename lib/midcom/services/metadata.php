@@ -117,11 +117,6 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
             return;
         }
 
-        if (!is_a($topic, 'midcom_baseclasses_database_topic'))
-        {
-            // Force-Cast to DBA object
-            $topic = new midcom_db_topic($topic);
-        }
         $this->_metadata[$context_id] = Array();  
     
         $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = midcom_helper_metadata::retrieve($topic);

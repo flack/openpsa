@@ -77,7 +77,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
     /**
      * The Avatar image, if set.
      *
-     * @var midcom_baseclasses_database_attachment
+     * @var midcom_db_attachment
      * @access private
      */
     var $_avatar = null;
@@ -85,7 +85,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
     /**
      * The Avatar thumbnail image, if set.
      *
-     * @var midcom_baseclasses_database_attachment
+     * @var midcom_db_attachment
      * @access private
      */
     var $_avatar_thumbnail = null;

@@ -127,7 +127,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             return true;
         }
 
-        $qb = midcom_baseclasses_database_article::new_query_builder();
+        $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('name', '=', $args[0]);
         $qb->add_constraint('up', '=', 0);
         $qb->set_limit(1);

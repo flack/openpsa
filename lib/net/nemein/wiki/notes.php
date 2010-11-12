@@ -47,7 +47,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
     function _list_related_guids_of_a_person($person)
     {
         // We're in person, so we need to also look events he/she participates to
-        $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_baseclasses_database_eventmember');
+        $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_eventmember');
         $qb->add_constraint('uid', '=', $person->id);
         
         $memberships = $_MIDCOM->dbfactory->exec_query_builder($qb);
@@ -56,7 +56,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             foreach ($memberships as $membership)
             {
                 // FIXME: This is slow way to do it, use a single QB instance for all instead
-                $event = new midcom_baseclasses_database_event($membership->eid);
+                $event = new midcom_db_event($membership->eid);
                 if (!$event->guid)
                 {
                     continue;
@@ -84,12 +84,12 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         else if (is_subclass_of($this->target, 'midgard_group'))
         {
             // Include notes about members of the group
-            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_baseclasses_database_member');
+            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_member');
             $qb->add_constraint('gid', '=', $this->target->id);
             $members = $_MIDCOM->dbfactory->exec_query_builder($qb);
             foreach ($members as $member)
             {
-                $person = new midcom_baseclasses_database_person($member->uid);
+                $person = new midcom_db_person($member->uid);
                 $this->_list_related_guids_of_a_person($person);
             }
             

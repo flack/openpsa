@@ -35,7 +35,7 @@
                                 }
                             }
 
-                            $lang_qb = midcom_baseclasses_database_language::new_query_builder();
+                            $lang_qb = midcom_db_language::new_query_builder();
                             $lang_qb->add_order('name');
                             $langs = $lang_qb->execute();
                             $default_mode = midgard_admin_asgard_plugin::get_default_mode($data);

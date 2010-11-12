@@ -48,7 +48,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
     {
         if (is_null($config->get('symlink_topic')))
         {
-            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_baseclasses_database_article');
+            $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_article');
             $qb->add_constraint('topic', '=', $topic->id);
             $result = $_MIDCOM->dbfactory->exec_query_builder($qb);
 
@@ -127,7 +127,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
             }
         }
 
-        $article = new midcom_baseclasses_database_article($guid);
+        $article = new midcom_db_article($guid);
         if (   ! $article
             || $article->topic != $topic->id)
         {

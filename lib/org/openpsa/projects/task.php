@@ -196,12 +196,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
                 // Synchronize also the news topic
                 if ($this->newsTopic)
                 {
-                    $news_topic = new midcom_baseclasses_database_topic($this->newsTopic);
+                    $news_topic = new midcom_db_topic($this->newsTopic);
                     $sync->write_acls($news_topic, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
                 }
                 if ($this->forumTopic)
                 {
-                    $forum_topic = new midcom_baseclasses_database_topic($this->forumTopic);
+                    $forum_topic = new midcom_db_topic($this->forumTopic);
                     $sync->write_acls($forum_topic, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
                 }
             }

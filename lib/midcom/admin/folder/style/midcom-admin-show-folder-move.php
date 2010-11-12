@@ -17,7 +17,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             $selected = ' checked="checked"';
         }
         
-        if (   !is_a($data['object'], 'midcom_baseclasses_database_topic')
+        if (   !is_a($data['object'], 'midcom_db_topic')
             && $root_folder->component !== $data['current_folder']->component)
         {
             // Non-topic objects may only be moved under folders of same component
@@ -30,7 +30,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         function midcom_admin_folder_list_folders($up = 0, $tree_disabled = false)
         {
             $data =& $_MIDCOM->get_custom_context_data('request_data');
-            if (   is_a($data['object'], 'midcom_baseclasses_database_topic')
+            if (   is_a($data['object'], 'midcom_db_topic')
                 && $up == $data['object']->id)
             {
                 $tree_disabled = true;
@@ -54,7 +54,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                         $selected = ' checked="checked"';
                     }
                     
-                    if (   !is_a($data['object'], 'midcom_baseclasses_database_topic')
+                    if (   !is_a($data['object'], 'midcom_db_topic')
                         && $folder->component !== $data['current_folder']->component)
                     {
                         // Non-topic objects may only be moved under folders of same component

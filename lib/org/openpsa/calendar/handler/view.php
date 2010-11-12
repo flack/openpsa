@@ -286,7 +286,7 @@ function openPsaShowMonthSelector()
             $resource_array['css_class'] = 'blue';
         }
 
-        // $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_baseclasses_database_eventmember');
+        // $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_eventmember');
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
 
         // Find all events that occur during [$from, $end]

@@ -44,8 +44,8 @@
  *     (
  *         'classes' => Array
  *             (
- *                 'midcom_baseclasses_database_article',
- *                 'midcom_baseclasses_database_topic',
+ *                 'midcom_db_article',
+ *                 'midcom_db_topic',
  *             ),
  *         'operations' =>
  *               MIDCOM_OPERATION_DBA_CREATE

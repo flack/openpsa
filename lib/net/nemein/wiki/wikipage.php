@@ -318,7 +318,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             // FIXME: Remove this when the conversion script is able to fix the link tags
             $qb = org_routamc_photostream_photo_dba::new_query_builder();
             
-            $qb = midcom_baseclasses_database_parameter::new_query_builder();
+            $qb = midcom_db_parameter::new_query_builder();
             $qb->add_constraint('domain', '=', 'org.routamc.photostream');
             $qb->add_constraint('name', '=', 'net.siriux.photos:guid');
             $qb->add_constraint('value', '=', $guid);

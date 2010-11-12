@@ -8,18 +8,23 @@
  */
 
 /**
- * MidCOM Legacy Database Abstraction Layer
+ * MidCOM level replacement for the Midgard PageElement record with framework support.
  *
- * This class encapsulates a classic MidgardPageelement with its original features.
+ * The uplink is the owning page.
  *
- * <i>Preliminary Implementation:</i>
+ * Note, as with all MidCOM DB layer objects, you should not use the get_by*
+ * operations directly, instead, you have to use the constructor's $id parameter.
  *
- * Be aware that this implementation is incomplete, and grows on a is-needed basis.
+ * Also, all QueryBuilder operations need to be done by the factory class
+ * obtainable through the statically callable new_query_builder() DBA methods.
  *
+ * @see midcom_services_dbclassloader
  * @package midcom.db
  */
-class midcom_db_pageelement extends midcom_baseclasses_database_pageelement
+class midcom_db_pageelement extends midcom_core_dbaobject
 {
+    var $__midcom_class_name__ = __CLASS__;
+    var $__mgdschema_class_name__ = 'midgard_pageelement';
 
     /**
      * The default constructor will create an empty object. Optionally, you can pass
@@ -46,12 +51,39 @@ class midcom_db_pageelement extends midcom_baseclasses_database_pageelement
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
 
+    static function new_collector($domain, $value)
+    {
+        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    /**
+     * Returns the Parent of the Page.
+     *
+     * @return MidgardObject Parent object or NULL if there is none.
+     */
+    function get_parent_guid_uncached()
+    {
+        if ($this->page == 0)
+        {
+            return null;
+        }
+
+        $parent = new midcom_db_page($this->page);
+        if (! $parent)
+        {
+            debug_push_class(__CLASS__, __FUNCTION__);
+            debug_add("Could not load Page ID {$this->page} from the database, aborting.",
+                MIDCOM_LOG_INFO);
+            debug_pop();
+            return null;
+        }
+
+        return $parent->guid;
+    }
 }
-
-
 ?>

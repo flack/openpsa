@@ -42,7 +42,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
         {
             $title = $object->title;
         }
-        else if (is_a($object, 'midcom_baseclasses_database_topic'))
+        else if (is_a($object, 'midcom_db_topic'))
         {
             $title = $object->extra;
         }

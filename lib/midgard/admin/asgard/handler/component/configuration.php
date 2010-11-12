@@ -367,12 +367,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      */
     function _save_snippet($config)
     {
-        $sg_snippetdir = new midcom_baseclasses_database_snippetdir();
+        $sg_snippetdir = new midcom_db_snippetdir();
         $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
         if (!$sg_snippetdir->guid)
         {
             // Create SG config snippetdir
-            $sd = new midcom_baseclasses_database_snippetdir();
+            $sd = new midcom_db_snippetdir();
             $sd->up = 0;
             $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
             // remove leading slash from name
@@ -381,28 +381,28 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_application::get_error_string());
             }
-            $sg_snippetdir = new midcom_baseclasses_database_snippetdir($sd->guid);
+            $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
 
-        $lib_snippetdir = new midcom_baseclasses_database_snippetdir();
+        $lib_snippetdir = new midcom_db_snippetdir();
         $lib_snippetdir->get_by_path("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$this->_request_data['name']}");
         if (!$lib_snippetdir->guid)
         {
-            $sd = new midcom_baseclasses_database_snippetdir();
+            $sd = new midcom_db_snippetdir();
             $sd->up = $sg_snippetdir->id;
             $sd->name = $this->_request_data['name'];
             if (!$sd->create())
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$data['name']}: " . midcom_application::get_error_string());
             }
-            $lib_snippetdir = new midcom_baseclasses_database_snippetdir($sd->guid);
+            $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
 
-        $snippet = new midcom_baseclasses_database_snippet();
+        $snippet = new midcom_db_snippet();
         $snippet->get_by_path("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$this->_request_data['name']}/config");
         if ($snippet->id == false)
         {
-            $sn = new midcom_baseclasses_database_snippet();
+            $sn = new midcom_db_snippet();
             $sn->up = $lib_snippetdir->id;
             $sn->name = 'config';
             $sn->code = $config;
@@ -511,7 +511,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
             $data['folder'] = new midcom_db_topic($args[1]);
             if (   !$data['folder']->guid
-                || !is_a($data['folder'], 'midcom_baseclasses_database_topic')
                 || $data['folder']->component != $data['name'])
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Folder {$args[1]} not found for configuration.");

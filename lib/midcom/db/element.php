@@ -8,18 +8,21 @@
  */
 
 /**
- * MidCOM Legacy Database Abstraction Layer
+ * MidCOM level replacement for the Midgard Style Element record with framework support.
  *
- * This class encapsulates a classic MidgardElement with its original features.
+ * Note, as with all MidCOM DB layer objects, you should not use the get_by*
+ * operations directly, instead, you have to use the constructor's $id parameter.
  *
- * <i>Preliminary Implementation:</i>
+ * Also, all QueryBuilder operations need to be done by the factory class
+ * obtainable through the statically callable new_query_builder() DBA methods.
  *
- * Be aware that this implementation is incomplete, and grows on an is-needed basis.
- *
+ * @see midcom_services_dbclassloader
  * @package midcom.db
  */
-class midcom_db_element extends midcom_baseclasses_database_element
+class midcom_db_element extends midcom_core_dbaobject
 {
+    var $__midcom_class_name__ = __CLASS__;
+    var $__mgdschema_class_name__ = 'midgard_element';
 
     /**
      * The default constructor will create an empty object. Optionally, you can pass
@@ -46,12 +49,44 @@ class midcom_db_element extends midcom_baseclasses_database_element
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
 
+    static function new_collector($domain, $value)
+    {
+        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
+    
+    /**
+     * Returns the Parent of the Element. This is the style the element is assigned to.
+     *
+     * @return MidgardObject Parent object or NULL if there is none.
+     */
+    function get_parent_guid_uncached()
+    {
+        if ($this->style == 0)
+        {
+            debug_push_class(__CLASS__, __FUNCTION__);
+            debug_print_r('Current element is:', $this);
+            debug_add("The Style Element {$this->id} has its style member set to 0, this is a critical database inconsistency.",
+                MIDCOM_LOG_INFO);
+            debug_pop();
+            return null;
+        }
 
+        $parent = new midcom_db_style($this->style);
+        if (! $parent)
+        {
+            debug_push_class(__CLASS__, __FUNCTION__);
+            debug_add("Could not load Style ID {$this->up} from the database, aborting.",
+                MIDCOM_LOG_INFO);
+            debug_pop();
+            return null;
+        }
+
+        return $parent->guid;
+    }
 }
-
-
 ?>

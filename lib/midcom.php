@@ -331,7 +331,7 @@ if (   count($_MIDGARD['argv']) > 0
     $guid = substr($_MIDGARD['argv'][0], 27);
     $_MIDCOM->_create_context(0);
     $_MIDCOM->dbclassloader->load_classes('midcom', 'legacy_classes.inc', null, true);
-    $attachment = new midcom_baseclasses_database_attachment($guid);
+    $attachment = new midcom_db_attachment($guid);
     $_MIDCOM->serve_attachment($attachment);
 }
 

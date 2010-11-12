@@ -143,7 +143,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
     function read_object($person)
     {
         if (   !is_object($person)
-            && !$_MIDCOM->dbfactory->is_a($person, 'midcom_baseclasses_database_person')
+            && !$_MIDCOM->dbfactory->is_a($person, 'midcom_db_person')
             && !$_MIDCOM->dbfactory->is_a($person, 'org_openpsa_contacts_person_dba')
             )
         {
@@ -378,7 +378,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
                     }
                     else
                     {
-                        $group = new midcom_baseclasses_database_group($mc->get_subkey($guid, 'gid'));
+                        $group = new midcom_db_group($mc->get_subkey($guid, 'gid'));
                     }
 
                     if ($mc->get_subkey($guid, 'extra'))

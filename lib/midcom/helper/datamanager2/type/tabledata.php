@@ -327,7 +327,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 }
                 
                 // Get the row parameters with collector
-                $mc = midcom_baseclasses_database_parameter::new_collector('parentguid', $this->storage->object->guid);
+                $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
                 $mc->add_value_property('name');
                 
                 // Add the constraints
@@ -596,7 +596,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 // Initialize the returned column
                 $column = array();
                 
-                $mc = midcom_baseclasses_database_parameter::new_collector('parentguid', $this->storage->object->guid);
+                $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
                 $mc->add_value_property('name');
                 $mc->add_value_property('value');
                 

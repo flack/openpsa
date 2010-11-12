@@ -52,7 +52,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
     /**
      * Pointer to midgard object
-     * @var midcom_baseclasses_database_object
+     * @var midcom_db_object
      * @access private
      */
     var $_object = null;
@@ -168,7 +168,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $rcs = $_MIDCOM->get_service('rcs');
         $this->_backend = $rcs->load_handler($this->_object);
 
-        if (get_class($this->_object) != 'midcom_baseclasses_database_topic')
+        if (get_class($this->_object) != 'midcom_db_topic')
         {
             $_MIDCOM->bind_view_to_object($this->_object);
         }

@@ -12,7 +12,7 @@
  *
  * Unless further qualified, "Midgard Content Objects" can be either pre-mgdschema
  * or mgdschema objects. The only necessary constraint is that a MidCOM base class
- * (midgard_baseclasses_database_*) must be available.
+ * (midgard_db_*) must be available.
  *
  * This implementation is based on the general idea outlined in mRFC 15
  * ( http://www.midgard-project.org/development/mrfc/0015/ ),

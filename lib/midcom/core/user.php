@@ -13,7 +13,7 @@
  *
  * You must not create these objects directly. Instead, use the factory method
  * $_MIDCOM->auth->get_user($id), where $id is any valid constructor argument
- * for a midcom_baseclasses_database_person.
+ * for a midcom_db_person.
  *
  * @package midcom
  */
@@ -281,7 +281,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
             }
         }
         else if (   is_object($id)
-                 && (   is_a($id, 'midcom_baseclasses_database_person')
+                 && (   is_a($id, 'midcom_db_person')
                      || is_a($id, 'org_openpsa_contacts_person')
                      || is_a($id, $GLOBALS['midcom_config']['person_class'])))
         {

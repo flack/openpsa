@@ -20,7 +20,7 @@
             'type' => 'composite',
             'type_config' => Array
             (
-                'child_class'                 => 'midcom_baseclasses_database_parameter',
+                'child_class'                 => 'midcom_db_parameter',
                 'child_schemadb'              => 'file:/midgard/admin/asgard/config/schemadb_parameter.inc',
                 'child_foreign_key_fieldname' => 'parentguid',
                 'orders'                      => array

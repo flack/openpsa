@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.baseclasses
+ * @package midcom.db
  * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: snippet.php 23014 2009-07-27 15:44:43Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -18,10 +18,10 @@
  * Also, all QueryBuilder operations need to be done by the factory class
  * obtainable through the statically callable new_query_builder() DBA methods.
  *
- * @package midcom.baseclasses
+ * @package midcom.db
  * @see midcom_services_dbclassloader
  */
-class midcom_baseclasses_database_snippet extends midcom_core_dbaobject
+class midcom_db_snippet extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'midgard_snippet';
@@ -78,7 +78,7 @@ class midcom_baseclasses_database_snippet extends midcom_core_dbaobject
             return null;
         }
 
-        $parent = new midcom_baseclasses_database_snippetdir($this->up);
+        $parent = new midcom_db_snippetdir($this->up);
         if (! $parent)
         {
             debug_push_class(__CLASS__, __FUNCTION__);

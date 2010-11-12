@@ -6,10 +6,10 @@ array
 array
 (
     'mgdschema_class_name' => 'midcom_core_group_virtual_db',
-    'midcom_class_name' => 'midcom_baseclasses_database_group_virtual'
+    'midcom_class_name' => 'midcom_db_group_virtual'
 ),
 array
 (
     'mgdschema_class_name' => 'midcom_core_privilege_db',
-    'midcom_class_name' => 'midcom_baseclasses_database_privilege'
+    'midcom_class_name' => 'midcom_db_privilege'
 ),

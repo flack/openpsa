@@ -837,7 +837,7 @@ class midcom_services_multilang
         self::syncs($object, $is_update);
 
         if (   !empty($object->symlink)
-            && (   is_a($object, 'midcom_baseclasses_database_topic')
+            && (   is_a($object, 'midcom_db_topic')
                 || is_a($object, 'midgard_topic')
                )
            )

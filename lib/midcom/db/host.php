@@ -8,18 +8,23 @@
  */
 
 /**
- * MidCOM Legacy Database Abstraction Layer
- *
- * This class encapsulates a classic MidgardHost with its original features.
- *
- * <i>Preliminary Implementation:</i>
- *
- * Be aware that this implementation is incomplete, and grows on a is-needed basis.
- *
+ * MidCOM level replacement for the Midgard Host record with framework support.
+ * 
+ * Hosts do not have a parent object.
+ * 
+ * Note, as with all MidCOM DB layer objects, you should not use the get_by*
+ * operations directly, instead, you have to use the constructor's $id parameter.
+ * 
+ * Also, all QueryBuilder operations need to be done by the factory class 
+ * obtainable through the statically callable new_query_builder() DBA methods.
+ * 
+ * @see midcom_services_dbclassloader
  * @package midcom.db
  */
-class midcom_db_host extends midcom_baseclasses_database_host
+class midcom_db_host extends midcom_core_dbaobject
 {
+    var $__midcom_class_name__ = __CLASS__;
+    var $__mgdschema_class_name__ = 'midgard_host';
 
     /**
      * The default constructor will create an empty object. Optionally, you can pass
@@ -45,6 +50,9 @@ class midcom_db_host extends midcom_baseclasses_database_host
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
+
+    var $__midcom_class_name__ = __CLASS__;
+    var $__mgdschema_class_name__ = 'midgard_host';
 
     static function &get_cached($src)
     {

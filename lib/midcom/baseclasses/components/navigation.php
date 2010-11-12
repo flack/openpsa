@@ -47,7 +47,7 @@ class midcom_baseclasses_components_navigation
     /**
      * The topic for which we are handling a request.
      *
-     * @var midcom_baseclasses_database_topic
+     * @var midcom_db_topic
      */
     var $_topic = null;
 
@@ -169,7 +169,7 @@ class midcom_baseclasses_components_navigation
      * topic in question. It calls the event handler _on_set_object after initializing
      * everything in case you need to do some custom initializations as well.
      *
-     * @param midcom_baseclasses_database_topic $topic The topic to process.
+     * @param midcom_db_topic $topic The topic to process.
      * @return boolean Indicating success.
      */
     public function set_object($topic)

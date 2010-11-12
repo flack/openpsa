@@ -90,7 +90,7 @@
             'widget'  => 'chooser',
             'widget_config' => array
             (
-                'class' => 'midcom_baseclasses_database_language',
+                'class' => 'midcom_db_language',
                 'component' => 'midcom.helper.datamanager2',
                 'searchfields' => array
                 (

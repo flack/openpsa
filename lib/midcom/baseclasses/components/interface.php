@@ -137,7 +137,7 @@
  *
  *     function _on_reindex($topic, $config, &$indexer)
  *     {
- *         $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_baseclasses_database_article');
+ *         $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_article');
  *         $qb->add_constraint('topic', '=', $topic->id);
  *         $result = $_MIDCOM->dbfactory->exec_query_builder($qb);
  *
@@ -174,7 +174,7 @@
  *
  *     function _on_resolve_permalink($topic, $config, $guid)
  *     {
- *         $article = new midcom_baseclasses_database_article($guid);
+ *         $article = new midcom_db_article($guid);
  *         if (   ! $article
  *             || $article->topic != $topic->id)
  *         {
@@ -754,7 +754,7 @@ class midcom_baseclasses_components_interface
      * see its documentation for details.
      *
      * @param string $guid The permalink GUID that should be looked up.
-     * @param midcom_baseclasses_database_topic $topic the Topic to look up.
+     * @param midcom_db_topic $topic the Topic to look up.
      * @return string The local URL (without leading slashes) or null on failure.
      * @see _on_resolve_permalink()
      */
@@ -771,7 +771,7 @@ class midcom_baseclasses_components_interface
      * this component, as it is theoretically possible for components to drop configuration
      * information on other topics as well.
      *
-     * @param midcom_baseclasses_database_topic $topic The topic which should be queried, omit to
+     * @param midcom_db_topic $topic The topic which should be queried, omit to
      *     get the systemwide defaults.
      * @return midcom_helper_configuration MidCOM configuration object
      */
@@ -995,7 +995,7 @@ class midcom_baseclasses_components_interface
      * you really need it.
      *
      * @param string $guid The permalink GUID that should be looked up.
-     * @param midcom_baseclasses_database_topic $topic the Topic to look up.
+     * @param midcom_db_topic $topic the Topic to look up.
      * @param midcom_helper_configuration $config The configuration used for the given topic.
      * @return string The local URL (without leading slashes) or null on failure.
      */

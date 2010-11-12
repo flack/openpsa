@@ -126,7 +126,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
         $root_group = false;
 
-        $qb = midcom_baseclasses_database_group::new_query_builder();
+        $qb = midcom_db_group::new_query_builder();
         $qb->add_constraint('owner', '=', 0);
         $qb->add_constraint('name', '=', '__org_openpsa_contacts');
 
@@ -148,7 +148,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
             //Attempt to  auto-initialize the group.
             $_MIDCOM->auth->request_sudo();
-            $grp = new midcom_baseclasses_database_group();
+            $grp = new midcom_db_group();
             $grp->owner = 0;
             $grp->name = '__org_openpsa_contacts';
             $ret = $grp->create();

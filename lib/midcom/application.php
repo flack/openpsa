@@ -795,7 +795,7 @@ class midcom_application
                             debug_pop();
                         }
 
-                        $attachment = new midcom_baseclasses_database_attachment($value);
+                        $attachment = new midcom_db_attachment($value);
                         if (   !$attachment
                             && !$attachment->guid)
                         {
@@ -959,7 +959,7 @@ class midcom_application
                 $this->generate_error(MIDCOM_ERRCRIT, 'Root node missing.');
             }
 
-            if (is_a($object, 'midcom_baseclasses_database_attachment'))
+            if (is_a($object, 'midcom_db_attachment'))
             {
                 $this->serve_attachment($object);
             }

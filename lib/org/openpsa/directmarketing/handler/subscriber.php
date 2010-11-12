@@ -32,7 +32,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
         {
-            $this->_request_data['person'] = new midcom_baseclasses_database_person($args[0]);
+            $this->_request_data['person'] = new midcom_db_person($args[0]);
             if (!$this->_request_data['person'])
             {
                 debug_add("Person record '{$args[0]}' not found");

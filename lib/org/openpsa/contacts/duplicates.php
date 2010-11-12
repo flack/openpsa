@@ -214,7 +214,7 @@ class org_openpsa_contacts_duplicates
             || !is_array($this->_membership_cache[$person1['guid']]))
         {
             $this->_membership_cache[$person1['guid']] = array();
-            $mc = midcom_baseclasses_database_member::new_collector('uid', $person1['id']);
+            $mc = midcom_db_member::new_collector('uid', $person1['id']);
             $mc->add_value_property('gid');
             $mc->execute();
             $memberships = $mc->list_keys();
@@ -228,7 +228,7 @@ class org_openpsa_contacts_duplicates
             || !is_array($this->_membership_cache[$person2['guid']]))
         {
             $this->_membership_cache[$person2['guid']] = array();
-            $mc = midcom_baseclasses_database_member::new_collector('uid', $person2['id']);
+            $mc = midcom_db_member::new_collector('uid', $person2['id']);
             $mc->add_value_property('gid');
             $mc->execute();
             $memberships = $mc->list_keys();

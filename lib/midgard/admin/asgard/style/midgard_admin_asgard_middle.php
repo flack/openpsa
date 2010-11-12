@@ -55,7 +55,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                             }
                             elseif ($data['object']->lang != 0)
                             {
-                                $lang = new midcom_baseclasses_database_language($data['object']->lang);
+                                $lang = new midcom_db_language($data['object']->lang);
                                echo "<span class=\"object_language\">" .  sprintf($_MIDCOM->i18n->get_string('in %s', 'midgard.admin.asgard'), $lang->name) . '</span>';
                             }
                         }

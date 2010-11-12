@@ -21,11 +21,11 @@ foreach ($view_types as $type)
 
             if ($document->_fields['__EDITOR']['content'])
             {
-                $editor = new midcom_baseclasses_database_person($document->_fields['__EDITOR']['content']);
+                $editor = new midcom_db_person($document->_fields['__EDITOR']['content']);
             }
             else
             {
-                $editor = new midcom_baseclasses_database_person($document->_fields['__CREATOR']['content']);
+                $editor = new midcom_db_person($document->_fields['__CREATOR']['content']);
             }
 
             $onclick = '';

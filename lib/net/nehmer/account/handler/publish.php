@@ -48,7 +48,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
     /**
      * The Avatar image, if set.
      *
-     * @var midcom_baseclasses_database_attachment
+     * @var midcom_db_attachment
      * @access private
      */
     var $_avatar = null;
@@ -56,7 +56,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
     /**
      * The Avatar thumbnail image, if set.
      *
-     * @var midcom_baseclasses_database_attachment
+     * @var midcom_db_attachment
      * @access private
      */
     var $_avatar_thumbnail = null;
@@ -259,7 +259,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param string $title The title to use.
      * @param string $mimetype The autodetected mimetype (will usually be normalized).
      * @param string $tmpname The file to load.
-     * @return midcom_baseclasses_database_attachment The generated / updated attachment, or false on failure.
+     * @return midcom_db_attachment The generated / updated attachment, or false on failure.
      */
     function _update_image_attachment($name, $title, $mimetype, $tmpname)
     {

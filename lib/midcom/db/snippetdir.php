@@ -1,30 +1,30 @@
 <?php
 /**
- * @package midcom.baseclasses
- * @author The Midgard Project, http://www.midgard-project.org 
- * @version $Id: eventmember.php 23014 2009-07-27 15:44:43Z flack $
+ * @package midcom.db
+ * @author The Midgard Project, http://www.midgard-project.org
+ * @version $Id: snippetdir.php 23975 2009-11-09 05:44:22Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
 /**
- * MidCOM level replacement for the Midgard Eventmember record with framework support.
- * 
- * An event member has its event as explicit parent, *not* its person.
- * 
+ * MidCOM level replacement for the Midgard SnippetDir record with framework support.
+ *
+ * The uplink is the owning snippetdir.
+ *
  * Note, as with all MidCOM DB layer objects, you should not use the get_by*
  * operations directly, instead, you have to use the constructor's $id parameter.
- * 
- * Also, all QueryBuilder operations need to be done by the factory class 
+ *
+ * Also, all QueryBuilder operations need to be done by the factory class
  * obtainable through the statically callable new_query_builder() DBA methods.
- * 
- * @package midcom.baseclasses
+ *
+ * @package midcom.db
  * @see midcom_services_dbclassloader
  */
-class midcom_baseclasses_database_eventmember extends midcom_core_dbaobject
+class midcom_db_snippetdir extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_eventmember';
+    var $__mgdschema_class_name__ = 'midgard_snippetdir';
 
     function __construct($id = null)
     {
@@ -45,32 +45,29 @@ class midcom_baseclasses_database_eventmember extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     /**
-     * Returns the Parent of the Eventmember. This is the event it is assigned to.
-     * 
+     * Returns the Parent of the Snippet.
+     *
      * @return MidgardObject Parent object or NULL if there is none.
      */
     function get_parent_guid_uncached()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        
-        if ($this->eid == 0)
+        if ($this->up == 0)
         {
-            debug_pop();
             return null;
         }
-        
-        $parent = new midcom_baseclasses_database_event($this->eid);
+
+        $parent = new midcom_db_snippetdir($this->up);
         if (! $parent)
         {
-            debug_add("Could not load Event ID {$this->eid} from the database, aborting.", 
+            debug_push_class(__CLASS__, __FUNCTION__);
+            debug_add("Could not load Snippetdir ID {$this->up} from the database, aborting.",
                 MIDCOM_LOG_INFO);
             debug_pop();
             return null;
         }
-        
-        debug_pop();
+
         return $parent->guid;
     }
 }

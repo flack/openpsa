@@ -129,7 +129,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');
 
-        if (is_a($this->_object, 'midcom_baseclasses_database_topic'))
+        if (is_a($this->_object, 'midcom_db_topic'))
         {
             // This is a topic
             $this->_object->require_do('midcom.admin.folder:topic_management');
@@ -163,7 +163,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
 
         $tmp = array();
 
-        if (is_a($this->_object, 'midcom_baseclasses_database_topic'))
+        if (is_a($this->_object, 'midcom_db_topic'))
         {
             $this->_node_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
         }
@@ -210,7 +210,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         $data['controller'] =& $this->_controller;
         $data['object'] =& $this->_object;
 
-        if (   is_a($this->_object, 'midcom_baseclasses_database_topic')
+        if (   is_a($this->_object, 'midcom_db_topic')
             && !empty($this->_object->symlink))
         {
             $topic = new midcom_db_topic($this->_object->symlink);

@@ -128,8 +128,8 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
 
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
-            && (   is_a($object, 'midcom_baseclasses_database_element')
-                || is_a($object, 'midcom_baseclasses_database_pageelement'))
+            && (   is_a($object, 'midcom_db_element')
+                || is_a($object, 'midcom_db_pageelement'))
             )
         {
             debug_add('invalidating Midgard page cache');
@@ -464,8 +464,8 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
-            && (   is_a($object, 'midcom_baseclasses_database_element')
-                || is_a($object, 'midcom_baseclasses_database_pageelement'))
+            && (   is_a($object, 'midcom_db_element')
+                || is_a($object, 'midcom_db_pageelement'))
             )
         {
             mgd_cache_invalidate();
@@ -640,7 +640,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         {
             // Delete all extensions:
             // Attachments can't have attachments so no need to query those
-            if (!is_a($object, 'midcom_baseclasses_database_attachment'))
+            if (!is_a($object, 'midcom_db_attachment'))
             {
                 $list = $object->list_attachments();
                 foreach ($list as $attachment)
@@ -772,8 +772,8 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
 
         // Invalidate Midgard pagecache if we touched style/page element
         if (   function_exists('mgd_cache_invalidate')
-            && (   is_a($object, 'midcom_baseclasses_database_element')
-                || is_a($object, 'midcom_baseclasses_database_pageelement'))
+            && (   is_a($object, 'midcom_db_element')
+                || is_a($object, 'midcom_db_pageelement'))
             )
         {
             mgd_cache_invalidate();
@@ -845,8 +845,8 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
                 
                 // Invalidate Midgard pagecache if we touched style/page element
                 if (   function_exists('mgd_cache_invalidate')
-                    && (   is_a($object, 'midcom_baseclasses_database_element')
-                        || is_a($object, 'midcom_baseclasses_database_pageelement'))
+                    && (   is_a($object, 'midcom_db_element')
+                        || is_a($object, 'midcom_db_pageelement'))
                     )
                 {
                     mgd_cache_invalidate();
@@ -1230,8 +1230,8 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         // TODO: Do this with midgard_object_class::is_multilang($object) when it works
         if (   $GLOBALS['midcom_config']['i18n_multilang_strict']
             && $_MIDCOM->dbfactory->is_multilang($object)
-            && !is_a($object, 'midcom_baseclasses_database_parameter')
-            && !is_a($object, 'midcom_baseclasses_database_attachment')
+            && !is_a($object, 'midcom_db_parameter')
+            && !is_a($object, 'midcom_db_attachment')
             && $object->lang != $_MIDCOM->i18n->get_midgard_language())
         {
             // TODO: Some other error code might be nicer here
@@ -2138,7 +2138,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
      *
      * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param string $name The name of the attachment to look up.
-     * @return midcom_baseclasses_database_attachment The attachment found, or false on failure.
+     * @return midcom_db_attachment The attachment found, or false on failure.
      */
     public static function get_attachment($object, $name)
     {
@@ -2204,7 +2204,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
      * @param string $name The name of the attachment.
      * @param string $title The title of the attachment.
      * @param string $mimetype The MIME-Type of the attachment.
-     * @return midcom_baseclasses_database_attachment The created attachment or false on failure.
+     * @return midcom_db_attachment The created attachment or false on failure.
      */
     public static function create_attachment($object, $name, $title, $mimetype)
     {
@@ -2225,7 +2225,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
             return false;
         }
 
-        $attachment = new midcom_baseclasses_database_attachment();
+        $attachment = new midcom_db_attachment();
         $attachment->name = $name;
         $attachment->title = $title;
         $attachment->mimetype = $mimetype;
@@ -2263,7 +2263,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
             return false;
         }
 
-        $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_baseclasses_database_attachment');
+        $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_attachment');
         $qb->add_constraint('parentguid', '=', $object->guid);
 
         return $qb;
@@ -2274,7 +2274,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
      * attachments, an empty array is returned.
      *
      * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
-     * @return Array A list of midcom_baseclasses_database_attachment objects or false on failure.
+     * @return Array A list of midcom_db_attachment objects or false on failure.
      */
     public static function list_attachments($object)
     {

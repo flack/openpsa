@@ -358,18 +358,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             $topic = $_MIDCOM->get_context_data($context_id, MIDCOM_CONTEXT_CONTENTTOPIC);
         }
 
-        if (   !$topic
-            || !$topic->guid)
-        {
-            return false;
-        }
-
-        if (!is_a($topic, 'midcom_baseclasses_database_topic'))
-        {
-            // Force-Cast to DBA object
-            $topic = new midcom_db_topic($topic);
-        }
-
         // Bullet-proof
         if (   !$topic
             || !$topic->guid)
@@ -882,7 +870,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                     MIDCOM_TOOLBAR_URL => "{$prefix}__ais/folder/move/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('move', 'midcom.admin.folder'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-                    MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_baseclasses_database_article')
+                    MIDCOM_TOOLBAR_ENABLED => is_a($object, 'midcom_db_article')
                 )
             );
             $toolbar->add_item

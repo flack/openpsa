@@ -7,12 +7,12 @@
  */
 
 /**
- * Wrapper for midcom_baseclasses_database_topic
+ * Wrapper for midcom_db_topic
  *
  * @package org.openpsa.documents
  *
  */
-class org_openpsa_documents_directory extends midcom_baseclasses_database_topic
+class org_openpsa_documents_directory extends midcom_db_topic
 {
     function __construct($identifier = NULL)
     {

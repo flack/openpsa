@@ -119,7 +119,7 @@ class midgard_admin_asgard_objecthelper extends midgard_admin_asgard_navigation
     /**
      * Helper for suggesting element names to create under a style
      */
-    public static function get_help_style_elementnames(midcom_baseclasses_database_style $style)
+    public static function get_help_style_elementnames(midcom_db_style $style)
     {
         $style_path = $_MIDCOM->style->get_style_path_from_id($style->id);
         $data = $_MIDCOM->get_custom_context_data('request_data');

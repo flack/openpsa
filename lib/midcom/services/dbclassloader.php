@@ -8,39 +8,24 @@
  */
 
 /**
- * This class acts as an automated way of generating MidCOM level wrapper
- * classes for MgdSchema based database objects.
- *
  * <b>How to write database class definitions:</b>
  *
- * The class basically takes a list of class metadata declarations and transforms
- * them into stub classes usable within MidCOM.
- *
- * The classes are generated and loaded automatically on every change, you do not
- * have to worry about this.
- *
- * The general idea behind this loader is to provide MidCOM with a way to hook into
- * every database interaction between the component and the Midgard core. In MidCOM
- * versions released after 2.6.x direct access to the Midgard Database will be prohibited.
+ * The general idea is to provide MidCOM with a way to hook into every database interaction
+ * between the component and the Midgard core.
  *
  * Since PHP does not allow for multiple inheritance (which would be really useful here),
- * a code-generator is needed, which automatically generates intermediated classes between
- * the class you actually use in your component and the original MgdSchema class.
+ * a decorator pattern is used, which connects the class you actually use in your component 
+ * and the original MgdSchema class while at the same time routing all function calls through
+ * midcom_core_dbaobject.
  *
- * For example, if you have the MgdSchema type midgard_article and the MidCOM article
- * base class called midcom_baseclasses_database_article, the schema automatically generates
- * an intermediate class called __midcom_baseclasses_database_article. The intermediate
- * class inherits from the MgdSchema class, while your class inherits from the intermediate
- * class.
- *
- * The class loader does not require much information when generating the intermediate classes:
+ * The class loader does not require much information when registering classes:
  * An example declaration looks like this:
  *
  * <code>
  * Array
  * (
  *     'mgdschema_class_name' => 'midgard_article',
- *     'midcom_class_name' => 'midcom_baseclasses_database_article'
+ *     'midcom_class_name' => 'midcom_db_article'
  * )
  * </code>
  *
@@ -51,12 +36,8 @@
  *
  * <i>midcom_class_name</i> this is the name of the MidCOM base class you intend to create.
  * It is checked for basic validity against the PHP restrictions on symbol naming, but the
- * class itself is not checked for existence, naturally, as it is not declared at the time
- * of generating its base class. You <i>must</i> declare the class as listed at all times,
- * as typecasting and -detection is done using this metadata property in the core.
- *
- * As outlined above, the generated class will have two underscores appended to the
- * midcom_class_name you specify.
+ * class itself is not checked for existence. You <i>must</i> declare the class as listed at 
+ * all times, as typecasting and -detection is done using this metadata property in the core.
  *
  * It is possible to specify more than one class in a single class definition file, and it
  * is recommended that you take advantage of this feature for performance reasons:
@@ -85,7 +66,7 @@
  * subclass constructor looks like this:
  *
  * <code>
- * class midcom_baseclasses_database_article
+ * class midcom_db_article
  *     extends midcom_core_dbaobject
  * {
  *     function __construct($id = null)
@@ -110,7 +91,7 @@
  * For example:
  *
  * <code>
- * class midcom_baseclasses_database_article
+ * class midcom_db_article
  *     extends midcom_core_dbaobject
  * {
  *     // ...
@@ -119,7 +100,7 @@
  *     {
  *         if ($this->up != 0)
  *         {
- *             $parent = new midcom_baseclasses_database_article($this->up);
+ *             $parent = new midcom_db_article($this->up);
  *             if (! $parent)
  *             {
  *                 // Handle Error
@@ -127,7 +108,7 @@
  *         }
  *         else
  *         {
- *             $parent = new midcom_baseclasses_database_topic($this->topic);
+ *             $parent = new midcom_db_topic($this->topic);
  *             if (! $parent)
  *             {
  *                 // Handle Error
@@ -144,11 +125,6 @@
  * The recommended way of handling inconsistencies as the ones shown above is to log an error with
  * at least MIDCOM_LOG_INFO and then return null. Depending on your application you could also
  * call generate_error instead, halting execution.
- *
- * <b>Caching</b>
- *
- * The phpscripts cache module is used to cache the created intermediate classes. Cache granularity
- * is per class definition file. We use the domain midcom.dba as namespace.
  *
  * <b>General design considerations and the original basic ideas:</b>
  *

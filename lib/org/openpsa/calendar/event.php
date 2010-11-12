@@ -1163,7 +1163,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     private static function _pid_to_obj($pid)
     {
-        return new midcom_baseclasses_database_person($pid);
+        return new midcom_db_person($pid);
     }
 
     /**

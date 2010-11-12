@@ -179,7 +179,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
     function _run_search(&$data)
     {
-        $qb = midcom_baseclasses_database_attachment::new_query_builder();
+        $qb = midcom_db_attachment::new_query_builder();
         $query = str_replace('*', '%', $data['query']);
         $qb->begin_group('OR');
             $qb->add_constraint('name', 'LIKE', $query);

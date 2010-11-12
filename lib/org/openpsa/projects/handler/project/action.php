@@ -137,7 +137,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
 
                 // Create the news topic
                 // FIXME: Move this to a method in the project class
-                $news_topic = new midcom_baseclasses_database_topic();
+                $news_topic = new midcom_db_topic();
                 $news_topic->up = $this->_request_data['project_topic']->id;
                 $news_topic->extra = sprintf($this->_l10n->get("%s news area"), $this->_request_data['project']->title);
                 $news_topic->component = 'net.nehmer.blog';
@@ -147,7 +147,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
                 if ($news_topic->id)
                 {
                     // Set the topic to use correct component
-                    $news_topic = new midcom_baseclasses_database_topic($news_topic->id);
+                    $news_topic = new midcom_db_topic($news_topic->id);
 
                     // Fix the ACLs for the topic
                     $sync = new org_openpsa_core_acl_synchronizer();
@@ -184,7 +184,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
 
                 // Create the news topic
                 // FIXME: Move this to a method in the project class
-                $forum_topic = new midcom_baseclasses_database_topic();
+                $forum_topic = new midcom_db_topic();
                 $forum_topic->up = $this->_request_data['project_topic']->id;
                 $forum_topic->extra = sprintf($this->_l10n->get("%s discussion"), $this->_request_data['project']->title);
                 $forum_topic->component = 'net.nemein.discussion';
@@ -194,7 +194,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
                 if ($forum_topic->id)
                 {
                     // Set the topic to use correct component
-                    $forum_topic = new midcom_baseclasses_database_topic($forum_topic->id);
+                    $forum_topic = new midcom_db_topic($forum_topic->id);
 
                     // Fix the ACLs for the topic
                     $sync = new org_openpsa_core_acl_synchronizer();

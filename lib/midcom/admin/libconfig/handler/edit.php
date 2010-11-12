@@ -183,48 +183,48 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $sg_snippetdir = new midcom_baseclasses_database_snippetdir();
+                $sg_snippetdir = new midcom_db_snippetdir();
                 $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
                 if ($sg_snippetdir->id == false )
                 {
-                    $sd = new midcom_baseclasses_database_snippetdir();
+                    $sd = new midcom_db_snippetdir();
                     $sd->up = 0;
                     $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
                     if (!$sd->create())
                     {
                         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}".midcom_application::get_error_string());
                     }
-                    $sg_snippetdir = new midcom_baseclasses_database_snippetdir($sd->guid);
+                    $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
                     unset($sd);
                 }
 
-                $lib_snippetdir = new midcom_baseclasses_database_snippetdir();
+                $lib_snippetdir = new midcom_db_snippetdir();
                 $lib_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']."/".$args[0]);
                 if ($lib_snippetdir->id == false )
                 {
-                    $sd = new midcom_baseclasses_database_snippetdir();
+                    $sd = new midcom_db_snippetdir();
                     $sd->up = $sg_snippetdir->id;
                     $sd->name = $args[0];
                     if (!$sd->create())
                     {
                         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$args[0]}".midcom_application::get_error_string());
                     }
-                    $lib_snippetdir = new midcom_baseclasses_database_snippetdir($sd->guid);
+                    $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
                     unset($sd);
                 }
 
-                $snippet = new midcom_baseclasses_database_snippet();
+                $snippet = new midcom_db_snippet();
                 $snippet->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']."/".$args[0]."/config");
                 if ($snippet->id == false )
                 {
-                    $sn = new midcom_baseclasses_database_snippet();
+                    $sn = new midcom_db_snippet();
                     $sn->up = $lib_snippetdir->id;
                     $sn->name = "config";
                     if (!$sn->create())
                     {
                         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create config snippet".midcom_application::get_error_string());
                     }
-                    $snippet = new midcom_baseclasses_database_snippet($sn->id);
+                    $snippet = new midcom_db_snippet($sn->id);
                 }
 
                 $snippet->code = $this->_get_config($this->_controller);

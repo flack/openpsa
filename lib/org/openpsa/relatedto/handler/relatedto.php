@@ -284,7 +284,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         switch(true)
         {
-            case $_MIDCOM->dbfactory->is_a($obj, 'midcom_baseclasses_database_event'):
+            case $_MIDCOM->dbfactory->is_a($obj, 'midcom_db_event'):
                 return $obj->start;
             case $_MIDCOM->dbfactory->is_a($obj, 'org_openpsa_projects_task_dba'):
                 return $obj->start;
@@ -443,7 +443,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                     $this->_render_line_wikipage($link, $other_obj);
                 }
                 break;
-            case 'midcom_baseclasses_database_event':
+            case 'midcom_db_event':
                 //Fall-trough intentional
             case 'org_openpsa_calendar_event_dba':
                 $this->_render_line_event($link, $other_obj);

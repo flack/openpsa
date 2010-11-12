@@ -47,7 +47,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         {
             $title = $object->title;
         }
-        else if (is_a($object, 'midcom_baseclasses_database_topic')
+        else if (is_a($object, 'midcom_db_topic')
             && $object->extra !== '')
         {
             $title = $object->extra;
@@ -93,8 +93,8 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             // This will exit.
         }
 
-        if (   !is_a($this->_object, 'midcom_baseclasses_database_topic')
-            && !is_a($this->_object, 'midcom_baseclasses_database_article'))
+        if (   !is_a($this->_object, 'midcom_db_topic')
+            && !is_a($this->_object, 'midcom_db_article'))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Moving only topics and articles is supported.");
         }
@@ -115,7 +115,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             
             $move_to_topic->require_do('midgard:create');
 
-            if (is_a($this->_object, 'midcom_baseclasses_database_topic'))
+            if (is_a($this->_object, 'midcom_db_topic'))
             {
                 $name = $this->_object->name;
                 $this->_object->name = ''; // Prevents problematic location to break the site, we set this back below...
@@ -157,7 +157,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             // This will exit
         }
 
-        if (is_a($this->_object, 'midcom_baseclasses_database_topic'))
+        if (is_a($this->_object, 'midcom_db_topic'))
         {
             // This is a topic
             $this->_object->require_do('midcom.admin.folder:topic_management');

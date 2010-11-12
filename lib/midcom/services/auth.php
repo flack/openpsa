@@ -1087,7 +1087,7 @@ class midcom_services_auth
         }
         else if (is_object($id))
         {
-            if (is_a($id, 'midcom_baseclasses_database_person'))
+            if (is_a($id, 'midcom_db_person'))
             {
                 $id = $id->id;
                 $object = null;
@@ -1154,7 +1154,7 @@ class midcom_services_auth
     {
         $group = false;
         if (   is_object($id)
-            && (   is_a($id, 'midcom_baseclasses_database_group')
+            && (   is_a($id, 'midcom_db_group')
                 || is_a($id, 'midgard_group')))
         {
             $object = $id;

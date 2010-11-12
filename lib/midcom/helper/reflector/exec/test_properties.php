@@ -19,12 +19,10 @@ $test_instances = array
     new midcom_db_article(),
     'midgard_article',
     'midcom_db_article',
-    'midcom_baseclasses_database_article',
     new midgard_topic(),
     new midcom_db_topic(),
     'midgard_topic',
     'midcom_db_topic',
-    'midcom_baseclasses_database_topic',
 );
 
 foreach ($test_instances as $instance)

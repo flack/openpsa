@@ -363,14 +363,14 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
             // Only hosts have lang field that we will actually display
             if (   $key == 'lang'
-                && !is_a($this->_object, 'midcom_baseclasses_database_host'))
+                && !is_a($this->_object, 'midcom_db_host'))
             {
                 continue;
             }
 
             // Skip topic symlink field because it is a special field not meant to be touched directly
             if (   $key == 'symlink'
-                && is_a($this->_object, 'midcom_baseclasses_database_topic'))
+                && is_a($this->_object, 'midcom_db_topic'))
             {
                 continue;
             }
@@ -462,7 +462,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 case MGD_TYPE_GUID:
                 case MGD_TYPE_STRING:
                     if (   $key == 'component'
-                        && is_a($this->_object, 'midcom_baseclasses_database_topic'))
+                        && is_a($this->_object, 'midcom_db_topic'))
                     {
                         // Component pulldown for topics
                         $components = array('' => '');
@@ -542,7 +542,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                     // Special page treatment
                     if (   $key === 'info'
-                        && $type === 'midcom_baseclasses_database_page')
+                        && $type === 'midcom_db_page')
                     {
                         $this->_schemadb['object']->append_field
                         (
@@ -574,7 +574,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     }
 
                     if (   $key === 'info'
-                        && $type === 'midcom_baseclasses_database_pageelement')
+                        && $type === 'midcom_db_pageelement')
                     {
                         $this->_schemadb['object']->append_field
                         (
@@ -619,7 +619,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                     // Workaround for the content field of pages
                     $adjusted_key = $key;
-                    if (   $type == 'midcom_baseclasses_database_page'
+                    if (   $type == 'midcom_db_page'
                         && $key == 'content')
                     {
                         $adjusted_key = 'code';
@@ -894,7 +894,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         switch ($this->_controller->process_form())
         {
             case 'save':
-                if (is_a($this->_object, 'midcom_baseclasses_database_topic'))
+                if (is_a($this->_object, 'midcom_db_topic'))
                 {
                     if (   !empty($this->_object->symlink)
                         && !empty($this->_object->component))
@@ -904,10 +904,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     }
                 }
 
-                if (   is_a($this->_object, 'midcom_baseclasses_database_style')
-                    || is_a($this->_object, 'midcom_baseclasses_database_element')
-                    || is_a($this->_object, 'midcom_baseclasses_database_page')
-                    || is_a($this->_object, 'midcom_baseclasses_database_pageelement'))
+                if (   is_a($this->_object, 'midcom_db_style')
+                    || is_a($this->_object, 'midcom_db_element')
+                    || is_a($this->_object, 'midcom_db_page')
+                    || is_a($this->_object, 'midcom_db_pageelement'))
                 {
                     mgd_cache_invalidate();
                 }
@@ -990,7 +990,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         if ($this->_object)
         {
-            if ($this->_new_type == 'midcom_baseclasses_database_parameter')
+            if ($this->_new_type == 'midcom_db_parameter')
             {
                 // Parameters are linked a bit differently
                 $this->_new_object->parentguid = $this->_object->guid;
@@ -1076,7 +1076,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
 
             // FIXME: Make a general case for all objects that are linked by guid to any other class
-            if ($this->_new_type == 'midcom_baseclasses_database_parameter')
+            if ($this->_new_type == 'midcom_db_parameter')
             {
                 // Parameters are linked a bit differently
                 $parent_property = 'guid';
@@ -1139,8 +1139,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 break;
 
             case 'save':
-                if (   is_a($this->_new_object, 'midcom_baseclasses_database_style')
-                    || is_a($this->_new_object, 'midcom_baseclasses_database_element'))
+                if (   is_a($this->_new_object, 'midcom_db_style')
+                    || is_a($this->_new_object, 'midcom_db_element'))
                 {
                     mgd_cache_invalidate();
                 }
@@ -1277,8 +1277,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         // Redirect person deletion to user management
-        if (   is_a($this->_object, 'midcom_db_person')
-            || is_a($this->_object, 'midcom_baseclasses_database_person'))
+        if (is_a($this->_object, 'midcom_db_person'))
         {
             $relocate_url = "../asgard_midcom.admin.user/";
             $cancel_url = "__mfa/asgard_midcom.admin.user/edit/{$args[0]}/";
@@ -1311,8 +1310,8 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // This will exit.
             }
 
-            if (   is_a($this->_object, 'midcom_baseclasses_database_style')
-                || is_a($this->_object, 'midcom_baseclasses_database_element'))
+            if (   is_a($this->_object, 'midcom_db_style')
+                || is_a($this->_object, 'midcom_db_element'))
             {
                 mgd_cache_invalidate();
             }

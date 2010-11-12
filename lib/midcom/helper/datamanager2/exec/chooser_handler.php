@@ -345,7 +345,7 @@ foreach ($results as $object)
                  */
                 || (   $class == 'midcom_db_topic'
                     && $item_name == 'extra')
-                || (   in_array($class, array('midcom_baseclasses_database_group', 'midcom_db_group'))
+                || (   in_array($class, array('midcom_db_group', 'midcom_db_group'))
                     && $item_name == 'name') )
             {
                 $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);

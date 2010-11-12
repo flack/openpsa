@@ -546,7 +546,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 // Figure out label for the object's class
                 switch (get_class($this->_object))
                 {
-                    case 'midcom_baseclasses_database_topic':
+                    case 'midcom_db_topic':
                         $type = $_MIDCOM->i18n->get_string('folder', 'midgard.admin.asgard');
                         break;
                     default:
@@ -658,13 +658,13 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             );
         }
 
-        if (   !is_a($object, 'midcom_baseclasses_database_style')
-            && !is_a($object, 'midcom_baseclasses_database_element')
-            && !is_a($object, 'midcom_baseclasses_database_snippetdir')
-            && !is_a($object, 'midcom_baseclasses_database_snippet')
-            && !is_a($object, 'midcom_baseclasses_database_page')
-            && !is_a($object, 'midcom_baseclasses_database_pageelement')
-            && !is_a($object, 'midcom_baseclasses_database_parameter')
+        if (   !is_a($object, 'midcom_db_style')
+            && !is_a($object, 'midcom_db_element')
+            && !is_a($object, 'midcom_db_snippetdir')
+            && !is_a($object, 'midcom_db_snippet')
+            && !is_a($object, 'midcom_db_page')
+            && !is_a($object, 'midcom_db_pageelement')
+            && !is_a($object, 'midcom_db_parameter')
             && substr($object->__mgdschema_class_name__, 0, 23) != 'org_routamc_positioning'
             && substr($object->__mgdschema_class_name__, 0, 14) != 'net_nemein_tag')
         {
@@ -727,7 +727,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
 
         if ($object->can_do('midgard:update'))
         {
-            if (   is_a($object, 'midcom_baseclasses_database_topic')
+            if (   is_a($object, 'midcom_db_topic')
                 && $object->component
                 && $object->can_do('midcom:component_config'))
             {
@@ -879,7 +879,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             foreach ($child_types as $type)
             {
                 $display_button = true;
-                if (is_a($object, 'midcom_baseclasses_database_topic'))
+                if (is_a($object, 'midcom_db_topic'))
                 {
                     // With topics we should check for component before populating create buttons as so many types can be children of topics
                     switch ($type)
@@ -903,7 +903,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                             break;
                     }
                 }
-                elseif (   is_a($object, 'midcom_baseclasses_database_article')
+                elseif (   is_a($object, 'midcom_db_article')
                         && $object->topic)
                 {
                     $topic = new midcom_db_topic($object->topic);
@@ -983,7 +983,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
 
         $parent = $object->get_parent();
 
-        if (   is_a($object, 'midcom_baseclasses_database_parameter')
+        if (   is_a($object, 'midcom_db_parameter')
             && is_object($parent)
             && $parent->guid)
         {

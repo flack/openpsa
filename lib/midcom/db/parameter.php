@@ -1,14 +1,16 @@
 <?php
 /**
- * @package midcom.baseclasses
+ * @package midcom.db
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: element.php 23014 2009-07-27 15:44:43Z flack $
+ * @version $Id: parameter.php 24773 2010-01-18 08:15:45Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
 /**
- * MidCOM level replacement for the Midgard Style Element record with framework support.
+ * MidCOM level replacement for the Midgard Parameter record with framework support.
+ *
+ * The uplink is the parentguid parameter.
  *
  * Note, as with all MidCOM DB layer objects, you should not use the get_by*
  * operations directly, instead, you have to use the constructor's $id parameter.
@@ -16,16 +18,18 @@
  * Also, all QueryBuilder operations need to be done by the factory class
  * obtainable through the statically callable new_query_builder() DBA methods.
  *
- * @package midcom.baseclasses
+ * @package midcom.db
  * @see midcom_services_dbclassloader
  */
-class midcom_baseclasses_database_element extends midcom_core_dbaobject
+class midcom_db_parameter extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_element';
+    var $__mgdschema_class_name__ = 'midgard_parameter';
 
     function __construct($id = null)
     {
+        $this->_use_rcs = false;
+        $this->_use_activitystream = false;
         parent::__construct($id);
     }
 
@@ -43,35 +47,37 @@ class midcom_baseclasses_database_element extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
+    function get_parent_guid_uncached()
+    {
+        return $this->parentguid;
+    }
+
     /**
-     * Returns the Parent of the Element. This is the style the element is assigned to.
+     * Returns the Parent of the Parameter.
      *
      * @return MidgardObject Parent object or NULL if there is none.
      */
-    function get_parent_guid_uncached()
+    function get_parent_guid_uncached_static($guid)
     {
-        if ($this->style == 0)
+        $mc = new midgard_collector('midgard_parameter', 'guid', $guid);
+        $mc->set_key_property('parentguid');
+        $mc->execute();
+        $link_values = $mc->list_keys();
+        if (!$link_values)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_print_r('Current element is:', $this);
-            debug_add("The Style Element {$this->id} has its style member set to 0, this is a critical database inconsistency.",
-                MIDCOM_LOG_INFO);
-            debug_pop();
             return null;
         }
-
-        $parent = new midcom_baseclasses_database_style($this->style);
-        if (! $parent)
+        
+        foreach ($link_values as $key => $value)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Could not load Style ID {$this->up} from the database, aborting.",
-                MIDCOM_LOG_INFO);
-            debug_pop();
-            return null;
+            return $key;
         }
+    }
 
-        return $parent->guid;
+    function get_label()
+    {
+        return "{$this->domain} {$this->name}";
     }
 }
 
