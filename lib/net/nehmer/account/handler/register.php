@@ -167,7 +167,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         }
 
         // Save any return URL
-        $session = new midcom_service_session();
+        $session = new midcom_services_session();
         if (array_key_exists('net_nehmer_account_register_returnto', $_REQUEST))
         {
             $session->set('register_returnto', $_REQUEST['net_nehmer_account_register_returnto']);
@@ -233,7 +233,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
         if (isset($_POST['net_nehmer_account_register_invitation']))
         {
-            $session = new midcom_service_session();
+            $session = new midcom_services_session();
             $session->set('invite_hash', $hash);
 
             $schema_name = $this->_config->get('invreg_schema');
@@ -317,7 +317,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
             $this->_stage = 'input';
 
             // Save any return URL
-            $session = new midcom_service_session();
+            $session = new midcom_services_session();
             if (array_key_exists('net_nehmer_account_register_returnto', $_REQUEST))
             {
                 $session->set('register_returnto', $_REQUEST['net_nehmer_account_register_returnto']);
@@ -578,7 +578,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
     function _create_null_controller()
     {
         $defaults = array();
-        $session = new midcom_service_session();
+        $session = new midcom_services_session();
         if ($session->exists('invite_hash'))
         {
             // Load data we got from the original invitation
@@ -782,7 +782,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         $this->_person->set_parameter('net.nehmer.account', 'activation_hash', $activation_hash);
         $this->_person->set_parameter('net.nehmer.account', 'activation_hash_created', strftime('%Y-%m-%d', time()));
 
-        $session = new midcom_service_session();
+        $session = new midcom_services_session();
         if ($session->exists('register_returnto'))
         {
             $this->_person->set_parameter('net.nehmer.account', 'activation_returnto',
@@ -810,7 +810,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
          * Ok, if the user is registering an account from invitation
          * we need to delete the corresponding invitation from db
          */
-        $session = new midcom_service_session();
+        $session = new midcom_services_session();
         if ($session->exists('invite_hash'))
         {
             $hash = $session->get('invite_hash');

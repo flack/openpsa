@@ -69,7 +69,7 @@ class UrlParserTests extends PHPUnit_Framework_TestCase
 
     function test_midcom_url_midcom_parse_variable() {
         $this->make_url_parser(array('midcom-cache-invalidate'));
-        $this->assertEquals($this->parser->param_collector->get_command(), 'midcom_service_cache_invalidate');
+        $this->assertEquals($this->parser->param_collector->get_command(), 'midcom_services_cache_invalidate');
 
     }
     function test_midcom_parse_variable_parse_substyle() 

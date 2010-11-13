@@ -49,9 +49,9 @@
  *
  * @package midcom.services
  * @access private
- * @see midcom_service_session
+ * @see midcom_services_session
  */
-class midcom_service__sessioning
+class midcom_services__sessioning
 {
     /**
      * The constructor will initialize the sessioning, set the output nocacheable
@@ -191,7 +191,7 @@ class midcom_service__sessioning
      * @param string $domain    The domain in which to search for the key.
      * @param mixed $key        The key to query.
      * @return mixed            The session key's data value, or NULL on failure.
-     * @see midcom_service__sessioning::exists()
+     * @see midcom_services__sessioning::exists()
      */
     function get ($domain, $key)
     {
@@ -223,7 +223,7 @@ class midcom_service__sessioning
      * @param string $domain    The domain in which to search for the key.
      * @param mixed $key        The key to remove.
      * @return mixed            The session key's data value, or NULL on failure.
-     * @see midcom_service__sessioning::exists()
+     * @see midcom_services__sessioning::exists()
      */
     function remove ($domain, $key)
     {

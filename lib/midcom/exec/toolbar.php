@@ -31,7 +31,7 @@ if (   !isset($_REQUEST['position_x'])
             break;
         
         case 'session':
-            $session = new midcom_service_session('midcom.services.toolbars');
+            $session = new midcom_services_session('midcom.services.toolbars');
             $x = $session->get('position_x');
             $y = $session->get('position_y');
             break;
@@ -55,7 +55,7 @@ switch ($GLOBALS['midcom_config']['toolbars_position_storagemode'])
         break;
     
     case 'session':
-        $session = new midcom_service_session('midcom.services.toolbars');
+        $session = new midcom_services_session('midcom.services.toolbars');
         $session->set('position_x', $_REQUEST['position_x']);
         $session->set('position_y', $_REQUEST['position_y']);
         break;

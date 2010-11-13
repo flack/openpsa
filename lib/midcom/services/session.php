@@ -16,7 +16,7 @@
  * 
  * <code>
  * <?php
- * $session = new midcom_service_session();
+ * $session = new midcom_services_session();
  * if ($session->exists("mykey")) {
  *     echo "found session value: " . $session->get ("mykey") . ", removing it.";
  *     $value = $session->remove("mykey");
@@ -35,22 +35,22 @@
  * <b>Implementation Notes:</b>
  * 
  * This is a simple wrapper that provides access to the sessioning singleton.
- * It has the same public member functions as midcom_service__sessioning, refer
+ * It has the same public member functions as midcom_services__sessioning, refer
  * to this class for a detailed documentation.
  * 
  * Basically this wrapper ensures the singleton pattern is maintained and provides
  * you with an easy way of lock the domain you're working in.
  * 
  * @package midcom.services
- * @see midcom_service__sessioning
+ * @see midcom_services__sessioning
  */
-class midcom_service_session
+class midcom_services_session
 {
     
     /**
      * Sessioning singleton.
      * 
-     * @var midcom_service__sessioning
+     * @var midcom_services__sessioning
      * @access private
      */
     var $_sessioning;
@@ -110,7 +110,7 @@ class midcom_service_session
      * 
      * @param mixed $key    The key to query.
      * @return mixed        The session key's data value, or NULL on failure.
-     * @see midcom_service_session::exists()
+     * @see midcom_services_session::exists()
      */
     function get ($key)
     {
@@ -153,7 +153,7 @@ class midcom_service_session
      * 
      * @param mixed $key    The key to remove.
      * @return mixed        The session key's data value, or NULL on failure.
-     * @see midcom_service_session::exists()
+     * @see midcom_services_session::exists()
      */
     function remove ($key)
     {

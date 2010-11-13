@@ -154,7 +154,7 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
         */
 
         // Read messages from session
-        $session = new midcom_service_session('midcom_services_uimessages');
+        $session = new midcom_services_session('midcom_services_uimessages');
         if ($session->exists('midcom_services_uimessages_stack'))
         {
             // We've got old messages in the session
@@ -217,7 +217,7 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
             return true;
         }
 
-        $session = new midcom_service_session('midcom_services_uimessages');
+        $session = new midcom_services_session('midcom_services_uimessages');
 
         // Check if some other request has added stuff to session as well
         if ($session->exists('midcom_services_uimessages_stack'))

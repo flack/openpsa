@@ -209,22 +209,16 @@ debug_add("Start of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
 function midcom_autoload($class_name)
 {
     static $autoloaded = 0;
-    
-    if (substr($class_name, 0, 15) == 'midcom_service_')
-    {
-        // Some service classes are named midcom_service_ and not midcom_services_
-        $class_name = str_replace('midcom_service_', 'midcom_services_', $class_name);
-    }
-    
+
     $path = preg_replace('/\/?$/', '', MIDCOM_ROOT) . '/' . str_replace('_', '/', $class_name) . '.php';
     $path = str_replace('//', '/_', $path);
-    
+
     if (   basename($path) == 'dba.php'
         || basename($path) == 'db.php')
     {
         // DBA object files are named objectname.php
         //debug_add("Autoloader got '{$path}' which is DBA class, going one above");
-        
+
         // Ensure we have the component loaded
         if (!$_MIDCOM->dbclassloader->load_component_for_class($class_name))
         {
@@ -235,10 +229,10 @@ function midcom_autoload($class_name)
         {
             return;
         }
-        
+
         $path = dirname($path) . '.php';
     }
-    
+
     if (   basename($path) == 'interface.php'
         && $class_name != 'midcom_baseclasses_components_interface')
     {
@@ -247,15 +241,15 @@ function midcom_autoload($class_name)
         $_MIDCOM->dbclassloader->load_component_for_class($class_name);
         return;
     }
-    
+
     if (!file_exists($path))
     {
         $original_path = $path;
         $path = str_replace('.php', '/main.php', $path);
-        
+
         if (!file_exists($path))
         {
-            /** 
+            /**
              * Enable when debugging autoloading issues, otherwise it's just noise
              *
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -266,7 +260,7 @@ function midcom_autoload($class_name)
             return;
         }
     }
-    
+
     require($path);
     $autoloaded++;
     //debug_add("Autoloader got '{$path}', loading file {$autoloaded}");

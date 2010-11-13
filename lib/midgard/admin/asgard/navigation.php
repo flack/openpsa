@@ -83,7 +83,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     /*
     function handle_session()
     {
-        $session = new midcom_service_session();
+        $session = new midcom_services_session();
         if ($session->exists('midgard_admin_asgard_navigation_roots'))
         {
             $this->expanded_root_types = $session->get('midgard_admin_asgard_navigation_roots');

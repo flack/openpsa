@@ -118,7 +118,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
             $this->_session_key = md5($hash);
         }
 
-        $session = new midcom_service_session($this->_session_domain);
+        $session = new midcom_services_session($this->_session_domain);
         if (! $session->exists($this->_session_key))
         {
             $phrase = Text_Password::create($this->length);
@@ -190,7 +190,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
      */
     function sync_type_with_widget($results)
     {
-        $session = new midcom_service_session($this->_session_domain);
+        $session = new midcom_services_session($this->_session_domain);
         $session->remove($this->_session_key);
     }
 

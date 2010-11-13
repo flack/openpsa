@@ -115,7 +115,7 @@
  * @property midcom_services_uimessages $uimessages
  * @property midcom_services_metadata $metadata
  * @property midcom_services_rcs $rcs
- * @property midcom_service__sessioning $session
+ * @property midcom_services__sessioning $session
  * @property midcom_services_indexer $indexer
  */
 class midcom_application
@@ -206,7 +206,7 @@ class midcom_application
         'uimessages' => 'midcom_services_uimessages',
         'metadata' => 'midcom_services_metadata',
         'rcs' => 'midcom_services_rcs',                
-        'session' => 'midcom_service__sessioning',
+        'session' => 'midcom_services__sessioning',
         'indexer' => 'midcom_services_indexer',
     );
 

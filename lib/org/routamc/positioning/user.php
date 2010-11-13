@@ -60,7 +60,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         }
 
         // Set to session
-        $session = new midcom_service_session();
+        $session = new midcom_services_session();
         return $session->set('org_routamc_positioning_user_location', $location);
     }
     
@@ -98,7 +98,7 @@ class org_routamc_positioning_user extends midcom_baseclasses_components_purecod
         }
 
         // Get from session
-        $session = new midcom_service_session();
+        $session = new midcom_services_session();
         if (!$session->exists('org_routamc_positioning_user_location'))
         {
             return null;

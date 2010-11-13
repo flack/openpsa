@@ -221,7 +221,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
     function _handler_create($handler_id, $args, &$data)
     {
         // Initialize sessioning first
-        $data['session'] = new midcom_service_session();
+        $data['session'] = new midcom_services_session();
 
         if (!array_key_exists('wikiword', $_GET))
         {

@@ -15,7 +15,7 @@ $fireeagle_consumer_secret = $GLOBALS['midcom_component_data']['org.routamc.posi
 if (   !$access_key
     || !$access_secret)
 {
-    $session = new midcom_service_session('org_routamc_positioning_fireeagle');
+    $session = new midcom_services_session('org_routamc_positioning_fireeagle');
     if (   isset($_GET['f'])
         && $_GET['f'] == 'start') 
     {

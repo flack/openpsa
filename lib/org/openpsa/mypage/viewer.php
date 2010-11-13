@@ -131,7 +131,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
         $_MIDCOM->auth->require_valid_user();
         if (array_key_exists('org_openpsa_workgroup_filter', $_POST))
         {
-            $session = new midcom_service_session('org.openpsa.core');
+            $session = new midcom_services_session('org.openpsa.core');
             $session->set('org_openpsa_core_workgroup_filter', $_POST['org_openpsa_workgroup_filter']);
             // TODO: Check that session actually was saved
             $ajax = new org_openpsa_helpers_ajax();

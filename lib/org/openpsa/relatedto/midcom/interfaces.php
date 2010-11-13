@@ -36,7 +36,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
     {
         $ret = array();
         //Check if we have data in session, if so use that.
-        $session = new midcom_service_session('org.openpsa.relatedto');
+        $session = new midcom_services_session('org.openpsa.relatedto');
         if ($session->exists('relatedto2get_array'))
         {
             $relatedto_arr = $session->get('relatedto2get_array');

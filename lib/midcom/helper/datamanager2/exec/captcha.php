@@ -16,7 +16,7 @@
 require_once 'Text/CAPTCHA.php';
 global $argc, $argv;
 
-$session = new midcom_service_session('midcom_helper_datamanager2_widget_captcha');
+$session = new midcom_services_session('midcom_helper_datamanager2_widget_captcha');
 
 if (!isset($argv[0]))
 {

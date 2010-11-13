@@ -326,16 +326,16 @@ class midcom_url_midcom extends midcom_url_parser {
         $this->get_param_collector()->add_config('url_info', $info);
         switch ( $command ){
             case "permalink":
-                $this->get_param_collector()->set_command('midcom_service_permalink_resolver');
+                $this->get_param_collector()->set_command('midcom_services_permalink_resolver');
                 $this->done = true;
             case "log":
                 throw new Exception('Not supported yet');
             case "serveattachmentguid":
-                $this->get_param_collector()->set_command('midcom_service_attachmentserver');
+                $this->get_param_collector()->set_command('midcom_services_attachmentserver');
                 $this->done = true;
                 break;
             case "serveattachment":
-                $this->get_param_collector()->set_command('midcom_service_attachmentserver');
+                $this->get_param_collector()->set_command('midcom_services_attachmentserver');
                 $this->done = true;
                 break;
             case "substyle":
@@ -343,7 +343,7 @@ class midcom_url_midcom extends midcom_url_parser {
                 $this->get_param_collector()->style_can_override = false;
                 break;
             case 'cache':
-                $this->get_param_collector()->set_command('midcom_service_cache_invalidate');
+                $this->get_param_collector()->set_command('midcom_services_cache_invalidate');
                 $this->done = true;
                 break;
             case "exec":

@@ -339,14 +339,14 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      */
     function add_topic_management_commands(&$toolbar, $context_id = null)
     {
-        if (array_key_exists('midcom_service_toolbars_bound_to_topic', $toolbar->customdata))
+        if (array_key_exists('midcom_services_toolbars_bound_to_topic', $toolbar->customdata))
         {
             // We already processed this toolbar, skipping further adds.
             return;
         }
         else
         {
-            $toolbar->customdata['midcom_service_toolbars_bound_to_topic'] = true;
+            $toolbar->customdata['midcom_services_toolbars_bound_to_topic'] = true;
         }
 
         if ($context_id === null)
@@ -598,14 +598,14 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      */
     function add_host_management_commands(&$toolbar, $context_id = null)
     {
-        if (array_key_exists('midcom_service_toolbars_bound_to_host', $toolbar->customdata))
+        if (array_key_exists('midcom_services_toolbars_bound_to_host', $toolbar->customdata))
         {
             // We already processed this toolbar, skipping further adds.
             return;
         }
         else
         {
-            $toolbar->customdata['midcom_service_toolbars_bound_to_host'] = true;
+            $toolbar->customdata['midcom_services_toolbars_bound_to_host'] = true;
         }
 
         if (    $_MIDCOM->auth->user
@@ -679,14 +679,14 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      */
     function add_help_management_commands(&$toolbar, $context_id = null)
     {
-        if (array_key_exists('midcom_service_toolbars_bound_to_help', $toolbar->customdata))
+        if (array_key_exists('midcom_services_toolbars_bound_to_help', $toolbar->customdata))
         {
             // We already processed this toolbar, skipping further adds.
             return;
         }
         else
         {
-            $toolbar->customdata['midcom_service_toolbars_bound_to_help'] = true;
+            $toolbar->customdata['midcom_services_toolbars_bound_to_help'] = true;
         }
         $calling_componentname = $_MIDCOM->get_context_data($context_id, MIDCOM_CONTEXT_COMPONENT);
 
@@ -774,14 +774,14 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      */
     function bind_toolbar_to_object(&$toolbar, &$object)
     {
-        if (array_key_exists('midcom_service_toolbars_bound_to_object', $toolbar->customdata))
+        if (array_key_exists('midcom_services_toolbars_bound_to_object', $toolbar->customdata))
         {
             // We already processed this toolbar, skipping further adds.
             return;
         }
         else
         {
-            $toolbar->customdata['midcom_service_toolbars_bound_to_object'] = true;
+            $toolbar->customdata['midcom_services_toolbars_bound_to_object'] = true;
         }
 
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);

@@ -62,7 +62,7 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
             $GLOBALS['org_openpsa_core_workgroup_filter'] = $default_filter;
 
             /* the workgroup filter is deprecated, let's not screw caching over with it
-            $session = new midcom_service_session('org.openpsa.core');
+            $session = new midcom_services_session('org.openpsa.core');
             if (!$session->exists('org_openpsa_core_workgroup_filter'))
             {
                 $session->set('org_openpsa_core_workgroup_filter', $default_filter);

@@ -128,7 +128,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         $arr = self::get2relatedto();
         if (count($arr) > 0)
         {
-            $session = new midcom_service_session('org.openpsa.relatedto');
+            $session = new midcom_services_session('org.openpsa.relatedto');
             $session->set('relatedto2get_array', $arr);
         }
     }
@@ -142,7 +142,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
      */
     function get2session_cleanup()
     {
-        $session = new midcom_service_session('org.openpsa.relatedto');
+        $session = new midcom_services_session('org.openpsa.relatedto');
         if ($session->exists('relatedto2get_array'))
         {
             $session->remove('relatedto2get_array');
