@@ -76,8 +76,8 @@ class midcom_services_indexer_document
     /* ------ START OF DOCUMENT FIELDS --------- */
 
     /**
-     * The Resource Identifier of this document. 
-     * 
+     * The Resource Identifier of this document.
+     *
      * Must be UTF-8 on assignment already.
      *
      * This field is mandatory.
@@ -96,8 +96,8 @@ class midcom_services_indexer_document
     var $lang = '';
 
     /**
-     * The GUID of the topic the document is assigned to. 
-     * 
+     * The GUID of the topic the document is assigned to.
+     *
      * May be empty for non-midgard resources.
      *
      * This field is mandatory.
@@ -107,8 +107,8 @@ class midcom_services_indexer_document
     var $topic_guid = '';
 
     /**
-     * The name of the component responsible for the document. 
-     * 
+     * The name of the component responsible for the document.
+     *
      * May be empty for non-midgard resources.
      *
      * This field is mandatory.
@@ -211,9 +211,9 @@ class midcom_services_indexer_document
 
     /**
      * An additional tag indicating the source of the document for use by the
-     * component doing the indexing. 
-     * 
-     * This value is not indexed and should not be used by anybody except the 
+     * component doing the indexing.
+     *
+     * This value is not indexed and should not be used by anybody except the
      * component doing the indexing.
      *
      * This is optional.
@@ -223,10 +223,10 @@ class midcom_services_indexer_document
     var $source = '';
 
     /**
-     * The full path to the topic that houses the document. 
-     * 
-     * For external resources, this should be either a MidCOM topic, to which this 
-     * resource is associated or some "directory" after which you could filter. 
+     * The full path to the topic that houses the document.
+     *
+     * For external resources, this should be either a MidCOM topic, to which this
+     * resource is associated or some "directory" after which you could filter.
      * You may also leave it empty prohibiting it to appear on any topic-specific search.
      *
      * The value should be fully qualified, as returned by MIDCOM_NAV_FULLURL, including
@@ -273,7 +273,7 @@ class midcom_services_indexer_document
     var $security = 'default';
 
 
-    /** 
+    /**
      * This is have support for #651 without rewriting all components' index methods
      *
      * If set to false the indexer backend will silently skip this document.
@@ -544,14 +544,6 @@ class midcom_services_indexer_document
         $this->abstract = $this->get_field('abstract');
         $this->type = $this->get_field('__TYPE');
         $this->security = $this->get_field('__SECURITY');
-
-        /**
-         * Strip language code from end of RI if it looks like "<GUID>_<LANG>"
-         * (because *many* places suppose it's plain GUID)
-         *
-         * Actually we can't do it at this level....
-        $this->RI = preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $this->RI);
-        */
     }
 
     /**
@@ -790,7 +782,7 @@ class midcom_services_indexer_document
             $this->editor = $this->_read_metadata_from_object_get_person_cached($object->revisor);
             debug_add("Set \$this->editor from \$object->revisor ({$object->revisor})");
         }
-        
+
         // Using legacy API just to be safe
         if ($object->parameter('midcom.services.indexer', 'do_not_index'))
         {

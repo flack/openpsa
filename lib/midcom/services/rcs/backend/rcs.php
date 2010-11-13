@@ -50,13 +50,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         }
         $filename = "{$dirpath}/{$object->guid}";
 
-        if (   $_MIDCOM->dbfactory->is_multilang($object)
-            && $object->lang != 0)
-        {
-            // Append language code to the filename
-            $filename .= '_' . $_MIDCOM->i18n->get_content_language();
-        }
-
         return $filename;
     }
 
@@ -301,7 +294,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     }
     /**
      * Lists the number of changes that has been done to the object
-     * 
+     *
      * @return array list of changeids
      */
     function list_history()
@@ -490,7 +483,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         }
         $mapper = new midcom_helper_xml_objectmapper();
         $result = $mapper->object2data($object);
-        if ($result) 
+        if ($result)
         {
             return $result;
         }
@@ -572,7 +565,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
             */
             return $status;
         }
-        
+
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Command '{$command}' returned with status {$status}, see debug log for output", MIDCOM_LOG_WARN);
         debug_print_r('Got output: ', $output);
@@ -713,7 +706,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         }
         $mapper = new midcom_helper_xml_objectmapper();
         $object = $mapper->data2object($new, $object);
-        
+
         $object->set_rcs_message("Reverted to revision {$revision}");
 
         if ($object->update())

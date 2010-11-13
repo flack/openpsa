@@ -60,7 +60,7 @@
  *
  * @package midcom
  */
-class midcom_helper__styleloader 
+class midcom_helper__styleloader
 {
     /**
      * Current style scope
@@ -135,12 +135,12 @@ class midcom_helper__styleloader
      * The stack of directories to check for styles.
      */
     var $_styledirs = array();
-    
+
     /**
      * The actual Midgard style object
      */
     var $object = null;
-    
+
     /**
      * Simple initialization
      */
@@ -168,23 +168,23 @@ class midcom_helper__styleloader
             // Construct the path
             $path_parts = array();
             $original_id = $id;
-            
+
             while (($style = new midcom_db_style($id)))
             {
                 if (!$style->guid)
                 {
                     break;
                 }
-                
-                $path_parts[] = $style->name; 
+
+                $path_parts[] = $style->name;
                 $id = $style->up;
-                            
+
                 if ($style->up == 0)
                 {
                     // Toplevel style
                     break;
                 }
-                
+
                 if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
                     && $style->up == $_MIDGARD['style'])
                 {
@@ -192,9 +192,9 @@ class midcom_helper__styleloader
                     break;
                 }
             }
-            
+
             $path_parts = array_reverse($path_parts);
-            
+
             $path_cache[$original_id] = '/' . implode('/', $path_parts);
         }
 
@@ -216,14 +216,14 @@ class midcom_helper__styleloader
     function get_style_id_from_path($path, $rootstyle = 0)
     {
         static $cached = array();
-        
+
         if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
             && $rootstyle == 0)
         {
             // Relative paths in use, start seeking from under the style used for the Midgard host
             $rootstyle = $_MIDGARD['style'];
         }
-        
+
         if (!isset($cached[$rootstyle]))
         {
             $cached[$rootstyle] = array();
@@ -283,35 +283,24 @@ class midcom_helper__styleloader
         $cached[$rootstyle][$path] = false;
         return false;
     }
-    
+
     function _get_nodes_inheriting_style($node)
     {
         $nodes = array();
-        /** 
-         * BEGIN: ML Styles issue workaround, see http://trac.midgard-project.org/ticket/237
-         */
-        $ml_strict_backup = $GLOBALS['midcom_config']['i18n_multilang_strict'];
-        $GLOBALS['midcom_config']['i18n_multilang_strict'] = false;
-        $child_qb = midcom_db_topic::new_query_builder();
-        $GLOBALS['midcom_config']['i18n_multilang_strict'] = $ml_strict_backup;
-        unset($ml_strict_backup);
-        /** 
-         * END: ML Styles issue workaround, see http://trac.midgard-project.org/ticket/237
-         */
         $child_qb->add_constraint('up', '=', $node->id);
         $child_qb->add_constraint('style', '=', '');
         $children = $child_qb->execute();
-        
+
         foreach ($children as $child_node)
         {
             $nodes[] = $child_node;
             $subnodes = $this->_get_nodes_inheriting_style($child_node);
             $nodes = array_merge($nodes, $subnodes);
         }
-        
+
         return $nodes;
     }
-    
+
     /**
      * Get list of topics using a particular style
      *
@@ -322,34 +311,24 @@ class midcom_helper__styleloader
     {
         $style_nodes = array();
         // Get topics directly using the style
-        /** 
-         * BEGIN: ML Styles issue workaround, see http://trac.midgard-project.org/ticket/237
-         */
-        $ml_strict_backup = $GLOBALS['midcom_config']['i18n_multilang_strict'];
-        $GLOBALS['midcom_config']['i18n_multilang_strict'] = false;
         $qb = midcom_db_topic::new_query_builder();
-        $GLOBALS['midcom_config']['i18n_multilang_strict'] = $ml_strict_backup;
-        unset($ml_strict_backup);
-        /** 
-         * END: ML Styles issue workaround, see http://trac.midgard-project.org/ticket/237
-         */
         $qb->add_constraint('style', '=', $style);
         $nodes = $qb->execute();
-        
+
         foreach ($nodes as $node)
         {
             $style_nodes[] = $node;
-            
+
             if ($node->styleInherit)
             {
                 $child_nodes = $this->_get_nodes_inheriting_style($node);
                 $style_nodes = array_merge($style_nodes, $child_nodes);
             }
         }
-        
+
         return $style_nodes;
     }
-    
+
     /**
      * List the default template elements shipped with a component
      * @param string $component Component to look elements for
@@ -358,10 +337,10 @@ class midcom_helper__styleloader
     function get_component_default_elements($component)
     {
         $elements = array();
-        
+
         // Path to the file system
         $path = MIDCOM_ROOT . '/' . str_replace('.', '/', $component) . '/style';
-        
+
         if (!is_dir($path))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -369,27 +348,27 @@ class midcom_helper__styleloader
             debug_pop();
             return $elements;
         }
-        
+
         $directory = dir($path);
-        
+
         if (!$directory)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);        
+            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to read directory {$path}");
             debug_pop();
             return $elements;
         }
-        
+
         while (($file = $directory->read()) !== false)
         {
             if (!preg_match('/\.php$/i', $file))
             {
                 continue;
             }
-        
+
             $elements[str_replace('.php', '', $file)] = "{$path}/{$file}";
         }
-        
+
         $directory->close();
 
         return $elements;
@@ -446,7 +425,7 @@ class midcom_helper__styleloader
         $style_mc->add_value_property('up');
         $style_mc->execute();
         $styles = $style_mc->list_keys();
-        
+
         foreach ($styles as $style_guid => $value)
         {
             // FIXME: Should we register this also in the other case
@@ -464,11 +443,11 @@ class midcom_helper__styleloader
             }
         }
         //$style_mc->destroy();
-        
+
         $cached[$id][$name] = false;
         return $cached[$id][$name];
     }
-    
+
     function get_style_elements_and_nodes($style)
     {
         $results = array
@@ -476,25 +455,25 @@ class midcom_helper__styleloader
             'elements' => array(),
             'nodes' => array(),
         );
-        
+
         $style_id = $this->get_style_id_from_path($style);
         if (!$style_id)
         {
             return $results;
         }
-        
+
         $style_nodes = $_MIDCOM->style->get_nodes_using_style($style);
-        
+
         foreach ($style_nodes as $node)
-        {            
+        {
             if (!isset($results['nodes'][$node->component]))
             {
                 $results['nodes'][$node->component] = array();
             }
-            
+
             $results['nodes'][$node->component][] = $node;
         }
-        
+
         foreach ($results['nodes'] as $component => $nodes)
         {
             // Get the list of style elements for the component
@@ -503,13 +482,13 @@ class midcom_helper__styleloader
             // Arrange elements in alphabetical order
             ksort($results['elements'][$component]);
         }
-        
+
         $results['elements']['midcom'] = array
         (
             'style-init' => '',
             'style-finish' => '',
         );
-        
+
         if ($style_id == $_MIDGARD['style'])
         {
             // We're in site main style, append elements from there to the list of "common elements"
@@ -521,7 +500,7 @@ class midcom_helper__styleloader
             {
                 $results['elements']['midcom'][$mc->get_subkey($guid, 'name')] = '';
             }
-            
+
             if (!isset($results['elements']['midcom']['ROOT']))
             {
                 // There should always be the ROOT element available
@@ -609,7 +588,7 @@ class midcom_helper__styleloader
                         $_style = file_get_contents($filename);
                         $src = $filename;
                         $this->_snippets[$src] = $_style;
-                    }       
+                    }
                 }
 
                 if (!isset($_style))
@@ -633,7 +612,7 @@ class midcom_helper__styleloader
             // This is a bit of a hack to allow &(); tags
             $data =& $_MIDCOM->get_custom_context_data('request_data');
             $instance_id = false;
-            
+
             if (   $guids
                 && in_array('style', $GLOBALS['midcom_config']['cache_module_memcache_data_groups']))
             {
@@ -645,17 +624,17 @@ class midcom_helper__styleloader
                     echo $_MIDCOM->cache->memcache->get('style', $instance_id);
                 }
             }
-            
+
             if ($GLOBALS['midcom_config']['wrap_style_show_with_name'])
             {
                 $_style = "\n<!-- Start of style '{$path}' -->\n" . $_style;
-                $_style .= "\n<!-- End of style '{$path}' -->\n";                
+                $_style .= "\n<!-- End of style '{$path}' -->\n";
             }
-            
+
             if ($instance_id)
             {
                 // This element will be cached after display
-                ob_start();        
+                ob_start();
                 $result = eval('?>' . mgd_preparse($_style));
                 $contents = ob_get_contents();
                 $_MIDCOM->cache->memcache->put('style', $instance_id, $result);
@@ -665,7 +644,7 @@ class midcom_helper__styleloader
             {
                 $result = eval('?>' . mgd_preparse($_style));
             }
-                        
+
             if ($result === false)
             {
                 // Note that src detection will be semi-reliable, as it depends on all errors being
@@ -753,8 +732,8 @@ class midcom_helper__styleloader
         if (isset($_st))
         {
             return $_st;
-        } 
-        
+        }
+
         return false;
     }
 
@@ -872,7 +851,7 @@ class midcom_helper__styleloader
         array_unshift($this->_context, $context); // push into context stack
 
         $this->_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
-        
+
         // Prepare styledir stacks
         if (!isset($this->_styledirs[$context]))
         {
@@ -892,7 +871,7 @@ class midcom_helper__styleloader
         }
 
         $_st = $this->_getComponentStyle($this->_topic);
-        if (isset($_st)) 
+        if (isset($_st))
         {
             array_unshift($this->_scope, $_st);
         }
@@ -914,7 +893,7 @@ class midcom_helper__styleloader
     {
         /* does this cause an extra, not needed call to ->parameter ? */
         $_st = $this->_getComponentStyle($this->_topic);
-        if (isset($_st)) 
+        if (isset($_st))
         {
             array_shift($this->_scope);
         }
@@ -928,7 +907,7 @@ class midcom_helper__styleloader
         $this->_snippetdir = $this->_getComponentSnippetdir($this->_topic);
         return true;
     }
-    
+
     function get_style()
     {
         if (is_null($this->object))
@@ -937,7 +916,7 @@ class midcom_helper__styleloader
         }
         return $this->object;
     }
-    
+
     /**
      * Include all text/css attachments of current style to MidCOM headers
      */
@@ -949,22 +928,12 @@ class midcom_helper__styleloader
             return;
         }
         $style = $this->get_style();
-        /** 
-         * BEGIN: ML Styles issue workaround, see http://trac.midgard-project.org/ticket/237
-         */
-        $ml_strict_backup = $GLOBALS['midcom_config']['i18n_multilang_strict'];
-        $GLOBALS['midcom_config']['i18n_multilang_strict'] = false;
         $mc = midcom_db_attachment::new_collector('parentguid', $style->guid);
-        $GLOBALS['midcom_config']['i18n_multilang_strict'] = $ml_strict_backup;
-        unset($ml_strict_backup);
-        /** 
-         * END: ML Styles issue workaround, see http://trac.midgard-project.org/ticket/237
-         */
         $mc->add_constraint('mimetype', '=', 'text/css');
         $mc->add_value_property('name');
         $mc->execute();
         $attachments = $mc->list_keys();
-        
+
         foreach ($attachments as $guid => $values)
         {
             // TODO: Support media types
@@ -989,7 +958,7 @@ class midcom_helper__styleloader
  *
  * @see midcom_helper__styleloader::show()
  */
-function midcom_show_style($param, $guids = null) 
+function midcom_show_style($param, $guids = null)
 {
     return $_MIDCOM->style->show($param, $guids);
 }

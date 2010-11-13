@@ -6,12 +6,8 @@
     <property name="code" type="integer" reverse="no" />
     <property name="node" link="midgard_topic:guid" reverse="no" type="guid" parentfield="node" />
     
-    <!-- multilang features -->
-    <property name="sid" type="unsigned integer" multilang="yes" table="net_nemein_redirector_tinyurl_i"/>
-    <property name="title" type="string" multilang="yes" table="net_nemein_redirector_tinyurl_i" index="yes" />
-    <property name="url" type="string" multilang="yes" table="net_nemein_redirector_tinyurl_i" />
-    <property name="description" type="longtext"  multilang="yes" table="net_nemein_redirector_tinyurl_i" />
-    <property name="lang" type="unsigned integer" multilang="yes" table="net_nemein_redirector_tinyurl_i"/>
-    <!-- /multilang features -->
+    <property name="title" type="string" index="yes" />
+    <property name="url" type="string" />
+    <property name="description" type="longtext" />
   </type>
 </Schema>

@@ -1083,7 +1083,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if ($this->creation_mode_enabled)
         {
             $this->_js_widget_options['creation_mode'] = 'true';
-            // Ponder: Should we add prefix here? How should we handle multilang sites.
             $this->_js_widget_options['creation_handler'] = "'{$this->creation_handler}'";
             $this->_js_widget_options['creation_default_key'] = "'{$this->creation_default_key}'";
         }

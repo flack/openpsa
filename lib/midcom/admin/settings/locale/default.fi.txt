@@ -163,10 +163,6 @@ Sivuston asetukset
 Oletuskieli käännösten puuttuessa
 ---STRINGEND
 
----STRING i18n_multilang_strict
-Piilota kääntämätön sisältö
----STRINGEND
-
 ---STRING indexer configuration
 Indeksoijan asetukset
 ---STRINGEND

@@ -175,10 +175,6 @@ Website configuration
 Fallback language for missing localizations
 ---STRINGEND
 
----STRING i18n_multilang_strict
-Hide untranslated content
----STRINGEND
-
 ---STRING indexer configuration
 Indexer configuration
 ---STRINGEND

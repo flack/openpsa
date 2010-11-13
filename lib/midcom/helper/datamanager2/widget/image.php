@@ -67,14 +67,6 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function add_elements_to_form()
     {
-        if (   $this->_type->multilang_fallback_active
-            && $this->_state == 'edit')
-        {
-            // Don't add the existing images that come from Lang0 to prevent overwriting
-            $this->_type->attachments = array();
-            $this->_type->attachments_info = array();
-        }
-
         $attributes = Array
         (
             'class' => 'fileselector',
@@ -220,13 +212,6 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     function _create_replace_elements(&$elements)
     {
-        if (   $this->_type->multilang_fallback_active
-            && $this->_state == 'edit')
-        {
-            // Don't add the existing images that come from Lang0 to prevent overwriting
-            $this->_type->attachments_info = array();
-            return;
-        }
         switch (true)
         {
             case (array_key_exists('main', $this->_type->attachments_info)):
@@ -490,8 +475,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     {
         $new_elements = Array();
 
-        if (   $this->_type->attachments
-            && !$this->_type->multilang_fallback_active)
+        if ($this->_type->attachments)
         {
             $this->_create_replace_elements($new_elements);
         }

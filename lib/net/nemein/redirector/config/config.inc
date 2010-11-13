@@ -7,7 +7,6 @@
 'redirection_guid'  => null,
 'redirection_metatag' => false,
 'redirection_metatag_speed' => 5,
-'default_lang_code' => 'en',
 
 'admin_redirection' => true,
 

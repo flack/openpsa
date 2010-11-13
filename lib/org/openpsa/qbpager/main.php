@@ -23,7 +23,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     var $display_pages = 10;
     var $string_next = 'next';
     var $string_previous = 'previous';
-    
+
 
     /**
      * Parameter listening enabled
@@ -357,7 +357,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         $_MIDCOM->load_library('midcom.helper.xsspreventer');
         $pages_xml_str = "<pages ";
-        
+
         $this->_request_data['prefix'] = $this->_prefix;
         $this->_request_data['current_page'] = $this->_current_page;
         $this->_request_data['page_count'] = $this->count_pages($acl_checks);
@@ -365,9 +365,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_request_data['offset'] = $this->_offset;
         $this->_request_data['display_pages'] = $this->display_pages;
         $data =& $this->_request_data;
-        
+
         $pages_xml_str .= "total=\"{$data['page_count']}\">\n";
-        
+
         //Skip the header in case we only have one page
         if ($data['page_count'] <= 1)
         {
@@ -416,13 +416,13 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             {
                 continue;
             }
-            
+
             if ($page == $data['current_page'])
             {
                 $pages_xml_str .= "<page class=\"current_page\" number=\"{$page}\" url=\"\">{$page}</page>\n";
                 continue;
             }
-            
+
             $pages_xml_str .= "<page class=\"select_page\" number=\"{$page}\" url=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$page}" . $this->_get_query_string()) . ">{$page}</page>\n";
         }
 
@@ -436,9 +436,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
                 $pages_xml_str .= "<page class=\"last_page\" number=\"{$data['page_count']}\" url=" . midcom_helper_xsspreventer::escape_attribute("?{$page_var}={$data['page_count']}" . $this->_get_query_string()) . "><![CDATA[" . $this->_l10n->get('last') . "]]></page>\n";
             }
         }
-        
+
         $pages_xml_str .= "</pages>\n";
-        
+
         if ($echo)
         {
             echo $pages_xml_str;
@@ -449,7 +449,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
             return $pages_xml_str;
         }
     }
-    
+
     /**
      * Displays page selector as list
      */
@@ -562,14 +562,14 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         debug_push_class(__CLASS__, __FUNCTION__);
         $this->_check_page_vars();
-        
+
         if ($this->_current_page == 'all')
         {
             debug_add("displaying all results");
             debug_pop();
             return;
         }
-        
+
         $qb->set_limit($this->_limit);
         $qb->set_offset($this->_offset);
         debug_add("set offset to {$this->_offset} and limit to {$this->_limit}");
@@ -691,16 +691,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     {
         $this->_midcom_qb_count->include_deleted();
         return $this->_midcom_qb->include_deleted();
-    }
-
-    function set_lang($lang)
-    {
-        if (!$this->_sanity_check())
-        {
-            return false;
-        }
-        $this->_midcom_qb_count->set_lang($lang);
-        return $this->_midcom_qb->set_lang($lang);
     }
 
     function count()

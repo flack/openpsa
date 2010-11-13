@@ -8,10 +8,8 @@
 
         <property name="code" type="string" index="yes"/>
 
-        <property name="title" multilang="yes" table="org_openpsa_products_product_i" type="string"/>
-        <property name="description" multilang="yes" table="org_openpsa_products_product_i" type="text"/>
-        <property name="lang" multilang="yes" table="org_openpsa_products_product_i" type="unsigned integer" />
-        <property name="sid" multilang="yes" table="org_openpsa_products_product_i" type="unsigned integer" />
+        <property name="title" type="string"/>
+        <property name="description" type="text"/>
 
         <!-- Pricing information -->
         <property name="price" type="float" index="yes"/>
@@ -46,10 +44,8 @@
 
         <property name="code" type="string" index="yes"/>
 
-        <property name="title" multilang="yes" table="org_openpsa_products_product_group_i" type="string"/>
-        <property name="description" multilang="yes" table="org_openpsa_products_product_group_i" type="text"/>
-        <property name="lang" multilang="yes" table="org_openpsa_products_product_group_i" type="unsigned integer" />
-        <property name="sid" multilang="yes" table="org_openpsa_products_product_group_i" type="unsigned integer" />
+        <property name="title" type="string"/>
+        <property name="description" type="text"/>
 
         <!-- Common OpenPSA properties -->
 

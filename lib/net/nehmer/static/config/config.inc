@@ -11,9 +11,6 @@
 // A valid sort order usable with QB
 'sort_order' => 'metadata.score',
 
-// Whether to emulate multilang sorting
-'emulate_multilang_sorting' => false,
-
 // Generate a directory index if no index article is found?
 'autoindex' => false,
 'show_blobs_in_autoindex' => true,

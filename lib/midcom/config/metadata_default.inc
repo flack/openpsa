@@ -43,20 +43,6 @@
             'storage' => 'metadata',
             'widget' => 'checkbox',
         ),
-        "navnoentry_{$_MIDCOM->i18n->get_content_language()}" => array
-        (
-            'title' => 'hide from navigation from this language',
-            'helptext' => 'objects with no navigation entry are still accessible on-site if the url is known',
-            'type' => 'boolean',
-            'storage' => array
-            (
-                'location' => 'parameter',
-                'domain' => 'midcom.helper.nav',
-                'name' => "navnoentry_{$_MIDCOM->i18n->get_content_language()}",
-            ),
-            'widget' => 'checkbox',
-            'hidden' => !$GLOBALS['midcom_config']['i18n_multilang_navigation'],
-        ),
         'do_not_index' => array
         (
             'title' => "do not index (midcom's indexer)",
@@ -359,7 +345,7 @@
             'readonly' => true,
             'end_fieldgroup' => '',
         ),
-        
+
         // Approvals
         'approved' => array
         (
@@ -411,7 +397,7 @@
             'readonly' => true,
             'end_fieldgroup' => '',
         ),
-        
+
         // Editing status
         'locked' => array
         (

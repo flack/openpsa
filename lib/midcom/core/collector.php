@@ -170,11 +170,6 @@ class midcom_core_collector
 
         // MidCOM's collector always uses the GUID as the key for ACL purposes
         $this->_mc->set_key_property('guid');
-
-        if ($GLOBALS['midcom_config']['i18n_multilang_strict'])
-        {
-            $this->_mc->set_lang($_MIDCOM->i18n->get_midgard_language());
-        }
     }
 
     /**
@@ -558,19 +553,6 @@ class midcom_core_collector
     {
         $this->_reset();
         $this->_offset = $offset;
-    }
-
-    /**
-     * Returns only objects that are available in the specified language. This will
-     * disable the automatic fallback to the default language which would be in place
-     * otherwise.
-     *
-     * @param int $language The ID of the language to limit the query to.
-     */
-    function set_lang($language)
-    {
-        $this->_reset();
-        $this->_mc->set_lang($language);
     }
 
     function set_key_property($property, $value = null)

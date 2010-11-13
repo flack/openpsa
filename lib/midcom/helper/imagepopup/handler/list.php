@@ -282,10 +282,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
                 'storage' => null,
                 'type' => 'images',
                 'widget' => 'images',
-                'type_config' => array
-                (
-                    'multilang' => $this->_config->get('multilang_emulation'),
-                ),
                 'widget_config' => array
                 (
                     'set_name_and_title_on_upload' => false
@@ -297,10 +293,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
                 'title' => $_MIDCOM->i18n->get_string('files', 'midcom.helper.imagepopup'),
                 'storage' => null,
                 'type' => 'blobs',
-                'type_config' => array
-                (
-                    'multilang' => $this->_config->get('multilang_emulation'),
-                ),
                 'widget' => 'downloads',
             );
         }

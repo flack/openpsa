@@ -13,9 +13,9 @@
 require_once 'HTTP/Request.php';
 
 /**
- * Solr implementation of the indexer backend. 
- * 
- * This works by communicating with solr over http requests. It uses the same tcphost 
+ * Solr implementation of the indexer backend.
+ *
+ * This works by communicating with solr over http requests. It uses the same tcphost
  * and tcpport settings as the old TCP indexer used.
  *
  * @package midcom.services
@@ -91,7 +91,7 @@ class midcom_services_indexer_backend_solr extends midcom_services_indexer_backe
             $this->factory->add($document);
             $added = true;
         }
-        
+
         if (!$added)
         {
             return true;
@@ -145,12 +145,6 @@ class midcom_services_indexer_backend_solr extends midcom_services_indexer_backe
                                     gmdate($format, ($filter->get_end() == 0 ) ? time() : $filter->get_end()) . "Z");
             }
         }
-        /* In fact this is probably best left for midcom.helper.search to decide
-        if ($GLOBALS['midcom_config']['i18n_multilang_strict'])
-        {
-            $query .= ' AND (__LANG:"' . $_MIDCOM->i18n->get_current_language() . '" OR __LANG:"")';
-        }
-        */
 
         // FIXME: Make this configurable, even better: adapt the whole indexer system to fetching enable querying for counts and slices
         $maxrows = 1000;
@@ -292,7 +286,7 @@ class midcom_services_indexer_solrDocumentFactory
         }
 
     }
-    
+
     /**
      * Deletes one element
      * @param string $id the element id
@@ -372,7 +366,7 @@ class midcom_services_indexer_solrRequest
         return $this->do_post($this->factory->to_xml(), $optimize);
     }
 
-    
+
     /**
      * posts the xml to the suggested url using HTTP_Request.
      */
@@ -403,7 +397,7 @@ class midcom_services_indexer_solrRequest
             {
                 $errstr = $err->getMessage();
             }
-            debug_add("Failed to execute request {$url}:{$this->code} {$errstr}", MIDCOM_LOG_WARN); 
+            debug_add("Failed to execute request {$url}:{$this->code} {$errstr}", MIDCOM_LOG_WARN);
             debug_add("Request content: \n$xml", MIDCOM_LOG_DEBUG);
             debug_pop();
             return false;
@@ -421,8 +415,8 @@ class midcom_services_indexer_solrRequest
             {
                 $errstr = $err->getMessage();
             }
-            debug_add("Failed to execute commit request {$url}: {$errstr}", MIDCOM_LOG_WARN); 
-            debug_add("Request content: \n$xml", MIDCOM_LOG_INFO); 
+            debug_add("Failed to execute commit request {$url}: {$errstr}", MIDCOM_LOG_WARN);
+            debug_add("Request content: \n$xml", MIDCOM_LOG_INFO);
             debug_pop();
             return false;
         }
@@ -433,7 +427,7 @@ class midcom_services_indexer_solrRequest
             $this->request->addHeader('Accept-Charset', 'UTF-8');
             $this->request->addHeader('Content-type', 'text/xml; charset=utf-8');
             $err = $this->request->sendRequest(true);
-    
+
             if (   $this->request->getResponseCode() != 200
                 || PEAR::isError($err))
             {
@@ -442,8 +436,8 @@ class midcom_services_indexer_solrRequest
                 {
                     $errstr = $err->getMessage();
                 }
-                debug_add("Failed to execute optimize request {$url}: {$errstr}", MIDCOM_LOG_WARN); 
-                debug_add("Request content: \n$xml", MIDCOM_LOG_INFO); 
+                debug_add("Failed to execute optimize request {$url}: {$errstr}", MIDCOM_LOG_WARN);
+                debug_add("Request content: \n$xml", MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }

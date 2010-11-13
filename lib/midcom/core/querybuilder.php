@@ -126,7 +126,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
      * @access private
      */
     private $_qb;
-    
+
     /**
      * The number of groups open
      *
@@ -225,7 +225,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     function __construct($classname)
     {
         $this->classname = $classname;
-        
+
         if (!class_exists($classname))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
@@ -261,11 +261,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         if (!$_MIDCOM->auth->is_valid_user())
         {
             $this->toggle_read_only(true);
-        }
-
-        if ($GLOBALS['midcom_config']['i18n_multilang_strict'])
-        {
-            $this->_qb->set_lang($_MIDCOM->i18n->get_midgard_language());
         }
     }
 
@@ -321,7 +316,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         $this->denied = 0;
         debug_push_class(__CLASS__, __FUNCTION__);
         foreach ($result as $key => $object)
-        {   
+        {
             $classname = $this->_real_class;
             $object = new $classname($object);
 
@@ -542,7 +537,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         $this->_qb->set_limit($this->_window_size);
         //debug_pop();
     }
-    
+
     function _check_groups()
     {
         while ($this->_groups > 0)
@@ -557,7 +552,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     function execute()
     {
         $this->_check_groups();
-        
+
         return $this->execute_windowed();
         //return $this->execute_notwindowed();
     }
@@ -656,7 +651,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     function execute_unchecked()
     {
         $this->_check_groups();
-        
+
         $this->_reset();
 
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
@@ -709,7 +704,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
     /**
      * Get result by its index
-     * 
+     *
      * @access public
      * @param int $key      Requested index in result set
      * @param string $mode  Execution mode: normal (default), unchecked, notwindowed
@@ -722,20 +717,20 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
             case 'unchecked':
                 $results = $this->execute_unchecked();
                 break;
-            
+
             case 'notwindowed':
                 $results = $this->execute_notwindowed();
                 break;
-            
+
             default:
                 $results = $this->execute();
         }
-        
+
         if (!isset($results[$key]))
         {
             return false;
         }
-        
+
         return $results[$key];
     }
 
@@ -927,19 +922,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     }
 
     /**
-     * Returns only objects that are available in the specified language. This will
-     * disable the automatic fallback to the default language which would be in place
-     * otherwise.
-     *
-     * @param int $language The ID of the language to limit the query to.
-     */
-    function set_lang($language)
-    {
-        $this->_reset();
-        $this->_qb->set_lang($language);
-    }
-
-    /**
      * Include deleted objects (metadata.deleted is TRUE) in query results.
      *
      * Note: this may cause all kinds of weird behavior with the DBA helpers
@@ -960,7 +942,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     function count()
     {
         $this->_check_groups();
-        
+
         if ($this->count == -1)
         {
             $this->execute();
@@ -969,11 +951,11 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     }
 
     /**
-     * This is a mapping to the real count function of the Midgard Query Builder. 
+     * This is a mapping to the real count function of the Midgard Query Builder.
      *
-     * It is mainly intended when speed is important over accuracy, as it bypasses 
-     * access control to get a fast impression of how many objects are available 
-     * in a given query. It should always be kept in mind that this is a 
+     * It is mainly intended when speed is important over accuracy, as it bypasses
+     * access control to get a fast impression of how many objects are available
+     * in a given query. It should always be kept in mind that this is a
      * preliminary number, not a final one.
      *
      * Use this function with care. The information you obtain in general is negligible, but a creative
@@ -984,7 +966,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     function count_unchecked()
     {
         $this->_check_groups();
-        
+
         if ($this->_limit)
         {
             $this->_qb->set_limit($this->_limit);
@@ -999,13 +981,13 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     /**
      * Sets read-only mode for underlying midgard_query_builder instance.
      * If $toggle is true, all objects returned with execute method have read-only properties,
-     * which can not be set, and all intances are created with better performance. 
-     * This method is dedicated for resultsets which are not meant to be updated or edited. 
+     * which can not be set, and all intances are created with better performance.
+     * This method is dedicated for resultsets which are not meant to be updated or edited.
      *
      * If underlying midgard_query_buidler doesn't provide read-only toggle, this method does nothing.
      *
      * @param bool $toggle enables or disables query builder read-only mode.
-     */ 
+     */
     function toggle_read_only($toggle = false)
     {
         if (method_exists($this->_qb, "toggle_read_only"))

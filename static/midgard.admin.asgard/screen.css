@@ -854,12 +854,6 @@ table.table_widget a img
   border: none;
 }
 
-#midgard_admin_asgard_deletetree ul .untranslated
-{
-  font-style: Italic;
-  color: #888a85;
-}
-
 table.midgard_admin_asgard_object_parameters th
 {
     text-align: left;

@@ -55,8 +55,8 @@
                 ),
                 'orders'        => array
                 (
-                    array('up'    => 'ASC'), 
-                    array('name'  => 'ASC'), 
+                    array('up'    => 'ASC'),
+                    array('name'  => 'ASC'),
                     array('extra' => 'ASC')
                 ),
             ),
@@ -88,7 +88,7 @@
             (
                 'options' => array_merge(array
                 (
-                    '' => sprintf($_MIDCOM->i18n->get_string('default (%s)', 'midcom.admin.settings'), 
+                    '' => sprintf($_MIDCOM->i18n->get_string('default (%s)', 'midcom.admin.settings'),
                                     $GLOBALS['midcom_config_default']['i18n_fallback_language'])
                 ),
                 $_MIDCOM->i18n->list_languages()),
@@ -255,7 +255,7 @@
                 'options' => array
                 (
                     ''  => midcom_admin_settings_editor::get_default_val('cache_module_content_headers_strategy'),
-                    'no-cache' =>'cs-no-cache', 
+                    'no-cache' =>'cs-no-cache',
                 'revalidate' =>'cs-revalidate',
                 'public' =>'cs-public',
                 'private'=>'cs-private',
@@ -301,22 +301,6 @@
                 'options' => array
                 (
                     ''    => midcom_admin_settings_editor::get_default_bool('show_unapproved_objects'),
-                    '1' => 'yes',
-                    '0' => 'no',
-                ),
-            ),
-        ),
-        
-        'i18n_multilang_strict' => array
-        (
-            'type' => 'select',
-            'widget' => 'select',
-            'title' => 'i18n_multilang_strict',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    ''    => midcom_admin_settings_editor::get_default_bool('i18n_multilang_strict'),
                     '1' => 'yes',
                     '0' => 'no',
                 ),
@@ -383,7 +367,7 @@
         ),
 
 
-    
+
         // Authentication configuration
         'auth_backend' => array
         (
@@ -403,7 +387,7 @@
                 'title' => 'auth configuration',
             ),
         ),
-        
+
         'auth_login_session_timeout' => array
         (
             'type' => 'text',
@@ -442,7 +426,7 @@
             ),
             'widget' => 'select',
         ),
-        
+
         'auth_login_form_httpcode' => array
         (
             'title' => 'auth_login_form_httpcode',
@@ -539,7 +523,7 @@
             ),
         ),
 
-    
+
         'auth_backend_simple_cookie_id' => array
         (
             'type' => 'text',

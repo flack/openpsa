@@ -92,12 +92,12 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
 
     /**
      * Sort index or what is the position in the list
-     * 
+     *
      * @access private
      * @var integer
      */
     var $_sort_index = 1;
-    
+
     /**
      * The initialization event handler post-processes the maxlength setting.
      *
@@ -139,7 +139,7 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
                 });
             ");
         }
-        
+
         $_MIDCOM->add_jscript($this->_get_filename_validation_script());
 
         return true;
@@ -191,7 +191,7 @@ END;
             {
                 $index = "            <th class=\"index\">" . $this->_l10n->get('index') . "</th>\n";
             }
-            
+
             $html = "<table class=\"midcom_helper_datamanager2_widget_downloads\" id=\"{$this->_namespace}{$this->name}\" >\n" .
                     "    <thead>\n" .
                     "        <tr>\n" .
@@ -220,7 +220,7 @@ END;
         {
             return;
         }
-        
+
         $sortable = '';
         if ($this->_type->sortable)
         {
@@ -420,10 +420,10 @@ debug_pop();
         {
             $img_title = $this->_type->titles[$identifier];
         }
-        
+
         // Initialize the string
         $sortable = '';
-        
+
         if ($this->_type->sortable)
         {
             $sortable = "            <td class=\"midcom_helper_datamanager2_helper_sortable\"><input type=\"text\" class=\"image_sortable\" name=\"midcom_helper_datamanager2_sortable[{$this->name}][{$identifier}]\" value=\"{$this->_sort_index}\" /></td>\n";
@@ -512,15 +512,6 @@ debug_pop();
      */
     function add_elements_to_form()
     {
-        if (   $this->_type->multilang_fallback_active
-            && $this->_state == 'edit')
-        {
-            // Don't add the existing images that come from Lang0 to prevent overwriting
-            $this->_type->images = array();
-            $this->_type->attachments = array();
-            $this->_type->attachments_info = array();
-            $this->_type->_attachment_map = array();
-        }
         $frozen = false;
         if (   $this->_type->storage->object
             && (   !$this->_type->storage->object->can_do('midgard:attachments')
@@ -765,7 +756,7 @@ debug_pop();
                 foreach ($this->_type->images[$images_identifier] as $derivate => $info)
                 {
                     /**
-                     * This is still not 100% perfect (the absolute score values will be "too high" for 
+                     * This is still not 100% perfect (the absolute score values will be "too high" for
                      * each attachment stored, but relative to each other they all have correct values)
                      * but it works well enough.
                      */

@@ -35,7 +35,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         // Resultlists, controlled using HTTP GET/POST
         $this->_request_switch[] = array
         (
-            'fixed_args' => 'result', 
+            'fixed_args' => 'result',
             /* 'no_cache' => true, */
             'handler' => 'result'
         );
@@ -115,19 +115,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
     function _show_searchform($handler_id, &$data)
     {
         midcom_show_style('search_form');
-    }
-
-    /**
-     * Appends language to search terms
-     *
-     * @param string &$final_query reference to the query string to be passed on to the indexer.
-     */
-    function add_multilang_terms(&$final_query)
-    {
-        if ($GLOBALS['midcom_config']['i18n_multilang_strict'])
-        {
-            $final_query .= ' AND (__LANG:"' . $_MIDCOM->i18n->get_current_language() . '")';
-        }
     }
 
     /**
@@ -219,7 +206,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         {
             case 'basic':
                 $final_query = $data['query'];
-                $this->add_multilang_terms($final_query);
                 debug_add("Final query: {$final_query}");
                 $result = $indexer->query($final_query);
                 break;
@@ -270,7 +256,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                     $this->append_terms_recursive($final_query, $_REQUEST['append_terms']);
                 }
 
-                $this->add_multilang_terms($final_query);
                 debug_add("Final query: {$final_query}");
 
                 $result = $indexer->query($final_query, $filter);

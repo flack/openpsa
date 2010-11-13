@@ -42,24 +42,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                         <?php
                         }
                         echo "<h1>";
-                        
-                        if (   isset($data['object'])
-                            && $_MIDCOM->dbfactory->is_multilang($data['object']))
-                        {
-                            // FIXME: It would be better to reflect whether object is MultiLang
-                            if (   $data['object']->lang == 0
-                                && isset($data['language_code'])
-                                && $data['language_code'] !== '')
-                            {
-                                echo "<span class=\"object_language\">" . $_MIDCOM->i18n->get_string('in fallback language', 'midgard.admin.asgard') . '</span>';
-                            }
-                            elseif ($data['object']->lang != 0)
-                            {
-                                $lang = new midcom_db_language($data['object']->lang);
-                               echo "<span class=\"object_language\">" .  sprintf($_MIDCOM->i18n->get_string('in %s', 'midgard.admin.asgard'), $lang->name) . '</span>';
-                            }
-                        }
-                        
+
                         if (   isset($data['object'])
                             && isset($data['object']->__mgdschema_class_name__))
                         {
@@ -67,9 +50,9 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                             $type_icon = $ref->get_object_icon($data['object']);
                             echo "<span class=\"object_type_link\"><a href=\"{$prefix}__mfa/asgard/{$data['object']->__mgdschema_class_name__}/\">{$type_icon}</a></span> ";
                         }
-                        
+
                         echo "{$data['view_title']}</h1>\n";
-                        
+
                         ?>
                     </div>
 <?php
@@ -107,7 +90,7 @@ if ($position === 'absolute')
                 cursor: 'move'
             })
             .resizable();
-        
+
     // ]]>
 </script>
 <?php

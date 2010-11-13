@@ -21,7 +21,6 @@
         <property name="name" type="string" index="yes">
             <description>Country name</description>
         </property>
-        <!-- TODO: Alternate names should probably be a MultiLang table -->
         <property name="alternatenames" type="string">
             <description>Alternative and different language names of the country separated by pipe (`|`) characters</description>
         </property>
@@ -69,7 +68,6 @@
         <property name="region" type="string" index="yes">
             <description>An administrative region of the nation, such as a state or province</description>
         </property>
-        <!-- TODO: Alternate names should probably be a MultiLang table -->
         <property name="alternatenames" type="string">
             <description>Alternative and different language names of the city separated by pipe (`|`) characters</description>
         </property>

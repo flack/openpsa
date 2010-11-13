@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.admin.user
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: edit.php 25957 2010-05-03 15:21:57Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,7 +9,7 @@
 
 /**
  * Edit a group
- * 
+ *
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components_handler
@@ -18,7 +18,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
 
     /**
      * Simple constructor
-     * 
+     *
      * @access public
      */
     function __construct()
@@ -46,15 +46,15 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
 
     }
-    
+
     function _update_breadcrumb()
     {
         // Populate breadcrumb
         $tmp = Array();
-        
-        $grp = $this->_group;       
+
+        $grp = $this->_group;
         while ($grp)
-        {        
+        {
             $tmp[] = Array
             (
                 MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/edit/{$grp->guid}/",
@@ -71,9 +71,9 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         (
             MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
             MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'),
-        ); 
+        );
         $tmp = array_reverse($tmp);
-        
+
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
@@ -93,7 +93,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
     function _load_controller()
     {
         $this->_load_schemadb();
-        
+
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->_group->id);
         if (   $qb->count_unchecked() > $this->_config->get('list_users_max')
@@ -107,7 +107,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
             }
         }
         unset($qb);
-        
+
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_group, 'default');
@@ -118,7 +118,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         }
     }
 
-    
+
     /**
      * Handler method for listing style elements for the currently used component topic
      *
@@ -137,9 +137,9 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
             return false;
         }
         $this->_group->require_do('midgard:update');
-                    
+
         $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        
+
         $this->_load_controller();
         switch ($this->_controller->process_form())
         {
@@ -148,14 +148,12 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
                 $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
                 // This will exit.
-                
+
             case 'cancel':
                 $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
                 // This will exit.
         }
-        
 
-        $data['language_code'] = '';
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
 
         $ref = new midcom_helper_reflector($this->_group);
@@ -163,7 +161,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
-        
+
         $data['asgard_toolbar']->add_item
         (
             array
@@ -184,13 +182,13 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
             ),
             $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
         );
-        
+
         return true;
     }
-    
+
     /**
      * Show list of the style elements for the currently edited topic component
-     * 
+     *
      * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
@@ -202,7 +200,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         $data['group'] =& $this->_group;
         $data['controller'] =& $this->_controller;
         midcom_show_style('midcom-admin-user-group-edit');
-        
+
         midgard_admin_asgard_plugin::asgard_footer();
     }
 }

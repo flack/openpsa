@@ -159,10 +159,6 @@ Konfiguracja serwisu.
 Domyślny język
 ---STRINGEND
 
----STRING i18n_multilang_strict
-Ukryj zawartość nieprzetłumaczoną
----STRINGEND
-
 ---STRING indexer configuration
 Konfiguracja indeksera
 ---STRINGEND

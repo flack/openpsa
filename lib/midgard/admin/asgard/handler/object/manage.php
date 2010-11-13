@@ -811,8 +811,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     function _handler_view($handler_id, $args, &$data)
     {
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
-
         $this->_load_object($args[0]);
 
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -833,7 +831,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::finish_language($handler_id, $data);
         midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         return true;
@@ -871,15 +868,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     function _handler_edit($handler_id, $args, &$data)
     {
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
-
         $this->_load_object($args[0]);
 
         $this->_object->require_do('midgard:update');
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
-
-        // Set the object language
-        $this->_set_object_language($args);
 
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -916,11 +908,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 //$indexer = $_MIDCOM->get_service('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
                 // *** FALL-THROUGH ***
-                $_MIDCOM->relocate("__mfa/asgard/object/edit/{$this->_object->guid}/{$data['language_code']}/");
+                $_MIDCOM->relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
                 // This will exit.
 
             case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/{$data['language_code']}/");
+                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/");
                 // This will exit.
             case 'edit':
                 $qf =& $this->_controller->formmanager->form;
@@ -942,7 +934,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::finish_language($handler_id, $data);
+
         return true;
     }
 
@@ -1033,7 +1025,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     function _handler_create($handler_id, $args, &$data)
     {
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
         $this->_new_type = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($args[0]);
         if (!$this->_new_type)
         {
@@ -1153,7 +1144,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
-                    $redirect_url = str_replace('//', '/', "__mfa/asgard/object/edit/{$this->_new_object->guid}/{$data['language_code']}/");
+                    $redirect_url = str_replace('//', '/', "__mfa/asgard/object/edit/{$this->_new_object->guid}/");
                     $_MIDCOM->relocate($redirect_url);
                     // This will exit.
                 }
@@ -1172,13 +1163,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                 if ($handler_id != '____mfa-asgard-object_create_chooser')
                 {
-                    $_MIDCOM->relocate("__mfa/asgard/{$objecturl}{$data['language_code']}/");
+                    $_MIDCOM->relocate("__mfa/asgard/{$objecturl}/");
                     // This will exit.
                 }
         }
 
         $this->_prepare_request_data();
-        midgard_admin_asgard_plugin::finish_language($handler_id, $data);
         return true;
     }
 
@@ -1257,8 +1247,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     function _handler_delete($handler_id, $args, &$data)
     {
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
-
         $this->_load_object($args[0]);
 
         $this->_object->require_do('midgard:delete');
@@ -1267,7 +1255,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $type = $this->_object->__mgdschema_class_name__;
 
         $relocate_url = $type;
-        $cancel_url = "__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/{$data['language_code']}";
+        $cancel_url = "__mfa/asgard/object/{$this->_request_data['default_mode']}/{$this->_object->guid}/";
 
         $class_extends = $this->_config->get('class_extends');
         if (   is_array($class_extends)
@@ -1320,14 +1308,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $indexer = $_MIDCOM->get_service('indexer');
             $indexer->delete($this->_object->guid);
 
-
-            if ($data['language_code'] != '')
-            {
-                // Relocate to lang0 view page
-                $_MIDCOM->relocate($_MIDGARD['self'] . "__mfa/asgard/object/{$data['default_mode']}/{$this->_object->guid}/");
-                // This will exit()
-            }
-
             if ($parent)
             {
                 $_MIDCOM->relocate($_MIDGARD['self'] . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
@@ -1346,7 +1326,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::finish_language($handler_id, $data);
 
         // Add Thickbox
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
@@ -1388,22 +1367,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $data['tree']->copy_tree = false;
         $data['tree']->inputs = false;
 
-        $midgard_language = $_MIDCOM->i18n->get_midgard_language();
-
-        // Current language is not zero, selective delete to prevent deleting too much of objects.
-        // Object will not be deleted if it doesn't have a language property at all or if its
-        // language property is not the one requested for deletion
-        if (   $midgard_language !== 0
-            && (   !$_MIDCOM->dbfactory->is_multilang($this->_object)
-                || $this->_object->lang !== $midgard_language))
-        {
-            midcom_show_style('midgard_admin_asgard_object_delete_language');
-        }
-        else
-        {
-            midcom_show_style('midgard_admin_asgard_object_delete');
-        }
-
+        midcom_show_style('midgard_admin_asgard_object_delete');
         midcom_show_style('midgard_admin_asgard_footer');
     }
 
@@ -1418,8 +1382,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      */
     function _handler_copy($handler_id, $args, &$data)
     {
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
-
         // Get the object that will be copied
         $this->_load_object($args[0]);
 
@@ -1461,20 +1423,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
         $_MIDCOM->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
 
-
-        // Add switch for copying parameters
-        $this->_schemadb['object']->append_field
-        (
-            'multilang',
-            array
-            (
-                'title'       => $this->_l10n->get('copy multilingual content'),
-                'storage'     => null,
-                'type'        => 'boolean',
-                'widget'      => 'checkbox',
-                'default'     => 1,
-            )
-        );
 
         // Add switch for copying parameters
         $this->_schemadb['object']->append_field
@@ -1588,7 +1536,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 }
 
                 // Copying of parameters, metadata and such
-                $copy->copy_multilang = $data['controller']->datamanager->types['multilang']->convert_to_storage();
                 $copy->parameters = $data['controller']->datamanager->types['parameters']->convert_to_storage();
                 $copy->metadata = $data['controller']->datamanager->types['metadata']->convert_to_storage();
                 $copy->attachments = $data['controller']->datamanager->types['attachments']->convert_to_storage();
@@ -1647,7 +1594,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         // Common hooks for Asgard
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
         midgard_admin_asgard_plugin::get_common_toolbar($data);
-        midgard_admin_asgard_plugin::finish_language($handler_id, $data);
 
         // Set the page title
         switch ($handler_id)
@@ -1693,35 +1639,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             midcom_show_style('midgard_admin_asgard_object_copy');
         }
         midcom_show_style('midgard_admin_asgard_footer');
-    }
-
-    /**
-     * Set the object language if applicable
-     *
-     * @access private
-     */
-    function _set_object_language($args = array())
-    {
-        // Set the language if requested
-        if (!$_MIDCOM->dbfactory->is_multilang($this->_object))
-        {
-            return false;
-        }
-
-        switch (true)
-        {
-            case (isset($args[1])):
-                $lang = $_MIDCOM->i18n->code_to_id($args[1]);
-                break;
-
-            case ($_MIDCOM->i18n->get_content_language()):
-                // This doesn't seem to have the wished effect
-                return;
-                $lang = $_MIDCOM->i18n->code_to_id($_MIDCOM->i18n->get_content_language());
-                break;
-        }
-
-        $this->_object->lang = $lang;
     }
 }
 ?>

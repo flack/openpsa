@@ -16,28 +16,28 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
 {
     /**
      * MgdSchema object
-     * 
+     *
      * @access public
      * @var mixed MgdSchema object
      */
     public $__object = null;
-    
+
     /**
      * Metadata object
-     * 
+     *
      * @acccess public
      * @var midcom_helper_metadata MidCOM metadata object
      */
     public $__metadata = null;
-    
+
     /**
      * Should the revision control system be enabled for object updates
-     * 
+     *
      * @access private
      * @var boolean
      */
     var $_use_rcs = true;
-    
+
     /**
      * Should the Activity Log be enabled for object actions
      *
@@ -45,10 +45,10 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
      * @var boolean
      */
     var $_use_activitystream = true;
-    
+
     /**
      * Change message used for RCS and the Activity Log summary
-     * 
+     *
      * @access private
      * @var string
      */
@@ -57,7 +57,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
     /**
      * Verb to use for Activity Log. Should be an URL conforming to activitystrea.ms specification.
      * If left blank then this will come from the DBA action performed (update, create)
-     * 
+     *
      * @access private
      * @var string
      */
@@ -74,7 +74,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
 
     /**
      * Constructor. Creates an abstraction layer for an MgdSchema object.
-     * 
+     *
      * @access public
      */
     public function __construct($id = null)
@@ -105,7 +105,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
                 debug_pop();
                 return;
             }
-            
+
             //Some useful information for performance tuning
             if (   $GLOBALS['midcom_config']['log_level'] >= MIDCOM_LOG_DEBUG
                 && $this->__object->guid)
@@ -134,22 +134,22 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
                 }
             }
         }
-          
+
         if (   $this->__object->guid
             && mgd_is_guid($this->__object->guid))
         {
             midcom_baseclasses_core_dbobject::post_db_load_checks($this);
         }
     }
-    
+
     /**
      * Magic getter for object property mapping
-     * 
+     *
      * @access public
      * @param string $property Name of the property
      */
-    public function __get($property) 
-    { 
+    public function __get($property)
+    {
         if (null === $this->__object)
         {
             return null;
@@ -198,15 +198,15 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
 
         return $this->__object->$property;
     }
-    
+
     /**
      * Magic setter for object property mapping
-     * 
+     *
      * @access public
      * @param string $property  Name of the property
      * @param mixed $value      Property value
      */
-    public function __set($property, $value) 
+    public function __set($property, $value)
     {
         return $this->__object->$property = $value;
     }
@@ -218,24 +218,24 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
 
     /**
      * Magic isset test for object property mapping
-     * 
+     *
      * @access public
      * @param string $property  Name of the property
      */
-    public function __isset($property) 
+    public function __isset($property)
     {
-        return isset($this->__object->$property); 
+        return isset($this->__object->$property);
     }
-    
+
     /**
      * Shortcut for accessing MidCOM Query Builder
-     * 
+     *
      * @return midcom_core_querybuilder The initialized instance of the query builder.
      * @see midcom_core_querybuilder
      * @static
      */
     abstract static function new_query_builder();
-    
+
     /**
      * Shortcut for accessing MidCOM Collector
      *
@@ -264,32 +264,32 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
 
     /**
      * API for creating a new object
-     * 
+     *
      * @access public
      * @return boolean Indicating success
      */
-    public function create() 
+    public function create()
     {
         return midcom_baseclasses_core_dbobject::create($this);
     }
-    
+
     /**
      * API for creating an attachment for the object
-     * 
+     *
      * @access public
      * @param string $name      Machine-readable name of the attachment
      * @param string $title     Human-readable title of the attachment
      * @param string $mimetype  MIME-type of the attachment
      * @return boolean Indicating success
      */
-    public function create_attachment($name, $title, $mimetype) 
+    public function create_attachment($name, $title, $mimetype)
     {
         return midcom_baseclasses_core_dbobject::create_attachment($this, $name, $title, $mimetype);
     }
-    
+
     /**
      * Create new privilege for the object.
-     * 
+     *
      * @access public
      * @param string $privilege  Privilege name
      * @param mixed $assignee    ID or GUID of the assignee
@@ -297,14 +297,14 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
      * @param string $classname  An optional class name to which a SELF privilege gets restricted to. Only valid for SELF privileges.
      * @return boolean Indicating success
      */
-    public function create_new_privilege_object($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '') 
+    public function create_new_privilege_object($privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {
         return midcom_baseclasses_core_dbobject::create_new_privilege_object($this, $privilege, $assignee, $value, $classname);
     }
-    
+
     /**
      * Delete the current object
-     * 
+     *
      * @access public
      * @return boolean Indicating success
      */
@@ -327,7 +327,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
 
     /**
      * Purge the current object from database
-     * 
+     *
      * @access public
      * @return boolean Indicating success
      */
@@ -342,19 +342,19 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
 
     /**
      * Delete an attachment of the this object
-     * 
+     *
      * @access public
      * @param string $name     Name of the attachment
      * @return boolean Indicating success
      */
-    public function delete_attachment($name) 
+    public function delete_attachment($name)
     {
         return midcom_baseclasses_core_dbobject::delete_attachment($this, $name);
     }
-    
+
     /**
      * Delete a parameter
-     * 
+     *
      * @access public
      * @param string $domain    Parameter domain
      * @param string $name      Parameter name
@@ -364,10 +364,10 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
     {
         return midcom_baseclasses_core_dbobject::delete_parameter($this, $domain, $name);
     }
-    
+
     /**
      * Delete the current object tree, starting from this object
-     * 
+     *
      * @access public
      * @return boolean Indicating success
      */
@@ -375,10 +375,10 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
     {
         return midcom_baseclasses_core_dbobject::delete_tree($this);
     }
-    
+
     /**
      * Get the requested attachment object
-     * 
+     *
      * @access public
      * @param string $name    Attachment URL name
      * @return boolean Indicating success
@@ -391,8 +391,8 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
     {
         return midcom_baseclasses_core_dbobject::get_attachment_qb($this);
     }
-    public function get_by_guid($guid) 
-    { 
+    public function get_by_guid($guid)
+    {
         return midcom_baseclasses_core_dbobject::get_by_guid($this, $guid);
     }
     public function get_by_id($id)
@@ -402,12 +402,12 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
     public function get_by_path($path)
     {
         return midcom_baseclasses_core_dbobject::get_by_path($this, $path);
-    }  
-    public function get_metadata() 
+    }
+    public function get_metadata()
     {
         return midcom_helper_metadata::retrieve($this);
     }
-    public function get_parameter($domain, $name) 
+    public function get_parameter($domain, $name)
     {
         return midcom_baseclasses_core_dbobject::get_parameter($this, $domain, $name);
     }
@@ -416,17 +416,8 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
         return midcom_baseclasses_core_dbobject::get_parent($this);
     }
     public function get_parent_guid()
-    { 
-        return midcom_baseclasses_core_dbobject::get_parent_guid($this);
-    }
-    public function get_languages()
     {
-        if (   isset($_MIDGARD['config']['multilang'])
-            && !$_MIDGARD['config']['multilang'])
-        {
-            return array();
-        }
-        return $this->__object->get_languages();
+        return midcom_baseclasses_core_dbobject::get_parent_guid($this);
     }
     public function get_privilege($privilege, $assignee, $classname = '')
     {
@@ -720,10 +711,10 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
         }
         return null;
     }
-    
+
     /**
      * Get the GUID of the object's parent. This is done by reading up or parent
-     * property values, which will give us the parent's ID. Since the ID => GUID relation 
+     * property values, which will give us the parent's ID. Since the ID => GUID relation
      * won't change, the corresponding GUID is then stored in an in-request static cache
      */
     public function get_parent_guid_uncached_static($object_guid, $class_name)

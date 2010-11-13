@@ -157,7 +157,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         }
 
         $qb->add_order('metadata.published', 'DESC');
-        //$qb->add_order('lang', 'DESC');
 
         switch ($handler_id)
         {

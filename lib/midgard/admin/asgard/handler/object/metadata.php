@@ -83,7 +83,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
 
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
-        
+
         if (   $this->_config->get('enable_review_dates')
             && !isset($this->_schemadb['metadata']->fields['review_date']))
         {
@@ -130,7 +130,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
      */
     function _handler_edit($handler_id, $args, &$data)
     {
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (   !$this->_object
             || !$this->_object->guid)
@@ -178,7 +177,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::finish_language($handler_id, $data);
         return true;
 
     }

@@ -47,18 +47,18 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * @access private
      */
 
-    
+
     /**
      * The configuration to use to start up the backend drivers. Initialized during
      * startup from the MidCOM configuration key cache_module_nap_backend.
-     * 
+     *
      * @var Array
      */
     var $_backend = null;
-    
+
     /**
      * The cache backend instance to use.
-     * 
+     *
      * @var midcom_services_cache_backend
      */
     var $_cache = null;
@@ -90,17 +90,12 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     function _on_initialize()
     {
         $this->_backend = $GLOBALS['midcom_config']['cache_module_memcache_backend'];
-        
+
         if ($this->_backend)
         {
             $config = $GLOBALS['midcom_config']['cache_module_memcache_backend_config'];
             $config['driver'] = $this->_backend;
             $this->_cache = $this->_create_backend('module_nap', $config);
-        }
-
-        if ($lang = midcom_application::get_lang())
-        {
-            $this->_prefix .= "-{$lang}";
         }
     }
 
@@ -185,7 +180,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * Looks up a node in the cache and returns it. Not existent
      * keys are caught in this call as well, so you do not need
      * to call exists first.
-     * 
+     *
      * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
@@ -203,7 +198,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * Looks up a node in the cache and returns it. Not existent
      * keys are caught in this call as well, so you do not need
      * to call exists first.
-     * 
+     *
      * @param string $key The key to look up.
      * @return mixed The cached value on success, false on failure.
      */
@@ -228,7 +223,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
     /**
      * Checks for the existence of a key in the cache.
-     * 
+     *
      * @param string $key The key to look up.
      * @return boolean Indicating existence
      */
@@ -238,13 +233,13 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         {
             return false;
         }
-        
+
         return $this->_cache->exists("{$this->_prefix}-{$key}");
     }
-    
+
     /**
      * Sets a given node key in the cache.
-     * 
+     *
      * @param string $key The key to look up.
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
@@ -261,7 +256,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
     /**
      * Sets a given leave key in the cache
-     * 
+     *
      * @param string $key The key to look up.
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.

@@ -93,7 +93,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             debug_pop();
             return null;
         }
-    
+
         if (!mgd_is_guid($guid))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -110,15 +110,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             {
                 $tmp = new $GLOBALS['midcom_config']['person_class']($guid);
             }
-
-            // Construct object if automated/transparent MultiLang workflows are enabled
-            // This is a workaround for #1886
-            if (   $GLOBALS['midcom_config']['multilang_lang0_langs']
-                || $GLOBALS['midcom_config']['multilang_auto_langs'])
-            {
-                $class = get_class($tmp);
-                $tmp = new $class($tmp->id);
-            }
         }
         catch(midgard_error_exception $e)
         {
@@ -130,7 +121,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
 
         return $this->convert_midgard_to_midcom($tmp);
     }
-    
+
     /**
      * Retrieve a reference to an object, uses in-request caching
      *
@@ -309,7 +300,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             debug_pop();
             return null;
         }
-     
+
         if (!$_MIDCOM->dbclassloader->is_midcom_db_object($object))
         {
             if ($_MIDCOM->dbclassloader->is_mgdschema_object($object))
@@ -324,7 +315,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             debug_pop();
             return null;
         }
-        
+
         if (   !isset($object->__object)
             || !is_object($object->__object))
         {
@@ -335,7 +326,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             debug_pop();
             return null;
         }
-        
+
         return $object->__object;
     }
 
@@ -362,50 +353,15 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             // Decorator whose MgdSchema object matches
             return true;
         }
-        
+
         if (   isset($object->__mgdschema_class_name__)
             && $object->__mgdschema_class_name__ == $class)
         {
             // Decorator without object instantiated, check class match
             return true;
         }
-        
+
         return false;
-    }
-    
-    /**
-     * This method checks if an object or class is multilingual
-     *
-     * @param mixed $class DBA object or MgdSchema classname
-     * @return boolean
-     */
-    public function is_multilang($class)
-    {
-        if (   isset($_MIDGARD['config']['multilang'])
-            && (!$_MIDGARD['config']['multilang']))
-        {
-            // This Midgard installation has MultiLang disabled so no objects are ML
-            return false;
-        }
-        if (is_object($class))
-        {
-            if ($_MIDCOM->dbclassloader->is_midcom_db_object($class))
-            {
-                $class = $class->__mgdschema_class_name__;
-            }
-            else
-            {
-                $class = get_class($class);
-            }
-        }
-        
-        if ($class == 'midgard_attachment')
-        {
-            // Attachments are actually ML objects
-            return true;
-        }
-        
-        return midgard_object_class::is_multilang($class);
     }
 
     /**
@@ -442,7 +398,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             return false;
         }
 
-        // Workaround for http://trac.midgard-project.org/ticket/942 
+        // Workaround for http://trac.midgard-project.org/ticket/942
         $instance = new $object();
         return $this->property_exists($instance, $property);
         // *** NOTE: See the return there ^^^^ ***
@@ -723,16 +679,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             case 'deleted':
                 if (!$actual_object_in_db)
                 {
-                    // we don't have the object locally created yet, so we just import via core and be done with it
-                    if ($_MIDCOM->dbfactory->is_multilang($unserialized_object)) 
-                    {
-                        /* If class is multilang, import data from xml directly. See #1392 */
-                        midcom_helper_replicator_import_from_xml($xml, $use_force);
-                    }
-                    else
-                    {
-                        midcom_helper_replicator_import_object($unserialized_object, $use_force);
-                    }
+                    midcom_helper_replicator_import_object($unserialized_object, $use_force);
                     break;
                 }
                 if (!midcom_baseclasses_core_dbobject::delete_pre_checks($acl_object))
@@ -742,30 +689,8 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                     return false;
                 }
                 // Actual import
-                if ($_MIDCOM->dbfactory->is_multilang($unserialized_object)) 
-                {
-                    /* If class is multilang, import data from xml directly. See #1392 */
-                    $import_stat = true;
-                    midcom_helper_replicator_import_from_xml($xml, $use_force);
-                    /**
-                     * Reset error code to work around #1716
-                     *
-                     * @see http://trac.midgard-project.org/ticket/1716
-                     */
-                    if (midcom_application::get_error() === MGD_ERR_OBJECT_DELETED)
-                    {
-                        midcom_application::set_error(MGD_ERR_OK);
-                    }
-                    if (midcom_application::get_error() !== MGD_ERR_OK)
-                    {
-                        debug_add('midcom_helper_replicator_import_from_xml returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
-                        $import_stat = false;
-                    }
-                }
-                else
-                {
-                    $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
-                }
+                $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
+
                 if (!$import_stat)
                 {
                     /**
@@ -800,21 +725,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                     return false;
                 }
                 // Actual import
-                if ($_MIDCOM->dbfactory->is_multilang($unserialized_object)) 
-                {
-                    /* If class is multilang, import data from xml directly. See #1392 */
-                    $import_stat = true;
-                    midcom_helper_replicator_import_from_xml($xml, $use_force);
-                    if (midcom_application::get_error() !== MGD_ERR_OK)
-                    {
-                        debug_add('midcom_helper_replicator_import_from_xml returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
-                        $import_stat = false;
-                    }
-                }
-                else
-                {
-                    $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
-                }
+                $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
                 if (!$import_stat)
                 {
                     debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
@@ -836,21 +747,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                     return false;
                 }
                 // Actual import
-                if ($_MIDCOM->dbfactory->is_multilang($unserialized_object)) 
-                {
-                    /* If class is multilang, import data from xml directly. See #1392 */
-                    $import_stat = true;
-                    midcom_helper_replicator_import_from_xml($xml, $use_force);
-                    if (midcom_application::get_error() !== MGD_ERR_OK)
-                    {
-                        debug_add('midcom_helper_replicator_import_from_xml returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
-                        $import_stat = false;
-                    }
-                }
-                else
-                {
-                    $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
-                }
+                $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
                 if (!$import_stat)
                 {
                     debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);

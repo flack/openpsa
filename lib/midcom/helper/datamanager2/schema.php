@@ -134,9 +134,9 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     var $field_order = Array();
 
     /**
-     * The operations to add to the form. 
-     * 
-     * This is a simple array of commands, valid entries are 'save', 'cancel', 'next' and 
+     * The operations to add to the form.
+     *
+     * This is a simple array of commands, valid entries are 'save', 'cancel', 'next' and
      * 'previous', 'edit' is forbidden, other values are not interpreted by the DM infrastructure.
      *
      * @var Array
@@ -161,8 +161,8 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     var $validation = Array();
 
     /**
-     * Custom data filter rules. 
-     * 
+     * Custom data filter rules.
+     *
      * This is a list of arrays. Each array defines a single callback,
      * a field list according to HTML_QuickForm::applyFilter() along with a snippet or file location
      * that should be auto-loaded in case the function is missing.
@@ -186,7 +186,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         $this->_component = 'midcom.helper.datamanager2';
         parent::__construct();
         $this->_schemadb_path = $schemadb_path;
-        
+
         $this->_load_schemadb($schemadb);
 
         if ($name === null)
@@ -209,31 +209,31 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     function _load_schemadb($schemadb)
     {
         $contents = $this->_load_schemadb_contents($schemadb);
-        
+
         foreach ($contents as $schema_name => $schema)
         {
             if (!isset($schema['extends']))
             {
                 continue;
             }
-            
+
             // Default extended schema is with the same name
             $extended_schema_name = $schema_name;
             $path = $schemadb;
-            
+
             if (is_array($schema['extends']))
             {
                 if (isset($schema['extends']['path']))
                 {
                     $path = $schema['extends']['path'];
                 }
-                
+
                 // Override schema name
                 if (isset($schema['extends']['name']))
                 {
                     $extended_schema_name = $schema['extends']['name'];
                 }
-                
+
             }
             elseif (isset($contents[$schema['extends']]))
             {
@@ -246,7 +246,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             {
                 $path = $schema['extends'];
             }
-            
+
             if ($path === $schemadb)
             {
                 // Infinite loop, set an UI message and stop executing
@@ -255,13 +255,13 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 {
                     $snippet_path = $this->_get_snippet_link($path);
                     $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
-                    
+
                     debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add(sprintf($this->_l10n->get('schema %s:%s extends itself'), $path, $schema_name), MIDCOM_LOG_WARN);
                     debug_pop();
                     continue;
                 }
-                
+
                 $extended_schemadb[$schema['extends']['name']] = $contents[$schema['extends']['name']];
                 $extended_schema_name = $schema['extends']['name'];
             }
@@ -269,19 +269,19 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             {
                 $extended_schemadb = $this->_load_schemadb($path);
             }
-            
+
             // Raise a notice if extended schema was not found from the schemadb
             if (!isset($extended_schemadb[$extended_schema_name]))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add(sprintf($this->_l10n->get('extended schema %s:%s was not found'), $path, $schema_name), MIDCOM_LOG_WARN);
                 debug_pop();
-                
+
                 $snippet_path = $this->_get_snippet_link($path);
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
                 continue;
             }
-            
+
             // Override the extended schema with fields from the new schema
             foreach ($contents[$schema_name] as $key => $value)
             {
@@ -289,7 +289,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 {
                     continue;
                 }
-                
+
                 // This is probably either fields or operations
                 if (is_array($value))
                 {
@@ -297,7 +297,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     {
                         $extended_schemadb[$extended_schema_name][$key] = array();
                     }
-                    
+
                     foreach ($value as $name => $field)
                     {
                         if (!$field)
@@ -305,7 +305,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                             unset($extended_schemadb[$extended_schema_name][$key][$name]);
                             continue;
                         }
-                        
+
                         $extended_schemadb[$extended_schema_name][$key][$name] = $field;
                     }
                 }
@@ -313,20 +313,20 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 {
                     $extended_schemadb[$extended_schema_name][$key] = $value;
                 }
-                
+
             }
-            
+
             // Replace the new schema with extended schema
             $contents[$schema_name] = $extended_schemadb[$extended_schema_name];
         }
-        
+
         $this->_raw_schemadb = $contents;
         return $contents;
     }
-    
+
     /**
      * Get snippet link. A small helper for generating link for the requested schemadb
-     * 
+     *
      * @access private
      * @param String $schemadb
      * @return String Link tag to the loaded object
@@ -337,12 +337,12 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             return false;
         }
-        
+
         $snippet = new midgard_snippet();
         try
         {
             $snippet->get_by_path($path);
-            
+
             if ($snippet->guid)
             {
                 return "<a href=\"{$_MIDGARD['self']}__mfa/asgard/object/edit/{$snippet->guid}/\">{$path}</a>";
@@ -351,13 +351,13 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         catch (Exception $e)
         {
         }
-        
+
         return $path;
     }
-    
+
     /**
      * Load the schemadb contents
-     * 
+     *
      * @access private
      * @param mixed $schemadb    Path of the schemadb or raw schema array
      * @return array             Containing schemadb definitions
@@ -374,7 +374,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     "Failed to parse the schema definition in '{$schemadb}', see above for PHP errors.");
                 // This will exit.
             }
-            
+
             return $contents;
         }
         else if (is_array($schemadb))
@@ -389,7 +389,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to access the schema database: Invalid variable type while constructing.');
             // This will exit.
         }
-        
+
         return false;
     }
 
@@ -477,9 +477,9 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
     /**
      * This function adds a new field to the schema, appending it at the end of the
-     * current field listing. 
-     * 
-     * This is callable after the construction of the object, to allow you to add 
+     * current field listing.
+     *
+     * This is callable after the construction of the object, to allow you to add
      * additional fields like component required fields to the list.
      *
      * This can also be used to merge schemas together.
@@ -569,11 +569,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 if (! array_key_exists('domain', $config['storage']))
                 {
                     $config['storage']['domain'] = 'midcom.helper.datamanager2';
-                }
-
-                if (! array_key_exists('multilang', $config['storage']))
-                {
-                    $config['storage']['multilang'] = false;
                 }
             }
         }
@@ -719,7 +714,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 $data = midcom_get_snippet_content($raw_db);
                 $result = eval ("\$raw_db = array ( {$data}\n );");
             }
-            
+
             // Bullet-proof against syntax errors
             if ($result === false)
             {
@@ -730,7 +725,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
 
         $schemadb = array();
-        
+
         if (!is_array($raw_db))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Provided DM2 schema is not in Array format.");
@@ -742,7 +737,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
         return $schemadb;
     }
-    
+
     /**
      * Registers a schema into the session so it is readable by the imagepopup.
      * @return string the form sessionkey

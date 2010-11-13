@@ -163,10 +163,6 @@ Websajts konfiguration
 Språk att falla tillbaka till för avsaknade översättningar
 ---STRINGEND
 
----STRING i18n_multilang_strict
-Dölj oöversatt innehåll
----STRINGEND
-
 ---STRING indexer configuration
 Indexer konfiguration
 ---STRINGEND
