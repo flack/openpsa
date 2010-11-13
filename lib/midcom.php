@@ -210,7 +210,7 @@ function midcom_autoload($class_name)
 {
     static $autoloaded = 0;
 
-    $path = preg_replace('/\/?$/', '', MIDCOM_ROOT) . '/' . str_replace('_', '/', $class_name) . '.php';
+    $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $class_name) . '.php';
     $path = str_replace('//', '/_', $path);
 
     if (   basename($path) == 'dba.php'
