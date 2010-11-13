@@ -112,10 +112,6 @@
  *   naming the files/directories it creates. This defaults to a string constructed out of the
  *   host's name, port and prefix. You should only change this if you run multiple MidCOM
  *   sites on the same host.
- * - <b>boolean cache_module_content_multilang:</b> Set this to true if you need a cache that honors the current
- *   client language. Set this to false, if you don't have a multilingual site and the language
- *   is fixed through a static $i18n->set_language call before code-init. This will improve
- *   the cache's performance.
  * - <b>boolean cache_module_content_uncached:</b> Set this to true if you want the site to run in an uncached
  *      mode. This is different from cache_disable in that the regular header preprocessing is
  *   done anyway, allowing for browser side caching. Essentially, the computing order is the
@@ -228,12 +224,12 @@
  * - <b>string midcom_sgconfig_basedir:</b> The base snippetdir where the current
  *   sites' configuration is stored. This defaults to "/sitegroup-config" which will
  *   result in the original default shared sitegroup-wide configuration.
- * - <b>string midcom_site_url:</b> The fully qualified URL to the Website. A trailing 
+ * - <b>string midcom_site_url:</b> The fully qualified URL to the Website. A trailing
  *   slash is required. It defaults to '/'.
- *   If an absolute local URL is given to this value, the full URL of the current host 
- *   is prefixed to its value, so that this configuration key can be used for Location 
- *   headers. You must not use a relative URL. This key will be completed by the MidCOM 
- *   Application constructor, before that, it might contain a URL which is not suitable 
+ *   If an absolute local URL is given to this value, the full URL of the current host
+ *   is prefixed to its value, so that this configuration key can be used for Location
+ *   headers. You must not use a relative URL. This key will be completed by the MidCOM
+ *   Application constructor, before that, it might contain a URL which is not suitable
  *   for relocations.
  * - <b>string midcom_tempdir:</b> A temporary directory that can be used when components
  *   need to write out files. Defaults to '/tmp'.
@@ -302,14 +298,6 @@
  * - <b>string utility_unrtf:</b> Transforms RTF Documents into text files for indexing.
  * - <b>string utility_diff:</b> The diff utility. Used to create diffs.
  * - <b>string utility_rcs:</b> The rcs revision control system is needed for versioning.
- *
- * <b>Multilingual content settings (NAP & DBA)</b>
- *
- * These options manage how multilingual content is displayed in the MidCOM environment.
- *
- * - <b>boolean show_untranslated_content:</b> This flag indicates whether content not available
- * in current content language should be shown on the site. The flag is ignored on sites that
- * are set to use the default language (lang0)
  *
  * <b>Visibility settings (NAP and DBA)</b>
  *
@@ -413,7 +401,6 @@ $GLOBALS['midcom_config_default']['cache_module_memcache_data_groups'] = Array('
 
 // Defaults:
 // $GLOBALS['midcom_config_default']['cache_module_content_backend'] = Array ('directory' => 'content/', 'driver' => 'dba');
-// $GLOBALS['midcom_config_default']['cache_module_content_multilang'] = true;
 $GLOBALS['midcom_config_default']['cache_module_content_uncached'] = false;
 $GLOBALS['midcom_config_default']['cache_module_content_headers_strategy'] = 'revalidate';
 $GLOBALS['midcom_config_default']['cache_module_content_headers_strategy_authenticated'] = 'private';
@@ -480,15 +467,9 @@ $GLOBALS['midcom_config_default']['midcom_site_url'] = '/';
 $GLOBALS['midcom_config_default']['midcom_tempdir'] = '/tmp';
 $GLOBALS['midcom_config_default']['midcom_temporary_resource_timeout'] = 86400;
 
-// MultiLang system
-$GLOBALS['midcom_config_default']['show_untranslated_content'] = false;
-
 // Visibility settings (NAP)
 $GLOBALS['midcom_config_default']['show_hidden_objects'] = true;
 $GLOBALS['midcom_config_default']['show_unapproved_objects'] = true;
-$GLOBALS['midcom_config_default']['i18n_multilang_strict'] = false;
-$GLOBALS['midcom_config_default']['i18n_multilang_navigation'] = false;
-
 // Style Engine defaults
 $GLOBALS['midcom_config_default']['styleengine_relative_paths'] = false;
 $GLOBALS['midcom_config_default']['styleengine_default_styles'] = Array();
@@ -622,161 +603,15 @@ $GLOBALS['midcom_config_default']['cron_pure_deleted_after'] = 25;
 /**
  * MidCOM core level symlink support
  *
- * Same kind of functionality as directory symlinks in the file system 
- * but with Midgard topics. These folder symlinks are followed 
- * recursively in case the target folder has subfolders. If enabled, 
+ * Same kind of functionality as directory symlinks in the file system
+ * but with Midgard topics. These folder symlinks are followed
+ * recursively in case the target folder has subfolders. If enabled,
  * component level topic symlink support is disabled.
  *
- * Disabled by default because component level symlinks were introduced 
+ * Disabled by default because component level symlinks were introduced
  * first and we need to be backwards compatible by default.
  */
 $GLOBALS['midcom_config_default']['symlinks'] = false;
-
-/**
- * Automated/transparent (no master language) MultiLang workflow
- *
- * This feature requires Midgard with MultiLang support (e.g. Midgard 8.09
- * Ragnaroek LTS - the same version as MidCOM itself). (If ML support is
- * missing, you will get a fatal error from PHP.)
- *
- * End user experience is completely transparent/automated. When new page is
- * being created, it appears automatically in all site's languages. If a page
- * is edited, untranslated pages automatically get the change (according to
- * fallback priority order). Delete/purge always removes full object so the
- * same way as you create page only once, you delete it only once.
- *
- * This is done technically by syncing best matching language content to
- * lang0 as a fallback.
- * 
- * If enabled, define an array of site's languages. (Keep in mind that you
- * can't add new languages in the middle of the array after you've deployed
- * the site if you already have content in the language. Or if you do, you
- * need to execute /midcom-exec-midcom/multilangs.php which will sync the
- * site tree accordingly and fix possible out of sync contents to match the
- * new configuration. The script requires admin privileges. Also, if you
- * change the language preference order, you naturally need to run the script
- * then too. Important: If you don't have the same lang0 and auto workflow
- * configuration in all language hosts you need to run the multilang.php
- * script instead and it needs to be run at all language hosts and in reverse
- * language preference order! It handles current language and configured
- * workflow(s) only and doesn't therefore e.g. delete removed untranslated
- * languages like the multilangs.php script does. Note: The scripts have 
- * subtree support also. You can give a topic guid/id as a GET parameter:
- * 'topic'.)
- * The order of languages matters. Content is synced to lang0 from the first
- * matching language from the array. (If you copy exactly the same data as in
- * the best matching other language, the language content is deleted. Done so
- * that e.g. metadata editing doesn't possibly detach from the syncing. Also
- * useful for situations where content editor decides not to translate the
- * page after it was already translated...)
- * Using lang0 as one of the languages is possible with using empty string as
- * language code but it is of course STRONGLY discouraged because lang0
- * content will naturally be overwritten with other language contents. This
- * workflow version is also language aware and real languages should be used
- * for content instead anyway. (Though, theoretically, if you put lang0 first
- * in the preference order, it's naturally not overwritten then. Use it only
- * if you have a real use case for it. Otherwise, use real languages.)
- * Notice: This feature of course actually only works when default_lang is
- * lang0 because the Midgard's built-in fallback mechanism needs to fetch the
- * fallback data from the language where we put it. This is the default
- * (default_lang is lang0 by default).
- *
- * This lang0 workflow is strongly recommended over the auto workflow because
- * this one handles translations in a more standard way which means the
- * system supports this one better.
- * E.g. the i18n_multilang_strict has an effect with this workflow. It
- * doesn't have any effect with the auto workflow.
- *
- * A special case: If you use the auto workflow in other language hosts but
- * not in this one, you might want to specify multilang_auto_langs anyway
- * because then untranslated css class handling and meta translation links
- * behave correctly with those automatically created translations which
- * aren't really translations. (Needed if the other language hosts have the
- * same or partly the same content tree.) This is because lang0 and auto
- * workflow related code is only active when either of the settings is set.
- *
- * Note: If you later disable this feature and execute the multilangs.php
- * script automatically generated lang0 content is deleted. If you want
- * duplicate langX content to be deleted instead (so that master content is
- * left to lang0 instead of langX - please note that you might of course get
- * mixed language contents to lang0 then - it's a feature not a bug), define
- * this setting as array('') before you run the script. (Naturally you can
- * remove it after you've executed the script.)
- * 
- * If disabled, define an empty array or false/null.
- *     
- * Naturally disabled by default.
- */
-$GLOBALS['midcom_config_default']['multilang_lang0_langs'] = array();
-
-/**
- * Automated/transparent (no master language) MultiLang workflow
- *
- * This feature requires Midgard with MultiLang support (e.g. Midgard 8.09
- * Ragnaroek LTS - the same version as MidCOM itself). (If ML support is
- * missing, you will get a fatal error from PHP.)
- *
- * End user experience is completely transparent/automated. When new page is
- * being created, it appears automatically in all site's languages. If a page
- * is edited, untranslated pages automatically get the change (according to
- * fallback priority order). Delete/purge always removes full object so the
- * same way as you create page only once, you delete it only once.
- *
- * This is done technically by syncing first matching translated language
- * content to untranslated languages.
- *
- * If enabled, define an array of site's languages. (Keep in mind that you
- * can't add new languages after you've deployed the site. Or if you do, you
- * need to execute /midcom-exec-midcom/multilangs.php which will sync the
- * site tree accordingly and fix possible out of sync contents to match the
- * new configuration. The script requires admin privileges. Also, if you
- * change the language preference order, you naturally need to run the script
- * then too. Important: If you don't have the same auto and lang0 workflow
- * configuration in all language hosts you need to run the multilang.php
- * script instead and it needs to be run at all language hosts and in reverse
- * language preference order! It handles current language and configured
- * workflow(s) only and doesn't therefore e.g. delete removed untranslated
- * languages like the multilangs.php script does. Note: The scripts have
- * subtree support also. You can give a topic guid/id as a GET parameter:
- * 'topic'.)
- * The order of languages matters. Untranslated content is being kept in sync
- * with content from the first matching language from the array. Translated
- * objects are detached from the syncing. (And if you copy exactly the same
- * data as in the first matching language, the object is attached to the
- * syncing again. Done so that e.g. metadata editing doesn't detach from the
- * syncing.)
- * Using lang0 as one of the languages is possible with using empty string as
- * language code but it is discouraged because this workflow version is
- * language aware and real languages should be used for content instead.
- *
- * The lang0 workflow is strongly recommended over this one because the lang0
- * one handles translations in a more standard way which means the system
- * supports it better.
- * E.g. the i18n_multilang_strict has an effect with the lang0 workflow. It
- * doesn't have any effect with this workflow. (Which is why this auto
- * workflow can be useful in some use cases e.g. by using this together with
- * the lang0 one.)
- * It's recommended to use this workflow only when you have a legitimate use
- * case for it. Otherwise you should use the lang0 workflow.
- *
- * A special case: If you use the lang0 workflow for the same content as in
- * this language host, you need to specify the lang0 languages even if this
- * language host doesn't really need the lang0 workflow for anything. This
- * applies to the built-in default_lang=lang0 workflow too (in which case
- * define multilang_lang0_langs as array('')).
- * Otherwise lang0 content might be deleted by this workflow as unnecessary
- * content (if lang0 has same content as langX) which you naturally don't
- * want to happen if you actually use lang0 content for something.
- *
- * Note: If you later disable this feature and execute the multilangs.php
- * script automatically generated langX content is deleted.
- * 
- * If disabled, define an empty array or false/null.
- *
- * Naturally disabled by default.
- */
-$GLOBALS['midcom_config_default']['multilang_auto_langs'] = array();
-
 
 /* ----- Include the site config ----- */
 /* This should be replaced by $_MIDGARD constructs */

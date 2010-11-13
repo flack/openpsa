@@ -269,15 +269,6 @@ function midcom_autoload($class_name)
 spl_autoload_register('midcom_autoload');
 
 ///////////////////////////////////
-// Load and enable automated/transparent MultiLang workflows if configured so.
-if (   $GLOBALS['midcom_config']['multilang_lang0_langs']
-    || $GLOBALS['midcom_config']['multilang_auto_langs'])
-{
-    require(MIDCOM_ROOT . '/midcom/services/multilang.php');
-    midcom_services_multilang::auto();
-}
-
-///////////////////////////////////
 // Load first-level supporting code
 // Note that the cache check hit depends on the i18n and auth code.
 require(MIDCOM_ROOT . '/midcom/services/auth.php');

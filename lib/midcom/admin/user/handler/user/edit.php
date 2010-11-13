@@ -152,13 +152,13 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
     function _handler_edit($handler_id, $args, &$data)
     {
         $this->_person = new midcom_db_person($args[0]);
-        
+
         if (   !$this->_person
             || !$this->_person->guid)
         {
             return false;
         }
-        
+
         $this->_person->require_do('midgard:update');
 
         if ($handler_id == '____mfa-asgard_midcom.admin.user-user_edit_password')
@@ -174,7 +174,6 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
             $this->_load_schemadb('schemadb_person');
         }
 
-        $data['language_code'] = '';
         midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
 
         $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
@@ -184,7 +183,7 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
 
         // Add jQuery Form handling for generating passwords with AJAX
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form-1.0.3.pack.js');
-        
+
         // Manually check the username to prevent duplicates
         if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
             && isset($_POST['username']))
@@ -195,7 +194,7 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
                 $qb = midcom_db_person::new_query_builder();
                 $qb->add_constraint('username', '=', $_POST['username']);
                 $qb->add_constraint('guid', '<>', $this->_person->guid);
-                
+
                 // If matches were found, add an error message
                 if ($qb->count() > 0)
                 {
@@ -218,7 +217,7 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
         }
 
         $this->_load_controller();
-        
+
         switch ($this->_controller->process_form())
         {
             case 'save':

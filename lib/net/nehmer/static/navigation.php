@@ -51,7 +51,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
         {
             return $leaves;
         }
-        
+
         // Get the required information with midgard_collector
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('up', '=', 0);
@@ -68,9 +68,9 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
             $mc->add_value_property('article');
             $mc->add_constraint('topic', '=', $this->_content_topic->id);
             $mc->execute();
-            
+
             $links = $mc->list_keys();
-            
+
             $qb->begin_group('OR');
                 $qb->add_constraint('topic', '=', $this->_content_topic->id);
                 foreach ($links as $guid => $array)
@@ -80,20 +80,17 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
                 }
             $qb->end_group();
         }
-        
+
         $qb->add_constraint('metadata.navnoentry', '=', 0);
         $qb->add_constraint('name', '<>', '');
-        
+
         // Unless in Auto-Index mode or the index article is hidden, we skip the index article.
         if (   !$this->_config->get('autoindex')
             && !$this->_config->get('indexinnav'))
         {
             $qb->add_constraint('name', '<>', 'index');
         }
-        
-        // FIXME: This is a workaround for some MultiLang bugs
-        $qb->add_order('lang', 'ASC');
-        
+
         $sort_order = 'ASC';
         $sort_property = $this->_config->get('sort_order');
         if (strpos($sort_property, 'reverse ') === 0)
@@ -113,9 +110,9 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
 
         // Sort items with the same primary sort key by title.
         $qb->add_order('title');
-        
+
         $articles = $qb->execute();
-        
+
         foreach ($articles as $article)
         {
             $article_url = "{$article->name}/";
@@ -131,7 +128,7 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
                 MIDCOM_NAV_OBJECT => $article,
             );
         }
-        
+
         return $leaves;
     }
 

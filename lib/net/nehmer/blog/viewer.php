@@ -66,7 +66,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             ),
             'variable_args' => 1,
         );
-        
+
         // Handler for /ajax/latest/<number>
         $this->_request_switch['ajax-latest'] = Array
         (
@@ -448,7 +448,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $rss_switches = net_nemein_rss_manage::get_plugin_handlers();
             $this->_request_switch = array_merge($this->_request_switch, $rss_switches);
         }
-        
+
     }
 
     /**
@@ -569,7 +569,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 )
             );
         }
-        
+
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
         {
@@ -584,43 +584,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 )
             );
         }
-    }
-
-    function _enter_language()
-    {
-        if (isset($this->_request_data['original_language']))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            $GLOBALS['midcom_debugger']->print_function_stack('_enter_language called for second time', MIDCOM_LOG_ERROR);
-            debug_pop();
-            return;
-        }
-        $lang = $this->_config->get('language');
-        if ($lang)
-        {
-            $this->_request_data['original_language'] = midcom_application::get_lang();
-
-            if ($lang != $this->_request_data['original_language'])
-            {
-                midcom_application::set_lang($lang);
-            }
-        }
-    }
-
-    function _exit_language()
-    {
-        if (!isset($this->_request_data['original_language']))
-        {
-            /**
-             * Causes noise when not using language contexts
-            debug_push_class(__CLASS__, __FUNCTION__);
-            $GLOBALS['midcom_debugger']->print_function_stack('_exit_language called without being in language context', MIDCOM_LOG_DEBUG);
-            debug_pop();
-             */
-            return;
-        }
-        midcom_application::set_lang($this->_request_data['original_language']);
-        unset($this->_request_data['original_language']);
     }
 
     /**
@@ -664,26 +627,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $this->_add_link_head();
         $this->_populate_node_toolbar();
-        $this->_enter_language();
         return true;
     }
-
-    function _on_handled($handler, $args)
-    {
-        $this->_exit_language();
-    }
-
-    function _on_show($handler)
-    {
-        $this->_enter_language();
-        return true;
-    }
-
-    function _on_shown($handler)
-    {
-        $this->_exit_language();
-    }
-
 
     /**
      * Populate the categories configured for the topic into the schemas

@@ -455,13 +455,6 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
         foreach ($this->_type->attachments_info as $identifier => $info)
         {
-            if (   $this->_type->multilang_fallback_active
-                && $this->_state == 'edit')
-            {
-                // Don't add the existing images that come from Lang0 to prevent overwriting
-                unset($this->_type->attachments_info[$identifier]);
-                break;
-            }
             $this->_add_attachment_row($identifier, $info, $frozen);
         }
         $this->_add_new_upload_row($frozen);

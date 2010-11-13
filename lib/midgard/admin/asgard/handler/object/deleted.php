@@ -63,8 +63,6 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      */
     function _handler_deleted($handler_id, $args, &$data)
     {
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
-
         $data['guid'] = $args[0];
         /*
          * TODO: It would be nice to be able to load the object to show undelete/purge links, but for

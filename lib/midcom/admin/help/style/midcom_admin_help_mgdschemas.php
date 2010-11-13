@@ -25,12 +25,7 @@ if (count($data['mgdschemas']) > 0)
         {
 
             $propname = $key;
-            $ml="";
 
-            if ($val['multilang'])
-            {
-                $ml = "\n\n**This property is MultiLang**";
-            }
             $proplink = "";
             $proplink_description = '';
             if ($val['link'])
@@ -53,16 +48,16 @@ if (count($data['mgdschemas']) > 0)
 
             $mod = ($i/2 == round($i/2))?" even":" odd";
             $i++;
-            
+
             echo "            <tr>\n";
             echo "                <td class='property{$mod}'><span class='mgdtype'>{$val['midgard_type']}</span> {$propname}<br/>{$proplink}</td>\n";
-            echo "                <td class='{$mod}'>" . $marker->render($val['value'].$ml.$proplink_description) . "</td>\n";
+            echo "                <td class='{$mod}'>" . $marker->render($val['value'].$proplink_description) . "</td>\n";
             echo "            </tr>\n";
         }
         echo "        </tbody>\n";
         echo "    </table>\n";
         echo "</dd>\n";
-        
+
         // Reflect the methods too
         $reflectionclass = new ReflectionClass($schema);
         $reflectionmethods = $reflectionclass->getMethods();
@@ -85,24 +80,24 @@ if (count($data['mgdschemas']) > 0)
                 {
                     $signature .= ' & ';
                 }
-                
+
                 $method_url = 'http://www.midgard-project.org/documentation/' . rawurlencode('MgdSchema method ' . $reflectionmethod->getName());
                 $signature .= '<span class="method_name"><a href="' . $method_url . '">' . $reflectionmethod->getName() . '</a></span>';
-                
+
                 $signature .= '(';
                 $parametersdata = array();
                 $parameters = $reflectionmethod->getParameters();
                 foreach ($parameters as $reflectionparameter)
                 {
                     $parametersignature = '';
-                    
+
                     if ($reflectionparameter->isPassedByReference())
                     {
                         $parametersignature .= ' &';
                     }
-                       
+
                     $parametersignature .= '$' . str_replace(' ', '_', $reflectionparameter->getName());
-                    
+
                     if ($reflectionparameter->isDefaultValueAvailable())
                     {
                         $parametersignature .= ' = ' . $reflectionparameter->getDefaultValue();
@@ -116,7 +111,7 @@ if (count($data['mgdschemas']) > 0)
                     $parametersdata[] = $parametersignature;
                 }
                 $signature .= implode(', ', $parametersdata) . ')';
-                
+
                 echo "            <tr>\n";
                 echo "                <td>{$signature}</td>\n";
                 echo "                <td>" . $reflectionmethod->getDocComment();

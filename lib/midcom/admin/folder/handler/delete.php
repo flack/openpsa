@@ -337,11 +337,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         foreach ($qb_topic->execute_unchecked() as $topic)
         {
-            if (!midcom_baseclasses_core_dbobject::delete_pre_multilang_checks($topic))
-            {
-                continue;
-            }
-
             $topic_title = $topic->extra;
             if (!$topic_title)
             {
@@ -358,11 +353,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         foreach ($qb_article->execute_unchecked() as $article)
         {
-            if (!midcom_baseclasses_core_dbobject::delete_pre_multilang_checks($article))
-            {
-                continue;
-            }
-
             echo "    <li class=\"leaf article\">\n";
             echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/new-text.png\" alt=\"\" /> {$article->title}\n";
 
@@ -375,11 +365,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                 $reply_ul = false;
                 foreach ($qb->execute_unchecked() as $reply)
                 {
-                    if (!midcom_baseclasses_core_dbobject::delete_pre_multilang_checks($reply))
-                    {
-                        continue;
-                    }
-
                     if (!$reply_ul)
                     {
                         echo "        <ul>\n";
@@ -477,25 +462,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         if ($children === false)
         {
             debug_add('Failed to query the children of object {$object->guid}: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
-        }
-        if (!$children)
-        {
-            return $children;
-        }
-
-        foreach ($children as $class => $objects)
-        {
-            foreach ($objects as $key => $object)
-            {
-                if (!midcom_baseclasses_core_dbobject::delete_pre_multilang_checks($object))
-                {
-                    unset($children[$class][$key]);
-                }
-            }
-            if (empty($children[$class]))
-            {
-                unset($children[$class]);
-            }
         }
 
         return $children;

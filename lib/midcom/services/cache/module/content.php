@@ -57,8 +57,6 @@
  * - <i>string cache_module_content_name</i>: The name of the cache database to use. This should usually be tied to the actual
  *   MidCOM site to have exactly one cache per site. This is mandatory (and populated by a sensible default
  *   by midcom_config.php, see there for details).
- * - <i>boolean cache_module_content_multilang</i>: Set this to true (the default) if you want to have a cache which
- *   distinguishes between languages on each request.
  * - <i>boolean cache_module_content_uncached</i>: Set this to true to prevent the saving of cached pages. This is useful
  *   for development work, as all other headers (like E-Tag or Last-Modified) are generated
  *   normally. See the uncached() and _uncached members.
@@ -135,13 +133,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @access private
      */
-
-    /**
-     * True, if the cache should honor the language settings.
-     *
-     * @var boolean
-     */
-    var $_multilang = true;
 
     /**
      * Set this to true, if you want to inhibit storage of the generated pages in
@@ -228,33 +219,13 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     function generate_request_identifier($context, $customdata = null)
     {
         $identifier_source = 'CACHE:' . $GLOBALS['midcom_config']['cache_module_content_name'];
-        
+
         // Cache the request identifier so that it doesn't change between start and end of request
         static $identifier_cache = array();
         if (isset($identifier_cache[$context]))
         {
             // FIXME: Use customdata here too
             return $identifier_cache[$context];
-        }
-
-        if ($this->_multilang)
-        {
-            if (   !isset($_MIDCOM)
-                || !is_object($_MIDCOM)
-                || !isset($_MIDCOM->i18n)
-                || !is_a($_MIDCOM->i18n, 'midcom_services_i18n'))
-            {
-                $i18n = new midcom_services_i18n();
-            }
-            else
-            {
-                $i18n =& $_MIDCOM->i18n;
-            }
-            $identifier_source .= ';LANG=' . $i18n->get_current_language();
-        }
-        else
-        {
-            $identifier_source .= ';LANG=ALL';
         }
 
         if (!isset($customdata['cache_module_content_caching_strategy']))
@@ -288,7 +259,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             case 'user':
             default:
                 $identifier_source .= ';USER=' . $_MIDGARD['user'];
-                break;            
+                break;
         }
 
         if (isset($_MIDCOM))
@@ -308,7 +279,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // TODO: Add browser capability data (mobile, desktop browser etc) from WURFL here
 
         /**
-         * This can leak data useful for attacker, OTOH it's very handy for debugging 
+         * This can leak data useful for attacker, OTOH it's very handy for debugging
          *
          * if ($context === 0)
          * {
@@ -377,10 +348,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $backend_config['auto_serialize'] = false;
         $this->_data_cache = $this->_create_backend($data_backend_name, $backend_config);
 
-        if (array_key_exists('cache_module_content_multilang', $GLOBALS['midcom_config']))
-        {
-            $this->_multilang = $GLOBALS['midcom_config']['cache_module_content_multilang'];
-        }
         if (array_key_exists('cache_module_content_uncached', $GLOBALS['midcom_config']))
         {
             $this->_uncached = $GLOBALS['midcom_config']['cache_module_content_uncached'];
@@ -565,7 +532,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             if ($data['expires'] < time())
             {
                 _midcom_header("X-MidCOM-meta-cache: EXPIRED {$content_id}", false);
-                $this->_meta_cache->close();            
+                $this->_meta_cache->close();
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Current page is in cache, but has expired on ' . gmdate('c', $data['expires']), MIDCOM_LOG_INFO);
                 debug_pop();
@@ -574,7 +541,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $this->_meta_cache->close();
-        
+
         if (!isset($data['last_modified']))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -582,7 +549,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             debug_pop();
             return;
         }
-        
+
         _midcom_header("X-MidCOM-meta-cache: HIT {$content_id}", false);
 
         // Check If-Modified-Since and If-None-Match, do content output only if
@@ -951,7 +918,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $if_modified_since = true;
         }
 
-        if (   !$if_modified_since 
+        if (   !$if_modified_since
             && !$if_none_match)
         {
             return false;
@@ -972,7 +939,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         return true;
     }
-    
+
     /**
      * This helper will be called during module shutdown, it completes the output caching,
      * post-processes it and updates the cache databases accordingly.
@@ -989,7 +956,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     function _finish_caching($etag = null)
     {
         // make it safe to call this multiple times
-        // done this way since it's slightly less hacky than mucking about with the cache->_modules etc 
+        // done this way since it's slightly less hacky than mucking about with the cache->_modules etc
         static $run_count = 0;
         ++$run_count;
         if ($run_count > 1)
@@ -1009,9 +976,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         $cache_data = ob_get_contents();
         /**
-         * WARNING: 
+         * WARNING:
          *   From here on anything added to content is not included in cached
-         *   data, so make sure nothing content-wise is added after this 
+         *   data, so make sure nothing content-wise is added after this
          */
 
         // Generate E-Tag header.
@@ -1042,7 +1009,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         /**
-         * WARNING: 
+         * WARNING:
          *   Stuff below here is executed *after* we have flushed output,
          *   so here we should only write out our caches but do nothing else
          */
@@ -1088,7 +1055,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
             /*
-            debug_push_class(__CLASS__, __FUNCTION__);        
+            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("explicit expires is not set, using \$this->_default_lifetime: {$this->_default_lifetime}");
             debug_pop();
             */
@@ -1100,7 +1067,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         /**
          * Remove comment to debug cache
-        debug_push_class(__CLASS__, __FUNCTION__);        
+        debug_push_class(__CLASS__, __FUNCTION__);
         debug_print_r("Writing meta-cache entry {$content_id}", $entry_data);
         debug_pop();
         */
@@ -1201,7 +1168,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         /*
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Checking \$dl_metadata['expires']={$dl_metadata['expires']} (" . date('Y-m-d H:i:s', $dl_metadata['expires']) . ") < time()=" . time() . '(' . date('Y-m-d H:i:s') . ')');
-        debug_pop(); 
+        debug_pop();
         */
         if (time() > $dl_metadata['expires'])
         {
@@ -1209,7 +1176,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             /*
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Request-id '{$dl_request_id}' metadata indicates it expired on " . date('Y-m-d H:i:s', $dl_metadata['expires']));
-            debug_pop(); 
+            debug_pop();
             */
             unset($dl_metadata, $dl_content_id, $dl_request_id);
             return false;
@@ -1227,7 +1194,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             /*
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Content-id '{$dl_content_id}' is not in cache, ghost read?");
-            debug_pop(); 
+            debug_pop();
             */
             unset($dl_content_id, $dl_request_id);
             $this->_data_cache->close();
@@ -1272,7 +1239,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
             /*
-            debug_push_class(__CLASS__, __FUNCTION__);        
+            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("explicit expires is not set, using \$this->_default_lifetime: {$this->_default_lifetime}");
             debug_pop();
             */
@@ -1377,7 +1344,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $time = 0;
             foreach ($_MIDCOM->_context as $id => $context)
             {
-                $meta = $_MIDCOM->get_26_request_metadata($id);                
+                $meta = $_MIDCOM->get_26_request_metadata($id);
                 if ($meta['lastmodified'] > $time)
                 {
                     $time = $meta['lastmodified'];
@@ -1400,7 +1367,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
 
         $this->cache_control_headers();
-        
+
         if (   is_array($this->_force_headers)
             && !empty($this->_force_headers))
         {

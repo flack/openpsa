@@ -151,12 +151,12 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
     private function _load_component_privileges()
     {
         $component_loader = $_MIDCOM->get_component_loader();
-        
+
         // Store temporarily the requested object
         $tmp = $this->_object;
-        
+
         $i = 0;
-        while (   $tmp 
+        while (   $tmp
                && $tmp->guid
                && !$_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic')
                && $i < 100)
@@ -165,7 +165,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             $tmp = $tmp->get_parent();
             $i++;
         }
-        
+
         // If the temporary object eventually reached a topic, fetch its manifest
         if ($_MIDCOM->dbfactory->is_a($tmp, 'midgard_topic'))
         {
@@ -175,7 +175,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         {
             $current_manifest = $component_loader->manifests[$_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT)];
         }
-        
+
         foreach ($current_manifest->privileges as $privilege => $default_value)
         {
             $this->_privileges[] = $privilege;
@@ -202,7 +202,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             $this->_privileges[] = 'midcom.admin.folder:topic_management';
             $this->_privileges[] = 'midcom.admin.folder:template_management';
             $this->_privileges[] = 'midcom:component_config';
-            $this->_privileges[] = 'midcom:urlname';            
+            $this->_privileges[] = 'midcom:urlname';
             if ($GLOBALS['midcom_config']['symlinks'])
             {
                 $this->_privileges[] = 'midcom.admin.folder:symlinks';
@@ -246,7 +246,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             // Normally only display groups in current SG
             $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         }
-        
+
         $groups = $qb->execute();
         foreach ($groups as $group)
         {
@@ -283,7 +283,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             {
                 //Inconsistent privilige base will mess here. Let's give a chance to remove ghosts
                 $assignee = $_MIDCOM->auth->get_assignee($privilege->assignee);
-                
+
                 if (is_object($assignee))
                 {
                     $label = $assignee->name;
@@ -293,7 +293,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                     $label = $_MIDCOM->i18n->get_string('ghost assignee for '. $privilege->assignee, 'midgard.admin.asgard');
                 }
             }
-            
+
             $assignees[$privilege->assignee] = $label;
 
             $key = str_replace(':', '_', $privilege->assignee);
@@ -397,12 +397,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
      */
     function _handler_edit($handler_id, $args, &$data)
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
-        // debug_print_r('POST: ', $_POST);
-        // debug_pop();
-
-        midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
-
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (   !$this->_object
             || !$this->_object->guid)
@@ -545,7 +539,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::finish_language($handler_id, $data);
         return true;
     }
 

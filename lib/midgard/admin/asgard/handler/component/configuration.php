@@ -448,7 +448,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             }
             $topic->set_parameter($this->_request_data['name'], $key, $value);
         }
-        
+
         return true;
     }
 
@@ -462,14 +462,14 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             {
                 $newval = $post[$key];
             }
-            
+
             if (   is_a($this->_controller->datamanager->types[$key], 'midcom_helper_datamanager2_type_select')
                 || is_a($this->_controller->datamanager->types[$key], 'midcom_helper_datamanager2_type_boolean'))
             {
                 // We want the actual values regardless of widget
                 $newval = $this->_controller->datamanager->types[$key]->convert_to_storage();
             }
-            
+
             if (!isset($newval))
             {
                 continue;
@@ -508,7 +508,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
         {
-            midgard_admin_asgard_plugin::init_language($handler_id, $args, $data);
             $data['folder'] = new midcom_db_topic($args[1]);
             if (   !$data['folder']->guid
                 || $data['folder']->component != $data['name'])
@@ -516,7 +515,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                 $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Folder {$args[1]} not found for configuration.");
                 // This will exit
             }
-            
+
             $data['folder']->require_do('midgard:update');
 
             $data['config'] = $this->_load_configs($data['name'], $data['folder']);
@@ -542,7 +541,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                 $config_array = $this->_get_config_from_controller($this->_controller);
 
                 $config = $this->_draw_array($config_array, '', $data['config']->_global);
-                
+
                 try
                 {
                     $this->_check_config($config);
@@ -609,7 +608,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
         {
             midgard_admin_asgard_plugin::bind_to_object($data['folder'], $handler_id, $data);
-            midgard_admin_asgard_plugin::finish_language($handler_id, $data);
             $data['view_title'] = sprintf($this->_l10n->get('edit configuration for %s folder %s'), $data['name'], $data['folder']->extra);
         }
         else
@@ -657,13 +655,13 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                 break;
             case "array":
                 $result['widget'] = 'textarea';
-                
+
                 if (isset($this->_request_data['folder']))
                 {
                     // Complex Array fields should be readonly for topics as we cannot store and read them properly with parameters
                     $result['readonly'] = true;
                 }
-                
+
                 break;
             default:
                 if (preg_match("/\n/", $value))

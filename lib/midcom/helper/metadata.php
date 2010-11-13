@@ -178,7 +178,7 @@ class midcom_helper_metadata
 
         return $this->_cache[$key];
     }
-    
+
     public function __get($key)
     {
         if ($key == 'object')
@@ -200,7 +200,7 @@ class midcom_helper_metadata
             $this->_retrieve_value($key);
         }
 
-        return isset($this->_cache[$key]);      
+        return isset($this->_cache[$key]);
     }
 
     /**
@@ -231,9 +231,9 @@ class midcom_helper_metadata
     function load_datamanager()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
-        
+
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
-        
+
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         if (! $this->_datamanager)
         {
@@ -329,12 +329,12 @@ class midcom_helper_metadata
                 // this will exit
             }
         }
-        
+
         if (!$this->__object->guid)
         {
             return false;
         }
-        
+
         if ($this->__object->update())
         {
             $return = true;
@@ -370,7 +370,7 @@ class midcom_helper_metadata
             $classname = get_class($value);
             debug_add("Can not set metadata '{$key}' property with '{$classname}' object as value", MIDCOM_LOG_WARN);
             debug_pop();
-        
+
             return false;
         }
 
@@ -423,7 +423,7 @@ class midcom_helper_metadata
             case 'approved':
                 // Prevent lock changes from creating new revisions
                 $this->__object->_use_rcs = false;
-                // Fall through      
+                // Fall through
             case 'authors':
             case 'owner':
             case 'hidden':
@@ -441,7 +441,7 @@ class midcom_helper_metadata
 
         // Return the original RCS mode
         $this->__object->_use_rcs = $rcs_mode;
-        
+
         return $value;
     }
 
@@ -542,7 +542,7 @@ class midcom_helper_metadata
                 $value = $this->__metadata->$key;
                 if (!$value)
                 {
-                    // Fall back to "Midgard root user" if person is not found                
+                    // Fall back to "Midgard root user" if person is not found
                     static $root_user_guid = null;
                     if (!$root_user_guid)
                     {
@@ -856,65 +856,9 @@ class midcom_helper_metadata
         return $meta;
     }
 
-    function get_languages()
-    {
-        if (   isset($_MIDGARD['config']['multilang'])
-            && (!$_MIDGARD['config']['multilang']))
-        {
-            return array();
-        }
-
-        if (is_null($this->_translations))
-        {
-            $this->_translations = array();
-
-            $languages = @$this->__object->get_languages();
-            if (   !$languages
-                || count($languages) == 0)
-            {
-                return $this->_translations;
-            }
-
-            $language_hosts = $_MIDCOM->i18n->get_language_hosts();
-
-            foreach ($languages as $language)
-            {
-                if (!array_key_exists($language->id, $language_hosts))
-                {
-                    // No host for this language, skip
-                    continue;
-                }
-                
-                if ($language->id == 0)
-                {
-                    // Use the configured i18n fallback language as the naming for lang0
-                    $language->code = $GLOBALS['midcom_config']['i18n_fallback_language'];
-                    $language->name = $GLOBALS['midcom_config']['i18n_fallback_language'];
-                    $midcom_langs = $_MIDCOM->i18n->list_languages();
-                    if (isset($midcom_langs[$GLOBALS['midcom_config']['i18n_fallback_language']]))
-                    {
-                        $language->name = $midcom_langs[$GLOBALS['midcom_config']['i18n_fallback_language']];
-                        $language->native = $midcom_langs[$GLOBALS['midcom_config']['i18n_fallback_language']];
-                    }
-                }
-
-                $this->_translations[$language->id] = array
-                (
-                    'code' => $language->code,
-                    'name' => $language->name,
-                    'native' => $language->native,
-                    'host' => $language_hosts[$language->id],
-                    'url' => $_MIDCOM->generate_host_url($language_hosts[$language->id]),
-                );
-            }
-        }
-
-        return $this->_translations;
-    }
-    
     /**
      * Check if the requested object is locked
-     * 
+     *
      * @static
      * @access public
      * @param mixed &$object    MgdSchema object
@@ -949,7 +893,7 @@ class midcom_helper_metadata
 
     /**
      * Set the object lock
-     * 
+     *
      * @access public
      * @param int $timeout   Length of the lock timeout
      * @param String $user   GUID of the midgard_person object
@@ -963,7 +907,7 @@ class midcom_helper_metadata
         {
             $timeout = $GLOBALS['midcom_config']['metadata_lock_timeout'];
         }
-        
+
         if (!is_object($this->__object))
         {
             return false;
@@ -990,7 +934,7 @@ class midcom_helper_metadata
 
     /**
      * Unlock the object
-     * 
+     *
      * @access public
      * @param boolean $soft_unlock If this is true, the changes are not written to disk
      * @return boolean    Indicating success
@@ -1006,12 +950,12 @@ class midcom_helper_metadata
         {
             return false;
         }
-        
+
         // TODO: Should we support soft unlock somehow?
 
         // Run the unlock call
         $stat = $this->__object->unlock();
-        
+
         // Clear cache
         $this->_cache = array();
 

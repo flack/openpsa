@@ -583,17 +583,6 @@ class midcom_helper__basicnav
         $nodedata[MIDCOM_NAV_ID] = $id;
         $nodedata[MIDCOM_NAV_TYPE] = 'node';
         $nodedata[MIDCOM_NAV_SCORE] = $metadata->score;
-        // Handle score multilang emulation, see #865
-        if (   $GLOBALS['midcom_config']['i18n_multilang_navigation']
-            && $urltopic->lang != 0)
-        {
-            $param_score = $urltopic->get_parameter('midcom.helper.nav.score', $_MIDCOM->i18n->get_content_language());
-            if ($param_score)
-            {
-                $nodedata[MIDCOM_NAV_SCORE] = (int) $param_score;
-            }
-        }
-
         $nodedata[MIDCOM_NAV_COMPONENT] = $path;
         $nodedata[MIDCOM_NAV_SORTABLE] = true;
 
@@ -817,18 +806,6 @@ class midcom_helper__basicnav
                     && isset($leaf[MIDCOM_NAV_OBJECT]->metadata->score))
                 {
                     $leaf[MIDCOM_NAV_SCORE] = $leaf[MIDCOM_NAV_OBJECT]->metadata->score;
-
-                    // Handle score multilang emulation, see #865
-                    if (   $GLOBALS['midcom_config']['i18n_multilang_navigation']
-                        && $_MIDCOM->dbfactory->is_multilang($leaf[MIDCOM_NAV_OBJECT])
-                        && $leaf[MIDCOM_NAV_OBJECT]->lang != 0)
-                    {
-                        $param_score = $leaf[MIDCOM_NAV_OBJECT]->get_parameter('midcom.helper.nav.score', $_MIDCOM->i18n->get_content_language());
-                        if ($param_score)
-                        {
-                            $leaf[MIDCOM_NAV_SCORE] = (int) $param_score;
-                        }
-                    }
                 }
                 else
                 {
@@ -851,17 +828,6 @@ class midcom_helper__basicnav
                 {
                     $leaf[MIDCOM_NAV_NOENTRY] = (bool) $metadata->get('navnoentry');
                 }
-
-                // Handle multilang navnoentry, see #1215
-                if (   $GLOBALS['midcom_config']['i18n_multilang_navigation']
-                    && !$leaf[MIDCOM_NAV_NOENTRY])
-                {
-                    $ml_noentry = $leaf->get_parameter('midcom.helper.nav', 'navnoentry_' . $_MIDCOM->i18n->get_content_language());
-                    if ($ml_noentry)
-                    {
-                        $leaf[MIDCOM_NAV_NOENTRY] = true;
-                    }
-                 }
             }
 
             // complete NAV_NAMES where necessary
@@ -1000,9 +966,6 @@ class midcom_helper__basicnav
 
         $mc->add_constraint('name', '<>', '');
 
-        // FIXME: This is a workaround for some MultiLang bugs
-        //$qb->add_order('lang', 'ASC');
-
         $mc->add_order('metadata.score', 'DESC');
         $mc->add_order('metadata.created');
 
@@ -1104,44 +1067,7 @@ class midcom_helper__basicnav
                 continue;
             }
 
-            // Handle multilang navnoentry, see #1215
-            if ($GLOBALS['midcom_config']['i18n_multilang_navigation'])
-            {
-                $subnode = midcom_db_topic::get_cached($id);
-
-                $ml_noentry = $subnode->get_parameter('midcom.helper.nav', 'navnoentry_' . $_MIDCOM->i18n->get_content_language());
-                if ($ml_noentry)
-                {
-                    continue;
-                }
-            }
-
             $result[] = $subnode_id;
-        }
-
-        if ($GLOBALS['midcom_config']['i18n_multilang_navigation'])
-        {
-            // Handle score multilang emulation, see #865
-            $sortable_result = array();
-            foreach ($result as $subnode_id)
-            {
-                $sortable_result[] = self::$_nodes[$subnode_id];
-            }
-
-            // Sort via midcom_helper_itemlist
-            if (!uasort($sortable_result, array('midcom_helper_itemlist_score', 'sort_cmp')))
-            {
-                // Something went wrong, return original non-ML sorted array
-                return $result;
-            }
-
-            // Set the newly sorted items to the results
-            $result = array();
-            foreach ($sortable_result as $subnode)
-            {
-                $result[] = $subnode[MIDCOM_NAV_ID];
-            }
-            unset($sortable_result);
         }
 
         $listed[$parent_node] = $result;
@@ -1184,31 +1110,6 @@ class midcom_helper__basicnav
             {
                 $result[] = $id;
             }
-        }
-
-        if ($GLOBALS['midcom_config']['i18n_multilang_navigation'])
-        {
-            // Handle score multilang emulation, see #865
-            $sortable_result = array();
-            foreach ($result as $leaf_id)
-            {
-                $sortable_result[] = $this->_leaves[$leaf_id];
-            }
-
-            // Sort via midcom_helper_itemlist
-            if (!uasort($sortable_result, array('midcom_helper_itemlist_score', 'sort_cmp')))
-            {
-                // Something went wrong, return original non-ML sorted array
-                return $result;
-            }
-
-            // Set the newly sorted items to the results
-            $result = array();
-            foreach ($sortable_result as $leaf)
-            {
-                $result[] = $leaf[MIDCOM_NAV_ID];
-            }
-            unset($sortable_result);
         }
 
         $listed[$parent_node] = $result;

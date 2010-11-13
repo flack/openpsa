@@ -29,7 +29,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
     );
 
     var $special_ids = array('handlers', 'dependencies', 'urlmethods', 'mgdschemas');
-                                                                
+
 
     function __construct()
     {
@@ -43,7 +43,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
                 'href' => MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css',
             )
         );
-        
+
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
         if (defined('MGD_TYPE_NONE'))
         {
@@ -88,14 +88,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             $component = 'midcom.core.nullcomponent';
         }
-        if (   !$_MIDCOM->componentloader->is_installed($component) 
+        if (   !$_MIDCOM->componentloader->is_installed($component)
             && $component != 'midcom')
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to generate documentation path for component {$component} as it is not installed.");
             // This will exit
         }
     }
-    
+
     /**
      * Static method for getting component's documentation directory path
      *
@@ -115,7 +115,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
     /**
      * Static method for checikng if help file exists
-     * 
+     *
      * @param string $help_id Help name ID
      * @param string $component Component name
      * @return bool True of false
@@ -133,7 +133,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -158,10 +158,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
                 return null;
             }
         }
-        
+
         return $file;
     }
-    
+
     static function get_help_title($help_id, $component)
     {
 
@@ -179,7 +179,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
         return $subject;
     }
-    
+
     /**
      * Load the file from the component's documentation directory.
      */
@@ -246,11 +246,11 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             return $files;
         }
-        
+
         $directory = dir($path);
         while (false !== ($entry = $directory->read()))
         {
-            if (substr($entry, 0, 1) == '.' || 
+            if (substr($entry, 0, 1) == '.' ||
                 substr($entry, 0, 5) == 'index' ||
                 substr($entry, 0, 7) == 'handler' ||
                 substr($entry, 0, 9) == 'urlmethod'
@@ -259,26 +259,26 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
                 // Ignore dotfiles, handlers & index.lang.txt
                 continue;
             }
-            
+
             $filename_parts = explode('.', $entry);
             if (count($filename_parts) < 3)
             {
                 continue;
             }
-            
+
             if ($filename_parts[2] != 'txt')
             {
                 // Not text file, skip
                 continue;
             }
-            
+
             if (   $filename_parts[1] != $_MIDCOM->i18n->get_current_language()
                 && $filename_parts[1] != $GLOBALS['midcom_config']['i18n_fallback_language'])
             {
                 // Wrong language
                 continue;
             }
-            
+
             $files[$filename_parts[0]] = array
             (
                 'path' => "{$path}{$entry}",
@@ -357,14 +357,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
                         'subject' => $_MIDCOM->i18n->get_string('help_index','midcom.admin.help'),
                         'lang' => 'en',
                     ),
-                ), 
+                ),
                 $files
             );
         }
         return $files;
     }
 
-    
+
     function read_component_handlers($component)
     {
         $data = array();
@@ -377,7 +377,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             // No request switch available, skip loading it
             return $data;
         }
-        
+
         foreach ($request->_request_switch as $request_handler_id => $request_data)
         {
             if (substr($request_handler_id, 0, 12) == '____ais-help')
@@ -387,7 +387,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             }
 
             $data[$request_handler_id] = array();
-            
+
             // Build the dynamic_loadable URI, starting from topic path
             $data[$request_handler_id]['route'] = str_replace($_MIDGARD['prefix'], '', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
             // Add fixed arguments
@@ -412,12 +412,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             if (is_array($request_data['handler']))
             {
                 $data[$request_handler_id]['controller'] = $request_data['handler'][0];
-                
+
                 if (is_object($data[$request_handler_id]['controller']))
                 {
                     $data[$request_handler_id]['controller'] = get_class($data[$request_handler_id]['controller']);
                 }
-                
+
                 $data[$request_handler_id]['action'] = $request_data['handler'][1];
             }
 
@@ -427,14 +427,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
                 $data[$request_handler_id]['handler_help_url'] = 'handlers_' . $request_handler_id;
             }
         }
-        
+
         return $data;
     }
 
     function read_url_methods($component)
     {
         $data = array();
-        
+
         if ($component == 'midcom')
         {
             $exec_path = MIDCOM_ROOT . '/midcom/exec';
@@ -453,7 +453,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         }
 
         $dir_handle = opendir($exec_path);
-        
+
         while (false !== ($file = readdir($dir_handle)))
         {
             if (preg_match('/^\./', $file))
@@ -464,7 +464,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             $data[$file] = array();
 
             $info_id = "urlmethod_" . str_replace('.php', '', $file);
-            
+
             $data[$file]['url'] = '/midcom-exec-' . $component . '/' . $file;
             $data[$file]['description'] = midcom_admin_help_help::get_help_contents($info_id, $component);
 
@@ -473,7 +473,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
                 $data[$file]['handler_help_url'] = $info_id;
             }
         }
-        
+
         return $data;
     }
 
@@ -519,24 +519,15 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
     function _get_property_data($mrp,$prop)
     {
         $ret = array();
-        
+
         $ret['value'] = $mrp->description($prop);
-        
-        if (   isset($_MIDGARD['config']['multilang'])
-            && !$_MIDGARD['config']['multilang'])
-        {
-            $ret['multilang'] = false;
-        }
-        else
-        {
-            $ret['multilang'] = $mrp->is_multilang($prop);
-        }
+
         $ret['link'] = $mrp->is_link($prop);
         $ret['link_name'] = $mrp->get_link_name($prop);
         $ret['link_target'] = $mrp->get_link_target($prop);
 
         $ret['midgard_type'] = $this->mgdtypes[$mrp->get_midgard_type($prop)];
-        return $ret;        
+        return $ret;
     }
 
     function _load_component_data($name)
@@ -550,7 +541,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             return $component_array;
         }
-  
+
         $manifest = $_MIDCOM->componentloader->manifests[$name];
         $component_array['purecode'] = $manifest->purecode;
 
@@ -570,7 +561,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             $component_array['maintainers'] = $manifest->_raw_data['package.xml']['maintainers'];
         }
-        
+
         return $component_array;
     }
 
@@ -596,7 +587,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             {
                 $type = 'libraries';
             }
-            
+
             if ($_MIDCOM->componentloader->is_core_component($name))
             {
                 $type = 'core_' . $type;
@@ -655,10 +646,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             MIDCOM_NAV_URL => "__ais/help/",
             MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help'),
         );
-        
+
         $breadcrumb = array_reverse($breadcrumb);
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);        
+        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
     }
 
     /**
@@ -676,7 +667,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_list_components();
-        
+
         $this->_prepare_breadcrumb($handler_id);
 
         return true;
@@ -728,14 +719,14 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
         if ($data['component'] != 'midcom') $_MIDCOM->componentloader->load($data['component']);
         $_MIDCOM->skip_page_style = true;
-        
+
         $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('help for %s', 'midcom.admin.help'), $_MIDCOM->i18n->get_string($data['component'], $data['component']));
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $data['help_files'] = $this->list_files($data['component']);
         $data['html'] = $this->get_help_contents('index', $data['component']);
         $this->_prepare_breadcrumb($handler_id);
-        
+
         return true;
     }
 
@@ -764,7 +755,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
     function _handler_help($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        
+
         $data['help_id'] = $args[1];
         $data['component'] = $args[0];
         if (!$_MIDCOM->componentloader->is_installed($data['component']) && $data['component'] != 'midcom')
@@ -782,7 +773,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             // Fallback, get from m.a.help
             $_MIDCOM->i18n->get_string('help_' . $data['help_id'], 'midcom.admin.help');
         }
-*/        
+*/
 
         $data['help_files'] = $this->list_files($data['component']);
 
@@ -813,8 +804,8 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 */
         $data['view_title'] = sprintf
         (
-            $_MIDCOM->i18n->get_string('help for %s in %s', 'midcom.admin.help'), 
-            self::get_help_title($data['help_id'], $data['component']), 
+            $_MIDCOM->i18n->get_string('help for %s in %s', 'midcom.admin.help'),
+            self::get_help_title($data['help_id'], $data['component']),
             $_MIDCOM->i18n->get_string($data['component'], $data['component'])
         );
         $_MIDCOM->set_pagetitle($data['view_title']);

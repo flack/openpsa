@@ -64,7 +64,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * Keep copy of ML strict setting
      *
      * @var boolean
-     */  
+     */
     var $_ml_strict_backup = null;
 
     /**
@@ -77,7 +77,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $this->_node = new midcom_db_topic($this->_feed->node);
 
         $this->_component = 'net.nemein.rss';
-        
+
         $_MIDCOM->load_library('org.openpsa.httplib');
 
         if ($this->_node->component)
@@ -97,7 +97,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     function raw_fetch($url)
     {
         $items = array();
-        
+
         if (!$_MIDCOM->componentloader->is_loaded('org.openpsa.httplib'))
         {
             $_MIDCOM->load_library('org.openpsa.httplib');
@@ -162,13 +162,13 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             debug_pop();
             return array();
         }
-        
+
         if (   isset($rss->etag)
             && !empty($rss->etag))
         {
             // Etag checking
             $etag = trim($rss->etag);
-            
+
             $feed_etag = $this->_feed->get_parameter('net.nemein.rss', 'etag');
             if (   !empty($feed_etag)
                 && $feed_etag == $etag)
@@ -179,7 +179,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 debug_pop();
                 return array();
             }
-            
+
             $this->_feed->set_parameter('net.nemein.rss', 'etag', $etag);
         }
 
@@ -189,47 +189,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $this->_feed->update();
 
         return $rss->items;
-    }
-
-    function _enter_language()
-    {
-        if (isset($this->_original_language))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            $GLOBALS['midcom_debugger']->print_function_stack('_enter_language called for second time', MIDCOM_LOG_ERROR);
-            debug_pop();
-            return;
-        }
-        $this->_ml_strict_backup = $GLOBALS['midcom_config']['i18n_multilang_strict'];
-        $lang_id = $this->_feed->itemlang;
-        if ($lang_id)
-        {
-            $lang = $_MIDCOM->i18n->id_to_code($lang_id);
-            $this->_original_language = midcom_application::get_lang();
-
-            if ($lang != $this->_original_language)
-            {
-                midcom_application::set_lang($lang);
-            }
-        }
-    }
-
-    function _exit_language()
-    {
-        if (!isset($this->_original_language))
-        {
-            /**
-             * Causes noise when not using language contexts
-            debug_push_class(__CLASS__, __FUNCTION__);
-            $GLOBALS['midcom_debugger']->print_function_stack('_exit_language called without being in language context', MIDCOM_LOG_DEBUG);
-            debug_pop();
-             */
-            return;
-        }
-
-        midcom_application::set_lang($this->_original_language);
-        $this->_original_language = null;
-        $GLOBALS['midcom_config']['i18n_multilang_strict'] = $this->_ml_strict_backup;
     }
 
 
@@ -255,11 +214,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         // Reverse items so that creation times remain in correct order even for feeds without timestamps
         $items = array_reverse($items);
 
-        /**
-         * BEGIN: All database I/O Must be done between _enter_language and _exit_language
-         */
-        $this->_enter_language();
-
         foreach ($items as $item_id => $item)
         {
             $items[$item_id]['local_guid'] = $this->import_item($item);
@@ -276,20 +230,12 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         $this->clean($items);
 
-        $this->_exit_language();
-        /**
-         * END: All database I/O Must be done between _enter_language and _exit_language
-         */
-
         debug_pop();
         return $items;
     }
 
     /**
      * Imports a feed item into the database
-     *
-     * NOTE: All database I/O Must be done between _enter_language and _exit_language, be aware of this if you call
-     * this method directly
      *
      * @param Array $item Feed item as provided by MagpieRSS
      */
@@ -740,7 +686,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         $this->_datamanager->autoset_storage($event);
         $this->_datamanager->types['start']->value = new Date($start);
         $this->_datamanager->types['end']->value = new Date($end);
-        
+
         if (is_a($this->_datamanager->types['location'], 'midcom_helper_datamanager2_type_position'))
         {
             // Position type, give all values we got, assume order "Street, City, Country"
@@ -1052,7 +998,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         {
             $article->parameter('net.nemein.rss:enclosure', 'mimetype', $item['enclosure@type']);
         }
-        
+
         // FeedBurner Awareness API data
         // http://code.google.com/apis/feedburner/awareness_api.html
         if (   isset($item['feedburner'])
@@ -1089,7 +1035,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $tag = strtolower(strip_tags($html_tag['value']));
                 $tags[$tag] = $html_tag['href'];
             }
-            
+
             $_MIDCOM->load_library('net.nemein.tag');
 
             return net_nemein_tag_handler::tag_object($article, $tags);

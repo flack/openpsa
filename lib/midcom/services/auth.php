@@ -460,17 +460,6 @@ class midcom_services_auth
             return false;
         }
 
-        // Prevent deleting from outside the language context
-        if ($privilege === 'midgard:delete')
-        {
-            // Check the language context conditions
-            // Hide the delete folder toolbar item if the language context conditions don't match
-            if (!midcom_baseclasses_core_dbobject::delete_pre_multilang_checks($content_object))
-            {
-                return false;
-            }
-        }
-
         if (   is_null($user)
             && ! is_null($this->user)
             && $this->admin)

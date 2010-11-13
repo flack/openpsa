@@ -53,7 +53,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         {
             return false;
         }
-        
+
         // Success tells whether the update was successful or not. On default everything goes fine,
         // but when any errors are encountered, there will be a uimessage that will be shown.
         $success = true;
@@ -76,23 +76,13 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
                 // Use the DB Factory to resolve the class and to get the object
                 $object = $_MIDCOM->dbfactory->get_object_by_guid($identificator);
-                
+
                 // This is probably a pseudo leaf, store the score to the current node
                 if (   !$object
                     || !$object->id
                     || !$object->guid)
                 {
                     $this->_topic->set_parameter('midcom.helper.nav.score', $identificator, $score_r);
-                    continue;
-                    // This will skip the rest of the handling
-                }
-                
-                // Handle score multilang emulation, see #865
-                if (   $GLOBALS['midcom_config']['i18n_multilang_navigation']
-                    && $_MIDCOM->dbfactory->is_multilang($object)
-                    && $object->lang != 0)
-                {
-                    $object->set_parameter('midcom.helper.nav.score', $_MIDCOM->i18n->get_content_language(), $score_r);
                     continue;
                     // This will skip the rest of the handling
                 }
@@ -114,7 +104,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                     $approval_status = true;
                 }
 
-                /** 
+                /**
                  * WARNING: Score handling is different from branch-28, we careful when backporting
                  */
                 $object->metadata->score = $score_r;
@@ -146,7 +136,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                 }
             }
         }
-        
+
         if ($success)
         {
             $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.admin.folder'), $_MIDCOM->i18n->get_string('order saved'));
@@ -167,12 +157,12 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     {
         // jQuery sorting
         $_MIDCOM->enable_jquery();
-        
+
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form-2.21.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/ui.core.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.widget.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.sortable.min.js');
-        
+
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.folder/jquery-postfix.js');
 
         // These pages need no caching

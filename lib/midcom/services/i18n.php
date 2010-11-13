@@ -29,10 +29,6 @@
  *
  * All language codes used here are ISO 639-1 two-letter codes.
  *
- * <b>Important note:</b> The MidCOM I18n system is currently completely unaware
- * of the Midgard Multilang features. The integration of this is not yet scheduled
- * for any release.
- *
  * @package midcom.services
  */
 class midcom_services_i18n
@@ -112,16 +108,6 @@ class midcom_services_i18n
      * @access private
      */
     var $_current_content_language;
-
-    /**
-     * Current Midgard language ID for content.
-     *
-     * May be different than the UI language
-     *
-     * @var string
-     * @access private
-     */
-    var $_current_content_language_midgard;
 
     /**
      * Current character set
@@ -231,9 +217,6 @@ class midcom_services_i18n
         {
             // In the future we may allow changing UI language without changing content language
             $this->_current_content_language = $lang;
-
-            // TODO: With 1.8 we can finally start using Midgard MultiLang feature here
-            $this->_synchronize_language_to_midgard();
         }
 
         $this->_current_charset = $this->_language_db[$lang]['encoding'];
@@ -251,33 +234,8 @@ class midcom_services_i18n
     }
 
     /**
-     * Set the MidCOM language to the one defined by Midgard.
-     *
-     * Exception: If the Midgard language is language 0 we will not set the MidCOM language.
-     */
-    function _synchronize_language_from_midgard()
-    {
-        if ($_MIDGARD['lang'] == 0)
-        {
-            return false;
-        }
-
-        $lang = new midgard_language();
-        $lang->get_by_id($_MIDGARD['lang']);
-
-        if (!$lang->code)
-        {
-            return false;
-        }
-
-        $this->_current_content_language = $lang->code;
-
-        return $this->_current_content_language;
-    }
-    
-    /**
      * Convert the language code to its corresponding ID in Midgard database
-     * 
+     *
      * @static
      * @access public
      * @param String $code    Two-letter code
@@ -306,7 +264,7 @@ class midcom_services_i18n
 
     /**
      * Convert the ID to its corresponding language code in Midgard database
-     * 
+     *
      * @static
      * @access public
      * @param int $id   ID field of the database
@@ -329,34 +287,6 @@ class midcom_services_i18n
             }
         }
         return $cache[$id];
-    }
-
-    /**
-     * Set the Midgard Language to the one defined in the language database.
-     *
-     * Exception: If this is the fallback language the language 0 is set, language
-     * 0 is also used if no matching language is found from database.
-     */
-    function _synchronize_language_to_midgard()
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        if ($this->_current_content_language == $this->_fallback_language)
-        {
-            // TODO: We will start using the real language instead of Lang0 in the future
-            debug_add("The current language is equal to the fallback language: {$this->_current_content_language}, setting midgard language to 0.");
-            midcom_application::set_lang('');
-        }
-        else
-        {
-            debug_add("Trying to set the Midgard language to code '{$this->_language_db[$this->_current_content_language]['midgard_code']}'");
-
-            $lang = $this->_language_db[$this->_current_content_language]['midgard_code'];
-            if (!midcom_application::set_lang($lang))
-            {
-                midcom_application::set_lang('');
-            }
-        }
-        debug_pop();
     }
 
     /**
@@ -400,22 +330,7 @@ class midcom_services_i18n
      */
     function get_content_language()
     {
-        if ($this->_current_content_language_midgard == 0)
-        {
-            return $this->get_current_language();
-        }
-
-        return $this->_current_content_language;
-    }
-
-    /**
-     * Returns the current Midgard language ID
-     *
-     * @return int
-     */
-    function get_midgard_language()
-    {
-        return $this->_current_content_language_midgard;
+        return $this->get_current_language();
     }
 
     /**
@@ -573,8 +488,6 @@ class midcom_services_i18n
      */
     function _set_startup_langs()
     {
-        $this->_current_content_language_midgard = $_MIDGARD['lang'];
-
         $this->_read_cookie();
         if (!is_null ($this->_cookie_data))
         {
@@ -582,17 +495,6 @@ class midcom_services_i18n
             $this->_current_charset = $this->_cookie_data['charset'];
             //debug_push_class(__CLASS__, __FUNCTION__);
             //debug_add("Set current language to {$this->_current_language} with charset {$this->_current_charset} (source: cookie)", MIDCOM_LOG_INFO);
-            //debug_pop();
-            return;
-        }
-
-        // TODO: Make a pref for this
-        $content_language = $this->_synchronize_language_from_midgard();
-        if ($content_language)
-        {
-            $this->_current_language = $content_language;
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add("Set current language to {$this->_current_language} (source: Midgard host language)", MIDCOM_LOG_INFO);
             //debug_pop();
             return;
         }
@@ -665,7 +567,7 @@ class midcom_services_i18n
             {
                 $params = explode(";",$data);
                 $lang = array_shift($params);
-            
+
                 //Fix for Safari
                 if (   isset($_SERVER['HTTP_USER_AGENT'])
                     && strstr($_SERVER['HTTP_USER_AGENT'], 'Safari'))
@@ -776,7 +678,7 @@ class midcom_services_i18n
                 $cached_snippets[$path] = null;
                 return null;
             }
-            
+
             if (isset($GLOBALS['midcom_cache']->content))
             {
                 $GLOBALS['midcom_cache']->content->register($snippet->guid);

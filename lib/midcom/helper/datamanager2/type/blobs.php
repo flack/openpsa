@@ -37,8 +37,8 @@
 class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_type
 {
     /**
-     * All attachments covered by this field. 
-     * The array contains midcom_db_attachment objects indexed by their 
+     * All attachments covered by this field.
+     * The array contains midcom_db_attachment objects indexed by their
      * identifier within the field.
      *
      * See the $attachments_info member for a more general approach easily usable
@@ -50,10 +50,10 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     var $attachments = Array();
 
     /**
-     * This is the base URL used for attachment serving. 
+     * This is the base URL used for attachment serving.
      *
-     * It defaults to the global MidCOM attachment handler at the sites root. 
-     * When constructing Attachment Info blocks, this URL is completed using 
+     * It defaults to the global MidCOM attachment handler at the sites root.
+     * When constructing Attachment Info blocks, this URL is completed using
      * "{$baseurl}{$guid}/{$filename}".
      *
      * @var string
@@ -63,9 +63,9 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
     /**
      * This member is populated and synchronized with all known changes to the
-     * attachments listing. 
+     * attachments listing.
      *
-     * It contains a batch of metadata that makes presenting them easy. The 
+     * It contains a batch of metadata that makes presenting them easy. The
      * information is kept in an array per attachment, again indexed
      * by their identifiers. The following keys are defined:
      *
@@ -103,35 +103,19 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
 
     /**
      * Should the widget offer sorting feature
-     * 
+     *
      * @access public
      * @var boolean
      */
     var $sortable = false;
-    
+
     /**
      * Sorted attachments list
-     * 
+     *
      * @access public
      * @var array
      */
     var $_sorted_list = array();
-
-    /**
-     * Multilang emulation for attachment storage. If enabled, uploads in other languages than "Lang 0" will not overwrite
-     * Lang 0 data.
-     * 
-     * @access public
-     * @var boolean
-     */
-    var $multilang = false;
-    
-    /**
-     * Whether we're in multilang fallback mode
-     *
-     * @var boolean
-     */
-    var $multilang_fallback_active = false;
 
     /**
      * Set the base URL accordingly
@@ -147,7 +131,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     }
 
     /**
-     * This function loads all known attachments from the storage object. 
+     * This function loads all known attachments from the storage object.
      *
      * It will leave the field empty in case the storage object is null.
      */
@@ -162,32 +146,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return;
         }
 
-        // TODO: Change to use the attachments' parameters as authorative mapping source and this map only as fallback
-        if (   $this->multilang
-            && $_MIDCOM->i18n->get_midgard_language() != 0)
+        $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}");
+        if (!$raw_list)
         {
-            // Try this language's attachment list first
-            $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}_" . $_MIDCOM->i18n->get_content_language());
-            if (!$raw_list)
-            {
-                // Fall back to master language
-                $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}");
-                if (!$raw_list)
-                {
-                    // No attachments found.
-                    return;
-                }
-                $this->multilang_fallback_active = true;
-            }
-        }
-        else
-        {
-            $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}");
-            if (!$raw_list)
-            {
-                // No attachments found.
-                return;
-            }
+            // No attachments found.
+            return;
         }
 
         $items = explode(',', $raw_list);
@@ -214,10 +177,10 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     }
 
     /**
-     * This function sorts the attachment lists by filename. 
+     * This function sorts the attachment lists by filename.
      *
-     * It has to be called after each attachment operation. It uses a 
-     * user-defined ordering function for each of the two arrays to be sorted: 
+     * It has to be called after each attachment operation. It uses a
+     * user-defined ordering function for each of the two arrays to be sorted:
      * _sort_attachments_callback() and _sort_attachments_info_callback().
      *
      * @access protected
@@ -232,7 +195,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return;
         }
          */
-        
+
         uasort($this->attachments,
             Array('midcom_helper_datamanager2_type_blobs', '_sort_attachments_callback'));
         uasort($this->attachments_info,
@@ -264,7 +227,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     }
 
     /**
-     * User-defined array sorting callback, used for sorting $attachments. 
+     * User-defined array sorting callback, used for sorting $attachments.
      *
      * NOTE: Deprecated, use the public sort_attachments_cmp() in stead.
      *
@@ -276,7 +239,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     }
 
     /**
-     * User-defined array sorting callback, used for sorting $attachments_info. 
+     * User-defined array sorting callback, used for sorting $attachments_info.
      *
      * See the usort() documentation for further details.
      *
@@ -432,7 +395,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             {
                 $score = $count - $this->_sorted_list[$identifier] + 1;
                 //echo "DEBUG: setting att {$attachment->guid} score to {$score}<br/>\n";
-                // Store the attachment score 
+                // Store the attachment score
                 $attachment->metadata->score = $score;
                 /**
                  * Not needed in ragnaroek (metadata is midcom_helper_metadata instance)
@@ -449,15 +412,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         // an object, we set the parameter unconditionally, to get all deletions.
         if ($this->storage->object)
         {
-            if (   $this->multilang
-                && $_MIDCOM->i18n->get_midgard_language() != 0)
-            {
-                $this->storage->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}_" . $_MIDCOM->i18n->get_content_language(), implode(',', $data));
-            }
-            else
-            {
-                $this->storage->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}", implode(',', $data));
-            }
+            $this->storage->object->set_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}", implode(',', $data));
         }
         else if ($data)
         {
@@ -550,7 +505,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * This is a simple helper which looks at the original file and adds additional information to the
      * attachment.
      *
-     * With images, it evaluates the imagesize information of a given file and adds that information as 
+     * With images, it evaluates the imagesize information of a given file and adds that information as
      * parameters to the attachment identified by its identifier.
      *
      * @param string $identifier Attachment identifier
@@ -640,14 +595,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             $this->storage->create_temporary_object();
         }
 
-        // Ensure there are no namespace clashes in multilang mode
-        if (   $this->multilang
-            && $_MIDCOM->i18n->get_midgard_language() != 0)
-        {
-            $filename_parts = explode('.', $filename);
-            $filename = str_replace($filename_parts[0], "{$filename_parts[0]}_" . $_MIDCOM->i18n->get_content_language(), $filename);
-        }
-
         // Make sure we have unique filename
         // TODO: refactor to separate method for cleanlines, preferably add to reflector itself a "filename mode"
         $attachment = new midcom_db_attachment();
@@ -696,7 +643,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                     // Start suffixes from -002
                     $attachment->name = $base_name . sprintf('-%03d', $i) . $ext;
                 }
-    
+
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Trying with name '{$attachment->name}'");
                 debug_pop();
@@ -760,7 +707,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     }
 
     /**
-     * Updates the title field of the specified attachment. 
+     * Updates the title field of the specified attachment.
      *
      * This will automatically update the attachment info as well.
      *
@@ -875,11 +822,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     {
         $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'fieldname', $this->name);
         $attachment->set_parameter('midcom.helper.datamanager2.type.blobs', 'identifier', $identifier);
-        if (   $this->multilang
-            && $_MIDCOM->i18n->get_midgard_language() != 0)
-        {
-            $attachment->set_parameter('midcom.helper.datamanager2.type.blobs.multilang', 'lang', $_MIDCOM->i18n->get_content_language());
-        }
     }
 
     /**
@@ -971,13 +913,13 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         }
 
         $attachment = $this->attachments[$identifier];
-        
+
         // Check that the attachment isn't connected elsewhere via DM2
         $qb = new midgard_query_builder('midgard_parameter');
         $qb->add_constraint('domain', '=', 'midcom.helper.datamanager2.type.blobs');
         $qb->add_constraint('name', '=', "guids_{$this->name}");
         $qb->add_constraint('value', 'LIKE', "%:{$attachment->guid}%");
-        
+
         if ($qb->count() > 1)
         {
             debug_push_class(__CLASS__, __FUNCTION__);

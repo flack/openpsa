@@ -20,18 +20,18 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
 {
     /**
      * The metadata currently available. This array is indexed by context id; each
-     * value consists of a flat array of two metadata objects, the first object being 
-     * the Node metadata, the second View metadata. The metadata objects are created 
+     * value consists of a flat array of two metadata objects, the first object being
+     * the Node metadata, the second View metadata. The metadata objects are created
      * on-demand.
      *
      * @var Array
      * @access private
      */
     var $_metadata = Array();
-    
+
     /**
-     * Class of the current page per each context. 
-     * Typically these are the same as the schema name of the current object's Datamanager schema. 
+     * Class of the current page per each context.
+     * Typically these are the same as the schema name of the current object's Datamanager schema.
      * This can be used for changing site styling based on body class="" etc.
      *
      * @var Array
@@ -106,19 +106,19 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
         {
             $topic = $_MIDCOM->get_context_data($context_id, MIDCOM_CONTEXT_CONTENTTOPIC);
         }
-        
+
         if (   !is_object($topic)
             || !isset($topic->id)
             || empty($topic->id))
         {
             $this->_metadata[$context_id] = Array();
-            $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;        
+            $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = null;
             $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;
             return;
         }
 
-        $this->_metadata[$context_id] = Array();  
-    
+        $this->_metadata[$context_id] = Array();
+
         $this->_metadata[$context_id][MIDCOM_METADATA_NODE] = midcom_helper_metadata::retrieve($topic);
         $this->_metadata[$context_id][MIDCOM_METADATA_VIEW] = null;
     }
@@ -135,13 +135,13 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
         {
             $context_id = $_MIDCOM->get_current_context();
         }
-        
+
         // Append current topic to page class if enabled
         if ($GLOBALS['midcom_config']['page_class_include_component'])
         {
             $page_class .= ' ' . str_replace('.', '_', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT));
         }
-        
+
         // Append a custom class from topic to page class
         $topic_class = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC)->get_parameter('midcom.services.metadata', 'page_class');
         if (!empty($topic_class))
@@ -174,12 +174,11 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
             return 'default';
         }
     }
-    
+
     /**
      * Get CSS classes for an object. This will include two new CSS classes for the object's class string
      * if appropriate:
      *
-     * - untranslated: the object is a MultiLang object that hasn't been translated to the current language
      * - unapproved: approvals are enabled for the site but the object is not translated
      * - hidden: object is hidden via metadata settings or scheduling
      * - cross_sg: object is in another Midgard sitegroup than the current one
@@ -206,7 +205,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
             {
                 $css_classes[] = 'cross_sg';
             }
-            
+
             if ($object->sitegroup === 0)
             {
                 $css_classes[] = 'sg0';
@@ -230,23 +229,6 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
             $css_classes[] = 'hidden';
         }
 
-        // MultiLang attributes
-        if (   !isset($_MIDGARD['config']['multilang'])
-            || $_MIDGARD['config']['multilang'])
-        {
-            // MultiLang is enabled in this setup
-            if (   $_MIDCOM->dbfactory->is_multilang($object)
-                && (   $object->lang != $_MIDCOM->i18n->get_midgard_language()
-                    || (   ($GLOBALS['midcom_config']['multilang_auto_langs'] || $GLOBALS['midcom_config']['multilang_lang0_langs'])
-                        && $object->get_parameter('midcom.services.multilang.auto', midcom_services_multilang::get_lang())
-                       )
-                   )
-               )
-            {
-                $css_classes[] = 'untranslated';
-            }
-        }
-
         // Folder's class
         if ($page_class = $object->get_parameter('midcom.services.metadata', 'page_class'))
         {
@@ -260,7 +242,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
 
         return implode(' ', $css_classes);
     }
-    
+
     /**
      * Binds view metadata to a DBA content object
      *
@@ -270,7 +252,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
     {
         $this->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object);
     }
-    
+
     /**
      * Binds object to given metadata type.
      */
@@ -280,13 +262,13 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
         {
             $context_id = $_MIDCOM->get_current_context();
         }
-        
+
         $this->_metadata[$context_id][$metadata_type] = midcom_helper_metadata::retrieve($object);
         if (!$this->_metadata[$context_id][$metadata_type])
         {
             return;
         }
-                
+
         // Update MidCOM 2.6 request metadata if appropriate
         $request_metadata = $_MIDCOM->get_26_request_metadata($context_id);
         $edited = $this->_metadata[$context_id][$metadata_type]->get('edited');
@@ -295,7 +277,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
             $_MIDCOM->set_26_request_metadata($edited, $request_metadata['permalinkguid']);
         }
     }
-    
+
     /**
      * Populates appropriate metadata into XHTML documents based on metadata information
      * available to MidCOM for the request.
@@ -337,7 +319,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
                 )
             );
         }
-        
+
         // If an object has been bound we have more information available
         $view_metadata = $this->get_view_metadata();
         if ($view_metadata)
@@ -358,7 +340,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
                             $content = gmdate('Y-m-d', (int) $content);
                             break;
                     }
-                    
+
                     $_MIDCOM->add_meta_head
                     (
                         array
@@ -419,7 +401,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
                     );
                 }
             }
-            
+
             if ($GLOBALS['midcom_config']['positioning_enable'])
             {
                 // Load the positioning library
@@ -428,40 +410,6 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
                 // Display position metadata
                 $object_position = new org_routamc_positioning_object($view_metadata->object);
                 $object_position->set_metadata();
-            } 
-            
-            // Display links to language versions
-            $translations = $view_metadata->get_languages();
-            foreach ($translations as $translation)
-            {
-                if (empty($translation['host']->online))
-                {
-                    // Translation is not on-line, do not link
-                    continue;
-                }
-                if ($translation['host']->id == $_MIDGARD['host'])
-                {
-                    // This is the host we're in, no need to link
-                    continue;
-                }
-                if (   ($GLOBALS['midcom_config']['multilang_auto_langs'] || $GLOBALS['midcom_config']['multilang_lang0_langs'])
-                    && $view_metadata->object->get_parameter('midcom.services.multilang.auto', $translation['code']))
-                {
-                    // Translation is an auto generated 1:1 copy and thus not a real one
-                    continue;
-                }
-                
-                $_MIDCOM->add_link_head
-                (
-                    array
-                    (
-                        'rel'   => 'alternate',
-                        'type'  => 'text/html',
-                        'title' => "In {$translation['name']}",
-                        'hreflang' => $translation['code'],
-                        'href'  => "{$translation['url']}midcom-permalink-{$view_metadata->object->guid}",
-                    )
-                );
             }
         }
     }
@@ -522,7 +470,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
         );
     }
 
-    /** 
+    /**
      * Get the default Open Graph Protocol type for an object
      *
      * @return string Open Graph Protocol type
@@ -533,7 +481,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
         {
             return '';
         }
-        
+
         if (!$object)
         {
             // No object given, use object bound to view
@@ -567,7 +515,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
             return '';
         }
 
-        return $interface->get_opengraph_default($object);       
+        return $interface->get_opengraph_default($object);
     }
 }
 ?>

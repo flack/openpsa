@@ -151,7 +151,6 @@
         <property name="topic"    type="unsigned integer" link="midgard_topic:id" parentfield="topic">
             <description>Topic the article is under</description>
         </property>
-        <!-- Multilang features --> 
         <property name="title"    type="string">
             <description>Title of the article</description>
         </property>
@@ -211,7 +210,6 @@
         <property name="styleInherit"    type="boolean" field="style_inherit" index="yes">
             <description>Whether the MidCOM style should be inherited to subtopics</description>
         </property>
-        <!-- Multilang properties -->
         <property name="title"    type="string">
             <description>Title of the topic</description>
         </property>

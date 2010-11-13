@@ -167,7 +167,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 'variable_args' => 1,
             ),
             /**
-             * Open an object in the user's preferred mode 
+             * Open an object in the user's preferred mode
              *
              * Match /asgard/object/open/<guid>/
              */
@@ -189,17 +189,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 'variable_args' => 1,
             ),
             /**
-             * View an object in another language
-             *
-             * Match /asgard/object/view/<guid>/<lang>
-             */
-            'object_view_lang' => array
-            (
-                'handler' => array ('midgard_admin_asgard_handler_object_manage', 'view'),
-                'fixed_args' => array ('object', 'view'),
-                'variable_args' => 2,
-            ),
-            /**
              * Edit an object
              *
              * Match /asgard/object/edit/<guid>/
@@ -209,17 +198,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 'handler' => array ('midgard_admin_asgard_handler_object_manage', 'edit'),
                 'fixed_args' => array ('object', 'edit'),
                 'variable_args' => 1,
-            ),
-            /**
-             * Edit an object
-             *
-             * Match /asgard/object/edit/<guid>/<lang>
-             */
-            'object_edit_lang' => array
-            (
-                'handler' => array ('midgard_admin_asgard_handler_object_manage', 'edit'),
-                'fixed_args' => array ('object', 'edit'),
-                'variable_args' => 2,
             ),
             /**
              * Edit object metadata
@@ -356,17 +334,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 'variable_args' => 1,
             ),
             /**
-             * Delete an object in language
-             *
-             * Match /asgard/object/delete/<guid>/<lang>
-             */
-            'object_delete_lang' => array
-            (
-                'handler' => array ('midgard_admin_asgard_handler_object_manage', 'delete'),
-                'fixed_args' => array ('object', 'delete'),
-                'variable_args' => 2,
-            ),
-            /**
              * Show 'object deleted' page
              *
              * Match /asgard/object/deleted/<guid>
@@ -416,13 +383,13 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 'variable_args' => 2,
             ),
         );
-        
+
         return $request_switch;
     }
 
     /**
      * Static method other plugins may use
-     * 
+     *
      * @static
      * @access public
      * @param string $title     Page title
@@ -435,7 +402,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         $_MIDCOM->cache->content->no_cache();
         $data['view_title'] = $title;
         $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        
+
         // Preferred language
         if (($language = midgard_admin_asgard_plugin::get_preference('interface_language')))
         {
@@ -451,55 +418,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
     {
         $ref = midcom_helper_reflector_tree::get($type);
         return $ref->get_class_label();
-    }
-
-    function init_language($handler_id, $args, &$data)
-    {
-        if (   isset($_MIDGARD['config']['multilang'])
-            && !$_MIDGARD['config']['multilang'])
-        {
-            // This Midgard setup doesn't support multilang
-            $data['language_code'] = '';
-            return;
-        }
-
-        switch ($handler_id)
-        {
-            case '____mfa-asgard-object_view_lang':
-            case '____mfa-asgard-object_edit_lang':
-            case '____mfa-asgard-object_delete_lang':
-                $data['language_code'] = $args[1];
-                $data['original_language'] = $_MIDGARD['lang'];
-                midcom_application::set_lang($data['language_code']);
-                break;
-            default:
-                $data['language_code'] = '';
-        }
-    }
-
-    function finish_language($handler_id, &$data)
-    {
-        if (   isset($_MIDGARD['config']['multilang'])
-            && !$_MIDGARD['config']['multilang'])
-        {
-            // This Midgard setup doesn't support multilang
-            return;
-        }
-        
-        switch ($handler_id)
-        {
-            case '____mfa-asgard-object_view_lang':
-            case '____mfa-asgard-object_edit_lang':
-            case '____mfa-asgard-object_delete_lang':
-                if (   !isset($data['original_language'])
-                    || !$data['original_language'])
-                {
-                    break;
-                }
-                
-                midcom_application::set_lang($_MIDCOM->i18n->id_to_code($data['original_language']));
-                break;
-        }
     }
 
     /**
@@ -528,7 +446,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         switch ($handler_id)
         {
             case '____mfa-asgard-object_edit':
-            case '____mfa-asgard-object_edit_lang':
                 $title_string = $_MIDCOM->i18n->get_string('edit %s %s', 'midgard.admin.asgard');
                 break;
             case '____mfa-asgard-object_metadata':
@@ -558,7 +475,6 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 $title_string = sprintf($_MIDCOM->i18n->get_string('create %s under %s', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']), '%s %s');
                 break;
             case '____mfa-asgard-object_delete':
-            case '____mfa-asgard-object_delete_lang':
                 $title_string = $_MIDCOM->i18n->get_string('delete %s %s', 'midgard.admin.asgard');
                 break;
             case '____mfa-asgard-object_rcs_history':
@@ -576,10 +492,10 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         $_MIDCOM->set_pagetitle($data['view_title']);
 
     }
-    
+
     /**
      * Helper function that sets the default object mode
-     * 
+     *
      * @static
      * @access public
      */
@@ -590,7 +506,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         {
             return $data['default_mode'];
         }
-        
+
         if ($GLOBALS['midcom_component_data']['midgard.admin.asgard']['config']->get('edit_mode') == 1)
         {
             $data['default_mode'] = 'edit';
@@ -599,7 +515,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         {
             $data['default_mode'] = 'view';
         }
-        
+
         if (midgard_admin_asgard_plugin::get_preference('edit_mode') == 1)
         {
             $data['default_mode'] = 'edit';
@@ -608,7 +524,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         {
             $data['default_mode'] = 'view';
         }
-        
+
         return $data['default_mode'];
     }
 
@@ -617,22 +533,18 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
      *
      * @param string $action The action
      * @param string $guid The GUID
-     * @param string $lang The language code
      */
-    private static function _generate_url($action, $guid, $lang = '')
+    private static function _generate_url($action, $guid)
     {
         $url = '__mfa/asgard/object/' . $action . '/' . $guid . '/';
-        if ($lang)
-        {
-            $url .= $lang . '/';
-        }
+
         return $url;
     }
 
 
     /**
      * Populate the object toolbar
-     * 
+     *
      * @param mixed $object        MgdSchema object for which the toolbar will be created
      * @param String $handler_id   Initialized handler id
      * @param array $data          Local request data
@@ -650,7 +562,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('view', $object->guid, $data['language_code']),
+                    MIDCOM_TOOLBAR_URL => self::_generate_url('view', $object->guid),
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('view', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'v',
@@ -689,7 +601,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('edit', $object->guid, $data['language_code']),
+                    MIDCOM_TOOLBAR_URL => self::_generate_url('edit', $object->guid),
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -830,7 +742,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('parameters', $object->guid, $data['language_code']),
+                    MIDCOM_TOOLBAR_URL => self::_generate_url('parameters', $object->guid),
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('parameters', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:parameters'),
@@ -947,7 +859,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('delete', $object->guid, $data['language_code']),
+                    MIDCOM_TOOLBAR_URL => self::_generate_url('delete', $object->guid),
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('delete', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'd',
@@ -977,7 +889,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         $label = $data['object_reflector']->get_object_label($object);
         $breadcrumb[] = array
         (
-            MIDCOM_NAV_URL => self::_generate_url('view', $object->guid, $data['language_code']),
+            MIDCOM_NAV_URL => self::_generate_url('view', $object->guid),
             MIDCOM_NAV_NAME => $label,
         );
 
@@ -990,7 +902,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             // Add "parameters" list to breadcrumb if we're in a param
             $breadcrumb[] = array
             (
-                MIDCOM_NAV_URL => self::_generate_url('parameters', $parent->guid, $data['language_code']),
+                MIDCOM_NAV_URL => self::_generate_url('parameters', $parent->guid),
                 MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('parameters', 'midcom'),
             );
         }
@@ -1005,7 +917,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             $parent_label = $parent_reflector->get_object_label($parent);
             $breadcrumb[] = array
             (
-                MIDCOM_NAV_URL => self::_generate_url('view', $parent->guid, $data['language_code']),
+                MIDCOM_NAV_URL => self::_generate_url('view', $parent->guid),
                 MIDCOM_NAV_NAME => $parent_label,
             );
             $parent = $parent->get_parent();
@@ -1015,33 +927,31 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
         switch ($handler_id)
         {
             case '____mfa-asgard-object_view':
-            case '____mfa-asgard-object_view_lang':
-                $toolbar->disable_item(self::_generate_url('view', $object->guid, $data['language_code']));
+                $toolbar->disable_item(self::_generate_url('view', $object->guid));
                 break;
             case '____mfa-asgard-object_edit':
-            case '____mfa-asgard-object_edit_lang':
                 $breadcrumb[] = array
                 (
-                    MIDCOM_NAV_URL => self::_generate_url('edit', $object->guid, $data['language_code']),
+                    MIDCOM_NAV_URL => self::_generate_url('edit', $object->guid),
                     MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('edit', 'midcom'),
                 );
-                $toolbar->disable_item(self::_generate_url('edit', $object->guid, $data['language_code']));
+                $toolbar->disable_item(self::_generate_url('edit', $object->guid));
                 break;
             case '____mfa-asgard-object_copy':
                 $breadcrumb[] = array
                 (
-                    MIDCOM_NAV_URL => self::_generate_url('copy', $object->guid, $data['language_code']),
+                    MIDCOM_NAV_URL => self::_generate_url('copy', $object->guid),
                     MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('copy', 'midcom'),
                 );
-                $toolbar->disable_item(self::_generate_url('copy', $object->guid, $data['language_code']));
+                $toolbar->disable_item(self::_generate_url('copy', $object->guid));
                 break;
             case '____mfa-asgard-object_copy_tree':
                 $breadcrumb[] = array
                 (
-                    MIDCOM_NAV_URL => self::_generate_url('copy/tree', $object->guid, $data['language_code']),
+                    MIDCOM_NAV_URL => self::_generate_url('copy/tree', $object->guid),
                     MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('copy', 'midcom'),
                 );
-                $toolbar->disable_item(self::_generate_url('copy/tree', $object->guid, $data['language_code']));
+                $toolbar->disable_item(self::_generate_url('copy/tree', $object->guid));
                 break;
             case '____mfa-asgard-components_configuration_edit_folder':
                 $breadcrumb[] = array
@@ -1067,7 +977,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                     MIDCOM_NAV_URL => self::_generate_url('attachments', $object->guid),
                     MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('attachments', 'midgard.admin.asgard'),
                 );
-                
+
                 if ($handler_id == '____mfa-asgard-object_attachments_edit')
                 {
                     $breadcrumb[] = array
@@ -1121,13 +1031,12 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
                 $toolbar->disable_item(self::_generate_url('create' . $data['new_type_arg'], $object->guid));
                 break;
             case '____mfa-asgard-object_delete':
-            case '____mfa-asgard-object_delete_lang':
                 $breadcrumb[] = array
                 (
-                    MIDCOM_NAV_URL => self::_generate_url('delete', $object->guid, $data['language_code']),
+                    MIDCOM_NAV_URL => self::_generate_url('delete', $object->guid),
                     MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('delete', 'midcom'),
                 );
-                $toolbar->disable_item(self::_generate_url('delete', $object->guid, $data['language_code']));
+                $toolbar->disable_item(self::_generate_url('delete', $object->guid));
                 break;
             case '____mfa-asgard_midcom.helper.replicator-object':
                 $breadcrumb[] = array
@@ -1178,10 +1087,10 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
 
         return $toolbar;
     }
-    
+
     /**
      * Add Asgard styling for plugins
-     * 
+     *
      * @static
      * @access public
      */
@@ -1193,7 +1102,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
 
     /**
      * Add Asgard styling for plugins
-     * 
+     *
      * @static
      * @access public
      */
@@ -1216,12 +1125,12 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
     static function get_preference($preference)
     {
         static $preferences = array();
-        
+
         if (!$_MIDCOM->auth->user)
         {
             return;
         }
-        
+
         if (!isset($preferences[$preference]))
         {
             // Store the person statically
@@ -1229,16 +1138,16 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             {
                 $preferences[$_MIDCOM->auth->user->guid] = new midcom_db_person($_MIDCOM->auth->user->guid);
             }
-            
+
             $preferences[$preference] = $preferences[$_MIDCOM->auth->user->guid]->get_parameter('midgard.admin.asgard:preferences', $preference);
         }
-        
+
         return $preferences[$preference];
     }
-    
+
     /**
      * Get the MgdSchema root classes
-     * 
+     *
      * @static
      * @access public
      * @return array containing class name and translated name
@@ -1246,28 +1155,28 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
     static function get_root_classes()
     {
         static $root_classes = array();
-        
+
         // Return cached results
         if (!empty($root_classes))
         {
             return $root_classes;
         }
-        
+
         // Initialize the returnable array
         $root_classes = array();
-        
+
         // Get the classes
         $classes = midcom_helper_reflector_tree::get_root_classes();
-        
+
         // Get the translated name
         foreach ($classes as $class)
         {
             $ref = new midcom_helper_reflector($class);
             $root_classes[$class] = $ref->get_class_label();
         }
-        
+
         asort($root_classes);
-        
+
         return $root_classes;
     }
 }

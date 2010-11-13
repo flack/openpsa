@@ -205,7 +205,7 @@ class midcom_application
         'toolbars' => 'midcom_services_toolbars',
         'uimessages' => 'midcom_services_uimessages',
         'metadata' => 'midcom_services_metadata',
-        'rcs' => 'midcom_services_rcs',                
+        'rcs' => 'midcom_services_rcs',
         'session' => 'midcom_services__sessioning',
         'indexer' => 'midcom_services_indexer',
     );
@@ -708,14 +708,14 @@ class midcom_application
         $this->_status = MIDCOM_STATUS_CLEANUP;
 
         // Shutdown content-cache (ie flush content to user :) before possibly slow DBA watches
-        // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc 
+        // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
         $this->cache->content->_finish_caching();
 
         $this->componentloader->process_pending_notifies();
 
         // Store any unshown messages
         $this->uimessages->store();
-        
+
         if ($GLOBALS['midcom_config']['enable_included_list'])
         {
             $included = get_included_files();
@@ -768,7 +768,7 @@ class midcom_application
      *
      * @access private
      */
-    private function _process() 
+    private function _process()
     {
         $success = false;
         $substyle = "";
@@ -914,9 +914,9 @@ class midcom_application
                         // This will exit
 
                     case 'log':
-                        if ($this->_parsers[$this->_currentcontext]->argc > 1) 
+                        if ($this->_parsers[$this->_currentcontext]->argc > 1)
                         {
-                            debug_push_class(__CLASS__, __FUNCTION__);                        
+                            debug_push_class(__CLASS__, __FUNCTION__);
                             debug_add("Too many arguments remaining for debuglog.", MIDCOM_LOG_ERROR);
                             debug_pop();
                             $this->generate_error(MIDCOM_ERRNOTFOUND, "Failed to access debug log: Too many arguments for debuglog");
@@ -1413,9 +1413,9 @@ class midcom_application
      * NAP interface can be accessed through this function. A reference is returned.
      *
      * This function maintains one NAP Class per context. Usually this is enough,
-     * since you mostly will access it in context 0, the default. The problem is, that 
-     * this is not 100% efficient: If you instantiate two different NAP Classes in 
-     * different contexts both referring to the same root node, you will get two 
+     * since you mostly will access it in context 0, the default. The problem is, that
+     * this is not 100% efficient: If you instantiate two different NAP Classes in
+     * different contexts both referring to the same root node, you will get two
      * different instances.
      *
      * If the system has not completed the can_handle phase, this method fails and
@@ -1687,7 +1687,7 @@ class midcom_application
             list ($newsub, $ignore) = explode(' ', $newsub, 2);
             unset($ignore);
         }
-        if ($this->_status < MIDCOM_STATUS_HANDLE) 
+        if ($this->_status < MIDCOM_STATUS_HANDLE)
         {
             $this->generate_error(MIDCOM_ERRCRIT, "Cannot do a substyle_append before the HANDLE phase.");
         }
@@ -2128,71 +2128,6 @@ class midcom_application
     }
 
     /**
-     * Get Midgard language
-     *
-     * @return string Midgard language
-     */
-    static function get_lang()
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return 0;
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::get_lang();
-    }
-
-    /**
-     * Get Midgard default language
-     *
-     * @return string Midgard default language
-     */
-    static function get_default_lang()
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return 0;
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::get_default_lang();
-    }
-
-    /**
-     * Get Midgard language
-     *
-     * @return string Midgard language
-     */
-    static function set_lang($value)
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return false;
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::set_lang($value);
-    }
-
-    /**
-     * Get Midgard default language
-     *
-     * @return string Midgard default language
-     */
-    static function set_default_lang($value)
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return false;
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::set_default_lang($value);
-    }
-
-
-    /**
      * Generate an error page.
      *
      * This function is a small helper, that will display a simple HTML Page reporting
@@ -2381,7 +2316,7 @@ class midcom_application
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open attachment for reading: ' . midcom_application::get_error_string());
             // This will exit()
         }
-        
+
         $this->header("ETag: {$etag}");
         //$this->cache->content->register_sent_header("ETag: {$etag}");
         $this->cache->content->content_type($attachment->mimetype);
@@ -2395,7 +2330,7 @@ class midcom_application
         //$this->cache->content->register_sent_header("Content-Disposition: attachment; filename={$attachment->name}");
         $this->header("Content-Description: {$attachment->title}");
         $this->cache->content->register_sent_header("Content-Description: {$attachment->title}");
-        
+
         // PONDER: Support ranges ("continue download") somehow ?
         $this->header("Accept-Ranges: none");
         //$this->cache->content->register_sent_header("Accept-Ranges: none");
@@ -2421,7 +2356,7 @@ class midcom_application
         if ($GLOBALS['midcom_config']['attachment_xsendfile_enable'])
         {
             $blob = new midgard_blob($attachment->__object);
-            $att_local_path = $blob->get_path();        
+            $att_local_path = $blob->get_path();
             debug_add("Checking is_readable({$att_local_path})");
             if (is_readable($att_local_path))
             {
@@ -2895,7 +2830,7 @@ class midcom_application
         {
             return;
         }
-        
+
         if (!$version)
         {
             $version = $GLOBALS['midcom_config']['jquery_version'];
@@ -2909,7 +2844,7 @@ class midcom_application
             $this->_jquery_init_scripts .= "<script src=\"http://www.google.com/jsapi\"></script>\n";
             $this->_jquery_init_scripts .= "<script>\n";
             $this->_jquery_init_scripts .= "    google.load('jquery', '{$GLOBALS['midcom_config']['jquery_version']}');\n";
-            $this->_jquery_init_scripts .= "</script>\n";            
+            $this->_jquery_init_scripts .= "</script>\n";
         }
         else
         {
@@ -2921,7 +2856,7 @@ class midcom_application
         {
             define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery.ui-{$GLOBALS['midcom_config']['jquery_ui_version']}");
         }
-        
+
         $script  = "var MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "';\n";
         $script .= "var MIDCOM_PAGE_PREFIX = '" . $_MIDCOM->get_page_prefix() . "';\n";
 
@@ -3091,7 +3026,7 @@ class midcom_application
 
         // Bind the object to the metadata service
         $this->metadata->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $this->_currentcontext);
-        
+
         // Push the object's CSS classes to metadata service
         $page_class = $_MIDCOM->metadata->get_object_classes($object, $page_class);
         $this->metadata->set_page_class($page_class, $this->_currentcontext);
@@ -3158,14 +3093,14 @@ class midcom_application
             'permalinkguid' => $this->_context[$context][MIDCOM_CONTEXT_PERMALINKGUID],
             'permalink' => $this->permalinks->create_permalink($this->_context[$context][MIDCOM_CONTEXT_PERMALINKGUID]),
         );
-        
+
         if (   is_object($meta['lastmodified'])
             && is_a($meta['lastmodified'], 'midgard_datetime'))
         {
             // Midgard2 compatibility
             $meta['lastmodified'] = $meta['lastmodified']->format('U');
         }
-        
+
         return $meta;
     }
 }

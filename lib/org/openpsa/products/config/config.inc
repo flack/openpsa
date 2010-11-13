@@ -79,6 +79,5 @@
 'groupsync_root_group' => null,
 'groupsync_topic_name_from' => 'code', // You can specify 'title' here safely, it will be passed through the standard url-name generation
 'groupsync_topic_title_from' => 'title',
-'groupsync_multilang_languages' => false, // This feature is not supported yet.
 
 'product_page_title' => '<TOPIC_TITLE>: <PRODUCT_TITLE>',

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.admin.user
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: permissions.php 22990 2009-07-23 15:46:03Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,7 +9,7 @@
 
 /**
  * Style editor class for listing style elements
- * 
+ *
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_components_handler
@@ -18,7 +18,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
 
     /**
      * Simple constructor
-     * 
+     *
      * @access public
      */
     function __construct()
@@ -46,21 +46,21 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
 
     }
-    
+
     function _update_breadcrumb()
     {
         // Populate breadcrumb
         $tmp = Array();
         $grp = $this->_group;
-        
+
         $tmp[] = Array
         (
             MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/folders/{$grp->guid}/",
             MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('folders', 'midcom.admin.user'),
         );
-        
+
         while ($grp)
-        {        
+        {
             $tmp[] = Array
             (
                 MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/edit/{$grp->guid}/",
@@ -72,12 +72,12 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         (
             MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
             MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'),
-        ); 
+        );
         $tmp = array_reverse($tmp);
-        
+
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-    
+
     /**
      * Handler method for listing style elements for the currently used component topic
      *
@@ -95,9 +95,9 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         {
             return false;
         }
-    
+
         $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        $data['language_code'] = '';
+
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
 
         $qb = new midgard_query_builder('midcom_core_privilege_db');
@@ -124,24 +124,24 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
-        
+
         return true;
     }
-    
+
     /**
      * Show list of the style elements for the currently edited topic component
-     * 
+     *
      * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
     function _show_folders($handler_id, &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();        
+        midgard_admin_asgard_plugin::asgard_header();
 
         $data['group'] =& $this->_group;
         midcom_show_style('midcom-admin-user-group-folders');
-        
+
         midgard_admin_asgard_plugin::asgard_footer();
     }
 }

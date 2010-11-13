@@ -127,10 +127,6 @@ Website-Konfiguration
 Fallback-Sprache bei fehlenden Überseztungen
 ---STRINGEND
 
----STRING i18n_multilang_strict
-nicht übersetzte Inhalte verstecken
----STRINGEND
-
 ---STRING indexer_backend
 Backend für die Volltext-Indizierung
 ---STRINGEND

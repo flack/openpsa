@@ -180,12 +180,12 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
     /**
      * Should the widget offer sorting feature
-     * 
+     *
      * @access public
      * @var boolean
      */
     var $sortable = true;
-    
+
     function _on_initialize()
     {
         $this->_instance_mode = 'multiple';
@@ -331,10 +331,10 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         $this->_save_image_listing();
         return true;
     }
-    
+
     /**
      * Resolve attachments map from imagemap
-     * 
+     *
      * @static
      * @access public
      * @param string $source
@@ -346,14 +346,14 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         {
             return '';
         }
-        
+
         $identifiers = array();
-        
+
         foreach ($regs[1] as $i => $reg)
         {
             $identifiers[] = "{$reg}{$regs[2][$i]}:{$reg}:{$regs[2][$i]}";
         }
-        
+
         return implode(',', $identifiers);
     }
 
@@ -375,40 +375,19 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
         // TODO: Change to use the attachments' parameters as authorative mapping source and this map only as fallback
 
-        if (   $this->multilang
-            && $_MIDCOM->i18n->get_midgard_language() != 0)
+        $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}");
+
+        // If applicable, recreate imagemap from guids list stored for the object
+        if (!$raw_list)
         {
-            // Try this language's attachment list first
-            $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}_" . $_MIDCOM->i18n->get_content_language());
-            if (!$raw_list)
-            {
-                // Fall back to master language
-                $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}");
-                if (!$raw_list)
-                {
-                    // No attachments found.
-                    parent::convert_from_storage($source);
-                    return;
-                }
-                $this->multilang_fallback_active = true;
-            }
+            $raw_list = self::resolve_from_imagemap($this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}"));
         }
-        else
+
+        if (!$raw_list)
         {
-            $raw_list = $this->storage->object->get_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}");
-            
-            // If applicable, recreate imagemap from guids list stored for the object 
-            if (!$raw_list)
-            {
-                $raw_list = self::resolve_from_imagemap($this->storage->object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$this->name}"));
-            }
-            
-            if (!$raw_list)
-            {
-                // No attachments found.
-                parent::convert_from_storage($source);
-                return;
-            }
+            // No attachments found.
+            parent::convert_from_storage($source);
+            return;
         }
 
         $items = explode(',', $raw_list);
@@ -595,15 +574,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         // an object, we set the parameter unconditionally, to get all deletions.
         if ($this->storage->object)
         {
-            if (   $this->multilang
-                && $_MIDCOM->i18n->get_midgard_language() != 0)
-            {
-                $this->storage->object->set_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}_" . $_MIDCOM->i18n->get_content_language(), implode(',', $data));
-            }
-            else
-            {       
-                $this->storage->object->set_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}", implode(',', $data));
-            }
+            $this->storage->object->set_parameter('midcom.helper.datamanager2.type.images', "attachment_map_{$this->name}", implode(',', $data));
         }
         else if ($data)
         {
@@ -663,7 +634,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         $attachment->set_parameter('midcom.helper.datamanager2.type.images', 'images_identifier', $info['images_identifier']);
         // This would be the name of the 'derived_images' key.
         $attachment->set_parameter('midcom.helper.datamanager2.type.images', 'images_name', $info['images_name']);
-        
+
     }
 
     /**
@@ -717,7 +688,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     function _sort_attachments()
     {
         parent::_sort_attachments();
-        
+
         // Attachments are stored in manually set order
         /**
          * Commented out, the sort routines take score into account, no reason to trust saving order
@@ -726,7 +697,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             return;
         }
          */
-        
+
         uasort($this->images,
             array('midcom_helper_datamanager2_type_images', '_sort_images_callback'));
     }
@@ -771,7 +742,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 }
             }
         }
-        
+
         if (   (   !isset($a_obj)
                 || !$a_obj)
             && (   !isset($b_obj)
@@ -779,7 +750,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         {
             return 0;
         }
-        
+
         return midcom_helper_datamanager2_type_blobs::sort_attachments_cmp($a_obj, $b_obj);
     }
 
@@ -804,7 +775,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         debug_pop();
         return false;
     }
-    
+
     /**
      * Recreates derived images
      *
@@ -835,7 +806,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 $image = $images['main'];
             }
-            
+
             if (!$image)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
@@ -855,7 +826,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
             // Copy the "main image" to a temporary location
             $tmp = $this->create_tmp_copy($image['object']);
-            
+
             // Update all derived images
             if (!$this->update_image($identifier, $image['filename'], $tmp, $this->titles[$identifier]))
             {
@@ -864,7 +835,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
                 debug_pop();
             }
         }
-        
+
         return true;
     }
 
@@ -1058,7 +1029,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             $files[] = $filepath;
         }
     }
-    
+
     /**
      * Get image GUIDs for a given DM2 schema field name and a given MidCOM DBA object
      *
@@ -1073,14 +1044,14 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             // Non-persistent object will not have attachments
             return null;
         }
-        
+
         $guids_by_identifier = array();
         $guid_maps = $object->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_{$field}");
         if (!$guid_maps)
         {
             return null;
         }
-        
+
         $guid_maps = explode(',', $guid_maps);
         foreach ($guid_maps as $guid_map)
         {
@@ -1091,7 +1062,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             }
             $guids_by_identifier[$guid_map[0]] = $guid_map[1];
         }
-        
+
         if (empty($guids_by_identifier))
         {
             return null;
@@ -1102,7 +1073,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         {
             return null;
         }
-        
+
         $images_by_type = array();
         $image_maps = explode(',', $image_maps);
         foreach ($image_maps as $image_map)
@@ -1114,21 +1085,21 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             }
 
             $image_identifier = $image_map[0];
-            $image_group = $image_map[1];            
+            $image_group = $image_map[1];
             $image_type = $image_map[2];
             if (!isset($guids_by_identifier[$image_identifier]))
             {
                 continue;
             }
-            
+
             if (!isset($images_by_type[$image_type]))
             {
                 $images_by_type[$image_type] = array();
             }
-            
+
             $images_by_type[$image_type][$image_group] = $guids_by_identifier[$image_identifier];
         }
-        
+
         return $images_by_type;
     }
 }

@@ -119,7 +119,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     function _can_handle_view ($handler_id, $args, &$data)
     {
-        $this->_request_data['viewer_instance']->_enter_language();
         $qb = midcom_db_article::new_query_builder();
         net_nehmer_blog_viewer::article_qb_constraints($qb, $data, $handler_id);
 
@@ -135,11 +134,9 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
 
         if (!$this->_article)
         {
-            $this->_request_data['viewer_instance']->_exit_language();
             return false;
             // This will 404
         }
-        $this->_request_data['viewer_instance']->_exit_language();
         return true;
     }
 
@@ -215,7 +212,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
                 )
             );
         }
-        
+
         $_MIDCOM->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
         $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
