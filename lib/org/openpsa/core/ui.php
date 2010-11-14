@@ -56,7 +56,7 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         //first enable jquery - just in case it isn't loaded
         $_MIDCOM->enable_jquery();
 
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/ui.core.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
 
         //needed js/css-files for jqgrid
         $lang = "en";
@@ -69,9 +69,9 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'js/jquery.jqGrid.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jqGrid.custom.js');
 
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.mouse.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.resizable.min.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
 
         $_MIDCOM->add_link_head
         (
@@ -160,11 +160,11 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         //first enable jquery - just in case it isn't loaded
         $_MIDCOM->enable_jquery();
 
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/ui.core.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
 
         //load ui-tab
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.tabs.min.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.tabs.min.js');
 
         //functions needed for ui-tab to work here
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jquery.history.js');

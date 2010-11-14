@@ -167,8 +167,8 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         //check if right ui-version for dropdownchecklist is available
         if(version_compare($min_version , $ui_version , "<="))
         {
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/ui.core.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.widget.min.js');
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
         }
 

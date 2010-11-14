@@ -82,10 +82,10 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
      * @access private
      */
     var $_latest_message_id = 0;
-    
+
     /**
      * DOM path of the UI message holder object
-     * 
+     *
      * @var String
      * @access public
      */
@@ -117,9 +117,9 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
             $_MIDCOM->enable_jquery();
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.uimessages/jquery.midcom_services_uimessages.js');
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/effects.core.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/effects.pulsate.min.js');
-            
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.core.min.js');
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.pulsate.min.js');
+
             $_MIDCOM->add_link_head
             (
                 array
@@ -231,7 +231,7 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
 
     /**
      * Add a message to be shown to the user.
-     * 
+     *
      * @param string $title Message title
      * @param string $message Message contents, may contain HTML
      * @param string $type Type of the message
@@ -264,7 +264,7 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
 
     /**
      * Show the message stack via javascript calls or simple html
-     * 
+     *
      * @param boolean $show Show simple HTML
      */
     function show($show_simple_also = false)
@@ -273,13 +273,13 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
         {
             $this->show_simple();
         }
-        
+
         // No privileges for showing the AJAX user interface messages
         if (!$_MIDCOM->auth->can_user_do('midcom:ajax', null, 'midcom_services_uimessages'))
         {
             return;
         }
-        
+
         echo "<script type=\"text/javascript\">\n";
         echo "    // <!--\n";
         echo "        jQuery(document).ready(function()\n";
@@ -292,30 +292,30 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
         echo "                    })\n";
         echo "                    .appendTo('{$this->uimessage_holder}');\n";
         echo "            }\n";
-        
+
         if (count($this->_message_stack) > 0)
         {
             foreach ($this->_message_stack as $id => $message)
             {
                 $options  = "{";
-                
+
                 foreach ($message as $key => $value)
                 {
                     $options .= "{$key}: '{$value}', ";
                 }
-                
+
                 $options = preg_replace('/, $/', '', $options) . "}";
-                
+
                 echo "            jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage({$options})\n";
 
                 // Remove the message from stack
                 unset($this->_message_stack[$id]);
             }
         }
-                
+
         echo "        })\n";
         echo "    // -->\n";
-        
+
         echo "</script>\n";
     }
 

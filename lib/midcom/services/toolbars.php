@@ -82,7 +82,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      * @access private
      */
     var $_centralized_mode = false;
-    
+
     /**
      * Label for the "Page" toolbar
      *
@@ -97,10 +97,10 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
     function __construct()
     {
         parent::__construct();
-        
+
         // Default label for the "Page" toolbar
         $this->_view_toolbar_label = $_MIDCOM->i18n->get_string('page', 'midcom');
-        
+
         // FIXME: initialize() should be called by the callee, not here in constructor
         $this->initialize();
     }
@@ -120,7 +120,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             // This is auth service looping because it instantiates classes for magick privileges!
             return;
         }
-        
+
         if (!$_MIDCOM->auth->user)
         {
             // Centralized toolbar is only for registered users
@@ -139,10 +139,10 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
         {
             $_MIDCOM->enable_jquery();
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.timers.src.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/ui.core.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.widget.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.mouse.min.js');
-            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/minified/ui.draggable.min.js');
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
 
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
 
@@ -159,7 +159,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             );
 
             $this->type = $GLOBALS['midcom_config']['toolbars_type'];
-            
+
             if ($this->type == 'menu')
             {
                 $script = "jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({type: 'menu'});";
@@ -509,7 +509,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             $styleeditor_url = '';
             if ($topic->style != '')
             {
-                
+
                 $style_id = $_MIDCOM->style->get_style_id_from_path($topic->style);
                 if ($style_id)
                 {
@@ -792,7 +792,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             debug_pop();
             return;
         }
-        
+
         $reflector = new midcom_helper_reflector($object);
         $this->_view_toolbar_label = $reflector->get_class_label();
 
@@ -1106,7 +1106,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
         echo "        </a>\n";
         echo "    </div>\n";
         echo "    <div class=\"items\">\n";
-        
+
         if (count($this->_toolbars[$_MIDCOM->get_current_context()][MIDCOM_TOOLBAR_VIEW]->items) > 0)
         {
             echo "        <div id=\"midcom_services_toolbars_topic-page\" class=\"item\">\n";
@@ -1114,7 +1114,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             echo $this->render_view_toolbar();
             echo "        </div>\n";
         }
-        
+
         echo "        <div id=\"midcom_services_toolbars_topic-folder\" class=\"item\">\n";
         echo "            <span class=\"midcom_services_toolbars_topic_title folder\">". $_MIDCOM->i18n->get_string('folder', 'midcom') . "</span>\n";
         echo $this->render_node_toolbar();

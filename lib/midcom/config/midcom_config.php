@@ -578,8 +578,8 @@ $GLOBALS['midcom_config_default']['wrap_style_show_with_name'] = false;
 
 // Related to JavaScript libraries
 $GLOBALS['midcom_config_default']['jquery_no_conflict'] = true;
-$GLOBALS['midcom_config_default']['jquery_version'] = '1.4.2.min';
-$GLOBALS['midcom_config_default']['jquery_ui_version'] = '1.8.2';
+$GLOBALS['midcom_config_default']['jquery_version'] = '1.4.4.min';
+$GLOBALS['midcom_config_default']['jquery_ui_version'] = '1.8.6';
 $GLOBALS['midcom_config_default']['jquery_load_from_google'] = false;
 $GLOBALS['midcom_config_default']['enable_ajax_editing'] = false;
 
