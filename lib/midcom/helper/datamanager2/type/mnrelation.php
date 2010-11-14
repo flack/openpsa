@@ -147,9 +147,9 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * @var string
      */
     var $member_limit_like = null;
-    
+
     /**
-     * Set this to false to use with universalchooser, this skips making sure the key exists in option list
+     * Set this to false to use with chooser, this skips making sure the key exists in option list
      * Mainly used to avoid unnecessary seeks to load all a ton of objects to the options list. This is false
      * by default for mn relations, since by its nature this is intended for dynamic searches.
      *
@@ -179,16 +179,16 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * @access private
      */
     var $_membership_objects = null;
-    
+
     /**
      * Should the sorting feature be enabled. This will affect the way chooser widget will act
-     * and how the results will be presented. If the sorting feature is enabled, 
+     * and how the results will be presented. If the sorting feature is enabled,
      *
      * @access public
      * @var boolean
      */
     var $sortable = false;
-    
+
     /**
      * Sort order. Which direction should metadata.score force the results. This should be either
      * `ASC` or `DESC`
@@ -197,10 +197,10 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * @var string
      */
     var $sortable_sort_order = 'DESC';
-    
+
     /**
      * Sorted order, which is returned by the widget.
-     * 
+     *
      * @access public
      * @var Array
      */
@@ -208,7 +208,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
     /**
      * Additional fields to set on the object
-     * 
+     *
      * @access public
      * @var Array
      */
@@ -298,14 +298,14 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     {
         $qb = $_MIDCOM->dbfactory->new_query_builder($this->mapping_class_name);
         $qb->add_constraint($this->master_fieldname, '=', $this->_get_master_foreign_key());
-        
+
         if (   $this->sortable
             && preg_match('/^(ASC|DESC)/i', $this->sortable_sort_order, $regs))
         {
             $order = strtoupper($regs[1]);
             $qb->add_order('metadata.score', $order);
         }
-        
+
         if ($this->member_limit_like)
         {
             $qb->add_constraint($this->member_fieldname, 'LIKE', $this->member_limit_like);
@@ -330,7 +330,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     function convert_from_storage ($source)
     {
         $this->selection = Array();
-        
+
         // Check for the defaults section first
         if (   isset($this->storage->_defaults)
             && isset($this->storage->_defaults[$this->name]))
@@ -354,15 +354,15 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 }
             }
         }
-        
+
         if (!$this->storage->object)
         {
             // That's all folks, no storage object, thus we cannot continue.
             return;
         }
-        
+
         $this->_load_membership_objects();
-        
+
         foreach ($this->_membership_objects as $member)
         {
             $key = $member->{$this->member_fieldname};
@@ -382,7 +382,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             }
         }
     }
-    
+
     /**
      * Updates the mapping table to match the current selection.
      *
@@ -413,13 +413,13 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             $key = $member->{$this->member_fieldname};
             $existing_members[$key] = $index;
         }
-        
+
         // Cache the total quantity of items and get the order if the field is supposed to store the member order
         if (   $this->sortable
             && isset($this->sorted_order))
         {
             $count = count($this->sorted_order);
-            
+
             if (preg_match('/ASC/i', $this->sortable_sort_order))
             {
                 $direction = 'asc';
@@ -429,9 +429,9 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 $direction = 'desc';
             }
         }
-        
+
         $i = 0;
-        
+
         $new_membership_objects = Array();
         foreach ($this->selection as $key)
         {
@@ -452,7 +452,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 if ($this->sortable)
                 {
                     $index = $existing_members[$key];
-                    
+
                     if ($direction === 'asc')
                     {
                         $this->_membership_objects[$index]->metadata->score = $i;
@@ -461,17 +461,17 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                     {
                         $this->_membership_objects[$index]->metadata->score = $count - $i;
                     }
-                    
+
                     if (!$this->_membership_objects[$index]->update())
                     {
                         debug_add("Failed to update the member record for key {$key}. Couldn't store the order information", MIDCOM_LOG_ERROR);
                         debug_add('Last Midgard error was ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
                         debug_print_r('Tried to update this object', $this->_membership_objects[$index]);
                     }
-                    
+
                     $i++;
                 }
-                
+
                 $index = $existing_members[$key];
                 $new_membership_objects[] = $this->_membership_objects[$index];
                 unset ($this->_membership_objects[$index]);
@@ -482,7 +482,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 $member = new $this->mapping_class_name();
                 $member->{$this->master_fieldname} = $this->_get_master_foreign_key();
                 $member->{$this->member_fieldname} = $key;
-                
+
                 // Set the score if requested
                 if ($this->sortable)
                 {
@@ -494,7 +494,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                     {
                         $member->metadata->score = $count - $i;
                     }
-                    
+
                     $i++;
                 }
 
@@ -502,27 +502,27 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 {
                     foreach ($this->additional_fields as $fieldname => $value)
                     {
-                        // Determine what to do if using dot (.) in the additional fields, 
+                        // Determine what to do if using dot (.) in the additional fields,
                         if (preg_match('/^(.+)\.(.+)$/', $fieldname, $regs))
                         {
                             $domain = $regs[1];
                             $key = $regs[2];
-                            
+
                             // Determine what should be done with conjunction
                             switch ($regs[1])
                             {
                                 case 'metadata':
                                     $member->metadata->$key = $value;
                                     break;
-                                
+
                                 case 'parameter':
                                     $member->parameter('midcom.helper.datamanager2.mnrelation', $key, $value);
                                     break;
                             }
-                            
+
                             continue;
                         }
-                        
+
                         $member->{$fieldname} = $value;
                     }
                 }

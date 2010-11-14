@@ -162,7 +162,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     var $allow_multiple = false;
 
     /**
-     * Set this to false to use with universalchooser, this skips making sure the key exists in option list
+     * Set this to false to use with chooser, this skips making sure the key exists in option list
      * Mainly used to avoid unnecessary seeks to load all a ton of objects to the options list.
      *
      * @var boolean
@@ -208,13 +208,13 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
     /**
      * Should the sorting feature be enabled. This will affect the way chooser widget will act
-     * and how the results will be presented. If the sorting feature is enabled, 
+     * and how the results will be presented. If the sorting feature is enabled,
      *
      * @access public
      * @var boolean
      */
     var $sortable = false;
-    
+
     /**
      * Initialize the class, if necessary, create a callback instance, otherwise
      * validate that an option array is present.
@@ -301,8 +301,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             {
                 // This is probably universal chooser
                 // FIXME: This is not exactly an elegant way to do this
-                if (   $this->storage->_schema->fields[$this->name]['widget'] != 'universalchooser'
-                    && $this->storage->_schema->fields[$this->name]['widget'] != 'chooser'
+                if (    $this->storage->_schema->fields[$this->name]['widget'] != 'chooser'
                     || !isset($this->storage->_schema->fields[$this->name]['widget_config']['class']))
                 {
                     return null;
@@ -368,12 +367,12 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                         }
                     }
                 }
-                
+
                 if (!property_exists($object, $titlefield))
                 {
                     return null;
                 }
-                
+
                 return $object->$titlefield;
             }
         }
@@ -397,18 +396,18 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
     function key_exists($key)
     {
         $key = (string) $key;
-        
+
         if ($this->option_callback === null)
         {
             return array_key_exists($key, $this->options);
         }
-        
+
         if (   isset($this->_callback)
             && method_exists($this->_callback, 'key_exists'))
         {
             return $this->_callback->key_exists($key);
         }
-        
+
         return false;
     }
 
