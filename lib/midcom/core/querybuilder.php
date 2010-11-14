@@ -441,32 +441,36 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
                     return $this->_qb_error_result;
                 }
 
-                foreach($resultset as $object)
+                $size = sizeof($resultset);
+
+                if ($offset >= $size)
                 {
                     // We still have offset left to skip
-                    if ($offset)
-                    {
-                        //debug_add("Offset of {$this->_offset} not yet reached, continuing loop");
-                        $offset--;
-                        continue;
-                    }
-                    // We have hit our limit
-                    if (   $this->_limit > 0
-                        && $limit == 0)
-                    {
-                        //debug_add("Limit of {$this->_limit} hit, breaking out of loops");
-                        break 2;
-                    }
-
-                    $newresult[] = $object;
-
-                    if ($this->_limit > 0)
-                    {
-                        $limit--;
-                    }
+                    $offset -= $size;
+                    $this->_set_limit_offset_window(++$i);
+                    continue;
                 }
-                ++$i;
-                $this->_set_limit_offset_window($i);
+                else if ($offset)
+                {
+                    $resultset = array_slice($resultset, $offset);
+                    $size = $size - $offset;
+                }
+
+                if ($limit >= $size)
+                {
+                    $limit -= $size;
+                }
+                else if ($limit > 0)
+                {
+                    // We have reached the limit
+                    $resultset = array_slice($resultset, 0, $limit);
+                    $newresult = array_merge($newresult, $resultset);
+                    break;
+                }
+
+                $newresult = array_merge($newresult, $resultset);
+
+                $this->_set_limit_offset_window(++$i);
             }
         }
 
