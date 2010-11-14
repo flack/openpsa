@@ -13,7 +13,7 @@
  * @package midcom.baseclasses
  */
 class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasses_components_handler
-{    
+{
     /**
      * The Datamanager of the objects to export.
      *
@@ -37,16 +37,16 @@ class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasse
      * @access public
      */
     public $include_totals = false;
-    
+
     var $_schema = null;
-    
+
     var $_objects = array();
-    
+
     function __construct()
     {
         parent::__construct();
     }
-    
+
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
@@ -56,7 +56,7 @@ class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasse
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['objects'] =& $this->_objects;
     }
-    
+
     /**
      * Internal helper, loads the datamanager for the current type. Any error triggers a 500.
      *
@@ -78,7 +78,7 @@ class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasse
             // This will exit.
         }
     }
-    
+
     function _load_schemadb()
     {
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Method "_load_schemadb" must be overridden in implementation');
@@ -88,18 +88,18 @@ class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasse
     {
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Method "_load_data" must be overridden in implementation');
     }
-    
+
     function _handler_csv($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-            
+
         //Disable limits
         @ini_set('memory_limit', -1);
         @ini_set('max_execution_time', 0);
-            
+
         $this->_load_datamanager($this->_load_schemadb($handler_id, $args, $data));
         $this->_objects = $this->_load_data($handler_id, $args, $data);
-        
+
         $_MIDCOM->skip_page_style = true;
 
         if (   !isset($args[0])
@@ -127,11 +127,10 @@ class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasse
         $this->_init_csv_variables();
         $_MIDCOM->skip_page_style = true;
 
-//        $_MIDCOM->cache->content->content_type('text/plain');
         // FIXME: Use global configuration
+        //$_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
         $_MIDCOM->cache->content->content_type('application/csv');
         _midcom_header('Content-Disposition: filename=' . $data['filename']);
-        //$_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
 
         return true;
     }

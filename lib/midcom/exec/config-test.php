@@ -184,9 +184,9 @@ else
 }
 
 $version = phpversion();
-if (version_compare($version, '5.1.0', '<'))
+if (version_compare($version, '5.2.0', '<'))
 {
-    println('PHP Version', ERROR, 'PHP 5.1.0 or greater is required for MidCOM.');
+    println('PHP Version', ERROR, 'PHP 5.2.0 or greater is required for MidCOM.');
 }
 else
 {
@@ -354,7 +354,7 @@ $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}identify -version
 exec ($cmd, $output, $result);
 if ($result !== 0 && $result !== 1)
 {
-    println('External Utility: ImageMagick', ERROR, 'The existence ImageMagick toolkit could not be verified, it is required for all kinds of image processing in MidCOM.'); 
+    println('External Utility: ImageMagick', ERROR, 'The existence ImageMagick toolkit could not be verified, it is required for all kinds of image processing in MidCOM.');
 }
 else
 {

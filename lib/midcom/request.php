@@ -9,10 +9,10 @@
 /**
  * This class wraps the _POST and _REQUEST and argv arrays and should be used
  * to fetch variables.
- * 
+ *
  * @package midcom
  */
-class midcom_request 
+class midcom_request
 {
     protected $vars = array();
     public function __construct($request_array = array(), $argv = array()) {
@@ -140,7 +140,7 @@ class midcom_url_paramcollector {
      * The style to use for this request.
      */
     private $style = null;
-    
+
     /**
      * If the style may be overridden. gets set to true if
      * we got midcom-substyle...
@@ -159,14 +159,6 @@ class midcom_url_paramcollector {
      */
     public $url_objects = array();
 
-    /**
-     * Gets the _MIDCOM application object.
-     * @todo remove.
-     */
-    public function get_midcom()
-    {
-        return $this->midcom;
-    }
     /**
      * Sets the current style of the execution environement.
      */

@@ -1119,9 +1119,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 //debug_add("Type {$schema_type} already exists in \$root_types");
                 continue;
             }
-            /* We might not need this afterall
-            $ref = new midgard_reflection_property($schema_type);
-            */
+
             $parent = midgard_object_class::get_property_parent($schema_type);
             if (!empty($parent))
             {

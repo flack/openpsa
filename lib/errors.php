@@ -9,14 +9,14 @@
 
 /**
  * midcom_exception_handler
- * 
+ *
  * Class for intercepting PHP errors and unhandled exceptions. Each fault is caught
- * and converted into Exception handled by $_MIDCOM->generate_error() with 
+ * and converted into Exception handled by $_MIDCOM->generate_error() with
  * code 500 thus can be customized and make user friendly.
  *
  * @package midcom
  */
-class midcom_exception_handler 
+class midcom_exception_handler
 {
     /**
      * Catch an Exception and show it as a HTTP error
@@ -30,6 +30,7 @@ class midcom_exception_handler
         {
             throw $e;
         }
+        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !isset($_MIDCOM)
             || !$_MIDCOM)
         {
@@ -44,17 +45,8 @@ class midcom_exception_handler
             _midcom_stop_request('Failed to initialize MidCOM: ' . htmlentities($e->getMessage()));
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
-        $trace = null;
-        // Try more memory-friendly, > 5.1.0 method first
-        if (method_exists($e, 'getTraceAsString'))
-        {
-            $trace = $e->getTraceAsString();
-        }
-        else
-        {
-            $trace = $e->getTrace();
-        }
+        $trace = $e->getTraceAsString();
+
         debug_print_r('Exception occured, generating error, exception trace:', $trace, MIDCOM_LOG_INFO);
         debug_pop();
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $e->getMessage() . ". See the debug log for more details");
@@ -254,7 +246,7 @@ if (!empty($stacktrace))
         {
             $msg .= "(Referrer: {$_SERVER['HTTP_REFERER']})";
         }
-        
+
         // Send as email handler
         if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'email')
         {
@@ -264,7 +256,7 @@ if (!empty($stacktrace))
                 // No recipient specified, skip
                 return;
             }
-            
+
             if (!$_MIDCOM->componentloader->is_installed('org.openpsa.mail'))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
@@ -280,7 +272,7 @@ if (!empty($stacktrace))
             $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";
             $mail->subject = "[{$_SERVER['SERVER_NAME']}] {$msg}";
             $mail->body = "{$_SERVER['SERVER_NAME']}:\n{$msg}";
-            
+
             $stacktrace = $this->get_function_stack();
 
             if (empty($stacktrace))
@@ -300,7 +292,7 @@ if (!empty($stacktrace))
                 debug_add("failed to send error notification email to {$mail->to}, reason: " . $mail->get_error_message(), MIDCOM_LOG_WARN);
                 debug_pop();
             }
-            
+
             return;
         }
 
@@ -313,7 +305,7 @@ if (!empty($stacktrace))
                 // No log file specified, skip
                 return;
             }
-            
+
             if (   !is_writable($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
                 && !is_writable(dirname($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])))
             {
@@ -322,7 +314,7 @@ if (!empty($stacktrace))
                 debug_pop();
                 return;
             }
-            
+
             // Add the line to the error-specific log
             $logger = new midcom_debug($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']);
             $logger->setLoglevel(MIDCOM_LOG_INFO);
@@ -331,7 +323,7 @@ if (!empty($stacktrace))
             return;
         }
     }
-    
+
     private function get_function_stack()
     {
         $stacktrace = '';
@@ -339,7 +331,7 @@ if (!empty($stacktrace))
         {
             return $stacktrace;
         }
-        
+
         $stack = xdebug_get_function_stack();
         $stacktrace .= "Stacktrace:\n";
         foreach ($stack as $number => $frame)

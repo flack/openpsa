@@ -136,11 +136,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         $dummy = new $this->type;
         $data['midcom_dba_classname'] = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
-        /*if (!$data['midcom_dba_classname'])
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "No DBA class matches type '{$args[0]}', and undeletion is not therefore possible.");
-            // This will exit.
-        }*/
         $data['type'] = $this->type;
         $data['reflector'] = midcom_helper_reflector::get($data['type']);
         $data['label_property'] = $data['reflector']->get_label_property();

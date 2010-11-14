@@ -496,7 +496,7 @@ class midcom_core_privilege
 
         $mc = new midgard_collector('midcom_core_privilege_db', 'objectguid', $guid);
         $mc->add_constraint('value', '<>', MIDCOM_PRIVILEGE_INHERIT);
-        
+
         if ($type == 'CONTENT')
         {
             $mc->add_constraint('assignee', '<>', 'SELF');
@@ -506,7 +506,6 @@ class midcom_core_privilege
             $mc->add_constraint('assignee', '=', 'SELF');
         }
 
-        //FIXME:
         $mc->set_key_property('guid');
         $mc->add_value_property('id');
         $mc->add_value_property('privilegename');

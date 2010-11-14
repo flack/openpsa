@@ -766,11 +766,7 @@ class midcom_helper_metadata
      */
     function retrieve($source)
     {
-        /*
-        FIXME: Re-enable when every server uses PHP 5.2
-        // The object cache, indexed by GUID.
         static $_object_cache = array();
-        */
 
         $object = null;
         $guid = '';
@@ -806,15 +802,12 @@ class midcom_helper_metadata
             }
         }
 
-        /*
-        FIXME: Re-enable when every server uses PHP 5.2
         if (   mgd_is_guid($guid)
             && isset($_object_cache[$guid]))
         {
             // Cache hit
             return $_object_cache[$guid];
         }
-        */
 
         // We don't have a cache hit, return a newly constructed object.
         if (   is_null($object)
@@ -844,14 +837,11 @@ class midcom_helper_metadata
             return false;
         }
 
-        /*
-        FIXME: Re-enable when every server uses PHP 5.2
         if (count($_object_cache) >= $GLOBALS['midcom_config']['cache_module_nap_metadata_cachesize'])
         {
             array_shift($_object_cache);
         }
         $_object_cache[$guid] =& $meta;
-        */
 
         return $meta;
     }

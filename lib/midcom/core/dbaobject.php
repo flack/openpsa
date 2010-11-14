@@ -680,18 +680,6 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
         {
             $target_property = $reflector->get_link_target($parent_property);
             $target_class = $reflector->get_link_name($parent_property);
-            /**
-             * Taken out from the generated code as this will cause infinite loop in ACL resolving, using direct QB in stead
-             * (when instantiating the parent ACLs will be checked in any case)
-             *
-            $dummy_object = new {$target_class}();
-            $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
-            if (empty($midcom_dba_classname))
-            {
-                return null;
-            }
-            $mc = call_user_func(array($midcom_dba_classname, 'new_collector'), array($target_property, $this->$parent_property));
-            */
 
             if (!empty($this->{$parent_property}))
             {

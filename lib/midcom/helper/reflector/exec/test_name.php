@@ -8,7 +8,6 @@
  */
 
 // FIXME: make generic
-//$article = new midcom_db_article('17c751baca9d11dd842c2de934f936993699');
 $article = new midcom_db_article();
 $article->topic = 5;
 $article->title = 'Duplicate name test with (with allow_catenate)';

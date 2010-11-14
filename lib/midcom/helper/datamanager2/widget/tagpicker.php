@@ -30,8 +30,6 @@
  *   this usually means that a password HTML element will be used, instead of a regular
  *   text input widget. Defaults to false.
  *
- * FIXME: Port required supporting javascripts from http://community.ava.nemein.net/community/js/site.js
- *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamanager2_widget
@@ -60,7 +58,7 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
      * @access public
      */
     var $hideinput = false;
-    
+
     /**
      * Whether to allow users to add tags that are not yet in database
      *
@@ -68,9 +66,9 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
      * @access public
      */
     var $allow_other = false;
-    
+
     var $_taglist_html = '';
-    
+
     /**
      * The initialization event handler post-processes the maxtags setting.
      *
@@ -86,7 +84,7 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
             debug_pop();
             return false;
         }
-        
+
         if (array_key_exists('maxtags', $this->_type))
         {
             $this->maxtags = $this->_type->maxtags;
@@ -96,9 +94,9 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
         {
             $this->maxtags = 0;
         }
-        
+
         $_MIDCOM->load_library('net.nemein.tag');
-        
+
         return true;
     }
 
@@ -118,12 +116,12 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
         {
             $attributes['style'] = 'display: none;';
         }
-        
+
         $this->_taglist_html = $this->_generate_tag_list();
-        
+
         $this->_form->addElement('text', $this->name, $this->_translate($this->_field['title']), $attributes);
         $this->_form->applyFilter($this->name, 'trim');
-        
+
         $this->_form->addElement('static', "{$this->name}_taglist", '', $this->_taglist_html);
     }
 
@@ -141,14 +139,14 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
             $this->_type->value = $results[$this->name];
             return;
         }
-        
+
         // Otherwise, validate the results
         $tags_in_db = net_nemein_tag_handler::get_tags();
-        
+
         $tags_from_user = explode(' ', $results[$this->name]);
-        
+
         $tags_to_save = array();
-        
+
         foreach ($tags_from_user as $tag)
         {
             if (!isset($tags_in_db[$tag]))
@@ -156,23 +154,23 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
                 // We don't have this tag, skip.
                 continue;
             }
-            
+
             $tags_to_save[] = $tag;
         }
-        
+
         $this->_type->value = implode(' ', $tags_to_save);
     }
-    
+
     function _generate_tag_list()
     {
         $html = '';
         $tags = net_nemein_tag_handler::get_tags();
         $object_tags = explode(' ', $this->_type->value);
-        
+
         if (! empty($tags))
         {
             $html .= "<ul>\n";
-            
+
             foreach ($tags as $tag => $data)
             {
                 $classname = 'enabled';
@@ -180,13 +178,13 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
                 {
                     $classname = 'selected';
                 }
-                
+
                 $html .= "<li class=\"{$classname}\"><span>{$tag}</span></li>\n";
             }
-            
+
             $html .= "</ul>\n";
         }
-        
+
         return $html;
     }
 }

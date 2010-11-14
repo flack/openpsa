@@ -145,7 +145,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         if (! $this->_metadata)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to retrieve Metadata for " . get_class($object) . " {$object->guid}.");
+                "Failed to retrieve Metadata for " . get_class($this->_object) . " {$object->guid}.");
             // This will exit.
         }
 

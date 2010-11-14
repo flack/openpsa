@@ -1001,9 +1001,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             }
 
             $this->class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($matching_type);
-            //midgard_admin_asgard_reflector::resolve_baseclass($matching_type);
             $this->component = $_MIDCOM->dbclassloader->get_component_for_class($matching_type);
-            //$matching_type;
 
             if (empty($this->constraints))
             {
@@ -1014,7 +1012,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $this->searchfields = $midcom_reflector->get_search_properties();
                 if (empty($this->searchfields))
                 {
-                    //Special rules for objects that need them
+                    //TODO: Special rules for objects that need them
                 }
             }
             if (empty($this->orders))
