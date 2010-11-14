@@ -43,7 +43,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             )
         );
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.admin.user/jquery.midcom_admin_user.js');
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
@@ -145,7 +145,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 {
                     $person = new midcom_db_person($person_id);
                 }
-                
+
                 if (   !$person
                     || !$person->guid)
                 {
@@ -243,7 +243,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     /**
      * Internal helper for showing the groups recursively
-     * 
+     *
      * @access private
      * @param int $id
      * @param array &$data
@@ -255,36 +255,36 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $mc->add_value_property('name');
         $mc->add_value_property('official');
         $mc->add_value_property('id');
-        
+
         // Hide SG0 groups if not in SG0 view
         if ($_MIDGARD['sitegroup'] !== 0)
         {
             $mc->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         }
-        
+
         // Set the order
         $mc->add_order('metadata.score', 'DESC');
         $mc->add_order('official');
         $mc->add_order('name');
-        
+
         // Get the results
         $mc->execute();
         $keys = $mc->list_keys();
-        
+
         // Hide empty groups
         if ($mc->count() === 0)
         {
             return;
         }
-        
+
         $data['parent_id'] = $id;
-        
+
         foreach ($keys as $guid => $array)
         {
             $group['guid'] = $guid;
             $group['id'] = $mc->get_subkey($guid, 'id');
             $group['name'] = $mc->get_subkey($guid, 'name');
-            
+
             if (($title = $mc->get_subkey($guid, 'official')))
             {
                 $group['title'] = $title;
@@ -293,13 +293,13 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             {
                 $group['title'] = $group['name'];
             }
-            
+
             if (!$group['title'])
             {
                 $group['title'] = "#{$group['id']}";
             }
             $group['level'] = $level;
-            
+
             $data['groups_for_select'][] = $group;
             $level++;
             $this->list_groups_for_select($group['id'], $data, $level);

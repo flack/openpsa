@@ -33,7 +33,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
         $_MIDCOM->add_link_head
         (
@@ -182,7 +182,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             && is_array($_POST['undelete']))
         {
             $purged_size = 0;
-            
+
             if (!$data['midcom_dba_classname'])
             {
                 // No DBA class for the type, use plain Midgard undelete API
