@@ -32,17 +32,17 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * @access private
      */
     var $_open_handle = null;
-    
+
     /**
      * Internal tracking state variable, TRUE if the attachment has a handle opened in write mode
      */
     var $_open_write_mode = false;
-    
+
     /**
      * This switch will tell the checkup routines whether the current creation is going to
      * duplicate the object or not. It is used to create a new blob entry when copying an object
      * containing this attachment.
-     * 
+     *
      * @var boolean
      * @access public
      */
@@ -64,7 +64,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
@@ -81,7 +81,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * use. If multiple objects are registered for a given table, the first matching class
      * returned by the dbfactory is used (which is usually rather arbitrary).
      *
-     * @todo Not yet implemented.
      * @return MidgardObject Parent object.
      */
     function get_parent_guid_uncached_static($guid)
@@ -94,7 +93,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             return null;
         }
-        
+
         foreach ($link_values as $key => $value)
         {
             return $key;
@@ -182,10 +181,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         return $handle;
     }
-    
+
     /**
      * This function reads the file and returns its contents
-     * 
+     *
      * @access public
      * @return string
      */
@@ -193,9 +192,9 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         $attachment = new midgard_attachment($this->guid);
         $blob = new midgard_blob($attachment);
-        
+
         $contents = $blob->read_content();
-        
+
         return $contents;
     }
 
@@ -228,20 +227,20 @@ class midcom_db_attachment extends midcom_core_dbaobject
                 debug_pop();
                 return;
             }
-    
+
             $object = $this->get_parent();
             if ($object !== null)
             {
                 $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
             }
-            
+
             $this->file_to_cache();
         }
     }
 
     /**
      * Get the path to the document in the static cache
-     * 
+     *
      * @return string
      */
     static function get_cache_path(midcom_db_attachment $attachment, $check_privileges = true)
@@ -264,15 +263,15 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             mkdir($GLOBALS['midcom_config']['attachment_cache_root']);
         }
-        
+
         $subdir = substr($attachment->guid, 0, 1);
         if (!file_exists("{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}"))
         {
             mkdir("{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}");
         }
-        
+
         $filename = "{$GLOBALS['midcom_config']['attachment_cache_root']}/{$subdir}/{$attachment->guid}_{$attachment->name}";
-        
+
         return $filename;
     }
 
@@ -283,7 +282,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             return;
         }
-        
+
         if (!$this->can_do('midgard:read', 'EVERYONE'))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -301,7 +300,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             debug_pop();
             return;
         }
-  
+
         if (   file_exists($filename)
             && is_link($filename))
         {
@@ -310,10 +309,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
             debug_pop();
             return;
         }
-        
+
         // Then symlink the file
         $blob = new midgard_blob($this->__object);
-        
+
         if (@symlink($blob->get_path(), $filename))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -321,7 +320,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             debug_pop();
             return;
         }
-        
+
         // Symlink failed, actually copy the data
         $fh = $this->open('r');
         if (!$fh)
@@ -339,9 +338,9 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
         fclose($fh);
         $this->_open_handle = null;
-        
+
         file_put_contents($filename, $data);
-        
+
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.", MIDCOM_LOG_DEBUG);
         debug_pop();
@@ -368,7 +367,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             return false;
         }
-        
+
         $path = $blob->get_path();
         if (!file_exists($path))
         {
@@ -406,7 +405,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             }
             else if (isset($this->guid))
             {
-                $base .= $this->guid;                
+                $base .= $this->guid;
             }
             $base .= $_SERVER['SERVER_NAME'];
             $base .= $_SERVER['REMOTE_ADDR'];
@@ -459,17 +458,17 @@ class midcom_db_attachment extends midcom_core_dbaobject
         {
             $this->mimetype = 'application/octet-stream';
         }
-        
+
         if (! parent::_on_creating())
         {
             return false;
         }
-        
+
         if (!$this->_duplicate)
         {
             $this->location = $this->_create_attachment_location();
         }
-        
+
         return true;
     }
 
@@ -485,7 +484,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_UPDATE, $object);
         }
     }
-    
+
     function update_cache()
     {
         // Check if the attachment can be read anonymously

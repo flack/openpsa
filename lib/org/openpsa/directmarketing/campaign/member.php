@@ -117,17 +117,16 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         {
             $person =& org_openpsa_contacts_person_dba::get_cached($this->person);
         }
-        
+
         $sep_start = '<';
         $sep_end = '>';
-        
+
         if ($message_type == ORG_OPENPSA_MESSAGETYPE_EMAIL_HTML)
         {
             $sep_start = '&lt;';
             $sep_end = '&gt;';
         }
 
-        //TODO: All kinds of string substitutions, remember to check message type before mangling if only applies to certain types
         // Unsubscribe URL
         $content = str_replace($sep_start . 'UNSUBSCRIBE_URL' . $sep_end, $this->get_unsubscribe_url($node, $person), $content);
         // Unsubscribe from all URL

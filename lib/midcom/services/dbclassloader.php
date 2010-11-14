@@ -14,7 +14,7 @@
  * between the component and the Midgard core.
  *
  * Since PHP does not allow for multiple inheritance (which would be really useful here),
- * a decorator pattern is used, which connects the class you actually use in your component 
+ * a decorator pattern is used, which connects the class you actually use in your component
  * and the original MgdSchema class while at the same time routing all function calls through
  * midcom_core_dbaobject.
  *
@@ -36,7 +36,7 @@
  *
  * <i>midcom_class_name</i> this is the name of the MidCOM base class you intend to create.
  * It is checked for basic validity against the PHP restrictions on symbol naming, but the
- * class itself is not checked for existence. You <i>must</i> declare the class as listed at 
+ * class itself is not checked for existence. You <i>must</i> declare the class as listed at
  * all times, as typecasting and -detection is done using this metadata property in the core.
  *
  * It is possible to specify more than one class in a single class definition file, and it
@@ -55,7 +55,7 @@
  *
  * Place a simple text file with exactly the declarations into the config directory of your
  * component or shared library.
- * 
+ *
  * <b>Inherited class requirements</b>
  *
  * The classes you inherit from the intermediate stub classes must at this time satisfy two
@@ -126,11 +126,6 @@
  * at least MIDCOM_LOG_INFO and then return null. Depending on your application you could also
  * call generate_error instead, halting execution.
  *
- * <b>General design considerations and the original basic ideas:</b>
- *
- * http://www.nathan-syntronics.de/midcom-permalink-c77e1952f8079b8ce86be7911a09d750
- *
- * @todo Implement caching
  * @package midcom.services
  */
 class midcom_services_dbclassloader extends midcom_baseclasses_core_object
@@ -162,9 +157,9 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
     var $_class_definition = null;
 
     /**
-     * List of all midgard classes which have been loaded. 
-     * 
-     * This list only contains the class definitions that have been used to 
+     * List of all midgard classes which have been loaded.
+     *
+     * This list only contains the class definitions that have been used to
      * construct  the actual helper classes.
      *
      * @var Array
@@ -173,10 +168,10 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
     private $_midgard_classes = Array();
 
     /**
-     * A mapping storing which component handles which class. 
-     * 
-     * This is used to ensure that all MidCOM DBA main classes are loaded when 
-     * casting  MgdSchema objects to DBA objects. Especially important for the 
+     * A mapping storing which component handles which class.
+     *
+     * This is used to ensure that all MidCOM DBA main classes are loaded when
+     * casting  MgdSchema objects to DBA objects. Especially important for the
      * generic by-GUID object getter.
      *
      * @var Array
@@ -230,13 +225,13 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             // This will exit.
             return false;
         }
-        
+
         return true;
     }
 
     /**
-     * This helper function validates a class definition list for correctness. 
-     * 
+     * This helper function validates a class definition list for correctness.
+     *
      * Any error will be logged and false is returned.
      *
      * Where possible, missing elements are completed with sensible defaults.
@@ -313,8 +308,8 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
 
     /**
      * Little helper which converts a component / filename combination into a fully
-     * qualified path/filename. 
-     * 
+     * qualified path/filename.
+     *
      * The filename is assigned to the $_class_definition_filename member variable of this class.
      *
      * @param string $component The name of the component for which the class file has to be loaded. The path must
@@ -335,11 +330,11 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
 
     /**
      * This helper function loads a class definition file from the disk and
-     * returns its contents. 
-     * 
+     * returns its contents.
+     *
      * The source must be stored in the $_class_definition_filename
      * member.
-     * 
+     *
      * It will translate component and filename into a full path and delivers
      * the contents verbatim.
      *
@@ -385,7 +380,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
                 $this->_midgard_classes[] = $entry;
             }
         }
-        
+
         return true;
     }
 
@@ -459,7 +454,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
                 case 'midcom.core':
                 case 'midgard':
                     return 'midcom';
-                    
+
                 case 'net.nehmer.accounts':
                     $component = 'net.nehmer.account';
                     break;
@@ -721,7 +716,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
 
         return false;
     }
-    
+
     function get_component_classes($component)
     {
         $classes = array();
@@ -739,7 +734,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
 
         return $classes;
     }
-    
+
     function get_midgard_classes()
     {
         return $this->_midgard_classes;

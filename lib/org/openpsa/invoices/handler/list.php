@@ -179,7 +179,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
     }
 
     /**
-     * Helper that shows the six most recently paid invoices 
+     * Helper that shows the six most recently paid invoices
      */
     private function _show_recent()
     {
@@ -198,8 +198,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
 
     /**
      * Helper that shows all paid invoices
-     *
-     * @todo Might be nicer as qbpager 
      */
     private function _show_paid()
     {

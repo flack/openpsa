@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $sums_all = $data['sums_all'];
 ?>
                 </tbody>

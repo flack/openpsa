@@ -1,7 +1,6 @@
 <?php
 // Available request keys: article, datamanager, edit_url, delete_url, create_urls
 
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view = $data['view_article'];
 
 $publish_time = $data['article']->metadata->published;
@@ -25,7 +24,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     </div>
 
     <p class="permalink" style="display: none;"><a href="&(permalink);" rel="bookmark" rev="canonical"><?php $data['l10n_midcom']->show('permalink'); ?></a></p>
-    
+
     <?php
     $without_pipes = str_replace('|', '', $data['article']->extra3);
     if (!empty($without_pipes))
@@ -49,7 +48,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         }
         echo "</ul>\n";
     }
-    
+
     if (array_key_exists('comments_url', $data))
     {
         $_MIDCOM->dynamic_load($data['comments_url']);

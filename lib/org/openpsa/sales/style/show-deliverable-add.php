@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view =& $data['view_product'];
 
 function org_openpsa_sales_salesproject_deliverable_add_product($product, $pieces, &$data)

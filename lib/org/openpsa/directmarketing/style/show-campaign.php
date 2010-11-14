@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view = $data['view_campaign'];
 
 $nap = new midcom_helper_nav();
@@ -35,7 +34,7 @@ function hideElement(element)
 
 <div class="main org_openpsa_directmarketing_campaign">
     <h1>&(view['title']:h);</h1>
-    
+
     <?php
     if ($data['campaign']->archived)
     {
@@ -54,9 +53,9 @@ function hideElement(element)
         foreach($data['campaign']->testers as $id => $bool)
         {
             $person = org_openpsa_contactwidget::get($id);
-            
+
             echo $person->show_inline();
-            
+
             if(($counter++) < count($data['campaign']->testers))
             {
                 echo ", ";

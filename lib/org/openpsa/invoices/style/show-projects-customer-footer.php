@@ -1,6 +1,3 @@
-<?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-?>
         </tbody>
     </table>
     <div class="form_toolbar">

@@ -1,5 +1,4 @@
 <?php
-$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <table class="org_openpsa_calendarwidget_month">

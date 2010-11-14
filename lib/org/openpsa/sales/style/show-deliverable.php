@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view =& $data['view_deliverable'];
 
 $status = $data['deliverable']->get_status();

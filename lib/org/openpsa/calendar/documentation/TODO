@@ -1,13 +1,6 @@
 org.openpsa.calendar TODO
 =========================
 
-## Datamanager 2 migration
-
-* o.o.calendar should be converted to use Datamanager 2 for event editing and
-  rendering instead of Datamanager 1
-* Datamanager 2 would provide the new universalchooser widget for selecting
-  event participants, supporting person creation
-
 ## On-demand handlers migration
 
 * `viewer.php` should be split into different handler classes for calendar list

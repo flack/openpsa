@@ -328,11 +328,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      *
      * Repeated calls to the same toolbar are intercepted accordingly.
      *
-     * @todo This is an intermediate implementation to link to the current proof-of-concept
-     *     Folder management code. This needs adaption to Aegir2!
-     * @todo Better privilege checks
-     * @todo Localize
-     *
      * @param midcom_helper_toolbar &$toolbar A reference to the toolbar to use.
      * @param int $context_id The context to use (the topic is drawn from there). This defaults
      *     to the currently active context.
@@ -587,11 +582,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      *
      * Repeated calls to the same toolbar are intercepted accordingly.
      *
-     * @todo This is an intermediate implementation to link to the current proof-of-concept
-     *     Folder management code. This needs adaption to Aegir2!
-     * @todo Better privilege checks
-     * @todo Localize
-     *
      * @param midcom_helper_toolbar &$toolbar A reference to the toolbar to use.
      * @param int $context_id The context to use (the topic is drawn from there). This defaults
      *     to the currently active context.
@@ -667,11 +657,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      * Adds the Help management commands to the specified toolbar.
      *
      * Repeated calls to the same toolbar are intercepted accordingly.
-     *
-     * @todo This is an intermediate implementation to link to the current proof-of-concept
-     *     Folder management code. This needs adaption to Aegir2!
-     * @todo Better privilege checks
-     * @todo Localize
      *
      * @param midcom_helper_toolbar &$toolbar A reference to the toolbar to use.
      * @param int $context_id The context to use (the topic is drawn from there). This defaults
@@ -768,9 +753,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
      * @see midcom_helper_toolbar::bind_to()
      * @see create_object_toolbar()
      * @param &$toolbar
-     *
-     * @todo This is a stub implementation only, no hooks are added yet. For testing purposes
-     *     however the permalink of the bound object is added to the toolbar for all users.
      */
     function bind_toolbar_to_object(&$toolbar, &$object)
     {
@@ -796,9 +778,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
         $reflector = new midcom_helper_reflector($object);
         $this->_view_toolbar_label = $reflector->get_class_label();
 
-        // TEMPORARY CODE: This links the old midcom metadata helpers into the site
-        // if we are configured to do so. This will be replaced once we revampt the
-        // Metadata system of MidCOM to use 1.8
         if (   $GLOBALS['midcom_config']['metadata_approval']
             && $object->can_do('midcom:approve'))
         {

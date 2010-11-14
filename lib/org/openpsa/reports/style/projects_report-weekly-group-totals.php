@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $group =& $data['current_group'];
 // Weekly report is always grouped by person so this should be safe
 $person =& $data['current_row']['person'];

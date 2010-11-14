@@ -50,11 +50,11 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $this->mms_lib_user = &$this->sms_lib_user;
             $this->mms_lib_password = &$this->sms_lib_password;
         }
-        
+
         $config =& $GLOBALS['midcom_component_data']['org.openpsa.directmarketing']['config'];
-        
+
         $this->chunk_size = $config->get('chunk_size');
-        
+
         return $stat;
     }
 
@@ -898,14 +898,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         {
             $subject = '[no subject]';
         }
-        /*
-        $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb->add_constraint('person.email', 'LIKE', '%@%');
-        */
 
         $this->_chunk_num = $batch-1;
 
-        //$results = $this->_qb_single_chunk($qb);
         $results = $this->_qb_single_chunk('send_email');
         //The method above might have incremented the counter for internal reasons
         $batch = $this->_chunk_num+1;
@@ -953,19 +948,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         {
             $subject = '[no subject]';
         }
-        /*
-        $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb->add_constraint('person.email', 'LIKE', '%@%');
-        */
 
-        /*
-        $this->sendStarted = time();
-        $this->update();
-        */
-        /*
-        $GLOBALS['org_openpsa_directmarketing_campaign_message_send_count'] = $this->_qb_count_members($qb);
-        $GLOBALS['org_openpsa_directmarketing_campaign_message_send_i'] = 0;
-        */
         //TODO: Rethink the styles, now we filter those who already had message sent to themm thus the total member count becomes meaningless
         if ($this->send_output)
         {
@@ -974,10 +957,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
 
-        /*
-        while ($results = $this->_qb_send_loop($qb))
-        {
-        */
         while ($results = $this->_qb_send_loop('send_email'))
         {
             foreach ($results as $member)
@@ -992,10 +971,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             flush();
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
-        /*
-        $this->sendCompleted = time();
-        $this->update();
-        */
+
         debug_pop();
         return true;
     }
@@ -1123,11 +1099,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $smsbroker->user = $this->sms_lib_user;
         $smsbroker->password = $this->sms_lib_password;
 
-        /*
-        $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb->add_constraint('person.handphone', '<>', '');
-        */
-
         $this->_chunk_num = $batch-1;
 
         //$results = $this->_qb_single_chunk($qb);
@@ -1225,19 +1196,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $smsbroker->user = $this->sms_lib_user;
         $smsbroker->password = $this->sms_lib_password;
 
-        /*
-        $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb->add_constraint('person.handphone', '<>', '');
-        */
-
-        /*
-        $this->sendStarted = time();
-        $this->update();
-        */
-        /*
-        $GLOBALS['org_openpsa_directmarketing_campaign_message_send_count'] = $this->_qb_count_members($qb);
-        $GLOBALS['org_openpsa_directmarketing_campaign_message_send_i'] = 0;
-        */
         //TODO: Rethink the styles, now we filter those who already had message sent to themm thus the total member count becomes meaningless
         if ($this->send_output)
         {
@@ -1245,10 +1203,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             flush();
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
-        /*
-        while ($results = $this->_qb_send_loop($qb))
-        {
-        */
+
         while ($results = $this->_qb_send_loop('send_sms'))
         {
             //Check that we have enough credits before starting
@@ -1275,10 +1230,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             flush();
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
-        /*
-        $this->sendCompleted = time();
-        $this->update();
-        */
 
         debug_pop();
         return true;

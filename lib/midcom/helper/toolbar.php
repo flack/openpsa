@@ -131,7 +131,6 @@
  * </code>
  * This will add style="text-decoration:none;" to all the links in the toolbar.
  *
- * @todo Add usage example to this documentation
  * @package midcom
  */
 class midcom_helper_toolbar
@@ -153,13 +152,13 @@ class midcom_helper_toolbar
     var $class_style;
 
     /**
-     * The items in the toolbar. 
+     * The items in the toolbar.
      *
-     * The array consists of Arrays outlined in the class introduction. 
-     * You can modify existing items in this collection but you should use 
-     * the class methods to add or delete existing items. Also note that 
-     * relative URLs are processed upon the invocation of add_item(), if 
-     * you change URL manually, you have to ensure a valid URL by yourself 
+     * The array consists of Arrays outlined in the class introduction.
+     * You can modify existing items in this collection but you should use
+     * the class methods to add or delete existing items. Also note that
+     * relative URLs are processed upon the invocation of add_item(), if
+     * you change URL manually, you have to ensure a valid URL by yourself
      * or use update_item_url, which is recommended.
      *
      * @var Array
@@ -167,7 +166,7 @@ class midcom_helper_toolbar
     var $items;
 
     /**
-     * Allow our users to add arbitrary data to the toolbar. 
+     * Allow our users to add arbitrary data to the toolbar.
      *
      * This is for example used to track which items have been added to a toolbar
      * when it is possible that the adders are called repeatedly.
@@ -181,9 +180,9 @@ class midcom_helper_toolbar
 
     /**
      * Basic constructor, initializes the class and sets defaults for the
-     * CSS style if omitted. 
+     * CSS style if omitted.
      *
-     * Note that the styles can be changed after construction by updating 
+     * Note that the styles can be changed after construction by updating
      * the id_style and class_style members.
      *
      * @param string $class_style The class style tag for the UL.
@@ -245,10 +244,10 @@ class midcom_helper_toolbar
     }
 
     /**
-     * This function will add an Item to the toolbar. 
+     * This function will add an Item to the toolbar.
      *
-     * Set before to the index of the element before which you want to insert 
-     * the item or use -1 if you want to append an item. Alternatively, 
+     * Set before to the index of the element before which you want to insert
+     * the item or use -1 if you want to append an item. Alternatively,
      * instead of specifying an index, you can specify a URL instead.
      *
      * This member will process the URL and append the anchor prefix in case
@@ -452,7 +451,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Moves an item on place upwards in the list. 
+     * Moves an item on place upwards in the list.
      *
      * This will only work, of course, if you are not working with the top element.
      *
@@ -474,7 +473,7 @@ class midcom_helper_toolbar
     }
 
     /**
-     * Moves an item on place downwards in the list. 
+     * Moves an item on place downwards in the list.
      *
      * This will only work, of course, if you are not working with the bottom element.
      *

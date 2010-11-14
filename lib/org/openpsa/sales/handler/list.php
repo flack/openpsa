@@ -29,7 +29,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * @access private
      */
     private $_salesprojects_map_id_key = array();
-    
+
     /**
      * The cache of customers.
      *
@@ -45,7 +45,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * @access private
      */
     private $_owners = array();
-    
+
     function __construct()
     {
         parent::__construct();
@@ -83,7 +83,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
                 break;
             case 'delivered':
                 $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED);
-                break;                    
+                break;
             case 'invoiced':
                 $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED);
                 break;
@@ -91,8 +91,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
                 return false;
         }
 
-        // TODO: Enable listing sales projects of others
-        //$qb->add_constraint('owner', '=', $_MIDGARD['user']);
         $salesprojects = $qb->execute();
 
         foreach ($salesprojects as $key => $salesproject)
@@ -208,14 +206,14 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         {
             return;
         }
-        
+
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['reports_url'] = $siteconfig->get_node_full_url('org.openpsa.reports');
 
-        $data['owners'] = $this->_owners; 
-        $data['customers'] = $this->_customers; 
+        $data['owners'] = $this->_owners;
+        $data['customers'] = $this->_customers;
 
         $data['salesprojects'] = $this->_salesprojects;
 

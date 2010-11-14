@@ -8,10 +8,10 @@
  */
 
 /**
- * E-Mail import handler. 
+ * E-Mail import handler.
  *
- * This uses the OpenPSA 2 email importer MDA system. Emails are imported 
- * into blog, with a possible attached image getting stored using 'image' 
+ * This uses the OpenPSA 2 email importer MDA system. Emails are imported
+ * into blog, with a possible attached image getting stored using 'image'
  * type in schema if available.
  *
  * @package net.nehmer.blog
@@ -283,7 +283,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                 // Remove the article, but get errstr first
                 $errstr = midcom_application::get_error_string();
                 $this->_article->delete();
-    
+
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to force approval on article, aborting. Last Midgard error was: ' . $errstr);
                 // This will exit()
             }
@@ -400,7 +400,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
     {
         return false;
 
-        // TODO: Implement
         $attobj = $this->_article->create_attachment($att['name'], $att['name'], $att['mimetype']);
         if (!$attobj)
         {

@@ -1,9 +1,7 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $languages = $data['l10n']->_language_db;
 $curlang = $_MIDCOM->i18n->get_current_language();
-//print_r($data['l10n']);
 ?>
 <h1><?php echo $data['l10n']->get('select language to translate')?></h1>
 
@@ -17,12 +15,12 @@ $curlang = $_MIDCOM->i18n->get_current_language();
     </thead>
     <tbody>
         <?php
-        foreach ($languages as $language => $language_info) 
+        foreach ($languages as $language => $language_info)
         {
             $language_name = $data['l10n']->get($language_info['enname']);
 
             // Calculate status
-            $state = midcom_admin_babel_plugin::calculate_language_status($language);  
+            $state = midcom_admin_babel_plugin::calculate_language_status($language);
             $percentage = round(100 / $state['strings_core']['total'] * $state['strings_core']['translated']);
             $percentage_other = round(100 / $state['strings_other']['total'] * $state['strings_other']['translated']);
 
@@ -37,8 +35,8 @@ $curlang = $_MIDCOM->i18n->get_current_language();
             else
             {
                 $status = 'bad';
-            }        
-            
+            }
+
             echo "        <tr class=\"{$status}\">\n";
             echo "            <th class=\"component\"><a href=\"{$prefix}__mfa/asgard_midcom.admin.babel/status/{$language}/\">{$language_name}</a></th>\n";
             echo "            <td title=\"{$state['strings_core']['translated']} / {$state['strings_core']['total']}\">{$percentage}%</td>\n";
@@ -50,7 +48,7 @@ $curlang = $_MIDCOM->i18n->get_current_language();
 </table>
 
 <p>
-    <?php 
+    <?php
     echo $data['l10n']->get('read information from midgard wiki on how to add languages');
     ?>
 </p>

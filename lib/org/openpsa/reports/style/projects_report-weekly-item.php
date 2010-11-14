@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $hour =& $data['current_row']['hour'];
 $task =& $data['current_row']['task'];
 $report =& $data['report'];
@@ -10,7 +9,6 @@ $weekly_data =& $report['raw_results']['weekly_report_data'];
 $weekly_data_group =& $group['weekly_report_data'];
 
 $data['current_row']['customer'] = false;
-//echo "DEBUG: task->customer: {$task->customer}<br>\n";
 if ($task->customer)
 {
     $data['current_row']['customer'] =& org_openpsa_reports_handler_projects_report::_get_cache('groups', $task->customer, $data);

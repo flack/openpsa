@@ -1,7 +1,6 @@
 <?php
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 
 $addresses = array();
 ?>

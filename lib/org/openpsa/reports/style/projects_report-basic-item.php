@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $hour =& $data['current_row']['hour'];
 $task =& $data['current_row']['task'];
 $person =& $data['current_row']['person'];

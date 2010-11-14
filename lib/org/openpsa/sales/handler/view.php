@@ -37,11 +37,11 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     private function _prepare_request_data()
     {
         $this->_request_data['salesproject'] =& $this->_salesproject;
-        
+
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $this->_request_data['projects_url'] = $siteconfig->get_node_relative_url('org.openpsa.projects');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_relative_url('org.openpsa.invoices');
-        
+
         $this->_request_data['products'] = org_openpsa_products_product_dba::list_products();
     }
 
@@ -72,15 +72,13 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
             ));
         }*/
-        
+
         $relatedto_button_settings = org_openpsa_relatedto_plugin::common_toolbar_buttons_defaults();
         $relatedto_button_settings['wikinote']['wikiword'] = sprintf($this->_l10n->get($this->_config->get('new_wikinote_wikiword_format')), $this->_request_data['salesproject']->title, date('Y-m-d H:i'));
-        //TODO: make wiki node configurable
-        //TODO: make documents node configurable
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['salesproject'], $this->_component, $relatedto_button_settings);
 
         $_MIDCOM->bind_view_to_object($this->_salesproject);
-             
+
     }
 
     private function _load_controller()
@@ -117,9 +115,9 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $this->_list_deliverables();
 
         $this->_prepare_request_data();
-        
+
         $this->_populate_toolbar();
-        
+
         $this->_update_breadcrumb_line();
         $_MIDCOM->set_26_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
         $_MIDCOM->set_pagetitle($this->_salesproject->title);

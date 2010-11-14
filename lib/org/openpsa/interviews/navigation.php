@@ -18,7 +18,6 @@ class org_openpsa_interviews_navigation extends midcom_baseclasses_components_na
     function get_leaves()
     {
         $leaves = array();
-        //TODO: Add visible campaigns to leaves
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('archived', '=', 0);
         $campaigns = $qb->execute();

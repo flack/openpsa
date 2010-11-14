@@ -113,7 +113,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         $this->_prepare_request_data();
 
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
-        
+
         $this->_component_data['active_leaf'] = NET_NEHMER_ACCOUNT_LEAFID_PASSWORDCHANGE;
         $this->_view_toolbar->hide_item('password/');
 
@@ -159,7 +159,6 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         switch ($this->_controller->process_form())
         {
             case 'save':
-                // Todo
                 if (! $this->_check_old_password())
                 {
                     $this->_processing_msg = $this->_l10n->get('old password invalid.');
@@ -776,7 +775,6 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * This is a simple function which generates and sends a password reset mail.
      *
      * @param midcom_db_person $person The newly created person account.
-     * @todo Make this configurable.
      */
     function _send_reset_mail($person, $password)
     {

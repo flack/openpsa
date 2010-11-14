@@ -286,16 +286,16 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         $label_property = $ref->get_label_property();
 
-        if (   is_string($label_property) 
-            && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $label_property)) 
+        if (   is_string($label_property)
+            && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $label_property))
         {
             $qb->add_order($label_property);
         }
         else
         {
             $title_property = $ref->get_title_property(new $this->mgdschema_class());
-            if (   is_string($title_property) 
-                && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $title_property)) 
+            if (   is_string($title_property)
+                && $_MIDCOM->dbfactory->property_exists($this->mgdschema_class, $title_property))
             {
                 $qb->add_order($title_property);
             }
@@ -314,7 +314,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function has_child_objects(&$object, $deleted = false)
     {
-        // TODO: implement
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
             && !$_MIDGARD['admin'])
@@ -418,7 +417,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $cache_key = $object->guid . $separator . $stop_at;
         if (isset($cache[$cache_key]))
         {
-            return $cache[$cache_key]; 
+            return $cache[$cache_key];
         }
         $parts = midcom_helper_reflector_tree::resolve_path_parts($object, $stop_at);
         $d = count($parts);
@@ -451,7 +450,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $cache_key = $object->guid . $stop_at;
         if (isset($cache[$cache_key]))
         {
-            return $cache[$cache_key]; 
+            return $cache[$cache_key];
         }
 
         $ret = array();
@@ -478,7 +477,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $parent = midcom_helper_reflector_tree::get_parent($parent);
         }
         unset($parent);
-        
+
         $ret = array_reverse($ret);
         $cache[$cache_key] = $ret;
         unset($ret);
@@ -509,7 +508,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
              * used class
              */
         }
-        
+
         return $parent_object;
         /* Code below is executed in midgard-core's get_parent method.
          * Besides code below  might trigger empty object instances to be returned.
@@ -771,7 +770,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         //debug_print_r('$for_object', $for_object);
         debug_pop();
         */
-        
+
         $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
         /*
         debug_push_class(__CLASS__, __FUNCTION__);
@@ -902,7 +901,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
              || $_MIDGARD['config']['sitegroup'])
         {
             $qb->add_order('sitegroup', 'DESC');
-        }        
+        }
 
         // Sort by title and name if available
         midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $schema_type);
@@ -1333,7 +1332,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $name_copy = midcom_helper_reflector::get_object_name($object);
         if (!$sibling_classes)
         {
-            // We don't know about siblings, allow this to happen. 
+            // We don't know about siblings, allow this to happen.
             // Note: This also happens with the "neverchild" types like midgard_attachment and midgard_parameter
             return true;
         }
@@ -1504,7 +1503,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $resolver = new midcom_helper_reflector_tree($object);
         return $resolver->generate_unique_name_nonstatic($object, $title_property);
     }
-    
+
 
     /**
      * Generates an unique name for the given object.
@@ -1529,7 +1528,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_pop();
             return false;
         }
-        
+
         // Get current name and sanity-check
         $original_name = midcom_helper_reflector::get_object_name($object);
         if ($original_name === false)
@@ -1543,7 +1542,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         // We need the name of the "name" property later
         $name_prop = midcom_helper_reflector::get_name_property($object);
-        
+
         if (!empty($original_name))
         {
             $current_name = (string)$original_name;
@@ -1622,16 +1621,16 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Copy an object tree. Both source and parent may be liberally filled. Source can be either
      * MgdSchema or MidCOM db object or GUID of the object and parent can be
-     * 
+     *
      * - MgdSchema object
      * - MidCOM db object
      * - predefined target array (@see get_target_properties())
      * - ID or GUID of the object
      * - left empty to copy as a parentless object
-     * 
+     *
      * This method is self-aware and will refuse to perform any infinite loops (e.g. to copy
      * itself to its descendant, copying itself again and again and again).
-     * 
+     *
      * Eventually this method will return the first root object that was created, i.e. the root
      * of the new tree.
      *
@@ -1653,15 +1652,15 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $copy->parameters = $parameters;
         $copy->metadata = $metadata;
         $copy->attachments = $attachments;
-        
+
         if (!$copy->copy)
         {
             return false;
         }
-        
+
         return $copy->get_object();
     }
-    
+
     /**
      * Helper to resolve the base value for the incementing suffix and for the name.
      *
@@ -1685,7 +1684,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $i = 1;
             $base_name = $current_name;
         }
-        
+
         // Look for siblings with similar names and see if they have higher i.
         $_MIDCOM->auth->request_sudo('midcom.helper.reflector');
         $parent = midcom_helper_reflector_tree::get_parent($object);

@@ -1,6 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-
 if ($data['login_form_html'])
 {
     //We have HTML for a pre-filled login form, display and submit it

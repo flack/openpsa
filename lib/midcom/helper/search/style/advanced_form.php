@@ -1,5 +1,4 @@
 <?php
-$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 // Map, stimestamps => text
@@ -13,12 +12,12 @@ $lastmod_content = array
     strtotime('-1 year') => $data['l10n']->get('since 1 year')
 );
 
-// Prepare the topic and component listings, this is a bit work intensive though, 
+// Prepare the topic and component listings, this is a bit work intensive though,
 // we need to traverse everything.
 function midcom_helper_search_process_node ($node_id, &$nap, &$topics, &$components, $prefix, &$data)
 {
     $node = $nap->get_node($node_id);
-    
+
     if (   ! array_key_exists($node[MIDCOM_NAV_COMPONENT], $components)
         && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search')
     {
@@ -27,7 +26,7 @@ function midcom_helper_search_process_node ($node_id, &$nap, &$topics, &$compone
         $components[$node[MIDCOM_NAV_COMPONENT]] = $l10n->get($node[MIDCOM_NAV_COMPONENT]);
     }
     $topics[$node[MIDCOM_NAV_FULLURL]] = "{$prefix}{$node[MIDCOM_NAV_NAME]}";
-    
+
     // Recurse
     $prefix .= "{$node[MIDCOM_NAV_NAME]} &rsaquo; ";
     $subnodes = $nap->list_nodes($node_id);
@@ -52,7 +51,7 @@ $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
 <form method='get' name='midcom_helper_search_form' action='&(prefix);result/' class='midcom.helper.search'>
 <input type='hidden' name='type' value='advanced' />
 <input type='hidden' name='page' value='1' />
- 
+
 <table cellspacing="0" cellpadding="3" border="0">
     <tr>
         <td><?php echo $data['l10n']->get('query');?>:</td>
@@ -69,7 +68,7 @@ foreach ($topics as $url => $name)
 ?>
                 <option&(selected); value='&(url);'>&(name:h);</option>
 <?php
-}   
+}
 ?>
             </select>
         </td>
@@ -85,7 +84,7 @@ foreach ($components as $id => $name)
 ?>
                 <option&(selected); value='&(id);'>&(name:h);</option>
 <?php
-}   
+}
 ?>
             </select>
         </td>
@@ -103,7 +102,7 @@ foreach ($lastmod_content as $timestamp => $name)
 ?>
                 <option&(selected); value='&(timestamp);'>&(name:h);</option>
 <?php
-}   
+}
 ?>
             </select>
         </td>

@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>
@@ -18,8 +17,8 @@ $node = $nap->get_node($nap->get_current_node());
 </div>
 
 <div class="main">
-<?php 
-    $data['datamanager']->display_view(); 
+<?php
+    $data['datamanager']->display_view();
     //add tabs
     org_openpsa_core_ui::render_tabs($data['person']->guid);
 ?>

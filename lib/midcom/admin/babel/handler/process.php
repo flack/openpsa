@@ -45,7 +45,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         $this->_debug_prefix = 'midcom_admin_babel::';
         $this->_save_new = false;
         $this->_save_update = false;
-        
+
         $this->_fallback_language = $_MIDCOM->i18n->get_fallback_language();
 
         $_MIDCOM->cache->content->no_cache();
@@ -113,16 +113,15 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-    
+
     /**
      * Check if the language is found from the language database
-     * 
+     *
      * @param string $lang
      * @return boolean      True if the language is in language database, false on failure
      */
     function validate_language($lang)
     {
-        // TODO: Validate via ML instead
         if (array_key_exists($lang, $this->_l10n->_language_db))
         {
             return true;
@@ -203,7 +202,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
                 'stringid' => $_REQUEST['new_stringid'],
                 $this->_fallback_language => $_REQUEST['new_fallback']
             );
-            
+
             if (   array_key_exists('new_loc', $_REQUEST)
                 && $_REQUEST['new_loc'])
             {
@@ -230,7 +229,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
                         debug_add("'{$id}' is unchanged, skipping it.");
                         continue;
                     }
-                    
+
                     if (!$loc)
                     {
                         debug_add("Resetting '{$id}'", MIDCOM_LOG_DEBUG);
@@ -261,10 +260,10 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         if ($this->_save_new)
         {
             debug_add('Creating new string', MIDCOM_LOG_DEBUG);
-            
+
             // create fallback language string
             $this->_component_l10n->update($this->_save_new['stringid'], $this->_fallback_language, $this->_save_new[$this->_fallback_language]);
-            
+
             // create loc'd string
             if (array_key_exists('loc', $this->_save_new))
             {
@@ -352,7 +351,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
         $data['section'] = 'core';
         midcom_show_style('midcom_admin_babel_status_section_header');
-        
+
         foreach ($data['components_core'] as $component => $string_counts)
         {
             $data['component'] = $component;
@@ -360,12 +359,12 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
             $data['string_counts'] = $string_counts;
             midcom_show_style('midcom_admin_babel_status_item');
         }
-        
+
         midcom_show_style('midcom_admin_babel_status_section_footer');
 
         $data['section'] = 'other';
         midcom_show_style('midcom_admin_babel_status_section_header');
-        
+
         foreach ($data['components_other'] as $component => $string_counts)
         {
             $data['component'] = $component;
@@ -373,7 +372,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
             $data['string_counts'] = $string_counts;
             midcom_show_style('midcom_admin_babel_status_item');
         }
-        
+
         midcom_show_style('midcom_admin_babel_status_section_footer');
 
         midcom_show_style('midcom_admin_babel_status_footer');
@@ -493,7 +492,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         {
             $path = MIDCOM_ROOT . '/' . str_replace('.', '/', $this->_component_path) . '/locale';
         }
-        
+
         $fallback = "{$path}/default.{$this->_fallback_language}.txt";
         $main = "{$path}/default.{$this->_lang}.txt";
 

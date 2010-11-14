@@ -597,14 +597,13 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      * @param activation_link
      * @access public
      * @static
-     * @todo Make this configurable.
      */
     function send_registration_mail(&$person, $password, $activation_link, $config)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
         $mail->from = $config->get('activation_mail_sender');
-        
+
         if (!$mail->from)
         {
             $mail->from = $person->email;
@@ -613,10 +612,10 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         $mail->subject = $_MIDCOM->i18n->get_string($config->get('activation_mail_subject'), 'net.nehmer.account');
         $mail->body = $_MIDCOM->i18n->get_string($config->get('activation_mail_body'), 'net.nehmer.account');
         $mail->to = $person->email;
-        
+
         // Get the commonly used parameters
         $parameters = net_nehmer_account_viewer::get_mail_parameters($this->_person);
-        
+
         // Extra parameters
         $parameters['USERNAME'] = $person->username;
         if (isset($person->name))
@@ -634,11 +633,11 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 
         $parameters['PASSWORD'] = $password;
         $parameters['ACTIVATIONLINK'] = $activation_link;
-        
+
         // Convert the parameters
         $mail->subject = net_nehmer_account_viewer::parse_parameters($parameters, $mail->subject);
         $mail->body = net_nehmer_account_viewer::parse_parameters($parameters, $mail->body);
-        
+
         // Finally send the email
         return $mail->send();
     }
@@ -656,7 +655,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
         $mail->from = $config->get('password_reset_mail_sender');
-        
+
         if (!$mail->from)
         {
             $mail->from = $person->email;
@@ -665,14 +664,14 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         $mail->subject = $_MIDCOM->i18n->get_string($config->get('lost_password_reset_mail_subject'), 'net.nehmer.account');
         $mail->body = $_MIDCOM->i18n->get_string($config->get('lost_password_reset_mail_body'), 'net.nehmer.account');
         $mail->to = $person->email;
-        
+
         // Get the commonly used parameters
         $parameters = net_nehmer_account_viewer::get_mail_parameters($person);
-        
+
         // Extra parameters
         $prefix = $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $parameters['CURRENTADDRESS'] = "{$prefix}lostpassword/reset/";
-        
+
         $parameters['USERNAME'] = $person->username;
         if (isset($person->name))
         {
@@ -688,11 +687,11 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         }
 
         $parameters['PASSWORD_RESET_LINK'] = $link;
-        
+
         // Convert the parameters
         $mail->subject = net_nehmer_account_viewer::parse_parameters($parameters, $mail->subject);
         $mail->body = net_nehmer_account_viewer::parse_parameters($parameters, $mail->body);
-        
+
         // Finally send the email
         return $mail->send();
     }
@@ -722,10 +721,10 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 
         return $parameters;
     }
-    
+
     /**
      * Parse the parameters
-     * 
+     *
      * @access public
      * @param Array $parameters    Presented parameters
      * @param String source        String to be parsed
@@ -783,10 +782,10 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
                 $replacements[] = $value;
             }
         }
-        
+
         return preg_replace($patterns, $replacements, $source);
     }
-    
+
     /**
      * Helper function to convert an object into a string representation.
      *
@@ -808,7 +807,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             {
                 continue;
             }
-            
+
             $key = trim($key);
             if (is_object($value))
             {
@@ -823,7 +822,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             $result .= wordwrap($value, 74 - strlen($key), "\n" . str_repeat(" ", 2 + strlen($key)));
             $result .= "\n";
         }
-        
+
         return $result;
     }
 
@@ -847,7 +846,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             {
                 $value = get_class($value) . " object";
             }
-            
+
             if (is_array($value))
             {
                 $value = "Array";
@@ -857,7 +856,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             $result .= wordwrap($value, 74 - strlen($key), "\n" . str_repeat(" ", 2 + strlen($key)));
             $result .= "\n";
         }
-        
+
         return $result;
     }
 }

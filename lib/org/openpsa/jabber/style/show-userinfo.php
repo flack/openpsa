@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $user = $_MIDCOM->auth->user->storage;
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_root_node());

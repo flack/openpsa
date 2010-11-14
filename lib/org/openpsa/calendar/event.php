@@ -137,7 +137,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_parent_guid_uncached()
     {
         $root_event = org_openpsa_calendar_interface::find_root_event();
@@ -151,7 +151,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             return null;
         }
     }
-    
+
     function __get($property)
     {
         if ($property == 'vCal_store')
@@ -166,21 +166,20 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         }
         return parent::__get($property);
     }
-    
+
     function _on_loaded()
     {
         $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
 
         // Check for empty title in existing events
         if (   $this->id
-            && !$this->title) 
+            && !$this->title)
         {
-            //TODO: localization
             $this->title = $l10n->get('untitled');
         }
 
         // Preserve vCal GUIDs once set
-        if (isset($this->externalGuid)) 
+        if (isset($this->externalGuid))
         {
             $this->old_externalGuid = $this->externalGuid;
         }
@@ -359,7 +358,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         $this->owner = 0;
 
         //Preserve vCal GUIDs once set
-        if (isset($this->old_externalGuid)) 
+        if (isset($this->old_externalGuid))
         {
             $this->externalGuid = $this->old_externalGuid;
         }
@@ -408,7 +407,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             midcom_application::set_error(MGD_ERR_RANGE);
             return false;
         }
-        
+
         return true;
     }
 
@@ -602,12 +601,12 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             debug_pop();
             return false;
         }
-        
+
         if (!$this->_check_timerange())
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -828,7 +827,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     {
         debug_push_class(__CLASS__, __FUNCTION__);
         //If we're not busy it's not worth checking
-        if (!$this->busy) 
+        if (!$this->busy)
         {
             debug_add('we allow overlapping, so there is no point in checking others');
             debug_pop();
@@ -1192,7 +1191,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         $endday = strftime('%a %x', $this->end);
         $starttime = strftime('%H:%m', $this->start);
         $endtime = strftime('%H:%m %Z', $this->end);
-        
+
         $ret = $startday;
         if ($startday == $endday)
         {
@@ -1200,7 +1199,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         }
 
         $ret .= ' ' . $starttime . ' - ';
-        
+
         if ($startday != $endday)
         {
             $ret .= $endday . ' ';
@@ -1286,7 +1285,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
 
         $revised = $this->metadata->revised;
         $created = $this->metadata->created;
-            
+
         $vcal_keys['LAST-MODIFIED'] = $encoder->vcal_stamp($revised, array('TZID' => 'UTC')) . 'Z';
         $vcal_keys['CREATED'] = $encoder->vcal_stamp($created, array('TZID' => 'UTC')) . 'Z';
         /**

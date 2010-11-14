@@ -48,45 +48,8 @@ class org_openpsa_contacts_duplicates
             $memberships = @$qb2->execute();
         }
         // TODO: Avoid persons marked as not_duplicate already in this phase.
-        /*
-        if ($person->guid)
-        {
-        }
-        */
+
         $qb->begin_group('OR');
-            //All members of groups this person is member of
-            /* this particular way causes issues (crashing)
-            if (  isset($memberships)
-                && is_array($memberships))
-            {
-                $qb3 = midgard_query_builder('midgard_member');
-                $qb3->begin_group('OR');
-                foreach ($memberships as $member)
-                {
-                    $qb3->add_constraint('gid', '=', $member->gid);
-                }
-                $qb3->end_group();
-                $groups_members = @$qb3->execute();
-                if (is_array($groups_members))
-                {
-                    foreach ($groups_members as $member2)
-                    {
-                        if ($member2->uid == $person->id)
-                        {
-                            continue;
-                        }
-                        $qb->add_constraint('id', '=', $member2->uid);
-                    }
-                }
-            }
-            */
-            /*
-            //Shared
-            if ($person->)
-            {
-                $qb->add_constraint('', 'LIKE', $person->);
-            }
-            */
             //Shared firstname
             if ($person->firstname)
             {

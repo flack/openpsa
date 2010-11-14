@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $preview = $data['preview'];
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
@@ -29,28 +28,28 @@ if ($data['next_revision'])
 </div>
 <dl>
 <?php
-foreach ($preview as $attribute => $value) 
+foreach ($preview as $attribute => $value)
 {
     if ($value == '')
     {
         continue;
     }
-    
+
     if ($value == '0000-00-00')
     {
         continue;
     }
-    
+
     if (!no_bergfald_rcs_handler::is_field_showable($attribute))
     {
         continue;
     }
-    
+
     if (is_array($value))
     {
         continue;
     }
-    
+
     // Three fold fallback in localization
     echo "<dt>". $data['l10n_midcom']->get($data['l10n']->get($_MIDCOM->i18n->get_string($attribute, 'no.bergfald.rcs'))) ."</dt>\n";
     echo "    <dd>" . nl2br($value) . "</dd>\n";

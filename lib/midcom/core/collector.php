@@ -30,7 +30,6 @@
  * QueryBuilder but proxy to it.
  *
  * @package midcom
- * @todo Optimize the limit/offset implementation.
  * @todo Refactor the class to promote code reuse in the execution handlers.
  */
 class midcom_core_collector
@@ -314,8 +313,6 @@ class midcom_core_collector
 
     /**
      * implements midgard_collector::list_keys with ACL and visibility checking
-     *
-     * @todo implement visibility checking
      */
     function list_keys()
     {
@@ -344,7 +341,7 @@ class midcom_core_collector
             else
             {
                 $result = array_slice($result, $this->_offset);
-                $size = $size - $offset;
+                $size = $size - $this->_offset;
             }
         }
 

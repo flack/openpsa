@@ -439,7 +439,6 @@ class midcom_helper__componentloader
      * snippetdir Path $snippetpath. This is a fully qualified snippetdir path
      * to the component in question.
      *
-     * @todo Currently partly disabled due to the FS-Transition.
      * @param string $snippetpath    The path to be checked.
      * @return boolean                 True if valid, false otherwise.
      */

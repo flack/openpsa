@@ -132,7 +132,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $bgstat = $data['message_obj']->send_bg($data['batch_url_base_full'], $data['batch_number'], $composed, $data['compose_from'], $data['compose_subject'], $data['message_array']);
         if (!$bgstat)
         {
-            //TODO: echo some sort of error for the AT handler to catch (plaintext)
             echo "ERROR\n";
         }
         else

@@ -74,7 +74,6 @@ class midcom_db_topic extends midcom_core_dbaobject
      *
      * Uses midgard_collector to avoid unnecessary full object loads
      *
-     * @todo when 1.8.1 is released convert to use single collector with linked guid property
      * @param guid $guid guid of topic to get the parent for
      */
     function get_parent_guid_uncached_static($guid)
@@ -83,18 +82,6 @@ class midcom_db_topic extends midcom_core_dbaobject
         {
             return null;
         }
-        /* 1.8.1 version:
-        $mc_topic = midcom_db_topic::new_collector('guid', $guid);
-        $mc_topic->add_value_property('up.guid');
-        if (!$mc_topic->execute())
-        {
-            // Error
-            return null;
-        }
-        $mc_topic_keys = $mc_topic->list_keys();
-        list ($key, $copy) = each ($mc_topic_keys);
-        $parent_guid = $mc_topic->get_subkey($key, 'guid');
-        */
         $mc_topic = midcom_db_topic::new_collector('guid', $guid);
         $mc_topic->add_value_property('up');
         if (!$mc_topic->execute())

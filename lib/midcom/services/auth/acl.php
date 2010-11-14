@@ -295,9 +295,6 @@ class midcom_services_auth_acl
      * Internal listing of all default privileges currently registered in the system. This
      * is a privilege name/value map.
      *
-     * @todo This should be cached, as it would require loading all components by default.
-     *     The component manifest might help here too.
-     *
      * @var array
      * @access private
      */
@@ -307,9 +304,6 @@ class midcom_services_auth_acl
      * Internal listing of all default owner privileges currently registered in the system.
      * All privileges not set in this list will be inherited. This is a privilege name/value
      * map.
-     *
-     * @todo This should be cached, as it would require loading all components by default.
-     *     The component manifest might help here too.
      *
      * @var array
      * @access private
@@ -502,7 +496,7 @@ class midcom_services_auth_acl
 
         return $cache[$cache_id];
     }
-    
+
     /**
      * Determine the user identifier for accessing the privilege cache. This is the passed user's
      * identifier with the current user and anonymous as fallback

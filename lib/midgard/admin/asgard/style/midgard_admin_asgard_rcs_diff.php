@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $diff   = $data['diff'];
 $latest = $data['latest_revision'];
 $comment= $data['comment'];
@@ -14,9 +13,9 @@ echo $data['rcs_toolbar_2']->render();
 <dl class="midgard_admin_asgard_rcs_diff">
 <?php
 $changes = false;
-foreach ($diff as $attribute => $values)  
+foreach ($diff as $attribute => $values)
 {
-    if (!array_key_exists('diff', $values)) 
+    if (!array_key_exists('diff', $values))
     {
         continue;
     }
@@ -25,12 +24,12 @@ foreach ($diff as $attribute => $values)
     {
         continue;
     }
-    
+
     if (is_array($values['diff']))
     {
         continue;
     }
-    
+
     $changes = true;
 
     // Three fold fallback in localization

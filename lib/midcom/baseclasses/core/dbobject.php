@@ -10,8 +10,6 @@
 /**
  * This class only contains static functions which are there to hook into
  * the classes you derive from the MidgardSchema DB types like (New)MidgardArticle.
- * You should never have to fiddle with this class, the code generator (TODO)
- * shipping with MidCOM will do that.
  *
  * The static members will invoke a number of callback methods so that you should
  * normally never have to override the base midgard methods like update or the like.

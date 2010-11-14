@@ -1,20 +1,15 @@
 <?php
-/*
- * Created on Aug 17, 2005
- *
- */
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $history = $data['history'];
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $guid = $data['guid'];
 
 echo "<h1>{$data['view_title']}</h1>\n";
 
-if (count($history) == 0) 
+if (count($history) == 0)
 {
    echo $data['l10n']->get('No revisions exist.');
-} 
-else 
+}
+else
 {
     ?>
     <form name="no_bergfald_rcs_history" action="" >
@@ -31,12 +26,12 @@ else
             </thead>
             <tbody>
             <?php
-            foreach ($history as $rev => $history) 
+            foreach ($history as $rev => $history)
             {
                 echo "                <tr>\n";
                 echo "                    <td><a href='{$prefix}__ais/rcs/preview/$guid/$rev'>{$rev}</a></td>\n";
                 echo "                    <td>".strftime('%x %X Z', $history['date'])."</td>\n";
-                
+
                 if ($history['user'])
                 {
                     $user = $_MIDCOM->auth->get_user($history['user']);
@@ -60,7 +55,7 @@ else
                     }
                     else
                     {
-                        echo "                    <td></td>\n";            
+                        echo "                    <td></td>\n";
                     }
                 }
                 elseif ($history['ip'])
@@ -69,9 +64,9 @@ else
                 }
                 else
                 {
-                    echo "                    <td></td>\n";            
+                    echo "                    <td></td>\n";
                 }
-                echo "                    <td>{$history['lines']}</td>\n";                       
+                echo "                    <td>{$history['lines']}</td>\n";
                 echo "                    <td>{$history['message']}</td>\n";
                 echo "                    <td></td>\n";
                 echo "                </tr>\n";

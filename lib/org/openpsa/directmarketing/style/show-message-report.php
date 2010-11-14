@@ -1,14 +1,6 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $l10n =& $data['l10n'];
 $report =& $data['report']
-
-/*
-echo "<pre>\n";
-print_r($data['report']);
-echo "</pre>\n";
-*/
-
 ?>
 <h2><?php printf($l10n->get('report for message %s'), $data['message']->title); ?></h2>
 <?php

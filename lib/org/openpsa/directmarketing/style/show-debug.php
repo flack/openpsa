@@ -1,10 +1,6 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 echo "<p>\n";
 echo 'time:' . time() . "<br>\n";
-/*
-phpinfo();
-*/
 
 require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/type/blobs.php');
 

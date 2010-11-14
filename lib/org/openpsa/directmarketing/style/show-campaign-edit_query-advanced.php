@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 if (isset($_POST['midcom_helper_datamanager_dummy_field_rules']))
 {
     $editor_content = $_POST['midcom_helper_datamanager_dummy_field_rules'];
@@ -8,7 +7,6 @@ else
 {
     $editor_content = org_openpsa_helpers::array2code($data['campaign']->rules);
 }
-
 ?>
 <div class="main">
     <form name="org_openpsa_directmarketing_rules_advanced_editor" enctype="multipart/form-data" method="post" class="datamanager2">

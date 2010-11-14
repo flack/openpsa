@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 /* If we need to do any specific mangling to the query data before we use it,
    we do it here. */
 $query =& $data['query_data'];
@@ -22,7 +21,4 @@ switch (date('w', $start))
 }
 $start = mktime(0, 0, 0, date('n', $start), date('j', $start)+$daymod, date('Y', $start));
 $end = mktime(23, 59, 59, date('n', $start), date('j', $start)+6, date('Y', $start));
-
-//echo "DEBUG: Hello World! " . date('Y-m-d H:i:s', $start) . " - " . date('Y-m-d H:i:s', $end) . "<br>\n";
-
 ?>

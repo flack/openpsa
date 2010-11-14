@@ -4,9 +4,7 @@
 //
 // Available metadata keys, see net_nehmer_buddylist_handler_welcome::_buddies_meta
 
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 ?>
 
 <h2><?php echo $data['topic']->extra; ?></h2>
@@ -39,37 +37,37 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 $person = $user->get_storage();
                 $buddy_meta['view_account_url'] = $person->homepage;
             }
-            
+
             ?>
             <tr>
-            <?php 
-            if ($buddy_meta['view_account_url']) 
-            { 
+            <?php
+            if ($buddy_meta['view_account_url'])
+            {
                 ?>
                 <td><a href="&(buddy_meta['view_account_url']);" rel=\"friend\">&(user.name);</a></td>
-                <?php 
-            } 
+                <?php
+            }
             else
             {
                 ?>
                 <td>&(user.name);</td>
-                <?php 
+                <?php
             }
             ?>
             <td align="center"><?php $data['l10n_midcom']->show($buddy_meta['is_online'] ? 'online' : 'offline'); ?></td>
             <?php if ($buddy_meta['new_mail_url'])
-            { 
+            {
                 ?>
                 <td align="center"><a href="&(buddy_meta['new_mail_url']);"><?php $data['l10n_midcom']->show('write mail'); ?></a></td>
                 <?php
-            } 
+            }
             else
             {
                 ?>
                 <td align="center">&nbsp;</td>
-                <?php 
+                <?php
             }
-            
+
             if (   $_MIDCOM->auth->user
                 && $data['user']->guid == $_MIDCOM->auth->user->guid)
             {
@@ -116,12 +114,12 @@ else
     <p><?php $data['l10n']->show('no buddies found.'); ?></p>
 <?php } ?>
 
-<?php 
+<?php
 if (   $_MIDCOM->auth->user
-    && net_nehmer_buddylist_entry::get_unapproved_count() > 0) 
-{ 
+    && net_nehmer_buddylist_entry::get_unapproved_count() > 0)
+{
     ?>
     <p><a href="&(prefix);pending/list.html"><?php $data['l10n']->show('new buddy requests pending.'); ?></a></p>
-    <?php 
+    <?php
 }
 ?>

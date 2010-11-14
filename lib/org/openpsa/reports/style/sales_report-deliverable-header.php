@@ -1,9 +1,7 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 $report =& $data['report'];
-
 ?>
         <div class="org_openpsa_reports_report org_openpsa_reports_deliverable">
             <div class="header">

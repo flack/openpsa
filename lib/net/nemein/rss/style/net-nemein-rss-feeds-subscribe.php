@@ -1,6 +1,3 @@
-<?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-?>
 <h1><?php echo sprintf($_MIDCOM->i18n->get_string('subscribe feeds for %s', 'net.nemein.rss'), $data['folder']->extra); ?></h1>
 
 <form method="post" class="datamanager" enctype="multipart/form-data">
@@ -14,7 +11,7 @@
             <span>
                 <?php echo $_MIDCOM->i18n->get_string('feed url', 'net.nemein.rss'); ?>
             </span>
-            <input class="shorttext" type="text" name="net_nemein_rss_manage_newfeed[url]" />  
+            <input class="shorttext" type="text" name="net_nemein_rss_manage_newfeed[url]" />
         </label>
     </fieldset>
 

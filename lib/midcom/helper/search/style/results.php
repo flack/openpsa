@@ -1,6 +1,3 @@
-<?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-?>
 <h1><?php echo $data['topic']->extra;?></h1>
 
 <div class="midcom_helper_search_form">
@@ -9,11 +6,11 @@
 
 <h2><?php echo $data['l10n']->get('search results');?>:</h2>
 <?php
-midcom_show_style('result_summary'); 
-midcom_show_style('result_nav'); 
+midcom_show_style('result_summary');
+midcom_show_style('result_nav');
 
 midcom_show_style('result_start');
-foreach ($data['result'] as $document) 
+foreach ($data['result'] as $document)
 {
     $data['document'] = $document;
     midcom_show_style('result_item');

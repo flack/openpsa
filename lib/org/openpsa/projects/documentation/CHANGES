@@ -93,7 +93,6 @@ Legend:
 
 2006-04-19 rambo
   - really fixed the "invoiceable" checkbox (required changes to DM and earlier submit hack)
-  TODO: Person selector in hour editor still 1) shows only current user 2) does not show person name on list, only #ID
 
 2006-04-14 bergie
   + Fixed the "invoiceable" checkbox and person selector for hour reporting

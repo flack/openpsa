@@ -226,7 +226,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         foreach ($this->_request_data['raw_results']['hr'] as $hour)
         {
             debug_add('processing hour id: ' . $hour->id);
-            //TODO: whatever mangling the hour report requires
 
             //Put the mangled hour to caches
             $this->_request_data['object_cache'][$hour->guid] = $hour;

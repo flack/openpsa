@@ -1,6 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-
 if (isset($data['feed']))
 {
     ?>
@@ -52,7 +50,7 @@ else
             echo "    <td>" . strftime('%x %X', $date) . "</td>\n";
         }
         echo "    <td><a href=\"{$item['link']}\">{$item['title']}</a></td>\n";
-        
+
         if (!$item['local_guid'])
         {
             echo "    <td>" . $_MIDCOM->i18n->get_string('not in local database', 'net.nemein.rss') . "</td>\n";
@@ -66,7 +64,7 @@ else
                     $local_link = $_MIDCOM->permalinks->create_permalink($item['local_guid']);
                     echo "    <td><a href=\"{$local_link}\">{$local_article->title}</a></td>\n";
                     break;
-                
+
                 case 'net.nemein.calendar':
                     $local_event = new net_nemein_calendar_event($item['local_guid']);
                     $local_link = $_MIDCOM->permalinks->create_permalink($item['local_guid']);
@@ -74,7 +72,7 @@ else
                     break;
             }
         }
-        
+
         echo "</tr>\n";
     }
     echo "    </tbody>\n";

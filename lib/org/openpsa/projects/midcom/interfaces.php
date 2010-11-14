@@ -23,35 +23,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         (
             'org.openpsa.core',
         );
-
-        //$this->_fill_virtual_groups();
-    }
-    
-    /**
-     * @todo this function doesn't seem to do anything useful ($this->_virtual_groups isn't used anywhere)
-     */
-    function _fill_virtual_groups()
-    {
-        $mc = new midgard_collector('org_openpsa_task', 'orgOpenpsaWgtype', ORG_OPENPSA_WGTYPE_ACTIVE);
-        $mc->set_key_property('guid');
-        $mc->add_value_property('title');
-        $mc->execute();
-
-        $ret = $mc->list_keys();
-        if (   is_array($ret)
-            && count($ret) > 0)
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            foreach($ret as $guid => $empty)
-            {
-                $title = $mc->get_subkey($guid, $title);
-                debug_add('Adding workgroup: ' . $title . ' (guid: ' . $guid . ')');
-                $this->_virtual_groups[$guid] = $title;
-                $this->_virtual_groups[$guid . 'subscribers'] = $title . ' contacts';
-            }
-            debug_pop();
-        }
-        return true;
     }
 
     function _on_retrieve_vgroup_members($groupname)
@@ -70,12 +41,12 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             $project_guid = substr($groupname, 0, strlen($groupname) - 11);
             $type = 'contacts';
         }
-        
+
         if (isset($vgroup_members[$groupname]))
         {
             return $vgroup_members[$groupname];
         }
-      
+
         $members = array();
         $project = org_openpsa_projects_project::get_cached($project_guid);
         if (   !$project
@@ -181,7 +152,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
      * Currently handles persons
      */
     function org_openpsa_relatedto_find_suspects($object, $defaults, &$links_array)
-    {       
+    {
         if (   !is_array($links_array)
             || !is_object($object))
         {

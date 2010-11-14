@@ -1,6 +1,3 @@
-<?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-?>
     <h1><?php echo sprintf($data['l10n']->get('interviews for "%s"'), $data['campaign']->title); ?></h1>
 <table>
     <thead>

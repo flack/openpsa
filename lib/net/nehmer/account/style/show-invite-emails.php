@@ -1,10 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-
-//echo "<pre>";
-//print_r($data);
-//echo "</pre>";
-
 $email_fields = $data['config']->get('email_fields');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -24,16 +18,12 @@ if ($_MIDCOM->componentloader->is_installed('com.magnettechnologies.contactgrabb
     if (is_array($crabber_contacts))
     {
         foreach($crabber_contacts['name'] as $key => $name)
-        { 
+        {
             $contacts[$key]['name'] = $name;
             $contacts[$key]['email'] = $crabber_contacts['email'][$key];
         }
     }
 }
-
-//echo "<pre>";
-//print_r($contacts);
-//echo "</pre>";
 
 $total_contacts = $email_fields + count($contacts);
 
@@ -91,4 +81,4 @@ $total_contacts = $email_fields + count($contacts);
   </td>
 </table>
 </form>
-    
+

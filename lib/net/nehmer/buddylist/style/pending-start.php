@@ -1,8 +1,6 @@
 <?php
 // Available request keys:
 // pending
-
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 ?>
 
 <h2><?php echo $data['topic']->extra . ': ' . $data['l10n']->get('buddy requests'); ?></h2>

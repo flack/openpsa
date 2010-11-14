@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="main">
@@ -68,7 +67,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                             // TODO: We may want to use some customdata field for this instead
                             continue;
                         }
-                        
+
                         if (   is_array($fields_to_skip)
                             && in_array($field_id, $fields_to_skip)
                             )
@@ -83,7 +82,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                         }
                         echo "            <option{$selected} value=\"{$field_id}\">{$field_label}</option>\n";
                     }
-                    
+
                     echo "    </select></td>\n";
                     echo "</tr>\n";
                 }

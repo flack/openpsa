@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     {
         parent::__construct();
     }
-    
+
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      *
@@ -69,7 +69,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             // This will exit.
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";  
+        $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($this->_message);
@@ -120,7 +120,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:update')
             )
         );
-        
+
         if (   !empty($_MIDCOM->auth->user)
             && !empty($_MIDCOM->auth->user->guid))
         {
@@ -154,7 +154,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
-        
+
         $this->_campaign->get_testers();
         $this->_view_toolbar->add_item
         (
@@ -167,12 +167,12 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0) ? true : false,
             )
         );
-        
+
         $mc = org_openpsa_campaign_member::new_collector('campaign', $this->_campaign->id);
         $mc->set_key_property('campaign');
         $mc->execute();
         $keys = $mc->list_keys();
-        
+
         // Show the message send if there are recipients
         $this->_view_toolbar->add_item
         (
@@ -182,7 +182,6 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
                 MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
-                // TODO: Use some othe privilege ?? (and check that on send handler too)
                 MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')) ? true : false,
                 MIDCOM_TOOLBAR_OPTIONS => array
                 (

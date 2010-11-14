@@ -3,7 +3,6 @@
 // initiate deletion, this can be either HTTP GET or POST, whichever you like.
 // The value of this member is not important.
 
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view = $data['datamanager']->get_content_html();
 ?>
 

@@ -842,14 +842,13 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      *
      * @access private
      * @param midcom_db_person $this->_person  The newly created person account
-     * @todo Make this configurable (as well as method $this->_send_registration_mail)
      */
     function _send_activation_pending_mail()
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
         $mail->from = $this->_config->get('activation_mail_sender');
-        
+
         if (!$mail->from)
         {
             $mail->from = $this->_person->email;
@@ -861,11 +860,11 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
         // Get the commonly used parameters
         $parameters = net_nehmer_account_viewer::get_mail_parameters($this->_person);
-        
+
         // Convert the parameters
         $mail->subject = net_nehmer_account_viewer::parse_parameters($parameters, $mail->subject);
         $mail->body = net_nehmer_account_viewer::parse_parameters($parameters, $mail->body);
-        
+
         // Finally send the email
         return $mail->send();
     }
@@ -883,7 +882,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
         $mail->from = $this->_config->get('activation_mail_sender');
-        
+
         if (!$mail->from)
         {
             $mail->from = $this->_person->email;
@@ -892,16 +891,16 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         $mail->subject = $this->_l10n->get($this->_config->get('approval_mail_subject'));
         $mail->body = $this->_l10n->get($this->_config->get('approval_mail_body'));
         $mail->to = $this->_config->get('administrator_email');
-        
+
         // Get the commonly used parameters
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $parameters = net_nehmer_account_viewer::get_mail_parameters($this->_person);
         $parameters['APPROVALURI'] = "{$prefix}pending/{$this->_person->guid}/";
-        
+
         // Convert the parameters
         $mail->subject = net_nehmer_account_viewer::parse_parameters($parameters, $mail->subject);
         $mail->body = net_nehmer_account_viewer::parse_parameters($parameters, $mail->body);
-        
+
         // Finally send the email
         return $mail->send();
     }

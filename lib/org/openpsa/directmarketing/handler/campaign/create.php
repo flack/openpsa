@@ -119,9 +119,6 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba();
         $this->_campaign->node = $this->_topic->id;
-        /* TODO: in the future we may need to set this
-        $this->_campaign->orgOpenpsaObtype = ;
-        */
 
         if (! $this->_campaign->create())
         {
@@ -150,7 +147,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
 
         $this->_schema = $args[0];
         $this->_load_schemadb();
-        
+
         if (!array_key_exists($this->_schema, $this->_schemadb))
         {
             // This campaign type isn't available for our schema, return error
@@ -159,7 +156,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
 
         $this->_load_controller();
         $this->_prepare_request_data();
-        
+
         switch ($this->_controller->process_form())
         {
             case 'save':
@@ -174,7 +171,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
                 // This will exit.
         }
 
-        if ($this->_campaign != null) 
+        if ($this->_campaign != null)
         {
             $_MIDCOM->set_26_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
         }

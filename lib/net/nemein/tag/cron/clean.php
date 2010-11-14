@@ -57,7 +57,6 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
             debug_add("Cleaning dangling tag #{$tag->id} ('{$tag->tag}')", MIDCOM_LOG_INFO);
             if (!$tag->delete())
             {
-                // TODO: Error reporting ?
                 debug_add("Could not delete dangling tag #{$tag->id} ('{$tag->tag}'), errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }

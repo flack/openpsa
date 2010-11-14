@@ -144,15 +144,6 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
             );
         }
 
-        /* Sessions service now tries to be smarter about things
-        if (! $_MIDGARD['user'])
-        {
-            // Don't use sessioning for non-users as that kills cache usage
-            // TODO: Device a better approach for this
-            return true;
-        }
-        */
-
         // Read messages from session
         $session = new midcom_services_session('midcom_services_uimessages');
         if ($session->exists('midcom_services_uimessages_stack'))

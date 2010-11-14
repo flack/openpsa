@@ -1,14 +1,12 @@
 <?php
-// Bind the view data, remember the reference assignment:
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view = $data['wikipage_view'];
 $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 ?>
 <div class="net_nemein_wiki_wikipage">
     <h1>&(view['title']:h);</h1>
-    
-    <?php 
+
+    <?php
     if ($view['content'] != '')
     {
         if ($data['autogenerate_toc'])
@@ -25,12 +23,12 @@ $node = $nap->get_node($nap->get_current_node());
             &(view["content"]:h);
             <?php
         }
-    } 
+    }
     else
     {
         echo "<p class=\"stub\">" . $data['l10n']->get('this page is stub') . "</p>";
     }
-    
+
     // List possible wiki pages tagged with name of this page
     $qb = net_nemein_tag_link_dba::new_query_builder();
     $qb->add_constraint('tag.tag', '=', $data['wikipage']->title);
@@ -49,7 +47,7 @@ $node = $nap->get_node($nap->get_current_node());
             {
                 $context = $_MIDCOM->i18n->get_string('tagged', 'net.nemein.tag');
             }
-            
+
             if (!array_key_exists($context, $contexts_shown))
             {
                 echo "    <dt>" . sprintf($data['l10n']->get('%s for %s'), ucfirst($context), $data['wikipage']->title) . "</dt>\n";
@@ -61,7 +59,7 @@ $node = $nap->get_node($nap->get_current_node());
         echo "</dl>\n";
     }
 
-    // List tags used in this wiki page    
+    // List tags used in this wiki page
     $tags_by_context = net_nemein_tag_handler::get_object_tags_by_contexts($data['wikipage']);
     if (count($tags_by_context) > 0)
     {

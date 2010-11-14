@@ -4,9 +4,6 @@ Legend:
   which might even break existing functionality.
 - All items marked with "+" represent completely new features.
 
-TODO
-  - Make autocompleting tag widget to DM2
-
 2006-11-24 rambo
   - fixed a bug in get_objects_with_tags caused by dangling reference
     (manifested as incorrect object for last result in list)

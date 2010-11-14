@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $l10n =& $data['l10n'];
 $report =& $data['report'];
 $link_data =& $data['use_link_data'];
@@ -7,17 +6,17 @@ if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';
 }
-$form_suffix =& $data['form_suffix']; 
+$form_suffix =& $data['form_suffix'];
 if (!isset($data['body_title']))
 {
     $data['body_title'] = '';
 }
-$body_title =& $data['body_title']; 
+$body_title =& $data['body_title'];
 if (!isset($data['body_class']))
 {
     $data['body_class'] = '';
 }
-$body_class = " class='{$data['body_class']}'"; 
+$body_class = " class='{$data['body_class']}'";
 ?>
             <tbody&(body_class);>
 <?php       if (!empty($body_title))
@@ -27,9 +26,7 @@ $body_class = " class='{$data['body_class']}'";
                 </tr>
 <?php       }
             $total = 0;
-/*            echo "<pre>";
-            print_r($link_data);
-            echo "</pre>";*/
+
             foreach($link_data['counts'] as $target => $count)
             {
                 $total += $count['total'];
@@ -40,9 +37,9 @@ $body_class = " class='{$data['body_class']}'";
                 $target_label = $target;
                 // Fetch target url and look for a heading to use
                 $is_html = false;
-        $url = trim(urldecode($target));
-        $headers = get_headers($url);
-        foreach ($headers as $header)
+                $url = trim(urldecode($target));
+                $headers = get_headers($url);
+                foreach ($headers as $header)
                 {
                     if (preg_match('/^Content-Type: .*\/.*html/', $header))
                     {
@@ -75,11 +72,7 @@ $body_class = " class='{$data['body_class']}'";
                             if (preg_match($regex, $remote_data, $title_matches))
                             {
                                 debug_print_r("Got title_matches:", $title_matches);
-                                /*
-                                echo "title_matches from url {$target}: <pre>\n";
-                                echo htmlentities(org_openpsa_helpers::sprint_r($title_matches));
-                                echo "</pre>\n";
-                                */
+
                                 if (!empty($title_matches[3]))
                                 {
                                     $target_label = strip_tags($title_matches[3]);

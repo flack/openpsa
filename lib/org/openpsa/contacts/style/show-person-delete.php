@@ -1,7 +1,6 @@
 <?php
 // Available request keys: article, datamanager, edit_url, delete_url, create_urls
 
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $dn_data= $data['datamanager']->get_content_html();
 ?>
 

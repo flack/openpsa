@@ -487,11 +487,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             $tagger = new net_nemein_tag_handler();
             $tagger->copy_tags($this->_deliverable, $task);
 
-            // Initiate automated resourcing seek from local OpenPSA
-            // @todo resource_seek_type doesn't seem to be used anywhere
-            //$task->resource_seek_type = 'openpsa';
-            //$task->update();
-
             $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($_MIDCOM->i18n->get_string('created task "%s"', 'org.openpsa.sales'), $task->title), 'ok');
             return $task;
         }

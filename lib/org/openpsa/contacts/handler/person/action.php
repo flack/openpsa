@@ -147,9 +147,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $this->_request_data['default_username'] = midcom_generate_urlname_from_string($this->_person->firstname) . '.' . midcom_generate_urlname_from_string($this->_person->lastname);
         }
 
-        // TODO: Generate random password
         // We should do this by listing to /dev/urandom
-        //$this->_request_data['default_password'] = substr(md5(microtime()), 5, 6);
         $d = $this->_config->get('default_password_lenght');
         // Safety
         if ($d == 0)

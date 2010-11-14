@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 ?>
 <prospects>

@@ -142,7 +142,6 @@ class net_nemein_wiki_moinmoin_importer
                     $topic->component = 'net.nemein.wiki';
                     if (!$topic->create())
                     {
-                        // TODO: error reporting
                         echo "FAILURE: could not create topic, error: " . midcom_application::get_error_string() . "<br/>\n";
                         _midcom_stop_request();
                         return false;
@@ -208,7 +207,6 @@ class net_nemein_wiki_moinmoin_importer
                     $wikipage->author = $_MIDGARD['user'];
                     if (!$wikipage->create())
                     {
-                        // TODO: error reporting
                         echo "FAILURE: could not create wikipage object, error: " . midcom_application::get_error_string() . "<br/>\n";
                         return false;
                     }
@@ -325,7 +323,6 @@ class net_nemein_wiki_moinmoin_importer
             $dp2 = opendir("{$page_path}/revisions");
             if (!$dp2)
             {
-                // TODO: Error reporting
                 echo "ERROR: could not open dir '{$page_path}/revisions}'<br/>\n";
                 continue;
             }
@@ -742,7 +739,7 @@ class net_nemein_wiki_moinmoin_importer
                       $return['contents'][] = trim($cell_content);
                       unset($cell_content);
                     break;
-                /* MoinMoinWiki table syntax allows all kinds of weird things be controlled by brackets, 
+                /* MoinMoinWiki table syntax allows all kinds of weird things be controlled by brackets,
                    they may also contain pipe which we use normally as delimiter */
                 case (   $char === '<'
                       && $cell_open):

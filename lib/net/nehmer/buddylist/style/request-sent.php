@@ -4,7 +4,6 @@
 //
 // Available entry fields, see net_nehmer_buddylist_handler_pending::_pending documentation
 
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $buddy_user =& $data['buddy_user'];
 ?>

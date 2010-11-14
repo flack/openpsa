@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $product = $data['product'];
 $view_product = $data['view_product'];
 

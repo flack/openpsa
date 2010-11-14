@@ -1,6 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-
 $found_docs = sprintf($data['l10n']->get('found %s documents, showing %s documents.'),
     $data['document_count'], $data['shown_documents']);
 if ($data['shown_documents'] > 1)

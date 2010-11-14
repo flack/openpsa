@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 if ($data['max_pages'] > 1)
@@ -18,7 +17,7 @@ if ($data['max_pages'] > 1)
     }
 
     echo $data['l10n']->get('pages') . ': ';
-    
+
     if ($data['page'] > 1)
     {
         $page = urlencode($data['page'] - 1);
@@ -26,7 +25,7 @@ if ($data['max_pages'] > 1)
         $desc = $data['l10n']->get('previous page');
         echo "<a href='{$url}'>&lArr; {$desc}</a>&nbsp;&nbsp;&nbsp;";
     }
-    
+
     for ($i = 1; $i <= $data['max_pages']; $i++)
     {
         if ($i == $data['page'])
@@ -40,7 +39,7 @@ if ($data['max_pages'] > 1)
             echo "<a href='{$url}'>${i}</a> ";
         }
     }
-    
+
     if ($data['page'] < $data['max_pages'])
     {
         $page = urlencode($data['page'] + 1);
@@ -48,7 +47,7 @@ if ($data['max_pages'] > 1)
         $desc = $data['l10n']->get('next page');
         echo "&nbsp;&nbsp;&nbsp;<a href='{$url}'>{$desc} &rArr;</a>";
     }
-    
+
 ?>
 </p>
 <?php

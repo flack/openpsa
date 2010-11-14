@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $view_task =& $data['object_view'];
 $task =& $data['object'];
 $task->get_members();
@@ -86,7 +85,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         echo "<div class=\"current-status {$task->status_type}\">" . $data['l10n']->get('task status') . ': ' . $data['l10n']->get($task->status_type) . "</div>\n";
 
         echo "<ul>\n";
-    
+
         $fallback_creator = midcom_db_person::get_cached(1);
         foreach ($ret as $status_change)
         {

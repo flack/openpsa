@@ -1,6 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-
 $current_rules =& $data['campaign']->rules;
 if (isset($data['new_rule_from'])
     && is_array($data['new_rule_from']))

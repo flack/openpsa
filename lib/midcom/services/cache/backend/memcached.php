@@ -57,19 +57,19 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
      * @var Memcache
      */
     static $memcache = null;
-    
+
     /**
      * Whether to abort the request if connection to memcached fails
      */
     var $_abort_on_fail = false;
-    
+
     /**
      * Whether memcached is working
      */
     static $memcache_operational = true;
 
     /**
-     * We use persistant connections, so we let midcom assume the read/write 
+     * We use persistant connections, so we let midcom assume the read/write
      * connection is always open
      */
     function __construct()
@@ -123,7 +123,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
                     _midcom_stop_request("memcache handler: Failed to connect to {$this->_host}:{$this->_port}. " . $e->getMessage());
                     // This will exit.
                 }
-                
+
                 // Otherwise we just skip caching
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("memcache handler: Failed to connect to {$this->_host}:{$this->_port}. " . $e->getMessage() . ". Serving this request without cache.", MIDCOM_LOG_ERROR);
@@ -156,13 +156,8 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
         {
             return;
         }
-        
+
         $key = "{$this->_name}-{$key}";
-        /* TODO: Remove when done
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("Returning \self::$memcache->get('{$key}')");
-        debug_pop();
-        */
         return (@self::$memcache->get($key));
     }
 
@@ -172,23 +167,13 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
         {
             return;
         }
-        
+
         $key = "{$this->_name}-{$key}";
         if ($timeout !== FALSE)
         {
-            /* TODO: Remove when done
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Returning \self::$memcache->set('{$key}', \$data, 0, {$timeout})");
-            debug_pop();
-            */
             @self::$memcache->set($key, $data, 0, $timeout);
             return;
         }
-        /* TODO: Remove when done
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("Returning \self::$memcache->set('{$key}', \$data)");
-        debug_pop();
-        */
         @self::$memcache->set($key, $data);
     }
 
@@ -198,13 +183,8 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
         {
             return;
         }
-        
+
         $key = "{$this->_name}-{$key}";
-        /* TODO: Remove when done
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("Returning \self::$memcache->delete('{$key}')");
-        debug_pop();
-        */
         @self::$memcache->delete($key);
     }
 
@@ -214,7 +194,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
         {
             return;
         }
-        
+
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Calling \self::\$memcache->flush()");
         $stat = @self::$memcache->flush();

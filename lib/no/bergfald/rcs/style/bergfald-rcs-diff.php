@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $diff   = $data['diff'];
 $latest = $data['latest_revision'];
 $comment= $data['comment'];
@@ -28,9 +27,9 @@ if ($data['next_revision'])
 <dl class="no_bergfald_rcs_diff">
 <?php
 $changes = false;
-foreach ($diff as $attribute => $values)  
+foreach ($diff as $attribute => $values)
 {
-    if (!array_key_exists('diff', $values)) 
+    if (!array_key_exists('diff', $values))
     {
         continue;
     }
@@ -39,12 +38,12 @@ foreach ($diff as $attribute => $values)
     {
         continue;
     }
-    
+
     if (is_array($values['diff']))
     {
         continue;
     }
-    
+
     $changes = true;
 
     // Three fold fallback in localization

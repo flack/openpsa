@@ -3,7 +3,6 @@
 // datamanager, fields, schema, account, avatar, avatar_thumbnail, form_submit_name,
 // processing_msg, profile_url, edit_url, avatar_url, avatar_thumbnail_url, onlinestate_checked
 // account_published, account_revised
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 ?>
     <tr>
         <td style='border-top: 1px dashed black; padding-top: 1ex;'>

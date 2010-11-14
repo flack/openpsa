@@ -432,22 +432,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
                 default:
                     $data['file_syntax'] = 'text';
             }
-
-            /**
-             TODO: Enable later
-            // Add syntax highlighter
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/edit_area/edit_area_full.js');
-            $_MIDCOM->add_jscript("
-                editAreaLoader.init({
-                    id : 'midcom_admin_styleeditor_file_edit',
-                    syntax: '{$data['file_syntax']}',
-                    start_highlight: true,
-                    allow_toggle: false,
-                    replace_tab_by_spaces: 4,
-                    fullscreen: false
-                });
-            ");
-            */
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);

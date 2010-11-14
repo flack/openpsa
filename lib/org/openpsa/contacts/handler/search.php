@@ -17,25 +17,25 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
     /**
      * The group results, if any
-     * 
+     *
      * @var array
      */
     private $_groups = array();
 
     /**
      * The person results, if any
-     * 
+     *
      * @var array
      */
     private $_persons = array();
 
     /**
      * The search string
-     * 
+     *
      * @var string
      */
     private $_search;
-    
+
     function __construct()
     {
         parent::__construct();
@@ -126,14 +126,14 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     function _handler_search($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        
+
         $this->_get_search_string();
         if ($this->_search)
         {
             $this->_search_qb_groups();
             $this->_search_qb_persons();
         }
-        
+
         if (   count($this->_groups) == 1
             && count($this->_persons) == 0)
         {
@@ -148,7 +148,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             $_MIDCOM->relocate($prefix . 'person/' . $this->_persons[0]->guid . '/');
             //This will exit
         }
-        
+
         //We always want to display *something*
         if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'))
         {
@@ -202,14 +202,13 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             //No results at all (from any of the queries)
             midcom_show_style('search-empty');
         }
-        else 
+        else
         {
             if (count($this->_groups) > 0)
             {
                 midcom_show_style('search-groups-header');
                 foreach($this->_groups as $group)
                 {
-                    //TODO: When we actually use MgdSchema objects just use $group
                     //$GLOBALS['view_group'] = new org_openpsa_contacts_group_dba($group->id);
                     $GLOBALS['view_group'] = $group;
                     midcom_show_style('search-groups-item');
@@ -229,7 +228,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 midcom_show_style('search-persons-footer');
             }
         }
-            
+
         midcom_show_style('search-footer');
     }
 

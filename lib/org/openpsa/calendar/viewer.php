@@ -9,7 +9,7 @@
 
 /**
  * org.openpsa.calendar site interface class.
- * 
+ *
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
@@ -17,8 +17,6 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
 
     /**
      * Constructor.
-     *
-     * @todo OpenPSA Calendar handles its URL space how?
      */
     function __construct($topic, $config)
     {
@@ -174,7 +172,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
                 'fixed_args' => array('event', 'delete'),
                 'variable_args' => 1,
             );
-            
+
             // Match /event/<guid>
             $this->_request_switch['event_view'] = array
             (
@@ -186,7 +184,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
                 'fixed_args' => 'event',
                 'variable_args' => 1,
             );
-            
+
             // This will redirect to the selected mode
             // Match /
             $this->_request_switch[] = array
@@ -246,9 +244,9 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-        
+
         $_MIDCOM->load_library('midcom.helper.datamanager2');
-        
+
         $this->_request_data['view'] = 'default';
 
         $_MIDCOM->add_link_head
@@ -260,7 +258,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
                 'href' => MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css',
             )
         );
-        
+
         $_MIDCOM->add_link_head
         (
             array
@@ -270,7 +268,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
                 'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jscript-calendar/calendar-win2k-1.css",
             )
         );
-                
+
         return true;
     }
 
@@ -283,12 +281,12 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     function _handler_notinitialized($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_admin_user();
-        
+
         if (org_openpsa_calendar_interface::find_root_event())
         {
             $_MIDCOM->relocate('');
         }
-        
+
         return true;
     }
 

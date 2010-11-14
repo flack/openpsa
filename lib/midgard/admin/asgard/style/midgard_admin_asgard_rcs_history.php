@@ -1,18 +1,13 @@
 <?php
-/*
- * Created on Aug 17, 2005
- *
- */
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $history = $data['history'];
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $guid = $data['guid'];
 
-if (count($history) == 0) 
+if (count($history) == 0)
 {
    echo $data['l10n']->get('no revisions exist');
    return;
-} 
+}
 ?>
 <div class="rcs_navigation">
 <?php
@@ -35,15 +30,15 @@ echo $data['rcs_toolbar']->render();
             <tbody>
             <?php
             $i = 0;
-            
-            foreach ($history as $rev => $history) 
+
+            foreach ($history as $rev => $history)
             {
                 $i++;
                 echo "                <tr id=\"midgard_admin_asgard_rcs_version_compare_{$i}_row\">\n";
                 echo "                    <td><input id=\"midgard_admin_asgard_rcs_version_compare_{$i}\" type=\"checkbox\" name=\"compare[]\" value=\"{$rev}\" />\n";
                 echo "                    <td><span style=\"display: none;\">". substr($rev, 2) ."</span><a href='{$prefix}__mfa/asgard/object/rcs/preview/$guid/$rev'>{$rev}</a></td>\n";
                 echo "                    <td><span style=\"display: none;\">{$history['date']}</span>".strftime('%x %X Z', $history['date'])."</td>\n";
-                
+
                 if ($history['user'])
                 {
                     $user = $_MIDCOM->auth->get_user($history['user']);
@@ -67,7 +62,7 @@ echo $data['rcs_toolbar']->render();
                     }
                     else
                     {
-                        echo "                    <td></td>\n";            
+                        echo "                    <td></td>\n";
                     }
                 }
                 elseif ($history['ip'])
@@ -76,9 +71,9 @@ echo $data['rcs_toolbar']->render();
                 }
                 else
                 {
-                    echo "                    <td></td>\n";            
+                    echo "                    <td></td>\n";
                 }
-                echo "                    <td>{$history['lines']}</td>\n";                       
+                echo "                    <td>{$history['lines']}</td>\n";
                 echo "                    <td>{$history['message']}</td>\n";
                 echo "                </tr>\n";
             }

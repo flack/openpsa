@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $task =& $data['task'];
 $action = 'complete';
@@ -17,8 +16,6 @@ switch($task->status)
 }
 //TODO: Check deliverables
 //NOTE: The hidden input is there on purpose, if we remove a check from checkbox, it will not get posted at all...
-
-//echo "<dt><input type=\"checkbox\" /><a href=\"{$prefix}task/{$task->guid}/\">{$task->title}</a></dt>\n";
 ?>
     <tr class="&(data['class']);">
       <td class="multivalue">

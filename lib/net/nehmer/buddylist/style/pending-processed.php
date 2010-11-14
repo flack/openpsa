@@ -4,7 +4,6 @@
 //
 // Available entry fields, see net_nehmer_buddylist_handler_pending::_pending documentation
 
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $entry =& $data['entry'];
 ?>
 

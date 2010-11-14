@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $workingon =& $data['workingon'];
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 if($workingon->start == 0)

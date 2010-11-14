@@ -23,7 +23,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     var $_skip_acl_refresh = false;
     var $_skip_parent_refresh = false;
     private $_status = null;
-    var $resource_seek_type = 'none';
 
     function __construct($id = null)
     {
@@ -82,10 +81,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $this->status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
         }
 
-        // Load seek type
-        // @todo resource_seek_type doesn't seem to be used anywhere
-        // $this->resource_seek_type = $this->get_parameter('org.openpsa.projects', 'resource_seek_type');
-
         return true;
     }
 
@@ -112,71 +107,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->_locale_set();
         if ($this->_prepare_save())
         {
-            // @todo resource_seek_type doesn't seem to be used anywhere
-            // $this->_handle_resource_seek();
             return true;
         }
         //If we return false here then _on_updated() never gets called
         $this->_locale_restore();
         return false;
-    }
-
-    /**
-     * @todo resource_seek_type doesn't seem to be used anywhere
-     */
-    private function _handle_resource_seek()
-    {
-        // act on seek type
-        switch($this->resource_seek_type)
-        {
-            case 'openpsa':
-                $local_state = $this->get_parameter('org.openpsa.projects.projectbroker', 'local_search');
-                if ($local_state != 'SEARCH_IN_PROGRESS')
-                {
-                    // Register AT service background seek.
-                    $args = array
-                    (
-                        'task' => $this->guid,
-                        'membership_filter' => array(),
-                    );
-                    $this->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'REQUEST_SEARCH');
-                    $atstat = midcom_services_at_interface::register(time(), 'org.openpsa.projects', 'background_search_resources', $args);
-                    if (!$atstat)
-                    {
-                        // error handling ?
-                    }
-                }
-                // TODO: better way to prevent this being done on each update but also have reseek possible ??
-                $this->resource_seek_type = 'none';
-                break;
-            case 'organization':
-                $local_state = $this->get_parameter('org.openpsa.projects.projectbroker', 'local_search');
-                if ($local_state != 'SEARCH_IN_PROGRESS')
-                {
-                    // Background local seek with group limiter set to owner_group
-                    $args = array
-                    (
-                        'task' => $this->guid,
-                        'membership_filter' => array('owner_group'),
-                    );
-                    $this->set_parameter('org.openpsa.projects.projectbroker', 'local_search', 'REQUEST_SEARCH');
-                    $atstat = midcom_services_at_interface::register(time(), 'org.openpsa.projects', 'background_seach_resources', $args);
-                    if (!$atstat)
-                    {
-                        // error handling ?
-                    }
-                }
-                // TODO: better way to prevent this being done on each update but also have reseek possible ??
-                $this->resource_seek_type = 'none';
-                break;
-            case 'none':
-                // TODO: unset other search requests if any are pending ??
-                // Fall-trough intentional
-            default:
-                break;
-        }
-        // Store seek type
-        $this->set_parameter('org.openpsa.projects', 'resource_seek_type', $this->resource_seek_type);
     }
 
     function _on_updated()

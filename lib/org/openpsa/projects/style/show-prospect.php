@@ -1,6 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-
 $contactwidget = new org_openpsa_contactwidget($data['person']);
 ?>
 <div class="org_openpsa_projects_projectbroker_prospect">

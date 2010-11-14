@@ -89,21 +89,18 @@ class org_openpsa_core_acl_synchronizer
                 debug_add("Private object, only user can read and write");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
                 $object->set_privilege('midgard:owner', $_MIDCOM->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
-                //TODO: Shouldn't this be midgard:owner as well ??
                 $this->_set_attachment_permission($object, 'midgard:read', $_MIDCOM->auth->user->id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
             case ORG_OPENPSA_ACCESSTYPE_WGPRIVATE:
                 debug_add("Private object, only workgroup members can read and write");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
                 $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-                //TODO: Shouldn't this be midgard:owner as well ??
                 $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
                 break;
             case ORG_OPENPSA_ACCESSTYPE_WGRESTRICTED:
                 debug_add("Restricted object, only workgroup members can read and write. Subscribers can read");
                 $object->set_privilege('midgard:read', 'EVERYONE', MIDCOM_PRIVILEGE_DENY);
                 $object->set_privilege('midgard:owner', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
-                //TODO: Shouldn't this be midgard:owner as well ??
                 $this->_set_attachment_permission($object, 'midgard:read', $owner_id, MIDCOM_PRIVILEGE_ALLOW);
 
                 // Process a possible subscribers group

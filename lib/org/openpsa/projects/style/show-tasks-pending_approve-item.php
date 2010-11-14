@@ -6,8 +6,6 @@ $checked = ' checked="checked"';
 
 //TODO: Check deliverables
 //NOTE: The hidden input is there on purpose, if we remove a check from checkbox, it will not get posted at all...
-
-//echo "<dt><input type=\"checkbox\" checked=\"checked\" /><a href=\"{$prefix}task/{$task->guid}/\">{$task->title}</a></dt>\n";
 ?>
 <tr class="&(data['class']);">
 <td class="multivalue">

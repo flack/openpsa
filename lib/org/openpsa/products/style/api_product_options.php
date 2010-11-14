@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="main">
@@ -31,7 +30,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                     $qb_groups->add_constraint('up', 'INTREE', $root_group->id);
                     $groups = $qb_groups->execute();
                 }
-                
+
                 foreach (array_keys($data['schemadb_product']) as $name)
                 {
                     $count_by_schema = 0;
@@ -46,7 +45,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                             $qb->add_constraint('productGroup', '=', $group->id);
                         }
                         $qb->end_group('OR');
-                        
+
                         $products = $qb->execute();
 
                         foreach ($products as $product)
@@ -54,7 +53,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                            if ($product->get_parameter('midcom.helper.datamanager2', 'schema_name') == $name)
                            {
                                $count_by_schema++;
-                           } 
+                           }
                         }
                     }
                     $count_by_schema = ' ('.$count_by_schema.')';

@@ -29,7 +29,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     {
         parent::__construct();
     }
-    
+
     /**
      * Internal helper, loads the datamanager for the current campaign. Any error triggers a 500.
      *
@@ -53,7 +53,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     function _handler_view ($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        
+
         if (   !$this->_campaign
             || $this->_campaign->node != $this->_topic->id)
         {
@@ -66,14 +66,13 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($this->_campaign);
-        
+
         $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";
 
         $this->_request_data['campaign'] =& $this->_campaign;
         $this->_request_data['datamanager'] =& $this->_datamanager;
 
         // Populate the toolbar
-        // TODO: Copy message-related items
         $this->_view_toolbar->add_item
         (
             array
@@ -96,7 +95,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:delete')
             )
         );
-        
+
         if ($this->_campaign->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
         {
             //Edit query parameters button in case 1) not in edit mode 2) is smart campaign 3) can edit
@@ -137,7 +136,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
                 MIDCOM_TOOLBAR_ENABLED => true,
             )
-        );        
+        );
         $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
         foreach ($schemadb_message as $name => $schema)
         {
@@ -152,7 +151,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 )
             );
         }
-        
+
         // Populate calendar events for the campaign
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -169,19 +168,19 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     function _show_view ($handler_id, &$data)
     {
         $data['view_campaign'] = $this->_datamanager->get_content_html();
-        
+
         // List members of this campaign
         $qb = new org_openpsa_qbpager_direct('org_openpsa_campaign_member', 'campaign_members');
         $qb->add_constraint('campaign', '=', $data['campaign']->id);
         $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
         $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
-        
+
         // Set the order
         $qb->add_order('person.lastname', 'ASC');
         $qb->add_order('person.firstname', 'ASC');
         $qb->add_order('person.username', 'ASC');
         $qb->add_order('person.id', 'ASC');
-        
+
         $data['campaign_members_qb'] =& $qb;
         $data['memberships'] = $qb->execute_unchecked();
         $data['campaign_members_count'] =  $qb->count_unchecked();

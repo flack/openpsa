@@ -143,14 +143,7 @@
  * As you can see, the system provides you with an easy way to keep track of the data
  * of your request, without having dozens of members for trivial flags. This data array
  * is automatically registered in the custom component context under the name
- * 'request_data', making it easily available within style elements avoiding the problems
- * of the view_* globals, this is the new recommended
- * way of passing information to the style elements:
- *
- * <code>
- * // Bind the view data, remember the reference assignment:
- * $data =& $_MIDCOM->get_custom_context_data('request_data');
- * </code>
+ * 'request_data', making it easily available within style elements as $data
  *
  * The data array can also be accessed by using the $_request_data member of this class,
  * which is the original data storage location for the request data.
@@ -739,7 +732,7 @@ class midcom_baseclasses_components_request extends midcom_baseclasses_core_obje
             }
 
             $this->_handler['handler'][0]->initialize($this);
-            
+
             $_MIDCOM->_set_context_data($this->_handler['id'], MIDCOM_CONTEXT_HANDLERID);
         }
     }
@@ -842,7 +835,7 @@ class midcom_baseclasses_components_request extends midcom_baseclasses_core_obje
     }
 
     /**
-     * Component specific initialization code for the handle phase. The name of the request 
+     * Component specific initialization code for the handle phase. The name of the request
      * handler is passed as an argument to the event handler.
      *
      * If you discover that you cannot handle the request already at this stage, return false

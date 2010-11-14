@@ -30,7 +30,7 @@
  * <code>
  * 'persons' => array
  * (
- *     'title'       => 'Gruppen',
+ *     'title'       => 'Persons',
  *     'storage'     => null,
  *     'type'        => 'mnrelation',
  *     'type_config' => Array
@@ -46,9 +46,6 @@
  * ),
  * </code>
  *
- * @todo Child persons are listed in the form "$person, $childperson". (The traditional
- * indented way isn't used, as this would hamper rendering in view mode; you couldn't
- * see the path there.)
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_callback_select_personlister

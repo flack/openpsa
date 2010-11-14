@@ -142,9 +142,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         org_openpsa_relatedto_plugin::add_journal_entry_button($this->_view_toolbar, $this->_object->guid);
 
-        //TODO: Add custom handler ID for skipping style
-        //$_MIDCOM->skip_page_style = true;
-
         $this->_request_data['object'] =& $this->_object;
 
         $this->_request_data['show_title'] = false;
@@ -765,7 +762,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     public static function render_line_controls(&$link, &$other_obj)
     {
-        //TODO
         echo "<ul class=\"relatedto_toolbar\" id=\"org_openpsa_relatedto_toolbar_{$link['guid']}\">\n";
 
         switch ($link['component'])

@@ -85,27 +85,6 @@
             'type' => 'number',
             'widget'  => 'text',
         ),
-        'resource_seek_type' => Array
-        (
-            'title' => 'automatic resource search',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain'   => 'org.openpsa.projects',
-                'name'     => 'resource_seek_type',
-            ),
-            'type' => 'select',
-            'type_config' => Array
-            (
-                'options' => Array
-                (
-                    'none'          => 'no search',
-                    'organization'  => 'my organization',
-                    'openpsa'       => 'whole openpsa',
-                ),
-            ),
-            'widget' => 'select',
-        ),
         'agreement' => array
         (
             'title'   => 'agreement',

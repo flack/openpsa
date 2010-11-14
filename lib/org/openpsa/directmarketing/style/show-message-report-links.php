@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $l10n =& $data['l10n'];
 $report =& $data['report'];
 $link_data =& $data['use_link_data'];
@@ -7,7 +6,7 @@ if (!isset($data['form_suffix']))
 {
     $data['form_suffix'] = '';
 }
-$form_suffix =& $data['form_suffix']; 
+$form_suffix =& $data['form_suffix'];
 ?>
 <form method="post">
     <table class="link_statistics" id="org_openpsa_directmarketing_messagelinks&(form_suffix);">

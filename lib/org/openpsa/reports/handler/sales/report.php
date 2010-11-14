@@ -49,16 +49,6 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         $data['invoices'] = Array();
 
         // Calculate time range
-        /*
-        // TODO: Make more configurable
-        $time = time();
-        require_once 'Calendar/Month.php';
-        $this_month = new Calendar_Month(date('Y', $time), date('m', $time));
-        $next_month = $this_month->nextMonth('object');
-
-        $data['start'] = $this_month->getTimestamp();
-        $data['end'] = $next_month->getTimestamp();
-        */
         $data['start'] = $this->_request_data['query_data']['start'];
         $data['end'] = $this->_request_data['query_data']['end'];
 

@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 require_once 'Calendar/Month.php';
 $this_month = new Calendar_Month(date('Y', time()), date('m', time()));
 $prev_month = $this_month->prevMonth('object');
@@ -9,7 +8,7 @@ $next_month = $this_month->nextMonth('object');
     <li>
         <?php
         // Invoiceable hours in last month
-        $report_params  = '?org_openpsa_reports_query_data[start]=' . $this_month->getTimestamp(); 
+        $report_params  = '?org_openpsa_reports_query_data[start]=' . $this_month->getTimestamp();
         $report_params .= '&org_openpsa_reports_query_data[end]=' . $next_month->getTimestamp();
         $report_params .= '&org_openpsa_reports_query_data[style]=builtin:basic';
         $report_params .= '&org_openpsa_reports_query_data[invoiceable_filter]=1';
@@ -24,7 +23,7 @@ $next_month = $this_month->nextMonth('object');
     <li>
         <?php
         // Invoiceable hours in last month
-        $report_params  = '?org_openpsa_reports_query_data[start]=' . $prev_month->getTimestamp(); 
+        $report_params  = '?org_openpsa_reports_query_data[start]=' . $prev_month->getTimestamp();
         $report_params .= '&org_openpsa_reports_query_data[end]=' . $this_month->getTimestamp();
         $report_params .= '&org_openpsa_reports_query_data[style]=builtin:basic';
         $report_params .= '&org_openpsa_reports_query_data[invoiceable_filter]=1';

@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $_MIDCOM->load_library('midcom.helper.xsspreventer');
 if (!function_exists('org_openpsa_products_search_options_helper'))
@@ -32,7 +31,7 @@ if (!function_exists('org_openpsa_products_search_value_helper'))
 }
 ?>
 <form method="get" class="datamanager">
-    
+
     <label>
         <span class="field_text">match</span>
         <select name="org_openpsa_products_search_type">

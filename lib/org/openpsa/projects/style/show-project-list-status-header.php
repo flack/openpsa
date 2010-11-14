@@ -1,6 +1,3 @@
-<?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
-?>
 <div class="area">
     <h2><?php echo sprintf($data['l10n']->get('%s projects'), $data['l10n']->get($data['view'])); ?></h2>
     <?php

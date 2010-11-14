@@ -1,5 +1,4 @@
 <?php
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
 $page_var = $data['prefix'] . 'page';
 $results_var =  $data['prefix'] . 'results';
 
@@ -16,5 +15,4 @@ while ($page < $data['page_count'])
     echo "\n<a class=\"select_page\" href=\"?{$page_var}={$page}\">{$page}</a>";
 }
 echo "</div>\n";
-//TODO: "showing results offset-offset+limit
 ?>

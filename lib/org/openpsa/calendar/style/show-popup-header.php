@@ -1,6 +1,6 @@
 <?php
 echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-//$data =& $_MIDCOM->get_custom_context_data('request_data');
+
 $title = $data['l10n']->get('popup');
 if (array_key_exists('popup_title', $data))
 {
@@ -13,7 +13,7 @@ if (array_key_exists('popup_title', $data))
     <title><?php echo htmlspecialchars($title); ?></title>
     <?php
     $_MIDCOM->print_head_elements();
-    ?>    
+    ?>
     <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/legacy.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/popup.css" />
     </head>
