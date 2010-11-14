@@ -26,7 +26,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     function _on_initialize()
     {
         // *** Prepare the request switch ***
-        /*  */
         $this->_request_switch['config'] = Array
         (
             'handler' => array ('org_openpsa_products_handler_configuration', 'config'),
@@ -122,7 +121,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             'fixed_args' => Array('product', 'create'),
             'variable_args' => 2,
         );
-        
+
         // Handle /import/product/csv
         $this->_request_switch['import_product_csv'] = Array
         (
@@ -184,7 +183,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             'fixed_args' => Array('productlink', 'delete'),
             'variable_args' => 1,
         );
-        
+
         // Handle /productlink/<productlink guid>
         $this->_request_switch['view_productlink'] = Array
         (
@@ -340,7 +339,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             'fixed_args' => Array('api', 'product', 'list'),
             'variable_args' => 1,
         );
-        
+
         // Handle /api/product/list/intree/<product_group>
         $this->_request_switch['api_product_list_intree'] = Array
         (
@@ -423,7 +422,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 {
                     $schema_string .= " __*__";
                 }
-                
+
                 $schema_string .= "\n";
                 $schema_string .= ":    {$field_setup['title']}.";
 
@@ -581,12 +580,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             if (count($keys) > 0)
             {
                 // the values are dummy...
-                /*
-                $keys = array_keys($keys);
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Found subtopic {$keys[0]} with name '{$argv[0]}', passing handling to it");
-                debug_pop();
-                */
                 return false;
             }
         }
@@ -602,7 +595,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_request_data['schemadb_group'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
         $this->_request_data['schemadb_product'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_product'));
-        
+
         if ($this->_config->get('enable_productlinks'))
         {
             $this->_request_data['schemadb_productlink'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_productlink'));
@@ -658,15 +651,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     {
         $tmp = Array();
 
-        if (get_class($object) == 'org_openpsa_products_product_dba')
-        {
-/*            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "product/{$object->code}/",
-                MIDCOM_NAV_NAME => $object->title,
-            );*/
-        }
-        elseif (get_class($object) == 'org_openpsa_products_product_link_dba')
+        if (get_class($object) == 'org_openpsa_products_product_link_dba')
         {
             if ($object->product != 0)
             {
@@ -681,7 +666,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 );
             }
         }
-        else
+        else if (get_class($object) != 'org_openpsa_products_product_dba')
         {
             $tmp[] = array
             (

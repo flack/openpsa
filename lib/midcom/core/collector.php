@@ -316,12 +316,6 @@ class midcom_core_collector
      */
     function list_keys()
     {
-        /**
-         * PONDER: Should we implement the moving window limit/offset handling here as well ?
-         * probably it's not worth the effort since we're not actually instantiating objects
-         * so many of the inefficencies related to that are avoided.
-         * @see midcom_core_querybuilder::execute_windowed
-         */
         $this->_reset();
         $result = $this->_list_keys_and_check_privileges();
         if (!is_array($result))
@@ -444,29 +438,10 @@ class midcom_core_collector
         /**
          * NOTE: So see also querybuilder.php when making changes here
          */
-        if (empty($field))
-        {
-            // This is a workaround for a situation the 1.7 Midgard core cannot intercept for
-            // some reason unknown to me. Should be removed once 1.7.x is far enough in the
-            // past.
-
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('MidgardCollector: Cannot order by a null field name.', MIDCOM_LOG_INFO);
-            debug_pop();
-
-            return false;
-        }
 
         if ($ordering === null)
         {
-            if (substr($field, 0, 8) == 'reverse ')
-            {
-                $result = $this->_mc->add_order(substr($field, 8), 'DESC');
-            }
-            else
-            {
-                $result = $this->_mc->add_order($field);
-            }
+            $result = $this->_mc->add_order($field);
         }
         else
         {

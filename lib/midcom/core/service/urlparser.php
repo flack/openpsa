@@ -14,10 +14,6 @@
  */
 interface midcom_core_service_urlparser
 {
-    /*
-    protected $argc;
-    protected $argv;
-    */
     public function __construct();
 
     /**

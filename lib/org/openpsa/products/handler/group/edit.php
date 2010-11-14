@@ -51,20 +51,6 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
 
     function _modify_schema()
     {
-        /*
-        foreach ($this->_request_data['schemadb_group'] as $schema)
-        {
-            // No need to add components to a component
-            if (array_key_exists('components', $schema->fields)
-                && (   $this->_group->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT
-                    || !$this->_config->get('enable_components')
-                    )
-                )
-            {
-                unset($schema->fields['components']);
-            }
-        }
-        */
     }
 
     /**
@@ -164,9 +150,9 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
 
         $this->_update_breadcrumb_line();
         $this->_prepare_request_data();
-        
+
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
+        org_openpsa_helpers::dm2_savecancel($this);
         $this->_view_toolbar->bind_to($this->_group);
 
         $_MIDCOM->set_26_request_metadata($this->_group->metadata->revised, $this->_group->guid);

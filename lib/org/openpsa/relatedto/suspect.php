@@ -42,11 +42,9 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         //Check all installed components
         foreach ($manifests as $component => $manifest)
         {
-            if (   $component == 'midcom'
-                || $component == 'net.nemein.reservations'
-                || strstr($component, 'midcom.admin'))
+            if ($component == 'midcom')
             {
-                //Skip midcom core and some troublesome legacy components
+                //Skip midcom core
                 continue;
             }
             $component_ret = org_openpsa_relatedto_suspect::find_links_object_component($object, $component, $defaults);
@@ -73,7 +71,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
     {
         $ret = array();
         debug_push_class(__CLASS__, __FUNCTION__);
-        
+
         //Make sure we can load and access the component
         if ($_MIDCOM->componentloader->load_graceful($component))
         {
@@ -82,7 +80,7 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
             debug_pop();
             return $ret;
         }
-        
+
         $interface = $_MIDCOM->componentloader->get_interface_class($component);
 
         if (!method_exists($interface, 'org_openpsa_relatedto_find_suspects'))

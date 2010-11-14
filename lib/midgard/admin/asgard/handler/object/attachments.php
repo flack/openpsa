@@ -103,12 +103,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return midcom_generate_urlname_from_string($name) . $ext;
     }
 
-    /*function _load_config()
-    {
-        $_MIDCOM->load_library('midgard.admin.asgard');
-        $this->_config = $GLOBALS['midcom_component_data']['midgard.admin.asgard']['config'];
-    }*/
-
     function _process_file_upload($uploaded_file)
     {
         if (is_null($this->_file))

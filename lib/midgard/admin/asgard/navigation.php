@@ -67,7 +67,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             {
                 $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_object_path[0]);
             }
-            
+
             foreach ($this->root_types as $root_type)
             {
                 if ( (is_a($object, $root_type)
@@ -79,45 +79,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             }
         }
     }
-
-    /*
-    function handle_session()
-    {
-        $session = new midcom_services_session();
-        if ($session->exists('midgard_admin_asgard_navigation_roots'))
-        {
-            $this->expanded_root_types = $session->get('midgard_admin_asgard_navigation_roots');
-        }
-        if (isset($_GET['midgard_admin_asgard_navigation_open']))
-        {
-            if (!in_array($_GET['midgard_admin_asgard_navigation_open'], $this->root_types))
-            {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "MgdSchema type '{$_GET['midgard_admin_asgard_navigation_open']}' was not found.");
-            }
-            $this->expanded_root_types[] = $_GET['midgard_admin_asgard_navigation_open'];
-            $session->set('midgard_admin_asgard_navigation_roots', $this->expanded_root_types);
-        }
-
-        if (isset($_GET['midgard_admin_asgard_navigation_close']))
-        {
-            if (!in_array($_GET['midgard_admin_asgard_navigation_close'], $this->root_types))
-            {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "MgdSchema type '{$_GET['midgard_admin_asgard_navigation_close']}' was not found.");
-            }
-
-            $new_root_types = array();
-            foreach ($this->expanded_root_types as $type)
-            {
-                if ($type != $_GET['midgard_admin_asgard_navigation_close'])
-                {
-                    $new_root_types[] = $type;
-                }
-            }
-            $this->expanded_root_types = $new_root_types;
-            $session->set('midgard_admin_asgard_navigation_roots', $this->expanded_root_types);
-        }
-    }
-    */
 
     function &_get_reflector(&$object)
     {
@@ -197,8 +158,8 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             echo "{$prefix}<ul>\n";
             foreach ($siblings as $type => $children)
             {
-                $label_mapping = Array(); 
-                $i = 0; 
+                $label_mapping = Array();
+                $i = 0;
                 foreach ($children as $child)
                 {
                     if (isset($this->shown_objects[$child->guid]))
@@ -206,16 +167,16 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                         continue;
                     }
 
-                    $ref =& $this->_get_reflector($child); 
-                    $label_mapping[$i] = htmlspecialchars($ref->get_object_label($child)); 
-                    $i++; 
-                } 
- 
-                asort($label_mapping); 
+                    $ref =& $this->_get_reflector($child);
+                    $label_mapping[$i] = htmlspecialchars($ref->get_object_label($child));
+                    $i++;
+                }
 
-                foreach($label_mapping as $index => $label) 
-                { 
-                    $child =& $children[$index]; 
+                asort($label_mapping);
+
+                foreach($label_mapping as $index => $label)
+                {
+                    $child =& $children[$index];
 
                     $ref =& $this->_get_reflector($child);
 
@@ -270,13 +231,13 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $selected = $this->_is_selected($object);
             $css_class = get_class($object);
             $this->_common_css_classes($object, $ref, $css_class);
-                     
+
             $mode = $this->_request_data['default_mode'];
             if (strpos($css_class, 'readonly'))
             {
                 $mode = 'view';
             }
-            
+
             $this->shown_objects[$object->guid] = true;
 
             echo "    <li class=\"{$css_class}\">";
@@ -354,7 +315,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
         // Populate common properties
         $css_class = $_MIDCOM->metadata->get_object_classes($object, $css_class);
-        
+
         if ($this->_is_selected($object))
         {
             $css_class .= ' selected';
@@ -371,9 +332,9 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     }
 
     /**
-     * Helper function that applies visibility restrictions from various sources 
-     * 
-     * Returns an alphabetically sorted list of class => title pairs 
+     * Helper function that applies visibility restrictions from various sources
+     *
+     * Returns an alphabetically sorted list of class => title pairs
      *
      * @return Array
      */
@@ -388,7 +349,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         {
             $types = $regs[1];
         }
-        
+
         // Override with user selected
         // @TODO: Should this just include to the configuration selection, although it would break the consistency
         // of other similar preference sets, which simply override the global settings?
@@ -397,27 +358,27 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         {
             $types = $regs[1];
         }
-        
+
         // Get the inclusion/exclusion model
         $model = $this->_config->get('midgard_types_model');
         if (   midgard_admin_asgard_plugin::get_preference('midgard_types_model'))
         {
             $model = midgard_admin_asgard_plugin::get_preference('midgard_types_model');
         }
-        
+
         // Get the possible regular expression
         $regexp = $this->_config->get('midgard_types_regexp');
         if (midgard_admin_asgard_plugin::get_preference('midgard_types_regexp'))
         {
             $regexp = midgard_admin_asgard_plugin::get_preference('midgard_types_regexp');
         }
-        
+
         // "Convert" quickly to PERL regular expression
         if (!preg_match('/^[\/|]/', $regexp))
         {
             $regexp = "/{$regexp}/";
         }
-        
+
         $label_mapping = Array();
         foreach ($this->root_types as $root_type)
         {
@@ -434,7 +395,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                     {
                         continue;
                     }
-                    
+
                     if (   $regexp !== '//'
                         && preg_match($regexp, $root_type))
                     {
@@ -448,7 +409,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                     {
                         continue;
                     }
-                    
+
                     if (   $regexp !== '//'
                         && !preg_match($regexp, $root_type))
                     {
@@ -456,34 +417,34 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                     }
                 }
             }
-            
+
             $ref = $this->_get_reflector($root_type);
             $label_mapping[$root_type] = $ref->get_class_label();
         }
         asort($label_mapping);
-        
+
         return $label_mapping;
     }
 
     function draw()
     {
         $this->_draw_plugins();
-        
+
         if (!$_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'))
         {
             return;
         }
-        
+
         $this->_request_data['chapter_name'] = $_MIDCOM->i18n->get_string('midgard objects', 'midgard.admin.asgard');
         midcom_show_style('midgard_admin_asgard_navigation_chapter');
-        
+
         $label_mapping = $this->_process_root_types();
 
         $expanded_types = array_intersect(array_keys($label_mapping), $this->expanded_root_types);
 
         /*
-         * Use a dropdown for displaying the navigation if at least one type is expanded 
-         * and the user has the corresponding preference set. That way, you expanded types 
+         * Use a dropdown for displaying the navigation if at least one type is expanded
+         * and the user has the corresponding preference set. That way, you expanded types
          * can take up the maximum available space while all types are still accessible with one
          * click if nothing is expanded
          */

@@ -15,21 +15,11 @@ $query_data =& $data['query_data'];
 <?php           break;
         } ?>
                         <td>&(task->title);</td>
-<?php   if (   array_key_exists('hour_type_filter', $query_data)
-            /* Cannot be checked from this array
-            && !(   array_key_exists('hidden', $query_data['hour_type_filter'])
-                 && !empty($query_data['hour_type_filter']['hidden']))
-            */
-            )
+<?php   if (array_key_exists('hour_type_filter', $query_data))
         {   ?>
                         <td>&(hour->reportType);</td>
 <?php   }   ?>
-<?php   if (   array_key_exists('invoiceable_filter', $query_data)
-            /* Cannot be checked from this array
-            && !(   array_key_exists('hidden', $query_data['invoiceable_filter'])
-                 && !empty($query_data['invoiceable_filter']['hidden']))
-            */
-            )
+<?php   if (array_key_exists('invoiceable_filter', $query_data))
         {
             if ($hour->invoiceable)
             {

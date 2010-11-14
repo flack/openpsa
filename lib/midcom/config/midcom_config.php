@@ -411,8 +411,6 @@ $GLOBALS['midcom_config_default']['cache_module_content_caching_strategy'] = 'us
 // NAP / Metadata Cache
 $GLOBALS['midcom_config_default']['cache_module_nap_backend'] = Array(); /* Auto-Detect */
 $GLOBALS['midcom_config_default']['cache_module_nap_metadata_cachesize'] = 75;
-// Defaults:
-// $GLOBALS['midcom_config_default']['cache_module_nap_backend'] =  Array ('directory' => 'nap/', 'driver' => 'dba');
 
 // Generated class cache directory
 $GLOBALS['midcom_config_default']['cache_module_phpscripts_directory'] = 'phpscripts/';

@@ -61,10 +61,6 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
      */
     function seek_log($time = null)
     {
-        /*if (!$this->_person->can_do('org.routamc.positioning:location'))
-        {
-            return null;
-        }*/
         if (   is_null($this->_person)
             || !$this->_person->id)
         {

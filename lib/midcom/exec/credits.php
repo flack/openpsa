@@ -22,15 +22,15 @@ foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
         // This component is not yet packaged, skip
         continue;
     }
-    
-    $package_type = 'component'; 
+
+    $package_type = 'component';
     if ($manifest->purecode)
     {
         $package_type = 'library';
     }
-    
+
     $maintainers = $manifest->_raw_data['package.xml']['maintainers'];
-    if (is_array($maintainers)) 
+    if (is_array($maintainers))
     {
         foreach ($maintainers as $person => $details)
         {
@@ -39,7 +39,7 @@ foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
             $identifier = "{$lastname} {$person}";
             $developers[$identifier]['username'] = $person;
             $developers[$identifier]['name'] = $details['name'];
-            
+
             if (!isset($details['email']))
             {
                 $developers[$identifier]['email'] = '';
@@ -52,7 +52,7 @@ foreach($_MIDCOM->componentloader->manifests as $name => $manifest)
             {
                 $details['role'] = 'developer';
             }
-            
+
             if (   array_key_exists('active', $details)
                 && $details['active'] == 'no')
             {
@@ -98,14 +98,11 @@ reset($developers);
             {
                 padding-right: 2px;
                 padding-bottom:10px;
-                /*border-right: 1px solid #333333;*/
-                /*border-bottom:1px solid #333333;*/
             }
             td.role
             {
                 padding-left: 4px;
                 padding-bottom:10px;
-                /*border-bottom:1px solid #333333;*/
             }
             td.role dd img
             {
@@ -174,11 +171,11 @@ reset($developers);
                                     {
                                         ?>
                                         <dt>
-                                            <?php 
-                                            echo sprintf($_MIDCOM->i18n->get_string('%s of packages of type %s', 'midcom'), $_MIDCOM->i18n->get_string($role, 'midcom'), $_MIDCOM->i18n->get_string($package_type, 'midcom')); 
+                                            <?php
+                                            echo sprintf($_MIDCOM->i18n->get_string('%s of packages of type %s', 'midcom'), $_MIDCOM->i18n->get_string($role, 'midcom'), $_MIDCOM->i18n->get_string($package_type, 'midcom'));
                                             ?>
                                         </dt>
-                                        <dd>                                        
+                                        <dd>
                                         <?php
                                         foreach ($components as $component => $component_name)
                                         {
@@ -201,9 +198,9 @@ reset($developers);
                     ?>
                 </tbody>
             </table>
-            
+
             <p><?php echo sprintf($_MIDCOM->i18n->get_string('get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>', 'midcom'), $GLOBALS['midcom_config']['pear_channel'], $GLOBALS['midcom_config']['pear_channel']); ?>.</p>
-            
+
             </div>
             <div id="bottom">
                 <div id="version">Midgard <?php echo substr(mgd_version(), 0, 4); ?></div>

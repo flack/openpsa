@@ -635,14 +635,12 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     //These two wrapped to prevent their use since the pager needs them internally
     function set_limit($limit)
     {
-        //PONDER: should we allow some special case here, I think not
         debug_add('operation not allowed', MIDCOM_LOG_WARN);
         return false;
     }
 
     function set_offset($offset)
     {
-        //PONDER: should we allow some special case here, I think not
         debug_add('operation not allowed', MIDCOM_LOG_WARN);
         return false;
     }

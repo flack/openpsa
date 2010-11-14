@@ -29,16 +29,6 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
             'midcom.helper.datamanager2',
         );
     }
-    
-    function _on_initialize()
-    {
-        /* Try to do this dynamically only when needed
-        // Load needed data classes
-        $_MIDCOM->componentloader->load_graceful('org.routamc.photostream');
-        */
-        
-        return true;
-    }
 
     /**
      * Iterate over all wiki pages and create index record using the datamanager2 indexer
@@ -91,7 +81,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
         }
         return "{$article->name}/";
     }
-    
+
     /**
      * Check whether given wikiword is free in given node
      *

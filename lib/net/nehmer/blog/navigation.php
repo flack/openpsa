@@ -46,7 +46,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         }
 
         $leaves = array();
-        
+
         if (!$this->_content_topic->guid)
         {
             // Safety in case symlink is broken
@@ -173,11 +173,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $qb->add_order('metadata.published', 'DESC');
             $qb->set_limit((int) $this->_config->get('index_entries'));
 
-            /**
-             * execute_unchecked has issues with ML and since the windowed QB
-             * it doesn't offer significant advantage for queries without offsets
-            $results = $qb->execute_unchecked();
-             */
             $results = $qb->execute();
         }
         else

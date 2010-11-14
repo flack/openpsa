@@ -60,9 +60,6 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
     {
         if (empty($this->resource))
         {
-            /*PONDER: Should this default to true, we'll catch it on update ?
-            return false;
-            */
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Resource is set to empty value returning true");
             debug_pop();

@@ -124,7 +124,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         }
     }
 
-    /** 
+    /**
      * Load the datamanagers for different types
      */
     function _load_datamanagers()
@@ -157,11 +157,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Process the datamanager
-     * 
+     *
      * @access private
      * @param String $type        Subscription type
-     * @param array $subscriber   
-     * @param mixed $object       
+     * @param array $subscriber
+     * @param mixed $object
      * @return boolean            Indicating success
      */
     function _datamanager_process($type, $subscriber, $object)
@@ -199,7 +199,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Clean the new objects
-     * 
+     *
      * @access private
      */
     function _clean_new_objects()
@@ -228,7 +228,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     $person = $persons[0];
                 }
             }
-    
+
             if (   !$person
                 && array_key_exists('handphone', $subscriber['person'])
                 && $subscriber['person']['handphone'])
@@ -249,14 +249,14 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         {
             // We didn't have person matching the email in DB. Create a new one.
             $person = new org_openpsa_contacts_person_dba();
-            
+
             // Populate at least one field for the new person
             if (   isset($subscriber['person'])
                 && isset($subscriber['person']['email']))
             {
                 $person->email = $subscriber['person']['email'];
             }
-            
+
             if (!$person->create())
             {
                 $this->_request_data['new_objects']['person'] =& $person;
@@ -526,7 +526,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Update the breadcrumb line
-     * 
+     *
      * @access private
      * @param String $handler_id
      * @param array $args
@@ -544,7 +544,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             MIDCOM_NAV_URL => "campaign/import/{$args[0]}/",
             MIDCOM_NAV_NAME => $this->_l10n->get('import subscribers'),
         );
-        
+
         switch ($handler_id)
         {
             case 'import_simpleemails':
@@ -554,7 +554,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     MIDCOM_NAV_NAME => $this->_l10n->get('email addresses'),
                 );
                 break;
-            
+
             case 'import_vcards':
                 $tmp[] = array
                 (
@@ -562,7 +562,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     MIDCOM_NAV_NAME => $this->_l10n->get('vcards'),
                 );
                 break;
-            
+
             case 'import_csv_file_select':
                 $tmp[] = array
                 (
@@ -570,7 +570,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     MIDCOM_NAV_NAME => $this->_l10n->get('csv'),
                 );
                 break;
-            
+
             case 'import_csv_field_select':
                 $tmp[] = array
                 (
@@ -579,14 +579,14 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                 );
                 break;
         }
-        
+
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-          
+
     }
-    
+
     /**
      * Phase for selecting the import type
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -609,7 +609,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the selection list for import types
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -622,7 +622,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Phase for importing simple email addresses
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -659,20 +659,20 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     $this->_request_data['separator'] = ",";
                     break;
             }
-            
+
             // Initialize the raw contact data
             $contacts_raw = '';
-            
+
             if (is_uploaded_file($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']))
             {
                 $contacts_raw = file_get_contents($_FILES['org_openpsa_directmarketing_import_upload']['tmp_name']);
             }
-            
+
             if (isset($_POST['org_openpsa_directmarketing_import_textarea']))
             {
                 $contacts_raw .= $_POST['org_openpsa_directmarketing_import_textarea'];
             }
-            
+
             if ($contacts_raw)
             {
                 // Make sure we only have NL linebreaks
@@ -683,13 +683,13 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                     foreach ($contacts as $contact)
                     {
                         $contact = trim($contact);
-                        
+
                         // Skip the empty lines already now
                         if (!$contact)
                         {
                             continue;
                         }
-                        
+
                         $this->_request_data['contacts'][] = array
                         (
                             'person' => array
@@ -714,7 +714,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the import phase of email addresses
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -734,7 +734,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Phase for importing vcards
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -876,7 +876,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the vcard import interface
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -896,7 +896,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Phase for importing CSV. This interface lets user to define what the fields of the CSV represent
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -985,7 +985,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the CSV selection phase where user defines which field in CSV corresponds to which schema fields
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -1009,7 +1009,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Handle the CSV import phase
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -1128,12 +1128,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         if (count($data['contacts']) > 0)
         {
-            /*
-            echo "<pre>\n";
-            print_r($data['contacts']);
-            echo "</pre>\n";
-            _midcom_stop_request();
-            */
             $this->_import_subscribers($data['contacts']);
         }
 
@@ -1144,7 +1138,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Show the CSV import phase
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference

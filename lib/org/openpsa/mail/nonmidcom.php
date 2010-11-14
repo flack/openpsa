@@ -98,8 +98,6 @@ if (!function_exists('debug_add'))
         $time_hr = date('Y-m-d H:i:s');
         switch ($level)
         {
-            /*
-            */
             case 'INFO':
             case 'DEBUG':
                 break;

@@ -30,9 +30,6 @@
                 'idfield'     => 'guid',
                 'searchfields' => array
                 (
-                    /* title is not actually used, extra is
-                    'title',
-                    */
                     'extra',
                     'name',
                 ),
@@ -63,23 +60,10 @@
                         'name' => 'name',
                         'title' => $_MIDCOM->i18n->get_string('name', 'midcom'),
                     ),
-                    /* This is already constraint and as such useless
-                    array
-                    (
-                        'name' => 'component',
-                        'title' => $_MIDCOM->i18n->get_string('component', 'midcom'),
-                    ),
-                    */
                 ),
                 'generate_path_for' => 'extra',
                 'orders' => array
                 (
-                    /* title is not actually used, extra is
-                    array
-                    (
-                        'title' => 'ASC',
-                    ),
-                    */
                     array
                     (
                         'extra' => 'ASC',

@@ -261,9 +261,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         //List all projects and tasks given person is involved with
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
         $qb->add_constraint('person', '=', $object->id);
-        /* This could reduce clutter somewhat with a minor risk of missing a link
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
-        */
         $qb->add_constraint('task.status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
         $qb->add_constraint('task.status', '<>', ORG_OPENPSA_TASKSTATUS_DECLINED);
         $qbret = @$qb->execute();

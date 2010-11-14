@@ -611,9 +611,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function no_cache()
     {
-        //debug_push_class(__CLASS__, __FUNCTION__);
-        //$GLOBALS['midcom_debugger']->print_function_stack('no_cache called from');
-        //debug_pop();
         if ($this->_no_cache)
         {
             return;
@@ -1043,10 +1040,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $context = $_MIDCOM->get_current_context();
         $request_id = $this->generate_request_identifier($context);
 
-        //debug_push_class(__CLASS__, __FUNCTION__);
-        //debug_add("Creating cache entry for {$content_id} as {$request_id}", MIDCOM_LOG_INFO);
-        //debug_pop();
-
         if (!is_null($this->_expires))
         {
             $entry_data['expires'] = $this->_expires;
@@ -1054,11 +1047,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         else
         {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("explicit expires is not set, using \$this->_default_lifetime: {$this->_default_lifetime}");
-            debug_pop();
-            */
             $entry_data['expires'] = time() + $this->_default_lifetime;
         }
         $entry_data['etag'] = $etag;
@@ -1143,11 +1131,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return false;
         }
         $dl_request_id = 'DL' . $this->generate_request_identifier($context, $dl_config);
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("Checking if we have '{$dl_request_id}' in \$this->_meta_cache");
-        debug_pop();
-        */
         $this->_meta_cache->open();
         if (!$this->_meta_cache->exists($dl_request_id))
         {
@@ -1165,46 +1148,21 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         }
         $dl_metadata = $this->_meta_cache->get($dl_content_id);
         $this->_meta_cache->close();
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("Checking \$dl_metadata['expires']={$dl_metadata['expires']} (" . date('Y-m-d H:i:s', $dl_metadata['expires']) . ") < time()=" . time() . '(' . date('Y-m-d H:i:s') . ')');
-        debug_pop();
-        */
         if (time() > $dl_metadata['expires'])
         {
             // DL content expired
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Request-id '{$dl_request_id}' metadata indicates it expired on " . date('Y-m-d H:i:s', $dl_metadata['expires']));
-            debug_pop();
-            */
             unset($dl_metadata, $dl_content_id, $dl_request_id);
             return false;
         }
         unset($dl_metadata);
         $this->_data_cache->open();
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("Checking if we have '{$dl_content_id}' in \$this->_data_cache");
-        debug_pop();
-        */
         if (!$this->_data_cache->exists($dl_content_id))
         {
             // Ghost read, we have everything but the actual content in cache
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Content-id '{$dl_content_id}' is not in cache, ghost read?");
-            debug_pop();
-            */
             unset($dl_content_id, $dl_request_id);
             $this->_data_cache->close();
             return false;
         }
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add('Cached content found, serving it');
-        debug_pop();
-        */
         echo $this->_data_cache->get($dl_content_id);
         unset($dl_content_id, $dl_request_id);
         $this->_data_cache->close();
@@ -1213,7 +1171,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     function store_dl_content(&$context, &$dl_config, &$dl_cache_data)
     {
-        //debug_push_class(__CLASS__, __FUNCTION__);
         if (   $this->_no_cache
             || $this->_live_mode)
         {
@@ -1238,11 +1195,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         else
         {
             // Use default expiry for cache entry, most components don't bother calling expires() properly
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("explicit expires is not set, using \$this->_default_lifetime: {$this->_default_lifetime}");
-            debug_pop();
-            */
             $dl_entry_data['expires'] = time() + $this->_default_lifetime;
         }
 
@@ -1252,7 +1204,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_meta_cache->put($dl_request_id, $dl_content_id);
         $this->_meta_cache->put($dl_content_id, $dl_entry_data);
         unset($dl_entry_data);
-        //debug_add("Writing cache entry for '{$dl_content_id}' in request '{$dl_request_id}'");
         $this->_data_cache->put($dl_content_id, $dl_cache_data);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);

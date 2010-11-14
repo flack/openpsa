@@ -67,31 +67,17 @@ class net_nehmer_account_navigation extends midcom_baseclasses_components_naviga
             $qb->add_constraint('parameter.domain', '=', 'net.nehmer.account');
             $qb->add_constraint('parameter.name', '=', 'require_approval');
             $qb->add_constraint('parameter.value', '=', 'require_approval');
-            
+
             $count = $qb->count();
-            
+
             $leaves[NET_NEHMER_ACCOUNT_LEAFID_PENDING] = array
             (
                 MIDCOM_NAV_URL => "pending/",
                 MIDCOM_NAV_NAME => $this->_l10n->get('pending approvals') . " ({$count})",
             );
         }
-        
+
         return $leaves;
     }
-
-    /*
-    function get_node()
-    {
-        return array
-        (
-            MIDCOM_NAV_URL => '',
-            MIDCOM_NAV_NAME => $this->_topic->extra,
-            MIDCOM_NAV_NOENTRY => $hidden,
-        );
-    }
-     */
-
 }
-
 ?>

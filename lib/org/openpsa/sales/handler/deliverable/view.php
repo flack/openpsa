@@ -78,21 +78,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
     function _load_schema()
     {
         $this->_request_data['schemadb_salesproject_deliverable'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
-        /*
-        $this->_request_data['schemadb_salesproject'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_salesproject'));
-        foreach ($this->_request_data['schemadb_salesproject'] as $schema)
-        {
-            // No need to add components to a component
-            if (array_key_exists('components', $schema->fields)
-                && (   $this->_salesproject->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT
-                    || !$this->_config->get('enable_components')
-                    )
-                )
-            {
-                unset($schema->fields['components']);
-            }
-        }
-        */
     }
 
     /**

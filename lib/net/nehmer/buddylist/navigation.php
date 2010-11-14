@@ -39,18 +39,5 @@ class net_nehmer_buddylist_navigation extends midcom_baseclasses_components_navi
         return $leaves;
     }
 
-    /*
-    function get_node()
-    {
-        return array
-        (
-            MIDCOM_NAV_URL => '',
-            MIDCOM_NAV_NAME => $this->_topic->extra,
-            MIDCOM_NAV_NOENTRY => $hidden,
-        );
-    }
-     */
-
 }
-
 ?>

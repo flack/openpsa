@@ -63,12 +63,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         $decoder->body = $_POST['message_source'];
         $decoder->mime_decode();
 
-        /*
-        echo "DEBUG: decoder->body: \n===\n" . org_openpsa_helpers::sprint_r($decoder->body) . "===\n";
-        echo "DEBUG: decoder->html_body: \n===\n" . org_openpsa_helpers::sprint_r($decoder->html_body) . "===\n";
-        echo "DEBUG: decoder->headers: \n===\n" . org_openpsa_helpers::sprint_r($decoder->headers) . "===\n";
-        */
-
         //Parse email addresses
         $regex = '/<?([a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)>?[ ,]?/';
         $emails = array();
@@ -99,8 +93,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
                 $from = $email;
             }
         }
-
-        //echo "DEBUG: emails: \n===\n" . org_openpsa_helpers::sprint_r($emails) . "===\n";
 
         $_MIDCOM->auth->request_sudo();
         //TODO: Create wikinote
@@ -308,14 +300,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         }
         //PONDER: What to return in case of multiple matches ?, now we always return first
         return $results[0];
-        /*
-        foreach ($results as $group)
-        {
-            debug_add("Found group #{$group->id} ({$group->official})");
-        }
-        */
-
-        return false;
     }
 
 }

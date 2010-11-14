@@ -275,12 +275,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
         midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $this->mgdschema_class);
 
-        /*if (   !$all
-            && $qb->count() > 25)
-        {
-            $qb->set_limit(25);
-        }*/
-
         $ref = $this->get($this->mgdschema_class);
         $qb->add_order('sitegroup', 'DESC');
 
@@ -510,63 +504,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
 
         return $parent_object;
-        /* Code below is executed in midgard-core's get_parent method.
-         * Besides code below  might trigger empty object instances to be returned.
-         * Return parent object with above method. */
-
-        if (!empty($parent_object))
-        {
-            return $parent_object;
-        }
-
-        // Reflection magick
-        $resolver = new midcom_helper_reflector_tree($object);
-        $ref =& $resolver->_mgd_reflector;
-        $schema_type =& $resolver->mgdschema_class;
-
-        // up takes precedence over parent
-        $up_property = midgard_object_class::get_property_up($schema_type);
-        if (   !empty($up_property)
-            && !empty($object->$up_property)
-            && $object->$up_property != ''
-            && $object->$up_property != 0)
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Checking if we can get something with up property {$up_property} (value: {$object->$up_property})");
-            $parent_object = $resolver->_get_parent_objectresolver($object, $up_property);
-            if (!empty($parent_object))
-            {
-                debug_pop();
-                return $parent_object;
-            }
-            debug_add('Could not get anything but since the property was defined we abort here');
-            // We tried but failed, do not try more
-            debug_pop();
-            return false;
-        }
-
-        $parent_property = midgard_object_class::get_property_parent($schema_type);
-        if (   !empty($parent_property)
-            && !empty($object->$parent_property))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Checking if we can get something with parent property {$parent_property} (value: {$object->$parent_property})");
-            $parent_object = $resolver->_get_parent_objectresolver($object, $parent_property);
-            if (!empty($parent_object))
-            {
-                debug_pop();
-                return $parent_object;
-            }
-            debug_add('Could not get anything but since the property was defined we abort here');
-            // We tried but failed, do not try more
-            debug_pop();
-            return false;
-        }
-
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add('Nothing worked, returning false');
-        debug_pop();
-        return false;
     }
 
     function _get_parent_objectresolver(&$object, &$property)
@@ -764,19 +701,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $linkfields = array();
         $linkfields['up'] = midgard_object_class::get_property_up($schema_type);
         $linkfields['parent'] = midgard_object_class::get_property_parent($schema_type);
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_print_r('$linkfields', $linkfields);
-        //debug_print_r('$for_object', $for_object);
-        debug_pop();
-        */
 
         $object_baseclass = midcom_helper_reflector::resolve_baseclass(get_class($for_object));
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_print_r('$object_baseclass', $object_baseclass);
-        debug_pop();
-        */
+
         foreach ($linkfields as $link_type => $field)
         {
             if (empty($field))
@@ -1015,11 +942,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             }
             $parent_property = midgard_object_class::get_property_parent($schema_type);
             $up_property = midgard_object_class::get_property_up($schema_type);
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("schema {$schema_type}: \$parent_property='{$parent_property}' & \$up_property='{$up_property}'");
-            debug_pop();
-            */
+
             if (   !$this->_resolve_child_classes_links_back($parent_property, $schema_type, $this->mgdschema_class)
                 && !$this->_resolve_child_classes_links_back($up_property, $schema_type, $this->mgdschema_class))
             {
@@ -1039,26 +962,18 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             return false;
         }
-        //debug_push_class(__CLASS__, __FUNCTION__);
+
         $ref = new midgard_reflection_property($prospect_type);
         $link_class = $ref->get_link_name($property);
         if (   empty($link_class)
             && $ref->get_midgard_type($property) === MGD_TYPE_GUID)
         {
-            /*
-            debug_add("type '{$prospect_type}' property '{$property}' is of type GUID without target class, returnning true");
-            debug_pop();
-            */
             return true;
         }
-        //debug_add("got link_class '{$link_class}' for property '{$property}' in type '{$prospect_type}'");
         if (midcom_helper_reflector::is_same_class($link_class, $schema_type))
         {
-            //debug_pop();
             return true;
         }
-        //debug_add("link_class '{$link_class}' did not match '{$schema_type}' even after rewrites");
-        //debug_pop();
         return false;
     }
 
@@ -1248,11 +1163,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $name_copy = midcom_helper_reflector::get_object_name($object);
         foreach ($sibling_classes as $schema_type)
         {
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Checking clashes in class {$schema_type}");
-            debug_pop();
-            */
             $dummy = new $schema_type();
             $child_name_property = midcom_helper_reflector::get_name_property($dummy);
             unset($dummy);
@@ -1358,11 +1268,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             unset($deleted);
             if (!is_object($qb))
             {
-                /*
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("$this->_child_objects_type_qb('{$schema_type}', \$parent, false) did not return object", MIDCOM_LOG_WARN);
-                debug_pop();
-                */
                 continue;
             }
             $qb->add_constraint($child_name_property, '=', $name_copy);
@@ -1572,11 +1477,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         // incrementer, the number to add as suffix and the base name. see _generate_unique_name_nonstatic_resolve_i()
         list ($i, $base_name) = $this->_generate_unique_name_nonstatic_resolve_i($current_name, $object);
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("\$this->_generate_unique_name_nonstatic_resolve_i({$current_name}, \$object) returned: list ({$i}, {$base_name})");
-        debug_pop();
-        */
+
         $object->name = $base_name;
         // decementer, do not try more than this many times (the incrementer can raise above this if we start high enough.
         $d = 100;
@@ -1700,11 +1601,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             }
             foreach ($sibling_classes as $schema_type)
             {
-                /*
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Checking names in class {$schema_type}");
-                debug_pop();
-                */
                 $dummy = new $schema_type();
                 $child_name_property = midcom_helper_reflector::get_name_property($dummy);
                 unset($dummy);
@@ -1716,11 +1612,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 $qb =& $this->_child_objects_type_qb($schema_type, $parent, false);
                 if (!is_object($qb))
                 {
-                    /*
-                    debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("\$this->_child_objects_type_qb('{$schema_type}', \$parent, false) did not return object", MIDCOM_LOG_WARN);
-                    debug_pop();
-                    */
                     continue;
                 }
                 $qb->add_constraint($child_name_property, 'LIKE', "{$base_name}-%");
@@ -1739,22 +1630,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     // we dont' care about fatal qb errors here
                     continue;
                 }
-                /*
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_print_r('$siblings', $siblings);
-                debug_pop();
-                */
                 $sibling = $siblings[0];
                 $sibling_name = $sibling->{$child_name_property};
                 if (preg_match('/(.*?)-([0-9]{3,})$/', $sibling_name, $name_matches))
                 {
                     // Name already has i and base parts, split them.
                     $sibling_i = (int)$name_matches[2];
-                    /*
-                    debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("\$sibling_i={$sibling_i}, \$i={$i}", $siblings);
-                    debug_pop();
-                    */
+
                     if ($sibling_i >= $i)
                     {
                         $i = $sibling_i + 1;
@@ -1824,22 +1706,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                         // we dont' care about fatal qb errors here
                         continue;
                     }
-                    /*
-                    debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_print_r('$siblings', $siblings);
-                    debug_pop();
-                    */
                     $sibling = $siblings[0];
                     $sibling_name = $sibling->{$child_name_property};
                     if (preg_match('/(.*?)-([0-9]{3,})$/', $sibling_name, $name_matches))
                     {
                         // Name already has i and base parts, split them.
                         $sibling_i = (int)$name_matches[2];
-                        /*
-                        debug_push_class(__CLASS__, __FUNCTION__);
-                        debug_add("\$sibling_i={$sibling_i}, \$i={$i}", $siblings);
-                        debug_pop();
-                        */
                         if ($sibling_i >= $i)
                         {
                             $i = $sibling_i + 1;

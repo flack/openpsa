@@ -646,7 +646,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
     function _check_clever_class()
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
         if (   isset($_MIDCOM->auth->user)
             && method_exists($_MIDCOM->auth->user, 'get_storage'))
         {
@@ -843,8 +842,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (array_key_exists($this->clever_class, $clever_classes))
         {
-            // debug_add("clever class {$this->clever_class} found!");
-
             $this->class = $clever_classes[$this->clever_class]['class'];
             $this->component = $clever_classes[$this->clever_class]['component'];
 
@@ -898,27 +895,20 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $this->id_field = $clever_classes[$this->clever_class]['id_field'];
             }
 
-            // debug_pop();
             return true;
         }
         else
         {
-            // debug_add("clever class {$this->clever_class} not found in predefined list. Trying to use reflector");
-
             $matching_type = false;
             $matched_types = array();
             foreach ($_MIDGARD['schema']['types'] as $schema_type => $dummy)
             {
-                //debug_add("schema type: {$schema_type}");
                 $pos = strpos($schema_type, $this->clever_class);
                 if ($pos !== false)
                 {
-                    // debug_add("found possible match: {$schema_type}");
                     $matched_types[] = $schema_type;
                 }
             }
-
-            // debug_print_r('$matched_types',$matched_types);
 
             if (count($matched_types) == 1)
             {
@@ -928,7 +918,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             {
                 if ($this->clever_class == 'event')
                 {
-                    $matching_type = 'net_nemein_calendar_event';//'org_openpsa_event';
+                    $matching_type = 'net_nemein_calendar_event';
                     $this->creation_default_key = 'title';
                 }
                 else if ($this->clever_class == 'person')
@@ -943,8 +933,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                     }
                 }
             }
-
-            // debug_print_r('Decided to go with',$matching_type);
 
             if (! $matching_type)
             {
@@ -961,17 +949,10 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
             $dummy_object = new $matching_type();
             $type_fields = array_keys(get_object_vars($dummy_object));
-            // debug_print_r('type_fields',$type_fields);
 
             unset($type_fields['metadata']);
             foreach ($type_fields as $key)
             {
-                // debug_add("processing type field {$key}");
-                if ($mgd_reflector->is_link($key))
-                {
-                    // debug_add("type field {$key} is link");
-                }
-
                 if (in_array($key, array('title','firstname','lastname','name','email','start','end','location')))
                 {
                     if (! in_array($key, $labels))
@@ -984,7 +965,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             if (empty($labels))
             {
                 $label_properties = $midcom_reflector->get_label_property();
-                // debug_print_r('$label_properties',$label_properties);
                 if (is_array($label_properties))
                 {
                     foreach ($label_properties as $key)
@@ -1044,16 +1024,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $this->creation_default_key = $this->result_headers[0]['name'];
             }
 
-            /*debug_add("using class: {$this->class}");
-            debug_add("using component: {$this->component}");
-            debug_print_r('$this->searchfields',$this->searchfields);
-            debug_print_r('$this->result_headers',$this->result_headers);
-
-            debug_pop();*/
             return true;
         }
 
-        //debug_pop();
         return false;
     }
 
@@ -1146,10 +1119,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
         $headers .= " ]";
         $this->_js_widget_options['result_headers'] = $headers;
-
-        /*debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("js result_headers: {$headers}");
-        debug_pop();*/
 
         $this->_generate_extra_params();
     }

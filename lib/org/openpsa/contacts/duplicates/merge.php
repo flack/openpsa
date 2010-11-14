@@ -75,11 +75,9 @@ class org_openpsa_contacts_duplicates_merge
         //Check all installed components
         foreach ($manifests as $component => $manifest)
         {
-            if (   $component == 'midcom'
-                || $component == 'net.nemein.reservations'
-                || strstr($component, 'midcom.admin'))
+            if ($component == 'midcom')
             {
-                //Skip midcom core and some troublesome legacy components
+                //Skip midcom core
                 continue;
             }
             $component_ret = $this->_call_component_merge($component, $obj1, $obj2, $merge_mode);
@@ -122,13 +120,7 @@ class org_openpsa_contacts_duplicates_merge
             return true;
         }
         $interface = $_MIDCOM->componentloader->get_interface_class($component);
-        if (!is_a($interface, 'midcom_baseclasses_components_interface'))
-        {
-            // Legacy components need not apply
-            debug_add("component {$component} is legacy component, skipping", MIDCOM_LOG_INFO);
-            debug_pop();
-            return true;
-        }
+
         $method = 'org_openpsa_contacts_duplicates_merge_' . $this->_object_mode;
         if (!method_exists($interface, $method))
         {

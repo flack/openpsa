@@ -125,12 +125,6 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
         {
             $url .= '&sender=' . rawurlencode($sender);
         }
-        /* We don't yet handle these
-        if ($dlr)
-        {
-            $url .= "&dlr=true";
-        }
-        */
         if ($udh)
         {
             $url .= '&udh=' . rawurlencode($udh);

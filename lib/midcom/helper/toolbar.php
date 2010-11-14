@@ -956,18 +956,4 @@ class midcom_helper_toolbar
         $_MIDCOM->toolbars->bind_toolbar_to_object($this, $object);
     }
 }
-
-/*
-class midcom_helper_toolbar_page extends midcom_helper_toolbar
-{
-    /**
-     * As per mrfc 0026.
-     * /
-    function bind_to_object(&$object)
-    {
-
-
-    }
-}
-*/
 ?>

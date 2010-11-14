@@ -338,7 +338,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         }
         // PONDER: sensible way to do the same for parameters ??
 
-        // All done, byebye
         return true;
     }
 

@@ -104,15 +104,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                     $approval_status = true;
                 }
 
-                /**
-                 * WARNING: Score handling is different from branch-28, we careful when backporting
-                 */
                 $object->metadata->score = $score_r;
 
-                /*
-                if (!$object->update())
-                $metadata->set() calls update *AND* updates the metadata cache correctly, thus we use that in stead of raw update
-                */
+
+                //$metadata->set() calls update *AND* updates the metadata cache correctly, thus we use that in stead of raw update
                 if (!$metadata->set('score', $object->metadata->score))
                 {
                     // Show an error message on an update failure

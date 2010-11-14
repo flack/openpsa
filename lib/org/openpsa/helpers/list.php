@@ -14,10 +14,10 @@
  */
 class org_openpsa_helpers_list
 {
-    
+
     /**
      * Function for listing groups tasks contacts are members of
-     * 
+     *
      * @param org_openpsa_projects_task_dba &$task The task we're working with
      * @param string $mode By which property should groups be listed
      */
@@ -26,13 +26,13 @@ class org_openpsa_helpers_list
         //TODO: Localize something for the empty choice ?
         $ret = array(0 => '');
         $seen = array();
-    
+
         if (!$_MIDCOM->componentloader->load_graceful('org.openpsa.contacts'))
         {
             //PONDER: Maybe we should raise a fatal error ??
             return $ret;
         }
-    
+
         //Make sure the currently selected customer (if any) is listed
         if (   $task->customer
             && !isset($ret[$task->customer]))
@@ -50,7 +50,7 @@ class org_openpsa_helpers_list
         {
             return $ret;
         }
-    
+
         $mc = midcom_db_member::new_collector('sitegroup', $_MIDGARD['sitegroup']);
         $mc->add_value_property('gid');
         $mc->add_constraint('uid', 'IN', array_keys($task->contacts));
@@ -62,7 +62,7 @@ class org_openpsa_helpers_list
         {
             return $ret;
         }
-    
+
         reset ($memberships);
         foreach ($memberships as $guid => $empty)
         {
@@ -87,7 +87,7 @@ class org_openpsa_helpers_list
         asort($ret);
         return $ret;
     }
-    
+
     static function task_groups_put(&$ret, &$mode, &$company)
     {
         if ($company->official)
@@ -137,22 +137,15 @@ class org_openpsa_helpers_list
                 //TODO: Localization
                 $GLOBALS['org_openpsa_helpers_tasks']['all'] = 'all';
             }
-    
+
             $qb = org_openpsa_projects_task_dba::new_query_builder();
-            /*
-             * Display those that are active or finished less than two weeks ago
-             * FIXME: Swithc to new task architecture
-            $qb->begin_group('OR');
-                $qb->add_constraint('finished', '>', time()-(3600*24*14));
-                $qb->add_constraint('status', '=', 0);
-            $qb->end_group();*/
-    
+
             // Workgroup filtering
             if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
             {
                 $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
             }
-    
+
             //Object type filtering
             $qb->begin_group('OR');
                 $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
@@ -162,9 +155,9 @@ class org_openpsa_helpers_list
                     $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
                 }
             $qb->end_group();
-            
+
             $qb->add_order('title');
-    
+
             //Execute
             $ret = $qb->execute();
             if (   is_array($ret)
@@ -201,7 +194,7 @@ class org_openpsa_helpers_list
                     //TODO: Localization
                     $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
                 }
-    
+
                 if ($_MIDGARD['admin'])
                 {
                     // Admins must see all workgroups, all the time
@@ -224,7 +217,7 @@ class org_openpsa_helpers_list
                     {
                         $label = $vgroup;
                     }
-    
+
                     if (substr($key, strlen($key) - 11) == 'subscribers')
                     {
                         if ($_MIDGARD['admin'])
@@ -246,7 +239,7 @@ class org_openpsa_helpers_list
                     else
                     {
                         $GLOBALS[$array_name][$key] = $label;
-    
+
                         //TODO: get the vgroup object based on the key or something, this check fails always.
                         if (   $show_members
                             && is_object($vgroup)
@@ -260,16 +253,16 @@ class org_openpsa_helpers_list
                         }
                     }
                 }
-    
+
                 asort($GLOBALS[$array_name]);
                 asort($my_subscription_groups);
-    
+
                 if ($add_me == 'last')
                 {
                     //TODO: Localization
                     $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
                 }
-    
+
                 // Add subscription lists after real ones
                 foreach ($my_subscription_groups as $key => $label)
                 {
@@ -300,7 +293,7 @@ class org_openpsa_helpers_list
             {
                 $GLOBALS['org_openpsa_core_workgroup_filter'] = 'all';
             }
-    
+
             if (   $GLOBALS['org_openpsa_core_workgroup_filter'] == 'all'
                 && $_MIDCOM->auth->user)
             {

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package net.nemein.wiki
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: wikipage.php 25319 2010-03-18 12:44:12Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,7 +9,7 @@
 
 /**
  * Wiki note helper class to be used by other components
- * 
+ *
  * @package net.nemein.wiki
  */
 class net_nemein_wiki_wikipage extends midcom_db_article
@@ -36,14 +36,14 @@ class net_nemein_wiki_wikipage extends midcom_db_article
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without
      * having a this (this call is static).
-     * 
+     *
      * @static
      */
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
-    
+
     function _on_loaded()
     {
         // Backwards compatibility
@@ -54,7 +54,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
         return true;
     }
-    
+
     function _on_creating()
     {
         if (   $this->title == ''
@@ -63,7 +63,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             // We must have wikiword and topic at this stage
             return false;
         }
-        
+
         // Check for duplicates
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->topic);
@@ -74,20 +74,20 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             midcom_application::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
-        
+
         // Generate URL-clean name
         if ($this->name != 'index')
         {
             $this->name = midcom_generate_urlname_from_string($this->title);
-        }    
+        }
         return true;
     }
-    
+
     function _on_updating()
     {
         if ($_MIDCOM->auth->user)
         {
-            // Place current user in the page authors list            
+            // Place current user in the page authors list
             $authors = explode('|', substr($this->metadata->authors, 1, -1));
             if (!in_array($_MIDCOM->auth->user->guid, $authors))
             {
@@ -97,7 +97,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
         return parent::_on_updating();
     }
-    
+
     function _on_updated()
     {
         $stat = parent::_on_updated();
@@ -105,20 +105,20 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $this->_update_link_cache();
         return $stat;
     }
-    
+
     /**
      * Caches links in the wiki page into database for faster "what links here" queries
      */
     function _update_link_cache()
     {
         $links_in_content = $this->find_links_in_content();
-        
+
         $qb = net_nemein_wiki_link_dba::new_query_builder();
         $qb->add_constraint('frompage', '=', $this->id);
         $links_in_db = $qb->execute();
-        
+
         $links_matched = array();
-        
+
         // Check links in DB versus links in content to see what needs to be removed
         foreach ($links_in_db as $link)
         {
@@ -128,10 +128,10 @@ class net_nemein_wiki_wikipage extends midcom_db_article
                 $link->delete();
                 continue;
             }
-            
+
             $links_matched[$link->topage] = $link;
         }
-        
+
         // Check links in content versus matched links to see what needs to be added
         foreach ($links_in_content as $wikilink => $label)
         {
@@ -140,7 +140,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
                 // This is already in DB, skip
                 continue;
             }
-            
+
             $link = new net_nemein_wiki_link_dba();
             $link->frompage = $this->id;
             $link->topage = $wikilink;
@@ -163,7 +163,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             $qb->add_constraint('parentguid', '=', $this->guid);
         $qb->end_group();
         $watcher_params = $qb->execute();
-        
+
         foreach ($watcher_params as $parameter)
         {
             if (in_array($parameter->name, $watchers))
@@ -171,12 +171,12 @@ class net_nemein_wiki_wikipage extends midcom_db_article
                 // We found this one already, skip
                 continue;
             }
-            
+
             $watchers[] = $parameter->name;
         }
         return $watchers;
     }
-    
+
     function _update_watchers()
     {
         $watchers = $this->list_watchers();
@@ -184,16 +184,16 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         {
             return;
         }
-        
+
         $diff = $this->_get_diff();
         if (empty($diff))
         {
             // No sense to email empty diffs
             return;
         }
-        
+
         $_MIDCOM->load_library('org.openpsa.notifications');
-        
+
         // Construct the message
         $message = array();
         $user_string = $_MIDCOM->i18n->get_string('anonymous', 'net.nemein.wiki');
@@ -206,14 +206,14 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $message['title'] = sprintf($_MIDCOM->i18n->get_string('page %s has been updated by %s', 'net.nemein.wiki'), $this->title, $user_string);
         // Content for long notifications
         $message['content']  = "{$message['title']}\n\n";
-        
+
         // TODO: Get RCS diff here
         $message['content'] .= $_MIDCOM->i18n->get_string('page modifications', 'net.nemein.wiki') . ":\n";
         $message['content'] .= "\n{$diff}\n\n";
-        
+
         $message['content'] .= $_MIDCOM->i18n->get_string('link to page', 'net.nemein.wiki') . ":\n";
         $message['content'] .= $_MIDCOM->permalinks->create_permalink($this->guid);
-        
+
         // Content for short notifications
         $topic = new midcom_db_topic($this->topic);
         $message['abstract'] = sprintf($_MIDCOM->i18n->get_string('page %s has been updated by %s in wiki %s', 'net.nemein.wiki'), $this->title, $user_string, $topic->extra);
@@ -221,35 +221,35 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Processing list of Wiki subscribers", MIDCOM_LOG_DEBUG);
-        debug_pop();  
+        debug_pop();
 
         // Send the message out
         foreach ($watchers as $recipient)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Notifying {$recipient}...", MIDCOM_LOG_DEBUG);
-            debug_pop();          
+            debug_pop();
             org_openpsa_notifications::notify('net.nemein.wiki:page_updated', $recipient, $message);
         }
     }
-    
+
     function _get_diff($field = 'content')
     {
         $_MIDCOM->load_library('midcom.helper.xml');
-        
-        if (!class_exists('Text_Diff')) 
+
+        if (!class_exists('Text_Diff'))
         {
             @include_once 'Text/Diff.php';
             @include_once 'Text/Diff/Renderer.php';
             @include_once 'Text/Diff/Renderer/unified.php';
             @include_once 'Text/Diff/Renderer/inline.php';
         }
-        
-        if (!class_exists('Text_Diff')) 
+
+        if (!class_exists('Text_Diff'))
         {
             return '';
         }
-        
+
         // Load the RCS handler
         $rcs = $_MIDCOM->get_service('rcs');
         $rcs_handler = $rcs->load_handler($this);
@@ -257,7 +257,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         {
             return null;
         }
-        
+
         // Find out what versions to diff
         $history = $rcs_handler->list_history_numeric();
         if (count($history) < 2)
@@ -266,7 +266,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
         $this_version = $history[0];
         $prev_version = $history[1];
-        
+
         $diff_fields = $rcs_handler->get_diff($prev_version, $this_version, 'unified');
 
         if (!array_key_exists('diff', $diff_fields[$field]))
@@ -274,10 +274,10 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             // No differences
             return '';
         }
-        
+
         return $diff_fields[$field]['diff'];
     }
-    
+
     /**
      * Abbreviation support [abbr: Abbreviation - Explanation]
      */
@@ -285,7 +285,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     {
         if (preg_match("/^(.*?) \- (.*)/", $macro_content, $parts))
         {
-            return "<abbr title=\"{$parts[2]}\">{$parts[1]}</abbr>{$after}";    
+            return "<abbr title=\"{$parts[2]}\">{$parts[1]}</abbr>{$after}";
         }
         // Could not figure it out, return the tag as is
         return $fulltag;
@@ -317,14 +317,14 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             // Fallback for the conversion script
             // FIXME: Remove this when the conversion script is able to fix the link tags
             $qb = org_routamc_photostream_photo_dba::new_query_builder();
-            
+
             $qb = midcom_db_parameter::new_query_builder();
             $qb->add_constraint('domain', '=', 'org.routamc.photostream');
             $qb->add_constraint('name', '=', 'net.siriux.photos:guid');
             $qb->add_constraint('value', '=', $guid);
             $photo_params = $qb->execute();
             if (count($photo_params) == 0)
-            {                
+            {
                 return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
             }
             else
@@ -359,7 +359,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         // FIXME: Why doesn't dynamic_load do this by itself?
         $_MIDCOM->style->enter_context($oldcontext);
 
-        return "{$content}{$after}"; 
+        return "{$content}{$after}";
     }
 
     /**
@@ -482,7 +482,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $nap = new midcom_helper_nav();
         static $node_cache = array();
         $ret = "\n<ul class=\"tagged\">\n";
-        // PONDER: add <th> with the tags list ?
         /* HACK: usort can't use even static methods so we create an "anonymous" function from code received via method */
         usort($pages, create_function('$a,$b', $this->_code_for_sort_by_title()));
         foreach ($pages as $page)
@@ -582,13 +581,13 @@ EOF;
                 {
                     $folder = $wikipage_match['latest_parent'];
                 }
-                                
+
                 if (   isset($folder[MIDCOM_NAV_OBJECT])
                     && $folder[MIDCOM_NAV_OBJECT]->can_do('midgard:create'))
                 {
                     $wikilink = rawurlencode($wikilink);
                     return "<a href=\"{$folder[MIDCOM_NAV_FULLURL]}create/?wikiword={$wikipage_match['remaining_path']}\" class=\"wiki_missing\" title=\"" . $_MIDCOM->i18n->get_string('click to create', 'net.nemein.wiki') . "\">{$text}</a>{$after}";
-                } 
+                }
                 else
                 {
                     return "<span class=\"wiki_missing_nouser\" title=\"" . $_MIDCOM->i18n->get_string('login to create', 'net.nemein.wiki') . "\">{$text}</span>{$after}";
@@ -598,13 +597,6 @@ EOF;
             $url_name = $this->generate_page_url($wikipage_match['wikipage']);
 
             $type = $wikipage_match['wikipage']->parameter('midcom.helper.datamanager2', 'schema_name');
-            /*
-            if (   $type == 'redirect'
-                && $wikipage->can_do('midgard:update'))
-            {
-                $after = " <a href=\"{$prefix}edit/{$match->name}/\" class=\"edit\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/edit.png\" alt=\"" . $_MIDCOM->i18n->get_string('edit', 'midcom') . "\" title=\"" . $_MIDCOM->i18n->get_string('edit', 'midcom') . "\" /></a>{$after}";
-            }
-            */
 
             return "<a href=\"{$url_name}{$page_anchor}\"{$class} class=\"wikipage {$type}\" title=\"{$wikilink}\">{$text}</a>{$after}";
         }
@@ -657,10 +649,10 @@ EOF;
             // MediaWiki-style link [wikipage] (no text)
             $links[$wikilink] = $text;
         }
-        
+
         return $links;
     }
-    
+
     function generate_page_url($wikipage)
     {
         $nap = new midcom_helper_nav();
@@ -669,15 +661,15 @@ EOF;
         {
             return false;
         }
-        
+
         if ($wikipage->name == 'index')
         {
             return $node[MIDCOM_NAV_FULLURL];
         }
-        
+
         return "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
     }
-    
+
     function _list_wiki_nodes($node, $prefix = '')
     {
         static $nap = null;
@@ -685,9 +677,9 @@ EOF;
         {
             $nap = new midcom_helper_nav();
         }
-                
+
         $nodes = array();
-        
+
         if ($prefix == '')
         {
             // This is the root node
@@ -699,7 +691,7 @@ EOF;
             $node_identifier = "{$prefix}{$node[MIDCOM_NAV_NAME]}";
             $nodes[$node_identifier] = $node;
         }
-        
+
         $subnodes = $nap->list_nodes($node[MIDCOM_NAV_ID]);
         foreach ($subnodes as $node_id)
         {
@@ -709,15 +701,15 @@ EOF;
                 // This is not a wiki folder, skip
                 continue;
             }
-            
+
             $subnode_children = $this->_list_wiki_nodes($subnode, "{$node_identifier}/");
-            
+
             $nodes = array_merge($nodes, $subnode_children);
         }
-        
+
         return $nodes;
     }
-    
+
     /**
      * Traverse hierarchy of wiki folders or "name spaces" to figure out
      * if a page exists
@@ -733,7 +725,7 @@ EOF;
             'latest_parent' => null,
             'remaining_path' => $path,
         );
-    
+
         /* We store the Wiki folder hierarchy in a static array
            that is populated only once, and even then only the
            first time we encounter a namespaced wikilink */
@@ -743,10 +735,10 @@ EOF;
                 || $force_resolve_folder_tree))
         {
             $nap = new midcom_helper_nav();
-            
+
             // Traverse the NAP tree upwards until we get the root-most wiki folder
             $folder = $nap->get_node($this->topic);
-            
+
             $root_folder = $folder;
             $max = 100;
             while (   $folder[MIDCOM_NAV_COMPONENT] == 'net.nemein.wiki'
@@ -761,14 +753,14 @@ EOF;
                 $folder = $nap->get_node($parent);
                 $max--;
             }
-                        
+
             $folder_tree = $this->_list_wiki_nodes($root_folder);
         }
 
         if (strstr($path, '/'))
         {
             // Namespaced handling
-            
+
             if (substr($path, 0, 1) != '/')
             {
                 // This is a relative path, expand to full path
@@ -786,7 +778,7 @@ EOF;
             {
                 // This is a direct link to a folder, return the index article
                 $matches['folder'] = $folder_tree[$path];
-                
+
                 $qb = net_nemein_wiki_wikipage::new_query_builder();
                 $qb->add_constraint('topic', '=', $folder_tree[$path][MIDCOM_NAV_ID]);
                 $qb->add_constraint('name', '=', 'index');
@@ -796,17 +788,17 @@ EOF;
                     $matches['remaining_path'] = $folder_tree[$path][MIDCOM_NAV_NAME];
                     return $matches;
                 }
-                
+
                 $matches['wikipage'] = $wikipages[0];
                 return $matches;
             }
-        
+
             // Resolve topic from path
             $directory = dirname($path);
             if (!array_key_exists($directory, $folder_tree))
             {
                 // Wiki folder is missing, go to create
-                
+
                 // Walk path downwards to locate latest parent
                 $localpath = $path;
                 $matches['latest_parent'] = $folder_tree['/'];
@@ -814,12 +806,12 @@ EOF;
                        && $localpath != '/')
                 {
                     $localpath = dirname($localpath);
-                    
+
                     if (array_key_exists($localpath, $folder_tree))
                     {
                         $matches['latest_parent'] = $folder_tree[$localpath];
                         $matches['remaining_path'] = substr($path, strlen($localpath));
-                        
+
                         if (substr($matches['remaining_path'], 0, 1) == '/')
                         {
                             $matches['remaining_path'] = substr($matches['remaining_path'], 1);
@@ -827,10 +819,10 @@ EOF;
                         break;
                     }
                 }
-                
+
                 return $matches;
             }
-            
+
             $folder = $folder_tree[$directory];
             $matches['remaining_path'] = substr($path, strlen($directory) + 1);
         }
@@ -840,12 +832,12 @@ EOF;
             $nap = new midcom_helper_nav();
             $folder = $nap->get_node($this->topic);
         }
-        
+
         if (empty($folder))
         {
             return null;
         }
-        
+
         // Check if the wikipage exists
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('title', '=', basename($path));
@@ -857,7 +849,7 @@ EOF;
             $matches['folder'] = $folder;
             return $matches;
         }
-        
+
         $matches['wikipage'] = $wikipages[0];
         return $matches;
     }

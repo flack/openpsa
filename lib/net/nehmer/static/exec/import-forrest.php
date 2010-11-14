@@ -26,13 +26,13 @@ class net_nehmer_static_import_forrest_file
 class net_nehmer_static_import_forrest
 {
     var $site_tags = array();
-    
+
     function parse_sitexml($path)
     {
         $forrest_data = file_get_contents($path);
         $forrest_parser = xml_parser_create();
         xml_parse_into_struct($forrest_parser, $forrest_data, $forrest_values );
-        
+
         $site_tags = array();
         $site_tag = array();
         $latest_level = 0;
@@ -43,7 +43,7 @@ class net_nehmer_static_import_forrest
                 // We're in new tag, add old one to site tags and clear it
                 $old_site_tag = $site_tag;
                 $site_tags[] = $old_site_tag;
-                
+
                 $new_site_tag = array();
                 foreach ($old_site_tag as $level => $value)
                 {
@@ -52,7 +52,7 @@ class net_nehmer_static_import_forrest
                         // Clear this one
                         continue;
                     }
-                    
+
                     $new_site_tag[$level] = $value;
                 }
                 $site_tag = $new_site_tag;
@@ -61,13 +61,13 @@ class net_nehmer_static_import_forrest
             else
             {
                 $latest_level = $element['level'];
-                
+
                 // Set values
                 $site_tag[$element['level']] = array
                 (
                     'tag' => strtolower($element['tag'])
                 );
-                
+
                 if (array_key_exists('attributes', $element))
                 {
                     if (array_key_exists('HREF', $element['attributes']))
@@ -77,19 +77,19 @@ class net_nehmer_static_import_forrest
                 }
             }
         }
-        
+
         foreach ($site_tags as $tag_structure)
         {
             $tag_string = '';
             $tag_href = '';
-            
+
             foreach ($tag_structure as $level => $values)
             {
                 if (array_key_exists('href', $values))
                 {
                     $tag_href .= $values['href'];
                 }
-                
+
                 if ($level == 1)
                 {
                     $tag_string .= "{$values['tag']}:";
@@ -105,7 +105,7 @@ class net_nehmer_static_import_forrest
                     {
                         $tag_string .= "{$values['tag']}/";
                     }
-                    
+
                     // Sometimes the elements are called directly too
                     if ($tag_href != '')
                     {
@@ -115,21 +115,21 @@ class net_nehmer_static_import_forrest
                 else
                 {
                     $tag_string .= $values['tag'];
-                    
+
                     // Sometimes the elements are called directly too
                     if ($tag_href != '')
                     {
                         $this->site_tags["site:{$values['tag']}"] = $tag_href;
                     }
                 }
-                
+
                 if ($tag_href != '')
                 {
                     $this->site_tags[$tag_string] = $tag_href;
                 }
             }
         }
-        
+
         xml_parser_free($forrest_parser);
     }
 
@@ -137,9 +137,9 @@ class net_nehmer_static_import_forrest
     {
         $file = new net_nehmer_static_import_forrest_file();
         $file->name = str_replace('.xml', '', basename($path));
-    
+
         $forrest_data = file_get_contents($path);
-        
+
         $encoding = mb_detect_encoding($forrest_data);
         if ($encoding != 'UTF-8')
         {
@@ -181,7 +181,7 @@ class net_nehmer_static_import_forrest
                 $file->content = str_replace($figure_str, $figure_str_new, $file->content);
             }
         }
-        
+
         // Handle the site.xml links
         preg_match_all("%<a.*?href=(['\"])((site|ext):.*?)\\1.*?>%", $file->content, $site_links);
         foreach ($site_links[2] as $link)
@@ -196,7 +196,7 @@ class net_nehmer_static_import_forrest
                 echo "Link {$link} not found from site.xml, not replacing<br />\n";
             }
         }
-        
+
         return $file;
     }
 
@@ -204,27 +204,27 @@ class net_nehmer_static_import_forrest
     {
         $files = array();
         $directory = dir($path);
-        
+
         $folder = new net_nehmer_static_import_forrest_folder();
         $folder->name = basename($path);
         $folder->title = ucfirst(basename($path));
-        
+
         $index = false;
-        
+
         if (file_exists("{$path}/site.xml"))
         {
             // This is the "site link mapping file"
             $this->parse_sitexml("{$path}/site.xml");
         }
-        
-        while (false !== ($entry = $directory->read())) 
+
+        while (false !== ($entry = $directory->read()))
         {
             if (substr($entry, 0, 1) == '.')
             {
                 // Ignore dotfiles
                 continue;
             }
-    
+
             if (is_dir("{$path}/{$entry}"))
             {
                 // Recurse deeper
@@ -246,21 +246,21 @@ class net_nehmer_static_import_forrest
 
                 if ($path_parts['extension'] == 'xml')
                 {
-                    
+
                     $file = $this->parse_file("{$path}/{$entry}");
                     if (!is_null($file))
                     {
                         $folder->files[] = $file;
                     }
-                }        
+                }
             }
         }
-        
+
         $directory->close();
-        
+
         return $folder;
     }
-    
+
     function import_folder($folder, $parent_id)
     {
         $qb = midcom_db_topic::new_query_builder();
@@ -285,12 +285,12 @@ class net_nehmer_static_import_forrest
             }
             echo "Created folder {$topic->name} (#{$topic->id}) under #{$topic->up}\n";
         }
-        
+
         $topic->extra = $folder->title;
         $topic->update();
-        
+
         $topic->parameter('midcom', 'component', $folder->component);
-        
+
         if ($folder->component == 'net.nehmer.static')
         {
             if (!$folder->has_index)
@@ -302,20 +302,20 @@ class net_nehmer_static_import_forrest
                 $topic->parameter('net.nehmer.static', 'autoindex', '');
             }
         }
-        
+
         foreach ($folder->files as $file)
         {
             $this->import_file($file, $topic->id);
         }
-        
+
         foreach ($folder->folders as $subfolder)
         {
             $this->import_folder($subfolder, $topic->id);
         }
-        
+
         return true;
     }
-    
+
     function import_file($file, $parent_id)
     {
         $qb = midcom_db_article::new_query_builder();
@@ -340,7 +340,7 @@ class net_nehmer_static_import_forrest
             }
             echo "Created article {$article->name} (#{$article->id}) under #{$article->topic}\n";
         }
-        
+
         $article->title = $file->title;
         $article->content = $file->content;
         return $article->update();
@@ -350,40 +350,11 @@ if (array_key_exists('directory', $_POST))
 {
     $importer = new net_nehmer_static_import_forrest();
     $folder = $importer->list_files($_POST['directory']);
-    
+
     echo "<pre>\n";
     $importer->import_folder($folder, $_POST['parent']);
     echo "</pre>\n";
     _midcom_stop_request();
-/*
-    echo "Found " . count($files) . " XML files, processing...<br />\n";
-    echo "<ul>\n";
-
-    foreach ($files as $file)
-    {
-        echo "    <li>{$file}...</li>\n";
-        
-        $forrest_data = file_get_contents($file);
-        
-        $encoding = mb_detect_encoding($forrest_data);
-        if ($encoding != 'UTF-8')
-        {
-            $forrest_data = iconv($encoding, 'UTF-8', $forrest_data);
-        }
-        
-        echo "<pre>\n";
-        if (!preg_match_all('%<header>.*?(<title>(.*?)</title>).*?</header>.*?(<body>(.*?)</body>)%msi', $forrest_data, $matches))
-        {
-            // Title/body not found
-            _midcom_stop_request();
-        }
-        $title =& htmlentities($matches[2][0]);
-        $body =& htmlentities($matches[4][0]);
-        echo "title: {$title}\n";
-        echo "body\n===\n{$body}\n===\n";
-        echo "</pre>\n";
-    }
-    */
 
     echo "</ul>\n";
 }

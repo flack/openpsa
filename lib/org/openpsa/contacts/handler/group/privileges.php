@@ -48,7 +48,7 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
 
     /**
      * The group we're working with, if any
-     * 
+     *
      * @var org_openpsa_contacts_group_dba
      */
     private $_group = null;
@@ -65,7 +65,7 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
 
 
     function _load_group($identifier)
-    {    
+    {
         $group = new org_openpsa_contacts_group_dba($identifier);
 
         if (!is_object($group))
@@ -113,18 +113,9 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
             unset($fields['calendar']);
         }
 
-        // Set the contacts root group into ACL
-        /* The groups are not necessarily under the root group
-        $fields['contact_creation']['privilege_object'] = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['contacts_root_group'];
-        $fields['contact_editing']['privilege_object'] = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['contacts_root_group'];
-        */
+        // Set the group into ACL
         $fields['contact_creation']['privilege_object'] =  $group_object->get_storage();
         $fields['contact_editing']['privilege_object'] =  $group_object->get_storage();
-        // Set user object as privilege assignee
-        /* Skip assignee to make it 'SELF'
-        $fields['contact_creation']['privilege_assignee'] = $group_object->id;
-        $fields['contact_editing']['privilege_assignee'] = $group_object->id;
-        */
 
         $fields['organization_creation']['privilege_object'] = $group_object->get_storage();
         $fields['organization_editing']['privilege_object'] = $group_object->get_storage();
@@ -136,7 +127,7 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
         if ($_MIDCOM->componentloader->load_graceful('org.openpsa.directmarketing'))
         {
             $fields['campaigns_creation']['privilege_object'] = $group_object->get_storage();
-            $fields['campaigns_editing']['privilege_object'] = $group_object->get_storage();         
+            $fields['campaigns_editing']['privilege_object'] = $group_object->get_storage();
         }
         else
         {

@@ -12,13 +12,10 @@
  *
  * This class encapsulates Datamanager Schemas. It contains all information required to construct
  * the types and widgets of a given data schema. The base class constructs out of a Datamanager 2
- * Schema definition, which is not compatible with a legacy Datamanager 1 Schema, you need to
+ * Schema definition, you need to
  * use the appropriate subclass to handle them dynamically.
  *
  * <b>Schema Definition</b>
- *
- * See {@link http://www.midgard-project.org/documentation/midcom-2-5-datamanager-rewrite-schema-definition/}
- * for now.
  *
  * <b>Storage</b>
  * When using the Midgard storage backend, it is possible to define a callback class to be called

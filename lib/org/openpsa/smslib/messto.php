@@ -94,22 +94,10 @@ class org_openpsa_smslib_messto extends org_openpsa_smslib
         {
             $url .= '&sms_source=' . rawurlencode($sender);
         }
-        /* We don't yet handle these, WTF is this (check tambur api) ?
-        if ($dlr)
-        {
-            $url .= "&dlr=true";
-        }
-        */
         if ($udh)
         {
             $url .= '&sms_udh=' . rawurlencode($udh);
         }
-        /* WTF is this (check tambur api) ?
-        if ($clientid)
-        {
-            $url .= "&clientid={$clientid}";
-        }
-        */
 
         //URL constructed, time to work
         $fp = @fopen($url, 'r');

@@ -767,14 +767,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         if ($data['component'] != 'midcom') $_MIDCOM->componentloader->load($data['component']);
         $_MIDCOM->skip_page_style = true;
 
-/*        $item_title = $_MIDCOM->i18n->get_string('help_'. $data['help_id'], $data['component']);
-        if ($item_title == 'help_'. $data['help_id'])
-        {
-            // Fallback, get from m.a.help
-            $_MIDCOM->i18n->get_string('help_' . $data['help_id'], 'midcom.admin.help');
-        }
-*/
-
         $data['help_files'] = $this->list_files($data['component']);
 
         switch ($data['help_id'])
@@ -787,21 +779,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         }
 
         // Table of contents navi
-/*
-
-        $i = 0;
-        $toc_keys = array_keys($data['help_files']);
-        foreach ($toc_keys as $toc_key)
-        {
-            if ($toc_key == $data['help_id'])
-            {
-                if ($i > 0) $data['prev'] = $toc_keys[$i - 1];
-                if ($i < count($toc_keys)-1) $data['next'] = $toc_keys[$i + 1];
-                break;
-            }
-            $i++;
-        }
-*/
         $data['view_title'] = sprintf
         (
             $_MIDCOM->i18n->get_string('help for %s in %s', 'midcom.admin.help'),

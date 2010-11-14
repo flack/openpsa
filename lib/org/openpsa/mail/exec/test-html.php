@@ -54,10 +54,6 @@ else
     $mail->subject = $_POST['subject'];
     $mail->html_body = $_POST['html_body'];
     list ($new_html, $embeds) = $mail->html_get_embeds(false, $mail->html_body);
-    /*
-    debug_add("Got new_html\n===\n{$new_html}\n===\n");
-    debug_add("Got embeds\n===" . org_openpsa_helpers::sprint_r($embeds) . "===\n");
-    */
     $mail->html_body = $new_html;
     $mail->embeds = $embeds;
     $ret = $mail->send($_POST['backend']);

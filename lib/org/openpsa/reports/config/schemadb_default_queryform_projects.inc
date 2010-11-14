@@ -1,8 +1,8 @@
-'default' => array 
+'default' => array
 (
     'description' => 'Query settings for Projects module reports',
     'save_text'   => 'Generate report',
-    'fields'      => array 
+    'fields'      => array
     (
             'component' => array
             (
@@ -47,7 +47,7 @@
                 ),
                 'widget'        => 'radiocheckselect',
                 'default'       => 'builtin:basic',
-                'start_fieldset'  => array 
+                'start_fieldset'  => array
                 (
                     'title'     => 'report style',
                     'css_group' => 'area',
@@ -70,7 +70,7 @@
                 'default'       => 'date',
                 'end_fieldset'  => '',
             ),
-            'start' => array 
+            'start' => array
             (
                 'title'   => 'Start time',
                 'storage'      => 'start',
@@ -85,13 +85,13 @@
                     'show_time' => false,
                 ),
                 'default'       => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n'), 1, date('Y'))),
-                'start_fieldset'  => array 
+                'start_fieldset'  => array
                 (
                     'title'     => 'Timeframe',
                     'css_group' => 'area',
                 ),
             ),
-            'end' => array 
+            'end' => array
             (
                 'title'   => 'End time',
                 'storage'      => 'end',
@@ -108,7 +108,7 @@
                 'default'       => strftime('%Y-%m-%d', mktime(0, 0, 1, date('n') + 1, 0, date('Y'))),
                 'end_fieldset'    => '',
             ),
-            'resource' => array 
+            'resource' => array
             (
                 'title'   => 'Workgroup/Person',
                 'storage'      => 'parameter',
@@ -118,13 +118,13 @@
                      'options' => array_merge(array('all' => 'all'), org_openpsa_helpers_list::workgroups('first', true)),
                 ),
                 'widget'        => 'select',
-                'start_fieldset'  => array 
+                'start_fieldset'  => array
                 (
                     'title'     => 'Scope',
                     'css_group' => 'area',
                 ),
             ),
-            'task' => array 
+            'task' => array
             (
                 'title'   => 'Root project/process',
                 'storage'      => 'parameter',
@@ -135,20 +135,6 @@
                 ),
                 'widget'        => 'select',
             ),
-            /* Testing */
-            /*
-            'hour_type_filter' => array (
-                'title' => 'type',
-                'storage'      => 'parameter',
-                'type'      => 'select',
-                'widget'        => 'select',
-                'type_config' => array (
-                    'builtin:all' => 'all',
-                    'test type' => 'test type',
-                    'other type' => 'other type',
-                ),
-            ),
-            */
             'invoiceable_filter' => array
             (
                 'title'   => 'show invoiceable',
@@ -216,7 +202,7 @@
                 ),
                 'widget'        => 'radiocheckselect',
                 'default'       => ORG_OPENPSA_OBTYPE_REPORT,
-                'start_fieldset'  => array 
+                'start_fieldset'  => array
                 (
                     'title'     => 'Metadata',
                     'css_group' => 'area',

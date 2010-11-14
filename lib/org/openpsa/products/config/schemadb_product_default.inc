@@ -1,18 +1,6 @@
 'default' => array
 (
     'description' => 'product',
-    'validation' => array
-    (
-        /* This fails on updating existing producst (no sensible way to pass current ID)
-        // Validator for code uniqueness
-        'uniquecode' => array
-        (
-            'type'    => 'callback',
-            'message' => 'product with this code already exists',
-            'callback' => array('org_openpsa_products_product_dba','validate_code'),
-        ),
-        */
-    ),
     'fields'      => array
     (
         'code' => Array
@@ -22,9 +10,6 @@
             'storage' => 'code',
             'type'    => 'text',
             'widget'  => 'text',
-            /* see validation block for why this is disabled
-            'validation' => 'uniquecode',
-            */
             'required' => true,
         ),
         'title' => Array

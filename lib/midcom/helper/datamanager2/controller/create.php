@@ -10,9 +10,8 @@
 /**
  * Datamanager 2 Data Manager object creation controller class.
  *
- * This class replaces the legacy "creation mode" of DM1. It requires a callback that
- * creates the actual object that should be created in a correct way. The implementation
- * contained in this class should be able to avoid ghost object (a common problem in DM1)
+ * This class requires a callback that creates the actual object that should be created in a
+ * correct way. The implementation contained in this class should be able to avoid ghost object
  * in almost all cases. The only thing that is not fully catchable here are cases where
  * the type validation fails. But since all type validation rules are mappable to QuickForm
  * rules, this problem should not appear.
@@ -69,15 +68,15 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * @access public
      */
     var $ajax_mode = false;
-    
+
     /**
      * Editable status of the object
-     * 
+     *
      * @access private
      * @var boolean
      */
     var $_editable = null;
-    
+
     /**
      * Options to pass for the AJAX controller
      *
@@ -85,10 +84,10 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * @access public
      */
     var $ajax_options = Array();
-    
+
     /**
      * Wide mode switch
-     * 
+     *
      * @access public
      * @var boolean
      */
@@ -96,7 +95,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
     /**
      * Window mode switch
-     * 
+     *
      * @access public
      * @var boolean
      */
@@ -173,7 +172,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         {
             $tmpid = $_REQUEST[$this->_tmpid_fieldname];
             $object = $_MIDCOM->tmp->request_object($tmpid);
-            
+
             if (   $object
                 && isset($object->guid)
                 && $object->guid)
@@ -214,23 +213,23 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     function process_ajax()
     {
         $state = 'view';
-        
+
         $this->form_identifier = "midcom_helper_datamanager2_controller_ajax_composite_{$this->form_identifier}";
-        
+
         $_MIDCOM->enable_jquery();
-        
-        require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");        
-        
+
+        require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
+
         // Add the required JavaScript
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.dimensions-1.2.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.metadata.js');
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
-        
+
         $mode = 'inline';
         $creation_mode_enabled = 'true';
-        
+
         if ($this->wide_mode)
         {
             $mode = 'wide';
@@ -239,12 +238,12 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         {
             $mode = 'window';
         }
-        
+
         if ($mode != 'inline')
         {
             $creation_mode_enabled = 'false';
         }
-        
+
         $config = "{mode: '{$mode}'}";//, allow_creation: {$creation_mode_enabled}}";
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config}, true);";
         $_MIDCOM->add_jquery_state_script($script);
@@ -258,28 +257,28 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 'href'  => MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css",
             )
         );
-        
+
         switch (true)
         {
             case (array_key_exists("{$this->form_identifier}_edit", $_REQUEST)):
                 // User has requested editor
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_form($this->form_identifier);
-                $state = 'ajax_editing'; 
+                $state = 'ajax_editing';
                 $_MIDCOM->finish();
                 _midcom_stop_request();
-            
+
             case (array_key_exists("{$this->form_identifier}_preview", $_REQUEST)):
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->process_form();
                 $this->formmanager->display_view($this->form_identifier);
-                $state = 'ajax_preview';   
+                $state = 'ajax_preview';
                 $_MIDCOM->finish();
                 _midcom_stop_request();
-        
+
             case (array_key_exists("{$this->form_identifier}_save", $_POST)):
                 $this->formmanager->initialize($this->form_identifier . '_qf');
-    
+
                 // Pre process check for validation etc, we create a new object at this point if everything
                 // looks fine. The change of the storage backend will only be done if we have a clear
                 // save/next result from the QF layer.
@@ -287,15 +286,15 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 if ($result == 'save')
                 {
                     $this->_cast_to_storage_object();
-                }            
-                
+                }
+
                 $exitcode = $this->formmanager->process_form();
                 if ($exitcode == 'save')
                 {
-                    $this->datamanager->save();    
+                    $this->datamanager->save();
                     $this->formmanager->display_view($this->form_identifier, "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}");
                     $state = 'ajax_created';
-                }    
+                }
                 else
                 {
                     $this->formmanager->display_form($this->form_identifier);
@@ -308,7 +307,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 $state = 'ajax_editing';
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_view($this->form_identifier);
-                
+
                 $_MIDCOM->finish();
                 _midcom_stop_request();
         }
@@ -343,7 +342,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     function process_form()
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        
+
         if ($this->formmanager === null)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'You must initialize a controller class before using it.');
@@ -372,7 +371,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 {
                     $this->formmanager->form->setElementError($field, $error);
                 }
-                
+
                 if (   $this->datamanager->storage->object
                     && $this->datamanager->storage->object->guid)
                 {
@@ -393,10 +392,10 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
                 // Delete the object as saving failed
                 $this->datamanager->storage->object->delete();
-                
+
                 debug_add('Failed to save the data to disk');
                 debug_pop();
-                
+
                 // We seem to have a critical error.
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     "Failed to save the data to disk: {$midgard_error}. Check the debug level log for more information.");
@@ -412,10 +411,10 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
             // Save temporary object ID.
             $this->formmanager->form->addElement('hidden', $this->_tmpid_fieldname, $this->datamanager->storage->object->id);
         }
-        
+
         return $result;
     }
-    
+
     /**
      * cast $storage to a simple midgard storage implementation. the reference should propagate this.
      * use a callback to work.
@@ -423,12 +422,12 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     function _cast_to_storage_object()
     {
         $object = $this->callback_object->{$this->callback_method}($this);
-        
+
         // Process temporary object
         if ($this->datamanager->storage->object)
         {
             $tmp_object = $this->datamanager->storage->object;
-            
+
             if (   !$tmp_object
                 || !isset($tmp_object->guid)
                 || !$tmp_object->guid)
@@ -436,7 +435,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the temporary object');
                 // This will exit
             }
-            
+
             $tmp_object->move_extensions_to_object($object);
             $tmp_object->delete();
         }

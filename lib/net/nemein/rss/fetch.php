@@ -54,20 +54,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     var $_datamanager = null;
 
     /**
-     * Keep store of Midgard level language before we do any language switches
-     *
-     * @var string
-     */
-    var $_original_language = null;
-
-    /**
-     * Keep copy of ML strict setting
-     *
-     * @var boolean
-     */
-    var $_ml_strict_backup = null;
-
-    /**
      * Initializes the class with a given feed
      */
     function __construct($feed)
@@ -329,12 +315,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $article->title = $item['title'];
             $updated = true;
         }
-
-        /*if ($article->name != md5($item['guid']))
-        {
-            $article->name = md5($item['guid']);
-            $updated = true;
-        }*/
 
         // FIXME: This breaks with URLs longer than 255 chars
         if ($article->$guid_property != $item['guid'])

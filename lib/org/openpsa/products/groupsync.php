@@ -52,7 +52,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
      */
     function initialize()
     {
-    
+
         // Load root topic
         $root_topic_guid = $this->_config->get('groupsync_root_topic');
         if (empty($root_topic_guid))
@@ -280,25 +280,8 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
 
     function _full_sync_recursive(&$topic, &$group, $root_level = false)
     {
-        /**
-         * Disabled forcing these in case the users need to do something weird
-         *
-        $topic->set_parameter('org.openpsa.products', 'display_navigation', '0');
-        $topic->set_parameter('org.openpsa.products', 'disable_subgroups_on_frontpage', '1');
-         */
-
         $subtopics = $this->_get_subtopics($topic);
         $subgroups = $this->_get_subgroups($group);
-
-        /*
-        echo "DEBUG: \$subtopics <pre>\n";
-        var_dump($subtopics);
-        echo "<pre>\n";
-        echo "DEBUG: \$subgroups <pre>\n";
-        var_dump($subgroups);
-        echo "<pre>\n";
-        */
-
 
         // This is array of *topics*
         $delete_topics_names = array_diff(array_keys($subtopics), array_keys($subgroups));
@@ -316,15 +299,6 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
             $create_topics_from_groups[$name] =& $subgroups[$name];
         }
 
-        /*
-        echo "DEBUG: \$delete_topics <pre>\n";
-        var_dump($delete_topics);
-        echo "<pre>\n";
-        echo "DEBUG: \$create_topics_from_groups <pre>\n";
-        var_dump($create_topics_from_groups);
-        echo "<pre>\n";
-        */
-
         // Handle deletions, this is easy...
         foreach ($delete_topics as $name => $subtopic)
         {
@@ -334,7 +308,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         }
         unset($delete_topics, $name, $subtopic);
 
-        // Handle Creations/moves 
+        // Handle Creations/moves
         foreach ($create_topics_from_groups as $name => $subgroup)
         {
             // We have subtopic in the tree for this product group already, move it instead of creating new one
@@ -355,7 +329,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
                 continue;
             }
             unset($move_topic);
-            
+
             // No existing topic, create new one
             $subtopic = $this->create_subtopic_from_group($topic, $subgroup, $name);
             if (!is_object($subtopic))

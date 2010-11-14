@@ -36,7 +36,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         $this->_request_switch[] = array
         (
             'fixed_args' => 'result',
-            /* 'no_cache' => true, */
             'handler' => 'result'
         );
 

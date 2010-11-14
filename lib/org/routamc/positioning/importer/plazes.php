@@ -43,26 +43,26 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
             }
         }
     }
-    
+
     function _get_plazes_userid($user, $plazes_username, $plazes_password, $cache)
     {
         $client = new org_openpsa_httplib();
         $xml = $client->get('http://plazes.com/me.xml', 'User-agent: device: midgard', $plazes_username, $plazes_password);
-        
+
         $simplexml = simplexml_load_string($xml);
-        
+
         if (!isset($simplexml->id))
         {
             return null;
         }
-        
+
         $user_id = (int) $simplexml->id;
-        
+
         if ($cache)
         {
             $user->set_parameter('org.routamc.positioning:plazes', 'user_id', $user_id);
         }
-        
+
         return $user_id;
     }
 
@@ -73,7 +73,7 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
         $client = new org_openpsa_httplib();
         $xml = $client->get("http://plazes.com/users/{$plazes_username}/past_activities.xml", 'User-agent: device: midgard', $plazes_username, $plazes_password);
         $simplexml = simplexml_load_string($xml);
-        
+
         if (!isset($simplexml->activity))
         {
             return null;
@@ -113,13 +113,6 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
     {
         $plazes_username = $user->get_parameter('org.routamc.positioning:plazes', 'username');
         $plazes_password = $user->get_parameter('org.routamc.positioning:plazes', 'password');
-        
-        /*
-        $plazes_userid = $user->get_parameter('org.routamc.positioning:plazes', 'user_id');
-        if (!$plazes_userid)
-        {
-            $plazes_userid = $this->_get_plazes_userid($user, $plazes_username, $plazes_password, $cache);
-        }*/
 
         if (   $plazes_username
             && $plazes_password)

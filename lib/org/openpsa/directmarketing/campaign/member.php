@@ -200,7 +200,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $receipt->token = $token;
         $receipt->timestamp = time();
         $stat = $receipt->create();
-        //PONDER: do something in case of failure ?
+
         if (!$stat)
         {
             debug_add('Failed to create, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);

@@ -38,7 +38,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         //    // EditArea really messes up Asgard for WebKit browsers
         //    $this->editarea_enabled = false;
         //}
-        
+
         if ($this->editarea_enabled)
         {
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/edit_area/edit_area_full.js');
@@ -87,42 +87,6 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
             return false;
         }
 
-        /* bergie says this segfaults
-        if (function_exists('parsekit_compile_string'))
-        {
-            // Use parsekit for evaluation if available
-            $errors = array();
-            parsekit_compile_string("?>{$this->value}", $errors, PARSEKIT_QUIET);
-
-            if (!empty($errors))
-            {
-                $parse_errors = array();
-                foreach ($errors as $error)
-                {
-                    if ($error['errno'] == E_PARSE)
-                    {
-                        $parse_errors[$error['lineno']] = $error['errstr'];
-                    }
-                }
-
-                if (count($parse_errors) > 0)
-                {
-                    $error_message = '';
-                    foreach ($parse_errors as $line => $error)
-                    {
-                        $error_message .= "<br />\nline {$line}: {$error}";
-                    }
-                    $this->validation_error = sprintf($this->_l10n->get('type php: parse error %s'), $error_message);
-                    debug_pop();
-                    return false;
-                }
-            }
-
-            debug_pop();
-            return true;
-        }
-        */
-
         $tmpfile = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], 'midcom_helper_datamanager2_type_php_');
         $fp = fopen($tmpfile, 'w');
         fwrite($fp, $this->value);
@@ -135,7 +99,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
         {
             $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
             $this->validation_error = sprintf($this->_l10n->get('type php: parse error in line %s'), $line);
-      
+
             debug_pop();
             return false;
         }

@@ -33,11 +33,6 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
         {
             return false;
         }
-        /* In fact in 1.8 it's always reference to the core level QB so this doesn't really circumvent the problem of setting limit and offset before counting...
-        $qb_copy = $this->_midcom_qb;
-        $this->_qb_limits($qb_copy);
-        return @$qb_copy->execute();
-        */
         $this->_qb_limits($this->_midcom_qb);
         return $this->_midcom_qb->execute();
     }

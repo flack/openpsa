@@ -131,12 +131,6 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
                 self::$memcache_operational = false;
             }
         }
-
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_print_r('Current MemCache stats:', self::$memcache->getStats());
-        debug_pop();
-        */
     }
 
     /**

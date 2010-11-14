@@ -155,7 +155,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         $this->_original_tmpname = $tmpname;
         $this->_original_mimetype = $this->_get_mimetype($this->_original_tmpname);
         $this->_filter = new midcom_helper_imagefilter();
-        
+
         if (array_key_exists('archival', $this->_pending_attachments))
         {
             // We never touch the archival version after it has been uploaded
@@ -214,7 +214,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         debug_pop();
         return true;
     }
-    
+
     /**
      * If the original is a RAW file makes a PNG of it (or replaces with placeholder)
      *
@@ -252,7 +252,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         fclose($dst);
         return false;
     }
-    
+
     function save_archival_image()
     {
         if ($this->do_not_save_archival)
@@ -267,7 +267,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
                                      $this->_original_tmpname,
                                      false);
     }
-    
+
     /**
      * a wrapper for set_image
      */
@@ -336,14 +336,11 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
 
     function convert_to_storage()
     {
-        /* On a second thought, I don't think this would work correctly
-        return midcom_helper_datamanager2_type_blobs::convert_to_storage();
-        */
         return parent::convert_to_storage();
     }
 
     /**
-     * Applies a given filter to all (except original) images in the type 
+     * Applies a given filter to all (except original) images in the type
      *
      * @param string $filter the midcom_helper_imagefilter filter chain to apply
      * @return boolean indicating success/failure

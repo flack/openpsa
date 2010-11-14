@@ -85,11 +85,6 @@ $properties_map = array
     'group' => list_object_properties($tmp_group, $data['l10n']),
     'membership' => list_object_properties($tmp_member, $data['l10n']),
 );
-/*
-echo "DEBUG: properties_map<pre>\n";
-print_r($properties_map);
-echo "</pre>\n";
-*/
 
 ?>
 <!-- Automatically built on PHP level -->
@@ -121,13 +116,7 @@ foreach ($properties_map as $class => $properties)
     }
     }
     echo "             }\n";
-    /*
-    echo "        },\n";
-    echo "        '{$class}_parameters': {\n";
-    echo "            localized: '" . $data['l10n']->get("class:{$class} parameters") . "',\n";
-    echo "            parameters: true,\n";
-    echo "            properties: false\n";
-    */
+
     if ($i < $cnt)
     {
         echo "        },\n";

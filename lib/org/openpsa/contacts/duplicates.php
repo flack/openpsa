@@ -232,13 +232,6 @@ class org_openpsa_contacts_duplicates
             $qb->add_constraint('id', '<>', $group->id);
         }
         $qb->begin_group('OR');
-            /*
-            //Shared
-            if ($group->)
-            {
-                $qb->add_constraint('', 'LIKE', $group->);
-            }
-            */
             //Shared official
             if ($group->official)
             {

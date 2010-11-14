@@ -226,11 +226,6 @@ class midcom_helper__componentloader
         // Check if this component is already loaded...
         if (array_key_exists($path, $this->_tried_to_load))
         {
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("We have already tried to load {$path}, returning original result.");
-            debug_pop();
-            */
             $GLOBALS['midcom_errstr'] = "Component {$path} already loaded.";
             return $this->_tried_to_load[$path];
         }
@@ -242,8 +237,6 @@ class midcom_helper__componentloader
         // Check if the component is listed in the class manifest list. If not,
         // we immediately bail - anything went wrong while loading the component
         // (f.x. broken DBA classes).
-        //echo"'".$path."'";
-        //print_r($this->manifests);
         if (! array_key_exists($path, $this->manifests))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -908,7 +901,6 @@ class midcom_helper__componentloader
             'midcom.admin.folder',
             'midcom.admin.help',
             'midcom.admin.settings',
-            /*'midcom.admin.styleeditor',*/
             'midcom.admin.user',
             'midcom',
             'midcom.core.nullcomponent',

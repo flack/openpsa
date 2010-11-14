@@ -83,38 +83,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         $output = ob_get_contents();
         ob_end_clean();
 
-        /*
-        $fp = @fopen($batch_url, 'r');
-        if (!$fp)
-        {
-            $msg = "Error opening {$batch_url}, response: {$http_response_header[0]}";
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
-            debug_pop();
-            return false;
-        }
-        $output = '';
-        while (!feof($fp))
-        {
-            //Sometimes this gives warnings on "SSL: fatal protocol error"
-            $output .= @fread($fp, 4096);
-        }
-        fclose($fp);
-
-        if (stristr($output, 'error'))
-        {
-            $msg = "ERROR in batch send, output:\n==={$output}\n===\n";
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
-            debug_pop();
-            return false;
-        }
-        */
-        /*
-        $debug = "batch send output:\n===\n{$output}\n===\n";
-        $handler->print_error($debug);
-        */
-
         $_MIDCOM->auth->drop_sudo();
         debug_pop();
         return true;

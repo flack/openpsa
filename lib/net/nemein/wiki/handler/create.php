@@ -108,7 +108,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         }
 
         $this->_page = new net_nemein_wiki_wikipage($this->_page->id);
-        
+
         return $this->_page;
     }
 
@@ -147,35 +147,22 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
                     }
                     // refresh
                     $topic = new midcom_db_topic($topic->id);
-                    // Set the component parameter (even if we have it in object)
-                    /*
-                    if (!isset($topic->component))
-                    {
-                    */
-                        $topic->set_parameter('midcom', 'component', 'net.nemein.wiki');
-                    //}
 
                     // See if we have article with same title in immediate parent
                     $qb = net_nemein_wiki_wikipage::new_query_builder();
                     $qb->add_constraint('title', '=', $folder_title);
                     $qb->add_constraint('topic', '=', $topic->up);
                     $results = $qb->execute();
-                    /*
-                    echo "DEBUG: results for searching page '{$folder_title}' in topic #{$topic->up}<pre>\n";
-                    print_r($results);
-                    echo "</pre>\n";
-                    */
+
                     if (   is_array($results)
                         && count($results) == 1)
                     {
-                        //echo "INFO: Found page with same title in parent, moving to be index of this new topic<br/>\n";
                         $article =& $results[0];
                         $article->name = 'index';
                         $article->topic = $topic->id;
                         if (!$article->update())
                         {
                             // Could not move article, do something ?
-                            //echo "FAILURE: Could not move the page, errstr: ". midcom_application::get_error_string() . "<br/>\n";
                         }
                     }
                     else

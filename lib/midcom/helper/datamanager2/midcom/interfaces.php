@@ -24,14 +24,6 @@ class midcom_helper_datamanager2_interface extends midcom_baseclasses_components
         parent::__construct();
 
         $this->_component = 'midcom.helper.datamanager2';
-
-        // Subclasses are loaded on demand, add this to the above list for syntax checking:
-        /*
-            'type/text.php',
-        */
     }
-
-
 }
-
 ?>

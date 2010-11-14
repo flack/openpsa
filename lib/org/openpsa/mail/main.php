@@ -978,7 +978,7 @@ EOF;
     function _html_get_embeds_loop(&$obj, $html, $search, $embeds, $type)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        if (!isset($_SERVER)) 
+        if (!isset($_SERVER))
         { //Make sure we have this information (even on older PHPs)
             global $HTTP_SERVER_VARS;
             $_SERVER = $HTTP_SERVER_VARS;
@@ -1133,15 +1133,6 @@ EOF;
     function html_get_embeds($obj = false, $html = null, $embeds = null)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        /* This is a dangerous way to default (also the references seem to go all over the place), thus we won't
-        if ($html === null) {
-            $html =& $this->html_body;
-        }
-        if ($embeds === null)
-        {
-            $embeds =& $this->embeds;
-        }
-        */
 
         if (!is_array($embeds))
         {
@@ -1246,10 +1237,10 @@ EOF;
         {
             $message_text = str_replace("__{$id}__", $string, $message_text);
         }
-        
+
         $mail = new org_openpsa_mail();
         $mail->body = $message_text;
-        
+
         ob_start();
         $data = array();
         $data['email_message_text'] = $message_text;
@@ -1258,14 +1249,14 @@ EOF;
         $_MIDCOM->style->show($template);
         $mail->html_body = ob_get_contents();
         ob_end_clean();
-        
+
         return $mail;
     }
 }
 
-if (!function_exists('org_openpsa_mail_sprint_r')) 
+if (!function_exists('org_openpsa_mail_sprint_r'))
 {
-    function org_openpsa_mail_sprint_r($var) 
+    function org_openpsa_mail_sprint_r($var)
     {
         ob_start();
         print_r($var);

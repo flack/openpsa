@@ -176,20 +176,11 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
      */
     function store()
     {
-        //$this->add('MIDCOM', "Storing messages, latest id is {$this->_latest_message_id}...");
         if (count($this->_message_stack) == 0)
         {
             // No unshown messages
             return true;
         }
-
-        /* Sessions service now tries to be smarter about things
-        if (!$_MIDGARD['user'])
-        {
-            // Don't use sessioning for non-users as that kills cache usage
-            return true;
-        }
-        */
 
         // We have to be careful what messages to store to session to prevent them
         // from accumulating

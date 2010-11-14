@@ -816,13 +816,6 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
         var viewport_height = jQuery(window).height();
         var viewport_bottom = viewport_top + jQuery(window).height();
 
-        /*
-        console.log('elem_offset: ' + elem_offset);
-        console.log('elem_height: ' + elem_height);
-        console.log('viewport_top ' + viewport_top);
-        console.log('viewport_height ' + viewport_height);
-        console.log('viewport_bottom: ' + viewport_bottom);
-        */
         if (   elem_offset < viewport_bottom 
             && elem_offset + elem_height > viewport_bottom)
         {
@@ -869,15 +862,6 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
         var list_scrolltop = list.scrollTop();
         var list_height = list.height();
         var list_bottom = list_offset + list_height;
-        /*
-        console.log('elem_offset: ' + elem_offset);
-        console.log('elem_height: ' + elem_height);
-        console.log('elem_bottom: ' + elem_bottom);
-        console.log('list_offset ' + list_offset);
-        console.log('list_scrolltop ' + list_scrolltop);
-        console.log('list_height ' + list_height);
-        console.log('list_bottom: ' + list_bottom);
-        */
         if (elem_bottom > list_bottom)
 	{
 	    list.scrollTop((elem_bottom - list_bottom) + list_scrolltop);

@@ -616,10 +616,6 @@ class midcom_services_auth_acl
 
         self::$_privileges_cache[$cache_id] = array();
 
-        //debug_push_class(__CLASS__, __FUNCTION__);
-        //debug_add("Cache miss for {$cache_id}");
-        //debug_pop();
-
         $this->_load_class_magic_privileges($object_class);
 
         // content privileges

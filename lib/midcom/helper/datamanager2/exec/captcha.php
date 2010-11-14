@@ -61,8 +61,6 @@ $options = Array
 
    $captcha = Text_CAPTCHA::factory('Image');
    $result = $captcha->init($options);
-// $result = $captcha->init($width, $height, $passphrase, $options);
-// $result = $captcha->init($height, $width, $passphrase, $options);
 
 if (PEAR::isError($result))
 {

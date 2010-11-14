@@ -50,9 +50,7 @@
  *
  * <b>Document title:</b>
  *
- * In contrast to earlier implementations of the Datamanager 1 document type,
- * there is no NAP interaction anymore to determine the document title.
- *
+ * There is no NAP interaction anymore to determine the document title.
  * Therefore, you should either have an auto-indexed title field, or an assortment
  * of other fields manually assigned to index to the title field.
  *

@@ -55,11 +55,6 @@ $form_suffix =& $data['form_suffix'];
                             if (preg_match($regex, $remote_data, $title_matches))
                             {
                                 debug_add("Got title_matches\n===\n" . org_openpsa_helpers::sprint_r($title_matches) . "===\n");
-                                /*
-                                echo "title_matches from url {$target}: <pre>\n";
-                                echo htmlentities(org_openpsa_helpers::sprint_r($title_matches));
-                                echo "</pre>\n";
-                                */
                                 if (!empty($title_matches[3]))
                                 {
                                     $target_label = strip_tags($title_matches[3]);

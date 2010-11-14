@@ -87,7 +87,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
             ),
             'variable_args' => 1,
         );
-//        /*
         $this->_request_switch['create_link'] = array
         (
             'handler' => array
@@ -101,7 +100,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
                 'link',
             ),
         );
-        /**/
         $this->_request_switch['create'] = array
         (
             'handler' => array
@@ -315,7 +313,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
                 )
             );
         }
-        
+
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
         {
@@ -340,7 +338,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         $GLOBALS['net_nehmer_static_mode'] = $handler;
 
         $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-            
+
         $GLOBALS['net_nehmer_static_schemadbs'] = array();
         $GLOBALS['net_nehmer_static_schemadbs'][''] = $this->_l10n_midcom->get('default setting');
 

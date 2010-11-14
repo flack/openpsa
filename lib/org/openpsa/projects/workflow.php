@@ -323,7 +323,6 @@ class org_openpsa_projects_workflow
             return false;
         }
 
-        //PONDER: Should this be superseded by generic method for querying the status objects to set the latest status ??
         if (self::create_status($task, ORG_OPENPSA_TASKSTATUS_CLOSED, 0, $comment))
         {
             $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf($_MIDCOM->i18n->get_string('marked task "%s" closed', 'org.openpsa.projects'), $task->title), 'ok');

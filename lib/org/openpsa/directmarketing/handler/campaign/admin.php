@@ -365,18 +365,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         else if (   array_key_exists('parameter_domain', $row)
                  && array_key_exists('parameter_name', $row))
         {
-            /* See bug #141 about the dot syntax with parameters
-            if (version_compare(mgd_version(), '1.8.0alpha1', '>='))
-            {
-                return $this->_parse_row2rule_parameter_dot($row, $rule, $from);
-            }
-            else
-            {
-            */
-                return $this->_parse_row2rule_parameter_obj($row, $rule, $from);
-            /*
-            }
-            */
+            return $this->_parse_row2rule_parameter_obj($row, $rule, $from);
         }
         // We should never fall this far...
         return false;
@@ -401,21 +390,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         }
 
         $this->_campaign->require_do('midgard:update');
-
-        //check if rules is an array & if 'generated_from'- key exists
-        /* if-constraint will never be true, atm the rules aren't taged to be special for
-         * advanced editor
-        if (   !is_array($this->_campaign->rules)
-            && !array_key_exists('generated_from',  $this->_campaign->rules)
-            && !array_key_exists('switch_to_generator',  $this->_campaign->rules)
-            )
-        {
-            // Set ui message telling that campaign was not created with the wizards and thus cannot be edited by it
-            $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('longtext:wizard_not_available'), 'error');
-            $_MIDCOM->relocate("campaign/edit_query_advanced/{$this->_campaign->guid}/");
-            // This will exit
-        }
-        */
 
         $this->_prepare_request_data($handler_id);
 
@@ -488,14 +462,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $rule = $tmp_array;
             //add rule was generated with wizard
             $rule['generated'] = 'wizard';
-            /*
-            // Debugging
-            $msg = "_POST\n===\n" . org_openpsa_helpers::sprint_r($_POST) . "===\nrule\n===\n" . org_openpsa_helpers::sprint_r($rule) . "===\n";
-            debug_add($msg);
-            echo "<pre>\n{$msg}</pre>\n";
-            debug_pop();
-            return false;
-            */
+
             //resolve rules
             $solver = new org_openpsa_directmarketing_campaign_ruleresolver();
             $rret = $solver->resolve($tmp_array);

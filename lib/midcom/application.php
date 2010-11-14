@@ -2348,9 +2348,6 @@ class midcom_application
         // TODO: Check metadata service for the real expiry timestamp ?
 
         $this->cache->content->cache_control_headers();
-        /* live mode automatically enters no_cache, so we disable buffers ourself
-        $this->cache->content->enable_live_mode();
-        */
 
         $send_att_body = true;
         if ($GLOBALS['midcom_config']['attachment_xsendfile_enable'])

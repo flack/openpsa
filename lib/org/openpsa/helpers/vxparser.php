@@ -51,13 +51,6 @@ class org_openpsa_helpers_vxparser
         $this->compatibility['data']['quotation_sign'] = '"';
         $this->compatibility['times'] = array();
 
-/* Stuff from old calendar class to remind us
-488:
-489:                    //Whether we trust attendee and resource lists from client (as being complete) or not, default is not to trust.
-490:                    $this->__compatibility['data']['trust_lists']=array('ATTENDEE' => FALSE, 'RESOURCES' => FALSE);
-491:
-*/
-
         if ($input !== false)
         {
             //Pass on to decode
@@ -459,22 +452,12 @@ class org_openpsa_helpers_vxparser
                               $data_arr[$k-1].=$v;
                               unset($data_arr[$k]);
                         } reset ($data_arr);
-                        /*
-                        echo "DEBUG-vCal_decode: data_arr <pre>\n";
-                        print_r($data_arr);
-                        echo "</pre>\n"; reset ($data_arr);
-                        */
                         $data=array(); $i=0; $oldParam=$param; $param=array();
                         while (list ($k, $v) = each ($data_arr)) {
                               $param[$i]=$oldParam;
                               $data[$i]=$this->vCal_decode($v, &$param[$i]);
                               $i++;
                         }
-                        /*
-                        echo "DEBUG-vCal_decode: data <pre>\n";
-                        print_r($data);
-                        echo "</pre>\n"; reset ($data);
-                        */
                    }
                }
 
@@ -484,11 +467,6 @@ class org_openpsa_helpers_vxparser
                         default:
                         case 'QUOTED-PRINTABLE':
                             preg_match_all("/=([0-9A-F]{2})/i", $data, $matches);
-                            /*
-                           echo "DEBUG-vCal_decode: matches<pre>\n";
-                           print_r($matches);
-                           echo "</pre>\n"; reset($matches);
-                           */
                             $cache=array();
                             while (list ($k, $hex) = each ($matches[1])) {
                                     if (isset($cache[$hex])) continue;

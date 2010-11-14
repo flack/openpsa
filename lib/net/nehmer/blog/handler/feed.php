@@ -128,11 +128,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         }
 
         $qb->set_limit($this->_config->get('rss_count'));
-        /**
-         * execute_unchecked has issues with ML and since the windowed QB
-         * it doesn't offer significant advantage for queries without offsets
-        $this->_articles = $qb->execute_unchecked();
-         */
+
         $this->_articles = $qb->execute();
 
         // Prepare the feed (this will also validate the handler_id)

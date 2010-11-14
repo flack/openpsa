@@ -420,7 +420,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         }
         else
         {
-            //debug_push_class(__CLASS__, __FUNCTION__);
             $newresult = array();
             // Must be copies
             $limit = $this->_limit;
@@ -430,14 +429,9 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
             while (($resultset = $this->_execute_and_check_privileges(true)) !== false)
             {
-                //debug_add("Iteration loop #{$i}");
                 if ($this->_qb_error_result !== 'UNDEFINED')
                 {
                     // QB failed in above method TODO: better catch
-                    /*
-                    debug_add('_execute_and_check_privileges caught QB error, returning that now', MIDCOM_LOG_WARN);
-                    debug_pop();
-                    */
                     return $this->_qb_error_result;
                 }
 
@@ -478,17 +472,12 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
         $this->count = count($newresult);
 
-        //debug_pop();
         return $newresult;
     }
 
 
     function _set_limit_offset_window($iteration)
     {
-        /*
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("Called for iteration #{$iteration}");
-        */
         if (!$this->_window_size)
         {
             // Try to be smart about the window size
@@ -497,7 +486,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
                 case (   empty($this->_offset)
                       && $this->_limit):
                     // Get limited number from start (I supposed generally less than 50% will be unreadable)
-                    debug_add('offset empty');
                     $this->_window_size = round($this->_limit * 1.5);
                     break;
                 case (   empty($this->_limit)
@@ -530,16 +518,12 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
             }
         }
 
-        //debug_add("Got window size {$this->_window_size}");
         $offset = $iteration * $this->_window_size;
         if ($offset)
         {
-            //debug_add("Setting offset to {$offset}");
             $this->_qb->set_offset($offset);
         }
-        //debug_add("Setting limit to {$window_size}");
         $this->_qb->set_limit($this->_window_size);
-        //debug_pop();
     }
 
     function _check_groups()
@@ -677,8 +661,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         // Add the limit / offsets
         if ($this->_limit)
         {
-            // ML bug workaround, get bit above limit and trim down later
-            $this->_qb->set_limit($this->_limit+5);
+            $this->_qb->set_limit($this->_limit);
         }
         if ($this->_offset)
         {
@@ -786,11 +769,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     /**
      * Add an ordering constraint to the query builder.
      *
-     * This function has extended functionality against the pure Midgard Query Builder:
-     * It can deal with legacy Midgard 'reverse $field' style sorting orders. All calls
-     * to sort with such fields when using the default ordering will enforce descending
-     * ordering over the default.
-     *
      * @param string $field The name of the MgdSchema property to query against.
      * @param string $ordering One of 'ASC' or 'DESC' indicating ascending or descending
      *     ordering. The default is 'ASC'.
@@ -801,18 +779,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         /**
          * NOTE: So see also collector.php when making changes here
          */
-        if (! $field)
-        {
-            // This is a workaround for a situation the 1.7 Midgard core cannot intercept for
-            // some reason unknown to me. Should be removed once 1.7.x is far enough in the
-            // past.
-
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('QueryBuilder: Cannot order by a null field name.', MIDCOM_LOG_INFO);
-            debug_pop();
-
-            return false;
-        }
 
         if (   $field == 'sitegroup'
             && isset($_MIDGARD['config']['sitegroup'])
@@ -824,14 +790,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
         if ($ordering === null)
         {
-            if (substr($field, 0, 8) == 'reverse ')
-            {
-                $result = $this->_qb->add_order(substr($field, 8), 'DESC');
-            }
-            else
-            {
-                $result = $this->_qb->add_order($field);
-            }
+            $result = $this->_qb->add_order($field);
         }
         else
         {

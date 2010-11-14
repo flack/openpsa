@@ -161,15 +161,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             $_MIDCOM->skip_page_style = true;
         }
 
-        /* This should not be necessary, anymore
-        if (   isset($data['original_language'])
-            && $this->_article->lang == $data['original_language'])
-        {
-            // Re-fetch the article into the new language context
-            $this->_article = new midcom_db_article($this->_article->guid);
-        }
-        */
-
         $this->_load_datamanager();
 
         if ($this->_config->get('enable_ajax_editing'))

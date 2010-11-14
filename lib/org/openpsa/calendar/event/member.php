@@ -34,7 +34,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_parent_guid_uncached()
     {
         if ($this->eid)
@@ -130,20 +130,8 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     function _on_loaded()
     {
         // Make sure we have correct class
-        switch($this->orgOpenpsaObtype)
-        {
-            /* Nowadays in different class
-            case ORG_OPENPSA_OBTYPE_EVENTRESOURCE:
-                $x =& $this;
-                $x = new org_openpsa_calendar_event_resource_dba($this->id);
-                break;
-            */
-            default:
-            case ORG_OPENPSA_OBTYPE_EVENTPARTICIPANT:
-                $x =& $this;
-                $x = new org_openpsa_calendar_event_participant_dba($this->id);
-                break;
-        }
+        $x =& $this;
+        $x = new org_openpsa_calendar_event_participant_dba($this->id);
         return true;
     }
 
@@ -233,9 +221,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             $date_stamp = mktime(0, 0, 1, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
             // TODO: get from persons data based on events weekday
             // PONDER: What to do with persons that do not have this data defined ??
-            /*
-            $weekday =
-            */
             $workday_starts = 8;
             $workday_ends = 16;
             if (   empty($workday_starts)

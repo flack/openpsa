@@ -560,9 +560,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         if ($status === 0)
         {
             // Unix exit code 0 means all ok...
-            /* seems like everything here is wired to work with the unix exit codes afterall
-            return true;
-            */
             return $status;
         }
 
@@ -571,9 +568,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         debug_print_r('Got output: ', $output);
         debug_pop();
         // any other exit codes means some sort of error
-        /* seems like everything here is wired to work with the unix exit codes afterall
-        return false;
-        */
         return $status;
     }
 
@@ -656,9 +650,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
                     $output = array();
                     $result = shell_exec($command);
-
-                        //$return[$attribute]['diff'] = implode ("\n", $output);
-                        $return[$attribute]['diff'] = $command. "\n'".$result . "'";
+                    $return[$attribute]['diff'] = $command. "\n'".$result . "'";
 
                 } else {
                     $return[$attribute]['diff'] = "THIS IS AN OUTRAGE!";

@@ -1481,15 +1481,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
             return array();
         }
 
-        /*
-        $parameters = self::_list_parameters_all($object);
-        if (!isset($parameters[$domain]))
-        {
-            return array();
-        }
-        return $parameters[$domain];
-        */
-
         if (!isset(self::$parameter_cache[$object->guid]))
         {
             self::$parameter_cache[$object->guid] = array();

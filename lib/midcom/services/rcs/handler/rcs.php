@@ -96,7 +96,7 @@ class no_bergfald_rcs
 
         $return = array();
 
-        foreach ($oldest as $attribute => $oldest_value) 
+        foreach ($oldest as $attribute => $oldest_value)
         {
             if (    $attribute == 'password'
                 && !$_MIDCOM->auth->admin)
@@ -127,8 +127,7 @@ class no_bergfald_rcs
                     $output = array();
                     $result = shell_exec($command);
 
-                        //$return[$attribute]['diff'] = implode ("\n", $output);
-                        $return[$attribute]['diff'] = $command. "\n'".$result . "'";
+                    $return[$attribute]['diff'] = $command. "\n'".$result . "'";
 
                 } else {
                     $return[$attribute]['diff'] = "THIS IS AN OUTRAGE!";
@@ -193,7 +192,7 @@ class no_bergfald_rcs
 
     /**
      * Lists the number of changes that has been done to the object
-     * 
+     *
      * @return array list of changeids
      */
     function list_diffs()
@@ -241,7 +240,7 @@ class no_bergfald_rcs
 
    /**
      * Lists the number of changes that has been done to the object
-     * 
+     *
      * @return array list of changeids or empty array if no changes.
      */
     function list_history()

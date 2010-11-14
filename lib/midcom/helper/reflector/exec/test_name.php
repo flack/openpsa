@@ -48,19 +48,4 @@ else
 
 $new_name = midcom_helper_reflector_tree::generate_unique_name($article);
 echo "midcom_helper_reflector_tree::generate_unique_name(\$article) returned '{$new_name}'<br>\n";
-
-/*
-$stat = (int)$article->create();
-echo "\$article->create() returned {$stat}, last Midgard error: " . midcom_application::get_error_string() . "<br>\n";
-echo "&nbsp;&nbsp;&nbsp;\$article->name is now {$article->name}<br>\n";
-*/
-
-/*
-$stat = (int)$article->update();
-echo "\$article->update() returned {$stat}, last Midgard error: " . midcom_application::get_error_string() . "<br>\n";
-echo "&nbsp;&nbsp;&nbsp;\$article->name is now {$article->name}<br>\n";
-*/
-
-
-
 ?>

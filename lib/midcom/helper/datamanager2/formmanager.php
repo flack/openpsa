@@ -116,7 +116,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @var integer
      */
     var $_fieldsets = 0;
-    
+
     /**
      * State of the form manager
      *
@@ -183,7 +183,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             throw new Exception("{$classname} is not a valid DM2 widget");
         }
-        
+
         if (! $this->widgets[$name]->initialize($name, $config['widget_config'], $this->_schema, $this->_types[$name], $this->namespace, $initialize_dependencies))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -242,7 +242,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         }
 
         $this->namespace = "{$name}_";
-        
+
         // TODO: make configurable to get URL from $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
         $defaults = Array();
@@ -272,7 +272,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             {
                 continue;
             }
-            
+
             // Start the fieldsets if required
             $this->_start_fieldset($name, $config);
 
@@ -289,7 +289,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $this->_load_type_qfrules($name);
             $this->widgets[$name]->add_elements_to_form();
             $this->_add_rules_and_filters($name, $config);
-            
+
             $field_default = $this->widgets[$name]->get_default();
             if ($field_default !== null)
             {
@@ -330,7 +330,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 if (   method_exists($this->_types[$name], 'is_empty')
                     && $this->_types[$name]->is_empty())
                 {
-                    $empty = true;   
+                    $empty = true;
                 }
 
                 if ($empty)
@@ -982,9 +982,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
             )
         );
-        /* breaks caching on pages that DL simple forms, and with new invalidation shouldn't be necessary
-        $_MIDCOM->cache->content->no_cache();
-        */
         $results = $this->form->getSubmitValues(true);
 
         // Get the result (this includes validation)
@@ -1043,7 +1040,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     }
 
     /**
-     * This is a shortcut function which allows the calling application to 
+     * This is a shortcut function which allows the calling application to
      * determine the pre-validation return code of the current form.
      *
      * This function is called statically and does therefore *not* do any
@@ -1059,19 +1056,19 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             case (array_key_exists('midcom_helper_datamanager2_save', $_REQUEST)):
                 return 'save';
-            
+
             case (array_key_exists('midcom_helper_datamanager2_next', $_REQUEST)):
                 return 'next';
-                
+
             case (array_key_exists('midcom_helper_datamanager2_previous', $_REQUEST)):
                 return 'previous';
-                
+
             case (array_key_exists('midcom_helper_datamanager2_cancel', $_REQUEST)):
                 return 'cancel';
-                
+
             case (array_key_exists('midcom_helper_datamanager2_preview', $_REQUEST)):
                 return 'preview';
-                
+
             default:
                 return 'edit';
         }

@@ -106,121 +106,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         return $product;
     }
 
-    /*
-    // products.list_product_groups
-    function list_product_groups($message)
-    {
-        $args = $this->_params_to_args($message);
-
-        if (!$_MIDCOM->auth->login($args[1], $args[2]))
-        {
-            return new XML_RPC_Response(0, midcom_application::get_error(), 'Authentication failed.');
-        }
-        $_MIDCOM->auth->initialize();
-        if ($args[0] == 0)
-        {
-            $product_group_id = 0;
-            $product_group_label = 'root';
-        }
-        else
-        {
-            $product_group = org_openpsa_products_product_group_dba($args[0]);
-            if (!$product_group)
-            {
-                return new XML_RPC_Response(0, midcom_application::get_error(), 'Product group ID not found.');
-            }
-            $product_group_id = $product_group->id;
-            $product_group_label = $product_group->code;
-        }
-
-        $response = array();
-
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $qb->add_constraint('up', '=', $product_group_id);
-        $qb->add_order('code');
-        $qb->add_order('title');
-
-        $product_groups = $qb->execute();
-        foreach ($product_groups as $product_group)
-        {
-
-            $arg = $product_group->code ? $product_group->code : $product_group->guid;
-            $link = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "{$arg}/";
-
-            $response_array = array
-            (
-                'guid'        => new XML_RPC_Value($product_group->guid, 'string'),
-                'code'        => new XML_RPC_Value($product_group->code, 'string'),
-                'title'       => new XML_RPC_Value($product_group->title, 'string'),
-                'link'        => new XML_RPC_Value($link, 'string'),
-                'description' => new XML_RPC_Value($product_group->description, 'string'),
-                'published'   => new XML_RPC_Value(gmdate("Ymd\TH:i:s\Z", $product_group->metadata->published), 'dateTime.iso8601'),
-                'productGroup' => new XML_RPC_Value($product_group_label, 'string'),
-            );
-
-            $response[$category] = new XML_RPC_Value($response_array, 'struct');
-        }
-
-        return new XML_RPC_Response(new XML_RPC_Value($response, 'struct'));
-    }
-
-    // products.add_file
-    function add_file($message)
-    {
-        $args = $this->_params_to_args($message);
-
-        if ($args[0] != $this->_content_topic->guid)
-        {
-            return new XML_RPC_Response(0, midcom_application::get_error(), 'Blog ID does not match this folder.');
-        }
-
-        if (!$_MIDCOM->auth->login($args[1], $args[2]))
-        {
-            return new XML_RPC_Response(0, midcom_application::get_error(), 'Authentication failed.');
-        }
-        $_MIDCOM->auth->initialize();
-
-        if (count($args) < 3)
-        {
-            return new XML_RPC_Response(0, midcom_application::get_error(), 'Invalid file data.');
-        }
-
-        if (!$args[3]['name'])
-        {
-            return new XML_RPC_Response(0, midcom_application::get_error(), 'No filename given.');
-        }
-
-        // Clean up possible path information
-        $attachment_name = basename($args[3]['name']);
-
-        $attachment = $this->_content_topic->get_attachment($attachment_name);
-        if (!$attachment)
-        {
-            // Create new attachment
-            $attachment = $this->_content_topic->create_attachment($attachment_name, $args[3]['name'], $args[3]['type']);
-
-            if (!$attachment)
-            {
-                return new XML_RPC_Response(0, midcom_application::get_error(), 'Failed to create attachment: ' . midgard_connection::get_error_string());
-            }
-        }
-
-        if (!$attachment->copy_from_memory($args[3]['bits']))
-        {
-            return new XML_RPC_Response(0, midcom_application::get_error(), 'Failed to store contents to attachment: ' . midgard_connection::get_error_string());
-        }
-
-        $attachment_array = array
-        (
-            'url'  => new XML_RPC_Value("{$GLOBALS['midcom_config']['midcom_site_url']}midcom-serveattachmentguid-{$attachment->guid}/{$attachment->name}", 'string'),
-            'guid' => new XML_RPC_Value($attachment->guid, 'string'),
-        );
-        return new XML_RPC_Response(new XML_RPC_Value($attachment_array, 'struct'));
-    }
-    */
-    
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -230,7 +115,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     function _handler_options($handler_id, $args, &$data)
     {
         $_MIDCOM->skip_page_style = false;
-        
+
         return true;
     }
 

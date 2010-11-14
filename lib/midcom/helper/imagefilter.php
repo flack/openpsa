@@ -45,7 +45,7 @@ class midcom_helper_imagefilter
 
     /**
      * The quality to use for JPEG manipulation, this is not
-     * yet settable from the outside. 
+     * yet settable from the outside.
      *
      * Stored as a valid imagemagick option, defaults to '-quality 90' right now.
      *
@@ -275,10 +275,10 @@ class midcom_helper_imagefilter
                 {
                     case 1:
                         return $this->squarethumb($args[0]);
-                    
+
                     case 2:
                         return $this->squarethumb($args[0], $args[1]);
-                    
+
                     default:
                         return true;
                 }
@@ -288,28 +288,28 @@ class midcom_helper_imagefilter
                 {
                     case 3:
                         return $this->crop($args[0], $args[1], $args[2]);
-                    
+
                     case 2:
                         return $this->crop($args[0], $args[1]);
-                    
+
                     case 1:
                         return $this->crop($args[0], $args[0]);
-                    
+
                     default:
                         return true;
                 }
-            
+
             case 'fill':
                 if (count($args) === 3)
                 {
                     return $this->fill($args[0], $args[1], $args[2]);
                 }
-                
+
                 if (count($args) === 4)
                 {
                     return $this->fill($args[0], $args[1], $args[2], $args[3]);
                 }
-                
+
                 return true;
 
             case 'none':
@@ -355,7 +355,7 @@ class midcom_helper_imagefilter
     /*********** IMAGE MANIPULATION STUFF *****************/
 
     /**
-     * Executes a custom image manipulation callback. 
+     * Executes a custom image manipulation callback.
      * The command name is the function that is searched. The function must
      * use the following signature:
      *
@@ -423,9 +423,9 @@ class midcom_helper_imagefilter
     }
 
     /**
-     * This function converts the image to the specified image format. 
+     * This function converts the image to the specified image format.
      *
-     * It must be a suitable extension to use with the Imagemagick convert 
+     * It must be a suitable extension to use with the Imagemagick convert
      * utility. The file will not be renamed, you have to do this yourself.
      *
      * This call will always convert the first page only of the supplied image, otherwise,
@@ -460,42 +460,6 @@ class midcom_helper_imagefilter
             return false;
         }
     }
-
-    /* *
-     * FUNCTION DISABLED; DOESN'T WORK.
-     *
-     * References for a rewrite:
-     *
-     * http://www.cit.gu.edu.au/~anthony/graphics/imagick6/formats/#profiles
-     *
-     * This function converts the image to the specified colorspace.
-     *
-     * @param string $format The colorspace to convert to. This must be a valid colorspace
-     *     recognized by Imagemagick, it defaults to 'RGB'.
-     * /
-    function colorspace($type = 'RGB')
-    {
-        $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} "
-            . escapeshellarg("{$this->_filename}[0]") . " -colorspace {$type} -colors 20000000";
-
-        $output = null;
-        $exit_code = 0;
-        exec($cmd, $output, $exit_code);
-
-        if ($exit_code !== 0)
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
-            debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output);
-            debug_add("Command was: {$cmd}");
-            debug_pop();
-            return false;
-        }
-
-        return true;
-    }
-    */
-
 
     /**
      * Automatic rotation for the image using EXIF tags.
@@ -762,9 +726,9 @@ class midcom_helper_imagefilter
      *
      * Filter Syntax: squarethumb ($x)
      *
-     * The filter will adapt picture to given width, point gravity 
+     * The filter will adapt picture to given width, point gravity
      * to the centre and crop leftovers.
-     * 
+     *
      * This is a one parameter shorthand for cropping, provided for
      * backwards compatibility
      *
@@ -775,10 +739,10 @@ class midcom_helper_imagefilter
     {
         return $this->crop($x, $x, $gravity);
     }
-    
+
     /**
      * Crop an image to given proportions
-     * 
+     *
      * @access public
      * @param int $x Width
      * @param int $y Height
@@ -788,7 +752,7 @@ class midcom_helper_imagefilter
     {
         $data = @getimagesize($this->_filename);
         $data = null;
-        
+
         // 1a. If got...
         if ($data)
         {
@@ -800,7 +764,7 @@ class midcom_helper_imagefilter
             // If image data was not available, try to get it with idenfity program
             $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}identify -verbose {$this->_filename}";
             exec($cmd, $output, $exit_code);
-            
+
             if ($exit_code !== 0)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
@@ -809,23 +773,23 @@ class midcom_helper_imagefilter
                 debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
                 debug_pop();
             }
-            
+
             $output = implode("\n", $output);
-            
+
             if (!preg_match('/Geometry:\s([0-9]+)x([0-9]+)/i', $output, $regs))
             {
                 return false;
             }
-            
+
             $size_x = (int) $regs[1];
             $size_y = (int) $regs[2];
         }
-        
+
         // Get resize ratio in relations to the original
         $ratio = str_replace(',', '.', 100 * max($x / $size_x, $y / $size_y));
         $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -resize {$ratio}% -gravity {$gravity} -crop {$x}x{$y}+0+0 +repage " . escapeshellarg($this->_filename);
         exec($cmd, $output, $exit_code);
-        
+
         if ($exit_code !== 0)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -835,13 +799,13 @@ class midcom_helper_imagefilter
             debug_pop();
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Resize image and apply fill to match given size
-     * 
+     *
      * @access public
      * @param int $x Width
      * @param int $y Height
@@ -859,9 +823,9 @@ class midcom_helper_imagefilter
             debug_pop();
             return false;
         }
-        
+
         $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}mogrify {$this->_quality} -resize '{$x}x{$y}' -background '{$color}' -gravity {$gravity} -extent {$x}x{$y} +repage " . escapeshellarg($this->_filename);
-        
+
         $output = null;
         $exit_code = 0;
         exec($cmd, $output, $exit_code);

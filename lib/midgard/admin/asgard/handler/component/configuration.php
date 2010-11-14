@@ -707,11 +707,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                         if (is_string($val))
                         {
                             $res = eval("\$val = $val;");
-                            /*if (!$res)
-                            {
-                                $data .= 'array()';
-                                break;
-                            }*/
                         }
                         $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
                     }

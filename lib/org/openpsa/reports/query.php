@@ -56,7 +56,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
         {
             $this->title = 'unnamed';
         }
-        
+
         return true;
     }
 
@@ -68,11 +68,6 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     function get_class_magic_default_privileges()
     {
         $privileges = parent::get_class_magic_default_privileges();
-        /* The owner below should cover for these
-        $privileges['USERS']['midgard:update']      = MIDCOM_PRIVILEGE_ALLOW;
-        $privileges['USERS']['midgard:parameters']  = MIDCOM_PRIVILEGE_ALLOW;
-        $privileges['USERS']['midgard:attachments'] = MIDCOM_PRIVILEGE_ALLOW;
-        */
         $privileges['USERS']['midgard:owner']       = MIDCOM_PRIVILEGE_ALLOW;
         // Just to be sure
         $privileges['USERS']['midgard:read']        = MIDCOM_PRIVILEGE_ALLOW;
@@ -101,7 +96,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
         $qb->add_order('title');
         return $qb->execute();
     }
-    
+
 }
 
 ?>

@@ -22,11 +22,6 @@ if (   !isset($_REQUEST['root_topic_guid'])
         <select name="root_topic_guid">
 <?php
     $qb = midcom_db_topic::new_query_builder();
-    /*
-    $qb->add_constraint('parameter.domain', '=', 'midcom');
-    $qb->add_constraint('parameter.name', '=', 'component');
-    $qb->add_constraint('parameter.value', '=', 'net.nemein.wiki');
-    */
     $qb->add_constraint('component', '=', 'net.nemein.wiki');
     $qb->add_order('name', 'ASC');
     $wiki_topics = $qb->execute();
@@ -112,11 +107,6 @@ class net_nemein_wiki_moinmoin_importer
         $content = trim(file_get_contents($revision_path)) . "\n";
         $content = $this->moinmoin2markdown($content, $title);
         $resolved = $this->resolver->path_to_wikipage($title, true);
-        /*
-        echo "DEBUG: page '{$title}' resolved to <pre>\n";
-        print_r($resolved);
-        echo "</pre>\n";
-        */
         echo "INFO: Importing '{$revision_path}' into '{$title}'<br/>\n";
         if (!empty($resolved['latest_parent']))
         {
@@ -154,11 +144,6 @@ class net_nemein_wiki_moinmoin_importer
                     $qb->add_constraint('title', '=', $folder_title);
                     $qb->add_constraint('topic', '=', $topic->up);
                     $results = $qb->execute();
-                    /*
-                    echo "DEBUG: results for searching page '{$folder_title}' in topic #{$topic->up}<pre>\n";
-                    print_r($results);
-                    echo "</pre>\n";
-                    */
                     if (   is_array($results)
                         && count($results) == 1)
                     {
@@ -449,10 +434,6 @@ class net_nemein_wiki_moinmoin_importer
             }
             $content = preg_replace("/^{$search}\s+(.*?)\s+{$search}\s*$/m", "{$replace} \\1\n", $content);
         }
-        /* Markdown uses -------- as hr as well
-        // Handle HR (not handling thickness on purpose)
-        $content = preg_replace("/^-{4,}$/m", "\n<hr/>\n", $content);
-        */
         // Fix lists (no space after list nominator)
         $content = preg_replace("/^(\s+(\*|-|[0-9]+))([^\s*])/m", "\\1 \\3", $content);
 
@@ -542,11 +523,6 @@ class net_nemein_wiki_moinmoin_importer
         // Handle something://something -links (with possible alternate text) in brackets (not escaped)
         if (preg_match_all('/(?<!\\\)\[(.*?:\/\/.*?)(\s.*?)?\]/', $content, $external_bracket_matches))
         {
-            /*
-            echo "DEBUG: external_bracket_matches\n===\n";
-            print_r($external_bracket_matches);
-            echo "===\n";
-            */
             foreach ($external_bracket_matches[0] as $k => $search)
             {
                 $linkword = $external_bracket_matches[1][$k];
@@ -813,21 +789,6 @@ class net_nemein_wiki_moinmoin_importer
 
     function _moinmoin_table2markdown_html(&$table_data, &$table_size, $columns_array, &$table_parameters)
     {
-        /*
-        echo "table_data\n===\n";
-        print_r($table_data);
-        echo "===\n";
-        */
-        /*
-        echo "table_size\n===\n";
-        print_r($table_size);
-        echo "===\n";
-        */
-        /*
-        echo "table_parameters\n===\n";
-        print_r($table_parameters);
-        echo "===\n";
-        */
         $rendered = "<table>\n    <thead>\n        <tr>\n";
         $pad = '            ';
         foreach($columns_array as $column => $num)
@@ -880,16 +841,6 @@ class net_nemein_wiki_moinmoin_importer
 
     function _moinmoin_table2markdown_markdown(&$table_data, &$table_size, $columns_array)
     {
-        /*
-        echo "table_data\n===\n";
-        print_r($table_data);
-        echo "===\n";
-        */
-        /*
-        echo "table_size\n===\n";
-        print_r($table_size);
-        echo "===\n";
-        */
         $rendered = '';
         // First row is heading
         $heading_row1 = '';

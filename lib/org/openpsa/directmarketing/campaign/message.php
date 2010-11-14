@@ -99,25 +99,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         {
             return null;
         }
-        /* 1.8.1 version:
-        $mc = org_openpsa_directmarketing_campaign_message_dba::new_collector('guid', $guid);
-        $mc->add_value_property('campaign.guid');
-        $stat = $mc->execute();
-        if (!$stat)
-        {
-            // error
-            return null;
-        }
-        $keys = $mc->list_keys();
-        list ($key, $copy) = each ($keys);
-        $campaign_guid = $mc->get_subkey($key, 'guid');
-        if ($campaign_guid === false)
-        {
-            // error
-            return null;
-        }
-        return $campaign_guid;
-        */
 
         $mc = org_openpsa_directmarketing_campaign_message_dba::new_collector('guid', $guid);
         $mc->add_value_property('campaign');
@@ -376,18 +357,10 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         if (count($results_persons)>0)
         {
             // FIXME: Rewrite for collector
-            //$qb_receipts = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
             $qb_receipts = new midgard_query_builder('org_openpsa_campaign_message_receipt');
             $qb_receipts->add_constraint('message', '=', $this->id);
             $qb_receipts->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_MESSAGERECEIPT_SENT);
-            /* Array not supported yet (and MidCOM refuses to support the string form for safety reasons)
             $qb_receipts->add_constraint('person', 'IN', $results_persons);
-            */
-            $qb_receipts->begin_group('OR');
-            foreach($results_persons as $pid)
-            {
-                $qb_receipts->add_constraint('person', '=', $pid);
-            }
             $qb_receipts->end_group();
 
             //$receipts = $qb_receipts->execute_unchecked();
@@ -719,10 +692,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                     $link_address = str_replace('TOKEN', $token, $data_array['link_detector_address']);
                     $mail->html_body = $this->_insert_link_detector($mail->html_body, $link_address);
                 }
-                /*
-                debug_add("mail->html_body:\n===\n{$mail->html_body}\n===\n");
-                debug_add("mail->body:\n===\n{$mail->body}\n===\n");
-                */
             break;
             default:
                 debug_add('Invalid message type, aborting', MIDCOM_LOG_ERROR);
@@ -789,14 +758,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_SENT, $token);
                 $_MIDCOM->auth->drop_sudo();
             }
-            if ($this->send_output)
-            {
-                /*
-                midcom_show_style('send-line-ok');
-                ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
-                flush();
-                */
-            }
         }
         else
         {
@@ -820,11 +781,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             if ($this->send_output)
             {
                 $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), sprintf($_MIDCOM->i18n->get_string('FAILED to send mail to: %s, reason: %s', 'org.openpsa.directmarketing'), $mail->to, $mail->get_error_message()), 'error');
-                /*
-                midcom_show_style('send-line-failure');
-                flush();
-                ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
-                */
             }
         }
         unset($mail);
@@ -1036,14 +992,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_SENT);
                 $_MIDCOM->auth->drop_sudo();
             }
-            if ($this->send_output)
-            {
-                /*
-                midcom_show_style('send-line-ok');
-                flush();
-                ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
-                */
-            }
         }
         else
         {
@@ -1067,11 +1015,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             if ($this->send_output)
             {
                 $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), sprintf($_MIDCOM->i18n->get_string('FAILED to send SMS to: %s, reason: %s', 'org.openpsa.directmarketing'), $person->handphone, $smsbroker->errstr), 'error');
-                /*
-                midcom_show_style('send-line-failure');
-                flush();
-                ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
-                */
             }
         }
         debug_pop();

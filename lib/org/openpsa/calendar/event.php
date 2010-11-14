@@ -34,11 +34,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     var $resources = array();
 
-    /* Tasks as resources are not handled yet at all but will be their own
-     * object similar to eventmember and we use similar cache strategy
-     * var $task_resources; //array, keys are GUIDs of tasks values true
-     */
-
     /* Skip repeat handling for now
      * var $repeat_rule;
      * var $repeat_prev;  //GUID, For repeating events, previous event
@@ -286,12 +281,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             $this->orgOpenpsaAccesstype = ORG_OPENPSA_ACCESSTYPE_PUBLIC;
         }
 
-        // Make sure we have objType
-        /*if (!$this->orgOpenpsaObjtype)
-        {
-            $this->orgOpenpsaObjtype = ORG_OPENPSA_OBTYPE_EVENT;
-        }*/
-
         // Make sure we can actually reserve the resources we need
         foreach ($this->resources as $id => $bool)
         {
@@ -343,13 +332,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         {
             $this->busy_em = false; //Make sure this is only present for the latest event op
         }
-
-        /* placeholder so that I won't forget
-        if (!(isset($this->_compatibility['times']['override_last-modified']) && $this->_compatibility['times']['override_last-modified']===TRUE))
-        {
-            $this->vCal_variables['LAST-MODIFIED']=$this->vCal_stamp(time(), array('TZID' => 'UTC')).'Z';
-        }
-        */
 
         /*
          * Calendar events always have 'inherited' owner

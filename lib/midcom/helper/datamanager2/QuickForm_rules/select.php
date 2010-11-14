@@ -32,10 +32,7 @@ class midcom_helper_datamanager2_qfrule_select_manager
         {
             $rule_class = "midcom_helper_datamanager2_qfrule_select_{$rule_name}";
             $rule_obj = new $rule_class();
-            /*
-            debug_add("form->registerRule('{$rule_name}', null, \$rule_obj)");
-            $stat = $form->registerRule($rule_name, null, $rule_obj);
-            */
+
             debug_add("form->registerRule('{$rule_name}', null, '{$rule_class}', '{$current_file}')");
             $stat = $form->registerRule($rule_name, null, $rule_class, $current_file);
             if (is_a($stat, 'pear_error'))

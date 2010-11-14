@@ -81,7 +81,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
 
     /**
      * Static function, returns the request array for the rcs functions.
-     * 
+     *
      * @return array of request params
      * @static
      */
@@ -180,7 +180,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
 
     /**
      * Load the object and the rcs backend
-     * 
+     *
      */
     function _load_object()
     {
@@ -482,7 +482,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     function _handler_preview($handler_id, $args, &$data)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        /*1. hente ut ddiff */
+
         $this->_guid = $args[0];
         $this->_args = $args;
         $this->_do_callbacks();

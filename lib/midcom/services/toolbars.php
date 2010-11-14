@@ -379,7 +379,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                 )
             );
 
-            // TEMPORARY CODE: This links the old DM1 Metadata editor into the site.
             $toolbar->add_item
             (
                 array
@@ -389,7 +388,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
                 )
             );
-            // TEMPORARY CODE END
         }
 
         if (   $urltopic->can_do('midgard:update')
@@ -716,16 +714,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                 MIDCOM_TOOLBAR_ICON => 'midcom.admin.help/applications-development.png',
             )
         );
-        /*$toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}midcom-exec-midcom/about-component.php?c=$calling_componentname",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('about component', 'midcom.help'),
-                MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
-            )
-        );
-        */
         $toolbar->add_item
         (
             array

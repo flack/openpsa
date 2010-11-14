@@ -25,16 +25,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
         $_MIDCOM->style->prepend_component_styledir('net.nemein.rss');
 
         $this->_request_data['node'] = $this->_topic;
-
-        /*
-        $_MIDCOM->add_link_head(array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css',
-            )
-        );
-        */
     }
 
     function get_plugin_handlers()

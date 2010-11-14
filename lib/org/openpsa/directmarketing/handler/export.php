@@ -85,7 +85,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      */
     private function _load_schemas()
     {
-        // Load contacts explicitly to get constants for schema 
+        // Load contacts explicitly to get constants for schema
         $_MIDCOM->componentloader->load('org.openpsa.contacts');
 
         // We try to combine these schemas to provide a single centralized controller
@@ -174,24 +174,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             $this->_datamanagers['organization']->set_schema('default');
         }
     }
-
-    /* Enable these when we have other exports.
-    function _handler_index($handler_id, $args, &$data)
-    {
-        $this->_prepare_handler($args);
-        if (!$this->_request_data['campaign'])
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    function _show_index($handler_id, &$data)
-    {
-        midcom_show_style('show-export-index');
-    }
-    */
 
     private function _disable_limits()
     {

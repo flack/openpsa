@@ -48,7 +48,7 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
 
     /**
      * The person we're working with, if any
-     * 
+     *
      * @var org_openpsa_contacts_person_dba
      */
     private $_person = null;
@@ -65,7 +65,7 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
 
 
     function _load_person($identifier)
-    {    
+    {
         $person = new org_openpsa_contacts_person_dba($identifier);
 
         if (!is_object($person))
@@ -115,18 +115,8 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
         }
 
 
-        // Set the contacts root group into ACL
-        /* The persons are not necessarily under the root group
-        $fields['contact_creation']['privilege_object'] = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['contacts_root_group'];
-        $fields['contact_editing']['privilege_object'] = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['contacts_root_group'];
-        */
         $fields['contact_creation']['privilege_object'] =  $person_object;
         $fields['contact_editing']['privilege_object'] =  $person_object;
-        // Set user object as privilege assignee
-        /* Skip assignee to make it 'SELF'
-        $fields['contact_creation']['privilege_assignee'] = $user_object->id;
-        $fields['contact_editing']['privilege_assignee'] = $user_object->id;
-        */
 
         $fields['organization_creation']['privilege_object'] = $person_object;
         $fields['organization_editing']['privilege_object'] = $person_object;
@@ -136,13 +126,13 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
         $fields['invoices_editing']['privilege_object'] = $person_object;
 
         $fields['products_creation']['privilege_object'] = $person_object;
-        $fields['products_editing']['privilege_object'] = $person_object;         
+        $fields['products_editing']['privilege_object'] = $person_object;
 
         // Load wiki classes
         if ($_MIDCOM->componentloader->load_graceful('net.nemein.wiki'))
         {
             $fields['wiki_creation']['privilege_object'] = $person_object;
-            $fields['wiki_editing']['privilege_object'] = $person_object;         
+            $fields['wiki_editing']['privilege_object'] = $person_object;
         }
         else
         {
@@ -153,7 +143,7 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
         if ($_MIDCOM->componentloader->load_graceful('org.openpsa.directmarketing'))
         {
             $fields['campaigns_creation']['privilege_object'] = $person_object;
-            $fields['campaigns_editing']['privilege_object'] = $person_object;         
+            $fields['campaigns_editing']['privilege_object'] = $person_object;
         }
         else
         {

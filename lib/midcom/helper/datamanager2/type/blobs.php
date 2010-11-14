@@ -1109,11 +1109,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         foreach ($checks as $check)
         {
             $methodname = "file_sanity_checks_{$check}";
-            /*
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Calling \$this->{$methodname}({$filepath})");
-            debug_pop();
-            */
             if (!$this->$methodname($filepath))
             {
                 // the methods will log their own errors

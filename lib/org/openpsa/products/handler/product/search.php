@@ -167,13 +167,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 }
                 // Replace multiple consecutive wildcards with single one.
                 $constraint['value'] = preg_replace('/%+/', '%', $constraint['value']);
-                /* if we do this here we get no results for some reason...
-                // Do not add constraint if it's all wildcards
-                if (preg_match('/^%+$/', $constraint['value']))
-                {
-                    continue;
-                }
-                */
             }
 
             // TODO: Handle typecasting of values to prevent QB errors
@@ -400,12 +393,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 break;
             case 'LIKE':
                 debug_push_class(__CLASS__, __FUNCTION__);
-                /* LIKE is case-INsensitive, also the wildcard use might be more complex than trailing/preceding
-                if (strstr($value, str_replace('%', '', $constraint['value'])))
-                {
-                    return true;
-                }
-                */
                 // Find a delimiter not part of the constraint value (the SQL wildcard will be rewritten so % CAN be used as delimiter)
                 $delimiters = array('/', '#', '%', '|', '_');
                 $contraint_test_value = str_replace('%', '', $constraint['value']);

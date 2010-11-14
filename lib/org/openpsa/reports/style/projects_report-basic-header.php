@@ -20,21 +20,11 @@ $query_data =& $data['query_data'];
 <?php           break;
         } ?>
                         <th><?php echo $_MIDCOM->i18n->get_string('task', 'org.openpsa.projects'); ?></th>
-<?php   if (   array_key_exists('hour_type_filter', $query_data)
-            /* Cannot be checked from this array
-            && !(   array_key_exists('hidden', $query_data['hour_type_filter'])
-                 && !empty($query_data['hour_type_filter']['hidden']))
-            */
-            )
+<?php   if (array_key_exists('hour_type_filter', $query_data))
         {   ?>
                         <th><?php echo $data['l10n']->get('type'); ?></th>
 <?php   }   ?>
-<?php   if (   array_key_exists('invoiceable_filter', $query_data)
-            /* Cannot be checked from this array
-            && !(   array_key_exists('hidden', $query_data['invoiceable_filter'])
-                 && !empty($query_data['invoiceable_filter']['hidden']))
-            */
-            )
+<?php   if (   array_key_exists('invoiceable_filter', $query_data))
         {   ?>
                         <th><?php echo $_MIDCOM->i18n->get_string('invoiceable', 'org.openpsa.projects'); ?></th>
 <?php   }   ?>

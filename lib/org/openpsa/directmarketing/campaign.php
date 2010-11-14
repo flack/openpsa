@@ -46,16 +46,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_updated()
-    {
-        // Sync the object's ACL properties into MidCOM ACL system
-        /* This craps out for some reason, and it wasn't such a hit idea afterall...
-        $sync = new org_openpsa_core_acl_synchronizer();
-        $sync->write_acls($this, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
-        */
-        return true;
-    }
-
     function _on_loaded()
     {
         $this->_unserialize_rules();

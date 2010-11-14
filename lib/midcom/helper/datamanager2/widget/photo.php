@@ -163,7 +163,6 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
                 "<ul class='midcom_helper_datamanager2_widget_image_sizelist'>";
         foreach ($this->_type->attachments_info as $name => $info)
         {
-            //PONDER: skip the archival version ?? - No
             if (   $info['size_x']
                 && $info['size_y'])
             {

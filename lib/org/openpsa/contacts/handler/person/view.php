@@ -108,22 +108,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     private function _update_breadcrumb_line()
     {
         $tmp = Array();
-        /*
-        $group = new org_openpsa_contacts_group_dba($this->_contact->contactGroup);
-        $parent = $group;
-        while ($parent)
-        {
-            $group = $parent;
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "{$group->guid}/",
-                MIDCOM_NAV_NAME => $group->official,
-            );
-            $parent = $group->get_parent();
-        }
-
-        $tmp = array_reverse($tmp);
-        */
 
         $tmp[] = array
         (

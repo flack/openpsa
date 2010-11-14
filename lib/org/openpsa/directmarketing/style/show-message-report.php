@@ -55,12 +55,6 @@ else
         midcom_show_style('show-message-report-links-header');
         $data['use_link_data'] =& $report['link_data'];
         $data['body_class'] = 'all';
-        /*
-        echo "\n<h3>" . $l10n->get('link statistics') . "</h3>\n";
-        $data['form_suffix'] = '';
-        midcom_show_style('show-message-report-links');
-        $data['body_title'] = $l10n->get('link statistics');
-        */
         midcom_show_style('show-message-report-links-body');
         if (   isset($report['link_data']['segments'])
             && is_array($report['link_data']['segments']))
@@ -70,11 +64,6 @@ else
                 unset($data['use_link_data']);
                 $data['use_link_data'] =& $segment_data;
                 $data['body_class'] = 'segment';
-                /*
-                echo "\n<h3>" . sprintf($l10n->get('segment "%s" link statistics'), $segment) . "</h3>\n";
-                $data['form_suffix'] = '_' . midcom_generate_urlname_from_string($segment);
-                midcom_show_style('show-message-report-links');
-                */
                 $data['body_title'] = sprintf($l10n->get('segment "%s" link statistics'), $segment);
                 midcom_show_style('show-message-report-links-body');
             }

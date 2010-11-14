@@ -162,7 +162,7 @@ class midcom_helper_mailtemplate
     /**
      * Flag indicating if the template has already been parsed
      *
-     * @var boolean 
+     * @var boolean
      * @access private
      */
     var $_parsed;
@@ -468,26 +468,6 @@ class midcom_helper_mailtemplate
         debug_print_r("Computed Headers:", $hdrs);
         debug_print_r("Body:", $body);
 
-        /* Disabled, as CC and the like are processed by the PEAR packages.
-        foreach ($all as $address)
-        {
-            $result = $this->_mail->send($address, $hdrs, $body);
-            if ($result === true)
-            {
-                debug_add("Successfully sent to $address");
-                $this->success[$address] = "OK";
-            }
-            else
-            {
-                debug_add("Failed to send to $address, error was: " . $result->toString);
-                $this->failed[$address] = $result->toString();
-            }
-        }
-
-        debug_pop();
-        return count($this->failed);
-        */
-
         debug_pop();
         return $this->_mail->send($all, $hdrs, $body);
 
@@ -551,7 +531,7 @@ class midcom_helper_mailtemplate
             {
                 continue;
             }
-            
+
             $key = trim($desc["description"]);
             $value = trim($dm->_datatypes[$name]->get_csv_data());
             $result .= "{$key}: ";
@@ -581,7 +561,7 @@ class midcom_helper_mailtemplate
                 $value = get_class($value) . " object";
                 debug_add("The key {$key} contains another object of type {$value}, can't dump this.");
             }
-            
+
             if (is_array($value))
             {
                 $value = "Array";

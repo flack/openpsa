@@ -169,7 +169,6 @@ class midcom_services_indexer
      * Currently supported arguments:
      *
      * - Datamanager 2 Instances (midcom_helper_datamanager2_datamanager)
-     * - Datamanager 1 Instances (midcom_helper_datamanager)
      *
      * Note, that this is conceptually different from the public new_document operation: It might
      * already trigger indexing of dependant objects: A datamanager instance for example will
@@ -182,16 +181,6 @@ class midcom_services_indexer
      */
     function _index_cast_to_document(&$object)
     {
-        if (is_a($object, 'midcom_helper_datamanager'))
-        {
-            // Make a copy, as the document is created by-reference and this might make problems during the iterations.
-            $datamanager = $object;
-            $datamanager->reindex_autoindex_blobs();
-            $object = $this->new_document($datamanager);
-            $datamanager->destroy();
-            return true;
-        }
-
         if (is_a($object, 'midcom_helper_datamanager2_datamanager'))
         {
             $object = $this->new_document($object);
