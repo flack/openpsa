@@ -331,48 +331,34 @@ class midcom_core_collector
         {
             return $result;
         }
-        $newresult = array();
 
-        $limit = $this->_limit;
-        $offset = $this->_offset;
-        $classname = $this->_real_class;
+        $size = sizeof($result);
 
-        foreach ($result as $object_guid => $empty_copy)
+        if ($this->_offset)
         {
-            // We have hit our limit
-            if (   $this->_limit > 0
-                && $limit == 0)
+            if ($this->_offset > $size)
             {
-                break;
+                $result = array();
+                $size = 0;
             }
-
-            // We need to skip this one, because we are outside the offset.
-            if (   $this->_offset > 0
-                && $offset > 0)
+            else
             {
-                $offset--;
-                continue;
-            }
-
-            // Check visibility
-            if ($this->hide_invisible)
-            {
-                // TODO: Implement
-            }
-
-            $newresult[$object_guid] = $empty_copy;
-
-            if ($this->_limit > 0)
-            {
-                $limit--;
+                $result = array_slice($result, $this->_offset);
+                $size = $size - $offset;
             }
         }
 
-        call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$newresult));
+        if (   $this->_limit > 0
+            && $this->_limit < $size)
+        {
+            $result = array_slice($result, 0, $this->_limit);
+        }
 
-        $this->count = count($newresult);
+        call_user_func_array(array($this->_real_class, '_on_process_collector_result'), array(&$result));
 
-        return $newresult;
+        $this->count = count($result);
+
+        return $result;
     }
 
     function get_subkey($key, $property)
