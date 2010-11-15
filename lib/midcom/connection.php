@@ -234,8 +234,9 @@ class midcom_connection
         $path = '/';
         $path_parts = explode('/', $url_components['path']);
         
+        self::$_data['argv'] = array();
+
         $args_started = false;
-        
         foreach ($path_parts as $part)
         {
             if ($part == '')

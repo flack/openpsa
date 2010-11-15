@@ -53,8 +53,6 @@ if (! defined('MIDCOM_STATIC_URL'))
     define('MIDCOM_STATIC_URL', '/openpsa2-static');
 }
 
-openpsa_parse_url();
-
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
 
