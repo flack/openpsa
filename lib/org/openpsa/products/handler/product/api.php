@@ -37,8 +37,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             return false;
         }
 
-        //$_MIDCOM->auth->require_valid_user('basic');
-
         //Content-Type
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->no_cache();

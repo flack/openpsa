@@ -101,7 +101,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     {
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        //$this->_datamanager->schema = $this->_campaign->type;
         if (!$this->_datamanager->autoset_storage($this->_campaign))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for campaign {$this->_campaign->id}.");
@@ -443,7 +442,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             || isset($_POST['show_rule_preview']))
         {
             $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
-            //$eval_ret = eval($eval);
             $eval_ret = @eval($eval);
 
             if (   $eval_ret === false
@@ -570,7 +568,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 return true;
             }
             $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
-            //$eval_ret = eval($eval);
             $eval_ret = @eval($eval);
             if (   $eval_ret === false
                 || !is_array($tmp_array))
@@ -596,7 +593,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 $this->_update_breadcrumb_line($handler_id);
                 org_openpsa_helpers::dm2_savecancel($this);
                 return true;
-                //$_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('"generated_from" found in advanced rule, it has been automatically removed.'), 'warning');
             }
             $this->_request_data['campaign']->rules = $tmp_array;
             $update_ret = $this->_request_data['campaign']->update();

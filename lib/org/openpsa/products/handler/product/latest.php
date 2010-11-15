@@ -110,10 +110,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         // Prepare datamanager
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
 
-        /**
-         * change the pagetitle. (must be supported in the style)
-         */
-        //$_MIDCOM->set_pagetitle($data['view_title']);
         return true;
     }
 
@@ -195,10 +191,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
         // Prepare datamanager
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
 
-        /**
-         * change the pagetitle. (must be supported in the style)
-         */
-        //$_MIDCOM->set_pagetitle($data['view_title']);
         return true;
     }
 

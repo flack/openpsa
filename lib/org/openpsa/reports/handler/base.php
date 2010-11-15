@@ -428,7 +428,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
                         debug_add("Method '{$method}' not in class '{$classname}'", MIDCOM_LOG_WARN);
                         return false;
                     }
-                    //$obj = $this->$method($id);
                     $obj = call_user_func(array($classname, $method), $id);
                 break;
             }

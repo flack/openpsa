@@ -38,7 +38,6 @@ class org_openpsa_contacts_duplicates
         $ret = array();
         //Search for all potential duplicates (more detailed checking is done later)
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        //$qb = new midgard_query_builder('org_openpsa_person');
         $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         if ($person->id)
         {

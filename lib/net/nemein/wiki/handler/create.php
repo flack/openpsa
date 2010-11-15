@@ -133,7 +133,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
                     // One or more namespaces left, find first, create it and recurse
                     $paths = explode('/', $resolved['remaining_path']);
                     $folder_title = array_shift($paths);
-                    //echo "NOTICE: Creating new wiki topic '{$folder_title}' under #{$to_node[MIDCOM_NAV_ID]}<br/>\n";
                     $topic = new midcom_db_topic();
                     $topic->up = $to_node[MIDCOM_NAV_ID];
                     $topic->extra = $folder_title;
@@ -177,7 +176,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
                         }
                     }
                     // We have created a new topic, now recurse to create the rest of the path.
-                    //echo "INFO: New topic created with id #{$topic->id}, now recursing the import to process next levels<br/>\n";
                     return $this->_check_unique_wikiword($wikiword);
                 break;
             case (is_object($resolved['wikipage'])):

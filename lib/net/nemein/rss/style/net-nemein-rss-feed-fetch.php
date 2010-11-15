@@ -32,7 +32,6 @@ else
     foreach ($data['items'] as $item)
     {
         echo "<tr>\n";
-        //$date = net_nemein_rss_fetch::parse_item_date($item);
         if (!isset($item['date_timestamp']))
         {
             $date = 0;

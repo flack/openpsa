@@ -394,13 +394,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                 && isset($this->_sorted_list[$identifier]))
             {
                 $score = $count - $this->_sorted_list[$identifier] + 1;
-                //echo "DEBUG: setting att {$attachment->guid} score to {$score}<br/>\n";
                 // Store the attachment score
                 $attachment->metadata->score = $score;
-                /**
-                 * Not needed in ragnaroek (metadata is midcom_helper_metadata instance)
-                $attachment->update();
-                 */
             }
 
             $data[] = "{$identifier}:{$attachment->guid}";

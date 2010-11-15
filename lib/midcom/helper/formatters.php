@@ -12,9 +12,6 @@ if (!function_exists('midcom_helper_formatters_links'))
 {
     function midcom_helper_formatters_links($content, $echo_results = true)
     {
-        // echo $content;
-        // echo "\n<br />---------<br />\n";
-
         $length = strlen($content);
         $start = 0;
         $end = $length;
@@ -196,9 +193,6 @@ if (!function_exists('midcom_helper_formatters_plaintext'))
 {
     function midcom_helper_formatters_plaintext($content)
     {
-        // echo $content;
-        // echo "\n<br />---------<br />\n";
-
         $search = array
         (
             "/\r/",                                  // Non-legal carriage return
@@ -301,9 +295,6 @@ if (!function_exists('midcom_helper_formatters_noimages'))
 {
     function midcom_helper_formatters_noimages($content, $echo_results=true)
     {
-        // echo "{$content}";
-        // echo "<br/>------<br/>";
-
         $search = array
         (
             '/<img [^>]*src="([^"]+)"[^>]*alt="([^"]+)"[^>]*>/is',

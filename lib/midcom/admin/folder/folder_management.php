@@ -198,7 +198,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
         {
             /**
              * Create a new topic symlink
-             * 
+             *
              * Match /createlink/
              */
             $return['createlink'] = array
@@ -355,7 +355,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
             $style_string = "{$prefix}{$style->name}";
 
             // Hide common unwanted material with heuristics
-            if (preg_match('/(asgard|aegir|empty|spider|admin site)/i', $style_string))
+            if (preg_match('/(asgard|empty|)/i', $style_string))
             {
                 continue;
             }

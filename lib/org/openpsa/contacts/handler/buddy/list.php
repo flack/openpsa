@@ -128,7 +128,6 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
 
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
         $qb->add_constraint('account', '=', $user->guid);
-        //$qb->add_constraint('isapproved', '=', true);
         $qb->add_constraint('blacklisted', '=', false);
         $qb->add_order('buddy.lastname');
         $qb->add_order('buddy.firstname');

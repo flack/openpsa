@@ -958,9 +958,6 @@ class midcom_services_auth_acl
     {
         if ($this->_internal_sudo)
         {
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.', MIDCOM_LOG_DEBUG);
-            //debug_pop();
             return $this->_can_do_internal_sudo($privilege);
         }
 
@@ -980,10 +977,6 @@ class midcom_services_auth_acl
         {
             return self::$_privileges_cache[$cache_key][$privilege];
         }
-
-        //debug_push_class(__CLASS__, __FUNCTION__);
-        //debug_add("Cache {$privilege_key} miss, fetching privileges for {$object_guid}");
-        //debug_pop();
 
         if (self::_load_content_privilege($privilege, $object_guid, $object_class, $user_id))
         {

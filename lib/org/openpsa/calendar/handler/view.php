@@ -16,15 +16,15 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 {
     /**
      * Datamanager2 instance
-     * 
+     *
      * @access private
      * @var midcom_helper_datamanager2_datamanager
      */
     var $_datamanager;
-   
+
     /**
      * The calendar widget we're working on
-     * 
+     *
      * @var org_openpsa_calendarwidget
      * @access private
      */
@@ -32,20 +32,20 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
     /**
      * The calendar root event
-     * 
+     *
      * @var midcom_db_event
      * @access private
      */
     private $_root_event = null;
-        
+
     /**
      * The time to show
-     * 
+     *
      * @var int
      * @access private
      */
     private $_selected_time = null;
-    
+
     /**
      * Constructor. Connect to the parent class constructor.
      */
@@ -53,7 +53,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     {
         parent::__construct();
     }
-    
+
     /**
      * Initialization of the handler class
      */
@@ -67,12 +67,12 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
-        $this->_root_event = org_openpsa_calendar_interface::find_root_event();   
+        $this->_root_event = org_openpsa_calendar_interface::find_root_event();
     }
-    
+
     /**
      * Populate the toolbar
-     * 
+     *
      * @access private
      * @param String $today_path    Path to the today's calendar
      */
@@ -147,7 +147,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $static_prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jscript-calendar';
         $lang = $_MIDCOM->i18n->get_current_language();
-        
+
         $_MIDCOM->add_jsfile("{$static_prefix}/calendar_stripped.js");
         $_MIDCOM->add_jsfile("{$static_prefix}/lang/calendar-{$lang}.js");
         $_MIDCOM->add_jsfile("{$static_prefix}/calendar-setup.js");
@@ -252,7 +252,7 @@ function openPsaShowMonthSelector()
 
     /**
      * Helper that formats a timestamp into a string
-     * 
+     *
      * @param int $from The timestamp, if any
      * @return string The formatted time
      */
@@ -265,10 +265,10 @@ function openPsaShowMonthSelector()
         $datestring = date('Y-m-d', $from);
         return $datestring;
     }
-    
+
     /**
      * Populate the calendar with resources
-     * 
+     *
      * @access private
      * @param midcom_db_person $resource
      * @param int $from Start time
@@ -286,7 +286,6 @@ function openPsaShowMonthSelector()
             $resource_array['css_class'] = 'blue';
         }
 
-        // $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_eventmember');
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
 
         // Find all events that occur during [$from, $end]
@@ -310,7 +309,7 @@ function openPsaShowMonthSelector()
 
         $qb->add_constraint('eid.up', '=', $this->_root_event->id);
         $qb->add_constraint('uid', '=', (int) $resource->id);
-        
+
         $memberships = $qb->execute();
 
         if ($memberships)
@@ -351,7 +350,7 @@ function openPsaShowMonthSelector()
 
         return $resource_array;
     }
-    
+
     /**
      * Populate the calendar with selected contacts
      *
@@ -364,18 +363,18 @@ function openPsaShowMonthSelector()
         $shown_persons = array();
 
         $user = $_MIDCOM->auth->user->get_storage();
-        
+
         if (   $this->_config->get('always_show_self')
             || $user->parameter('org_openpsa_calendar_show', $user->guid))
         {
             // Populate the user himself first, but only if they can create events
             $this->_calendar->_resources[$user->guid] = $this->_populate_calendar_resource($user, $from, $to);
         }
-        
+
         $shown_persons[$user->id] = true;
 
         $subscribed_contacts = $user->list_parameters('org_openpsa_calendar_show');
-        
+
         // Backwards compatibility
         foreach ($subscribed_contacts as $guid => $subscribed)
         {
@@ -383,7 +382,7 @@ function openPsaShowMonthSelector()
             $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
             $shown_persons[$person->id] = true;
         }
-        
+
         // Backwards compatibility
         if ($this->_config->get('always_show_group'))
         {
@@ -404,19 +403,19 @@ function openPsaShowMonthSelector()
                 }
             }
         }
-        
+
         // New UI for showing resources
         foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value)
         {
             $selected = @unserialize($value);
-            
+
             // Skip empty
             if (   !$selected
                 || empty($selected))
             {
                 continue;
             }
-            
+
             // Include each type
             switch ($type)
             {
@@ -424,48 +423,48 @@ function openPsaShowMonthSelector()
                     foreach ($selected as $guid)
                     {
                         $person = new midcom_db_person($guid);
-                        
+
                         if (   isset($shown_persons[$person->id])
                             && $shown_persons[$person->id] === true)
                         {
                             continue;
                         }
-                        
+
                         $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
                         $shown_persons[$person->id] = true;
                     }
                     break;
-                
+
                 case 'groups':
                     foreach ($selected as $guid)
                     {
                         // Get the group
                         $group = new midcom_db_group($guid);
-                        
+
                         if (   !$group
                             || !$group->guid)
                         {
                             continue;
                         }
-                        
+
                         // Get the members
                         $mc = midcom_db_member::new_collector('gid', $group->id);
                         $mc->add_value_property('uid');
                         $mc->add_order('metadata.score', 'DESC');
                         $mc->execute();
-                        
+
                         $keys = $mc->list_keys();
-                        
+
                         foreach ($keys as $membership_guid => $array)
                         {
                             $user_id = $mc->get_subkey($membership_guid, 'uid');
-                            
+
                             if (   isset($shown_persons[$user_id])
                                 && $shown_persons[$user_id] === true)
                             {
                                 continue;
                             }
-                            
+
                             $person = new midcom_db_person($user_id);
                             $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
                             $shown_persons[$person->id] = true;
@@ -489,7 +488,7 @@ function openPsaShowMonthSelector()
 
     /**
      * Month view
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -568,7 +567,7 @@ function openPsaShowMonthSelector()
 
         // Set the breadcrumb
         $tmp = array();
-        
+
         $tmp[] = array
         (
             MIDCOM_NAV_URL => 'year/' . date('Y-01-01', $this->_calendar->get_week_start()) . '/',
@@ -579,7 +578,7 @@ function openPsaShowMonthSelector()
             MIDCOM_NAV_URL => 'month/' . date('Y-m-01', $this->_calendar->get_week_start()) . '/',
             MIDCOM_NAV_NAME => strftime('%B', $this->_selected_time),
         );
-        
+
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         $_MIDCOM->set_pagetitle(strftime("%B %Y", $this->_selected_time));
@@ -589,7 +588,7 @@ function openPsaShowMonthSelector()
 
     /**
      * Show the month view
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -602,7 +601,7 @@ function openPsaShowMonthSelector()
 
     /**
      * Week view
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -675,7 +674,6 @@ function openPsaShowMonthSelector()
                 'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($this_node, '__START__', '__RESOURCE__'),
             );
         }
-        //$this->_calendar->column_width = 30;
 
         $week_start = $this->_calendar->get_week_start();
         $week_end = $this->_calendar->get_week_end();
@@ -684,10 +682,10 @@ function openPsaShowMonthSelector()
         $this->_populate_calendar_contacts($week_start, $week_end);
 
         $this->_request_data['calendar'] =& $this->_calendar;
-                
+
         // Set the breadcrumb
         $tmp = array();
-        
+
         $tmp[] = array
         (
             MIDCOM_NAV_URL => 'year/' . date('Y-01-01', $week_start) . '/',
@@ -703,17 +701,17 @@ function openPsaShowMonthSelector()
             MIDCOM_NAV_URL => "week/{$args[0]}/",
             MIDCOM_NAV_NAME => sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $week_start), strftime("%Y", $week_start)),
         );
-        
+
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
-        
+
         return true;
     }
 
     /**
      * Show the week view
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -728,7 +726,7 @@ function openPsaShowMonthSelector()
 
     /**
      * Day view
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -808,10 +806,10 @@ function openPsaShowMonthSelector()
         $this->_populate_calendar_contacts($this->_calendar->get_day_start(), $this->_calendar->get_day_end());
 
         $this->_request_data['calendar'] =& $this->_calendar;
-        
+
         // Set the breadcrumb
         $tmp = array();
-        
+
         $tmp[] = array
         (
             MIDCOM_NAV_URL => 'year/' . date('Y-01-01', $this->_selected_time) . '/',
@@ -830,13 +828,13 @@ function openPsaShowMonthSelector()
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         $_MIDCOM->set_pagetitle(strftime("%x", $this->_selected_time));
-        
+
         return true;
     }
 
     /**
      * Show day view
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -849,7 +847,7 @@ function openPsaShowMonthSelector()
 
     /**
      * Handle the single event view
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -858,12 +856,9 @@ function openPsaShowMonthSelector()
      */
     function _handler_event($handler_id, $args, &$data)
     {
-        // Use folder ACL instead
-        // $_MIDCOM->auth->require_valid_user();
-        
         // We're using a popup here
         $_MIDCOM->skip_page_style = true;
-        
+
         // Get the requested event object
         $this->_request_data['event'] = $this->_load_event($args[0]);
         if (!$this->_request_data['event'])
@@ -945,7 +940,7 @@ function openPsaShowMonthSelector()
             );
 
             $relatedto_button_settings = null;
-            
+
             if ($_MIDCOM->auth->user)
             {
                 $user = $_MIDCOM->auth->user->get_storage();
@@ -966,7 +961,7 @@ function openPsaShowMonthSelector()
 
     /**
      * Show a single event
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference

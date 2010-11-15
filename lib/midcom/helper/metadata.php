@@ -601,9 +601,6 @@ class midcom_helper_metadata
 
             // Fall-back for non-core properties
             default:
-                //debug_push_class(__CLASS__, __FUNCTION__);
-                //debug_add("Extended metadata property {$key} requested, instantiating DM2 for it", MIDCOM_LOG_ERROR);
-                //debug_pop();
                 $dm = $this->get_datamanager();
                 if (!isset($dm->types[$key]))
                 {

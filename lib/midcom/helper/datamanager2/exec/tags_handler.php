@@ -9,8 +9,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-//debug_print_r('_REQUEST',  $_REQUEST);
-
 // Common variables
 $encoding = 'UTF-8';
 $items = array();
@@ -36,13 +34,7 @@ if (! isset($_REQUEST["query"]))
     _midcom_stop_request();
 }
 
-// $q = strtolower($_REQUEST["q"]);
 $query = $_REQUEST["query"];
-
-// // Convert tradiotional wildcard to SQL wildcard
-// $query = str_replace('*', '%', $_REQUEST['query']);
-// // Make sure we don't have multiple successive wildcards (performance killer)
-// $query = preg_replace('/%+/', '%', $query);
 
 // Get local copies of other variables from request
 $map = array('component', 'class', 'object_id', 'id_field', 'callback', 'callback_args');
@@ -74,7 +66,7 @@ if (   !empty($component)
 if ($mode == 'object')
 {
     $_MIDCOM->load_library('net.nemein.tag');
-    
+
     // Load component if required
     if (!class_exists($class))
     {
@@ -89,11 +81,11 @@ if ($mode == 'object')
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
-    
+
     $qb = call_user_func(array($class, 'new_query_builder'));
     $qb->add_constraint($id_field, '=', $object_id);
     $results = $qb->execute();
-    
+
     if ($results === false)
     {
         echo "    <status>0</status>\n";
@@ -102,11 +94,11 @@ if ($mode == 'object')
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
-    
+
     $object = $results[0];
-    
+
     $tags = net_nemein_tag_handler::get_object_tags($object);
-    
+
     foreach($tags as $name => $link)
     {
         $data = array
@@ -142,13 +134,13 @@ else
         return false;
     }
     $_callback = new $callback($callback_args);
-    
+
     $all_items = $_callback->list_all();
     foreach ($all_items as $id => $data)
     {
         $items[$id] = $data;
     }
-    
+
 }
 
 $results = array();
@@ -177,7 +169,7 @@ if (empty($results))
     debug_add("No results.");
     debug_pop();
     $_MIDCOM->finish();
-    _midcom_stop_request();    
+    _midcom_stop_request();
 }
 
 echo "    <status>1</status>\n";
@@ -192,8 +184,6 @@ foreach ($results as $i => $result)
 }
 echo "    </results>\n";
 echo "</response>\n";
-
-//debug_print_r('Got results',$results);
 
 debug_pop();
 $_MIDCOM->finish();

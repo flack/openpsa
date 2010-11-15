@@ -840,8 +840,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
                             $contact['person']['external-uid'] = $card['X-ABUID'][0]['value'][0][0];
                         }
 
-                        //$contact['rawdata'] = $card;
-
                         if (count($contact['person']) > 0)
                         {
                             // We have parsed some contact info.

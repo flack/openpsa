@@ -111,8 +111,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $this->_privileges[] = 'midgard:parameters';
         $this->_privileges[] = 'midgard:owner';
 
-        // TEMPORARY CODE: This links the old midcom approval helpers into the site
-        // Metadata system of MidCOM to use 1.8
         if ($GLOBALS['midcom_config']['metadata_approval'])
         {
             $this->_privileges[] = 'midcom:approve';
@@ -268,10 +266,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         // Populate all resources having existing privileges
         $existing_privileges = $this->_object->get_privileges();
 
-        // echo "post:\n";
-        // var_dump($_POST);
-        // echo "existing:\n";
-        // var_dump($existing_privileges);
         foreach ($existing_privileges as $privilege)
         {
             if ($privilege->is_magic_assignee())
@@ -459,15 +453,11 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             && $_POST['midcom_helper_datamanager2_save'])
         {
             $privs = $this->_object->get_privileges();
-            // echo "bef drop:\n";
-            // var_dump($privs);
             foreach ($privs as $priv)
             {
                 $priv->drop();
                 $this->_object->unset_privilege($priv->name, $priv->assignee);
             }
-            // echo "aft drop:\n";
-            // var_dump($this->_object->get_privileges());
 
             // Reread privilege types
             foreach ($this->_controller->datamanager->types as $field => $type)
@@ -480,7 +470,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
             // Reorder schema fields according to the POST vars
             $tmp_fields = array();
-            //$_POST = array_reverse($_POST, true);
             foreach ($_POST as $key => $value)
             {
                 if (! in_array($key, array('_qf__net_nehmer_static', 'midcom_helper_datamanager2_save')))

@@ -64,8 +64,6 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
             }
             $ret[$k]['obj'] = $rel;
         }
-
-        //debug_print_r("org_openpsa_relatedto_plugin returned:", $rel_ret);
     }
 
     /**
@@ -82,7 +80,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         {
             return;
         }
-        
+
         $links = $qb->execute();
         foreach ($links as $link)
         {
@@ -148,7 +146,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         }
 
         // TODO: 1.8 metadata format support
-            
+
         // All done
         return true;
     }

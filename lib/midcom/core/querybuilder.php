@@ -356,7 +356,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
             $newresult[] = $object;
         }
-        //debug_add('Returning ' . count($newresult) . ' items');
         debug_pop();
 
         return $newresult;

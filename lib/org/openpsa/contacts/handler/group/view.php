@@ -54,10 +54,6 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
     {
         $this->_group = new org_openpsa_contacts_group_dba($identifier);
 
-        //$parent = $group->get_parent();
-        //$parent = new org_openpsa_contacts_group_dba($parent);
-        //_midcom_stop_request("can edit parent: " . $parent->can_do('midgard:update') . ", can edit group: ".$group->can_do('midgard:update'));
-
         if (!$this->_group)
         {
             return false;

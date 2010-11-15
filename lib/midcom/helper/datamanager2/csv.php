@@ -86,8 +86,6 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
         $pattern='/[\n\r]|' . str_replace(Array("/","|"), Array("\/","\|"), $this->separator) . '/';
         $string = trim($string);
 
-        // debug_add("Encoding [$string] (HEX: [" . bin2hex($string) . "]) with Pattern [$pattern].");
-
         if (preg_match($pattern, $string) != 0)
         {
             // Quoted operation required: Escape quotes

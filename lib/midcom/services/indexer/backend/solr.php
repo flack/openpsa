@@ -296,8 +296,6 @@ class midcom_services_indexer_solrDocumentFactory
         $this->reset();
         $root = $this->xml->createElement('delete');
         $this->xml->appendChild($root);
-        //$element = $this->xml->createElement('delete');
-        //$this->xml->documentElement->appendChild($element);
         $id_element = $this->xml->createElement('id');
         $this->xml->documentElement->appendChild($id_element);
         $id_element->nodeValue = $id;
@@ -375,7 +373,6 @@ class midcom_services_indexer_solrRequest
         debug_push_class(__CLASS__, __FUNCTION__);
         $options = array();
         $options['method'] = HTTP_REQUEST_METHOD_POST ;
-        //$url = $GLOBALS['midcom_config']['indexer_solr_url'];
         $url = "http://" . $GLOBALS['midcom_config']['indexer_xmltcp_host'] .
             ":" . $GLOBALS['midcom_config']['indexer_xmltcp_port'] . "/solr/update";
         $this->request = new HTTP_Request($url, $options);

@@ -235,11 +235,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             }
         }
 
-        //echo "DEBUG: wikipage (title format '{$title_format}'): \n===\n" . org_openpsa_helpers::sprint_r($wikipage) . "===\n";
-
-        //Give us output from MDA
-        //echo "ERROR: just debugging\n";
-
         $_MIDCOM->auth->drop_sudo();
         debug_pop();
         return true;

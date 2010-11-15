@@ -151,7 +151,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             // Remove this component from path
             $this->argc -= 1;
             array_shift($this->argv);
-            
+
             // Set as current object
             $this->url = $object_url;
             $this->current_object = $this->objects[$object_url];
@@ -161,7 +161,6 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('name', '=', $this->argv[0]);
         $qb->add_constraint('up', '=', $this->current_object->id);
-        //$qb->add_constraint('component', '<>', '');
 
         if ($qb->count() == 0)
         {

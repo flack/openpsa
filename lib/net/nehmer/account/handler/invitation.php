@@ -34,7 +34,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
     function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.mail');
-        
+
         if ($_MIDCOM->componentloader->is_installed('com.magnettechnologies.contactgrabber'))
         {
             $_MIDCOM->load_library('com.magnettechnologies.contactgrabber');
@@ -80,7 +80,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
                  $buddy_user = $_MIDCOM->auth->get_user($buddy_user_guid);
                  if (!$buddy_user)
                  {
-                     //$_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The user guid {$buddy_user} is unknown.");
                      debug_add("The user guid {$buddy_user} is unknown.");
                  }
 
@@ -226,7 +225,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
             {
                 if ($i >= $this->_config->get('email_fields') && !isset($_POST["net_nehmer_accounts_invitation_invitee_selected_{$i}"]))
                 {
-                    //echo "Continuing";
                     continue;
                 }
 

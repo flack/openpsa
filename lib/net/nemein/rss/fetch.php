@@ -126,9 +126,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         }
         $rss->items = $items;
 
-        //debug_add('Got ' . count($items) . ' RSS items.', MIDCOM_LOG_DEBUG);
-        //debug_pop();
-
         return $rss;
     }
 
@@ -759,11 +756,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         // Find articles resulting from this feed
         $qb = midcom_db_article::new_query_builder();
         $feed_category = md5($this->_feed->url);
-        $qb->begin_group('OR');
-            $qb->add_constraint('extra1', 'LIKE', "%|feed:{$feed_category}|%");
-            // TODO: This is the old format, we can remove it later
-            $qb->add_constraint('extra1', 'LIKE', "%|{$feed_category}|%");
-        $qb->end_group();
+        $qb->add_constraint('extra1', 'LIKE', "%|feed:{$feed_category}|%");
         $local_items = $qb->execute_unchecked();
         $guid_property = $this->_guid_property;
         $purge_guids = array();
@@ -1073,7 +1066,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         {
             $item['title'] = $_MIDCOM->i18n->get_string('untitled', 'net.nemein.rss');
 
-            //$item_date = net_nemein_rss_fetch::parse_item_date($item);
             $item_date = $item['date_timestamp'];
 
             // Check if this item is newer than the others

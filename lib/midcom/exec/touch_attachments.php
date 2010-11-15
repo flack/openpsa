@@ -6,7 +6,6 @@ $_MIDCOM->auth->require_admin_user();
 
 $qb = midcom_db_attachment::new_query_builder();
 $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
-//$qb->set_limit(200);
 $qb->add_order('metadata.created', 'DESC');
 
 echo "<p>STARTING...</p>\n";
@@ -17,7 +16,6 @@ echo "<p>" . count($atts) . " attachments to process...</p>\n";
 
 foreach ($atts as $att)
 {
-    //echo "Processing #{$att->id} {$att->name} {$att->title}...<br />\n";
     $att->file_to_cache();;
 }
 

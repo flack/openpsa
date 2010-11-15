@@ -27,10 +27,8 @@ $url = $url."person/";
 $even = 'even';
 $target = "target='_blank'";
 
-//foreach($data['preview_persons'] as $person)
 foreach($data['preview_persons'] as $id => $person)
 {
-    //echo "<tr><td><a href='".$url.$person->guid."/'>".$person->lastname."</a></td><td><a href='".$url.$person->guid."/'>".$person->firstname."</a></td></tr>";
     echo "<tr class='".$even."'>";
     echo "<td><a ".$target." href='".$url.$person['guid']."/'>".$person['lastname']."</a></td>";
     echo "<td><a ".$target." href='".$url.$person['guid']."/'>".$person['firstname']."</a></td>";

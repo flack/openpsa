@@ -96,8 +96,8 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
             $this->_data_read_ok = $this->read_array($person);
         }
     }
-    
-    
+
+
     /**
      * Retrieve a reference to an object, uses in-request caching
      *
@@ -112,7 +112,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
         {
             return $cache[$src];
         }
-        
+
         if (class_exists('org_openpsa_contacts_person_dba'))
         {
             $person = org_openpsa_contacts_person_dba::get_cached($src);
@@ -121,7 +121,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
         {
             $person = new midcom_db_person($src);
         }
-        
+
         if (   !$person
             && empty($person->guid))
         {
@@ -129,9 +129,9 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
             $cache[$src] = $widget;
             return $widget;
         }
-        
+
         $widget = new org_openpsa_contactwidget($person);
-        
+
         $cache[$person->guid] = $widget;
         $cache[$person->id] =& $cache[$person->guid];
         return $cache[$person->guid];
@@ -371,7 +371,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
                 foreach ($memberships as $guid => $empty)
                 {
                     echo "<li class=\"org\">";
-                    
+
                     if (class_exists('org_openpsa_contacts_group_dba'))
                     {
                         $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
@@ -418,39 +418,36 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
                 }
             }
         }
-    
+
     if ($this->_config->get('click_to_dial')) {
     $dialurl=$this->_config->get('click_to_dial_url');
     }
 
         if (array_key_exists('handphone', $this->contact_details))
-        {    
-        if ($this->_config->get('click_to_dial')) {
-                //echo "<li class=\"tel cell\"><a target=_blank title=\"Dial {$this->contact_details['handphone']}\" href=\"$dialurl{$this->contact_details['handphone']} \">{$this->contact_details['handphone']}</a></li>\n";
-    echo "<li class=\"tel cell\"><a title=\"Dial {$this->contact_details['handphone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['handphone']}','dialwin','width=300,height=200')\">{$this->contact_details['handphone']}</a></li>\n";
-        } else {
-        echo "<li class=\"tel cell\">{$this->contact_details['handphone']}</li>\n";
-        }
+        {
+            if ($this->_config->get('click_to_dial')) {
+                echo "<li class=\"tel cell\"><a title=\"Dial {$this->contact_details['handphone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['handphone']}','dialwin','width=300,height=200')\">{$this->contact_details['handphone']}</a></li>\n";
+            } else {
+                echo "<li class=\"tel cell\">{$this->contact_details['handphone']}</li>\n";
+            }
         }
 
         if (array_key_exists('workphone', $this->contact_details))
         {
-        if ($this->_config->get('click_to_dial')) {
+            if ($this->_config->get('click_to_dial')) {
                 echo "<li class=\"tel work\"><a title=\"Dial {$this->contact_details['workphone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['workphone']}','dialwin','width=300,height=200')\">{$this->contact_details['workphone']}</a></li>\n";
-            //echo "<li class=\"tel work\"><a target=_blank title=\"Dial {$this->contact_details['workphone']}\" href=\"$dialurl{$this->contact_details['workphone']}\">{$this->contact_details['workphone']}</a></li>\n";
-        } else {
+            } else {
                 echo "<li class=\"tel work\">{$this->contact_details['workphone']}</li>\n";
-        }
+            }
         }
 
         if (array_key_exists('homephone', $this->contact_details))
-        {   
-        if ($this->_config->get('click_to_dial')) {
-        echo "<li class=\"tel home\"><a title=\"Dial {$this->contact_details['homephone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['homephone']}','dialwin','width=300,height=200')\">{$this->contact_details['homephone']}</a></li>\n";
-            //echo "<li class=\"tel home\"><a target=_blank title=\"Dial {$this->contact_details['homephone']}\" href=\"$dialurl{$this->contact_details['homephone']}\">{$this->contact_details['homephone']}</a></li>\n";
+        {
+            if ($this->_config->get('click_to_dial')) {
+                echo "<li class=\"tel home\"><a title=\"Dial {$this->contact_details['homephone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['homephone']}','dialwin','width=300,height=200')\">{$this->contact_details['homephone']}</a></li>\n";
             } else {
-            echo "<li class=\"tel home\">{$this->contact_details['homephone']}</li>\n";
-        }
+                echo "<li class=\"tel home\">{$this->contact_details['homephone']}</li>\n";
+            }
         }
 
         if (array_key_exists('email', $this->contact_details))
@@ -499,7 +496,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
         $default_shown = false;
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-                
+
         foreach ($cards as $cardname)
         {
             if ($cardname == 'visiting')
@@ -532,7 +529,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
             else
             {
                 if ($customer->$property
-                    || ($customer->street 
+                    || ($customer->street
                         && (!$inherited_cards_only
                             && !$default_shown)))
                 {
@@ -548,7 +545,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
         {
             return;
         }
-        
+
         $root_group = org_openpsa_contacts_interface::find_root_group();
         $parent = $customer->get_parent();
         $parent_name = false;
@@ -556,14 +553,14 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
         {
             $parent_name = $parent->get_label();
         }
-       
+
         foreach ($cards_to_show as $cardname)
         {
             echo '<div class="vcard">';
             if ($multiple_addresses
                 || ($cardname != 'visiting'
                     && !$inherited_cards_only))
-            { 
+            {
                 echo '<div style="text-align:center"><em>' . $_MIDCOM->i18n->get_string($cardname . ' address', 'org.openpsa.contacts') . "</em></div>\n";
             }
             echo "<strong>\n";
@@ -571,7 +568,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
             {
                 echo '<a href="' . $contacts_url . 'group/' . $parent->guid . '/">' . $parent_name . "</a><br />\n";
             }
-            
+
             $label = $customer->get_label();
 
             if ($cardname != 'visiting')
@@ -582,7 +579,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
 
             echo $label . "\n";
             echo "</strong>\n";
- 
+
             $property_street = 'street';
             $property_postcode = 'postcode';
             $property_city = 'city';

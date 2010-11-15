@@ -551,7 +551,6 @@ class midcom_core_privilege
             $return[] = $privilege_object;
         }
 
-        //$mc->destroy();
         return $return;
     }
 

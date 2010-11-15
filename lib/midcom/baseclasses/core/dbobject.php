@@ -506,7 +506,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
                 {
                     debug_push_class($object, __FUNCTION__);
                     debug_add("Failed to delete attachment ID {$attachment->id}", MIDCOM_LOG_ERROR);
-                    // debug_print_r('Full record:', $attachment);
                     debug_pop();
                     return false;
                 }
@@ -1274,11 +1273,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         {
             if (! $_MIDCOM->auth->can_do('midgard:read', $object))
             {
-                //debug_push_class($object, __FUNCTION__);
-                //debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
-                //    MIDCOM_LOG_ERROR);
                 self::_clear_object($object);
-                //debug_pop();
                 return false;
             }
 
@@ -1291,9 +1286,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         }
         else
         {
-            //debug_push_class($object, __FUNCTION__);
-            //debug_add("Failed to load the record identified by path {$path}, last Midgard error was: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
-            //debug_pop();
             return false;
         }
     }

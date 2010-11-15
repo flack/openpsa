@@ -60,7 +60,7 @@ if (isset($data['parent_directory']))
     echo "<cell></cell>";
     echo "<cell></cell>";
     echo "<cell></cell>";
-        
+
     echo "<cell>0</cell>";
     echo "<cell>0</cell>";
     echo "<cell>true</cell>";
@@ -88,7 +88,6 @@ foreach ($data['directories'] as $directory)
     $link_html .= "<span>" . $directory->extra . "</span></a>";
     $link_html .= "]]>";
     echo "<cell>" . $link_html ."</cell>";
-    //echo "<cell>" . $directory->extra . "</cell>";
 
     //creator_index/creator , last modified , filesize
     $creator = org_openpsa_contactwidget::get($directory->metadata->creator);
@@ -98,7 +97,7 @@ foreach ($data['directories'] as $directory)
     echo "<cell><![CDATA[<span class='jqgrid_date'>" . date("d.m.Y H:m", $directory->metadata->revised ) . "</span>]]></cell>";
     echo "<cell>-1</cell>";
     echo "<cell></cell>";
-    
+
     echo "<cell>" . $level . "</cell>";
     echo "<cell>" . $parent . "</cell>";
     // leaf = false  , expanded = false
@@ -133,7 +132,7 @@ foreach ($data['documents'] as $document)
     $link_html .= "<span>" . $document->title . "</span></a>";
     $link_html .= "]]>";
     echo "<cell>" . $link_html ."</cell>";
-    
+
     //set contact-widget
     if (empty($document->author))
     {
@@ -156,7 +155,7 @@ foreach ($data['documents'] as $document)
     //level & parent of document
     echo "<cell>" . $level . "</cell>";
     echo "<cell>" . $parent . "</cell>";
-    
+
     // leaf = true , expanded = false
     echo "<cell>true</cell>";
     echo "<cell>false</cell>";

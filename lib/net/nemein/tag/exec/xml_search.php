@@ -8,7 +8,6 @@
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-//debug_print_r('_REQUEST',  $_REQUEST);
 
 // Common variables
 $encoding = 'UTF-8';
@@ -46,7 +45,6 @@ if ($results === false)
 
 echo "    <status>1</status>\n";
 echo "    <errstr></errstr>\n";
-//echo "    <errstr>All OK</errstr>\n";
 
 echo "    <results>\n";
 foreach ($results as $object)

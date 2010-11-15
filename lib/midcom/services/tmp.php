@@ -62,8 +62,6 @@ class midcom_services_tmp extends midcom_baseclasses_core_object
     {
         if (! $this->_tmp_object_class_loaded)
         {
-            // 2007-03-27 rambo
-            //$_MIDCOM->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
             require_once(MIDCOM_ROOT . '/midcom/core/temporary/object.php');
             $this->_tmp_object_class_loaded = true;
         }

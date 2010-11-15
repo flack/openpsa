@@ -157,12 +157,9 @@ class net_nehmer_static_import_forrest
         }
         $file->content = $matches[4][0];
         $file->content = preg_replace('%\s*<section(.*?)>.*?<title.*?>(.*?)</title>(.*?)</section>%msi', "\n\n<div class=\"section\" \\1>\n    <h2>\\2</h2>\n\\3</div>\n", $file->content);
-        //$file->content = str_replace('<section>', '<div class="section">', $file->content);
-        //$file->content = str_replace('</section>', '</div>', $file->content);
         $file->content = str_replace('<warning>', '<div class="warning">', $file->content);
         $file->content = str_replace('</warning>', '</div>', $file->content);
         $file->content = str_replace('title>', 'h2>', $file->content);
-        //$file->content = str_replace('<figure', '<img', $file->content);
         if (preg_match_all("/<figure.*?src=([\"'])(.*?)\\1.*?\/>/msi", $file->content, $figure_matches))
         {
             foreach ($figure_matches[0] as $figure_key => $figure_str)

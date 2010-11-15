@@ -632,7 +632,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
             // Clean up
             $this->delete_all_attachments();
-// echo "SAVING ORIGINAL RETURNED FALSE";
             return false;
         }
 
@@ -649,7 +648,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
             // Clean up
             $this->delete_all_attachments();
-// echo "SAVING IMAGE RETURNED FALSE";
             return false;
         }
 
@@ -979,11 +977,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
                 {
                     $this->_attachment_map[$blob_identifier] = Array($this->_identifier, 'main_video');
                 }
-        // echo $blob_identifier . " ";
-        // echo $this->_filename_video . " ";
-        // echo $title . " ";
-        // echo $this->_target_mimetype_video . " ";
-                //echo $this->_current_tmpname_video . " ";
 
                 $result = $this->add_attachment($blob_identifier,
                                                 $this->_filename_video,
@@ -1233,7 +1226,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             case 'html':
                 $main = $this->attachments_info['main'];
                 $title = ($main['description']) ? $main['description'] : $main['filename'];
-                $link_url = $main['url']; 
+                $link_url = $main['url'];
                 $image_properties = 'src="' .  $main['url'] . '" ' . $main['size_line'];
                 $render_link = false;
 
@@ -1246,7 +1239,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
                 if (array_key_exists('main_video', $this->attachments_info))
                 {
                     $video = $this->attachments_info['main_video'];
-                    $link_url = $video['url']; 
+                    $link_url = $video['url'];
                     $render_link = true;
                 }
                 if ($render_link)

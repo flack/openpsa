@@ -1,6 +1,5 @@
 <?php
 /**
- * Created on Aug 16, 2005
  * @author tarjei huse
  * @package midgard.admin.asgard
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -28,7 +27,7 @@
  * Linking is done with the format rcs/rcs_action/handler_name/object_guid/<more params>
  * Where handler name is the component using nemein rcs.
  * The handler uses the component name to run a callback so the original handler
- * may control other aspects of the operation - f.x. the Aegir locationbar.
+ * may control other aspects of the operation
  *
  * @todo add support for schemas.
  * @package midgard.admin.asgard
@@ -133,18 +132,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     }
 
     /**
-     * This function sets the correct Aegir navigationclass and
-     * /or calls the defined callbacks from the request component.
-     * @todo add a way to get a schema out of this.
-     */
-    function _do_callbacks()
-    {
-        return false;
-    }
-
-    /**
      * Load the object and the rcs backend
-     *
      */
     function _load_object()
     {
@@ -474,7 +462,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             }
         }
 
-        $this->_do_callbacks();
         $this->_guid = $args[0];
         $this->_load_object();
         $this->_prepare_toolbars();
@@ -548,7 +535,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     {
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
-        $this->_do_callbacks();
         $this->_load_object();
 
         // Store the arguments for later use
@@ -636,8 +622,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_guid = $args[0];
         $data['args'] = $args;
 
-        $this->_do_callbacks();
-
         $revision = $args[1];
 
         $this->_load_object();
@@ -681,7 +665,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
         $data['args'] = $args;
-        $this->_do_callbacks();
         $this->_load_object();
 
         // Store the arguments for later use

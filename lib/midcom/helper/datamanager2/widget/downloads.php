@@ -398,7 +398,6 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             if($this->show_progressbar)
             {
                 $html = "<span style=\"visibility:hidden;\" class=\"progressbar\"></span>";
-                //$html .= "<div id=\"test\"></div>";
                 $this->_elements['new_progress'] = & HTML_QuickForm::createElement('static', "new_progress", '', $html);
             }
         }

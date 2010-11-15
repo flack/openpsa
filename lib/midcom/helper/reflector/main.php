@@ -56,7 +56,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (is_object($src))
         {
             $this->_original_class = get_class($src);
-            
+
             // TODO: This should be redundant, it's only used to the the mgdschema_class, which is overwritten later by the resolve_baseclass -method
             if (!isset($src->__mgdschema_class_name__))
             {
@@ -165,7 +165,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $GLOBALS['midcom_helper_reflector_get_component_l10n_cache'][$this->mgdschema_class] = $this->_l10n;
             return $this->_l10n;
         }
-        
+
         $component = $_MIDCOM->dbclassloader->get_component_for_class($midcom_dba_classname);
         if (!$component)
         {
@@ -176,7 +176,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $this->_l10n;
         }
         // Got component, try to load the l10n helper for it
-        //debug_add("Class {$midcom_dba_classname} is handled by component {$component}");
         $midcom_i18n = $_MIDCOM->get_service('i18n');
         $component_l10n = $midcom_i18n->get_l10n($component);
         if (!empty($component_l10n))
@@ -189,14 +188,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Everything else failed, using our own l10n for type {$this->mgdschema_class}", MIDCOM_LOG_WARN);
         debug_pop();
-        
+
         $GLOBALS['midcom_helper_reflector_get_component_l10n_cache'][$this->mgdschema_class] = $this->_l10n;
         return $this->_l10n;
     }
-    
+
     /**
      * Get the localized label of the class
-     * 
+     *
      * @access public
      * @return string Class label
      * @todo remove any hardcoded class names/prefixes
@@ -207,8 +206,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         static $component_l10n = false;
         $component_l10n = $this->get_component_l10n();
         $use_classname = $this->mgdschema_class;
-        
-        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);   
+
+        $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
         if (!empty($midcom_dba_classname))
         {
             $use_classname = $midcom_dba_classname;
@@ -273,11 +272,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $obj = new $this->mgdschema_class;
         }
         $properties = get_object_vars($obj);
-        
+
         if (isset($properties['__object']))
         {
             $tmp = get_object_vars($properties['__object']);
-            
+
             if (!empty($tmp))
             {
                 $properties = $tmp;
@@ -321,14 +320,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             default:
                 $property = 'guid';
         }
-        
+
         debug_pop();
         return $property;
     }
 
     /**
      * Get the object label property value
-     * 
+     *
      * @access public
      * @param mixed $object    MgdSchema object
      * @return String       Label of the object
@@ -347,7 +346,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         debug_push_class(__CLASS__, __FUNCTION__);
-        
+
         if (!isset($object->__mgdschema_class_name__))
         {
             // Not a MidCOM DBA object
@@ -444,7 +443,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get the name of the create icon image
-     * 
+     *
      * @static
      * @access public
      * @param string $type  Name of the type
@@ -454,13 +453,13 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         static $config = null;
         static $config_icon_map = array();
-        
+
         // Get the component configuration
         if (is_null($config))
         {
             $config =& $GLOBALS['midcom_component_data']['midcom.helper.reflector']['config'];
         }
-        
+
         if (empty($config_icon_map))
         {
             $icons2classes = $config->get('create_type_magic');
@@ -510,7 +509,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon = 'stock_event_new.png';
                 break;
 
-            // Config default value 
+            // Config default value
             case (isset($config_icon_map['__default__'])):
                 $icon = $config_icon_map['__default__'];
                 break;
@@ -524,7 +523,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get the name of the icon image
-     * 
+     *
      * @static
      * @access public
      * @param mixed $obj          MgdSchema object
@@ -535,13 +534,13 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         static $config = null;
         static $config_icon_map = array();
-        
+
         // Get the component configuration
         if (is_null($config))
         {
             $config =& $GLOBALS['midcom_component_data']['midcom.helper.reflector']['config'];
         }
-        
+
         if (empty($config_icon_map))
         {
             $icons2classes = $config->get('object_icon_magic');
@@ -583,7 +582,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             case (isset($config_icon_map[$object_baseclass])):
                 $icon = $config_icon_map[$object_baseclass];
                 break;
-            
+
             // heuristics magic (in stead of adding something here, take a look at config key "object_icon_magic")
             case (strpos($object_class, 'person') !== false):
                 $icon = 'stock_person.png';
@@ -606,7 +605,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon = 'text-x-generic-template.png';
                 break;
 
-            // Config default value 
+            // Config default value
             case (isset($config_icon_map['__default__'])):
                 $icon = $config_icon_map['__default__'];
                 break;
@@ -636,7 +635,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get headers to be used with chooser
-     * 
+     *
      * @access public
      * @return array
      * @todo this should not be here but part of the chooser widget
@@ -700,7 +699,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         $search_properties = array();
-        
+
         foreach ($properties as $property)
         {
             switch(true)
@@ -876,7 +875,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 // GUID, even though of type MGD_TYPE_GUID, is never a link
                 continue;
             }
-            
+
             if (   !$ref->is_link($property)
                 && $ref->get_midgard_type($property) != MGD_TYPE_GUID)
             {
@@ -966,9 +965,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (   isset($extends[$schema_type])
             && class_exists($extends[$schema_type]))
         {
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add("Rewriting type {$schema_type} to {$extends[$schema_type]}");
-            //debug_pop();
             return $extends[$schema_type];
         }
         return $schema_type;
@@ -1005,7 +1001,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
     /**
      * Get an object, deleted or not
-     * 
+     *
      * @static
      * @access public
      * @param string $guid    GUID of the object
@@ -1051,7 +1047,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             return null;
         }
-        
+
         if (is_null($classname))
         {
             return null;
@@ -1120,11 +1116,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         return false;
     }
-    
+
     /**
      * Copy an object. Both source and parent may be liberally filled. Source can be either
      * MgdSchema or MidCOM db object or GUID of the object and parent can be
-     * 
+     *
      * - MgdSchema object
      * - MidCOM db object
      * - predefined target array (@see get_target_properties())
@@ -1149,18 +1145,18 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $copy->metadata = $metadata;
         $copy->attachments = $attachments;
         $copy->copy_tree = false;
-        
+
         if (!$copy->copy())
         {
             return false;
         }
-        
+
         return $copy->get_object();
     }
-    
+
     /**
      * Get the target properties and return an array that is used e.g. in copying
-     * 
+     *
      * @static
      * @access public
      * @param mixed $object     MgdSchema object or MidCOM db object
@@ -1170,15 +1166,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass($object);
         $mgdschema_object = new $mgdschema_class($object->guid);
-        
+
         static $targets = array();
-        
+
         // Return the cached results
         if (isset($targets[$mgdschema_class]))
         {
             return $targets[$mgdschema_class];
         }
-        
+
         // Empty result set for the current class
         $target = array
         (
@@ -1188,7 +1184,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             'label' => '',
             'reflector' => new midcom_helper_reflector($object),
         );
-        
+
         // Try to get the parent property for determining, which property should be
         // used to point the parent of the new object. Attachments are a special case.
         if (!$_MIDCOM->dbfactory->is_a($object, 'midcom_db_attachment'))
@@ -1199,27 +1195,27 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             $parent_property = 'parentobject';
         }
-        
+
         // Get the class label
         $target['label'] = $target['reflector']->get_label_property();
-        
+
         // Try once more to get the parent property, but now try up as a backup
         if (!$parent_property)
         {
             $up_property = midgard_object_class::get_property_up($mgdschema_object);
-            
+
             if (!$up_property)
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the parent property for copying');
             }
-            
+
             $target['parent'] = $up_property;
         }
         else
         {
             $target['parent'] = $parent_property;
         }
-        
+
         // Cache the results
         $targets[$mgdschema_class] = $target;
         return $targets[$mgdschema_class];
@@ -1384,7 +1380,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $key = get_class($object);
         if (isset($cache[$key]))
         {
-            return $cache[$key]; 
+            return $cache[$key];
         }
 
         // Configured properties
@@ -1404,10 +1400,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     debug_pop();
                     $cache[$key] = false;
-                    return $cache[$key]; 
+                    return $cache[$key];
                 }
                 $cache[$key] = $property;
-                return $cache[$key]; 
+                return $cache[$key];
             }
         }
 
@@ -1415,7 +1411,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if ($_MIDCOM->dbfactory->property_exists($object, 'name'))
         {
             $cache[$key] = 'name';
-            return $cache[$key]; 
+            return $cache[$key];
         }
         /**
          * Noise, useful when something is going wrong in *weird* way
@@ -1443,7 +1439,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $key = get_class($object);
         if (isset($cache[$key]))
         {
-            return $cache[$key]; 
+            return $cache[$key];
         }
         $resolver =& midcom_helper_reflector::get($object);
         $cache[$key] = $resolver->get_name_property_nonstatic($object);
@@ -1498,7 +1494,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $key = get_class($object);
         if (isset($cache[$key]))
         {
-            return $cache[$key]; 
+            return $cache[$key];
         }
         $resolver =& midcom_helper_reflector::get($object);
         $cache[$key] = $resolver->get_title_property_nonstatic($object);
@@ -1534,7 +1530,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $key = get_class($object);
         if (isset($cache[$key]))
         {
-            return $cache[$key]; 
+            return $cache[$key];
         }
 
         // Configured properties
@@ -1554,10 +1550,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
                     debug_pop();
                     $cache[$key] = false;
-                    return $cache[$key]; 
+                    return $cache[$key];
                 }
                 $cache[$key] = $property;
-                return $cache[$key]; 
+                return $cache[$key];
             }
         }
 
@@ -1565,7 +1561,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if ($_MIDCOM->dbfactory->property_exists($object, 'title'))
         {
             $cache[$key] = 'title';
-            return $cache[$key]; 
+            return $cache[$key];
         }
 
         /**

@@ -65,9 +65,6 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
 
         if (! array_key_exists($this->_cookie_id, $_COOKIE))
         {
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add('There is no cookie, we cannot read the login session.');
-            //debug_pop();
             return false;
         }
 

@@ -209,7 +209,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 midcom_show_style('search-groups-header');
                 foreach($this->_groups as $group)
                 {
-                    //$GLOBALS['view_group'] = new org_openpsa_contacts_group_dba($group->id);
                     $GLOBALS['view_group'] = $group;
                     midcom_show_style('search-groups-item');
                 }

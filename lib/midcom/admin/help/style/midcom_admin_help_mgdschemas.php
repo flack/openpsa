@@ -5,7 +5,6 @@ echo "<h1>" . sprintf($_MIDCOM->i18n->get_string('mgdschemas in %s', 'midcom.adm
 
 if (count($data['mgdschemas']) > 0)
 {
-//echo "<h2>" . $_MIDCOM->i18n->get_string('mgdschemas in %s', 'midcom.admin.help') . "</h2>\n";
     $marker = new net_nehmer_markdown_markdown();
     echo "<dl>\n";
     foreach ($data['properties'] as $schema => $properties)

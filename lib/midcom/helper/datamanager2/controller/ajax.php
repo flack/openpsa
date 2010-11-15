@@ -26,7 +26,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     var $wide_mode = false;
     var $allow_removal = false;
     var $_editable = null;
-    
+
     /**
      * AJAX controller initialization. Loads required Javascript libraries and connects to the parent class initialization.
      *
@@ -35,7 +35,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     function initialize()
     {
         parent::initialize();
-        
+
         if (count($this->schemadb) == 0)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
@@ -48,13 +48,13 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 'You must set the datamanager member before initializing midcom_helper_datamanager2_controller_ajax.');
             // This will exit.
         }
-        
+
         return true;
     }
-    
+
     /**
      * Is the object AJAX editable
-     * 
+     *
      * @access private
      * @return boolean     False if the object isn't AJAX editable
      */
@@ -71,36 +71,36 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             return $this->_editable;
         }
-        
+
         // Only first instance of AJAX controller for an object per view is actually editable
         static $usedform_identifiers = array();
         if (array_key_exists($this->form_identifier, $usedform_identifiers))
         {
-            $this->_editable = false;        
+            $this->_editable = false;
             return false;
         }
-        
+
         // Check if user can actually edit the object, otherwise no sense in returning an editable state
         if (!$this->datamanager->storage->object->can_do('midgard:update'))
         {
-            $this->_editable = false;        
+            $this->_editable = false;
             return false;
         }
-        
-        $usedform_identifiers[$this->form_identifier] = true;        
+
+        $usedform_identifiers[$this->form_identifier] = true;
         $this->_editable = true;
         return true;
     }
-    
+
     /**
-     * This function wraps AJAX processing completely. 
-     * 
+     * This function wraps AJAX processing completely.
+     *
      * If component wishes to do post-processing after an edit, save or preview
      * state in this call it must set the <i>exit</i> parameter to <i>false</i>.
      * <i>view</i> state simply returns processing to component.
      *
      * The return values in this processor are:
-     * 
+     *
      * - <i>view</i>: user can only view the content, no AJAX functionality available
      * - <i>ajax_editable</i>: the content is editable via AJAX, highlight
      * - <i>ajax_edit</i>: User is currently editing the contents via AJAX
@@ -112,7 +112,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     function process_ajax($exit = true)
     {
         $state = 'view';
-        
+
         $this->form_identifier = "midcom_helper_datamanager2_controller_ajax_{$this->datamanager->storage->object->guid}";
 
         if (!$this->_is_ajax_editable())
@@ -121,14 +121,14 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         }
 
         $_MIDCOM->enable_jquery();
-        
+
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.dimensions-1.2.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.metadata.js');
-        
+
         $mode = 'inline';
         $creation_mode_enabled = 'true';
-        
+
         if ($this->wide_mode)
         {
             $mode = 'wide';
@@ -137,18 +137,18 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             $mode = 'window';
         }
-        
+
         if (   $this->allow_removal
             && !$this->datamanager->storage->object->can_do('midgard:delete'))
         {
             $this->allow_removal = false;
         }
-        
+
         if ($mode != 'inline')
         {
             $creation_mode_enabled = 'false';
         }
-        
+
         $config = "{mode: '{$mode}'";//, allow_creation: {$creation_mode_enabled}}";
 
         if ($this->allow_removal) {
@@ -178,10 +178,10 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_form($this->form_identifier);
-                $state = 'ajax_editing';  
+                $state = 'ajax_editing';
                 // TODO: Lock
                 break;
-            
+
             case (array_key_exists("{$this->form_identifier}_preview", $_REQUEST)):
                 // User has requested editor
                 require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
@@ -189,11 +189,11 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->process_form();
                 $this->formmanager->display_view($this->form_identifier);
-                $state = 'ajax_preview';            
+                $state = 'ajax_preview';
                 break;
-            
+
             case (array_key_exists("{$this->form_identifier}_save", $_REQUEST)):
-            
+
                 // User has requested editor
                 require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
@@ -201,7 +201,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 $exitcode = $this->formmanager->process_form();
                 if ($exitcode == 'save')
                 {
-                    $this->datamanager->save();            
+                    $this->datamanager->save();
                     $this->formmanager->display_view($this->form_identifier);
                     $state = 'ajax_saved';
                 }
@@ -211,17 +211,16 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                     $state = 'ajax_editing';
                 }
                 break;
-            
+
             case (array_key_exists("{$this->form_identifier}_cancel", $_REQUEST)):
                 // User has cancelled, display view
                 require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
                 $this->formmanager->initialize($this->form_identifier . '_qf');
-                //$this->formmanager->process_form();          
                 $this->formmanager->display_view($this->form_identifier);
                 $state = 'ajax_cancel';
                 break;
-            
+
             case (array_key_exists("{$this->form_identifier}_delete", $_REQUEST)):
                 // User has deleted, try to comply
                 $this->datamanager->storage->object->delete();
@@ -231,9 +230,9 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 {
                     echo midcom_application::get_error_string();
                 }
-                
+
                 break;
-            
+
             default:
                 // User isn't yet in editing stage. We must however initialize form manager to load JS dependencies etc
                 require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
@@ -241,17 +240,17 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 return $state;
         }
-    
+
         if ($exit)
         {
             $_MIDCOM->finish();
             _midcom_stop_request();
         }
-        
+
         // Calling component must exit instead
         return $state;
     }
-    
+
     /**
      * Get contents of the form in AJAX-editable format
      *
@@ -273,7 +272,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 $result[$name] = $this->datamanager->types[$name]->convert_to_html();
             }
             else
-            {        
+            {
                 $html_contents = $this->datamanager->types[$name]->convert_to_html();
                 if (   $this->datamanager->schema->fields[$name]['required']
                     && $html_contents == '')
@@ -285,7 +284,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             }
         }
         return $result;
-    }    
+    }
 
     /**
      * This function wraps the form manager processing. If processing is successful, (that is,
@@ -336,7 +335,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             midcom_helper_datamanager2_controller::set_lock($this->datamanager->storage->object, $this->lock_timeout);
         }
-        
+
         // Handle successful save explicitly.
         if (   $result == 'save'
             || $result == 'next')

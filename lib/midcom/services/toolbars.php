@@ -434,9 +434,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             );
         }
 
-        // TEMPORARY CODE: This links the old midcom approval helpers into the site
-        // if we are configured to do so. This will be replaced once we revampt the
-        // Metadata system of MidCOM to use 1.8
         if (   $GLOBALS['midcom_config']['metadata_approval']
             && $topic->can_do('midcom:approve'))
         {
@@ -529,7 +526,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             );
         }
 
-        // TEMPORARY METADATA CODE END
         if (   $topic->can_do('midgard:create')
             && $topic->can_do('midcom.admin.folder:topic_management'))
         {
@@ -648,8 +644,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
 
 
     }
-
-
 
     /**
      * Adds the Help management commands to the specified toolbar.
@@ -826,7 +820,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                 )
             );
         }
-        // TEMPORARY METADATA CODE END
 
         if ($object->can_do('midgard:update'))
         {
@@ -893,19 +886,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
         {
             return '';
         }
-
-        /**
-         * These have been moved to _create_toolbars() so that the appropriate actions can hide their own buttons
-         * if ($toolbar_identifier == MIDCOM_TOOLBAR_NODE)
-         * {
-         *    //$this->add_topic_management_commands($this->_toolbars[$context_id][MIDCOM_TOOLBAR_NODE], $context_id);
-         * }
-         *
-         * if ($toolbar_identifier == MIDCOM_TOOLBAR_HOST)
-         * {
-         *     $this->add_host_management_commands($this->_toolbars[$context_id][MIDCOM_TOOLBAR_HOST], $context_id);
-         * }
-         */
 
         return $this->_toolbars[$context_id][$toolbar_identifier]->render();
     }

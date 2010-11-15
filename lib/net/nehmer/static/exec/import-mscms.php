@@ -52,15 +52,12 @@ class net_nehmer_static_import_forrest
         $file->name = str_replace('.htm', '', basename($path));
 
         $mscms_data = file_get_contents($path);
-    
 
-        //echo "<pre>\n";
-        //echo "{$path}\n";
 
         // HTMLpurifier doesn't allow IDs starting with underscore
         $mscms_data = str_replace('_ctl0', 'ctl', $mscms_data);
         $mscms_data = str_replace('span', 'div', $mscms_data);
-        
+
         // Sanitize XHTML here
         $mscms_data = $this->purifier->purify($mscms_data);
         $simplexml = @simplexml_load_string($mscms_data);
@@ -79,7 +76,7 @@ class net_nehmer_static_import_forrest
                     case 'sectionFrontPage':
                         $file->schema = 'areafront';
                         break;
-                        
+
                     case 'page':
                     default:
                         $file->schema = 'default';
@@ -87,7 +84,7 @@ class net_nehmer_static_import_forrest
                 }
             }
         }
-        
+
         $titles = $simplexml->xpath("//*/div[@id='ctl_ContentPlaceHolder1_RadEditorPlaceHolderControl2']");
         if (isset($titles[0]))
         {
@@ -102,12 +99,12 @@ class net_nehmer_static_import_forrest
                 $file->title = (string) $titles[0];
             }
         }
-        
+
         if (empty($file->title))
         {
             $file->title = ucfirst($file->name);
         }
-        
+
         if ($file->schema == 'areafront')
         {
             $contents = $simplexml->xpath("//*/div[@id='ctl_ContentPlaceHolder1_MainContent1']");
@@ -116,7 +113,7 @@ class net_nehmer_static_import_forrest
         {
             $contents = $simplexml->xpath("//*/div[@id='ctl_ContentPlaceHolder1_RadEditorPlaceHolderControl3']");
         }
-        
+
         foreach ($contents as $content)
         {
             $content_string = (string) $content;
@@ -125,7 +122,7 @@ class net_nehmer_static_import_forrest
                 $file->content .= (string) $this->purifier2->purify($content->asXml());
             }
         }
-        
+
         $abstracts = $simplexml->xpath("//*/div[@id='ctl_ContentPlaceHolder1_RadEditorPlaceHolderControl7']");
         foreach ($abstracts as $abstract)
         {
@@ -135,16 +132,7 @@ class net_nehmer_static_import_forrest
                 $file->abstract .= (string) $this->purifier2->purify($abstract->asXml());
             }
         }
-        
-        if (empty($file->content))
-        {
-            //echo "NO CONTENT FOUND\n";
-        }
 
-        //print_r($file);
-
-        //echo "</pre>\n";
-        
         return $file;
     }
 
@@ -152,27 +140,27 @@ class net_nehmer_static_import_forrest
     {
         $files = array();
         $directory = dir($path);
-        
+
         $folder = new net_nehmer_static_import_forrest_folder();
         $folder->name = basename($path);
         $folder->title = ucfirst(basename($path));
-        
+
         $index = false;
-        
+
         if (file_exists("{$path}/site.xml"))
         {
             // This is the "site link mapping file"
             $this->parse_sitexml("{$path}/site.xml");
         }
-        
-        while (false !== ($entry = $directory->read())) 
+
+        while (false !== ($entry = $directory->read()))
         {
             if (substr($entry, 0, 1) == '.')
             {
                 // Ignore dotfiles
                 continue;
             }
-    
+
             if (is_dir("{$path}/{$entry}"))
             {
                 // Recurse deeper
@@ -189,21 +177,21 @@ class net_nehmer_static_import_forrest
 
                 if ($path_parts['extension'] == 'htm')
                 {
-                    
+
                     $file = $this->parse_file("{$path}/{$entry}");
                     if (!is_null($file))
                     {
                         $folder->files[] = $file;
                     }
-                }        
+                }
             }
         }
-        
+
         $directory->close();
-        
+
         return $folder;
     }
-    
+
     function import_folder($folder, $parent_id)
     {
         $qb = midcom_db_topic::new_query_builder();
@@ -228,11 +216,11 @@ class net_nehmer_static_import_forrest
             }
             echo "Created folder {$topic->name} (#{$topic->id}) under #{$topic->up}\n";
         }
-        
+
         $topic->extra = $folder->title;
         $topic->component = $folder->component;
         $topic->update();
-        
+
         if ($folder->component == 'net.nehmer.static')
         {
             if (!$folder->has_index)
@@ -244,26 +232,20 @@ class net_nehmer_static_import_forrest
                 $topic->parameter('net.nehmer.static', 'autoindex', '');
             }
         }
-        
-        //static $i;
-        //$i++;
+
         foreach ($folder->files as $file)
         {
-            //if ($i > 20)
-            //{
-            //    _midcom_stop_request("DONE");
-            //}
             $this->import_file($file, $topic->id);
         }
-        
+
         foreach ($folder->folders as $subfolder)
         {
             $this->import_folder($subfolder, $topic->id);
         }
-        
+
         return true;
     }
-    
+
     function import_file($file, $parent_id)
     {
         $qb = midcom_db_article::new_query_builder();
@@ -288,14 +270,14 @@ class net_nehmer_static_import_forrest
             }
             echo "Created article {$article->name} (#{$article->id}) under #{$article->topic}\n";
         }
-        
+
         $article->title = $file->title;
         $article->abstract = $file->abstract;
         $article->content = $file->content;
-        
+
         $article->parameter('midcom.helper.datamanager2', 'schema_name', $file->schema);
         flush();
-        
+
         return $article->update();
     }
 }
@@ -303,7 +285,7 @@ if (array_key_exists('directory', $_POST))
 {
     $importer = new net_nehmer_static_import_forrest();
     $folder = $importer->list_files($_POST['directory']);
-    
+
     echo "<pre>\n";
     $importer->import_folder($folder, $_POST['parent']);
     echo "</pre>\n";

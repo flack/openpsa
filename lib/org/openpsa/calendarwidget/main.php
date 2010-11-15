@@ -109,7 +109,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
      * <?php
      * $this->_resources = Array
      * (
-     *     'c8b76e1e47b3427dfba717aad7a7c6a3' => array 
+     *     'c8b76e1e47b3427dfba717aad7a7c6a3' => array
      *     (
      *         'name'          => 'Henri Bergius',
      *         'resource_type' => ORG_OPENPSA_CALENDARWIDGET_RESOURCE_PERSON,
@@ -117,7 +117,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
      *         'css_class'     => 'blue',
      *         'reservations'  => array
      *         (
-     *             '<event GUID>' => array 
+     *             '<event GUID>' => array
      *             (
      *                 'name'      => 'Training flight',
      *                 'location'  => 'Helsinki-Malmi airport',
@@ -322,7 +322,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
                 continue;
             }
 
-            if (    $reservation['start'] >= $start 
+            if (    $reservation['start'] >= $start
                  && $reservation['start'] < $end)
             {
                 // This reservation starts in current slot
@@ -848,10 +848,9 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
                     echo "      <td{$css_class} width=\"{$slot_width}\" style=\"width: {$slot_width}px;\"{$additional_free_attributes}>&nbsp;</td>\n";
                 }
             }
-            
+
             echo "    </tr>\n";
         }
-        //$resources_shown = true;
         echo "  </tbody>\n";
         echo "</table>\n";
     }

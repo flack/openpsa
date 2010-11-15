@@ -338,7 +338,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $backend_config['driver'] = 'null';
         }
 
-        //$name = $GLOBALS['midcom_config']['cache_module_content_name'];
         $name = 'content';
         $meta_backend_name = "{$name}_meta";
         $data_backend_name = "{$name}_data";
@@ -505,10 +504,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             // We have no information about content cached for this request
             $this->_meta_cache->close();
 
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add("nothing in meta cache for {$request_id}");
-            //debug_pop();
-
             return;
         }
         _midcom_header("X-MidCOM-meta-cache: HIT {$request_id}");
@@ -576,7 +571,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 _midcom_header($header);
             }
 
-            // Echo the content to the client.
             echo $content;
         }
 
@@ -810,17 +804,11 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             if ($this->_meta_cache->exists($content_id))
             {
-                //debug_push_class(__CLASS__, __FUNCTION__);
-                //debug_add("Removing key {$content_id} from meta cache");
-                //debug_pop()
                 $this->_meta_cache->remove($content_id);
             }
 
             if ($this->_data_cache->exists($content_id))
             {
-                //debug_push_class(__CLASS__, __FUNCTION__);
-                //debug_add("Removing key {$content_id} from data cache");
-                //debug_pop();
                 $this->_data_cache->remove($content_id);
             }
         }
@@ -1211,7 +1199,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_meta_cache->close();
         $this->_data_cache->close();
         unset($dl_cache_data, $dl_content_id, $dl_request_id);
-        //debug_pop();
     }
 
     /**
@@ -1307,10 +1294,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $time = time();
             }
 
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add("Setting last modified to " . gmdate('c', $time));
-            //debug_pop();
-
             $header = "Last-Modified: " . gmdate('D, d M Y H:i:s', $time) . ' GMT';
             header ($header);
             $this->_sent_headers[] = $header;
@@ -1363,7 +1346,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
     function cache_control_headers()
     {
-        //debug_push_class(__CLASS__, __FUNCTION__);
         // Add Expiration and Cache Control headers
         $cache_control = false;
         $pragma = false;
@@ -1424,23 +1406,19 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $header = "Cache-Control: {$cache_control}";
             header ($header);
             $this->_sent_headers[] = $header;
-            //debug_add("Added Header '{$header}'");
         }
         if ($pragma !== false)
         {
             $header = "Pragma: {$pragma}";
             header ($header);
             $this->_sent_headers[] = $header;
-            //debug_add("Added Header '{$header}'");
         }
         if ($expires !== false)
         {
             $header = "Expires: " . gmdate("D, d M Y H:i:s", $expires) . " GMT";
             header ($header);
             $this->_sent_headers[] = $header;
-            //debug_add("Added Header '{$header}'");
         }
-        //debug_pop();
     }
 }
 ?>

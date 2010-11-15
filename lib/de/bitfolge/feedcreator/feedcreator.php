@@ -929,7 +929,6 @@ class RSSCreator10 extends FeedCreator {
 
         for ($i=0;$i<count($this->items);$i++) {
             $feed.= "    <item rdf:about=\"".htmlspecialchars($this->items[$i]->link)."\">\n";
-            //$feed.= "        <dc:type>Posting</dc:type>\n";
             $feed.= "        <dc:format>text/html</dc:format>\n";
             if ($this->items[$i]->date!=null) {
                 $itemDate = new FeedDate($this->items[$i]->date);
@@ -1643,7 +1642,6 @@ class MBOXCreator extends FeedCreator {
         $escape = "=";
         $output = "";
         while( list(, $line) = each($lines) ) {
-            //$line = rtrim($line); // remove trailing white space -> no =20\r\n necessary
             $linlen = strlen($line);
             $newline = "";
             for($i = 0; $i < $linlen; $i++) {

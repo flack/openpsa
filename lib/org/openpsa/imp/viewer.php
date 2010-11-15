@@ -151,14 +151,14 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
 
         //Try to get remote login form
         @$fp = fopen($this->_server_uri, 'r');
-        if (!$fp) 
+        if (!$fp)
         {
            //Could not open remote URI, this might be lack of SSL wrappers or something
            debug_print_r('Could not open %s for reading', $server_uri);
         }
         else
         {
-            //Read remote information (copied from old OpenPSA)
+            //Read remote information
             $HTMLBody = '';
             while (!feof($fp))
             {
@@ -168,7 +168,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
             $actionUri = $matches1[1];
 
             preg_match_all('/<input[^>]*name="([^"]+)" (value="([^"]*)")?[^>]*>/', $HTMLBody, $matches2);
-            
+
             if (!preg_match('%^http%', $actionUri))
             {
                 preg_match('%(https?://[^/]+)(.*)%', $this->_server_uri, $matches3);

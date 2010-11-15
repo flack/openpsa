@@ -11,15 +11,6 @@
 /**
  * n.n.static MidCOM interface class.
  *
- * Compatibility Notes:
- *
- * This component is a complete refactoring of de.linkm.taviewer. It specifically drops
- * a good number of legacies in the old component and thus does not guarantee 100%
- * data compatibility. Specifically:
- *
- * 1. Datamanager2 is used
- * 2. Aegir Symlink Article tool
- *
  * @package net.nehmer.static
  */
 class net_nehmer_static_interface extends midcom_baseclasses_components_interface
@@ -108,7 +99,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
                 // This will exit.
                 */
             }
-            else 
+            else
             {
                 if ($new_topic->component != 'net.nehmer.static')
                 {

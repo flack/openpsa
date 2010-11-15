@@ -51,10 +51,6 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
 
     function _on_store_data($name, $data)
     {
-        //debug_push_class(__CLASS__, __FUNCTION__);
-        //debug_print_r("Store to field '{$name}' data", $data);
-        //debug_pop();
-
         if (is_null($data))
         {
             return;

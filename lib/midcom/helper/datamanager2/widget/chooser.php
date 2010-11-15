@@ -535,8 +535,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                     overlayClass: 'chooser_widget_creation_overlay'
                 });
             ";
-
-            //$_MIDCOM->add_jquery_state_script($script);
         }
     }
 
@@ -608,9 +606,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
     function _check_callback()
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
-        // debug_add("Checking callback class {$this->_callback_class}");
-
         if (! class_exists($this->_callback_class))
         {
             // Try auto-load.
@@ -633,8 +628,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             return false;
         }
         $this->_callback = new $this->_callback_class($this->_callback_args);
-
-        // debug_pop();
 
         if (is_callable(array($this->_callback, 'initialize')))
         {
@@ -1181,8 +1174,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      */
     function add_elements_to_form()
     {
-        //debug_push_class(__CLASS__, __FUNCTION__);
-
         // Get url to search handler
         $nav = new midcom_helper_nav();
         $root_node = $nav->get_node($nav->get_root_node());
@@ -1290,15 +1281,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         // Add to existing elements the ones requested (POST/GET) to this page
         $new_elements = $this->_get_request_elements();
 
-        //debug_print_r('existing_elements',$existing_elements);
-
-        // debug_print_r('static_options',$this->static_options);
-
         $elements = array_merge($this->static_options, $existing_elements, $new_elements);
-        // debug_print_r('all elements to be added',$elements);
-        // debug_pop();
 
-        // $this->_static_items_html = "<noscript>\n";
         $this->_static_items_html .= "<table class=\"widget_chooser_static_items_table\">\n";
         $this->_static_items_html .= "    <thead>\n";
         $this->_static_items_html .= "        <tr>\n";
@@ -1329,13 +1313,10 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             foreach ($elements as $key)
             {
-                // debug_add("Passing key to renderer {$key}");
                 $data = $this->_get_key_data($key);
                 if ($data)
                 {
-                    // debug_add("Got data: {$data}");
                     $item = $this->_renderer_callback->render_data($data);
-                    // debug_add("Got item: {$item}");
                     $ee_script .= "jQuery('#{$this->_element_id}_search_input').midcom_helper_datamanager2_widget_chooser_add_result_item({$data},'{$item}');\n";
 
                     $this->_add_existing_item_as_static($key);
@@ -1346,12 +1327,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             foreach ($elements as $key)
             {
-                // debug_add("Processing key {$key}");
-                // $this->_add_existing_item_as_static($key);
                 $data = $this->_get_key_data($key);
                 if ($data)
                 {
-                    // debug_add("Got data: {$data}");
                     $ee_script .= "\n";
                     $ee_script .= "jQuery('#{$this->_element_id}_search_input')\n";
                     $ee_script .= ".midcom_helper_datamanager2_widget_chooser_add_result_item(\n";
@@ -1374,9 +1352,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         $this->_static_items_html .= "    </tbody>\n";
         $this->_static_items_html .= "</table>\n";
-        // $this->_static_items_html .= "</noscript>\n";
-
-        //$this->_form->addElement('static', "{$this->_element_id}_initscripts", '', $this->_jscript);
 
         $this->widget_elements[] = HTML_QuickForm::createElement
         (
@@ -1416,8 +1391,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             && !$this->result_headers)
         {
             $value = @$object->get_label();
-            // $value = rawurlencode($value);
-            //debug_add("adding header item: name=label value={$value}");
             $title = $_MIDCOM->i18n->get_string('label', 'midcom');
             $this->_static_items_html .= "<td class=\"label\">{$value}&nbsp;</td>\n";
         }
@@ -1431,9 +1404,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 {
                     $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
                 }
-                // $value = rawurlencode(utf8_decode($value));
-                // debug_add("adding header item: name={$item_name} value={$value}");
-        //
                 $this->_static_items_html .= "<td class=\"{$item_name}\">{$value}&nbsp;</td>";
             }
         }
@@ -1469,8 +1439,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
     function _resolve_object_name(&$object)
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
-        // debug_add("resolving object name from id {$object->id}");
         if (!class_exists('midcom_helper_reflector'))
         {
             return get_class($object) . " #{$object->id}";
@@ -1481,9 +1449,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
     function _object_to_jsdata(&$object)
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
-        // debug_add("converting object with id {$object->id} to jsdata");
-
         $id = @$object->id;
         $guid = @$object->guid;
 
@@ -1498,7 +1463,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             $value = @$object->get_label();
             $value = rawurlencode($value);
-            //debug_add("adding header item: name=label value={$value}");
             $jsdata .= "label: '{$value}'";
         }
         else
@@ -1514,7 +1478,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                     $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
                 }
                 $value = rawurlencode(utf8_decode($value));
-                // debug_add("adding header item: name={$item_name} value={$value}");
 
                 $tmp = str_replace('.', '_', $item_name);
 
@@ -1531,22 +1494,15 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         $jsdata .= "}";
 
-        // debug_pop();
-
         return $jsdata;
     }
 
     function _get_key_data($key, $in_render_mode=false, $return_object=false)
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
-        // debug_add("get_key_data for key: {$key}");
         if ($this->_callback)
         {
-            // debug_add("Using callback to fetch key data");
-
             if ($in_render_mode)
             {
-                // debug_pop();
                 return $this->_callback->resolve_object_name($key);
             }
 
@@ -1557,8 +1513,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 return false;
             }
 
-            // debug_pop();
-
             if (   $this->_renderer_callback
                 || $return_object)
             {
@@ -1567,8 +1521,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
             return $this->_object_to_jsdata($results);
         }
-
-        // debug_add("Using clever class or predefined class");
 
         $_MIDCOM->auth->request_sudo();
 
@@ -1590,29 +1542,22 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $qb = @call_user_func(array($this->class, 'new_query_builder'));
         if (! $qb)
         {
-            // debug_add("use midgard_query_builder");
             $qb = new midgard_query_builder($this->class);
         }
 
-        //$qb->begin_group('OR');
         $qb->add_constraint($this->id_field, '=', $key);
-        //$qb->add_constraint('guid', '=', $key);
-        //$qb->end_group();
 
         $results = $qb->execute();
-        // debug_print_r("Got results:",$results);
 
         $_MIDCOM->auth->drop_sudo();
 
         if (count($results) == 0)
         {
-            // debug_add("Fetching data for key '{$key}' failed.");
             return false;
         }
 
         $object = $results[0];
 
-        // debug_pop();
         if ($return_object)
         {
             return $object;
@@ -1680,18 +1625,11 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
       */
      function get_default()
      {
-         // debug_push_class(__CLASS__, __FUNCTION__);
-         //debug_print_r('this->_type',$this->_type);
-
          $defaults = array();
          foreach ($this->_type->selection as $key)
          {
              $defaults[$key] = true;
          }
-
-         // debug_print_r('defaults',$defaults);
-         // debug_pop();
-
          return array($this->name => $defaults);
      }
 
@@ -1700,9 +1638,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      */
     function sync_type_with_widget($results)
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
-        // debug_print_r('results:',$results);
-
         $this->_type->selection = array();
         if (!isset($results["{$this->_element_id}_selections"]))
         {
@@ -1714,11 +1649,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             foreach ($real_results as $key => $value)
             {
-                // debug_add("checking key {$key} with value ".var_dump($value));
                 if (   $value != "0"
                     || $value != 0)
                 {
-                    // debug_add("adding key {$key} to selection");
                     $this->_type->selection[] = $key;
                 }
             }
@@ -1739,15 +1672,10 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 $this->_type->sorted_order[$id] = $i;
             }
         }
-
-        // debug_print_r('real_results', $real_results);
-        // debug_print_r('_type->selection', $this->_type->selection);
-        // debug_pop();
     }
 
     function render_content()
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
         echo "<table class=\"chooser_results\">\n";
         if (count($this->_type->selection) == 0)
         {
@@ -1775,8 +1703,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             }
         }
         echo "</table>\n";
-
-        // debug_pop();
     }
 
     /**

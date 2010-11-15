@@ -87,7 +87,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $_MIDCOM->componentloader->load_graceful('org.maemo.devcodes');
 
         // if querybuilder is used response-time will increase -> set_key_property hast to be removed
-        //$this->_result_mc = org_openpsa_contacts_person_dba::new_query_builder();
         $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('sitegroup' , $_MIDGARD['sitegroup']);
         if ($rules)
         {
@@ -154,13 +153,11 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $this->_result_mc->add_value_property('lastname');
         $this->_result_mc->add_value_property('firstname');
         $this->_result_mc->add_value_property('email');
-        //$this->_result_mc->add_value_property('guid');
         $this->_result_mc->add_value_property('id');
         $this->_result_mc->add_order('lastname', 'ASC');
         $this->_result_mc->execute();
         $results = $this->_result_mc->list_keys();
         $ret = array();
-        //foreach($results as $person)
         foreach($results as $key => $value)
         {
             $ret[$this->_result_mc->get_subkey($key , 'id')] = array(
@@ -169,7 +166,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 'email' => $this->_result_mc->get_subkey($key , 'email'),
                 'guid' => $key,
                 );
-            //$ret[$person->guid] = $person;
         }
 
         debug_pop();

@@ -118,7 +118,7 @@ function midcom_generate_urlname_from_string($string, $replacer = "-", $r = 0)
         debug_push_class('function', __FUNCTION__);
         debug_add('$r > 5, aborting', MIDCOM_LOG_ERROR);
         debug_pop();
-        return $string;        
+        return $string;
     }
     if (empty($string))
     {
@@ -168,7 +168,7 @@ function midcom_generate_urlname_from_string($string, $replacer = "-", $r = 0)
 
     // We're done here, return $string lowercased
     $safe = strtolower($safe);
-    
+
     /**
      * Quick and dirty workaround for http://trac.midgard-project.org/ticket/1530 by recursing
      */
@@ -219,7 +219,6 @@ function midcom_helper_get_mime_icon($mimetype, $fallback = '')
     //Return first match
     foreach($check_files as $filename)
     {
-        //echo "DEBUG: checking path: ".$mime_fspath.'/'.$filename."<br>\n";
         if (is_readable("{$mime_fspath}/{$filename}"))
         {
             return "{$mime_urlpath}/{$filename}";
@@ -269,7 +268,7 @@ function midcom_helper_find_node_by_component($component, $node_id = null, $nap 
     {
         $cache_node = 0;
     }
-    
+
     if (!isset($cache[$cache_node]))
     {
         $cache[$cache_node] = array();
@@ -304,21 +303,21 @@ function midcom_helper_find_node_by_component($component, $node_id = null, $nap 
     $qb->add_constraint('up', 'INTREE', $node_id);
     $qb->set_limit(1);
     $topics = $qb->execute();
-    
+
     if (count($topics) == 0)
     {
         $cache[$cache_node][$component] = null;
         return null;
     }
-    
+
     $node = $nap->get_node($topics[0]->id);
     $cache[$cache_node][$component] = $node;
 
     return $node;
 }
 
-function midcom_show_element($name) 
-{ 
-    eval('?>' . mgd_preparse(mgd_template($name))); 
-} 
+function midcom_show_element($name)
+{
+    eval('?>' . mgd_preparse(mgd_template($name)));
+}
 ?>

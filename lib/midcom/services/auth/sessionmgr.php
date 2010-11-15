@@ -49,7 +49,7 @@ class midcom_services_auth_sessionmgr
     var $current_session_id = null;
 
     var $auth = null;
-    
+
     /**
      * Currently authenticated midgard_user object
      *
@@ -297,7 +297,7 @@ class midcom_services_auth_sessionmgr
                 {
                     // Update the timestamp if previous timestamp is older than specified interval
                     $session->timestamp = time();
-                    try 
+                    try
                     {
                         if (! $session->update())
                         {
@@ -322,12 +322,6 @@ class midcom_services_auth_sessionmgr
         // Note, that we do not short-circuit out of the above loop
         // in case of a match so that we can keep the login session
         // table clean.
-
-        if (! $return)
-        {
-            //debug_add("We could not find any valid session having the identifier {$sessionid}.", MIDCOM_LOG_INFO);
-        }
-
         return $return;
     }
 

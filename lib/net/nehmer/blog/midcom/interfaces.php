@@ -10,15 +10,6 @@
 /**
  * Blog MidCOM interface class.
  *
- * Compatibility Notes:
- *
- * This component is a complete refactoring of de.linkm.newsticker. It specifically drops
- * a good number of legacies in the old component and thus does not guarantee 100%
- * data compatibility. Specifically:
- *
- * 1. Datamanager2 is used
- * 2. Aegir Symlink Article tool
- *
  * @package net.nehmer.blog
  */
 class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
@@ -32,7 +23,6 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
     {
         parent::__construct();
 
-        //define('NET_NEHMER_BLOG_LEAFID_ARCHIVE', 1);
         define('NET_NEHMER_BLOG_LEAFID_FEEDS', 2);
 
         $this->_component = 'net.nehmer.blog';
@@ -130,7 +120,7 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
                 // This will exit.
                 */
             }
-            else 
+            else
             {
                 if ($new_topic->component != 'net.nehmer.blog')
                 {

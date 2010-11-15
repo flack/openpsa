@@ -775,8 +775,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         // Generate the activation link
         $activation_link = $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "register/activate/{$this->_person->guid}/{$activation_hash}/";
 
-        //$activation_link = str_replace("//","/", $activation_link);
-
         // Store the information in parameters for activation
         $this->_person->set_parameter('net.nehmer.account', 'password', $password);
         $this->_person->set_parameter('net.nehmer.account', 'activation_hash', $activation_hash);
@@ -1018,16 +1016,12 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         $password = $this->_person->get_parameter('net.nehmer.account', 'password');
         if (! empty($password))
         {
-            // debug_add("Get person parameter password");
             $this->_person->password = $this->_person->get_parameter('net.nehmer.account', 'password');
         }
         else
         {
-            // debug_add("Get person password");
             $password = $this->_person->password;
         }
-        // debug_add("Final password: ".$password);
-        // debug_pop();
         if (! $this->_person->update())
         {
             $_MIDCOM->auth->drop_sudo();
@@ -1215,7 +1209,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         }
         else
         {
-            //$sender =& $this->_account;
             $sender =& $this->_person;
         }
 
@@ -1243,11 +1236,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
             $receivers = array( $this->_person );
             $mail->deliver_to($receivers);
         }
-
-        //
-        //
-        // $inbox = net_nehmer_mail_mailbox::get_inbox($this->_account);
-        // $result = $inbox->deliver_mail($sender, $subject, $body);
     }
 }
 ?>

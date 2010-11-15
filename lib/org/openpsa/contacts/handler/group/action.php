@@ -25,10 +25,6 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     {
         $group = new org_openpsa_contacts_group_dba($identifier);
 
-        //$parent = $group->get_parent();
-        //$parent = new org_openpsa_contacts_group_dba($parent);
-        //_midcom_stop_request("can edit parent: " . $parent->can_do('midgard:update') . ", can edit group: ".$group->can_do('midgard:update'));
-
         if (!$group)
         {
             return false;
@@ -78,7 +74,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         }
 
         $group->require_do('midgard:update');
-                
+
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_notifications'));
@@ -98,7 +94,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                 $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                                    . "group/" . $group->guid . "/");
                 // This will exit()
-            
+
             case 'cancel':
                 $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                                    . "group/" . $group->guid . "/");
@@ -107,7 +103,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
 
         $this->_request_data['notifications_dm'] =& $controller;
         $this->_request_data['group'] =& $group;
-        
+
         $_MIDCOM->set_pagetitle($group->official . ": ". $this->_l10n->get("notification settings"));
 
         $this->_update_breadcrumb_line($this->_l10n->get("notification settings"));
@@ -209,13 +205,13 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                     foreach ($results as $member)
                     {
                         $this->_request_data['member'] = $member;
-    
+
                         if ($member->extra == "")
                         {
                             $member->extra = $this->_l10n->get('<title>');
                         }
                         $this->_request_data['member_title'] = $member->extra;
-    
+
                         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($member->uid);
                         midcom_show_style("show-group-persons-item");
                     }

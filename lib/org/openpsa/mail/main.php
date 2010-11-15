@@ -9,7 +9,7 @@
  * Class for handling email encode/decode and sending
  *
  * Gracefully degrades in functionality if certain PEAR libraries are
- * not available. Based on the old OpenPSA mailer code.
+ * not available.
  * @package org.openpsa.mail
  */
 class org_openpsa_mail extends midcom_baseclasses_components_purecode
@@ -70,7 +70,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->__iconv = true;
         $this->__orig_encoding = '';
 
-        //$this->__debug = true;
         $this->_backend = false;
         $this->allow_only_html = false;
         $this->embed_css_url = false;
@@ -251,9 +250,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             foreach($this->__mime->_html_images as $image)
             {
                 $regex = "#url\s*\(([\"'�])?" . preg_quote($image['name'], '#') . "\\1?\)#i";
-                //debug_add("regex={$regex}");
                 $rep = 'url(\1cid:' . $image['cid'] .'\1)';
-                //debug_add("rep={$rep}");
                 $this->__mime->_htmlbody = preg_replace($regex, $rep, $this->__mime->_htmlbody);
             }
             reset($this->__mime->_html_images);
@@ -315,13 +312,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return trim($text);
     }
 
-    /**
-     * Old name for part_decode(), compatibility wrapper.
-     */
-    function partDecode(&$part)
-    {
-        return $this->part_decode($part);
-    }
     /**
      * Decodes a Mail_mime part (recursive)
      */
@@ -532,13 +522,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return $stat;
     }
 
-    /**
-     * Wrapper for old style compatibility
-     */
-    function mimeDecode()
-    {
-        return $this->mime_decode();
-    }
      /**
       * Decodes MIME content from $this->body
       */
@@ -1066,7 +1049,7 @@ EOF;
                     debug_add('Trying to fetch file: ' . $uri);
                     $cont = @file_get_contents($uri); //Suppress errors, the url might be invalid but if so then we just silently drop it
                     if (  $cont
-                          && $cont != 'FAILED REDIRECT TO ERROR find does not point to valid object MGD_ERR_OK') //Aegir attachment server error
+                          && $cont != 'FAILED REDIRECT TO ERROR find does not point to valid object MGD_ERR_OK') //Attachment server error
                     {
                         debug_add('Success!');
                         $tmpArr2 = array();

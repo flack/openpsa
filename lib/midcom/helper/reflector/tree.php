@@ -1020,7 +1020,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             if (in_array($schema_type, $root_exceptions_notroot))
             {
                 // Explicitly specified to not be root class, skip all heuristics
-                //debug_add("Type {$schema_type} is listed in exceptions to never be root");
                 continue;
             }
 
@@ -1031,7 +1030,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             if (in_array($schema_type, $root_classes))
             {
                 // Already listed
-                //debug_add("Type {$schema_type} already exists in \$root_types");
                 continue;
             }
 
@@ -1039,7 +1037,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             if (!empty($parent))
             {
                 // type has parent set, thus cannot be root type
-                //debug_add("Type {$schema_type} has parent property {$parent}, thus cannot be root class");
                 continue;
             }
 
@@ -1075,7 +1072,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 if (   isset($test_class->noasgard)
                     && $test_class->noasgard)
                 {
-                    //debug_add("Type {$schema_type} has 'noagsard' property set, thus cannot be root class");
                     continue;
                 }
             }
@@ -1107,15 +1103,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 if (in_array($schema_type, $root_classes))
                 {
                     // Already listed
-                    //debug_add("Force type {$schema_type}, already exists in \$root_types");
                     continue;
                 }
-                //debug_add("Forcing type {$schema_type} to be root type", MIDCOM_LOG_INFO);
                 $root_classes[] = $schema_type;
             }
         }
         usort($root_classes, 'strnatcmp');
-        //debug_pop();
         return $root_classes;
     }
 
@@ -1196,8 +1189,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             // One result is enough to know we have a clash
             $qb->set_limit(1);
             $results = $qb->count();
-            // Full results greatly help debugging
-            //$results = $qb->execute();
             // Guard against QB failure
             if ($results === false)
             {
@@ -1207,17 +1198,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 return false;
             }
             if ($results > 0)
-            // Full results greatly help debugging
-            //if (count($results) > 0)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($object) . " #{$object->id} (path '" . midcom_helper_reflector_tree::resolve_path($object, '/') . "')" , MIDCOM_LOG_DEBUG);
-                /**
-                 * NOTE: enable only if using the full execute for results
-                debug_print_r('$results', $results);
-                debug_print_r('$object', $object);
-                debug_print_r('$parent', $parent);
-                 */
                 debug_pop();
                 unset($sibling_classes, $schema_type, $qb, $results);
                 return false;

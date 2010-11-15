@@ -90,18 +90,16 @@ class org_openpsa_helpers
         {
             return $data;
         }
-    
+
         $preg='/s:([0-9]+):"(.*?)";/ms';
-        //echo "DEBUG: preg=$preg<br>\n";
         preg_match_all($preg, $data, $matches);
         $cache = array();
-    
+
         foreach ($matches[0] as $k => $origFullStr)
         {
             $origLen = $matches[1][$k];
             $origStr = $matches[2][$k];
             $newLen = strlen($origStr);
-            //echo "DEBUG: origFullStr=$origFullStr, origLen=$origLen, newLen=$newLen <br>\n";
             if ($newLen != $origLen)
             {
                 $newFullStr = "s:$newLen:\"$origStr\";";
@@ -113,13 +111,13 @@ class org_openpsa_helpers
                 }
             }
         }
-    
+
         return $data;
     }
 
     /**
      * Function for adding JavaScript buttons for saving/cancelling Datamanager 2 form via the toolbar
-     * 
+     *
      * @param object $handler The current handler object reference
      */
     static function dm2_savecancel(&$handler)
@@ -164,24 +162,24 @@ class org_openpsa_helpers
 
     /**
      * Helper function that formats numbers in the current locale's format
-     * 
+     *
      * @todo Negative numbers
      * @param mixed $number The input number
      * @return string The formatted output
-     */  
+     */
     static function format_number($number)
     {
         static $localeconv = null;
-        
+
         if (is_null($localeconv))
         {
             $language = $_MIDCOM->i18n->get_current_language();
             $language_db = $_MIDCOM->i18n->get_language_db();
             setlocale(LC_ALL, $language_db[$language]['locale']);
-            
+
             $localeconv = localeconv();
         }
-        
+
         $output = number_format((float) $number, 2, $localeconv['decimal_point'], $localeconv['thousands_sep']);
         return $output;
     }
@@ -194,7 +192,7 @@ class org_openpsa_helpers
     public static function calculate_week(&$data)
     {
         require_once 'Calendar/Week.php';
-        
+
         if (!array_key_exists('requested_time', $data))
         {
             $data['requested_time'] = time();

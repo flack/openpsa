@@ -198,8 +198,6 @@ class midcom_helper_nav
      */
     function is_node_in_tree($node_id, $root_id)
     {
-        //$topic = new midcom_db_topic();
-        //return $topic->is_in_tree($root_id, $node_id);
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('id', '=', $node_id);
         $qb->add_constraint('up', 'INTREE', $root_id);
@@ -266,10 +264,10 @@ class midcom_helper_nav
                 $navorder = 'topicsfirst';
                 break;
         }
-        
+
         $nav_object = midcom_helper_itemlist::factory($navorder, $this, $parent_node_id);
         $result = $nav_object->get_sorted_list();
-        
+
         return $result;
     }
 
@@ -374,12 +372,12 @@ class midcom_helper_nav
         debug_add('Looking for a topic to use via get_parent()');
         $topic = null;
         $parent = null;
-        
+
         if (is_object($object))
         {
             $parent = $object->get_parent();
         }
-        
+
         while ($parent)
         {
             if (is_a($parent, 'midcom_db_topic'))
@@ -393,7 +391,7 @@ class midcom_helper_nav
                     break;
                 }
             }
-            $parent = $parent->get_parent();           
+            $parent = $parent->get_parent();
         }
 
         if ($topic !== null)

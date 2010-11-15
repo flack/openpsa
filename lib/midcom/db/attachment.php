@@ -524,13 +524,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
         {
-            // Check if other attachments point to the same file
-            //$mc = midcom_db_attachment::new_collector('name', $this->name);
-            //$mc->execute();
-            //if (count($mc->list_keys()) > 0)
-            //{
-            //}
-
             // Remove attachment cache
             $filename = midcom_db_attachment::get_cache_path($this, false);
             if (   !is_null($filename)

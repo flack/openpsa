@@ -90,7 +90,6 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
                 $this->_request_data['project_list_results']['not_started'] = array();
 
                 $qb = org_openpsa_projects_project::new_query_builder();
-                //$qb->add_constraint('start', '>', time());
                 $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_STARTED);
                 $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ONHOLD);
                 $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);

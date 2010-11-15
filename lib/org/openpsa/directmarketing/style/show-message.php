@@ -1,7 +1,6 @@
 <?php
 $message_dm = $data['datamanager'];
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-//$contacts_node = midcom_helper_find_node_by_component('org.openpsa.contacts');
 ?>
 <div class="sidebar">
     <div class="area">

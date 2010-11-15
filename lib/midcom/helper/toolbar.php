@@ -700,7 +700,6 @@ class midcom_helper_toolbar
                 $new_label .= "<span style=\"text-decoration: underline;\">{$accesskey_upper}</span>";
                 // FIXME: This is an ugly IE rendering fix
                 $new_label .= str_replace(' ', '&nbsp;', substr($label, $position + 1));
-                //$new_label .= substr($label, $position + 1);
                 $label = $new_label;
             }
             elseif ($_MIDCOM->i18n->get_current_language() == 'en')
@@ -715,7 +714,6 @@ class midcom_helper_toolbar
                     $new_label .= "<span style=\"text-decoration: underline;\">{$accesskey_lower}</span>";
                     // FIXME: This is an ugly IE rendering fix
                     $new_label .= str_replace(' ', '&nbsp;', substr($label, $position + 1));
-                    //$new_label .= substr($label, $position + 1);
                     $label = $new_label;
                 }
             }

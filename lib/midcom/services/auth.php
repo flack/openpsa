@@ -1036,7 +1036,6 @@ class midcom_services_auth
      */
     function & get_midgard_group_by_name($name,$sg_id=null)
     {
-        //$sg_id = $sg_id == null || !is_integer($sg_id) ? $_MIDGARD['sitegroup'] : $sg_id;
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);
         if (is_integer($sg_id))

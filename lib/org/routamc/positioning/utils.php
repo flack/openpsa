@@ -350,7 +350,6 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         $qb->add_constraint('longitude', '<', (float) $to['longitude']);
         $qb->end_group();
         $result_count = $qb->count();
-        //debug_add("Round {$rounds}, lat1 {$from['latitude']} lon1 {$from['longitude']}, lat2 {$to['latitude']} lon2 {$to['longitude']}: {$result_count} results");
 
         if ($result_count == 0)
         {
@@ -429,7 +428,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
                 'longitude' => $result->longitude,
             );
             $distance = sprintf("%05d", round(org_routamc_positioning_utils::get_distance($center, $result_coordinates)));
-            
+
             if (   !is_null($max_distance)
                 && $distance > $max_distance)
             {

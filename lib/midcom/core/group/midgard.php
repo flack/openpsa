@@ -241,7 +241,6 @@ class midcom_core_group_midgard extends midcom_core_group
             {
                 debug_add("The group {$gid} is unknown, skipping the membership record.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . midcom_application::get_error_string());
-                //debug_print_r('Membership record was:', $member);
                 continue;
             }
             if (   !$group
@@ -249,7 +248,6 @@ class midcom_core_group_midgard extends midcom_core_group
             {
                 debug_add("The membership record is invalid, the group {$gid} is unknown, skipping it.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . midcom_application::get_error_string());
-                //debug_print_r('Membership record was:', $member);
                 continue;
             }
             $return[$group->id] = $group;

@@ -2,7 +2,6 @@
 /**
  * Parser/Outputter for vCalendar (and vCard data)
  *
- * Refactored from Old OpenPSA calendar.
  * @package org.openpsa.helpers
  * @author Eero af Heurlin, http://www.iki.fi/rambo
  * @version $Id: vxparser.php 22916 2009-07-15 09:53:28Z flack $
@@ -447,7 +446,6 @@ class org_openpsa_helpers_vxparser
                     $data_arr=preg_split("/([^\\\])[,;]/", $data, -1, PREG_SPLIT_DELIM_CAPTURE); //Not very nice but I can't think of a better way to explode with unescaped delimiters...
                     if (count($data_arr)>1 && is_array($data_arr)) { //We have multiple values in $data, decode them separately
                         while (list ($k, $v) = @each ($data_arr)) {
-                              //echo "DEBUG-vCal_decode: k=$k, k%2=".($k%2)."<br>\n";
                               if ($k%2==0) continue;
                               $data_arr[$k-1].=$v;
                               unset($data_arr[$k]);
@@ -488,9 +486,7 @@ class org_openpsa_helpers_vxparser
                    //Convert characters if necessary
                    //if ($this->__iconv && isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
                    if (isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
-                      //echo "DEBUG: calling iconv(".$param['CHARSET'].", ".$this->charset.", $data)\n";
                       $icRet=iconv($param['CHARSET'], $this->charset, $data);
-                      //echo "DEBUG: returned: $icRet\n";
                       if ($icRet !== FALSE) { //Make sure iconv succeeded before overwriting data
                          $data=$icRet;
                          unset($param['CHARSET']);
@@ -520,7 +516,6 @@ class org_openpsa_helpers_vxparser
                 $rows=explode("\n", $data);
                 while (list ($k, $v) = each ($rows)) {
                         if (!$v) continue; //Skip empthy lines
-                        //echo "DEBUG-_vCal_parse_recursive: row $k, value: $v (setmode=$setMode)<br>\n";
                         if ($setMode) {
                             if ($v=='END:' . $setMode) {
                                 if (isset($toVars[$setMode])) {
@@ -539,7 +534,6 @@ class org_openpsa_helpers_vxparser
                                     $tmpVal=&$toVars[$setMode];
                                     $tmpPar=&$toParams[$setMode];
                                 }
-                                //echo "DEBUG-_vCal_parse_recursive: found END for setMode=$setMode<br>\n";
                                 $this->vx_parse_recursive($tmpVal, $tmpPar, $setData);
                                 $setMode=FALSE; $setData='';
                             } else {
@@ -548,9 +542,7 @@ class org_openpsa_helpers_vxparser
                         } else if (preg_match('/BEGIN:(.*)/', $v, $bMatches)) {
                             $setMode=$bMatches[1];
                             $setData='';
-                            //echo "DEBUG-_vCal_parse_recursive: found BEGIN, setMode=$setMode<br>\n";
                         } else {
-                            //echo "DEBUG-_vCal_parse_recursive: calling line parser<br>\n";
                             $this->_vCal_parse_line($toVars, $toParams, $v);
                         }
                 }
@@ -566,7 +558,6 @@ class org_openpsa_helpers_vxparser
               unset($keyTmp[0]);
               while (list ($kk, $vv) = each ($keyTmp)) {
                     list ($kpName, $kpVal) = explode("=", $vv, 2);
-                    //echo "DEBUG-vEvent_parse: vv: $vv, kpName: $kpName, kpVal: $kpVal<br>\n";
                     $kpVal=preg_replace("/^([\"']?)(.*?)(\\1?)$/", "\\2",  $kpVal); //Strip outmost quotes from value
                     $keyParam[$kpName]=$this->vCal_decode($kpVal, array('CHARSET'=>'')); //We'll handle the charset issue later for parameters
               }
@@ -692,7 +683,6 @@ class org_openpsa_helpers_vxparser
             }
             if ($keyOverride !== false)
             {
-                //echo "DEBUG-recurse: overriding \"$k\" with \"$keyOverride\" <br>\n";
                 $k = $keyOverride;
             }
             if ($this->_check_folding())

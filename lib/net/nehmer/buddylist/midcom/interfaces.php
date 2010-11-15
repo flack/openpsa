@@ -40,7 +40,6 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
 
         $this->_component = 'net.nehmer.buddylist';
         $this->_autoload_files = array();
-        // $this->_autoload_libraries = Array('midcom.helper.datamanager2');
     }
 
     /**
@@ -157,11 +156,11 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
                 }
             }
         }
-        
+
         // TODO: Check for duplicates and remove those (also from the buddies array...)
-                
+
         // TODO: check version and transfer 1.8 metadata where needed
-        
+
         // All done
         return true;
     }

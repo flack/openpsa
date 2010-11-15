@@ -14,7 +14,6 @@ if (!class_exists('midcom_helper_datamanager2_widget_chooser'))
 }
 
 debug_push_class('midcom_helper_datamanager2_widget_chooser_handler', 'initialize');
-//debug_print_r('_REQUEST',  $_REQUEST);
 
 // Common variables
 $encoding = 'UTF-8';
@@ -58,24 +57,16 @@ debug_print_r('extra params', $extra_params);
 
 foreach ($map as $map_key)
 {
-    // debug_add("map extras :: checking map_key {$map_key}");
     if (   isset($extra_params[$map_key])
         && !empty($extra_params[$map_key]))
     {
-        // debug_add("found");
         $$map_key = $extra_params[$map_key];
     }
     else
     {
-        // debug_add("Not found");
         $$map_key = false;
     }
 }
-
-// if (! empty($reflector_key))
-// {
-//     
-// }
 
 debug_pop();
 debug_push_class('midcom_helper_datamanager2_widget_chooser_handler', 'search');
@@ -129,9 +120,6 @@ if (!empty($_callback_class))
 }
 else
 {
-    // debug_add("Using component: {$component}");
-    // debug_add("Using class: {$class}");
-    
     // Load component if possible
     $_MIDCOM->componentloader->load_graceful($component);
 
@@ -144,7 +132,7 @@ else
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
-    
+
     // No fields to search by, abort
     if (empty($searchfields))
     {
@@ -154,14 +142,14 @@ else
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
-    
+
     $qb = @call_user_func(array($class, 'new_query_builder'));
     if (! $qb)
     {
         debug_add("use midgard_query_builder");
         $qb = new midgard_query_builder($class);
     }
-    
+
     if (   is_array($constraints)
         && !empty($constraints))
     {
@@ -212,7 +200,7 @@ else
             }
         }
     }
-    
+
     $results = $qb->execute();
     if ($results === false)
     {
@@ -246,44 +234,28 @@ foreach ($results as $object)
     {
         debug_add("Using reflector with key {$reflector_key}");
         $reflector_type = get_class($object);
-        //$reflector_type_fields = array_keys(get_object_vars($object));
-    
-        // debug_add("Reflector type: {$reflector_type}");
-        // debug_print_r("reflector type fields",$reflector_type_fields);
-    
+
         $reflector = new midgard_reflection_property($reflector_type);
 
         if ($reflector->is_link($reflector_key))
         {
             $linked_type = $reflector->get_link_name($reflector_key);
-            // $linked_type_reflector = midcom_helper_reflector::get($linked_type);
-            // $type = $reflector->get_midgard_type($reflector_key);
-            // $type_label = midgard_admin_asgard_plugin::get_type_label($linked_type);
-        
-            // debug_add("Reflector linked_type: {$linked_type}");
-            // debug_add("reflector type_label {$type_label}");
-            // debug_add("Reflector type: {$type}");
-        
+
             $object = new $linked_type($object->$reflector_key);
-        
-            // debug_print_r('$object',$object;
-        
-            // $reflector_tree = new midcom_helper_reflector_tree($object);
-            // debug_print_r('$reflector_tree',$reflector_tree);
         }
 
         debug_print_r('reflected object',$object);
     }
-    
+
     $id = @$object->id;
     $guid = @$object->guid;
-    
+
     debug_add("adding result: id={$id} guid={$guid}");
-    
+
     echo "      <result>\n";
     echo "          <id>{$id}</id>\n";
     echo "          <guid>{$guid}</guid>\n";
-    
+
     debug_print_r('$result_headers', $result_headers);
     if (   !is_array($result_headers)
         || (   !empty($reflector_key)
@@ -299,12 +271,12 @@ foreach ($results as $object)
         foreach ($result_headers as $header_item)
         {
             $item_name = $header_item['name'];
-            
+
             if (preg_match('/^metadata\.(.+)$/', $item_name, $regs))
             {
                 $metadata_property = $regs[1];
                 $value = @$object->metadata->$metadata_property;
-                
+
                 switch ($metadata_property)
                 {
                     case 'created':
@@ -320,7 +292,7 @@ foreach ($results as $object)
                             $value = strftime('%x %X', $value);
                         }
                         break;
-                    
+
                     case 'creator':
                     case 'revisor':
                     case 'approver':
@@ -337,10 +309,10 @@ foreach ($results as $object)
             {
                 $value = @$object->$item_name;
             }
-            
+
             if (   $generate_path_for == $item_name
                 /**
-                 * Shouldn't these be handled by the 'clever' classes ? 
+                 * Shouldn't these be handled by the 'clever' classes ?
                  * Also: is_a() would be better way the check for classes
                  */
                 || (   $class == 'midcom_db_topic'
@@ -350,14 +322,14 @@ foreach ($results as $object)
             {
                 $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
             }
-            
+
             $item_name = str_replace('.', '_', $item_name);
 
             debug_add("adding header item: name={$item_name} value={$value}");
             echo "          <{$item_name}><![CDATA[{$value}]]></{$item_name}>\n";
-        }    
+        }
     }
-    
+
     echo "      </result>\n";
 }
 

@@ -290,7 +290,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $this->_init_csv_variables();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
-        //$_MIDCOM->cache->content->content_type('text/plain');
         return true;
     }
 
@@ -423,7 +422,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
                         if ($i < $type_headers_count)
                         {
                             echo $this->csv['s'];
-                            //debug_add("Added separator i={$i}, i2={$i2}, i2_tgt={$i2_tgt}");
                         }
                     }
                     continue;

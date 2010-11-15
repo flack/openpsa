@@ -55,10 +55,10 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * @access private
      */
     private $_person = null;
-    
+
     /**
      * The parent group, if any
-     * 
+     *
      * @var org_openpsa_contacts_group_dba
      */
     private $_group = null;
@@ -211,10 +211,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
     {
         $group = new org_openpsa_contacts_group_dba($identifier);
 
-        //$parent = $group->get_parent();
-        //$parent = new org_openpsa_contacts_group_dba($parent);
-        //_midcom_stop_request("can edit parent: " . $parent->can_do('midgard:update') . ", can edit group: ".$group->can_do('midgard:update'));
-
         if (!$group
             || !$group->guid)
         {
@@ -244,15 +240,15 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
     private function _update_breadcrumb_line()
     {
         $tmp = Array();
-        
+
         org_openpsa_contacts_viewer::get_breadcrumb_path_for_group($this->_group, $tmp);
 
         $tmp[] = array
         (
             MIDCOM_NAV_URL => "",
             MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')),
-        );        
-        
+        );
+
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 

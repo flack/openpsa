@@ -14,12 +14,12 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_products_product_group';
-    
+
     function __construct($id = null)
     {
         return parent::__construct($id);
     }
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -29,12 +29,12 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function _on_creating()
     {
         if ($this->_check_duplicates($this->code))
@@ -101,7 +101,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         $cache_key = md5($up . $keyproperty . $prefix . $order_by_score . implode('', $label_fields));
         if (isset($result_cache[$cache_key]))
         {
-            return $result_cache[$cache_key]; 
+            return $result_cache[$cache_key];
         }
 
         $result_cache[$cache_key] = array();
@@ -134,7 +134,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_products_product_group_dba::new_collector('up', (int)$up);
-        
+
         $mc->add_value_property('title');
         $mc->add_value_property('code');
         $mc->add_value_property('id');
@@ -166,7 +166,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         {
             $id = $mc->get_subkey($mc_key, 'id');
             $key = $mc->get_subkey($mc_key, $keyproperty);
-            //$ret[$key] = "{$prefix}{$code} {$title}";
             $ret[$key] = $prefix;
             foreach ($label_fields as $fieldname)
             {

@@ -1,6 +1,5 @@
 <?php
 /**
- * Created on Aug 16, 2005
  * @author tarjei huse
  * @package no.bergfald.rcs
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -27,7 +26,7 @@
  * Linking is done with the format rcs/rcs_action/handler_name/object_guid/<more params>
  * Where handler name is the component using nemein rcs.
  * The handler uses the component name to run a callback so the original handler
- * may control other aspects of the operation - f.x. the Aegir locationbar.
+ * may control other aspects of the operation.
  *
  * @todo add support for schemas.
  *
@@ -166,16 +165,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
                 'href' => MIDCOM_STATIC_URL."/no.bergfald.rcs/rcs.css",
             )
         );
-    }
-
-    /**
-     * This function sets the correct Aegir navigationclass and
-     * /or calls the defined callbacks from the request component.
-     * @todo add a way to get a schema out of this.
-     */
-    function _do_callbacks()
-    {
-        return false;
     }
 
     /**
@@ -333,8 +322,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      */
     function _handler_history($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        $this->_do_callbacks();
         $this->_guid = $args[0];
         $this->_load_object();
         $this->_prepare_toolbars();
@@ -351,7 +338,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         $this->_request_data['view_title'] = sprintf($_MIDCOM->i18n->get_string('revision history of %s', 'no.bergfald.rcs'), $this->_resolve_object_title());
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
 
-        debug_pop();
         return true;
     }
 
@@ -391,7 +377,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     {
         debug_push_class(__CLASS__, __FUNCTION__);
         $this->_guid = $args[0];
-        $this->_do_callbacks();
         $this->_load_object();
 
         // Ensure we get the correct styles
@@ -481,11 +466,8 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      */
     function _handler_preview($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
-
         $this->_guid = $args[0];
         $this->_args = $args;
-        $this->_do_callbacks();
 
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('no.bergfald.rcs');
@@ -514,8 +496,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         $this->_request_data['latest_revision'] = $args[1];
         $this->_request_data['next_revision']  = $this->_backend->get_next_version($args[1]);
         $this->_request_data['guid'] = $args[0];
-
-        debug_pop();
         return true;
     }
 
@@ -531,7 +511,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     {
         $this->_guid = $args[0];
         $this->_args = $args;
-        $this->_do_callbacks();
         $this->_load_object();
 
         $this->_object->require_do('midgard:update');

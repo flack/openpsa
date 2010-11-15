@@ -940,7 +940,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Failed to validate the form, reverting to edit mode.');
-                //debug_print_r('Results were:', $results);
                 debug_pop();
                 $exitcode = 'edit';
             }

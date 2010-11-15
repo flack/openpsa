@@ -21,19 +21,18 @@ foreach ($lines as $line)
     {
         continue;
     }
-    
+
     // Skip non-WMO ones
     if (empty($aerodromeinfo[1]))
     {
         continue;
     }
-        
+
     echo "<br />Importing {$aerodromeinfo[0]} {$aerodromeinfo[2]}...\n";
     $aerodrome = new org_routamc_positioning_aerodrome_dba();
     $aerodrome->icao = $aerodromeinfo[0];
     $aerodrome->wmo = $aerodromeinfo[1];
     $aerodrome->name = $aerodromeinfo[2];
-    //$aerodrome->state = $aerodromeinfo[3];
     $aerodrome->country = substr($aerodromeinfo[4], 0, 2);
     $aerodrome->latitude = (float) $aerodromeinfo[5];
     $aerodrome->longitude = (float) $aerodromeinfo[6];

@@ -248,8 +248,6 @@ class midcom_helper__basicnav
                 case MIDCOM_ERROK:
                     if (!$root_set)
                     {
-                        //var_dump(self::$_nodes);
-
                         // Reset the Root node's URL Parameter to an empty string.
                         self::$_nodes[$this->_root][MIDCOM_NAV_URL] = '';
                         $root_set = true;
@@ -717,9 +715,6 @@ class midcom_helper__basicnav
         // Rewrite all host dependant URLs based on the relative URL within our topic tree.
         $this->_update_leaflist_urls($result);
 
-        // Don't log, this can get really big.
-        // debug_print_r("We will return these leaves:", $result);
-
         return $result;
     }
 
@@ -911,9 +906,6 @@ class midcom_helper__basicnav
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('Writing ' . count ($leaves) . ' leaves to the cache.');
 
-        // We need to update the node too, as it contains the leaf list for rapid access.
-        //$node_leaflist = array_keys($leaves);
-
         $cached_node = $this->_nap_cache->get_node($node[MIDCOM_NAV_ID]);
 
         if (!$cached_node)
@@ -932,14 +924,6 @@ class midcom_helper__basicnav
                 $leaves[$id][MIDCOM_NAV_OBJECT] = new midcom_core_dbaproxy($leaf[MIDCOM_NAV_OBJECT]->guid, get_class($leaf[MIDCOM_NAV_OBJECT]));
             }
         }
-
-        // We load it again to get the cached structure, not the completed one from the
-        // in-memory cache.
-
-        //$cached_node[MIDCOM_NAV_LEAVES] = $node_leaflist;
-
-        //debug_print_r('Updating the Node structure in the cache to this:', $cached_node);
-        //$this->_nap_cache->put_node($node[MIDCOM_NAV_ID], $cached_node);
 
         $this->_nap_cache->put_leaves("{$node[MIDCOM_NAV_ID]}-leaves", $leaves);
 
@@ -1026,8 +1010,6 @@ class midcom_helper__basicnav
             return $listed[$parent_node];
         }
 
-        //echo "Called for {$parent_node} {self::$_nodes[$parent_node][MIDCOM_NAV_RELATIVEURL]}<br />\n";
-
         $subnodes = $this->_get_subnodes($parent_node);
 
         // No results, return an empty array
@@ -1056,7 +1038,6 @@ class midcom_helper__basicnav
 
             if ($this->_loadNode($id, $up) !== MIDCOM_ERROK)
             {
-                //debug_add("Node {$subnode_id} could not be loaded, ignoring it", MIDCOM_LOG_INFO);
                 continue;
             }
 

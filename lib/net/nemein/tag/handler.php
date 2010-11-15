@@ -675,7 +675,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         {
             $char = substr($tags_string, $i, 1);
             $hex = strtoupper(dechex(ord($char)));
-            //echo "DEBUG: iteration={$i}, char={$char} (\x{$hex})\n";
             if (   (   $char == ' '
                     && !$quote_open)
                 || $i == strlen($tags_string))

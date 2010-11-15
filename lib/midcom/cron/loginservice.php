@@ -34,7 +34,6 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
         }
         $qb->set_limit(500);
         $result = $qb->execute();
-        //debug_print_r('$result', $result);
         foreach ($result as $tmp)
         {
             if (! $tmp->delete())

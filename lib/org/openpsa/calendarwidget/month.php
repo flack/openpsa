@@ -512,9 +512,6 @@ class org_openpsa_calendarwidget_month
 
         // Set the environmental variables
         $this->_read_environment_variables();
-
-        // Ensure we get the correct styles
-        //$_MIDCOM->style->prepend_component_styledir('org.openpsa.calendarwidget');
     }
 
     /**
@@ -719,7 +716,7 @@ class org_openpsa_calendarwidget_month
             $this->_next_month = 1;
             $this->_next_year = $this->_year + 1;
         }
-        
+
     }
 
     /**

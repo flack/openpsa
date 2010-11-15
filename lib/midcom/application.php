@@ -860,7 +860,6 @@ class midcom_application
                             $remaining_url .= implode($this->_parsers[$this->_currentcontext]->argv, '/');
                             $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
                         }
-                        //echo "remaining_url={$remaining_url}"; _midcom_stop_request();
                         if (is_string($remaining_url))
                         {
                             $redirect_to = $remaining_url;
@@ -887,7 +886,6 @@ class midcom_application
                             $remaining_url = "{$tmp['login']}/" . implode($this->_parsers[$this->_currentcontext]->argv, '/');
                             $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
                         }
-                        //echo "remaining_url={$remaining_url}"; _midcom_stop_request();
                         if (is_string($remaining_url))
                         {
                             $redirect_to = $remaining_url;
@@ -926,7 +924,6 @@ class midcom_application
                         break;
 
                     case 'servejscsscache':
-                        //$name = $tmp[MIDCOM_HELPER_URLPARSER_VALUE];
                         $name = $this->_parsers[$this->_currentcontext]->argv[0];
                         if (   !$this->jscss
                             || !is_callable(array($this->jscss, 'serve')))
@@ -987,7 +984,6 @@ class midcom_application
                 $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_ANCHORPREFIX] = $prefix;
                 $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $substyle;
 
-                //$this->_handle($path);
                 $this->_handle( $this->get_context_data( MIDCOM_CONTEXT_COMPONENT ) );
 
                 $success = true;
@@ -1024,13 +1020,9 @@ class midcom_application
         if (   $this->_currentcontext == 0
             && $this->skip_page_style == true)
         {
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add('We are in skip_page_style mode and context 0 is active. Executing the output handler and exiting afterwards.');
-            //debug_pop();
             $this->_status = MIDCOM_STATUS_CONTENT;
 
             // Enter Context
-            //debug_add("Entering Context 0 (old Context: $this->_currentcontext)", MIDCOM_LOG_DEBUG);
             $oldcontext = $this->_currentcontext;
             $this->_currentcontext = 0;
             $this->style->enter_context(0);
@@ -1038,7 +1030,6 @@ class midcom_application
             $this->_output();
 
             // Leave Context
-            //debug_add("Leaving Context 0 (new Context: $oldcontext)", MIDCOM_LOG_DEBUG);
             $this->style->leave_context();
             $this->_currentcontext = $oldcontext;
 
@@ -1047,10 +1038,7 @@ class midcom_application
         }
         else
         {
-            //debug_push_class(__CLASS__, __FUNCTION__);
-            //debug_add("_process finished successfully", MIDCOM_LOG_DEBUG);
             $this->_status = MIDCOM_STATUS_CONTENT;
-            //debug_pop();
         }
     }
 
@@ -1087,10 +1075,6 @@ class midcom_application
 
         if (!$handler->handle($this->_parsers[$this->_currentcontext]->get_current_object(), $this->_parsers[$this->_currentcontext]->argc, $this->_parsers[$this->_currentcontext]->argv, $this->_currentcontext))
         {
-            // debug_add("Component $path failed to handle the request:", MIDCOM_LOG_ERROR);
-            // debug_add("# Error Code: " . $handler->errcode($this->_currentcontext), MIDCOM_LOG_ERROR);
-            // debug_add("# Error String: " . $handler->errstr($this->_currentcontext), MIDCOM_LOG_ERROR);
-            // $this->generate_error($handler->errcode($this->_currentcontext), $handler->errstr($this->_currentcontext));
             $this->generate_error(MIDCOM_ERRCRIT, "Component $path failed to handle the request");
 
             // This will exit.
@@ -1176,8 +1160,6 @@ class midcom_application
             return false;
         }
 
-        //debug_add("Component {$path} in {$object->name} will handle request.", MIDCOM_LOG_INFO);
-        //debug_pop();
         return true;
     }
 
@@ -1230,8 +1212,6 @@ class midcom_application
     private function _output()
     {
         ob_start();
-
-        //debug_add("We are operating in Context {$this->_currentcontext}.", MIDCOM_LOG_DEBUG);
 
         if (!$this->skip_page_style)
         {
@@ -1641,10 +1621,7 @@ class midcom_application
         if (   !array_key_exists($component, $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA])
             || !array_key_exists($key, $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA][$component]))
         {
-            //debug_push("midcom_application::get_custom_context_data");
             $midcom_errstr = "Requested Key ID {$key} for the component {$component} is invalid.";
-            //debug_add($midcom_errstr, MIDCOM_LOG_WARN);
-            //debug_pop();
             $result = false;
             return $result;
         }
@@ -1698,10 +1675,6 @@ class midcom_application
         {
             $newsub = $current_style . '/' . $newsub;
         }
-
-        //debug_push_class(__CLASS__, __FUNCTION__);
-        //debug_add("Updating Component Context Substyle from '{$current_style}' to '{$newsub}'", MIDCOM_LOG_DEBUG);
-        //debug_pop();
 
         $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $newsub;
     }
@@ -2284,7 +2257,6 @@ class midcom_application
         $last_modified =& $stats[9];
 
         debug_push_class(__CLASS__, __FUNCTION__);
-        //debug_add("Serving Attachment {$attachment->name} (parent: {$attachment->parentguid})", MIDCOM_LOG_INFO);
 
         $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
 
@@ -2292,20 +2264,16 @@ class midcom_application
         if (   $expires <> 0
             && $this->cache->content->_check_not_modified($last_modified, $etag))
         {
-
-            //debug_add('_check_not_modified returned true, finishing up here then');
             if (!_midcom_headers_sent())
             {
-                //debug_add('For the weirdest reason headers have not been sent by _check_not_modified, send them again');
                 $this->cache->content->cache_control_headers();
                 // Doublemakesure these are present
                 $this->header('HTTP/1.0 304 Not Modified', 304);
                 $this->header("ETag: {$etag}");
             }
             while(@ob_end_flush());
-            //debug_add('headers sent, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
-            debug_pop();
             debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
+            debug_pop();
             _midcom_stop_request();
         }
 
@@ -2318,22 +2286,15 @@ class midcom_application
         }
 
         $this->header("ETag: {$etag}");
-        //$this->cache->content->register_sent_header("ETag: {$etag}");
         $this->cache->content->content_type($attachment->mimetype);
-        //$this->header("Content-Type: {$attachment->mimetype}");
         $this->cache->content->register_sent_header("Content-Type: {$attachment->mimetype}");
         $this->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
-        //$this->cache->content->register_sent_header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
         $this->header("Content-Length: " . $stats[7]);
-        //$this->cache->content->register_sent_header("Content-Length: " . $stats[7]);
-        //$this->header("Content-Disposition: attachment; filename={$attachment->name}");
-        //$this->cache->content->register_sent_header("Content-Disposition: attachment; filename={$attachment->name}");
         $this->header("Content-Description: {$attachment->title}");
         $this->cache->content->register_sent_header("Content-Description: {$attachment->title}");
 
         // PONDER: Support ranges ("continue download") somehow ?
         $this->header("Accept-Ranges: none");
-        //$this->cache->content->register_sent_header("Accept-Ranges: none");
 
         if ($expires > 0)
         {
@@ -2380,9 +2341,8 @@ class midcom_application
 
         fpassthru($f);
         $attachment->close();
-        //debug_add('file sent, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
-        debug_pop();
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
+        debug_pop();
         _midcom_stop_request();
     }
 

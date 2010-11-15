@@ -21,13 +21,13 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
     }
 
     /**
-     * Shorthand for creating a relatedto object. 
-     * 
-     * The <i>from</i> object is something that is related to the <em>to</em> 
+     * Shorthand for creating a relatedto object.
+     *
+     * The <i>from</i> object is something that is related to the <em>to</em>
      * object.
-     * For example, if a task is created under a sales project, that task is 
+     * For example, if a task is created under a sales project, that task is
      * the from object, and the sales project the to object.
-     * 
+     *
      * @param object &$from_obj The from object
      * @param string $from_component The from component name
      * @param object &$to_obj The to object
@@ -62,15 +62,15 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         $rel->fromComponent = $from_component;
         $rel->toComponent = $to_component;
         $rel->status = $status;
-        
+
         if ($id = $rel->check_db())
         {
             $rel = new org_openpsa_relatedto_dba($id);
             debug_add("A relation from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid} already exists, returning this one instead");
             debug_pop();
-            return $rel;           
+            return $rel;
         }
-        
+
         if (!empty($extra))
         {
             foreach ($extra as $extra_key => $extra_value)
@@ -482,7 +482,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
                         continue 2;
                     }
 
-                    //$data['wikiword_encoded'] = rawurlencode(str_replace('/', '-', $data['wikiword']));
                     $data['wikiword_encoded'] = rawurlencode($data['wikiword']);
                     $toolbar->add_item
                     (

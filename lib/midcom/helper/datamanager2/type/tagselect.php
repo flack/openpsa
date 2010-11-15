@@ -170,12 +170,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             $this->option_callback_args = array();
         }
 
-        // debug_add("this->allow_multiple: {$this->allow_multiple}");
-        // debug_add("this->multiple_storagemode: {$this->multiple_storagemode}");
-        // debug_add("this->enable_saving_to_callback: {$this->enable_saving_to_callback}");
-        // debug_add("this->use_tag_library: {$this->use_tag_library}");
-        // debug_add("this->force_saving_to_tag_library: {$this->force_saving_to_tag_library}");
-
         debug_pop();
         return true;
     }

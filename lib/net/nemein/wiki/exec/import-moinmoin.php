@@ -286,7 +286,6 @@ class net_nemein_wiki_moinmoin_importer
         }
         while (($page = readdir($dp)) !== false)
         {
-            //echo "DEBUG: page='{$page}'<br/>\n";
             if (preg_match('/\.+/', $page))
             {
                 // Skip dotfiles
@@ -404,7 +403,6 @@ class net_nemein_wiki_moinmoin_importer
             {
                 $replace = htmlentities($pre_matches[2][$k], ENT_QUOTES, 'UTF-8');
                 // It seems htmlentities does not encode square brackets..
-                //$replace = str_replace(array('[', ']'), array('&lsqb;', '&rsqb;'), $replace);
                 $replace = str_replace(array('[', ']'), array('&#91;', '&#93;'), $replace);
                 /* Make a pre block if {{{ is preceded by newline or first character of content is one
                    otherwise use inline ` -formatting */

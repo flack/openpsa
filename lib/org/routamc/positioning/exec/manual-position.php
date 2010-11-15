@@ -111,12 +111,10 @@ if (   array_key_exists('msisdn', $_GET)
         $stat = $latest_log->delete();
         if ($stat)
         {
-            //echo "Log deleted";
             org_routamc_positioning_send_sms($person->handphone, 'Log deleted', $config->get('smslib_from'), $config);
         }
         else
         {
-            //echo "Failed to delete log, reason " . midcom_application::get_error_string();
             org_routamc_positioning_send_sms($person->handphone, 'Failed to delete log, reason ' . midcom_application::get_error_string(), $config->get('smslib_from'), $config);
         }
         $_MIDCOM->auth->drop_sudo();
@@ -177,7 +175,7 @@ if (array_key_exists('add_position', $_POST))
     $manual = org_routamc_positioning_importer::create('manual');
 
     $manual_position = Array();
-    
+
     if (array_key_exists('geocoder', $_POST))
     {
         $manual_position['geocoder'] = $_POST['geocoder'];
@@ -223,7 +221,7 @@ if ($coordinates)
 }
 ?>
 <form method="post">
-    <label>Street <input type="text" name="street" value="Valhallankatu" /></label>, 
+    <label>Street <input type="text" name="street" value="Valhallankatu" /></label>,
     <label>City <input type="text" name="city" value="Helsinki" /></label>
     and <label>Country <input type="text" name="country" value="FI" /></label><br />
     <label>

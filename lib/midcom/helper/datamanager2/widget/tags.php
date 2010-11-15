@@ -315,20 +315,11 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
      */
     function add_elements_to_form()
     {
-        //debug_push_class(__CLASS__, __FUNCTION__);
-
         $attributes = Array
         (
             'class' => "shorttext",
             'id'    => $this->_input_element_id,
         );
-
-        // $elements = array();
-        // $elements[] = & HTML_QuickForm::createElement('hidden', "default", '1', array());
-        //
-        // $group = $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), "<br />");
-
-        //$this->_form->addElement('text', "{$this->name}_input", $this->_translate($this->_field['title']), $attributes);
 
         $this->widget_elements[] = HTML_QuickForm::createElement
         (
@@ -356,28 +347,20 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
             $script .= "{$key}: {$value},\n";
         }
         $script .= "});";
-        // jQuery('#{$this->_input_element_id}').midcom_helper_datamanager2_widget_tags_result(function(event, data, formatted) {
-        //     tags_widget_add_item('{$this->_input_element_id}', data);
-        // });
         $this->_jscript .= $script;
 
         // Add existing selection
         $existing_elements = $this->_type->selection;
-        //debug_print_r('existing_elements',$existing_elements);
         $ee_script = '';
         foreach ($existing_elements as $key)
         {
-            //debug_add("Processing key {$key}");
             $data = $this->_get_key_data($key);
-            //debug_add("Got data: {$data}");
             $ee_script .= "jQuery('#{$this->_input_element_id}').midcom_helper_datamanager2_widget_tags_add_selection_item({$data});\n";
         }
         $this->_jscript .= $ee_script;
 
         $this->_jscript .= '});';
         $this->_jscript .= '</script>';
-
-        //$this->_form->addElement('static', "{$this->name}_initscripts", '', $this->_jscript);
 
         $this->widget_elements[] = HTML_QuickForm::createElement
         (
@@ -388,28 +371,18 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
         );
 
         $group = $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_tags'));
-
-        //debug_pop();
     }
 
-    /**
+     /**
       * The defaults of the widget are mapped to the current selection.
       */
      function get_default()
      {
-         //debug_push_class(__CLASS__, __FUNCTION__);
-
-         //debug_print_r('this->_type',$this->_type);
-
          $defaults = Array();
          foreach ($this->_type->selection as $key)
          {
              $defaults[$key] = true;
          }
-
-         //debug_print_r('defaults',$defaults);
-
-         //debug_pop();
          return Array($this->name => $defaults);
      }
 
@@ -418,9 +391,6 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
      */
     function sync_type_with_widget($results)
     {
-        // debug_push_class(__CLASS__, __FUNCTION__);
-        // debug_print_r('results:',$results);
-
         $this->_type->selection = Array();
         if (!isset($results["{$this->name}_tags"]))
         {
@@ -434,9 +404,6 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
                 $this->_type->selection[] = $key;
             }
         }
-
-        // debug_print_r('real_results', $real_results);
-        // debug_pop();
     }
 
     /**

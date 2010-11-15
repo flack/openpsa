@@ -261,7 +261,6 @@ class midcom_helper__styleloader
 
             if (!$styles)
             {
-                //$mc->destroy();
                 $cached[$rootstyle][$path] = false;
                 return false;
             }
@@ -271,7 +270,6 @@ class midcom_helper__styleloader
                 $current_style = $mc->get_subkey($style_guid, 'id');
                 $_MIDCOM->cache->content->register($style_guid);
             }
-            //$mc->destroy();
         }
 
         if ($current_style != 0)
@@ -406,9 +404,7 @@ class midcom_helper__styleloader
         {
             foreach ($elements as $element_guid => $value)
             {
-                //$style_mc->destroy();
                 $value = $element_mc->get_subkey($element_guid, 'value');
-                //$element_mc->destroy();
                 $_MIDCOM->cache->content->register($element_guid);
                 $cached[$id][$name] = $value;
                 if ($GLOBALS['midcom_debugger']->firephp)
@@ -435,14 +431,11 @@ class midcom_helper__styleloader
             if (   $up
                 && $up != 0)
             {
-                //$style_mc->destroy();
-                //$element_mc->destroy();
                 $value = $this->_get_element_in_styletree($up, $name);
                 $cached[$id][$name] = $value;
                 return $value;
             }
         }
-        //$style_mc->destroy();
 
         $cached[$id][$name] = false;
         return $cached[$id][$name];
@@ -717,7 +710,6 @@ class midcom_helper__styleloader
                 && is_string($substyle))
             {
                 $chain = explode('/', $substyle);
-                //debug_print_r("substyles (from $substyle):", $chain);
                 foreach ($chain as $stylename)
                 {
                     $_subst_id = $this->get_style_id_from_path($stylename, $_st);

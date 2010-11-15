@@ -51,7 +51,6 @@ if (count($data['hours']) > 0)
     echo "<input type=\"hidden\" name=\"person[]\" value=\"{$current_user->id}\" />";
     echo "<input type=\"submit\" value=\"".sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2))."\" />";
     echo "</form>";
-    //echo "<p><a href=\"{$data['expenses_url']}\">" . sprintf($data['l10n']->get('see all %s hours'), round($total_hours, 2)). "</a></p>\n";
 }
 else
 {

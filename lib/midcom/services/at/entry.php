@@ -15,14 +15,14 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'midcom_services_at_entry_db';
-    
+
     /**
      * Unserialized form of argumentsstore
      *
      * @var array
      */
     var $arguments = array();
-    
+
     /**
      * Empty constructor
      */
@@ -32,7 +32,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         $this->_use_activitystream = false;
         return parent::__construct($id);
     }
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -42,22 +42,22 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-        
+
     /**
      * Makes sure $arguments is properly set
      *
-     * @return boolean Always true 
+     * @return boolean Always true
      */
     function _on_loaded()
     {
         $this->_unserialize_arguments();
         return true;
     }
-    
+
     /**
      * Makes sure we have status set and arguments serialized
      *
-     * @return boolean Always true 
+     * @return boolean Always true
      */
     function _on_creating()
     {
@@ -76,7 +76,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     /**
      * Makes sure we have arguments serialized
      *
-     * @return boolean Always true 
+     * @return boolean Always true
      */
     function _on_updating()
     {
@@ -117,7 +117,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         }
         $this->arguments = $unserRet;
     }
-    
+
     /**
      * Serializes arguments to argumentsstore
      */
@@ -125,7 +125,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     {
         $this->argumentsstore = serialize($this->arguments);
     }
-    
+
     /**
      * Fixes newline etc encoding issues in serialized data
      *
@@ -139,30 +139,28 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         {
             return $data;
         }
-        
-        $preg='/s:([0-9]+):"(.*?)";/ms';
-        //echo "DEBUG: preg=$preg<br>\n";
+
+        $preg = '/s:([0-9]+):"(.*?)";/ms';
         preg_match_all($preg, $data, $matches);
         $cache = array();
-        
+
         foreach ($matches[0] as $k => $origFullStr)
         {
               $origLen = $matches[1][$k];
               $origStr = $matches[2][$k];
               $newLen = strlen($origStr);
-              //echo "DEBUG: origFullStr=$origFullStr, origLen=$origLen, newLen=$newLen <br>\n";
               if ($newLen != $origLen)
               {
                  $newFullStr="s:$newLen:\"$origStr\";";
-                //For performance we cache information on which strings have already been replaced
+                 //For performance we cache information on which strings have already been replaced
                  if (!array_key_exists($origFullStr, $cache))
-                 { 
+                 {
                      $data = str_replace($origFullStr, $newFullStr, $data);
                      $cache[$origFullStr] = true;
                  }
               }
         }
-        
+
         return $data;
     }
 

@@ -167,7 +167,6 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
     function get_class_magic_default_privileges()
     {
         $privileges = parent::get_class_magic_default_privileges();
-        //$privileges['EVERYONE']['midgard:read'] = MIDCOM_PRIVILEGE_DENY;
         return $privileges;
     }
 

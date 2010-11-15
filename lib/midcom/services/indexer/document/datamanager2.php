@@ -176,8 +176,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
 
         foreach ($this->_schema->fields as $name => $field)
         {
-            //debug_print_r("Processing field {$name}:", $field);
-
             switch ($field['index_method'])
             {
                 case 'auto':

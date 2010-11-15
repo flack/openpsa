@@ -10,10 +10,6 @@
 /**
  * Newsticker / Blog site interface class
  *
- * This is a complete rewrite of the old newsticker the has been made for MidCOM 2.6.
- * It incorporates all of the goodies current MidCOM has to offer and can serve as an
- * example component therefore.
- *
  * @package net.nehmer.blog
  */
 class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
@@ -851,12 +847,10 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
                 case 'latest':
                 case 'ajax-latest':
-                    //$mc->set_limit((int) $args[0]);
                     $mc->set_limit((int) $config->get('index_entries'));
                     break;
 
                 case 'latest-category':
-                    //$mc->set_limit((int) $args[1]);
                     $mc->set_limit((int) $config->get('index_entries'));
                     break;
 

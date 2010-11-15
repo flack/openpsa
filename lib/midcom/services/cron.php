@@ -263,7 +263,7 @@ class midcom_services_cron extends midcom_baseclasses_core_object
                 debug_pop();
                 return false;
         }
-        
+
         if ($job['recurrence'] == $this->_recurrence)
         {
             return true;
@@ -357,9 +357,7 @@ class midcom_services_cron extends midcom_baseclasses_core_object
             debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Failed to execute a job for {$job['component']}: Handler class failed to initialize.";
             debug_add($msg, MIDCOM_LOG_WARN);
-            //echo "ERROR: {$msg}\n";
             debug_pop();
-            //return false;
         }
         $handler->execute();
 

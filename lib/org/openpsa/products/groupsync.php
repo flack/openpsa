@@ -227,7 +227,6 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
      */
     function _get_subtopics(&$topic)
     {
-        //$this->log_message("Called for #{$topic->id} (" . midcom_helper_reflector_tree::resolve_path($topic)  . ")", false, MIDCOM_LOG_DEBUG);
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $topic->id);
         $qb->add_constraint('component', '=', 'org.openpsa.products');

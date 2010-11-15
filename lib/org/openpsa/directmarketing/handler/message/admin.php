@@ -47,7 +47,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      * @access private
      */
     var $_schemadb = null;
-    
+
     /**
      * Schema to use for message display
      *
@@ -55,7 +55,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      * @access private
      */
     var $_schema = null;
-    
+
     /**
      * Simple default constructor.
      */
@@ -73,7 +73,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_request_data['message'] =& $this->_message;
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['controller'] =& $this->_controller;
-        
+
         $this->_view_toolbar->add_item
         (
             array
@@ -98,7 +98,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
             )
         );
-    
+
         switch ($handler_id)
         {
             case 'message_edit':
@@ -136,7 +136,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     {
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        //$this->_datamanager->schema = $this->_message->type;
         if (!$this->_datamanager->autoset_storage($this->_message))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for message {$this->_message->id}.");
@@ -177,7 +176,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             MIDCOM_NAV_URL => "message/{$this->_message->guid}/",
             MIDCOM_NAV_NAME => $this->_message->title,
         );
-        
+
         switch ($handler_id)
         {
             case 'message_edit':
@@ -223,9 +222,9 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The message {$args[0]} was not found.");
             // This will exit.
         }
-        
+
         $this->_message->require_do('midgard:update');
-        
+
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
         if (   !$data['campaign']
             || $data['campaign']->node != $this->_topic->id)
@@ -234,7 +233,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             // This will exit.
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";       
+        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
 
         $this->_load_controller();
         $data['message_dm'] =& $this->_controller;
@@ -253,7 +252,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                 // This will exit.
         }
 
-        org_openpsa_helpers::dm2_savecancel($this); 
+        org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_prepare_request_data($handler_id);
         $_MIDCOM->set_pagetitle($this->_message->title);
@@ -289,9 +288,9 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The message {$args[0]} was not found.");
             // This will exit.
         }
-        
+
         $this->_message->require_do('midgard:delete');
-        
+
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
         if (   !$data['campaign']
             || $data['campaign']->node != $this->_topic->id)
@@ -300,7 +299,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             // This will exit.
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";        
+        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
 
         $this->_load_datamanager();
 
@@ -344,95 +343,95 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     function _show_delete ($handler_id, &$data)
     {
         $data['view_message'] = $this->_datamanager->get_content_html();
-        
+
         midcom_show_style('show-message-delete');
     }
-    
+
     /**
      * Handle the message copying interface
-     * 
+     *
      * @access public
      * @return boolean Indicating success
      */
     function _handler_copy($handler_id, $args, &$data)
     {
         $this->_topic->require_do('midgard:create');
-        
+
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $guid = $args[0];
-        
+
         if (   !$this->_message
             || !$this->_message->guid)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The message {$args[0]} was not found.");
             // This will exit.
         }
-        
+
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message_copy'));
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->initialize();
-        
+
         $data['targets'] = array();
-        
+
         switch ($this->_controller->process_form())
         {
             case 'save':
                 $_MIDCOM->componentloader->load('midcom.helper.reflector');
                 $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
                 $copy_objects = array();
-                
+
                 foreach ($campaigns as $campaign_id)
                 {
                     $campaign = new org_openpsa_directmarketing_campaign_dba($campaign_id);
-                    
+
                     if (   !$campaign
                         || !$campaign->guid)
                     {
                         continue;
                     }
-                    
+
                     $new_object = midcom_helper_reflector::copy_object($this->_message->guid, $campaign);
                     $guid = $new_object->guid;
-                    
+
                     // Store for later use
                     $copy_objects[] = $new_object;
                 }
-                
+
                 if (count($copy_objects) > 1)
                 {
                     $data['targets'] =& $copy_objects;
                     break;
                 }
                 // Fall through
-                
+
             case 'cancel':
                 $_MIDCOM->relocate("message/{$guid}/");
                 // This will exit
         }
-        
+
         $_MIDCOM->set_pagetitle($this->_message->title);
         $_MIDCOM->bind_view_to_object($this->_message);
         $this->_update_breadcrumb_line($handler_id);
-        
+
         return true;
     }
-    
+
     /**
      * Show the copy interface
-     * 
+     *
      * @access public
      */
     function _show_copy($handler_id, &$data)
     {
         $data['controller'] =& $this->_controller;
-        
+
         if (count($data['targets']) > 0)
         {
             midcom_show_style('show-message-copy-ok');
             return;
         }
-        
+
         midcom_show_style('show-message-copy');
     }
 }

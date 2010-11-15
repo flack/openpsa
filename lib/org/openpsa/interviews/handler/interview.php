@@ -135,8 +135,6 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
                 // This will exit.
         }
 
-        // $_MIDCOM->set_pagetitle(sprintf($this->_request_data['l10n']->get('interview %s'), $this->_member->title));
-
         return true;
     }
 

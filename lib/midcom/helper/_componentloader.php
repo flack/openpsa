@@ -613,7 +613,6 @@ class midcom_helper__componentloader
      */
     function load_manifest($manifest)
     {
-        //echo "Load $manifest->name";
         $this->manifests[$manifest->name] = $manifest;
 
         // Register Privileges
@@ -711,8 +710,6 @@ class midcom_helper__componentloader
         $components = array_unique($components);
         $object_key = get_class($object) . $object->guid;
         debug_add("Adding notification for operation {$operation} on {$object_key}");
-        //$GLOBALS['midcom_debugger']->print_function_stack('Notification triggered from');
-        //debug_print_r('\$object', $object);
         if (! array_key_exists($object_key, $this->_watch_notifications[$operation]))
         {
             $this->_watch_notifications[$operation][$object_key] = Array(clone $object);
@@ -742,7 +739,6 @@ class midcom_helper__componentloader
     function process_pending_notifies()
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        //debug_print_r('$this->_watch_notifications', $this->_watch_notifications);
         if ($this->_watch_notifications === null)
         {
             debug_add('Pending notifies should only be processed once at the end of the request, aborting.', MIDCOM_LOG_WARN);
@@ -763,11 +759,6 @@ class midcom_helper__componentloader
                     if (! $object->refresh())
                     {
                         debug_add('Failed to refresh an object before notification, skipping it. see the debug level log for a dump.', MIDCOM_LOG_WARN);
-                        /**
-                         * For the weirdest reason this gets output to buffer instead of log (likely OB issue)
-                         *
-                        debug_print_r('Object dump:', $object);
-                         */
                         continue;
                     }
                 }

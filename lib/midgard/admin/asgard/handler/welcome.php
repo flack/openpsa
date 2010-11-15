@@ -286,7 +286,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             if (   $object
                 && $object->can_do('midgard:delete'))
             {
-                //$label = $object->get_label();
                 $label = $object->guid;
                 if ($object->delete())
                 {

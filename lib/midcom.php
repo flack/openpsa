@@ -217,7 +217,6 @@ function midcom_autoload($class_name)
         || basename($path) == 'db.php')
     {
         // DBA object files are named objectname.php
-        //debug_add("Autoloader got '{$path}' which is DBA class, going one above");
 
         // Ensure we have the component loaded
         if (!$_MIDCOM->dbclassloader->load_component_for_class($class_name))
@@ -237,7 +236,6 @@ function midcom_autoload($class_name)
         && $class_name != 'midcom_baseclasses_components_interface')
     {
         // MidCOM component interfaces are named midcom/interface.php
-        //debug_add("Autoloader got '{$path}' which is component interface class, loading the component instead");
         $_MIDCOM->dbclassloader->load_component_for_class($class_name);
         return;
     }
@@ -263,7 +261,6 @@ function midcom_autoload($class_name)
 
     require($path);
     $autoloaded++;
-    //debug_add("Autoloader got '{$path}', loading file {$autoloaded}");
 }
 // Register autoloader so we get all MidCOM classes loaded automatically
 spl_autoload_register('midcom_autoload');

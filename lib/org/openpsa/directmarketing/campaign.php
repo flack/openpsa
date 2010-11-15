@@ -174,7 +174,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
         //returns now the result array of collector instead array of objects of query builder
         $rule_persons =  $solver->execute();
-        //debug_add("solver->execute() returned with:\n===\n" . org_openpsa_helpers::sprint_r($rule_persons) . "===\n");
         if (!is_array($rule_persons))
         {
             $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
