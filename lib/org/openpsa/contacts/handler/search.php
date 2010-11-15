@@ -266,8 +266,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
 
         $qb_org->end_group();
 
-        //Skip groups in other sitegroups (sitegroup constraint is no longer dropped ?)
-        $qb_org->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $this->_groups = $qb_org->execute();
     }
 
@@ -305,8 +303,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         }
 
         $qb->end_group();
-        //Skip accounts in other sitegroups (sitegroup constraint is no longer dropped ?)
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $this->_persons = $qb->execute();
     }
 

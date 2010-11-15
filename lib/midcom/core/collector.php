@@ -156,15 +156,6 @@ class midcom_core_collector
             $_class_mapping_cache[$classname] = $mgdschemaclass;
         }
 
-        if (   $domain == 'sitegroup'
-            && isset($_MIDGARD['config']['sitegroup'])
-            && !$_MIDGARD['config']['sitegroup'])
-        {
-            // Midgard2 doesn't have sitegroups, change the constraint
-            $domain = 'metadata.deleted';
-            $value = false;
-        }
-
         $this->_mc = new midgard_collector($mgdschemaclass, $domain, $value);
 
         // MidCOM's collector always uses the GUID as the key for ACL purposes
@@ -400,14 +391,6 @@ class midcom_core_collector
         {
             debug_add("Collector: Cannot add constraint on field '{$field}' with null value.",MIDCOM_LOG_WARN);
             debug_pop();
-            return false;
-        }
-
-        if (   $field == 'sitegroup'
-            && isset($_MIDGARD['config']['sitegroup'])
-            && !$_MIDGARD['config']['sitegroup'])
-        {
-            // This Midgard setup doesn't support sitegroups
             return false;
         }
 

@@ -17,7 +17,7 @@ foreach ($invoices as $invoice)
 }
 
 //get all invoices with no invoice_items
-$mc = new midgard_collector('org_openpsa_invoice_item' , 'sitegroup' , 1);
+$mc = new midgard_collector('org_openpsa_invoice_item' , 'metadata.deleted' , false);
 $mc->set_key_property('id');
 $mc->add_value_property('invoice');
 $mc->execute();

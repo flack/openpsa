@@ -210,7 +210,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             'id',
             'guid',
             'metadata',
-            'sitegroup',
         );
 
         foreach ($properties as $property)

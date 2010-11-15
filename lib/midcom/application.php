@@ -2069,38 +2069,6 @@ class midcom_application
     }
 
     /**
-     * Get Midgard sitegroup
-     *
-     * @return string Midgard sitegroup name
-     */
-    static function get_sitegroup()
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return '';
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::get_sitegroup();
-    }
-
-    /**
-     * Set Midgard sitegroup
-     *
-     * @param string Midgard sitegroup name
-     */
-    static function set_sitegroup($sitegroup)
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return false;
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::set_sitegroup($sitegroup);
-    }
-
-    /**
      * Generate an error page.
      *
      * This function is a small helper, that will display a simple HTML Page reporting

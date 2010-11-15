@@ -733,14 +733,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
      */
     function add_constraint($field, $operator, $value)
     {
-        if (   $field == 'sitegroup'
-            && isset($_MIDGARD['config']['sitegroup'])
-            && !$_MIDGARD['config']['sitegroup'])
-        {
-            // This Midgard setup doesn't support sitegroups
-            return false;
-        }
-
         $this->_reset();
         // Add check against null values, Core MC is too stupid to get this right.
         if ($value === null)
@@ -778,15 +770,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         /**
          * NOTE: So see also collector.php when making changes here
          */
-
-        if (   $field == 'sitegroup'
-            && isset($_MIDGARD['config']['sitegroup'])
-            && !$_MIDGARD['config']['sitegroup'])
-        {
-            // This Midgard setup doesn't support sitegroups
-            return false;
-        }
-
         if ($ordering === null)
         {
             $result = $this->_qb->add_order($field);

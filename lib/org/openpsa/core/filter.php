@@ -160,12 +160,6 @@ class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
         $qb_persons->add_constraint('username', '<>', '');
         $qb_persons->add_constraint('password', '<>', '');
 
-        if ($_MIDGARD['sitegroup'])
-        {
-            // Only list people from current SG
-            $qb_persons->add_constraint('sitegroup', '=', (int) $_MIDGARD['sitegroup']);
-        }
-
         $current_user = $_MIDCOM->auth->user->get_storage();
         $person_array = array();
 

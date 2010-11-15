@@ -396,13 +396,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     //TODO: Move these options elsewhere
     function _on_creating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
     {
-        if (   $_MIDGARD['sitegroup']
-            && $this->sitegroup !== $_MIDGARD['sitegroup']
-            && !$_MIDGARD['admin'])
-        {
-            // Prevent shooting to the foot...
-            $this->sitegroup = $_MIDGARD['sitegroup'];
-        }
         debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive, $repeat_handler))
         {

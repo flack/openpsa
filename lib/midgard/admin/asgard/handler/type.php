@@ -135,11 +135,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             return Array();
         }
 
-        if (!$this->_config->get('show_sg0'))
-        {
-            $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
-        }
-
         return $qb->execute();
     }
 

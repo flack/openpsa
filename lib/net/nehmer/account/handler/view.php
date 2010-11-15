@@ -606,7 +606,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         }
 
         $qb = midcom_db_person::new_query_builder();
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb->add_constraint('username', '=', $id);
         $results = $qb->execute();
         unset($qb);

@@ -218,8 +218,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         // Used in select
         $data['groups_for_select'] = array();
-        if (   $_MIDGARD['sitegroup'] === 0
-            && $_MIDCOM->auth->admin)
+        if ($_MIDCOM->auth->admin)
         {
             $data['groups_for_select'][] = array
             (
@@ -255,12 +254,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $mc->add_value_property('name');
         $mc->add_value_property('official');
         $mc->add_value_property('id');
-
-        // Hide SG0 groups if not in SG0 view
-        if ($_MIDGARD['sitegroup'] !== 0)
-        {
-            $mc->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
-        }
 
         // Set the order
         $mc->add_order('metadata.score', 'DESC');

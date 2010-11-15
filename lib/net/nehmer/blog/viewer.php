@@ -811,10 +811,9 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
          */
         $topic_ids = array();
         $topic_ids[] = $data['content_topic']->id;
-        if (   !empty($guids_array)
-            && $_MIDGARD['sitegroup'])
+        if (!empty($guids_array))
         {
-            $mc = midcom_db_topic::new_collector('sitegroup', $_MIDGARD['sitegroup']);
+            $mc = midcom_db_topic::new_collector('metadata.deleted', false);
             $mc->add_constraint('guid', 'IN', $guids_array);
             $mc->add_value_property('id');
             $mc->execute();
@@ -870,19 +869,12 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                     $qb->add_constraint('id', '=', $article_id);
                 }
                 unset($mc, $links, $guid, $link);
-                /**
-                 * Ref #1776, expands GUIDs before adding them as constraints, should save query time
-                $qb->add_constraint('topic.guid', 'IN', $guids_array);
-                 */
+
                 $qb->add_constraint('topic', 'IN', $topic_ids);
             $qb->end_group();
         }
         else
         {
-            /**
-             * Ref #1776, expands GUIDs before adding them as constraints, should save query time
-            $qb->add_constraint('topic.guid', 'IN', $guids_array);
-             */
             $qb->add_constraint('topic', 'IN', $topic_ids);
         }
 

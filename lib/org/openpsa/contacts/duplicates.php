@@ -38,7 +38,6 @@ class org_openpsa_contacts_duplicates
         $ret = array();
         //Search for all potential duplicates (more detailed checking is done later)
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         if ($person->id)
         {
             $qb->add_constraint('id', '<>', $person->id);
@@ -225,7 +224,6 @@ class org_openpsa_contacts_duplicates
         $this->p_map = array(); //Make sure this is clean before starting
         $ret = array();
         $qb = org_openpsa_contacts_group_dba::new_query_builder();
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         if ($group->id)
         {
             $qb->add_constraint('id', '<>', $group->id);
@@ -365,7 +363,7 @@ class org_openpsa_contacts_duplicates
 
         $persons = array();
 
-        $mc = org_openpsa_contacts_person_dba::new_collector('sitegroup', $_MIDGARD['sitegroup']);
+        $mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
         $mc->add_value_property('firstname');
         $mc->add_value_property('id');
         $mc->add_value_property('lastname');
@@ -525,7 +523,7 @@ class org_openpsa_contacts_duplicates
         $ret['threshold'] =& $threshold;
 
         $groups = array();
-        $mc = org_openpsa_contacts_group_dba::new_collector('sitegroup', $_MIDGARD['sitegroup']);
+        $mc = org_openpsa_contacts_group_dba::new_collector('metadata.deleted', false);
         $mc->add_value_property('id');
         $mc->add_value_property('homepage');
         $mc->add_value_property('phone');

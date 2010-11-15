@@ -51,7 +51,7 @@ class org_openpsa_helpers_list
             return $ret;
         }
 
-        $mc = midcom_db_member::new_collector('sitegroup', $_MIDGARD['sitegroup']);
+        $mc = midcom_db_member::new_collector('metadata.deleted', false);
         $mc->add_value_property('gid');
         $mc->add_constraint('uid', 'IN', array_keys($task->contacts));
         $mc->execute();

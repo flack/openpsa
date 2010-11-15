@@ -1413,8 +1413,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
      *     [AsgardTreeHost] => Array
      *     (
      *         [selected] => host0
-     *         [sitegroup0_host0] => 1
-     *         [sitegroup1_host0] => 1
      *     )
      * )
      * </pre>

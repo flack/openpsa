@@ -351,12 +351,6 @@
                         'op' => '<>',
                         'value' => '',
                     ),
-                    array
-                    (
-                        'field' => 'sitegroup',
-                        'op' => '<>',
-                        'value' => 0,
-                    ),
                 ),
                 'orders' => array(),
                 'creation_mode_enabled' => true,

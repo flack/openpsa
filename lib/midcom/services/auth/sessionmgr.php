@@ -226,12 +226,6 @@ class midcom_services_auth_sessionmgr
         $qb = new midgard_query_builder('midcom_core_login_session_db');
         $qb->add_constraint('userid', '=', $user->id);
 
-        if (   !isset($_MIDGARD['config']['sitegroup'])
-            || $_MIDGARD['config']['sitegroup'])
-        {
-            $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
-        }
-
         $result = @$qb->execute();
 
         if (! $result)

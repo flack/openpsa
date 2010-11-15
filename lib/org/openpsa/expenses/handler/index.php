@@ -45,7 +45,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
 
         org_openpsa_helpers::calculate_week($data);
 
-        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('sitegroup', $_MIDGARD['sitegroup']);
+        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('metadata.deleted', false);
         $hours_mc->add_value_property('task');
         $hours_mc->add_value_property('hours');
         $hours_mc->add_value_property('date');

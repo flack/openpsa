@@ -104,14 +104,13 @@ class midcom_db_member extends midcom_core_dbaobject
 
     function _on_creating()
     {
-        // Allow root group membership creation only for SG0 admins
+        // Allow root group membership creation only for admins
         if ($this->gid == 0)
         {
-            if (   $_MIDGARD['sitegroup'] !== 0
-                || !$_MIDCOM->auth->admin)
+            if (!$_MIDCOM->auth->admin)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Group #0 membership creation only allowed for admins in SG0 context");
+                debug_add("Group #0 membership creation only allowed for admins");
                 $GLOBALS['midcom_debugger']->print_function_stack('Forbidden ROOT member creation called from');
                 debug_pop();
                 return false;
@@ -126,14 +125,13 @@ class midcom_db_member extends midcom_core_dbaobject
 
     function _on_updating()
     {
-        // Allow root group membership creation only for SG0 admins (check update as well to avoid sneaky bastards
+        // Allow root group membership creation only for admins (check update as well to avoid sneaky bastards
         if ($this->gid == 0)
         {
-            if (   $_MIDGARD['sitegroup'] !== 0
-                || !$_MIDCOM->auth->admin)
+            if ($_MIDCOM->auth->admin)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Group #0 membership creation only allowed for admins in SG0 context");
+                debug_add("Group #0 membership creation only allowed for admins");
                 $GLOBALS['midcom_debugger']->print_function_stack('Forbidden ROOT member creation called from');
                 debug_pop();
                 return false;

@@ -262,15 +262,13 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
                 if(!$_MIDCOM->auth->admin)
                 {
                     //user auth
-                    $sitegroup = new midgard_sitegroup($_MIDGARD['sitegroup']);
-                    $sitegroup = $sitegroup->name;
-                    $check_user = midgard_user::auth($this->_person->username, $_POST['org_openpsa_contacts_person_account_current_password'] , $sitegroup);
+                    $check_user = midgard_user::auth($this->_person->username, $_POST['org_openpsa_contacts_person_account_current_password']);
                 }
 
                 if(!$check_user)
                 {
                     $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("wrong current password"), 'error');
-                    $stat=false;
+                    $stat = false;
                 }
                 else
                 {

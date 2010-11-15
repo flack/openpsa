@@ -192,7 +192,6 @@ function openpsa_prepare_superglobal()
         'cookieauth' => false,
 
         // General host setup
-        'sitegroup' => 0,
         'page' => 0,
         'debug' => false,
 
@@ -203,7 +202,6 @@ function openpsa_prepare_superglobal()
         (
             'prefix' => '',
             'quota' => false,
-            'sitegroup' => false,
             'unique_host_name' => 'openpsa',
             'auth_cookie_id' => 1,
         ),

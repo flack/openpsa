@@ -181,8 +181,6 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
      *
      * - unapproved: approvals are enabled for the site but the object is not translated
      * - hidden: object is hidden via metadata settings or scheduling
-     * - cross_sg: object is in another Midgard sitegroup than the current one
-     * - sg0: object is in SG0
      *
      * @param DBAobject &$object The DBA class instance to get CSS classes for
      * @param string Existing CSS classes to append to
@@ -196,26 +194,9 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
             $css_classes[] = $existing_classes;
         }
 
-        // Sitegroup-related attributes
-        if (   !isset($_MIDGARD['config']['sitegroup'])
-            || $_MIDGARD['config']['sitegroup'])
-        {
-            // Sitegroups are enabled in this setup, test for SG properties
-            if ($object->sitegroup != $_MIDGARD['sitegroup'])
-            {
-                $css_classes[] = 'cross_sg';
-            }
-
-            if ($object->sitegroup === 0)
-            {
-                $css_classes[] = 'sg0';
-            }
-        }
-
         // Approval attributes
         if (   $GLOBALS['midcom_config']['metadata_approval']
-            && !$object->metadata->is_approved()
-            && $object->sitegroup > 0)
+            && !$object->metadata->is_approved())
         {
             $css_classes[] = 'unapproved';
         }
@@ -223,8 +204,7 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
         // Hiding and scheduling attributes
         if (   (   !$GLOBALS['midcom_config']['show_hidden_objects']
                 || $GLOBALS['midcom_config']['metadata_scheduling'])
-            && !$object->metadata->is_visible()
-            && $object->sitegroup > 0)
+            && !$object->metadata->is_visible())
         {
             $css_classes[] = 'hidden';
         }

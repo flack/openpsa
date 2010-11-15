@@ -239,11 +239,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         // List groups as potential assignees
         $qb = midcom_db_group::new_query_builder();
-        if ($_MIDGARD['sitegroup'] != 0)
-        {
-            // Normally only display groups in current SG
-            $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
-        }
 
         $groups = $qb->execute();
         foreach ($groups as $group)

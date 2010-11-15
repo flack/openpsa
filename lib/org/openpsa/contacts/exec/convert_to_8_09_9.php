@@ -10,7 +10,7 @@ $billing_attributes = array('invoiceStreet' => 'street', 'invoiceCity' => 'city'
     'invoiceCountry' => 'country' , 'vatNo' => 'vatNo' , 'invoiceDue' =>'due' ,
     'invoiceVat' => 'vat' , 'invoiceDistribution' => 'delivery' , 'official' => 'recipient');
 
-$mc = new midgard_collector('org_openpsa_billing_data' , 'sitegroup' , 1);
+$mc = new midgard_collector('org_openpsa_billing_data' , 'metadata.deleted' , false);
 $mc->set_key_property('id');
 $mc->add_value_property('linkGuid');
 $mc->execute();

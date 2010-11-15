@@ -150,13 +150,6 @@ class midcom_services_auth
         $this->sessionmgr = new midcom_services_auth_sessionmgr($this);
         $this->acl = new midcom_services_auth_acl($this);
 
-
-        // Midgard 8.09beta compatibility: ensure that Midgard's sitegroup ID is always int
-        if (!is_integer($_MIDGARD['sitegroup']))
-        {
-            $_MIDGARD['sitegroup'] = (int) $_MIDGARD['sitegroup'];
-        }
-
         $this->_initialize_user_from_midgard();
         $this->_prepare_authentication_drivers();
 
@@ -449,13 +442,6 @@ class midcom_services_auth
     function can_do($privilege, $content_object, $user = null)
     {
         if (!is_object($content_object))
-        {
-            return false;
-        }
-
-        if (   $privilege !== 'midgard:read'
-            && $_MIDGARD['sitegroup'] !== 0
-            && $content_object->sitegroup !== $_MIDGARD['sitegroup'])
         {
             return false;
         }
@@ -823,16 +809,9 @@ class midcom_services_auth
      */
     function _http_basic_auth()
     {
-        $sg_name = 'SG0';
-        if ($_MIDGARD['sitegroup'])
-        {
-            $sitegroup = new midgard_sitegroup($_MIDGARD['sitegroup']);
-            $sg_name = $sitegroup->name;
-        }
-
         if (!isset($_SERVER['PHP_AUTH_USER']))
         {
-            _midcom_header("WWW-Authenticate: Basic realm=\"{$sg_name}\"");
+            _midcom_header("WWW-Authenticate: Basic realm=\"Midgard\"");
             _midcom_header('HTTP/1.0 401 Unauthorized');
             // TODO: more fancy 401 output ?
             echo "<h1>Authorization required</h1>\n";
@@ -1034,14 +1013,11 @@ class midcom_services_auth
      * @return midcom_core_group A reference to the group object matching the group name,
      *     or false if the group name is unknown.
      */
-    function & get_midgard_group_by_name($name,$sg_id=null)
+    function & get_midgard_group_by_name($name)
     {
         $qb = new midgard_query_builder('midgard_group');
         $qb->add_constraint('name', '=', $name);
-        if (is_integer($sg_id))
-        {
-            $qb->add_constraint('sitegroup', '=', $sg_id);
-        }
+
         $result = @$qb->execute();
         if (   ! $result
             || count($result) == 0)

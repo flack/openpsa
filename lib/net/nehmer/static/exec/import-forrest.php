@@ -369,7 +369,6 @@ else
                 <?php
                 $qb = midcom_db_topic::new_query_builder();
                 $qb->add_constraint('up', '=', 0);
-                $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
                 $folders = $qb->execute();
                 foreach ($folders as $folder)
                 {

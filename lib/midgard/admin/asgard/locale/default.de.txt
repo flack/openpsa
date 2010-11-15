@@ -707,10 +707,6 @@ Unterschiede anzeigen
 Revisionsgeschichte
 ---STRINGEND
 
----STRING show sg0 objects in navigation
-Objekte der Sitegroup 0 in der Navigation anzeigen
----STRINGEND
-
 ---STRING size
 Größe
 ---STRINGEND

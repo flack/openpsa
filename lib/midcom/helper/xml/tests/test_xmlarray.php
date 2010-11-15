@@ -24,7 +24,6 @@ class midcom_helper_xml_toarray_test extends UnitTestCase {
                         <action>update</action>
                         <errno>0</errno>
                         <errstr />
-                        <sitegroup>1</sitegroup>
                         <id>4</id>
                         <name>__Midgard CMS Welcome topic</name>
                         <extra />

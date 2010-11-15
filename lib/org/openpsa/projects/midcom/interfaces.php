@@ -384,7 +384,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         // Transfer links from classes we drive
         // ** resources **
         $qb_member = org_openpsa_projects_task_resource_dba::new_query_builder();
-        $qb_member->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_member->add_constraint('person', '=', $person2->id);
         $members = $qb_member->execute();
         if ($members === false)
@@ -411,7 +410,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
         // ** task statuses **
         $qb_receipt = org_openpsa_projects_task_status_dba::new_query_builder();
-        $qb_receipt->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_receipt->add_constraint('targetPerson', '=', $person2->id);
         $receipts = $qb_receipt->execute();
         if ($receipts === false)
@@ -436,7 +434,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
         // ** hour reports **
         $qb_log = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $qb_log->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_log->add_constraint('person', '=', $person2->id);
         $logs = $qb_log->execute();
         if ($logs === false)
@@ -461,7 +458,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
         // ** Task managers **
         $qb_task = org_openpsa_projects_task_dba::new_query_builder();
-        $qb_task->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_task->add_constraint('manager', '=', $person2->id);
         $tasks = $qb_task->execute();
         if ($tasks === false)

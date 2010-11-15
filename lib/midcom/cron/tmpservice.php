@@ -27,7 +27,6 @@ class midcom_cron_tmpservice extends midcom_baseclasses_components_cron_handler
 
         $qb = midcom_core_temporary_object::new_query_builder();
         $qb->add_constraint('timestamp', '<', time() - $GLOBALS['midcom_config']['midcom_temporary_resource_timeout']);
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb->set_limit(500);
         $result = $qb->execute();
         foreach ($result as $tmp)

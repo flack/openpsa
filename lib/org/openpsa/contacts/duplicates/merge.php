@@ -202,8 +202,6 @@ class org_openpsa_contacts_duplicates_merge
         debug_push_class(__CLASS__, __FUNCTION__);
         // Get all instances of given class where metadata fields link to person2
         $qb = call_user_func(array($class, 'new_query_builder'));
-        // Make sure we stay in current SG even if we could see more
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb->begin_group('OR');
         foreach($metadata_fields as $field => $link_property)
         {

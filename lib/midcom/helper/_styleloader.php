@@ -26,7 +26,7 @@
  * is not in the user defined style path)
  *
  * To enable cross-style referencing and provide the opportunity to access
- * any style element in the current sitegroup (not only the style that is set
+ * any style element (not only the style that is set
  * in the current page), "show" can be called with a full qualified style
  * path (like "/mystyle/element1", while the current page's style may be set
  * to "/yourstyle").

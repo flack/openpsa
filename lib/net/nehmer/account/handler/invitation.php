@@ -50,19 +50,18 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
     function _is_person_registered($email)
     {
         $qb = midcom_db_person::new_query_builder();
-           $qb->add_constraint('sitegroup', '=', $this->_topic->sitegroup);
-           $qb->add_constraint('email', '=', $email);
+        $qb->add_constraint('email', '=', $email);
 
-           $persons = $qb->execute();
+        $persons = $qb->execute();
 
-           if (count($persons) > 0)
-           {
-               return $persons;
-           }
-           else
-           {
+        if (count($persons) > 0)
+        {
+            return $persons;
+        }
+        else
+        {
             return false;
-           }
+        }
     }
 
     /**

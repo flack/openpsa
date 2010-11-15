@@ -86,13 +86,6 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
 
     function _on_creating()
     {
-        if (   $_MIDGARD['sitegroup']
-            && $this->sitegroup !== $_MIDGARD['sitegroup']
-            && !$_MIDGARD['admin'])
-        {
-            // Prevent shooting to the foot...
-            $this->sitegroup = $_MIDGARD['sitegroup'];
-        }
         if (!$this->verify_can_reserve())
         {
             midcom_application::set_error(MGD_ERR_ACCESS_DENIED);

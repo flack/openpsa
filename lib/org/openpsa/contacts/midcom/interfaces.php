@@ -216,8 +216,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 break;
         }
         $qb = midcom_db_member::new_query_builder();
-        // Make sure we stay in current SG even if we could see more
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb->begin_group('OR');
             // We need the remaining persons memberships later when we compare the two
             $qb->add_constraint('uid', '=', $person1->id);

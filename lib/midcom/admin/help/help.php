@@ -500,7 +500,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
                         break;
                     case 'guid':
                     case 'id':
-                    case 'sitegroup':
                         $default_properties[$prop] = $this->_get_property_data($mrp, $prop);
                         break;
                     default:

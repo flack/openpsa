@@ -409,7 +409,6 @@
             ),
             'widget' => 'select',
         ),
-
         'auth_sitegroup_mode' => array
         (
             'title' => 'auth_sitegroup_mode',

@@ -129,10 +129,9 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         $wikipage->author = $author->id;
         if (!$wikipage->author)
         {
-            //Default to first user in the sitegroup
+            //Default to first user in the db
             $qb = midcom_db_person::new_query_builder();
             $qb->add_constraint('username', '<>', '');
-            $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
             $results = $qb->execute_unchecked();
             if (empty($results))
             {

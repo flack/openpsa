@@ -244,7 +244,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     function add_to_group($name)
     {
-        $group = $_MIDCOM->auth->get_midgard_group_by_name($name, $this->sitegroup);
+        $group = $_MIDCOM->auth->get_midgard_group_by_name($name);
         if (! $group)
         {
             debug_push_class(__CLASS__, __FUNCTION__);

@@ -282,7 +282,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             return $tags;
         }
 
-        $mc = net_nemein_tag_tag_dba::new_collector('sitegroup', $_MIDGARD['sitegroup']);
+        $mc = net_nemein_tag_tag_dba::new_collector('metadata.deleted', false);
         $mc->add_value_property('tag');
         $mc->add_value_property('url');
         $mc->add_value_property('id');
@@ -422,7 +422,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             return $tags;
         }
 
-        $mc = net_nemein_tag_tag_dba::new_collector('sitegroup', $_MIDGARD['sitegroup']);
+        $mc = net_nemein_tag_tag_dba::new_collector('metadata.deleted', false);
         $mc->add_value_property('tag');
         $mc->add_value_property('url');
         $mc->add_value_property('id');

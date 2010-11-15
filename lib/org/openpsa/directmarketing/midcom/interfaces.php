@@ -280,7 +280,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         // Transfer links from classes we drive
         // ** Members **
         $qb_member = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
-        $qb_member->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_member->add_constraint('person', '=', $person2->id);
         $members = $qb_member->execute();
         if ($members === false)
@@ -318,7 +317,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 
         // ** Receipts **
         $qb_receipt = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
-        $qb_receipt->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_receipt->add_constraint('person', '=', $person2->id);
         $receipts = $qb_receipt->execute();
         if ($receipts === false)
@@ -343,7 +341,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 
         // ** Logs **
         $qb_log = org_openpsa_directmarketing_link_log_dba::new_query_builder();
-        $qb_log->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_log->add_constraint('person', '=', $person2->id);
         $logs = $qb_log->execute();
         if ($logs === false)

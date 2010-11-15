@@ -5,7 +5,6 @@ $_MIDCOM->auth->require_admin_user();
 @ini_set('max_execution_time', 0);
 
 $qb = midcom_db_attachment::new_query_builder();
-$qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
 $qb->add_order('metadata.created', 'DESC');
 
 echo "<p>STARTING...</p>\n";

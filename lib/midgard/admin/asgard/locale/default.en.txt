@@ -751,10 +751,6 @@ Show differences
 Show revision history
 ---STRINGEND
 
----STRING show sg0 objects in navigation
-Show sitegroup 0 objects in navigation
----STRINGEND
-
 ---STRING size
 Size
 ---STRINGEND

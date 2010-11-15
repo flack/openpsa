@@ -13,12 +13,8 @@
  */
 class midcom_helper_reflector_tree extends midcom_helper_reflector
 {
-    var $show_sg0_objects = true;
-    var $sg_context = false;
-
     function __construct($src)
     {
-        $this->sg_context = $_MIDGARD['sitegroup'];
         parent::__construct($src);
     }
 
@@ -110,8 +106,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $qb->add_constraint('metadata.deleted', '<>', 0);
         }
 
-        $this->_sg_constraints($qb);
-
         // Figure out constraint to use to get root level objects
         $upfield = midgard_object_class::get_property_up($schema_type);
         if (!empty($upfield))
@@ -135,24 +129,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             }
         }
         return $qb;
-    }
-
-    /**
-     * Sets sitegroup constraints to QB/MC instance
-     */
-    function _sg_constraints(&$qb)
-    {
-        if (    isset($_MIDGARD['config']['sitegroup'])
-             && !$_MIDGARD['config']['sitegroup'])
-        {
-            return;
-        }
-        $sgs_to_show = array( 0 => &$this->sg_context );
-        if ($this->show_sg0_objects)
-        {
-            $sgs_to_show[] = 0;
-        }
-        $qb->add_constraint('sitegroup', 'IN', $sgs_to_show);
     }
 
     /**
@@ -276,7 +252,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $this->mgdschema_class);
 
         $ref = $this->get($this->mgdschema_class);
-        $qb->add_order('sitegroup', 'DESC');
 
         $label_property = $ref->get_label_property();
 
@@ -692,8 +667,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $qb->add_constraint('metadata.deleted', '<>', 0);
         }
 
-        $this->_sg_constraints($qb);
-
         // Figure out constraint(s) to use to get child objects
         $ref = new midgard_reflection_property($schema_type);
 
@@ -823,11 +796,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
-        }
-        if (    !isset($_MIDGARD['config']['sitegroup'])
-             || $_MIDGARD['config']['sitegroup'])
-        {
-            $qb->add_order('sitegroup', 'DESC');
         }
 
         // Sort by title and name if available

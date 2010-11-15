@@ -1050,8 +1050,8 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
         $_MIDCOM->auth->drop_sudo();
 
-        $auto_login_sitegroup = $this->_config->get('auto_login_on_activation');
-        if ($auto_login_sitegroup)
+        $auto_login = $this->_config->get('auto_login_on_activation');
+        if ($auto_login)
         {
             $password = str_replace("*","",$password);
             if ($_MIDCOM->auth->login("{$this->_person->username}", $password))

@@ -230,12 +230,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         $mc->add_value_property('official');
         $mc->add_value_property('id');
 
-        // Hide SG0 groups if not in SG0 view
-        if ($_MIDGARD['sitegroup'] !== 0)
-        {
-            $mc->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
-        }
-
         // Set the order
         $mc->add_order('metadata.score', 'DESC');
         $mc->add_order('official');

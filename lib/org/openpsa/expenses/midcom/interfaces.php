@@ -61,7 +61,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
 
         // ** expense reports **
         $qb_expense = org_openpsa_expenses_expense::new_query_builder();
-        $qb_expense->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb_expense->add_constraint('person', '=', $person2->id);
         $expenses = $qb_expense->execute();
         if ($expenses === false)

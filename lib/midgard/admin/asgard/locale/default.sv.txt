@@ -667,10 +667,6 @@ Visa skillnader
 Visa revisions historik
 ---STRINGEND
 
----STRING show sg0 objects in navigation
-Visa sitegroup 0 objekt i navigering
----STRINGEND
-
 ---STRING size
 Storlek
 ---STRINGEND

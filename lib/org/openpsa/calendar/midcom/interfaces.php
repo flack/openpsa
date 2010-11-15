@@ -93,7 +93,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             $qb = org_openpsa_calendar_event_dba::new_query_builder();
             $qb->add_constraint('title', '=', '__org_openpsa_calendar');
             $qb->add_constraint('up', '=', '0');
-            $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
             $ret = $qb->execute();
             if (   is_array($ret)
                 && count($ret) > 0)
@@ -308,8 +307,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 break;
         }
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
-        // Make sure we stay in current SG even if we could see more
-        $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $qb->begin_group('OR');
             // We need the remaining persons memberships later when we compare the two
             $qb->add_constraint('uid', '=', $person1->id);

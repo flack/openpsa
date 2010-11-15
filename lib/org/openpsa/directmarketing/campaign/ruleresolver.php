@@ -87,7 +87,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $_MIDCOM->componentloader->load_graceful('org.maemo.devcodes');
 
         // if querybuilder is used response-time will increase -> set_key_property hast to be removed
-        $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('sitegroup' , $_MIDGARD['sitegroup']);
+        $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted' , false);
         if ($rules)
         {
             return $this->resolve($rules);
@@ -148,7 +148,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             debug_pop();
             return false;
         }
-        $this->_result_mc->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
         $this->_result_mc->set_key_property('guid');
         $this->_result_mc->add_value_property('lastname');
         $this->_result_mc->add_value_property('firstname');
@@ -331,7 +330,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     break;
             }
         }
-        $mc_group = new midgard_collector('midgard_member', 'sitegroup' , $_MIDGARD['sitegroup']);
+        $mc_group = new midgard_collector('midgard_member', 'metadata.deleted' , false);
         $mc_group->set_key_property('guid');
         $mc_group->add_constraint("gid.{$rule['property']}" , $match , $rule['value']);
         $mc_group->add_value_property('uid');
@@ -354,7 +353,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     function add_parameter_rule($rules)
     {
         //get parents of wanted midgard_parameter
-        $mc_parameter = new midgard_collector('midgard_parameter' , 'sitegroup' , $_MIDGARD['sitegroup']);
+        $mc_parameter = new midgard_collector('midgard_parameter' , 'metadata.deleted' , false);
         $mc_parameter->set_key_property('id');
         $mc_parameter->add_value_property('parentguid');
         foreach($rules as $rule)
@@ -443,7 +442,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     break;
             }
         }
-        $mc_misc = new midgard_collector($class , 'sitegroup' , $_MIDGARD['sitegroup']);
+        $mc_misc = new midgard_collector($class , 'metadata.deleted' , false);
         $mc_misc->set_key_property('id');
         $mc_misc->add_constraint($rule['property'] , $match , $rule['value']);
         $mc_misc->add_value_property($person_property);

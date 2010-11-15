@@ -85,12 +85,11 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             $this->_article->author = $author->id;
         }
 
-        //Default to first user in the sitegroup if author is not set
+        //Default to first user in DB if author is not set
         if (!$this->_article->author)
         {
             $qb = midcom_db_person::new_query_builder();
             $qb->add_constraint('username', '<>', '');
-            $qb->add_constraint('sitegroup', '=', $_MIDGARD['sitegroup']);
             $qb->set_limit(1);
             $results = $qb->execute();
             unset($qb);

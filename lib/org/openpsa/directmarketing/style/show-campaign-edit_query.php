@@ -24,7 +24,7 @@ if (!function_exists('list_object_properties'))
     function list_object_properties(&$object, &$l10n)
     {
         // These are internal to midgard and/or not valid QB constraints
-        $skip_properties = array('realm', 'action', 'errno', 'errstr', 'sitegroup');
+        $skip_properties = array();
         // These will be deprecated soon
         $skip_properties[] = 'orgOpenpsaAccesstype';
         $skip_properties[] = 'orgOpenpsaWgtype';

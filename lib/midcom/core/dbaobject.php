@@ -155,14 +155,6 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
             return null;
         }
 
-        if (   $property === 'sitegroup'
-            && isset($_MIDGARD['config']['sitegroup'])
-            && !$_MIDGARD['config']['sitegroup'])
-        {
-            // This Midgard setup doesn't support sitegroups
-            return 0;
-        }
-
         if ($property === 'metadata')
         {
             if (null === $this->__metadata)
