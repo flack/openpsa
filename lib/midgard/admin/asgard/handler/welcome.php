@@ -60,7 +60,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $skip = $this->_config->get('skip_in_filter');
 
         // List installed MgdSchema types and convert to DBA classes
-        foreach ($_MIDGARD['schema']['types'] as $schema_type => $dummy)
+        foreach (midcom_connection::get_schema_types() as $schema_type)
         {
             if (in_array($schema_type, $skip))
             {

@@ -15,7 +15,7 @@ echo "<h1>Starting tests</h1>\n";
 
 while(@ob_end_flush());
 
-foreach ($_MIDGARD['schema']['types'] as $mgdschema => $dummy)
+foreach (midcom_connection::get_schema_types() as $mgdschema)
 {
     if (empty($mgdschema))
     {

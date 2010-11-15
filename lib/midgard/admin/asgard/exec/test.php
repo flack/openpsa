@@ -3,7 +3,7 @@ $_MIDCOM->auth->require_valid_user();
 error_reporting(E_ALL);
 ini_set('max_execution_time', 0);
 
-uksort($_MIDGARD['schema']['types'], 'strnatcmp');
+usort(midcom_connection::get_schema_types(), 'strnatcmp');
 
 $methods = get_class_methods('midgard_object_class');
 echo "midgard_object_class methods <pre>\n";
@@ -66,12 +66,12 @@ foreach($root_types as $schema_type)
     echo "Found {$count} root objects for type <tt>{$schema_type}</tt><br/>\n";
 }
 
-echo "<hr/>\n\$_MIDGARD['schema']['types'] (" . count($_MIDGARD['schema']['types']) . ")<pre>\n";
-print_r($_MIDGARD['schema']['types']);
+echo "<hr/>\n\Midgard schema types (" . count(midcom_connection::get_schema_types()) . ")<pre>\n";
+print_r(midcom_connection::get_schema_types());
 echo "</pre>\n";
 
 echo "<hr/>\nLink info per type<br/>\n";
-foreach ($_MIDGARD['schema']['types'] as $schema_type => $val)
+foreach (midcom_connection::get_schema_types() as $schema_type)
 {
     $ref = midcom_helper_reflector::get($schema_type);
     $label_pro = $ref->get_label_property();

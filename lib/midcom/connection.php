@@ -155,6 +155,45 @@ class midcom_connection
     }
 
     /**
+     * Lists all available MgdSchema types
+     *
+     * @return array A list of class names
+     */
+    static function get_schema_types()
+    {
+        if (isset(self::$_data['schema_types']))
+        {
+            return self::$_data['schema_types'];
+        }
+        if (method_exists('midgard_connection', 'get_instance'))
+        {
+            // Midgard 9.09 or newer
+            // Get the classes from PHP5 reflection
+            $re = new ReflectionExtension('midgard2');
+            $classes = $re->getClasses();
+            foreach ($classes as $refclass)
+            {
+                $parent_class = $refclass->getParentClass();
+                if (!$parent_class)
+                {
+                    continue;
+                }
+                if ($parent_class->getName() == 'midgard_object')
+                {
+                    self::$_data['schema_types'][] = $refclass->getName();
+                }
+            }
+        }
+        else
+        {
+            // Midgard 8.09 or 9.03
+            self::$_data['schema_types'] = array_keys($_MIDGARD['schema']['types']);
+        }
+
+        return self::$_data['schema_types'];
+    }
+
+    /**
      * Get various pieces of information extracted from the URL 
      *
      * @return mixed The data for the requested key or false if it doesn't exist

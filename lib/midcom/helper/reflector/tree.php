@@ -901,7 +901,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
         debug_pop();
         $child_classes = array();
-        foreach ($_MIDGARD['schema']['types'] as $schema_type => $dummy)
+        foreach (midcom_connection::get_schema_types() as $schema_type)
         {
             if (in_array($schema_type, $child_class_exceptions_neverchild))
             {
@@ -978,7 +978,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $root_exceptions_notroot = array();
         }
         $root_classes = array();
-        foreach ($_MIDGARD['schema']['types'] as $schema_type => $dummy)
+        foreach (midcom_connection::get_schema_types() as $schema_type)
         {
             if (substr($schema_type, 0, 2) == '__')
             {

@@ -24,7 +24,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called!');
         $cut_off = mktime(23, 59, 59, date('n'), date('j')-$GLOBALS['midcom_config']['cron_pure_deleted_after'], date('Y'));
-        foreach ($_MIDGARD['schema']['types'] as $mgdschema => $dummy)
+        foreach (midcom_connection::get_schema_types() as $mgdschema)
         {
             if (substr($mgdschema, 0, 2) == '__')
             {

@@ -894,7 +894,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             $matching_type = false;
             $matched_types = array();
-            foreach ($_MIDGARD['schema']['types'] as $schema_type => $dummy)
+            foreach (midcom_connection::get_schema_types() as $schema_type)
             {
                 $pos = strpos($schema_type, $this->clever_class);
                 if ($pos !== false)

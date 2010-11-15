@@ -165,22 +165,6 @@ function openpsa_prepare_superglobal()
         'page_style' => '',
     );
 
-    // Get the classes from PHP5 reflection
-    $re = new ReflectionExtension('midgard2');
-    $classes = $re->getClasses();
-    foreach ($classes as $refclass)
-    {
-        $parent_class = $refclass->getParentClass();
-        if (!$parent_class)
-        {
-            continue;
-        }
-        if ($parent_class->getName() == 'midgard_object')
-        {
-            $_MIDGARD['schema']['types'][$refclass->getName()] = '';
-        }
-    }
-
     $_MIDGARD_CONNECTION =& midgard_connection::get_instance();
 }
 

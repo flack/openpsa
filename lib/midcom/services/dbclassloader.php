@@ -405,13 +405,13 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
         }
 
         // First, try the quick way
-        if (array_key_exists(get_class($object), $_MIDGARD['schema']['types']))
+        if (in_array(get_class($object), midcom_connection::get_schema_types()))
         {
             return true;
         }
 
         // Then, do a thorough scan
-        foreach (array_keys($_MIDGARD['schema']['types']) as $mgdschema_class)
+        foreach (midcom_connection::get_schema_types() as $mgdschema_class)
         {
             if (is_a($object, $mgdschema_class))
             {

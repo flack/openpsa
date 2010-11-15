@@ -16,7 +16,7 @@ echo "<p>Current grace period is {$grace_days} days, use ?days=x to set to other
 
 // 1 second before midnight $grace_days ago
 $cut_off = mktime(23, 59, 59, date('n'), date('j')-$grace_days, date('Y'));
-foreach ($_MIDGARD['schema']['types'] as $mgdschema => $dummy)
+foreach (midcom_connection::get_schema_types() as $mgdschema)
 {
     if ($mgdschema == '__midgard_cache')
     {

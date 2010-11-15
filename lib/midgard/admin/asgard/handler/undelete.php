@@ -68,7 +68,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         $data['types'] = array();
-        foreach ($_MIDGARD['schema']['types'] as $type => $int)
+        foreach (midcom_connection::get_schema_types() as $type)
         {
             if (substr($type, 0, 2) == '__')
             {
