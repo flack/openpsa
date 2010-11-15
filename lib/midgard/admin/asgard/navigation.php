@@ -200,7 +200,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                         $label = "#{$child->id}";
                     }
 
-                    echo "<a href=\"{$_MIDGARD['self']}__mfa/asgard/object/{$mode}/{$child->guid}/\" title=\"GUID: {$child->guid}, ID: {$child->id}\">{$icon}{$label}</a>\n";
+                    echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$child->guid}/\" title=\"GUID: {$child->guid}, ID: {$child->id}\">{$icon}{$label}</a>\n";
 
 
                     if ($selected)
@@ -250,7 +250,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
                 $label = "#oid_{$object->id}";
             }
 
-            echo "<a href=\"{$_MIDGARD['self']}__mfa/asgard/object/{$mode}/{$object->guid}/\" title=\"GUID: {$object->guid}, ID: {$object->id}\">{$icon}{$label}</a>\n";
+            echo "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/{$mode}/{$object->guid}/\" title=\"GUID: {$object->guid}, ID: {$object->id}\">{$icon}{$label}</a>\n";
 
             // If there is exactly one root object, show its children, since this is what the user most likely wants to reach
             if ($selected || sizeof($root_objects) == 1)
@@ -271,7 +271,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('asgard_plugin');
         foreach ($customdata as $component => $plugin_config)
         {
-            $this->_request_data['section_url'] = "{$_MIDGARD['self']}__mfa/asgard_{$component}/";
+            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard_{$component}/";
             $this->_request_data['section_name'] = $_MIDCOM->i18n->get_string($plugin_config['name'], $component);
             $class = $plugin_config['class'];
 
@@ -458,7 +458,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         foreach ($label_mapping as $root_type => $label)
         {
             $ref = $this->_get_reflector($root_type);
-            $this->_request_data['section_url'] = "{$_MIDGARD['self']}__mfa/asgard/{$root_type}";
+            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$root_type}";
 
             $this->_request_data['section_name'] = $label;
 
@@ -521,11 +521,11 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
 
         if (in_array($this->_request_data['navigation_type'], $this->expanded_root_types))
         {
-            $this->_request_data['section_url'] = "{$_MIDGARD['self']}__mfa/asgard/{$this->_request_data['navigation_type']}/";
+            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$this->_request_data['navigation_type']}/";
         }
         else
         {
-            $this->_request_data['section_url'] = "{$_MIDGARD['self']}__mfa/asgard/{$this->_request_data['navigation_type']}/";
+            $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$this->_request_data['navigation_type']}/";
         }
 
         $ref = $this->_get_reflector($this->_request_data['navigation_type']);
@@ -533,7 +533,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         // Show the navigation of the requested object
         $root_objects = $ref->get_root_objects();
 
-        $this->_request_data['section_url'] = "{$_MIDGARD['self']}__mfa/asgard/{$this->_request_data['navigation_type']}/";
+        $this->_request_data['section_url'] = midcom_connection::get_url('self') . "__mfa/asgard/{$this->_request_data['navigation_type']}/";
         $this->_request_data['section_name'] = $ref->get_class_label();
 
         if (   is_array($root_objects)

@@ -16,7 +16,7 @@ if (array_key_exists($data['file']->mimetype, $data['attachment_text_types']))
    <?php
 }
 ?>
-<form method="post" action="&(_MIDGARD['uri']:h);" class="datamanager2">
+<form method="post" action="<?php echo midcom_connection::get_url('uri'); ?>" class="datamanager2">
     <div class="form_toolbar">
         <input type="submit" class="delete" name="f_confirm" value="<?php echo $_MIDCOM->i18n->get_string('delete', 'midcom'); ?>" />
         <input type="submit" class="cancel" name="f_cancel" value="<?php echo $_MIDCOM->i18n->get_string('cancel', 'midcom'); ?>" />

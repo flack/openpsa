@@ -168,7 +168,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
     function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_admin_user();
-        $data['hostname'] = $_SERVER['SERVER_NAME'] . $_MIDGARD['prefix'];
+        $data['hostname'] = $_SERVER['SERVER_NAME'] . midcom_connection::get_url('prefix');
 
         if (   isset($args[0])
             && $args[0])

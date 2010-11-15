@@ -159,6 +159,7 @@ if (! defined('MIDCOM_CONFIG_FILE_AFTER'))
 ///////////////////////////////////////
 //Constants, Globals and Configuration
 require(MIDCOM_ROOT . '/constants.php');
+require(MIDCOM_ROOT. '/midcom/connection.php');
 require(MIDCOM_ROOT. '/midcom/config/midcom_config.php');
 ini_set('track_errors', '1');
 /**
@@ -307,10 +308,11 @@ $_MIDCOM->auth = $auth;
 $_MIDCOM->cache = $GLOBALS['midcom_cache'];
 
 // Quick-and-dirty handler for catching attachment serve requests to reduce overhead
-if (   count($_MIDGARD['argv']) > 0
-    && substr($_MIDGARD['argv'][0], 0, 27) == 'midcom-serveattachmentguid-')
+$argv = midcom_connection::get_url('argv');
+if (   midcom_connection::get_url('argc') > 0
+    && substr($argv[0], 0, 27) == 'midcom-serveattachmentguid-')
 {
-    $guid = substr($_MIDGARD['argv'][0], 27);
+    $guid = substr($argv[0], 27);
     $_MIDCOM->_create_context(0);
     $_MIDCOM->dbclassloader->load_classes('midcom', 'legacy_classes.inc', null, true);
     $attachment = new midcom_db_attachment($guid);

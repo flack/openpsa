@@ -318,7 +318,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
                 if (   is_array($parent)
                     && $parent[MIDCOM_NAV_TYPE] == 'node')
                 {
-                    $info['url'] = "{$_MIDGARD['self']}{$parent[MIDCOM_NAV_RELATIVEURL]}{$name}";
+                    $info['url'] = midcom_connection::get_url('self') . $parent[MIDCOM_NAV_RELATIVEURL] . $name;
                 }
             }
         }

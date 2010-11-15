@@ -107,13 +107,13 @@ class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasse
         {
             //We do not have filename in URL, generate one and redirect
             $fname = preg_replace('/[^a-z0-9-]/i', '_', strtolower($this->_topic->extra)) . '_' . date('Y-m-d') . '.csv';
-            if(strpos($_MIDGARD['uri'], '/', strlen($_MIDGARD['uri'])-2))
+            if (strpos(midcom_connection::get_url('uri'), '/', strlen(midcom_connection::get_url('uri')) - 2))
             {
-                $_MIDCOM->relocate("{$_MIDGARD['uri']}{$fname}");
+                $_MIDCOM->relocate(midcom_connection::get_url('uri') . $fname);
             }
             else
             {
-                $_MIDCOM->relocate("{$_MIDGARD['uri']}/{$fname}");
+                $_MIDCOM->relocate(midcom_connection::get_url('uri') . "/{$fname}");
             }
             // This will exit
         }

@@ -18,7 +18,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         ?>
     </p>
 
-    <form enctype="multipart/form-data" action="&(_MIDGARD['uri']);" method="post" class="datamanager">
+    <form enctype="multipart/form-data" action="<?php echo midcom_connection::get_url('uri'); ?>" method="post" class="datamanager">
         <label for="org_openpsa_directmarketing_import_upload">
             <span class="field_text"><?php echo $data['l10n']->get('file to import'); ?></span>
             <input type="file" class="fileselector" name="org_openpsa_directmarketing_import_upload" id="org_openpsa_directmarketing_import_upload" />

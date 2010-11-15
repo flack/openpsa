@@ -434,7 +434,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                 $this->_article->content .= "<p>";
                 $embeds_added = true;
             }
-            $this->_article->content .= "<a href=\"{$_MIDGARD['self']}midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}\">{$attobj->title}</a><br />";
+            $this->_article->content .= "<a href=\"" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}\">{$attobj->title}</a><br />";
         }
         else
         {
@@ -445,7 +445,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                 $this->_article->content .= "\n\n";
                 $attachments_added = true;
             }
-            $this->_article->content .= "[{$attobj->title}]({$_MIDGARD['self']}midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}), ";
+            $this->_article->content .= "[{$attobj->title}](" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}), ";
         }
     }
 

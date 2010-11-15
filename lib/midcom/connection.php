@@ -153,5 +153,77 @@ class midcom_connection
 
         return $user->is_admin();
     }
+
+    /**
+     * Get various pieces of information extracted from the URL 
+     *
+     * @return mixed The data for the requested key or false if it doesn't exist
+     * @todo this should mabe check the key for validity 
+     */
+    static function get_url($key)
+    {
+        if (method_exists('midgard_connection', 'get_instance'))
+        {
+            // Midgard 9.09 or newer
+            if (!array_key_exists($key, self::$_data))
+            {
+                self::_parse_url();
+            }
+
+            if (array_key_exists($key, self::$_data))
+            {
+                return self::$_data[$key];
+            }
+        }
+        else if (array_key_exists($key, $_MIDGARD))
+        {
+            // Midgard 8.09 or 9.03
+            return $_MIDGARD[$key];
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper function that emulates Midgard1 URL parsing. It is pretty basic at this point,
+     * f.x. it doesn't know about host prefixes and pages. 
+     */
+    private static function _parse_url()
+    {
+        $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
+        
+        $path = '/';
+        $path_parts = explode('/', $url_components['path']);
+        
+        $args_started = false;
+        
+        foreach ($path_parts as $part)
+        {
+            if ($part == '')
+            {
+                continue;
+            }
+            // @todo Port the theme part to midgard1
+            if (    isset($_MIDGARD['theme'])
+                 && !$args_started
+                 && is_dir(OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/' . $part))
+            {
+                $_MIDGARD['page_style'] .= '/' . $part;
+            }
+            else
+            {
+                self::$_data['argv'][] = $part;
+                $path .= $part . '/';
+                $args_started = true;
+            }
+        }
+
+        self::$_data['uri'] = $path;
+        // @todo This should be smarter
+        self::$_data['self'] = '/';
+        self::$_data['prefix'] = substr(self::$_data['self'], 0, -1);
+        
+        self::$_data['argc'] = count(self::$_data['argv']);
+    }
 }
 ?>

@@ -51,7 +51,7 @@ switch ($GLOBALS['midcom_config']['toolbars_position_storagemode'])
         break;
     
     case 'cookie':
-        _midcom_setcookie('midcom_services_toolbars_position', $_REQUEST['position_x'] . '_' . $_REQUEST['position_y'], time() + 30 * 24 * 3600, $_MIDGARD['self']);
+        _midcom_setcookie('midcom_services_toolbars_position', $_REQUEST['position_x'] . '_' . $_REQUEST['position_y'], time() + 30 * 24 * 3600, midcom_connection::get_url('self'));
         break;
     
     case 'session':

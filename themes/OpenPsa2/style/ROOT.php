@@ -36,7 +36,7 @@ echo "<?xml version=\"1.0\"?>\n";
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/OpenPsa2/ui.js');
-        $_MIDCOM->add_jscript("var MIDGARD_ROOT = '{$_MIDGARD['self']}';");
+        $_MIDCOM->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
 
         $_MIDCOM->print_head_elements();
 

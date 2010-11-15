@@ -1,5 +1,5 @@
 <h1><?php echo $data['l10n']->get('pending approvals'); ?></h1>
-<form id="net_nehmer_account_pending" method="post" action="&(_MIDGARD['uri']:h);multiple/">
+<form id="net_nehmer_account_pending" method="post" action="<?php echo midcom_connection::get_url('uri'); ?>multiple/">
     <table id="net_nehmer_account_pending_table" class="sortable">
         <thead>
             <tr>

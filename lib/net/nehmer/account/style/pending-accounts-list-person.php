@@ -3,7 +3,7 @@
                     <input type="checkbox" name="persons[]" value="<?php echo $data['person']->guid; ?>" />
                 </td>
                 <td>
-                    <a href="&(_MIDGARD['uri']);<?php echo $data['person']->guid; ?>/"><?php echo $data['person']->rname; ?></a>
+                    <a href="<?php echo midcom_connection::get_url('uri') . $data['person']->guid; ?>/"><?php echo $data['person']->rname; ?></a>
                 </td>
                 <td>
                     <?php echo $data['person']->username; ?>

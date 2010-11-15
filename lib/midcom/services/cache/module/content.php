@@ -462,7 +462,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function _check_hit()
     {
-        foreach ($_MIDGARD['argv'] as $arg)
+        foreach (midcom_connection::get_url('argv') as $arg)
         {
             switch ($arg)
             {

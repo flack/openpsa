@@ -157,7 +157,7 @@ class midcom_application
     private $_client = array();
 
     /**
-     * The prefix which is appended to $_MIDGARD['self'] (i.e. the
+     * The prefix which is appended to midcom_connection::get_url('self') (i.e. the
      * Midgard Page URL).
      *
      * This may be needed when MidCOM is run by wrapper.
@@ -361,7 +361,7 @@ class midcom_application
      *
      * Initialize the Application class. Sets all private variables to a predefined
      * state. $node should be set to the midcom root-node GUID.
-     * $prefix can be a prefix, which is appended to $_MIDGARD['self'] (i.e. the
+     * $prefix can be a prefix, which is appended to midcom_connection::get_url('self') (i.e. the
      * Midgard Page URL). This may be needed when MidCOM is run by wrapper.
      */
     public function initialize()
@@ -462,7 +462,7 @@ class midcom_application
 
         // Parse the URL
         $this->_parsers[$this->_currentcontext] = $this->serviceloader->load('midcom_core_service_urlparser');
-        $this->_parsers[$this->_currentcontext]->parse($_MIDGARD['argv']);
+        $this->_parsers[$this->_currentcontext]->parse(midcom_connection::get_url('argv'));
 
         if (!$this->_parsers[$this->_currentcontext])
         {
@@ -617,11 +617,11 @@ class midcom_application
         if ($pass_get)
         {
             // Include GET parameters into cache URL
-            $this->_set_context_data($_MIDGARD['self'] . $url . '?GET=' . serialize($_GET), $context, MIDCOM_CONTEXT_URI);
+            $this->_set_context_data(midcom_connection::get_url('self') . $url . '?GET=' . serialize($_GET), $context, MIDCOM_CONTEXT_URI);
         }
         else
         {
-            $this->_set_context_data($_MIDGARD['self'] . $url, $context, MIDCOM_CONTEXT_URI);
+            $this->_set_context_data(midcom_connection::get_url('self') . $url, $context, MIDCOM_CONTEXT_URI);
         }
 
         $oldcontext = $this->_currentcontext;
@@ -1335,7 +1335,7 @@ class midcom_application
         if (! $this->_cached_page_prefix)
         {
             $host_name = $this->get_host_name();
-            $this->_cached_page_prefix = "{$host_name}{$_MIDGARD['self']}";
+            $this->_cached_page_prefix = $host_name . midcom_connection::get_url('self');
         }
 
         return $this->_cached_page_prefix;
@@ -1356,7 +1356,7 @@ class midcom_application
         if (! $this->_cached_host_prefix)
         {
             $host_name = $this->get_host_name();
-            $host_prefix = $_MIDGARD['prefix'];
+            $host_prefix = midcom_connection::get_url('prefix');
             if ($host_prefix == '')
             {
                 $host_prefix = '/';

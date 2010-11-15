@@ -240,7 +240,7 @@ function openPsaShowMonthSelector()
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl={$_MIDGARD['uri']}",
+                MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
                 MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',

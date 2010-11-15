@@ -1,7 +1,7 @@
 <div class="main">
      <h1><?php echo sprintf($data['l10n']->get("edit user account: %s %s"), $data['person']->firstname, $data['person']->lastname); ?></h1>
 
-    <form method="post" action="&(_MIDGARD['uri']);" class="datamanager2">
+    <form method="post" action="<?php echo midcom_connection::get_url('uri'); ?>" class="datamanager2">
         <label for="org_openpsa_contacts_person_account_username">
             <span class="field_text"><?php echo $data['l10n']->get("username"); ?></span>
             <input type="text" name="org_openpsa_contacts_person_account_username" id="org_openpsa_contacts_person_account_username" class="shorttext" value="<?php echo $data['person']->username; ?>" />

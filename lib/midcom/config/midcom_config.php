@@ -83,7 +83,7 @@
  * - <b>auth_backend_simple_cookie_id:</b> The ID appended to the cookie prefix, separating
  *   auth cookies for different sites. Defaults to the GUID of the current host.
  * - <b>auth_backend_simple_cookie_path:</b> Controls the valid path of the cookie,
- *   defaults to $_MIDGARD['self'].
+ *   defaults to midcom_connection::get_url('self').
  * - <b>auth_backend_simple_cookie_domain:</b> Controls the valid domain of the cookie.
  *   If it is set to null (the default), no domain is specified in the cookie, making
  *   it a traditional site-specific session cookie. If it is set, the domain parameter
@@ -346,7 +346,7 @@ if (   isset($_MIDGARD['config']['unique_host_name'])
 else
 {
     // Generate host identifier from Midgard host
-    $unique_host_name = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', $_MIDGARD['prefix']);
+    $unique_host_name = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
     $auth_cookie_id = "host{$_MIDGARD['host']}";
 }
 
@@ -370,12 +370,12 @@ $GLOBALS['midcom_config_default']['auth_allow_trusted'] = false;
 $GLOBALS['midcom_config_default']['person_class'] = 'midgard_person';
 
 $GLOBALS['midcom_config_default']['auth_backend_simple_cookie_id'] = $auth_cookie_id;
-$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_path'] = $_MIDGARD['self'];
+$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_path'] = midcom_connection::get_url('self');
 $GLOBALS['midcom_config_default']['auth_backend_simple_cookie_domain'] = null;
 $GLOBALS['midcom_config_default']['auth_backend_simple_cookie_secure'] = true; // set secure flag on cookie (applies only when using SSL)
 
 // Where to redirect the user after a successful login
-$GLOBALS['midcom_config_default']['login_redirect_url'] = $_MIDGARD['self'];
+$GLOBALS['midcom_config_default']['login_redirect_url'] = midcom_connection::get_url('self');
 
 // Cache configuration
 $GLOBALS['midcom_config_default']['cache_base_directory'] = '/tmp/';

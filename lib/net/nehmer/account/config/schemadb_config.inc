@@ -354,7 +354,7 @@
                 ),
                 'orders' => array(),
                 'creation_mode_enabled' => true,
-                'creation_handler' => "{$_MIDGARD['self']}__mfa/asgard/object/create/chooser/midgard_group/",
+                'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_group/",
                 'creation_default_key' => 'official',
             ),   
         ),

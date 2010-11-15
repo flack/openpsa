@@ -1,6 +1,6 @@
 <h1><?php echo sprintf($_MIDCOM->i18n->get_string('edit file %s', 'midgard.admin.asgard'), $data['filename']); ?></h1>
 
-<form method="post" enctype="multipart/form-data" class="datamanager2" action="&(_MIDGARD['uri']:h);" onsubmit="midgard_admin_asgard_file_edit.toggleEditor();">
+<form method="post" enctype="multipart/form-data" class="datamanager2" action="<?php echo midcom_connection::get_url('uri'); ?>" onsubmit="midgard_admin_asgard_file_edit.toggleEditor();">
     <fieldset>
         <legend><?php echo $_MIDCOM->i18n->get_string('upload file', 'midgard.admin.asgard'); ?></legend>
 

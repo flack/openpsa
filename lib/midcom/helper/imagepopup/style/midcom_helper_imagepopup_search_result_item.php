@@ -1,5 +1,5 @@
 <?php
-$prefix = $_MIDGARD['self'];
+$prefix = midcom_connection::get_url('self');
 $item =& $data['result'];
 $mime_icon = null;
 $item_type = "image";

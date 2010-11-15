@@ -22,7 +22,7 @@ $atts = $document->list_attachments();
             // FIXME: This is a messy way of linking into DM-managed files
             if ($file->parameter('midcom.helper.datamanager2.type.blobs', 'fieldname') == 'document')
             {
-                echo "<a target=\"document_{$document->guid}\" href=\"{$_MIDGARD['self']}midcom-serveattachmentguid-{$file->guid}/{$file->name}\">{$file->name}</a> (" . sprintf($_MIDCOM->i18n->get_string('%s document', 'org.openpsa.documents'), $_MIDCOM->i18n->get_string($file->mimetype, 'org.openpsa.documents')).")";
+                echo "<a target=\"document_{$document->guid}\" href=\"" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$file->guid}/{$file->name}\">{$file->name}</a> (" . sprintf($_MIDCOM->i18n->get_string('%s document', 'org.openpsa.documents'), $_MIDCOM->i18n->get_string($file->mimetype, 'org.openpsa.documents')).")";
             }
         }
     }

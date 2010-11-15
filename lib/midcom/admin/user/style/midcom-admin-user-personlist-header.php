@@ -22,7 +22,7 @@
 <?php
 if (count($data['persons']) > 0)
 {
-    $action_uri = $_MIDGARD['uri'];
+    $action_uri = midcom_connection::get_url('uri');
     if (isset($_REQUEST['midcom_admin_user_search']))
     {
         $action_uri .= "?midcom_admin_user_search=" . $_REQUEST['midcom_admin_user_search'];

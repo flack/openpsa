@@ -44,10 +44,10 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             return $tokenized[$original_url];
         }
 
-        if (strlen($_MIDGARD['prefix']) > 1)
+        if (strlen(midcom_connection::get_url('prefix')) > 1)
         {
             // FIXME: Replace only the first instance, there might be others matching the same string
-            $url = str_replace("{$_MIDGARD['prefix']}/", '/', $url);
+            $url = str_replace(midcom_connection::get_url('prefix') . "/", '/', $url);
         }
         if (   $url == ''
             || $url == '/')
@@ -277,7 +277,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      */
     public function get_url()
     {
-        return "{$_MIDGARD['self']}{$this->url}";
+        return midcom_connection::get_url('self') . "{$this->url}";
     }
 
     /**

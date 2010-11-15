@@ -132,7 +132,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         $this->_tree_array_build($this->_request_data['topic_array'], $this->_request_data['root_topic'], $tree_array);
 
         midcom_show_style("show-navigation-start");
-        $this->_show_navigation_tree($tree_array, $_MIDGARD['prefix']);
+        $this->_show_navigation_tree($tree_array, midcom_connection::get_url('prefix'));
         midcom_show_style("show-navigation-end");
 
     }

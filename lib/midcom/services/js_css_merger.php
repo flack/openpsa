@@ -108,7 +108,7 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             return false;
         }
 
-        $url = "{$_MIDGARD['self']}midcom-servejscsscache-js/{$cache_id}.js";
+        $url = midcom_connection::get_url('self') . "midcom-servejscsscache-js/{$cache_id}.js";
         echo '<script type="text/javascript" src="' . $url . '"></script>' . "\n";
         $this->_jsheaders_printed = true;
         debug_pop();
@@ -312,7 +312,7 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
                 debug_pop();
                 return false;
             }
-            $url = "{$_MIDGARD['self']}midcom-servejscsscache-css/{$cache_id}.css";
+            $url = midcom_connection::get_url('self') . "midcom-servejscsscache-css/{$cache_id}.css";
             echo "<link rel='stylesheet' type='text/css' media='{$media}' href='{$url}' />\n";
         }
 

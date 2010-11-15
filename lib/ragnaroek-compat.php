@@ -125,41 +125,6 @@ function mgd_preparse($code)
     return $code;
 }
 
-function openpsa_parse_url()
-{
-    $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
-
-    $path = '/';
-    $path_parts = explode('/', $url_components['path']);
-
-    $args_started = false;
-
-    foreach ($path_parts as $part)
-    {
-        if ($part == '')
-        {
-            continue;
-        }
-        if (    !$args_started
-             && is_dir(OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/' . $part))
-        {
-            $_MIDGARD['page_style'] .= '/' . $part;
-        }
-        else
-        {
-            $_MIDGARD['argv'][] = $part;
-            $path .= $part . '/';
-            $args_started = true;
-        }
-    }
-
-    $_MIDGARD['uri'] = $path;
-    $_MIDGARD['self'] = '/';
-    $_MIDGARD['prefix'] = substr($_MIDGARD['self'], 0, -1);
-
-    $_MIDGARD['argc'] = count($_MIDGARD['argv']);
-}
-
 /**
  * Set up necessary parts of the _MIDGARD superglobal
  */

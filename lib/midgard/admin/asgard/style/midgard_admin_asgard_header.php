@@ -30,7 +30,7 @@ $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
 $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
 $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.draggable.min.js');
 $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/resize.js');
-$_MIDCOM->add_jscript("var MIDGARD_ROOT = '{$_MIDGARD['self']}';");
+$_MIDCOM->add_jscript("var MIDGARD_ROOT = '" . midcom_connection::get_url('self') . "';");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

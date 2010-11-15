@@ -444,7 +444,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                                     'result_headers' => $linked_type_reflector->get_result_headers(),
                                     'orders' => array(),
                                     'creation_mode_enabled' => true,
-                                    'creation_handler' => "{$_MIDGARD['self']}__mfa/asgard/object/create/chooser/{$linked_type}/",
+                                    'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
                                     'creation_default_key' => $linked_type_reflector->get_label_property(),
                                     'generate_path_for' => midcom_helper_reflector::get_name_property($this->_object),
                                 ),
@@ -1310,11 +1310,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
             if ($parent)
             {
-                $_MIDCOM->relocate($_MIDGARD['self'] . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
+                $_MIDCOM->relocate(midcom_connection::get_url('self') . "__mfa/asgard/object/{$data['default_mode']}/{$parent->guid}/");
                 // This will exit()
             }
 
-            $_MIDCOM->relocate($_MIDGARD['self'] . "__mfa/asgard/" . $relocate_url);
+            $_MIDCOM->relocate(midcom_connection::get_url('self') . "__mfa/asgard/" . $relocate_url);
             // This will exit.
         }
 

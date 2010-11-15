@@ -300,21 +300,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         $up_code = 0;
         $create_or_edit = -1;
 
-        //FIXME: Maemo specific hack
-        if (isset($_MIDGARD["argv"][3])
-            && isset($_MIDGARD["argv"][2])
-            && (($_MIDGARD["argv"][2] == "create") || ($_MIDGARD["argv"][1] == "create")))
-        {
-            if ($_MIDGARD["argv"][1] == "create")
-            {
-                $up_code=$_MIDGARD["argv"][2];
-            }
-            else
-            {
-                $up_code=$_MIDGARD["argv"][3];
-            }
-            $create_or_edit = 1;
-        }
         // very ugly, but is needed to work around a midcom argv bug which casts the guid to int.
         global $midgard;
 

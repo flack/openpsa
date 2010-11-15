@@ -7,7 +7,7 @@
     else
     {
         ?>
-        <form method="post" class="datamanager" action="<?php echo $_MIDGARD['uri']; ?>">
+        <form method="post" class="datamanager" action="<?php echo midcom_connection::get_url('uri'); ?>">
             <fieldset class="area">
                 <legend><?php echo $data['event']->title; ?></legend>
                 <label for="org_openpsa_calendar_deleteok">

@@ -426,7 +426,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}__mfa/asgard/object/open/{$topic->guid}/",
+                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$topic->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && $_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),
@@ -507,7 +507,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                     if (   $style
                         && $style->guid)
                     {
-                        $styleeditor_url = "{$_MIDGARD['self']}__mfa/asgard/object/view/{$style->guid}/";
+                        $styleeditor_url = midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$style->guid}/";
                         $enabled = true;
                     }
                 }
@@ -599,7 +599,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}midcom-logout-",
+                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-logout-",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('logout', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'l',
@@ -611,7 +611,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}__mfa/asgard/",
+                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/",
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/asgard2-16.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'a',
@@ -625,7 +625,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}midcom-cache-invalidate",
+                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-cache-invalidate",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('invalidate cache', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                 )
@@ -635,7 +635,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}midcom-exec-midcom/config-test.php",
+                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/config-test.php",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('test settings', 'midcom'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/start-here.png',
                 )
@@ -712,7 +712,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}midcom-exec-midcom/about.php",
+                MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "midcom-exec-midcom/about.php",
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('about midgard', 'midcom.admin.help'),
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_blank'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/logos/midgard-16x16.png',
@@ -837,7 +837,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "{$_MIDGARD['self']}__mfa/asgard/object/open/{$object->guid}/",
+                    MIDCOM_TOOLBAR_URL => midcom_connection::get_url('self') . "__mfa/asgard/object/open/{$object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('manage object', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin', 'midgard.admin.asgard') && $_MIDCOM->auth->can_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin'),

@@ -125,7 +125,7 @@ $_MIDCOM->auth->require_valid_user();
                     ?>
                 </tbody>
             </table>
-            <p>See also list of <a href="<?php echo "{$_MIDGARD['self']}midcom-exec-midcom/credits.php"; ?>">MidCOM Components and Developers</a> or <a href="<?php echo "{$_MIDGARD['self']}__ais/help/midcom/"; ?>">read the documentation</a>.</p>
+            <p>See also list of <a href="<?php echo midcom_connection::get_url('self') . "midcom-exec-midcom/credits.php"; ?>">MidCOM Components and Developers</a> or <a href="<?php echo midcom_connection::get_url('self') . "__ais/help/midcom/"; ?>">read the documentation</a>.</p>
             <?php
             // TODO: Check if MidCOM is up to date
             ?>

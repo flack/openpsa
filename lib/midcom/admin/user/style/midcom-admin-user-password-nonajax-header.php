@@ -1,2 +1,2 @@
-<form method="post" action="&(_MIDGARD['uri']);" class="datamanager2">
+<form method="post" action="<?php echo midcom_connection::get_url('uri'); ?>" class="datamanager2">
 <div class="form">

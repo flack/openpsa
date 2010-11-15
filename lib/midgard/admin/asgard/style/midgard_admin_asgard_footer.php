@@ -13,11 +13,11 @@
                             $creator = new midcom_db_person($view_metadata->get('creator'));
                             $created = (int) $view_metadata->get('created');
 
-                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), "<a href=\"{$_MIDGARD['self']}__mfa/asgard/object/view/{$creator->guid}/\">$creator->name</a>", strftime('%c', $created)) . "\n";
+                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$creator->guid}/\">$creator->name</a>", strftime('%c', $created)) . "\n";
                             if ($edited != $created)
                             {
                                 $revision = $view_metadata->get('revision');
-                                echo sprintf($_MIDCOM->i18n->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), "<a href=\"{$_MIDGARD['self']}__mfa/asgard/object/view/{$editor->guid}/\">$editor->name</a>", strftime('%c', $edited), $revision) . "\n";
+                                echo sprintf($_MIDCOM->i18n->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$editor->guid}/\">$editor->name</a>", strftime('%c', $edited), $revision) . "\n";
                             }
                         }
                         ?>

@@ -194,7 +194,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
                     $wikipage->content .= "\n\n";
                     $embeds_added = true;
                 }
-                $wikipage->content .= "![{$attobj->title}]({$_MIDGARD['self']}midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name})\n\n";
+                $wikipage->content .= "![{$attobj->title}](" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name})\n\n";
             }
             else
             {
@@ -205,7 +205,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
                     $wikipage->content .= "\n\n";
                     $attachments_added = true;
                 }
-                $wikipage->content .= "[{$attobj->title}]({$_MIDGARD['self']}midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}), ";
+                $wikipage->content .= "[{$attobj->title}](" . midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$attobj->guid}/{$attobj->name}), ";
             }
         }
         if (   $embeds_added

@@ -389,7 +389,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             $data[$request_handler_id] = array();
 
             // Build the dynamic_loadable URI, starting from topic path
-            $data[$request_handler_id]['route'] = str_replace($_MIDGARD['prefix'], '', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
+            $data[$request_handler_id]['route'] = str_replace(midcom_connection::get_url('prefix'), '', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
             // Add fixed arguments
             $data[$request_handler_id]['route'] .= implode('/', $request_data['fixed_args']);
             // Add variable_arguments

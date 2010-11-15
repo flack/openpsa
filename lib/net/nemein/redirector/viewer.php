@@ -326,7 +326,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                     // Support varying host prefixes
                     if (strpos($url, '__PREFIX__') !== false)
                     {
-                        $url = str_replace('__PREFIX__', $_MIDGARD['self'], $url);
+                        $url = str_replace('__PREFIX__', midcom_connection::get_url('self'), $url);
                     }
 
                     return $url;

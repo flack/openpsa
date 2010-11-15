@@ -21,7 +21,7 @@ extract($_GET);
 if (!isset($_GET['ajax-form']))
 {
 ?>
-        <form method="get" action="<?php echo $_MIDGARD['uri']; ?>" id="midcom_admin_user_generated_passwords_form">
+        <form method="get" action="<?php echo midcom_connection::get_url('uri'); ?>" id="midcom_admin_user_generated_passwords_form">
             <label for="amount">
                 <span class="label"><?php echo $data['l10n']->get('amount'); ?></span> <input type="text" name="n" id="amount" value="<?php echo $n; ?>" size="2"  maxlength="4" /> (<?php echo sprintf($data['l10n']->get('maximum %s'), $max_amount); ?>)
             </label>

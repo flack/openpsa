@@ -38,7 +38,7 @@ if (!$data['visited'])
             jQuery.ajax
             ({
                 type: "POST",
-                url: "&(_MIDGARD['prefix']);/midcom-exec-org.openpsa.documents/mark_visited.php",
+                url: "<?php echo midcom_connection::get_url('prefix'); ?>/midcom-exec-org.openpsa.documents/mark_visited.php",
                 data: "guid=&(document.guid);"
             });
             window.location.href = "&(att['url']);";

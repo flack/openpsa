@@ -937,7 +937,7 @@ class midcom_helper__styleloader
                 (
                     'rel' => 'stylesheet',
                     'type' => 'text/css',
-                    'href' => "{$_MIDGARD['self']}midcom-serveattachment-{$guid}/{$filename}",
+                    'href' => midcom_connection::get_url('self') . "midcom-serveattachment-{$guid}/{$filename}",
                 )
             );
         }
