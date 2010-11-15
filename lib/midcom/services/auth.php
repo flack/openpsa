@@ -1095,7 +1095,7 @@ class midcom_services_auth
         }
 
         // Keep it silent while missing user object can mess here
-        if (!@$this->_user_cache[$id]->guid)
+        if (@empty($this->_user_cache[$id]->guid))
         {
             $this->_user_cache[$id] = false;
         }
