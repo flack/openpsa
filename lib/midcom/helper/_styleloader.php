@@ -285,6 +285,7 @@ class midcom_helper__styleloader
     function _get_nodes_inheriting_style($node)
     {
         $nodes = array();
+        $child_qb = midcom_db_topic::new_query_builder();
         $child_qb->add_constraint('up', '=', $node->id);
         $child_qb->add_constraint('style', '=', '');
         $children = $child_qb->execute();
