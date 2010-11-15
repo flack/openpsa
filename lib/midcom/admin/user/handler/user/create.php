@@ -108,7 +108,7 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
             debug_print_r('We operated on this object:', $this->_person);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new person, cannot continue. Last Midgard error was: '. midcom_application::get_error_string());
+                'Failed to create a new person, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
         }
 

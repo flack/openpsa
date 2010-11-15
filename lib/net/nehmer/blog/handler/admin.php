@@ -451,7 +451,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             // Deletion confirmed.
             if (! $this->_article->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete article {$args[0]}, last Midgard error was: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete article {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
                 // This will exit.
             }
 

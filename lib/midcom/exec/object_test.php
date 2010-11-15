@@ -8,7 +8,7 @@ function obj_cleanup(&$object)
         $object->purge();
         return true;
     }
-    echo "Deletion failed for {$object->guid}, errstr: " . midcom_application::get_error_string() . "<br>\n";
+    echo "Deletion failed for {$object->guid}, errstr: " . midcom_connection::get_error_string() . "<br>\n";
 }
 
 echo "<h1>Starting tests</h1>\n";
@@ -42,7 +42,7 @@ foreach ($_MIDGARD['schema']['types'] as $mgdschema => $dummy)
     $empty = new $midcom_class();
     if (!$empty->create())
     {
-        echo 'Failed to create "empty" object, errstr: ' . midcom_application::get_error_string() . "<br>\n";
+        echo 'Failed to create "empty" object, errstr: ' . midcom_connection::get_error_string() . "<br>\n";
         continue;
     }
     echo "Created new object<pre>\n";
@@ -51,7 +51,7 @@ foreach ($_MIDGARD['schema']['types'] as $mgdschema => $dummy)
     $empty->metadata->score = 99;
     if (!$empty->update())
     {
-        echo "Update (score=99) failed, errstr: " . midcom_application::get_error_string() . "<br>\n";
+        echo "Update (score=99) failed, errstr: " . midcom_connection::get_error_string() . "<br>\n";
         obj_cleanup($empty);
         continue;
     }

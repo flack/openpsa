@@ -22,8 +22,8 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
     public static function object_inaccessible($guid)
     {
         //catch last error which might be from dbaobject
-        $last_error = midcom_application::get_error();
-        $last_error_string = midcom_application::get_error_string();
+        $last_error = midcom_connection::get_error();
+        $last_error_string = midcom_connection::get_error_string();
 
         if (!mgd_is_guid($guid))
         {

@@ -677,10 +677,10 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
             $_MIDCOM->auth->drop_sudo();
 
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Failed to create a person record, last error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to create a person record, last error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('Tried to create this record:', $this->_person);
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a person record, last error was: ' . midcom_application::get_error_string());
+                'Failed to create a person record, last error was: ' . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -1026,11 +1026,11 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         {
             $_MIDCOM->auth->drop_sudo();
 
-            debug_add('Failed to update a person record, last error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to update a person record, last error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('Tried to update this record:', $this->_person);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to update a person record, last error was: ' . midcom_application::get_error_string());
+                'Failed to update a person record, last error was: ' . midcom_connection::get_error_string());
             // This will exit.
         }
 

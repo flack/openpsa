@@ -126,7 +126,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
             debug_print_r('We operated on this object:', $this->_campaign);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new campaign, cannot continue. Last Midgard error was: ' . midcom_application::get_error_string());
+                'Failed to create a new campaign, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
             // This will exit.
         }
 

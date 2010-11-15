@@ -32,6 +32,6 @@ foreach ($simplexml->country as $id => $countryinfo)
     }
     
     $country->create();
-    echo midcom_application::get_error_string();
+    echo midcom_connection::get_error_string();
 }
 ?>

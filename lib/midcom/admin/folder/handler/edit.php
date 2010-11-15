@@ -177,7 +177,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             debug_print_r('We operated on this object:', $this->_new_topic);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_application::get_error_string());
+                'Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -258,7 +258,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
                         if (! $this->_topic->update())
                         {
-                            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_application::get_error_string()));
+                            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
                             return false;
                         }
 
@@ -310,14 +310,14 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                             {
                                 debug_push_class(__CLASS__, __FUNCTION__);
                                 debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
-                                    midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                                 debug_pop();
                                 $topic = $this->_new_topic;
 
                                 $this->_new_topic->purge();
                                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                                     "Refusing to create this symlink because its target folder was not found: " .
-                                    midcom_application::get_error_string()
+                                    midcom_connection::get_error_string()
                                 );
                                 // This will exit
 
@@ -362,7 +362,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                             // This will exit
                         }
                         $this->_new_topic->name = $name;
-                        while (!$this->_new_topic->update() && midcom_application::get_error() == MGD_ERR_DUPLICATE)
+                        while (!$this->_new_topic->update() && midcom_connection::get_error() == MGD_ERR_DUPLICATE)
                         {
                             $this->_new_topic->name .= "-link";
                         }
@@ -481,10 +481,10 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         if (!$style->create())
         {
-            debug_print_r('Failed to create a new style due to ' . midcom_application::get_error_string(), $style, MIDCOM_LOG_WARN);
+            debug_print_r('Failed to create a new style due to ' . midcom_connection::get_error_string(), $style, MIDCOM_LOG_WARN);
             debug_pop();
 
-            $_MIDCOM->uimessages->add('edit folder', sprintf($_MIDCOM->i18n->get_string('failed to create a new style template: %s', 'midcom.admin.folder'), midcom_application::get_error_string()), 'error');
+            $_MIDCOM->uimessages->add('edit folder', sprintf($_MIDCOM->i18n->get_string('failed to create a new style template: %s', 'midcom.admin.folder'), midcom_connection::get_error_string()), 'error');
             return '';
         }
 

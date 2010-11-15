@@ -101,7 +101,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
             debug_print_r('We operated on this object:', $document);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new document, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new document, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -123,7 +123,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         $this->_defaults = array
         (
             'topic' => $this->_request_data['directory']->id,
-            'author' => $_MIDGARD['user'],
+            'author' => midcom_connection::get_user(),
             'orgOpenpsaAccesstype' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaAccesstype'),
             'orgOpenpsaOwnerWg' => $this->_topic->get_parameter('org.openpsa.core', 'orgOpenpsaOwnerWg'),
         );

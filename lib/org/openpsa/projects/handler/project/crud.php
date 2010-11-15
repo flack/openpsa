@@ -192,7 +192,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 
     function _load_defaults()
     {
-        $this->_defaults['manager'] = $_MIDGARD['user'];
+        $this->_defaults['manager'] = midcom_connection::get_user();
     }
     
     /**
@@ -208,7 +208,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
             debug_print_r('We operated on this object:', $project);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new project, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new project, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 

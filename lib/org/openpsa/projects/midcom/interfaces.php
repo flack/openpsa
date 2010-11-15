@@ -225,7 +225,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         $qbret = @$qb->execute();
         if (!is_array($qbret))
         {
-            debug_add('QB returned with error, aborting, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return;
         }
@@ -266,7 +266,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         $qbret = @$qb->execute();
         if (!is_array($qbret))
         {
-            debug_add('QB returned with error, aborting, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return;
         }
@@ -309,12 +309,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             return false;
         }
 
-        // Set these so that the automatic owner/creator/etc assignments work properly
-        $GLOBALS['midgard_user_backup'] = $_MIDGARD['user'];
-        $_MIDGARD['user'] = $person_id;
-        $GLOBALS['midcom_user_backup'] = $_MIDCOM->auth->user;
-        $_MIDCOM->auth->user = $_MIDCOM->auth->get_user($_MIDGARD['user']);
-
+        //TODO: this should probably have privileges like midgard:owner set to $person_id
         $hr = new org_openpsa_projects_hour_report_dba();
         $hr->task = $task->id;
         $hr->person = $person_id;
@@ -342,9 +337,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         {
             debug_add("failed to create hour_report to task #{$task->id} for person #{$person_id}", MIDCOM_LOG_ERROR);
             debug_pop();
-            // Return correct user
-            $_MIDGARD['user'] = $GLOBALS['midgard_user_backup'];
-            $_MIDCOM->auth->user = $GLOBALS['midcom_user_backup'];
             return false;
         }
         debug_add("created hour_report #{$hr->id}");
@@ -352,9 +344,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         // Create a relatedtolink from hour_report to the object it was created from
         org_openpsa_relatedto_plugin::create($hr, 'org.openpsa.projects', $from_object, $from_component);
 
-        // Return correct user
-        $_MIDGARD['user'] = $GLOBALS['midgard_user_backup'];
-        $_MIDCOM->auth->user = $GLOBALS['midcom_user_backup'];
         debug_pop();
         return true;
     }
@@ -402,7 +391,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             debug_add("Transferred task resource #{$member->id} to person #{$person1->id} (from #{$member->person})", MIDCOM_LOG_INFO);
             if (!$member->update())
             {
-                debug_add("Failed to update task resource #{$member->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update task resource #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -426,7 +415,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             if (!$receipt->update())
             {
                 // Error updating
-                debug_add("Failed to update status #{$receipt->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update status #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -450,7 +439,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             if (!$log->update())
             {
                 // Error updating
-                debug_add("Failed to update hour_report #{$log->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update hour_report #{$log->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -474,7 +463,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             if (!$task->update())
             {
                 // Error updating
-                debug_add("Failed to update task #{$task->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_task_ERROR);
+                debug_add("Failed to update task #{$task->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_task_ERROR);
                 debug_pop();
                 return false;
             }
@@ -501,7 +490,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             if (!$ret)
             {
                 // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

@@ -388,7 +388,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not get target for symlinked topic #{$topic->id}: " .
-                    midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
             }
             $_MIDCOM->auth->drop_sudo();

@@ -88,7 +88,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
     {
         if (!$this->verify_can_reserve())
         {
-            midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
         return true;
@@ -98,7 +98,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
     {
         if (!$this->verify_can_reserve())
         {
-            midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
         return true;

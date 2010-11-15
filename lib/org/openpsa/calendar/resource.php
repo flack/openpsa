@@ -53,7 +53,7 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
     {
         if ($this->_check_duplicates($this->name))
         {
-            midcom_application::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
+            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
         return true;
@@ -63,7 +63,7 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
     {
         if ($this->_check_duplicates($this->name))
         {
-            midcom_application::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
+            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
         return true;

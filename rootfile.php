@@ -30,7 +30,6 @@ require(MIDCOM_ROOT . '/ragnaroek-compat.php');
 openpsa_prepare_superglobal();
 
 midgard_connection::get_instance()->set_loglevel('warn');
-midgard_connection::get_instance()->connect('auth-changed', 'openpsa_auth_changed_callback', array());
 
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';

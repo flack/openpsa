@@ -62,7 +62,7 @@ class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_co
             $stat = $receipt->update();
             if (!$stat)
             {
-                debug_add("FAILED to update receipt #{$receipt->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("FAILED to update receipt #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
 

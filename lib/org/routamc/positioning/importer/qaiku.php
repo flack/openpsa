@@ -134,7 +134,7 @@ class org_routamc_positioning_importer_qaiku extends org_routamc_positioning_imp
 
         $this->log->parameter('org.routamc.positioning:qaiku', 'id', $position['qaiku']);
 
-        $this->error = midcom_application::get_error_string();
+        $this->error = midcom_connection::get_error_string();
         return $stat;
     }
 }

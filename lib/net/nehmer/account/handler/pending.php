@@ -167,7 +167,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
             if (   !$person
                 || !$person->guid)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
             }
 
             $this->persons[$person->guid] =& $person;
@@ -255,7 +255,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
                 if (net_nehmer_account_viewer::send_registration_mail($person, substr($password, 2), $activation_link, $this->_config))
                 {
                     // Remove the parameter that points to a pending approval if necessary
-                    $person->set_parameter('net.nehmer.account', 'require_approval', sprintf('approved by user id %s', $_MIDGARD['user']));
+                    $person->set_parameter('net.nehmer.account', 'require_approval', sprintf('approved by user id %s', midcom_connection::get_user()));
 
 
                     $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.account'), sprintf($this->_l10n->get('%s, message sent to %s'), $this->_l10n_midcom->get('approved'), $person->email));

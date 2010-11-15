@@ -96,7 +96,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             {
                 if (!$metadata->unlock())
                 {
-                    $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), sprintf($_MIDCOM->i18n->get_string('failed to unlock, reason %s', 'midcom.helper.datamanager2'), midcom_application::get_error_string()), 'error');
+                    $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), sprintf($_MIDCOM->i18n->get_string('failed to unlock, reason %s', 'midcom.helper.datamanager2'), midcom_connection::get_error_string()), 'error');
                 }
             }
             else
@@ -199,7 +199,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                     {
                         // It seems to be a critical error.
                         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                            'Failed to save the data to disk, last Midgard error: ' . midcom_application::get_error_string() . '. Check the debug level log for more information.');
+                            'Failed to save the data to disk, last Midgard error: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
                         // This will exit.
                     }
                 }

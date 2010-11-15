@@ -203,7 +203,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
 
         if (!$stat)
         {
-            debug_add('Failed to create, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to create, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return $stat;
         }

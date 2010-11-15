@@ -71,7 +71,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $result = $qb->execute();
         if (count($result) > 0)
         {
-            midcom_application::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
+            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
 

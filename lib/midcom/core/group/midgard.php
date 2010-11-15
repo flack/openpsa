@@ -69,14 +69,14 @@ class midcom_core_group_midgard extends midcom_core_group
             catch (Exception $e)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to retrieve the group GUID {$id}: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }
             if (!$this->_storage->guid)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to retrieve the group GUID {$id}: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }
@@ -95,14 +95,14 @@ class midcom_core_group_midgard extends midcom_core_group
             catch (Exception $e)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to retrieve the group ID {$id}: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }
             if (!$this->_storage->guid)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to retrieve the group ID {$id}: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }
@@ -194,7 +194,7 @@ class midcom_core_group_midgard extends midcom_core_group
             if (! $user)
             {
                 debug_add("The membership record {$member->id} is invalid, the user {$member->uid} is unknown, skipping it.", MIDCOM_LOG_ERROR);
-                debug_add('Last Midgard error was: ' . midcom_application::get_error_string());
+                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
                 debug_print_r('Membership record was:', $member);
                 continue;
             }
@@ -240,14 +240,14 @@ class midcom_core_group_midgard extends midcom_core_group
             catch (Exception $e)
             {
                 debug_add("The group {$gid} is unknown, skipping the membership record.", MIDCOM_LOG_ERROR);
-                debug_add('Last Midgard error was: ' . midcom_application::get_error_string());
+                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
                 continue;
             }
             if (   !$group
                 || !$group->id)
             {
                 debug_add("The membership record is invalid, the group {$gid} is unknown, skipping it.", MIDCOM_LOG_ERROR);
-                debug_add('Last Midgard error was: ' . midcom_application::get_error_string());
+                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
                 continue;
             }
             $return[$group->id] = $group;
@@ -291,7 +291,7 @@ class midcom_core_group_midgard extends midcom_core_group
             if (! $parent->id)
             {
                 debug_add("Could not load Group ID {$this->_storage->owner} from the database, aborting, this should not happen. See the debug level log for details. ("
-                    . midcom_application::get_error_string() . ')',
+                    . midcom_connection::get_error_string() . ')',
                     MIDCOM_LOG_ERROR);
                 debug_print_r('Group that we started from is:', $this->_storage);
                 debug_pop();

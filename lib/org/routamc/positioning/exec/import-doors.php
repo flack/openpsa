@@ -33,7 +33,7 @@ foreach ($doors->entrances as $entrance)
     $location->relation = 20;
     $location->create();
     
-    echo "{$location->building}: " . midcom_application::get_error_string() . "\n";
+    echo "{$location->building}: " . midcom_connection::get_error_string() . "\n";
 }
 echo "</pre>\n";
 ?>

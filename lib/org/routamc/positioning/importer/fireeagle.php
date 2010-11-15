@@ -148,7 +148,7 @@ class org_routamc_positioning_importer_fireeagle extends org_routamc_positioning
         // Try to create the entry
         $stat = $this->log->create();
 
-        $this->error = midcom_application::get_error_string();
+        $this->error = midcom_connection::get_error_string();
         return $stat;
     }
 }

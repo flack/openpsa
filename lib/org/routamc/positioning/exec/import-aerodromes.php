@@ -38,7 +38,7 @@ foreach ($lines as $line)
     $aerodrome->longitude = (float) $aerodromeinfo[6];
     $aerodrome->altitude = (int) $aerodromeinfo[7];
     $aerodrome->create();
-    echo midcom_application::get_error_string();
+    echo midcom_connection::get_error_string();
     flush();
 }
 ?>

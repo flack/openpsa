@@ -249,7 +249,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             }
             else
             {
-                debug_add("Failed to create campaign message from post, reason " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to create campaign message from post, reason " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
         debug_pop();
@@ -300,7 +300,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
                 debug_add("Person #{$person1->id} is already member in campaign #{$member->campaign}, removing membership #{$member->id}", MIDCOM_LOG_INFO);
                 if (!$member->delete())
                 {
-                    debug_add("Could not delete campaign member #{$member->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Could not delete campaign member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                     return false;
                 }
@@ -309,7 +309,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             debug_add("Transferred campaign membership #{$member->id} to person #{$person1->id} (from #{$member->person})", MIDCOM_LOG_INFO);
             if (!$member->update())
             {
-                debug_add("Failed to update campaign member #{$member->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update campaign member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -333,7 +333,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             if (!$receipt->update())
             {
                 // Error updating
-                debug_add("Failed to update receipt #{$receipt->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update receipt #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -357,7 +357,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             if (!$log->update())
             {
                 // Error updating
-                debug_add("Failed to update link #{$log->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update link #{$log->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -395,7 +395,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             if (!$ret)
             {
                 // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

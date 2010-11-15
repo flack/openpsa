@@ -123,7 +123,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 if (!$ret)
                 {
                     $root_event = false;
-                    debug_add('Failed to create OpenPSA root event, reason ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add('Failed to create OpenPSA root event, reason ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     //If we return false here ACL editor etc will choke
                     //return false;
                 }
@@ -348,7 +348,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                     if (!$member->update())
                     {
                         // Failure updating member
-                        debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                        debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                         debug_pop();
                         return false;
                     }
@@ -360,7 +360,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 if (!$member->update())
                 {
                     // Failure updating member
-                    debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                     return false;
                 }
@@ -386,7 +386,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             if (!$ret)
             {
                 // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

@@ -92,7 +92,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             if (!is_array($links))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to fetch tag link(s) for tag \"{$tagstring}\" for object {$object->guid}: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("Failed to fetch tag link(s) for tag \"{$tagstring}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                 debug_pop();
                 continue;
             }
@@ -101,7 +101,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 if (!$link->delete())
                 {
                     debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("Failed to delete tag_link \"{$tagname}\" for object {$object->guid}: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                    debug_add("Failed to delete tag_link \"{$tagname}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                     debug_pop();
                     continue;
                 }
@@ -117,7 +117,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             if (!is_object($tag))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to update tag \"{$tagname}\" for object {$object->guid} (could not get tag object for tag {$tagstring}): " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("Failed to update tag \"{$tagname}\" for object {$object->guid} (could not get tag object for tag {$tagstring}): " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                 debug_pop();
                 continue;
             }
@@ -125,7 +125,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             if (!$tag->update())
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to update tag \"{$tagname}\" for object {$object->guid}: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("Failed to update tag \"{$tagname}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                 debug_pop();
                 continue;
             }
@@ -148,7 +148,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 if (!$tag->create())
                 {
                     debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("Failed to create tag \"{$tagstring}\": " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                    debug_add("Failed to create tag \"{$tagstring}\": " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                     debug_pop();
                     continue;
                 }
@@ -167,7 +167,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             if (!$link->create())
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to create tag_link \"{$tagname}\" for object {$object->guid}: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("Failed to create tag_link \"{$tagname}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                 debug_pop();
                 continue;
             }

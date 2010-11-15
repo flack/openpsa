@@ -173,7 +173,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (!$handle)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to open attachment with mode {$mode}, last Midgard error was:" . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add("Failed to open attachment with mode {$mode}, last Midgard error was:" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_pop();
         }
 
@@ -552,7 +552,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (! $dest)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_pop();
             return false;
         }
@@ -576,7 +576,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (! $dest)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_pop();
             return false;
         }
@@ -603,7 +603,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         if (! $source)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Could not open file for reading.' . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             if (isset($php_errorstr))
             {
                 debug_add("Last PHP error was: {$php_errorstr}", MIDCOM_LOG_WARN);

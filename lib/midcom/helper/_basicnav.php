@@ -507,7 +507,7 @@ class midcom_helper__basicnav
             || !$topic->guid)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Could not load Topic #{$topic_id}: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add("Could not load Topic #{$topic_id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return null;
         }
@@ -523,7 +523,7 @@ class midcom_helper__basicnav
             if (!$topic || !$topic->guid)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Could not load target for symlinked topic {$urltopic->id}: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Could not load target for symlinked topic {$urltopic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 $topic = $urltopic;
             }

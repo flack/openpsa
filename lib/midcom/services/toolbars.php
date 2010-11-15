@@ -619,7 +619,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             )
         );
 
-        if ($_MIDGARD['admin'] == true)
+        if (midcom_connection::is_admin())
         {
             $toolbar->add_item
             (

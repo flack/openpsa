@@ -99,7 +99,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
             if (!$group->create())
             {
-                debug_add("Failed to create group, reason " . midcom_application::get_error_string());
+                debug_add("Failed to create group, reason " . midcom_connection::get_error_string());
                 $this->_request_data['import_status']['failed_create']++;
                 return false;
                 // This will skip to next

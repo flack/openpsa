@@ -475,7 +475,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
                 if (!$update_ret)
                 {
                     //Save failed
-                    $_MIDCOM->uimessages->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_application::get_error_string()), 'error');
+                    $_MIDCOM->uimessages->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
                     break;
                 }
                 //Schedule background members refresh
@@ -599,7 +599,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             if (!$update_ret)
             {
                 //Save failed
-                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_application::get_error_string()), 'error');
+                $_MIDCOM->uimessages->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
                 return true;
             }
 
@@ -728,7 +728,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             // Deletion confirmed.
             if (! $this->_campaign->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete campaign {$args[0]}, last Midgard error was: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete campaign {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
                 // This will exit.
             }
 

@@ -77,7 +77,7 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
             if (!$expense->update())
             {
                 // Error updating
-                debug_add("Failed to update expense #{$expense->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update expense #{$expense->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -102,7 +102,7 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
             if (!$ret)
             {
                 // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

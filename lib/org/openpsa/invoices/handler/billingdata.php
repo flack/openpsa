@@ -164,7 +164,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
             debug_print_r('We operated on this object:', $billing_data);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new billing_data, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new billing_data, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 

@@ -544,7 +544,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         {
             debug_add("You must use import_blob method to import BLOBs", MIDCOM_LOG_ERROR);
             debug_pop();
-            midcom_application::set_error(MGD_ERR_ERROR);
+            midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
         }
         // We need this helper (workaround Zend bug)
@@ -557,7 +557,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         {
             debug_add("Unserialized object " . get_class($unserialized_object) . " is not recognized as supported MgdSchema class.", MIDCOM_LOG_ERROR);
             debug_pop();
-            midcom_application::set_error(MGD_ERR_ERROR);
+            midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
         }
 
@@ -567,7 +567,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot import.", MIDCOM_LOG_ERROR);
             debug_pop();
-            midcom_application::set_error(MGD_ERR_ERROR);
+            midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
         }
 
@@ -581,7 +581,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 $acl_class = get_class($acl_object);
                 $unserialized_class = get_class($unserialized_object);
                 debug_add("The local object we got is not of compatible type ({$acl_class} vs {$unserialized_class}), this means duplicate GUID", MIDCOM_LOG_ERROR);
-                midcom_application::set_error(MGD_ERR_DUPLICATE);
+                midcom_connection::set_error(MGD_ERR_DUPLICATE);
                 debug_pop();
                 return false;
             }
@@ -594,7 +594,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         }
         else
         {
-            $error_code = midcom_application::get_error(); // switch is a loop, get the value only once this way
+            $error_code = midcom_connection::get_error(); // switch is a loop, get the value only once this way
             switch ($error_code)
             {
                 case MGD_ERR_ACCESS_DENIED:
@@ -629,7 +629,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             case ($unserialized_object->action == 'purged'):
                 // Purges not supported yet
                 debug_add("Purges not supported yet (they require extra special love)", MIDCOM_LOG_ERROR);
-                midcom_application::set_error(MGD_ERR_OBJECT_PURGED);
+                midcom_connection::set_error(MGD_ERR_OBJECT_PURGED);
                 debug_pop();
                 return false;
                 break;
@@ -666,9 +666,9 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         {
             debug_add("The _on_importing event handler returned false.", MIDCOM_LOG_ERROR);
             // set errno if not set
-            if (midcom_application::get_error() === MGD_ERR_OK)
+            if (midcom_connection::get_error() === MGD_ERR_OK)
             {
-                midcom_application::set_error(MGD_ERR_ERROR);
+                midcom_connection::set_error(MGD_ERR_ERROR);
             }
             debug_pop();
             return false;
@@ -697,7 +697,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                      * BEGIN workaround
                      * For http://trac.midgard-project.org/ticket/200
                      */
-                    if (midcom_application::get_error() === MGD_ERR_OBJECT_IMPORTED)
+                    if (midcom_connection::get_error() === MGD_ERR_OBJECT_IMPORTED)
                     {
                         debug_add('Trying to workaround problem importing deleted action, calling $acl_object->delete()', MIDCOM_LOG_WARN);
                         if ($acl_object->delete())
@@ -706,12 +706,12 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                             debug_pop();
                             return true;
                         }
-                        debug_add("\$acl_object->delete() failed for {$acl_object->guid}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                        debug_add("\$acl_object->delete() failed for {$acl_object->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                         // reset errno()
-                        midcom_application::set_error(MGD_ERR_OBJECT_IMPORTED);
+                        midcom_connection::set_error(MGD_ERR_OBJECT_IMPORTED);
                     }
                     /** END workaround */
-                    debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                     return false;
                 }
@@ -728,7 +728,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
                 if (!$import_stat)
                 {
-                    debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                     return false;
                 }
@@ -750,7 +750,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
                 if (!$import_stat)
                 {
-                    debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                     return false;
                 }
@@ -769,7 +769,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 break;
             default:
                 debug_add("Do not know how to handle action '{$handle_action}'", MIDCOM_LOG_ERROR);
-                midcom_application::set_error(MGD_ERR_ERROR);
+                midcom_connection::set_error(MGD_ERR_ERROR);
                 debug_pop();
                 return false;
                 break;
@@ -824,11 +824,11 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             return false;
         }
         // Actual import
-        // NOTE: midgard_replicator::import_from_xml returns void, which evaluates to false, check midcom_application::get_error instead
+        // NOTE: midgard_replicator::import_from_xml returns void, which evaluates to false, check midcom_connection::get_error instead
         midcom_helper_replicator_import_from_xml($xml, $use_force);
-        if (midcom_application::get_error() !== MGD_ERR_OK)
+        if (midcom_connection::get_error() !== MGD_ERR_OK)
         {
-            debug_add('midcom_helper_replicator_import_from_xml returned false, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('midcom_helper_replicator_import_from_xml returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }

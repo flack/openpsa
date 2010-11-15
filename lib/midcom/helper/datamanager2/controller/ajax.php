@@ -228,7 +228,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
                 if ($exit)
                 {
-                    echo midcom_application::get_error_string();
+                    echo midcom_connection::get_error_string();
                 }
 
                 break;
@@ -366,7 +366,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                     {
                         // It seems to be a critical error.
                         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                            'Failed to save the data to disk, last midgard error code: ' . midcom_application::get_error_string() . '. Check the debug level log for more information.');
+                            'Failed to save the data to disk, last midgard error code: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
                         // This will exit.
                     }
                 }

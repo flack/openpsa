@@ -47,7 +47,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         $to = $this->_request_data['calendar']->get_day_end();
 
         // List user's event memberships
-        $mc = midcom_db_eventmember::new_collector('uid', $_MIDGARD['user']);
+        $mc = midcom_db_eventmember::new_collector('uid', midcom_connection::get_user());
         $mc->add_value_property('eid');
 
         // Find all events that occur during [$from, $end]

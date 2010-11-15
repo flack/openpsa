@@ -14,8 +14,8 @@ $checked = ' checked="checked"';
         <input type="checkbox"&(checked:h); name="org_openpsa_projects_workflow_dummy" value="true" onchange="this.form.submit()" /><a href="<?php echo $prefix; ?>task/<?php echo $task->guid; ?>/"><?php echo $task->title; ?></a><br />
 
 <?php
-//PONDER: Check ACL in stead ?
-if ($_MIDGARD['user'] == $task->manager)
+//PONDER: Check ACL instead?
+if (midcom_connection::get_user() == $task->manager)
 {
 ?>
     <form method="post" action="<?php echo $prefix; ?>workflow/<?php echo $task->guid; ?>">

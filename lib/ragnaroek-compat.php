@@ -125,21 +125,6 @@ function mgd_preparse($code)
     return $code;
 }
 
-function openpsa_auth_changed_callback()
-{
-    $user = midgard_connection::get_instance()->get_user();
-    if (!$user)
-    {
-        $_MIDGARD['user'] = 0;
-        $_MIDGARD['admin'] = false;
-        return;
-    }
-
-    $person = $user->get_person();
-    $_MIDGARD['user'] = $person->id;
-    $_MIDGARD['admin'] = $user->is_admin();
-}
-
 function openpsa_parse_url()
 {
     $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");

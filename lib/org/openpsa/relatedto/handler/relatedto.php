@@ -62,7 +62,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         if (   !is_object($this->_object)
             || !$this->_object->guid)
         {
-            if (midcom_application::get_error() == MGD_ERR_ACCESS_DENIED)
+            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, $_MIDCOM->i18n->get_string('access denied', 'midcom'));
             }
@@ -814,7 +814,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 }
                 $this->_object->status = ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED;
                 $stat = $this->_object->update();
-                $ajax->simpleReply($stat, 'error:' . midcom_application::get_error_string());
+                $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
                 //this will exit()
             case 'confirm':
                 if (   !$this->_object
@@ -824,7 +824,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 }
                 $this->_object->status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
                 $stat = $this->_object->update();
-                $ajax->simpleReply($stat, 'error:' . midcom_application::get_error_string());
+                $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
                 //this will exit()
             default:
                 $ajax->simpleReply(false, "method '{$this->_mode}' not supported");
@@ -859,12 +859,12 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         if (   !$relation
             || !$relation->guid)
         {
-            $ajax->simpleReply(false, "Object '{$args[0]}' could not be loaded, error:" . midcom_application::get_error_string());
+            $ajax->simpleReply(false, "Object '{$args[0]}' could not be loaded, error:" . midcom_connection::get_error_string());
             //this will exit()
         }
 
         $stat = $relation->delete();
-        $ajax->simpleReply($stat, 'Last message: ' . midcom_application::get_error_string());
+        $ajax->simpleReply($stat, 'Last message: ' . midcom_connection::get_error_string());
         //this will exit()
 
         return true;

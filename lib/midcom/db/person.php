@@ -142,7 +142,7 @@ class midcom_db_person extends midcom_core_dbaobject
                 if (! $membership->delete())
                 {
                     debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("Failed to delete membership record {$membership->id}, last Midgard error was: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to delete membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                 }
             }
@@ -159,7 +159,7 @@ class midcom_db_person extends midcom_core_dbaobject
                 if (! $membership->delete())
                 {
                     debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                 }
             }
@@ -260,7 +260,7 @@ class midcom_db_person extends midcom_core_dbaobject
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to add the person {$this->id} to group {$name}, object could not be created.", MIDCOM_LOG_WARN);
-            debug_add('Last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_print_r('Tried to create this object:', $member);
             debug_pop();
             return false;

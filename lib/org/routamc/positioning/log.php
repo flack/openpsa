@@ -82,7 +82,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
             debug_add("Not saving log, previous log \"{$previous->guid}\" on same day is in same place.",
                     MIDCOM_LOG_WARN);
             debug_pop();
-            midcom_application::set_error(MGD_ERR_DUPLICATE);
+            midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }
         return parent::_on_creating();

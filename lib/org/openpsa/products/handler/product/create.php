@@ -125,7 +125,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
             debug_print_r('We operated on this object:', $this->_product);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new product under product group #{$this->_request_data['up']}, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new product under product group #{$this->_request_data['up']}, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 

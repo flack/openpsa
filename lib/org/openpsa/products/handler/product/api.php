@@ -260,13 +260,13 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         if (   !$this->_product
             || !$this->_product->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create product: ' . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create product: ' . midcom_connection::get_error_string());
             // This will exit
         }
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {
-            $errstr = midcom_application::get_error_string();
+            $errstr = midcom_connection::get_error_string();
             $this->_product->delete();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize DM2 for product: {$errstr}");
             // This will exit
@@ -282,13 +282,13 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         if (!$this->_datamanager->save())
         {
-            $errstr = midcom_application::get_error_string();
+            $errstr = midcom_connection::get_error_string();
             $this->_product->delete();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create product: {$errstr}");
             // This will exit
         }
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product created: ' . midcom_application::get_error_string());
+        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product created: ' . midcom_connection::get_error_string());
         // This will exit
     }
 
@@ -312,7 +312,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize DM2 for product: ' . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize DM2 for product: ' . midcom_connection::get_error_string());
             // This will exit
         }
 
@@ -326,11 +326,11 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         if (!$this->_datamanager->save())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to update product: ' . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to update product: ' . midcom_connection::get_error_string());
             // This will exit
         }
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product updated: ' . midcom_application::get_error_string());
+        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product updated: ' . midcom_connection::get_error_string());
         // This will exit
     }
 
@@ -360,7 +360,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         if (!$this->_product->delete())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to delete product: ' . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to delete product: ' . midcom_connection::get_error_string());
             // This will exit
         }
 
@@ -368,7 +368,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         $indexer = $_MIDCOM->get_service('indexer');
         $indexer->delete($this->_product->guid);
 
-        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product deleted: ' . midcom_application::get_error_string());
+        $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product deleted: ' . midcom_connection::get_error_string());
         // This will exit
     }
 

@@ -215,7 +215,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
             if (!$product->create())
             {
-                debug_add("Failed to create product, reason " . midcom_application::get_error_string());
+                debug_add("Failed to create product, reason " . midcom_connection::get_error_string());
                 $this->_request_data['import_status']['failed_create']++;
                 return false;
                 // This will skip to next

@@ -192,7 +192,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
                     $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
                     if (!$sd->create())
                     {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}".midcom_application::get_error_string());
+                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}".midcom_connection::get_error_string());
                     }
                     $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
                     unset($sd);
@@ -207,7 +207,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
                     $sd->name = $args[0];
                     if (!$sd->create())
                     {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$args[0]}".midcom_application::get_error_string());
+                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$args[0]}".midcom_connection::get_error_string());
                     }
                     $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
                     unset($sd);
@@ -222,7 +222,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
                     $sn->name = "config";
                     if (!$sn->create())
                     {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create config snippet".midcom_application::get_error_string());
+                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create config snippet".midcom_connection::get_error_string());
                     }
                     $snippet = new midcom_db_snippet($sn->id);
                 }

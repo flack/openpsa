@@ -125,7 +125,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             else
             {
                 // Failure, give a message
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("failed to create user account, reason ").midcom_application::get_error_string(), 'error');
+                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("failed to create user account, reason ").midcom_connection::get_error_string(), 'error');
             }
         }
         else if (array_key_exists('midcom_helper_datamanager2_cancel', $_POST))
@@ -228,7 +228,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
-        if ($this->_person->id != $_MIDGARD['user'] && !$_MIDGARD['admin'])
+        if ($this->_person->id != midcom_connection::get_user() && !midcom_connection::is_admin())
         {
             return false;
         }
@@ -284,7 +284,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
                 else
                 {
                     // Failure, give a message
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("failed to update user account, reason ") . midcom_application::get_error_string(), 'error');
+                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("failed to update user account, reason ") . midcom_connection::get_error_string(), 'error');
                 }
             }
             else

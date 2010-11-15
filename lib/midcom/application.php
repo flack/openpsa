@@ -382,7 +382,7 @@ class midcom_application
 
         if (!$root_node->guid)
         {
-            if (midcom_application::get_error() == MGD_ERR_ACCESS_DENIED)
+            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
             {
                 $this->generate_error(MIDCOM_ERRFORBIDDEN,
                     $this->i18n->get_string('access denied', 'midcom'));
@@ -399,7 +399,7 @@ class midcom_application
                 {
                     $this->generate_error(MIDCOM_ERRCRIT,
                         "Fatal error: Unable to load website root folder with GUID '{$GLOBALS['midcom_config']['midcom_root_topic_guid']}'.<br />" .
-                        'Last Midgard Error was: ' . midcom_application::get_error_string());
+                        'Last Midgard Error was: ' . midcom_connection::get_error_string());
                     // This will exit.
                 }
                 $root_node = $topics[0];
@@ -799,7 +799,7 @@ class midcom_application
                         if (   !$attachment
                             && !$attachment->guid)
                         {
-                            $this->generate_error(MIDCOM_ERRNOTFOUND, 'Failed to access attachment: ' . midcom_application::get_error_string());
+                            $this->generate_error(MIDCOM_ERRNOTFOUND, 'Failed to access attachment: ' . midcom_connection::get_error_string());
                         }
 
                         if (!$attachment->can_do('midgard:autoserve_attachment'))
@@ -995,7 +995,7 @@ class midcom_application
         if (! $success)
         {
             // We couldn't fetch a node due to access restrictions. Fall only for real pages. Ignore dynamic loads.
-            if (   midcom_application::get_error() == MGD_ERR_ACCESS_DENIED
+            if (   midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED
                 && $this->get_current_context() == 0)
             {
                 $this->generate_error(MIDCOM_ERRFORBIDDEN, $this->i18n->get_string('access denied', 'midcom'));
@@ -1146,9 +1146,9 @@ class midcom_application
         if (! $component_interface->configure($config, $this->_currentcontext))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add ("Component Configuration failed: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add ("Component Configuration failed: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
-            $this->generate_error(MIDCOM_ERRCRIT, "Component Configuration failed: " . midcom_application::get_error_string());
+            $this->generate_error(MIDCOM_ERRCRIT, "Component Configuration failed: " . midcom_connection::get_error_string());
         }
 
         // Make can_handle check
@@ -1988,87 +1988,6 @@ class midcom_application
      */
 
     /**
-     * Check whether Midgard database connection exists
-     *
-     * @return boolean
-     */
-    static function is_connected()
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return midgard_connection::get_instance()->is_connected();
-        }
-        // Midgard 8.09 or 9.03
-        return true;
-    }
-
-    /**
-     * Set Midgard log level
-     *
-     * @param string $loglevel Midgard log level
-     */
-    static function set_loglevel($loglevel)
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return midgard_connection::get_instance()->set_loglevel($loglevel);
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::set_loglevel($loglevel);
-    }
-
-
-    /**
-     * Set Midgard error code
-     *
-     * @param int $errorcode Midgard error code
-     */
-    static function set_error($errorcode)
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return midgard_connection::get_instance()->set_error($errorcode);
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::set_error($errorcode);
-    }
-
-    /**
-     * Get Midgard error code
-     *
-     * @return int Midgard error code
-     */
-    static function get_error()
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return midgard_connection::get_instance()->get_error();
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::get_error();
-    }
-
-    /**
-     * Get Midgard error message
-     *
-     * @return string Midgard error message
-     */
-    static function get_error_string()
-    {
-        if (method_exists('midgard_connection', 'get_instance'))
-        {
-            // Midgard 9.09 or newer
-            return midgard_connection::get_instance()->get_error_string();
-        }
-        // Midgard 8.09 or 9.03
-        return midgard_connection::get_error_string();
-    }
-
-    /**
      * Generate an error page.
      *
      * This function is a small helper, that will display a simple HTML Page reporting
@@ -2249,7 +2168,7 @@ class midcom_application
         if (! $f)
         {
             debug_pop();
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open attachment for reading: ' . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open attachment for reading: ' . midcom_connection::get_error_string());
             // This will exit()
         }
 

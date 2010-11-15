@@ -260,7 +260,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             if (!$person->create())
             {
                 $this->_request_data['new_objects']['person'] =& $person;
-                debug_add("Failed to create person, reason " . midcom_application::get_error_string());
+                debug_add("Failed to create person, reason " . midcom_connection::get_error_string());
                 $this->_request_data['import_status']['failed_create']++;
                 return false;
                 // This will skip to next
@@ -401,7 +401,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             if (!$organization->create())
             {
                 $this->_request_data['new_objects']['organization'] =& $organization;
-                debug_add("Failed to create organization, reason " . midcom_application::get_error_string());
+                debug_add("Failed to create organization, reason " . midcom_connection::get_error_string());
                 return null;
             }
         }
@@ -439,7 +439,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             if (!$member->create())
             {
                 $this->_request_data['new_objects']['organization_member'] =& $member;
-                debug_add("Failed to create organization member, reason " . midcom_application::get_error_string());
+                debug_add("Failed to create organization member, reason " . midcom_connection::get_error_string());
                 return false;
             }
         }

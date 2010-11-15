@@ -268,7 +268,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
-            debug_add('Last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+            debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             debug_pop();
             return;
         }
@@ -725,7 +725,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         if (! $this->attachments[$identifier]->update())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Failed to update the attachment title: Last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+            debug_add('Failed to update the attachment title: Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             debug_pop();
             return false;
         }

@@ -115,7 +115,7 @@ if (   array_key_exists('msisdn', $_GET)
         }
         else
         {
-            org_routamc_positioning_send_sms($person->handphone, 'Failed to delete log, reason ' . midcom_application::get_error_string(), $config->get('smslib_from'), $config);
+            org_routamc_positioning_send_sms($person->handphone, 'Failed to delete log, reason ' . midcom_connection::get_error_string(), $config->get('smslib_from'), $config);
         }
         $_MIDCOM->auth->drop_sudo();
         $_MIDCOM->finish();

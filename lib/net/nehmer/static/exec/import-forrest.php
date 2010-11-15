@@ -277,7 +277,7 @@ class net_nehmer_static_import_forrest
             $topic->name = $folder->name;
             if (!$topic->create())
             {
-                echo "Failed to create folder {$folder->name}: " . midcom_application::get_error_string() . "\n";
+                echo "Failed to create folder {$folder->name}: " . midcom_connection::get_error_string() . "\n";
                 return false;
             }
             echo "Created folder {$topic->name} (#{$topic->id}) under #{$topic->up}\n";
@@ -332,7 +332,7 @@ class net_nehmer_static_import_forrest
             $article->name = $file->name;
             if (!$article->create())
             {
-                echo "Failed to create article {$article->name}: " . midcom_application::get_error_string() . "\n";
+                echo "Failed to create article {$article->name}: " . midcom_connection::get_error_string() . "\n";
                 return false;
             }
             echo "Created article {$article->name} (#{$article->id}) under #{$article->topic}\n";

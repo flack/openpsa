@@ -164,7 +164,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
             debug_print_r('We operated on this object:', $salesproject);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new invoice, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -249,7 +249,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
         $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
-        $this->_defaults['owner'] = $_MIDGARD['user']; 
+        $this->_defaults['owner'] = midcom_connection::get_user(); 
 
         if (!isset($this->_datamanager))
         {

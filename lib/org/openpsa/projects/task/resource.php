@@ -274,7 +274,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             return $task_array;
         }
 
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', (int) $_MIDGARD['user']);
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
         $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_PROJECT);

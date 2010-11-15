@@ -167,7 +167,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $sd->name = preg_replace("/^\//", "", $sd->name);
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_connection::get_error_string());
             }
             $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
@@ -181,7 +181,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $sd->name = 'org.openpsa.core';
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/org.openpsa.core: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/org.openpsa.core: " . midcom_connection::get_error_string());
             }
             $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }

@@ -89,7 +89,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             $task = new org_openpsa_projects_task_dba();
             $task->get_members();
             $task->resources[$invoice_sender->id] = true;
-            $task->manager = $_MIDGARD['user'];
+            $task->manager = midcom_connection::get_user();
             // TODO: Connect the customer as the contact?
             $task->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_TASK;
             $task->title = sprintf($_MIDCOM->i18n->get_string('send invoice %s', 'org.openpsa.invoices'), sprintf($config->get('invoice_number_format'), sprintf($config->get('invoice_number_format'), $this->number)));
@@ -158,7 +158,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             if (!$hour->update())
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to remove invoice hour record {$hour->id}, last Midgard error was: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to remove invoice hour record {$hour->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
             }
         }
@@ -386,7 +386,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             if (!$_MIDCOM->componentloader->load('org.openpsa.invoices'))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to load org.openpsa.invoices: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to load org.openpsa.invoices: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

@@ -40,7 +40,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
             unset($qb);
             if (!is_array($objects))
             {
-                debug_add("QB failed fatally on class {$mgdschema}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("QB failed fatally on class {$mgdschema}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 continue;
             }
             $found = count($objects);
@@ -49,7 +49,7 @@ class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handle
             {
                 if (!$obj->purge())
                 {
-                    debug_add("Failed to purge {$mgdschema} {$obj->guid}, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to purge {$mgdschema} {$obj->guid}, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_print_r('Failed object', $obj);
                     continue;
                 }

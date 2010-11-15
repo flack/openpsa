@@ -60,7 +60,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
             $stat = $query->delete();
             if (!$stat)
             {
-                debug_add("FAILED to delete query #{$query->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("FAILED to delete query #{$query->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
 

@@ -102,7 +102,7 @@ class org_openpsa_projects_workflow
 
         if (!$ret)
         {
-            debug_add('failed to create status object, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add('failed to create status object, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
         }
         debug_pop();
         return $ret;
@@ -136,7 +136,7 @@ class org_openpsa_projects_workflow
     static function accept(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->accept() called with user #{$_MIDGARD['user']}");
+        debug_add("task->accept() called with user #" . midcom_connection::get_user());
         debug_pop();
 
         return self::create_status($task, ORG_OPENPSA_TASKSTATUS_ACCEPTED, 0, $comment);
@@ -150,10 +150,10 @@ class org_openpsa_projects_workflow
     static function decline(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->decline() called with user  #{$_MIDGARD['user']}");
+        debug_add("task->decline() called with user #" . midcom_connection::get_user());
         debug_pop();
 
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_DECLINED, $_MIDGARD['user'], $comment);
+        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_DECLINED, midcom_connection::get_user(), $comment);
     }
 
     /**
@@ -164,7 +164,7 @@ class org_openpsa_projects_workflow
     static function start(&$task, $started_by = 0)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->start() called with user #{$_MIDGARD['user']}");
+        debug_add("task->start() called with user #" . midcom_connection::get_user());
         //PONDER: Check actual status objects for more accurate logic ?
         if (   $task->status >= ORG_OPENPSA_TASKSTATUS_STARTED
             && $task->status <= ORG_OPENPSA_TASKSTATUS_APPROVED)
@@ -186,7 +186,7 @@ class org_openpsa_projects_workflow
     static function complete(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->complete() called with user #{$_MIDGARD['user']}");
+        debug_add("task->complete() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables
         if(!self::create_status($task, ORG_OPENPSA_TASKSTATUS_COMPLETED, 0, $comment))
         {
@@ -194,7 +194,7 @@ class org_openpsa_projects_workflow
             return false;
         }
         //PONDER: Check ACL instead ?
-        if ($_MIDGARD['user'] == $task->manager)
+        if (midcom_connection::get_user() == $task->manager)
         {
             //Manager marking task completed also approves it at the same time
             debug_add('We\'re the manager of this task, approving straight away');
@@ -214,7 +214,7 @@ class org_openpsa_projects_workflow
     static function remove_complete(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->remove_complete() called with user #{$_MIDGARD['user']}");
+        debug_add("task->remove_complete() called with user #" . midcom_connection::get_user());
         if ($task->status != ORG_OPENPSA_TASKSTATUS_COMPLETED)
         {
             //Status is not completed, we can't remove that status.
@@ -251,12 +251,12 @@ class org_openpsa_projects_workflow
     static function approve(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->approve() called with user #{$_MIDGARD['user']}");
+        debug_add("task->approve() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
-        //PONDER: Check ACL in stead ?
-        if ($_MIDGARD['user'] != $task->manager)
+        //PONDER: Check ACL instead ?
+        if (midcom_connection::get_user() != $task->manager)
         {
-            debug_add("Current user #{$_MIDGARD['user']} is not manager of task, thus cannot approve", MIDCOM_LOG_ERROR);
+            debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot approve", MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -273,12 +273,12 @@ class org_openpsa_projects_workflow
     static function reject(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->reject() called with user #{$_MIDGARD['user']}");
+        debug_add("task->reject() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
         //PONDER: Check ACL in stead ?
-        if ($_MIDGARD['user'] != $task->manager)
+        if (midcom_connection::get_user() != $task->manager)
         {
-            debug_add("Current user #{$_MIDGARD['user']} is not manager of task, thus cannot reject", MIDCOM_LOG_ERROR);
+            debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot reject", MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -294,7 +294,7 @@ class org_openpsa_projects_workflow
     static function remove_approve(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->remove_approve() called with user #{$_MIDGARD['user']}");
+        debug_add("task->remove_approve() called with user #" . midcom_connection::get_user());
         if ($task->status != ORG_OPENPSA_TASKSTATUS_APPROVED)
         {
             debug_add('Task is not approved, aborting');
@@ -313,12 +313,12 @@ class org_openpsa_projects_workflow
     static function close(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->close() called with user #{$_MIDGARD['user']}");
+        debug_add("task->close() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / require to be approved first
-        //PONDER: Check ACL in stead ?
-        if ($_MIDGARD['user'] != $task->manager)
+        //PONDER: Check ACL instead?
+        if (midcom_connection::get_user() != $task->manager)
         {
-            debug_add("Current user #{$_MIDGARD['user']} is not manager of task, thus cannot close", MIDCOM_LOG_ERROR);
+            debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot close", MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -360,7 +360,7 @@ class org_openpsa_projects_workflow
     static function reopen(&$task, $comment = '')
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->reopen() called with user #{$_MIDGARD['user']}");
+        debug_add("task->reopen() called with user #" . midcom_connection::get_user());
         if ($task->status != ORG_OPENPSA_TASKSTATUS_CLOSED)
         {
             debug_add('Task is not closed, aborting');
@@ -379,7 +379,7 @@ class org_openpsa_projects_workflow
     static function mark_invoiced(&$task, &$invoice)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add("task->mark_invoiced() called with user #{$_MIDGARD['user']}");
+        debug_add("task->mark_invoiced() called with user #" . midcom_connection::get_user());
         // Register a relation between the invoice and the task
         org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $task, 'org.openpsa.projects');
 
@@ -429,7 +429,7 @@ class org_openpsa_projects_workflow
         // Update hour caches to agreement
         if (!$task->update_cache())
         {
-            debug_add('Failed to update task hour caches, last Midgard error: ' . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add('Failed to update task hour caches, last Midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
         }
 
         // Notify user

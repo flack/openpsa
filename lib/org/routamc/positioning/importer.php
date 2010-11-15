@@ -22,14 +22,14 @@ class org_routamc_positioning_importer extends midcom_baseclasses_components_pur
     var $log = null;
 
     /**
-     * Error code from trying to import. Either a midcom_application::get_error_string() or an additional error code from component
+     * Error code from trying to import. Either a midcom_connection::get_error_string() or an additional error code from component
      *
      * @var string
      */
     var $error = 'MGD_ERR_OK';
     
     /**
-     * Error string from trying to import. Either a midcom_application::get_error_string() or an additional error code from component
+     * Error string from trying to import. Either a midcom_connection::get_error_string() or an additional error code from component
      *
      * @var string
      */

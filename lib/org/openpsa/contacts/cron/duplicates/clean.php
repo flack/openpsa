@@ -53,7 +53,7 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
                 $stat = $param->delete();
                 if (!$stat)
                 {
-                    debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to delete parameter {$param->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }
             }
         }

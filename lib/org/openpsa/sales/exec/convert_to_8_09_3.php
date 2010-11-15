@@ -50,7 +50,7 @@ foreach($results as $salesproject)
         }
         else
         {
-            echo "Sales Project #{$salesproject->id} couldn't be updated, last midgard error: " . midcom_application::get_error_string() . "\n";
+            echo "Sales Project #{$salesproject->id} couldn't be updated, last midgard error: " . midcom_connection::get_error_string() . "\n";
             _midcom_stop_request();
         }
     }

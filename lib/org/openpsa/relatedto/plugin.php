@@ -82,7 +82,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         $stat = $rel->create();
         if (!$stat)
         {
-            debug_add("failed to create link from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$from_object->guid}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add("failed to create link from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$from_object->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_pop();
             return $stat;
         }

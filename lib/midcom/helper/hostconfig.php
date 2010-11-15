@@ -139,7 +139,7 @@ class midcom_helper_hostconfig
             {
                 if (function_exists('debug_add'))
                 {
-                    debug_add("Failed to store configuration key {$key} as parameter: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to store configuration key {$key} as parameter: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }
                 $status = false;
             }
@@ -150,7 +150,7 @@ class midcom_helper_hostconfig
         {
             if (function_exists('debug_add'))
             {
-                debug_add("Failed to store configuration version as parameter: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to store configuration version as parameter: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
             $status = false;
         }

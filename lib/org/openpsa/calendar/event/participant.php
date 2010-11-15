@@ -58,7 +58,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
             $event = $this->get_event_obj();
         }
 
-        if (   ($recipient->id == $_MIDGARD['user'])
+        if (   ($recipient->id == midcom_connection::get_user())
             && !$event->send_notify_me)
         {
             //Do not send notification to current user

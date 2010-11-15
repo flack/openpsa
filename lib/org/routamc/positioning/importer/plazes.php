@@ -171,7 +171,7 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
 
         $this->log->parameter('org.routamc.positioning:plazes', 'plaze_key', $position['plaze']);
 
-        $this->error = midcom_application::get_error_string();
+        $this->error = midcom_connection::get_error_string();
         return $stat;
     }
 }

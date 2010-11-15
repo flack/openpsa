@@ -36,7 +36,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
             {
                 $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_add'], 1);
             }
-            $errstr = midcom_application::get_error_string();
+            $errstr = midcom_connection::get_error_string();
         }
         else if (array_key_exists('org_openpsa_calendar_filters_remove', $_POST))
         {
@@ -45,7 +45,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
             {
                 $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_remove'], '');
             }
-            $errstr = midcom_application::get_error_string();
+            $errstr = midcom_connection::get_error_string();
         }
 
         $ajax = new org_openpsa_helpers_ajax();
@@ -67,7 +67,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
         $_MIDCOM->auth->require_valid_user();
         
         // Get the current user
-        $this->_person = new midcom_db_person($_MIDGARD['user']);
+        $this->_person = new midcom_db_person(midcom_connection::get_user());
         $this->_person->require_do('midgard:update');
         
         // Load the schema database

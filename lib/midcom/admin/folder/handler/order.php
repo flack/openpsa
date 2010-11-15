@@ -114,7 +114,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                     $_MIDCOM->load_library('midcom.helper.reflector');
                     $reflector =& midcom_helper_reflector::get($object);
                     $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_application::get_error_string()), 'error');
+                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
                     $success = false;
                     continue;
                 }

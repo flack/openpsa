@@ -27,7 +27,7 @@ foreach ($tasks as $task)
     }
     else
     {
-        echo "ERROR: " . midcom_application::get_error_string();
+        echo "ERROR: " . midcom_connection::get_error_string();
     }
     echo "<br />\n";
 }

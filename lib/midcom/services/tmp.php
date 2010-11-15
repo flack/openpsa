@@ -94,7 +94,7 @@ class midcom_services_tmp extends midcom_baseclasses_core_object
             debug_print_r('Tried to create this object:', $tmp);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new temporary object, last Midgard error was: ' . midcom_application::get_error_string());
+                'Failed to create a new temporary object, last Midgard error was: ' . midcom_connection::get_error_string());
             // This will exit.
         }
 

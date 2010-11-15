@@ -83,7 +83,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_accept()
     {
         $stat = org_openpsa_projects_workflow::accept($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -106,7 +106,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_decline()
     {
         $stat = org_openpsa_projects_workflow::decline($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -129,7 +129,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_complete()
     {
         $stat = org_openpsa_projects_workflow::complete($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -152,7 +152,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_remove_complete()
     {
         $stat = org_openpsa_projects_workflow::remove_complete($this->_request_data['task']);;
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -175,7 +175,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_approve()
     {
         $stat = org_openpsa_projects_workflow::approve($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -198,7 +198,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_remove_approve()
     {
         $stat = org_openpsa_projects_workflow::remove_approve($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -221,7 +221,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_reject()
     {
         $stat = org_openpsa_projects_workflow::reject($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -244,7 +244,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_close()
     {
         $stat = org_openpsa_projects_workflow::close($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':
@@ -267,7 +267,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
     private function _handle_reopen()
     {
         $stat = org_openpsa_projects_workflow::reopen($this->_request_data['task']);
-        $errstr = midcom_application::get_error_string();
+        $errstr = midcom_connection::get_error_string();
         switch($this->_request_data['reply_mode'])
         {
             case 'ajax':

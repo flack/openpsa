@@ -81,7 +81,7 @@ class midcom_services__sessioning
 
         if (   !$GLOBALS['midcom_config']['sessioning_service_enable']
             && !(   $GLOBALS['midcom_config']['sessioning_service_always_enable_for_users']
-                 && $_MIDGARD['user']
+                 && midcom_connection::get_user()
                  )
             )
         {

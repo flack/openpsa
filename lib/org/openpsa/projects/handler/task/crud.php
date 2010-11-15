@@ -417,7 +417,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
     function _load_defaults()
     {
-        $this->_defaults['manager'] = $_MIDGARD['user'];
+        $this->_defaults['manager'] = midcom_connection::get_user();
     }
 
     /**
@@ -444,7 +444,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             debug_print_r('We operated on this object:', $task);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new task under project #{$this->_request_data['project']->id}, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new task under project #{$this->_request_data['project']->id}, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 

@@ -79,7 +79,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             $mret = $interface->$method($args, $this);
             if ($mret !== true)
             {
-                $error = "\$interface->{$method}(\$args, \$this) returned '{$mret}', errstr: " . midcom_application::get_error_string();
+                $error = "\$interface->{$method}(\$args, \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
                 $this->print_error($error);
                 debug_add($error, MIDCOM_LOG_ERROR);
                 debug_add('$interface is ' . get_class($interface));

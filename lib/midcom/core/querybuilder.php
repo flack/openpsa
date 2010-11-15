@@ -297,7 +297,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         {
             $this->_qb_error_result = $result;
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             if (isset($php_errormsg))
             {
                 debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
@@ -322,10 +322,10 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
 
             // Check read privileges
-            if (midcom_application::get_error() === MGD_ERR_ACCESS_DENIED)
+            if (midcom_connection::get_error() === MGD_ERR_ACCESS_DENIED)
             {
                 $this->denied++;
-                midcom_application::set_error(MGD_ERR_OK); // reset error-code
+                midcom_connection::set_error(MGD_ERR_OK); // reset error-code
                 continue;
             }
 
@@ -782,7 +782,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         if (! $result)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
         }
 

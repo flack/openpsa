@@ -280,7 +280,7 @@ function openPsaShowMonthSelector()
         (
             'name' => $resource->firstname . ' ' . $resource->lastname,
         );
-        if ($resource->id == $_MIDGARD['user'])
+        if ($resource->id == midcom_connection::get_user())
         {
             $resource_array['name'] = $this->_l10n->get('me');
             $resource_array['css_class'] = 'blue';

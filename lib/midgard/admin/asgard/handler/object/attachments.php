@@ -119,7 +119,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
                 if (!$local_file->create())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create attachment, reason: ' . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create attachment, reason: ' . midcom_connection::get_error_string());
                     // This will exit.
                 }
             }
@@ -177,7 +177,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
                 if (!$local_file->create())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create attachment, reason: ' . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create attachment, reason: ' . midcom_connection::get_error_string());
                     // This will exit.
                 }
             }

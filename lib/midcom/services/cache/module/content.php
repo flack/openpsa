@@ -240,12 +240,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         switch ($cache_strategy)
         {
             case 'memberships':
-                if (empty($_MIDGARD['user']))
+                if (!midcom_connection::get_user())
                 {
                     $identifier_source .= ';USER=ANONYMOUS';
                     break;
                 }
-                $mc = new midgard_collector('midgard_member', 'uid', $_MIDGARD['user']);
+                $mc = new midgard_collector('midgard_member', 'uid', midcom_connection::get_user());
                 $mc->set_key_property('gid');
                 $mc->execute();
                 $gids = $mc->list_keys();
@@ -258,7 +258,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 break;
             case 'user':
             default:
-                $identifier_source .= ';USER=' . $_MIDGARD['user'];
+                $identifier_source .= ';USER=' . midcom_connection::get_user();
                 break;
         }
 
@@ -1359,7 +1359,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             if (   (   isset($_MIDCOM->auth)
                     && is_a($_MIDCOM->auth, 'midcom_services_auth')
                     && $_MIDCOM->auth->is_valid_user())
-                || !empty($_MIDGARD['user'])
+                || !midcom_connection::get_user()
                 )
             {
                 // Typecast to make copy in stead of reference

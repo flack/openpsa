@@ -219,7 +219,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         if (! $this->_content_topic)
         {
             debug_add('Failed to open symlink content topic, (might also be an invalid object) last Midgard Error: '
-                . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open symlink content topic.');
             // This will exit.
         }

@@ -150,7 +150,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             debug_print_r('We operated on this object:', $invoice);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new invoice, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -179,7 +179,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         // Generate invoice number
         $this->_defaults['number'] = org_openpsa_invoices_invoice_dba::generate_invoice_number();
-        $this->_defaults['owner'] = $_MIDGARD['user'];
+        $this->_defaults['owner'] = midcom_connection::get_user();
     }
 
     /**
@@ -481,7 +481,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             debug_print_r('Tried to get invoice with following guid :', $args[0]);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Invoice with GUID: " . $args[0] . " does not exist . Error: " . midcom_application::get_error_string());
+                "Invoice with GUID: " . $args[0] . " does not exist . Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
         //check for manual uploaded pdf-file & if user wants to replace it
@@ -562,7 +562,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 debug_print_r('Tried to require invoice_pdf_class_file :', $this->_config->get('invoice_pdf_class'));
                 debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Could not require pdf class . Error: " . midcom_application::get_error_string());
+                    "Could not require pdf class . Error: " . midcom_connection::get_error_string());
                 // This will exit.
             }
         }

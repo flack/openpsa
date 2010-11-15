@@ -250,7 +250,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
                     $_MIDCOM->uimessages->add
                     (
                         $_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
-                        sprintf($_MIDCOM->i18n->get_string('failed to save settings, reason %s', 'midcom.admin.settings'), midcom_application::get_error_string()),
+                        sprintf($_MIDCOM->i18n->get_string('failed to save settings, reason %s', 'midcom.admin.settings'), midcom_connection::get_error_string()),
                         'error'
                     );
                 }

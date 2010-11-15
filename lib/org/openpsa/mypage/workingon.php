@@ -173,7 +173,7 @@ class org_openpsa_mypage_workingon
         $stat = $hour_report->create();
         if (!$stat)
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf($_MIDCOM->i18n->get_string('reporting %d hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_application::get_error_string()), 'error');
+            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.mypage', 'org.openpsa.mypage'), sprintf($_MIDCOM->i18n->get_string('reporting %d hours to task %s failed, reason %s', 'org.openpsa.mypage'), $hour_report->hours, $this->task->title, midcom_connection::get_error_string()), 'error');
             return false;
         }
         //apply minimum_time_slot

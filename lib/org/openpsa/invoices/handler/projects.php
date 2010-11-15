@@ -41,7 +41,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $invoice = new org_openpsa_invoices_invoice_dba();
         $invoice->customer = (int) $_POST['org_openpsa_invoices_invoice_customer'];
         $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
-        $invoice->owner = $_MIDGARD['user'];
+        $invoice->owner = midcom_connection::get_user();
         $invoice->due = ($this->_config->get('default_due_days') * 3600 * 24) + time();
 
         // Fill VAT value
@@ -109,7 +109,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         }
         else
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_application::get_error_string(), 'error');
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), $this->_l10n->get('failed to create invoice, reason ') . midcom_connection::get_error_string(), 'error');
         }
     }
 

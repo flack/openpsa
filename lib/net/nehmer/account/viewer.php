@@ -575,7 +575,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             $_MIDCOM->auth->request_sudo();
             if (!$person->set_privilege('midgard:owner', $person_user, MIDCOM_PRIVILEGE_ALLOW))
             {
-                debug_add("\$person->set_privilege('midgard:owner', \$person_user, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("\$person->set_privilege('midgard:owner', \$person_user, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
             else
             {

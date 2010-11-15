@@ -67,7 +67,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
             debug_print_r('We operated on this object:', $topic);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new topic, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new topic, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 

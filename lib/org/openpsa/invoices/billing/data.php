@@ -67,7 +67,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
             if(empty($contact->guid))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

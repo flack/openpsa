@@ -237,7 +237,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
         if (!$this->owner)
         {
-            $this->owner = $_MIDGARD['user'];
+            $this->owner = midcom_connection::get_user();
         }
         return true;
     }

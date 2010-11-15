@@ -281,7 +281,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
             if (!$stat)
             {
-                debug_add("Agreement #{$this->id} couldn't be saved to disk, last Midgard error was: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("Agreement #{$this->id} couldn't be saved to disk, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
         else
@@ -367,7 +367,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         if (!$invoice->create())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Invoice could not be created. Last Midgard error: " . midcom_application::get_error_string());
+                "Invoice could not be created. Last Midgard error: " . midcom_connection::get_error_string());
             //This will exit
         }
 

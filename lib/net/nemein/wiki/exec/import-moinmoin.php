@@ -132,7 +132,7 @@ class net_nemein_wiki_moinmoin_importer
                     $topic->component = 'net.nemein.wiki';
                     if (!$topic->create())
                     {
-                        echo "FAILURE: could not create topic, error: " . midcom_application::get_error_string() . "<br/>\n";
+                        echo "FAILURE: could not create topic, error: " . midcom_connection::get_error_string() . "<br/>\n";
                         _midcom_stop_request();
                         return false;
                     }
@@ -154,7 +154,7 @@ class net_nemein_wiki_moinmoin_importer
                         if (!$article->update())
                         {
                             // Could not move article, do something ?
-                            echo "FAILURE: Could not move the page, errstr: ". midcom_application::get_error_string() . "<br/>\n";
+                            echo "FAILURE: Could not move the page, errstr: ". midcom_connection::get_error_string() . "<br/>\n";
                         }
                     }
                     else
@@ -164,11 +164,11 @@ class net_nemein_wiki_moinmoin_importer
                         $page->name = 'index';
                         $page->title = $topic->extra;
                         $page->content = $this->_l10n->get('wiki default page content');
-                        $page->author = $_MIDGARD['user'];
+                        $page->author = midcom_connection::get_user();
                         if (!$page->create())
                         {
                             // Could not create index
-                            echo "FAILURE: Could not create index for new topic, errstr: " . midcom_application::get_error_string() . " <br/>\n";
+                            echo "FAILURE: Could not create index for new topic, errstr: " . midcom_connection::get_error_string() . " <br/>\n";
                             $topic->delete();
                             return false;
                         }
@@ -189,10 +189,10 @@ class net_nemein_wiki_moinmoin_importer
                     $wikipage->title = $resolved['remaining_path'];
                     $wikipage->name = midcom_generate_urlname_from_string($resolved['remaining_path']);
                     $wikipage->topic = $to_node[MIDCOM_NAV_ID];
-                    $wikipage->author = $_MIDGARD['user'];
+                    $wikipage->author = midcom_connection::get_user();
                     if (!$wikipage->create())
                     {
-                        echo "FAILURE: could not create wikipage object, error: " . midcom_application::get_error_string() . "<br/>\n";
+                        echo "FAILURE: could not create wikipage object, error: " . midcom_connection::get_error_string() . "<br/>\n";
                         return false;
                     }
                     $wikipage = new net_nemein_wiki_wikipage($wikipage->id);
@@ -215,7 +215,7 @@ class net_nemein_wiki_moinmoin_importer
         if (!$this->_datamanager->save())
         {
             // DM2 save failure
-            echo "FAILURE: DM2->save() failed, errstr: " . midcom_application::get_error_string() . "<br/>\n";
+            echo "FAILURE: DM2->save() failed, errstr: " . midcom_connection::get_error_string() . "<br/>\n";
             if (is_object($created_page))
             {
                 // Clean up the just created page

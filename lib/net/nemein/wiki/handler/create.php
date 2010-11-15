@@ -92,7 +92,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         $this->_page = new net_nemein_wiki_wikipage();
         $this->_page->topic = $this->_topic->id;
         $this->_page->title = $this->_wikiword;
-        $this->_page->author = $_MIDGARD['user'];
+        $this->_page->author = midcom_connection::get_user();
 
         // We can clear the session now
         $this->_request_data['session']->remove('wikiword');
@@ -103,7 +103,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
             debug_print_r('We operated on this object:', $this->_page);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new page, cannot continue. Last Midgard error was: '. midcom_application::get_error_string());
+                'Failed to create a new page, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -141,7 +141,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
                     $topic->component = 'net.nemein.wiki';
                     if (!$topic->create())
                     {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_application::get_error_string());
+                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
                         // This will exit()
                     }
                     // refresh
@@ -171,7 +171,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
                         {
                             // Could not create index
                             $topic->delete();
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create index for new topic, errstr: " . midcom_application::get_error_string());
+                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
                             // This will exit()
                         }
                     }

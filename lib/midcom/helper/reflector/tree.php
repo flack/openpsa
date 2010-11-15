@@ -151,7 +151,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
-            && !$_MIDGARD['admin'])
+            && !midcom_connection::is_admin())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
@@ -185,7 +185,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
-            && !$_MIDGARD['admin'])
+            && !midcom_connection::is_admin())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
@@ -233,7 +233,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
-            && !$_MIDGARD['admin'])
+            && !midcom_connection::is_admin())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
@@ -285,7 +285,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     {
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
-            && !$_MIDGARD['admin'])
+            && !midcom_connection::is_admin())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
@@ -340,7 +340,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     {
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
-            && !$_MIDGARD['admin'])
+            && !midcom_connection::is_admin())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
@@ -535,7 +535,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     {
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
-            && !$_MIDGARD['admin'])
+            && !midcom_connection::is_admin())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
@@ -1160,7 +1160,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             // Guard against QB failure
             if ($results === false)
             {
-                debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 unset($sibling_classes, $schema_type, $qb, $results);
                 return false;
@@ -1235,7 +1235,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             if ($results === false)
             {
                 $_MIDCOM->auth->drop_sudo();
-                debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;

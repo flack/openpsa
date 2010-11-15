@@ -107,7 +107,7 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
             if (count($matches) > 0)
             {
                 // We don't need to save duplicate entries
-                midcom_application::set_error(MGD_ERR_DUPLICATE);
+                midcom_connection::set_error(MGD_ERR_DUPLICATE);
                 return false;
             }
         }

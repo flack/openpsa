@@ -379,7 +379,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $sd->name = preg_replace("/^\//", "", $sd->name);
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_connection::get_error_string());
             }
             $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
@@ -393,7 +393,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $sd->name = $this->_request_data['name'];
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$data['name']}: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$data['name']}: " . midcom_connection::get_error_string());
             }
             $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
@@ -586,7 +586,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                     $_MIDCOM->uimessages->add
                     (
                         $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                        sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), midcom_application::get_error_string()),
+                        sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), midcom_connection::get_error_string()),
                         'error'
                     );
                 }

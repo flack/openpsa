@@ -91,7 +91,7 @@ class midcom_services_permalinks extends midcom_baseclasses_core_object
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to resolve the GUID {$guid}, this is most probably an access denied error.", MIDCOM_LOG_ERROR);
-            debug_add('Last MidCOM error string: ' . midcom_application::get_error_string());
+            debug_add('Last MidCOM error string: ' . midcom_connection::get_error_string());
             debug_pop();
             return null;
         }

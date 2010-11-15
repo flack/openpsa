@@ -465,7 +465,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                     if (!$this->_membership_objects[$index]->update())
                     {
                         debug_add("Failed to update the member record for key {$key}. Couldn't store the order information", MIDCOM_LOG_ERROR);
-                        debug_add('Last Midgard error was ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                        debug_add('Last Midgard error was ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                         debug_print_r('Tried to update this object', $this->_membership_objects[$index]);
                     }
 
@@ -531,7 +531,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 {
                     debug_add("Failed to create a new member record for key {$key}, skipping it. " .
                         'Last Midgard error was: ' .
-                        midcom_application::get_error_string(),
+                        midcom_connection::get_error_string(),
                         MIDCOM_LOG_ERROR);
                     debug_print_r('Tried to create this object:', $member);
                     continue;
@@ -547,7 +547,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             {
                 debug_add("Failed to delete a no longer needed member record #{$member->id}, ignoring silently. " .
                     'Last Midgard error was: ' .
-                    midcom_application::get_error_string(),
+                    midcom_connection::get_error_string(),
                     MIDCOM_LOG_ERROR);
                 debug_print_r('Tried to delete this object:', $member);
             }

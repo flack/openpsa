@@ -99,7 +99,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if (   !$this->_object
             || !$this->_object->guid)
         {
-            if (midcom_application::get_error() == MGD_ERR_OBJECT_DELETED)
+            if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
             {
                 $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/asgard/object/deleted/' . $guid;
                 $_MIDCOM->relocate($relocate);
@@ -1008,7 +1008,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             debug_print_r('We operated on this object:', $this->_new_object);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new object, cannot continue. Last Midgard error was: '. midcom_application::get_error_string());
+                'Failed to create a new object, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -1294,7 +1294,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
             if (!$this->_object->delete_tree())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete object {$args[0]}, last Midgard error was: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete object {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
                 // This will exit.
             }
 

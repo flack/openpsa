@@ -705,7 +705,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         {
             return true;
         }
-        $this->error[]  = "Object {$this->_guid} not updated: " . midcom_application::get_error_string();
+        $this->error[]  = "Object {$this->_guid} not updated: " . midcom_connection::get_error_string();
         debug_pop();
         return false;
     }

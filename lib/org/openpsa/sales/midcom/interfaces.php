@@ -161,7 +161,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
 
         if (!is_array($qbret))
         {
-            debug_add('QB returned with error, aborting, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return;
         }
@@ -270,7 +270,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         if (   !$deliverable
             || $deliverable->guid == "")
         {
-            $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_application::get_error_string();
+            $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_connection::get_error_string();
             $handler->print_error($msg);
             debug_add($msg, MIDCOM_LOG_ERROR);
             debug_pop();

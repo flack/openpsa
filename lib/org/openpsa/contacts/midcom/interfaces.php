@@ -257,7 +257,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                     if (!$member->update())
                     {
                         // Failure updating member
-                        debug_add("Failed to update member #{$member->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                        debug_add("Failed to update member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                         debug_pop();
                         return false;
                     }
@@ -269,7 +269,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 if (!$member->update())
                 {
                     // Failure updating member
-                    debug_add("Failed to update member #{$member->id}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to update member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                     return false;
                 }
@@ -296,7 +296,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             if (!$ret)
             {
                 // Failure updating metadata
-                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -330,7 +330,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             if (!$person1->update())
             {
                 // Error updating person
-                debug_add("Error updating person #{$person->id}, errstr: " . midcom_application::get_error_string, MIDCOM_LOG_ERROR);
+                debug_add("Error updating person #{$person->id}, errstr: " . midcom_connection::get_error_string, MIDCOM_LOG_ERROR);
                 return false;
             }
         }
@@ -420,7 +420,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $person = new org_openpsa_contacts_person_dba($args['person']);
             if (!$person)
             {
-                $msg = "Person {$args['person']} not found, error " . midcom_application::get_error_string();
+                $msg = "Person {$args['person']} not found, error " . midcom_connection::get_error_string();
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
                 debug_pop();
@@ -509,7 +509,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $group = new org_openpsa_contacts_group_dba($args['group']);
             if (!$group)
             {
-                $msg = "Group {$args['group']} not found, error " . midcom_application::get_error_string();
+                $msg = "Group {$args['group']} not found, error " . midcom_connection::get_error_string();
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
                 debug_pop();

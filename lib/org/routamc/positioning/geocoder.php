@@ -15,7 +15,7 @@
 class org_routamc_positioning_geocoder extends midcom_baseclasses_components_purecode
 {
     /**
-     * Error code from trying to geocode. Either a midcom_application::get_error_string() or an additional error code from component
+     * Error code from trying to geocode. Either a midcom_connection::get_error_string() or an additional error code from component
      *
      * @var string
      */

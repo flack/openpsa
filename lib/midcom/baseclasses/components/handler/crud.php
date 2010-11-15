@@ -670,7 +670,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
             // Deletion confirmed, try doing it.
             if (!$this->_object->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete object {$this->_object->guid}, last Midgard error was: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete object {$this->_object->guid}, last Midgard error was: " . midcom_connection::get_error_string());
                 // This will exit.
             }
 

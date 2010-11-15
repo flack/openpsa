@@ -72,7 +72,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Author '{$this->_request_data['from']}' not found");
                 // This will exit()
             }
-            $this->_article->author = $_MIDGARD['user'];
+            $this->_article->author = midcom_connection::get_user();
         }
         else
         {
@@ -126,7 +126,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Failed to create article:', $this->_article);
             debug_pop();
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create a new article, cannot continue. Last Midgard error was: ' . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create a new article, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -263,7 +263,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         if (!$this->_datamanager->save())
         {
             // Remove the article, but get errstr first
-            $errstr = midcom_application::get_error_string();
+            $errstr = midcom_connection::get_error_string();
             $this->_article->delete();
 
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 failed to save the article, aborting. Last Midgard error was: ' . $errstr);
@@ -280,7 +280,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             if (!$metadata->force_approve())
             {
                 // Remove the article, but get errstr first
-                $errstr = midcom_application::get_error_string();
+                $errstr = midcom_connection::get_error_string();
                 $this->_article->delete();
 
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to force approval on article, aborting. Last Midgard error was: ' . $errstr);
@@ -387,7 +387,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         if (!fwrite($fp, $att['content']))
         {
             //Could not write, clean up and continue
-            debug_add("Error when writing file {$tmp_name}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add("Error when writing file {$tmp_name}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             fclose($fp);
             return false;
         }
@@ -403,21 +403,21 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         if (!$attobj)
         {
             //Could not create attachment
-            debug_add("Could not create attachment '{$att['name']}', errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add("Could not create attachment '{$att['name']}', errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             continue;
         }
         $fp = @$attobj->open('w');
         if (!$fp)
         {
             //Could not open for writing, clean up and continue
-            debug_add("Could not open attachment {$attobj->guid} for writing, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add("Could not open attachment {$attobj->guid} for writing, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             $attobj->delete();
             continue;
         }
         if (!fwrite($fp, $att['content'], strlen($att['content'])))
         {
             //Could not write, clean up and continue
-            debug_add("Error when writing attachment {$attobj->guid}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add("Error when writing attachment {$attobj->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             fclose($fp);
             $attobj->delete();
             continue;

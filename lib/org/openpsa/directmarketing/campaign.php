@@ -212,7 +212,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
                 $delret = $member->delete();
                 if (!$delret)
                 {
-                    debug_add("Failed to delete unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}, reason: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to delete unwanted member #{$member->id} (linked to person #{$member->person}) in campaign #{$this->id}, reason: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 }
             }
         }
@@ -250,7 +250,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             $mcret = $member->create();
             if (!$mcret)
             {
-                debug_add("Failed to create new member (linked to person #{$id}) in campaign #{$this->id}, reason: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to create new member (linked to person #{$id}) in campaign #{$this->id}, reason: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
 
@@ -287,7 +287,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         $stat = midcom_services_at_interface::register($time, 'org.openpsa.directmarketing', 'background_update_campaign_members', array('campaign_guid' => $this->guid));
         if (!$stat)
         {
-            debug_add('Failed to register an AT job for members update, errstr: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to register an AT job for members update, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             $_MIDCOM->auth->drop_sudo();
             debug_pop();
             return false;

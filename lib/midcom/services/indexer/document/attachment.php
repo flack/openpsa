@@ -57,7 +57,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         $test = $attachment->open('r');
         if (!$test)
         {
-            debug_add('Attachment ' . $attachment->guid . ' cannot be read, aborting. Last midgard error: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Attachment ' . $attachment->guid . ' cannot be read, aborting. Last midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }

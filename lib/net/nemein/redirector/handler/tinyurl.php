@@ -156,7 +156,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         if (!$this->_tinyurl->create())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new TinyURL object, cannot continue. Last Midgard error was: '. midcom_application::get_error_string());
+                'Failed to create a new TinyURL object, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
         }
 

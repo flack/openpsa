@@ -760,7 +760,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         {
             $_MIDCOM->auth->drop_sudo();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Could not update the password of username {$username}: " . midcom_application::get_error_string());
+                "Could not update the password of username {$username}: " . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -984,7 +984,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         if (! $user->delete())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to delete the user account, last Midgard error was: ' . midcom_application::get_error_string());
+                'Failed to delete the user account, last Midgard error was: ' . midcom_connection::get_error_string());
             // This will exit.
         }
     }

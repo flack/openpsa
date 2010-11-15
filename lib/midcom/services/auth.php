@@ -38,7 +38,7 @@ class midcom_services_auth
      * Admin user level state. This is true if the currently authenticated user is an
      * Midgard Administrator, false otherwise.
      *
-     * This effectively maps to $_MIDGARD['admin']; but it is suggested to use the auth class
+     * This effectively maps to midcom_connection::is_admin(); but it is suggested to use the auth class
      * for consistency reasons nevertheless.
      *
      * @var boolean
@@ -316,7 +316,7 @@ class midcom_services_auth
             debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Calling auth success callback:', $GLOBALS['midcom_config']['auth_success_callback'], MIDCOM_LOG_DEBUG);
             debug_pop();
-            // Calling the success function. No parameters, because authenticated user is stored in $_MIDGARD['user']
+            // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
             call_user_func($GLOBALS['midcom_config']['auth_success_callback']);
         }
 
@@ -358,7 +358,7 @@ class midcom_services_auth
         $this->user =& $this->_auth_backend->user;
         // This check is a bit fuzzy but will work as long as MidgardAuth is in sync with
         // MidCOM auth.
-        if (   $_MIDGARD['admin']
+        if (   midcom_connection::is_admin()
             || $_MIDGARD['root'])
         {
             $this->admin = true;
@@ -401,10 +401,10 @@ class midcom_services_auth
      */
     function _initialize_user_from_midgard()
     {
-        if ($_MIDGARD['user'])
+        if (midcom_connection::get_user())
         {
-            $this->user = $this->get_user($_MIDGARD['user']);
-            if (   $_MIDGARD['admin']
+            $this->user = $this->get_user(midcom_connection::get_user());
+            if (   midcom_connection::is_admin()
                 || $_MIDGARD['root'])
             {
                 $this->admin = true;
@@ -1045,7 +1045,7 @@ class midcom_services_auth
         if (is_double($id))
         {
             // This is some crazy workaround for cases where the ID passed is a double
-            // (coming from $_MIDGARD['user'] possibly) and is_object($id), again for
+            // (coming from midcom_connection::get_user() possibly) and is_object($id), again for
             // whatever reason, evaluates to true for that object...
             $id = (int) $id;
         }
@@ -1228,7 +1228,7 @@ class midcom_services_auth
 
         if (! $virtual_group->_storage->delete())
         {
-            debug_add("The virtual group {$virtual_group->id} cannot be removed, failed to delete the record: " . midcom_application::get_error_string(),
+            debug_add("The virtual group {$virtual_group->id} cannot be removed, failed to delete the record: " . midcom_connection::get_error_string(),
                 MIDCOM_LOG_ERROR);
             debug_print_r('Passed object was:', $virtual_group);
             debug_pop();
@@ -1313,7 +1313,7 @@ class midcom_services_auth
         if (   ! $obj->create()
             || ! $obj->id)
         {
-            debug_add("Failed to register the vgroup {$component}-{$identifier} ({$name}), could not create the database record: " . midcom_application::get_error_string(),
+            debug_add("Failed to register the vgroup {$component}-{$identifier} ({$name}), could not create the database record: " . midcom_connection::get_error_string(),
                 MIDCOM_LOG_ERROR);
             debug_print_r('Tried to create this record:', $obj);
             debug_pop();

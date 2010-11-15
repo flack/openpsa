@@ -61,8 +61,8 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
             case 'subscribe':
                 // If person is already a member just redirect
                 $this->_request_data['project']->get_members();
-                if (   array_key_exists($_MIDGARD['user'], $this->_request_data['project']->resources)
-                    || array_key_exists($_MIDGARD['user'], $this->_request_data['project']->contacts))
+                if (   array_key_exists(midcom_connection::get_user(), $this->_request_data['project']->resources)
+                    || array_key_exists(midcom_connection::get_user(), $this->_request_data['project']->contacts))
                 {
                     $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                         . "project/{$this->_request_data['project']->guid}/");
@@ -78,7 +78,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
 
                 // FIXME: Move this to a method in the project class
                 $subscriber = new org_openpsa_projects_task_resource_dba();
-                $subscriber->person = $_MIDGARD['user'];
+                $subscriber->person = midcom_connection::get_user();
                 $subscriber->task = $this->_request_data['project']->id;
                 $subscriber->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECTCONTACT;
 
@@ -90,13 +90,13 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
                 }
                 else
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to subscribe, reason " . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to subscribe, reason " . midcom_connection::get_error_string());
                     // This will exit
                 }
 
             case 'unsubscribe':
                 // If person is not a subscriber just redirect
-                if (!array_key_exists($_MIDGARD['user'], $this->_request_data['project']->contacts))
+                if (!array_key_exists(midcom_connection::get_user(), $this->_request_data['project']->contacts))
                 {
                     $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                         . "project/{$this->_request_data['project']->guid}/");
@@ -104,7 +104,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
                 }
 
                 $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
-                $qb->add_constraint('person', '=', $_MIDGARD['user']);
+                $qb->add_constraint('person', '=', midcom_connection::get_user());
                 $qb->add_constraint('task', '=', $this->_request_data['project']->id);
                 $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTCONTACT);
                 $ret = $qb->execute();

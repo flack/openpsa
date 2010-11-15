@@ -32,11 +32,11 @@ $customer = new midcom_db_group($project->customer);
     <td><?php echo strftime("%x", $project->end); ?></td>
     <td>
   <?php
-    if (array_key_exists($_MIDGARD['user'], $project->resources))
+    if (array_key_exists(midcom_connection::get_user(), $project->resources))
     {
         echo $data['l10n']->get('you are project participant');
     }
-    else if (array_key_exists($_MIDGARD['user'], $project->contacts))
+    else if (array_key_exists(midcom_connection::get_user(), $project->contacts))
     {
         echo $data['l10n']->get('you are project subscriber');
         echo '<form method="post" class="subscribe" action="' . $prefix . 'project/' . $project->guid . '/unsubscribe/"><input type="submit" class="unsubscribe" value="' . $data['l10n']->get('unsubscribe') . '" /></form>';

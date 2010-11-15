@@ -9,7 +9,7 @@ if ($task->manager)
 }
 $task->get_members();
 if ($_MIDCOM->auth->can_do('midgard:update', $task)
-    && isset($task->resources[$_MIDGARD['user']]))
+    && isset($task->resources[midcom_connection::get_user()]))
 {
 ?>
 <form method="post" action="<?php echo $prefix; ?>workflow/<?php echo $task->guid; ?>/">

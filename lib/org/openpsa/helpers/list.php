@@ -195,7 +195,7 @@ class org_openpsa_helpers_list
                     $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
                 }
 
-                if ($_MIDGARD['admin'])
+                if (midcom_connection::is_admin())
                 {
                     // Admins must see all workgroups, all the time
                     $users_vgroups = $_MIDCOM->auth->get_all_vgroups();
@@ -220,7 +220,7 @@ class org_openpsa_helpers_list
 
                     if (substr($key, strlen($key) - 11) == 'subscribers')
                     {
-                        if ($_MIDGARD['admin'])
+                        if (midcom_connection::is_admin())
                         {
                             debug_add("Not showing subscriber groups to admin");
                         }

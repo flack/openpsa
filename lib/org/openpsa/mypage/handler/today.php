@@ -289,7 +289,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      */
     function _list_work_hours()
     {
-        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', $_MIDGARD['user']);
+        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', midcom_connection::get_user());
         $hours_mc->add_value_property('task');
         $hours_mc->add_value_property('invoiceable');
         $hours_mc->add_value_property('hours');

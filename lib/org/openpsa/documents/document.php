@@ -178,7 +178,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
-                debug_add('Last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_pop();
                 continue;
             }

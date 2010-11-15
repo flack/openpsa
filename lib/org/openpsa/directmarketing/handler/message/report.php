@@ -390,7 +390,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $campaign->rules = $tmp_array;
         $campaign->description = $tmp_array['comment'];
         $campaign->title = sprintf($this->_l10n->get('from link "%s"'), $_POST['org_openpsa_directmarketing_campaign_label_' . $_POST['org_openpsa_directmarketing_campaign_userule']]);
-        $campaign->testers[$_MIDGARD['user']] = true;
+        $campaign->testers[midcom_connection::get_user()] = true;
         $campaign->node = $this->_topic->id;
         if (!$campaign->create())
         {

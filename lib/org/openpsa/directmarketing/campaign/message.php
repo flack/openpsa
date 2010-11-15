@@ -322,7 +322,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $_MIDCOM->auth->drop_sudo();
             if (!$atstat)
             {
-                debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

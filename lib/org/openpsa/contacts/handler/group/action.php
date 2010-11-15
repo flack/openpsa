@@ -147,7 +147,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
                             $_MIDCOM->auth->require_do('midgard:update', $member);
                             $member->extra = $title;
                             $update_succeeded = $member->update();
-                            $errstr = midcom_application::get_error_string();
+                            $errstr = midcom_connection::get_error_string();
                         }
                     }
                 }

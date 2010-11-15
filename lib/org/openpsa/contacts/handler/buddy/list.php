@@ -53,7 +53,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         $buddy->isapproved = true;
         if (!$buddy->create())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to add buddy, reason " . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to add buddy, reason " . midcom_connection::get_error_string());
             // This will exit
         }
 
@@ -92,7 +92,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         {
             if (!$buddy->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to add buddy, reason " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to add buddy, reason " . midcom_connection::get_error_string());
                 // This will exit
             }
         }

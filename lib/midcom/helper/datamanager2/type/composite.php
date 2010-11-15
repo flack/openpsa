@@ -47,7 +47,7 @@
  *     (
  *         'creator',          // Fieldname
  *         '=',                // Operator
- *         $_MIDGARD['user'],  // Constraint
+ *         midcom_connection::get_user(),  // Constraint
  *     ),
  *     array
  *     (
@@ -321,7 +321,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
             debug_print_r('We operated on this object:', $object);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new child object. Last Midgard error was: '. midcom_application::get_error_string());
+                'Failed to create a new child object. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
         }
         
@@ -410,7 +410,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
                 $_MIDCOM->header('Content-type: text/xml; charset=utf-8');
                 echo '<?xml version="1.0" encoding="utf-8" standalone="yes"?>' . "\n";
                 echo "<deletion id=\"{$identifier}\">\n";
-                echo '    <status>' . midcom_application::get_error_string() . "</status>\n";
+                echo '    <status>' . midcom_connection::get_error_string() . "</status>\n";
                 echo "</deletion>\n";
                 
                 $_MIDCOM->finish();

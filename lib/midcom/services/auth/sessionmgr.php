@@ -104,7 +104,7 @@ class midcom_services_auth_sessionmgr
         if (!$user)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to create a new login session: User ID {$_MIDGARD['user']} is invalid.", MIDCOM_LOG_ERROR);
+            debug_add("Failed to create a new login session: User ID " . midcom_connection::get_user() . " is invalid.", MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -119,7 +119,7 @@ class midcom_services_auth_sessionmgr
         if (!$session->create())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Failed to create a new login session: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -181,7 +181,7 @@ class midcom_services_auth_sessionmgr
         if (!$session->create())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Failed to create a new login session: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -270,7 +270,7 @@ class midcom_services_auth_sessionmgr
                     if (! $session->delete())
                     {
                         debug_push_class(__CLASS__, __FUNCTION__);
-                        debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                        debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                         debug_pop();
                     }
                 }
@@ -296,7 +296,7 @@ class midcom_services_auth_sessionmgr
                         if (! $session->update())
                         {
                             debug_push_class(__CLASS__, __FUNCTION__);
-                            debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                            debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                             debug_pop();
                         }
                     }
@@ -445,7 +445,6 @@ class midcom_services_auth_sessionmgr
             }
 
             $this->user = $user;
-            $_MIDGARD['admin'] = $user->is_admin();
         }
         else
         {
@@ -456,7 +455,7 @@ class midcom_services_auth_sessionmgr
         if (!$this->user)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to authenticate to the given username & password: ".midcom_application::get_error_string(),
+            debug_add("Failed to authenticate to the given username & password: ".midcom_connection::get_error_string(),
                 MIDCOM_LOG_INFO);
             debug_pop();
             return false;
@@ -493,7 +492,7 @@ class midcom_services_auth_sessionmgr
         if (!$this->user)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to authenticate to the given username: ".midcom_application::get_error_string(),
+            debug_add("Failed to authenticate to the given username: ".midcom_connection::get_error_string(),
                 MIDCOM_LOG_INFO);
             debug_pop();
             return false;
@@ -563,7 +562,7 @@ class midcom_services_auth_sessionmgr
             if (! $session->delete())
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }
@@ -598,7 +597,7 @@ class midcom_services_auth_sessionmgr
         if (! $session->delete())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to delete the delete session {$session->guid} (#{$session->id}): " . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+            debug_add("Failed to delete the delete session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             debug_pop();
             return false;
         }

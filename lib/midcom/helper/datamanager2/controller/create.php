@@ -388,7 +388,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 && ! $this->datamanager->save())
             {
                 // Get the error message
-                $midgard_error = midcom_application::get_error_string();
+                $midgard_error = midcom_connection::get_error_string();
 
                 // Delete the object as saving failed
                 $this->datamanager->storage->object->delete();

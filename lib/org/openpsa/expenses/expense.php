@@ -61,7 +61,7 @@ class org_openpsa_expenses_expense extends midcom_core_dbaobject
         //Make sure person is set
         if (!$this->person)
         {
-            $this->person = $_MIDGARD['user'];
+            $this->person = midcom_connection::get_user();
         }
         //Is task is not set abort
         if (!$this->task)

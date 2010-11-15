@@ -147,7 +147,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         if (!$stat)
         {
             //Could not create article
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'wikipage->create returned failure, errstr: ' . midcom_application::get_error_string());
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'wikipage->create returned failure, errstr: ' . midcom_connection::get_error_string());
             // This will exit.
         }
         //Mark as email
@@ -163,21 +163,21 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             if (!$attobj)
             {
                 //Could not create attachment
-                debug_add("Could not create attachment '{$att['name']}', errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Could not create attachment '{$att['name']}', errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 continue;
             }
             $fp = @$attobj->open('w');
             if (!$fp)
             {
                 //Could not open for writing, clean up and continue
-                debug_add("Could not open attachment {$attobj->guid} for writing, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Could not open attachment {$attobj->guid} for writing, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 $attobj->delete();
                 continue;
             }
             if (!fwrite($fp, $att['content'], strlen($att['content'])))
             {
                 //Could not write, clean up and continue
-                debug_add("Error when writing attachment {$attobj->guid}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Error when writing attachment {$attobj->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 fclose($fp);
                 $attobj->delete();
                 continue;

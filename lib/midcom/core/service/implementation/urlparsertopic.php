@@ -165,10 +165,10 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         if ($qb->count() == 0)
         {
             //last load returned ACCESS DENIED, no sense to dig deeper
-            if (   midcom_application::get_error() == MGD_ERR_ACCESS_DENIED
+            if (   midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED
                 || $qb->denied > 0)
             {
-                midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+                midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;
             }
             // No topics matching path, check for attachments
@@ -211,7 +211,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not get target for symlinked topic #{$this->current_object->id}: " .
-                    midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
             }
         }

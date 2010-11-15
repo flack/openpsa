@@ -95,7 +95,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             if (!$this->_deliverable->propose())
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Failed to mark the deliverable as proposed, cannot continue. Last Midgard error was: ' . midcom_application::get_error_string());
+                    'Failed to mark the deliverable as proposed, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
                 // This will exit.
             }
         }
@@ -104,7 +104,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             if (!$this->_deliverable->decline())
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Failed to mark the deliverable as declined, cannot continue. Last Midgard error was: ' . midcom_application::get_error_string());
+                    'Failed to mark the deliverable as declined, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
                 // This will exit.
             }
         }
@@ -113,7 +113,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             if (!$this->_deliverable->order())
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Failed to mark the deliverable as ordered, cannot continue. Last Midgard error was: ' . midcom_application::get_error_string());
+                    'Failed to mark the deliverable as ordered, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
                 // This will exit.
             }
         }
@@ -122,7 +122,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             if (!$this->_deliverable->deliver())
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Failed to mark the deliverable as delivered, cannot continue. Last Midgard error was: ' . midcom_application::get_error_string());
+                    'Failed to mark the deliverable as delivered, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
                 // This will exit.
             }
         }
@@ -132,7 +132,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             if (!$this->_deliverable->invoice($_POST['invoice']))
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Failed to mark the deliverable as invoiced, cannot continue. Last Midgard error was: ' . midcom_application::get_error_string());
+                    'Failed to mark the deliverable as invoiced, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
                 // This will exit.
             }
         }

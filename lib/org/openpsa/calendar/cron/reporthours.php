@@ -98,7 +98,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             $member->hoursReported = time();
             if (!$member->update(false))
             {
-                $msg = "Could not set hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_application::get_error_string() . " skipping this member";
+                $msg = "Could not set hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string() . " skipping this member";
                 $this->print_error($msg);
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 continue;
@@ -157,7 +157,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                     $member->hoursReported = 0;
                     if (!$member->update(false))
                     {
-                        $msg = "Could not UNSET hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_application::get_error_string();
+                        $msg = "Could not UNSET hoursReported on member #{$member->id} (event #{$member->eid}), errstr: " . midcom_connection::get_error_string();
                         $this->print_error($msg);
                         debug_add($msg, MIDCOM_LOG_WARN);
                     }

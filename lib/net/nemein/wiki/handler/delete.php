@@ -98,7 +98,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
             }
             else
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete wikipage, reason ".midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete wikipage, reason ".midcom_connection::get_error_string());
                 // This will exit.
             }
         }

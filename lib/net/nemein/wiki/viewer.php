@@ -276,7 +276,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         $page->name = 'index';
         $page->title = $topic->extra;
         $page->content = $this->_l10n->get('wiki default page content');
-        $page->author = $_MIDGARD['user'];
+        $page->author = midcom_connection::get_user();
         if ($page->create())
         {
                 return $page;

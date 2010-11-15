@@ -108,34 +108,11 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
             $new_topic = new midcom_db_topic($topic_guid);
             // Validate topic.
 
-            if (   !is_object($new_topic)
-                || !isset($new_topic->guid)
-                || empty($new_topic->guid))
+            if (   is_object($new_topic)
+                && isset($new_topic->guid)
+                && empty($new_topic->guid))
             {
-                /**
-                 * See http://trac.midgard-project.org/ticket/421
-                debug_add('Failed to open symlink content topic, (might also be an invalid object) last Midgard Error: '
-                    . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open symlink content topic.');
-                // This will exit.
-                */
-            }
-            else
-            {
-                if ($new_topic->component != 'net.nehmer.blog')
-                {
-                    /**
-                     * See http://trac.midgard-project.org/ticket/421
-                    debug_print_r('Retrieved topic was:', $topic);
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        'Symlink content topic is invalid, see the debug level log for details.');
-                    // This will exit.
-                    */
-                }
-                else
-                {
-                    $topic = $new_topic;
-                }
+                $topic = $new_topic;
             }
         }
 

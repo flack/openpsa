@@ -218,10 +218,10 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $data['review_data'] = array();
 
         // Then start looking for stuff to display
-        $this->_list_events_between($data['review_data'], $_MIDGARD['user'], $data['week_start'], $data['week_end']);
-        $this->_list_hour_reports_between($data['review_data'], $_MIDGARD['user'], $data['week_start'], $data['week_end']);
+        $this->_list_events_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
+        $this->_list_hour_reports_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
         $this->_list_task_statuses_between($data['review_data'], $_MIDCOM->auth->user, $data['week_start'], $data['week_end']);
-        $this->_list_positions_between($data['review_data'], $_MIDGARD['user'], $data['week_start'], $data['week_end']);
+        $this->_list_positions_between($data['review_data'], midcom_connection::get_user(), $data['week_start'], $data['week_end']);
 
         // Arrange by date/time
         ksort($data['review_data']);

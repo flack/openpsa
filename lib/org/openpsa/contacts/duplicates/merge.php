@@ -154,7 +154,7 @@ class org_openpsa_contacts_duplicates_merge
         $stat = $obj2->delete();
         if (!$stat)
         {
-            $this->_errstr = midcom_application::get_error_string();
+            $this->_errstr = midcom_connection::get_error_string();
         }
 
         $obj1->delete_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $obj2->guid);
@@ -222,7 +222,7 @@ class org_openpsa_contacts_duplicates_merge
             }
             if (!$qb->add_constraint('metadata.' . $field, '=', $value))
             {
-                debug_add("Failure adding constraint, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failure adding constraint, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }
@@ -232,7 +232,7 @@ class org_openpsa_contacts_duplicates_merge
         if ($objects === false)
         {
             // QB failure
-            debug_pop("QB failure for class {$class}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_pop("QB failure for class {$class}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
         foreach ($objects as $object)
@@ -255,7 +255,7 @@ class org_openpsa_contacts_duplicates_merge
             if (!$object->update())
             {
                 // Failure updating object
-                debug_add("Could not update object {$class}:{$object->guid}, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Could not update object {$class}:{$object->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
                 return false;
             }

@@ -102,7 +102,7 @@ class midcom_db_event extends midcom_core_dbaobject
                 if (! $membership->delete())
                 {
                     debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
                 }
             }

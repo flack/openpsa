@@ -123,7 +123,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
                 $this->_object->up = $move_to_topic->id;
                 if (!$this->_object->update())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the topic, reason ' . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the topic, reason ' . midcom_connection::get_error_string());
                     // This will exit
                 }
                 if (!midcom_admin_folder_folder_management::is_child_listing_finite($this->_object))
@@ -149,7 +149,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
                 $this->_object->topic = $move_to_topic->id;
                 if (!$this->_object->update())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the article, reason ' . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the article, reason ' . midcom_connection::get_error_string());
                     // This will exit
                 }
             }

@@ -309,7 +309,7 @@ class midcom_helper_nav
             || !$object->guid)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_pop();
         }
 
@@ -346,7 +346,7 @@ class midcom_helper_nav
                 (
                     MIDCOM_ERRCRIT,
                     "Data inconsistency, the topic ID ({$object->topic}) of the article {$object->id} is invalid. "
-                        . 'Last error was: ' . midcom_application::get_error_string()
+                        . 'Last error was: ' . midcom_connection::get_error_string()
                 );
                 // This will exit.
             }

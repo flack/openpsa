@@ -157,7 +157,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         $topic->extra = $topic->title;
         if (!$topic->update())
         {
-            $this->log_message("Failed to update topic #{$topic->id}, last Midgard error:" . midcom_application::get_error_string(), false, MIDCOM_LOG_ERROR);
+            $this->log_message("Failed to update topic #{$topic->id}, last Midgard error:" . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
             return false;
         }
         return true;
@@ -181,7 +181,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         unset($qb);
         if (!is_array($results))
         {
-            $this->log_message('QB failed fatally, last Midgard error:' . midcom_application::get_error_string(), false, MIDCOM_LOG_ERROR);
+            $this->log_message('QB failed fatally, last Midgard error:' . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
             return false;
         }
         if (count($results) > 1)
@@ -236,7 +236,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         if (!is_array($results))
         {
             unset($results);
-            $this->log_message('QB failed fatally, last Midgard error:' . midcom_application::get_error_string(), false, MIDCOM_LOG_ERROR);
+            $this->log_message('QB failed fatally, last Midgard error:' . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
             // Return the empty array anyways
             return $ret;
         }
@@ -264,7 +264,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         if (!is_array($results))
         {
             unset($results);
-            $this->log_message('QB failed fatally, last Midgard error:' . midcom_application::get_error_string(), false, MIDCOM_LOG_ERROR);
+            $this->log_message('QB failed fatally, last Midgard error:' . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
             // Return the empty array anyways
             return $ret;
         }
@@ -319,7 +319,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
                 $move_topic->name = $name;
                 if (!$move_topic->update())
                 {
-                    $this->log_message("Could not move #{$move_topic->id}, last Midgard error:" . midcom_application::get_error_string(), false, MIDCOM_LOG_ERROR);
+                    $this->log_message("Could not move #{$move_topic->id}, last Midgard error:" . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
                     unset($move_topic);
                     continue;
                 }
@@ -380,7 +380,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         $subtopic->component = 'org.openpsa.products';
         if (!$subtopic->create())
         {
-            $this->log_message("Could not create new subtopic {$subtopic->name} under topic #{$parent_topic->id}, last Midgard error:" . midcom_application::get_error_string(), false, MIDCOM_LOG_ERROR);
+            $this->log_message("Could not create new subtopic {$subtopic->name} under topic #{$parent_topic->id}, last Midgard error:" . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
             return false;
         }
         $this->log_message("Created new subtopic #{$subtopic->id} ({$subtopic->name}) under topic #{$parent_topic->id}", false, MIDCOM_LOG_INFO);
@@ -433,7 +433,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         }
         if (!$topic->delete())
         {
-            $this->log_message("Could not delete #{$topic->id}, last Midgard error:" . midcom_application::get_error_string(), false, MIDCOM_LOG_ERROR);
+            $this->log_message("Could not delete #{$topic->id}, last Midgard error:" . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
             return false;
         }
         $this->log_message("Deleted #{$topic->id}", false, MIDCOM_LOG_DEBUG);

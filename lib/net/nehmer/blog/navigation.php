@@ -318,7 +318,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         if (! $this->_content_topic)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Failed to open symlink content topic, (might also be an invalid object) last Midgard Error: ' . midcom_application::get_error_string(),
+            debug_add('Failed to open symlink content topic, (might also be an invalid object) last Midgard Error: ' . midcom_connection::get_error_string(),
                 MIDCOM_LOG_ERROR);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open symlink content topic.');

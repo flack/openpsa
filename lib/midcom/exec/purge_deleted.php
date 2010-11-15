@@ -40,7 +40,7 @@ foreach ($_MIDGARD['schema']['types'] as $mgdschema => $dummy)
     {
         if (!$obj->purge())
         {
-            echo "ERROR: Failed to purge <tt>{$obj->guid}</tt>, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_application::get_error_string() . "<br/>\n";
+            echo "ERROR: Failed to purge <tt>{$obj->guid}</tt>, deleted: {$obj->metadata->deleted},  revised: {$obj->metadata->revised}. errstr: " . midcom_connection::get_error_string() . "<br/>\n";
             continue;
         }
         $purged++;

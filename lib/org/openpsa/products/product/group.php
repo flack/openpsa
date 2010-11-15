@@ -39,7 +39,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     {
         if ($this->_check_duplicates($this->code))
         {
-            midcom_application::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
+            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
         return true;
@@ -49,7 +49,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     {
         if ($this->_check_duplicates($this->code))
         {
-            midcom_application::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
+            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
             return false;
         }
         return true;
@@ -190,7 +190,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
         //FIXME: Maemo specific hack
 
-        if ($_MIDGARD["admin"])
+        if (midcom_connection::is_admin())
         {
             return org_openpsa_products_product_group_dba::list_groups(0, " > ", 'id');
         }
@@ -375,14 +375,14 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             }
         }
 
-        if ($_MIDGARD['admin'])
+        if (midcom_connection::is_admin())
         {
             $up = 0;
         }
         // END Maemo specific hack
 
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        if ($_MIDGARD['admin'])
+        if (midcom_connection::is_admin())
         {
             $qb->add_constraint('up', '=', $up);
         }

@@ -348,7 +348,7 @@ class midcom_core_collector
         if (   $this->_user_id
             && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
         {
-            midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
         return $this->_mc->get_subkey($key, $property);
@@ -359,7 +359,7 @@ class midcom_core_collector
         if (   $this->_user_id
             && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
         {
-            midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
         return $this->_mc->get($key);

@@ -121,7 +121,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
             if ($buddies === false)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add('Failed to query the buddy list. Last Midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add('Failed to query the buddy list. Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_pop();
             }
             return Array();

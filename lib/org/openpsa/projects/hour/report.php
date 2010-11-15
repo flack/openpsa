@@ -67,7 +67,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         //Make sure person is set
         if (!$this->person)
         {
-            $this->person = $_MIDGARD['user'];
+            $this->person = midcom_connection::get_user();
         }
 
         return true;

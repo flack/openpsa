@@ -128,7 +128,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $this->_request_data['view'] = 'my_tasks';
 
         // Tasks proposed to the user
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $_MIDGARD['user']);
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
         $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
@@ -152,7 +152,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         }
 
         // Tasks user has under work
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $_MIDGARD['user']);
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
         $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
@@ -182,7 +182,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         }
 
         // Tasks completed by user and pending approval
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', $_MIDGARD['user']);
+        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
         $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
@@ -208,7 +208,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_PROPOSED);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', $_MIDGARD['user']);
+        $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
         // Workgroup filtering
         if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
@@ -233,7 +233,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_DECLINED);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', $_MIDGARD['user']);
+        $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
         // Workgroup filtering
         if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
@@ -258,7 +258,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_COMPLETED);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', $_MIDGARD['user']);
+        $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
         // Workgroup filtering
         if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
@@ -283,7 +283,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_ONHOLD);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $qb->add_constraint('manager', '=', $_MIDGARD['user']);
+        $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
         // Workgroup filtering
         if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')

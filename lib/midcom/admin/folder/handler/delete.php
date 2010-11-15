@@ -217,14 +217,14 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         if (!midcom_admin_folder_handler_delete::_delete_children($this->_topic))
         {
-            $this->_contentadm->msg = 'Error: Could not delete Folder contents: ' . midcom_application::get_error_string();
+            $this->_contentadm->msg = 'Error: Could not delete Folder contents: ' . midcom_connection::get_error_string();
             return false;
         }
 
         if (!$this->_topic->delete())
         {
-            debug_add("Could not delete Folder {$this->_topic->id}: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
-            $this->_contentadm->msg = 'Error: Could not delete Folder contents: ' . midcom_application::get_error_string();
+            debug_add("Could not delete Folder {$this->_topic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            $this->_contentadm->msg = 'Error: Could not delete Folder contents: ' . midcom_connection::get_error_string();
             return false;
         }
 
@@ -253,7 +253,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                 }
                 if (!$object->delete())
                 {
-                    debug_add("Could not delete child object {$object->guid}:" . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    debug_add("Could not delete child object {$object->guid}:" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     return false;
                 }
             }
@@ -287,7 +287,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not get target for symlinked topic #{$this->_topic->id}: " .
-                    midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_pop();
             }
         }
@@ -461,7 +461,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $children = midcom_helper_reflector_tree::get_child_objects($object);
         if ($children === false)
         {
-            debug_add('Failed to query the children of object {$object->guid}: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Failed to query the children of object {$object->guid}: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
         }
 
         return $children;

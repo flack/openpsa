@@ -129,7 +129,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
             debug_print_r('We operated on this object:', $query);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new project, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new project, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 

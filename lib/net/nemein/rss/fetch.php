@@ -203,7 +203,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
             if (!$items[$item_id]['local_guid'])
             {
-                debug_add("Failed to import item {$item['guid']}: " . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+                debug_add("Failed to import item {$item['guid']}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
             else
             {

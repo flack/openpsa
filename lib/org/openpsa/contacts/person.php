@@ -186,7 +186,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             $_MIDCOM->auth->request_sudo();
             if (!$this->set_privilege('midgard:update', $this_user, MIDCOM_PRIVILEGE_ALLOW))
             {
-                debug_add("\$this->set_privilege('midgard:update', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("\$this->set_privilege('midgard:update', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
             else
             {
@@ -202,7 +202,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             $_MIDCOM->auth->request_sudo();
             if (!$this->set_privilege('midgard:parameters', $this_user, MIDCOM_PRIVILEGE_ALLOW))
             {
-                debug_add("\$this->set_privilege('midgard:parameters', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("\$this->set_privilege('midgard:parameters', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
             else
             {
@@ -218,7 +218,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             $_MIDCOM->auth->request_sudo();
             if (!$this->set_privilege('midgard:create', $this_user, MIDCOM_PRIVILEGE_ALLOW))
             {
-                debug_add("\$this->set_privilege('midgard:create', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("\$this->set_privilege('midgard:create', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
             else
             {
@@ -233,7 +233,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             $_MIDCOM->auth->request_sudo();
             if (!$this->set_privilege('midgard:attachments', $this_user, MIDCOM_PRIVILEGE_ALLOW))
             {
-                debug_add("\$this->set_privilege('midgard:attachments', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("\$this->set_privilege('midgard:attachments', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
             else
             {
@@ -626,7 +626,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $atstat = midcom_services_at_interface::register(time() + $timeframe, 'org.openpsa.contacts', 'reopen_account', $args);
         if(!$atstat)
         {
-             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to register interface for re_open the user account, last Midgard error was: " . midcom_application::get_error_string());
+             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
         $this->set_parameter("org_openpsa_contacts_blocked_account", "account_password" , $this->password);
         $this->password = "";

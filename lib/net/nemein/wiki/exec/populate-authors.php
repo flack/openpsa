@@ -30,7 +30,7 @@ foreach ($pages as $page)
         $page->update();
         echo "Authors added. ";
     }
-    echo midcom_application::get_error_string();
+    echo midcom_connection::get_error_string();
     echo "<br />\n";
 }
 ?>

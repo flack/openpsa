@@ -149,7 +149,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         }
         else
         {
-            $this->_person = new midcom_db_person($_MIDGARD['user']);
+            $this->_person = new midcom_db_person(midcom_connection::get_user());
         }
 
         // Bulletproofing the person
@@ -248,7 +248,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      */
     function _handler_ajax($handler_id, $args, &$data)
     {
-        $this->_person = new midcom_db_person($_MIDGARD['user']);
+        $this->_person = new midcom_db_person(midcom_connection::get_user());
 
         // Check for the ACL's
         if (!$this->_person->can_do('midgard:update'))

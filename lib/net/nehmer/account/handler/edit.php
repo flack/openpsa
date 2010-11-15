@@ -76,7 +76,7 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND,
                     "The account '{$args[0]}' could not be loaded, reason: "
-                    . midcom_application::get_error_string());
+                    . midcom_connection::get_error_string());
             }
             net_nehmer_account_viewer::verify_person_privileges($this->_account);
             $return_url = "view/{$this->_account->guid}/";

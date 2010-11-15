@@ -49,7 +49,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         }
         else
         {
-            $this->log->person = $_MIDGARD['user'];
+            $this->log->person = midcom_connection::get_user();
         }
         
         if (array_key_exists('timestamp', $log))
@@ -147,7 +147,7 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         //print_r($this->log);
         //_midcom_stop_request();
         $stat = $this->log->create();
-        $this->error = midcom_application::get_error_string();
+        $this->error = midcom_connection::get_error_string();
         return $stat;
     }
 

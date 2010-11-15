@@ -161,7 +161,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
         else
         {
-            debug_add('AT registration failed, last midgard error was: ' . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add('AT registration failed, last midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_pop();
             return false;
         }
@@ -185,7 +185,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         if (!$invoice->update())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                     "The invoice for this cycle could not be saved. Last Midgard error was: " . midcom_application::get_error_string());
+                                     "The invoice for this cycle could not be saved. Last Midgard error was: " . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -493,7 +493,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         else
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                     "The task for this cycle could not be created. Last Midgard error was: " . midcom_application::get_error_string());
+                                     "The task for this cycle could not be created. Last Midgard error was: " . midcom_connection::get_error_string());
             // This will exit.
         }
     }

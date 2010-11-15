@@ -391,7 +391,7 @@ class midcom_helper_metadata
             case 'deleted':
             case 'exported':
             case 'imported':
-                midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+                midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;
 
             // Writable properties
@@ -814,7 +814,7 @@ class midcom_helper_metadata
             if (! $object)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to create a metadata instance for the GUID {$guid}: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("Failed to create a metadata instance for the GUID {$guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                 debug_print_r("Source was:", $source);
                 debug_pop();
 
@@ -827,7 +827,7 @@ class midcom_helper_metadata
         if (! $meta)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to create a metadata object for {$guid}, last error was: " . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+            debug_add("Failed to create a metadata object for {$guid}, last error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_print_r('Object used was:', $object);
             debug_pop();
 

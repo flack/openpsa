@@ -91,7 +91,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     function _load_create_controller()
     {
         $this->_defaults['task'] = $this->_request_data['task'];
-        $this->_defaults['person'] = $_MIDGARD['user'];
+        $this->_defaults['person'] = midcom_connection::get_user();
         $this->_defaults['date'] = time();
 
         $this->_controller = midcom_helper_datamanager2_controller::create('create');
@@ -126,7 +126,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             debug_print_r('We operated on this object:', $this->_hour_report);
             debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}, cannot continue. Error: " . midcom_application::get_error_string());
+                "Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
         }
 
@@ -431,7 +431,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             // Deletion confirmed.
             if (! $this->_hour_report->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_application::get_error_string());
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
                 // This will exit.
             }
 

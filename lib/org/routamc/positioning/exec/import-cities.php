@@ -111,7 +111,7 @@ if (   array_key_exists('cities_file_path', $_POST)
         {
             echo "<span style=\"color: #cc0000;\">FAILED</span>, ";
         }
-        echo midcom_application::get_error_string() . "<br />\n";
+        echo midcom_connection::get_error_string() . "<br />\n";
         flush();
     }
 

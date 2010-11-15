@@ -234,14 +234,14 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             case 'other':
                 if (!$this->_get_account($args[0]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
                 }
                 break;
 
             case 'other_direct':
                 if (!$this->_get_account($args[0]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
                 }
                 $this->_view_self = false;
                 $this->_view_quick = false;
@@ -250,7 +250,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             case 'other_quick':
                 if (!$this->_get_account($args[0]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_application::get_error_string());
+                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
                 }
                 $this->_view_self = false;
                 $this->_view_quick = true;

@@ -53,7 +53,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                             || !$option2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, time())
                             )
                         {
-                            $errstr = midcom_application::get_error_string();
+                            $errstr = midcom_connection::get_error_string();
                             // Failed to set as not duplicate, clear parameters that might have been set
                             $option1->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option2->guid, '');
                             $option2->parameter('org.openpsa.contacts.duplicates:not_duplicate', $option1->guid, '');

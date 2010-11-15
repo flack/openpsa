@@ -707,7 +707,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         if (! $person->update())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Cannot update password, failed to update the record: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Cannot update password, failed to update the record: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -748,7 +748,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         if (! $person->update())
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Cannot update username, failed to update the record: ' . midcom_application::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add('Cannot update username, failed to update the record: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
             return false;
         }
@@ -844,7 +844,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         $person = $this->get_storage();
         if (! $person)
         {
-            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_application::get_error_string, MIDCOM_LOG_INFO);
+            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string, MIDCOM_LOG_INFO);
             debug_pop();
             return false;
         }
@@ -853,7 +853,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
 
         if (! $person->delete())
         {
-            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_application::get_error_string, MIDCOM_LOG_INFO);
+            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string, MIDCOM_LOG_INFO);
             debug_pop();
             return false;
         }

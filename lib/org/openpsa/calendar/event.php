@@ -296,7 +296,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
                 $this->errstr = $msg;
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 debug_pop();
-                midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+                midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 unset ($id, $checker, $msg);
                 return false;
             }
@@ -361,7 +361,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         {
             debug_add('Event must have start and end timestamps');
             debug_pop();
-            midcom_application::set_error(MGD_ERR_RANGE);
+            midcom_connection::set_error(MGD_ERR_RANGE);
             return false;
         }
 
@@ -386,7 +386,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         {
             debug_add('Event cannot end before it starts, aborting');
             debug_pop();
-            midcom_application::set_error(MGD_ERR_RANGE);
+            midcom_connection::set_error(MGD_ERR_RANGE);
             return false;
         }
 
@@ -490,7 +490,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
                 }
                 else
                 {
-                    debug_add("could not save link to task #{$linkdata['other_obj']->id}, errstr" . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                    debug_add("could not save link to task #{$linkdata['other_obj']->id}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                 }
             }
         }
@@ -554,7 +554,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             }
             else
             {
-                debug_add("could not save link to {$linkdata['other_obj']->guid}, errstr" . midcom_application::get_error_string(), MIDCOM_LOG_WARN);
+                debug_add("could not save link to {$linkdata['other_obj']->guid}, errstr" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             }
         }
 
@@ -1043,7 +1043,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             $_MIDCOM->auth->drop_sudo();
             debug_add('unresolvable conflicts found, returning true');
             debug_pop();
-            midcom_application::set_error(MGD_ERR_ERROR);
+            midcom_connection::set_error(MGD_ERR_ERROR);
             return true;
         }
 

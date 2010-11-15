@@ -247,7 +247,7 @@ else
             if (   !$object
                 || empty($object->guid))
             {
-                if (midcom_application::get_error() == MGD_ERR_OBJECT_DELETED)
+                if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
                 {
                     // TODO: Visualize deleted objects somehow
                     continue;
