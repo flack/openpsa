@@ -366,6 +366,18 @@ class midcom_application
      */
     public function initialize()
     {
+        // Quick-and-dirty handler for catching attachment serve requests to reduce overhead
+        $argv = midcom_connection::get_url('argv');
+        if (   midcom_connection::get_url('argc') > 0
+            && substr($argv[0], 0, 27) == 'midcom-serveattachmentguid-')
+        {
+            $guid = substr($argv[0], 27);
+            $this->_create_context(0);
+            $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc', null, true);
+            $attachment = new midcom_db_attachment($guid);
+            $this->serve_attachment($attachment);
+        }
+
         // set prefix for "new" midgard->self
         $this->_prefix = $GLOBALS['midcom_config']['midcom_prefix'];
 
@@ -1864,7 +1876,7 @@ class midcom_application
      * @return int The ID of the newly created component.
      * @access private
      */
-    public function _create_context($id = null, $node = null)
+    private function _create_context($id = null, $node = null)
     {
         if (is_null($id))
         {
@@ -2250,7 +2262,7 @@ class midcom_application
      * @param string $component The component to look in ("midcom" uses core scripts)
      * @see midcom_services_cache_module_content::enable_live_mode()
      */
-    function _exec_file($component)
+    private function _exec_file($component)
     {
         // Sanity checks
         if ($this->_parsers[$this->_currentcontext]->argc < 1)
@@ -2819,7 +2831,7 @@ class midcom_application
      * @param mixed $count Number of lines to be dumped or 'all' for everything
      * @access private
      */
-    function _showdebuglog($count)
+    private function _showdebuglog($count)
     {
         if ($GLOBALS['midcom_config']['log_tailurl_enable'] !== true)
         {
