@@ -130,7 +130,7 @@ class midcom_application
      * @var Array
      * @access private
      */
-    public $_context = array();
+    private $_context = array();
 
     /**
      * Contains the ID of the currently active context or FALSE is none is active.
@@ -1651,6 +1651,17 @@ class midcom_application
     function get_current_context ()
     {
         return $this->_currentcontext;
+    }
+
+
+    /**
+     * Returns the complete context data array
+     *
+     * @return array The data of all contexts
+     */
+    function get_all_contexts ()
+    {
+        return $this->_context;
     }
 
     /**

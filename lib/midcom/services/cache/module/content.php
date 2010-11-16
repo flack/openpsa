@@ -1280,7 +1280,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
              * Fallback to time() if this fails.
              */
             $time = 0;
-            foreach ($_MIDCOM->_context as $id => $context)
+            foreach ($_MIDCOM->get_all_contexts() as $id => $context)
             {
                 $meta = $_MIDCOM->get_26_request_metadata($id);
                 if ($meta['lastmodified'] > $time)
