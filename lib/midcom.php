@@ -269,7 +269,7 @@ spl_autoload_register('midcom_autoload');
 ///////////////////////////////////
 // Load first-level supporting code
 // Note that the cache check hit depends on the i18n and auth code.
-require(MIDCOM_ROOT . '/midcom/services/auth.php');
+require(MIDCOM_ROOT . '/midcom/services/auth/main.php');
 $auth = new midcom_services_auth();
 $auth->initialize();
 
@@ -277,7 +277,7 @@ $auth->initialize();
 // Load and start up the cache system,
 // this might already end the request
 // on a content cache hit.
-require(MIDCOM_ROOT . '/midcom/services/cache.php');
+require(MIDCOM_ROOT . '/midcom/services/cache/main.php');
 $GLOBALS['midcom_cache'] = new midcom_services_cache();
 $GLOBALS['midcom_cache']->initialize();
 

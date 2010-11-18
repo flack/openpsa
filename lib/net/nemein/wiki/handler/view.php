@@ -205,10 +205,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     'title' => $this->_request_data['l10n_midcom']->get('edit'),
                     'href' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
                 )
-            );        
-            
+            );
+
         }
-        
+
         if ($_MIDCOM->componentloader->is_installed('org.openpsa.relatedto'))
         {
             org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_page->guid);
@@ -373,7 +373,15 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             $data['wikipage_view'] = $this->_datamanager->get_content_html();
         }
         $data['wikipage'] =& $this->_page;
-        $data['autogenerate_toc'] = $this->_config->get('autogenerate_toc');
+        if ($this->_config->get('autogenerate_toc'))
+        {
+        	$data['content'] = $this->_autogenerate_toc($data['wikipage_view']['content']);
+        }
+        else
+        {
+        	$data['content'] = $data['view']['content'];
+        }
+
         $data['display_related_to'] = $this->_config->get('display_related_to');
 
         // Replace wikiwords
@@ -382,6 +390,87 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         midcom_show_style('view-wikipage');
     }
+
+
+    private function _toc_prefix($level)
+    {
+        $prefix = '';
+        for ($i=0; $i < $level; $i++)
+        {
+            $prefix .= '    ';
+        }
+        return $prefix;
+    }
+
+    /**
+     * This function parses HTML content and looks for header tags, making index of them.
+     *
+     * What exactly it does is looks for all H<num> tags and converts them to named
+     * anchors, and prepends a list of links to them to the start of HTML.
+     *
+     * @todo Parse the heading structure to create OL subtrees based on their relative levels
+     */
+    private function _autogenerate_toc($content)
+    {
+        if (!preg_match_all("/(<(h([1-9][0-9]*))[^>]*?>)(.*?)(<\/\\2>)/i", $content, $headings))
+        {
+            return $content;
+        }
+
+        $toc = '';
+
+        $current_tag_level = false;
+        $current_list_level = 1;
+        echo "\n<ol class=\"midcom_helper_toc_formatter level_{$current_list_level}\">\n";
+        foreach ($headings[4] as $key => $heading)
+        {
+            $anchor = md5($heading);
+            $tag_level =& $headings[3][$key];
+            $heading_code =& $headings[0][$key];
+            $heading_tag =& $headings[2][$key];
+            $heading_new_code = "<a name='{$anchor}'></a>{$heading_code}";
+            $content = str_replace($heading_code, $heading_new_code, $content);
+            $prefix = $this->_toc_prefix($current_list_level);
+            if ($current_tag_level === false)
+            {
+                $current_tag_level = $tag_level;
+            }
+            if ($tag_level > $current_tag_level)
+            {
+                for ($i = $current_tag_level; $i < $tag_level; $i++)
+                {
+                    $current_tag_level = $tag_level;
+                    $current_list_level++;
+                    $toc .= $prefix . "<ol class=\"level_{$current_list_level}\">\n";
+                    $prefix .= '    ';
+                }
+            }
+            if ($tag_level < $current_tag_level)
+            {
+                for ($i = $current_tag_level; $i > $tag_level; $i--)
+                {
+                    $current_tag_level = $tag_level;
+                    if ($current_list_level > 1)
+                    {
+                        $current_list_level--;
+                        $prefix = $this->_toc_prefix($current_list_level);
+                        $toc .= "{$prefix}</ol>\n";
+                    }
+                }
+            }
+            $toc .= $prefix . "<li class='{$heading_tag}'><a href='#{$anchor}'>" . strip_tags($heading) .  "</a></li>\n";
+        }
+        for ($i = $current_list_level; $i > 0; $i--)
+        {
+            $prefix = $this->_toc_prefix($i - 1);
+            $toc .= $prefix . "</ol>\n";
+        }
+
+        $content = $toc . $content;
+
+        return $content;
+    }
+
 
     /**
      * @param mixed $handler_id The ID of the handler.
