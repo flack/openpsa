@@ -302,7 +302,7 @@ class fi_protie_navigation
      *
      * @access protected
      */
-    function fi_protie_navigation ($id = null)
+    function __construct($id = null)
     {
         $this->_nap = new midcom_helper_nav();
         $this->node_path = $this->get_node_path();

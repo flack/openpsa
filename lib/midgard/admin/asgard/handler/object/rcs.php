@@ -14,7 +14,7 @@
  * request_switch array in the main handlerclass:
  *
  * <pre>
- *      $rcs_array =  no_bergfald_rcs_handler::get_request_switch();
+ *      $rcs_array =  no_bergfald_rcs_handler::get_plugin_handlers();
  *      foreach ($rcs_array as $key => $switch) {
  *            $this->_request_switch[] = $switch;
  *      }

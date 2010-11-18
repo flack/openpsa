@@ -49,7 +49,7 @@ class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
 
     function calculate_language_status($lang)
     {
-        if (       in_array('midcom_admin_babel_lang_status', $GLOBALS['midcom_config']['cache_module_memcache_data_groups'])
+        if (    in_array('midcom_admin_babel_lang_status', $GLOBALS['midcom_config']['cache_module_memcache_data_groups'])
              && $_MIDCOM->cache->memcache->exists('midcom_admin_babel_lang_status', $lang))
         {
             return $_MIDCOM->cache->memcache->get('midcom_admin_babel_lang_status', $lang);

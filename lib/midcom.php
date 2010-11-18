@@ -288,7 +288,6 @@ $GLOBALS['midcom_cache']->initialize();
 // Services
 require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
 require(MIDCOM_ROOT . '/midcom/helper/misc.php');
-require(MIDCOM_ROOT . '/midcom/helper/formatters.php');
 
 /////////////////////////////////////
 // Instantiate the MidCOM main class

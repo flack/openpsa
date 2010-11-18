@@ -1,4 +1,3 @@
-//<?php//hack for syntax hilighters
 'default' => array
 (
     'name' => 'default',

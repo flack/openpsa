@@ -154,7 +154,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$fp)
         {
            //Could not open remote URI, this might be lack of SSL wrappers or something
-           debug_print_r('Could not open %s for reading', $server_uri);
+           debug_print_r('Could not open %s for reading', $this->_server_uri);
         }
         else
         {

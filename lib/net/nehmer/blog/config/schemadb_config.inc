@@ -1,4 +1,3 @@
-//<?php array(//hack for syntax highlighters
 'config' => array
 (
     'name'        => 'config',

@@ -13,7 +13,7 @@
  * request_switch array in the main handlerclass:
  *
  * <code>
- *      $rcs_array =  no_bergfald_rcs_handler::get_request_switch();
+ *      $rcs_array =  no_bergfald_rcs_handler::get_plugin_handlers();
  *      foreach ($rcs_array as $key => $switch) {
  *            $this->_request_switch[] = $switch;
  *      }
@@ -68,14 +68,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     function _l10n_get($string_id)
     {
         return $_MIDCOM->i18n->get_string($string_id, 'no.bergfald.rcs');
-    }
-
-    /**
-     * @deprecated Deprecated interface, see get_plugin_handlers()
-     */
-    function get_request_switch()
-    {
-        return no_bergfald_rcs_handler::get_plugin_handlers();
     }
 
     /**

@@ -12,9 +12,6 @@ if (   isset($_GET['cache'])
 }
 
 $qb = midcom_db_person::new_query_builder();
-// FIXME: These are maemo-specific hack
-$qb->add_constraint('username', '<>', 'admin');
-$qb->add_constraint('firstname', 'NOT LIKE', 'DELETE %');
 $qb->add_order('metadata.revised', 'ASC');
 $qb->set_limit((int) $GLOBALS['midcom_component_data']['net.nehmer.account']['config']->get('karma_calculate_per_hour'));
 $persons = $qb->execute();

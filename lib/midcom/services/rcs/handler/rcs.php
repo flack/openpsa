@@ -52,7 +52,7 @@ class no_bergfald_rcs
      */
     var $error = array();
 
-    function no_bergfald_rcs($guid = null)
+    function __construct($guid = null)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
         if (!is_null($guid)) {

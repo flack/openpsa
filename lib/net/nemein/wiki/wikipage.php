@@ -481,8 +481,8 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $nap = new midcom_helper_nav();
         static $node_cache = array();
         $ret = "\n<ul class=\"tagged\">\n";
-        /* HACK: usort can't use even static methods so we create an "anonymous" function from code received via method */
-        usort($pages, create_function('$a,$b', $this->_code_for_sort_by_title()));
+
+        usort($pages, array($this, '_code_sort_by_title'));
         foreach ($pages as $page)
         {
             if (!isset($node_cache[$page->topic]))
@@ -507,13 +507,11 @@ class net_nemein_wiki_wikipage extends midcom_db_article
      *
      * Used by $this->_replace_wikiwords_macro_tagged()
      */
-    function _code_for_sort_by_title()
+    private function _code_for_sort_by_title($a, $b)
     {
-        return <<<EOF
-        \$ap = \$a->title;
-        \$bp = \$b->title;
-        return strnatcmp(\$ap, \$bp);
-EOF;
+        $ap = $a->title;
+        $bp = $b->title;
+        return strnatcmp($ap, $bp);
     }
 
     /**
