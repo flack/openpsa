@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <type name="midcom_core_group_virtual_db" table="midcom_group_virtual">
-        <property name="id" type="unsigned integer" primaryfield="id">
-            <description>Local non-replication-safe database identifier</description>
-        </property>
-        <property name="component" type="string" index="yes">
-            <description>Component handling the virtual group</description>
-        </property>
-        <property name="identifier" type="string" index="yes">
-            <description>Virtual group's identifier</description>
-        </property>
-        <property name="name" type="string">
-            <description>Virtual group's name</description>
-        </property>
-    </type>
 
     <type name="midcom_core_privilege_db" table="midcom_core_privilege">
         <property name="id" type="unsigned integer" primaryfield="id">

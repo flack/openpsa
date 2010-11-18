@@ -141,7 +141,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
                 }
             }
 
-            //Ensure manager can do stuff regardless of vgroup
+            //Ensure manager can do stuff
             if ($this->manager)
             {
                 $manager_person = self::pid_to_obj($this->manager);

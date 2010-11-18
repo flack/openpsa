@@ -328,10 +328,6 @@ define ('MIDCOM_PRIVILEGE_SCOPE_USERS', 10);
  */
 define ('MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP', 100);
 /**
- * Default scope value for virtual groups.
- */
-define ('MIDCOM_PRIVILEGE_SCOPE_VGROUPS', 65000);
-/**
  * Magic scope value for owner privileges.
  */
 define ('MIDCOM_PRIVILEGE_SCOPE_OWNER', 65050);

@@ -125,7 +125,7 @@
  *
  * The basic idea is, that you can assign privileges based on the combination of users/groups and
  * content objects. In other words, you can say the user x has the privilege midgard:update for
- * this object (and its descendants) only. This works with (virtual) groups as well.
+ * this object (and its descendants) only. This works with groups as well.
  *
  * The possible assignees here are either a user, a group or one of the magic assignees EVERYONE,
  * USERS or ANONYMOuS, as outlined above.
@@ -220,13 +220,6 @@
  *   it is granted by default only for owners.
  * - <i>midcom:isonline</i> is needed to see the online state of another user. It is not granted
  *   by default.
- * - <i>midcom:vgroup_register</i> allows the user to add virtual groups to the system. This
- *   privilege is granted by default.
- * - <i>midcom:vgroup_delete</i> allows the user to delete virtual groups from the system. This
- *   privilege is granted by default.
- *
- * DEPRECATION NOTE: The vgroup registering / deletion commands will be denied in the long run
- * by default, for security reasons. Exact plan is not yet available though.
  *
  * <b>Assigning Privileges</b>
  *
@@ -279,17 +272,10 @@ class midcom_services_auth_acl
      * midgard:privileges, which will always be denied. These checks go after the basic checks
      * for not authenticated users or admin level users.
      *
-     * Danger, Will Robinson: You MUST NEVER touch this flag unless you are working with the
-     * authentication core itself and now very much exactly what you are doing. Misusage of this
-     * flag can result in serious security risks.
-     *
-     * All parts of the core may change this variable (as for example midcom_core_group_virtual
-     * does during vgroup member loading).
-     *
      * @var boolean
      * @access private
      */
-    var $_internal_sudo = false;
+    private $_internal_sudo = false;
 
     /**
      * Internal listing of all default privileges currently registered in the system. This
@@ -383,8 +369,6 @@ class midcom_services_auth_acl
                 'midcom:component_config' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
                 'midcom:urlname' => MIDCOM_PRIVILEGE_DENY,
                 'midcom:isonline' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW),
-                'midcom:vgroup_register' => MIDCOM_PRIVILEGE_ALLOW,
-                'midcom:vgroup_delete' => MIDCOM_PRIVILEGE_ALLOW,
                 'midcom:ajax' => MIDCOM_PRIVILEGE_DENY,
                 'midcom:centralized_toolbar' => MIDCOM_PRIVILEGE_DENY,
                 'midcom:unlock' => MIDCOM_PRIVILEGE_DENY,

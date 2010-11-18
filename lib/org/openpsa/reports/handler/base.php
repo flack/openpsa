@@ -357,8 +357,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         switch (get_class($dba_obj))
         {
             case 'midcom_core_group':
-            case 'midcom_core_group_midgard':
-            case 'midcom_core_group_virtual':
                 $members = $dba_obj->list_members();
                 if (is_array($members))
                 {

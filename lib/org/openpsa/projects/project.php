@@ -29,7 +29,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
@@ -43,105 +43,8 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
     }
 
     /**
-     * Helper function to rename vgroups, if they are not found, they are 
-     * created instead. The update will only trigger if the project title has changed 
-     *
-     * @param mixed $vgroup The vgroup, if any
-     * @param string $title The title to set
-     * @param string $identifier The vgroup identifier
-     */
-    private function _update_vgroup($vgroup, $title, $identifier)
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        if (!is_object($vgroup))
-        {
-            // Register workgroups here
-            debug_add("Registering workgroup: " . $vgroup->name);
-            $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-            $_MIDCOM->auth->register_virtual_group('org.openpsa.projects', $identifier, $title);
-            $_MIDCOM->auth->drop_sudo();
-        }
-        else if ($vgroup->name != $title)
-        {
-            //Renaming vgroup is made with delete+register cycle
-            debug_add("Deleting previous workgroup: " . $vgroup->name);
-            $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-            $_MIDCOM->auth->delete_virtual_group($vgroup);
-            debug_add("Registering workgroup: " . $title);
-            // TODO: localize
-            $_MIDCOM->auth->register_virtual_group('org.openpsa.projects', $identifier, $title);
-            $_MIDCOM->auth->drop_sudo();
-            
-        }
-        debug_pop();
-    }
-
-    /**
-     * Helper to remove a vgroup
-     *
-     * @param midcom_core_group_virtual $vgroup The vgroup to remove
-     */
-    private function _delete_vgroups()
-    {
-        $participants_vgroup = new midcom_core_group_virtual("org.openpsa.projects-{$this->guid}");
-        $contacts_vgroup = new midcom_core_group_virtual("org.openpsa.projects-{$this->guid}subscribers");
-
-        if (is_object($contacts_vgroup))
-        {
-            //TODO: This can be a problem for vgroup ACL selector...
-            $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-            $_MIDCOM->auth->delete_virtual_group($contacts_vgroup);
-            $_MIDCOM->auth->drop_sudo();
-        }
-        if (is_object($participants_vgroup))
-        {
-            //TODO: This can be a problem for vgroup ACL selector...
-            $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-            $_MIDCOM->auth->delete_virtual_group($participants_vgroup);
-            $_MIDCOM->auth->drop_sudo();
-        }
-    } 
-
-    function _on_updated()
-    {
-        // Not finished projects can be active workgroups, finished ones inactive (but still workgroups).
-        if (   $this->orgOpenpsaWgtype != ORG_OPENPSA_WGTYPE_NONE
-            && $this->status != ORG_OPENPSA_TASKSTATUS_CLOSED)
-        {
-            $participants_vgroup = new midcom_core_group_virtual("org.openpsa.projects-{$this->guid}");
-            $contacts_vgroup = new midcom_core_group_virtual("org.openpsa.projects-{$this->guid}subscribers");
-
-            $this->orgOpenpsaWgtype = ORG_OPENPSA_WGTYPE_ACTIVE;
-
-            $this->_update_vgroup($participants_vgroup, $this->title, $this->guid);
-            // TODO: localize
-            $this->_update_vgroup($contacts_vgroup, $this->title . ' contacts', $this->guid . 'subscribers');
-        }
-        else
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("This is a finished project, no workgroups registered");
-            debug_pop();
-            //Remove workgroups
-            $this->_delete_vgroups();
-
-            $this->orgOpenpsaWgtype = ORG_OPENPSA_WGTYPE_INACTIVE;
-        }
-        parent::_on_updated();
-    }
-
-    function _on_deleted()
-    {
-        //Remove workgroups
-        $this->_delete_vgroups();
-
-        parent::_on_deleted();
-    }
-
-
-    /**
      * Helper functions that gets the number of tasks for the different status types
-     * 
+     *
      * @return array The task status overview
      */
     function get_task_count()
@@ -166,10 +69,10 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         }
         return $numbers;
     }
-    
+
     /**
      * Helper functions that gets the number of tasks for the different status types
-     * 
+     *
      * @return array The task hours overview
      */
     function get_task_hours()
@@ -198,7 +101,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
      * This function sets project information according to the situation of its tasks
      *
      * This adjusts the timeframe if necessary and tries to determine the project's
-     * status according to the current task situation 
+     * status according to the current task situation
      */
     function _refresh_from_tasks()
     {
@@ -212,7 +115,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         $task_qb = org_openpsa_projects_task_dba::new_query_builder();
         $task_qb->add_constraint('up', '=', $this->id);
         $ret = $task_qb->execute();
-        
+
         if ( sizeof($ret) == 0)
         {
             return;

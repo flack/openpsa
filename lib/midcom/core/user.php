@@ -295,7 +295,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
             debug_pop();
             return false;
         }
-        
+
         if (   !is_object($this->_storage)
             || !isset($this->_storage->guid))
         {
@@ -417,11 +417,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         debug_push_class(__CLASS__, __FUNCTION__);
         debug_pop();
 
-        $this->_direct_groups = array_merge
-        (
-            midcom_core_group_midgard::list_memberships($this),
-            midcom_core_group_virtual::list_memberships($this)
-        );
+        $this->_direct_groups = midcom_core_group::list_memberships($this);
     }
 
     /**
@@ -455,11 +451,6 @@ class midcom_core_user extends midcom_baseclasses_core_object
             return $group->_storage->guid;
         }
 
-        /*
-         * the vgroups mechanism is used so seldomly that optimization is hardly justified,
-         * so if our attempt at optimization failed, we might as well run the complete group
-         * retrieval code
-         */
         $this->_load_all_groups();
 
         if (!empty($this->_direct_groups))
@@ -619,7 +610,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      * The group argument may be one of the following (checked in this order of precedence):
      *
      * 1. A valid group object (subclass of midcom_core_group)
-     * 2. A group or vgroup string identifier, matching the regex ^v?group:
+     * 2. A group string identifier, matching the regex ^group:
      * 3. A valid midcom group name
      *
      * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
@@ -637,7 +628,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         {
             return array_key_exists($group->id, $this->_all_groups);
         }
-        else if (preg_match('/^v?group:/', $group))
+        else if (preg_match('/^group:/', $group))
         {
             return array_key_exists($group, $this->_all_groups);
         }
@@ -646,7 +637,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
             // We scan through our groups looking for a midgard group with the right name
             foreach ($this->_all_groups as $id => $group_object)
             {
-                if (   $_MIDCOM->dbfactory->is_a($group_object, 'midcom_core_group_midgard')
+                if (   $_MIDCOM->dbfactory->is_a($group_object, 'midcom_core_group')
                     && $group_object->_storage->name == $group)
                 {
                     return true;

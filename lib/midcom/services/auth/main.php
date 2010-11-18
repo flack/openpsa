@@ -63,16 +63,6 @@ class midcom_services_auth
     var $acl = null;
 
     /**
-     * Internal listing of all known virtual groups, populated from the
-     * MidCOM Virtual Groups registry. It indexes virtual group identifiers suitable for get_group
-     * with their clear-text names.
-     *
-     * @var array
-     * @access private
-     */
-    var $_vgroups = null;
-
-    /**
      * Internal cache of all loaded groups, indexed by their identifiers.
      *
      * @var Array
@@ -832,37 +822,6 @@ class midcom_services_auth
     }
 
     /**
-     * Returns a listing of all known(!) virtual groups.
-     *
-     * @return array An associative vgroup_id (including the vgroup: prefix) => vgroup_name listing.
-     */
-    function get_all_vgroups()
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-
-        if (is_null($this->_vgroups))
-        {
-            $qb = new midgard_query_builder('midcom_core_group_virtual_db');
-            $result = @$qb->execute();
-            if (! $result)
-            {
-                $this->_vgroups = Array();
-            }
-            else
-            {
-                foreach ($result as $vgroup_entry)
-                {
-                    $id = "vgroup:{$vgroup_entry->component}-{$vgroup_entry->identifier}";
-                    $this->_vgroups[$id] = $vgroup_entry->name;
-                }
-            }
-        }
-
-        debug_pop();
-        return $this->_vgroups;
-    }
-
-    /**
      * Factory Method: Resolves any assignee identifier known by the system into an appropriate
      * user/group object.
      *
@@ -886,7 +845,6 @@ class midcom_services_auth
                 break;
 
             case 'group':
-            case 'vgroup':
                 $result = $this->get_group($id);
                 break;
 
@@ -1105,7 +1063,7 @@ class midcom_services_auth
 
     /**
      * Returns a midcom_core_group instance. Valid arguments are either a valid group identifier
-     * (group:... or vgroup:...), any valid identifier for the midcom_core_group
+     * (group:...), any valid identifier for the midcom_core_group
      * constructor or a valid object of that type.
      *
      * You must adhere the reference that is returned, otherwise the internal caching
@@ -1125,7 +1083,7 @@ class midcom_services_auth
             $id = "group:{$id->guid}";
             if (! array_key_exists($id, $this->_group_cache))
             {
-                $this->_group_cache[$id] = new midcom_core_group_midgard($object->id);
+                $this->_group_cache[$id] = new midcom_core_group($object->id);
             }
         }
         else if (is_string($id))
@@ -1139,11 +1097,7 @@ class midcom_services_auth
                     switch ($id_parts[0])
                     {
                         case 'group':
-                            $this->_group_cache[$id] = new midcom_core_group_midgard($id_parts[1]);
-                            break;
-
-                        case 'vgroup':
-                            $this->_group_cache[$id] = new midcom_core_group_virtual($id_parts[1]);
+                            $this->_group_cache[$id] = new midcom_core_group($id_parts[1]);
                             break;
 
                         default:
@@ -1156,9 +1110,9 @@ class midcom_services_auth
                 }
                 else
                 {
-                    // This must be a group ID, lets hope that the group_midgard constructor
+                    // This must be a group ID, lets hope that the group constructor
                     // can take it.
-                    $tmp = new midcom_core_group_midgard($id);
+                    $tmp = new midcom_core_group($id);
                     if (! $tmp)
                     {
                         $this->_group_cache[$id] = false;
@@ -1176,8 +1130,8 @@ class midcom_services_auth
         }
         else if (is_int($id))
         {
-            // Looks like an object ID, again we try the midgard group constructor.
-            $tmp = new midcom_core_group_midgard($id);
+            // Looks like an object ID, again we try the group constructor.
+            $tmp = new midcom_core_group($id);
             if (! $tmp)
             {
                 $this->_group_cache[$id] = false;
@@ -1200,128 +1154,6 @@ class midcom_services_auth
         }
 
         return $this->_group_cache[$id];
-    }
-
-    /**
-     * Delete a registered virtual group in the system. This requires the privilege
-     * midcom:vgroup_delete assigned to the user (there is no content object checked).
-     *
-     * @param midcom_core_group_virtual $virtual_group The group to drop, loaded by get_group() previously.
-     * @return boolean Indicating success.
-     */
-    function delete_virtual_group($virtual_group)
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-
-        $this->require_user_do('midcom:vgroup_delete', 'You need the privilege "midcom:vgroup_register" to register any virtual group.');
-
-        if (   ! is_a($virtual_group, 'midcom_core_group_virtual')
-            || is_null($virtual_group->_storage)
-            || ! $virtual_group->_storage->id)
-        {
-            debug_add('The virtual group passed cannot be removed, the object is invalid. See the debug level log for more details.',
-                MIDCOM_LOG_ERROR);
-            debug_print_r('Passed object was:', $virtual_group);
-            debug_pop();
-            return false;
-        }
-
-        if (! $virtual_group->_storage->delete())
-        {
-            debug_add("The virtual group {$virtual_group->id} cannot be removed, failed to delete the record: " . midcom_connection::get_error_string(),
-                MIDCOM_LOG_ERROR);
-            debug_print_r('Passed object was:', $virtual_group);
-            debug_pop();
-            return false;
-        }
-        if (method_exists($virtual_group->_storage, 'purge'))
-        {
-            $virtual_group->_storage->purge();
-        }
-
-        if (array_key_exists($virtual_group->id, $this->_group_cache))
-        {
-            unset ($this->_group_cache[$virtual_group->id]);
-        }
-
-        debug_pop();
-        return true;
-    }
-
-    /**
-     * Register a virtual group in the system. This requires the privilege
-     * midcom:vgroup_register assigned to the user (there is no content object checked).
-     *
-     * The member listing is retrieved by the callback
-     * midcom_baseclasses_components_interface::_on_retrieve_vgroup_members().
-     *
-     * @param string $component The name to register a virtual group for.
-     * @param string $identifier The component-local identifier of the virtual group.
-     * @param string $name The clear-text name of the virtual group.
-     * @return boolean Indicating success.
-     */
-    function register_virtual_group($component, $identifier, $name)
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-
-        $this->require_user_do('midcom:vgroup_register', 'You need the privilege "midcom:vgroup_register" to register any virtual group.');
-
-        // Check whether we have a valid component URL here
-        // Note, just trigger loading it is not an option, as this function might be
-        // called during component loading itself.
-        if (! $_MIDCOM->componentloader->validate_url($component))
-        {
-            debug_add("Failed to register the vgroup {$component}-{$identifier} ({$name}), the component name is invalid.",
-                MIDCOM_LOG_ERROR);
-            debug_add('The identifier must match the regular expression ^[a-z0-9]+$.');
-            debug_pop();
-            return false;
-        }
-
-        if (! preg_match('/^[a-z0-9]+$/', $identifier))
-        {
-            debug_add("Failed to register the vgroup {$component}-{$identifier} ({$name}), the identifier is invalid.",
-                MIDCOM_LOG_ERROR);
-            debug_add('The identifier must match the regular expression ^[a-z0-9]+$.');
-            debug_pop();
-            return false;
-        }
-
-        // Check if the group does already exist
-        $qb = new midgard_query_builder('midcom_core_group_virtual_db');
-        $qb->add_constraint('component', '=', $component);
-        $qb->add_constraint('identifier', '=', $identifier);
-        $tmp = @$qb->execute();
-
-        if (   is_array($tmp)
-            && count($tmp) > 0)
-        {
-            debug_add("Failing silently to register the vgroup {$component}-{$identifier} ({$name}), the group does already exist.",
-                MIDCOM_LOG_INFO);
-            debug_print_r('Resultset was:', $tmp);
-            debug_pop();
-            return true;
-        }
-
-        $obj = new midcom_core_group_virtual_db();
-        $obj->component = $component;
-        $obj->identifier = $identifier;
-        $obj->name = $name;
-
-        debug_print_r('Trying to create this Virtual Group:', $obj);
-
-        if (   ! $obj->create()
-            || ! $obj->id)
-        {
-            debug_add("Failed to register the vgroup {$component}-{$identifier} ({$name}), could not create the database record: " . midcom_connection::get_error_string(),
-                MIDCOM_LOG_ERROR);
-            debug_print_r('Tried to create this record:', $obj);
-            debug_pop();
-            return false;
-        }
-
-        debug_pop();
-        return true;
     }
 
     /**

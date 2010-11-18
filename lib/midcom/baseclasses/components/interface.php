@@ -693,51 +693,6 @@ class midcom_baseclasses_components_interface
     }
 
     /**
-     * Retrieve all members of a given virtual group. This information may be cached by the framework.
-     *
-     * Executio0n is relayed to the corresponding event handler.
-     *
-     * @param string $groupname The local groupname (that is, without the component prefix) of the virtual group to query.
-     * @return Array Associative user->id => user_object listing of all member users or null on failure.
-     */
-    public function retrieve_vgroup_members ($groupname)
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-
-        $members = $this->_on_retrieve_vgroup_members ($groupname);
-
-        if (is_null($members))
-        {
-            debug_add("The members of the virtual group {$groupname} within {$this->_component} could not be loaded, eventhandler failed to execute.", MIDCOM_LOG_INFO);
-            debug_pop();
-            return null;
-        }
-
-        $result = Array();
-        foreach ($members as $orig_member)
-        {
-            if (   ! is_object($orig_member)
-                || ! is_a($orig_member, 'midcom_core_user'))
-            {
-                $member = $_MIDCOM->auth->get_user($orig_member);
-            }
-
-            if (! is_a($member, 'midcom_core_user'))
-            {
-                // Something went wrong.
-                debug_add('Could not cast a member element to a midcom_core_user object, see debug level log for details.', MIDCOM_LOG_INFO);
-                debug_print_r('Passed member object was:', $orig_member);
-                continue;
-            }
-
-            $result[$member->id] = $member;
-        }
-
-        debug_pop();
-        return $result;
-    }
-
-    /**
      * This interface function is used to check whether a component can handle a given GUID
      * or not <i>on site only.</i> A topic is provided which limits the "scope" of the search
      * accordingly. It can be safely assumed that the topic given is a valid topic in the
@@ -948,19 +903,6 @@ class midcom_baseclasses_components_interface
     function _on_check_document_permissions (&$document, $config, $topic)
     {
         return true;
-    }
-
-    /**
-     * Retrieve all members of a given virtual group. This information may be cached by the framework.
-     *
-     * @param string $groupname The local groupname (that is, without the component prefix) of the virtual group to query.
-     * @return Array List of members. You may add either one of the following types to this array: Person IDs, Person GUIDs,
-     *     midcom_core_baseclasses_person objects (or derived classes), MgdSchema or legacy Person objects, midcom_core_user
-     *     objects.
-     */
-    function _on_retrieve_vgroup_members ($groupname)
-    {
-        return null;
     }
 
     /**

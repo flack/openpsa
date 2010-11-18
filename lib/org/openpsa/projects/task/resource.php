@@ -65,7 +65,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
         $account = new midcom_db_person($account);
         $user = $_MIDCOM->auth->user->get_storage();
-        
+
         $mc = org_openpsa_contacts_buddy_dba::new_collector('account', (string) $account->guid);
         $mc->add_constraint('buddy', '=', (string) $this->_personobject->guid);
         $mc->add_constraint('blacklisted', '=', false);
@@ -222,9 +222,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
                 $this->set_privilege('midgard:update', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
                 $this->set_privilege('midgard:read', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
 
-                // Ensure resources can read regardless of if this is a vgroup
-                $task->set_privilege('midgard:read', $this->_personobject->id, MIDCOM_PRIVILEGE_ALLOW);
-    
                 if ($task->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_TASK)
                 {
                     // Resources must be permitted to create hour/expense reports into tasks

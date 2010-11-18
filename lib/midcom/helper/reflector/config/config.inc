@@ -31,7 +31,6 @@
     'org_openpsa_contacts_person' => false,
     'midgard_parameter' => false,
     'midgard_host' => false,
-    'midcom_core_group_virtual_db' => false,
     'midcom_core_privilege_db' => false,
     'midcom_core_temporary_object_db' => false,
     'org_routamc_positioning_country' => false,

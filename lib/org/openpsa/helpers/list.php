@@ -195,18 +195,7 @@ class org_openpsa_helpers_list
                     $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
                 }
 
-                if (midcom_connection::is_admin())
-                {
-                    // Admins must see all workgroups, all the time
-                    $users_vgroups = $_MIDCOM->auth->get_all_vgroups();
-                    $users_groups = $_MIDCOM->auth->user->list_memberships();
-                    $users_groups = array_merge($users_vgroups, $users_groups);
-                }
-                else
-                {
-                    // Regular people see only their own
-                    $users_groups = $_MIDCOM->auth->user->list_memberships();
-                }
+                $users_groups = $_MIDCOM->auth->user->list_memberships();
                 foreach ($users_groups as $key => $vgroup)
                 {
                     if (is_object($vgroup))
@@ -218,44 +207,23 @@ class org_openpsa_helpers_list
                         $label = $vgroup;
                     }
 
-                    if (substr($key, strlen($key) - 11) == 'subscribers')
-                    {
-                        if (midcom_connection::is_admin())
-                        {
-                            debug_add("Not showing subscriber groups to admin");
-                        }
-                        else
-                        {
-                            debug_add("This is subscriber group, get the real group instead");
-                            $real_group = $_MIDCOM->auth->get_group(substr($key, 0, strlen($key)-11));
-                            if ($real_group)
-                            {
-                                $key = $real_group->id;
-                                $label = $real_group->name;
-                            }
-                            $my_subscription_groups[$key] = $label;
-                        }
-                    }
-                    else
-                    {
-                        $GLOBALS[$array_name][$key] = $label;
+                    $GLOBALS[$array_name][$key] = $label;
 
-                        //TODO: get the vgroup object based on the key or something, this check fails always.
-                        if (   $show_members
-                            && is_object($vgroup)
-                            )
+                    //TODO: get the vgroup object based on the key or something, this check fails always.
+                    if (   $show_members
+                        && is_object($vgroup)
+                        )
+                    {
+                        $vgroup_members = $vgroup->list_members();
+                        foreach ($vgroup_members as $key2 => $person)
                         {
-                            $vgroup_members = $vgroup->list_members();
-                            foreach ($vgroup_members as $key2 => $person)
-                            {
-                                $GLOBALS[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
-                            }
+                            $GLOBALS[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
                         }
                     }
+
                 }
 
                 asort($GLOBALS[$array_name]);
-                asort($my_subscription_groups);
 
                 if ($add_me == 'last')
                 {
@@ -263,14 +231,6 @@ class org_openpsa_helpers_list
                     $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
                 }
 
-                // Add subscription lists after real ones
-                foreach ($my_subscription_groups as $key => $label)
-                {
-                    if (!array_key_exists($key, $GLOBALS[$array_name]))
-                    {
-                        $GLOBALS[$array_name][$key] = $label;
-                    }
-                }
             }
         }
         return $GLOBALS[$array_name];
