@@ -295,7 +295,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $this->start = time();
         }
         //Make sure we have end
-        if (!$this->end)
+        if (!$this->end || $this->end == -1)
         {
             $this->end = time();
         }

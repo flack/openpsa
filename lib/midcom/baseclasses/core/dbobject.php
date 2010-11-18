@@ -2220,5 +2220,37 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         }
         return $parent;
     }
+        /**
+     * "Pre-flight" checks for delete method
+     *
+     * Separated so that dbfactory->import() can reuse the code
+     **/
+    public static function delete_pre_checks($object)
+    {
+        if (!$object->id)
+        {
+            debug_push_class($object, __FUNCTION__);
+            debug_add("Failed to delete object, object " . get_class($object) . " is non-persistent (empty ID).", MIDCOM_LOG_ERROR);
+            debug_pop();
+            return false;
+        }
+
+        if (! $_MIDCOM->auth->can_do('midgard:delete', $object))
+        {
+            debug_push_class($object, __FUNCTION__);
+            debug_add("Failed to delete object, delete privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
+                MIDCOM_LOG_ERROR);
+            // debug_print_r('Object was:', $object);
+            debug_pop();
+            midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+            return false;
+        }
+        if (! $object->_on_deleting())
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
 ?>
