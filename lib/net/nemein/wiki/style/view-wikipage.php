@@ -9,20 +9,7 @@ $node = $nap->get_node($nap->get_current_node());
     <?php
     if ($view['content'] != '')
     {
-        if ($data['autogenerate_toc'])
-        {
-            // This uses the custom Midgard formatter registered in midcom/helper/misc.php
-            ?>
-            &(view["content"]:xtoc);
-            <?php
-        }
-        else
-        {
-            // This displays content as-is
-            ?>
-            &(view["content"]:h);
-            <?php
-        }
+        echo $view['content'];
     }
     else
     {

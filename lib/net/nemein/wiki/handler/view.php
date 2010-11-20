@@ -375,11 +375,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $data['wikipage'] =& $this->_page;
         if ($this->_config->get('autogenerate_toc'))
         {
-        	$data['content'] = $this->_autogenerate_toc($data['wikipage_view']['content']);
+            $data['wikipage_view']['content'] = $this->_autogenerate_toc($data['wikipage_view']['content']);
         }
         else
         {
-        	$data['content'] = $data['view']['content'];
+            $data['wikipage_view']['content'] = $data['view']['content'];
         }
 
         $data['display_related_to'] = $this->_config->get('display_related_to');
