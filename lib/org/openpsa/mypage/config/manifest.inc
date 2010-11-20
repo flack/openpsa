@@ -31,11 +31,6 @@
         'midcom.helper.datamanager2' => array(),
         'org.openpsa.projects' => array(),
         'org.openpsa.contactwidget' => array(),
-        'Calendar' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'org.routamc.positioning' => array(),
-        'midcom' => array(),
     ),
 ),

@@ -183,33 +183,6 @@ class org_openpsa_helpers
         $output = number_format((float) $number, 2, $localeconv['decimal_point'], $localeconv['thousands_sep']);
         return $output;
     }
-
-    /**
-     * Function to generate previous/this/next week data for a given time
-     *
-     * @param array &$data The request data array where the date information should be added
-     */
-    public static function calculate_week(&$data)
-    {
-        require_once 'Calendar/Week.php';
-
-        if (!array_key_exists('requested_time', $data))
-        {
-            $data['requested_time'] = time();
-        }
-
-        // Get start and end times
-        $data['this_week'] = new Calendar_Week(date('Y', $data['requested_time']), date('m', $data['requested_time']), date('d', $data['requested_time']));
-        $data['prev_week'] = $data['this_week']->prevWeek('object');
-        $data['this_week'] = $data['prev_week']->nextWeek('object');
-        $data['week_start'] = $data['this_week']->getTimestamp();
-        $data['next_week'] = $data['this_week']->nextWeek('object');
-        $data['week_end'] = $data['next_week']->getTimestamp() - 1;
-
-        // Build list of days
-        $data['this_week']->build();
-        $data['week_days'] = $data['this_week']->fetchAll();
-    }
 }
 
 ?>

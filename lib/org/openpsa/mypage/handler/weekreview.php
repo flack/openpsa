@@ -31,19 +31,17 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      */
     function _handler_redirect($handler_id, $args, &$data)
     {
-        $date = date('Y-m-d', time());
+        $date = date('Y-m-d');
         $_MIDCOM->relocate("weekreview/{$date}/");
     }
 
     function _populate_toolbar()
     {
-        $prev_week = date('Y-m-d', $this->_request_data['prev_week']->getTimestamp());
-        $next_week = date('Y-m-d', $this->_request_data['next_week']->getTimestamp());
         $this->_view_toolbar->add_item
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "weekreview/{$prev_week}/",
+                MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['prev_week'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
@@ -54,7 +52,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "weekreview/{$next_week}/",
+                MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['next_week'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                 MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
@@ -199,20 +197,30 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      */
     function _handler_review($handler_id, $args, &$data)
     {
-        // TODO: Check format as YYYY-MM-DD via regexp
-        $requested_time = @strtotime($args[0]);
-        if ($requested_time)
+        // Get start and end times
+        try
         {
-            $data['requested_time'] = $requested_time;
+            $date = new DateTime($args[0]);
         }
-        else
+        catch (Exception $e)
         {
             // We couldn't generate a date
             return false;
         }
 
-        // Calculate start and end times
-        org_openpsa_helpers::calculate_week($data);
+        $data['requested_time'] = (int) $date->format('U');
+
+        $offset = $date->format('N') - 1;
+        $date->modify('-' . $offset . ' days');
+        $data['week_start'] = (int) $date->format('U');
+        $date->modify('+6 days');
+        $date->setTime(23, 59, 59);
+        $data['week_end'] = (int) $date->format('U'); 
+
+        $date->modify('+1 second');
+        $data['next_week'] = $date->format('Y-m-d'); 
+        $date->modify('-2 weeks');
+        $data['prev_week'] = $date->format('Y-m-d'); 
 
         // Empty the data array
         $data['review_data'] = array();
@@ -278,19 +286,26 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $data['calendar_node'] = midcom_helper_find_node_by_component('org.openpsa.calendar');
         $data['projects_url'] = $siteconfig->get_node_full_url('org.openpsa.projects');
 
+        $date = new DateTime(date('Y-m-d', $data['week_start']));
+        $offset = $date->format('N') - 1;
+        $date->modify('-' . $offset . ' days');
+
         $week_hours_invoiceable = 0;
         $week_hours_total = 0;
 
         midcom_show_style('weekreview-header');
-        foreach ($data['week_days'] as $data['day'])
+        for ($i = 0; $i < 7; $i++)
         {
-            $data['day_start'] = $data['day']->getTimestamp();
-            $next_day = $data['day']->nextDay('object');
-            $data['day_end'] = $next_day->getTimestamp() - 1;
+            $day = $date->format('Y-m-d');
+            $data['day_start'] = (int) $date->format('U');
 
-            $date = date('Y-m-d', $data['day_start']);
+            $date->setTime(23, 59, 59);
+            $data['day_end'] = (int) $date->format('U');
 
-            if (!array_key_exists($date, $data['review_data']))
+            //Roll over to the next day
+            $date->modify('+1 second');
+
+            if (!array_key_exists($day, $data['review_data']))
             {
                 // Nothing for today
                 continue;
@@ -302,9 +317,9 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             $day_hours_total = 0;
 
             // Arrange entries per time
-            ksort($data['review_data'][$date]);
+            ksort($data['review_data'][$day]);
             $data['class'] = 'even';
-            foreach ($data['review_data'][$date] as $time => $guids)
+            foreach ($data['review_data'][$day] as $time => $guids)
             {
                 foreach ($guids as $guid => $object)
                 {
