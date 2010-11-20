@@ -67,18 +67,6 @@ Duration of authentication session (in seconds)
 Enable OpenID plugin
 ---STRINGEND
 
----STRING auth_drupal_enable
-Enable authentication via Drupal
----STRINGEND
-
----STRING auth_drupal_settings_php
-Path to Drupal's settings.php file
----STRINGEND
-
----STRING auth_drupal_domain
-Drupal's domain
----STRINGEND
-
 ---STRING auth_sitegroup_mode
 Authentication sitegroup mode
 ---STRINGEND

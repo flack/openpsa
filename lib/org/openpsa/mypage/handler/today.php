@@ -16,13 +16,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 {
     var $user = null;
 
-    /**
-     * The DateTime object for calculating start/end times
-     *
-     * @var DateTime
-     */
-    private $_date;
-
     function __construct()
     {
         parent::__construct();

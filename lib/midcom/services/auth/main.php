@@ -143,100 +143,10 @@ class midcom_services_auth
         $this->_initialize_user_from_midgard();
         $this->_prepare_authentication_drivers();
 
-        if ($GLOBALS['midcom_config']['auth_drupal_enable'] == true)
+        if (! $this->_check_for_new_login_session())
         {
-            // using drupal auth
-            $this->_check_for_drupal_session();
-        }
-        else
-        {
-            // regular case
-            if (! $this->_check_for_new_login_session())
-            {
-                // No new login detected, so we check if there is a running session.
-                $this->_check_for_active_login_session();
-            }
-        }
-    }
-
-    /**
-     * Internal startup helper, checks if there is drupal session active and syncs midcom auth
-     * with it
-     *
-     * @return boolean Returns true, if authenticated, false if anonymous
-     * @access private
-     */
-    private function _check_for_drupal_session()
-    {
-        $lib_starter = realpath(dirname(__FILE__).'/../../net/nemein/drupalauth/_load.php');
-        if (!file_exists($lib_starter))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("net.nemein.drupalauth component is not found", MIDCOM_LOG_ERROR);
-            debug_pop();
-            return false;
-        }
-        require_once $lib_starter;
-
-        $drupal_user = net_nemein_drupalauth_api::getCurrentDrupalUser($this);
-
-        if ($drupal_user === null)
-        {
-            // drupal is anonymous
-            if ($this->_auth_backend->read_login_session())
-            {
-                // midcom is not anonymous. need to fix
-                $this->drop_login_session();
-            }
-
-            return false;
-        }
-        else
-        {
-            // drupal is authenticated
-
-            $need_to_auth = true;
-
-            if ($this->_auth_backend->read_login_session())
-            {
-                // midcom is authenticated
-                if ($this->_auth_backend->user->username != $drupal_user)
-                {
-                    // drupal has different user. fixing
-                    $this->drop_login_session();
-                }
-                else
-                {
-                    // everything is looking good
-                    $need_to_auth = false;
-                }
-            }
-
-            if ($need_to_auth)
-            {
-                // midcom is not authenticated
-                if (!$this->trusted_login($drupal_user))
-                {
-                    debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add("Failed to authenticate '{$drupal_user}' username.", MIDCOM_LOG_ERROR);
-                    debug_pop();
-                    return false;
-                }
-            }
-            else
-            {
-                if (!$this->sessionmgr->authenticate_session($this->_auth_backend->session_id))
-                {
-                    debug_push_class(__CLASS__, __FUNCTION__);
-                    debug_add('Failed to re-authenticate a previous login session, not changing credentials.');
-                    debug_pop();
-                    return false;
-                }
-            }
-
-            $this->_sync_user_with_backend();
-
-            return true; // authenticated!
+            // No new login detected, so we check if there is a running session.
+            $this->_check_for_active_login_session();
         }
     }
 

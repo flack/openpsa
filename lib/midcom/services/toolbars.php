@@ -592,8 +592,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             $toolbar->customdata['midcom_services_toolbars_bound_to_host'] = true;
         }
 
-        if (    $_MIDCOM->auth->user
-            and $GLOBALS['midcom_config']['auth_drupal_enable'] != true) // do not show "logout" if using drupal-auth
+        if ($_MIDCOM->auth->user)
         {
             $toolbar->add_item
             (

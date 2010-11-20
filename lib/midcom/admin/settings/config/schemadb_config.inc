@@ -473,38 +473,6 @@
             ),
         ),
 
-        'auth_drupal_enable' => array
-        (
-            'type' => 'select',
-            'widget' => 'select',
-            'title' => 'auth_drupal_enable',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    ''    => midcom_admin_settings_editor::get_default_bool('auth_drupal_enable'),
-                    '1' => 'yes',
-                    '0' => 'no',
-                ),
-            ),
-        ),
-
-        'auth_drupal_settings_php' => array
-        (
-            'type' => 'text',
-            'widget' => 'text',
-            'title' => 'auth_drupal_settings_php',
-
-        ),
-
-        'auth_drupal_domain' => array
-        (
-            'type' => 'text',
-            'widget' => 'text',
-            'title' => 'auth_drupal_domain',
-
-        ),
-
         'auth_allow_sudo' => array
         (
             'type' => 'select',

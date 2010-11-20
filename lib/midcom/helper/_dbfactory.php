@@ -25,57 +25,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
     }
 
     /**
-     * Return DateTime object
-     *
-     * Usage example:
-     *
-     * $date = $_MIDCOM->dbfactory->from_core_date($object->date);
-     * echo $date->format('Y-m-d');
-     *
-     * @param string $datetime datetime property as provided by Midgard core
-     * @return DateTime The given datetime property as a PHP native DateTime object
-     */
-    function from_core_date($datetime)
-    {
-        // TODO: Once midgard-php maps datetime properties directly to DateTime we can just return the param here
-        static $local_tz = null;
-        if (is_null($local_tz))
-        {
-            // We need to use local time here as Midgard returns every datetime as UTC
-            // TODO: Would be great to make the timezone configurable
-            $local_tz = new DateTimeZone(date_default_timezone_get());
-        }
-        $midcom_datetime = new DateTime("{$datetime}+0000");
-        $midcom_datetime->setTimeZone($local_tz);
-        return $midcom_datetime;
-    }
-
-    /**
-     * Return DateTime in format preferred by Midgard Core
-     *
-     * Usage example:
-     *
-     * $date = new DateTime('yesterday');
-     * $qb->add_constraint('date', '>=', $_MIDCOM->dbfactory->to_core_date($date));
-     *
-     * @param DateTime Datetime property as a PHP native DateTime object
-     * @return string The given datetime property as a UTC ISO date as preferred by Midgard core
-     */
-    function to_core_date($datetime)
-    {
-        // TODO: Once midgard-php maps datetime properties directly to DateTime we can just return the param here
-        static $mgd_tz = null;
-        if (is_null($mgd_tz))
-        {
-            // Midgard internally keeps everything in UTC
-            $mgd_tz = new DateTimeZone('UTC');
-        }
-        $midgard_datetime = clone($datetime);
-        $midgard_datetime->setTimeZone($mgd_tz);
-        return $midgard_datetime->format(DateTime::ISO8601);
-    }
-
-    /**
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes
      * the MidCOM DBA system into account.
      *
@@ -529,7 +478,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
      * This method does ACL checks and triggers watchers etc.
      *
      * @param object $unserialized_object object gotten from midgard_replicator::unserialize()
-     * @param string $xml XML the object was unserialized from
      * @param boolean $use_force set use of force for the midcom_helper_replicator_import_object() call
      * @return boolean indicating success/failure
      * @todo refactor to smaller methods
@@ -537,7 +485,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
      * @todo Verify support for the special cases of privilege
      * @todo Make sure older version is not imported over newer one (maybe configurable override ?)
      */
-    function import(&$unserialized_object, &$xml, $use_force = false)
+    function import(&$unserialized_object, $use_force = false)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
         if (is_a($unserialized_object, 'midgard_blob'))
@@ -689,9 +637,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                     return false;
                 }
                 // Actual import
-                $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
-
-                if (!$import_stat)
+                if (!midcom_helper_replicator_import_object($unserialized_object, $use_force))
                 {
                     /**
                      * BEGIN workaround
@@ -725,8 +671,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                     return false;
                 }
                 // Actual import
-                $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
-                if (!$import_stat)
+                if (!midcom_helper_replicator_import_object($unserialized_object, $use_force))
                 {
                     debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();
@@ -747,8 +692,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                     return false;
                 }
                 // Actual import
-                $import_stat = midcom_helper_replicator_import_object($unserialized_object, $use_force);
-                if (!$import_stat)
+                if (!midcom_helper_replicator_import_object($unserialized_object, $use_force))
                 {
                     debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                     debug_pop();

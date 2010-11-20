@@ -67,14 +67,9 @@
  *   either 403 (403 Forbidden) or 200 (200 OK), defaulting to 403.
  * - <b>boolean auth_openid_enable:</b> Whether to enable OpenID authentication handled with
  *   the net.nemein.openid library
- * - <b>boolean auth_drupal_enable:</b> Whether to enable Drupal authentication handled with
- *   the net.nemein.drupalauth library
- * - <b>string auth_drupal_settings_php:</b> Path to Drupal's settings.php file
- * - <b>string auth_drupal_domain:</b> Drupal's domain (including prefix, but without trailing
- *   slash or schema). For example: www.example.com/foo/bar or just www.example.com
- * - <b>auth_failure_callback:<b> value acceptable by call_user_func() (array or string), callback
+ * - <b>auth_failure_callback:</b> value acceptable by call_user_func() (array or string), callback
  *   function/method to be called on failed login, it must take exactly one argument which is the username as string.
- * - <b>auth_success_callback:<b> value acceptable by call_user_func() (array or string), callback
+ * - <b>auth_success_callback:</b> value acceptable by call_user_func() (array or string), callback
  *   function/method to be called on succesfull login, no values are passed.
  *
  * <b>Authentication Backend configuration: "simple"</b>
@@ -98,10 +93,6 @@
  * - <b>string cache_base_directory:</b> The directory where to place cache files for MidCOM.
  *      This defaults to /tmp/ (note the trailing slash) as this is writable everywhere.
  *
- * - <b>Array cache_module_acl:</b> If this is non-null and an array, MidCOM will create a memcached
- *   caching instance to buffer ACL reads from the DB. You set this parameter to the configuration
- *   array to use (use an empty array for the defaults). See the memcached backend for details.
- *   <b>THIS PARAMETER (cache_module_acl) IS NOT IN USE</b>
  * - <b>Array cache_module_content_backend:</b> The configuration of the content cache backend.
  *   Check the documentation of midcom_services_cache_backend of what options are available here.
  *   In general, you should use this only to change the backend driver.
@@ -360,9 +351,6 @@ $GLOBALS['midcom_config_default']['auth_check_client_ip'] = true;
 $GLOBALS['midcom_config_default']['auth_allow_sudo'] = true;
 $GLOBALS['midcom_config_default']['auth_login_form_httpcode'] = 403;
 $GLOBALS['midcom_config_default']['auth_openid_enable'] = false;
-$GLOBALS['midcom_config_default']['auth_drupal_enable'] = false;
-$GLOBALS['midcom_config_default']['auth_drupal_settings_php'] = '';
-$GLOBALS['midcom_config_default']['auth_drupal_domain'] = '';
 $GLOBALS['midcom_config_default']['auth_save_prev_login'] = false;
 $GLOBALS['midcom_config_default']['auth_success_callback'] = null;
 $GLOBALS['midcom_config_default']['auth_failure_callback'] = null;
