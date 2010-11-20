@@ -153,7 +153,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // jQuery sorting
         $_MIDCOM->enable_jquery();
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form-2.21.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/jQuery/jquery.form.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.sortable.min.js');

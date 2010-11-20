@@ -182,7 +182,7 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
         $this->_update_breadcrumb($handler_id);
 
         // Add jQuery Form handling for generating passwords with AJAX
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form-1.0.3.pack.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');
 
         // Manually check the username to prevent duplicates
         if (   isset($_REQUEST['midcom_helper_datamanager2_save'])
