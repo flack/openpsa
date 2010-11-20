@@ -526,42 +526,24 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
     function calculate_cycle_next($time)
     {
+        $offset = '';
         switch ($this->_deliverable->unit)
         {
             case 'd':
                 // Daily recurring subscription
-                require_once 'Calendar/Day.php';
-                $this_day = new Calendar_Day(date('Y', $time), date('m', $time), date('d', $time));
-                $next_cycle = $this_day->nextDay('object');
+                $offset = '+1 day';
                 break;
             case 'm':
                 // Monthly recurring subscription
-                require_once 'Calendar/Month.php';
-                $this_month = new Calendar_Month(date('Y', $time), date('m', $time));
-                $next_cycle = $this_month->nextMonth('object');
-                $next_cycle->day = date('d', $time);
+                $offset = '+1 month';
                 break;
             case 'q':
                 // Quarterly recurring subscription
-                require_once 'Calendar/Month.php';
-                $year = date('Y', $time);
-                $month = date('m', $time);
-                if ($month > 9)
-                {
-                    $month -= 12 ; // remove one year
-                    $year++;
-                }
-                $month += 3; //add the quarter
-                $next_cycle = new Calendar_Month($year, $month);
-                $next_cycle->day = date('d' , $time);
+                $offset = '+3 months';
                 break;
             case 'y':
                 // Yearly recurring subscription
-                require_once 'Calendar/Year.php';
-                $this_year = new Calendar_Year(date('Y', $time));
-                $next_cycle = $this_year->nextYear('object');
-                $next_cycle->month = date('m', $time);
-                $next_cycle->day = date('d' , $time);
+                $offset = '+1 year';
                 break;
             default:
                 debug_push_class(__CLASS__, __FUNCTION__);
@@ -569,7 +551,10 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 debug_pop();
                 return false;
         }
-        return $next_cycle->getTimestamp();
+        $date = new DateTime($offset . ' ' . date('Y-m-d', $time));
+        $next_cycle = (int) $date->format('U');
+
+        return $next_cycle;
     }
 
 }
