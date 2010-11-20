@@ -31,7 +31,7 @@ $view_today =& $data['view_today'];
         ?>
         <div class="agenda">
             <?php
-            $_MIDCOM->dynamic_load($data['calendar_url'] . 'agenda/day/' . date('Y-m-d', $data['requested_time']));
+            $_MIDCOM->dynamic_load($data['calendar_url'] . 'agenda/day/' . $data['requested_time']);
             ?>
         </div>
         <?php

@@ -33,10 +33,6 @@
         'org.openpsa.core' => array(),
         'org.openpsa.helpers' => array(),
         'midcom.helper.datamanager2' => array(),
-        'Calendar' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
     ),
 ),

@@ -16,6 +16,13 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 {
     var $user = null;
 
+    /**
+     * The DateTime object for calculating start/end times
+     *
+     * @var DateTime
+     */
+    private $_date;
+
     function __construct()
     {
         parent::__construct();
@@ -26,28 +33,43 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $_MIDCOM->auth->require_valid_user();
     }
 
-    function _calculate_day()
+    private function _calculate_day($time)
     {
-        require_once 'Calendar/Day.php';
-
         // Get start and end times
-        $this->_request_data['this_day'] = new Calendar_Day(date('Y', $this->_request_data['requested_time']), date('m', $this->_request_data['requested_time']), date('d', $this->_request_data['requested_time']));
-        $this->_request_data['prev_day'] = $this->_request_data['this_day']->prevDay('object');
-        $this->_request_data['day_start'] = $this->_request_data['prev_day']->getTimestamp() + 1;
-        $this->_request_data['next_day'] = $this->_request_data['this_day']->nextDay('object');
-        $this->_request_data['day_end'] = $this->_request_data['next_day']->getTimestamp() - 1;
+        try
+        {
+            $date = new DateTime($time);
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }
+
+        $this->_request_data['this_day'] = $date->format('Y-m-d');
+        $this->_request_data['day_start'] = (int) $date->format('U');
+        $date->setTime(23, 59, 59);
+        $this->_request_data['day_end'] = (int) $date->format('U');
+        $date->modify('-1 day');
+        $this->_request_data['prev_day'] = $date->format('Y-m-d');
+        $date->modify('+2 days');
+        $this->_request_data['next_day'] = $date->format('Y-m-d');
+        $date->modify('-1 days');
+
+        $offset = $date->format('N') - 1;
+        $date->modify('-' . $offset . ' days');
+        $this->_request_data['week_start'] = (int) $date->format('U');
+        $date->modify('+6 days');
+        $this->_request_data['week_end'] = (int) $date->format('U');
+        return true;
     }
 
     function _populate_toolbar()
     {
-        $prev_day = date('Y-m-d', $this->_request_data['prev_day']->getTimestamp());
-        $next_day = date('Y-m-d', $this->_request_data['next_day']->getTimestamp());
-        $this_day = date('Y-m-d', $this->_request_data['this_day']->getTimestamp());
         $this->_view_toolbar->add_item
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "day/{$prev_day}/",
+                MIDCOM_TOOLBAR_URL => 'day/' . $this->_request_data['prev_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                 MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
@@ -58,7 +80,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "day/{$next_day}/",
+                MIDCOM_TOOLBAR_URL => 'day/' . $this->_request_data['next_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                 MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
@@ -70,7 +92,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "weekreview/{$this_day}",
+                MIDCOM_TOOLBAR_URL => 'weekreview/' . $this->_request_data['this_day'] . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week review'),
                 MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
@@ -144,30 +166,27 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     {
         $this->user = $_MIDCOM->auth->user->get_storage();
 
-        if ($handler_id != 'today')
+        if ($handler_id == 'today')
+        {
+            $data['requested_time'] = date('Y-m-d');
+        }
+        else
         {
             // TODO: Check format as YYYY-MM-DD via regexp
-            $requested_time = @strtotime($args[0]);
-            if ($requested_time)
-            {
-                $data['requested_time'] = $requested_time;
-            }
-            else
-            {
-                // We couldn't generate a date
-                return false;
-            }
+            $data['requested_time'] = $args[0];
         }
 
-        org_openpsa_helpers::calculate_week($data);
-        $this->_calculate_day();
+        if (!$this->_calculate_day($data['requested_time']))
+        {
+            return false;
+        }
 
         // List work hours this week
         $this->_list_work_hours();
 
         $this->_populate_toolbar();
 
-        $data['title'] = strftime('%a %x', $data['requested_time']);
+        $data['title'] = strftime($data['requested_time']);
         $_MIDCOM->set_pagetitle($data['title']);
 
         // Add the JS file for "now working on" calculator
@@ -210,7 +229,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
         //set the start-constraints for journal-entries
         $time_span = 7 * 24 * 60 *60 ; //7 days
-        $today = mktime(0, 0, 0, $this->_request_data['this_day']->month, $this->_request_data['this_day']->day, $this->_request_data['this_day']->year);
+
         $this->_request_data['journal_constraints'] = array();
         //just show entries of current_user
         $this->_request_data['journal_constraints'][] = array(
@@ -221,7 +240,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $this->_request_data['journal_constraints'][] = array(
                         'property' => 'followUp',
                         'operator' => '<',
-                        'value' => $today + $time_span,
+                        'value' => $this->_request_data['day_start'] + $time_span,
                         );
         $this->_request_data['journal_constraints'][] = array(
                         'property' => 'closed',
@@ -260,10 +279,13 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      */
     function _handler_expenses($handler_id, $args, &$data)
     {
-        $data['requested_time'] = time();
+        $data['requested_time'] = date('Y-m-d');
 
-        $this->_calculate_day();
-        org_openpsa_helpers::calculate_week($data);
+        if (!$this->_calculate_day($data['requested_time']))
+        {
+            return false;
+        }
+
         // List work hours this week
         $this->_list_work_hours();
 

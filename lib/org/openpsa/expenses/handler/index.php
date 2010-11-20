@@ -42,8 +42,32 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         {
             $data['requested_time'] = $args[0];
         }
+        else
+        {
+            $data['requested_time'] = date('Y-m-d');
+        }
 
-        org_openpsa_helpers::calculate_week($data);
+        try
+        {
+            $date = new DateTime($data['requested_time']);
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }
+        $offset = $date->format('N') - 1;
+
+        $date->modify('-' . $offset . ' days');
+        $data['week_start'] = (int) $date->format('U');
+
+        $date->modify('+6 days');
+        $data['week_end'] = (int) $date->format('U');
+
+        $date->modify('+1 day');
+        $next_week = $date->format('Y-m-d');
+
+        $date->modify('-14 days');
+        $previous_week = $date->format('Y-m-d');
 
         $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('metadata.deleted', false);
         $hours_mc->add_value_property('task');
@@ -113,8 +137,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $data['tasks'] =& $tasks;
 
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $previous_week = $data['requested_time'] - 3600 * 24 * 7;
-        $next_week = $data['requested_time'] + 3600 * 24 * 7;
 
         $this->_view_toolbar->add_item
         (
@@ -174,7 +196,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
 
         $this->_update_breadcrumb_line();
 
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['requested_time'])));
+        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
 
         return true;
     }
@@ -190,7 +212,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $tmp[] = array
         (
             MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['requested_time'])),
+            MIDCOM_NAV_NAME => sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])),
         );
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
