@@ -172,7 +172,7 @@ function midcom_generate_urlname_from_string($string, $replacer = "-", $r = 0)
     /**
      * Quick and dirty workaround for http://trac.midgard-project.org/ticket/1530 by recursing
      */
-    // Recurse untill we make no changes to the string
+    // Recurse until we make no changes to the string
     if ($string === $safe)
     {
         return $string;

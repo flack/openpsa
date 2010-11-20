@@ -350,18 +350,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         // Workaround for http://trac.midgard-project.org/ticket/942
         $instance = new $object();
         return $this->property_exists($instance, $property);
-        // *** NOTE: See the return there ^^^^ ***
-
-        // From now on we know $object is in fact string with proper class name
-
-        // The problem here are the midcom_db_xxx extended classes, so it might be easiest (and possibly even most efficient) to use the #942 workaround in any case
-        $mgdschema_class = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class($object);
-        if ($mgdschema_class)
-        {
-            return property_exists($mgdschema_class, $property);
-        }
-
-        return property_exists($object, $property);
     }
 
     /**

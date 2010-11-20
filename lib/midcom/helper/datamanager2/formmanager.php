@@ -792,19 +792,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     debug_add("types with multiple files cannot have required validation (field name: {$name})", MIDCOM_LOG_ERROR);
                     debug_pop();
                     break;
-                // Match select types (have array data, 'required' will choke on them)
-                /*case (   is_a($type, 'midcom_helper_datamanager2_type_select')
-                      && $type->allow_multiple):
-                    debug_add("Callign this->form->addRule('{$name}', '{$message}', 'requiremultiselect', '');");
-                    $stat = $this->form->addRule($name, $message, 'requiremultiselect', '');
-                    if (is_a($stat, 'pear_error'))
-                    {
-                        $msg = $stat->getMessage();
-                        debug_push_class(__CLASS__, __FUNCTION__);
-                        debug_add("Got PEAR error '{$msg}' from this->form->addRule('{$name}', '{$message}', 'required_multiselect', ''), when adding multiselect required rule", MIDCOM_LOG_WARN);
-                        debug_pop();
-                    }
-                    break;*/
                 // Other types should be fine with the default string validation offered by 'required'
                 default:
                     $this->form->addRule($name, $message, 'required', '');

@@ -69,16 +69,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * @access   private
     */
     /*
-    var $_orig_group_template = "<label for='{element_name}' id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
-        <span class=\"field_text\">
-                {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span>\n\t\t
-
-        <!-- BEGIN error --><span class='field_error' style=\"color: #ff0000\">{error}</span><br /><!-- END error -->\n\t\t
-            <fieldset id='{element_name}_fieldset' {attributes}>
-                {element}\n\t\t
-            </fieldset>
-        </label>";
-    */
     var $_orig_group_template = "<div id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
         <label><span class=\"field_text\">
                 {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span></label>\n\t\t
@@ -215,12 +205,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     *
     * @access public
     */
-    /* Shouldn't this be midcom_helper_datamanager2_renderer_simple?
-    function HTML_QuickForm_Renderer_Default()
-    {
-        $this->HTML_QuickForm_Renderer();
-    } // end constructor
-    */
     function __construct($namespace = '')
     {
         $this->namespace = $namespace;
@@ -263,7 +247,7 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     function finishForm(&$form)
     {
         // add a required note, if one is needed
-        if (!empty($form->_required) 
+        if (!empty($form->_required)
             && !$form->_freezeAll)
         {
             $this->_html .= str_replace('{requiredNote}', $form->getRequiredNote(), $this->_requiredNoteTemplate);
@@ -279,7 +263,7 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
             $this->_html .= $this->_hiddenHtml;
         }
         $this->_html = str_replace('{content}', $this->_html, $html);
-        
+
         // add a validation script
         if ('' != ($script = $form->getValidationScript()))
         {
@@ -297,7 +281,7 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     function renderHeader(&$header)
     {
         $name = $header->getName();
-        if (!empty($name) 
+        if (!empty($name)
             && isset($this->_templates[$name]))
         {
             $this->_html .= str_replace('{header}', $header->toHtml(), $this->_templates[$name]);

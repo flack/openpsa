@@ -16,58 +16,58 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 {
     /**
      * Which type of links are we looking for, incoming or outgoing
-     * 
+     *
      * @var string
      */
     private $_direction = '';
-    
+
     /**
      * The prefix for query constraints concerning the object(s) at hand
-     * 
+     *
      * @var string
      */
     private $_object_prefix = '';
 
     /**
      * The prefix for query constraints concerning the objects we're looking for
-     * 
+     *
      * @var string
      */
     private $_other_prefix = '';
 
     /**
      * The class(es) of the objects we're looking for
-     * 
+     *
      * @var string
      */
     private $_target_classes = array();
 
     /**
      * Additional constraints for the QBs used to find the related objects
-     * 
+     *
      * @var array
      */
     private $_object_constraints = array();
 
     /**
      * Limit for the QBs used to find the related objects
-     * 
+     *
      * @var integer
      */
     private $_object_limit = 0;
 
     /**
      * Orders for the QBs used to find the related objects
-     * 
+     *
      * @var array
      */
     private $_object_orders = array();
-    
+
     /**
      * Constructor, takes one or more object guids and classnames and constructs a collector accordingly.
-     * 
+     *
      * Attention: At least one of these arguments has to be a string
-     * 
+     *
      * @param mixed $guids One or more object guids
      * @param mixed $classes One or more target classes
      * @param string $direction incoming or outgoing
@@ -75,8 +75,8 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
     function __construct($guids, $classes, $direction = 'incoming')
     {
         $this->_set_direction($direction);
-        
-        //workaround for #1648
+
+        //workaround for #1684
         $_MIDCOM->load_library('org.openpsa.relatedto');
 
         if (is_string($guids))
@@ -111,7 +111,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
                 'None of the arguments was passed as a string, cannot continue');
             // This will exit.
         }
-        
+
         //save target classes for later use
         if (is_string($classes))
         {
@@ -121,7 +121,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         {
             $this->_target_classes = $classes;
         }
-        
+
         $this->add_value_property($this->_other_prefix . 'Guid');
     }
 
@@ -145,7 +145,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
      *
      * @param string $field The DB field
      * @param string $operator The constraint operator
-     * @param mixed $value The constraint value 
+     * @param mixed $value The constraint value
      */
     public function add_object_constraint($field, $operator, $value)
     {
@@ -233,14 +233,14 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     /**
      * Helper function that returns an array of DBA objects grouped by the specified key
-     * 
+     *
      * @param string $key The column the results should be grouped by
      */
     public function get_related_objects_grouped_by($key)
     {
         $entries = array();
         $guids = array();
-        
+
         $this->add_value_property($key);
 
         $this->add_constraint('status', '<>', ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED);
@@ -279,11 +279,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         return $entries;
     }
 
-    
+
     /**
      * Helper function that returns an array of DBA objects
-     * 
-     * @param string $component A component name to further narrow down the results 
+     *
+     * @param string $component A component name to further narrow down the results
      */
     public function get_related_objects($component = false)
     {
@@ -308,11 +308,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
         return $entries;
     }
-    
+
     /**
-     * Helper function that returns an array of related object GUIDs 
+     * Helper function that returns an array of related object GUIDs
      *
-     * @param string $component A component name to further narrow down the results 
+     * @param string $component A component name to further narrow down the results
      * @return array Array of GUIDs
      */
     public function get_related_guids($component = false)
@@ -337,7 +337,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         {
             $guids[] = $this->get_subkey($guid, $this->_other_prefix . 'Guid');
         }
-        
+
         return $guids;
     }
 }

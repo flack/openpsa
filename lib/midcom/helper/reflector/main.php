@@ -1575,17 +1575,4 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         return $cache[$key];
     }
 }
-
-/**
- * I hope we don't need these workarounds but in case we do, keep them handy
-function midcom_helper_reflector_get_property_parent(&$src)
-{
-    return midgard_object_class::get_property_parent($src);
-}
-
-function midcom_helper_reflector_get_property_up(&$src)
-{
-    return midgard_object_class::get_property_up($src);
-}
-*/
 ?>

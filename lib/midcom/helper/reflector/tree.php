@@ -1015,35 +1015,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 continue;
             }
 
-            // DBA types can provide 'noasgard' property for navigation hiding
-            /*
-             * Example:
-             *
-             * class pl_olga_test_dba extends midcom_core_dbaobject
-             * {
-             *
-             *     var $noasgard = true;
-             *
-             *     function __construct($id = null)    {
-             *         return parent::__construct($id);
-             *     }
-             *
-             * }
-             *
-             */
-
-            // FIXME: This is not only used by asgard, thus Asgard navi specific hacks must be done on asgard level
-            if (class_exists($dba_class))
-            {
-                $test_class = new $dba_class();
-
-                if (   isset($test_class->noasgard)
-                    && $test_class->noasgard)
-                {
-                    continue;
-                }
-            }
-
             $root_classes[] = $schema_type;
         }
         unset($root_exceptions_notroot);

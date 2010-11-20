@@ -1030,7 +1030,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         fclose($dst);
 
         return true;
-        return $this->_filter->set_file($this->_current_tmpname_video);
     }
 
     /**

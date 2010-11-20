@@ -189,47 +189,5 @@
             ),
             'widget' => 'select',
         ),
-        /*
-        'start' => Array
-        (
-            // COMPONENT-REQUIRED
-            'title' => 'in market from',
-            'storage' => 'start',
-            'type' => 'date',
-            'type_config' => Array
-            (
-                'storage_type' => 'UNIXTIME'
-            ),
-            'widget' => 'jsdate',
-            'hidden' => true,
-        ),
-        'end' => Array
-        (
-            // COMPONENT-REQUIRED
-            'title' => 'in market until',
-            'storage' => 'end',
-            'type' => 'date',
-            'type_config' => Array
-            (
-                'storage_type' => 'UNIXTIME'
-            ),
-            'widget' => 'jsdate',
-            'hidden' => true,
-        ),
-        'components' => Array
-        (
-            'title' => 'components',
-            'storage' => null,
-            'type' => 'composite',
-            'type_config' => Array
-            (
-                'child_class'                 => 'org_openpsa_products_product_member_dba',
-                'child_schemadb'              => 'file:/org/openpsa/products/config/schemadb_member_default.inc',
-                'child_foreign_key_fieldname' => 'product',
-                'style_element_name'          => 'component',
-                'area_element'                => 'tr',
-            ),
-            'widget' => 'composite',
-        ),*/
     )
 ),
