@@ -4,7 +4,11 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_routamc_positioning_country' => 'org_routamc_positioning_country_dba',
+    'org_routamc_positioning_city' => 'org_routamc_positioning_city_dba',
+    'org_routamc_positioning_aerodrome' => 'org_routamc_positioning_aerodrome_dba',
+    'org_routamc_positioning_location' => 'org_routamc_positioning_location_dba',
+    'org_routamc_positioning_log' => 'org_routamc_positioning_log_dba',
 ),
 'version' => '8.09.9',
 'state' => 'stable',

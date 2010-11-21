@@ -3,7 +3,11 @@
 'purecode' => false,
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_campaign' => 'org_openpsa_directmarketing_campaign_dba',
+    'org_openpsa_campaign_member' => 'org_openpsa_directmarketing_campaign_member_dba',
+    'org_openpsa_campaign_message' => 'org_openpsa_directmarketing_campaign_message_dba',
+    'org_openpsa_campaign_message_receipt' => 'org_openpsa_directmarketing_campaign_message_receipt_dba',
+    'org_openpsa_link_log' => 'org_openpsa_directmarketing_link_log_dba',
 ),
 'version' => '8.09.9',
 'state' => 'stable',

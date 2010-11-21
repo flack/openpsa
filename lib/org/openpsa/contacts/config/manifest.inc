@@ -3,7 +3,9 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_organization' => 'org_openpsa_contacts_group_dba',
+    'org_openpsa_person' => 'org_openpsa_contacts_person_dba',
+    'net_nehmer_buddylist_entry_db' => 'org_openpsa_contacts_buddy_dba',
 ),
 'version' => '8.09.9',
 'state' => 'stable',

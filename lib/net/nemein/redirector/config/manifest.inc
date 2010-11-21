@@ -8,7 +8,7 @@
 ),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'net_nemein_redirector_tinyurl' => 'net_nemein_redirector_tinyurl_dba',
 ),
 'package.xml' => array
 (

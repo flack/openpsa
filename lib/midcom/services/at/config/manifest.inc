@@ -4,7 +4,7 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'midcom_services_at_entry_db' => 'midcom_services_at_entry_dba',
 ),
 'version' => '8.09.9',
 'state' => 'stable',

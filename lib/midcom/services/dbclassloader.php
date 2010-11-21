@@ -24,8 +24,7 @@
  * <code>
  * Array
  * (
- *     'mgdschema_class_name' => 'midgard_article',
- *     'midcom_class_name' => 'midcom_db_article'
+ *     'midgard_article' => 'midcom_db_article'
  * )
  * </code>
  *
@@ -204,10 +203,9 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
      */
     function load_classes($component, $filename, $definition_list = null)
     {
-        $this->_create_class_definition_filename($component, $filename);
-
         if (is_null($definition_list))
         {
+            $this->_create_class_definition_filename($component, $filename);
             $contents = $this->_read_class_definition_file();
             $result = eval ("\$definition_list = Array ( {$contents} \n );");
             if ($result === false)
@@ -221,7 +219,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
         if (!$this->_register_loaded_classes($definition_list, $component))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "DB Class Loader: Classes from file {$this->_class_definition_filename} couldn't be registered.");
+                "DB Class Loader: Classes for {$component} couldn't be registered.");
             // This will exit.
             return false;
         }
@@ -249,55 +247,20 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             return false;
         }
 
-        foreach ($definition_list as $key => $copy)
+        foreach ($definition_list as $mgdschema_class => $midcom_class)
         {
-            // Convenience Reference
-            $definition =& $definition_list[$key];
-
-            if (! is_array($definition))
+            if (! class_exists($mgdschema_class))
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Validation failed: Key {$key} was no array.", MIDCOM_LOG_INFO);
+                debug_add("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.", MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }
 
-            // Validate element count upper limit first, lower limits and defaults are caught by
-            // The array_key_exists checks below.
-            if (count($definition) > 4)
+            if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $midcom_class) == 0)
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Validation failed: Key {$key} had too much elements.", MIDCOM_LOG_INFO);
-                debug_pop();
-                return false;
-            }
-
-            if (! array_key_exists('mgdschema_class_name', $definition))
-            {
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Validation failed: Key {$key} had no mgdschema_class_name element.", MIDCOM_LOG_INFO);
-                debug_pop();
-                return false;
-            }
-            if (! class_exists($definition['mgdschema_class_name']))
-            {
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Validation failed: Key {$key} had an invalid mgdschema_class_name element: {$definition['mgdschema_class_name']}. Probably the required MgdSchema is not loaded.", MIDCOM_LOG_INFO);
-                debug_pop();
-                return false;
-            }
-
-            if (! array_key_exists('midcom_class_name', $definition))
-            {
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Validation failed: Key {$key} had no midcom_class_name element.", MIDCOM_LOG_INFO);
-                debug_pop();
-                return false;
-            }
-            if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $definition['midcom_class_name']) == 0)
-            {
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Validation failed: Key {$key} had an invalid mgdschema_class_name element.", MIDCOM_LOG_INFO);
+                debug_add("Validation failed: Key {$mgdschema_class} had an invalid mgdschema_class_name element.", MIDCOM_LOG_INFO);
                 debug_pop();
                 return false;
             }
@@ -369,15 +332,15 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             return false;
         }
 
-        foreach($definitions as $entry)
+        foreach ($definitions as $mgdschema_class => $midcom_class)
         {
-            $this->_mgdschema_class_handler[$entry['midcom_class_name']] = $component;
+            $this->_mgdschema_class_handler[$midcom_class] = $component;
 
-            if (   substr($entry['mgdschema_class_name'], 0, 8) == 'midgard_'
-                || substr($entry['mgdschema_class_name'], 0, 12) == 'midcom_core_'
-                || $entry['mgdschema_class_name'] == $GLOBALS['midcom_config']['person_class'])
+            if (   substr($mgdschema_class, 0, 8) == 'midgard_'
+                || substr($mgdschema_class, 0, 12) == 'midcom_core_'
+                || $mgdschema_class == $GLOBALS['midcom_config']['person_class'])
             {
-                $this->_midgard_classes[] = $entry;
+                $this->_midgard_classes[$mgdschema_class] = $midcom_class;
             }
         }
 
@@ -589,13 +552,12 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             $definitions = $this->get_component_classes($component);
         }
 
-        foreach ($definitions as $definition)
+        //TODO: This allows components to override midcom classes fx. Do we want that?
+        $dba_classes_by_mgdschema = array_merge($dba_classes_by_mgdschema, $definitions);
+
+        if (array_key_exists($classname, $dba_classes_by_mgdschema))
         {
-            if ($classname == $definition['mgdschema_class_name'])
-            {
-                $dba_classes_by_mgdschema[$classname] = $definition['midcom_class_name'];
-                return $dba_classes_by_mgdschema[$classname];
-            }
+            return $dba_classes_by_mgdschema[$classname];
         }
 
         debug_push_class(__CLASS__, __FUNCTION__);
@@ -727,10 +689,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             return $classes;
         }
 
-        foreach ($_MIDCOM->componentloader->manifests[$component]->class_definitions as $list)
-        {
-            $classes = array_merge($classes, $list);
-        }
+        $classes = $_MIDCOM->componentloader->manifests[$component]->class_definitions;
 
         return $classes;
     }

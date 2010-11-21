@@ -6,7 +6,8 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'net_nemein_tag' => 'net_nemein_tag_tag_dba',
+    'net_nemein_tag_link' => 'net_nemein_tag_link_dba',
 ),
 'watches' => array
 (

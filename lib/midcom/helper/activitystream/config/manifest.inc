@@ -4,7 +4,7 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+ 'midcom_helper_activitystream_activity' => 'midcom_helper_activitystream_activity_dba',
 ),
 'watches' => array
 (

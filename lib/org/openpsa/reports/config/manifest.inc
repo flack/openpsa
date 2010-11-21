@@ -3,7 +3,7 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_query' => 'org_openpsa_reports_query_dba',
 ),
 'version' => '8.09.9',
 'package.xml' => array

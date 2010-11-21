@@ -7,7 +7,10 @@
 ),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_event' => 'org_openpsa_calendar_event_dba',
+    'org_openpsa_eventmember' => 'org_openpsa_calendar_event_member_dba',
+    'org_openpsa_calendar_resource' => 'org_openpsa_calendar_resource_dba',
+    'org_openpsa_calendar_event_resource' => 'org_openpsa_calendar_event_resource_dba',
 ),
 'version' => '8.09.9',
 'state' => 'stable',

@@ -305,15 +305,12 @@ class midcom_helper__componentloader
         }
 
         // Make DBA Classes known, bail out if we encounter an invalid class
-        foreach ($this->manifests[$path]->class_definitions as $filename => $data)
+        if (! $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_definitions))
         {
-            if (! $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, $filename, $data))
-            {
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to load the component manifest for {$this->manifests[$path]->name}: The DBA classes failed to load.", MIDCOM_LOG_WARN);
-                debug_pop();
-                return false;
-            }
+            debug_push_class(__CLASS__, __FUNCTION__);
+            debug_add("Failed to load the component manifest for {$this->manifests[$path]->name}: The DBA classes failed to load.", MIDCOM_LOG_WARN);
+            debug_pop();
+            return false;
         }
 
         $init_class =& $this->_interface_classes[$path];
@@ -540,8 +537,6 @@ class midcom_helper__componentloader
             {
                 $manifest_data = file_get_contents($filename);
 
-                $this->_add_class_definitions($manifest_data, $directory);
-
                 $code .= "\$_MIDCOM->componentloader->load_manifest(
                     new midcom_core_manifest(
                     '{$filename}', array({$manifest_data})));\n";
@@ -558,46 +553,6 @@ class midcom_helper__componentloader
             eval($code);
         }
         return;
-    }
-
-    /**
-     * Private helper that adds the component's class definition to the manifest cache
-     *
-     * @param string &$manifest_data The data read from the manifest.inc file
-     * @param string $directory The current filesystem directory
-     */
-    private function _add_class_definitions(&$manifest_data, $directory)
-    {
-        eval ("\$tmp_array = Array ( {$manifest_data}\n );");
-        if (   !array_key_exists('class_definitions', $tmp_array)
-            || !is_array($tmp_array['class_definitions'])
-               || sizeof($tmp_array['class_definitions']) == 0)
-        {
-            return;
-        }
-
-        $definitions = array();
-
-        foreach ($tmp_array['class_definitions'] as $filename)
-        {
-            $path = $directory . '/' . $filename;
-            if (! file_exists($path))
-            {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                         "Component Loader: Failed to access the file {$path}: File does not exist.");
-                // This will exit.
-            }
-
-            $definitions[$filename] = file_get_contents($path);
-        }
-
-        foreach ($definitions as $filename => $definitions)
-        {
-            $search = '/(\n[^\/]*?[\'|"]' . $filename . "['|\"])/";
-            $manifest_data = preg_replace($search, "$1 => array\n(\n" . $definitions . ")\n", $manifest_data);
-        }
-
-
     }
 
     /**

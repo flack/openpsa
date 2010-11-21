@@ -6,7 +6,10 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_products_product' => 'org_openpsa_products_product_dba',
+    'org_openpsa_products_product_group' => 'org_openpsa_products_product_group_dba',
+    'org_openpsa_products_product_member' => 'org_openpsa_products_product_member_dba',
+    'org_openpsa_products_product_link' => 'org_openpsa_products_product_link_dba',
 ),
 'watches' => array
 (

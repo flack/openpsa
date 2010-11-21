@@ -32,7 +32,7 @@
  *     'read' => MIDCOM_PRIVILEGE_ALLOW,
  *     'write' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW)
  * ),
- * 'class_definitions' => Array ('my_classes.inc'),
+ * 'class_definitions' => array('mgdschema_classname' => 'midcom_classname'),
  * 'watches' => Array
  * (
  *     Array
@@ -135,10 +135,9 @@
  * Note, that INHERIT does not INHERIT from the system default privilege but
  * from the <i>immediate parent</i>.
  *
- * <i>Array class_definitions</i> contains a list of class definition files of the classes
- * the component makes available to the framework. Their intermediate classes are loaded
- * during startup, and the component is loaded dynamically whenever the final DBA
- * implementation is needed.
+ * <i>Array class_definitions</i> contains a map of mgdschema => midcom definitions of
+ * the classes the component makes available to the framework. The component is loaded
+ * dynamically whenever the final DBA implementation is needed.
  *
  * <i>Array watches</i> is a special thing. It allows your component to specify that
  * it wants to "observe" all operations of a certain type on DBA objects. Such a watch
@@ -149,9 +148,9 @@
  * consisting of MIDCOM_OPERATION_xxx flags.
  *
  * <i>Array customdata</i> is the run-of-the-mill extension place of the system. It lets
- * you place arbitrary arrays indexed by components (like 'midcom.services.cron') into 
- * it along with meta-information relevant to that component only. This is used to extend 
- * the information available through the context. No key in here is mandatory, the default 
+ * you place arbitrary arrays indexed by components (like 'midcom.services.cron') into
+ * it along with meta-information relevant to that component only. This is used to extend
+ * the information available through the context. No key in here is mandatory, the default
  * is an empty array.
  *
  * <b>Loading a Component Manifest based on a file on disk</b>
@@ -218,7 +217,7 @@ class midcom_core_manifest extends midcom_baseclasses_core_object
 
     /**
      * This is the translated, full component name obtained by looking up the string
-     * $name in the l10n library $name. 
+     * $name in the l10n library $name.
 
      * This member is only populated on demand by the get_translated_name() function.
      */
@@ -247,7 +246,7 @@ class midcom_core_manifest extends midcom_baseclasses_core_object
     var $state = 'devel';
 
     /**
-     * Privileges array definition. 
+     * Privileges array definition.
      *
      * Indexes are the full privilege names (including the component
      * prefix), values are arrays holding the global / owner privilege default.
@@ -259,7 +258,7 @@ class midcom_core_manifest extends midcom_baseclasses_core_object
     var $privileges = Array();
 
     /**
-     * A list of class definition filenames 
+     * A list of class definition filenames
      *
      * (all looked up in the components configuration directory).
      *
@@ -374,7 +373,7 @@ class midcom_core_manifest extends midcom_baseclasses_core_object
      * This is an internal startup helper which extracts and post-processes the privilege
      * definitions in the loaded manifest information.
      *
-     * It will not complete any missing owner default privileges, this is done by the 
+     * It will not complete any missing owner default privileges, this is done by the
      * Authentication service upon privilege registering.
      *
      * @access protected

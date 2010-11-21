@@ -5,7 +5,7 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_expense' => 'org_openpsa_expenses_expense',
 ),
 'package.xml' => array
 (

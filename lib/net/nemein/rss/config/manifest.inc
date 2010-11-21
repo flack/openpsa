@@ -6,7 +6,7 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'net_nemein_rss_feed' => 'net_nemein_rss_feed_dba',
 ),
 'package.xml' => array
 (

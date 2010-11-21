@@ -4,7 +4,8 @@
 'state' => 'stable',
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'net_nehmer_accounts_invites_invite' => 'net_nehmer_account_invites_invite_dba',
+    'net_nehmer_account_karma' => 'net_nehmer_account_karma_dba',
 ),
 'package.xml' => array
 (

@@ -6,7 +6,8 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_relatedto' => 'org_openpsa_relatedto_dba',
+    'org_openpsa_relatedto_journal_entry' => 'org_openpsa_relatedto_journal_entry_dba',
 ),
 'watches' => array
 (

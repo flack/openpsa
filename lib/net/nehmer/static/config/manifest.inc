@@ -4,7 +4,7 @@
 'state' => 'stable',
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'net_nehmer_static_link' => 'net_nehmer_static_link_dba',
 ),
 'package.xml' => array
 (

@@ -6,7 +6,7 @@
 'state' => 'stable',
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_notifications_notification' => 'org_openpsa_notifications_notification_dba',
 ),
 'package.xml' => array
 (

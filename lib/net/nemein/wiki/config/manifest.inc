@@ -6,7 +6,7 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'net_nemein_wiki_link' => 'net_nemein_wiki_link_dba',
 ),
 'package.xml' => array
 (

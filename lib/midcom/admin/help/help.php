@@ -479,11 +479,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
     function read_schema_properties()
     {
-        foreach ($this->_request_data['mgdschemas'] as $classdef)
+        foreach ($this->_request_data['mgdschemas'] as $mgdschema_class => $midcom_class)
         {
-            $classname = $classdef['mgdschema_class_name'];
-            $mrp = new midgard_reflection_property($classname);
-            $dummy = new $classname();
+            $mrp = new midgard_reflection_property($mgdschema_class);
+            $dummy = new $mgdschema_class();
             $class_props = get_object_vars($dummy);
             unset($class_props['metadata']);
             $default_properties = array();
@@ -510,12 +509,12 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
             ksort($default_properties);
             ksort($additional_properties);
 
-            $this->_request_data['properties'][$classname] = array_merge($default_properties, $additional_properties);
+            $this->_request_data['properties'][$mgdschema_class] = array_merge($default_properties, $additional_properties);
         }
         return true;
     }
 
-    function _get_property_data($mrp,$prop)
+    function _get_property_data($mrp, $prop)
     {
         $ret = array();
 

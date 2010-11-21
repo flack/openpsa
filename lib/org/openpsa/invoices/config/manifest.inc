@@ -6,7 +6,10 @@
 'privileges' => array(),
 'class_definitions' => array
 (
-    'midcom_dba_classes.inc',
+    'org_openpsa_invoice' => 'org_openpsa_invoices_invoice_dba',
+    'org_openpsa_invoice_hour' => 'org_openpsa_invoices_invoice_hour_dba',
+    'org_openpsa_invoice_item' => 'org_openpsa_invoices_invoice_item_dba',
+    'org_openpsa_billing_data' => 'org_openpsa_invoices_billing_data_dba',
 ),
 'watches' => array
 (
