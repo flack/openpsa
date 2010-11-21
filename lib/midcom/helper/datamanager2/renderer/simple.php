@@ -68,7 +68,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * @var      string
     * @access   private
     */
-    /*
     var $_orig_group_template = "<div id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
         <label><span class=\"field_text\">
                 {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span></label>\n\t\t
