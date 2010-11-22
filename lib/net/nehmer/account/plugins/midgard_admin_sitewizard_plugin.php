@@ -39,8 +39,6 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
     {
         require_once($this->_request_data['plugin_config']['sitewizard_path']);
 
-        parent::_on_initialize();
-
         $this->_host_guid = $this->_request_data['plugin_config']['host_guid'];
         $this->_creation_root_topic_style = $this->_request_data['plugin_config']['creation_root_topic_style'];
         $this->_creation_root_topic_component = $this->_request_data['plugin_config']['creation_root_topic_component'];

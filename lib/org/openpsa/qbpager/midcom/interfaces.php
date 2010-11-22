@@ -27,11 +27,6 @@ class org_openpsa_qbpager_interface extends midcom_baseclasses_components_interf
             'midcom.helper.xsspreventer',
         );
     }
-
-    function _on_initialize()
-    {
-        return true;
-    }
 }
 
 ?>

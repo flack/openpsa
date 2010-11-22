@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.admin.user
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: create.php 25318 2010-03-18 12:16:52Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,7 +9,7 @@
 
 /**
  * Person creation class
- * 
+ *
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_user_create extends midcom_baseclasses_components_handler
@@ -18,7 +18,7 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
 
     /**
      * Simple constructor
-     * 
+     *
      * @access public
      */
     function __construct()
@@ -29,7 +29,6 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
 
     function _on_initialize()
     {
-
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
         $this->_request_data['l10n'] = $this->_l10n;
@@ -45,10 +44,9 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
         );
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
-
     }
 
-    
+
     function _update_breadcrumb()
     {
         // Populate breadcrumb
@@ -99,7 +97,7 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
      * Assumes Admin Privileges.
      */
     function & dm2_create_callback (&$controller)
-    {        
+    {
         // Create a new person
         $this->_person = new midcom_db_person();
         if (! $this->_person->create())
@@ -114,7 +112,7 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
 
         return $this->_person;
     }
-    
+
     /**
      * Handler method for listing style elements for the currently used component topic
      *
@@ -133,33 +131,33 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
                 // Show confirmation for the user
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('person %s saved'), $this->_person->name));
                 $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/");
-                
+
             case 'cancel':
                 $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
                 // This will exit.
         }
-        
+
         $data['view_title'] = $_MIDCOM->i18n->get_string('create user', 'midcom.admin.user');
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->_update_breadcrumb();
-        
+
         return true;
     }
-    
+
     /**
      * Show list of the style elements for the currently createed topic component
-     * 
+     *
      * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
     function _show_create($handler_id, &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();        
+        midgard_admin_asgard_plugin::asgard_header();
         $data['person'] =& $this->_person;
         $data['controller'] =& $this->_controller;
         midcom_show_style('midcom-admin-user-person-create');
-        midgard_admin_asgard_plugin::asgard_footer();        
+        midgard_admin_asgard_plugin::asgard_footer();
     }
 }
 ?>

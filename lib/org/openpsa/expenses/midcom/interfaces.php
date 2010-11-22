@@ -1,6 +1,6 @@
 <?php
 /**
- * @package org.openpsa.expenses 
+ * @package org.openpsa.expenses
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -8,7 +8,7 @@
 
 /**
  * This is the interface class for org.openpsa.expenses
- * 
+ *
  * @package org.openpsa.expenses
  */
 class org_openpsa_expenses_interface extends midcom_baseclasses_components_interface
@@ -25,14 +25,9 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
 
         // Load all mandatory class files of the component here
         $this->_autoload_files = array();
-        
+
         // Load all libraries used by component here
         $this->_autoload_libraries = array();
-    }
-    
-    function _on_initialize()
-    {
-        return true;
     }
 
     /**

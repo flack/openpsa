@@ -14,11 +14,6 @@
  */
 class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Loads all entries that need to be processed and processes them.
      */

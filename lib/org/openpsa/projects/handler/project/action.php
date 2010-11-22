@@ -20,10 +20,6 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
         parent::__construct();
     }
 
-    function _on_initialize()
-    {
-    }
-
     function _load_project($identifier)
     {
         $project = new org_openpsa_projects_project($identifier);
@@ -227,6 +223,6 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
     function _show_action($handler_id, &$data)
     {
     }
-    
+
 }
 ?>

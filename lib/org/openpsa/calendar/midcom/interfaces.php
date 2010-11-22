@@ -33,26 +33,20 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         $this->_acl_privileges['read'] = MIDCOM_PRIVILEGE_ALLOW;
     }
 
-    function _on_initialize()
-    {
-        return true;
-    }
-
-    
     function create_root_event()
     {
         // Create the root event
         $event = new midcom_db_event();
-        
+
         if (!$event->create())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create the root event');
             // This will exit
         }
-        
+
         $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
         $topic->set_parameter($this->_component, 'calendar_root_event', $event->guid);
-        
+
         return $event;
     }
 
@@ -70,9 +64,9 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 return false;
             }
         }
-        
+
         $data =& $GLOBALS['midcom_component_data']['org.openpsa.calendar'];
-        
+
         //Check if we have already initialized
         if (isset($data['calendar_root_event'])
             && is_object($data['calendar_root_event']))
@@ -82,13 +76,13 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
 
         $root_event = false;
         $root_guid = $data['config']->get('calendar_root_event');
-        
+
         if (mgd_is_guid($root_guid))
         {
             $root_event = new org_openpsa_calendar_event_dba($root_guid);
         }
         else
-        {        
+        {
             // Check for calendar event tree.
             $qb = org_openpsa_calendar_event_dba::new_query_builder();
             $qb->add_constraint('title', '=', '__org_openpsa_calendar');
@@ -115,7 +109,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 $event = new midcom_db_event();
                 $event->up = 0;
                 $event->title = '__org_openpsa_calendar';
-                //Fill in dummy dates to get around date range error 
+                //Fill in dummy dates to get around date range error
                 $event->start = time();
                 $event->end = time() + 1;
                 $ret = $event->create();

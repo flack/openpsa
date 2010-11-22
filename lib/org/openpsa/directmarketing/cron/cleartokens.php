@@ -13,11 +13,6 @@
  */
 class org_openpsa_directmarketing_cron_cleartokens extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Find all old send tokens and clear them.
      */

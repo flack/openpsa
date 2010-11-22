@@ -13,11 +13,6 @@
  */
 class org_routamc_positioning_cron_fetchplazes extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Fetches Plazes information for users
      */

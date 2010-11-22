@@ -13,11 +13,6 @@
  */
 class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Find hanging duplicate marks (that no longer point anywhere) and clear them
      */

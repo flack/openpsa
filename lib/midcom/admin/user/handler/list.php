@@ -29,7 +29,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     function _on_initialize()
     {
-
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
         $this->_request_data['l10n'] = $this->_l10n;
 
@@ -47,7 +46,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.admin.user/jquery.midcom_admin_user.js');
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
-
     }
 
 

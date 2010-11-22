@@ -13,11 +13,6 @@
  */
 class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Fetches subscribed feeds and imports them
      */
@@ -33,7 +28,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
             debug_pop();
             return;
         }
-        
+
         //Disable limits
         // TODO: Could this be done more safely somehow
         @ini_set('memory_limit', -1);
@@ -58,7 +53,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
             debug_add("Imported " . count($items) . " items, set feed refresh time to " . strftime('%x %X', $feed->latestfetch), MIDCOM_LOG_INFO);
         }
         $_MIDCOM->auth->drop_sudo();
-        
+
         debug_add('Done');
         debug_pop();
         return;

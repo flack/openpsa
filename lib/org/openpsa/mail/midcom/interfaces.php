@@ -5,7 +5,7 @@
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
- 
+
 /**
  * OpenPSA mail library, handles encoding/sending and decoding.
  *
@@ -21,11 +21,6 @@ class org_openpsa_mail_interface extends midcom_baseclasses_components_interface
         parent::__construct();
 
         $this->_component = 'org.openpsa.mail';
-    }
-
-    function _on_initialize()
-    {
-        return true;
     }
 }
 

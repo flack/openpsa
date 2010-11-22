@@ -13,11 +13,6 @@
  */
 class org_openpsa_products_cron_groupsync extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Process the replication queue
      */

@@ -13,11 +13,6 @@
  */
 class org_routamc_positioning_cron_fetchgeorss extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Fetches georss information for users
      */

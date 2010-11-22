@@ -14,11 +14,6 @@
  */
 class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     function _on_execute()
     {
         debug_push_class(__CLASS__, __FUNCTION__);

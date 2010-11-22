@@ -29,7 +29,6 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
 
     function _on_initialize()
     {
-
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
         $this->_request_data['l10n'] = $this->_l10n;
 
@@ -44,7 +43,6 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         );
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
-
     }
 
     function _update_breadcrumb()
