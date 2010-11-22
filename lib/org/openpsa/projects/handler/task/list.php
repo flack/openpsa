@@ -681,10 +681,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
     {
         $task_array = array();
         $task_type = 0;
-        foreach($this->_request_data['tasks'] as $tasks)
+        foreach ($this->_request_data['tasks'] as $tasks)
         {
             $task_array[$task_type] = array();
-            foreach($tasks as $id => $task)
+            foreach ($tasks as $task)
             {
                 $task_array[$task_type][] = array
                 (

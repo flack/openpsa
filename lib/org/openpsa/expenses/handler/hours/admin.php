@@ -522,11 +522,11 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                         }
                         break;
                     case 'change_task':
-                        if(is_array($_POST['org_openpsa_expenses_task_chooser_widget_selections']))
+                        if (is_array($_POST['org_openpsa_expenses_task_chooser_widget_selections']))
                         {
-                            foreach($_POST['org_openpsa_expenses_task_chooser_widget_selections'] as $id_key => $id)
+                            foreach ($_POST['org_openpsa_expenses_task_chooser_widget_selections'] as $id)
                             {
-                                if($id != 0)
+                                if ($id != 0)
                                 {
                                     $hour_report->task = $id;
                                     break;

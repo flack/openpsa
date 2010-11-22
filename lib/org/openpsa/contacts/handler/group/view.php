@@ -15,14 +15,6 @@
 class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler
 {
     /**
-     * The Controller of the group to display
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     * @access private
-     */
-    private $_controller = null;
-
-    /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array

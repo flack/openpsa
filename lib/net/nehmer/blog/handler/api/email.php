@@ -359,7 +359,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                 $emails[$email] = $email;
             }
         }
-        $from = false;
         if (preg_match_all($regex, $this->_decoder->headers['From'], $matches_from))
         {
             foreach ($matches_from[1] as $email)

@@ -462,7 +462,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
     public static function serve_attachment($guid)
     {
         $attachment = new midcom_db_attachment($guid);
-        $_MIDCOM->serve_attachment($guid);
+        $_MIDCOM->serve_attachment($attachment);
     }
     public function has_parameters()
     {

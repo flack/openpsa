@@ -14,8 +14,6 @@
  */
 class midgard_admin_asgard_handler_component_configuration extends midcom_baseclasses_components_handler
 {
-    var $_lib = array();
-
     /**
      * Simple constructor
      *
@@ -118,7 +116,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     function _load_configs($component, $object = null)
     {
-        $lib = $_MIDCOM->componentloader->manifests[$component];
         $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component);
 
         // Load and parse the global config
@@ -706,7 +703,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                     {
                         if (is_string($val))
                         {
-                            $res = eval("\$val = $val;");
+                            eval("\$val = $val;");
                         }
                         $data .= "array\n{$prefix}(\n" . $this->_draw_array($val, "{$prefix}    ") . "{$prefix})";
                     }

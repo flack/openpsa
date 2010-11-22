@@ -126,7 +126,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 {
                     $component_suggestion = $this->_config->get('default_component');
                 }
-                
+
                 $this->_controller->defaults = array
                 (
                     'component' => $component_suggestion,
@@ -503,8 +503,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      */
     function _show_edit($handler_id, &$data)
     {
-        $styles_all = midcom_admin_folder_folder_management::list_styles();
-
         // Show the style element
         if ($this->_handler_id === 'create')
         {

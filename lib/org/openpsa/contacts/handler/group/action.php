@@ -14,8 +14,6 @@
  */
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
 {
-    private $_datamanagers;
-
     function __construct()
     {
         parent::__construct();

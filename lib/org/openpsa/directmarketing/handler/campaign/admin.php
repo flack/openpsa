@@ -177,199 +177,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     }
 
 
-    private function _parse_row2rule_property($row, &$rule, &$from)
-    {
-        switch ($row['object'])
-        {
-            case 'person':
-                $classname = 'org_openpsa_contacts_person_dba';
-                break;
-            case 'group':
-                $classname = 'org_openpsa_contacts_group_dba';
-                break;
-            case 'membership':
-                $classname = 'midgard_member';
-                break;
-            default:
-                // Invalid object type, what to do ?
-                return false;
-                break;
-        }
-        $row_rule = array
-        (
-            'property'  => $row['property'],
-            'match'     => $row['match'],
-            'value'     => $row['value'],
-        );
-        $rule['classes'][] = array
-        (
-            'type'  => $rule['groups'],
-            'class' => $classname,
-            'rules' => array($row_rule),
-        );
-        return true;
-    }
-
-    private function _parse_row2rule_parameter_obj($row, &$rule, &$from)
-    {
-        static $param_count = 0;
-        static $param_warning = false;
-        $classname = 'midgard_parameter';
-        if (!array_key_exists($classname, $rule['classes']))
-        {
-            $rule['classes'][$classname] = array
-            (
-                // PROBLEM: This cannot be AND or we never get any parameter results, but with OR we get too much results if the top level type is AND
-                'type'   => 'OR',
-                'class'  => $classname,
-                'groups' => array(),
-                'rules'  => array(),
-            );
-        }
-        $classarray =& $rule['classes'][$classname];
-
-        $group = array
-        (
-            'comment' => "\$object->parameter(\"{$row['parameter_domain']}\", \"{$row['parameter_name']}\") {$row['match']} \"{$row['value']}\"",
-            'type'    => 'AND',
-            'class'   => $classname,
-            'rules'   => array
-            (
-                array
-                (
-                    'property'  => 'domain',
-                    'match'     => '=',
-                    'value'     => $row['parameter_domain'],
-                ),
-                array
-                (
-                    'property'  => 'name',
-                    'match'     => '=',
-                    'value'     => $row['parameter_name'],
-                ),
-                array
-                (
-                    'property'  => 'value',
-                    'match'     => $row['match'],
-                    'value'     => $row['value'],
-                ),
-            ),
-        );
-        $classarray['groups'][] = $group;
-        $param_count++;
-        if (   $param_count > 1
-            && !$param_warning)
-        {
-            $param_warning = true;
-            $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('rule generation warning') . ': ' . sprintf($this->_request_data['l10n']->get('with %s Midgard we can only support "%s" matching for multiple parameters'), mgd_version(), $this->_request_data['l10n']->get('match:any')), 'warning');
-        }
-        return true;
-    }
-
-    private function _parse_row2rule_parameter_dot($row, &$rule, &$from)
-    {
-        switch ($row['object'])
-        {
-            case 'person_parameters':
-                $classname = 'org_openpsa_contacts_person_dba';
-                break;
-            case 'group_parameters':
-                $classname = 'org_openpsa_contacts_group_dba';
-                break;
-            case 'membership_parameters':
-                $classname = 'midgard_member';
-                break;
-            default:
-                // Invalid object type, what to do ?
-                return false;
-                break;
-        }
-        if (!array_key_exists($classname, $rule['classes']))
-        {
-            $rule['classes'][$classname] = array
-            (
-                'type'  => $from['type'],
-                'class' => $classname,
-                'rules' => array(),
-            );
-        }
-        $classarray =& $rule['classes'][$classname];
-        if (!array_key_exists('groups', $classarray))
-        {
-            $classarray['groups'] = array();
-        }
-        $group = array
-        (
-            'comment' => "\$object->parameter(\"{$row['parameter_domain']}\", \"{$row['parameter_name']}\") {$row['match']} \"{$row['value']}\"",
-            'type'    => 'AND',
-            'class'   => $classname,
-            'rules'   => array
-            (
-                array
-                (
-                    'property'  => 'parameter.domain',
-                    'match'     => '=',
-                    'value'     => $row['parameter_domain'],
-                ),
-                array
-                (
-                    'property'  => 'parameter.name',
-                    'match'     => '=',
-                    'value'     => $row['parameter_name'],
-                ),
-                array
-                (
-                    'property'  => 'parameter.value',
-                    'match'     => $row['match'],
-                    'value'     => $row['value'],
-                ),
-            ),
-        );
-        $classarray['groups'][] = $group;
-        return true;
-    }
-
-    private function _parse_row2rule($row, &$rule, &$from)
-    {
-        static $parameter_count = 0;
-        if (   !array_key_exists('match', $row)
-            || !array_key_exists('value', $row))
-        {
-            // Invalid row, must have match and value
-            return false;
-        }
-        if (   !array_key_exists('property', $row)
-            && !(   array_key_exists('parameter_domain', $row)
-                 && array_key_exists('parameter_name', $row)))
-        {
-
-            // Invalid row, must have either property or parameter domain and name
-            return false;
-        }
-        if (strstr('LIKE', $row['match']) || strstr('NOT LIKE', $row['match']))
-        {
-            // convert tradiotional wildcard to SQL wildcard
-            $row['value'] = str_replace('*', '%', $row['value']);
-            // autowrap the LIKEs in editor ('contains' / '!contains') with wildcards if do not contain already
-            if (!strstr('%', $row['value']))
-            {
-                $row['value'] = "%{$row['value']}%";
-            }
-        }
-        if (array_key_exists('property', $row))
-        {
-            // Is property match
-            return $this->_parse_row2rule_property($row, $rule, $from);
-        }
-        else if (   array_key_exists('parameter_domain', $row)
-                 && array_key_exists('parameter_name', $row))
-        {
-            return $this->_parse_row2rule_parameter_obj($row, $rule, $from);
-        }
-        // We should never fall this far...
-        return false;
-    }
-
     /**
      * Displays an campaign edit view.
      *
@@ -442,7 +249,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             || isset($_POST['show_rule_preview']))
         {
             $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
-            $eval_ret = @eval($eval);
+            //@todo str_replace is a hotfix for servers with magic_quotes_gpc enabled
+            $eval_ret = eval(str_replace('\\', '', $eval));
 
             if (   $eval_ret === false
                 || !is_array($tmp_array))
@@ -463,7 +271,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
             //resolve rules
             $solver = new org_openpsa_directmarketing_campaign_ruleresolver();
-            $rret = $solver->resolve($tmp_array);
+            $solver->resolve($tmp_array);
             $rule_persons =  $solver->execute();
 
 

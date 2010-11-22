@@ -67,11 +67,6 @@ class org_openpsa_contacts_handler_frontpage extends midcom_baseclasses_componen
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:update', null, 'org_openpsa_contacts_person_dba'),
                 )
             );
-            $leaves['persons_merge'] = array
-            (
-                MIDCOM_NAV_URL => "duplicates/person/",
-                MIDCOM_NAV_NAME => $this->_l10n->get('merge persons'),
-            );
         }
 
 

@@ -218,7 +218,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         foreach ($events_by_date as $ymd => $events)
         {
             preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})/', $ymd, $ymd_matches);
-            $date_stamp = mktime(0, 0, 1, (int)$ymd_matches[2], (int)$ymd_matches[3], (int)$ymd_matches[1]);
             // TODO: get from persons data based on events weekday
             // PONDER: What to do with persons that do not have this data defined ??
             $workday_starts = 8;

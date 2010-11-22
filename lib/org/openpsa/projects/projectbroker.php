@@ -141,7 +141,6 @@ class org_openpsa_projects_projectbroker
     function _find_task_prospects_filter_by_minimum_time_slot(&$task, &$prospects)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
-        static $event_cache = array();
         $keep_prospects = array();
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot))

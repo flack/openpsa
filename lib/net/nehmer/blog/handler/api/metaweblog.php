@@ -788,6 +788,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     function _show_server($handler_id, &$data)
     {
         // Serve the RPC request
-        $server = new XML_RPC_Server($data['dispatchmap']);
+        new XML_RPC_Server($data['dispatchmap']);
     }
 }

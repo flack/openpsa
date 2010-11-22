@@ -403,7 +403,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     function help_schemafields2postargs()
     {
         $schema_string = '';
-        foreach ($this->_request_data['schemadb_product'] as $schema_name => $schema)
+        foreach ($this->_request_data['schemadb_product'] as $schema)
         {
             foreach ($schema->fields as $fieldname => $field_setup)
             {

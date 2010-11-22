@@ -282,7 +282,7 @@ class midcom_helper__styleloader
         return false;
     }
 
-    function _get_nodes_inheriting_style($node)
+    private function _get_nodes_inheriting_style($node)
     {
         $nodes = array();
         $child_qb = midcom_db_topic::new_query_builder();
@@ -383,7 +383,7 @@ class midcom_helper__styleloader
      * @return string    Value of the found element, or false on failure.
      * @access private
      */
-    function _get_element_in_styletree($id, $name)
+    private function _get_element_in_styletree($id, $name)
     {
         static $cached = array();
         if (!isset($cached[$id]))
@@ -672,7 +672,7 @@ class midcom_helper__styleloader
      * @param midcom_db_topic $topic    Current topic
      * @return int Database ID if the style to use in current view or FALSE
      */
-    function _getComponentStyle($topic)
+    private function _getComponentStyle($topic)
     {
 
         // get user defined style for component
@@ -738,7 +738,7 @@ class midcom_helper__styleloader
      * @param MidgardTopic $topic the current component topic.
      * @return mixed the path to the components style directory.
      */
-    function _getComponentSnippetdir($topic)
+    private function _getComponentSnippetdir($topic)
     {
         // get component's snippetdir (for default styles)
         $loader = $_MIDCOM->get_component_loader();
@@ -816,10 +816,10 @@ class midcom_helper__styleloader
      * This function merges the prepend and append styles with the
      * componentstyle. This happens when the enter_context function is called.
      * You cannot change the style call stack after that (unless you call enter_context again of course).
+     *
      * @param string component style
-     * @return void
      */
-    function _merge_styledirs ($component_style)
+    private function _merge_styledirs ($component_style)
     {
         /* first the prepend styles */
         $this->_styledirs[$_MIDCOM->get_current_context()] = $this->_styledirs_prepend[$_MIDCOM->get_current_context()];

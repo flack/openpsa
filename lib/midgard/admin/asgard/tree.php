@@ -83,39 +83,6 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
     }
 
     /**
-     * List the child elements and print out navigation-like tree for selecting the parts that should be copied
-     *
-     * @access public
-     * @param mixed $object      MgdSchema object
-     * @param string $prefix     Indent for the output
-     * @param int $level         Level of depth
-     */
-    function list_children($object, $prefix, $level)
-    {
-        $siblings = midcom_helper_reflector_tree::get_child_objects($object);
-        if (count($siblings) === 0)
-        {
-            return false;
-        }
-
-        echo "{$prefix}<ul class=\"midgard_admin_asgard_object_copytree level_{$level}\">\n";
-
-        foreach ($siblings as $type => $children)
-        {
-            foreach ($children as $child)
-            {
-                // Skip the objects already shown
-                if (isset($shown_objects[$child->guid]))
-                {
-                    continue;
-                }
-            }
-        }
-
-        echo "{$prefix}</ul>\n";
-    }
-
-    /**
      * List the child elements
      *
      * @access private
@@ -149,7 +116,6 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
                     $ref =& $this->_get_reflector($child);
 
                     $span_class = '';
-                    $selected = $this->_is_selected($child);
                     $css_class = $type;
                     $this->_common_css_classes($child, $ref, $css_class);
                     $this->shown_objects[$child->guid] = true;

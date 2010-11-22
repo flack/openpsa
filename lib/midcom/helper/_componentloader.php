@@ -288,7 +288,6 @@ class midcom_helper__componentloader
         // Load the component interface, try to be backwards-compatible
         $prefix = $this->snippetpath_to_prefix($snippetpath);
 
-        $compat = false;
         if (class_exists("{$prefix}_interface"))
         {
             $classname = "{$prefix}_interface";

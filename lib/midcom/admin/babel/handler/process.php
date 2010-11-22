@@ -33,7 +33,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      */
     function __construct()
     {
-//        $this->_component = 'midcom.admin.babel';
         parent::__construct();
     }
 
@@ -62,9 +61,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         );
 
         // Initialize Asgard plugin
-
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.babel'),$this->_request_data);
-
+        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.babel'), $this->_request_data);
     }
 
     function _prepare_toolbar(&$data)
@@ -343,8 +340,8 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         $data['language'] = $this->_lang;
 
         $status = midcom_admin_babel_plugin::calculate_language_status($this->_lang);
-        $data['components_core'] = $status['components_core'];
-        $data['components_other'] = $status['components_other'];
+        $data['components_core'] = $status['core'];
+        $data['components_other'] = $status['other'];
         $data['strings_all'] = $status['strings_all'];
 
         midcom_show_style('midcom_admin_babel_status_header');

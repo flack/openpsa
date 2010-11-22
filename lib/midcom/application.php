@@ -141,14 +141,6 @@ class midcom_application
     private $_currentcontext = 0;
 
     /**
-     * The active component.
-     *
-     * @var string
-     * @access private
-     */
-    private $_currentcomponent = '';
-
-    /**
      * The client status array.
      *
      * @var Array

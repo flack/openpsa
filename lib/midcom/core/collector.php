@@ -227,7 +227,7 @@ class midcom_core_collector
     /**
      * Resets some internal variables for re-execute
      */
-    function _reset()
+    private function _reset()
     {
         $this->_executed = false;
         $this->count = -1;
@@ -275,8 +275,6 @@ class midcom_core_collector
         }
         $newresult = array();
         $classname = $this->_real_class;
-
-        $user_id = false;
 
         foreach ($result as $object_guid => $empty_copy)
         {

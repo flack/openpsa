@@ -270,7 +270,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
                 'person' => $this->guid,
             );
             $_MIDCOM->load_library('midcom.services.at');
-            $atstat = midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
+            midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
 
         return parent::_on_updating();

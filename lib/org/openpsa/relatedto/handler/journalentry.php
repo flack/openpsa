@@ -14,29 +14,27 @@
 class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_components_handler
 {
     /**
-     * contains the one journal_entry to edit
+     * Contains the one journal_entry to edit
      */
     var $_journal_entry = null;
 
     /**
-     * contains the query-builder for journal-entries
+     * Contains the query-builder for journal-entries
      */
     private $qb_journal_entries = null;
+
     /**
-     * way the entries should be outputed
+     * Way the entries should be outputed
      */
     private $_output_mode = "html";
 
     /**
-     * contains the controller for datamanager
+     * Contains the controller for datamanager
      */
     private $_controller = null;
+
     /**
-     * contains the datamanager
-     */
-    private $_datamanger = null;
-    /**
-     * contains the object the journal_entry is bind to
+     * Contains the object the journal_entry is bind to
      */
     private $_current_object = null;
 
@@ -190,9 +188,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
                 $object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
                 //relocate to relatedto-renders
                 $add_url = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
-                $add_url = $add_url . $this->_current_object->guid . "/html/";
-                $siteconfig = org_openpsa_core_siteconfig::get_instance();
-                $relocate = $_MIDCOM->permalinks->create_permalink($object->guid);
+                $add_url .= $this->_current_object->guid . "/html/";
                 $_MIDCOM->relocate($add_url);
                 // This will exit.
                 break;
@@ -315,10 +311,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         {
             case 'save':
             case 'cancel':
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
                 $url_prefix = $url_prefix . $this->_current_object->guid . "/html/";
-                $siteconfig = org_openpsa_core_siteconfig::get_instance();
-                $relocate = $_MIDCOM->permalinks->create_permalink($object->guid);
                 $_MIDCOM->relocate($url_prefix);
                 // This will exit.
                 break;

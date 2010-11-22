@@ -197,7 +197,6 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
             // This will exit.
         }
 
-        $defaults = Array();
         $datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         $datamanager->autoset_storage($storage);
         return $datamanager->get_content_raw();
@@ -228,7 +227,6 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
             // This will exit.
         }
 
-        $defaults = Array();
         $datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         $datamanager->autoset_storage($storage);
         return $datamanager->get_content_html();

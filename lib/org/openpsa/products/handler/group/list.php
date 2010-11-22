@@ -123,7 +123,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             }
 
             $data['parent_group'] = $data['group']->id;
-            
+
             if ($handler_id == 'listall')
             {
                 $group_up = new org_openpsa_products_product_group_dba($data['group']->up);
@@ -144,7 +144,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             {
                 $data['view_title'] = $data['group']->title;
             }
-            
+
             if ($handler_id == 'listall')
             {
                 $data['view_title'] = sprintf($this->_l10n_midcom->get('All %s'), $data['view_title']);
@@ -222,7 +222,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 && $_MIDCOM->get_current_context() == 0)
             {
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                
+
                 $group_gb = org_openpsa_products_product_group_dba::new_query_builder();
                 $group_gb->add_constraint('code', '=', $args[0]);
                 $groups = $group_gb->execute();
@@ -250,10 +250,10 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
                 $categories_qb->add_constraint('id', '=', $groups[0]->up);
                 $categories = $categories_qb->execute();
-                
+
                 if (count($categories) > 0)
                 {
-                    $data['parent_category'] = $categories[0]->code;                    
+                    $data['parent_category'] = $categories[0]->code;
                 }
             }
             else
@@ -375,9 +375,9 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 {
                     $product_qb->add_constraint('productGroup', '=', $data['parent_group']);
                 }
-                
+
                 $reflector = new midgard_reflection_property('org_openpsa_products_product');
-                
+
                 foreach ($constraints as $constraint_string)
                 {
                     $constraint_members = explode(',', $constraint_string);
@@ -385,7 +385,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                     {
                         $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Invalid constraint '{$constraint_string}'");
                     }
-                    
+
                     // Reflection is needed here for safety
                     $field_type = $reflector->get_midgard_type($constraint_members[0]);
                     switch ($field_type)
@@ -397,7 +397,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                             break;
                         case MGD_TYPE_FLOAT:
                             $constraint_members[2] = (float) $constraint_members[2];
-                            break; 
+                            break;
                         case MGD_TYPE_BOOLEAN:
                             $constraint_members[2] = (boolean) $constraint_members[2];
                             break;
@@ -467,7 +467,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         // Prepare datamanager
         $data['datamanager_group'] = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-        
+
         // Populate toolbar
         if ($this->_request_data['group'])
         {
@@ -485,12 +485,11 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             );
         }
 
-        $allow_create = false;
         if ($data['group'])
         {
             $allow_create_group = $data['group']->can_do('midgard:create');
-            $allow_create_product = $data['group']->can_do('midgard:create');            
-            
+            $allow_create_product = $data['group']->can_do('midgard:create');
+
             if ($data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
             {
                 $allow_create_product = false;
@@ -546,7 +545,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 )
             );
         }
-        
+
         if (   $this->_config->get('enable_productlinks')
             && isset($data['schemadb_productlink']))
         {

@@ -13,7 +13,7 @@
  * @package midcom.baseclasses
  */
 abstract class midcom_baseclasses_components_handler_crud extends midcom_baseclasses_components_handler
-{    
+{
     /**
      * The content topic to use
      *
@@ -21,7 +21,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @access private
      */
     var $_content_topic = null;
-    
+
     /**
      * The DBA class to use
      *
@@ -29,7 +29,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @access private
      */
     var $_dba_class = null;
-    
+
     /**
      * The prefix to use for style element names and URLs, if any
      *
@@ -37,15 +37,15 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @access private
      */
     var $_prefix = null;
-    
+
     /**
      * The mode (Create, Read, Update, Delete) we're in
      *
      * @var string
      * @access private
      */
-    var $_mode = null;    
-        
+    var $_mode = null;
+
     /**
      * The object to operate on
      *
@@ -83,7 +83,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @access private
      */
     var $_schemadb = null;
-    
+
     /**
      * The schema name to use when creating new objects
      *
@@ -129,7 +129,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for loading parent object for an object that is to be created, must be 
+     * Method for loading parent object for an object that is to be created, must be
      * implemented in the component handler.
      *
      * The method will generate an error if the object could not be found.
@@ -181,7 +181,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
     /**
      * Helper function to convert the user's prefix (if any) into a URL prefix
-     * 
+     *
      * @return string URL prefix to the current object
      */
     public function _get_url_prefix()
@@ -196,7 +196,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
     /**
      * Helper function to convert the user's prefix (if any) into a style name prefix
-     * 
+     *
      * @return string stylename prefix
      */
     private function _get_style_prefix()
@@ -210,7 +210,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     }
 
     /**
-     * Method for updating breadcrumb for current object and handler, must be implemented in the 
+     * Method for updating breadcrumb for current object and handler, must be implemented in the
      * component handler.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -218,7 +218,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     abstract public function _update_breadcrumb($handler_id);
 
     /**
-     * Method for updating title for current object and handler, should be implemented in the 
+     * Method for updating title for current object and handler, should be implemented in the
      * component handler for better performance.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -245,7 +245,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
                 $view_title .= sprintf($this->_l10n_midcom->get('delete %s'), $object_title);
                 break;
         }
-        
+
         $_MIDCOM->set_pagetitle($view_title);
     }
 
@@ -257,13 +257,13 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     public function _populate_toolbar($handler_id)
     {
         $prefix = $this->_get_url_prefix();
-        
+
         if (   !$this->_object
             || !$this->_object->guid)
         {
             return;
         }
-        
+
         if ($this->_object->can_do('midgard:update'))
         {
             $this->_view_toolbar->add_item
@@ -306,7 +306,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
     /**
      * Maps the content topic from the request data to local member variables.
-     * 
+     *
      * Also makes sure that DM2 is loaded
      */
     function _on_initialize()
@@ -387,7 +387,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     {
         $this->_controller = midcom_helper_datamanager2_controller::create($type);
         $this->_controller->schemadb =& $this->_schemadb;
-        
+
         if ($type == 'create')
         {
             // Creation controller, give additional parameters
@@ -426,7 +426,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
     /**
      * Helper function to extend the baseclass handlers
-     * 
+     *
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
@@ -457,15 +457,15 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         else
         {
             $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_dba_class);
-        }        
+        }
 
         // Select schema name to use based on arguments
         $this->_load_schemadb();
         $this->_select_schema($args);
-        
+
         // Prepare defaults
         $this->_load_defaults();
-        
+
         // Prepare the creation controller
         $this->_load_controller('create');
 
@@ -491,14 +491,14 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         }
 
         $this->_prepare_request_data();
-        
+
         // Call the per-component metadata methods
         $this->_populate_toolbar($handler_id);
         $this->_update_title($handler_id);
         $this->_update_breadcrumb($handler_id);
-        
+
         if ($this->_object)
-        {       
+        {
             // Let MidCOM know about the object
             $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
             $this->_view_toolbar->bind_to($this->_object);
@@ -546,7 +546,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         }
 
         $this->_prepare_request_data();
-        
+
         if ($this->_controller)
         {
             // For AJAX handling it is the controller that renders everything
@@ -556,12 +556,12 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         {
             $this->_request_data['object_view'] = $this->_datamanager->get_content_html();
         }
-        
+
         // Call the per-component metadata methods
         $this->_populate_toolbar($handler_id);
         $this->_update_title($handler_id);
         $this->_update_breadcrumb($handler_id);
-                
+
         // Let MidCOM know about the object
         $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
@@ -613,12 +613,12 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         }
 
         $this->_prepare_request_data();
-        
+
         // Call the per-component metadata methods
         $this->_populate_toolbar($handler_id);
         $this->_update_title($handler_id);
         $this->_update_breadcrumb($handler_id);
-                
+
         // Let MidCOM know about the object
         $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $_MIDCOM->bind_view_to_object($this->_object, $this->_controller->datamanager->schema->name);
@@ -664,9 +664,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         if (array_key_exists('midcom_baseclasses_components_handler_crud_deleteok', $_POST))
         {
-            $title = $this->_object->title;
-            $id = $this->_object->id;
-
             // Deletion confirmed, try doing it.
             if (!$this->_object->delete())
             {
@@ -696,12 +693,12 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         }
 
         $this->_prepare_request_data();
-        
+
         // Call the per-component metadata methods
         $this->_populate_toolbar($handler_id);
         $this->_update_title($handler_id);
         $this->_update_breadcrumb($handler_id);
-                
+
         // Let MidCOM know about the object
         $_MIDCOM->set_26_request_metadata($this->_object->metadata->revised, $this->_object->guid);
         $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);

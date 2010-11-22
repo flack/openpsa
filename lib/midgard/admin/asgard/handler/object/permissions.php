@@ -305,8 +305,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
         $header = '';
 
-        $header_start = '';
-        $header_end = '';
         $header_items = array();
 
         foreach ($assignees as $assignee => $label)
@@ -565,7 +563,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $priv_item_cnt = count($this->_privileges);
 
         $s = 0;
-        foreach ($this->_controller->formmanager->form->_elements as $i => $row)
+        foreach ($this->_controller->formmanager->form->_elements as $row)
         {
             if (is_a($row, 'HTML_QuickForm_hidden'))
             {
@@ -679,7 +677,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
             $selected_val = $this->_controller->formmanager->form->_submitValues[$element_name];
         }
 
-        foreach ($object->_options as $k => $item)
+        foreach ($object->_options as $item)
         {
             $selected = '';
             if (   $selected_val != ''
@@ -702,10 +700,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         foreach ($object->_attributes as $key => $value)
         {
             $html .= "{$key}=\"{$value}\" ";
-            if ($key == 'name')
-            {
-                $element_name = $value;
-            }
         }
         $html .= " />\n";
 

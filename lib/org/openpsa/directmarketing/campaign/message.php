@@ -717,7 +717,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 continue;
             }
 
-            foreach ($typedata->attachments_info as $key => $attachment_data)
+            foreach ($typedata->attachments_info as $attachment_data)
             {
                 $att = array();
                 $att['name'] = $attachment_data['filename'];
@@ -1059,7 +1059,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
         foreach ($results as $member)
         {
-            $status = $this->_send_sms_member($smsbroker, $member, $content, $from, $data_array);
+            $this->_send_sms_member($smsbroker, $member, $content, $from, $data_array);
         }
 
         $ret = array();
@@ -1141,7 +1141,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             //PONDER: Should this be moved outside this loop and to use the (not very reliable) total member count ?
             if (!$this->_check_sms_balance($smsbroker, $results))
             {
-                debug_add("Not enough credits to send to {$results_count} recipients, aborting", MIDCOM_LOG_ERROR);
+                debug_add("Not enough credits to send to " . count($results) . " recipients, aborting", MIDCOM_LOG_ERROR);
                 if ($this->send_output)
                 {
                     //TODO: Throw some error to user level as well.
@@ -1152,7 +1152,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
             foreach ($results as $member)
             {
-                $status = $this->_send_sms_member($smsbroker, $member, $content, $from, $data_array);
+                $this->_send_sms_member($smsbroker, $member, $content, $from, $data_array);
             }
         }
         if ($this->send_output)
@@ -1165,8 +1165,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         debug_pop();
         return true;
     }
-
-
 
     /**
      * Returns the count of matching members and message receipts

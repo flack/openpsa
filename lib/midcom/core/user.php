@@ -77,7 +77,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      * @var Array
      * @access private
      */
-    var $_all_groups = null;
+    private $_all_groups = null;
 
     /**
      * Lists all groups in which a user is an immediate member.
@@ -92,7 +92,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      * @var Array
      * @access private
      */
-    var $_direct_groups = null;
+    private $_direct_groups = null;
 
     /**
      * This array lists all groups the user is a member in ordered by their inheritance
@@ -109,7 +109,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      * @var Array
      * @access private
      */
-    var $_inheritance_chains = null;
+    private $_inheritance_chains = null;
 
     /**
      * List of all privileges assigned to that user. It is to be considered read-only.
@@ -121,7 +121,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      * @var Array
      * @access private
      */
-    var $_privileges = null;
+    private $_privileges = null;
 
     /**
      * List of all privileges assigned to that user based on the class he is accessing. It is to
@@ -135,7 +135,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      * @var Array
      * @access private
      */
-    var $_per_class_privileges = null;
+    private $_per_class_privileges = null;
 
     /**
      * The identification string used to internally identify the user uniquely
@@ -211,7 +211,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      * @param mixed $id This is either a Midgard Person ID or GUID, a midcom_user ID or an already instantiated midgard_person.
      * @return boolean Indicating success.
      */
-    function _load($id)
+    private function _load($id)
     {
         $person_class = $GLOBALS['midcom_config']['person_class'];
         if (   is_string($id))
@@ -361,7 +361,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      *
      * @return Array A list of midcom_core_privilege records.
      */
-    function _get_privileges()
+    private function _get_privileges()
     {
         return midcom_core_privilege::get_self_privileges($this->guid);
     }
@@ -412,11 +412,8 @@ class midcom_core_user extends midcom_baseclasses_core_object
      *
      * @access protected
      */
-    function _load_direct_groups()
+    private function _load_direct_groups()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_pop();
-
         $this->_direct_groups = midcom_core_group::list_memberships($this);
     }
 
@@ -466,7 +463,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      *
      * @access protected
      */
-    function _load_all_groups()
+    private function _load_all_groups()
     {
         if (is_null($this->_direct_groups))
         {
@@ -504,7 +501,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      *
      * @access private
      */
-    function _load_privileges()
+    private function _load_privileges()
     {
         static $cache = Array();
 
@@ -522,7 +519,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
             $this->_privileges = Array();
             $this->_per_class_privileges = Array();
 
-            foreach ($this->_inheritance_chains as $direct_group_id => $inheritance_chain)
+            foreach ($this->_inheritance_chains as $inheritance_chain)
             {
                 // Compute permissions based on this group line.
                 foreach ($inheritance_chain as $group_id)
@@ -551,7 +548,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
      *
      * @param Array $privileges A list of privilege records, see mRFC 15 for details.
      */
-    function _merge_privileges($privileges)
+    private function _merge_privileges($privileges)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
 
@@ -635,7 +632,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         else
         {
             // We scan through our groups looking for a midgard group with the right name
-            foreach ($this->_all_groups as $id => $group_object)
+            foreach ($this->_all_groups as $group_object)
             {
                 if (   $_MIDCOM->dbfactory->is_a($group_object, 'midcom_core_group')
                     && $group_object->_storage->name == $group)

@@ -220,7 +220,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * @param boolean $deleted whether to get (only) deleted or not-deleted objects
      * @return array of objects or false on failure
      */
-    function get_root_objects($deleted = false, $all = false)
+    function get_root_objects($deleted = false)
     {
         // Check against static calling
         if (   !isset($this->mgdschema_class)
@@ -500,7 +500,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $parent_object = new $midcom_dba_classname($object->$property);
             return $parent_object;
         }
-        debug_add("MidCOM DBA does not know how to handle {$schema_type}, falling back to pure MgdSchema", MIDCOM_LOG_WARN);
+        debug_add("MidCOM DBA does not know how to handle {$target_class}, falling back to pure MgdSchema", MIDCOM_LOG_WARN);
 
         $linktype = $ref->get_midgard_type($property);
         switch ($linktype)

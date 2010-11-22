@@ -341,10 +341,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Loop through the children and copy them to their corresponding parents
-        foreach ($children as $type => $children)
+        foreach ($children as $subchildren)
         {
             // Get the children of each type
-            foreach ($children as $child)
+            foreach ($subchildren as $child)
             {
                 // Skip the excluded child
                 if (in_array($child->guid, $this->exclude))

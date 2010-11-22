@@ -272,8 +272,6 @@ class midcom_services_indexer
         $i18n = $_MIDCOM->get_service('i18n');
         $query = $i18n->convert_to_utf8($query);
 
-        $nav = new midcom_helper_nav();
-
         try
         {
             $result_raw = $this->_backend->query($query, $filter);

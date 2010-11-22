@@ -423,7 +423,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             {
 
                 $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
-                $current_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 $view_url = $this->_get_view_url();
 
                 $_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist');
@@ -932,7 +931,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             if ($this->_config->get('net_nehmer_buddylist_integration'))
             {
                 $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
-                $current_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 $view_url = $this->_get_view_url();
 
                 $_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist');

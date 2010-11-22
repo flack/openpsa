@@ -652,7 +652,6 @@ class midcom_baseclasses_components_request extends midcom_baseclasses_core_obje
         $this->_request_data['handler_id'] = $this->_handler['id'];
 
         // Add handler help link
-        $handler_help_id = 'handlers_' . $this->_handler['id'];
         $help_toolbar = $_MIDCOM->toolbars->get_help_toolbar();
         $help_toolbar->add_help_item
         (
@@ -1040,8 +1039,6 @@ class midcom_baseclasses_components_request extends midcom_baseclasses_core_obje
      */
     public function _prepare_plugin ($namespace, $plugin, $handlers)
     {
-        $plugin_config = self::$_plugin_namespace_config[$namespace][$plugin];
-
         foreach ($handlers as $identifier => $handler_config)
         {
             // First, update the fixed args list (be tolerant here)

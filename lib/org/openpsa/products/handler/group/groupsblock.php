@@ -42,7 +42,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
       $qb->add_constraint('code', '=', $args[0]);
       $qb->set_limit(1);
       $results = $qb->execute();
-      
+
       if (count($results) == 0)
       {
           if (!mgd_is_guid($args[0]))
@@ -85,13 +85,13 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         $guidgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
         $guidgroup_qb->add_constraint('guid', '=', $args[0]);
         $groups = $guidgroup_qb->execute();
-        
+
         if (count($groups) > 0)
         {
             $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
             $categories_qb->add_constraint('id', '=', $groups[0]->up);
             $categories = $categories_qb->execute();
-    
+
             $data['parent_category'] = $categories[0]->code;
         }
         else
@@ -122,7 +122,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                 $group_qb->add_order($ordering);
             }
         }
-        
+
         $data['groups'] = $group_qb->execute();
         $data['products'] = array();
         if ($this->_config->get('group_list_products'))
@@ -195,7 +195,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
             );
         }
 
-        $allow_create = false;
         if ($data['group'])
         {
             $allow_create_group = $data['group']->can_do('midgard:create');

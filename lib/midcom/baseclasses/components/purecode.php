@@ -20,15 +20,6 @@
  */
 class midcom_baseclasses_components_purecode
 {
-    /**#@+
-     * Request state variable.
-     *
-     * To initialize this variable you must call _bind_to_request_data(), otherwise
-     * it will be null.
-     *
-     * @access protected
-     */
-
     /**
      * The current configuration, possibly modified by the _load_topic_configuration
      * helper.
@@ -75,8 +66,6 @@ class midcom_baseclasses_components_purecode
      */
     var $_component = '';
 
-    /**#@-*/
-
     /**
      * Initialize all member variables, remember to set $_component before calling
      * this constructor from your derived classes.
@@ -107,23 +96,6 @@ class midcom_baseclasses_components_purecode
             $this->_config->store_from_object($topic, $this->_component);
         }
     }
-
-    /**
-     * Binds the object to the current request data. This populates the members
-     * _request_data, _config, _topic, _l10n and _l10n_midcom accordingly.
-     *
-     * @access protected
-     */
-    private function _bind_to_request_data()
-    {
-        $this->_request_data =& $_MIDCOM->get_custom_context_data('request_data');
-        $this->_config =& $this->_request_data['config'];
-        $this->_topic =& $this->_request_data['topic'];
-        $this->_l10n =& $this->_request_data['l10n'];
-        $this->_l10n_midcom =& $this->_request_data['l10n_midcom'];
-    }
-
-
 }
 
 ?>

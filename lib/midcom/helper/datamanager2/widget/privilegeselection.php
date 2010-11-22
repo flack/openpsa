@@ -134,7 +134,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
             $this->_jscript
         );
             
-        $group = $this->_form->addGroup
+        $this->_form->addGroup
         (
             $elements, 
             $this->name, 

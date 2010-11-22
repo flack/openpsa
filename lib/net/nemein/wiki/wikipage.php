@@ -507,7 +507,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
      *
      * Used by $this->_replace_wikiwords_macro_tagged()
      */
-    private function _code_for_sort_by_title($a, $b)
+    private function _code_sort_by_title($a, $b)
     {
         $ap = $a->title;
         $bp = $b->title;
@@ -525,7 +525,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $fulltext = $match[1];
         $after = $match[2] or '';
         $wikilink = null;
-        $url = null;
         $class = null;
 
         // See what kind of tag we have hit

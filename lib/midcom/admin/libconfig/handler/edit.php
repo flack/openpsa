@@ -14,8 +14,6 @@
  */
 class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_handler
 {
-    var $_lib = array();
-
     /**
      * Simple constructor
      *
@@ -28,7 +26,6 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
 
     function _on_initialize()
     {
-
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.libconfig');
         $this->_request_data['l10n'] = $this->_l10n;
 
@@ -43,11 +40,9 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         );
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'),$this->_request_data);
-
     }
 
-
-    function _update_breadcrumb($name)
+    private function _update_breadcrumb($name)
     {
         // Populate breadcrumb
         $label = $_MIDCOM->i18n->get_string($name,$name);
@@ -71,7 +66,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
-    function _prepare_toolbar(&$data)
+    private function _prepare_toolbar(&$data)
     {
         midgard_admin_asgard_plugin::get_common_toolbar($data);
     }
@@ -84,12 +79,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
      */
     function _handler_edit($handler_id, $args, &$data)
     {
-
-        if (array_key_exists($args[0],$_MIDCOM->componentloader->manifests))
-        {
-            $lib = $_MIDCOM->componentloader->manifests[$args[0]];
-        }
-        else
+        if (!array_key_exists($args[0],$_MIDCOM->componentloader->manifests))
         {
             return false;
         }
@@ -133,32 +123,28 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
             $schemadb['default']->l10n_schema = $args[0];
         }
 
-        foreach($this->_libconfig->_global as $key => $value)
+        foreach ($this->_libconfig->_global as $key => $value)
         {
             // try to sniff what fields are missing in schema
-            if (!array_key_exists($key,$schemadb['default']->fields))
+            if (!array_key_exists($key, $schemadb['default']->fields))
             {
-
                 $schemadb['default']->append_field
                 (
                     $key,
                     $this->_detect_schema($key,$value)
                 );
-
             }
-
 
             if (   !isset($this->_libconfig->_local[$key])
                 || !$this->_libconfig->_local[$key])
             {
                 $schemadb['default']->fields[$key]['static_prepend'] = "<div class='global'><span>Global value</span>";
                 $schemadb['default']->fields[$key]['static_append'] = "</div>";
-
             }
         }
 
         //prepare values
-        foreach($this->_libconfig->_merged as $key => $value)
+        foreach ($this->_libconfig->_merged as $key => $value)
         {
             if (is_array($value))
             {
@@ -269,7 +255,6 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         return true;
     }
 
-
     /**
      * Show list of the style elements for the currently edited topic component
      *
@@ -291,7 +276,6 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         $post = $this->_controller->formmanager->form->_submitValues;
         foreach ($this->_libconfig->_global as $key => $val)
         {
-
             $newval = $post[$key];
 
             switch(gettype($this->_libconfig->_global[$key]))
@@ -338,12 +322,9 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
                 {
                     $result['widget'] = 'textarea';
                 }
-
         }
 
-
         return $result;
-
     }
 
     function _draw_array($array)

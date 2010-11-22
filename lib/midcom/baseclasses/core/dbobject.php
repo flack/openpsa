@@ -575,7 +575,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
             && count($children))
         {
             // Delete first the descendants
-            foreach ($children as $type => $array)
+            foreach ($children as $array)
             {
                 foreach ($array as $child)
                 {
@@ -666,7 +666,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
                 debug_pop();
                 continue;
             }
-            $label = $ref->get_label_property();
 
             $undeleted = false;
             if ($object->undelete($guid))
@@ -855,14 +854,10 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
             }
 
             // then shoot your dogs
-
             $purged_size += self::purge_parameters($guid);
             $purged_size += self::purge_attachments($guid);
 
-            $label = $ref->get_label_property();
-
             // now shoot yourself
-
             if (!$object->purge())
             {
                 debug_push_class(__CLASS__, __FUNCTION__);
@@ -1108,25 +1103,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
     }
 
     /**
-     * Generates URL-safe name for an object and stores it if needed
-     *
-     * NOTE: Calling this in _on_updated has possibility on introducing infinite loops
-     * since this will call update if deemed necessary, which calls _on_updated, etc ad nauseam
-     *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes
-     * @return bool indicating success/failure
-     */
-    public static function generate_urlname($object, $titlefield = 'title')
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_add('This method has been deprecated', MIDCOM_LOG_WARN);
-        $bt = debug_backtrace();
-        debug_add("generate_urlname() Called from {$bt[1]['class']}::{$bt[1]['function']}", MIDCOM_LOG_INFO);
-        debug_pop();
-        return false;
-    }
-
-    /**
      * This is a simple wrapper with (currently) no additional functionality
      * over get_by_id that resynchronizes the object state with the database.
      * Use this if you think that your current object is stale. It does full
@@ -1250,7 +1226,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         else
         {
             debug_push_class($object, __FUNCTION__);
-            debug_add("Failed to load the record identified by {$id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+            debug_add("Failed to load the record identified by {$guid}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             debug_pop();
             return false;
         }
@@ -1645,7 +1621,7 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
 
         $object->_use_activitystream = $original_use_activitystream;
 
-        return true;
+        return $result;
     }
 
     /**
@@ -2220,7 +2196,8 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         }
         return $parent;
     }
-        /**
+
+    /**
      * "Pre-flight" checks for delete method
      *
      * Separated so that dbfactory->import() can reuse the code

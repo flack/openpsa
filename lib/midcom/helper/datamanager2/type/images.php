@@ -296,7 +296,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             return false;
         }
 
-        foreach ($this->images[$identifier] as $name => $info)
+        foreach ($this->images[$identifier] as $info)
         {
             if (! $this->update_attachment_title($info['identifier'], $title))
             {
@@ -443,7 +443,7 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
             {
                 continue;
             }
-            foreach($this->images[$images_identifier] as $key => $info)
+            foreach($this->images[$images_identifier] as $info)
             {
                 if ($info['object']->title === $title)
                 {

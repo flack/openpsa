@@ -29,7 +29,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
     function initialize()
     {
         parent::initialize();
-        
+
         if (count($this->schemadb) == 0)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
@@ -44,15 +44,15 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
         }
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager($this->datamanager->schema, $this->datamanager->types);
-        
+
         return $this->formmanager->initialize();
     }
 
     /**
-     * This function wraps the form manager processing. 
-     * 
-     * If processing is successful, (that is, only 'save'). If editing was successful, the form 
-     * is frozen in case you want to display it again (usually you want to redirect to the view 
+     * This function wraps the form manager processing.
+     *
+     * If processing is successful, (that is, only 'save'). If editing was successful, the form
+     * is frozen in case you want to display it again (usually you want to redirect to the view
      * target).
      *
      * There are several possible return values:
@@ -103,7 +103,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             {
                 $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), $_MIDCOM->i18n->get_string('permission denied', 'midcom'), 'error');
             }
-            
+
             // Make sure we have CSS loaded
             $_MIDCOM->add_link_head
             (
@@ -139,7 +139,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                 $metadata->lock();
             }
         }
-        
+
         // Handle successful save explicitly.
         if (   $result == 'save'
             || $result == 'next')
@@ -152,15 +152,13 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                 {
                     $this->formmanager->form->setElementError($field, $error);
                 }
-                
+
                 debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors), MIDCOM_LOG_ERROR);
                 debug_pop();
-                
+
                 $dm2_label = $_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2');
-                
-                $var = $this->formmanager->_schema->_l10n_schema;
-                
+
                 foreach ($this->datamanager->validation_errors as $name => $message)
                 {
                     if (!isset($this->formmanager->_schema->fields[$name]))
@@ -171,7 +169,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                     {
                         $label = $this->formmanager->_schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
                     }
-                    
+
                     $_MIDCOM->uimessages->add
                     (
                         $dm2_label,
@@ -179,7 +177,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                         'error'
                     );
                 }
-                
+
                 return 'edit';
             }
 

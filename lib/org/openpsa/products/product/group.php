@@ -185,8 +185,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     {
         //FIXME rewrite to use collector, rewrite to use (per request) result caching
         static $group_list = array();
-        $up_code = 0 ;
-        $create_or_edit = -1;
 
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $qb->add_constraint('up', '=', $up);
@@ -211,8 +209,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     {
         //FIXME rewrite to use collector, rewrite to use (per request) result caching
         static $group_list = array();
-        $up_code = 0;
-        $create_or_edit = -1;
 
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         if (midcom_connection::is_admin())
@@ -230,8 +226,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         foreach ($groups as $group)
         {
             $group_list[$group->code] = "{$group->title}";
-
-            //org_openpsa_products_product_group_dba::list_groups($group->id, "{$prefix} > ", $keyproperty);
         }
 
         return $group_list;

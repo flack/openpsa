@@ -135,7 +135,7 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
                 $this->_creation_root_group_name);
             }
 
-            $guid = $structure_creator->execute();
+            $structure_creator->execute();
 
             if (! empty($this->_redirect_after_done))
             {

@@ -1043,7 +1043,6 @@ class midcom_services_auth_acl
         $object_privileges = midcom_core_privilege::get_content_privileges($guid);
 
         $last_scope = -1;
-        $last_owner_scope = -1;
         $content_privilege = null;
 
         foreach ($object_privileges as $privilege)

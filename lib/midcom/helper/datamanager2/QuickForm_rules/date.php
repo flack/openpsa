@@ -32,14 +32,13 @@ class midcom_helper_datamanager2_qfrule_date_manager
         foreach ($this->rules as $rule_name)
         {
             $rule_class = "midcom_helper_datamanager2_qfrule_date_{$rule_name}";
-            $rule_obj = new $rule_class();
 
             debug_add("form->registerRule('{$rule_name}', null, '{$rule_class}', '{$current_file}')");
             $stat = $form->registerRule($rule_name, null, $rule_class, $current_file);
             if (is_a($stat, 'pear_error'))
             {
                 $msg = $stat->getMessage();
-                debug_add("Got PEAR error '{$msg}' from form->registerRule('{$rule_name}', 'HTML_QuickForm_Rule', \$rule_obj), when adding date rule", MIDCOM_LOG_WARN);
+                debug_add("Got PEAR error '{$msg}' from form->registerRule(), when adding date rule", MIDCOM_LOG_WARN);
                 continue;
             }
         }
@@ -85,7 +84,7 @@ class midcom_helper_datamanager2_qfrule_date_checkjsdate extends HTML_QuickForm_
 
         $date_time = explode(" ", $value);
         $date_array = explode("-", $value);
-        
+
         if (is_array($date_time))
         {
             $date_array = explode("-", $date_time[0]);

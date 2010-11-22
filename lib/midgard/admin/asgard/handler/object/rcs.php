@@ -169,8 +169,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_request_data['asgard_toolbar'] = new midcom_helper_toolbar();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $this->_request_data);
         midgard_admin_asgard_plugin::get_common_toolbar($this->_request_data);
-
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     }
 
     /**

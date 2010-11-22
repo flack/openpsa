@@ -338,9 +338,9 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         }
         unset($members);
         // Merge memberships
-        foreach ($membership_map as $eid => $members)
+        foreach ($membership_map as $members)
         {
-            foreach ($members as $key => $member)
+            foreach ($members as $member)
             {
                 if (count($members) == 1)
                 {
@@ -356,7 +356,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 }
 
                 // TODO: Compare memberships to determine which of them are identical and thus not worth keeping
-
                 if (!$member->update())
                 {
                     // Failure updating member

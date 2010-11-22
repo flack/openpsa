@@ -298,7 +298,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         debug_add("Converting RTF-Attachment to plain text");
         $rtffile = $this->_write_attachment_tmpfile();
         $txtfile = "{$rtffile}.txt";
-        $encoding = (strtoupper($this->_i18n->get_current_charset()) == 'UTF-8') ? 'UTF-8' : 'Latin1';
         
         // Kill the first five lines, they are crap from the converter.
         $command = "{$GLOBALS['midcom_config']['utility_unrtf']} --nopict --text $rtffile | sed '1,5d' > $txtfile";

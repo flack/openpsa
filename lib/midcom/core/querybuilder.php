@@ -8,82 +8,6 @@
  */
 
 /**
- * Memcached decorator around the querybuilder object
- *
- * Use this class to connect to Memcached for selects
- *
- * @todo go through a defined api on the memcached module instead of the private object
- * @package midcom
- */
-class midcom_core_querybuilder_cached
-{
-    /**
-     * The timeout to use for this cache
-     * @var int nr of seconds until object expiry
-     */
-    var $timeout = 3600;
-    protected $key = array();
-    protected $cache = null;
-
-    function __construct ($cache = FALSE)
-    {
-        if ($cache === FALSE)
-        {
-            $this->cache = $_MIDCOM->cache->memcache;
-        }
-        else
-        {
-            $this->cache = $cache;
-        }
-    }
-
-    /**
-     * Recursive walk to build a key no matter the inputs.
-     * Note: With large lists of inputs, the key becomes very loong...
-     */
-    function rec_implode($key, $val)
-    {
-        $this->new_key .= "{$key}_$val";
-    }
-
-    /**
-     * Makes sure that all calls are caught.
-     */
-    function __call($name, $args)
-    {
-        if ($this->qb == NULL)
-        {
-            throw new Exception("Querybuilder not set!");
-        }
-        $this->new_key = "";
-        array_walk_recursive($args, array($this, 'rec_implode'));
-        $this->key[] = $name . $this->new_key;
-        if (method_exists($this->qb, $name)) {
-            return call_user_func_array(array($this->qb, $name), $args);
-        }
-        throw new Exception('Tried to call unknown method '.get_class($this->qb).'::'.$name);
-    }
-
-    /**
-     * Executes the query and saves it to memcached
-     */
-    function execute()
-    {
-        $key = "midcom_querybuilder_cache_{$this->qb->classname}" . implode($this->key , "_");
-
-        $return = $this->cache->get($key);
-        if ($return)
-        {
-            return $return;
-        }
-        $return = $this->qb->execute();
-        $this->cache->put('MISC', $key, $return, $this->timeout);
-        return $return;
-    }
-}
-
-
-/**
  * MidCOM DBA level wrapper for the Midgard Query Builder.
  *
  * This class must be used anyplace within MidCOM instead of the real
@@ -315,7 +239,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         $newresult = array();
         $this->denied = 0;
         debug_push_class(__CLASS__, __FUNCTION__);
-        foreach ($result as $key => $object)
+        foreach ($result as $object)
         {
             $classname = $this->_real_class;
             $object = new $classname($object);
@@ -364,7 +288,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     /**
      * Resets some internal variables for re-execute
      */
-    function _reset()
+    private function _reset()
     {
         $this->_qb_error_result = 'UNDEFINED';
         $this->count = -1;
@@ -475,7 +399,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     }
 
 
-    function _set_limit_offset_window($iteration)
+    private function _set_limit_offset_window($iteration)
     {
         if (!$this->_window_size)
         {
@@ -525,7 +449,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         $this->_qb->set_limit($this->_window_size);
     }
 
-    function _check_groups()
+    private function _check_groups()
     {
         while ($this->_groups > 0)
         {
@@ -585,14 +509,12 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
             return $result;
         }
 
-        // Workaround until the QB returns the correct type, refetch everything
         $newresult = Array();
-        $classname = $this->_real_class;
         $limit = $this->_limit;
         $offset = $this->_offset;
         $this->denied = 0;
 
-        foreach ($result as $key => $object)
+        foreach ($result as $object)
         {
             if (   $this->_limit > 0
                 && $limit == 0)

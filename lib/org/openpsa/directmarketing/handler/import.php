@@ -204,7 +204,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     function _clean_new_objects()
     {
-        foreach ($this->_request_data['new_objects'] as $key => $object)
+        foreach ($this->_request_data['new_objects'] as $object)
         {
             $object->delete();
         }

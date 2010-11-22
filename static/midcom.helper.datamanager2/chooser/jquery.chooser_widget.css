@@ -101,19 +101,6 @@ input.chooser_widget_search_input
 }
 
 /* Creation dialog related */
-
-.chooser_widget_creation_overlay
-{
-    /*background: url('creation_overlay.gif') white;*/
-    background-color: #000;
-}
-* iframe.jqm
-{
-    position:absolute;top:0;left:0;z-index:-1;
-    width: expression(this.parentNode.offsetWidth+'px');
-    height: expression(this.parentNode.offsetHeight+'px');
-}
-
 .chooser_widget_creation_dialog
 {
     display: none;

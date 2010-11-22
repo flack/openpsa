@@ -705,7 +705,7 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             }
             // remove stale cache_ids
             $unaccessed = time() - $metadata['last_access'];
-            if ($unaccessed > $max_unaccessed)
+            if ($unaccessed > $this->max_unaccessed)
             {
                 $this->remove($cache_id);
                 continue;

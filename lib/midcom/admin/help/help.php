@@ -183,7 +183,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
     /**
      * Load the file from the component's documentation directory.
      */
-    function _load_file($help_id, $component)
+    private function _load_file($help_id, $component)
     {
         // Try loading the file
         $file = self::generate_file_path($help_id, $component);
@@ -490,7 +490,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
             foreach ($class_props as $prop => $vanity)
             {
-                $descr = $mrp->description($prop);
                 switch ($prop)
                 {
                     case 'action':
@@ -514,7 +513,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         return true;
     }
 
-    function _get_property_data($mrp, $prop)
+    private function _get_property_data($mrp, $prop)
     {
         $ret = array();
 
@@ -528,7 +527,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         return $ret;
     }
 
-    function _load_component_data($name)
+    private function _load_component_data($name)
     {
         $component_array = array();
         $component_array['name'] = $name;
@@ -563,7 +562,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         return $component_array;
     }
 
-    function _list_components()
+    private function _list_components()
     {
         $this->_request_data['core_components'] = array();
         $this->_request_data['components'] = array();
@@ -602,7 +601,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         asort($this->_request_data['core_libraries']);
     }
 
-    function _prepare_breadcrumb($handler_id)
+    private function _prepare_breadcrumb($handler_id)
     {
         $breadcrumb = array();
 
@@ -686,7 +685,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             $data['list_type'] = $list_type;
             midcom_show_style('midcom_admin_help_list_header');
-            foreach ($data[$list_type] as $component => $component_data)
+            foreach ($data[$list_type] as $component_data)
             {
                 $data['component_data'] = $component_data;
                 midcom_show_style('midcom_admin_help_list_item');

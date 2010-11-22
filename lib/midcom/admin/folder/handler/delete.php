@@ -172,8 +172,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                 {
                     foreach ($atts as $attachment)
                     {
-                        debug_add("Deleting attachment {$atts->id} from the index.");
-                        $indexer->delete($atts->guid);
+                        debug_add("Deleting attachment {$attachment->id} from the index.");
+                        $indexer->delete($attachment->guid);
                     }
                 }
             }
@@ -215,7 +215,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         }
         $this->_delete_topic_update_index();
 
-        if (!midcom_admin_folder_handler_delete::_delete_children($this->_topic))
+        if (!self::_delete_children($this->_topic))
         {
             $this->_contentadm->msg = 'Error: Could not delete Folder contents: ' . midcom_connection::get_error_string();
             return false;
@@ -237,7 +237,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
     function _delete_children($object)
     {
-        $children = midcom_admin_folder_handler_delete::_get_child_objects($object);
+        $children = self::_get_child_objects($object);
         if ($children === false)
         {
             return false;
@@ -247,7 +247,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         {
             foreach ($objects as $object)
             {
-                if (!midcom_admin_folder_handler_delete::_delete_children($object))
+                if (!self::_delete_children($object))
                 {
                     return false;
                 }
@@ -313,7 +313,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $children = array();
         if ($topic = new midcom_db_topic($id))
         {
-            $children = midcom_admin_folder_handler_delete::_get_child_objects($topic);
+            $children = self::_get_child_objects($topic);
             if ($children === false)
             {
                 $children = array();
@@ -346,7 +346,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             echo "    <li class=\"node\">\n";
             echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/stock_folder.png\" alt=\"\" /> {$topic_title}\n";
 
-            midcom_admin_folder_handler_delete::list_children($topic->id);
+            self::list_children($topic->id);
 
             echo "    </li>\n";
         }
@@ -372,7 +372,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                     }
 
                     echo "            <li class=\"leaf_child reply_article\">{$reply->title}\n";
-                    midcom_admin_folder_handler_delete::_list_leaf_children($reply);
+                    self::_list_leaf_children($reply);
                     echo "            </li>\n";
                 }
                 if ($reply_ul)
@@ -381,7 +381,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                 }
             }
 
-            midcom_admin_folder_handler_delete::_list_leaf_children($article, array('midgard_article'));
+            self::_list_leaf_children($article, array('midgard_article'));
 
             echo "    </li>\n";
         }
@@ -399,10 +399,10 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             foreach ($objects as $object)
             {
-                $title = midcom_admin_folder_handler_delete::_get_object_title($class, $object);
+                $title = self::_get_object_title($class, $object);
                 echo "    <li class=\"leaf $class\"$style>\n";
                 echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/new-text.png\" alt=\"\" /> {$title}\n";
-                midcom_admin_folder_handler_delete::_list_leaf_children($object);
+                self::_list_leaf_children($object);
                 echo "    </li>\n";
             }
         }
@@ -412,7 +412,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
     function _list_leaf_children($object, $skip = array())
     {
-        if ($children = midcom_admin_folder_handler_delete::_get_child_objects($object))
+        if ($children = self::_get_child_objects($object))
         {
             if ($skip)
             {
@@ -432,9 +432,9 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             {
                 foreach ($objects as $object)
                 {
-                    $title = midcom_admin_folder_handler_delete::_get_object_title($class, $object);
+                    $title = self::_get_object_title($class, $object);
                     echo "            <li class=\"leaf_child $class\" style=\"display: none;\">{$title}\n";
-                    midcom_admin_folder_handler_delete::_list_leaf_children($object);
+                    self::_list_leaf_children($object);
                     echo "            </li>\n";
                 }
             }

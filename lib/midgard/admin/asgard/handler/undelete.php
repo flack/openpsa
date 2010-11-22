@@ -125,7 +125,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $_MIDCOM->cache->content->no_cache();
 
         $this->type = $args[0];
-        $root_types = midcom_helper_reflector_tree::get_root_classes();
 
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
         $_MIDCOM->set_pagetitle($data['view_title']);

@@ -151,7 +151,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
                     $dates_shown[$date] = true;
                 }
 
-                foreach ($objects as $guid => $versions)
+                foreach ($objects as $versions)
                 {
                     foreach ($versions as $version => $history)
                     {

@@ -110,7 +110,6 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
 
         $task_statuses = array();
         $status_types = array();
-        $found_ongoing = false;
 
         $task_qb = org_openpsa_projects_task_dba::new_query_builder();
         $task_qb->add_constraint('up', '=', $this->id);

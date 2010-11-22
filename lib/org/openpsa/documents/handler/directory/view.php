@@ -62,16 +62,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
     }
 
     /**
-     * Loads and prepares the schema database.
-     *
-     * The operations are done on all available schemas within the DB.
-     */
-    private function _load_schemadb()
-    {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_directory'));
-    }
-
-    /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
@@ -99,16 +89,15 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
 
         $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
 
-        switch($this->_output_mode)
+        switch ($this->_output_mode)
         {
             case 'xml':
                 $current_component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC)->component;
                 $parent_link = "";
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 //check if id of a topic is passed
-                if(isset($_POST['nodeid']))
+                if (isset($_POST['nodeid']))
                 {
-                    $node_id = $_POST['nodeid'];
                     $root_topic = new midcom_db_topic((int)$_POST['nodeid']);
                     while (($root_topic->get_parent()->component == $current_component)
                         && ($root_topic->id != $current_topic->id))

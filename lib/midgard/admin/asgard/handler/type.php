@@ -49,7 +49,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         if (empty($midcom_dba_classname))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
+            debug_add("MidCOM DBA does not know how to handle " . get_class($dummy_object), MIDCOM_LOG_ERROR);
             debug_pop();
             $x = false;
             return $x;
@@ -322,8 +322,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $data['parent_type'] = $data['reflector']->get_parent_class();
 
         midcom_show_style('midgard_admin_asgard_type');
-
-        $class = $this->type;
 
         $data['used_types'][] = $data['type'];
         $data['used_types'][] = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type);

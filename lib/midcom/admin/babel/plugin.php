@@ -56,8 +56,8 @@ class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
         }
         $status = array
         (
-            'components_core' => array(),
-            'components_other' => array(),
+            'core' => array(),
+            'other' => array(),
             'strings_all' => array
             (
                 'total'      => 0,
@@ -87,48 +87,31 @@ class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
         {
             $component_l10n = $_MIDCOM->i18n->get_l10n($component);
 
+            $category = 'other';
             if ($_MIDCOM->componentloader->is_core_component($component))
             {
-                $string_array = 'components_core';
-            }
-            else
-            {
-                $string_array = 'components_other';
+                $category = 'core';
             }
 
-            $status[$string_array][$component] = array();
+            $status[$category][$component] = array();
 
             $string_ids = array_unique($component_l10n->get_all_string_ids());
 
-            $status[$string_array][$component]['total'] = count($string_ids);
-            $status['strings_all']['total'] += $status[$string_array][$component]['total'];
+            $status[$category][$component]['total'] = count($string_ids);
+            $status['strings_all']['total'] += $status[$category][$component]['total'];
 
-            if ($string_array == 'components_core')
-            {
-                $status['strings_core']['total'] += $status[$string_array][$component]['total'];
-            }
-            else
-            {
-                $status['strings_other']['total'] += $status[$string_array][$component]['total'];
-            }
+            $status['strings_' . $category]['total'] += $status[$category][$component]['total'];
 
-            $status[$string_array][$component]['translated'] = 0;
+            $status[$category][$component]['translated'] = 0;
 
             foreach ($string_ids as $id)
             {
                 if ($component_l10n->string_exists($id, $lang))
                 {
-                    $status[$string_array][$component]['translated']++;
+                    $status[$category][$component]['translated']++;
                     $status['strings_all']['translated']++;
 
-                    if ($_MIDCOM->componentloader->is_core_component($component))
-                    {
-                        $status['strings_core']['translated']++;
-                    }
-                    else
-                    {
-                        $status['strings_other']['translated']++;
-                    }
+                    $status['strings_' . $category]['translated']++;
                 }
             }
         }
@@ -144,7 +127,6 @@ class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $languages = $_MIDCOM->i18n->get_language_db();
-        $curlang = $_MIDCOM->i18n->get_current_language();
 
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 

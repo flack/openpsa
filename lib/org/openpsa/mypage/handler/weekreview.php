@@ -321,7 +321,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
             $data['class'] = 'even';
             foreach ($data['review_data'][$day] as $time => $guids)
             {
-                foreach ($guids as $guid => $object)
+                foreach ($guids as $object)
                 {
                     if ($data['class'] == 'even')
                     {

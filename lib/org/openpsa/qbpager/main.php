@@ -250,7 +250,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         //TODO: "showing results (offset)-(offset+limit)
         //TODO: Localizations
         $page_var = $data['prefix'] . 'page';
-        $results_var =  $data['prefix'] . 'results';
         echo '<div class="org_openpsa_qbpager_previousnext">';
 
         if ($data['current_page'] > 1)
@@ -295,7 +294,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         //TODO: "showing results (offset)-(offset+limit)
         //TODO: Localizations
         $page_var = $data['prefix'] . 'page';
-        $results_var =  $data['prefix'] . 'results';
         echo '<div class="org_openpsa_qbpager_pages">';
         $page = 0;
         $display_start = $data['current_page'] - ceil($data['display_pages']/2);
@@ -384,9 +382,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         }
 
         //TODO: "showing results (offset)-(offset+limit)
-
         $page_var = $data['prefix'] . 'page';
-        $results_var =  $data['prefix'] . 'results';
         $page = 0;
         $display_start = $data['current_page'] - ceil($data['display_pages']/2);
         if ($display_start < 0)
@@ -476,7 +472,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         //TODO: "showing results (offset)-(offset+limit)
         //TODO: Localizations
         $page_var = $data['prefix'] . 'page';
-        $results_var =  $data['prefix'] . 'results';
         echo '<div class="org_openpsa_qbpager_pages">';
         echo "\n    <ul>\n";
         $page = 0;

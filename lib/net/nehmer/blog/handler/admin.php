@@ -446,7 +446,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         if (array_key_exists('net_nehmer_blog_deleteok', $_REQUEST))
         {
             $title = $this->_article->title;
-            $id = $this->_article->id;
 
             // Deletion confirmed.
             if (! $this->_article->delete())

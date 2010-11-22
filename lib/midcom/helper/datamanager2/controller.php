@@ -30,10 +30,10 @@
 class midcom_helper_datamanager2_controller extends midcom_baseclasses_components_purecode
 {
     /**
-     * The schemadb to handle by this controller. 
+     * The schemadb to handle by this controller.
      *
-     * This is a list of midcom_helper_datamanager2_schema instances, indexed 
-     * by their name. Set this member using the load_schemadb or set_schemadb 
+     * This is a list of midcom_helper_datamanager2_schema instances, indexed
+     * by their name. Set this member using the load_schemadb or set_schemadb
      * helpers unless you know what you're doing.
      *
      * @var Array
@@ -41,9 +41,9 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
     var $schemadb = Array();
 
     /**
-     * The datamanager instance which is used for data I/O processing. 
+     * The datamanager instance which is used for data I/O processing.
      *
-     * Set this member using the set_storage() helper function unless you 
+     * Set this member using the set_storage() helper function unless you
      * definitely know what you're doing.
      *
      * @var midcom_helper_datamanager2
@@ -51,9 +51,9 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
     var $datamanager = null;
 
     /**
-     * The form manager instance which is currently in use by this class. 
+     * The form manager instance which is currently in use by this class.
      *
-     * This should always be the a single instance, even for multi-page forms. 
+     * This should always be the a single instance, even for multi-page forms.
      * Usually, it is created by the controller class during initialization.
      *
      * @var midcom_helper_datamanager2_formmanager
@@ -62,7 +62,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
 
     /**
      * Lock timeout defines the length of lock in seconds.
-     * 
+     *
      * @access public
      * @var integer
      */
@@ -70,7 +70,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
 
     /**
      * Override the whole locking scheme
-     * 
+     *
      * @access public
      * @var boolean
      */
@@ -96,7 +96,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
         {
             $this->lock_timeout = $GLOBALS['midcom_config']['metadata_lock_timeout'];
         }
-        
+
         return true;
     }
 
@@ -126,7 +126,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
      */
     function set_schemadb(&$schemadb)
     {
-        foreach ($schemadb as $key => $value)
+        foreach ($schemadb as $value)
         {
             if (! is_a($value, 'midcom_helper_datamanager2_schema'))
             {
@@ -265,7 +265,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
         {
             // Get the metadata object
             $metadata = $this->datamanager->storage->object->metadata;
-            
+
             if ($metadata->is_locked())
             {
                 // Drop us to uncached state when locked
@@ -274,13 +274,13 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
                 return;
             }
         }
-        
+
         $this->formmanager->display_form();
     }
-    
+
     /**
      * Show the lock status
-     * 
+     *
      * @access public
      */
     function show_unlock()

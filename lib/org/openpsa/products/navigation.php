@@ -10,9 +10,6 @@
 /**
  * o.o.products NAP interface class
  *
- * This class has been rewritten for MidCOM 2.6 utilizing all of the currently
- * available state-of-the-art technology.
- *
  * See the individual member documentations about special NAP options in use.
  *
  * @package org.openpsa.products

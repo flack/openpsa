@@ -69,7 +69,6 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
         $person = new midcom_db_person($this->person);
 
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
-        $user =& $_MIDCOM->auth->user->get_storage();
         $qb->add_constraint('account', '=', (string)$owner->guid);
         $qb->add_constraint('buddy', '=', (string)$person->guid);
         $qb->add_constraint('blacklisted', '=', false);

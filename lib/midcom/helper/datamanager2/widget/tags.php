@@ -263,8 +263,6 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
 
     function _generate_extra_params()
     {
-        $map = array('component', 'class', 'object_id', 'id_field', 'callback', 'callback_args');
-
         $params = "{";
 
         if (   !empty($this->component)
@@ -298,9 +296,6 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
 
         $value = "{";
 
-        $name = "Test";
-        $color = "#628ce4";
-
         $value .= "id: '{$key}',";
         $value .= "name: '{$data['name']}',";
         $value .= "color: '{$data['color']}'";
@@ -326,11 +321,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
             'text',
             "{$this->name}_input",
             $this->_translate($this->_field['title']),
-            array
-            (
-                'class'         => 'shorttext',
-                'id'            => "{$this->_input_element_id}",
-            )
+            $attributes
         );
 
         // Get url to search handler
@@ -370,7 +361,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
             $this->_jscript
         );
 
-        $group = $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_tags'));
+        $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_tags'));
     }
 
      /**

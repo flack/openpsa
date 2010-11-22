@@ -307,7 +307,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     function add_group_rule($rule)
     {
         //TODO: better way to preserve IN-Constraint on an empty array
-        $member_array = array( 0 => -1);
         $group_member = array ( 0 => -1);
 
         $match = $rule['match'];

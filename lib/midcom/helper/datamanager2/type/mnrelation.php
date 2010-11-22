@@ -406,7 +406,6 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
         // Build a reverse lookup map for the existing membership objects.
         // We map keys to _membership_object indexes.
         // If we have duplicate keys, the latter will overwrite the former, leaving the dupe for deletion.
-        $todelete = $this->_membership_objects;
         $existing_members = Array();
         foreach ($this->_membership_objects as $index => $member)
         {
@@ -509,7 +508,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                             $key = $regs[2];
 
                             // Determine what should be done with conjunction
-                            switch ($regs[1])
+                            switch ($domain)
                             {
                                 case 'metadata':
                                     $member->metadata->$key = $value;

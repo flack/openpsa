@@ -189,10 +189,10 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
             $table .= "<td>{$header}</td>\n";
         }
         $table .= "</tr>\n";
-        foreach ($this->rows as $key => $row)
+        foreach ($this->rows as $row)
         {
             $table .= "<tr>\n";
-            foreach ($row as $row_key => $value )
+            foreach ($row as $value )
             {
                 $table .= "<td>{$value}</td>\n";
             }

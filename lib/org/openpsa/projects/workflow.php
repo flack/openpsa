@@ -410,7 +410,7 @@ class org_openpsa_projects_workflow
 
         $reports = $qb->execute();
 
-        foreach ($reports as $guid => $report)
+        foreach ($reports as $report)
         {
             $report->invoice = $invoice->id;
             $report->_skip_parent_refresh = true;

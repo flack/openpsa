@@ -73,7 +73,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         // List hours
         $qb =& $this->_prepare_qb();
 
-        $show_all = false;
         $mode = 'full';
 
         $filter_array = array
@@ -300,9 +299,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     function _show_list($handler_id, &$data)
     {
         $data['reporters'] =& $this->reporters;
-
-        $total_hours_invoiceable = 0;
-        $total_hours_uninvoiceable = 0;
 
         // is there any array with persons which could be filtered
         if (array_key_exists ("filter_persons", $data))

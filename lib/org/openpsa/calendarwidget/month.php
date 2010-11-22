@@ -1168,7 +1168,7 @@ class org_openpsa_calendarwidget_month
         echo "                    <ul class=\"{$this->css_event_list}\">\n";
 
         // Loop through events
-        foreach ($events as $key => $event)
+        foreach ($events as $event)
         {
             $this->_draw_event($event);
         }

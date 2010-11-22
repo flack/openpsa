@@ -1194,7 +1194,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $this->_data_cache->put($dl_content_id, $dl_cache_data);
         // Cache where the object have been
         $this->store_context_guid_map($context, $dl_content_id, $dl_request_id);
-        unset($guid, $guidmap);
         $this->_meta_cache->close();
         $this->_data_cache->close();
         unset($dl_cache_data, $dl_content_id, $dl_request_id);

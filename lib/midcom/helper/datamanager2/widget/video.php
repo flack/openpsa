@@ -391,10 +391,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
 
         $elements[] = $this->_upload_element_video;
-        $attributes = Array
-        (
-            'id'    => "{$this->_namespace}{$this->name}_upload_button_video",
-        );
 
         $static_html = "</td></tr>\n";
 

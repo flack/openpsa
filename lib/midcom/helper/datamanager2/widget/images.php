@@ -331,9 +331,10 @@ END;
      */
     function _add_image_row($identifier, $frozen)
     {
-debug_push_class(__CLASS__, __FUNCTION__);
-debug_print_r("\$this->_type->images[{$identifier}]", $this->_type->images[$identifier]);
-debug_pop();
+        debug_push_class(__CLASS__, __FUNCTION__);
+        debug_print_r("\$this->_type->images[{$identifier}]", $this->_type->images[$identifier]);
+        debug_pop();
+
         if (isset($this->_type->images[$identifier]['main']))
         {
             $info = $this->_type->images[$identifier]['main'];
@@ -344,7 +345,7 @@ debug_pop();
         }
         else
         {
-            foreach($this->_type->images[$identifier] as $key => $data)
+            foreach($this->_type->images[$identifier] as $data)
             {
                 $info = $data;
                 break;
@@ -753,7 +754,7 @@ debug_pop();
                 {
                     continue;
                 }
-                foreach ($this->_type->images[$images_identifier] as $derivate => $info)
+                foreach ($this->_type->images[$images_identifier] as $info)
                 {
                     /**
                      * This is still not 100% perfect (the absolute score values will be "too high" for

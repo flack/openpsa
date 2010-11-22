@@ -20,7 +20,7 @@ if (class_exists('midgardmvc_core')) {
         }
     }
 
-    function _midcom_stop_request($str)
+    function _midcom_stop_request($message = '')
     {
         midgardmvc_core::get_instance()->dispatcher->end_request();
     }
@@ -44,9 +44,9 @@ if (class_exists('midgardmvc_core')) {
         }
     }
 
-    function _midcom_stop_request()
+    function _midcom_stop_request($message = '')
     {
-        exit;
+        exit($message);
     }
 
     function _midcom_headers_sent()
@@ -243,21 +243,21 @@ function midcom_autoload($class_name)
 
     if (!file_exists($path))
     {
-        $original_path = $path;
-        $path = str_replace('.php', '/main.php', $path);
+        $alternative_path = str_replace('.php', '/main.php', $path);
 
-        if (!file_exists($path))
+        if (!file_exists($alternative_path))
         {
             /**
              * Enable when debugging autoloading issues, otherwise it's just noise
              *
             debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Autoloader got '{$original_path}' and tried {$path} but neither was not found, aborting");
+            debug_add("Autoloader got '{$path}' and tried {$alternative_path} but neither was not found, aborting");
             $GLOBALS['midcom_debugger']->print_function_stack("Failed to autoload {$class_name}, called from");
             debug_pop();
              */
             return;
         }
+        $path = $alternative_path;
     }
 
     require($path);

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.admin.libconfig
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: plugin.php 22990 2009-07-23 15:46:03Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,26 +9,26 @@
 
 /**
  * Asgard plugin for creating /sitegroup-config/_component_/config snippets
- * 
- * 
+ *
+ *
  * @package midcom.admin.libconfig
  */
 class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_request
 {
     /**
      * Constructor. This probably isn't called in normal plugin users.
-     * 
+     *
      * @access public
      */
     public function __construct()
     {
         parent::__construct();
     }
-    
+
     /**
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
      * Baseclasses Components (midcom.baseclasses.components.request)
-     * 
+     *
      * @access public
      * @return mixed Array of the plugin handlers
      */
@@ -36,14 +36,14 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
     {
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.libconfig');
-        
+
         $_MIDCOM->auth->require_valid_user();
-        
+
         return array
         (
             /**
              * List libraries
-             * 
+             *
              * Match /
              */
             'index' => array
@@ -52,7 +52,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
             ),
             /**
              * Edit library config
-             * 
+             *
              * Match /edit/<component>/
              */
             'edit' => array
@@ -94,7 +94,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
                 $configpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($name)."/config/config.inc";
                 $lib = midcom_baseclasses_components_interface::read_array_from_file("{$configpath}");
 
-                if (!$lib) 
+                if (!$lib)
                 {
                     continue;
                 }
@@ -112,9 +112,9 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
 
         echo '<ul class="midgard_admin_asgard_navigation">';
 
-        foreach ($libs as $name => $manifest) 
+        foreach ($libs as $name => $manifest)
         {
-            $label = $_MIDCOM->i18n->get_string($name,$name);
+            $label = $_MIDCOM->i18n->get_string($name, $name);
             echo "            <li class=\"status\"><a href=\"{$prefix}__mfa/asgard_midcom.admin.libconfig/view/{$name}/\">{$label}</a></li>\n";
         }
 

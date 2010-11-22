@@ -586,7 +586,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
         $link_object_map = array();
         $tag_cache = array();
-        foreach ($links as $k => $link)
+        foreach ($links as $link)
         {
             if (!array_key_exists($link->fromGuid, $link_object_map))
             {
@@ -674,7 +674,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         for ($i = 0; $i < (strlen($tags_string)+1); $i++)
         {
             $char = substr($tags_string, $i, 1);
-            $hex = strtoupper(dechex(ord($char)));
             if (   (   $char == ' '
                     && !$quote_open)
                 || $i == strlen($tags_string))

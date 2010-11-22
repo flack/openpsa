@@ -33,12 +33,12 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_label()
     {
         if ($this->official)
@@ -83,9 +83,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 
     private function _get_address_extra($property)
     {
-        $parts = explode('_', $property);
-        $address_type = $parts[0];
-        
         $return = $this->get_parameter('midcom.helper.datamanager2', $property);
         if (!$return)
         {
@@ -152,7 +149,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
                 'group' => $this->guid,
             );
             $_MIDCOM->load_library('midcom.services.at');
-            $atstat = midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
+            midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
 
         return parent::_on_updating();

@@ -20,7 +20,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
      * @access private
      * @var string
      */
-    var $_anchor_prefix = null;
+    private $_anchor_prefix = null;
 
     /**
      * Simple constructor, which only initializes the parent constructor.
@@ -237,13 +237,6 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
                 continue;
             }
 
-            // Skip components not ported to 2.6
-            if (   !is_array($manifest->_raw_data)
-                || !array_key_exists('package.xml', $manifest->_raw_data))
-            {
-                continue;
-            }
-
             if (array_key_exists('description', $manifest->_raw_data['package.xml']))
             {
                 $description = $_MIDCOM->i18n->get_string($manifest->_raw_data['package.xml']['description'], $manifest->name);
@@ -298,7 +291,7 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
             }
         }
 
-        foreach (midcom_admin_folder_folder_management::get_component_list() as $component => $details)
+        foreach (self::get_component_list() as $component => $details)
         {
             // TODO: configuration options for either excluding or including components to the list
             if (   isset($GLOBALS['midcom_config']['component_listing_allowed'])

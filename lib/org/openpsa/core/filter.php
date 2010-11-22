@@ -160,7 +160,6 @@ class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
         $qb_persons->add_constraint('username', '<>', '');
         $qb_persons->add_constraint('password', '<>', '');
 
-        $current_user = $_MIDCOM->auth->user->get_storage();
         $person_array = array();
 
         if (array_key_exists('person', $this->_filter))

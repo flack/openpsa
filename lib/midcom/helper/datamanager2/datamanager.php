@@ -202,7 +202,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     function _load_types()
     {
         $this->types = Array();
-        
+
         if (!$this->schema)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -246,7 +246,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         {
             throw new Exception("{$classname} is not a valid DM2 type");
         }
-        
+
         if (! $this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this))
         {
             debug_push_class(__CLASS__, __FUNCTION__);
@@ -336,7 +336,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                 $stat = false;
             }
         }
-        
+
         return $stat;
     }
 
@@ -412,7 +412,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         }
         debug_print_r('DM2->types keys and classes', $types_tmp);
         debug_pop();
-        unset($msg, $typename, $tmp_types, $bt);
+        unset($msg, $typename, $types_tmp, $bt);
         return true;
     }
 
@@ -554,12 +554,12 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             {
                 continue;
             }
-            
+
             if (isset($config['start_fieldgroup']))
             {
                 $config['start_fieldset'] = $config['start_fieldgroup'];
             }
-            
+
             if (isset($config['start_fieldset']))
             {
                 if (isset($config['start_fieldset']['title']))
@@ -593,7 +593,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                     {
                         $class = " class=\"{$name}\"";
                     }
-    
+
                     echo "    <h2{$class}>\n";
                     echo "        ". $this->schema->translate_schema_string($fieldset['title']) ."\n";
                     echo "    </h2>\n";
@@ -604,7 +604,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                 }
                 $fieldset_count++;
             }
-            
+
             echo "<div class=\"field\">\n";
             echo '<div class="title" style="font-weight: bold;">' . $this->schema->translate_schema_string($this->schema->fields[$name]['title']) . "</div>\n";
             echo '<div class="value" style="margin-left: 5em; min-height: 1em;">';
@@ -622,26 +622,26 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
             echo "</div>\n";
             echo "</div>\n";
-            
+
             if (isset($config['end_fieldgroup']))
             {
                 $config['end_fieldset'] = $config['end_fieldgroup'];
             }
-            
+
             if (   !isset($config['end_fieldset'])
                 || $fieldset_count <= 0)
             {
                 // No more fieldsets to close
                 continue;
             }
-            
+
             if (is_numeric($config['end_fieldset']))
             {
                 for ($i = 0; $i < $config['end_fieldset']; $i++)
                 {
                     echo "</div>\n";
                     $fieldset_count--;
-    
+
                     if ($fieldset_count <= 0)
                     {
                         break;

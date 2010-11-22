@@ -41,8 +41,8 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
 
         $action_parts = explode(':', $message['action']);
-        $notification->component = $action[0];
-        $notification->action = $action[1];
+        $notification->component = $action_parts[0];
+        $notification->action = $action_parts[1];
 
         if (array_key_exists('title', $message))
         {
@@ -70,7 +70,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     function send_email($message)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
-        
+
         if (   !$this->recipient
             || empty($this->recipient->email))
         {

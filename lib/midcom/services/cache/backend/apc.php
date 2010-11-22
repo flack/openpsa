@@ -108,7 +108,7 @@ class midcom_services_cache_backend_apc extends midcom_services_cache_backend
         }
 
         $key = "{$this->_name}-{$key}";
-        $result = apc_fetch($key, $success);
+        apc_fetch($key, $success);
 
         return $success;
     }

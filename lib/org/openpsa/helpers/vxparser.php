@@ -441,7 +441,6 @@ class org_openpsa_helpers_vxparser
 
 
       function vCal_decode($data, $param=array()) {
-                global $localization_conf;
                 if (!(isset($this->compatibility['data']['parse_separators']) && $this->compatibility['data']['parse_separators']===FALSE)) {
                     $data_arr=preg_split("/([^\\\])[,;]/", $data, -1, PREG_SPLIT_DELIM_CAPTURE); //Not very nice but I can't think of a better way to explode with unescaped delimiters...
                     if (count($data_arr)>1 && is_array($data_arr)) { //We have multiple values in $data, decode them separately

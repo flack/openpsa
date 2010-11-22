@@ -184,7 +184,6 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
             }
 
             // Redirection HTTP code
-            $code = $tinyurl->code;
             if (!$code)
             {
                 $code = $this->_config->get('redirection_code');

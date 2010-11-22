@@ -103,7 +103,6 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         
         if (count($this->_related_guids) > 0)
         {
-            $paged_qb = false;
             if (class_exists('org_openpsa_qbpager_direct'))
             {
                 $qb = new org_openpsa_qbpager_direct('midgard_parameter', 'related_notes');
@@ -195,7 +194,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             {
                 $this->_paged_qb->show_pages();
             }            
-            foreach ($this->related as $guid => $wikipage)
+            foreach ($this->related as $wikipage)
             {
                 echo "<li><a rel=\"note\" target=\"{$this->link_target}\" href=\"{$this->wiki[MIDCOM_NAV_FULLURL]}{$wikipage->name}/\">{$wikipage->title}</a></li>\n";
             }

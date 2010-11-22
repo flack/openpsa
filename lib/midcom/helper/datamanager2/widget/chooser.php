@@ -523,19 +523,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             $this->creation_mode_enabled = true;
         }
-
-        if ($this->creation_mode_enabled)
-        {
-            $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/chooser/jquery.jqModal.js');
-
-            $script = "
-                jQuery('#{$this->_element_id}_creation_dialog').jqm({
-                    modal: false,
-                    overlay: 40,
-                    overlayClass: 'chooser_widget_creation_overlay'
-                });
-            ";
-        }
     }
 
     function _check_renderer()
@@ -936,7 +923,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             }
 
             $midcom_reflector = new midcom_helper_reflector($matching_type);
-            $mgd_reflector = new midgard_reflection_property($matching_type);
 
             $labels = array();
 
@@ -1130,8 +1116,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         );
 
         $params = array();
-        $mk_cnt = count($map);
-        foreach ($map as $k => $map_key)
+        foreach ($map as $map_key)
         {
             $params[$map_key] = $this->$map_key;
         }
@@ -1369,8 +1354,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $this->_static_items_html
         );
 
-        $group = $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_chooser'));
-
+        $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_chooser'));
     }
 
     function _add_existing_item_as_static($key)

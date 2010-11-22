@@ -22,14 +22,6 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
     private $_group = null;
 
     /**
-     * The Datamanager of the contact to display
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     * @access private
-     */
-    private $_datamanager = null;
-
-    /**
      * The Controller of the organization used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple

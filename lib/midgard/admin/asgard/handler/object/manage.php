@@ -1501,9 +1501,9 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             case 'save':
                 // Get the target information of the form
                 $target['id'] = $data['controller']->datamanager->types[$target['parent']]->convert_to_storage();
-                $metadata = $data['controller']->datamanager->types['metadata']->convert_to_storage();
-                $attachments = $data['controller']->datamanager->types['attachments']->convert_to_storage();
-                $privileges = $data['controller']->datamanager->types['privileges']->convert_to_storage();
+                $data['controller']->datamanager->types['metadata']->convert_to_storage();
+                $data['controller']->datamanager->types['attachments']->convert_to_storage();
+                $data['controller']->datamanager->types['privileges']->convert_to_storage();
 
                 $copy = new midcom_helper_reflector_copy();
                 $copy->source = $this->_object;
@@ -1543,8 +1543,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                 if ($handler_id === '____mfa-asgard-object_copy_tree')
                 {
-                    $exclude = array();
-
                     foreach ($_POST['all_objects'] as $guid)
                     {
                         if (!in_array($guid, $_POST['selected']))

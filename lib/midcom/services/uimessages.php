@@ -315,7 +315,7 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
         {
             echo "<div id=\"midcom_services_uimessages_wrapper\">\n";
 
-            foreach ($this->_message_stack as $id => $message)
+            foreach ($this->_message_stack as $message)
             {
                 $this->_render_message($message);
             }

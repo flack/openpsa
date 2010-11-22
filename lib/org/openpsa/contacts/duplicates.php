@@ -41,9 +41,6 @@ class org_openpsa_contacts_duplicates
         if ($person->id)
         {
             $qb->add_constraint('id', '<>', $person->id);
-            $qb2 = new midgard_query_builder('midgard_member');
-            $qb2->add_constraint('uid', '=', $person->id);
-            $memberships = @$qb2->execute();
         }
         // TODO: Avoid persons marked as not_duplicate already in this phase.
 
@@ -645,8 +642,8 @@ class org_openpsa_contacts_duplicates
                 $group2 = $ret_groups['objects'][$g2guid];
                 $msg = "Marking groups {$g1guid} (#{$group1->id}) and {$g2guid} (#{$group2->id}) as duplicates with P {$details['p']}";
                 debug_add($msg);
-                $group1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $p2guid, $details['p']);
-                $group2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $p1guid, $details['p']);
+                $group1->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $g2guid, $details['p']);
+                $group2->set_parameter('org.openpsa.contacts.duplicates:possible_duplicate', $g1guid, $details['p']);
                 if ($output)
                 {
                     echo "&nbsp;&nbsp;&nbsp;INFO: {$msg}<br/>\n";

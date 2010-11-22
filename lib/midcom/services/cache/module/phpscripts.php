@@ -110,10 +110,7 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
         }
         
         $file_stamp = filemtime($filename);
-        
-        $compare_stamp_clear = strftime("%x %X", $compare_stamp);
-        $file_stamp_clear = strftime("%x %X", $file_stamp);
-        
+                
         if ($compare_stamp > $file_stamp)
         {
             @unlink($filename);

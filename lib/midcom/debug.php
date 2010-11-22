@@ -75,17 +75,17 @@ class midcom_debug
      */
     var $_enabled;
 
-    /** 
-     * Access to installed FirePHP logger 
-      * 
-      * @var FirePHP 
-      */ 
+    /**
+     * Access to installed FirePHP logger
+      *
+      * @var FirePHP
+      */
     public $firephp = null;
 
     /**
      * Standard constructor
      */
-    function midcom_debug($filename)
+    function __construct($filename)
     {
         $this->_filename = $filename;
         $this->_current_prefix = "";
@@ -104,10 +104,10 @@ class midcom_debug
         // Load FirePHP logger if enabled
         if ($GLOBALS['midcom_config']['log_firephp'])
         {
-            include_once('FirePHPCore/FirePHP.class.php'); 
-            if (class_exists('FirePHP')) 
-            { 
-                $this->firephp = FirePHP::getInstance(true); 
+            include_once('FirePHPCore/FirePHP.class.php');
+            if (class_exists('FirePHP'))
+            {
+                $this->firephp = FirePHP::getInstance(true);
             }
         }
     }
@@ -257,7 +257,7 @@ class midcom_debug
 
         fputs($file, $prefix . trim($message) . "\n");
         fclose($file);
-        
+
         if (   $this->firephp
             && !_midcom_headers_sent())
         {
@@ -288,7 +288,7 @@ class midcom_debug
      */
     static function log_info($message)
     {
-        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_INFO);    
+        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_INFO);
     }
 
     /**
@@ -298,7 +298,7 @@ class midcom_debug
      */
     static function log_debug($message)
     {
-        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_DEBUG);    
+        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_DEBUG);
     }
 
     /**
@@ -308,7 +308,7 @@ class midcom_debug
      */
     static function log_warn($message)
     {
-        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_WARN);    
+        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_WARN);
     }
 
     /**

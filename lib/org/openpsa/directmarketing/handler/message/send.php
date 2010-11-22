@@ -326,7 +326,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             case 'test_send_message':
                 // on-line sned
                 $data['message_obj']->send_output = true;
-                $sendstat = $data['message_obj']->send($composed, $data['compose_from'], $data['compose_subject'], $data['message_array']);
+                $data['message_obj']->send($composed, $data['compose_from'], $data['compose_subject'], $data['message_array']);
                 break;
             default:
                 // Schedule background send
@@ -340,7 +340,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                 debug_pop();
                 $bool = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'background_send_message', $at_handler_arguments);
                 $bool2 = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'test' , $at_handler_arguments);
-                debug_add("--- ERGEBNISS register:".$bool." register2:".$bool2, MIDCOM_LOG_ERROR);
+                debug_add("--- RESULT register:" . $bool . " register2:" . $bool2,  MIDCOM_LOG_ERROR);
                 debug_pop();
                 midcom_show_style('send-start');
                 break;

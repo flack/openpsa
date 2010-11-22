@@ -303,7 +303,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      */
     function belongs_to($id, $owner)
     {
-        $i = 0;
         do
         {
             if ($id === $owner)

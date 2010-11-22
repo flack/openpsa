@@ -14,8 +14,6 @@
  */
 class net_nehmer_account_calculator extends midcom_baseclasses_components_purecode
 {
-    private $http_request = null;
-
     public function __construct()
     {
         $this->_component = 'net.nehmer.account';
@@ -102,7 +100,7 @@ class net_nehmer_account_calculator extends midcom_baseclasses_components_pureco
         {
             $object_rcs = $rcs->load_handler($page);
             $history = $object_rcs->list_history();
-            foreach ($history as $rev => $data) 
+            foreach ($history as $data) 
             {
                 if ($data['user'] == "user:{$guid}")
                 {

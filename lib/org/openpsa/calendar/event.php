@@ -680,24 +680,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         return $results[0];
     }
 
-    private function _get_member_by_resourceid($id)
-    {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        $qb =  org_openpsa_calendar_event_resource_dba::new_query_builder();
-        $qb->add_constraint('event', '=', $this->id);
-        $qb->add_constraint('resource', '=', $id);
-        $results = $qb->execute_unchecked();
-        debug_print_r("qb returned:", $results);
-        if (empty($results))
-        {
-            debug_pop();
-            return false;
-        }
-        debug_pop();
-        return $results[0];
-    }
-
-
     //TODO: move this option elsewhere
     function _on_deleting($repeat_handler = 'this')
     {

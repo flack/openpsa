@@ -775,7 +775,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $this->_schema->translate_schema_string($config['title'])
             );
             $type = $this->_types[$name];
-            $type_class = get_class($type);
             switch (true)
             {
                 // Match single image types (image & photo ATM)
@@ -799,13 +798,13 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             }
         }
 
-        foreach ($config['validation'] as $key => $rule)
+        foreach ($config['validation'] as $rule)
         {
             switch ($rule['type'])
             {
                 case 'compare':
                     $message = $this->_schema->translate_schema_string($rule['message']);
-                    $result = $this->form->addRule(array($rule['compare_with'], $name), $message, $rule['type'], $rule['format']);
+                    $this->form->addRule(array($rule['compare_with'], $name), $message, $rule['type'], $rule['format']);
                     break;
 
                 default:
@@ -916,7 +915,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     function compute_form_result()
     {
-        $results = $this->form->getSubmitValues(true);
+        $this->form->getSubmitValues(true);
         $exitcode = self::get_clicked_button();
 
         if (   $exitcode == 'save'

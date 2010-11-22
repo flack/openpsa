@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.admin.libconfig
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: list.php 22990 2009-07-23 15:46:03Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,16 +9,16 @@
 
 /**
  * Listing libraries handler class
- * 
+ *
  * @package midcom.admin.libconfig
  */
 class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_handler
 {
-    var $_libs = array();
+    private $_libs = array();
 
     /**
      * Simple constructor
-     * 
+     *
      * @access public
      */
     public function __construct()
@@ -42,11 +42,10 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
             )
         );
 
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'),$this->_request_data);
-
+        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'), $this->_request_data);
     }
 
-    
+
     private function _update_breadcrumb()
     {
         // Populate breadcrumb
@@ -63,7 +62,7 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
     {
         midgard_admin_asgard_plugin::get_common_toolbar($data);
     }
-    
+
     /**
      * Handler method for listing style elements for the currently used component topic
      *
@@ -74,19 +73,18 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
      * @return boolean Indicating successful request
      */
     public function _handler_list($handler_id, $args, &$data)
-    {   
-
+    {
         $this->_libs = midcom_admin_libconfig_plugin::get_libraries();
         $this->_update_breadcrumb();
         $this->_prepare_toolbar($data);
-        $_MIDCOM->set_pagetitle($data['view_title']);        
+        $_MIDCOM->set_pagetitle($data['view_title']);
 
         return true;
     }
-    
+
     /**
      * Show list of the style elements for the currently edited topic component
-     * 
+     *
      * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
@@ -95,9 +93,9 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['config'] =& $this->_config;
-        
+
         midcom_show_style('midcom-admin-libs-list-header');
-        
+
         $data['even'] = false;
         foreach ($this->_libs as $name => $lib)
         {
@@ -112,10 +110,9 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
                 $data['even'] = false;
             }
         }
-        
+
         midcom_show_style('midcom-admin-libs-list-footer');
         midgard_admin_asgard_plugin::asgard_footer();
-        
     }
 }
 ?>

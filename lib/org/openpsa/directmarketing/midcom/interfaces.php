@@ -290,7 +290,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             return false;
         }
         // Transfer memberships
-        $membership_map = array();
         foreach ($members as $member)
         {
             $member->person = $person1->id;
@@ -374,23 +373,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         );
         foreach($classes as $class)
         {
-            if ($version_not_18 = true)
-            {
-                switch($class)
-                {
-                    default:
-                        $metadata_fields = array
-                        (
-                            'creator' => 'id',
-                            'revisor' => 'id' // Though this will probably get touched on update we need to check it anyways to avoid invalid links
-                        );
-                        break;
-                }
-            }
-            else
-            {
-                // TODO: 1.8 metadata format support
-            }
+            // TODO: 1.8 metadata format support
             $ret = org_openpsa_contacts_duplicates_merge::person_metadata_dependencies_helper($class, $person1, $person2, $metadata_fields);
             if (!$ret)
             {

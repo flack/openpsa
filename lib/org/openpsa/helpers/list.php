@@ -186,7 +186,6 @@ class org_openpsa_helpers_list
         if (!array_key_exists($array_name, $GLOBALS))
         {
             $GLOBALS[$array_name] = array();
-            $my_subscription_groups = array();
             if ($_MIDCOM->auth->user)
             {
                 if ($add_me == 'first')

@@ -59,19 +59,18 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $success = true;
 
         $count = 0;
-        foreach ($_POST['sortable'] as $type => $type_items)
+        foreach ($_POST['sortable'] as $type_items)
         {
             // Total number of the entries
             $count += count($type_items);
         }
 
         // Loop through the sortables and store the new score
-        foreach ($_POST['sortable'] as $key => $array)
+        foreach ($_POST['sortable'] as $array)
         {
             foreach ($array as $identificator => $i)
             {
                 // Set the score reversed: the higher the value, the higher the rank
-                $score = (int)$i;
                 $score_r = (int)($count - $i);
 
                 // Use the DB Factory to resolve the class and to get the object
@@ -91,7 +90,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                 $metadata = midcom_helper_metadata::retrieve($object);
                 if (!is_object($metadata))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not fetch metadata for object {$guid}");
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not fetch metadata for object {$object->guid}");
                     // This will exit
                 }
                 // Make sure this is reference to correct direction (from our point of view)

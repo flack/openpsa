@@ -247,9 +247,9 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         }
         unset($members);
         // Merge memberships
-        foreach ($membership_map as $gid => $members)
+        foreach ($membership_map as $members)
         {
-            foreach ($members as $key => $member)
+            foreach ($members as $member)
             {
                 if (count($members) == 1)
                 {
@@ -330,7 +330,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             if (!$person1->update())
             {
                 // Error updating person
-                debug_add("Error updating person #{$person->id}, errstr: " . midcom_connection::get_error_string, MIDCOM_LOG_ERROR);
+                debug_add("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string, MIDCOM_LOG_ERROR);
                 return false;
             }
         }
@@ -550,7 +550,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                         $location->parent = $group->guid;
                         $location->parentclass = 'org_openpsa_contacts_group_dba';
                         $location->parentcomponent = 'org.openpsa.contacts';
-                        $stat = $location->create();
+                        $location->create();
                     }
                     else
                     {

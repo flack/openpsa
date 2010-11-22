@@ -121,7 +121,6 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      */
     function convert_from_storage ($source)
     {
-
         // reset the rows.
         $this->rows = $this->_callback->get_rows();
     }
@@ -132,13 +131,10 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      */
     function convert_to_storage()
     {
-        $rows = $this->rows;
-        $this->rows = array();
         $this->_callback->set_rows($this->rows);
         $this->rows = $this->_callback->get_rows();
 
         return;
-
     }
 
     /**
@@ -178,10 +174,10 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
             $table .= "<td>{$header}</td>\n";
         }
         $table .= "</tr>\n";
-        foreach ($this->rows as $key => $row)
+        foreach ($this->rows as $row)
         {
             $table .= "<tr>\n";
-            foreach ($row as $row_key => $value )
+            foreach ($row as $value )
             {
                 $table .= "<td>{$value}</td>\n";
             }

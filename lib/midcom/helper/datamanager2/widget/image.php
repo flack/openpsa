@@ -274,7 +274,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $static_html .= "</td>\n<td valign='top' class='midcom_helper_datamanager2_widget_image_stats'>" . $this->_l10n->get('type blobs: file size') . ": {$main_info['formattedsize']}<br/>\n";
         $static_html .= $this->_l10n->get('type image: available sizes') . ":\n" .
                 "<ul class='midcom_helper_datamanager2_widget_image_sizelist'>";
-        foreach ($this->_type->attachments_info as $name => $info)
+        foreach ($this->_type->attachments_info as $info)
         {
             if (   $info['size_x']
                 && $info['size_y'])

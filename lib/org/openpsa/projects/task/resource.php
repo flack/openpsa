@@ -69,7 +69,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             return false;
         }
         $account = new midcom_db_person($account);
-        $user = $_MIDCOM->auth->user->get_storage();
 
         $mc = org_openpsa_contacts_buddy_dba::new_collector('account', (string) $account->guid);
         $mc->add_constraint('buddy', '=', (string) $this->_personobject->guid);

@@ -14,8 +14,6 @@
  */
 class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_handler
 {
-    var $_lib = array();
-
     /**
      * Simple constructor
      *
@@ -28,7 +26,6 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
 
     function _on_initialize()
     {
-
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.libconfig');
         $this->_request_data['l10n'] = $this->_l10n;
 
@@ -42,12 +39,10 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             )
         );
 
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'),$this->_request_data);
-
+        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'), $this->_request_data);
     }
 
-
-    function _update_breadcrumb($name)
+    private function _update_breadcrumb($name)
     {
         // Populate breadcrumb
         $label = $_MIDCOM->i18n->get_string($name,$name);
@@ -67,7 +62,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
-    function _prepare_toolbar(&$data)
+    private function _prepare_toolbar(&$data)
     {
         $data['asgard_toolbar']->add_item
         (
@@ -90,13 +85,8 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
      */
     function _handler_view($handler_id, $args, &$data)
     {
-
         $data['name'] = $args[0];
-        if (array_key_exists($data['name'],$_MIDCOM->componentloader->manifests))
-        {
-            $lib = $_MIDCOM->componentloader->manifests[$data['name']];
-        }
-        else
+        if (!array_key_exists($data['name'],$_MIDCOM->componentloader->manifests))
         {
             return false;
         }
@@ -135,7 +125,6 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
 
         return true;
     }
-
 
     /**
      * Show list of the style elements for the currently edited topic component

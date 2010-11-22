@@ -150,8 +150,8 @@ class midcom_services__i18n_l10n {
      * @param string $library    Name of the locale library to use.
      * @param string $database    Name of the database in the library to load.
      */
-    function midcom_services__i18n_l10n ($library = null, $database) {
-        global $midcom_errstr;
+    function __construct ($library = null, $database)
+    {
         global $midcom;
 
         if (is_null($library))
@@ -595,7 +595,8 @@ class midcom_services__i18n_l10n {
      * @param string $string        The string-ID to edit.
      * @param string $language        The language to edit.
      */
-    function delete ($string, $language) {
+    function delete ($string, $language)
+    {
         // This is error-resilent, deleting a non-existent string will
         // just do nothing.
         if ($this->string_exists($string, $language))
@@ -609,11 +610,12 @@ class midcom_services__i18n_l10n {
      *
      * @return Array A list of all string-IDs
      */
-    function get_all_string_ids() {
+    function get_all_string_ids()
+    {
         $this->_load_all_languages();
 
         $found_strings = Array();
-        foreach ($this->_stringdb as $language => $stringtable)
+        foreach ($this->_stringdb as $stringtable)
         {
             foreach ($stringtable as $string => $translation)
             {
@@ -626,7 +628,6 @@ class midcom_services__i18n_l10n {
         sort($found_strings, SORT_STRING);
         return $found_strings;
     }
-
 }
 
 ?>

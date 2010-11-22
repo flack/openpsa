@@ -319,7 +319,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             return false;
         }
         // Transfer memberships
-        $membership_map = array();
         foreach ($members as $member)
         {
             // TODO: figure out duplicate memberships and delete unneeded ones

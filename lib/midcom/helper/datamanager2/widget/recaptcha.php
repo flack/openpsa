@@ -77,8 +77,6 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
      */
     function _on_initialize()
     {
-        $request_fieldname = "{$this->name}_session_key";
-        
         $this->_public_key = $this->_config->get('recaptcha_pubkey');
         $this->_private_key = $this->_config->get('recaptcha_privkey');
 

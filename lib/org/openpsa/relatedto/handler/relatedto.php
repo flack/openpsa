@@ -517,7 +517,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         }
         $page_url = "{$node[MIDCOM_NAV_FULLURL]}{$other_obj->name}";
 
-        echo "                <span class=\"title\"><a href=\"{$page_url}\" target=\"wiki_{$page->guid}\">{$other_obj->title}</a></span>\n";
+        echo "                <span class=\"title\"><a href=\"{$page_url}\" target=\"wiki_{$other_obj->guid}\">{$other_obj->title}</a></span>\n";
 
         // Start metadata UL
         echo "                <ul class=\"metadata\">\n";

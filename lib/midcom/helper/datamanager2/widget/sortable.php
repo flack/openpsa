@@ -86,11 +86,6 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
         {
             $this->_all_elements[$key] = $this->_translate($value);
         }
-        $select_attributes = Array
-        (
-            'class' => ($this->_type->allow_multiple) ? 'list' : 'sortable',
-            'id'    => "{$this->_namespace}{$this->name}",
-        );
 
         // Create the sorting elements
         $this->_create_select_element();
@@ -236,7 +231,6 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
         $temp = array();
 
         asort($results["{$this->name}_order"]);
-        $name = $this->name;
 
         foreach ($results["{$this->name}_order"] as $key => $value)
         {
