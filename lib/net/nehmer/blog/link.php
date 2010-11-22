@@ -38,6 +38,11 @@ class net_nehmer_blog_link_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
         
     /**
      * Check if all the fields contain required information upon creation

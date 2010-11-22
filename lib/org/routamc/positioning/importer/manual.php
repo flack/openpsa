@@ -144,8 +144,6 @@ class org_routamc_positioning_importer_manual extends org_routamc_positioning_im
         }
 
         // Try to create the entry
-        //print_r($this->log);
-        //_midcom_stop_request();
         $stat = $this->log->create();
         $this->error = midcom_connection::get_error_string();
         return $stat;

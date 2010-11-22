@@ -31,6 +31,11 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
         
     /**
      * Human-readable label for cases like Asgard navigation

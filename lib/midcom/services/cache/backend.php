@@ -53,7 +53,7 @@
  * @package midcom.services
  */
 
-class midcom_services_cache_backend
+abstract class midcom_services_cache_backend
 {
     /**#@+
      * Configuration variable
@@ -134,16 +134,6 @@ class midcom_services_cache_backend
     private $_unsynced_keys = array();
 
     /**#@-*/
-
-
-    /**
-     * The constructor just initializes the empty object. The actual initialization
-     * is done by the initialize() event which does the actual configuration.
-     */
-    function __construct()
-    {
-        // Nothing to do yet.
-    }
 
     /**
      * Initializes the backend by acquiring all necessary information required for
@@ -303,12 +293,6 @@ class midcom_services_cache_backend
 
     /**#@-*/
 
-    /**#@+
-     * Internal Data IO API method.
-     *
-     * @access protected
-     */
-
     /**
      * Open the database for usage. If $write is set to true, it must be opened in
      * read/write access, otherwise read-only access is sufficient.
@@ -320,12 +304,12 @@ class midcom_services_cache_backend
      *
      * @param boolean $write True, if read/write access is required.
      */
-    function _open($write) { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
+    abstract function _open($write);
 
     /**
      * Close the database that has been opened previously with _open().
      */
-    function _close() { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
+    abstract function _close();
 
     /**
      * Get the data associated with the given key.
@@ -336,7 +320,7 @@ class midcom_services_cache_backend
      * @param string $key Key to look up.
      * @return string $data The data associated with the key.
      */
-    function _get($key) { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
+    abstract function _get($key);
 
     /**
      * Checks, whether the given key exists in the Database.
@@ -347,7 +331,7 @@ class midcom_services_cache_backend
      * @param string $key The key to check for.
      * @return boolean Indicating existence.
      */
-    function _exists($key) { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
+    abstract function _exists($key);
 
     /**
      * Store the given key/value pair, any existing entry with the same
@@ -361,7 +345,7 @@ class midcom_services_cache_backend
      * @param string $key The key to store at.
      * @param string $data The data to store.
      */
-    function _put($key, $data) { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
+    abstract function _put($key, $data);
 
     /**
      * Delete the data with the given key from the database.
@@ -374,7 +358,7 @@ class midcom_services_cache_backend
      *
      * @param string $key The key to delete.
      */
-    function _remove($key) { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
+    abstract function _remove($key);
 
     /**
      * Drops the entire database, preferably with some kind of truncate operation.
@@ -384,9 +368,7 @@ class midcom_services_cache_backend
      *
      * Any error condition should call midcom_application::generate_error().
      */
-    function _remove_all() { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
-
-    /**#@-*/
+    abstract function _remove_all();
 
     /**
      * Open the database for usage. If $write is set to true, it must be opened in

@@ -18,7 +18,7 @@
  *
  * @package midcom.helper.datamanager2
  */
-class midcom_helper_datamanager2_storage extends midcom_baseclasses_components_purecode
+abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_components_purecode
 {
     /**
      * A reference to the data schema used for processing.
@@ -148,17 +148,14 @@ class midcom_helper_datamanager2_storage extends midcom_baseclasses_components_p
     }
 
     /**
-     * Override this function to implement the storage method for your backend.
+     * Implement the storage method for your backend here.
      * It has to store the given data to the schema field identified by the given
      * name.
      *
      * @param string $name The name of the field to save to.
      * @param mixed $data The data to save to.
      */
-    function _on_store_data($name, $data)
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function _on_store_data($name, $data);
 
     /**
      * Loads a set of types to the configured storage object. This is done
@@ -221,17 +218,14 @@ class midcom_helper_datamanager2_storage extends midcom_baseclasses_components_p
     }
 
     /**
-     * Override this function to implement the storage method for your backend.
+     * Implement the storage method for your backend here.
      * It has to store the given data to the schema field identified by the given
      * name.
      *
      * @param string $name The name of the field to load from.
      * @return mixed $data The data which has been loaded.
      */
-    function _on_load_data($name)
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function _on_load_data($name);
 
     /**
      * This callback is invoked once the storage object has been completely updated with
@@ -239,10 +233,7 @@ class midcom_helper_datamanager2_storage extends midcom_baseclasses_components_p
      *
      * @return boolean Indicating success.
      */
-    function _on_update_object()
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function _on_update_object();
 
     /**
      * Checks whether the current user has the given privilege on the storage backend.

@@ -74,8 +74,6 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
      */
     function __construct()
     {
-        parent::__construct();
-
         $this->_open_for_reading = true;
         $this->_open_for_writing = true;
     }

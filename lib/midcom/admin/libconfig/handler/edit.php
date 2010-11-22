@@ -170,7 +170,6 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
             }
         }
 
-//print_r($defaults);_midcom_stop_request();
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
         $this->_controller->schemadb =& $schemadb;
         $this->_controller->defaults = $defaults;

@@ -19,7 +19,7 @@
  * @package midcom.services
  */
 
-class midcom_services_cache_module
+abstract class midcom_services_cache_module
 {
     
     /**
@@ -38,14 +38,7 @@ class midcom_services_cache_module
      * @access protected
      */
     var $_backends = Array();
-    
-    /**
-     * Class initialization, nothing to do yet.
-     */
-    function __construct()
-    {
-    }
-    
+        
     /**
      * Initialize the module. This will initialize the class configuration
      * and call the corresponding event handler.
@@ -54,9 +47,7 @@ class midcom_services_cache_module
      */
     function initialize()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_on_initialize();
-        debug_pop();
     }
     
     /**
@@ -65,8 +56,6 @@ class midcom_services_cache_module
      */
     function shutdown()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
- 
         // First call the shutdown event. 
         $this->_on_shutdown(); 
         
@@ -75,8 +64,6 @@ class midcom_services_cache_module
         {
             $this->_backends[$key]->shutdown();
         }
-        
-        debug_pop();
     }
    
     /**
@@ -139,14 +126,14 @@ class midcom_services_cache_module
      * (page cache) of midcom_application::finish() if you produce regular output that
      * might go into the content cache.
      */
-    function _on_initialize() {}
+    public function _on_initialize() {}
     
     /**
      * Shutdown handler, called during midcom_application::finish(). Note, that for example
      * the page cache will not use this cleanup handler, as it produces a complete html page
      * based on a previous request.
      */
-    function _on_shutdown() {}
+    public function _on_shutdown() {}
     
     /**
      * Invalidate the cache completely, dropping all entries. The default implementation will 
@@ -170,6 +157,6 @@ class midcom_services_cache_module
      * 
      * @param GUID $guid The GUID that has to be invalidated. 
      */
-    function invalidate($guid) { _midcom_stop_request("The method " . __CLASS__ . "::" . __FUNCTION__ . " must be implemented."); }
+    abstract function invalidate($guid);
     
 }

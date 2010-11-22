@@ -206,11 +206,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     var $_force_headers = array();
 
     /**
-     * Module constructor, relay to base class.
+     * Module constructor, nothing to do yet.
      */
     function __construct()
     {
-        parent::__construct();
     }
 
     /**

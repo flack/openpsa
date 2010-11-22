@@ -22,7 +22,7 @@
  *
  * @package midcom.helper.datamanager2
  */
-class midcom_helper_datamanager2_type extends midcom_baseclasses_components_purecode
+abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_components_purecode
 {
     /**
      * Reference to the datamanager instance this type belongs to
@@ -167,14 +167,9 @@ class midcom_helper_datamanager2_type extends midcom_baseclasses_components_pure
      * Depending on the $serialized_storage member, the framework will
      * automatically deal with deserialization of the information.
      *
-     * This function must be overwritten.
-     *
      * @param mixed $source The storage data structure.
      */
-    function convert_from_storage ($source)
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function convert_from_storage ($source);
 
     /**
      * Converts from "operational" format to from storage format.
@@ -182,41 +177,26 @@ class midcom_helper_datamanager2_type extends midcom_baseclasses_components_pure
      * Depending on the $serialized_storage member, the framework will
      * automatically deal with deserialization of the information.
      *
-     * This function must be overwritten.
-     *
      * @return mixed The data to store into the object, or null on failure.
      */
-    function convert_to_storage()
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function convert_to_storage();
 
     /**
      * Constructs the object based on its CSV representation (which is already decoded in terms
      * of escaping.)
      *
-     * This function must be overwritten.
-     *
      * @param string $source The CSV representation that has to be parsed.
      */
-    function convert_from_csv ($source)
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function convert_from_csv ($source);
 
     /**
      * Transforms the current object's state into a CSV string representation.
      *
      * Escaping and other encoding is done by the caller, you just return the string.
      *
-     * This function must be overwritten.
-     *
      * @return mixed The data to store into the object, or null on failure.
      */
-    function convert_to_csv()
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function convert_to_csv();
 
     /**
      * Transforms the current object's state into a email-friendly string representation.
@@ -237,14 +217,9 @@ class midcom_helper_datamanager2_type extends midcom_baseclasses_components_pure
      *
      * This is used for displaying type contents in an automatic fashion.
      *
-     * This function must be overwritten.
-     *
      * @return mixed The rendered content.
      */
-    function convert_to_html()
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function convert_to_html();
 
     /**
      * Transforms the current objects' state into 'raw' representation.

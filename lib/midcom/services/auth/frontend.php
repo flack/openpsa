@@ -20,7 +20,7 @@
  * 
  * @package midcom.services
  */
-class midcom_services_auth_frontend
+interface midcom_services_auth_frontend
 {   
     /**
      * This call should process the current authentication credentials and return
@@ -31,10 +31,7 @@ class midcom_services_auth_frontend
      *     'password' holding the information read by the driver or NULL if no 
      *     information could be read.
      */
-    function read_authentication_data() 
-    { 
-        _midcom_stop_request(__CLASS__ . '::' . __FUNCTION__ . ' must be overridden.'); 
-    }
+    public function read_authentication_data(); 
     
     /**
      * This call should show the authentication form (or whatever means of input
@@ -52,16 +49,7 @@ class midcom_services_auth_frontend
      * execution immediately afterwards. (2DO: How to treat sent content (it is
      * in the output buffer) at this point?)
      */
-    function show_authentication_form() 
-    { 
-        _midcom_stop_request(__CLASS__ . '::' . __FUNCTION__ . ' must be overridden.'); 
-    }
-    
-    /**
-     * ??? IS THIS NEEDED ???
-     */
-    function access_denied($reason) { _midcom_stop_request(__CLASS__ . '::' . __FUNCTION__ . ' must be overridden.'); }
-     
+    public function show_authentication_form();
 }
 
 ?>

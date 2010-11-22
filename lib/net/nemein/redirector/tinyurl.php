@@ -32,7 +32,11 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
 
-
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
+    
     /**
      * Check that everything is ok on creation event
      */

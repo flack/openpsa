@@ -23,7 +23,7 @@
  *
  * @package midcom.helper.datamanager2
  */
-class midcom_helper_datamanager2_widget extends midcom_baseclasses_components_purecode
+abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_components_purecode
 {
     /**
      * This is a reference to the type we're based on.
@@ -248,15 +248,8 @@ class midcom_helper_datamanager2_widget extends midcom_baseclasses_components_pu
     /**
      * This call, which must be overridden by subclasses, adds the necessary form elements
      * to the form passed by reference.
-     *
-     * This must be overridden in subclasses (honor the reference!).
-     *
-     * @param HTML_QuickForm $form A reference to the form to add the elements to.
      */
-    function add_elements_to_form()
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function add_elements_to_form();
 
     /**
      * Returns the default value for this field as required by HTML_Quickform.
@@ -296,10 +289,8 @@ class midcom_helper_datamanager2_widget extends midcom_baseclasses_components_pu
      * @param Array $results The complete form results, you need to extract all values
      *     relevant for your type yourself.
      */
-    function sync_type_with_widget($results)
-    {
-         _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function sync_type_with_widget($results);
+
 
     /**
      * This event handler is called if and only if the Formmanager detects an actual

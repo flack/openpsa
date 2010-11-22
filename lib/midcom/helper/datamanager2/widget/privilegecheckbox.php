@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** Base class include */
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/checkbox.php');
-
 /**
  * Datamanager 2 privilege checkbox widget.
  *

@@ -7,16 +7,13 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** Auth Frontend Base Class */
-require_once (MIDCOM_ROOT . '/midcom/services/auth/frontend.php');
-
 /**
  * Form-based authentication frontend. This one is rather simple, it just renders a
  * two-field (username/password) form which is targeted at the current URL.
  *
  * @package midcom.services
  */
-class midcom_services_auth_frontend_form extends midcom_services_auth_frontend
+class midcom_services_auth_frontend_form implements midcom_services_auth_frontend
 {
     /**
      * This call checks whether the two form fields we have created are present, if yes
@@ -147,11 +144,5 @@ class midcom_services_auth_frontend_form extends midcom_services_auth_frontend
             <?php
         }
     }
-
-    /**
-     * ??? IS THIS NEEDED ???
-     * @ignore
-     */
-    function access_denied($reason) { _midcom_stop_request(__CLASS__ . '::' . __FUNCTION__ . ' must be overridden.'); }
 }
 ?>

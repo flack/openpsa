@@ -25,7 +25,7 @@ require_once 'HTTP/Request.php';
  * @see midcom_services_indexer_XMLComm_ResponseParser
  *
  */
-class midcom_services_indexer_backend_solr extends midcom_services_indexer_backend
+class midcom_services_indexer_backend_solr implements midcom_services_indexer_backend
 {
     /**
      * The "index" to use (Solr has single index but we add this as query constraint as necessary
@@ -49,7 +49,6 @@ class midcom_services_indexer_backend_solr extends midcom_services_indexer_backe
      */
     function __construct($index_name = null)
     {
-        parent::__construct();
         if (is_null($index_name))
         {
             $this->_index_name = $GLOBALS['midcom_config']['indexer_index_name'];

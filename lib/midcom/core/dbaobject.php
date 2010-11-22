@@ -248,11 +248,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
      * @return mixed Reference to the object or false
      * @static
      */
-    static function get_cached($src)
-    {
-        echo 'This has to be implemented in the DBA class itself';
-        _midcom_stop_request();
-    }
+    abstract static function &get_cached($src);
 
     /**
      * API for creating a new object

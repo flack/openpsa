@@ -21,7 +21,7 @@
  * 
  * @package midcom.services
  */
-class midcom_services_auth_backend
+abstract class midcom_services_auth_backend
 {
     /**
      * This variable holds the user that has been successfully authenticated by the class,
@@ -52,16 +52,13 @@ class midcom_services_auth_backend
     /**
      * This function, always called first in the order of execution, should check
      * whether we have a usable login session. It has to use the login session management
-     * system To load a login session. At the end of the successful execution of this 
+     * system to load a login session. At the end of the successful execution of this 
      * function, you have to populate the $session_id and $user members accordingly.
      * 
      * @return boolean Return true if the the login session was successfully loaded, false 
      *     otherwise.
      */    
-    function read_login_session()
-    {
-        _midcom_stop_request(__CLASS__ . '::' . __FUNCTION__ . ' must be overridden.'); 
-    }
+    abstract function read_login_session();
     
     /**
      * This function checks the given username / password pair is valid and sets

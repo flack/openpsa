@@ -26,7 +26,7 @@ require_once 'XMLCommClient.php';
  * @todo Check if there is a better way to handle the exec loop, which looks rather PHP-workaroundy right now.
  */
 
-class midcom_services_indexer_backend_xmlshell extends midcom_services_indexer_backend
+class midcom_services_indexer_backend_xmlshell implements midcom_services_indexer_backend
 {
     /**
      * The request to execute.
@@ -50,7 +50,6 @@ class midcom_services_indexer_backend_xmlshell extends midcom_services_indexer_b
      */
     function __construct()
     {
-        parent::__construct();
         // Nothing to do yet.
     }
     
@@ -289,9 +288,6 @@ class midcom_services_indexer_backend_xmlshell extends midcom_services_indexer_b
         }
         debug_pop();
     }
-    
-    
-    
 }
 
 ?>

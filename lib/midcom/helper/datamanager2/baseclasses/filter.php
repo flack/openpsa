@@ -16,7 +16,7 @@
  * @package midcom.helper.datamanager2
  */
 
-class midcom_helper_datamanager2_baseclasses_filter extends midcom_baseclasses_core_object
+abstract class midcom_helper_datamanager2_baseclasses_filter extends midcom_baseclasses_core_object
 {
     /**
      * A reference to the Formmanager instance.
@@ -74,9 +74,6 @@ class midcom_helper_datamanager2_baseclasses_filter extends midcom_baseclasses_c
      * @param mixed $input The form values which should be filtered.
      * @return mixed The filtered values.
      */
-    function execute ($input)
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be overridden.');
-    }
+    abstract function execute ($input);
 }
 ?>
