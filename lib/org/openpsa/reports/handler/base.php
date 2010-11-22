@@ -17,12 +17,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
     var $_datamanagers = array();
     var $module = false;
 
-
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.

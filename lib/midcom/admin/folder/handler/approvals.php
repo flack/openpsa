@@ -15,16 +15,6 @@
 class midcom_admin_folder_handler_approvals extends midcom_baseclasses_components_handler
 {
     /**
-     * Constructor method
-     *
-     * @access public
-     */
-    function __construct ()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Checks the integrity of the content topic and gets the stored approvals of
      * the content folder.
      *

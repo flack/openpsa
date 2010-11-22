@@ -48,12 +48,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     private $_output_mode = 'html';
 
-
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');

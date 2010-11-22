@@ -14,11 +14,6 @@
  */
 class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();

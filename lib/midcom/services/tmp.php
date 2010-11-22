@@ -45,14 +45,6 @@ class midcom_services_tmp extends midcom_baseclasses_core_object
     var $_tmp_object_class_loaded = false;
 
     /**
-     * Simple constructor, calls base class.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Internal helper function, ensures that the temporary object class is loaded.
      * If it has already been loaded, the call is ignored silently.
      *

@@ -57,30 +57,10 @@
  *
  * <b>Inherited class requirements</b>
  *
- * The classes you inherit from the intermediate stub classes must at this time satisfy two
- * requirements: The constructor must call the base class constructor and you have to override
- * the get_parent method where applicable:
+ * The classes you inherit from the intermediate stub classes must at this time satisfy one
+ * requirement: You have to override the get_parent method where applicable:
  *
- * The <i>constructor</i> part is relatively trivial. Consider the article example above, the
- * subclass constructor looks like this:
- *
- * <code>
- * class midcom_db_article
- *     extends midcom_core_dbaobject
- * {
- *     function __construct($id = null)
- *     {
- *         parent::__construct($id);
- *     }
- *
- *     // ...
- * }
- * </code>
- *
- * Be sure to take and pass the $id parameter to the parent class, it will automatically load
- * the object identified by the id <i>or</i> GUID passed.
- *
- * Then there is the (optional) <i>get_parent()</i> method: It is used in various places (for
+ * There is the (optional) <i>get_parent()</i> method: It is used in various places (for
  * example the ACL system) in MidCOM to find the logical parent of an object. By default this
  * method directly returns null indicating that there is no parent. You should override it
  * wherever you have a tree-like content structure so that MidCOM can correctly climb upwards.
@@ -177,14 +157,6 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
      * @access private
      */
     private $_mgdschema_class_handler = Array();
-
-    /**
-     * Initializes the class for usage.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * This is the main class loader function. It takes a component/filename pair as

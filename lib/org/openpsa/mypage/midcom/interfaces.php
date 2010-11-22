@@ -13,7 +13,6 @@
  */
 class org_openpsa_mypage_interface extends midcom_baseclasses_components_interface
 {
-
     function __construct()
     {
         parent::__construct();
@@ -25,6 +24,5 @@ class org_openpsa_mypage_interface extends midcom_baseclasses_components_interfa
             'org.openpsa.core',
         );
     }
-
 }
 ?>

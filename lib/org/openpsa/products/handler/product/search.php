@@ -14,14 +14,6 @@
  */
 class org_openpsa_products_handler_product_search extends midcom_baseclasses_components_handler
 {
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.qbpager');

@@ -65,14 +65,6 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
     }
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * Special treatement is done for the name field, which is set readonly for non-creates

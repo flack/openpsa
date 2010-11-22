@@ -15,7 +15,8 @@
 class midcom_request
 {
     protected $vars = array();
-    public function __construct($request_array = array(), $argv = array()) {
+    public function __construct($request_array = array(), $argv = array())
+    {
         $this->vars = $request_array;
         $this->argv = $argv;
     }

@@ -16,11 +16,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 {
     var $_task_cache = Array();
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');

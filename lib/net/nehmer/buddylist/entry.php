@@ -19,11 +19,6 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nehmer_buddylist_entry_db';
     
-    function __construct($id = null)
-    {
-        parent::__construct($id);
-    }
-    
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -32,6 +27,11 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
     static function new_collector($domain, $value)
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
         
     function get_parent_guid_uncached()

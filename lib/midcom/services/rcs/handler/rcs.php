@@ -60,7 +60,6 @@ class no_bergfald_rcs
         }
 
         debug_pop();
-
     }
 
     /**

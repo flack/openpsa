@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/type/image.php');
-
 /**
  * Image type specialized for org.routamc.photostream
  *
@@ -23,14 +20,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
      * @var boolean
      */
     var $do_not_save_archival = false;
-
-    /**
-     * Constructor
-     */
-    function __construct()
-    {
-        return parent::__construct();
-    }
 
     /**
      * Preparation operations for recreate_xxx()

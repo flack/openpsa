@@ -165,16 +165,6 @@ class midcom_helper__componentloader
     );
 
     /**
-     * The constructor will initialize the class. Nothing special is
-     * done here. The real initialization is done in initialize() so that
-     * we already have a reference to ourselves.
-     */
-    function __construct()
-    {
-        // Empty.
-    }
-
-    /**
      * This function will invoke _load directly. If the loading process
      * is unsuccessful, it will call generate_error.
      *

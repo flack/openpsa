@@ -14,7 +14,6 @@
  */
 class midgard_admin_asgard_handler_components extends midcom_baseclasses_components_handler
 {
-
     /**
      * Simple default constructor.
      */

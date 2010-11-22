@@ -14,11 +14,6 @@
  */
 class org_openpsa_interviews_handler_report extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _prepare_toolbar()
     {
         $this->_view_toolbar->add_item(

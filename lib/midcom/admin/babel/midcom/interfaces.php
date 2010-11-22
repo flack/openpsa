@@ -17,7 +17,5 @@ class midcom_admin_babel_interface extends midcom_baseclasses_components_interfa
 
         $this->_component = 'midcom.admin.settings';
     }
-
 }
-
 ?>

@@ -31,11 +31,6 @@
  */
 class net_nehmer_account_handler_publish extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * The user account we are managing. This is taken from the currently active user
      * if no account is specified in the URL, or from the GUID passed to the system.

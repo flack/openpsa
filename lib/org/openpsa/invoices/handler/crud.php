@@ -14,7 +14,6 @@
  */
 class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_handler_crud
 {
-
     function __construct()
     {
         $this->_dba_class = 'org_openpsa_invoices_invoice_dba';

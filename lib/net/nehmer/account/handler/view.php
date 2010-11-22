@@ -50,11 +50,6 @@ require_once('Date.php');
 
 class net_nehmer_account_handler_view extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     public function _on_initialize()
     {
         if ($_openid_root_url = $this->_config->get('openidprovider_link'))

@@ -15,11 +15,6 @@ class net_nemein_wiki_link_dba extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nemein_wiki_link';
-    
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
         
     static function new_query_builder()
     {
@@ -29,6 +24,11 @@ class net_nemein_wiki_link_dba extends midcom_core_dbaobject
     static function new_collector($domain, $value)
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
     function get_parent_guid_uncached()

@@ -23,14 +23,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     private $_campaign = null;
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Internal helper, loads the datamanager for the current campaign. Any error triggers a 500.
      *
      * @access private

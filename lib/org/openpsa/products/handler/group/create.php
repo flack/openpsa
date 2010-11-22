@@ -66,15 +66,6 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
         $this->_request_data['schemadb'] =& $this->_schemadb;
     }
 
-
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Loads and prepares the schema database.
      *

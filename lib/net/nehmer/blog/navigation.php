@@ -27,14 +27,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     var $_content_topic = null;
 
     /**
-     * Simple constructor, calls base class.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Returns a static leaf list with access to the archive.
      */
     function get_leaves()

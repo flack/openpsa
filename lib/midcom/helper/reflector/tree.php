@@ -13,11 +13,6 @@
  */
 class midcom_helper_reflector_tree extends midcom_helper_reflector
 {
-    function __construct($src)
-    {
-        parent::__construct($src);
-    }
-
     function &get($src)
     {
         if (is_object($src))

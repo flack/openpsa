@@ -57,11 +57,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      */
     private $_salesproject = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Internal helper, loads the controller for the current salesproject. Any error triggers a 500.
      *

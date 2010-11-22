@@ -14,12 +14,6 @@
  */
 class org_openpsa_projects_handler_task_action extends midcom_baseclasses_components_handler
 {
-
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.

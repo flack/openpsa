@@ -30,14 +30,6 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
     private $_content_topic = null;
 
     /**
-     * Simple constructor, calls base class.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Returns all leaves for the current content topic.
      *
      * It will hide the index leaf from the NAP information unless we are in Autoindex

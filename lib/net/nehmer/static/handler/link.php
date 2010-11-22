@@ -74,13 +74,6 @@ class net_nehmer_static_handler_link extends midcom_baseclasses_components_handl
         $this->_request_data['schema'] =& $this->_schema;
         $this->_request_data['schemadb'] =& $this->_schemadb;
     }
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Maps the content topic from the request data to local member variables.

@@ -38,11 +38,6 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      */
     var $_buddies_meta = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.

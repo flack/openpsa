@@ -13,7 +13,6 @@
  */
 class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 {
-
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_task';
 
@@ -23,11 +22,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     var $_skip_acl_refresh = false;
     var $_skip_parent_refresh = false;
     private $_status = null;
-
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
 
     static function new_query_builder()
     {

@@ -21,9 +21,6 @@ class midcom_helper_imagepopup_interface extends midcom_baseclasses_components_i
         (
             'midcom.helper.datamanager2',
         );
-
     }
-
 }
-
 ?>

@@ -15,13 +15,6 @@
  */
 class org_openpsa_documents_handler_directory_navigation extends midcom_baseclasses_components_handler
 {
-
-
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * shows the navigation tree
      *

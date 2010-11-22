@@ -97,11 +97,6 @@
 
 class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     function _on_initialize()
     {
         // DM2 configuration screen

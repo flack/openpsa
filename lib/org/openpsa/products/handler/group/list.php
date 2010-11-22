@@ -5,7 +5,6 @@
  * @package org.openpsa.products
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
- *
  */
 
 /**
@@ -16,15 +15,6 @@
  */
 class org_openpsa_products_handler_group_list  extends midcom_baseclasses_components_handler
 {
-
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Can-Handle check against the current group GUID. We have to do this explicitly
      * in can_handle already, otherwise we would hide all subtopics as the request switch

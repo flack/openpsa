@@ -1,7 +1,5 @@
 <?php
 /**
- *
- *
  * @package no.bergfald.rcs
  * @author Tarjei Huse (tarjei - at -bergfald.no)
  */
@@ -11,7 +9,6 @@
  */
 class no_bergfald_rcs_interface extends midcom_baseclasses_components_interface
 {
-
     function __construct()
     {
         parent::__construct();
@@ -23,7 +20,5 @@ class no_bergfald_rcs_interface extends midcom_baseclasses_components_interface
             'midcom.helper.xml',
         );
     }
-
-
 }
 ?>

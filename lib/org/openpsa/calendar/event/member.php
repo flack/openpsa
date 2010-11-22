@@ -15,11 +15,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_eventmember';
 
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
-
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

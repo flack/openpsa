@@ -29,11 +29,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     var $_datamanagers = array();
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _prepare_handler($args)
     {
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');

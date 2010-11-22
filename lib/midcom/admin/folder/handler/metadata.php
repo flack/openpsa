@@ -41,16 +41,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
     var $_schemadb = null;
 
     /**
-     * Constructor, call for the class parent constructor method.
-     *
-     * @access public
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get the object title of the content topic.
      *
      * @return string containing the content topic title

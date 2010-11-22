@@ -16,11 +16,6 @@ class net_nehmer_account_invites_invite_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nehmer_accounts_invites_invite';
     
-    function __construct($src = null)
-    {
-        parent::__construct($src);
-    }
-    
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

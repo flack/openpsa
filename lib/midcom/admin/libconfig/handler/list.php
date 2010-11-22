@@ -16,19 +16,8 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
 {
     private $_libs = array();
 
-    /**
-     * Simple constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function _on_initialize()
     {
-
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.libconfig');
         $this->_request_data['l10n'] = $this->_l10n;
 

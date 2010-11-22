@@ -42,11 +42,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      */
     var $_decoder;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Maps the content topic from the request data to local member variables.
      */

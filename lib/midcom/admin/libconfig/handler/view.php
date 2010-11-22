@@ -14,16 +14,6 @@
  */
 class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_handler
 {
-    /**
-     * Simple constructor
-     *
-     * @access public
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.libconfig');

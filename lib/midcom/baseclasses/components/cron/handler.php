@@ -70,13 +70,6 @@ class midcom_baseclasses_components_cron_handler
     var $_component_interface = null;
 
     /**
-     * Empty constructor yet, just calls the base class.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * This initializes the cron job. Before calling the on_initialize callback, it prepares
      * the instance with various configuration variables and helper references.
      *

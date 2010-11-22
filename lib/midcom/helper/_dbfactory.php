@@ -17,14 +17,6 @@
 class midcom_helper__dbfactory extends midcom_baseclasses_core_object
 {
     /**
-     * Calls parent constructor only.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes
      * the MidCOM DBA system into account.
      *

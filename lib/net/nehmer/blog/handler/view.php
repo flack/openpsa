@@ -91,14 +91,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
     }
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Maps the content topic from the request data to local member variables.
      */
     function _on_initialize()

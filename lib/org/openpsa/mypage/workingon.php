@@ -55,6 +55,7 @@ class org_openpsa_mypage_workingon
      * @access public
      */
      public $invoiceable = false;
+
     /**
      * Constructor.
      *

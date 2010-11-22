@@ -15,14 +15,6 @@
 
 class net_nehmer_buddylist_navigation extends midcom_baseclasses_components_navigation
 {
-    /**
-     * Simple constructor, calls base class.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function get_leaves()
     {
         $leaves = Array();

@@ -55,11 +55,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      */
     var $_object = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Get the localized strings
      *

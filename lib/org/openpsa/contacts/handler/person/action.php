@@ -21,11 +21,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      */
     private $_person = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();

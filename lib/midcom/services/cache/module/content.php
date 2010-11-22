@@ -206,13 +206,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     var $_force_headers = array();
 
     /**
-     * Module constructor, nothing to do yet.
-     */
-    function __construct()
-    {
-    }
-
-    /**
      * Generate a valid cache identifier for a context of the current request
      */
     function generate_request_identifier($context, $customdata = null)

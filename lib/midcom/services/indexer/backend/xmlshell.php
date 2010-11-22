@@ -46,14 +46,6 @@ class midcom_services_indexer_backend_xmlshell implements midcom_services_indexe
     
     
     /**
-     * Constructor is empty at this time.
-     */
-    function __construct()
-    {
-        // Nothing to do yet.
-    }
-    
-    /**
      * Adds a document to the index.
      * 
      * Any warning will be treated as error.

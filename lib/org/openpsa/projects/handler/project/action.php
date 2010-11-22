@@ -14,12 +14,6 @@
  */
 class org_openpsa_projects_handler_project_action extends midcom_baseclasses_components_handler
 {
-
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _load_project($identifier)
     {
         $project = new org_openpsa_projects_project($identifier);

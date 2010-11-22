@@ -101,14 +101,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     var $_defaults = array();
 
     /**
-     * Simple default constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Method for loading an object, must be implemented in the component handler.
      *
      * The method will generate an error if the object could not be found.

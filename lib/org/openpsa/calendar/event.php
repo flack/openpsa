@@ -113,11 +113,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     var $notify_force_add = false;
     var $search_relatedtos = true;
 
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
-
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

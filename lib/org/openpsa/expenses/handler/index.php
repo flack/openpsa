@@ -17,15 +17,6 @@
  */
 class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_handler
 {
-
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * The handler for the index view.
      *

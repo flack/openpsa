@@ -94,15 +94,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         }
     }
 
-
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Maps the content topic from the request data to local member variables.
      */

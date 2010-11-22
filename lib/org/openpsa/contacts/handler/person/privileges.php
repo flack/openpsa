@@ -53,11 +53,6 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
      */
     private $_person = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');

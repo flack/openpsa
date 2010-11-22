@@ -13,11 +13,6 @@
  */
 class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Phase for showing the list of campaigns
      * 

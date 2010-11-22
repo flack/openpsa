@@ -30,14 +30,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
      */
     private $_event;    
     
-    /**
-     * Constructor. Connect to the parent class constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();

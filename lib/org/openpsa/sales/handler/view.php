@@ -23,14 +23,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     var $_salesproject = null;
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */

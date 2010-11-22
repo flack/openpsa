@@ -14,11 +14,6 @@
  */
 class org_openpsa_notifications_notifier_api_nabaztag extends org_openpsa_notifications_notifier
 {
-    function __construct($recipient)
-    {
-        parent::__construct($recipient);
-    }
-
     /**
      * Sends the 'abstract' version of the message as a message to the Nabaztag configured for the system
      */

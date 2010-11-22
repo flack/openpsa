@@ -34,11 +34,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
     var $_datamanager = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();

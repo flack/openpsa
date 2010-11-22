@@ -21,14 +21,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         'person' => true,
     );
 
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $this->module = 'projects';

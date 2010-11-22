@@ -46,15 +46,6 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
      */
     var $_handle = null;
     
-    
-    /**
-     * The constructor is empty yet.
-     */
-    function __construct()
-    {
-        // Nothing to do.
-    }
-    
     /**
      * This handler completes the configuration.
      */

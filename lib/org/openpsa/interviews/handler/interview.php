@@ -46,11 +46,6 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      */
     var $_schemadb = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Loads and prepares the schema database.
      *

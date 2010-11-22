@@ -18,14 +18,6 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     var $_list_type = false;
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-    
-    /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      *
      * @access private

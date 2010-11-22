@@ -49,16 +49,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     var $_controller = null;
 
     /**
-     * Constructor
-     *
-     * @access public
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Initialization scripts
      *
      * @access public

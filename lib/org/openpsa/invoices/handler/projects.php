@@ -31,11 +31,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      */
     private $_customers = array();
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     private function _generate_invoice()
     {
         $invoice = new org_openpsa_invoices_invoice_dba();

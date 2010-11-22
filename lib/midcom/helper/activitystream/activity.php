@@ -21,11 +21,6 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
     var $_use_activitystream = false;
     var $_use_rcs = false;
 
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
-
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

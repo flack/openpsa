@@ -16,11 +16,6 @@ class org_openpsa_notifications_notification_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_notifications_notification';
 
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
-        
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -29,6 +24,11 @@ class org_openpsa_notifications_notification_dba extends midcom_core_dbaobject
     static function new_collector($domain, $value)
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 }
 ?>

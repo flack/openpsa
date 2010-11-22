@@ -15,11 +15,6 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_task';
 
-    function __construct($identifier = NULL)
-    {
-        return parent::__construct($identifier);
-    }
-
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

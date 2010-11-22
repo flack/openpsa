@@ -7,18 +7,11 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once(MIDCOM_ROOT.'/midcom/baseclasses/components/handler/dataexport.php');
 /**
  * @package org.openpsa.products
  */
 class org_openpsa_products_handler_product_csv extends midcom_baseclasses_components_handler_dataexport
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _load_schemadb($handler_id, &$args, &$data)
     {
         $_MIDCOM->skip_page_style = true;

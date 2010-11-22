@@ -12,14 +12,8 @@
  */
 class org_openpsa_contacts_buddy_dba extends midcom_core_dbaobject
 {
-
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nehmer_buddylist_entry_db';
-
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
 
     static function new_query_builder()
     {

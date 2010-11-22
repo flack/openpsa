@@ -82,15 +82,6 @@ class midcom_baseclasses_components_navigation
     /**#@-*/
 
     /**
-     * Create the navigation instance, the constructor doesn't do anything
-     * yet, startup is handled by initialize().
-     */
-    public function __construct()
-    {
-        // Nothing to do
-    }
-
-    /**
      * Initialize the NAP class, sets all state variables.
      *
      * @param string $component The name of the component.

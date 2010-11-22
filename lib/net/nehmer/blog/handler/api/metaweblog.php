@@ -38,11 +38,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
     var $_positioning = false;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Maps the content topic from the request data to local member variables.
      */

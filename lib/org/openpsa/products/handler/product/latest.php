@@ -15,15 +15,6 @@
  */
 class org_openpsa_products_handler_product_latest extends midcom_baseclasses_components_handler
 {
-
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _list_products($limit = 5, $product_group = '')
     {
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'latest_products');

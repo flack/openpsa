@@ -15,14 +15,6 @@
 class net_nemein_wiki_navigation  extends midcom_baseclasses_components_navigation
 {
     /**
-     * Simple constructor, calls base class.
-     */
-    function __construct() 
-    {
-        parent::__construct();
-    }
-    
-    /**
      * Get the leaves set to be displayed in navigation
      * 
      * @access public

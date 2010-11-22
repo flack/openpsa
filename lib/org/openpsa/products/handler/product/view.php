@@ -23,14 +23,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     var $_product = null;
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */

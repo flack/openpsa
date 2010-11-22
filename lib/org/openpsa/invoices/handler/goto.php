@@ -14,18 +14,12 @@
  */
 class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_handler
 {
-
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
-    */
+     */
     function _handler_goto($handler_id, $args, &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);

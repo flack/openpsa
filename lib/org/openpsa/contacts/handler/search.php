@@ -36,11 +36,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     private $_search;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     private function _get_search_string()
     {
         if (isset($_GET['query']))

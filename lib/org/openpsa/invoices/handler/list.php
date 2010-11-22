@@ -22,11 +22,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private $_customer = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         // Locate Contacts node for linking

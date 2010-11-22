@@ -14,11 +14,6 @@
  */
 class net_nemein_rss_manage extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         // Ensure we get the correct styles

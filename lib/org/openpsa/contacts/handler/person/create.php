@@ -63,11 +63,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      */
     private $_group = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
      *

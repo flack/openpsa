@@ -22,11 +22,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     var $_product;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Maps the content topic from the request data to local member variables.
      */

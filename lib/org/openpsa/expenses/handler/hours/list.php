@@ -34,14 +34,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     private $tasks = array();
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Prepare a paged query builder for listing hour reports
      */
     function &_prepare_qb()

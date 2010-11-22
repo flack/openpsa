@@ -13,11 +13,6 @@
  */
 class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Logs a bounce from bounce_detector.php for POSTed token, marks the send receipt
      * and the campaign member as bounced.

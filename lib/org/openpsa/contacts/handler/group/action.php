@@ -14,11 +14,6 @@
  */
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _load($identifier)
     {
         $group = new org_openpsa_contacts_group_dba($identifier);

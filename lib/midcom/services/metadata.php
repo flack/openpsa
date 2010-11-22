@@ -40,14 +40,6 @@ class midcom_services_metadata extends midcom_baseclasses_core_object
     var $_page_classes = Array();
 
     /**
-     * Simple constructor, calls base class.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Returns a reference to the node metadata of the specified context. The metadata
      * will be created if this is the first request.
      *

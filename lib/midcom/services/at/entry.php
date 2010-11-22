@@ -192,10 +192,6 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
  */
 class midcom_services_at_entry extends midcom_services_at_entry_dba
 {
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
 }
 
 ?>

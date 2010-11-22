@@ -17,11 +17,6 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nemein_redirector_tinyurl';
 
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
-
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

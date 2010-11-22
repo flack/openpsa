@@ -14,11 +14,6 @@
  */
 class org_openpsa_documents_directory extends midcom_db_topic
 {
-    function __construct($identifier = NULL)
-    {
-        return parent::__construct($identifier);
-    }
-
     function _on_updated()
     {
         $this->_update_parent_timestamp();

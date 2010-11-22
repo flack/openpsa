@@ -17,11 +17,6 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     var $_updated_pages = 0;
     var $_max_pages = 0;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * List all items updated with then given timeframe
      */

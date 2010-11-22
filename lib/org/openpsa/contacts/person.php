@@ -19,11 +19,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     var $name; //Compound of firstname, lastname and username
     var $rname; //Another compound of firstname, lastname and username
 
-    function __construct($id = null)
-    {
-        return parent::__construct($id);
-    }
-
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);

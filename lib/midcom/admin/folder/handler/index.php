@@ -18,14 +18,6 @@
 class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_handler
 {
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * The handler for the index article.
      *
      * @param mixed $handler_id the array key from the request array

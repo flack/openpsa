@@ -17,14 +17,6 @@
 class org_openpsa_products_navigation extends midcom_baseclasses_components_navigation
 {
     /**
-     * Simple constructor, calls base class.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Returns all leaves for the current content topic.
      *
      * It will hide the index leaf from the NAP information unless we are in Autoindex

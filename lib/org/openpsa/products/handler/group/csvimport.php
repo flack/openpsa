@@ -15,11 +15,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
     var $_datamanager = null;
     var $_groups_processed = array();
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _prepare_handler($args)
     {
         // Mass importing is for now better left for admins only

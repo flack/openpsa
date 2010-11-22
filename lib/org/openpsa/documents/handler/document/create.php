@@ -56,11 +56,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      */
     private $_defaults = array();
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');

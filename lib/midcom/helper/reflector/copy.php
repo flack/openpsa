@@ -157,16 +157,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     private $properties = array();
 
     /**
-     * Constructor. Connect to the parent class
-     *
-     * @access public
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get the newly created root object
      *
      * @access public

@@ -17,11 +17,6 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
 {
     var $_datamanagers;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');

@@ -15,14 +15,6 @@
 class org_routamc_positioning_importer_manual extends org_routamc_positioning_importer
 {
     /**
-     * Initializes the class. The real startup is done by the initialize() call.
-     */
-    function __construct()
-    {
-         parent::__construct();
-    }
-
-    /**
      * Import manually entered log entry. The entries are associative arrays containing
      * some or all of the following keys:
      *

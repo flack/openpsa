@@ -14,14 +14,6 @@
  */
 class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handler_base
 {
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $this->module = 'sales';

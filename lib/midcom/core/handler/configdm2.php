@@ -48,16 +48,6 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     var $_schemadb;
     
     /**
-     * Constructor. Connect to the parent class constructor, but do nothing else
-     * 
-     * @access public
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-    
-    /**
      * Load midcom.helper.datamanager2. Called on handler initialization phase.
      * 
      * @access public

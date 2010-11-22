@@ -41,11 +41,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      */
     var $membership_mode = false;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     private function _prepare_handler($args)
     {
         // TODO: Add smarter per-type ACL checks

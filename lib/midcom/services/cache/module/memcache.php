@@ -73,13 +73,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
     /**#@-*/
     
     /**
-     * Module constructor, nothing to do yet.
-     */
-    function __construct()
-    {
-    }
-    
-    /**
      * Initialization event handler.
      * 
      * It will load the cache backend.

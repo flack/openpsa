@@ -23,14 +23,6 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     var $_message = null;
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      *
      * @access private

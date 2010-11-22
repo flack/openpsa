@@ -14,7 +14,6 @@
  */
 class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_components_handler_crud
 {
-
     /**
      * Simple default constructor
      */

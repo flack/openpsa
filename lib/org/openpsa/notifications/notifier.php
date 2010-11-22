@@ -14,7 +14,6 @@
  */
 class org_openpsa_notifications_notifier extends midcom_baseclasses_components_purecode
 {
-
     var $recipient = null;
 
     function __construct($recipient)

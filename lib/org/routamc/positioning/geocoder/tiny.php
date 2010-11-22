@@ -17,7 +17,6 @@
  */
 class org_routamc_positioning_geocoder_tiny extends org_routamc_positioning_geocoder
 {
-
     function __construct()
     {
          $this->_component = 'org.routamc.positioning';

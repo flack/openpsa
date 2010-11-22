@@ -14,11 +14,6 @@
  */
 class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Strips last "file extension" from given string
      */

@@ -26,15 +26,6 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
     var $_creation_root_group_parent_guid ='';
     var $_creation_root_group_name = '';
 
-   /**
-    * Simple constructor, which only initializes the parent constructor.
-    */
-    function __construct()
-    {
-        parent::__construct();
-
-    }
-
     function _on_initialize()
     {
         require_once($this->_request_data['plugin_config']['sitewizard_path']);

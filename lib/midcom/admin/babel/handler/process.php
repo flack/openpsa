@@ -26,16 +26,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     /** midcom_l10n instance $_component_path */
     var $_component_l10n;
 
-    /**
-     * Simple constructor
-     *
-     * @access public
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
 

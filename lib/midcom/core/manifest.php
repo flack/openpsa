@@ -299,7 +299,6 @@ class midcom_core_manifest extends midcom_baseclasses_core_object
      */
     function __construct($filename,$values)
     {
-        //parent::__construct();
         $this->filename = $filename;
         $this->_load_manifest($values);
 

@@ -30,11 +30,6 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      */
     var $_datamanager = null;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Internal helper, loads the datamanager for the current wikipage. Any error triggers a 500.
      *

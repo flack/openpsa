@@ -16,11 +16,6 @@
  */
 class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.

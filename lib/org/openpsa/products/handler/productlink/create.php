@@ -55,14 +55,6 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
     var $_defaults = Array();
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */

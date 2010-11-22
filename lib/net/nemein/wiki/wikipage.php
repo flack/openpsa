@@ -20,18 +20,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     var $_topic = null;
 
     /**
-     * The default constructor will create an empty object. Optionally, you can pass
-     * an object ID or GUID to the object which will then initialize the object with
-     * the corresponding DB instance.
-     *
-     * @param mixed $id A valid object ID or GUID, omit for an empty object.
-     */
-    function __construct($id = null)
-    {
-        parent::__construct($id);
-    }
-
-    /**
      * Overwrite the query builder getter with a version retrieving the right type.
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without

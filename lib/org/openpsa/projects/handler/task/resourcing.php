@@ -23,14 +23,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     private $_task = null;
 
     /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */

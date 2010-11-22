@@ -60,11 +60,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
      */
     var $_defaults = Array();
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
      *

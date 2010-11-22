@@ -51,14 +51,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
 
     var $hostconfig = null;
 
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $this->_config_storage = new midcom_db_page((int) $_MIDGARD['page']);

@@ -48,6 +48,5 @@ class net_nehmer_markdown_interface extends midcom_baseclasses_components_interf
             'lib/markdown.php'
         );
     }
-
 }
 ?>

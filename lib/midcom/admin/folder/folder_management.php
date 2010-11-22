@@ -23,14 +23,6 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     private $_anchor_prefix = null;
 
     /**
-     * Simple constructor, which only initializes the parent constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get the object title of the content topic.
      *
      * @return string containing the content topic title

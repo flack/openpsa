@@ -22,14 +22,6 @@ class midcom_services_cache_backend_null extends midcom_services_cache_backend
     var $_dirname = null;
     
     /**
-     * The constructor is empty yet.
-     */
-    function __construct()
-    {
-        // Nothing to do.
-    }
-    
-    /**
      * This handler completes the configuration.
      */
      function _on_initialize()

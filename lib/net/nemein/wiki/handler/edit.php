@@ -48,11 +48,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
     var $_preview = false;
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Loads and prepares the schema database.
      *

@@ -14,12 +14,6 @@
  */
 class org_openpsa_core_acl_synchronizer
 {
-
-    function __construct()
-    {
-
-    }
-
     function write_acls($object, $owner_id, $accesstype)
     {
         if (   empty($owner_id)

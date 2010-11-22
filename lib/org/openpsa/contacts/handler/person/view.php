@@ -45,14 +45,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private $_controller = null;
 
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');

@@ -13,11 +13,6 @@
 
 class net_nehmer_account_handler_pending extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Set the breadcrumb path and active leaf
      *

@@ -14,11 +14,6 @@
  */
 class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Tags given object with the tags in the string
      *

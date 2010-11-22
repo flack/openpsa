@@ -17,11 +17,6 @@
 
 class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_handler
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * The welcome handler loads the newest asks / bids according to the configuration
      * settings and prepares the type listings.

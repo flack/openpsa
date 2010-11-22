@@ -41,15 +41,6 @@
  */
 class midcom_services_permalinks extends midcom_baseclasses_core_object
 {
-
-    /**
-     * Empty default constructor. Calls parent.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * This function resolves any GUID into a fully qualified URL which can be relocated
      * to. It operates in multiple phases:

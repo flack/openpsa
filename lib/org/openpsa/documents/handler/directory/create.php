@@ -39,11 +39,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      */
     var $_schema = 'default';
 
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');

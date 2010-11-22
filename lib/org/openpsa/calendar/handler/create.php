@@ -30,14 +30,6 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
     private $_defaults = array();
     
     /**
-     * Constructor. Connect to the parent class constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-    
-    /**
      * Load the creation controller
      * 
      * @access private

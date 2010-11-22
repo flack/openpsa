@@ -14,12 +14,6 @@
  */
 class org_openpsa_projects_handler_workflow extends midcom_baseclasses_components_handler
 {
-
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     private function _load_task($identifier)
     {
         $task = new org_openpsa_projects_task_dba($identifier);

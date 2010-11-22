@@ -5,7 +5,6 @@
  * @package org.openpsa.products
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
- *
  */
 
 /**
@@ -16,15 +15,6 @@
  */
 class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_components_handler
 {
-
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function _list_products($limit = 5, $product_group = '', $orderby = 'delivery')
     {
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'downloaded_products');

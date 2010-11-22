@@ -38,14 +38,6 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
      */
     var $_product = null;
 
-    /**
-     * Simple default constructor.
-     */
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     private function _create_deliverable(&$product, $up = 0, $units = 1)
     {
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
