@@ -63,7 +63,7 @@ class midcom_services_cache_backend_sqlite extends midcom_services_cache_backend
         }
     }
 
-    function _open($write) {}
+    function _open($write = false) {}
 
     function _close() {}
 

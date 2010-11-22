@@ -304,7 +304,7 @@ abstract class midcom_services_cache_backend
      *
      * @param boolean $write True, if read/write access is required.
      */
-    abstract function _open($write);
+    abstract function _open($write = false);
 
     /**
      * Close the database that has been opened previously with _open().
