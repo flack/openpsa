@@ -73,13 +73,6 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
     }
 
     /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    function _on_initialize()
-    {
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * Special treatement is done for the name field, which is set readonly for non-creates
@@ -155,7 +148,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
 
         $_MIDCOM->auth->require_do('midgard:create', $data['campaign']);
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";  
+        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
 
         $this->_schema = $args[1];
         $this->_load_schemadb();
@@ -168,7 +161,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
 
         $this->_load_controller();
         $this->_prepare_request_data();
-        
+
         switch ($this->_controller->process_form())
         {
             case 'save':
@@ -183,7 +176,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
                 // This will exit.
         }
 
-        if ($this->_message != null) 
+        if ($this->_message != null)
         {
             $_MIDCOM->set_26_request_metadata($this->_message->metadata->revised, $this->_message->guid);
         }

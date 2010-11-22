@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.admin.user
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: create.php 25318 2010-03-18 12:16:52Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,7 +9,7 @@
 
 /**
  * group creation class
- * 
+ *
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_group_create extends midcom_baseclasses_components_handler
@@ -18,7 +18,7 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
 
     /**
      * Simple constructor
-     * 
+     *
      * @access public
      */
     function __construct()
@@ -44,9 +44,8 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
         );
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
-
     }
-    
+
     function _update_breadcrumb()
     {
         // Populate breadcrumb
@@ -97,7 +96,7 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
      * Assumes Admin Privileges.
      */
     function & dm2_create_callback (&$controller)
-    {        
+    {
         // Create a new group
         $this->_group = new midcom_db_group();
         if (! $this->_group->create())
@@ -112,7 +111,7 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
 
         return $this->_group;
     }
-    
+
     /**
      * Handler method for listing style elements for the currently used component topic
      *
@@ -123,7 +122,7 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
      * @return boolean Indicating successful request
      */
     function _handler_create($handler_id, $args, &$data)
-    {    
+    {
 
         $this->_load_controller();
         switch ($this->_controller->process_form())
@@ -132,33 +131,33 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
                 // Show confirmation for the group
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('group %s saved'), $this->_group->name));
                 $_MIDCOM->relocate("__mfa/asgard_midcom.admin.user/group/edit/{$this->_group->guid}/");
-                
+
             case 'cancel':
                 $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
                 // This will exit.
         }
-        
+
         $data['view_title'] = $_MIDCOM->i18n->get_string('create group', 'midcom.admin.user');
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->_update_breadcrumb();
-        
+
         return true;
     }
-    
+
     /**
      * Show list of the style elements for the currently createed topic component
-     * 
+     *
      * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
     function _show_create($handler_id, &$data)
     {
-        midgard_admin_asgard_plugin::asgard_header();        
+        midgard_admin_asgard_plugin::asgard_header();
         $data['group'] =& $this->_group;
         $data['controller'] =& $this->_controller;
         midcom_show_style('midcom-admin-user-group-create');
-        
+
         midgard_admin_asgard_plugin::asgard_footer();
     }
 }

@@ -24,11 +24,6 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         $this->_component = 'midcom.helper.activitystream';
     }
 
-    function _on_initialize()
-    {
-        return true;
-    }
-
     function _on_watched_operation($operation, &$object)
     {
         debug_push_class($object, __FUNCTION__);
@@ -78,20 +73,20 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         {
             $activity->summary = $object->_rcs_message;
         }
-        
+
         if ($_MIDCOM->auth->user)
         {
             $actor = $_MIDCOM->auth->user->get_storage();
             $activity->actor = $actor->id;
         }
-        
+
         $activity->application = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
 
         if ($activity->create())
         {
             $handled_targets["{$activity->target}_{$activity->actor}"] = true;
         }
-        
+
         $_MIDCOM->auth->drop_sudo();
         debug_pop();
     }

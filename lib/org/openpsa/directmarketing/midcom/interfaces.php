@@ -34,11 +34,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         );
     }
 
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Test case for the AT service
      * @param array $args handler arguments

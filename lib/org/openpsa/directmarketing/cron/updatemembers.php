@@ -13,11 +13,6 @@
  */
 class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Loads all (not-archived) smart campaigns and schedules a separate background update for each
      */

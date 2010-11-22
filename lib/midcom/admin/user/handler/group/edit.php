@@ -44,7 +44,6 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         );
 
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
-
     }
 
     function _update_breadcrumb()

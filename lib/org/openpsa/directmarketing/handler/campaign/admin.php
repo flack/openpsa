@@ -76,13 +76,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     }
 
     /**
-     * Maps the content topic from the request data to local member variables.
-     */
-    function _on_initialize()
-    {
-    }
-
-    /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.

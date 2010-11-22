@@ -25,7 +25,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         );
     }
 
-
     function _on_initialize()
     {
         //With the plentyness of typecasting around any other numeric locale calls for trouble with floats

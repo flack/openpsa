@@ -14,11 +14,6 @@
  */
 class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
-    {
-        return true;
-    }
-
     /**
      * Find all old entries and delete them.
      */
@@ -39,10 +34,10 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
             debug_pop();
             return;
         }
-        
+
         $cleanup = new org_openpsa_directmarketing_cleanup();
         $cleanup->delete();
-        
+
         $_MIDCOM->auth->drop_sudo();
 
         debug_add('Done');

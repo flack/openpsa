@@ -17,19 +17,12 @@
  */
 class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_handler
 {
-
     /**
      * Simple default constructor.
      */
     function __construct()
     {
         parent::__construct();
-    }
-    /**
-     * _on_initialize is called by midcom on creation of the handler.
-     */
-    function _on_initialize()
-    {
     }
 
     /**
