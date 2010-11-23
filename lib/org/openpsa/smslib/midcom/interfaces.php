@@ -12,8 +12,6 @@ class org_openpsa_smslib_interface extends midcom_baseclasses_components_interfa
 {
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'org.openpsa.smslib';
         $this->_autoload_files = array
         (
@@ -25,6 +23,4 @@ class org_openpsa_smslib_interface extends midcom_baseclasses_components_interfa
         );
     }
 }
-
-
 ?>

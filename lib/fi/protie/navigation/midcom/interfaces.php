@@ -18,8 +18,6 @@ class fi_protie_navigation_interface extends midcom_baseclasses_components_inter
 {
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'fi.protie.navigation';
     }
 }

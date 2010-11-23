@@ -13,11 +13,8 @@
  */
 class org_openpsa_documents_interface extends midcom_baseclasses_components_interface
 {
-
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'org.openpsa.documents';
         $this->_autoload_files = array();
         $this->_autoload_libraries = array

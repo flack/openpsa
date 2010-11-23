@@ -15,8 +15,6 @@ class de_bitfolge_feedcreator_interface extends midcom_baseclasses_components_in
 {
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'de.bitfolge.feedcreator';
         $this->_autoload_files = Array('feedcreator.php');
     }

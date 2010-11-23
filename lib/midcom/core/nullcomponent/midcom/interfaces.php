@@ -20,7 +20,6 @@ class midcom_core_nullcomponent_interface extends midcom_baseclasses_components_
      */
     function __construct()
     {
-        parent::__construct();
         $this->_component = 'midcom.core.nullcomponent';
 
         // Load all mandatory class files of the component here

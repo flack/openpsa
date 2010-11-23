@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_campaign_message_receipt_dba extends midcom_co
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
-        return parent::__construct($id);
+        parent::__construct($id);
     }
 
     static function new_query_builder()

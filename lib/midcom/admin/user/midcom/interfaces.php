@@ -16,8 +16,6 @@ class midcom_admin_user_interface extends midcom_baseclasses_components_interfac
 {
     function __construct() 
     {
-        parent::__construct();
-
         $this->_component = 'midcom.admin.user';
         
         $this->_autoload_libraries = array

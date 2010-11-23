@@ -15,8 +15,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 {
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'org.openpsa.directmarketing';
         $this->_autoload_files = array
         (

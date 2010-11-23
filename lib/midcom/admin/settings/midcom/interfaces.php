@@ -10,8 +10,6 @@ class midcom_admin_settings_interface extends midcom_baseclasses_components_inte
 {
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'midcom.admin.settings';
         $this->_autoload_files = Array
         (

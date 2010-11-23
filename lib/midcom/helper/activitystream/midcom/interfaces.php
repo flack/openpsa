@@ -18,8 +18,6 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
 {
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'midcom.helper.activitystream';
     }
 

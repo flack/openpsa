@@ -17,7 +17,6 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
     public function __construct()
     {
         $this->_dba_class = 'org_openpsa_products_product_link_dba';
-        parent::__construct();
     }
     
     /**

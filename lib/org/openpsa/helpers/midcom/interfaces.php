@@ -14,8 +14,6 @@ class org_openpsa_helpers_interface extends midcom_baseclasses_components_interf
 {
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'org.openpsa.helpers';
         $this->_autoload_files = array();
     }

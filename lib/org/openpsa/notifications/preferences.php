@@ -22,7 +22,6 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
     function __construct()
     {
         $this->_component = 'org.openpsa.notifications';
-        parent::__construct();
     }
 
     /**

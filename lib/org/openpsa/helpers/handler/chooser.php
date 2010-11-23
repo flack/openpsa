@@ -80,7 +80,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      */
     private $_object = null;
 
-
     function __construct()
     {
         parent::__construct();

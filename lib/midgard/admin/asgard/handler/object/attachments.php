@@ -46,7 +46,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
-        parent::__construct();
 
         $_MIDCOM->add_link_head
         (

@@ -21,8 +21,6 @@ class midcom_helper_datamanager2_interface extends midcom_baseclasses_components
      */
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'midcom.helper.datamanager2';
     }
 }

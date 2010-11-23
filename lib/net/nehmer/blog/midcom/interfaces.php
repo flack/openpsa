@@ -21,8 +21,6 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
      */
     function __construct()
     {
-        parent::__construct();
-
         define('NET_NEHMER_BLOG_LEAFID_FEEDS', 2);
 
         $this->_component = 'net.nehmer.blog';

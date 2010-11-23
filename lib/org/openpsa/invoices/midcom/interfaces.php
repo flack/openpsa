@@ -21,8 +21,6 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
      */
     function __construct()
     {
-        parent::__construct();
-
         $this->_component = 'org.openpsa.invoices';
         $this->_autoload_files = array();
         $this->_autoload_libraries = array();

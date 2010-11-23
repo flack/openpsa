@@ -21,7 +21,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     {
         $this->_dba_class = 'org_openpsa_projects_project';
         $this->_prefix = 'project';
-        parent::__construct();
     }
     
     /**

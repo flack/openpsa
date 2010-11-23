@@ -171,13 +171,6 @@
  * <code>
  * class my_handler extends midcom_baseclasses_components_handler
  * {
- *     function my_handler()
- *     {
- *         // just call the base class constructor, avoid
- *         // additional code at this point.
- *         parent::__construct();
- *     }
- *
  *     function _on_initialize()
  *     {
  *         // Add class initialization code here, all members have

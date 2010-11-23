@@ -39,8 +39,6 @@ class net_nehmer_account_interface extends midcom_baseclasses_components_interfa
      */
     function __construct()
     {
-        parent::__construct();
-
         define ('NET_NEHMER_ACCOUNT_LEAFID_EDIT', 0);
         define ('NET_NEHMER_ACCOUNT_LEAFID_PUBLISH', 1);
         define ('NET_NEHMER_ACCOUNT_LEAFID_PASSWORD', 2);

@@ -21,7 +21,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     {
         $this->_dba_class = 'org_openpsa_projects_task_dba';
         $this->_prefix = 'task';
-        parent::__construct();
     }
 
     public function _load_object($handler_id, $args, &$data)

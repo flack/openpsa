@@ -128,8 +128,6 @@
  * {
  *     function __construct()
  *     {
- *         parent::__construct();
- *
  *         $this->_component = 'net.nehmer.static';
  *         $this->_autoload_files = Array('my_special_mgd_schema_class.php');
  *         $this->_autoload_libraries = Array('midcom.helper.datamanager2');
@@ -302,14 +300,6 @@ abstract class midcom_baseclasses_components_interface
     var $_manifest = null;
 
     // END OF COMPONENT STATE VARIABLES
-
-    /**
-     * Initialize the class, nothing to do yet.
-     */
-    public function __construct()
-    {
-        // Nothing to do yet.
-    }
 
     // ===================== INITIALIZATION (startup) INTERFACE ======================
 

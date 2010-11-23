@@ -20,7 +20,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
      */
     function __construct()
     {
-        parent::__construct();
         $this->_component = 'org.openpsa.expenses';
 
         // Load all mandatory class files of the component here

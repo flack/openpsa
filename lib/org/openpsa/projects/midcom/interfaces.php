@@ -15,7 +15,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 {
     function __construct()
     {
-        parent::__construct();
         $this->_component = 'org.openpsa.projects';
         $this->_autoload_files = array();
         $this->_autoload_libraries = array

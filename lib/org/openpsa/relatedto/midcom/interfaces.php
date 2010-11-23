@@ -17,7 +17,6 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
 {
     function __construct()
     {
-        parent::__construct();
         $this->_component = 'org.openpsa.relatedto';
         $this->_autoload_files = array('dba.php');
     }
