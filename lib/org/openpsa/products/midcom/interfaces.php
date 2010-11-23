@@ -19,7 +19,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
     function __construct()
     {
         $this->_component = 'org.openpsa.products';
-        $this->_autoload_libraries = array();
     }
 
     function _on_initialize()

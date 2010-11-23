@@ -20,5 +20,4 @@ class org_openpsa_mail_interface extends midcom_baseclasses_components_interface
         $this->_component = 'org.openpsa.mail';
     }
 }
-
 ?>

@@ -25,10 +25,6 @@ class midcom_helper_search_interface extends midcom_baseclasses_components_inter
     function __construct()
     {
         $this->_component = 'midcom.helper.search';
-        $this->_autoload_files = array();
-        $this->_autoload_libraries = Array();
     }
-    
 }
-
 ?>

@@ -16,12 +16,10 @@ class org_openpsa_jabber_interface extends midcom_baseclasses_components_interfa
     function __construct()
     {
         $this->_component = 'org.openpsa.jabber';
-        $this->_autoload_files = array();
         $this->_autoload_libraries = array
         (
             'org.openpsa.core',
         );
-
     }
 }
 ?>

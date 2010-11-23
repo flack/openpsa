@@ -14,7 +14,6 @@ class midcom_helper_imagepopup_interface extends midcom_baseclasses_components_i
     function __construct()
     {
         $this->_component = 'midcom.helper.imagepopup';
-        $this->_autoload_files = Array();
         $this->_autoload_libraries = array
         (
             'midcom.helper.datamanager2',

@@ -21,9 +21,6 @@ class midcom_helper_reflector_interface extends midcom_baseclasses_components_in
     function __construct()
     {
         $this->_component = 'midcom.helper.reflector';
-
-        // Load all mandatory class files of the component here
-        $this->_autoload_files = array();
     }
 }
 ?>
