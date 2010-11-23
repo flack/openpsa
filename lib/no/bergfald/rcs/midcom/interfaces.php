@@ -11,7 +11,6 @@ class no_bergfald_rcs_interface extends midcom_baseclasses_components_interface
 {
     function __construct()
     {
-        $this->_component = 'no.bergfald.rcs';
         $this->_autoload_libraries = array
         (
             'midcom.helper.xml',

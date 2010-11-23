@@ -128,7 +128,6 @@
  * {
  *     function __construct()
  *     {
- *         $this->_component = 'net.nehmer.static';
  *         $this->_autoload_files = Array('my_special_mgd_schema_class.php');
  *         $this->_autoload_libraries = Array('midcom.helper.datamanager2');
  *     }
@@ -315,10 +314,11 @@ abstract class midcom_baseclasses_components_interface
      * @return boolean Indicating successful initialization.
      * @see _on_initialize()
      */
-    public function initialize()
+    public function initialize($component)
     {
         // Preparation
         $loader = $_MIDCOM->get_component_loader();
+        $this->_component = $component;
         $this->_component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($this->_component);
         $this->_manifest = $_MIDCOM->componentloader->manifests[$this->_component];
 

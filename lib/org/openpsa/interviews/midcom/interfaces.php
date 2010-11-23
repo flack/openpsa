@@ -21,7 +21,6 @@ class org_openpsa_interviews_interface extends midcom_baseclasses_components_int
      */
     function __construct()
     {
-        $this->_component = 'org.openpsa.interviews';
         $this->_autoload_libraries = array
         (
             'midcom.helper.datamanager2',

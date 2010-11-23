@@ -16,11 +16,6 @@
  */
 class midcom_helper_activitystream_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
-    {
-        $this->_component = 'midcom.helper.activitystream';
-    }
-
     function _on_watched_operation($operation, &$object)
     {
         debug_push_class($object, __FUNCTION__);

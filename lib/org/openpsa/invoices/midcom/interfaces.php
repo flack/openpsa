@@ -14,16 +14,6 @@
  */
 class org_openpsa_invoices_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    function __construct()
-    {
-        $this->_component = 'org.openpsa.invoices';
-    }
-
     function _on_resolve_permalink($topic, $config, $guid)
     {
         $invoice = new org_openpsa_invoices_invoice_dba($guid);

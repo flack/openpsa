@@ -12,10 +12,5 @@
  */
 class org_openpsa_helpers_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
-    {
-        $this->_component = 'org.openpsa.helpers';
-    }
 }
-
 ?>

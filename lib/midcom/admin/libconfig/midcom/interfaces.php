@@ -14,14 +14,5 @@
  */
 class midcom_admin_libconfig_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Constructor.
-     *
-     * Nothing needs to be done, besides connecting to the parent class constructor.
-     */
-    function __construct()
-    {
-        $this->_component = 'midcom.admin.libconfig';
-    }
 }
 ?>

@@ -21,7 +21,6 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
      */
     function __construct()
     {
-        $this->_component = 'net.nemein.wiki';
         $this->_autoload_libraries = array
         (
             'midcom.helper.datamanager2',

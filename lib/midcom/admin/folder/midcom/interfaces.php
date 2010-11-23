@@ -19,8 +19,6 @@ class midcom_admin_folder_interface extends midcom_baseclasses_components_interf
      */
     function __construct()
     {
-        $this->_component = 'midcom.admin.folder';
-
         $this->_autoload_libraries = array
         (
             'midcom.admin.help',

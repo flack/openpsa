@@ -303,7 +303,7 @@ class midcom_helper__componentloader
         }
 
         $init_class =& $this->_interface_classes[$path];
-        if ($init_class->initialize(false) == false)
+        if ($init_class->initialize($path) == false)
         {
             debug_push_class(__CLASS__, __FUNCTION__);
             $GLOBALS['midcom_errstr'] = "Initialize of Component {$path} failed.";

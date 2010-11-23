@@ -17,14 +17,6 @@
 class org_openpsa_contactwidget_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Initializes the library and loads needed files
-     */
-    function __construct()
-    {
-        $this->_component = 'org.openpsa.contactwidget';
-    }
-
-    /**
      * Adds the default hCard rendering CSS rule to HTML inclusion list
      */
     function _on_initialize()

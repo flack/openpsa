@@ -62,8 +62,6 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
         define ('MIDCOM_SERVICES_AT_STATUS_SCHEDULED', 100);
         define ('MIDCOM_SERVICES_AT_STATUS_RUNNING', 110);
         define ('MIDCOM_SERVICES_AT_STATUS_FAILED', 120);
-
-        $this->_component = 'midcom.services.at';
     }
     
     /**

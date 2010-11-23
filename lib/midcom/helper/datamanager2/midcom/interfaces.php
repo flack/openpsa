@@ -14,14 +14,5 @@
  */
 class midcom_helper_datamanager2_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all core script files
-     */
-    function __construct()
-    {
-        $this->_component = 'midcom.helper.datamanager2';
-    }
 }
 ?>

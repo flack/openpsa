@@ -14,16 +14,6 @@
 class net_nemein_tag_interface extends midcom_baseclasses_components_interface
 {
     /**
-     * Constructor.
-     *
-     * Nothing fancy, loads all script files and the datamanager library.
-     */
-    function __construct()
-    {
-        $this->_component = 'net.nemein.tag';
-    }
-
-    /**
      * Ensure tag links pointing to an object are deleted when the object is
      */
     function _on_watched_dba_delete($object)

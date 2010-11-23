@@ -15,7 +15,6 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
 {
     function __construct()
     {
-        $this->_component = 'org.openpsa.documents';
         $this->_autoload_libraries = array
         (
             'org.openpsa.core',

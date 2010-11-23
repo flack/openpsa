@@ -16,12 +16,5 @@
  */
 class org_openpsa_notifications_interface extends midcom_baseclasses_components_interface
 {
-    /**
-     * Initializes the library and loads needed files
-     */
-    function __construct()
-    {
-        $this->_component = 'org.openpsa.notifications';
-    }
 }
 ?>

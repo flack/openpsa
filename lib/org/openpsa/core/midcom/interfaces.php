@@ -14,11 +14,6 @@
  */
 class org_openpsa_core_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
-    {
-        $this->_component = 'org.openpsa.core';
-    }
-
     function _on_initialize()
     {
         $this->define_constants();

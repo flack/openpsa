@@ -12,7 +12,6 @@ class org_openpsa_smslib_interface extends midcom_baseclasses_components_interfa
 {
     function __construct()
     {
-        $this->_component = 'org.openpsa.smslib';
         $this->_autoload_files = array
         (
             'factory.php',
