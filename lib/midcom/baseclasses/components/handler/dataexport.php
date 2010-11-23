@@ -12,7 +12,7 @@
  *
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasses_components_handler
+abstract class midcom_baseclasses_components_handler_dataexport extends midcom_baseclasses_components_handler
 {
     /**
      * The Datamanager of the objects to export.

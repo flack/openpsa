@@ -197,7 +197,7 @@
  * @todo Document class parameters
  */
 
-class midcom_baseclasses_components_interface
+abstract class midcom_baseclasses_components_interface
 {
     // START OF CONFIGURATION VARIABLES
     /**#@+

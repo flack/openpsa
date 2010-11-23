@@ -288,7 +288,7 @@
  *
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_components_request extends midcom_baseclasses_core_object
+abstract class midcom_baseclasses_components_request extends midcom_baseclasses_core_object
 {
     /**#@+
      * Request state variable, set during startup. There should be no need to change it

@@ -18,7 +18,7 @@
  *
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_components_purecode
+abstract class midcom_baseclasses_components_purecode
 {
     /**
      * The current configuration, possibly modified by the _load_topic_configuration

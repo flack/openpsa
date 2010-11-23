@@ -20,7 +20,7 @@
  * @package midcom.baseclasses
  */
 
-class midcom_baseclasses_components_navigation
+abstract class midcom_baseclasses_components_navigation
 {
     /**#@+
      * Component state variable, set during startup. There should be no need to change it

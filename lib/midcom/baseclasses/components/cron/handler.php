@@ -20,7 +20,7 @@
  * @see midcom_services_cron
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_components_cron_handler
+abstract class midcom_baseclasses_components_cron_handler
 {
     /**
      * The local handler configuration as written in the Component Manifest.

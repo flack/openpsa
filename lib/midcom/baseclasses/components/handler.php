@@ -35,7 +35,7 @@
  *
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_components_handler
+abstract class midcom_baseclasses_components_handler
 {
     /**#@+
      * Request state variable, set during startup. There should be no need to change it
