@@ -10,9 +10,7 @@
 /**
  * Baseclass to use for the component interface in MIDCOM.
  *
- * The interface presented here supersedes all original component interface
- * classes (COMPONENT, CONTENTADMIN, MIDCOM and NAP). The class uses an event
- * based approach for subclasses to influence the default behavior.
+ * The class uses an event based approach for subclasses to influence the default behavior.
  *
  * The actual implementation should be enough for most smaller components, as
  * the classes behavior is widely configurable. You should not override any of
@@ -469,7 +467,7 @@ abstract class midcom_baseclasses_components_interface
         return $data;
     }
 
-    // ===================== COMPONENT (on-site) and CONTENTADM INTERFACE ======================
+    // ===================== COMPONENT INTERFACE ======================
 
     /**
      * This variable holds the context-specific data during processing.

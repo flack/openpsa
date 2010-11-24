@@ -216,14 +216,14 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
         if (!self::_delete_children($this->_topic))
         {
-            $this->_contentadm->msg = 'Error: Could not delete Folder contents: ' . midcom_connection::get_error_string();
+            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder contents: %s'), midcom_connection::get_error_string()), 'error');
             return false;
         }
 
         if (!$this->_topic->delete())
         {
             debug_add("Could not delete Folder {$this->_topic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            $this->_contentadm->msg = 'Error: Could not delete Folder contents: ' . midcom_connection::get_error_string();
+            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not delete folder: %s'), midcom_connection::get_error_string()), 'error');
             return false;
         }
 
