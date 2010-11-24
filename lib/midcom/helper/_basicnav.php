@@ -196,12 +196,6 @@ class midcom_helper__basicnav
      * known good node will be used instead for the current node.
      *
      * The constructor retrieves all initialization data from the component context.
-     * A special process is used, if the context in question is of the type
-     * MIDCOM_REQUEST_CONTENTADM: The system then goes into Administration Mode,
-     * querying the components for the administrative data instead of their regular
-     * data. In addition, the root topic is set to the administrated topic instead
-     * of the regular root topic. This way you can build up Admin Interface
-     * Navigation for "external" trees.
      *
      * @param int $context    The Context ID for which to create NAP data for, defaults to 0
      */

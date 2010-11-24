@@ -52,7 +52,6 @@ define ('MIDCOM_NAV_SORTABLE', 26);
  */
 define ('MIDCOM_CONTEXT_ANCHORPREFIX',0);
 define ('MIDCOM_CONTEXT_SUBSTYLE',1);
-define ('MIDCOM_CONTEXT_REQUESTTYPE',2);
 define ('MIDCOM_CONTEXT_ROOTTOPIC',3);
 define ('MIDCOM_CONTEXT_CONTENTTOPIC',4);
 define ('MIDCOM_CONTEXT_COMPONENT',6);
@@ -103,14 +102,6 @@ define ('MIDCOM_CLIENT_NETSCAPE',3);
 define ('MIDCOM_CLIENT_UNIX',10);
 define ('MIDCOM_CLIENT_MAC',11);
 define ('MIDCOM_CLIENT_WIN',12);
-/**#@-*/
-
-/**#@+
- * Request Types
- */
-define ('MIDCOM_REQUEST_CONTENT',0);
-define ('MIDCOM_REQUEST_CONTENTADM',1);
-define ('MIDCOM_REQUEST_COMPONENTADM',2);
 /**#@-*/
 
 /**#@+

@@ -525,23 +525,13 @@ class midcom_application
      * <b>Important Note</b> As with the Midgard Parser, dynamic_load strips a
      * trailing .html from the argument list before actually parsing it.
      *
-     * Under MIDCOM_REQUEST_CONTENT it tries to load the component referenced with
-     * the URL $url and executes it as if it was used as primary component.
-     * Additional configuration parameters can be appended through the parameter
-     * $config.
+     * It tries to load the component referenced with the URL $url and executes 
+     * it as if it was used as primary component. Additional configuration parameters
+     * can be appended through the parameter $config.
      *
      * This is only possible if the system is in the Page-Style output phase. It
      * cannot be used within code-init or during the output phase of another
      * component.
-     *
-     * Setting MIDCOM_REQUEST_CONTENTADM loads the content administration interface
-     * of the component. The semantics is the same as for any other MidCOM run with
-     * the following exceptions:
-     *
-     * - This function can (and usually will be) called during the content output phase
-     *   of the system.
-     * - A call to generate_error will result in a regular error page output if
-     *   we still are in the code-init phase.
      *
      * Example code, executed on a sites Homepage, it will load the news listing from
      * the given URL and display it using a substyle of the node style that is assigned
@@ -591,10 +581,9 @@ class midcom_application
      *
      * @param string $url                The URL, relative to the Midgard Page, that is to be requested.
      * @param Array $config              A key=>value array with any configuration overrides.
-     * @param int $type                  Request type (by default MIDCOM_REQUEST_CONTENT)
      * @return int                       The ID of the newly created context.
      */
-    public function dynamic_load($url, $config = array(), $type = MIDCOM_REQUEST_CONTENT, $pass_get = false)
+    public function dynamic_load($url, $config = array(), $pass_get = false)
     {
         debug_push_class(__CLASS__, __FUNCTION__);
 
@@ -605,8 +594,7 @@ class midcom_application
             $url = substr($url, 0, -5);
         }
 
-        if (   $type == MIDCOM_REQUEST_CONTENT
-            && $this->_status < MIDCOM_STATUS_CONTENT)
+        if ($this->_status < MIDCOM_STATUS_CONTENT)
         {
             debug_add("dynamic_load content request called before content output phase. Aborting.", MIDCOM_LOG_ERROR);
             debug_pop();
@@ -669,21 +657,13 @@ class midcom_application
         // Start another buffer for caching DL results
         ob_start();
 
-        // If MIDCOM_REQUEST_CONTENT: Tell Style to enter Context
-        if ($type == MIDCOM_REQUEST_CONTENT)
-        {
-            $this->style->enter_context($context);
-            debug_add("Entering Context $context (old Context: $oldcontext)", MIDCOM_LOG_DEBUG);
-        }
+        $this->style->enter_context($context);
+        debug_add("Entering Context $context (old Context: $oldcontext)", MIDCOM_LOG_DEBUG);
 
         $this->_output();
 
-        // If MIDCOM_REQUEST_CONTENT: Tell Style to leave Context
-        if ($type == MIDCOM_REQUEST_CONTENT)
-        {
-            $this->style->leave_context();
-            debug_add("Leaving Context $context (new Context: $oldcontext)", MIDCOM_LOG_DEBUG);
-        }
+        $this->style->leave_context();
+        debug_add("Leaving Context $context (new Context: $oldcontext)", MIDCOM_LOG_DEBUG);
 
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
@@ -1066,12 +1046,6 @@ class midcom_application
 
         $path = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
 
-        if ($this->get_context_data(MIDCOM_CONTEXT_REQUESTTYPE) != MIDCOM_REQUEST_CONTENT)
-        {
-            debug_add("Unknown Request Type encountered:" . $this->_context[$this->current_context][MIDCOM_CONTEXT_REQUESTTYPE], MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRCRIT, "Unknown Request Type encountered:"  . $this->_context[$this->current_context][MIDCOM_CONTEXT_REQUESTTYPE]);
-        }
-
         $handler = $this->componentloader->get_interface_class($path);
 
         $this->_set_context_data($this->_parsers[$this->_currentcontext]->get_current_object(), MIDCOM_CONTEXT_CONTENTTOPIC);
@@ -1125,15 +1099,6 @@ class midcom_application
     private function _can_handle($object)
     {
         $path = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
-
-        // Request type safety check
-        if ($this->_context[$this->_currentcontext][MIDCOM_CONTEXT_REQUESTTYPE] != MIDCOM_REQUEST_CONTENT)
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Unknown Request Type encountered:" . $this->_context[$this->current_context][MIDCOM_CONTEXT_REQUESTTYPE], MIDCOM_LOG_ERROR);
-            debug_pop();
-            $this->generate_error(MIDCOM_ERRCRIT, "Unknown Request Type encountered:" . $this->_context[$this->current_context][MIDCOM_CONTEXT_REQUESTTYPE]);
-        }
 
         // Get component interface class
         $component_interface = $this->componentloader->get_interface_class($path);
@@ -1222,14 +1187,6 @@ class midcom_application
             midcom_show_style('style-init');
         }
 
-        if ($this->get_context_data(MIDCOM_CONTEXT_REQUESTTYPE) != MIDCOM_REQUEST_CONTENT)
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Unknown Request Type encountered:" . $this->_context[$this->current_context][MIDCOM_CONTEXT_REQUESTTYPE], MIDCOM_LOG_ERROR);
-            debug_pop();
-            $this->generate_error(MIDCOM_ERRCRIT, "Unknown Request Type encountered:" . $this->_context[$this->current_context][MIDCOM_CONTEXT_REQUESTTYPE]);
-        }
-
         $component = $this->componentloader->get_interface_class($this->get_context_data(MIDCOM_CONTEXT_COMPONENT));
         $component->show_content($this->_currentcontext);
 
@@ -1244,14 +1201,7 @@ class midcom_application
             $this->_set_context_data($output, MIDCOM_CONTEXT_OUTPUT);
         }
 
-        if ($this->get_context_data(MIDCOM_CONTEXT_REQUESTTYPE) == MIDCOM_REQUEST_CONTENT)
-        {
-            ob_end_flush();
-        }
-        else
-        {
-            ob_end_clean();
-        }
+        ob_end_flush();
     }
 
     /* *************************************************************************
@@ -1887,7 +1837,6 @@ class midcom_application
         }
         $this->_context[$id] = Array();
         $this->_context[$id][MIDCOM_CONTEXT_ANCHORPREFIX] = '';
-        $this->_context[$id][MIDCOM_CONTEXT_REQUESTTYPE] = MIDCOM_REQUEST_CONTENT;
         $this->_context[$id][MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
         if (is_object($node))
         {
