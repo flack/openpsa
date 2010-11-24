@@ -300,7 +300,7 @@ class midcom_url_topic extends midcom_url_parser
 }
 /**
  * This class parses prefixes like
- * /serveattachment
+ * /serveattachmentguid
  * /midcom-substyle
  * etc
  *
@@ -324,10 +324,6 @@ class midcom_url_midcom extends midcom_url_parser {
             case "log":
                 throw new Exception('Not supported yet');
             case "serveattachmentguid":
-                $this->get_param_collector()->set_command('midcom_services_attachmentserver');
-                $this->done = true;
-                break;
-            case "serveattachment":
                 $this->get_param_collector()->set_command('midcom_services_attachmentserver');
                 $this->done = true;
                 break;

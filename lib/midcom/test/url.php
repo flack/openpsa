@@ -22,7 +22,7 @@ class UrlFactoryTest extends PHPUnit_Framework_TestCase
     }
 
     function test_paramcollector_add_config() {
-        
+
         $collector = new midcom_url_paramcollector;
         $collector->add_config('dontshow', true);
         $this->assertEquals($collector->get_config('dontshow'), true);
@@ -33,7 +33,7 @@ class UrlFactoryTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($stack->done());
         $this->assertTrue($stack->get() == false);
-    
+
         $stack = new midcom_url_urlstack(array('news', 'test'));
         $this->assertFalse($stack->done());
         $this->assertEquals($stack->get(), 'news');
@@ -46,22 +46,22 @@ class UrlFactoryTest extends PHPUnit_Framework_TestCase
     }
 
 
-   
+
 }
 // tests the different parsers that are used to parse the url.
 // format: function test_(class name (without namespacing))_(function to test)_(test_description)
 //    Example:
 //    function test_midcom_parse_variable_parse_substyle:
-//    test the substyling variant of the parse_variable function 
+//    test the substyling variant of the parse_variable function
 //    in the midcom_url_midcom class.
-// 
-class UrlParserTests extends PHPUnit_Framework_TestCase 
+//
+class UrlParserTests extends PHPUnit_Framework_TestCase
 {
-    
+
     function test_different_urls () {
-        $config = array('midcom_url_topic', 'midcom_url_midcom'); 
+        $config = array('midcom_url_topic', 'midcom_url_midcom');
         $this->urlFactory = new midcom_urlparserfactory($config);
-        $argv = array ('midcom-serveattachment', '234234324234');
+        $argv = array ('midcom-serveattachmentguid', '234234324234');
         $argv = array( 'news');
         $result = $this->urlFactory->execute($argv);
         $this->assertTrue($result instanceof midcom_command_factory);
@@ -72,7 +72,7 @@ class UrlParserTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->parser->param_collector->get_command(), 'midcom_services_cache_invalidate');
 
     }
-    function test_midcom_parse_variable_parse_substyle() 
+    function test_midcom_parse_variable_parse_substyle()
     {
         $this->make_url_parser(array('midcom-substyle-test'));
         $this->assertEquals($this->parser->param_collector->get_style(), 'test');
@@ -81,19 +81,19 @@ class UrlParserTests extends PHPUnit_Framework_TestCase
     function test_get_midcom_topic_from_db() {
        $this->fail() ;
     }
-    
+
 
     function make_url_parser($argv) {
         $this->stack = new midcom_url_urlstack($argv);
         $this->parser = new midcom_url_midcom($this->stack,new midcom_url_nullparser );
-    } 
+    }
 
 }
 
 
-class RequestTests extends PHPUnit_Framework_TestCase 
+class RequestTests extends PHPUnit_Framework_TestCase
 {
-    function setUp() 
+    function setUp()
     {
         $this->request = new midcom_request(array('test' => '', 'empty', 'next' => 'string', 'trim' => ' string '));
     }
@@ -104,7 +104,7 @@ class RequestTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->request->get('next', ''), 'string') ;
         $this->assertEquals($this->request->getTrim('trim', ''), 'string') ;
     }
-    
+
     public function test_set_get_var() {
         $this->request->set('rau', 'hau');
         $this->assertEquals($this->request->get('rau'), 'hau');
@@ -116,7 +116,7 @@ class urlfactorytests
     public static function main()
     {
     }
- 
+
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('MidCOM Core');

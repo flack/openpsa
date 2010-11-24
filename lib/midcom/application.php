@@ -44,9 +44,9 @@
  * The substyle URL switch is most useful in conjunction with
  * midcom_application::dynamic_load().
  *
- * <b>int serveattachment; GUID serveattachmentguid</b>
+ * <b>GUID serveattachmentguid</b>
  *
- * This pair of methods will serve the attachment denoted by the given ID/GUID.
+ * This method will serve the attachment denoted by the given ID/GUID.
  * It uses the default expiration time of serve_attachment (see there).
  *
  * <b>int servesnippet; GUID servesnippetguid</b>
@@ -525,7 +525,7 @@ class midcom_application
      * <b>Important Note</b> As with the Midgard Parser, dynamic_load strips a
      * trailing .html from the argument list before actually parsing it.
      *
-     * It tries to load the component referenced with the URL $url and executes 
+     * It tries to load the component referenced with the URL $url and executes
      * it as if it was used as primary component. Additional configuration parameters
      * can be appended through the parameter $config.
      *
@@ -771,7 +771,6 @@ class midcom_application
                         break;
 
                     case 'serveattachmentguid':
-                    case 'serveattachment':
                         if ($this->_parsers[$this->_currentcontext]->argc > 1)
                         {
                             debug_push_class(__CLASS__, __FUNCTION__);

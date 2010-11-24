@@ -204,7 +204,7 @@
  * - <i>midgard:attachments</i> is analogous to midgard:parameters but covers attachments instead
  *   and is also granted by default.
  * - <i>midgard:autoserve_attachment</i> controls, whether an attachment may be autoserved using
- *   the midcom-serveattachment handler. This is granted by default, allowing every attachment
+ *   the midcom-serveattachmentguid handler. This is granted by default, allowing every attachment
  *   to be served using the default URL methods. Denying this right allows component authors to
  *   build more sophisticated access control restrictions to attachments.
  * - <i>midgard:privileges</i> allows the user to change the permissions on the objects they are

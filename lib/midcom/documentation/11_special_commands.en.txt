@@ -16,9 +16,9 @@ it will serve as a basis for all component-side style switching operations.
 The substyle URL switch is most useful in conjunction with
 midcom_application::dynamic_load().
 
-<b>int serveattachment; GUID serveattachmentguid</b>
+<b>GUID serveattachmentguid</b>
 
-This pair of methods will serve the attachment denoted by the given ID/GUID.
+This method will serve the attachment denoted by the given ID/GUID.
 It uses the default expiration time of serve_attachment (see there).
 
 <b>int servesnippet; GUID servesnippetguid</b>
