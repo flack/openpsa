@@ -22,12 +22,10 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     var $_global_server = false;
 
     /**
-     * Constructor.
+     * Populate request switch, which contains URL handlers for the component.
      */
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
 
@@ -50,8 +48,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         (
             'handler' => 'frontpage'
         );
-
-        return true;
     }
 
     function _populate_toolbar()

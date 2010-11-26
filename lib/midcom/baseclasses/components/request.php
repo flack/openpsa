@@ -18,7 +18,7 @@
  * <b>Request switch configuration</b>
  *
  * The class uses an array which aids in URL-to-function mapping. Handlers are distinguished
- * by the "URL-space" they handle. For each handler two functions are needed, one for the
+ * by the "URL-space" they handle. For each handler three functions are needed, one for the
  * request handle decision ("Can Handle Phase"), one for the
  * request handling ("Handle Phase") and one for output ("Output Phase"). These handlers can
  * either be contained in this class or refer to another class which gets instantiated, if
@@ -376,7 +376,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @var array
      */
-    public static $_plugin_namespace_config = Array();
+    private static $_plugin_namespace_config = Array();
 
     /**#@-*/
 
@@ -409,26 +409,17 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public $_handler = null;
 
-    /**
-     * The url to the css file to be added when onsite toolbars are shown.
-     * @var string
-     * @access public
-     */
-    public $_onsite_toolbar_css = null;
-
     /**#@-*/
 
     /**
-     * Initializes the class, only basic variable assignment. Your own constructor
-     * should call this function first.
+     * Initializes the class, only basic variable assignment.
      *
-     * Note, that it is recommended to put all further initialization work into
-     * the _on_initialize event handler.
+     * Put all further initialization work into the _on_initialize event handler.
      *
      * @param midgard_topic $topic The topic we are working on
      * @param midcom_helper_configuration $config The currently active configuration.
      */
-    public function __construct($topic, $config)
+    final public function __construct($topic, $config)
     {
         if (! $_MIDCOM->dbclassloader->is_midcom_db_object($topic))
         {
@@ -440,7 +431,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         }
         $this->_config = $config;
     }
-
 
     /**
      * Initializes the request handler class, called by the component interface after
@@ -696,7 +686,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         if (is_string($this->_handler['handler'][0]))
         {
             $classname = $this->_handler['handler'][0];
-            if (! $this->_verify_handler_class($classname))
+            if (! class_exists($classname))
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     "Failed to create a class instance of the type {$classname}, the class is not declared.");
@@ -715,44 +705,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             $_MIDCOM->_set_context_data($this->_handler['id'], MIDCOM_CONTEXT_HANDLERID);
         }
-    }
-
-    /**
-     * This is a helper function used during handler startup. It ensures that handler class is
-     * loaded. It has auto-class-loading support, which allows the component author to have
-     * the handler classes only loaded on demand (see class introduction).
-     *
-     * @param string $classname The name of the handler to validate.
-     * @return boolean Indicating success.
-     */
-    public function _verify_handler_class($classname)
-    {
-        if (class_exists($classname))
-        {
-            return true;
-        }
-
-        // Try auto-load.
-        $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $classname) . '.php';
-        if (! file_exists($path))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Auto-loading of the class {$classname} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-            debug_pop();
-            return false;
-        }
-
-        require_once($path);
-        if (! class_exists($classname))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add("Failed to load the handler {$classname} from file {$path}: Handler class is not declared.", MIDCOM_LOG_ERROR);
-            debug_pop();
-            return false;
-        }
-
-        return true;
-
     }
 
     /**

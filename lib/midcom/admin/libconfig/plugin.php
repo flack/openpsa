@@ -16,16 +16,6 @@
 class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_request
 {
     /**
-     * Constructor. This probably isn't called in normal plugin users.
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
      * Baseclasses Components (midcom.baseclasses.components.request)
      *

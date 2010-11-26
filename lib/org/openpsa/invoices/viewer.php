@@ -14,16 +14,13 @@
  */
 class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Match /
         $this->_request_switch['dashboard'] = array
         (
             'handler' => Array('org_openpsa_invoices_handler_list', 'dashboard'),
         );
-
 
         // Match /projects/
         $this->_request_switch['list_projects_uninvoiced'] = array
@@ -171,3 +168,4 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         return parent::_on_handle($handler, $args);
     }
 }
+?>

@@ -19,10 +19,8 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
     /**
      * Constructor.
      */
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Match /document/create/choosefolder
         $this->_request_switch['document-create-choosefolder'] = array
         (
@@ -106,7 +104,6 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
         (
             'handler' => array('org_openpsa_documents_handler_directory_view', 'view'),
         );
-
     }
 
     function _on_handle($handler, $args)
@@ -117,7 +114,6 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
 
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-
 
         org_openpsa_core_ui::enable_jqgrid();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');

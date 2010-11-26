@@ -16,14 +16,6 @@
  */
 class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 {
-    /**
-     * Constructor.
-     */
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     function _on_initialize()
     {
         $components = org_openpsa_reports_viewer::available_component_generators();
@@ -31,7 +23,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         {
             $parts = explode('.', $component);
             $last = array_pop($parts);
-            
+
             // Match /xxx/get
             $this->_request_switch["{$last}_report_get"] = array
             (
@@ -87,14 +79,11 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
             'handler'       => 'delete_report',
         );
 
-
         // Match /
         $this->_request_switch['frontpage'] = array
         (
             'handler' => 'frontpage'
         );
-
-        return true;
     }
 
     function _on_handle($handler, $args)

@@ -16,11 +16,6 @@
  */
 class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     function _on_initialize()
     {
         // Generic and personal welcome pages
@@ -53,9 +48,8 @@ class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
             'fixed_args' => Array('request'),
             'variable_args' => 1,
         );
-
     }
-    
+
     /**
      * The handle callback populates the toolbars.
      */
@@ -75,7 +69,7 @@ class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
             $_MIDCOM->auth->require_valid_user();
             $this->_request_data['user'] = $_MIDCOM->auth->user;
         }
-        
+
         return true;
     }
 }

@@ -14,10 +14,8 @@
  */
 class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Match /delete/<wikipage>
         $this->_request_switch[] = array
         (
@@ -72,7 +70,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             'variable_args' => 1,
             'handler' => Array('net_nemein_wiki_handler_create', 'create'),
         );
-        
+
         // Match /tags/<tag>
         $this->_request_switch[] = array
         (

@@ -13,11 +13,6 @@
  */
 class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     /**
      * Initialize the request switch and the content topic.
      *
@@ -392,7 +387,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
             'handler' => Array('org_openpsa_products_handler_group_list', 'list'),
             'variable_args' => 2,
         );
-
     }
 
     /**

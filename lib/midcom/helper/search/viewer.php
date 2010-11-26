@@ -18,14 +18,10 @@
 class midcom_helper_search_viewer extends midcom_baseclasses_components_request
 {
     /**
-     * Constructor.
-     *
      * Nothing fancy, defines the request switch.
      */
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Default search form, no args, Basic search from
         $this->_request_switch['basic'] = array
         (

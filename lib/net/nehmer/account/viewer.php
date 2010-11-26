@@ -302,9 +302,9 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             );
         }
 
-    // VIEW LINK: Same as /view/, but this one leaves out /view/.
-    // This provides clean urls like /profile/myname
-    // Account names like 'edit', 'admin' etc. won't work of course.
+        // VIEW LINK: Same as /view/, but this one leaves out /view/.
+        // This provides clean urls like /profile/myname
+        // Account names like 'edit', 'admin' etc. won't work of course.
         if ($this->_config->get('allow_by_username_only'))
         {
             $this->_request_switch['other_direct'] = Array

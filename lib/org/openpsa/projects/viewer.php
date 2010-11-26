@@ -14,14 +14,6 @@
  */
 class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
 {
-    /**
-     * Constructor.
-     */
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     function _on_initialize()
     {
 
@@ -189,8 +181,6 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
         (
             'handler' => array('org_openpsa_projects_handler_frontpage', 'frontpage'),
         );
-
-        //If you need any custom switches add them here
     }
 
     function _on_handle($handler, $args)
@@ -223,7 +213,7 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
                 'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
             )
         );
-        
+
         return parent::_on_handle($handler, $args);
     }
 

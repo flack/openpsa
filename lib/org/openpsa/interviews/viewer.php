@@ -14,10 +14,8 @@
  */
 class org_openpsa_interviews_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Match /
         $this->_request_switch[] = array
         (
@@ -57,3 +55,4 @@ class org_openpsa_interviews_viewer extends midcom_baseclasses_components_reques
         );
     }
 }
+?>

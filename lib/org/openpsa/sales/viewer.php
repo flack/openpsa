@@ -14,10 +14,8 @@
  */
 class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Match /list/<status>
         $this->_request_switch['list_status'] = array
         (

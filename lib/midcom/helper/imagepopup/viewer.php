@@ -13,11 +13,6 @@
  */
 class midcom_helper_imagepopup_viewer extends midcom_baseclasses_components_request
 {
-    function __construct()
-    {
-        parent::__construct();
-    }
-
     function get_plugin_handlers()
     {
         $_MIDCOM->load_library('midcom.helper.imagepopup');

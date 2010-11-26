@@ -125,7 +125,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $_MIDCOM->auth->drop_sudo();
         //create the page needed for jquery ui-tab
         $this->create_ui_page();
-        $_MIDCOM->uimessages->add($this->_i18n->get_string('org.openpsa.core'), $this->_i18n->get_string('site structure cache created'), 'info');
+        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
     }
 
     /**

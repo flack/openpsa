@@ -15,14 +15,6 @@
 class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
 {
     /**
-     * Constructor. Connect to the parent class constructor
-     */
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
-    /**
      * Initialization script, which sets the request switches
      */
     function _on_initialize()

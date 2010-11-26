@@ -17,7 +17,6 @@
 class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
 {
     /**
-     * Constructor.
      *
      * OpenPSA Contacts handles its URL space following the convention:
      * - First parameter is the object type (person, group, salesproject, list)
@@ -25,17 +24,15 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
      * - Third parameter defines current view/action
      * - Additional parameters are defined by the action concerned
      */
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         // Match /duplicates/person
         $this->_request_switch['person_duplicates'] = array
         (
             'handler' => array('org_openpsa_contacts_handler_duplicates_person', 'sidebyside'),
             'fixed_args' => array('duplicates', 'person'),
         );
-        
+
         // Match /buddylist/
         $this->_request_switch['buddylist'] = array
         (
@@ -96,7 +93,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
             'fixed_args' => array('group', 'edit'),
             'variable_args' => 1,
         );
-                    
+
         // Match /group/privileges/GUID
         $this->_request_switch['group_privileges'] = array
         (
@@ -111,7 +108,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
             'fixed_args' => array('group', 'notifications'),
             'variable_args' => 1,
         );
-        
+
         // Match /group/<GUID>/<action>
         $this->_request_switch['group_action'] = array
         (
@@ -119,14 +116,14 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
             'fixed_args' => 'group',
             'variable_args' => 2,
         );
-        
+
         // Match /group/create
         $this->_request_switch['group_new'] = array
         (
             'handler' => array('org_openpsa_contacts_handler_group_create', 'create'),
             'fixed_args' => array('group', 'create'),
         );
-        
+
         // Match /group/<GUID>
         $this->_request_switch['group_view'] = array
         (
@@ -181,7 +178,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
             'fixed_args' => array('person', 'privileges'),
             'variable_args' => 1,
         );
-        
+
         // Match /account/create/GUID/
         $this->_request_switch['account_create'] = array
         (
@@ -229,7 +226,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-        
+
         if ($handler != 'buddylist_xml')
         {
             $_MIDCOM->auth->require_valid_user();

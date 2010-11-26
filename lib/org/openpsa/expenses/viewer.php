@@ -13,22 +13,13 @@
  */
 class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     /**
-     * Initialize the request switch and the content topic.
+     * Initialize the request switch, which contains URL handlers for the component
      *
      * @access protected
      */
     function _on_initialize()
     {
-        /**
-         * Prepare the request switch, which contains URL handlers for the component
-         */
-
         // Handle /hours/task/batch/
         $this->_request_switch['hours_task_action'] = array
         (

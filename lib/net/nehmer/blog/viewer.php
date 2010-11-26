@@ -23,11 +23,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      */
     var $_content_topic = null;
 
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     /**
      * Initialize the request switch and the content topic.
      *
@@ -147,7 +142,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             (
                 'rss.xml',
             ),
-        );        $this->_request_switch['feed-rss1'] = Array
+        );
+        $this->_request_switch['feed-rss1'] = Array
         (
             'handler' => array
             (
@@ -158,7 +154,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             (
                 'rss1.xml',
             ),
-        );        $this->_request_switch['feed-rss091'] = Array
+        );
+        $this->_request_switch['feed-rss091'] = Array
         (
             'handler' => array
             (
@@ -169,7 +166,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             (
                 'rss091.xml',
             ),
-        );        $this->_request_switch['feed-atom'] = Array
+        );
+        $this->_request_switch['feed-atom'] = Array
         (
             'handler' => array
             (
@@ -180,7 +178,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             (
                 'atom.xml',
             ),
-        );        $this->_request_switch['feed-rsd'] = Array
+        );
+        $this->_request_switch['feed-rsd'] = Array
         (
             'handler' => array
             (
@@ -204,7 +203,8 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             (
                 'archive',
             ),
-        );        $this->_request_switch['archive-year'] = Array
+        );
+        $this->_request_switch['archive-year'] = Array
         (
             'handler' => array
             (

@@ -17,10 +17,8 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     /**
      * Constructor.
      */
-    function __construct($topic, $config)
+    function _on_initialize()
     {
-        parent::__construct($topic, $config);
-
         if (!$this->_config->get('calendar_root_event'))
         {
             // Match /

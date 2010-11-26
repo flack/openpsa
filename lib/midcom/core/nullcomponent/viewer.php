@@ -7,17 +7,12 @@
  */
 
 /**
- * This is the class that defines which URLs should be handled by this module. 
- * 
+ * This is the class that defines which URLs should be handled by this module.
+ *
  * @package midcom.core.nullcomponent
  */
 class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_request
 {
-    function __construct($topic, $config)
-    {
-        parent::__construct($topic, $config);
-    }
-
     /**
      * Initialize the request switch and the content topic.
      *
