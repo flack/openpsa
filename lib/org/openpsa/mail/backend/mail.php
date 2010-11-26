@@ -16,12 +16,10 @@ class org_openpsa_mail_backend_mail
 
     function send(&$mailclass, &$params)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->is_available())
         {
             debug_add('backend is unavailable');
             $this->error = 'Backend is unavailable';
-            debug_pop();
             return false;
         }
         $hdr = '';

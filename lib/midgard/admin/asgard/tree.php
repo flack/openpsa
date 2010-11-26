@@ -94,9 +94,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
     {
         if ($level > 25)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Recursion level 25 exceeded, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
         $siblings = midcom_helper_reflector_tree::get_child_objects($object);

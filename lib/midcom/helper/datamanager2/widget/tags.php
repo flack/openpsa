@@ -133,10 +133,8 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
     {
         if (is_a('midcom_helper_datamanager2_type_tagselect', $this->_type))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not a tagselect type or subclass thereof, you cannot use the tags widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -146,10 +144,8 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
             if (   !isset($this->_type->option_callback)
                 || empty($this->_type->option_callback))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("You must give either object to be edited or callback for action handling!",
                     MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -166,10 +162,8 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
             }
             if (empty($this->object_id))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("We didn't manage to get object_id from type! Quitting now.",
                     MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }

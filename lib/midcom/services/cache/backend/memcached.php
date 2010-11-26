@@ -123,9 +123,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
                 }
 
                 // Otherwise we just skip caching
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("memcache handler: Failed to connect to {$this->_host}:{$this->_port}. " . $e->getMessage() . ". Serving this request without cache.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 self::$memcache_operational = false;
             }
         }
@@ -187,11 +185,9 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
             return;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Calling \self::\$memcache->flush()");
         $stat = @self::$memcache->flush();
         debug_add("self::\$memcache->flush() returned " . (int) $stat);
-        debug_pop();
     }
 
     /**

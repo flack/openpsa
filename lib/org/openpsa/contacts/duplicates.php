@@ -573,10 +573,8 @@ class org_openpsa_contacts_duplicates
 
     function mark_all($output = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->mark_all_persons($output);
         $this->mark_all_groups($output);
-        debug_pop();
     }
 
     /**
@@ -584,7 +582,6 @@ class org_openpsa_contacts_duplicates
      */
     function mark_all_persons($output = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $time_start = time();
         debug_add("Called on {$time_start}");
         if ($output)
@@ -616,7 +613,6 @@ class org_openpsa_contacts_duplicates
             echo "INFO: DONE with persons. Elapsed time " . (time() - $time_start) . " seconds<br/>\n";
             flush();
         }
-        debug_pop();
     }
 
     /**
@@ -624,7 +620,6 @@ class org_openpsa_contacts_duplicates
      */
     function mark_all_groups($output = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $time_start = time();
         debug_add("Called on {$time_start}");
         if ($output)
@@ -658,7 +653,6 @@ class org_openpsa_contacts_duplicates
             echo "INFO: DONE with groups. Elapsed time: " . (time()-$time_start) ." seconds<br/>\n";
             flush();
         }
-        debug_pop();
     }
 }
 

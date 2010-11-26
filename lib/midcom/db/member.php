@@ -29,7 +29,7 @@ class midcom_db_member extends midcom_core_dbaobject
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without
      * having a this (this call is static).
-     * 
+     *
      * @static
      */
     static function new_query_builder()
@@ -62,7 +62,6 @@ class midcom_db_member extends midcom_core_dbaobject
             {
                 debug_add("Could not load Group ID {$this->gid} from the database, aborting.",
                     MIDCOM_LOG_INFO);
-                debug_pop();
                 return null;
             }
             return $parent->guid;
@@ -97,10 +96,8 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             if (!$_MIDCOM->auth->admin)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Group #0 membership creation only allowed for admins");
-                $GLOBALS['midcom_debugger']->print_function_stack('Forbidden ROOT member creation called from');
-                debug_pop();
+                debug_print_function_stack('Forbidden ROOT member creation called from');
                 return false;
             }
         }
@@ -118,10 +115,8 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             if ($_MIDCOM->auth->admin)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Group #0 membership creation only allowed for admins");
-                $GLOBALS['midcom_debugger']->print_function_stack('Forbidden ROOT member creation called from');
-                debug_pop();
+                debug_print_function_stack('Forbidden ROOT member creation called from');
                 return false;
             }
         }
@@ -132,7 +127,7 @@ class midcom_db_member extends midcom_core_dbaobject
     {
         // Disable automatic activity stream entry, we use custom here
         $this->_use_activitystream = false;
-        
+
         return parent::_on_deleting();
     }
 
@@ -144,13 +139,13 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             return parent::_on_created();
         }
-        
+
         // Create an Activity Log entry for the membership addition
         $actor = midcom_db_person::get_cached($this->uid);
         $target = midcom_db_group::get_cached($this->gid);
         $activity = new midcom_helper_activitystream_activity_dba();
         $activity->target = $target->guid;
-        $activity->actor = $actor->id;   
+        $activity->actor = $actor->id;
         $this->verb = 'http://activitystrea.ms/schema/1.0/join';
         if (   isset($_MIDCOM->auth->user)
             && isset($_MIDCOM->auth->user->guid)
@@ -180,13 +175,13 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             return parent::_on_created();
         }
-        
+
         // Create an Activity Log entry for the membership addition
         $actor = midcom_db_person::get_cached($this->uid);
         $target = midcom_db_group::get_cached($this->gid);
         $activity = new midcom_helper_activitystream_activity_dba();
         $activity->target = $target->guid;
-        $activity->actor = $actor->id;   
+        $activity->actor = $actor->id;
         $activity->verb = 'http://community-equity.org/schema/1.0/leave';
         if ($actor->guid == $_MIDCOM->auth->user->guid)
         {

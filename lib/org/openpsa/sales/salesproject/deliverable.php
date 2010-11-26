@@ -236,7 +236,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      */
     function update_units($task_id, $hours)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
         $agreement_hours = $hours;
@@ -283,7 +282,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         {
             debug_add("Agreement values are unchanged, no update necessary");
         }
-        debug_pop();
     }
 
     function invoice($sum, $generate_invoice = true)

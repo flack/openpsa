@@ -196,9 +196,7 @@ class midcom_helper_configuration
             {
                 if (! array_key_exists($key, $this->_global))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("The key {$key} is not present in the global configuration array.", MIDCOM_LOG_INFO);
-                    debug_pop();
                 }
             }
         }

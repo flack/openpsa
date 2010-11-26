@@ -295,9 +295,7 @@ class midcom_helper_nav
         $cached_result = $this->_basicnav->get_loaded_object_by_guid($guid);
         if (! is_null($cached_result))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The GUID was already known by the basicnav instance, returning the cached copy directly.', MIDCOM_LOG_INFO);
-            debug_pop();
             return $cached_result;
         }
 
@@ -308,9 +306,7 @@ class midcom_helper_nav
         if (   !$object
             || !$object->guid)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            debug_pop();
         }
 
         if (is_a($object, 'midcom_db_topic'))
@@ -319,9 +315,7 @@ class midcom_helper_nav
             // we check this and return the node if everything is ok.
             if (! $this->is_node_in_tree($object->id, $this->get_root_node()))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("NAP::resolve_guid: The Guid {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
-                debug_pop();
                 return false;
             }
             return $this->get_node($object->id);
@@ -329,19 +323,16 @@ class midcom_helper_nav
 
         if (is_a($object, 'midcom_db_article'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             // Ok, let's try to find the article using the topic in the tree.
             if (! $this->is_node_in_tree($object->topic, $this->get_root_node()))
             {
                 debug_add("NAP::resolve_guid: The Guid {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
-                debug_pop();
                 return false;
             }
 
             $topic = midcom_db_topic::get_cached($object->topic);
             if (! $topic)
             {
-                debug_pop();
                 $_MIDCOM->generate_error
                 (
                     MIDCOM_ERRCRIT,
@@ -357,13 +348,11 @@ class midcom_helper_nav
                 $leaf = $this->get_leaf($leafid);
                 if ($leaf[MIDCOM_NAV_GUID] == $guid)
                 {
-                    debug_pop();
                     return $leaf;
                 }
             }
 
             debug_add("The Article GUID {$guid} is somehow hidden from the NAP data in its topic, no results shown.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -403,14 +392,12 @@ class midcom_helper_nav
                 $leaf = $this->get_leaf($leafid);
                 if ($leaf[MIDCOM_NAV_GUID] == $guid)
                 {
-                    debug_pop();
                     return $leaf;
                 }
             }
             if ($node_is_sufficient)
             {
                 debug_add("Could not find guid in leaves (maybe not listed?), but node is sufficient, returning node");
-                debug_pop();
                 return $this->get_node($topic->id);
             }
         }
@@ -431,7 +418,6 @@ class midcom_helper_nav
                 $leaf = $this->get_leaf($leafid);
                 if ($leaf[MIDCOM_NAV_GUID] == $guid)
                 {
-                    debug_pop();
                     return $leaf;
                 }
             }
@@ -440,9 +426,7 @@ class midcom_helper_nav
             $unprocessed_node_ids = array_merge($unprocessed_node_ids, $this->list_nodes($node_id));
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("We were unable to find the GUID {$guid} in the MidCOM tree even with a full scan.",MIDCOM_LOG_INFO);
-        debug_pop();
         return false;
     }
 
@@ -534,9 +518,7 @@ class midcom_helper_nav
         {
             if ($skip_levels >= count($breadcrumb_data))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('We were asked to skip all (or even more) breadcrumb elements then there were present. Returning an empty breadcrumb line therefore.', MIDCOM_LOG_INFO);
-                debug_pop();
                 return '';
             }
             for ($i = 0; $i < $skip_levels; $i++)

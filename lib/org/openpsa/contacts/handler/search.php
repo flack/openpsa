@@ -60,9 +60,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                         $search = "{$search}%";
                         break;
                     default:
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Don't know how to handle auto_wildcards value '{$auto_wildcards}'", MIDCOM_LOG_WARN);
-                        debug_pop();
                         break;
                 }
             }

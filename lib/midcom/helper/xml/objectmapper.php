@@ -57,17 +57,13 @@ class midcom_helper_xml_objectmapper
     {
         if (!is_array($data))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Missing data cannot unserialize");
-            debug_pop();
             return false;
         }
         
         if (!is_object($object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Missing object, cannot unserialize");
-            debug_pop();
             return false;
         }
 
@@ -128,12 +124,10 @@ class midcom_helper_xml_objectmapper
     {
         if (!is_string($data))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             if (!is_string($data))
             {
                 debug_add("Missing data cannot unserialize");
             }
-            debug_pop();
             return false;
         }
 
@@ -143,10 +137,8 @@ class midcom_helper_xml_objectmapper
 
         if (!$array)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Error on parsing XML:  ".$parser->errstr);
             debug_add("Data: $data");
-            debug_pop();
             return false;
         }
         /* the xml is prefixed with either the old midcom class or the new one. We solve this
@@ -229,10 +221,8 @@ class midcom_helper_xml_objectmapper
     {
         if (!is_array($array))
         {
-            debug_push(__CLASS__, __FUNCTION__);
             debug_add("This function must get an array as its parameter not: " . gettype($array));
             $this->errstr = "This function must get an array as its parameter not: " . gettype($array);
-            debug_pop();
             return false;
         }
 
@@ -284,10 +274,8 @@ class midcom_helper_xml_objectmapper
     {
         if (!is_object($object))
         {
-            debug_push(__CLASS__, __FUNCTION__);
             debug_add("This function must get an object as its parameter not: " . gettype($object));
             $this->errstr = "This function must get an object as its parameter not: " . gettype($object);
-            debug_pop();
             return false;
         }
 

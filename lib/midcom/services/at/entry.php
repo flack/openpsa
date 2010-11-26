@@ -113,9 +113,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
             $unserRet = @unserialize($this->_fix_serialization($this->argumentsstore));
             if ($unserRet === false)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Failed to unserialize argumentsstore', MIDCOM_LOG_WARN);
-                debug_pop();
                 $this->arguments = array();
                 return;
             }

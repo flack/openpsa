@@ -91,7 +91,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("OpenPSA Calendar root event could not be found", MIDCOM_LOG_ERROR);
                 //Attempt to auto-initialize
                 $_MIDCOM->auth->request_sudo();
@@ -114,7 +113,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 {
                     $root_event = $event;
                 }
-                debug_pop();
             }
         }
         $data['calendar_root_event'] = $root_event;
@@ -127,7 +125,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $root_event = self::find_root_event();
@@ -160,7 +157,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 $indexer->index($datamanager);
             }
         }
-        debug_pop();
         return true;
     }
 
@@ -245,9 +241,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             || empty($node[MIDCOM_NAV_FULLURL])
             || empty($node[MIDCOM_NAV_CONFIGURATION]))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('given node is not valid', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         return true;
@@ -271,7 +265,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      */
     function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         switch($mode)
         {
             case 'all':
@@ -285,7 +278,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
                 break;
         }
@@ -300,7 +292,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         {
             // Some error with QB
             debug_add('QB Error', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // Transfer memberships
@@ -332,7 +323,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                     {
                         // Failure updating member
                         debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                        debug_pop();
                         return false;
                     }
                     continue;
@@ -343,7 +333,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
                 {
                     // Failure updating member
                     debug_add("Failed to update eventmember #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
             }
@@ -369,11 +358,9 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             {
                 // Failure updating metadata
                 debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
-        debug_pop();
         return true;
     }
 

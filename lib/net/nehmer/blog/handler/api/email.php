@@ -59,9 +59,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         $author = $this->_find_email_person($this->_request_data['from']);
         if (!$author)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Author '{$this->_request_data['from']}' not found", MIDCOM_LOG_WARN);
-            debug_pop();
             if ($this->_config->get('api_email_abort_authornotfound') !== false)
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Author '{$this->_request_data['from']}' not found");
@@ -91,7 +89,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             if (empty($results))
             {
                 //No users found
-                debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cannot set any author for the article');
                 // This will exit.
             }
@@ -105,9 +102,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         $this->_article->name = midcom_helper_reflector_tree::generate_unique_name($this->_article, 'title');
         if (empty($this->_article->name))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not generate unique name for the new article from title, using timestamp', MIDCOM_LOG_INFO);
-            debug_pop();
             $this->_article->name = time();
             if (!midcom_helper_reflector_tree::name_is_unique($this->_article))
             {
@@ -118,9 +113,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
 
         if (! $this->_article->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Failed to create article:', $this->_article);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create a new article, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
             // This will exit.
         }
@@ -211,7 +204,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         if (class_exists('net_nemein_tag_handler'))
         {
             // unconditionally tag
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("content before machine tag separation\n===\n{$content}\n===\n");
             $content_tags = net_nemein_tag_handler::separate_machine_tags_in_content($content);
             if (!empty($content_tags))
@@ -220,7 +212,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                 net_nemein_tag_handler::tag_object($this->_article, net_nemein_tag_handler::string2tag_array($content_tags));
             }
             debug_add("content AFTER machine tag separation\n===\n{$content}\n===\n");
-            debug_pop();
         }
 
         // Populate rest of the data
@@ -284,7 +275,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
 
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
         return true;
     }
 
@@ -326,7 +316,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, '_POST[\'message_source\'] not present or empty.');
             // This will exit.
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->_decoder = new org_openpsa_mail();
         $this->_decoder->body = $_POST['message_source'];

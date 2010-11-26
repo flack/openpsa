@@ -18,14 +18,12 @@ class org_routamc_positioning_cron_fetchplazes extends midcom_baseclasses_compon
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
 
         $plazes = org_routamc_positioning_importer::create('plazes');
         $plazes->seek_plazes_users();
 
         debug_add('Done');
-        debug_pop();
         return;
     }
 }

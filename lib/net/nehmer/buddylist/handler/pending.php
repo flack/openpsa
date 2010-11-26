@@ -264,10 +264,8 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
             {
                 if (! $_MIDCOM->auth->request_sudo($this->_component))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add('Failed to auto-approve the return request, could not acquire sudo. This will be ignored, the user will have to clear the record manually.',
                         MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return;
                 }
 

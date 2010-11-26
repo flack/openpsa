@@ -64,9 +64,7 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
         }
         if (! $this->exists($key))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("flatfile cache handler: Failed to read key {$key} from the database {$this->_dirname}: File does not exist.", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return null;
         }
         return file_get_contents("{$this->_dirname}{$key}");
@@ -86,9 +84,7 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
         $handle = @fopen($filename, 'x');
         if ($handle === false)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("flatfile cache handler: Failed to create key {$key} in the database {$this->_dirname}: File does already exist.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
         fwrite($handle, $data);

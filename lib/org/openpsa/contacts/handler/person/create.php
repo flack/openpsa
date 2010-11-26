@@ -113,9 +113,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
 
         if (! $person->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $person);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.

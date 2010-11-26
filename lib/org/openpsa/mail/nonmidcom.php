@@ -116,21 +116,6 @@ if (!function_exists('sprint_r'))
         return;
     }
 }
-if (!function_exists('debug_push_class'))
-{
-    function debug_push_class($var, $var2)
-    {
-        return;
-    }
-}
-if (!function_exists('debug_pop'))
-{
-    function debug_pop()
-    {
-        return;
-    }
-}
-
 if (!function_exists('mgd_version'))
 {
     function mgd_version()

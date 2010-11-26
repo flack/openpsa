@@ -57,9 +57,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         //passed guid does not exist
         if (empty($this->_current_object->guid))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load object for passed guid: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -262,9 +260,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         $reminder->linkGuid = $this->_current_object->guid;
         if (! $reminder->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $reminder);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new reminder, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
@@ -295,9 +291,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         //passed guid does not exist
         if (empty($this->_journal_entry->guid))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load object for passed guid: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -361,9 +355,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
 
         if(!$this->_journal_entry->delete())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         //build url for relocate

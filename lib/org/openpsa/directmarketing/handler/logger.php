@@ -24,13 +24,11 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     function _handler_bounce($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !array_key_exists('token', $_POST)
             || empty($_POST['token']))
         {
             //Token not given
             debug_add('Token not present in POST or empty', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $messages = array();
@@ -45,7 +43,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             //Token not present
             debug_add("No receipts with token '{$_POST['token']}' found", MIDCOM_LOG_WARN);
-            debug_pop();
             $_MIDCOM->auth->drop_sudo();
             return false;
         }
@@ -95,7 +92,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $_MIDCOM->auth->drop_sudo();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('text/plain');
-        debug_pop();
         return true;
     }
 
@@ -137,13 +133,11 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     function _handler_link($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !array_key_exists('token', $_POST)
             || empty($_POST['token']))
         {
             //Token not given
             debug_add('Token not present in POST or empty', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (   !array_key_exists('link', $_POST)
@@ -151,7 +145,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             //Link not given
             debug_add('Link not present in POST or empty', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -163,7 +156,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             //Token not present
             debug_add("No receipts with token '{$_POST['token']}' found", MIDCOM_LOG_WARN);
-            debug_pop();
             $_MIDCOM->auth->drop_sudo();
             return false;
         }
@@ -176,7 +168,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $_MIDCOM->auth->drop_sudo();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('text/plain');
-        debug_pop();
         return true;
     }
 
@@ -226,7 +217,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      */
     function _handler_redirect($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_request_data['target'] = false;
         $this->_request_data['token'] = false;
         if (   count($args) == 2
@@ -248,14 +238,12 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             //Token not given
             debug_add('Token empty', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (!$this->_request_data['target'])
         {
             //Link not given
             debug_add('Target not present in address or GET, or is empty', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -265,7 +253,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         if ($this->_request_data['token'] === 'dummy')
         {
             $_MIDCOM->skip_page_style = true;
-            debug_pop();
             $_MIDCOM->relocate($this->_request_data['target']);
             //This will exit unless fails
             return true;
@@ -278,7 +265,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             //Token not present
             debug_add("No receipts with token '{$this->_request_data['token']}' found", MIDCOM_LOG_WARN);
-            debug_pop();
             $_MIDCOM->auth->drop_sudo();
             return false;
         }
@@ -291,7 +277,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
 
         $_MIDCOM->auth->drop_sudo();
         $_MIDCOM->skip_page_style = true;
-        debug_pop();
         $_MIDCOM->relocate($this->_request_data['target']);
         //This will exit unless fails
         return true;

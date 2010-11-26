@@ -29,7 +29,6 @@ if (! isset($_REQUEST["query"]))
     echo "</response>\n";
 
     debug_add("Empty query string. Quitting now.");
-    debug_pop();
     $_MIDCOM->finish();
     _midcom_stop_request();
 }
@@ -118,9 +117,7 @@ else
         $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $callback) . '.php';
         if (! file_exists($path))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Auto-loading of the callback class {$callback} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         require_once($path);
@@ -128,9 +125,7 @@ else
 
     if (! class_exists($callback))
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("The callback class {$callback} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-        debug_pop();
         return false;
     }
     $_callback = new $callback($callback_args);
@@ -167,7 +162,6 @@ if (empty($results))
     echo "</response>\n";
 
     debug_add("No results.");
-    debug_pop();
     $_MIDCOM->finish();
     _midcom_stop_request();
 }
@@ -185,7 +179,6 @@ foreach ($results as $i => $result)
 echo "    </results>\n";
 echo "</response>\n";
 
-debug_pop();
 $_MIDCOM->finish();
 _midcom_stop_request();
 

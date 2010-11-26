@@ -39,9 +39,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         $dirpath = $this->config->get_rcs_root() . "/{$object->guid[0]}/{$object->guid[1]}";
         if (!file_exists($dirpath))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_WARN);
-            debug_pop();
             if (!file_exists($this->config->get_rcs_root() . "/{$object->guid[0]}"))
             {
                 mkdir($this->config->get_rcs_root() . "/{$object->guid[0]}");
@@ -115,9 +113,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
         if (!($guid <> ""))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Missing GUID, returning error");
-            debug_pop();
             return 3;
         }
 
@@ -476,9 +472,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     {
         if (!is_object($object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Missing object needed as parameter.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $mapper = new midcom_helper_xml_objectmapper();
@@ -487,9 +481,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         {
             return $result;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Objectmapper returned false.");
-        debug_pop();
         return false;
     }
 
@@ -544,9 +536,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         // Always append stderr redirect
         $command .= ' 2>&1';
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Executing '{$command}'");
-        debug_pop();
 
         try
         {
@@ -563,10 +553,8 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
             return $status;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Command '{$command}' returned with status {$status}, see debug log for output", MIDCOM_LOG_WARN);
         debug_print_r('Got output: ', $output);
-        debug_pop();
         // any other exit codes means some sort of error
         return $status;
     }
@@ -581,7 +569,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      */
     function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
@@ -658,9 +645,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
             }
         }
 
-        debug_pop();
         return $return;
-
     }
 
     /**
@@ -691,9 +676,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         if (   !is_object($object)
             || !$object->guid)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("{$this->_guid} could not be resolved to object", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $mapper = new midcom_helper_xml_objectmapper();
@@ -706,9 +689,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
             return true;
         }
         $this->error[]  = "Object {$this->_guid} not updated: " . midcom_connection::get_error_string();
-        debug_pop();
         return false;
     }
-
 }
 ?>

@@ -144,26 +144,22 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
         $handle = @fopen($filename, 'w'); 
         if (! $handle)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to open the file {$filename} for writing.", MIDCOM_LOG_ERROR);
             if (isset($php_errormsg))
             {
                 debug_add($php_errormsg, MIDCOM_LOG_ERROR);
             }
-            debug_pop();
             return false;
         }
         
         if (! @fwrite($handle, "<?php\n{$code}\n?>\n"))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to write to the file {$filename}.", MIDCOM_LOG_ERROR);
             if (isset($php_errormsg))
             {
                 debug_add($php_errormsg, MIDCOM_LOG_ERROR);
             }
             fclose($handle);
-            debug_pop();
             return false;
         }
         
@@ -193,9 +189,7 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
     {
         if($namespace == '')
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_log('The identifier must not be empty.', MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         $identifier = "{$namespace}-{$local_identifier}";

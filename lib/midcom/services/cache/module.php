@@ -143,13 +143,11 @@ abstract class midcom_services_cache_module
      */
     function invalidate_all() 
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         foreach ($this->_backends as $name => $copy)
         {
             debug_add("Invalidating cache backend {$name}...", MIDCOM_LOG_INFO);
             $this->_backends[$name]->remove_all();
         } 
-        debug_pop();
     }
     
     /**
@@ -157,6 +155,6 @@ abstract class midcom_services_cache_module
      * 
      * @param GUID $guid The GUID that has to be invalidated. 
      */
-    abstract function invalidate($guid);
-    
+    abstract function invalidate($guid);    
 }
+?>

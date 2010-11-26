@@ -109,9 +109,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             {
                 $multiple_categories = false;
             }
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("multiple_categories={$multiple_categories}");
-            debug_pop();
             if ($multiple_categories)
             {
                 $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
@@ -229,10 +227,8 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             {
                 if (! $this->_datamanager->autoset_storage($article))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $article);
-                    debug_pop();
                     continue;
                 }
 

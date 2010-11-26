@@ -108,10 +108,8 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
     {
         if (!is_a($this->_type, 'midcom_helper_datamanager2_type_position'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not a position type or subclass thereof, you cannot use the position widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -494,9 +492,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
 
         if (count($countries) == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot render country list: No countries found. You have to use org.routamc.positioning to import countries to database.');
-            debug_pop();
         }
 
         foreach ($countries as $country)
@@ -651,9 +647,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
             }
             if (! $city->create())
             {
-                debug_push_class(__CLASS__,__FUNCTION__);
                 debug_add("Cannot save new city '{$city_name}'");
-                debug_pop();
             }
 
             $city_id = $city->id;

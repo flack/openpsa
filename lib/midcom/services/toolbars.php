@@ -750,9 +750,7 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (!$prefix)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Toolbar for object {$object->guid} was called before topic prefix was available, skipping global items.", MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 

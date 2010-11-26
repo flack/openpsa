@@ -247,10 +247,8 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         foreach ($constraints as $constraint)
         {
             $storage = $this->_request_data['schemadb_product'][$this->_request_data['search_schema']]->fields[$constraint['property']]['storage'];
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('constraint', $constraint);
             debug_print_r('storage', $storage);
-            debug_pop();
             if (   !is_array($storage)
                 // Do not add constraint if it's all wildcards
                 || preg_match('/^%+$/', $constraint['value']))
@@ -315,7 +313,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         $this->_request_data['search_qb'] =& $qb;
 
         // Check schemas this way until the core issue is fixed
-        debug_push_class(__CLASS__, __FUNCTION__);
         foreach ($ret as $k => $product)
         {
             $schema = $product->get_parameter('midcom.helper.datamanager2', 'schema_name');
@@ -326,7 +323,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             }
             unset($ret[$k]);
         }
-        debug_pop();
         // array_merge reindexes the array to be continous
         return array_merge($ret);
     }
@@ -384,7 +380,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 }
                 break;
             case 'LIKE':
-                debug_push_class(__CLASS__, __FUNCTION__);
                 // Find a delimiter not part of the constraint value (the SQL wildcard will be rewritten so % CAN be used as delimiter)
                 $delimiters = array('/', '#', '%', '|', '_');
                 $contraint_test_value = str_replace('%', '', $constraint['value']);
@@ -400,7 +395,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 {
                     // Could not determine delimiter to use, what to do ?
                     debug_add("could not determine regex delimiter for constraint '{$constraint['value']}'",  MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 $regex = $delimiter . '^' . str_replace('%', '.*', $constraint['value']) . '$' . $delimiter . 'i';
@@ -408,10 +402,8 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 if (preg_match($regex, $value))
                 {
                     debug_add("preg_match({$regex}, {$value}) returned true");
-                    debug_pop();
                     return true;
                 }
-                debug_pop();
                 break;
         }
 
@@ -420,10 +412,8 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
     function _check_parameter($object, $domain, $name, $constraint)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $value = $object->parameter($domain, $name);
         debug_add("calling _constraint_test_value({$constraint}, {$value}, true)");
-        debug_pop();
         return $this->_constraint_test_value($constraint, $value, true);
     }
 
@@ -629,10 +619,8 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
                 if (! $data['datamanager']->autoset_storage($result))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("The datamanager for product {$result->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $result);
-                    debug_pop();
                     continue;
                 }
 

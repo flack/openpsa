@@ -133,10 +133,8 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             $final_query .= "{$terms}";
             return;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('Don\'t know how to handle terms of type: ' . gettype($terms), MIDCOM_LOG_ERROR);
         debug_print_r('$terms', $terms);
-        debug_pop();
         return;
     }
 
@@ -150,7 +148,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      */
     function _handler_result($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $indexer = $_MIDCOM->get_service('indexer');
 
         // Sane defaults for REQUEST vars
@@ -178,7 +175,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         if (!isset($_REQUEST['query']))
         {
             debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
-            debug_pop();
             if ($data['type'] == 'basic')
             {
                 $_MIDCOM->relocate('');
@@ -259,7 +255,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             default:
                 $this->errstr = "Wrong handler ID {$handler_id} for searchform handler";
                 $this->errcode = MIDCOM_ERRCRIT;
-                debug_pop();
                 return false;
         }
 
@@ -311,7 +306,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             }
             reset($data['result']);
         }
-        debug_pop();
         return true;
     }
 

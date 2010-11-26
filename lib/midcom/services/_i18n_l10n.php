@@ -156,9 +156,7 @@ class midcom_services__i18n_l10n {
 
         if (is_null($library))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Default constructor for midcom_services__i18n_l10n forbidden, library path must be present.", MIDCOM_LOG_ERROR);
-            debug_pop();
             $midcom->generate_error(MIDCOM_ERRCRIT,
                 "Default constructor for midcom_services__i18n_l10n forbidden, library path must be present.");
             // This will exit();
@@ -206,9 +204,7 @@ class midcom_services__i18n_l10n {
             if (!$file)
             {
                 $_MIDCOM->uimessages->add("L10N Error", "Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.", 'error');
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to open the file '{$this->_library_filename}.{$lang}.txt' for writing.",MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
 
@@ -462,9 +458,7 @@ class midcom_services__i18n_l10n {
     {
         if (!array_key_exists($lang, $this->_language_db))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Language {$lang} not found in the language database.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 

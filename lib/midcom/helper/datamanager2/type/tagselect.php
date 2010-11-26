@@ -101,17 +101,13 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             && $this->option_callback === null
             && $this->use_tag_library == false)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Either 'options' or 'option_callback' must be defined for the field {$this->name}.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (   $this->options !== null
             && $this->option_callback !== null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Both 'options' and 'option_callback' was defined for the field {$this->name}, go for one of them.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -125,9 +121,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $classname) . '.php';
                 if (! file_exists($path))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Auto-loading of the class {$classname} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 require_once($path);
@@ -135,9 +129,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
             if (! class_exists($classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The class {$classname} was defined as option callback for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
 
@@ -170,7 +162,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             $this->option_callback_args = array();
         }
 
-        debug_pop();
         return true;
     }
 
@@ -182,7 +173,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function get_name_for_key($key)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $key = (string) $key;
 
         debug_add("key: {$key}");
@@ -191,7 +181,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
         {
             if ($this->require_corresponding_option)
             {
-                debug_pop();
                 return null;
             }
         }
@@ -199,20 +188,17 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
         if (   $this->use_tag_library
             || $this->force_rendering_from_tag_library)
         {
-            debug_pop();
             return $key;
         }
 
         if ($this->option_callback === null)
         {
             debug_add("Use options");
-            debug_pop();
             return $this->options[$key]['name'];
         }
         else
         {
             debug_add("get from callback");
-            debug_pop();
             return $this->_callback->get_name_for_key($key);
         }
     }
@@ -225,7 +211,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function get_data_for_key($key)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $key = (string) $key;
 
         debug_add("key: {$key}");
@@ -236,7 +221,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             {
                 debug_add("Key not found and corr.opt enabled");
 
-                debug_pop();
                 return null;
             }
         }
@@ -251,14 +235,12 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
             debug_print_r("tag_lib data:", $data);
 
-            debug_pop();
             return $data;
         }
 
         if ($this->option_callback === null)
         {
             debug_add("this->options[{$key}]: {$this->options[$key]}");
-            debug_pop();
             return $this->options[$key];
         }
         else
@@ -268,7 +250,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             $data = $this->_callback->get_data_for_key($key);
             debug_print_r('got data from callback',$data);
 
-            debug_pop();
             return $data;
         }
     }
@@ -281,7 +262,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function key_exists($key)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $key = (string) $key;
 
         debug_add("key: {$key}");
@@ -294,14 +274,12 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             if (! $this->storage->object)
             {
                 debug_add("no storage available");
-                debug_pop();
                 return false;
             }
 
             $tags = net_nemein_tag_handler::get_object_tags($this->storage->object);
             if (array_key_exists($key, $tags))
             {
-                debug_pop();
                 return true;
             }
         }
@@ -309,13 +287,11 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
         if ($this->option_callback === null)
         {
             debug_add("use options");
-            debug_pop();
             return array_key_exists($key, $this->options);
         }
         else
         {
             debug_add("use callback");
-            debug_pop();
             return $this->_callback->key_exists($key);
         }
     }
@@ -327,7 +303,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function list_all()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (   empty($this->options)
             && (   $this->use_tag_library
@@ -340,7 +315,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
             if (! $this->storage->object)
             {
-                debug_pop();
                 return $all_tags;
             }
 
@@ -352,20 +326,17 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
             debug_print_r('all_tags',$all_tags);
 
-            debug_pop();
             return $all_tags;
         }
 
         if ($this->option_callback === null)
         {
             debug_add("use options");
-            debug_pop();
             return $this->options;
         }
         else
         {
             debug_add("get from callback");
-            debug_pop();
             return $this->_callback->list_all();
         }
     }
@@ -376,7 +347,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function convert_from_storage($source)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_print_r("source",$source);
 
@@ -406,7 +376,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             || $source === null)
         {
             // We are fine at this point.
-            debug_pop();
             return;
         }
         if ($this->allow_multiple)
@@ -433,7 +402,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 if (! $this->allow_multiple)
                 {
                     // Whatever happens, in this mode we only have one key.
-                    debug_pop();
                     return;
                 }
             }
@@ -444,7 +412,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 if (! $this->allow_multiple)
                 {
                     // Whatever happens, in this mode we only have one key.
-                    debug_pop();
                     return;
                 }
             }
@@ -455,15 +422,12 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 if (! $this->allow_multiple)
                 {
                     // Whatever happens, in this mode we only have one key.
-                    debug_pop();
                     return;
                 }
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Encountered unknown key {$key} for field {$this->name}, skipping it.", MIDCOM_LOG_INFO);
-                debug_pop();
             }
         }
     }
@@ -481,11 +445,9 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function convert_to_storage()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if ($this->allow_multiple)
         {
-            debug_pop();
             return $this->_convert_multiple_to_storage();
         }
         else
@@ -504,7 +466,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 {
                     if (count($this->selection) == 0)
                     {
-                        debug_pop();
                         return '';
                     }
                     else
@@ -518,10 +479,8 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 $status = net_nemein_tag_handler::tag_object($this->storage->object, $tags);
                 if (!$status)
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_print_r('Tried to save the tags',$tags);
                     debug_add("for field {$this->name}, but failed. Ignoring silently.", MIDCOM_LOG_WARN);
-                    debug_pop();
                 }
 
                 $tmp_tags = net_nemein_tag_handler::get_object_tags($this->storage->object);
@@ -533,7 +492,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
                 debug_add("new tags: {$tags}");
 
-                debug_pop();
                 return null;
             }
 
@@ -549,7 +507,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 {
                     if (count($this->selection) == 0)
                     {
-                        debug_pop();
                         return '';
                     }
                     else
@@ -561,26 +518,22 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 debug_print_r('new tags to be saved to callback',$tags);
 
                 $this->_callback->save_values($tags);
-                debug_pop();
                 return null;
             }
 
             if (   $this->allow_other
                 && !empty($this->others))
             {
-                debug_pop();
                 return $this->others[0];
             }
             else
             {
                 if (count($this->selection) == 0)
                 {
-                    debug_pop();
                     return '';
                 }
                 else
                 {
-                    debug_pop();
                     return $this->selection[0];
                 }
             }
@@ -595,7 +548,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function _convert_multiple_from_storage($source)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $glue = '|';
 
@@ -623,7 +575,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
             debug_print_r('source',$source);
 
-            debug_pop();
             return $source;
         }
 
@@ -637,15 +588,12 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                     $source = array();
                 }
                 debug_print_r("array source:", $source);
-                debug_pop();
                 return $source;
 
             case 'imploded':
-                debug_pop();
                 return explode($glue, $source);
 
             case 'imploded_wrapped':
-                debug_pop();
                 return explode($glue, substr($source, 1, -1));
 
             default:
@@ -662,7 +610,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function _convert_multiple_to_storage()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (   $this->option_callback !== null
             && $this->enable_saving_to_callback)
@@ -676,7 +623,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             {
                 if (count($this->selection) == 0)
                 {
-                    debug_pop();
                     return null;
                 }
                 else
@@ -688,7 +634,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             debug_print_r('new tags to be saved to callback',$tags);
 
             $this->_callback->save_values($tags);
-            debug_pop();
             return null;
         }
 
@@ -710,7 +655,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             {
                 if (count($this->selection) == 0)
                 {
-                    debug_pop();
                     return null;
                 }
                 else
@@ -727,10 +671,8 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             $status = net_nemein_tag_handler::tag_object($this->storage->object, $tags);
             if (!$status)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_r('Tried to save the tags',$tags);
                 debug_add("for field {$this->name}, but failed. Ignoring silently.", MIDCOM_LOG_WARN);
-                debug_pop();
             }
 
             $tmp_tags = net_nemein_tag_handler::get_object_tags($this->storage->object);
@@ -742,7 +684,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
             debug_print_r("new tags:",$tags);
 
-            debug_pop();
             return null;
         }
 
@@ -752,24 +693,20 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             case 'serialized':
                 if ($this->others)
                 {
-                    debug_pop();
                     return array_merge($this->selection, $this->others);
                 }
                 else
                 {
-                    debug_pop();
                     return $this->selection;
                 }
 
             case 'imploded':
                 $options = $this->_get_imploded_options();
-                debug_pop();
                 return $options;
 
             case 'imploded_wrapped':
                 $glue = '|';
                 $options = $this->_get_imploded_options();
-                debug_pop();
                 return "{$glue}{$options}{$glue}";
 
             default:
@@ -787,13 +724,11 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function _on_validate()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (   ! $this->allow_other
             && $this->others)
         {
             $this->validation_error = $this->_l10n->get('type select: other selection not allowed');
-            debug_pop();
             return false;
         }
 
@@ -801,11 +736,9 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             && count($this->selection) > 1)
         {
             $this->validation_error = $this->_l10n->get('type select: multiselect not allowed');
-            debug_pop();
             return false;
         }
 
-        debug_pop();
         return true;
     }
 

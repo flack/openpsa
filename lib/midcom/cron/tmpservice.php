@@ -16,7 +16,6 @@ class midcom_cron_tmpservice extends midcom_baseclasses_components_cron_handler
 {
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $_MIDCOM->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
         require_once(MIDCOM_ROOT . '/midcom/core/temporary/object.php');
 
@@ -39,7 +38,6 @@ class midcom_cron_tmpservice extends midcom_baseclasses_components_cron_handler
                 debug_add("Deleted temporary object {$tmp->id}.");
             }
         }
-        debug_pop();
     }
 }
 ?>

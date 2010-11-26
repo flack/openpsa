@@ -60,7 +60,6 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
             }
         }
 
-        debug_pop();
         return true;
     }
 
@@ -86,12 +85,10 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
      */
     function node_wikiword_is_free(&$node, $wikiword)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (empty($node))
         {
             //Invalid node
             debug_add('given node is not valid', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $wikiword_name = midcom_generate_urlname_from_string($wikiword);
@@ -110,10 +107,8 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
             $ret_r = ob_get_contents();
             ob_end_clean();
             debug_add("QB results:\n===\n{$ret_r}===\n");
-            debug_pop();
             return false;
         }
-        debug_pop();
         return true;
     }
 }

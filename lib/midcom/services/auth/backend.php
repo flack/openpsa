@@ -166,9 +166,7 @@ abstract class midcom_services_auth_backend
         if (   is_null($this->session_id)
             || ! $this->session_id)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('You were not logged in, so we do nothing.', MIDCOM_LOG_INFO);
-            debug_pop();
             return;
         }
 

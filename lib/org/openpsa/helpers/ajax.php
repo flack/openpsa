@@ -40,7 +40,6 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
      */
     function simpleReply($result, $errstr = '', $override = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->start();
 
         if (!$errstr)
@@ -57,7 +56,6 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
             debug_add("addTag('valueoverride', {$override})");
             $this->addTag('valueoverride', $override);
         }
-        debug_pop();
         $this->end();
     }
 

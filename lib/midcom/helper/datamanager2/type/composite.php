@@ -317,9 +317,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
 
         if (! $object->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $object);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Failed to create a new child object. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
@@ -341,18 +339,14 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
     {
         if (! array_key_exists($identifier, $this->objects))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to delete the object: The identifier is unknown.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
         $object = $this->objects[$identifier];
         if (! $object>delete())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to delete the object: DBA delete call returned false.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         

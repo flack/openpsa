@@ -51,14 +51,12 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      */
     function __construct($attachment, $source)
     {
-        debug_push_class($this, __FUNCTION__);
 
         //before doing anything else, verify that the attachment is readable, otherwise we might get stuck in endless loops later on 
         $test = $attachment->open('r');
         if (!$test)
         {
             debug_add('Attachment ' . $attachment->guid . ' cannot be read, aborting. Last midgard error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         else
@@ -212,7 +210,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
             return;
         }
         
-        debug_push_class($this, __FUNCTION__);
         debug_add("Converting Word-Attachment to plain text");
         $wordfile = $this->_write_attachment_tmpfile();
         $txtfile = "{$wordfile}.txt";
@@ -239,7 +236,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         fclose($handle);
         
         unlink ($txtfile);
-        debug_pop();
     }
         
     /**
@@ -254,7 +250,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
             return;
         }
         
-        debug_push_class($this, __FUNCTION__);
         debug_add("Converting PDF-Attachment to plain text");
         $pdffile = $this->_write_attachment_tmpfile();
         $txtfile = "{$pdffile}.txt";
@@ -279,7 +274,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         fclose($handle);
         
         unlink ($txtfile);
-        debug_pop();
     }
     
     /**
@@ -294,7 +288,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
             return;
         }
         
-        debug_push_class($this, __FUNCTION__);
         debug_add("Converting RTF-Attachment to plain text");
         $rtffile = $this->_write_attachment_tmpfile();
         $txtfile = "{$rtffile}.txt";
@@ -319,7 +312,6 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
         fclose($handle);
         
         unlink ($txtfile);
-        debug_pop();
     }
     
     /**

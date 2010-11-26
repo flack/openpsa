@@ -131,7 +131,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
     {
         // First, ensure that the imagefilter helper is available.
         require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         // Ensure that the filename is URL safe and contains only one extension
         $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
@@ -157,14 +156,12 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
                 debug_add("Failed to store the archival image for the uploaded file {$filename} in {$tmpname}, aborting type processing.", MIDCOM_LOG_ERROR);
                 // Could not store even the archival image properly, clean up and abort
                 $this->delete_all_attachments();
-                debug_pop();
                 return false;
             }
         }
         if (!$this->_filter->set_file($this->_original_tmpname))
         {
             debug_add("this->_filter->set_file('{$this->_original_tmpname}') returned failure, aborting type processing.", MIDCOM_LOG_ERROR);
-            debug_pop();
             // NOTE: absense of delete_all_attachments is intentional
             return false;
         }
@@ -172,7 +169,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         if (!$this->_auto_convert_to_web_type())
         {
             debug_add("failed to convert to web type, aborting type processing.", MIDCOM_LOG_ERROR);
-            debug_pop();
             // NOTE: absense of delete_all_attachments is intentional
             return false;
         }
@@ -180,14 +176,12 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         if (!$this->_save_main_image())
         {
             debug_add("failed to save 'main' image, aborting type processing.", MIDCOM_LOG_ERROR);
-            debug_pop();
             // NOTE: absense of delete_all_attachments is intentional
             return false;
         }
         if (!$this->_save_derived_images())
         {
             debug_add("failed to save derived images, aborting type processing.", MIDCOM_LOG_ERROR);
-            debug_pop();
             // NOTE: absense of delete_all_attachments is intentional
             return false;
         }
@@ -200,7 +194,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             unlink ($this->_original_tmpname);
         }
 
-        debug_pop();
         return true;
     }
 
@@ -344,9 +337,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             }
             if (!$this->apply_filter($identifier, $filter))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to apply filter '{$filter}' to image '{$identifier}', aborting", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }

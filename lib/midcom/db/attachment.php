@@ -120,18 +120,14 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         if (! $this->id)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot open a non-persistent attachment..', MIDCOM_LOG_WARN);
             debug_print_r('Object state:', $this);
-            debug_pop();
             return false;
         }
 
         if ($this->_open_handle !== null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the Attachment {$this->id} already had an open file handle, we close it implicitly.", MIDCOM_LOG_WARN);
-            debug_pop();
             @fclose($this->_open_handle);
             $this->_open_handle = null;
         }
@@ -172,9 +168,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (!$handle)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to open attachment with mode {$mode}, last Midgard error was:" . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            debug_pop();
         }
 
         $this->_open_handle = $handle;
@@ -207,9 +201,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         if ($this->_open_handle === null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Tried to close non-open attachment {$this->id}", MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 
@@ -222,9 +214,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
             // at this time.
             if (! $this->update())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to update attachment {$this->id}", MIDCOM_LOG_WARN);
-                debug_pop();
                 return;
             }
 
@@ -285,9 +275,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (!$this->can_do('midgard:read', 'EVERYONE'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Attachment {$this->name} ({$this->guid}) is not publicly readable, not caching.", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return;
         }
 
@@ -295,18 +283,14 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (!$filename)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to generate cache path for attachment {$this->name} ({$this->guid}), not caching.", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return;
         }
 
         if (   file_exists($filename)
             && is_link($filename))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Attachment {$this->name} ({$this->guid}) is already in cache as {$filename}, skipping.", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return;
         }
 
@@ -315,9 +299,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (@symlink($blob->get_path(), $filename))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Symlinked attachment {$this->name} ({$this->guid}) as {$filename}.", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return;
         }
 
@@ -325,9 +307,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $fh = $this->open('r');
         if (!$fh)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to cache attachment {$this->name} ({$this->guid}), opening failed.", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return;
         }
 
@@ -341,9 +321,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         file_put_contents($filename, $data);
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.", MIDCOM_LOG_DEBUG);
-        debug_pop();
     }
 
     /**
@@ -355,10 +333,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
     {
         if (!$this->id)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot open a non-persistent attachment..', MIDCOM_LOG_WARN);
             debug_print_r('Object state:', $this);
-            debug_pop();
             return false;
         }
 
@@ -371,9 +347,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $path = $blob->get_path();
         if (!file_exists($path))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("File {$path} that blob {$this->guid} points to cannot be found", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -390,7 +364,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     function _create_attachment_location()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $location_in_use = true;
         $location = '';
@@ -437,12 +410,10 @@ class midcom_db_attachment extends midcom_core_dbaobject
             else
             {
                 debug_add("Location {$location} is in use, retrying");
-                debug_pop();
             }
         }
 
         debug_add("Created this location: {$location}");
-        debug_pop();
         return $location;
     }
 
@@ -551,9 +522,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $dest = $this->open();
         if (! $dest)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -575,9 +544,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $dest = $this->open();
         if (! $dest)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not open attachment for writing, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -602,13 +569,11 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $source = @fopen ($filename, 'r');
         if (! $source)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not open file for reading.' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             if (isset($php_errorstr))
             {
                 debug_add("Last PHP error was: {$php_errorstr}", MIDCOM_LOG_WARN);
             }
-            debug_pop();
             return false;
         }
         $result = $this->copy_from_handle($source);

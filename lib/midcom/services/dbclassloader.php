@@ -213,9 +213,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
     {
         if (! is_array ($definition_list))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Validation failed: It was no Array.', MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -223,17 +221,13 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
         {
             if (! class_exists($mgdschema_class))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.", MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
 
             if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $midcom_class) == 0)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Validation failed: Key {$mgdschema_class} had an invalid mgdschema_class_name element.", MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
         }
@@ -476,9 +470,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("{$object} is not an MgdSchema object, not resolving to MidCOM DBA class", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -489,9 +481,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
 
         if (!$this->is_mgdschema_object($object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("{$classname} is not an MgdSchema object, not resolving to MidCOM DBA class", MIDCOM_LOG_WARN);
-            debug_pop();
             $dba_classes_by_mgdschema[$classname] = false;
             return false;
         }
@@ -508,9 +498,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
 
         if (!$component)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Component for class {$classname} cannot be found", MIDCOM_LOG_WARN);
-            debug_pop();
             $dba_classes_by_mgdschema[$classname] = false;
             return false;
         }
@@ -532,9 +520,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             return $dba_classes_by_mgdschema[$classname];
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("{$classname} cannot be resolved to any DBA class name", MIDCOM_LOG_DEBUG);
-        debug_pop();
         $dba_classes_by_mgdschema[$classname] = false;
         return false;
     }
@@ -590,9 +576,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
     {
         if (!is_string($classname))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Requested to load the classhandler for class name which is not a string.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -602,9 +586,7 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
             $_MIDCOM->componentloader->load($component);
             if (! array_key_exists($classname, $this->_mgdschema_class_handler))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Requested to load the classhandler for {$classname} which is not known.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }

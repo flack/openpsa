@@ -75,9 +75,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     {
         if (!$this->id)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->id);
@@ -105,9 +103,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             $unserRet = @unserialize($this->_fix_serialization($this->rulesSerialized));
             if ($unserRet === false)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Failed to unserialize rulesSerialized', MIDCOM_LOG_WARN);
-                debug_pop();
                 $this->rules = array();
                 return;
             }
@@ -144,17 +140,14 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         //Disable limits
         @ini_set('memory_limit', -1);
         @ini_set('max_execution_time', 0);
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->id)
         {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if ($this->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
         {
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
@@ -168,7 +161,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
             $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
             debug_add('Failed to resolve rules', MIDCOM_LOG_ERROR);
             debug_print_r("this->rules has value:", $this->rules);
-            debug_pop();
             $_MIDCOM->auth->drop_sudo();
             return false;
         }
@@ -177,8 +169,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         if (!is_array($rule_persons))
         {
             $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
-            debug_pop('Failure when executing rules based search', MIDCOM_LOG_ERROR);
-            debug_pop();
+            debug_add('Failure when executing rules based search', MIDCOM_LOG_ERROR);
             $_MIDCOM->auth->drop_sudo();
             return false;
         }
@@ -266,7 +257,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      */
     function schedule_update_smart_campaign_members($time = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$time)
         {
             $time = time();
@@ -274,13 +264,11 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         if (!$this->id)
         {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if ($this->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
         {
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
@@ -289,12 +277,10 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         {
             debug_add('Failed to register an AT job for members update, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             $_MIDCOM->auth->drop_sudo();
-            debug_pop();
             return false;
         }
         $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_scheduled', $time);
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
         return true;
     }
 
@@ -309,17 +295,14 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      */
     function members_update_status()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->id)
         {
             debug_add('This campaign has no id (maybe not created yet?), aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if ($this->orgOpenpsaObtype != ORG_OPENPSA_OBTYPE_CAMPAIGN_SMART)
         {
             debug_add("This (id #{$this->id}) is not a smart campaign, aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         return false;

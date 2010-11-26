@@ -275,7 +275,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
         $this->_update_breadcrumb_line($handler_id);
         $_MIDCOM->set_pagetitle($data['view_title']);
-        debug_pop();
 
         $_MIDCOM->relocate("__mfa/asgard_midcom.admin.babel/edit/{$this->_component_path}/{$this->_lang}/");
         // This will exit
@@ -381,8 +380,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
             return false;
         }
 
-        debug_push($this->_debug_prefix . 'handle');
-
         // make sure text is displayed as utf-8 => REALLY?
         //header('Content-type: text/html; charset=UTF-8');
 
@@ -392,7 +389,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
             debug_add('Loading i10n class for '.$this->_component_path, MIDCOM_LOG_DEBUG);
             if (!$this->_component_l10n = $_MIDCOM->i18n->get_l10n($this->_component_path))
             {
-                debug_pop();
                 return false;
             }
             else
@@ -410,12 +406,10 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
                 $this->_update_breadcrumb_line($handler_id);
                 $this->_prepare_toolbar($data);
                 $_MIDCOM->set_pagetitle($data['view_title']);
-                debug_pop();
                 return true;
             }
         }
 
-        debug_pop();
         return false;
     }
 

@@ -519,18 +519,14 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
 
         if (! $user)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to find user with given email {$email}.");
-            debug_pop();
             $this->_processing_msg = $this->_l10n->get('failed to find user with given email');
             $this->_processing_msg_raw = 'failed to find user with given email';
             return false;
         }
         if (is_array($user))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Found multiple users with given email {$email}.");
-            debug_pop();
             $this->_processing_msg = $this->_l10n->get('multiple users found with given email');
             $this->_processing_msg_raw = 'multiple users found with given email';
             return false;
@@ -578,9 +574,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
             $user = $_MIDCOM->auth->get_user_by_email($_POST['email']);
             if (is_array($user))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Found multiple users with given email {$_POST['email']}.");
-                debug_pop();
                 $this->_processing_msg = $this->_l10n->get('multiple users found with given email');
                 $this->_processing_msg_raw = 'multiple users found with given email';
 
@@ -961,9 +955,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
 
             if (! function_exists($callback['callback']))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the callback {$callback['callback']} for account deletion, the function is not defined.", MIDCOM_ERRCRIT);
-                debug_pop();
                 return;
             }
             $callback['callback']($this->_account);

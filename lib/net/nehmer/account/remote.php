@@ -161,9 +161,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_r('We were working on this schema database (keys only)', array_keys($this->_schemadb));
-                debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     "Key {$type} was not found in the schema database. Please correct the system configuration.");
                 // This will exit.

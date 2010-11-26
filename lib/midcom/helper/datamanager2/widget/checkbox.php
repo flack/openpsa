@@ -66,9 +66,7 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_boolean'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not of type boolean.", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         return true;

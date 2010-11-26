@@ -41,7 +41,6 @@ class org_openpsa_smslib_messto extends org_openpsa_smslib
      */
     function send_sms($number, $msg, $sender=false, $dlr=false, $udh=false, $clientid=false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->_sanity_check())
         {
             return false;
@@ -57,7 +56,6 @@ class org_openpsa_smslib_messto extends org_openpsa_smslib
                     debug_add('alphanumeric sender too long (max 11 ASCII characters)', MIDCOM_LOG_ERROR);
                     $this->errstr = 'sender too long';
                     $this->errcode = 400;
-                    debug_pop();
                     return false;
                 }
             }
@@ -68,7 +66,6 @@ class org_openpsa_smslib_messto extends org_openpsa_smslib
                     debug_add('numeric sender too long (max 25 numbers)', MIDCOM_LOG_ERROR);
                     $this->errstr = 'sender too long';
                     $this->errcode = 400;
-                    debug_pop();
                     return false;
                 }
             }
@@ -83,7 +80,6 @@ class org_openpsa_smslib_messto extends org_openpsa_smslib
             $this->errcode = 400;
             $this->errstr = 'messto requires internationalized recipient number';
             debug_add("Failed to send message, error: {$this->errstr}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $url .= "&sms_dest=" . rawurlencode($number);
@@ -106,7 +102,6 @@ class org_openpsa_smslib_messto extends org_openpsa_smslib
         {
             debug_add("Error opening {$url}, response: " . $http_response_header[0]);
             debug_add("Failed to send message, error: {$this->errstr}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $content = '';
@@ -123,11 +118,9 @@ class org_openpsa_smslib_messto extends org_openpsa_smslib
             $this->errcode = 400;
             $this->errstr = $error_matches[2];
             debug_add("Failed to send message, error: {$this->errstr}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
-        debug_pop();
         return true;
     }
 

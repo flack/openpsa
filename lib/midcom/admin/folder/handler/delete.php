@@ -115,7 +115,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             return;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_add("Dropping all NAP registered objects from the index.");
 
@@ -181,7 +180,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             $indexer->delete($guid);
         }
 
-        debug_pop();
     }
 
     /**
@@ -230,7 +228,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         // Invalidate everything since we operate recursive here.
         $_MIDCOM->cache->invalidate_all();
 
-        debug_pop();
         return true;
     }
 
@@ -284,10 +281,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not get target for symlinked topic #{$this->_topic->id}: " .
                     midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
             }
         }
 

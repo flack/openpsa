@@ -160,9 +160,7 @@ class midcom_db_topic extends midcom_core_dbaobject
     {
         if ($this->id == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot query the articles of a non-persistent topic (id==0).', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $qb = $this->get_list_articles_qb();
@@ -229,17 +227,12 @@ class midcom_db_topic extends midcom_core_dbaobject
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Invalid argument, expecting either ID, GUID or DBA topic instance', MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
         return parent::is_in_tree($root, $this->id);
-
     }
-
 }
-
 
 ?>

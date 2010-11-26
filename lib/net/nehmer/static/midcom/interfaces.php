@@ -68,7 +68,6 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
             debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
         }
 
-        debug_pop();
         return true;
     }
 

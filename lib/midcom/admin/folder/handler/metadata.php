@@ -104,13 +104,11 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      */
     function _handler_metadata($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (! $this->_object)
         {
             debug_add("Object with GUID '{$args[0]}' was not found!", MIDCOM_LOG_ERROR);
-            debug_pop();
 
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
             // This will exit.
@@ -215,15 +213,12 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not get target for symlinked topic #{$this->_object->id}: " .
                     midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
             }
         }
 
         midcom_show_style('midcom-admin-show-folder-metadata');
     }
-
 }
 ?>

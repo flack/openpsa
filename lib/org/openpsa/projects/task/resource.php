@@ -206,9 +206,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             if (   !$this->_personobject
                 || !is_object($this->_personobject))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Person ' . $this->person . ' could not be resolved to user, skipping privilege assignment');
-                debug_pop();
 
                 //This is sufficient for the _add_to_buddylist_of calls later on
                 $this->_personobject = midcom_db_person::get_cached($this->person);

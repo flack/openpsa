@@ -29,17 +29,13 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
     {
         if (empty($guid))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The given GUID is empty.", MIDCOM_LOG_WARN);
-            debug_pop();
             return null;
         }
 
         if (!mgd_is_guid($guid))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The given GUID ({$guid}) is not valid.", MIDCOM_LOG_WARN);
-            debug_pop();
             return null;
         }
 
@@ -54,9 +50,7 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         }
         catch(midgard_error_exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The Midgard core failed to resolve the GUID {$guid}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-            debug_pop();
             return null;
         }
 
@@ -166,11 +160,9 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
     {
         if (! is_object($object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type("Cannot cast the object to a MidCOM DBA type, it is not an object, we got this type:",
                 $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            debug_pop();
             return null;
         }
 
@@ -180,17 +172,13 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
 
             if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the handling component for {$classname}, cannot convert.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return null;
             }
 
             if (!class_exists($classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Got non-existing DBA class {$classname} for object of type " . get_class($object) . ", cannot convert.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return null;
             }
 
@@ -198,11 +186,9 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object, we got this type:",
                 $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            debug_pop();
             return null;
         }
 
@@ -212,11 +198,9 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type("Cannot cast the object to a MidCOM DBA type, construction of {$classname} for ID {$object->id} failed, we got this type:",
                 $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            debug_pop();
             return null;
         }
     }
@@ -234,11 +218,9 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
     {
         if (! is_object($object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type("Cannot cast the object to an MgdSchema type, it is not an object, we got this type:",
                 $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            debug_pop();
             return null;
         }
 
@@ -249,22 +231,18 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 // Return it directly, it is already in the format we want
                 return $object;
             }
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type("Cannot cast the object to an MgdSchema type, it is not a MidCOM DBA object, we got this type:",
                 $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            debug_pop();
             return null;
         }
 
         if (   !isset($object->__object)
             || !is_object($object->__object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type("Cannot cast the object to an MgdSchema type, as it doesn't contain it, we got this type:",
                 $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            debug_pop();
             return null;
         }
 
@@ -332,10 +310,8 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             || !class_exists($object))
         {
             // TODO: Raise exception?
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("\$object is not string or class_exists() returned false", MIDCOM_LOG_WARN);
             debug_print_r('$object', $object, MIDCOM_LOG_DEBUG);
-            debug_pop();
             return false;
         }
 
@@ -428,10 +404,8 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             // Checking for old-behaviour
             if (is_object($parent_guid))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Warning, get_parent_guid_uncached should not return an object. This feature is deprecated.',
                     MIDCOM_LOG_INFO);
-                debug_pop();
                 $parent_guid = $parent_guid->guid;
             }
 
@@ -467,11 +441,9 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
      */
     function import(&$unserialized_object, $use_force = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (is_a($unserialized_object, 'midgard_blob'))
         {
             debug_add("You must use import_blob method to import BLOBs", MIDCOM_LOG_ERROR);
-            debug_pop();
             midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
         }
@@ -484,7 +456,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         if (!$_MIDCOM->dbclassloader->is_mgdschema_object($unserialized_object))
         {
             debug_add("Unserialized object " . get_class($unserialized_object) . " is not recognized as supported MgdSchema class.", MIDCOM_LOG_ERROR);
-            debug_pop();
             midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
         }
@@ -494,7 +465,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
         {
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot import.", MIDCOM_LOG_ERROR);
-            debug_pop();
             midcom_connection::set_error(MGD_ERR_ERROR);
             return false;
         }
@@ -510,7 +480,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 $unserialized_class = get_class($unserialized_object);
                 debug_add("The local object we got is not of compatible type ({$acl_class} vs {$unserialized_class}), this means duplicate GUID", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_DUPLICATE);
-                debug_pop();
                 return false;
             }
             // Got an existing object
@@ -528,7 +497,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 case MGD_ERR_ACCESS_DENIED:
                     $actual_object_in_db = true;
                     debug_add("Could not instantiate ACL object due to ACCESS_DENIED error, this means we can abort early", MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                     break;
                 case MGD_ERR_OBJECT_DELETED:
@@ -546,7 +514,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             {
                 debug_add('Failed to cast MidCOM DBA object for ACL checks from $unserialized_object', MIDCOM_LOG_ERROR);
                 debug_print_r('$unserialized_object: ', $unserialized_object);
-                debug_pop();
                 return false;
             }
         }
@@ -558,7 +525,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 // Purges not supported yet
                 debug_add("Purges not supported yet (they require extra special love)", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_OBJECT_PURGED);
-                debug_pop();
                 return false;
                 break;
             // action is created but object is already in db, cast to update
@@ -598,7 +564,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             {
                 midcom_connection::set_error(MGD_ERR_ERROR);
             }
-            debug_pop();
             return false;
         }
 
@@ -613,7 +578,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 if (!midcom_baseclasses_core_dbobject::delete_pre_checks($acl_object))
                 {
                     debug_add('delete pre-flight check returned false', MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 // Actual import
@@ -629,7 +593,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                         if ($acl_object->delete())
                         {
                             debug_add('$acl_object->delete() succeeded, returning true early', MIDCOM_LOG_INFO);
-                            debug_pop();
                             return true;
                         }
                         debug_add("\$acl_object->delete() failed for {$acl_object->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
@@ -638,7 +601,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                     }
                     /** END workaround */
                     debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 midcom_baseclasses_core_dbobject::delete_post_ops($acl_object);
@@ -647,14 +609,12 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 if (!midcom_baseclasses_core_dbobject::update_pre_checks($acl_object))
                 {
                     debug_add('update pre-flight check returned false', MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 // Actual import
                 if (!midcom_helper_replicator_import_object($unserialized_object, $use_force))
                 {
                     debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 // "refresh" acl_object
@@ -668,14 +628,12 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
                 if (!midcom_baseclasses_core_dbobject::create_pre_checks($acl_object))
                 {
                     debug_add('creation pre-flight check returned false', MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 // Actual import
                 if (!midcom_helper_replicator_import_object($unserialized_object, $use_force))
                 {
                     debug_add('midcom_helper_replicator_import_object returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 // refresh object to avoid issues with _on_created requiring ID
@@ -694,14 +652,12 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             default:
                 debug_add("Do not know how to handle action '{$handle_action}'", MIDCOM_LOG_ERROR);
                 midcom_connection::set_error(MGD_ERR_ERROR);
-                debug_pop();
                 return false;
                 break;
         }
 
         $acl_object->_on_imported();
         $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
-        debug_pop();
         return true;
     }
 
@@ -717,11 +673,9 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
      */
     function import_blob(&$unserialized_object, &$xml, $use_force = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!is_a($unserialized_object, 'midgard_blob'))
         {
             debug_add("You should use the *import* method to import normal objects, passing control there", MIDCOM_LOG_WARNING);
-            debug_pop();
             return $this->import($unserialized_object, $use_force);
         }
         // We need this helper (workaround Zend bug)
@@ -735,7 +689,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
             || !is_object($acl_object))
         {
             debug_add("Could not get parent object (GUID: {$unserialized_object->parentguid}), aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -744,7 +697,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         {
             $parent_class = get_class($acl_object);
             debug_add("parent ({$parent_class} {$acl_object->guid}) update pre-flight check returned false", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // Actual import
@@ -753,7 +705,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         if (midcom_connection::get_error() !== MGD_ERR_OK)
         {
             debug_add('midcom_helper_replicator_import_from_xml returned false, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // Trigger parent updated
@@ -761,7 +712,6 @@ class midcom_helper__dbfactory extends midcom_baseclasses_core_object
         // And also imported
         $_MIDCOM->componentloader->trigger_watches(MIDCOM_OPERATION_DBA_IMPORT, $acl_object);
 
-        debug_pop();
         return true;
     }
 }

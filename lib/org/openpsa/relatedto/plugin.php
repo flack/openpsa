@@ -37,12 +37,10 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
      */
     static function create(&$from_obj, $from_component, &$to_obj, $to_component, $status = false , $extra = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (   !is_object($from_obj)
             || !is_object($to_obj))
         {
-            debug_pop();
             return false;
         }
 
@@ -66,7 +64,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         {
             $rel = new org_openpsa_relatedto_dba($id);
             debug_add("A relation from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid} already exists, returning this one instead");
-            debug_pop();
             return $rel;
         }
 
@@ -82,10 +79,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         if (!$stat)
         {
             debug_add("failed to create link from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            debug_pop();
             return $stat;
         }
-        debug_pop();
         return $rel;
     }
 
@@ -319,12 +314,10 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
 
     static function common_node_toolbar_buttons_sanitycheck(&$data, &$button_component, &$bind_object, &$calling_component)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$_MIDCOM->componentloader->load_graceful($button_component))
         {
             //For some reason the component is and can not (be) loaded
             debug_add("component {$button_component} could not be loaded", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (   !array_key_exists('node', $data)
@@ -337,7 +330,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         {
             //Invalid node given/found
             debug_add("data['node'] is invalid", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -348,7 +340,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         $related_to->fromComponent = $button_component;
         $related_to->status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
 
-        debug_pop();
         return $related_to;
     }
 
@@ -379,7 +370,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
 
     static function common_node_toolbar_buttons(&$toolbar, &$bind_object, $calling_component, $buttons = 'default')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         self::add_header_files();
         if ($buttons == 'default')
         {

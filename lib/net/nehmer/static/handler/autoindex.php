@@ -106,7 +106,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     function _show_autoindex($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         midcom_show_style('autoindex-start');
 
@@ -126,7 +125,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
 
         midcom_show_style('autoindex-end');
 
-        debug_pop();
         return true;
     }
 
@@ -207,10 +205,8 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         {
             if (! $datamanager->autoset_storage($article))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                 debug_print_r('Object was:', $article);
-                debug_pop();
                 continue;
             }
 

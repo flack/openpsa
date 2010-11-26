@@ -73,9 +73,7 @@ class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_
             if (! $result)
             {
                 // Tampered request data? We cannot find the record. Skipping...
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve the buddy {$buddy_guid} for the account {$user_guid}. Skipping this request key.", MIDCOM_LOG_INFO);
-                debug_pop();
                 continue;
             }
 

@@ -224,17 +224,13 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         if (   !is_array($this->options)
             && $this->option_callback === null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Either 'options' or 'option_callback' must be defined for the field {$this->name}.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (   !empty($this->options)
             && $this->option_callback !== null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Both 'options' and 'option_callback' was defined for the field {$this->name}, go for one of them.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -248,9 +244,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $classname) . '.php';
                 if (! file_exists($path))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Auto-loading of the class {$classname} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 require_once($path);
@@ -258,9 +252,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
             if (! class_exists($classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The class {$classname} was defined as option callback for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $this->_callback = new $classname($this->option_callback_arg);
@@ -492,9 +484,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Encountered unknown key {$key} for field {$this->name}, skipping it.", MIDCOM_LOG_INFO);
-                debug_pop();
             }
         }
     }
@@ -643,10 +633,8 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         {
             if (strpos($key, $glue) !== false)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The option key '{$key}' contained the multiple separator ({$this->multiple_separator}) char, which is not allowed for imploded storage targets. ignoring silently.",
                     MIDCOM_LOG_WARN);
-                debug_pop();
                 continue;
             }
 

@@ -185,7 +185,6 @@ class midcom_core_user extends midcom_baseclasses_core_object
      */
     function __construct($id = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         parent::__construct();
 
         if (is_null($id))
@@ -196,12 +195,10 @@ class midcom_core_user extends midcom_baseclasses_core_object
 
         if (! $this->_load($id))
         {
-            debug_pop();
             $x =& $this;
             $x = false;
             return false;
         }
-        debug_pop();
     }
 
     /**
@@ -235,9 +232,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
                 }
                 catch (midgard_error_exception $e)
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                    debug_pop();
                     return false;
                 }
             }
@@ -250,18 +245,14 @@ class midcom_core_user extends midcom_baseclasses_core_object
                 }
                 catch (midgard_error_exception $e)
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                    debug_pop();
                     return false;
                 }
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Tried to load a midcom_core_user, but $id was of unknown type.', MIDCOM_LOG_ERROR);
                 debug_print_r('Passed argument was:', $id);
-                debug_pop();
                 return false;
             }
         }
@@ -274,9 +265,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
             }
             catch (midgard_error_exception $e)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve the person ID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
         }
@@ -289,21 +278,17 @@ class midcom_core_user extends midcom_baseclasses_core_object
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Tried to load a midcom_core_user, but $id was of unknown type.', MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
-            debug_pop();
             return false;
         }
 
         if (   !is_object($this->_storage)
             || !isset($this->_storage->guid))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Tried to load a midcom_core_user, _storage is not an object (has no username property)', MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
             debug_print_r('_storage is:', $this->_storage);
-            debug_pop();
             return false;
         }
 
@@ -507,9 +492,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
 
         if (! array_key_exists($this->id, $cache))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Loading privileges for user {$this->name} ({$this->id})");
-            debug_pop();
 
             if (is_null($this->_all_groups))
             {
@@ -550,7 +533,6 @@ class midcom_core_user extends midcom_baseclasses_core_object
      */
     private function _merge_privileges($privileges)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_print_r("Got these Privileges:", $privileges);
 
@@ -597,8 +579,6 @@ class midcom_core_user extends midcom_baseclasses_core_object
                 }
             }
         }
-
-        debug_pop();
     }
 
     /**
@@ -675,9 +655,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         if (   ! $person
             || ! $_MIDCOM->auth->can_do('midgard:update', $person))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot update password, insufficient privileges.', MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -694,9 +672,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         $person->password = $password;
         if (! $person->update())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot update password, failed to update the record: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -723,9 +699,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
             || ! $_MIDCOM->auth->can_do('midgard:update', $person)
             || ! $_MIDCOM->auth->can_do('midgard:parameters', $person))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot update username, insufficient privileges.', MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -735,9 +709,7 @@ class midcom_core_user extends midcom_baseclasses_core_object
         $person->username = $new;
         if (! $person->update())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot update username, failed to update the record: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -827,13 +799,11 @@ class midcom_core_user extends midcom_baseclasses_core_object
      */
     function delete()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $person = $this->get_storage();
         if (! $person)
         {
             debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string, MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -842,7 +812,6 @@ class midcom_core_user extends midcom_baseclasses_core_object
         if (! $person->delete())
         {
             debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string, MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -872,12 +841,8 @@ class midcom_core_user extends midcom_baseclasses_core_object
             }
         }
 
-        debug_pop();
         return true;
     }
 
 }
-
-
-
 ?>

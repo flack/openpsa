@@ -114,9 +114,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         if (! $this->_hour_report->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $this->_hour_report);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
@@ -481,9 +479,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('no relocate url was passed ' , $_POST);
-            debug_pop();
         }
         //check if reports are passed
         if(isset($_POST['report']))
@@ -527,9 +523,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                         }
                         break;
                     default:
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_print_r('passed Action is unknown ' , $_POST['action']);
-                        debug_pop();
                         return false;
                 }
                 $hour_report->update();
@@ -537,9 +531,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('No Reports passed to action handler' , $_POST);
-            debug_pop();
         }
 
         $_MIDCOM->relocate($relocate);

@@ -58,7 +58,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      */
     function _handler_compose($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $_MIDCOM->auth->request_sudo();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
@@ -87,7 +86,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         if (   !is_object($data['message'])
             || !$data['message']->id)
         {
-            debug_pop();
             return false;
         }
 
@@ -97,7 +95,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             if (   !is_object($data['person'])
                 || !$data['person']->id)
             {
-                debug_pop();
                 return false;
             }
             $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
@@ -121,7 +118,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         if (!array_key_exists('content', $data['message_array']))
         {
             debug_add('"content" not defined in schema, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         //Substyle handling
@@ -145,7 +141,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             break;
             //TODO: Other content type overrides ?
         }
-        debug_pop();
         $_MIDCOM->auth->drop_sudo();
         return true;
     }
@@ -175,7 +170,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
     function _real_show_compose($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $prefix='';
         if (   array_key_exists('substyle', $data['message_array'])
             && !empty($data['message_array']['substyle'])
@@ -185,7 +179,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         }
         debug_add("Calling midcom_show_style(\"compose-{$prefix}message\")");
         midcom_show_style("compose-{$prefix}message");
-        debug_pop();
     }
 }
 ?>

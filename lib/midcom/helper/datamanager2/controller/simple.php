@@ -153,9 +153,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                     $this->formmanager->form->setElementError($field, $error);
                 }
 
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors), MIDCOM_LOG_ERROR);
-                debug_pop();
 
                 $dm2_label = $_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2');
 
@@ -187,10 +185,8 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                 {
                     if (count($this->datamanager->validation_errors) > 0)
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add('Type validation failed. Reverting to edit mode transparently.');
                         debug_print_r('Validation error listing:', $this->datamanager->validation_errors);
-                        debug_pop();
                         $result = 'edit';
                     }
                     else

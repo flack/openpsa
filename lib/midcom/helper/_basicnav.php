@@ -256,9 +256,7 @@ class midcom_helper__basicnav
                     break;
 
                 default:
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("_loadNode failed, see above error for details.", MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
             }
         }
@@ -330,7 +328,6 @@ class midcom_helper__basicnav
             switch ($result)
             {
                 case MIDCOM_ERRFORBIDDEN:
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     $log_level = MIDCOM_LOG_WARN;
                     if (!$this->_get_parent_id($topic_id))
                     {
@@ -339,7 +336,6 @@ class midcom_helper__basicnav
                         $log_level = MIDCOM_LOG_INFO;
                     }
                     debug_add("The Node {$parent_id} is invisible, could not satisfy the dependency chain to Node #{$node_id}", $log_level);
-                    debug_pop();
                     return MIDCOM_ERRFORBIDDEN;
 
                 case MIDCOM_ERRCRIT:
@@ -417,10 +413,8 @@ class midcom_helper__basicnav
             $interface = $this->_loader->get_interface_class($nodedata[MIDCOM_NAV_COMPONENT]);
             if (!$interface)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not get interface class of '{$nodedata[MIDCOM_NAV_COMPONENT]}' to the topic {$topic_id}, cannot add it to the NAP list.",
                     MIDCOM_LOG_ERROR);
-                debug_pop();
                 return null;
             }
             $currentleaf = $interface->get_current_leaf();
@@ -463,9 +457,7 @@ class midcom_helper__basicnav
 
             if (is_null($nodedata))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('We got NULL for this node, so we do not have any NAP information, returning null directly.');
-                debug_pop();
                 return null;
             }
 
@@ -500,9 +492,7 @@ class midcom_helper__basicnav
         if (   !$topic
             || !$topic->guid)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not load Topic #{$topic_id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return null;
         }
 
@@ -516,9 +506,7 @@ class midcom_helper__basicnav
 
             if (!$topic || !$topic->guid)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not load target for symlinked topic {$urltopic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 $topic = $urltopic;
             }
         }
@@ -528,10 +516,8 @@ class midcom_helper__basicnav
         if (   !$topic->component
             || !array_key_exists($topic->component, $_MIDCOM->componentloader->manifests))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The topic {$topic->id} has no component assigned to it, using 'midcom.core.nullcomponent'.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             $topic->component = 'midcom.core.nullcomponent';
         }
         $path = $topic->component;
@@ -539,19 +525,15 @@ class midcom_helper__basicnav
         $interface = $this->_loader->get_interface_class($path);
         if (!$interface)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not get interface class of '{$path}' to the topic {$topic->id}, cannot add it to the NAP list.",
                 MIDCOM_LOG_ERROR);
-            debug_pop();
             return null;
         }
 
         if (! $interface->set_object($topic))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not set the NAP instance of '{$path}' to the topic {$topic->id}, cannot add it to the NAP list.",
                 MIDCOM_LOG_ERROR);
-            debug_pop();
             return null;
         }
 
@@ -561,9 +543,7 @@ class midcom_helper__basicnav
         $nodedata = $interface->get_node();
         if (is_null($nodedata))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The component '{$path}' did return null for the topic {$topic->id}, indicating no NAP information is available.");
-            debug_pop();
             return null;
         }
         // Now complete the node data structure, we need a metadata object for this:
@@ -629,12 +609,10 @@ class midcom_helper__basicnav
      */
     private function _load_leaves($node)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (array_key_exists($node[MIDCOM_NAV_ID], $this->_loaded_leaves))
         {
             debug_add("Warning, tried to load the leaves of node {$node[MIDCOM_NAV_ID]} more then once.", MIDCOM_LOG_INFO);
-            debug_pop();
             return;
         }
 
@@ -653,8 +631,6 @@ class midcom_helper__basicnav
                 $this->_loaded_leaves[$node[MIDCOM_NAV_ID]][$id] =& $this->_leaves[$id];
             }
         }
-
-        debug_pop();
     }
 
     /**
@@ -676,9 +652,7 @@ class midcom_helper__basicnav
 
         if (false === $leaves)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The leaves have not yet been loaded from the database, we do this now.');
-            debug_pop();
 
             //we always write all the leaves to cache and filter for ACLs after the fact
             $_MIDCOM->auth->request_sudo('midcom.helper.nav');
@@ -735,17 +709,13 @@ class midcom_helper__basicnav
         $interface = $this->_loader->get_interface_class($node[MIDCOM_NAV_COMPONENT]);
         if (!$interface)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not get interface class of '{$node[MIDCOM_NAV_COMPONENT]}' to the topic {$topic->id}, cannot add it to the NAP list.",
                 MIDCOM_LOG_ERROR);
-            debug_pop();
             return null;
         }
         if (! $interface->set_object($topic))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Topic object dump:', $topic);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Cannot load NAP information, aborting: Could not set the nap instance of {$node[MIDCOM_NAV_COMPONENT]} to the topic {$topic->id}.");
             // This will exit().
@@ -760,9 +730,7 @@ class midcom_helper__basicnav
             if (   !isset($leaf[MIDCOM_NAV_GUID])
                 && !isset($leaf[MIDCOM_NAV_OBJECT]))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Warning: The leaf {$id} of topic {$topic->id} does set neither a GUID nor an object.", MIDCOM_LOG_DEBUG);
-                debug_pop();
                 $leaf[MIDCOM_NAV_GUID] = null;
                 $leaf[MIDCOM_NAV_OBJECT] = null;
 
@@ -860,9 +828,7 @@ class midcom_helper__basicnav
 
         if (! is_array($leaves))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r("Wrong type", $leaves, MIDCOM_LOG_ERROR);
-            debug_pop();
 
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Wrong type passed for navigation, see error level log for details');
             // This will exit
@@ -897,7 +863,6 @@ class midcom_helper__basicnav
      */
     private function _write_leaves_to_cache($node, $leaves)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('Writing ' . count ($leaves) . ' leaves to the cache.');
 
         $cached_node = $this->_nap_cache->get_node($node[MIDCOM_NAV_ID]);
@@ -907,7 +872,6 @@ class midcom_helper__basicnav
             debug_add("NAP Caching Engine: Tried to update the topic {$node[MIDCOM_NAV_NAME]} (#{$node[MIDCOM_NAV_OBJECT]->id}) "
                 . 'which was supposed to be in the cache already, but failed to load the object from the database. '
                 . 'Aborting write_to_cache, this is a critical cache inconsistency.', MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 
@@ -920,8 +884,6 @@ class midcom_helper__basicnav
         }
 
         $this->_nap_cache->put_leaves("{$node[MIDCOM_NAV_ID]}-leaves", $leaves);
-
-        debug_pop();
     }
 
     private function _get_subnodes($parent_node)
@@ -993,9 +955,7 @@ class midcom_helper__basicnav
 
         if ($this->_loadNode($parent_node) !== MIDCOM_ERROK)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Unable to load parent node $parent_node", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -1154,9 +1114,7 @@ class midcom_helper__basicnav
     {
         if (! $this->_check_leaf_id($leaf_id))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -1255,9 +1213,7 @@ class midcom_helper__basicnav
     {
         if (! $this->_check_leaf_id($leaf_id))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("This leaf is unknown, aborting.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -1450,9 +1406,7 @@ class midcom_helper__basicnav
     {
         if (is_null($napdata))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Got a null value as napdata, so this object does not have any NAP info, so we cannot display it.');
-            debug_pop();
             return false;
         }
 
@@ -1468,9 +1422,7 @@ class midcom_helper__basicnav
             {
                 // For some reason, the metadata for this object could not be retrieved. so we skip
                 // Approval/Visibility checks.
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Warning, no Metadata available for the {$napdata[MIDCOM_NAV_TYPE]} {$napdata[MIDCOM_NAV_GUID]}.", MIDCOM_LOG_INFO);
-                debug_pop();
                 return true;
             }
 

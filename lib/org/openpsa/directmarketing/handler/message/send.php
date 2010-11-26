@@ -47,7 +47,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     function _handler_send_bg($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $_MIDCOM->auth->request_sudo();
 
         //Load message
@@ -66,7 +65,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
         if (!$data['message'])
         {
-            debug_pop();
             return false;
         }
         //Check other paramerers
@@ -74,21 +72,18 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             || !is_numeric($args[1]))
         {
             debug_add('Batch number missing', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $data['batch_number'] = $args[1];
         if (!isset($args[2]))
         {
             debug_add('Job GUID missing', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $job = new midcom_services_at_entry($args[2]);
         if (!$_MIDCOM->dbfactory->is_a($job, 'midcom_services_at_entry_db'))
         {
             debug_add('Invalid job GUID', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -97,13 +92,11 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         if (!array_key_exists('content', $data['message_array']))
         {
             debug_add('"content" not defined in schema, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         ignore_user_abort();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
         return true;
     }
 
@@ -114,7 +107,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      */
     function _show_send_bg($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $_MIDCOM->auth->request_sudo();
         debug_add('Forcing content type: text/plain');
         $_MIDCOM->cache->content->content_type('text/plain');
@@ -131,12 +123,10 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             echo "Batch #{$data['batch_number']} DONE\n";
         }
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
     }
 
     function _prepare_send(&$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($nap->get_current_node());
         $data['compose_url'] = $node[MIDCOM_NAV_RELATIVEURL] . 'message/compose/' . $data['message_obj']->guid;
@@ -212,7 +202,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             $data['message_obj']->token_size = $token_size;
         }
 
-        debug_pop();
         return $composed;
     }
 
@@ -225,7 +214,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     function _handler_send($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         if (   !$data['message']
@@ -271,7 +259,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             {
                 //TODO: We should probably fail the send in stead of defaulting to immediate send
                 debug_add("Failed to parse \"{$args[1]}\" into timestamp", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -295,12 +282,10 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         if (!array_key_exists('content', $data['message_array']))
         {
             debug_add('"content" not defined in schema, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         ignore_user_abort();
-        debug_pop();
         return true;
     }
 
@@ -329,11 +314,9 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
                     'url_base' => $data['batch_url_base_full'],
                 );
                 debug_add("---SHOW SEND---".$data['batch_url_base_full'], MIDCOM_LOG_ERROR);
-                debug_pop();
                 $bool = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'background_send_message', $at_handler_arguments);
                 $bool2 = midcom_services_at_interface::register($data['send_start'], 'org.openpsa.directmarketing', 'test' , $at_handler_arguments);
                 debug_add("--- RESULT register:" . $bool . " register2:" . $bool2,  MIDCOM_LOG_ERROR);
-                debug_pop();
                 midcom_show_style('send-start');
                 break;
         }

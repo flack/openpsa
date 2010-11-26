@@ -151,7 +151,6 @@ class midcom_services_indexer_backend_xmlshell implements midcom_services_indexe
      */
     function _exec ()
     {
-        debug_push('midcom_services_indexer_backend_xmlshell');
         $descriptors = Array
         (
             0 => Array('pipe', 'r'), // stdin, the child will read from it
@@ -165,7 +164,6 @@ class midcom_services_indexer_backend_xmlshell implements midcom_services_indexe
         {
             debug_print_r('Tried to open these pipes:', $descriptors);
             debug_print_r('Global config was:', $GLOBALS['midcom_config']);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to execute the indexer process.');
             // This will exit.
         }
@@ -266,7 +264,6 @@ class midcom_services_indexer_backend_xmlshell implements midcom_services_indexe
         $return = proc_close($process);
         if ($return != 0)
         {
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 
                 "The xmlshell indexer executable returned {$return}, this is critical. Check the Debug Log."); 
             // This will exit.
@@ -278,8 +275,6 @@ class midcom_services_indexer_backend_xmlshell implements midcom_services_indexe
         {
             debug_add("Failed to execute Request {$id}: {$warning}", MIDCOM_LOG_WARN); 
         }
-        debug_pop();
     }
 }
-
 ?>

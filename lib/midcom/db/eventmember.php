@@ -56,11 +56,9 @@ class midcom_db_eventmember extends midcom_core_dbaobject
      */
     function get_parent_guid_uncached()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if ($this->eid == 0)
         {
-            debug_pop();
             return null;
         }
 
@@ -69,11 +67,9 @@ class midcom_db_eventmember extends midcom_core_dbaobject
         {
             debug_add("Could not load Event ID {$this->eid} from the database, aborting.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return null;
         }
 
-        debug_pop();
         return $parent->guid;
     }
 }

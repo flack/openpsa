@@ -80,10 +80,8 @@ class midcom_services_permalinks extends midcom_baseclasses_core_object
             || !isset($object->guid)
             || empty($object->guid))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to resolve the GUID {$guid}, this is most probably an access denied error.", MIDCOM_LOG_ERROR);
             debug_add('Last MidCOM error string: ' . midcom_connection::get_error_string());
-            debug_pop();
             return null;
         }
 
@@ -98,9 +96,7 @@ class midcom_services_permalinks extends midcom_baseclasses_core_object
             $napobj = $nav->get_node($object->id);
             if (! $napobj)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve the NAP object for topic {$object->id}.", MIDCOM_LOG_INFO);
-                debug_pop();
                 return null;
             }
             return $napobj[MIDCOM_NAV_FULLURL];
@@ -187,11 +183,9 @@ class midcom_services_permalinks extends midcom_baseclasses_core_object
         $interface = $_MIDCOM->componentloader->get_interface_class($component);
         if ($interface === null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load the interface class for the component {$component} of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
                 MIDCOM_LOG_WARN);
             debug_print_r('Passed topic was:', $topic);
-            debug_pop();
             return null;
         }
 
@@ -206,11 +200,9 @@ class midcom_services_permalinks extends midcom_baseclasses_core_object
 
         if (! $node)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load the NAP information of the topic #{$topic->id}, cannot attempt to resolve the permalink here.",
                 MIDCOM_LOG_WARN);
             debug_print_r('Passed topic was:', $topic);
-            debug_pop();
             return null;
         }
 

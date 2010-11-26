@@ -470,9 +470,7 @@ class midcom_application
 
         if (!$this->_parsers[$this->_currentcontext])
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('URL Parser is not instantiated, bailing out.', MIDCOM_LOG_ERROR);
-            debug_pop();
             $this->generate_error(MIDCOM_ERRCRIT, $GLOBALS['midcom_errstr']);
         }
 
@@ -497,9 +495,7 @@ class midcom_application
         $oldcontext = $this->_currentcontext;
         if ($oldcontext != 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Entering Context 0 (old Context: {$this->_currentcontext})", MIDCOM_LOG_DEBUG);
-            debug_pop();
         }
         $this->_currentcontext = 0;
         $this->style->enter_context(0);
@@ -509,9 +505,7 @@ class midcom_application
         // Leave Context
         if ($oldcontext != 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Leaving Context 0 (new Context: {$oldcontext})", MIDCOM_LOG_DEBUG);
-            debug_pop();
         }
 
         $this->style->leave_context();
@@ -585,7 +579,6 @@ class midcom_application
      */
     public function dynamic_load($url, $config = array(), $pass_get = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_add("Dynamic load of URL {$url}", MIDCOM_LOG_DEBUG);
 
@@ -597,7 +590,6 @@ class midcom_application
         if ($this->_status < MIDCOM_STATUS_CONTENT)
         {
             debug_add("dynamic_load content request called before content output phase. Aborting.", MIDCOM_LOG_ERROR);
-            debug_pop();
             $this->generate_error(MIDCOM_ERRCRIT, "dynamic_load content request called before content output phase.");
             // This will exit
         }
@@ -624,7 +616,6 @@ class midcom_application
         {
             // The check_hit method serves cached content on hit
             $this->_currentcontext = $oldcontext;
-            debug_pop();
             return $context;
         }
 
@@ -636,7 +627,6 @@ class midcom_application
         if (!$this->_parsers[$this->_currentcontext])
         {
             debug_add("URL Parser could not be instantiated: $midcom_errstr", MIDCOM_LOG_ERROR);
-            debug_pop();
             $this->generate_error(MIDCOM_ERRCRIT, "URL Parser could not be instantiated: {$GLOBALS['midcom_errstr']}");
         }
 
@@ -646,7 +636,6 @@ class midcom_application
         if ($this->_status == MIDCOM_STATUS_ABORT)
         {
             debug_add("Dynamic load _process() phase ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
-            debug_pop();
 
             // Leave Context
             $this->_currentcontext = $oldcontext;
@@ -674,7 +663,6 @@ class midcom_application
         // Leave Context
         $this->_currentcontext = $oldcontext;
 
-        debug_pop();
         return $context;
     }
 
@@ -765,17 +753,13 @@ class midcom_application
                 {
                     case 'substyle':
                         $substyle = $value;
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Substyle '$substyle' selected", MIDCOM_LOG_DEBUG);
-                        debug_pop();
                         break;
 
                     case 'serveattachmentguid':
                         if ($this->_parsers[$this->_currentcontext]->argc > 1)
                         {
-                            debug_push_class(__CLASS__, __FUNCTION__);
                             debug_add('Too many arguments remaining for serve_attachment.', MIDCOM_LOG_ERROR);
-                            debug_pop();
                         }
 
                         $attachment = new midcom_db_attachment($value);
@@ -895,14 +879,6 @@ class midcom_application
                         // This will exit
 
                     case 'log':
-                        if ($this->_parsers[$this->_currentcontext]->argc > 1)
-                        {
-                            debug_push_class(__CLASS__, __FUNCTION__);
-                            debug_add("Too many arguments remaining for debuglog.", MIDCOM_LOG_ERROR);
-                            debug_pop();
-                            $this->generate_error(MIDCOM_ERRNOTFOUND, "Failed to access debug log: Too many arguments for debuglog");
-                            // This will exit
-                        }
                         $this->_showdebuglog($value);
                         break;
 
@@ -933,9 +909,7 @@ class midcom_application
             if (   !is_object($object)
                 || !$object->guid)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Root node missing.', MIDCOM_LOG_ERROR);
-                debug_pop();
                 $this->generate_error(MIDCOM_ERRCRIT, 'Root node missing.');
             }
 
@@ -948,9 +922,7 @@ class midcom_application
             if (!$path)
             {
                 $path = 'midcom.core.nullcomponent';
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
-                debug_pop();
             }
 
             $this->_set_context_data($path,MIDCOM_CONTEXT_COMPONENT);
@@ -996,7 +968,6 @@ class midcom_application
             }
 
             $this->_status = MIDCOM_STATUS_ABORT;
-            debug_pop();
             return false;// This will exit.
         }
 
@@ -1041,7 +1012,6 @@ class midcom_application
      */
     private function _handle()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $path = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
 
@@ -1077,8 +1047,6 @@ class midcom_application
         {
             $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_PAGETITLE] = $meta[MIDCOM_NAV_NAME];
         }
-
-        debug_pop();
     }
 
     /**
@@ -1113,18 +1081,14 @@ class midcom_application
         $config = ($config_obj == false) ? array() : $config_obj->get_all();
         if (! $component_interface->configure($config, $this->_currentcontext))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add ("Component Configuration failed: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             $this->generate_error(MIDCOM_ERRCRIT, "Component Configuration failed: " . midcom_connection::get_error_string());
         }
 
         // Make can_handle check
         if (!$component_interface->can_handle($object, $this->_parsers[$this->_currentcontext]->argc, $this->_parsers[$this->_currentcontext]->argv, $this->_currentcontext))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -1411,28 +1375,22 @@ class midcom_application
 
         if (!is_array($this->_context))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $midcom_errstr = "Corrupted context data (should be array).";
             debug_add ($midcom_errstr, MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         if (!array_key_exists($contextid, $this->_context))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $midcom_errstr = "Requested Context ID $contextid invalid.";
             debug_add ($midcom_errstr, MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         if (!array_key_exists($key, $this->_context[$contextid]) || $key >= 1000)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $midcom_errstr = "Requested Key ID $key invalid.";
             debug_add($midcom_errstr, MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -1563,10 +1521,8 @@ class midcom_application
 
         if (!array_key_exists($contextid, $this->_context))
         {
-            debug_push("midcom_application::get_custom_context_data");
             $midcom_errstr = "Requested Context ID $contextid invalid.";
             debug_add ($midcom_errstr, MIDCOM_LOG_ERROR);
-            debug_pop();
             $result = false;
             return $result;
         }
@@ -1664,8 +1620,6 @@ class midcom_application
             $this->generate_error(MIDCOM_ERRCRIT, "Cannot do a substyle_append before the HANDLE phase.");
         }
 
-        debug_push("midcom_application::substyle_prepend");
-
         $current_style = $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE];
 
         if (strlen($current_style) > 0)
@@ -1674,7 +1628,6 @@ class midcom_application
         debug_add("Updating Component Context Substyle from $current_style to $newsub", MIDCOM_LOG_DEBUG);
 
         $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $newsub;
-        debug_pop();
     }
 
     /**
@@ -1698,18 +1651,14 @@ class midcom_application
     {
         if (! array_key_exists($path, $this->componentloader->manifests))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Cannot load component {$path} as library, it is not installed.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         if (! $this->componentloader->manifests[$path]->purecode)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Cannot load component {$path} as library, it is a full-fledged component.", MIDCOM_LOG_ERROR);
             debug_print_r('Manifest:', $this->componentloader->manifests[$path]);
-            debug_pop();
             return false;
         }
 
@@ -1867,16 +1816,14 @@ class midcom_application
      */
     function _set_current_context($id)
     {
-        debug_push("midcom_application::_set_current_context");
-
         if ($id < 0 || $id >= count ($this->_context)) {
             debug_add("Could not switch to invalid context $id.", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
-        } else {
+        }
+        else
+        {
             debug_add("Setting active context to $id.", MIDCOM_LOG_DEBUG);
             $this->_currentcontext = $id;
-            debug_pop();
             return true;
         }
     }
@@ -1910,9 +1857,7 @@ class midcom_application
             return $this->$name;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Requested service '$name' is not available.", MIDCOM_LOG_ERROR);
-        debug_pop();
         $this->generate_error(MIDCOM_ERRCRIT, "Requested service '$name' is not available.");
     }
 
@@ -2106,7 +2051,6 @@ class midcom_application
         $stats = $attachment->stat();
         $last_modified =& $stats[9];
 
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $etag = md5("{$last_modified}{$attachment->name}{$attachment->mimetype}{$attachment->guid}");
 
@@ -2123,14 +2067,12 @@ class midcom_application
             }
             while(@ob_end_flush());
             debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
-            debug_pop();
             _midcom_stop_request();
         }
 
         $f = $attachment->open('r');
         if (! $f)
         {
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open attachment for reading: ' . midcom_connection::get_error_string());
             // This will exit()
         }
@@ -2185,14 +2127,12 @@ class midcom_application
         if (!$send_att_body)
         {
             debug_add('NOT sending file (X-Sendfile will take care of that, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
-            debug_pop();
             _midcom_stop_request();
         }
 
         fpassthru($f);
         $attachment->close();
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
-        debug_pop();
         _midcom_stop_request();
     }
 
@@ -2730,7 +2670,6 @@ class midcom_application
      */
     function relocate($url, $response_code = 302)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Relocating to {$url}");
 
         if (! preg_match('|^https?://|', $url))
@@ -2784,6 +2723,13 @@ class midcom_application
      */
     private function _showdebuglog($count)
     {
+        if ($this->_parsers[$this->_currentcontext]->argc > 1)
+        {
+            debug_add("Too many arguments remaining for debuglog.", MIDCOM_LOG_ERROR);
+            $this->generate_error(MIDCOM_ERRNOTFOUND, "Failed to access debug log: Too many arguments for debuglog");
+            // This will exit
+        }
+
         if ($GLOBALS['midcom_config']['log_tailurl_enable'] !== true)
         {
             $this->generate_error(MIDCOM_ERRFORBIDDEN, "Access to the debug log is disabled.");

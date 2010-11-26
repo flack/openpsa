@@ -266,7 +266,6 @@ class midcom_helper_toolbar
      */
     function add_item($item, $before = -1)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if ($before != -1)
         {
@@ -288,7 +287,6 @@ class midcom_helper_toolbar
             $start[] = $item;
             $this->items = array_merge($start, array_slice($this->items, $before));
         }
-        debug_pop();
     }
 
     /**
@@ -304,9 +302,7 @@ class midcom_helper_toolbar
         $item = $this->clean_item($item);
         if (! array_key_exists($index, $this->items) )
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Insert of item {$item[MIDCOM_TOOLBAR_NAME]} into index $index failed");
-            debug_pop();
             return false;
         }
 
@@ -914,7 +910,6 @@ class midcom_helper_toolbar
             if (is_null($index))
             {
                 debug_add("Invalid URL '{$url}', URL not found.", MIDCOM_LOG_ERROR);
-                debug_pop();
 
                 if ($raise_error)
                 {

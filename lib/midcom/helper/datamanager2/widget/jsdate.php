@@ -24,13 +24,6 @@
  * If unspecified, it defaults to the 0-9999 range *unless* the base date type uses
  * the UNIXDATE storage mode, in which case 1970-2030 will be used instead.
  *
- * <b>JScript Calendar license information</b>
- *
- * The DHTML Calendar, details and latest version at: http://dynarch.com/mishoo/calendar.epl
- *
- * This script is distributed under the GNU Lesser General Public License.
- * Read the entire license text here: http://www.gnu.org/licenses/lgpl.html
- *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager2_widget
@@ -90,10 +83,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_date'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the select widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -122,8 +113,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
 
         $executed = true;
 
-        $prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jscript-calendar';
-        $_MIDCOM->add_jsfile("{$prefix}/calendar_stripped.js");
+        $_MIDCOM->enable_jquery();
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.datepicker.min.js");
 
         $lang = $_MIDCOM->i18n->get_current_language();
         /*
@@ -131,22 +122,34 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
          * Since a missing lang file causes the calendar to break, let's make extra sure
          * that this won't happen
          */
-        if (!file_exists(MIDCOM_STATIC_ROOT . "/midcom.helper.datamanager2/jscript-calendar/lang/calendar-{$lang}.js"))
+        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery.ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
         {
             $lang = $_MIDCOM->i18n->get_fallback_language();
-            if (!file_exists(MIDCOM_STATIC_ROOT . "/midcom.helper.datamanager2/jscript-calendar/lang/calendar-{$lang}.js"))
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery.ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
             {
                 $lang = 'en';
             }
         }
 
-        $_MIDCOM->add_jsfile("{$prefix}/lang/calendar-{$lang}.js");
-        $_MIDCOM->add_jsfile("{$prefix}/calendar-setup.js");
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js");
 
 
-        $attributes = Array('rel' => 'stylesheet', 'type' => 'text/css');
-        $attributes['href'] = "{$prefix}/calendar-win2k-1.css";
+        $attributes = array
+        (
+            'rel' => 'stylesheet',
+            'type' => 'text/css',
+            'href' => MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.min.css',
+        );
         $_MIDCOM->add_link_head($attributes);
+
+        $attributes = array
+        (
+            'rel' => 'stylesheet',
+            'type' => 'text/css',
+            'href' => MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.datepicker.min.css',
+        );
+        $_MIDCOM->add_link_head($attributes);
+
     }
 
     /**
@@ -156,41 +159,16 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      */
     function _create_initscript()
     {
-        if ($this->show_time)
-        {
-            if ($this->hide_seconds)
-            {
-                $format = '%Y-%m-%d %H:%M';
-            }
-            else
-            {
-                $format = '%Y-%m-%d %H:%M:%S';
-            }
-            $showstime = 'true';
-        }
-        else
-        {
-            $format = '%Y-%m-%d';
-            $showstime = 'false';
-        }
-
         $script = <<<EOT
 <script type="text/javascript">
-    Calendar.setup(
+        jQuery("#{$this->_namespace}{$this->name}").datepicker(
         {
-            ifFormat    : "{$format}",
-            daFormat    : "{$format}",
-            showsTime   : {$showstime},
-            align       : "Br",
-            firstDay    : 1,
-            timeFormat  : 24,
-            showOthers  : true,
-            singleClick : false,
-            range       : [{$this->minyear}, {$this->maxyear}],
-            inputField  : "{$this->_namespace}{$this->name}",
-            button      : "{$this->_namespace}{$this->name}_trigger"
-        }
-    );
+          maxDate: new Date({$this->maxyear}, 1, 1), 
+          minDate: new Date({$this->minyear}, 1, 1),
+          dateFormat: 'yy-mm-dd',
+                //altFormat: 'yyyy-mm-dd',
+                //altField: '#ID',
+                });
 </script>
 EOT;
         return $script;
@@ -229,12 +207,32 @@ EOT;
         );
         $elements[] = HTML_QuickForm::createElement('text', $this->name, '', $attributes);
 
-        $attributes = Array
-        (
-            'class' => 'date_trigger',
-            'id'    => "{$this->_namespace}{$this->name}_trigger",
-        );
-        $elements[] = HTML_QuickForm::createElement('button', "{$this->name}_trigger", '...', $attributes);
+        if ($this->show_time)
+        {
+            $attributes = Array
+            (
+                'class' => 'jsdate_hours',
+                'id'    => "{$this->_namespace}{$this->name}_hours",
+            );
+            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_hours", '', $attributes);
+            $attributes = Array
+            (
+                'class' => 'jsdate_minutes',
+                'id'    => "{$this->_namespace}{$this->name}_minutes",
+            );
+            $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_minutes", '', $attributes);
+
+            if (!$this->hide_seconds)
+            {
+                $attributes = Array
+                (
+                    'class' => 'jsdate_minutes',
+                    'id'    => "{$this->_namespace}{$this->name}_seconds",
+                );
+                $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_secondss", '', $attributes);
+            }
+        }
+
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_initscript", '', $this->_create_initscript());
     }
 
@@ -303,6 +301,7 @@ EOT;
         {
             $this->format = '%Y-%m-%d';
         }
+
         return $this->_type->value->format($this->format);
     }
 

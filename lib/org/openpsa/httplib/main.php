@@ -48,9 +48,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         {
             return true;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Got HTTP response code {$response_code}, reporting failure", MIDCOM_LOG_DEBUG);
-        debug_pop();
         return false;
     }
 
@@ -92,10 +90,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         {
             // Handle errors
             $this->error = $client->results;
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to fetch URL {$url}, got response: {$client->status}", MIDCOM_LOG_WARN);
             debug_add($client->error, MIDCOM_LOG_DEBUG);
-            debug_pop();
             return '';
         }
 
@@ -113,7 +109,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     function post($uri, &$variables, $headers = null)
     {
         require_once('HTTP/Request.php');
-        debug_push_class(__CLASS__, __FUNCTION__);
         $params = array
         (
             'timeout' => $this->http_timeout,
@@ -140,7 +135,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         {
             $this->error = '$variables is not array or is empty';
             debug_add($this->error, MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         foreach ($variables as $name => $value)
@@ -161,7 +155,6 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         {
             $this->error = $response->getMessage();
             debug_add("Got error '{$this->error}' from HTTP_Request", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         $code = $c->getResponseCode();
@@ -170,10 +163,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         {
             $this->error = $this->_http_code2error($code);
             debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
-        debug_pop();
         return $c->getResponseBody();
     }
 

@@ -41,9 +41,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $root_classes = midcom_helper_reflector_tree::get_root_classes();
         if (!in_array($schema_type, $root_classes))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Type {$schema_type} is not a \"root\" type", MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
@@ -59,26 +57,20 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
             if (empty($midcom_dba_classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
-                debug_pop();
                 $x = false;
                 return $x;
             }
             if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 $x = false;
                 return $x;
             }
             $qb_callback = array($midcom_dba_classname, 'new_query_builder');
             if (!is_callable($qb_callback))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Static method {$midcom_dba_classname}::new_query_builder() is not callable", MIDCOM_LOG_ERROR);
-                debug_pop();
                 $x = false;
                 return $x;
             }
@@ -88,9 +80,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Sanity-check
         if (!$qb)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
@@ -119,7 +109,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     break;
                 default:
                     debug_add("Do not know how to handle upfield '{$upfield}' has type {$uptype}", MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
             }
         }
@@ -139,27 +128,21 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   !isset($this->mgdschema_class)
             || empty($this->mgdschema_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
             && !midcom_connection::is_admin())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         $qb = $this->_root_objects_qb($deleted);
         if (!$qb)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -173,27 +156,21 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   !isset($this->mgdschema_class)
             || empty($this->mgdschema_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
             && !midcom_connection::is_admin())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         $qb = $this->_root_objects_qb($deleted);
         if (!$qb)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $qb->set_limit(1);
@@ -221,27 +198,21 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   !isset($this->mgdschema_class)
             || empty($this->mgdschema_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // PONDER: Check for some generic user privilege instead  ??
         if (   $deleted
             && !midcom_connection::is_admin())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         $qb = $this->_root_objects_qb($deleted);
         if (!$qb)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         midcom_helper_reflector_tree::add_schema_sorts_to_qb($qb, $this->mgdschema_class);
@@ -282,25 +253,19 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   $deleted
             && !midcom_connection::is_admin())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $resolver = new midcom_helper_reflector_tree($object);
         if (!$resolver)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not instantiate midcom_helper_reflector_tree from \$object", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('resolver returned false (critical failure) from get_child_classes()', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         foreach ($child_classes as $schema_type)
@@ -308,9 +273,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $qb = $resolver->_child_objects_type_qb($schema_type, $object, $deleted);
             if (!$qb)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('resolver returned false (critical failure) from _child_objects_type_qb()', MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $qb->set_limit(1);
@@ -337,25 +300,19 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   $deleted
             && !midcom_connection::is_admin())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $resolver = new midcom_helper_reflector_tree($object);
         if (!$resolver)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not instantiate midcom_helper_reflector_tree from \$object", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('resolver returned false (critical failure) from get_child_classes()', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -486,9 +443,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             // DBA classes can supposedly handle their own typecasts correctly
@@ -509,9 +464,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 $parent_object = new $target_class((int)$object->$property);
                 break;
             default:
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Do not know how to handle linktype {$linktype}", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
         }
 
@@ -532,17 +485,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   $deleted
             && !midcom_connection::is_admin())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Non-admins are not allowed to list deleted objects', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $resolver = new midcom_helper_reflector_tree($object);
         if (!$resolver)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not instantiate midcom_helper_reflector_tree from \$object", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $child_classes = $resolver->get_child_classes();
@@ -550,9 +499,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         {
             if ($child_classes === false)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('resolver returned false (critical failure) from get_child_classes()', MIDCOM_LOG_ERROR);
-                debug_pop();
             }
             return false;
         }
@@ -595,17 +542,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     {
         if (empty($schema_type))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Passed schema_type argument is empty, this is fatal', MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
         if (!is_object($for_object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Passed for_object argument is not object, this is fatal', MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
@@ -621,26 +564,20 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($schema_type);
             if (empty($midcom_dba_classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("MidCOM DBA does not know how to handle {$schema_type}", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return $qb;
             }
 
             if (!$_MIDCOM->dbclassloader->load_component_for_class($midcom_dba_classname))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return $qb;
             }
 
             $qb_callback = array($midcom_dba_classname, 'new_query_builder');
             if (!is_callable($qb_callback))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Static method {$midcom_dba_classname}::new_query_builder() is not callable", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return $qb;
             }
             $qb = call_user_func($qb_callback);
@@ -649,9 +586,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Sanity-check
         if (!$qb)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not get QB for type '{$schema_type}'", MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
@@ -699,9 +634,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
         if (count($linkfields) === 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Class '{$schema_type}' has no valid link properties pointing to class '" . get_class($for_object) . "', this should not happen here", MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
@@ -755,9 +688,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                     }
                     break;
                 default:
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Do not know how to handle linked field '{$field}', has type {$field_type}", MIDCOM_LOG_INFO);
-                    debug_pop();
                     if ($multiple_links)
                     {
                         $qb->end_group();
@@ -787,9 +718,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -812,9 +741,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not get QB instance', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $count = $qb->count();
@@ -848,9 +775,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   !isset($this->mgdschema_class)
             || empty($this->mgdschema_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         static $child_classes_all = array();
@@ -878,9 +803,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   !isset($this->mgdschema_class)
             || empty($this->mgdschema_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -892,7 +815,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_add("config->get('child_class_exceptions_neverchild') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
             $child_class_exceptions_neverchild = array();
         }
-        debug_pop();
         $child_classes = array();
         foreach (midcom_connection::get_schema_types() as $schema_type)
         {
@@ -965,9 +887,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Safety against misconfiguration
         if (!is_array($root_exceptions_notroot))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("config->get('root_class_exceptions_notroot') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-            debug_pop();
             $root_exceptions_notroot = array();
         }
         $root_classes = array();
@@ -1015,9 +935,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         // Safety against misconfiguration
         if (!is_array($root_exceptions_forceroot))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("config->get('root_class_exceptions_forceroot') did not return array, invalid configuration ??", MIDCOM_LOG_ERROR);
-            debug_pop();
             $root_exceptions_forceroot = array();
         }
         if (!empty($root_exceptions_forceroot))
@@ -1027,9 +945,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 if (!class_exists($schema_type))
                 {
                     // Not a valid class
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Type {$schema_type} has been listed to always be root class, but the class does not exist", MIDCOM_LOG_WARN);
-                    debug_pop();
                     continue;
                 }
                 if (in_array($schema_type, $root_classes))
@@ -1097,18 +1013,14 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 /**
                  * Noise, useful when something is going wrong in *weird* way
                  *
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks", MIDCOM_LOG_DEBUG);
-                debug_pop();
                 */
                 continue;
             }
             $qb =& $this->_child_objects_type_qb($schema_type, $parent, false);
             if (!is_object($qb))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("\$this->_child_objects_type_qb('{$schema_type}', \$parent, false) did not return object", MIDCOM_LOG_WARN);
-                debug_pop();
                 continue;
             }
             $qb->add_constraint($child_name_property, '=', $name_copy);
@@ -1125,15 +1037,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             if ($results === false)
             {
                 debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 unset($sibling_classes, $schema_type, $qb, $results);
                 return false;
             }
             if ($results > 0)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($object) . " #{$object->id} (path '" . midcom_helper_reflector_tree::resolve_path($object, '/') . "')" , MIDCOM_LOG_DEBUG);
-                debug_pop();
                 unset($sibling_classes, $schema_type, $qb, $results);
                 return false;
             }
@@ -1171,9 +1080,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 /**
                  * Noise, useful when something is going wrong in *weird* way
                  *
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks", MIDCOM_LOG_DEBUG);
-                debug_pop();
                 */
                 continue;
             }
@@ -1200,15 +1107,12 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             {
                 $_MIDCOM->auth->drop_sudo();
                 debug_add("Querying for siblings of class {$schema_type} failed critically, last Midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;
             }
             if ($results > 0)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Name clash in sibling class {$schema_type} for " . get_class($object) . " #{$object->id} (path '" . midcom_helper_reflector_tree::resolve_path($object, '/') . "')" , MIDCOM_LOG_DEBUG);
-                debug_pop();
                 unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;
             }
@@ -1228,9 +1132,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   !isset($this->mgdschema_class)
             || empty($this->mgdschema_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -1289,9 +1191,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 $_MIDCOM->auth->drop_sudo();
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Object #{$object->guid} has no valid parent but is not listed in the root classes, don't know what to do, returning true and supposing user knows what he is doing", MIDCOM_LOG_ERROR);
-                debug_pop();
                 unset($is_root_class);
                 return true;
             }
@@ -1341,9 +1241,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if (   !isset($this->mgdschema_class)
             || empty($this->mgdschema_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -1352,9 +1250,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
         if ($original_name === false)
         {
             // Fatal error with name resolution
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Object " . get_class($object) . " #{$object->id} returned critical failure for name resolution, aborting", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -1373,17 +1269,13 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             {
                 unset($title_copy);
                 // Fatal error with title resolution
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Object " . get_class($object) . " #{$object->id} returned critical failure for title resolution when name was empty, aborting", MIDCOM_LOG_WARN);
-                debug_pop();
                 return false;
             }
             if (empty($title_copy))
             {
                 unset($title_copy);
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Object " . get_class($object) . " #{$object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
-                debug_pop();
                 return false;
             }
             $current_name = midcom_generate_urlname_from_string($title_copy);
@@ -1411,9 +1303,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             if ($d < 1)
             {
                 // Decrementer undeflowed
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Maximum number of tries exceeded, current name was: " . $object->{$name_prop} , MIDCOM_LOG_ERROR);
-                debug_pop();
                 $object->{$name_prop} = $original_name;
                 unset($i, $d, $name_prop, $original_name, $base_name);
                 return false;
@@ -1578,9 +1468,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             {
                 // This should not happen, logging error and returning true (even though it's potentially dangerous)
                 $_MIDCOM->auth->drop_sudo();
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Object #{$object->guid} has no valid parent but is not listed in the root classes, don't know what to do, letting higher level decide", MIDCOM_LOG_ERROR);
-                debug_pop();
                 unset($root_classes, $is_root_class);
                 return array($i, $base_name);
             }

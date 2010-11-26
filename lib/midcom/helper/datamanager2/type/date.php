@@ -72,10 +72,8 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             || !is_a($this->_datamanager->types[$this->earlier_field], 'midcom_helper_datamanager2_type_date')
             || !$this->_datamanager->types[$this->earlier_field]->value)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to validate date field {$this->name} with {$this->earlier_field}, as such date field wasn't found.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             $this->validation_error = sprintf($this->_l10n->get('type date: failed to compare date with field %s'), $this->earlier_field);
             return false;
         }

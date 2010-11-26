@@ -121,7 +121,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     function get_actions($limit_to_person = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $default = array
         (
             'time'  => false,
@@ -138,7 +137,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
         if (count($related_objects) == 0)
         {
-            debug_pop();
             return;
         }
 
@@ -199,7 +197,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         {
             $this->prev_action = $sort_prev[0];
         }
-        debug_pop();
         return;
     }
 

@@ -18,14 +18,12 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
         if (!$_MIDCOM->auth->request_sudo('net.nemein.rss'))
         {
             $msg = "Could not get sudo, aborting operation, see error log for details";
             $this->print_error($msg);
             debug_add($msg, MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
 
@@ -55,7 +53,6 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         $_MIDCOM->auth->drop_sudo();
 
         debug_add('Done');
-        debug_pop();
         return;
     }
 }

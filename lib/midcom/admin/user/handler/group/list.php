@@ -125,10 +125,8 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Failed to update the group, last midcom_connection::get_error_string was '. midgard_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 debug_print_r('We operated on this object', $data['group'], MIDCOM_LOG_ERROR);
-                debug_pop();
 
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to update the group, see error level log for details');
                 // This will exit

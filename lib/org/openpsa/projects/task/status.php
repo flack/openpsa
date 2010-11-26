@@ -81,7 +81,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         {
             debug_add('Duplicate statuses found, aborting create', MIDCOM_LOG_WARN);
             debug_print_r("List of duplicate status objects:", $mc->list_keys());
-            debug_pop();
             return false;
         }
 
@@ -90,7 +89,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
     function _on_created()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         //Remove the resource if necessary
         if ($this->type == ORG_OPENPSA_TASKSTATUS_DECLINED
@@ -106,7 +104,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
                 foreach ($results as $result)
                 {
                     debug_add("removing user #{$this->targetPerson} from resources");
-                    debug_pop();
                     $result->delete();
                 }
             }
@@ -130,7 +127,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         if ($task->status == $this->type)
         {
             debug_add("Task status is up to date, returning");
-            debug_pop();
             return;
         }
 
@@ -145,19 +141,16 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
                 {
                     case ORG_OPENPSA_TASKACCEPTANCE_ALLACCEPT:
                         debug_add('Acceptance mode not implemented', MIDCOM_LOG_ERROR);
-                        debug_pop();
                         return false;
                         break;
                     case ORG_OPENPSA_TASKACCEPTANCE_ONEACCEPTDROP:
                         debug_add('Acceptance mode not implemented', MIDCOM_LOG_ERROR);
-                        debug_pop();
                         return false;
                         break;
                     default:
                     case ORG_OPENPSA_TASKACCEPTANCE_ONEACCEPT:
                         //PONDER: Should this be superseded by generic method for querying the status objects to set the latest status ??
                         debug_add("Required accept received, setting task status to accepted");
-                        debug_pop();
                         //
                         $needs_update = true;
                         break;

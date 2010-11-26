@@ -89,17 +89,13 @@ class midcom_services_rcs extends midcom_baseclasses_core_object
         if (   !is_object($handler)
             || !method_exists($handler, 'update'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Could not load handler!');
-            debug_pop();
             return false;
         }
         if (   !$handler->update($object, $message)
             && $this->config->use_rcs())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('RCS: Could not save file!');
-            debug_pop();
             return false;
         }
         return true;

@@ -41,14 +41,12 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     //TODO: Rewrite
     function notify($type = 'update', $event = false, $nl = "\n")
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("called with options: '{$type}', '{$event->guid}', '{$nl}'");
         $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
         $recipient =& $this->get_person_obj();
         if (!$recipient)
         {
             debug_add('recipient could not be gotten, aborting', MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -63,7 +61,6 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
         {
             //Do not send notification to current user
             debug_add('event->send_notify_me is false and recipient is current user, aborting notify');
-            debug_pop();
             return false;
         }
 
@@ -105,7 +102,6 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
             break;
             default:
                 debug_add("action '{$type}' is invalid, aborting notification", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
         }
 
@@ -129,8 +125,6 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
                 ),
             );
         }
-
-        debug_pop();
         return org_openpsa_notifications::notify($action, $recipient->guid, $message);
     }
 

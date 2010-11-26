@@ -206,9 +206,7 @@ class midcom_helper__componentloader
 
         if (empty($path))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("No path given, aborting");
-            debug_pop();
             $GLOBALS['midcom_errstr'] = 'No component path given.';
             return false;
         }
@@ -229,10 +227,8 @@ class midcom_helper__componentloader
         // (f.x. broken DBA classes).
         if (! array_key_exists($path, $this->manifests))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The component {$path} was not found in the manifest list. Cannot load it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             $GLOBALS['midcom_errstr'] = 'Component not in manifest list.';
             return false;
         }
@@ -255,10 +251,8 @@ class midcom_helper__componentloader
         $directory = MIDCOM_ROOT . "{$snippetpath}/midcom";
         if (! is_dir($directory))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $GLOBALS['midcom_errstr'] = "Failed to access Snippetdir {$directory}: Directory not found.";
             debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            debug_pop();
             $GLOBALS['midcom_errstr'] = 'Directory not found.';
             return false;
         }
@@ -266,10 +260,8 @@ class midcom_helper__componentloader
         // Load the interfaces.php snippet, abort if that file is not available.
         if (! file_exists("{$directory}/interfaces.php"))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $GLOBALS['midcom_errstr'] = "File {$directory}/interfaces.php is not present.";
             debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            debug_pop();
             $GLOBALS['midcom_errstr'] = 'Missing interfaces class.';
             return false;
         }
@@ -285,10 +277,8 @@ class midcom_helper__componentloader
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $GLOBALS['midcom_errstr'] = "Class {$prefix}_interface does not exist.";
             debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            debug_pop();
             $GLOBALS['midcom_errstr'] = 'No interface class defined.';
             return false;
         }
@@ -296,19 +286,15 @@ class midcom_helper__componentloader
         // Make DBA Classes known, bail out if we encounter an invalid class
         if (! $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_definitions))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load the component manifest for {$this->manifests[$path]->name}: The DBA classes failed to load.", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
         $init_class =& $this->_interface_classes[$path];
         if ($init_class->initialize($path) == false)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $GLOBALS['midcom_errstr'] = "Initialize of Component {$path} failed.";
             debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            debug_pop();
             $GLOBALS['midcom_errstr'] = 'Initialization failed.';
             return false;
         }
@@ -427,10 +413,8 @@ class midcom_helper__componentloader
 
         if (! is_dir($directory))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $GLOBALS['midcom_errstr'] = "Failed to validate the component path {$directory}: It is no directory.";
             debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            debug_pop();
             return false;
         }
 
@@ -452,9 +436,7 @@ class midcom_helper__componentloader
         if (!preg_match("/^[a-z][a-z0-9\.]*[a-z0-9]$/", $path))
         {
             $GLOBALS['midcom_errstr'] = "Invalid URL: " . $path;
-            debug_push("midcom_helper__componentloader::validate_url");
             debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            debug_pop();
             return false;
         }
 
@@ -495,10 +477,8 @@ class midcom_helper__componentloader
 
         if (! $cache_hit)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cache miss, generating component manifest cache now.');
             $this->_generate_class_manifest_cache($cache_identifier);
-            debug_pop();
         }
     }
 
@@ -534,11 +514,9 @@ class midcom_helper__componentloader
 
         if (! $_MIDCOM->cache->phpscripts->add($cache_identifier, $code))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to add the manifest loading queue to the cache using the identifier {$cache_identifier}.",
                 MIDCOM_LOG_WARN);
             debug_add('Continuing uncached.');
-            debug_pop();
             eval($code);
         }
         return;
@@ -627,7 +605,6 @@ class midcom_helper__componentloader
      */
     function trigger_watches($operation, $object)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         // We collect the components of all watches here, so that we can
         // unique-out all duplicates before actually calling the handler.
         $components = Array();
@@ -668,7 +645,6 @@ class midcom_helper__componentloader
             }
             error_reporting(E_ALL);
         }
-        debug_pop();
     }
 
     /**
@@ -682,11 +658,9 @@ class midcom_helper__componentloader
      */
     function process_pending_notifies()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if ($this->_watch_notifications === null)
         {
             debug_add('Pending notifies should only be processed once at the end of the request, aborting.', MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 
@@ -723,7 +697,6 @@ class midcom_helper__componentloader
             }
         }
         $this->_watch_notifications = null;
-        debug_pop();
     }
 
     /**

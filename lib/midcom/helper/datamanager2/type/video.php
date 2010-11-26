@@ -233,10 +233,8 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         exec($convert_cmd, $output, $ret);
         if ($ret !== 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("image operations require imagefilter which requires ImageMagick, {$convert_cmd}
         (part of ImageMagick suite) not found or executable", MIDCOM_LOG_ERROR);
-            debug_pop();
             $return = false;
             return $return;
         }
@@ -406,9 +404,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
                 break;
             */
             default:
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Given rotate direction '{$direction}' is not supported", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
         }
         return $filter;
@@ -430,9 +426,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             }
             if (!$this->apply_filter($identifier, $filter))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to apply filter '{$filter}' to image '{$identifier}', aborting", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -454,11 +448,9 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         }
         require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!array_key_exists($identifier, $this->attachments))
         {
             debug_add("identifier '{$identifier}' not found", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -467,7 +459,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         if ($tmpfile === false)
         {
             debug_add("Could not create a working copy for '{$identifier}', aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -475,7 +466,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         if (!$this->_filter->set_file($tmpfile))
         {
             debug_add("\$this->_filter->set_file() failed, aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             // Clean up
             unlink($tmpfile);
             $this->_filter = null;
@@ -484,7 +474,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         if (!$this->_filter->process_chain($filter))
         {
             debug_add("Failed to process filter chain '{$filter}', aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             // Clean up
             unlink($tmpfile);
             $this->_filter = null;
@@ -496,7 +485,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         if (!$this->update_image_from_file($identifier, $tmpfile))
         {
             debug_add("Failed to update image '{$identifier}' from file '{$tmpfile}', aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             // Clean up
             unlink($tmpfile);
             return false;
@@ -506,7 +494,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         unlink($tmpfile);
 
         debug_add("Applied filter '{$filter}' to image '{$identifier}'", MIDCOM_LOG_INFO);
-        debug_pop();
         return true;
     }
 
@@ -519,31 +506,26 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function update_image_from_file($identifier, $file)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!array_key_exists($identifier, $this->attachments))
         {
             debug_add("Identifier '{$identifier}' not found", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (!is_readable($file))
         {
             debug_add("File '{$file}' is not readable", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $src = fopen($file, 'r');
         if (!$src)
         {
             debug_add("Could not open file '{$file}' for reading", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $image = $this->attachments[$identifier];
         if (!$image->copy_from_handle($src))
         {
             debug_add("\$image->copy_from_handle() failed", MIDCOM_LOG_ERROR);
-            debug_pop();
             fclose($src);
             return false;
         }
@@ -552,7 +534,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         // Failing these is bad, but it's too late now that we already have overwritten the actual image data...
         $this->_set_attachment_info_additional($identifier, $file);
         $this->_update_attachment_info($identifier);
-        debug_pop();
         return true;
     }
 
@@ -591,9 +572,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
     {
         if (empty($filename))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("filename must not be empty", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // First, ensure that the imagefilter helper is available.
@@ -624,11 +603,9 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             || ! $this->_filter->set_file($this->_original_tmpname)
             || ! $this->_auto_convert_to_web_type())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to process the conversion batch 1 (save original & web conversion) for
         the uploaded file {$filename} in {$tmpname}, aborting type processing.",
                 MIDCOM_LOG_ERROR);
-            debug_pop();
 
             // Clean up
             $this->delete_all_attachments();
@@ -641,10 +618,8 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             || ! $this->_save_derived_images()) // This fucker returns false
         {
 
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to process the conversion batch 2 (derived images) for the uploaded file {$filename} in {$tmpname}, aborting type processing.",
                 MIDCOM_LOG_ERROR);
-            debug_pop();
 
             // Clean up
             $this->delete_all_attachments();
@@ -666,9 +641,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
     {
         if (empty($filename))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("filename must not be empty", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -693,10 +666,8 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         // 1st step: original image storage and auto-conversion..
         if (   ! $this->_save_original_video())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to save original video {$filename} in" .
             "{$tmpname}, aborting.", MIDCOM_LOG_ERROR);
-            debug_pop();
 
             // Clean up
             $this->delete_all_attachments();
@@ -707,10 +678,8 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         // Prepare all other images.
         if (!$this->_save_main_video())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to save uploaded video {$filename} in {$tmpname}, aborting.",
                 MIDCOM_LOG_ERROR);
-            debug_pop();
 
             // Clean up
             $this->delete_all_attachments();
@@ -1132,7 +1101,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function _auto_convert_to_web_type()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("\$this->_original_mimetype: {$this->_original_mimetype}");
         switch ($this->_original_mimetype)
         {
@@ -1168,9 +1136,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         }
         // PONDER: Make sure there is only one extension on the file ??
         $this->_filename .= ".{$conversion}";
-        debug_pop();
         return $this->_filter->convert($conversion);
-
     }
 
     /**

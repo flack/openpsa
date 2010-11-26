@@ -13,7 +13,6 @@ if (!class_exists('midcom_helper_datamanager2_widget_chooser'))
     require(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/chooser.php');
 }
 
-debug_push_class('midcom_helper_datamanager2_widget_chooser_handler', 'initialize');
 
 // Common variables
 $encoding = 'UTF-8';
@@ -32,7 +31,6 @@ if (! isset($_REQUEST["query"]))
     echo "</response>\n";
 
     debug_add("Empty query string. Quitting now.");
-    debug_pop();
     $_MIDCOM->finish();
     _midcom_stop_request();
 }
@@ -68,8 +66,6 @@ foreach ($map as $map_key)
     }
 }
 
-debug_pop();
-debug_push_class('midcom_helper_datamanager2_widget_chooser_handler', 'search');
 
 // Handle automatic wildcards
 if (   !empty($auto_wildcards)
@@ -100,9 +96,7 @@ if (!empty($_callback_class))
         $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $_callback_class) . '.php';
         if (! file_exists($path))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Auto-loading of the callback class {$_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         require_once($path);
@@ -110,9 +104,7 @@ if (!empty($_callback_class))
 
     if (! class_exists($_callback_class))
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("The callback class {$_callback_class} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-        debug_pop();
         return false;
     }
     $_callback = new $_callback_class($_callback_args);
@@ -338,6 +330,5 @@ echo "</response>\n";
 
 debug_print_r('Got results',$results);
 
-debug_pop();
 $_MIDCOM->finish();
 ?>

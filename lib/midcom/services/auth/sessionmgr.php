@@ -94,18 +94,14 @@ class midcom_services_auth_sessionmgr
 
         if (!$this->_do_midgard_auth($username, $password))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         $user = $this->auth->get_user($this->person);
         if (!$user)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to create a new login session: User ID " . midcom_connection::get_user() . " is invalid.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -118,9 +114,7 @@ class midcom_services_auth_sessionmgr
 
         if (!$session->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -156,18 +150,14 @@ class midcom_services_auth_sessionmgr
 
         if (!$this->_do_trusted_midgard_auth($username))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to create a new login session: Authentication Failure', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         $user = $this->auth->get_user($this->person);
         if (!$user)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to create a new login session: User ID {$_MIDCOM['user']} is invalid.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -180,9 +170,7 @@ class midcom_services_auth_sessionmgr
 
         if (!$session->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to create a new login session: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -230,9 +218,7 @@ class midcom_services_auth_sessionmgr
 
         if (! $result)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('No login sessions have been found in the database or the query to the database failed.', MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -245,9 +231,7 @@ class midcom_services_auth_sessionmgr
 
             if ($session->timestamp < $timed_out)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
-                debug_pop();
                 $valid = false;
             }
 
@@ -256,10 +240,8 @@ class midcom_services_auth_sessionmgr
                 && $session->guid == $sessionid
                 && $session->clientip != $clientip)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The session {$session->guid} (#{$session->id}) had mismatching client IP.", MIDCOM_LOG_INFO);
                 debug_add("Expected {$session->clientip}, got {$clientip}.");
-                debug_pop();
                 $valid = false;
             }
 
@@ -269,16 +251,12 @@ class midcom_services_auth_sessionmgr
                 {
                     if (! $session->delete())
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                        debug_pop();
                     }
                 }
                 catch (Exception $e)
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . $e->getMessage(), MIDCOM_LOG_INFO);
-                    debug_pop();
                     continue;
                 }
                 $session->purge();
@@ -295,16 +273,12 @@ class midcom_services_auth_sessionmgr
                     {
                         if (! $session->update())
                         {
-                            debug_push_class(__CLASS__, __FUNCTION__);
                             debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                            debug_pop();
                         }
                     }
                     catch (Exception $e)
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                        debug_pop();
                     }
                 }
 
@@ -359,9 +333,7 @@ class midcom_services_auth_sessionmgr
     {
         if ($username == '' || $password == '')
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to authenticate: Username or password is empty.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -454,10 +426,8 @@ class midcom_services_auth_sessionmgr
 
         if (!$this->user)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to authenticate to the given username & password: ".midcom_connection::get_error_string(),
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         $this->person = $this->user->get_person();
@@ -481,9 +451,7 @@ class midcom_services_auth_sessionmgr
     {
         if ($username == '')
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to authenticate: Username is empty.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -491,10 +459,8 @@ class midcom_services_auth_sessionmgr
 
         if (!$this->user)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to authenticate to the given username: ".midcom_connection::get_error_string(),
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         $this->person = $this->user->get_person();
@@ -537,9 +503,7 @@ class midcom_services_auth_sessionmgr
     {
         if (! array_key_exists($sessionid, $this->_loaded_sessions))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The session {$sessionid} has not been loaded yet, cannot authenticate to it.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -561,9 +525,7 @@ class midcom_services_auth_sessionmgr
             unset ($this->_loaded_sessions[$sessionid]);
             if (! $session->delete())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
             $session->purge();
@@ -586,9 +548,7 @@ class midcom_services_auth_sessionmgr
     {
         if (! array_key_exists($sessionid, $this->_loaded_sessions))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Only sessions which have been previously loaded can be deleted.', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -596,9 +556,7 @@ class midcom_services_auth_sessionmgr
 
         if (! $session->delete())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to delete the delete session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         $session->purge();

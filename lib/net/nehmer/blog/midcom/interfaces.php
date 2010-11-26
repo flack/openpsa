@@ -40,7 +40,6 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   is_null($config->get('symlink_topic'))
             && !$config->get('disable_indexing'))
         {
@@ -81,7 +80,6 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
             debug_add("The topic {$topic->id} is symlinked to another topic, skipping indexing.");
         }
 
-        debug_pop();
         return true;
     }
 

@@ -30,9 +30,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
             || !is_array($_REQUEST['org_openpsa_reports_query_data']))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('query data not present or invalid', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -119,9 +117,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
         if (! $query->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $query);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new project, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
@@ -180,7 +176,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
             if ($data['query'] === false)
             {
                 debug_add('Could not load query', MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
 
@@ -267,7 +262,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
     function _generator_load_redirect(&$args)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_add('Loading query object ' . $args[0]);
         $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
@@ -275,7 +269,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         if ($this->_request_data['query'] === false)
         {
             debug_add('Could not load query', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -296,7 +289,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
             }
             $filename .= $this->_request_data['query']->extension;
             debug_add('Generated filename: ' . $filename);
-            debug_pop();
 
             $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             $_MIDCOM->relocate($prefix . $this->module . '/' . $this->_request_data['query']->guid . '/' . $filename);
@@ -306,13 +298,11 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
         //Get DM schema data to array
         $this->_request_data['query_data'] = $this->_datamanagers[$this->module]->get_content_raw();
-        debug_pop();
         return true;
     }
 
     function _handler_generator_style()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Handle style
         if (empty($this->_request_data['query_data']['style']))
         {
@@ -334,8 +324,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
             debug_add('Forcing content type: ' . $this->_request_data['query_data']['mimetype']);
             $_MIDCOM->cache->content->content_type($this->_request_data['query_data']['mimetype']);
         }
-
-        debug_pop();
     }
 
     /**
@@ -343,7 +331,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
      */
     function _expand_resource($resource_id, $ret = array())
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = $_MIDCOM->auth->get_assignee($resource_id);
 
@@ -375,7 +362,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
                 debug_add('Got unrecognized class for dba_obj: ' . get_class($dba_obj), MIDCOM_LOG_WARN);
             break;
         }
-        debug_pop();
         return $ret;
     }
 

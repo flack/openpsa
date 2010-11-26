@@ -533,10 +533,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             {
                 if (! $this->_datamanager->autoset_storage($article))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("The datamanager for article {$article->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $article);
-                    debug_pop();
                     continue;
                 }
 

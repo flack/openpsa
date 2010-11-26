@@ -170,9 +170,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         if (! $this->_new_topic->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $this->_new_topic);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.
@@ -269,10 +267,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                     {
                         if (empty($symlink_topic->symlink))
                         {
-                            debug_push_class(__CLASS__, __FUNCTION__);
                             debug_add("Symlink topic is not a symlink. Query must have failed. " .
                                 "Constraint was: #{$this->_topic->id}", MIDCOM_LOG_ERROR);
-                            debug_pop();
                         }
                         else
                         {
@@ -305,10 +301,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                             $topic = new midcom_db_topic($topic->symlink);
                             if (!$topic || !$topic->guid)
                             {
-                                debug_push_class(__CLASS__, __FUNCTION__);
                                 debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
                                     midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                                debug_pop();
                                 $topic = $this->_new_topic;
 
                                 $this->_new_topic->purge();
@@ -459,7 +453,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      */
     function _create_style($style_name)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (isset($GLOBALS['midcom_style_inherited']))
         {
@@ -479,14 +472,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         if (!$style->create())
         {
             debug_print_r('Failed to create a new style due to ' . midcom_connection::get_error_string(), $style, MIDCOM_LOG_WARN);
-            debug_pop();
 
             $_MIDCOM->uimessages->add('edit folder', sprintf($_MIDCOM->i18n->get_string('failed to create a new style template: %s', 'midcom.admin.folder'), midcom_connection::get_error_string()), 'error');
             return '';
         }
 
         debug_print_r('New style created', $style);
-        debug_pop();
 
         return $_MIDCOM->style->get_style_path_from_id($style->id);
     }

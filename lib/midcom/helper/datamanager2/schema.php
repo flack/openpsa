@@ -253,9 +253,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     $snippet_path = $this->_get_snippet_link($path);
                     $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('schema %s:%s extends itself'), $snippet_path, $schema_name), 'error');
 
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add(sprintf($this->_l10n->get('schema %s:%s extends itself'), $path, $schema_name), MIDCOM_LOG_WARN);
-                    debug_pop();
                     continue;
                 }
 
@@ -270,9 +268,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             // Raise a notice if extended schema was not found from the schemadb
             if (!isset($extended_schemadb[$extended_schema_name]))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add(sprintf($this->_l10n->get('extended schema %s:%s was not found'), $path, $schema_name), MIDCOM_LOG_WARN);
-                debug_pop();
 
                 $snippet_path = $this->_get_snippet_link($path);
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('extended schema %s:%s was not found'), $snippet_path, $schema_name), 'error');
@@ -380,9 +376,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Passed schema db was:', $schemadb);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to access the schema database: Invalid variable type while constructing.');
             // This will exit.
         }

@@ -19,7 +19,6 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
 
         $qb = midcom_services_at_entry::new_query_builder();
@@ -37,7 +36,6 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         if (empty($qbret))
         {
             debug_add('Got empty resultset, exiting');
-            debug_pop();
             return;
         }
         debug_add('Processing results');
@@ -49,7 +47,6 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
         }
         $_MIDCOM->auth->drop_sudo();
         debug_add('Done');
-        debug_pop();
         return;
     }
 }

@@ -376,9 +376,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Encountered unknown key {$key} for field {$this->name}, skipping it.", MIDCOM_LOG_INFO);
-                debug_pop();
             }
         }
     }
@@ -390,14 +388,12 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      */
     function convert_to_storage()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (! $this->storage->object)
         {
             // That's all folks, no storage object, thus we cannot continue.
             // We log a warning here (as opposed to convert_from_storage).
             debug_add("Tried to save the membership info for field {$this->name}, but no storage object was set. Ignoring silently.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 
@@ -554,7 +550,6 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
         $this->_membership_objects = $new_membership_objects;
 
-        debug_pop();
         return $this->selection;
     }
 

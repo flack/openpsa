@@ -22,18 +22,14 @@ class org_openpsa_notifications_notifier_api_nabaztag extends org_openpsa_notifi
         @include_once('Services/Nabaztag.php');
         if (!class_exists('Services_Nabaztag'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Services_Nabaztag library not installed", MIDCOM_LOG_DEBUG);
-            debug_pop();        
             return false;
         }
         
         if (   !$this->_config->get('nabaztag_serial_number')
             || !$this->_config->get('nabaztag_api_token'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Nabaztag serial number or API token not set", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return false;
         }
         
@@ -46,9 +42,7 @@ class org_openpsa_notifications_notifier_api_nabaztag extends org_openpsa_notifi
         }
         catch (Services_Nabaztag_Exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add($e, MIDCOM_LOG_DEBUG);
-            debug_pop();
             return false;
         }
         

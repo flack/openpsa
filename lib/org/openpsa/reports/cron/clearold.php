@@ -21,13 +21,11 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
         //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
         @ini_set('memory_limit', -1);
         @ini_set('max_execution_time', 0);
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
         $days = $this->_config->get('temporary_report_max_age');
         if ($days == 0)
         {
             debug_add('temporary_report_max_age evaluates to zero, aborting');
-            debug_pop();
             return;
         }
 
@@ -40,13 +38,11 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
             || !is_array($ret))
         {
             //TODO: display some error ?
-            debug_pop();
             return false;
         }
         if (empty($ret))
         {
             debug_add('No results, returning early.');
-            debug_pop();
             return;
         }
         foreach ($ret as $query)
@@ -60,7 +56,6 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
         }
 
         debug_add('Done');
-        debug_pop();
         return;
     }
 }

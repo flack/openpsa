@@ -17,7 +17,6 @@ class org_openpsa_mail_backend_mail_smtp
 
     function __construct()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('constructor called');
         if (!class_exists('Mail'))
         {
@@ -30,18 +29,15 @@ class org_openpsa_mail_backend_mail_smtp
             debug_add('class "Mail_smtp" not found trying to include Mail/smtp.php');
             @include_once('Mail/smtp.php');
         }
-        debug_pop();
         return true;
     }
 
     function send(&$mailclass, &$params)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->is_available())
         {
             debug_add('backend is unavailable');
             $this->error = 'Backend is unavailable';
-            debug_pop();
             return false;
         }
         if (!is_array($params))
@@ -74,7 +70,6 @@ class org_openpsa_mail_backend_mail_smtp
             $this->error = $mailRet;
         }
 
-        debug_pop();
         return $ret;
     }
 

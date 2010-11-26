@@ -62,10 +62,8 @@ class midcom_db_event extends midcom_core_dbaobject
         $parent = new midcom_db_event($this->up);
         if (! $parent)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not load Event ID {$this->up} from the database, aborting.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return null;
         }
 
@@ -89,9 +87,7 @@ class midcom_db_event extends midcom_core_dbaobject
             {
                 if (! $membership->delete())
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to delete event membership record {$membership->id}, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_pop();
                 }
             }
         }

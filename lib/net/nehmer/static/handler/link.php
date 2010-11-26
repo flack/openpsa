@@ -122,9 +122,7 @@ class net_nehmer_static_handler_link extends midcom_baseclasses_components_handl
         
         if (!$this->_link->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $this->_link);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Failed to create a new article, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.

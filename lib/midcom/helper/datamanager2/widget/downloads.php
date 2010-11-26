@@ -119,10 +119,8 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_blobs'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not a blobs type or subclass thereof, you cannot use the downloads widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -516,9 +514,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
             if (! $this->_type->add_attachment($identifier, $filename, $title, $file['type'], $file['tmp_name']))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to add an attachment to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                debug_pop();
             }
         }
     }
@@ -551,9 +547,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
         {
             if (! $this->_type->delete_attachment($identifier))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to delete the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                debug_pop();
             }
         }
         else if (   array_key_exists("e_exist_{$identifier}_file", $this->_elements)
@@ -571,9 +565,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
             if (! $this->_type->update_attachment($identifier, $file['name'], $title, $file['type'], $file['tmp_name']))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to update the attachment {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                debug_pop();
             }
         }
         else if (   array_key_exists("e_exist_{$identifier}_title", $values)

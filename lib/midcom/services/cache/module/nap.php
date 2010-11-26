@@ -127,10 +127,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
         if ($napobject === false)
         {
             // Ignoring this should be safe, see the method documentation for details.
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("We failed to resolve the GUID {$guid} with NAP, apparently it is not cached or no valid NAP node, skipping it therefore.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return;
         }
 

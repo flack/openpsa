@@ -32,10 +32,8 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
             list ($direction, $dummy) = each($results["{$this->name}_rotate"]);
             if (! $this->_type->rotate($direction))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to rotate image on the field {$this->name}.",
                     MIDCOM_LOG_ERROR);
-                debug_pop();
             }
             $this->_cast_formgroup_to_replacedelete();
             return;
@@ -48,9 +46,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         $file = $this->_upload_element->getValue();
         if (! $this->_type->set_image($file['name'], $file['tmp_name'], ''))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to process image {$this->name}.", MIDCOM_LOG_INFO);
-            debug_pop();
             // This (in parent) calls the _create_upload_elements which we have overridden here to our liking.
             $this->_cast_formgroup_to_upload();
         }
@@ -69,14 +65,12 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      */
     function _create_upload_elements(&$elements)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         $static_html = "<label for='{$this->_namespace}{$this->name}'>" . $this->_l10n->get('upload image') . ": \n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
         $elements[] = $this->_upload_element;
         $static_html = "\n</label>\n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
-        debug_pop();
     }
 
     /**
@@ -89,7 +83,6 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
      */
     function _create_replace_elements(&$elements)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
 
         switch (true)
@@ -189,7 +182,6 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
-        debug_pop();
     }
 }
 

@@ -560,9 +560,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function trigger_watch($operation, $object)
     {
-        debug_push_class($this, __FUNCTION__);
         debug_add("We were notified about a watch for the operation {$operation} on " . get_class($object) . " {$object->guid}");
-        debug_pop();
 
         $this->_on_watched_operation($operation, $object);
 

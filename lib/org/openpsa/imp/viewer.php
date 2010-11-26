@@ -73,7 +73,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      */
     function _check_imp_settings()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
         $current_user_dbobj = $_MIDCOM->auth->user->get_storage();
@@ -81,7 +80,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!is_object($current_user_dbobj))
         {
             debug_add("Current user not found", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -98,7 +96,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$this->_server_uri)
         {
             debug_add("Server URI not found", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -107,7 +104,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$this->_imp_username)
         {
             debug_add("Imp username not found", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -116,11 +112,9 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$this->_imp_password)
         {
             debug_add("Imp password not found", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
-        debug_pop();
         return true;
     }
 
@@ -133,7 +127,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     function _handler_redirect($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $formData = false;
         $nextUri = false;
@@ -141,7 +134,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         if (!$this->_check_imp_settings())
         {
             debug_add("Horde/Imp settings incomplete, aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -209,7 +201,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         {
             //Address to post the form to not found, we try to just to redirect to the given server URI
             debug_add('Action URI not found in data, relocating to server base URI');
-            debug_pop();
             $_MIDCOM->relocate($this->_server_uri);
             //This will exit
         }
@@ -219,7 +210,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         // We're using a popup here
         $_MIDCOM->skip_page_style = true;
 
-        debug_pop();
         return true;
     }
 
@@ -242,7 +232,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     function _handler_settings($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->_check_imp_settings();
 
@@ -291,7 +280,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
                 //this will exit
                 break;
         }
-        debug_pop();
 
         $data['controller'] = $controller;
 
@@ -317,13 +305,11 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         //If settings are not complete redirect to settings page
         if (!$this->_check_imp_settings())
         {
             debug_add("Horde/Imp settings incomplete, redirecting to settings page.");
-            debug_pop();
             $_MIDCOM->relocate( $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
                                 . 'settings/');
             //This will exit
@@ -331,7 +317,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
 
         $this->_populate_toolbar();
 
-        debug_pop();
         return true;
     }
 

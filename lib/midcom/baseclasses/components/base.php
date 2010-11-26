@@ -62,9 +62,7 @@ abstract class midcom_baseclasses_components_base
                 $instance = midcom_baseclasses_components_configuration::get($this->_component, 'config');
                 break;
             default:
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Component ' . $this->_component . ' tried to access nonexistant service ' . $field, MIDCOM_LOG_ERROR);
-                debug_pop();
         }
         $this->_services[$field] = $instance;
         return $this->_services[$field];

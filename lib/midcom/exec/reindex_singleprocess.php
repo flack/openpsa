@@ -42,7 +42,6 @@ if ($GLOBALS['midcom_config']['indexer_backend'] === false)
 <pre>
 <?php 
 
-debug_push('exec-reindex');
 
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
@@ -96,7 +95,6 @@ while (! is_null($nodeid))
     $childs = $nap->list_nodes($nodeid);
     if ($childs === false)
     {
-        debug_pop();
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to list the child nodes of {$nodeid}. Aborting.");
     }
     $nodes = array_merge($nodes, $childs);
@@ -111,7 +109,6 @@ if ($ip_sudo)
 {
     $_MIDCOM->auth->drop_sudo();
 }
-debug_pop();
 
 //re-enable OB
 ob_start();

@@ -356,10 +356,8 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                 {
                     if (count($this->datamanager->validation_errors) > 0)
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add('Type validation failed. Reverting to edit mode transparently.');
                         debug_print_r('Validation error listing:', $this->datamanager->validation_errors);
-                        debug_pop();
                         $result = 'edit';
                     }
                     else

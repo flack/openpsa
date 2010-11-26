@@ -18,7 +18,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
      */
     function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         switch($mode)
         {
             case 'all':
@@ -30,7 +29,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
                 break;
         }
@@ -45,7 +43,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
         {
             // Some error with QB
             debug_add('QB Error / expenses', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         foreach($expenses as $expense)
@@ -56,7 +53,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
             {
                 // Error updating
                 debug_add("Failed to update expense #{$expense->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -81,7 +77,6 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
             {
                 // Failure updating metadata
                 debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }

@@ -296,7 +296,6 @@ class midcom_helper_mailtemplate
      */
     function parse ()
     {
-        debug_push("Mailtemplate::parse");
         /* For each parameter, add values to the preg search and
          * replace arrays, and, where necessary, do some charset
          * conversions.
@@ -368,8 +367,6 @@ class midcom_helper_mailtemplate
 
         debug_print_r("Parsed subject:", $this->_subject);
         debug_print_r("Parsed body:", $this->_body);
-
-        debug_pop();
     }
 
     /**
@@ -399,7 +396,6 @@ class midcom_helper_mailtemplate
         /* Will send everything, return value is the number of addresses that failed
          * sending.
          */
-        debug_push("Mailtemplate::send");
 
          /* Determine all recipients */
         $all = array();
@@ -421,7 +417,6 @@ class midcom_helper_mailtemplate
         if ($to == '')
         {
             debug_add("Missing $to. Cannot sent email.");
-            debug_pop();
             return false;
         }
 
@@ -468,9 +463,7 @@ class midcom_helper_mailtemplate
         debug_print_r("Computed Headers:", $hdrs);
         debug_print_r("Body:", $body);
 
-        debug_pop();
         return $this->_mail->send($all, $hdrs, $body);
-
     }
 
     /**

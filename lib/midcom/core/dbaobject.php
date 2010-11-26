@@ -88,9 +88,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
             if (   is_string($id)
                 && strlen($id) == 1)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' with ID typecast to string. Changing typecast.', MIDCOM_LOG_INFO);
-                debug_pop();
                 $id = (int) $id;
             }
             try
@@ -100,9 +98,7 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
             }
             catch (midgard_error_exception $e)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_INFO);
-                debug_pop();
                 return;
             }
 
@@ -123,10 +119,8 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
                     $message .= ' loaded from db ' . $guids[$this->__object->guid] . ' times.';
                     $stats = 'Objects loaded (Total/Unique): ' . $total . '/' . sizeof($guids);
 
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add($message);
                     debug_add($stats);
-                    debug_pop();
                 }
                 else
                 {
@@ -170,18 +164,13 @@ abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
             // API change safety
             if ($property === '__new_class_name__')
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Deprecated property __new_class_name__ used with object of type {$this->__mgdschema_class_name__}", MIDCOM_LOG_WARN);
-                debug_pop();
-
                 $property = '__mgdschema_class_name__';
             }
 
             if ($property === '__table__')
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Deprecated property __table__ used with object of type {$this->__mgdschema_class_name__}", MIDCOM_LOG_WARN);
-                debug_pop();
                 return null;
             }
 

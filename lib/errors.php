@@ -30,7 +30,6 @@ class midcom_exception_handler
         {
             throw $e;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !isset($_MIDCOM)
             || !$_MIDCOM)
         {
@@ -48,7 +47,6 @@ class midcom_exception_handler
         $trace = $e->getTraceAsString();
 
         debug_print_r('Exception occured, generating error, exception trace:', $trace, MIDCOM_LOG_INFO);
-        debug_pop();
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $e->getMessage() . ". See the debug log for more details");
         // This will exit
     }
@@ -100,11 +98,9 @@ class midcom_exception_handler
      */
     public function show($httpcode, $message)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
-        debug_print_r('Debugging Stacktrace:', $GLOBALS['midcom_debugger']->_prefixes);
-        debug_print_function_stack('XDebug Stacktrace:');
+        debug_print_function_stack('Stacktrace:');
         $message = htmlentities($message);
 
         // Send error to special log or recipient as per in configuration.
@@ -213,7 +209,6 @@ if (!empty($stacktrace))
 <?php
         }
         debug_add("Error Page output finished, exiting now", MIDCOM_LOG_DEBUG);
-        debug_pop();
         $_MIDCOM->cache->content->no_cache();
         $_MIDCOM->finish();
         _midcom_stop_request();
@@ -259,9 +254,7 @@ if (!empty($stacktrace))
 
             if (!$_MIDCOM->componentloader->is_installed('org.openpsa.mail'))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
-                debug_pop();
                 return;
             }
 
@@ -275,22 +268,11 @@ if (!empty($stacktrace))
 
             $stacktrace = $this->get_function_stack();
 
-            if (empty($stacktrace))
-            {
-                // No Xdebug, rely on MidCOM debugger stack
-                foreach ($GLOBALS['midcom_debugger']->_prefixes as $prefix)
-                {
-                    $stacktrace .= "{$prefix}\n";
-                }
-            }
-
             $mail->body .= "\n{$stacktrace}";
 
             if (!$mail->send())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("failed to send error notification email to {$mail->to}, reason: " . $mail->get_error_message(), MIDCOM_LOG_WARN);
-                debug_pop();
             }
 
             return;
@@ -309,9 +291,7 @@ if (!empty($stacktrace))
             if (   !is_writable($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
                 && !is_writable(dirname($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Error logging file {$GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']} is not writable", MIDCOM_LOG_WARN);
-                debug_pop();
                 return;
             }
 
@@ -327,12 +307,15 @@ if (!empty($stacktrace))
     private function get_function_stack()
     {
         $stacktrace = '';
-        if (!MIDCOM_XDEBUG)
+        if (MIDCOM_XDEBUG)
         {
-            return $stacktrace;
+            $stack = xdebug_get_function_stack();
+        }
+        else
+        {
+            $stack = array_reverse(debug_backtrace(false));
         }
 
-        $stack = xdebug_get_function_stack();
         $stacktrace .= "Stacktrace:\n";
         foreach ($stack as $number => $frame)
         {
@@ -352,6 +335,8 @@ if (!empty($stacktrace))
             }
             $stacktrace .= "\n";
         }
+
+        unset($stack);
         return $stacktrace;
     }
 }

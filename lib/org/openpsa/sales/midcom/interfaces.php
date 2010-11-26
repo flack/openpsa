@@ -76,12 +76,10 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
      */
     function org_openpsa_relatedto_find_suspects($object, $defaults, &$links_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !is_array($links_array)
             || !is_object($object))
         {
             debug_add('$links_array is not array or $object is not object, make sure you call this correctly', MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
 
@@ -99,7 +97,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
                 break;
                 //TODO: groups ? other objects ?
         }
-        debug_pop();
         return;
     }
 
@@ -111,13 +108,11 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
      */
     function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         if (   !is_array($object->participants)
             || count($object->participants) < 2)
         {
             //We have invalid list or less than two participants, abort
-            debug_pop();
             return;
         }
         $qb = new midgard_query_builder('org_openpsa_salesproject_member');
@@ -157,7 +152,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         if (!is_array($qbret))
         {
             debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
         $seen_tasks = array();
@@ -180,7 +174,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             $links_array[] = $to_array;
         }
         debug_add('done');
-        debug_pop();
         return;
     }
 
@@ -250,14 +243,12 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
      */
     function new_subscription_cycle($args, &$handler)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !isset($args['deliverable'])
             || !isset($args['cycle']))
         {
             $msg = 'deliverable GUID or cycle number not set, aborting';
             $handler->print_error($msg);
             debug_add($msg, MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -268,7 +259,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_connection::get_error_string();
             $handler->print_error($msg);
             debug_add($msg, MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
@@ -281,13 +271,11 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
      */
     function new_notification_message($args , &$handler)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!isset($args['deliverable']))
         {
             $msg = 'deliverable GUID not set, aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
@@ -296,7 +284,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             $msg = 'no deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
 
@@ -308,7 +295,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             $msg = 'no project(id:' . $deliverable->salesproject . ') found for deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
         $_MIDCOM->load_library('org.openpsa.notifications');

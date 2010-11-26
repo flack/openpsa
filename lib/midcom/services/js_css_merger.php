@@ -82,13 +82,11 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
 
     function print_jsheaders()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         if ($this->_jsheaders_printed)
         {
-            $GLOBALS['midcom_debugger']->print_function_stack('subsequent call to print_jsheaders from');
             debug_add('JS headers already printed', MIDCOM_LOG_ERROR);
-            debug_pop();
+            debug_print_function_stack('subsequent call to print_jsheaders from');
             return false;
         }
         $this->_jsheaders_printed = true;
@@ -96,22 +94,19 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         if (empty($paths))
         {
             debug_add('$this->_jsfiles is empty, returning early');
-            $GLOBALS['midcom_debugger']->print_function_stack('called from');
-            debug_pop();
+            debug_print_function_stack('called from');
             return true;
         }
         $cache_id = $this->calculate_cache_id_and_merge($paths, 'js_merge');
         if (empty($cache_id))
         {
             debug_add("Could not get cache id from calculate_cache_id_and_merge(\$paths, 'css_merge')", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         $url = midcom_connection::get_url('self') . "midcom-servejscsscache-js/{$cache_id}.js";
         echo '<script type="text/javascript" src="' . $url . '"></script>' . "\n";
         $this->_jsheaders_printed = true;
-        debug_pop();
         return true;
     }
 
@@ -127,7 +122,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
 
     function rewrite_url_references(&$merged, $path, $local_path)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $path_dir = dirname($path);
         $searches = array();
         $replaces = array();
@@ -158,25 +152,21 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         debug_print_r('$searches: ', $searches);
         debug_print_r('$replaces: ', $replaces);
         $merged = str_replace($searches, $replaces, $merged);
-        debug_pop();
         return $merged;
     }
 
     function calculate_cache_id_and_merge(&$paths, $method)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("called, method={$method}");
         if (!is_callable(array($this, $method)))
         {
             debug_add("\$this->$method() is not callable", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $cache_id_and_mtimes = $this->_calculate_cache_id($paths);
         if (!is_array($cache_id_and_mtimes))
         {
             debug_add('_calculate_cache_id did not return array', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         list ($cache_id, $mtimes) = $cache_id_and_mtimes;
@@ -197,13 +187,11 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             if ($merged === false)
             {
                 debug_add("\$this->{$method}(\$paths) returned false, so do we", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $this->store($cache_id, $merged);
         }
         debug_add("all done, returning '{$cache_id}'");
-        debug_pop();
         return $cache_id;
     }
 
@@ -215,7 +203,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
      */
     function merge(&$paths, &$plugins)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $merged = '';
         foreach ($paths as $path)
         {
@@ -224,7 +211,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             {
                 // A path has not been resolved! FATAL !!
                 debug_add("Could path '{$path}' is not resolved", MIDCOM_LOG_ERROR);
-                debug_pop();
                 unset($merged);
                 return false;
             }
@@ -240,7 +226,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         }
         debug_add('calling generate_cache_id()');
         $this->generate_cache_id($paths);
-        debug_pop();
         return $merged;
     }
 
@@ -289,13 +274,11 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
 
     function print_cssheaders()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         if ($this->_cssheaders_printed)
         {
-            $GLOBALS['midcom_debugger']->print_function_stack('subsequent call to print_cssheaders from');
             debug_add('CSS headers already printed', MIDCOM_LOG_ERROR);
-            debug_pop();
+            debug_print_function_stack('subsequent call to print_cssheaders from');
             return false;
         }
         $this->_cssheaders_printed = true;
@@ -309,14 +292,12 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             if (empty($cache_id))
             {
                 debug_add("Could not get cache id from calculate_cache_id_and_merge(\$paths, 'css_merge')", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $url = midcom_connection::get_url('self') . "midcom-servejscsscache-css/{$cache_id}.css";
             echo "<link rel='stylesheet' type='text/css' media='{$media}' href='{$url}' />\n";
         }
 
-        debug_pop();
         return true;
     }
 
@@ -332,21 +313,18 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         {
             return $this->_can_merge_cache[$path];
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("called for path {$path}");
 
         if (!$_MIDCOM->cache->memcache->get('jscss_merged', 'is_up'))
         {
             // We need working memcache to use this feature
             debug_add('memcache seems not to be running');
-            debug_pop();
             $this->_can_merge_cache[$path] = false;
             return $this->_can_merge_cache[$path];
         }
         if (strpos($path, '?') !== false)
         {
             debug_add('path contains query string, cannot merge');
-            debug_pop();
             return false;
         }
 
@@ -356,7 +334,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         {
             // Does not start with single slash, ie does not refer to "local" resource
             debug_add("Can't cache uri '{$path}'");
-            debug_pop();
             $this->_can_merge_cache[$path] = false;
             return $this->_can_merge_cache[$path];
         }
@@ -364,13 +341,11 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         if (!is_readable($local_path))
         {
             debug_add("Mapped file '{$local_path}' is not readable");
-            debug_pop();
             // We can't read the file (likely it does not exist but possibly a permissions issue)
             $this->_can_merge_cache[$path] = false;
             return $this->_can_merge_cache[$path];
         }
         // Local path resolved, cache the result and return true
-        debug_pop();
         $this->_resolved_paths[$path] = $local_path;
         $this->_can_merge_cache[$path] = true;
         return $this->_can_merge_cache[$path];
@@ -388,35 +363,29 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
      */
     function add_jsfile($path, $prepend = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("called for path '{$path}'");
         debug_add('disabled until we figure out a way to rewrite include calls (which may contain variable parts...)');
-        debug_pop();
         return false;
         if ($this->_jsheaders_printed)
         {
-            $GLOBALS['midcom_debugger']->print_function_stack('call to add_jsfile after print_jsheaders from');
             debug_add('JS headers already printed', MIDCOM_LOG_ERROR);
-            debug_pop();
+            debug_print_function_stack('call to add_jsfile after print_jsheaders from');
             return false;
         }
         if (   !is_string($path)
             || empty($path))
         {
             debug_add("invalid path '{$path}', aborting early", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (in_array($path, $this->_jsfiles))
         {
             debug_add('already added, returnin true');
-            debug_pop();
             return true;
         }
         if (!$this->can_merge($path))
         {
             debug_add("can_merge('{$path}') returned false, so fo we", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         if ($prepend)
@@ -428,7 +397,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             $this->_jsfiles[] = $path;
         }
         debug_print_r('$this->_jsfiles now: ', $this->_jsfiles);
-        debug_pop();
         return true;
     }
 
@@ -446,20 +414,17 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
      */
     function add_cssfile($attributes = false, $prepend = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_print_r('called for attributes: ', $attributes);
         if ($this->_cssheaders_printed)
         {
-            $GLOBALS['midcom_debugger']->print_function_stack('call to add_cssfile after print_cssheaders from');
             debug_add('CSS headers already printed', MIDCOM_LOG_ERROR);
-            debug_pop();
+            debug_print_function_stack('call to add_cssfile after print_cssheaders from');
             return false;
         }
         // Sanity checks
         if (empty($attributes))
         {
             debug_add('attributes is empty, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -468,7 +433,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             || empty($attributes['href']))
         {
             debug_add('no href set, aborting',  MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         $path =& $attributes['href'];
@@ -478,7 +442,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             && $attributes['type'] !== 'text/css')
         {
             debug_add('invalid type set, aborting',  MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         $attributes['type'] = 'text/css';
@@ -488,7 +451,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             && $attributes['rel'] !== 'stylesheet')
         {
             debug_add('invalid rel set, aborting',  MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         $attributes['rel'] = 'stylesheet';
@@ -514,13 +476,11 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         if (in_array($path, $files_per_media))
         {
             debug_add('already added, returning success');
-            debug_pop();
             return true;
         }
         if (!$this->can_merge($path))
         {
             debug_add("can_merge('{$path}') returned false, so fo we", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         if ($prepend)
@@ -532,17 +492,14 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             $files_per_media[] = $path;
         }
         debug_print_r('$this->_cssfiles now: ', $this->_cssfiles);
-        debug_pop();
         return true;
     }
 
     function _calculate_cache_id(&$paths)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (empty($paths))
         {
             debug_add('$paths is empty, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $cache_id_base = '';
@@ -554,7 +511,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             {
                 // A path has not been resolved! FATAL !!
                 debug_add("path '{$path}' has not been resolved", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $local_path =& $this->_resolved_paths[$path];
@@ -563,7 +519,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             {
                 // FATAL: Could not stat file
                 debug_add("Could not stat '{$local_path}'", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $last_modified =& $stat[9];
@@ -571,7 +526,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             {
                 // FATAL: Could not read last-modified
                 debug_add("last_modified is empty ('{$last_modified}')", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $cache_id_base .= "{$local_path}:{$last_modified},";
@@ -585,12 +539,10 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
 
     function generate_cache_id(&$paths)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$_MIDCOM->cache->memcache->get('jscss_merged', 'is_up'))
         {
             // memcache is not up
             debug_add('memcache seems not to be running', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $cache_metadata = $_MIDCOM->cache->memcache->get('jscss_merged', 'cache_metadata');
@@ -603,7 +555,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         if (!is_array($cache_id_and_mtimes))
         {
             debug_add('Could not calculate cache_id', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         list ($cache_id, $mtimes) = $cache_id_and_mtimes;
@@ -619,7 +570,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             debug_print_r("adding metadata: ",  $cache_metadata[$cache_id]);
             $_MIDCOM->cache->memcache->put('jscss_merged', 'cache_metadata', $cache_metadata);
         }
-        debug_pop();
         return $cache_id;
     }
 
@@ -764,7 +714,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
             // this will exit()
         }
         $last_modified =& $cache_metadata[$cache_id]['generated'];
-        debug_push_class(__CLASS__, __FUNCTION__);
         if ($_MIDCOM->cache->content->_check_not_modified($last_modified, $cache_id))
         {
             debug_add('_check_not_modified returned true, finishing up here then');
@@ -779,14 +728,12 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
                 $_MIDCOM->header('Pragma: public');
             }
             while(@ob_end_flush());
-            debug_pop();
             _midcom_stop_request();
         }
 
         $data = $this->get($cache_id);
         if (empty($data))
         {
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Key '{$cache_id}' not found in cache");
             // this will exit()
         }
@@ -811,7 +758,6 @@ class midcom_services_js_css_merger extends midcom_baseclasses_core_object
         unset($data, $mimetype, $last_modified);
 
         debug_add('data sent, _midcom_stop_request()ing so nothing has a chance the mess things up anymore');
-        debug_pop();
         _midcom_stop_request();
     }
 }

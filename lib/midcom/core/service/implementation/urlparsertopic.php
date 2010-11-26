@@ -209,10 +209,8 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not get target for symlinked topic #{$this->current_object->id}: " .
                     midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
             }
         }
 

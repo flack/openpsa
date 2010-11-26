@@ -74,13 +74,11 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     function _handler_user_events($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $username = $this->_strip_extension($args[0]);
         $this->request_data['person'] = $this->_find_person_by_name($username);
         if (!is_object($this->request_data['person']))
         {
-            debug_pop();
             return false;
         }
 
@@ -88,7 +86,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
 
         $this->_content_type();
 
-        debug_pop();
         return true;
     }
 
@@ -99,7 +96,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     function _show_user_events($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();
@@ -108,8 +104,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
             echo $event->vcal_export();
         }
         echo $event->vcal_footers();
-
-        debug_pop();
     }
 
     /**
@@ -152,14 +146,12 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     function _handler_user_busy($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $username = $this->_strip_extension($args[0]);
         $this->request_data['person'] = $this->_find_person_by_name($username);
 
         $this->_get_events();
 
         $this->_content_type();
-        debug_pop();
         return true;
     }
 
@@ -170,7 +162,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     function _show_user_busy($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();
@@ -207,8 +198,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
             echo $event->vcal_export();
         }
         echo $event->vcal_footers();
-
-        debug_pop();
     }
 
 }

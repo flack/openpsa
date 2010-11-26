@@ -19,12 +19,10 @@ class net_nehmer_account_cron_karma extends midcom_baseclasses_components_cron_h
 {
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (!$this->_config->get('karma_enable'))
         {
             debug_add('Karma calculation disabled, aborting', MIDCOM_LOG_INFO);
-            debug_pop();
             return;
         }
 
@@ -35,7 +33,6 @@ class net_nehmer_account_cron_karma extends midcom_baseclasses_components_cron_h
             $msg = "Could not get sudo, aborting operation, see error log for details";
             $this->print_error($msg);
             debug_add($msg, MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
 
@@ -56,7 +53,6 @@ class net_nehmer_account_cron_karma extends midcom_baseclasses_components_cron_h
             debug_add("{$person->name} got Karma of {$karmas['karma']}.");
         }
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
     }
 }
 ?>

@@ -27,7 +27,6 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -63,7 +62,6 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
 
             }
         }
-        debug_pop();
         return true;
     }
 

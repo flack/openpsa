@@ -306,9 +306,7 @@ class midcom_services_indexer_document
     {
         if (! array_key_exists($name, $this->_fields))
         {
-            debug_push('midcom_services_indexer_document::get_field');
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         return $this->_i18n->convert_from_utf8($this->_fields[$name]['content']);
@@ -328,9 +326,7 @@ class midcom_services_indexer_document
     {
         if (! array_key_exists($name, $this->_fields))
         {
-            debug_push('midcom_services_indexer_document::get_field_record');
             debug_add("Field {$name} not found in the document.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         return $this->_fields[$name];
@@ -585,7 +581,6 @@ class midcom_services_indexer_document
 
         debug_add($message, $loglevel);
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Author: {$this->author}", $loglevel);
         debug_add("Component: {$this->component}", $loglevel);
         debug_add("Created: " . strftime('%x %X', $this->created), $loglevel);
@@ -606,8 +601,6 @@ class midcom_services_indexer_document
         debug_print_r('Content:', $this->content, $loglevel);
 
         debug_print_r('Additional fields:', $this->_fields, $loglevel);
-
-        debug_pop();
     }
 
     /**
@@ -705,7 +698,6 @@ class midcom_services_indexer_document
      */
     function read_metadata_from_object(&$object)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Called for {$object->guid} (" . get_class($object) . ')');
         switch (true)
         {
@@ -788,8 +780,6 @@ class midcom_services_indexer_document
         {
             $this->actually_index = false;
         }
-
-        debug_pop();
     }
 
     /**

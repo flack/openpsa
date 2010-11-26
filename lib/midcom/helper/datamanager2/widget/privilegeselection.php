@@ -56,9 +56,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_privilege'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not of type privilege.", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         

@@ -132,7 +132,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
      */
     function query ($query, $filter)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if ($filter !== null)
         {
             if ($filter->type == 'datefilter')
@@ -172,7 +171,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
                 $msg = $err->getMessage();
             }
             debug_add("Failed to execute Request {$url}:{$this->code} {$msg}", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         $body = $request->getResponseBody();
@@ -212,7 +210,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             $result[] = $doc;
         }
         debug_add(sprintf('Returning %d results', count($result)), MIDCOM_LOG_INFO);
-        debug_pop();
         return $result;
     }
 }
@@ -369,7 +366,6 @@ class midcom_services_indexer_solrRequest
      */
     function do_post($xml, $optimize = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $options = array();
         $options['method'] = HTTP_REQUEST_METHOD_POST ;
         $url = "http://" . $GLOBALS['midcom_config']['indexer_xmltcp_host'] .
@@ -395,7 +391,6 @@ class midcom_services_indexer_solrRequest
             }
             debug_add("Failed to execute request {$url}:{$this->code} {$errstr}", MIDCOM_LOG_WARN);
             debug_add("Request content: \n$xml", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return false;
         }
         $this->request->addRawPostData('<commit/>');
@@ -413,7 +408,6 @@ class midcom_services_indexer_solrRequest
             }
             debug_add("Failed to execute commit request {$url}: {$errstr}", MIDCOM_LOG_WARN);
             debug_add("Request content: \n$xml", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -434,17 +428,12 @@ class midcom_services_indexer_solrRequest
                 }
                 debug_add("Failed to execute optimize request {$url}: {$errstr}", MIDCOM_LOG_WARN);
                 debug_add("Request content: \n$xml", MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
         }
 
         debug_add('POST ok');
-        debug_pop();
         return true;
-
     }
-
 }
-
 ?>

@@ -170,11 +170,9 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
         
         if (! in_array($data_group, $this->_data_groups))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Tried to add data to the unknown data group {$data_group}, cannot do that.", MIDCOM_LOG_WARN);
             debug_print_r('Known data groups:', $this->_data_groups);
             debug_print_function_stack('We were called from here:');
-            debug_pop();
             return;
         }
         

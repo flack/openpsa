@@ -33,7 +33,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      */
     function _expand_task($task, $ret = array())
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //When recursing we get object, otherwise GUID
         if (!is_object($task))
         {
@@ -43,7 +42,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         if (!is_object($task))
         {
             debug_add('Could not get task object, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return $ret;
         }
 
@@ -58,7 +56,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         //Get list of children and recurse
         //We pop already here due to recursion
         debug_add('Checking for children & recursing them');
-        debug_pop();
         $qb = org_openpsa_projects_task_dba::new_query_builder();
         $qb->add_constraint('up', '=', $task->id);
         $results = $qb->execute();
@@ -77,7 +74,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      */
     private function _get_hour_reports()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Create queries to get data
 
         $qb_hr = org_openpsa_projects_hour_report_dba::new_query_builder();
@@ -147,7 +143,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         {
             $qb_hr->add_constraint('reportType', '=', $this->_request_data['query_data']['hour_type_filter']);
         }
-        debug_pop();
         return $qb_hr->execute();
     }
 
@@ -204,13 +199,11 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
 
     function _analyze_raw_hours()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !array_key_exists('raw_results', $this->_request_data)
             || !array_key_exists('hr', $this->_request_data['raw_results'])
             || !is_array($this->_request_data['raw_results']['hr']))
         {
             debug_add('Hour reports array not found', MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         org_openpsa_reports_handler_projects_report::_verify_cache('hours', $this->_request_data);
@@ -251,13 +244,11 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             $this->_request_data['report']['total_hours'] += $hour->hours;
         }
 
-        debug_pop();
         return true;
     }
 
     function &_get_report_group($matching, $sort, $title, $rows = false, $recursed = 0)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$rows)
         {
             debug_add('rows is not defined, using report[rows]');
@@ -275,20 +266,16 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             if ($row['matching'] === $matching)
             {
                 debug_add(sprintf('found match in key "%s", returning it', $k));
-                debug_pop();
                 return $rows[$k];
             }
             if (    array_key_exists('rows', $row)
                 &&  is_array($row['rows']))
             {
                 debug_add(sprintf('found subgroup in key "%s", recursing it', $k));
-                debug_pop();
                 $got =& $this->_get_report_group($matching, $sort, $title, $rows[$k], $recursed+1);
-                debug_push_class(__CLASS__, __FUNCTION__);
                 if ($got !== false)
                 {
                     debug_add('Got result from recurser, returning it');
-                    debug_pop();
                     return $got;
                 }
             }
@@ -297,7 +284,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         if ($recursed !== 0)
         {
             debug_add('No match and we\'re in recursive mode, returning false');
-            debug_pop();
             $x = false;
             return $x;
         }
@@ -314,7 +300,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             $group['total_hours'] = 0;
             $next_key = count($rows);
             $rows[$next_key] = $group;
-            debug_pop();
             return $rows[$next_key];
         }
     }
@@ -346,7 +331,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      */
     function _show_generator($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         // Builtin style prefix
         if (preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style'], $matches))
@@ -421,7 +405,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             midcom_show_style("projects_report{$bpr}-footer");
         midcom_show_style("projects_report{$bpr}-end");
 
-        debug_pop();
         return true;
     }
 

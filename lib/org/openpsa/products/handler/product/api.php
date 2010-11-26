@@ -69,9 +69,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         if (! $product->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $product);
-            debug_pop();
             return null;
         }
 

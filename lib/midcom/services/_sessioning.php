@@ -98,9 +98,7 @@ class midcom_services__sessioning
         if (_midcom_headers_sent())
         {
             // Don't try starting a session if we're past the headers phase
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Aborting session start, headers have already been sent", MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 
@@ -116,9 +114,7 @@ class midcom_services__sessioning
         unset($track_state);
         if (!isset($_SESSION))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("\$_SESSION is not set, error message was: {$session_err}", MIDCOM_LOG_ERROR);
-            debug_pop();
             unset($session_err, $php_errormsg);
             return false;
         }
@@ -153,9 +149,7 @@ class midcom_services__sessioning
         }
         if (!isset($_SESSION['midcom_session_data'][$domain]))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Request for the domain '{$domain}' failed, because the domain doesn't exist.");
-            debug_pop();
             return false;
         }
 
@@ -207,9 +201,7 @@ class midcom_services__sessioning
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Request for the key '{$key}' in the domain '{$domain}' failed, because the key doesn't exist.");
-            debug_pop();
             return null;
         }
     }

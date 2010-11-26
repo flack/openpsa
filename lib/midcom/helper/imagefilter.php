@@ -67,9 +67,7 @@ class midcom_helper_imagefilter
         exec($convert_cmd, $output, $ret);
         if ($ret !== 0 && $ret !== 1)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("ImageMagick, '{$convert_cmd}' (part of ImageMagick suite) returned failure", MIDCOM_LOG_ERROR);
-            debug_pop();
             $return = false;
             return $return;
         }
@@ -97,9 +95,7 @@ class midcom_helper_imagefilter
             /* jpegtran does not have valid help switch, so lets check for generic error from program (command not found etc trhows different error code) */
             && $ret !== 1)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("jpegtran, '{$convert_cmd}' (part of libjpeg suite) could not be executed", MIDCOM_LOG_ERROR);
-            debug_pop();
             $return = false;
             return $return;
         }
@@ -126,17 +122,13 @@ class midcom_helper_imagefilter
     {
         if (!$this->_imagemagick_available())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
-            debug_pop();
             $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
             return false;
         }
         if (! is_writeable($filename))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The File {$filename} is not writeable.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $this->_filename = $filename;
@@ -168,9 +160,7 @@ class midcom_helper_imagefilter
 
             if (! $this->process_command($cmd))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Execution of {$cmd} failed, aborting now.");
-                debug_pop();
                 $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "Execution of {$cmd} failed", 'error');
                 return false;
             }
@@ -220,11 +210,9 @@ class midcom_helper_imagefilter
                 {
                     $gamma = 1.2;
                 }
-                debug_pop();
                 return $this->gamma($gamma);
 
             case 'exifrotate':
-                debug_pop();
                 return $this->exifrotate();
 
             case 'rotate':
@@ -238,7 +226,6 @@ class midcom_helper_imagefilter
                 {
                     $rotate = 0;
                 }
-                debug_pop();
                 return $this->rotate($rotate);
 
             case 'resize':
@@ -257,7 +244,6 @@ class midcom_helper_imagefilter
                 {
                     $y = 0;
                 }
-                debug_pop();
                 return $this->rescale($x, $y);
 
             case 'convert':
@@ -313,12 +299,10 @@ class midcom_helper_imagefilter
                 return true;
 
             case 'none':
-                debug_pop();
                 return true;
 
             default:
                 debug_add('This is no known command, we try to find a callback.');
-                debug_pop();
                 return $this->execute_user_callback($command, $args);
         }
     }
@@ -373,9 +357,7 @@ class midcom_helper_imagefilter
     function execute_user_callback($command, $args) {
         if (! function_exists($command))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The function {$command} could not be found, aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $tmpfile = $this->_get_tempfile();
@@ -413,11 +395,9 @@ class midcom_helper_imagefilter
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("ImageMagick failed to convert the image, it returned with {$exit_code}, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r('The generated output was:', $output);
             debug_add("Command was: [{$cmd}]");
-            debug_pop();
             return false;
         }
     }
@@ -452,11 +432,9 @@ class midcom_helper_imagefilter
         else
         {
             unlink($tempfile);
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("ImageMagick failed to convert the image, it returned with {$exit_code}, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r('The generated output was:', $output);
             debug_add("Command was: [{$cmd}]");
-            debug_pop();
             return false;
         }
     }
@@ -473,11 +451,9 @@ class midcom_helper_imagefilter
      */
     function exifrotate()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (! function_exists("read_exif_data"))
         {
             debug_add("read_exif_data required for exifrotate.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // Silence this, gives warnings on images that do not contain EXIF data
@@ -488,25 +464,21 @@ class midcom_helper_imagefilter
         catch (Exception $e)
         {
             debug_add("Could not read EXIF data: " . $e->getMessage() . ", skipping.", MIDCOM_LOG_WARN);
-            debug_pop();
             return true;
         }
         if (!is_array($exif))
         {
             debug_add("Could not read EXIF data, skipping.", MIDCOM_LOG_WARN);
-            debug_pop();
             return true;
         }
         if (!array_key_exists('Orientation', $exif))
         {
             debug_add("EXIF information misses the orientation tag. Skipping.", MIDCOM_LOG_INFO);
-            debug_pop();
             return true;
         }
         if ($exif["Orientation"] == 1)
         {
             debug_add("No rotation necessary.");
-            debug_pop();
             return true;
         }
 
@@ -529,7 +501,6 @@ class midcom_helper_imagefilter
                 default:
                     debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"],
                         MIDCOM_LOG_INFO);
-                    debug_pop();
                     return true;
             }
 
@@ -554,7 +525,6 @@ class midcom_helper_imagefilter
                 default:
                     debug_add("Unsupported EXIF-Rotation tag encountered, ingoring: " . $exif["Orientation"],
                         MIDCOM_LOG_INFO);
-                    debug_pop();
                     return true;
             }
 
@@ -574,7 +544,6 @@ class midcom_helper_imagefilter
             {
                 unlink($tmpfile);
             }
-            debug_pop();
             return false;
         }
 
@@ -582,7 +551,6 @@ class midcom_helper_imagefilter
         {
             $this->_process_tempfile($tmpfile);
         }
-        debug_pop();
         return true;
     }
 
@@ -614,7 +582,6 @@ class midcom_helper_imagefilter
             // We're happy as-is :)
             return true;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $do_unlink = false;
         $imagesize = getimagesize($this->_filename);
@@ -648,7 +615,6 @@ class midcom_helper_imagefilter
             {
                 unlink($tmpfile);
             }
-            debug_pop();
             return false;
         }
 
@@ -656,7 +622,6 @@ class midcom_helper_imagefilter
         {
             $this->_process_tempfile($tmpfile);
         }
-        debug_pop();
         return true;
     }
 
@@ -681,9 +646,7 @@ class midcom_helper_imagefilter
     {
         if ($x == 0 && $y == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Both x and y are 0, skipping operation.", MIDCOM_LOG_INFO);
-            debug_pop();
             return true;
         }
 
@@ -710,11 +673,9 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -767,11 +728,9 @@ class midcom_helper_imagefilter
 
             if ($exit_code !== 0)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("ImageMagick failed to get image info, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
                 debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
                 debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
-                debug_pop();
             }
 
             $output = implode("\n", $output);
@@ -792,11 +751,9 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -818,9 +775,7 @@ class midcom_helper_imagefilter
         // Currently accepting only hex colors
         if (!preg_match('/^#?([0-9a-f]{3}){1,2}$/', $color))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Given color ({$color}) is not hex RGB.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -832,11 +787,9 @@ class midcom_helper_imagefilter
 
         if ($exit_code !== 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("ImageMagick failed to convert the image, see LOG_DEBUG for details.", MIDCOM_LOG_ERROR);
             debug_print_r("Imagemagick returned with {$exit_code} and produced this output:", $output, MIDCOM_LOG_ERROR);
             debug_add("Command was: {$cmd}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 

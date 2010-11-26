@@ -20,7 +20,6 @@ class org_openpsa_mail_backend_bouncer
 
     function __construct()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         foreach ($this->_try_backends as $backend)
         {
             debug_add("Trying backend {$backend}");
@@ -32,23 +31,19 @@ class org_openpsa_mail_backend_bouncer
             }
             debug_add("backend {$backend} is not available");
         }
-        debug_pop();
         return true;
     }
 
     function send(&$mailclass, &$params)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !$this->is_available()
             || !is_object($this->_backend)
             || !method_exists($this->_backend, 'send'))
         {
             debug_add('backend is unavailable');
             $this->error = 'Backend is unavailable';
-            debug_pop();
             return false;
         }
-        debug_pop();
         $mailclass->headers['X-org.openpsa.mail-bouncer-backend-class'] = get_class($this->_backend);
 
         return $this->_backend->send($mailclass, $params);
@@ -84,13 +79,11 @@ class org_openpsa_mail_backend_bouncer
 
     function _load_backend($backend)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $classname = "org_openpsa_mail_backend_{$backend}";
         if (class_exists($classname))
         {
             $this->_backend = new $classname();
             debug_print_r("backend is now:", $this->_backend);
-            debug_pop();
             return true;
         }
         debug_add("backend class {$classname} is not available", MIDCOM_LOG_WARN);

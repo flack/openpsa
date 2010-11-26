@@ -65,9 +65,7 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
 
         if (!is_object($group))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Group object {$identifier} is not an object");
-            debug_pop();
             return false;
         }
 
@@ -165,9 +163,7 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
         $this->_group = $this->_load_group($args[0]);
         if (!$this->_group)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Group loading failed");
-            debug_pop();
             return false;
         }
 

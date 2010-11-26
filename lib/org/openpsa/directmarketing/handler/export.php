@@ -190,7 +190,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         {
             return false;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !isset($args[1])
             || empty($args[1]))
         {
@@ -279,7 +278,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             }
             unset($members[$k]);
         }
-        debug_pop();
 
         $this->_load_datamanagers();
         $this->_init_csv_variables();
@@ -355,7 +353,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      */
     function _show_csv($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         // Make absolutely sure we're in live output
         $_MIDCOM->cache->content->enable_live_mode();
         while(@ob_end_flush());
@@ -447,7 +444,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             echo $this->csv['nl'];
             flush();
         }
-        debug_pop();
         // The output context thingamagjick insists on buffering things, make it happy
         ob_start();
     }

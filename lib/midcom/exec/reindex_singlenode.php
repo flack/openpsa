@@ -46,7 +46,6 @@ if(isset($_REQUEST['language']))
 {
     $_MIDCOM->i18n->set_language($_REQUEST['language']);
 }
-debug_push('exec-reindex_singlenode');
 
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
@@ -134,7 +133,6 @@ if ($ip_sudo)
     $_MIDCOM->auth->drop_sudo();
 }
 
-debug_pop();
 // re-enable ob
 ob_start();
 echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";

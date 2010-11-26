@@ -28,12 +28,10 @@ class org_openpsa_core_acl_synchronizer
 
     function _write_full_midcom_acls($object, $owner_id, $accesstype)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         // Exit if no owner workgroup has been assigned
         if ($owner_id == '')
         {
             debug_add('Given owner ID was empty, aborting');
-            debug_pop();
             return false;
         }
 
@@ -42,7 +40,6 @@ class org_openpsa_core_acl_synchronizer
             || empty($owner_object->id))
         {
             debug_add('Given owner was invalid, aborting');
-            debug_pop();
             return false;
         }
 
@@ -110,13 +107,11 @@ class org_openpsa_core_acl_synchronizer
                 }
                 break;
         }
-        debug_pop();
         return true;
     }
 
     function _set_attachment_permission($object, $privilege, $assignee, $value)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $attachments = $object->list_attachments();
         if ($attachments)
         {
@@ -126,7 +121,6 @@ class org_openpsa_core_acl_synchronizer
                 $attachment->set_privilege($privilege, $assignee, $value);
             }
         }
-        debug_pop();
     }
 }
 ?>

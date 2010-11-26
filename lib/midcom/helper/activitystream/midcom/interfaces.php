@@ -18,11 +18,9 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
 {
     function _on_watched_operation($operation, &$object)
     {
-        debug_push_class($object, __FUNCTION__);
         if (!$object->_use_activitystream)
         {
             // Activity Log not used for this object
-            debug_pop();
             return;
         }
 
@@ -30,7 +28,6 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         if (!$_MIDCOM->auth->request_sudo('midcom.helper.activitystream'))
         {
             // Not allowed to create activity logs
-            debug_pop();
             return;
         }
 
@@ -49,7 +46,6 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         {
             debug_add('Cannot generate a verb for the activity, skipping');
             $_MIDCOM->auth->drop_sudo();
-            debug_pop();
             return;
         }
 
@@ -57,7 +53,6 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         if (isset($handled_targets["{$activity->target}_{$activity->actor}"]))
         {
             // We have already created an entry for this object in this request, skip
-            debug_pop();
             return;
         }
 
@@ -80,7 +75,6 @@ class midcom_helper_activitystream_interface extends midcom_baseclasses_componen
         }
 
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
     }
 }
 ?>

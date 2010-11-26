@@ -106,9 +106,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         $report = new org_openpsa_reports_query_dba($args[0]);
         if ( !$report->guid)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Report ' . $args[0] . ' could not be found, aborting');
-            debug_pop();
             return false;
         }
 
@@ -131,9 +129,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     {
         if ( !isset($_POST['org_openpsa_reports_csv']) )
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Variable org_openpsa_reports_csv not set in _POST, aborting');
-            debug_pop();
             return false;
         }
 
@@ -216,10 +212,8 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
             if (   empty($topic)
                 || !$topic->can_do('midgard:read'))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("topic for component '{$component}' not found or accessible");
                 unset ($components[$component]);
-                debug_pop();
             }
         }
         $components_checked = true;

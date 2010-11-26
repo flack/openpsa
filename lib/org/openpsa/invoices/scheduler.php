@@ -33,12 +33,10 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      */
     function run_cycle($cycle_number, $send_invoice = true)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (time() < $this->_deliverable->start)
         {
             debug_add('Subscription hasn\'t started yet, register the start-up event to $start');
-            debug_pop();
             return $this->_create_at_entry($cycle_number, $this->_deliverable->start);
         }
 
@@ -119,26 +117,22 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             && $this->_deliverable->end != 0)
         {
             debug_add('Do not register next cycle, the contract ends before');
-            debug_pop();
             return true;
         }
 
         if ($this->_create_at_entry($cycle_number + 1, $next_cycle_start))
         {
             $this->_notify_owner($cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
-            debug_pop();
             return true;
         }
         else
         {
-            debug_pop();
             return false;
         }
     }
 
     private function _create_at_entry($cycle_number, $start)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $_MIDCOM->load_library('midcom.services.at');
 
         $args = array
@@ -156,13 +150,11 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         {
             debug_add('AT entry for cycle ' . $cycle_number . ' created');
             org_openpsa_relatedto_plugin::create($at_entry, 'midcom.services.at', $this->_deliverable, 'org.openpsa.sales');
-            debug_pop();
             return true;
         }
         else
         {
             debug_add('AT registration failed, last midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
     }
@@ -546,9 +538,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 $offset = '+1 year';
                 break;
             default:
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false" , MIDCOM_LOG_WARN);
-                debug_pop();
                 return false;
         }
         $date = new DateTime($offset . ' ' . date('Y-m-d', $time));

@@ -106,9 +106,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
             {
                 $multiple_categories = false;
             }
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("multiple_categories={$multiple_categories}");
-            debug_pop();
             if ($multiple_categories)
             {
                 $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");

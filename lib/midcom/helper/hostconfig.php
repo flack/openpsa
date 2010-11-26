@@ -105,17 +105,8 @@ class midcom_helper_hostconfig
      */
     function update_configuration()
     {
-        if (function_exists('debug_push_class'))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-        }
-
         if ($this->page === null)
         {
-            if (function_exists('debug_pop'))
-            {
-                debug_pop();
-            }
             return false; // I WANT EXCEPTIONS!!!
         }
 
@@ -155,10 +146,6 @@ class midcom_helper_hostconfig
             $status = false;
         }
 
-        if (function_exists('debug_pop'))
-        {
-            debug_pop();
-        }
         return $status;
     }
 

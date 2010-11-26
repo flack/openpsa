@@ -75,9 +75,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $notifier = new org_openpsa_notifications_notifier($recipient);
 
         // Send the type requested by user
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Notifying {$recipient} with type {$notification_type}", MIDCOM_LOG_DEBUG);
-        debug_pop();
         $method = "send_{$notification_type}";
         if (!method_exists($notifier, $method))
         {

@@ -31,7 +31,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             if (!$this->_request_data['person'])
             {
                 debug_add("Person record '{$args[0]}' not found");
-                debug_pop();
                 return false;
                 // This will exit
             }
@@ -104,7 +103,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     function _show_list($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $qb_all = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $campaigns = array();
 
@@ -188,7 +186,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             }
         }
         midcom_show_style("show-campaign-list-footer");
-        debug_pop();
     }
 
     /**
@@ -228,9 +225,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
         $this->_request_data['unsubscribe_status'] = $this->_request_data['membership']->update();
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Unsubscribe status: {$this->_request_data['unsubscribe_status']}");
-        debug_pop();
         $_MIDCOM->auth->drop_sudo();
         //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
         $_MIDCOM->skip_page_style = true;
@@ -247,7 +242,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      */
     function _show_unsubscribe($handler_id, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if ($this->_request_data['unsubscribe_status'] == false)
         {
             midcom_show_style('show-unsubscribe-failed');
@@ -256,7 +250,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         {
             midcom_show_style('show-unsubscribe-ok');
         }
-        debug_pop();
     }
 
     /**
@@ -293,9 +286,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
         $this->_request_data['unsubscribe_status'] = $this->_request_data['membership']->update();
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Unsubscribe status: {$this->_request_data['unsubscribe_status']}");
-        debug_pop();
 
         $_MIDCOM->auth->drop_sudo();
         //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page

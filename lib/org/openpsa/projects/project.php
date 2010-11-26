@@ -100,7 +100,6 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
      */
     function _refresh_from_tasks()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $update_required = false;
 
         $task_statuses = array();
@@ -275,13 +274,11 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
             $this->_skip_acl_refresh = true;
             $this->_use_rcs = false;
             $this->_use_activitystream = false;
-            debug_pop();
             return $this->update();
         }
         else
         {
             debug_add("All project information is up-to-date");
-            debug_pop();
             return true;
         }
     }

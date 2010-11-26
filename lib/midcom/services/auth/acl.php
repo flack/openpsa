@@ -757,9 +757,7 @@ class midcom_services_auth_acl
                     $assignee = $privilege->get_assignee();
                     if (! $assignee)
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_print_r('Could not resolve the assignee of this privilege, skipping it:', $privilege);
-                        debug_pop();
                         // Skip broken privileges.
                         continue;
                     }
@@ -807,9 +805,7 @@ class midcom_services_auth_acl
             {
                 if (!isset($collected_privileges[$name]))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Object privilege {$name} has no value, from parent {$parent_guid} it is {$value}.");
-                    debug_pop();
                     continue;
                 }
             }
@@ -826,9 +822,7 @@ class midcom_services_auth_acl
     {
         if ($this->_internal_sudo)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.', MIDCOM_LOG_DEBUG);
-            debug_pop();
             return $this->_can_do_internal_sudo($privilege);
         }
 
@@ -844,9 +838,7 @@ class midcom_services_auth_acl
                     if (   is_null($component)
                         || !$_MIDCOM->componentloader->load_graceful($component))
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("can_user_do check to undefined class '{$class}'.", MIDCOM_LOG_ERROR);
-                        debug_pop();
                         return false;
                     }
                 }
@@ -917,9 +909,7 @@ class midcom_services_auth_acl
 
         if (! array_key_exists($privilege, $full_privileges))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the privilege {$privilege} is unknown at this point. Assuming not granted privilege.");
-            debug_pop();
             return false;
         }
 
@@ -1014,9 +1004,7 @@ class midcom_services_auth_acl
             return self::$_privileges_cache[$cache_key][$privilege];
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("The privilege {$privilege} is unknown at this point. Assuming not granted privilege.", MIDCOM_LOG_WARN);
-        debug_pop();
         return false;
     }
 

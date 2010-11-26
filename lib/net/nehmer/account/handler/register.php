@@ -496,11 +496,8 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
                 break;
 
             case 'edit':
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('The confirm stage form returned edit, this indicates somehow screwed validation and should not happen. Treating as previous click.',
                     MIDCOM_LOG_WARN);
-                debug_pop();
-
                 // *** FALL THROUGH ***
 
             case 'previous':
@@ -666,7 +663,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         {
             $_MIDCOM->auth->drop_sudo();
 
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to create a person record, last error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('Tried to create this record:', $this->_person);
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
@@ -732,7 +728,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
                 $this->_person->delete();
                 $_MIDCOM->auth->drop_sudo();
 
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_r('Original person record we tried to update:', $this->_person);
                 debug_print_r('Request data passed to us:', $controller->formmanager->form->getSubmitValues());
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
@@ -995,7 +990,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      */
     function _activate_account()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
@@ -1018,7 +1012,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
             debug_add('Failed to update a person record, last error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('Tried to update this record:', $this->_person);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Failed to update a person record, last error was: ' . midcom_connection::get_error_string());
             // This will exit.
@@ -1077,11 +1070,8 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         $relocate_to = $this->_config->get('relocate_after_activation');
         if ($relocate_to)
         {
-            debug_pop();
             $_MIDCOM->relocate($relocate_to);
         }
-
-        debug_pop();
     }
 
     /**
@@ -1152,9 +1142,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
             if (! function_exists($callback['callback']))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the callback {$callback['callback']} for account activation, the function is not defined.", MIDCOM_ERRCRIT);
-                debug_pop();
                 return;
             }
             $callback['callback']($this->_person);
@@ -1170,16 +1158,12 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
     {
         if (! $this->_config->get('have_net_nehmer_mail'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Sending of welcome mails disabled by configuration');
-            debug_pop();
             return;
         }
         if (! $_MIDCOM->componentloader->load_graceful('net.nehmer.mail'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to load net.nehmer.mail, either install the component or disable the integration.', MIDCOM_ERRCRIT);
-            debug_pop();
             return;
         }
 
@@ -1190,10 +1174,8 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
             $sender = $_MIDCOM->auth->get_user($sender_guid);
             if (! $sender)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the user {$sender_guid} from the database, used as sender for the welcome mails. Not sending mail.",
                     MIDCOM_ERRCRIT);
-                debug_pop();
                 return;
             }
         }
@@ -1217,9 +1199,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
         if (! $mail->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to send welcome mail', MIDCOM_ERRCRIT);
-            debug_pop();
         }
         else
         {

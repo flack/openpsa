@@ -87,9 +87,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         if (   !is_array($links_array)
             || !is_object($object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('$links_array is not array or $object is not object, make sure you call this correctly', MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
 
@@ -118,12 +116,10 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
      */
     function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !is_array($object->participants)
             || count($object->participants) < 1)
         {
             //We have invalid list or zero participants, abort
-            debug_pop();
             return;
         }
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
@@ -157,7 +153,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         if (!is_array($qbret))
         {
             debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
         $seen_tasks = array();
@@ -179,7 +174,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
             $links_array[] = $to_array;
         }
-        debug_pop();
         return;
     }
 
@@ -188,7 +182,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
      */
     function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //List all projects and tasks given person is involved with
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
         $qb->add_constraint('person', '=', $object->id);
@@ -198,7 +191,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         if (!is_array($qbret))
         {
             debug_add('QB returned with error, aborting, errstr: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
         $seen_tasks = array();
@@ -220,23 +212,19 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
             $links_array[] = $to_array;
         }
-        debug_pop();
         return;
     }
 
     function create_hour_report(&$task, $person_id, &$from_object, $from_component)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$_MIDCOM->dbfactory->is_a($task, 'org_openpsa_projects_task_dba'))
         {
             debug_add('given task is not really a task', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (empty($person_id))
         {
             debug_add('person_id is "empty"', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -258,7 +246,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
                 break;
             default:
                 debug_add("class '" . get_class($from_object) . "' not supported", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
         }
         debug_print_r("about to create hour_report", $hr);
@@ -267,7 +254,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         if (!$stat)
         {
             debug_add("failed to create hour_report to task #{$task->id} for person #{$person_id}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         debug_add("created hour_report #{$hr->id}");
@@ -275,7 +261,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         // Create a relatedtolink from hour_report to the object it was created from
         org_openpsa_relatedto_plugin::create($hr, 'org.openpsa.projects', $from_object, $from_component);
 
-        debug_pop();
         return true;
     }
 
@@ -284,7 +269,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
      */
     function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         switch($mode)
         {
             case 'all':
@@ -296,7 +280,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
                 break;
         }
@@ -310,7 +293,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         {
             // Some error with QB
             debug_add('QB Error', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // Transfer memberships
@@ -322,7 +304,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             if (!$member->update())
             {
                 debug_add("Failed to update task resource #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -335,7 +316,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         {
             // Some error with QB
             debug_add('QB Error / status', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         foreach($receipts as $receipt)
@@ -346,7 +326,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             {
                 // Error updating
                 debug_add("Failed to update status #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -359,7 +338,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         {
             // Some error with QB
             debug_add('QB Error / hours', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         foreach($logs as $log)
@@ -370,7 +348,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             {
                 // Error updating
                 debug_add("Failed to update hour_report #{$log->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -383,7 +360,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         {
             // Some error with QB
             debug_add('QB Error / tasks', MIDCOM_task_ERROR);
-            debug_pop();
             return false;
         }
         foreach($tasks as $task)
@@ -394,7 +370,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             {
                 // Error updating
                 debug_add("Failed to update task #{$task->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_task_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -421,7 +396,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             {
                 // Failure updating metadata
                 debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -449,7 +423,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         $qb = org_openpsa_projects_task_dba::new_query_builder();
@@ -487,7 +460,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
                 $indexer->index($index_datamanager);
             }
         }
-        debug_pop();
         return true;
     }
 }

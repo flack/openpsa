@@ -677,10 +677,8 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                     $data['group'] = $group;
                     if (! $data['datamanager_group']->autoset_storage($group))
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("The datamanager for group #{$group->id} could not be initialized, skipping it.");
                         debug_print_r('Object was:', $group);
-                        debug_pop();
                         continue;
                     }
                     $data['view_group'] = $data['datamanager_group']->get_content_html();
@@ -725,10 +723,8 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $data['product'] = $product;
                 if (! $data['datamanager_product']->autoset_storage($product))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("The datamanager for product #{$product->id} could not be initialized, skipping it.");
                     debug_print_r('Object was:', $product);
-                    debug_pop();
                     continue;
                 }
                 $data['view_product'] = $data['datamanager_product']->get_content_html();

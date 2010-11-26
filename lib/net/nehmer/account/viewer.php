@@ -386,9 +386,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         if (   ! $plugins
             || ! array_key_exists($name, $plugins))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load the plugin {$name}, no plugins are configured or plugin not activated.");
-            debug_pop();
             return false;
         }
         $plugin_config = $plugins[$name];
@@ -490,9 +488,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 
         if (! class_exists($plugin_config['class']))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load the plugin {$name}, implementation class not available.");
-            debug_pop();
             return false;
         }
 
@@ -552,7 +548,6 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 
     function verify_person_privileges($person)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $person_user = $_MIDCOM->auth->get_user($person->id);
 
         if (!is_a($person, 'midcom_db_person'))
@@ -579,8 +574,6 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 
             $_MIDCOM->auth->drop_sudo();
         }
-
-        debug_pop();
     }
 
     /**

@@ -18,14 +18,12 @@ class org_routamc_positioning_cron_fetchicbm extends midcom_baseclasses_componen
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
 
         $html = org_routamc_positioning_importer::create('html');
         $html->seek_icbm_users();
 
         debug_add('Done');
-        debug_pop();
         return;
     }
 }

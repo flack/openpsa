@@ -70,10 +70,8 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
             || is_array($this->_type->value)
             || is_object($this->_type->value))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} does not have a value member or it is an array or object, you cannot use the text widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 

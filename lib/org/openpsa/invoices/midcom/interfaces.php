@@ -42,9 +42,7 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
         {
             foreach ($result as $billing_data)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Delete billing data with guid:" . $billing_data->guid . " for object with guid:" . $object->guid);
-                debug_pop();
                 $billing_data->delete();
             }
         }
@@ -56,7 +54,6 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
@@ -94,7 +91,6 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
                 $indexer->index($index_datamanager);
             }
         }
-        debug_pop();
         return true;
     }
 }

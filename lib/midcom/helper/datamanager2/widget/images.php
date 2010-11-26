@@ -107,10 +107,8 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_images'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not an images type or subclass thereof, you cannot use the images widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -331,9 +329,7 @@ END;
      */
     function _add_image_row($identifier, $frozen)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_print_r("\$this->_type->images[{$identifier}]", $this->_type->images[$identifier]);
-        debug_pop();
 
         if (isset($this->_type->images[$identifier]['main']))
         {
@@ -362,9 +358,7 @@ END;
             || empty($info['object']->guid))
         {
             //Panic, broken identifier
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Identifier '{$identifier}' does not have a valid object behind it",  MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
 
@@ -590,9 +584,7 @@ END;
             unset($file);
             if (! $this->_type->_batch_handler($extension_matches[1], $copy))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to add attachments from compressed files to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                debug_pop();
             }
             return;
         }
@@ -620,9 +612,7 @@ END;
 
         if (! $this->_type->add_image($filename, $file['tmp_name'], $title))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to add an attachment to the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-            debug_pop();
         }
     }
 
@@ -654,9 +644,7 @@ END;
             case (array_key_exists("{$this->name}_e_exist_{$identifier}_delete", $values)):
                 if (! $this->_type->delete_image($identifier))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to delete the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                    debug_pop();
                 }
                 break;
             // Image to be updated
@@ -673,9 +661,7 @@ END;
 
                 if (! $this->_type->update_image($identifier, $filename, $file['tmp_name'], $title))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to update the image {$identifier} on the field '{$this->name}'. Ignoring silently.", MIDCOM_LOG_WARN);
-                    debug_pop();
                 }
                 break;
         }

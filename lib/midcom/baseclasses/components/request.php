@@ -459,7 +459,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             {
                 $this->_request_switch[$key]['no_cache'] = false;
             }
-
         }
     }
 
@@ -492,9 +491,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         {
             $namespace = $argv[0];
             $plugin = $argv[1];
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Loading the plugin {$namespace}/{$plugin}");
-            debug_pop();
             $this->_load_plugin($namespace, $plugin);
         }
 
@@ -681,9 +678,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         $result = $this->_on_show($this->_handler['id']);
         if (! $result)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The _on_show event handler returned false, aborting.');
-            debug_pop();
             return;
         }
 

@@ -16,7 +16,6 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
 {
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called!');
         $_MIDCOM->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
 
@@ -43,7 +42,6 @@ class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handle
                 debug_add("Deleted login session {$tmp->id}.");
             }
         }
-        debug_pop();
     }
 }
 ?>

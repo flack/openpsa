@@ -18,14 +18,12 @@ class org_routamc_positioning_cron_fetchfireeagle extends midcom_baseclasses_com
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
 
         $fireeagle = org_routamc_positioning_importer::create('fireeagle');
         $fireeagle->seek_fireeagle_users();
 
         debug_add('Done');
-        debug_pop();
         return;
     }
 }

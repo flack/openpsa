@@ -19,7 +19,6 @@ class net_nehmer_account_cron_cleanup extends midcom_baseclasses_components_cron
 {
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $timeout_days = $this->_config->get('account_activation_timeout');
         $timeout_stamp = time() - ($timeout_days * 86400);
         $timeout = strftime('%Y-%m-%d', $timeout_stamp);
@@ -29,7 +28,6 @@ class net_nehmer_account_cron_cleanup extends midcom_baseclasses_components_cron
             $msg = "Could not get sudo, aborting operation, see error log for details";
             $this->print_error($msg);
             debug_add($msg, MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
 
@@ -68,7 +66,6 @@ class net_nehmer_account_cron_cleanup extends midcom_baseclasses_components_cron
             debug_add('Found none.');
         }
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
     }
 }
 ?>

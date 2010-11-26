@@ -346,9 +346,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         fwrite($fp, "<?php\n\$data = array({$config}\n);\n?>");
         fclose($fp);
         $parse_results = `php -l {$tmpfile}`;
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("'php -l {$tmpfile}' returned: \n===\n{$parse_results}\n===\n");
-        debug_pop();
         unlink($tmpfile);
 
         if (strstr($parse_results, 'Parse error'))

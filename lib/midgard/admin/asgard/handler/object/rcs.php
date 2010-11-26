@@ -135,7 +135,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     function _load_object()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
         if (   !$this->_object
             || !$this->_object->guid)
@@ -159,8 +158,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         {
             $_MIDCOM->bind_view_to_object($this->_object);
         }
-
-        debug_pop();
     }
 
     function _prepare_request_data($handler_id)
@@ -555,7 +552,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
                 debug_add("Failed to load tet_diff libraries! These are needed for this handler. " , MIDCOM_LOG_CRIT);
                 $this->_request_data['libs_ok'] = false;
                 $this->_prepare_toolbars($args[2]);
-                debug_pop();
                 return true;
             }
             else
@@ -565,7 +561,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         }
         else
         {
-                $this->_request_data['libs_ok'] = true;
+            $this->_request_data['libs_ok'] = true;
         }
 
         $this->_prepare_toolbars($args[2], true);

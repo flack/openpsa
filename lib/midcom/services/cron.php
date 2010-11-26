@@ -155,7 +155,6 @@ class midcom_services_cron extends midcom_baseclasses_core_object
      */
     function _load_jobs()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $data = $_MIDCOM->componentloader->get_all_manifest_customdata('midcom.services.cron');
         $data['midcom'] = $this->_midcom_jobs;
@@ -166,11 +165,9 @@ class midcom_services_cron extends midcom_baseclasses_core_object
             if (   $component != 'midcom'
                 && ! $_MIDCOM->componentloader->load_graceful($component))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 $msg = "Failed to load the component {$component}. See the debug level log for further information, skipping this component.";
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 echo "ERROR: {$msg}\n";
-                debug_pop();
                 continue;
             }
 
@@ -186,7 +183,6 @@ class midcom_services_cron extends midcom_baseclasses_core_object
             }
         }
 
-        debug_pop();
     }
 
     /**
@@ -214,32 +210,26 @@ class midcom_services_cron extends midcom_baseclasses_core_object
     {
         if (! is_array($job))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Failed to register a job for {$component}: Invalid job specification format, not an array.";
             debug_add($msg, MIDCOM_LOG_ERROR);
             debug_print_r('Got this job declaration:', $job);
             echo "ERROR: {$msg}\n";
-            debug_pop();
             return false;
         }
         if (! array_key_exists('handler', $job))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Failed to register a job for {$component}: No handler declaration.";
             debug_add($msg, MIDCOM_LOG_ERROR);
             debug_print_r('Got this job declaration:', $job);
             echo "ERROR: {$msg}\n";
-            debug_pop();
             return false;
         }
         if (! array_key_exists('recurrence', $job))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Failed to register a job for {$component}: No recurrence declaration.";
             debug_add($msg, MIDCOM_LOG_ERROR);
             debug_print_r('Got this job declaration:', $job);
             echo "ERROR: {$msg}\n";
-            debug_pop();
             return false;
         }
         if (! $this->_validate_handler($job['handler']))
@@ -255,12 +245,10 @@ class midcom_services_cron extends midcom_baseclasses_core_object
                 break;
 
             default:
-                debug_push_class(__CLASS__, __FUNCTION__);
                 $msg = "Failed to register a job for {$component}: Invalid recurrence.";
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 debug_print_r('Got this job declaration:', $job);
                 echo "ERROR: {$msg}\n";
-                debug_pop();
                 return false;
         }
 
@@ -293,22 +281,18 @@ class midcom_services_cron extends midcom_baseclasses_core_object
         $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $handler_name) . '.php';
         if (! file_exists($path))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Auto-loading of the class {$handler_name} from {$path} failed: File does not exist.";
             debug_add($msg, MIDCOM_LOG_ERROR);
             echo "ERROR: {$msg}\n";
-            debug_pop();
             return false;
         }
         require_once($path);
 
         if (! class_exists($handler_name))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Failed to register a job using {$handler_name}: Handler class is not declared.";
             debug_add($msg, MIDCOM_LOG_ERROR);
             echo "ERROR: {$msg}\n";
-            debug_pop();
             return false;
         }
 
@@ -320,7 +304,6 @@ class midcom_services_cron extends midcom_baseclasses_core_object
      */
     function execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->_load_jobs();
 
@@ -328,8 +311,6 @@ class midcom_services_cron extends midcom_baseclasses_core_object
         {
             $this->_execute_job($job);
         }
-
-        debug_pop();
     }
 
     /**
@@ -339,29 +320,22 @@ class midcom_services_cron extends midcom_baseclasses_core_object
      */
     function _execute_job($job)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_print_r('Executing job:', $job);
 
         $handler = new $job['handler']();
         if (! $handler)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Failed to execute a job for {$job['component']}: Could not create handler class instance.";
             debug_add($msg, MIDCOM_LOG_ERROR);
             echo "ERROR: {$msg}\n";
-            debug_pop();
             return false;
         }
         if (! $handler->initialize($job))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $msg = "Failed to execute a job for {$job['component']}: Handler class failed to initialize.";
             debug_add($msg, MIDCOM_LOG_WARN);
-            debug_pop();
         }
         $handler->execute();
-
-        debug_pop();
     }
 
 }

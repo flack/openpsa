@@ -663,7 +663,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      */
     function _determine_content_topic()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $guid = $this->_config->get('symlink_topic');
         if (is_null($guid))
@@ -671,7 +670,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             // No symlink topic
             // Workaround, we should talk to a DBA object automatically here in fact.
             $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);
-            debug_pop();
             return;
         }
 
@@ -694,8 +692,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
                 'Symlink content topic is invalid, see the debug level log for details.');
             // This will exit.
         }
-
-        debug_pop();
     }
 
     /**
@@ -890,9 +886,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             {
                 $multiple_categories = false;
             }
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("multiple_categories={$multiple_categories}");
-            debug_pop();
 
             $qb->begin_group('OR');
                 $list_from_folders_categories = explode(',', $list_from_folders_categories);

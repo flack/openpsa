@@ -295,9 +295,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $result = $qb_page->execute();
         if (count($result) < 1)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Try to create page for ui_tab: {$page_name} ", MIDCOM_LOG_INFO);
-            debug_pop();
             //create page
             $ui_page = new midcom_db_page();
             $ui_page->name = $page_name;
@@ -314,9 +312,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
             if (count($style) != 1)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("the necessary style('uitab') does not exist, should be installed with templates/OpenPsa2 ", MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
             $ui_page->style = $style[0]->id;
@@ -326,18 +322,14 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $_MIDCOM->auth->request_sudo();
             if(!$ui_page->create())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_r('could not create ui_page:', $ui_page);
-                debug_pop();
                 return false;
             }
             $_MIDCOM->auth->drop_sudo();
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Page for ui_tab: {$page_name} already exists", MIDCOM_LOG_INFO);
-            debug_pop();
         }
 
         return true;

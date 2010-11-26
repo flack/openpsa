@@ -38,17 +38,13 @@ class org_openpsa_smslib extends midcom_baseclasses_components_purecode
 
     function send_sms()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('SMSLib factory method does not do anything, must be overridden in real backend', MIDCOM_LOG_ERROR);
-        debug_pop();
         return false;
     }
 
     function send_mms()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('SMSLib factory method does not do anything, must be overridden in real backend', MIDCOM_LOG_ERROR);
-        debug_pop();
         return false;
     }
 

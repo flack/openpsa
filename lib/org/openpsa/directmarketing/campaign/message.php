@@ -305,7 +305,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 return false;
             break;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_add("status: {$status}, reg_next: {$reg_next}");
         if ($reg_next)
@@ -323,7 +322,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             if (!$atstat)
             {
                 debug_add("FAILED to register batch #{$args['batch']} for {$args['url_base']}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -337,14 +335,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             }
         }
 
-        debug_pop();
         return $status;
     }
 
 
     function _qb_filter_results($results)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Make a map for receipt filtering
         $results_persons = array();
         $results_person_map = array();
@@ -383,13 +379,11 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 }
             }
         }
-        debug_pop();
         return $results;
     }
 
     function _qb_chunk_limits(&$qb)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Processing chunk {$this->_chunk_num}");
         $this->_offset = $this->_chunk_num*$this->chunk_size;
         if ($this->_offset>0)
@@ -399,7 +393,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         }
         debug_add("Setting limit to {$this->chunk_size}");
         $qb->set_limit($this->chunk_size);
-        debug_pop();
     }
 
     /**
@@ -419,7 +412,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function _qb_common_constaints(&$qb)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Setting constraint campaign = {$this->campaign}");
         $qb->add_constraint('campaign', '=', $this->campaign);
         $qb->add_constraint('suspended', '<', time());
@@ -441,7 +433,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $qb->add_order('person.firstname', 'ASC');
         $qb->add_order('person.username', 'ASC');
         $qb->add_order('person.id', 'ASC');
-        debug_pop();
         return;
     }
 
@@ -556,11 +547,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         if (   $person->get_parameter('org.openpsa.directmarketing', "send_all_denied")
             || $person->get_parameter('org.openpsa.directmarketing', "send_{$type}_denied"))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Sending {$type} messages to person {$person->rname} is denied, unsubscribing member (member #{$member->id})");
             $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
             $member->update();
-            debug_pop();
             return true;
         }
         return false;
@@ -579,11 +568,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             || !isset($person->guid)
             || empty($person->guid))
         {
-            debug_push_class();
             debug_add("Person #{$member->person} deleted or missing, removing member (member #{$member->id})");
             $member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
             $member->update();
-            debug_pop();
             return false;
         }
         return true;
@@ -591,10 +578,8 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
     function _send_email_member($member, &$subject, &$content, &$from, &$data_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if ($this->_check_member_deny($member, 'email'))
         {
-            debug_pop();
             return;
         }
         if (!isset($GLOBALS['org_openpsa_directmarketing_campaign_message_send_i']))
@@ -689,7 +674,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             break;
             default:
                 debug_add('Invalid message type, aborting', MIDCOM_LOG_ERROR);
-                debug_pop();
                 return array(false, $mail);
             break;
         }
@@ -778,7 +762,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             }
         }
         unset($mail);
-        debug_pop();
         return $status;
     }
 
@@ -791,7 +774,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "method '{$callback_method}' does not exist");
         }
         $qb = $this->$callback_method();
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_qb_common_constaints($qb);
         $this->_qb_chunk_limits($qb);
 
@@ -801,14 +783,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             || count($results)==0)
         {
             debug_add('Got failure or empty resultset, aborting');
-            debug_pop();
             return false;
         }
 
         if ($this->test_mode)
         {
             debug_add('TEST mode, no receipt filtering will be done');
-            debug_pop();
             return $results;
         }
 
@@ -829,14 +809,12 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         }
 
         reset($results);
-        debug_pop();
         return $results;
     }
 
     function send_email_bg(&$batch, &$subject, &$content, &$from, &$data_array)
     {
         //TODO: Figure out how to recognize errors and pass the info on
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->send_output = false;
         @ini_set('max_execution_time', 0);
         if (!$from)
@@ -858,7 +836,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $ret = array();
             $ret[] = true; //All should be ok
             $ret[] = false; //Do not register another batch
-            debug_pop();
             return $ret;
         }
 
@@ -870,7 +847,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $ret = array();
         $ret[] = true; //All should be ok
         $ret[] = true; //Register next batch to AT
-        debug_pop();
         return $ret;
     }
 
@@ -886,7 +862,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function send_email(&$subject, &$content, &$from, $data_array=array())
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //TODO: Some sort of locking scheme
         @ini_set('max_execution_time', 0);
         if (!$from)
@@ -921,7 +896,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
 
-        debug_pop();
         return true;
     }
 
@@ -954,10 +928,8 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
     function _send_sms_member(&$smsbroker, $member, &$content, &$from, &$data_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if ($this->_check_member_deny($member, 'sms'))
         {
-            debug_pop();
             return;
         }
         if (!isset($GLOBALS['org_openpsa_directmarketing_campaign_message_send_i']))
@@ -1006,13 +978,11 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.directmarketing', 'org.openpsa.directmarketing'), sprintf($_MIDCOM->i18n->get_string('FAILED to send SMS to: %s, reason: %s', 'org.openpsa.directmarketing'), $person->handphone, $smsbroker->errstr), 'error');
             }
         }
-        debug_pop();
         return $status;
     }
 
     function send_sms_bg(&$batch, &$content, &$from, &$data_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //TODO: Some sort of locking scheme
         @ini_set('max_execution_time', 0);
         //Initializing SMS broker
@@ -1023,7 +993,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $ret = array();
             $ret[] = false; //Error initializing broker
             $ret[] = false; //Do not register another batch
-            debug_pop();
             return $ret;
         }
         $smsbroker->location = $this->sms_lib_location;
@@ -1042,7 +1011,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $ret = array();
             $ret[] = false; //Not enough credits
             $ret[] = false; //Do not register another batch
-            debug_pop();
             return $ret;
         }
 
@@ -1053,7 +1021,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $ret = array();
             $ret[] = true; //All should be ok
             $ret[] = false; //Do not register another batch
-            debug_pop();
             return $ret;
         }
 
@@ -1065,17 +1032,14 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $ret = array();
         $ret[] = true; //All should be ok
         $ret[] = true; //Register next batch to AT
-        debug_pop();
         return $ret;
     }
 
     function _check_sms_balance(&$smsbroker, $results)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!method_exists('get_balance', $smsbroker))
         {
             debug_add('Broker does not have mechanism for checking balance, supposing infinite', MIDCOM_LOG_INFO);
-            debug_pop();
             return true;
         }
         debug_add('Checking SMS broker balance');
@@ -1084,7 +1048,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         if ($balance === false)
         {
             debug_add('Error while checking SMS broker balance, returning false to be safe', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $results_count = count($results);
@@ -1093,10 +1056,8 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             && $balance < $results_count)
         {
             debug_add("Balance ({$balance}) is less than number of recipients ({$results_count})", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
-        debug_pop();
         return true;
     }
 
@@ -1112,7 +1073,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function send_sms(&$content, &$from, &$data_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //TODO: Some sort of locking scheme
         @ini_set('max_execution_time', 0);
         //Initializing SMS broker
@@ -1146,7 +1106,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 {
                     //TODO: Throw some error to user level as well.
                 }
-                debug_pop();
                 return false;
             }
 
@@ -1162,7 +1121,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             ob_flush(); //I Hope midcom doesn't wish to do any specific post-processing here...
         }
 
-        debug_pop();
         return true;
     }
 
@@ -1189,9 +1147,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      */
     function send_mms(&$content, &$from, &$data_array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('Not implemented yet', MIDCOM_LOG_ERROR);
-        debug_pop();
         return false;
     }
 }

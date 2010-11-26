@@ -144,9 +144,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
         if (! $invoice->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $invoice);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
@@ -475,9 +473,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Tried to get invoice with following guid :', $args[0]);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Invoice with GUID: " . $args[0] . " does not exist . Error: " . midcom_connection::get_error_string());
             // This will exit.
@@ -556,9 +552,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             }
             catch (Exception $e)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_r('Tried to require invoice_pdf_class_file :', $this->_config->get('invoice_pdf_class'));
-                debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     "Could not require pdf class . Error: " . midcom_connection::get_error_string());
                 // This will exit.

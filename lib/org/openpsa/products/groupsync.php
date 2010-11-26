@@ -447,10 +447,8 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
     {
         // Push the previous class/method as message originator
         $bt = debug_backtrace();
-        debug_push_class($bt[1]['class'], $bt[1]['function']);
         unset($bt);
         debug_add($message, $level);
-        debug_pop();
 
         if (   $echo
             || $this->verbose)

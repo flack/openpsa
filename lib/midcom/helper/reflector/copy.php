@@ -445,9 +445,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         if (   !empty($name_property)
             && !midcom_helper_reflector::name_is_safe_or_empty($target, $name_property))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Source object ' . get_class($source) . " {$source->guid} has unsafe name, rewriting to safe form for the target", MIDCOM_LOG_WARN);
-            debug_pop();
             $name_property = midcom_helper_reflector::get_name_property($target);
 
             if (empty($name_property))

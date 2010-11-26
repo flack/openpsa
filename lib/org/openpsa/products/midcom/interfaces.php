@@ -249,7 +249,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -257,7 +256,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
             && !$config->get('index_groups'))
         {
             debug_add("No indexing to groups and products, skipping", MIDCOM_LOG_WARN);
-            debug_pop();
             return true;
         }
         $dms = array();
@@ -266,7 +264,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         if (!is_a($dms['group'], 'midcom_helper_datamanager2_datamanager'))
         {
             debug_add("Failed to instance DM2 from schema path " . $config->get('schemadb_group') . ", aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $schemadb_product = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_product'));
@@ -274,7 +271,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         if (!is_a($dms['product'], 'midcom_helper_datamanager2_datamanager'))
         {
             debug_add("Failed to instance DM2 from schema path " . $config->get('schemadb_product') . ", aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -295,13 +291,11 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
             $this->_on_reindex_tree_iterator($indexer, $dms, $topic, $group, $topic, $config);
         }
 
-        debug_pop();
         return true;
     }
 
     function _on_reindex_tree_iterator(&$indexer, &$dms, &$topic, &$group, &$topic, &$config)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if ($dms['group']->autoset_storage($group))
         {
             if ($config->get('index_groups'))
@@ -343,7 +337,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         unset($qb_groups);
         if (!is_array($subgroups))
         {
-            debug_pop();
             return true;
         }
         foreach ($subgroups as $subgroup)
@@ -353,7 +346,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         }
         unset($subgroups);
 
-        debug_pop();
         return true;
     }
 }

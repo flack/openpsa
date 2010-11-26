@@ -95,7 +95,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function __construct(&$schemadb)
     {
-         $this->_component = 'midcom.helper.datamanager2';
          parent::__construct();
          $this->_schemadb =& $schemadb;
     }
@@ -116,17 +115,13 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     {
         if (!is_array($this->_schemadb))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The active schema database is invalid.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (   $name !== null
             && ! array_key_exists($name, $this->_schemadb))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The schema {$name} was not found in the active schema database.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -163,9 +158,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     {
         if ($this->schema === null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Cannot initialize to a storage object if the schema is not yet set.', MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -205,10 +198,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
         if (!$this->schema)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to initialize the types, schema not defined.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -249,10 +240,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
 
         if (! $this->types[$name]->initialize($name, $config['type_config'], $this->storage, $this))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to initialize the type for {$name}, see the debug level log for full details.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
     }
@@ -298,9 +287,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Given schema name {$schema} was not found, reverting to default.", MIDCOM_LOG_INFO);
-                debug_pop();
                 // Schema database has probably changed so we should be graceful here
                 if (!$this->set_schema(null))
                 {
@@ -351,11 +338,9 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
     {
         if (! $this->validate())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add(count($this->validation_errors) . ' fields have failed validation, cannot save.',
                 MIDCOM_LOG_WARN);
             debug_print_r('Validation errors:', $this->validation_errors);
-            debug_pop();
             return false;
         }
 
@@ -402,7 +387,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
         $msg = "DM2->types['{$name}'] is not set (but was present in field_order/fields array), current instance of schema '{$this->schema_name}' is somehow broken";
         $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2'), $msg, 'error');
         $bt = debug_backtrace();
-        debug_push_class($bt[1]['class'], $bt[1]['function']);
         debug_add($msg, MIDCOM_LOG_ERROR);
         debug_print_r('DM2->schema->field_order', $this->schema->field_order);
         $types_tmp = array();
@@ -411,7 +395,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             $types_tmp[$typename] = get_class($this->types[$typename]);
         }
         debug_print_r('DM2->types keys and classes', $types_tmp);
-        debug_pop();
         unset($msg, $typename, $types_tmp, $bt);
         return true;
     }

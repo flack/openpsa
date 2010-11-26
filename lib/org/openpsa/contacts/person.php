@@ -147,16 +147,13 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     function _verify_privileges()
     {
         return false;
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->id)
         {
-            debug_pop();
             return false;
         }
         $this_user = $_MIDCOM->auth->get_user($this->id);
         if (!is_object($this_user))
         {
-            debug_pop();
             return false;
         }
 
@@ -168,7 +165,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             && !empty($GLOBALS['org_openpsa_contacts_person__verify_privileges'][$this->id]))
         {
             debug_add("loop detected for person #{$this->id}, aborting this check silently");
-            debug_pop();
             return true;
         }
         $GLOBALS['org_openpsa_contacts_person__verify_privileges'][$this->id] = true;
@@ -239,7 +235,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
 
         $GLOBALS['org_openpsa_contacts_person__verify_privileges'][$this->id] = false;
 
-        debug_pop();
         return true;
     }
 
@@ -282,7 +277,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     {
         parent::_on_created();
         $this->_verify_privileges();
-        debug_pop();
         return true;
     }
 
@@ -411,7 +405,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
 
     function encrypt_password($password , $plaintext)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         static $rand = false;
         if (empty($rand))
         {

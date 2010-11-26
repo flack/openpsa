@@ -38,11 +38,9 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
      */
     function at_test($args, &$handler)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $message = "got args:\n===\n" . org_openpsa_helpers::sprint_r($args) . "===\n";
         $handler->print_error($message);
         debug_add($message);
-        debug_pop();
         return true;
     }
 
@@ -54,14 +52,12 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
      */
     function background_send_message($args, &$handler)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !isset($args['url_base'])
             || !isset($args['batch']))
         {
             $msg = 'url_base or batch number not set, aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
         $_MIDCOM->auth->request_sudo();
@@ -75,7 +71,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         ob_end_clean();
 
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
         return true;
     }
 
@@ -87,13 +82,11 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
      */
     function background_update_campaign_members($args, &$handler)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!array_key_exists('campaign_guid', $args))
         {
             $msg = 'Campaign GUID not found in arguments list';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
 
@@ -105,7 +98,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             $msg = "{$args['campaign_guid']} is not a valid campaign GUID";
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
 
@@ -115,12 +107,10 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             $msg = 'Error while calling campaign->update_smart_campaign_members(), see error log for details';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
 
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
         return true;
     }
 
@@ -145,13 +135,11 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             case (   is_object($campaign)
                   && isset($campaign->guid)
                   && !empty($campaign->guid)):
-                debug_pop();
                 return "campaign/{$campaign->guid}/";
                 break;
             case (   is_object($message)
                   && isset($message->guid)
                   && !empty($message->guid)):
-                debug_pop();
                 return "message/{$message->guid}/";
                 break;
         }
@@ -160,7 +148,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 
     function _on_watched_dba_create($post)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         // TODO: Move this logic to a separate class
 
         // Re-fetch the post
@@ -243,7 +230,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
                 debug_add("Failed to create campaign message from post, reason " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             }
         }
-        debug_pop();
     }
 
     /**
@@ -251,7 +237,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
      */
     function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         switch($mode)
         {
             case 'all':
@@ -263,7 +248,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
                 break;
         }
@@ -277,7 +261,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         {
             // Some error with QB
             debug_add('QB Error', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // Transfer memberships
@@ -291,7 +274,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
                 if (!$member->delete())
                 {
                     debug_add("Could not delete campaign member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
                 continue;
@@ -300,7 +282,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             if (!$member->update())
             {
                 debug_add("Failed to update campaign member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -313,7 +294,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         {
             // Some error with QB
             debug_add('QB Error / receipts', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         foreach($receipts as $receipt)
@@ -324,7 +304,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             {
                 // Error updating
                 debug_add("Failed to update receipt #{$receipt->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -337,7 +316,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         {
             // Some error with QB
             debug_add('QB Error / links', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         foreach($logs as $log)
@@ -348,7 +326,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             {
                 // Error updating
                 debug_add("Failed to update link #{$log->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -370,7 +347,6 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
             {
                 // Failure updating metadata
                 debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }

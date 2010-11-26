@@ -499,7 +499,6 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      */
     function parse ($string)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         // Set the mode now, so that $this is a valid reference.
         $this->setMode('func');
 
@@ -510,7 +509,6 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
             $msg = "The XML Parser failed crticially:\n" . $result->toString();
             debug_add($msg, MIDCOM_LOG_ERROR);
         }
-        debug_pop();
     }
 }
 ?>

@@ -103,7 +103,6 @@ class org_openpsa_contacts_duplicates_merge
      */
     function _call_component_merge($component, &$obj1, &$obj2, $merge_mode)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Make sure we can load and access the component
         if (!$_MIDCOM->componentloader->is_loaded($component))
         {
@@ -115,7 +114,6 @@ class org_openpsa_contacts_duplicates_merge
         {
             // We could not load the component/interface
             debug_add("could not load component {$component}", MIDCOM_LOG_ERROR);
-            debug_pop();
             // PONDER: false or true (false means the merge will be aborted...)
             return true;
         }
@@ -126,13 +124,11 @@ class org_openpsa_contacts_duplicates_merge
         {
             // Component does not wish to merge our stuff
             debug_add("component {$component} does not support merging duplicate objects of type {$this->_object_mode}", MIDCOM_LOG_INFO);
-            debug_pop();
             return true;
         }
         // Call component interface for merge
         $ret = $interface->$method($obj1, $obj2, $merge_mode);
 
-        debug_pop();
         return $ret;
     }
 
@@ -199,7 +195,6 @@ class org_openpsa_contacts_duplicates_merge
             // Nothing to do
             return true;
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
         // Get all instances of given class where metadata fields link to person2
         $qb = call_user_func(array($class, 'new_query_builder'));
         $qb->begin_group('OR');
@@ -223,7 +218,6 @@ class org_openpsa_contacts_duplicates_merge
             if (!$qb->add_constraint('metadata.' . $field, '=', $value))
             {
                 debug_add("Failure adding constraint, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -232,7 +226,7 @@ class org_openpsa_contacts_duplicates_merge
         if ($objects === false)
         {
             // QB failure
-            debug_pop("QB failure for class {$class}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+            debug_add("QB failure for class {$class}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;
         }
         foreach ($objects as $object)
@@ -256,12 +250,10 @@ class org_openpsa_contacts_duplicates_merge
             {
                 // Failure updating object
                 debug_add("Could not update object {$class}:{$object->guid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
 
-        debug_pop();
         return true;
     }
 

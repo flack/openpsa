@@ -29,11 +29,9 @@
  * <code>
  *  function at_test($args, &$handler)
  *  {
- *      debug_push_class(__CLASS__, __FUNCTION__);
  *      $message = "got args:\n===\n" . sprint_r($args) . "===\n";
  *      debug_add($message);
  *      $handler->print_error($message);
- *      debug_pop();
  *      return true;
  *  }
  * </code>
@@ -75,16 +73,12 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
      */
     function register($start, $component, $method, $args)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $entry = new midcom_services_at_entry();
         $entry->start = $start;
         $entry->component = $component;
         $entry->method = $method;
         $entry->arguments = $args;
-        //mgd_debug_start();
         $ret = $entry->create();
-        //mgd_debug_stop();
-        debug_pop();
         return $ret;
     }
 }

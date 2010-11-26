@@ -47,21 +47,15 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         $class = $this->fromClass;
         if (!class_exists($class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Class '{$class}' is missing, trying to find it", MIDCOM_LOG_WARN);
-            debug_pop();
             if (empty($this->fromComponent))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("\$this->fromComponent is empty, don't know how to load missing class '{$class}'", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return null;
             }
             if (!$_MIDCOM->componentloader->load_graceful($this->fromComponent))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not load component '{$this->fromComponent}' (to load missing class '{$class}')", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return null;
             }
         }
@@ -104,16 +98,12 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     {
         if (!$this->_sanity_check())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         if ($this->_check_duplicates() > 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -134,16 +124,12 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     {
         if (!$this->_sanity_check())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Sanity check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         if ($this->_check_duplicates() > 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Duplicate check failed with tag #{$this->tag}", MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         return true;

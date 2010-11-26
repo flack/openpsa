@@ -366,10 +366,8 @@ class midcom_helper_metadata
     {
         if (is_object($value))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             $classname = get_class($value);
             debug_add("Can not set metadata '{$key}' property with '{$classname}' object as value", MIDCOM_LOG_WARN);
-            debug_pop();
 
             return false;
         }
@@ -785,9 +783,7 @@ class midcom_helper_metadata
                 }
                 else
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_print_r('We got an invalid input, cannot return metadata:', $source);
-                    debug_pop();
 
                     return false;
                 }
@@ -813,10 +809,8 @@ class midcom_helper_metadata
             $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
             if (! $object)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to create a metadata instance for the GUID {$guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
                 debug_print_r("Source was:", $source);
-                debug_pop();
 
                 return false;
             }
@@ -826,10 +820,8 @@ class midcom_helper_metadata
         $meta = new midcom_helper_metadata($guid, $object, $GLOBALS['midcom_config']['metadata_schema']);
         if (! $meta)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to create a metadata object for {$guid}, last error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             debug_print_r('Object used was:', $object);
-            debug_pop();
 
             return false;
         }

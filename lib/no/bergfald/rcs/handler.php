@@ -160,7 +160,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      */
     function _load_object()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
 
         // Get RCS handler from core
@@ -171,8 +170,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         {
             $_MIDCOM->bind_view_to_object($this->_object);
         }
-
-        debug_pop();
     }
 
     function _prepare_breadcrumb()
@@ -362,7 +359,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      */
     function _handler_diff($handler_id, $args, &$data)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_guid = $args[0];
         $this->_load_object();
 
@@ -387,7 +383,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
                 debug_add("Failed to load tet_diff libraries! These are needed for this handler. " , MIDCOM_LOG_CRIT);
                 $this->_request_data['libs_ok'] = false;
                 $this->_prepare_toolbars($args[2]);
-                debug_pop();
                 return true;
             }
             else
@@ -429,9 +424,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         );
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
-        debug_pop();
         return true;
-
     }
 
     /**

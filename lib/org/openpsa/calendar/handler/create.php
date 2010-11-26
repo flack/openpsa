@@ -95,9 +95,7 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
         $this->_event->up = $this->_root_event->id;
         if (! $this->_event->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $this->_event);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Failed to create a new event, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
             // This will exit.

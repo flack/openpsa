@@ -490,9 +490,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                     // TODO: Would be nicer to register a priv that doesn't really count
                     if (!$this->_object->set_privilege('midgard:read', $new_assignee, MIDCOM_PRIVILEGE_ALLOW))
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Adding new privilege for assignee {$new_assignee} failed.", MIDCOM_LOG_WARN);
-                        debug_pop();
                     }
 
                     // Then clear the parameter and relocate

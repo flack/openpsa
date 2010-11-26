@@ -57,10 +57,8 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
             $countries = $qb->execute();
             if (count($countries) == 0)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not load Country ID {$this->country} from the database, aborting.",
                     MIDCOM_LOG_INFO);
-                debug_pop();
                 return null;
             }
             return $countries[0]->guid;

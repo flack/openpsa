@@ -250,10 +250,8 @@ function midcom_autoload($class_name)
             /**
              * Enable when debugging autoloading issues, otherwise it's just noise
              *
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Autoloader got '{$path}' and tried {$alternative_path} but neither was not found, aborting");
-            $GLOBALS['midcom_debugger']->print_function_stack("Failed to autoload {$class_name}, called from");
-            debug_pop();
+            debug_print_function_stack("Failed to autoload {$class_name}, called from");
              */
             return;
         }

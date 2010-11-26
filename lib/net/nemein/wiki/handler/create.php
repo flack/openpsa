@@ -94,9 +94,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
 
         if (! $this->_page->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $this->_page);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Failed to create a new page, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
             // This will exit.

@@ -28,7 +28,6 @@ function org_routamc_positioning_send_sms($to, $message, $from, $config)
     if (!is_object($smsbroker))
     {
         debug_add(str_replace('.', '_', $sms_lib) . "::factory({$sms_lib_api}) returned: {$smsbroker}", MIDCOM_LOG_ERROR);
-        debug_pop();
         return false;
     }
     $smsbroker->location = $sms_lib_location;

@@ -44,7 +44,6 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
      */
     function _on_watched_dba_delete($object)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $qb = net_nehmer_buddylist_entry::new_query_builder();
         $qb->begin_group('OR');
         $qb->add_constraint('account', '=', $object->guid);
@@ -59,7 +58,6 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
                 $entry->delete();
             }
         }
-        debug_pop();
     }
 
     /**

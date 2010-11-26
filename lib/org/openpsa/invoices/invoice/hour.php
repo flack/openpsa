@@ -64,9 +64,7 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
 
         if (! $_MIDCOM->auth->request_sudo('org.openpsa.invoices'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to get SUDO privileges, skipping invoice hour deletion silently.', MIDCOM_LOG_ERROR);
-            debug_pop();
             return;
         }
 
@@ -79,9 +77,7 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
         $hour_report->invoicer = 0;
         if (!$hour_report->update())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to mark hour report {$hour_report->id} as uninvoiced, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
         }
 
         $_MIDCOM->auth->drop_sudo();

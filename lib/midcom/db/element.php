@@ -56,21 +56,17 @@ class midcom_db_element extends midcom_core_dbaobject
     {
         if ($this->style == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Current element is:', $this);
             debug_add("The Style Element {$this->id} has its style member set to 0, this is a critical database inconsistency.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return null;
         }
 
         $parent = new midcom_db_style($this->style);
         if (! $parent)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not load Style ID {$this->up} from the database, aborting.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return null;
         }
 

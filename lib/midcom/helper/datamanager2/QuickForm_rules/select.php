@@ -26,7 +26,6 @@ class midcom_helper_datamanager2_qfrule_select_manager
     function register_rules(&$form)
     {
         $current_file = __FILE__;
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         foreach ($this->rules as $rule_name)
         {
@@ -41,7 +40,6 @@ class midcom_helper_datamanager2_qfrule_select_manager
                 continue;
             }
         }
-        debug_pop();
     }
 }
 
@@ -52,7 +50,6 @@ class midcom_helper_datamanager2_qfrule_select_requiremultiselect extends HTML_Q
 {
     function validate($value, $options = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         debug_print_r('got value', $value);
         debug_print_r('got options', $options);
@@ -60,11 +57,9 @@ class midcom_helper_datamanager2_qfrule_select_requiremultiselect extends HTML_Q
             || empty($value))
         {
             debug_add('value is not array or is empty');
-            debug_pop();
             return false;
         }
         debug_add('value is non-empty array');
-        debug_pop();
         return true;
     }
 

@@ -233,9 +233,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             $unserRet = @unserialize(org_openpsa_helpers::fix_serialization($this->vCalSerialized));
             if ($unserRet === false)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Failed to unserialize vCalSerialized', MIDCOM_LOG_WARN);
-                debug_pop();
                 $this->_vCal_store = array();
                 return;
             }
@@ -268,7 +266,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     private function _prepare_save($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         // Make sure we have accessType
         if (!$this->orgOpenpsaAccesstype)
@@ -290,7 +287,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
                 $msg = "Cannot reserve resource #{$id}, returning false";
                 $this->errstr = $msg;
                 debug_add($msg, MIDCOM_LOG_ERROR);
-                debug_pop();
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 unset ($id, $checker, $msg);
                 return false;
@@ -310,7 +306,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         {
             debug_add('Event up not set, aborting');
             $this->errstr = 'Event UP not set';
-            debug_pop();
             return false; //Calendar events must always be under some other event
         }
 
@@ -320,7 +315,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         {
             debug_print_r("Unresolved resource conflicts, aborting, busy_em:", $this->busy_em);
             $this->errstr = 'Resource conflict with busy event';
-            debug_pop();
             return false;
         }
         else
@@ -342,7 +336,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
 
         $this->_serialize_vcal();
 
-        debug_pop();
         return true;
     }
 
@@ -355,7 +348,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             || !$this->end)
         {
             debug_add('Event must have start and end timestamps');
-            debug_pop();
             midcom_connection::set_error(MGD_ERR_RANGE);
             return false;
         }
@@ -380,7 +372,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         if ($this->end < $this->start)
         {
             debug_add('Event cannot end before it starts, aborting');
-            debug_pop();
             midcom_connection::set_error(MGD_ERR_RANGE);
             return false;
         }
@@ -391,15 +382,12 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     //TODO: Move these options elsewhere
     function _on_creating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive, $repeat_handler))
         {
             //Some requirement for an update failed, see $this->__errstr;
             debug_add('prepare_save failed, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
-        debug_pop();
         return true;
     }
 
@@ -439,12 +427,10 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     function get_suspected_task_links()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Safety
         if (!$this->_suspects_classes_present())
         {
             debug_add('required classes not present, aborting', MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 
@@ -452,7 +438,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         if (count($this->participants) < 2)
         {
             debug_add("we have less than two participants, skipping seek");
-            debug_pop();
             return;
         }
 
@@ -465,7 +450,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         {
             $cnt = count($links);
             debug_add("Found {$cnt} confirmed links already, skipping seek");
-            debug_pop();
             return;
         }
 
@@ -490,7 +474,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             }
         }
 
-        debug_pop();
         return;
     }
 
@@ -514,13 +497,11 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     function get_suspected_sales_links()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         //Safety
         if (!$this->_suspects_classes_present())
         {
             debug_add('required classes not present, aborting', MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
 
@@ -533,7 +514,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         {
             $cnt = count($links);
             debug_add("Found {$cnt} confirmed links already, skipping seek");
-            debug_pop();
             return;
         }
 
@@ -554,7 +534,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         }
 
         debug_add('done');
-        debug_pop();
         return;
     }
 
@@ -566,9 +545,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive, $repeat_handler))
         {
             //Some requirement for an update failed, see $this->__errstr;
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('prepare_save failed, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -582,7 +559,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
 
     function _on_updated()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_get_em();
 
         if ($this->send_notify)
@@ -653,7 +629,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             $this->get_suspected_task_links();
             $this->get_suspected_sales_links();
         }
-        debug_pop();
         return true;
     }
 
@@ -744,7 +719,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
 
     private function _busy_em_event_constraints(&$qb_ev, $fieldname = 'eid')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $qb_ev->add_constraint($fieldname . '.busy', '<>', false);
         if ($this->id)
@@ -766,7 +740,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
                 $qb_ev->add_constraint($fieldname . '.end', '>=', (int)$this->end);
             $qb_ev->end_group();
         $qb_ev->end_group();
-        debug_pop();
     }
 
     /**
@@ -777,12 +750,10 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     function busy_em($rob_tentative = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //If we're not busy it's not worth checking
         if (!$this->busy)
         {
             debug_add('we allow overlapping, so there is no point in checking others');
-            debug_pop();
             return false;
         }
         //If this event is tentative always disallow robbing resources from other tentative events
@@ -853,7 +824,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             //No busy events found within the timeframe
             $_MIDCOM->auth->drop_sudo();
             debug_add('no overlaps found');
-            debug_pop();
             return false;
         }
 
@@ -1019,7 +989,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             //Unresolved conflicts (note return value is for conflicts not lack of them)
             $_MIDCOM->auth->drop_sudo();
             debug_add('unresolvable conflicts found, returning true');
-            debug_pop();
             midcom_connection::set_error(MGD_ERR_ERROR);
             return true;
         }
@@ -1054,7 +1023,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         //No conflicts found or they could be automatically resolved
         $this->busy_em = false;
         $this->busy_er = false;
-        debug_pop();
         return false;
     }
 
@@ -1166,7 +1134,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     function details_text($display_title = true, $member = false, $nl = "\n")
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
         $str = '';
         if ($display_title)
@@ -1180,7 +1147,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         //$str .= sprintf($l10n->get('resources: %s') . $nl, $this->implode_members($this->resources));
         //TODO: Tentative, overlaps, public
         $str .= sprintf($l10n->get('description: %s') . $nl, $this->description);
-        debug_pop();
         return $str;
     }
 
@@ -1189,11 +1155,9 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     function implode_members($array)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!is_array($array))
         {
             debug_add('input was not an array, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $str = '';
@@ -1211,7 +1175,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             }
             $i++;
         }
-        debug_pop();
         return $str;
     }
 

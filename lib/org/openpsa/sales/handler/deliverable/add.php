@@ -61,9 +61,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
 
         if (!$deliverable->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $deliverable);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Failed to create a new deliverable, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
             // This will exit.

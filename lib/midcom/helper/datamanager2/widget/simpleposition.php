@@ -26,10 +26,8 @@ class midcom_helper_datamanager2_widget_simpleposition extends midcom_helper_dat
         if (   !isset($this->_type->location)
             || !is_object($this->_type->location))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} does not have a location object as member, you cannot use the simpleposition widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 

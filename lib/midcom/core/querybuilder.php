@@ -211,22 +211,18 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Query failed: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return array();
         }
 
         if (!is_array($result))
         {
             $this->_qb_error_result = $result;
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             if (isset($php_errormsg))
             {
                 debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
             }
-            debug_pop();
             return array();
         }
         if (   empty($result)
@@ -238,7 +234,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         // Workaround until the QB returns the correct type, refetch everything
         $newresult = array();
         $this->denied = 0;
-        debug_push_class(__CLASS__, __FUNCTION__);
         foreach ($result as $object)
         {
             $classname = $this->_real_class;
@@ -280,7 +275,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
             $newresult[] = $object;
         }
-        debug_pop();
 
         return $newresult;
     }
@@ -317,18 +311,14 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            debug_pop();
             return null;
         }
 
         if ($this->_constraint_count == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
-            debug_pop();
         }
 
         if (   empty($this->_limit)
@@ -453,9 +443,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
     {
         while ($this->_groups > 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Ending unterminated QB group', MIDCOM_LOG_INFO);
-            debug_pop();
             $this->end_group();
         }
     }
@@ -489,18 +477,14 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         $this->_reset();
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            debug_pop();
             return null;
         }
 
         if ($this->_constraint_count == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('This Query Builder instance has no constraints, see debug log for stacktrace', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
-            debug_pop();
         }
 
         $result = $this->_execute_and_check_privileges();
@@ -565,18 +549,14 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            debug_pop();
             return null;
         }
 
         if ($this->_constraint_count == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('This Query Builder instance has no constraints, see debug level log for stacktrace', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
-            debug_pop();
         }
 
         // Add the limit / offsets
@@ -659,18 +639,14 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         // Add check against null values, Core MC is too stupid to get this right.
         if ($value === null)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("QueryBuilder: Cannot add constraint on field '{$field}' with null value.",MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         if (! $this->_qb->add_constraint($field, $operator, $value))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
             debug_print_r('Value:', $value);
-            debug_pop();
 
             return false;
         }
@@ -703,9 +679,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
 
         if (! $result)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            debug_pop();
         }
 
         return $result;
@@ -731,9 +705,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to execute begin_group {$operator}, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
             $this->_groups--;
         }
     }
@@ -751,9 +723,7 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to execute end_group, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
         }
     }
 

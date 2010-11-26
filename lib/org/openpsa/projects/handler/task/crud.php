@@ -438,9 +438,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
 
         if (! $task->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $task);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new task under project #{$this->_request_data['project']->id}, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.

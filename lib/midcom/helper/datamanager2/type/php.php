@@ -78,12 +78,10 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
      */
     function _on_validate()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   is_array($this->value)
             || is_object($this->value))
         {
             $this->validation_error = $this->_l10n->get('type text: value may not be array or object');
-            debug_pop();
             return false;
         }
 
@@ -100,11 +98,9 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
             $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
             $this->validation_error = sprintf($this->_l10n->get('type php: parse error in line %s'), $line);
 
-            debug_pop();
             return false;
         }
 
-        debug_pop();
         return true;
     }
 

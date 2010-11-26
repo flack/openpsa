@@ -146,7 +146,6 @@ class midcom_services_i18n
      */
     function __construct()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->_http_lang = Array();
         $this->_http_charset = Array();
@@ -156,7 +155,6 @@ class midcom_services_i18n
         if (!$this->_load_language_db())
         {
             debug_add("Could not load language database. Aborting.", MIDCOM_LOG_CRIT);
-            debug_pop();
             return false;
         }
 
@@ -165,7 +163,6 @@ class midcom_services_i18n
 
         $this->_set_startup_langs();
 
-        debug_pop();
     }
 
     /**
@@ -205,9 +202,7 @@ class midcom_services_i18n
     {
         if (!array_key_exists($lang, $this->_language_db))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Language {$lang} not found in the language database.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -469,7 +464,6 @@ class midcom_services_i18n
 
         if (! $obj)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load L10n database {$cacheid}, see above for possible reasons.", MIDCOM_LOG_ERR);
             $_MIDCOM->generate_error(MIDCOM_LOG_ERROR,
                 "Failed to load L10n database {$cacheid}, see the log file for possible reasons.");
@@ -533,14 +527,11 @@ class midcom_services_i18n
         if (   ! array_key_exists('language', $array)
             || ! array_key_exists('charset', $array))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Rejecting cookie, it seems invalid.", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return;
         }
 
         $this->_cookie_data = $array;
-        debug_pop();
     }
 
     /**

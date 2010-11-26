@@ -100,9 +100,7 @@ class midcom_core_privilege
         {
             if ($property == 'name')
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Deprecated property name used instead of privilegename", MIDCOM_LOG_DEBUG);
-                debug_pop();
                 return $this->__privilege['privilegename'];
             }
             return null;
@@ -114,9 +112,7 @@ class midcom_core_privilege
     {
         if ($property == 'name')
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Deprecated property name used instead of privilegename", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return $this->__privilege['privilegename'] = $value;
         }
 
@@ -146,9 +142,7 @@ class midcom_core_privilege
                 $assignee = $this->get_assignee();
                 if (! $assignee)
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_print_r('Could not resolve the assignee of this privilege:', $this);
-                    debug_pop();
                 }
                 else
                 {
@@ -266,9 +260,7 @@ class midcom_core_privilege
                 $tmp = $_MIDCOM->auth->get_assignee($assignee);
                 if (! $tmp)
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Could not resolve the assignee string '{$assignee}', see above for more information.", MIDCOM_LOG_INFO);
-                    debug_pop();
                     return false;
                 }
                 $this->assignee = $tmp->id;
@@ -276,10 +268,8 @@ class midcom_core_privilege
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Unknown type passed, aborting.', MIDCOM_LOG_INFO);
             debug_print_r('Argument was:', $assignee);
-            debug_pop();
             return false;
         }
 
@@ -303,10 +293,8 @@ class midcom_core_privilege
         // 1. Privilege name
         if (! $_MIDCOM->auth->acl->privilege_exists($this->privilegename))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The privilege name '{$this->privilegename}' is unknown to the system. Perhaps the corresponding component is not loaded?",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -314,9 +302,7 @@ class midcom_core_privilege
         if (   ! $this->is_magic_assignee()
             && ! $this->get_assignee())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The assignee identifier '{$this->assignee}' is invalid.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -324,18 +310,14 @@ class midcom_core_privilege
             && $this->classname != ''
             && ! class_exists($this->classname))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The class '{$this->classname}' is not loaded, the SELF magic assignee with class restriction is invalid therefore.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
         if (   $this->assignee != 'SELF'
             && $this->classname != '')
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The classname parameter was specified without having the magic assignee SELF set, this is invalid.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -343,28 +325,22 @@ class midcom_core_privilege
         if (   $this->assignee == 'OWNER'
             && $this->privilegename == 'midgard:owner')
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Tried to assign midgard:owner to the OWNER magic assignee, this is invalid.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
         $object = $this->get_object();
         if (!is_object($object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not retrieve the content object with the GUID '{$this->objectguid}'; see the debug level log for more information.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
             || ! $_MIDCOM->auth->can_do('midgard:privileges', $object))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Insufficient privileges on the content object with the GUID '{$this->__guid}', midgard:update and midgard:privileges required.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -376,9 +352,7 @@ class midcom_core_privilege
                 break;
 
             default:
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Invalid privilege value '{$this->value}'.", MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
         }
 
@@ -519,14 +493,12 @@ class midcom_core_privilege
         {
             if (midcom_connection::get_error() != MGD_ERR_OK)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve all {$type} privileges for the Object GUID {$guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 debug_print_r('Result was:', $result);
                 if (isset($php_errormsg))
                 {
                     debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
                 }
-                debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     'Privilege collector failed to execute: ' . midcom_connection::get_error_string());
                 // This will exit.
@@ -591,7 +563,6 @@ class midcom_core_privilege
         if (count($result) > 1)
         {
             $_MIDCOM->auth->request_sudo('midcom.core');
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('A DB inconsistency has been detected. There is more then one record for privilege specified. Deleting all excess records after the first one!',
                 MIDCOM_LOG_ERROR);
             debug_print_r('Content Object:', $object);
@@ -726,11 +697,9 @@ class midcom_core_privilege
     {
         if (! $this->validate())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('This privilege failed to validate, rejecting it, see the debug log for details.', MIDCOM_LOG_WARN);
             $this->__cached_object = null;
             debug_print_r('Privilege dump (w/o cached object):', $this);
-            debug_pop();
             return false;
         }
 
@@ -788,9 +757,7 @@ class midcom_core_privilege
                 $privilege->value = $this->value;
                 if (!$privilege->store())
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add('Update of the existing privilege failed.', MIDCOM_LOG_WARN);
-                    debug_pop();
                     return false;
                 }
                 $this->__guid = $privilege->__guid;
@@ -802,7 +769,6 @@ class midcom_core_privilege
 
                 $this->_invalidate_cache();
 
-                debug_pop();
                 return true;
             }
             else
@@ -815,12 +781,9 @@ class midcom_core_privilege
                 }
                 else
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add('Creating new privilege failed: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                    debug_pop();
                 }
 
-                debug_pop();
                 return $result;
             }
         }
@@ -847,18 +810,14 @@ class midcom_core_privilege
 
         if (!$this->__guid)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('We are not stored, GUID is empty. Ignoring silently.');
-            debug_pop();
             return true;
         }
 
         if (! $this->validate())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('This privilege failed to validate, rejecting to drop it, see the debug log for details.', MIDCOM_LOG_WARN);
             debug_print_r('Privilege dump:', $this);
-            debug_pop();
             return false;
         }
 
@@ -873,23 +832,17 @@ class midcom_core_privilege
         {
             if (!$this->__privilege_object->delete())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Failed to delete privilege record, aborting. Error: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to delete privilege record, aborting. Error: ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Delete privilege record {$this->__guid} ({$this->__privilege_object->objectguid} {$this->__privilege_object->privilegename} {$this->__privilege_object->assignee} {$this->__privilege_object->value}", MIDCOM_LOG_DEBUG);
-        debug_pop();
 
         $this->__privilege_object->purge();
         $this->_invalidate_cache();

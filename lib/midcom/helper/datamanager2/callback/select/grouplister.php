@@ -123,10 +123,8 @@ class midcom_helper_datamanager2_callback_select_grouplister
                     break;
 
                 default:
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("The value '{$options['key_field']}' is not valid for the option key_field, skipping.",
                         MIDCOM_LOG_INFO);
-                    debug_pop();
                     break;
             }
         }

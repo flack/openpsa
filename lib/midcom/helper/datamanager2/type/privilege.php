@@ -154,10 +154,8 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not synchronize privilege of field {$this->name}, access was denied, midgard:privileges is needed here.", 
                     MIDCOM_LOG_WARN);
-                debug_pop();
             }
         }
     }

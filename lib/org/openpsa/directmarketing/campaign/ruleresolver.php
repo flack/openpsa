@@ -101,24 +101,20 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function resolve($rules)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_rules = $rules;
         if (!is_array($rules))
         {
             debug_add('rules is not an array', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (!array_key_exists('classes', $rules))
         {
             debug_add('rules[classes] is not defined', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         if (!is_array($rules['classes']))
         {
             debug_add('rules[classes] is not an array', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         //start with first group
@@ -131,7 +127,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         }
         $this->_result_mc->end_group();
 
-        debug_pop();
         return true;
     }
 
@@ -141,11 +136,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!is_array($this->_rules))
         {
             debug_add('this->_rules is not an array', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $this->_result_mc->set_key_property('guid');
@@ -167,7 +160,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 );
         }
 
-        debug_pop();
         return $ret;
     }
     /**
@@ -179,11 +171,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     function _resolve_rule_group($group, $match_class = false)
     {
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!is_array($group))
         {
             debug_add('group is not an array', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -194,7 +184,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             )
         {
             debug_add("{$group['class']} != {$match_class}, unmatched classes where match required", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -215,19 +204,16 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             if (!array_key_exists('rules', $group))
             {
                 debug_add('group[rules] is not defined', MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             if (!is_array($group['rules']))
             {
                 debug_add('group[rules] is not an array', MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $this->add_rules($group['rules'] , $group['class']);
         }
 
-        debug_pop();
         return true;
     }
 
@@ -238,7 +224,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function add_rules($rules , $class)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         debug_add("try to build rules for class: {$class}");
 
@@ -289,7 +274,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             }
 
         }
-        debug_pop();
     }
     /**
      * Adds rule directly to the querybuilder
@@ -410,9 +394,8 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     break;
             }
         }
-
-        debug_pop();
     }
+
     /**
      * Adds a passed rule for the passed class to the querybuilder
      * @param array $rule contains the rule

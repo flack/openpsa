@@ -11,8 +11,7 @@
 /**
  * This is a debugger class.
  *
- * Helps in debugging your code. It features automatic Prefix Management in a
- * push/pop style management and lets you decide which messages are logged into the
+ * Helps in debugging your code. It lets you decide which messages are logged into the
  * logfile by setting loglevels for the debugger and for each message.
  *
  * There are five loglevel constants you can use when setting the loglevel or when
@@ -25,7 +24,7 @@
  * - MIDCOM_LOG_CRIT
  *
  * This snippet does automatically instantiate $midcom_debugger, and it declares
- * shortcuts called debug_add, debug_push and debug_pop (see below).
+ * shortcuts like debug_add (see below).
  *
  * <b>Note:</b> The Debugger is disabled per default to save performance. You have to explicitly
  * enable it by calling the enable function.
@@ -34,7 +33,6 @@
  */
 class midcom_debug
 {
-
     /**
      * Logfile name
      *
@@ -42,22 +40,6 @@ class midcom_debug
      * @access private
      */
     var $_filename;
-
-    /**
-     * Current logging prefix
-     *
-     * @var string
-     * @access private
-     */
-    var $_current_prefix;
-
-    /**
-     * Prefix stack
-     *
-     * @var Array
-     * @access private
-     */
-    var $_prefixes;
 
     /**
      * Current loglevel
@@ -88,8 +70,6 @@ class midcom_debug
     function __construct($filename)
     {
         $this->_filename = $filename;
-        $this->_current_prefix = "";
-        $this->_prefixes = array();
         $this->_enabled = true;
         $this->_loglevel = $GLOBALS['midcom_config']['log_level'];
         $this->_loglevels = array
@@ -154,63 +134,6 @@ class midcom_debug
     }
 
     /**
-     * Set a new debug prefix
-     *
-     * @param string $prefix    The new prefix
-     */
-    function push_prefix($prefix)
-    {
-        if (!$this->is_enabled())
-        {
-            return;
-        }
-
-        $this->_current_prefix = $prefix;
-        $this->_prefixes[] = $prefix;
-
-        if (count ($this->_prefixes) > 1000)
-        {
-            debug_print_r("DEBUGGER ALERT: Prefix stack has exceeded 1000, current entries:", $this->_prefixes);
-            _midcom_stop_request("DEBUGGER ALERT: The number of prefixes on the stack exceeded 1000, the prefix list has been dumped to the debug log. Last one was {$prefix}.");
-        }
-
-        // Enable this if you want to trace the code paths as elaboratly as possible.
-        // debug_add('Entering');
-    }
-
-    /**
-     * Restore the last debug prefix
-     */
-    function pop_prefix()
-    {
-        if (!$this->is_enabled())
-        {
-            return;
-        }
-
-        // Enable this if you want to trace the code paths as elaboratly as possible.
-        // debug_add('Leaving');
-        // debug_print_function_stack('Leaving');
-
-        if (count($this->_prefixes) > 1)
-        {
-            array_pop($this->_prefixes);
-            $this->_current_prefix = $this->_prefixes[count($this->_prefixes)-1];
-        }
-        else if (count($this->_prefixes) == 1)
-        {
-            array_pop($this->_prefixes);
-            $this->_current_prefix = '';
-        }
-        else
-        {
-            $this->_current_prefix = '';
-        }
-    }
-
-
-
-    /**
      * Log a message
      *
      * @param string $message    The message to be logged
@@ -250,9 +173,14 @@ class midcom_debug
         {
             $prefix .= '[' . $this->_loglevels[$loglevel] . '] ';
         }
-        if ($this->_current_prefix != '')
+
+        $bt = debug_backtrace(false);
+        //first two are always log and add (or print_r etc.), skip those
+        $caller = $bt[2];
+        unset($bt);
+        if (array_key_exists('class', $caller))
         {
-            $prefix .= "{$this->_current_prefix}: ";
+            $prefix .= $caller['class'] . '::' . $caller['function'] . ': ';
         }
 
         fputs($file, $prefix . trim($message) . "\n");
@@ -355,13 +283,15 @@ class midcom_debug
             return;
         }
 
-        if (! MIDCOM_XDEBUG)
+        if (MIDCOM_XDEBUG)
         {
-            $this->log(trim($message) . " -- XDEBUG NOT PRESENT; NOT DUMPING FUNCTION STACK");
-            return;
+            $stack = xdebug_get_function_stack();
+        }
+        else
+        {
+            $stack = array_reverse(debug_backtrace(false));
         }
 
-        $stack = xdebug_get_function_stack();
         $stacktrace = "";
         foreach ($stack as $number => $frame)
         {
@@ -381,6 +311,7 @@ class midcom_debug
             }
             $stacktrace .= "\n";
         }
+        unset($stack);
 
         $this->log (trim ($message) . "\n{$stacktrace}", $loglevel);
     }
@@ -507,41 +438,4 @@ function debug_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
     $GLOBALS['midcom_debugger']->print_dump_mem($message, $loglevel);
 }
-
-/**
- * Shortcut: Set a new debug prefix
- *
- * @param string $prefix    The new prefix
- */
-function debug_push($prefix)
-{
-    $GLOBALS['midcom_debugger']->push_prefix($prefix);
-}
-
-/**
- * Shortcut for adding a class/method debug prefix, the class name is obtained
- * from the first parameter, the prefix is appended using ::$prefix notation.
- *
- * @param object $object The object whose class name should be used.
- * @param string $prefix The prefix to append to the class name.
- */
-function debug_push_class($object, $prefix)
-{
-    if (is_string($object))
-    {
-        $GLOBALS['midcom_debugger']->push_prefix("{$object}::{$prefix}");
-    }
-    else
-    {
-        $GLOBALS['midcom_debugger']->push_prefix(get_class($object) . "::{$prefix}");
-    }
-}
-
-/**
- * Shortcut: Restore the last debug prefix
- */
-function debug_pop() {
-    $GLOBALS['midcom_debugger']->pop_prefix();
-}
-
 ?>

@@ -56,9 +56,7 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
 
         if (count($countries) == 0)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('No countries found. You have to use org.routamc.positioning to import countries to database.');
-            debug_pop();
         }
 
         $this->_populate_data($countries);

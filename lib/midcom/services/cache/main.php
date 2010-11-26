@@ -121,7 +121,6 @@ class midcom_services_cache
      */
     function invalidate_all()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         foreach ($this->_unload_queue as $name)
         {
             debug_add("Invalidating the cache module {$name} completely.");
@@ -131,7 +130,6 @@ class midcom_services_cache
         // Invalidate Midgard cache too
         mgd_cache_invalidate();
 
-        debug_pop();
     }
 
     /**
@@ -145,7 +143,6 @@ class midcom_services_cache
      */
     function invalidate($guid, $skip_module = '')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (is_object($guid))
         {
             debug_add_type ("Got an object, trying to auto-detect the GUID. Passed type was:", $guid);
@@ -161,7 +158,6 @@ class midcom_services_cache
             debug_add("Invalidating the cache module {$name} for GUID {$guid}.");
             $this->_modules[$name]->invalidate($guid);
         }
-        debug_pop();
     }
 }
 ?>

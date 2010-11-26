@@ -72,10 +72,8 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
         $status = net_nemein_tag_handler::tag_object($this->storage->object, $tag_array);
         if (!$status)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Tried to save the tags \"{$this->value}\" for field {$this->name}, but failed. Ignoring silently.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
         }
     
         return null;

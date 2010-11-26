@@ -160,9 +160,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $billing_data->linkGuid = $this->_linked_object->guid;
         if (! $billing_data->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $billing_data);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new billing_data, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.
@@ -199,9 +197,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if(empty($this->_linked_object->guid))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Passed guid does not exists. GUID :', $args[0]);
-            debug_pop();
         }
 
         $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create' , 'midcom') . " " . $this->_l10n->get("billing data")));

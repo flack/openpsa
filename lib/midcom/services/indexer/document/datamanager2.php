@@ -171,7 +171,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
      */
     function _process_datamanager()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Processing datamanager schema {$this->_schema->name}");
 
         foreach ($this->_schema->fields as $name => $field)
@@ -240,7 +239,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                     break;
 
                 default:
-                    debug_pop();
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                         "Datamanager2 Indexer Document: Unknown indexing method {$field['index_method']} for field {$name} discovered, aborting.");
                     // This will exit.
@@ -259,7 +257,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
             }
         }
 
-        debug_pop();
         return false;
     }
 

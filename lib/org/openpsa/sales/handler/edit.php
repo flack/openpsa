@@ -155,9 +155,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         if (! $salesproject->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $salesproject);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.

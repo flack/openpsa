@@ -77,7 +77,6 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         {
             debug_add(__CLASS__, __FUNCTION__);
             debug_add('No configuration schema defined', MIDCOM_LOG_ERROR);
-            debug_pop();
             
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "No configuration schema defined");
             // This will exit
@@ -89,7 +88,6 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         {
             debug_add(__CLASS__, __FUNCTION__);
             debug_add('Failed to load the schemadb', MIDCOM_LOG_ERROR);
-            debug_pop();
             
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to load configuration schemadb');
             // This will exit
@@ -104,7 +102,6 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         {
             debug_add(__CLASS__, __FUNCTION__);        
             debug_add('Failed to initialize the configuration controller');
-            debug_pop();
             
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for photo {$this->_photo->id}.");
             // This will exit.

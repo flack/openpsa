@@ -149,7 +149,6 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
             // No symlink topic
             // Workaround, we should talk to a DBA object automatically here in fact.
             $this->_content_topic = midcom_db_topic::get_cached($this->_topic->id);
-            debug_pop();
             return;
         }
 
@@ -157,10 +156,8 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
 
         if (! $this->_content_topic)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to open symlink content topic, (might also be an invalid object) last Midgard Error: ' . midcom_connection::get_error_string(),
                 MIDCOM_LOG_ERROR);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Failed to open symlink content topic {$guid}.");
             // This will exit.
         }

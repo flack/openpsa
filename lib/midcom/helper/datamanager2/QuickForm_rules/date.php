@@ -27,7 +27,6 @@ class midcom_helper_datamanager2_qfrule_date_manager
     function register_rules(&$form)
     {
         $current_file = __FILE__;
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
         foreach ($this->rules as $rule_name)
         {
@@ -42,7 +41,6 @@ class midcom_helper_datamanager2_qfrule_date_manager
                 continue;
             }
         }
-        debug_pop();
     }
 }
 
@@ -53,13 +51,11 @@ class midcom_helper_datamanager2_qfrule_date_checkjsdate extends HTML_QuickForm_
 {
     function validate($value, $options = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
 
         if ( !is_string($value))
         {
             debug_add('value is not a string');
-            debug_pop();
             return false;
         }
         /*
@@ -71,14 +67,12 @@ class midcom_helper_datamanager2_qfrule_date_checkjsdate extends HTML_QuickForm_
             || $value == "0000-00-00 00:00:00")
         {
             debug_add("value {$value} is assumed to be intentionally blank");
-            debug_pop();
             return true;
         }
         if ( preg_match("/^\d{4}-\d{2}-\d{2}/", $value) == 0
            && preg_match("/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $value) == 0)
         {
             debug_add("value {$value} is incorrectly formatted");
-            debug_pop();
             return false;
         }
 
@@ -107,14 +101,12 @@ class midcom_helper_datamanager2_qfrule_date_checksimpledate extends HTML_QuickF
 {
     function validate($value, $options = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('called');
 
         if ( !is_array($value)
              || empty($value))
         {
             debug_add('value is not an array or empty');
-            debug_pop();
             return false;
         }
         /*
@@ -127,7 +119,6 @@ class midcom_helper_datamanager2_qfrule_date_checksimpledate extends HTML_QuickF
 
         {
             debug_add("value is assumed to be intentionally blank");
-            debug_pop();
             return true;
         }
         $ret = checkdate($value['m'], $value['d'], $value['Y']);

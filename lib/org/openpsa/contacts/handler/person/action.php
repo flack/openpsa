@@ -32,9 +32,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         if (!is_object($person))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Person object {$identifier} is not an object");
-            debug_pop();
             return false;
         }
 
@@ -55,9 +53,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $this->_person = $this->_load_person($args[0]);
         if (!$this->_person)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Person loading failed");
-            debug_pop();
             return false;
         }
 
@@ -85,9 +81,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $this->_person = $this->_load_person($args[0]);
         if (!$this->_person)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Person loading failed");
-            debug_pop();
             return false;
         }
 
@@ -213,9 +207,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $this->_person = $this->_load_person($args[0]);
         if (!$this->_person)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Person loading failed");
-            debug_pop();
             return false;
         }
 

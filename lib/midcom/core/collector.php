@@ -188,9 +188,7 @@ class midcom_core_collector
     {
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_collector'), array(&$this)))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The _on_prepare_exec_collector callback returned false, so we abort now.');
-            debug_pop();
             return false;
         }
 
@@ -261,7 +259,6 @@ class midcom_core_collector
 
         $this->count = count($newresult);
 
-        debug_pop();
         return $newresult;
     }
 
@@ -381,14 +378,12 @@ class midcom_core_collector
      */
     function add_constraint($field, $operator, $value)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->_reset();
         // Add check against null values, Core MC is too stupid to get this right.
         if ($value === null)
         {
             debug_add("Collector: Cannot add constraint on field '{$field}' with null value.",MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -397,12 +392,10 @@ class midcom_core_collector
             debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
             debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
             debug_print_r('Value:', $value);
-            debug_pop();
 
             return false;
         }
         $this->_constraint_count++;
-        debug_pop();
         return true;
     }
 
@@ -431,9 +424,7 @@ class midcom_core_collector
 
         if (! $result)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to execute add_order: Unknown or invalid column '{$field}'.", MIDCOM_LOG_ERROR);
-            debug_pop();
         }
 
         return $result;
@@ -496,9 +487,7 @@ class midcom_core_collector
 
     function set_key_property($property, $value = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("MidCOM collector does not allow switching key properties. It is always GUID.", MIDCOM_LOG_ERROR);
-        debug_pop();
 
         return false;
     }
@@ -507,9 +496,7 @@ class midcom_core_collector
     {
         if (!$this->_mc->add_value_property($property))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to execute add_value_property '{$property}' for {$this->_real_class}.", MIDCOM_LOG_ERROR);
-            debug_pop();
 
             return false;
         }

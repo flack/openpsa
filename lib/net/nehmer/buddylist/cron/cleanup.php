@@ -19,7 +19,6 @@ class net_nehmer_buddylist_cron_cleanup extends midcom_baseclasses_components_cr
 {
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $timeout_days = $this->_config->get('expiration_days');
         $timeout = time() - ($timeout_days * 86400);
 
@@ -45,8 +44,6 @@ class net_nehmer_buddylist_cron_cleanup extends midcom_baseclasses_components_cr
         {
             debug_add('Found none.');
         }
-
-        debug_pop();
     }
 }
 ?>

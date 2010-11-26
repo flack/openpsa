@@ -79,9 +79,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
         if (! $article->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $article);
-            debug_pop();
             return null;
         }
 

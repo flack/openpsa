@@ -134,13 +134,11 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
         // Update the storage object last
         if (! $this->_on_update_object())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to update the content object, last Midgard Error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             if (isset($php_errormsg))
             {
                 debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_INFO);
             }
-            debug_pop();
             return false;
         }
 
@@ -195,9 +193,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
                     $data = @unserialize($data);
                     if (isset($php_errormsg))
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Unserialization failed for field {$name}: {$php_errormsg}", MIDCOM_LOG_INFO);
-                        debug_pop();
                     }
                 }
             }

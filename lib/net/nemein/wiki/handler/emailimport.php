@@ -52,7 +52,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, '_POST[\'message_source\'] not present or empty.');
             // This will exit.
         }
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $decoder = new org_openpsa_mail();
         $decoder->body = $_POST['message_source'];
@@ -110,7 +109,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
                 {
                     //Content exact duplicate, abort import
                     debug_add("duplicate content with page '{$wikipage->title}' content: \n===\n{$wikipage->content}\n===\n");
-                    debug_pop();
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Duplicate content with an existing page with similar title, aborting import.');
                     // This will exit.
                 }
@@ -131,7 +129,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             if (empty($results))
             {
                 //No users found
-                debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cannot set any author for the wikipage');
                 // This will exit.
             }
@@ -230,7 +227,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         }
 
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
         return true;
     }
 

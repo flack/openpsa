@@ -163,9 +163,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         if (   !empty($this->forbidden_patterns)
             && !empty($this->allowed_patterns))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Both allowed and forbidden patterns are set, allowed has precedence', MIDCOM_LOG_ERROR);
-            debug_pop();
             $this->forbidden_patterns = null;
         }
         return $stat;
@@ -244,9 +242,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("HTML Purifier failed to purify contents of field {$this->name}: " . $e->getMessage(), MIDCOM_LOG_WARN);
-            debug_pop();
         }
         
         return $ret;
@@ -333,10 +329,8 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                         break;
                     default:
                         // We do not know how to handle this
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         $msg = "Unsupported pattern type '{$condition['type']}'";
                         debug_add($msg, MIDCOM_LOG_WARN);
-                        debug_pop();
                         $this->validation_error = $msg;
                         return false;
                         break;
@@ -365,10 +359,8 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                         break;
                     default:
                         // We do not know how to handle this
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         $msg = "Unsupported pattern type '{$condition['type']}'";
                         debug_add($msg, MIDCOM_LOG_WARN);
-                        debug_pop();
                         $this->validation_error = $msg;
                         return false;
                         break;

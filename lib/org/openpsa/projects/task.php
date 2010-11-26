@@ -116,9 +116,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             if ($this->orgOpenpsaAccesstype
                 && $this->orgOpenpsaOwnerWg)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Synchronizing task ACLs to MidCOM");
-                debug_pop();
                 $sync = new org_openpsa_core_acl_synchronizer();
                 $sync->write_acls($this, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
 
@@ -310,9 +308,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         if ($this->start > $this->end)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("start ({$this->start}) is greater than end ({$this->end}), aborting", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -366,7 +362,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return false;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("updating hour caches");
 
         $hours = $this->list_hours();
@@ -393,7 +388,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $stat = $this->update();
             debug_add("saving updated values to database returned {$stat}");
         }
-        debug_pop();
         return $stat;
     }
 
@@ -537,11 +531,9 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             || count($ret) == 0)
         {
             //Failure to get status object
-            debug_push_class(__CLASS__, __FUNCTION__);
 
             //Default to last status if available
             debug_add('Could not find any status objects, defaulting to previous status');
-            debug_pop();
             return $return;
         }
 

@@ -107,16 +107,12 @@ class midcom_core_group extends midcom_baseclasses_core_object
             }
             catch (Exception $e)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
             if (!$this->_storage->guid)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
         }
@@ -133,16 +129,12 @@ class midcom_core_group extends midcom_baseclasses_core_object
             }
             catch (Exception $e)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
             if (!$this->_storage->guid)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_pop();
                 return false;
             }
         }
@@ -154,10 +146,8 @@ class midcom_core_group extends midcom_baseclasses_core_object
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Tried to load a midcom_core_group, but $id was of unknown type.', MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
-            debug_pop();
             return false;
         }
 
@@ -207,12 +197,10 @@ class midcom_core_group extends midcom_baseclasses_core_object
      */
     function list_members()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !is_object($this->_storage)
             || empty($this->_storage->id))
         {
             debug_add('$this->storage is not object or id is empty', MIDCOM_LOG_ERROR);
-            debug_pop();
             return array();
         }
 
@@ -238,7 +226,6 @@ class midcom_core_group extends midcom_baseclasses_core_object
             $return[$user->id] = $user;
         }
 
-        debug_pop();
         return $return;
     }
 
@@ -254,8 +241,6 @@ class midcom_core_group extends midcom_baseclasses_core_object
      */
     function list_memberships($user)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
-        debug_pop();
 
         $mc = new midgard_collector('midgard_member', 'uid', $user->_storage->id);
         $mc->add_constraint('gid', '<>', 0);
@@ -305,11 +290,9 @@ class midcom_core_group extends midcom_baseclasses_core_object
     {
         if (is_null($this->_cached_parent_group))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
 
             if ($this->_storage->owner == 0)
             {
-                debug_pop();
                 return null;
             }
 
@@ -318,7 +301,6 @@ class midcom_core_group extends midcom_baseclasses_core_object
                 debug_add('WARNING: A group was its own parent, this is critical as it will result in an infinite loop. See debug log for more info.',
                     MIDCOM_LOG_CRIT);
                 debug_print_r('Current group', $this);
-                debug_pop();
                 return null;
             }
 
@@ -331,13 +313,10 @@ class midcom_core_group extends midcom_baseclasses_core_object
                     . midcom_connection::get_error_string() . ')',
                     MIDCOM_LOG_ERROR);
                 debug_print_r('Group that we started from is:', $this->_storage);
-                debug_pop();
                 return null;
             }
 
             $this->_cached_parent_group = $_MIDCOM->auth->get_group($parent);
-
-            debug_pop();
         }
         return $this->_cached_parent_group;
     }

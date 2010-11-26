@@ -72,10 +72,8 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_select'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the select widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         return true;

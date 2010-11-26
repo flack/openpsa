@@ -119,38 +119,27 @@
 
         if (!array_key_exists('midcom_services_rcs_root', $this->config))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("midcom_services_rcs_root configuration not defined.\n", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         if (!is_writable($this->config['midcom_services_rcs_root']))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The root RCS directory {$this->config['midcom_services_rcs_root']} is not writable!.\n", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         if (!array_key_exists('midcom_services_rcs_bin_dir', $this->config)) {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("midcom_services_rcs_bin_dir configuration not defined. This must be defined before RCS will work.\n", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         if (!is_executable($this->config['midcom_services_rcs_bin_dir'] . "/ci")) {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Cannot execute {$this->config['midcom_services_rcs_bin_dir']}/ci.\n" .
                     " This must be changed before RCS will work.\n", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         return true;
     }
-
-
  }
-
 ?>

@@ -136,11 +136,9 @@ class midcom_services_indexer
             {
                 if (! $this->_index_cast_to_document($documents[$key]))
                 {
-                    debug_push_class(__CLASS__, __FILE__);
                     debug_add("Encountered an unsupported argument while processing the document {$key}, aborting. See the debug messages for details.",
                         MIDCOM_LOG_ERROR);
                     debug_print_r("The document at type {$key} is invalid:", $documents[$key]);
-                    debug_pop();
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Encountered an unsupported argument while processing the document {$key}");
                 }
             }
@@ -154,9 +152,7 @@ class midcom_services_indexer
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FILE__);
             debug_add("Indexing error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
             $stat = false;
         }
         return $stat;
@@ -210,9 +206,7 @@ class midcom_services_indexer
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FILE__);
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
             $stat = false;
         }
         return $stat;
@@ -238,9 +232,7 @@ class midcom_services_indexer
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FILE__);
             debug_add("Deleting error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
             $stat = false;
         }
         return $stat;
@@ -278,9 +270,7 @@ class midcom_services_indexer
         }
         catch (Exception $e)
         {
-            debug_push_class(__CLASS__, __FILE__);
             debug_add("Query error: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -365,20 +355,17 @@ class midcom_services_indexer
      */
     function new_document(&$object)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_print_type('Searching an instance for this object type:', $object);
 
         // Scan for datamanager instances.
         if (is_a($object, 'midcom_helper_datamanager'))
         {
             debug_add('This is a document_datamanager');
-            debug_pop();
             return new midcom_services_indexer_document_datamanager($object);
         }
         if (is_a($object, 'midcom_helper_datamanager2_datamanager'))
         {
             debug_add('This is a document_datamanager2');
-            debug_pop();
             return new midcom_services_indexer_document_datamanager2($object);
         }
 
@@ -386,7 +373,6 @@ class midcom_services_indexer
         if (is_a($object, 'midcom_helper_metadata'))
         {
             debug_add('This is a metadata document, built from a metadata object.');
-            debug_pop();
             return new midcom_services_indexer_document_midcom($object);
         }
 
@@ -396,13 +382,11 @@ class midcom_services_indexer
         if ($metadata)
         {
             debug_add('Successfully fetched a Metadata object for the argument.');
-            debug_pop();
             return new midcom_services_indexer_document_midcom($metadata);
         }
 
         // No specific match found.
         debug_add('No match found for this type.');
-        debug_pop();
         return false;
     }
 }

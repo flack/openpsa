@@ -170,19 +170,15 @@ class midcom_services_auth
         // Try to start up a new session, this will authenticate as well.
         if (! $this->_auth_backend->create_login_session($credentials['username'], $credentials['password']))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The login information passed to the system was invalid.', MIDCOM_LOG_ERROR);
             debug_add("Username was {$credentials['username']}");
             // No password logging for security reasons.
-            debug_pop();
 
             if (   isset($GLOBALS['midcom_config']['auth_failure_callback'])
                 && !empty($GLOBALS['midcom_config']['auth_failure_callback'])
                 && is_callable($GLOBALS['midcom_config']['auth_failure_callback']))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_r('Calling auth failure callback: ', $GLOBALS['midcom_config']['auth_failure_callback'], MIDCOM_LOG_DEBUG);
-                debug_pop();
                 // Calling the failure function with the username as a parameter. No password sended to the user function for security reasons
                 call_user_func($GLOBALS['midcom_config']['auth_failure_callback'], $credentials['username']);
             }
@@ -190,9 +186,7 @@ class midcom_services_auth
             return false;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('Authentication was successful, we have a new login session now. Updating timestamps');
-        debug_pop();
 
         $this->_sync_user_with_backend();
 
@@ -213,9 +207,7 @@ class midcom_services_auth
             && !empty($GLOBALS['midcom_config']['auth_success_callback'])
             && is_callable($GLOBALS['midcom_config']['auth_success_callback']))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Calling auth success callback:', $GLOBALS['midcom_config']['auth_success_callback'], MIDCOM_LOG_DEBUG);
-            debug_pop();
             // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
             call_user_func($GLOBALS['midcom_config']['auth_success_callback']);
         }
@@ -284,9 +276,7 @@ class midcom_services_auth
 
         if (! $this->sessionmgr->authenticate_session($this->_auth_backend->session_id))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('Failed to re-authenticate a previous login session, not changing credentials.');
-            debug_pop();
             return;
         }
 
@@ -418,12 +408,9 @@ class midcom_services_auth
                 $classname = $class;
             }
 
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Querying privilege {$privilege} for user {$user->id} to class {$classname}", MIDCOM_LOG_DEBUG);
-            debug_pop();
         }
 
-        debug_pop();
         return $this->acl->can_do_byclass($privilege, $user, $class, $component);
     }
 
@@ -461,12 +448,10 @@ class midcom_services_auth
      */
     function request_sudo ($domain = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (! $GLOBALS['midcom_config']['auth_allow_sudo'])
         {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -479,7 +464,6 @@ class midcom_services_auth
         if ($domain == '')
         {
             debug_add("SUDO request for an empty domain, this should not happen. Denying sudo.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
@@ -487,7 +471,6 @@ class midcom_services_auth
 
         debug_add("Entered SUDO mode for domain {$domain}.", MIDCOM_LOG_INFO);
 
-        debug_pop();
         return true;
     }
 
@@ -498,7 +481,6 @@ class midcom_services_auth
      */
     function drop_sudo()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if ($this->_component_sudo > 0)
         {
@@ -509,8 +491,6 @@ class midcom_services_auth
         {
             debug_add('Requested to leave SUDO mode, but sudo was already disabled. Ignoring request.', MIDCOM_LOG_INFO);
         }
-
-        debug_pop();
     }
 
     /**
@@ -685,9 +665,7 @@ class midcom_services_auth
      */
     function require_valid_user($method = 'form')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_print_function_stack("require_valid_user called at this level");
-        debug_pop();
         if (! $this->is_valid_user())
         {
             switch ($method)
@@ -759,9 +737,7 @@ class midcom_services_auth
                 break;
 
             default:
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The identifier {$id} cannot be resolved into an assignee, it cannot be mapped to a type.", MIDCOM_LOG_WARN);
-                debug_pop();
                 break;
         }
 
@@ -931,10 +907,8 @@ class midcom_services_auth
             }
             else
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_type('The passed argument was an object of an unsupported type:', $id, MIDCOM_LOG_WARN);
                 debug_print_r('Complete object dump:', $id);
-                debug_pop();
 
                 return false;
             }
@@ -942,10 +916,8 @@ class midcom_services_auth
         else if (   ! is_string($id)
                  && ! is_integer($id))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type('The passed argument was an object of an unsupported type:', $id, MIDCOM_LOG_WARN);
             debug_print_r('Complete object dump:', $id);
-            debug_pop();
 
             return false;
         }
@@ -1012,9 +984,7 @@ class midcom_services_auth
 
                         default:
                             $this->_group_cache[$id] = false;
-                            debug_push_class(__CLASS__, __FUNCTION__);
                             debug_add("The group type identifier {$id_parts[0]} is unknown, no group was loaded.", MIDCOM_LOG_WARN);
-                            debug_pop();
                             break;
                     }
                 }
@@ -1026,9 +996,7 @@ class midcom_services_auth
                     if (! $tmp)
                     {
                         $this->_group_cache[$id] = false;
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("The group type identifier {$id} is of an invalid type, no group was loaded.", MIDCOM_LOG_WARN);
-                        debug_pop();
                     }
                     else
                     {
@@ -1045,9 +1013,7 @@ class midcom_services_auth
             if (! $tmp)
             {
                 $this->_group_cache[$id] = false;
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The group type identifier {$id} is of an invalid type, no group was loaded.", MIDCOM_LOG_WARN);
-                debug_pop();
             }
             else
             {
@@ -1058,9 +1024,7 @@ class midcom_services_auth
         else
         {
             $this->_group_cache[$id] = false;
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The group type identifier {$id} is of an invalid type, no group was loaded.", MIDCOM_LOG_WARN);
-            debug_pop();
         }
 
         return $this->_group_cache[$id];
@@ -1078,9 +1042,7 @@ class midcom_services_auth
     {
         if ($GLOBALS['midcom_config']['auth_allow_trusted'] !== true)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Trusted logins are prohibited", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -1114,9 +1076,7 @@ class midcom_services_auth
     {
         if (is_null($this->_auth_backend->user))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('The backend has no authenticated user set, so we should be fine, doing the relocate nevertheless though.');
-            debug_pop();
         }
         else
         {
@@ -1182,8 +1142,6 @@ class midcom_services_auth
      */
     function access_denied($message)
     {
-        debug_push(__CLASS__, __FUNCTION__);
-
         debug_print_function_stack("access_denied was called from here:");
 
         // Determine login message
@@ -1329,8 +1287,6 @@ class midcom_services_auth
      */
     function show_login_page()
     {
-        debug_push(__CLASS__, __FUNCTION__);
-
         // Drop any output buffer first, hack this into the content cache.
         while (@ob_end_clean())
             // Empty Loop

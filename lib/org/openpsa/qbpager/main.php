@@ -173,7 +173,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function _check_page_vars()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $page_var = $this->_prefix . 'page';
         $results_var =  $this->_prefix . 'results';
         if (   array_key_exists($page_var, $_REQUEST)
@@ -193,7 +192,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         {
             $this->_offset = 0;
         }
-        debug_pop();
         return;
     }
 
@@ -548,32 +546,27 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function _qb_limits(&$qb)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $this->_check_page_vars();
 
         if ($this->_current_page == 'all')
         {
             debug_add("displaying all results");
-            debug_pop();
             return;
         }
 
         $qb->set_limit($this->_limit);
         $qb->set_offset($this->_offset);
         debug_add("set offset to {$this->_offset} and limit to {$this->_limit}");
-        debug_pop();
         return;
     }
 
     function _clear_qb_limits(&$qb)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $limit = abs(pow(2,31)-1); //Largest signed integer we can use as limit.
         $offset = 0;
         $qb->set_limit($limit);
         $qb->set_offset($offset);
         debug_add("set offset to {$offset} and limit to {$limit}");
-        debug_pop();
         return;
     }
 

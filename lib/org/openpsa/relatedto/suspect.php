@@ -34,7 +34,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      */
     function find_links_object($object, $defaults = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $ret = array();
         //Copied on purpose TODO: when upgrading to PHP5 make sure this is passed as copy
         $manifests = $_MIDCOM->componentloader->manifests;
@@ -56,7 +55,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
 
         //TODO: Filter out duplicates (not likely but theoretically possible)
 
-        debug_pop();
         return $ret;
     }
 
@@ -69,14 +67,12 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
     function find_links_object_component($object, $component, $defaults = false)
     {
         $ret = array();
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         //Make sure we can load and access the component
         if ($_MIDCOM->componentloader->load_graceful($component))
         {
             //We could not load the component/interface
             debug_add("could not load component {$component}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return $ret;
         }
 
@@ -86,7 +82,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         {
             //Component does not wish to tell us anything
             debug_add("component {$component} does not support querying for suspects", MIDCOM_LOG_INFO);
-            debug_pop();
             return $ret;
         }
         //Get components suspected links
@@ -104,7 +99,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         }
         reset($ret);
 
-        debug_pop();
         return $ret;
     }
 
@@ -115,7 +109,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
      */
     function defaults_helper(&$link, $defaults, $component = false, $obj = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $properties = array('fromClass', 'toClass', 'fromGuid', 'toGuid', 'fromComponent', 'toComponent', 'status', 'toExtra', 'toExtra');
         foreach ($properties as $property)
         {
@@ -160,7 +153,6 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
                 debug_add("Setting property 'fromClass' to '{$link->fromClass}'");
             }
         }
-        debug_pop();
     }
-
 }
+?>

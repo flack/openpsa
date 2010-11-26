@@ -140,9 +140,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         if (! is_a($schema, 'midcom_helper_datamanager2_schema'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_type('Got an object of this type:', $schema);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'Invalid schema instance passed, cannot startup formmanager');
             // This will exit.
@@ -186,10 +184,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         if (! $this->widgets[$name]->initialize($name, $config['widget_config'], $this->_schema, $this->_types[$name], $this->namespace, $initialize_dependencies))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to initialize the widget for {$name}, see the debug level log for full details, this field will be skipped.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         return true;
@@ -256,9 +252,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         {
             if (!isset($this->_schema->fields[$name]))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Field {$name} is not present in \$this->_schema->fields (read from \$this->_schema->field_order)", MIDCOM_LOG_ERROR);
-                debug_pop();
                 continue;
             }
             $config = $this->_schema->fields[$name];
@@ -295,11 +289,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             {
                 if (is_object($field_default))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("An object has been passed as widget default value for {$name}, this is not allowed, skipping default.",
                         MIDCOM_LOG_WARN);
                     debug_print_r('Passed object was:', $field_default);
-                    debug_pop();
                 }
                 else if (is_array($field_default))
                 {
@@ -339,11 +331,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     $schema_default = $config['default'];
                     if (is_object($schema_default))
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("An object has been passed as schema's default value for {$name}, this is not allowed, skipping default.",
                             MIDCOM_LOG_WARN);
                         debug_print_r('Passed object was:', $schema_default);
-                        debug_pop();
                     }
                     else if (is_array($schema_default))
                     {
@@ -421,9 +411,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
                 if (! function_exists($config['callback']))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to register the callback {$config['callback']} for validation, the function is not defined.", MIDCOM_LOG_CRIT);
-                    debug_pop();
                     continue;
                 }
             }
@@ -447,9 +435,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
                 if (! class_exists($config['callback']))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Failed to register the callback {$config['callback']} for validation, the class is not defined.", MIDCOM_ERRCRIT);
-                    debug_pop();
                     continue;
                 }
             }
@@ -787,9 +773,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 // Match all other blobs types (those allow multiple uploads which are kind of hard to validate)
                 case (is_a($type, 'midcom_helper_datamanager2_type_blobs')):
                     // PONDER: How will you require-validate N uploads ?? (also see the point about existing files above)
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("types with multiple files cannot have required validation (field name: {$name})", MIDCOM_LOG_ERROR);
-                    debug_pop();
                     break;
                 // Other types should be fine with the default string validation offered by 'required'
                 default:
@@ -924,9 +908,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             // Validate the form.
             if (! $this->form->validate())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add('Failed to validate the form, reverting to edit mode.');
-                debug_pop();
                 $exitcode = 'edit';
             }
         }

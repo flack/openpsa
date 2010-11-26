@@ -76,10 +76,8 @@ class midcom_db_snippet extends midcom_core_dbaobject
         $parent = new midcom_db_snippetdir($this->up);
         if (! $parent)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Could not load Snippetdir ID {$this->up} from the database, aborting.",
                 MIDCOM_LOG_INFO);
-            debug_pop();
             return null;
         }
 

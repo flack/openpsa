@@ -46,9 +46,7 @@ class midcom_helper_datamanager2_type_pearpackages extends midcom_helper_dataman
     {
         if ($this->_get_mimetype($tmpfile) != 'application/x-gzip')
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("{$filename} is not a PEAR package", MIDCOM_LOG_WARN);
-            debug_pop();
 
             $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file is not a pear package'), 'error');
 
@@ -64,9 +62,7 @@ class midcom_helper_datamanager2_type_pearpackages extends midcom_helper_dataman
         $this->package = $this->packagefile->fromTgzFile($tmpfile, PEAR_VALIDATE_NORMAL);
         if ($this->package instanceof PEAR_Error)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("{$tmpfile} is not a PEAR package: " . $this->package->getMessage(), MIDCOM_LOG_WARN);
-            debug_pop();
 
             $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file is not a pear package'), 'error');
 
@@ -83,9 +79,7 @@ class midcom_helper_datamanager2_type_pearpackages extends midcom_helper_dataman
             if (count($package_parts) < 2)
             {
                 var_dump($package_parts);
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("{$filename} has faulty name.", MIDCOM_LOG_WARN);
-                debug_pop();
                 
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file has faulty name'), 'error');
                 
@@ -94,9 +88,7 @@ class midcom_helper_datamanager2_type_pearpackages extends midcom_helper_dataman
             
             if ($package_parts[0] != $this->storage->object->code)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("{$filename} doesn't match product name {$this->storage->object->code}.", MIDCOM_LOG_WARN);
-                debug_pop();
                 
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get("uploaded file doesn't match product name"), 'error');
                 

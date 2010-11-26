@@ -342,9 +342,7 @@ class midcom_helper__styleloader
 
         if (!is_dir($path))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Directory {$path} not found.");
-            debug_pop();
             return $elements;
         }
 
@@ -352,9 +350,7 @@ class midcom_helper__styleloader
 
         if (!$directory)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to read directory {$path}");
-            debug_pop();
             return $elements;
         }
 
@@ -408,10 +404,6 @@ class midcom_helper__styleloader
                 $value = $element_mc->get_subkey($element_guid, 'value');
                 $_MIDCOM->cache->content->register($element_guid);
                 $cached[$id][$name] = $value;
-                if ($GLOBALS['midcom_debugger']->firephp)
-                {
-                    $GLOBALS['midcom_debugger']->firephp->log("Loading template '{$name}' from style #{$id}");
-                }
                 return $value;
             }
         }
@@ -517,16 +509,13 @@ class midcom_helper__styleloader
     {
         if ($this->_context === array())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Trying to show '{$path}' but there is no context set", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 
         $_element = $path;
 
         // we have full qualified path to element
-
         if (preg_match("|(.*)/(.*)|", $path, $matches))
         {
             $_stylepath = $matches[1];
@@ -563,11 +552,7 @@ class midcom_helper__styleloader
         if (! isset($_style))
         {
             $src = "{$this->_snippetdir}/{$_element}";
-            if (   $GLOBALS['midcom_debugger']->firephp
-                && !_midcom_headers_sent())
-            {
-                $GLOBALS['midcom_debugger']->firephp->log("Loading template '{$_element}' from {$this->_snippetdir}");
-            }
+
             if (array_key_exists($src, $this->_snippets))
             {
                 $_style = $this->_snippets[$src];
@@ -650,9 +635,7 @@ class midcom_helper__styleloader
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
 

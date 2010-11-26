@@ -130,9 +130,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
         {
             if (! is_a($value, 'midcom_helper_datamanager2_schema'))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_print_r('The database passed was:', $schemadb);
-                debug_pop();
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     'An invalid schema database has been passed to the midcom_helper_datamanager2_controller::set_schemadb method.');
                 // This will exit.
@@ -175,9 +173,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
             {
                 if (! $this->datamanager->autoset_storage($storage))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_print_r('We got this storage object:', $storage);
-                    debug_pop();
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                         'Failed to automatically create a datamanager instance for a storage object or a MidCOM type. See the debug level log for more information.');
                     // This will exit().
@@ -187,20 +183,16 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
             {
                 if (! $this->datamanager->set_schema($schema))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Tried to set the schema {$schema}");
                     debug_print_r('We got this storage object:', $storage);
-                    debug_pop();
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                         'Failed to set the autocreated datamanager\'s schema. See the debug level log for more information.');
                     // This will exit().
                 }
                 if (! $this->datamanager->set_storage($storage))
                 {
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Tried to set the schema {$schema}");
                     debug_print_r('We got this storage object:', $storage);
-                    debug_pop();
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                         'Failed to set the autocreated datamanager\'s storage object. See the debug level log for more information.');
                     // This will exit().
@@ -209,9 +201,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('Storage object passed was:', $storage);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'You must pass either a datamanager subclass, an initialized storage encapsulation or a MidCOM DBA object to datamanager2_controller::set_storage()');
             // This will exit.

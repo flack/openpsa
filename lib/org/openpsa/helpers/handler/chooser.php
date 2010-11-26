@@ -258,9 +258,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
         if (!$object->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $object);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new object, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.

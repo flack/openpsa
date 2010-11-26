@@ -78,10 +78,8 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
     {
         if (is_a('midcom_helper_datamanager2_type_tags', $this->_type))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not a tags type or subclass thereof, you cannot use the tagpicker widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 

@@ -54,16 +54,12 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $regex_value = "/content=([{$quotes}])(.*?)\\1/i";
         if (!preg_match($regex_metatag, $html, $tag_matches))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to find meta tag for name \"{$name}\"", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return '';
         }
         if (!preg_match($regex_value, $tag_matches[1], $value_matches))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to find meta tag value for tag name \"{$name}\"", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return '';
         }
         return $value_matches[2];
@@ -84,9 +80,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $regex_linktags = "/<html.*?>.*?<head.*?>.*?(<link[^>]*?rel=([{$quotes}]){$relation}\\2[^>]*?>).*?<\/head>/msi";
         if (!preg_match_all($regex_linktags, $html, $tag_matches))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to find link tag values for relation \"{$relation}\"", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return $values;
         }
         if (!is_null($type))
@@ -147,9 +141,7 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
         $regex_atags = "/(<a[^>]*?rel=([{$quotes}]){$relation}\\2[^>]*?>)((.*?)<\/a>)?/msi";
         if (!preg_match_all($regex_atags, $html, $tag_matches))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to find anchor tag values for relation \"{$relation}\"", MIDCOM_LOG_DEBUG);
-            debug_pop();
             return $values;
         }
         $regex_properties = "/(title|href)=([{$quotes}])(.*?)\\2/i";

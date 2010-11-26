@@ -87,9 +87,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      */
     function notify($repeat_handler = 'this', $event = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('This method must be overridden in a subclass', MIDCOM_LOG_ERROR);
-        debug_pop();
         return false;
     }
 
@@ -103,9 +101,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         //We need to have an email which to send to so if no email no point
         if (empty($person->email))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('person #' . $person->id . 'has no email address, aborting');
-            debug_pop();
             $x = false;
             return $x;
         }
@@ -137,7 +133,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      */
     function find_free_times($amount, $person, $start, $end)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         static $event_cache = array();
         $slots = array();
         if (!is_object($person))
@@ -299,7 +294,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             }
         }
 
-        debug_pop();
         return $slots;
     }
 }

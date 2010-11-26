@@ -95,18 +95,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         catch (Exception $e)
         {
             // Magpie failed fetching or parsing the feed somehow
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to fetch or parse feed {$url}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-            debug_pop();
             return $items;
         }
 
         if (!$rss)
         {
             // Magpie failed fetching or parsing the feed somehow
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to fetch or parse feed {$url}: " . $GLOBALS['MAGPIE_ERROR'], MIDCOM_LOG_INFO);
-            debug_pop();
             return $items;
         }
 
@@ -136,9 +132,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         if (!$rss)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("MagpieRSS did not return any items", MIDCOM_LOG_WARN);
-            debug_pop();
             return array();
         }
 
@@ -153,9 +147,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 && $feed_etag == $etag)
             {
                 // Feed hasn't changed, skip updating
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Feed {$this->_feed->url} has not changed since " . date('c', $this->_feed->latestfetch), MIDCOM_LOG_WARN);
-                debug_pop();
                 return array();
             }
 
@@ -176,7 +168,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     function import()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->_node->component)
         {
             return array();
@@ -209,7 +200,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
 
         $this->clean($items);
 
-        debug_pop();
         return $items;
     }
 
@@ -239,9 +229,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "RSS fetching for component {$this->_node->component} is unsupported");
                 // This will exit.
                  */
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("RSS fetching for component {$this->_node->component} is unsupported", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
         }
     }
@@ -292,10 +280,8 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         // Sanity check
         if (!is_a($article, 'midcom_db_article'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add('$article is not an instance of midgard_article (or subclass), see debug level logs for object dump', MIDCOM_LOG_ERROR);
             debug_print_r('$article: ', $article);
-            debug_pop();
             return false;
         }
         $article->allow_name_catenate = true;

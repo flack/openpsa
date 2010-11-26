@@ -83,14 +83,11 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function can_attach()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (class_exists('Mail_mime'))
         {
             debug_add('Mail_mime exists: returning true');
-            debug_pop();
             return true;
         }
-        debug_pop();
         return false;
     }
 
@@ -102,14 +99,11 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function can_html()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (class_exists('Mail_mime'))
         {
             debug_add('Mail_mime exists: returning true');
-            debug_pop();
             return true;
         }
-        debug_pop();
         return false;
     }
 
@@ -122,11 +116,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     }
     function init_mail_mime()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!class_exists('Mail_mime'))
         {
             debug_add('Mail_mime does not exist, aborting');
-            debug_pop();
             return false;
         }
         $this->__mime = new Mail_mime("\n");
@@ -238,7 +230,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
              echo "</pre>\n"; reset ($mime);
         }
 
-        debug_pop();
         return $this->__mime;
     }
 
@@ -319,7 +310,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function part_decode(&$part)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Check for subparts and process them if they exist
         if (   isset($part->parts)
             && is_array($part->parts)
@@ -329,7 +319,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             while (list ($k, $subPart) = each ($part->parts))
             {
                 //We might recurse quite deep so pop here.
-                debug_pop();
                 $this->part_decode($part->parts[$k]);
             }
             return;
@@ -413,7 +402,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             }
             $this->attachments[] = $dataArr;
         }
-        debug_pop();
     }
 
     /**
@@ -433,7 +421,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function charset_convert($data, $given_encoding = false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         // Some headers are multi-dimensional, recurse if needed
         if (is_array($data))
         {
@@ -444,25 +431,21 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
                 $data[$k] = $this->charset_convert($v, $given_encoding);
             }
             debug_add('Done');
-            debug_pop();
             return $data;
         }
         if ($this->__iconv === false)
         {
             debug_add('Conversions disabled ($this->__iconv is false), returning data as is',  MIDCOM_LOG_WARN);
-            debug_pop();
             return $data;
         }
         if (empty($data))
         {
             debug_add('Data is empty, returning as is',  MIDCOM_LOG_WARN);
-            debug_pop();
             return $data;
         }
         if (!function_exists('iconv'))
         {
             debug_add('Function \'iconv()\' not available, returning data as is',  MIDCOM_LOG_WARN);
-            debug_pop();
             return $data;
         }
         $encoding = false;
@@ -479,7 +462,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
                 if (stristr($this->from, "@{$domain}"))
                 {
                     debug_add("Detected incorrect_charset_domain '{$domain}' and 'mb_detect_encoding()' not available, aborting convert", MIDCOM_LOG_WARN);
-                    debug_pop();
                     return $data;
                 }
             }
@@ -492,7 +474,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         if (empty($encoding))
         {
             debug('Given/Detected encoding is empty, cannot convert, aborting', MIDCOM_LOG_WARN);
-            debug_pop();
             return $data;
         }
         $encoding_lower = strtolower($encoding);
@@ -507,7 +488,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             )
         {
             debug_add("Given/Detected encoding '{$encoding}' and desired encoding '{$this->encoding}' require no conversion between them", MIDCOM_LOG_INFO);
-            debug_pop();
             return $data;
         }
         $append_target = $this->_config->get('iconv_append_target');
@@ -516,11 +496,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         if (empty($stat))
         {
             debug_add("Failed to convert from '{$encoding}' to '{$this->encoding}'", MIDCOM_LOG_WARN);
-            debug_pop();
             return $data;
         }
         debug_add("Converted from '{$encoding}' to '{$this->encoding}'", MIDCOM_LOG_INFO);
-        debug_pop();
         return $stat;
     }
 
@@ -529,11 +507,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
       */
     function mime_decode()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!class_exists('Mail_mimeDecode'))
         {
             debug_add('Cannot decode without Mail_mimeDecode, aborting', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -654,7 +630,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->html_body = ltrim(rtrim($this->html_body));
 
         //TODO Figure if decode was successful or not and return true/false in stead
-        debug_pop();
         return $mime;
     }
 
@@ -688,7 +663,6 @@ EOF;
      */
     function encode_subject()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         preg_match_all("/[^\x21-\x39\x41-\x7e]/", $this->subject, $matches);
         if (   count ($matches[0])>0
             && !stristr($this->subject, '=?' . strtoupper($this->encoding) . '?Q?')
@@ -713,7 +687,6 @@ EOF;
             }
             $this->subject = '=?' . strtoupper($this->encoding) . '?Q?' . $newSubj . '?=';
         }
-        debug_pop();
     }
 
      /**
@@ -723,7 +696,6 @@ EOF;
       */
      function prepare()
      {
-        debug_push_class(__CLASS__, __FUNCTION__);
         //Translate newlines
         $this->body = preg_replace("/\n\r|\r\n|\r/","\n", $this->body);
         $this->html_body = preg_replace("/\n\r|\r\n|\r/","\n", $this->html_body);
@@ -820,7 +792,6 @@ EOF;
 
         //TODO: Encode from, cc and to if necessary
 
-        debug_pop();
         return true;
     }
 
@@ -829,13 +800,11 @@ EOF;
      */
     function _load_backend($backend)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $classname = "org_openpsa_mail_backend_{$backend}";
         if (class_exists($classname))
         {
             $this->_backend = new $classname();
             debug_add("backend is now\n===\n" . org_openpsa_mail_sprint_r($this->_backend) . "===\n");
-            debug_pop();
             return true;
         }
         debug_add("backend class {$classname} is not available", MIDCOM_LOG_WARN);
@@ -847,7 +816,6 @@ EOF;
      */
     function send($backend = 'try_default', $backend_params = array())
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         switch ($backend)
         {
@@ -879,7 +847,6 @@ EOF;
         if (!is_object($this->_backend))
         {
             debug_add('no backend object available, aborting');
-            debug_pop();
             return false;
         }
 
@@ -889,7 +856,6 @@ EOF;
 
         $this->headers['X-org.openpsa.mail-backend-class'] = get_class($this->_backend);
         $ret = $this->_backend->send($this, $backend_params);
-        debug_pop();
         return $ret;
     }
 
@@ -962,7 +928,6 @@ EOF;
 
     function _html_get_embeds_loop(&$obj, $html, $search, $embeds, $type)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!isset($_SERVER))
         { //Make sure we have this information (even on older PHPs)
             global $HTTP_SERVER_VARS;
@@ -1108,7 +1073,6 @@ EOF;
                  break;
             }
         }
-        debug_pop();
         return array($html, $embeds);
     }
 
@@ -1117,7 +1081,6 @@ EOF;
      */
     function html_get_embeds($obj = false, $html = null, $embeds = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if (!is_array($embeds))
         {
@@ -1132,7 +1095,6 @@ EOF;
         if (!function_exists('file_get_contents'))
         {
             debug_add('Function file_get_contents() missing', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
@@ -1165,7 +1127,6 @@ EOF;
         }
 
         //return array('html' => $html, 'embeds' => $embeds, 'debug' => $tmpArr);
-        debug_pop();
         return array($html, $embeds);
     }
 

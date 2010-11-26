@@ -45,10 +45,8 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
             if (   !$parent
                 || !$parent->guid)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Could not load Person ID {$this->person} from the database, aborting.",
                     MIDCOM_LOG_INFO);
-                debug_pop();
                 return null;
             }
             return $parent->guid;
@@ -78,10 +76,8 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
             && date('Y-m-d', $previous->date) == date('Y-m-d', $this->date))
         {
             // We don't need to save duplicate entries on same day
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Not saving log, previous log \"{$previous->guid}\" on same day is in same place.",
                     MIDCOM_LOG_WARN);
-            debug_pop();
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }

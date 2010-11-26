@@ -140,20 +140,17 @@ class org_openpsa_projects_projectbroker
 
     function _find_task_prospects_filter_by_minimum_time_slot(&$task, &$prospects)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $keep_prospects = array();
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot))
         {
             debug_add('minimum time slot is not defined, aborting', MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
         $_MIDCOM->componentloader->load_graceful('org.openpsa.calendar');
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
-            debug_pop();
             return;
         }
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
@@ -178,7 +175,6 @@ class org_openpsa_projects_projectbroker
             debug_add("removing '{$person->name}' from prospects list");
             unset($prospects[$key]);
         }
-        debug_pop();
     }
 
     /**
@@ -230,7 +226,6 @@ class org_openpsa_projects_projectbroker
      */
     function resolve_person_timeslots($person, &$task)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');
         if (empty($minimum_time_slot))
         {
@@ -241,7 +236,6 @@ class org_openpsa_projects_projectbroker
         if (!class_exists('org_openpsa_calendar_event_participant_dba'))
         {
             debug_add('could not load org.openpsa.calendar, aborting', MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
         $slots = org_openpsa_calendar_event_participant_dba::find_free_times(($minimum_time_slot * 60), $person, $task->start, $task->end);

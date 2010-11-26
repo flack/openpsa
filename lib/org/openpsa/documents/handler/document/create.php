@@ -92,9 +92,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
         if (! $document->create())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_print_r('We operated on this object:', $document);
-            debug_pop();
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to create a new document, cannot continue. Error: " . midcom_connection::get_error_string());
             // This will exit.

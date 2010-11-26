@@ -115,16 +115,12 @@ function midcom_generate_urlname_from_string($string, $replacer = "-", $r = 0)
 {
     if ($r > 5)
     {
-        debug_push_class('function', __FUNCTION__);
         debug_add('$r > 5, aborting', MIDCOM_LOG_ERROR);
-        debug_pop();
         return $string;
     }
     if (empty($string))
     {
-        debug_push_class('function', __FUNCTION__);
         debug_add('$string was empty(), aborting', MIDCOM_LOG_ERROR);
-        debug_pop();
         return '';
     }
     // TODO: sanity-check $replacer ?
@@ -195,9 +191,7 @@ function midcom_helper_get_mime_icon($mimetype, $fallback = '')
     $mimetype_filename = str_replace('/', '-', $mimetype);
     if (!is_readable($mime_fspath))
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Couldn't read directory {$mime_fspath}", MIDCOM_LOG_WARN);
-        debug_pop();
     }
 
     $check_files = Array();

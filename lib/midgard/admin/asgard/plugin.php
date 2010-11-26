@@ -783,9 +783,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             $child_types = $data['tree_reflector']->get_child_classes();
             if (!is_array($child_types))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("\$data['tree_reflector']->get_child_classes() failed critically, recasting \$child_types as array", MIDCOM_LOG_WARN);
-                debug_pop();
                 $child_types = array();
             }
             foreach ($child_types as $type)

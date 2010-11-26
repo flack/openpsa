@@ -54,12 +54,9 @@ class no_bergfald_rcs
 
     function __construct($guid = null)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!is_null($guid)) {
             $this->_guid = $guid;
         }
-
-        debug_pop();
     }
 
     /**
@@ -68,13 +65,11 @@ class no_bergfald_rcs
      */
     function & factory($backend, $guid = '')
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $object = null;
         if (class_exists('no_bergfald_rcs_'. $backend))
         {
             $object = new $backend($guid);
         }
-        debug_pop();
         return $object;
     }
     /**
@@ -88,7 +83,6 @@ class no_bergfald_rcs
 
     function get_diff ($latest_revison, $oldest_revision)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revison);
@@ -134,9 +128,7 @@ class no_bergfald_rcs
             }
         }
 
-        debug_pop();
         return $return;
-
     }
 
     /**
@@ -174,9 +166,7 @@ class no_bergfald_rcs
 
     function restore_to_revision($revision)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
-        debug_pop();
         return false;
     }
 
@@ -247,9 +237,6 @@ class no_bergfald_rcs
         return array();
     }
 
-
-
-
     /**
      * Helper to get the lastest errormessages out of the backend.
      * @param separator default = <br/>
@@ -258,6 +245,5 @@ class no_bergfald_rcs
      function get_error($sep = '<br/>') {
         return join ($sep,$this->error);
      }
-
 }
 ?>

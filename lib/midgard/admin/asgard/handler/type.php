@@ -47,26 +47,20 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy_object);
         if (empty($midcom_dba_classname))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("MidCOM DBA does not know how to handle " . get_class($dummy_object), MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
         if (!$_MIDCOM->dbclassloader->load_mgdschema_class_handler($midcom_dba_classname))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Failed to load the handling component for {$midcom_dba_classname}, cannot continue.", MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }
         $qb_callback = array($midcom_dba_classname, 'new_query_builder');
         if (!is_callable($qb_callback))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Static method {$midcom_dba_classname}::new_query_builder() is not callable", MIDCOM_LOG_ERROR);
-            debug_pop();
             $x = false;
             return $x;
         }

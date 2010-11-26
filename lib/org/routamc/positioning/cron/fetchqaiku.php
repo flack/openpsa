@@ -18,14 +18,12 @@ class org_routamc_positioning_cron_fetchqaiku extends midcom_baseclasses_compone
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
 
         $html = org_routamc_positioning_importer::create('qaiku');
         $html->seek_qaiku_users();
 
         debug_add('Done');
-        debug_pop();
         return;
     }
 }

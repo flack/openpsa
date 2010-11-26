@@ -147,7 +147,6 @@ abstract class midcom_services_cache_backend
      */
     function initialize($name, $config)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->_name = $name;
         if (is_array($config))
@@ -172,7 +171,6 @@ abstract class midcom_services_cache_backend
 
         $this->_on_initialize();
 
-        debug_pop();
     }
 
     /**
@@ -180,12 +178,9 @@ abstract class midcom_services_cache_backend
      */
     function shutdown()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $this->flush_unsynced();
         $this->_on_shutdown();
-
-        debug_pop();
     }
 
     /**
@@ -390,9 +385,7 @@ abstract class midcom_services_cache_backend
             // open request, otherwise we close the db.
             if ($this->_open_for_writing == $write)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("The database has already been opened with the requested permission, ignoring request.");
-                debug_pop();
                 return;
             }
 
@@ -413,9 +406,7 @@ abstract class midcom_services_cache_backend
     {
         if (! $this->_open_for_reading)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The database is not open, ignoring the request to close the database.");
-            debug_pop();
             return;
         }
 

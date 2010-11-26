@@ -38,7 +38,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -99,7 +98,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             }
         }
 
-        debug_pop();
         return true;
     }
 
@@ -134,9 +132,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         }
         else
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("OpenPSA Contacts root group could not be found", MIDCOM_LOG_WARN);
-            debug_pop();
 
             //Attempt to  auto-initialize the group.
             $_MIDCOM->auth->request_sudo();
@@ -148,7 +144,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             if (!$ret)
             {
                 debug_add("Could not auto-initialize the module, create root group '__org_openpsa_contacts' manually", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             $root_group = $grp;
@@ -191,7 +186,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      */
     function org_openpsa_contacts_duplicates_merge_person(&$person1, &$person2, $mode)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         switch($mode)
         {
             case 'all':
@@ -203,7 +197,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             default:
                 // Mode not implemented
                 debug_add("mode {$mode} not implemented", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
                 break;
         }
@@ -218,7 +211,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         {
             // Some error with QB
             debug_add('QB Error', MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         // Transfer memberships
@@ -250,7 +242,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                     {
                         // Failure updating member
                         debug_add("Failed to update member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                        debug_pop();
                         return false;
                     }
                     continue;
@@ -262,7 +253,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 {
                     // Failure updating member
                     debug_add("Failed to update member #{$member->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                    debug_pop();
                     return false;
                 }
             }
@@ -289,7 +279,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             {
                 // Failure updating metadata
                 debug_add("Failed to update metadata dependencies in class {$class}, errsrtr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
         }
@@ -394,14 +383,12 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      */
     function check_url($args, &$handler)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (   !array_key_exists('person', $args)
             && !array_key_exists('group', $args))
         {
             $msg = 'Person or Group GUID not set, aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
 
@@ -415,7 +402,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 $msg = "Person {$args['person']} not found, error " . midcom_connection::get_error_string();
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
-                debug_pop();
                 return false;
             }
 
@@ -424,7 +410,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 $msg = "Person {$args['person']} has no homepage, skipping";
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
-                debug_pop();
                 return false;
             }
 
@@ -504,7 +489,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 $msg = "Group {$args['group']} not found, error " . midcom_connection::get_error_string();
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
-                debug_pop();
                 return false;
             }
 
@@ -513,7 +497,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 $msg = "Group {$args['group']} has no homepage, skipping";
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
-                debug_pop();
                 return false;
             }
 
@@ -620,7 +603,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $msg = 'Person with guid #'.$args['guid'].' does not exist - for reopen_account';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             return false;
         }
         if(!empty($person->password))
@@ -629,7 +611,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $msg = 'Person with id #'.$person->id.' does have a password so will not be set to the old? one -- Account unblocked';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
-            debug_pop();
             $_MIDCOM->auth->drop_sudo();
             return false;
         }

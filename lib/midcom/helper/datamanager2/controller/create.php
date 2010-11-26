@@ -341,7 +341,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      */
     function process_form()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         if ($this->formmanager === null)
         {
@@ -394,7 +393,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 $this->datamanager->storage->object->delete();
 
                 debug_add('Failed to save the data to disk');
-                debug_pop();
 
                 // We seem to have a critical error.
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,

@@ -18,12 +18,10 @@ class org_openpsa_contacts_cron_duplicates_mark extends midcom_baseclasses_compo
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
         if (!$this->_config->get('enable_duplicate_search'))
         {
             debug_add('Duplicate search disabled, aborting', MIDCOM_LOG_INFO);
-            debug_pop();
             return;
         }
 
@@ -37,7 +35,6 @@ class org_openpsa_contacts_cron_duplicates_mark extends midcom_baseclasses_compo
         $_MIDCOM->auth->drop_sudo();
 
         debug_add('Done');
-        debug_pop();
     }
 }
 ?>

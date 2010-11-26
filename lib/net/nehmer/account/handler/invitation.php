@@ -105,7 +105,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
 
         $_MIDCOM->load_library('org.openpsa.mail');
 
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add("Sending email to {$email}, {$name}");
         $this->_mail = new org_openpsa_mail();
         $this->_mail->to = $email;
@@ -125,7 +124,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
         {
             debug_add("Sending invitation email failed: " . $this->_mail->_backend->error->getMessage(), MIDCOM_LOG_ERROR);
         }
-        debug_pop();
     }
 
     /**
@@ -209,7 +207,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
             return false;
         }
 
-        debug_push_class(__CLASS__, __FUNCTION__);
 
         $_MIDCOM->auth->require_valid_user();
 
@@ -275,7 +272,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
                 }
 
             }
-            debug_pop();
             $_MIDCOM->relocate('sent_invites');
         }
 

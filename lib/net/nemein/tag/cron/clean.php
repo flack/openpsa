@@ -18,7 +18,6 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
      */
     function _on_execute()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         debug_add('_on_execute called');
 
         $_MIDCOM->auth->request_sudo('net.nemein.tag');
@@ -28,7 +27,6 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
         {
             // QB error
             $_MIDCOM->auth->drop_sudo();
-            debug_pop();
             return;
         }
         foreach ($tags as $tag)
@@ -58,7 +56,6 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
 
         debug_add('done');
         $_MIDCOM->auth->drop_sudo();
-        debug_pop();
         return;
     }
 }

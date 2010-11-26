@@ -363,10 +363,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (   !is_a($this->_type, 'midcom_helper_datamanager2_type_select')
             && !is_a($this->_type, 'midcom_helper_datamanager2_type_mnrelation'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not a select type or subclass thereof, you cannot use the chooser widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -390,10 +388,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             if (   !isset($this->_callback_class)
                 || empty($this->_callback_class))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Warning, the field {$this->name} does not have proper class definitions set.",
                     MIDCOM_LOG_WARN);
-                debug_pop();
 
                 return false;
             }
@@ -402,19 +398,15 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (   !empty($this->renderer)
             && !$this->_check_renderer())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} renderer wasn't found or not set properly, thus widget can never show results.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
         if (!$this->_check_class())
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, cannot load class {$this->class} for field {$this->name}.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -432,9 +424,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 case 'parameter':
                 case 'configuration':
                     // Storing IDs to parameters is not replication safe
-                    debug_push_class(__CLASS__, __FUNCTION__);
                     debug_add("Field \"{$this->name}\" is set to store to a parameter but links via ID which is not replication-safe, aborting.", MIDCOM_LOG_WARN);
-                    debug_pop();
 
                     $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to a parameter but links via ID which is not replication-safe, aborting'), $this->name), 'error');
 
@@ -458,9 +448,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                         || !$mrp->is_link($this->_field['storage']['location']))
                     {
                         // Storing IDs to non-linked fields is not replication safe
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Field \"{$this->name}\" is set to store to property \"{$this->_field['storage']['location']}\" which is not link, making it replication-unsafe, aborting.", MIDCOM_LOG_WARN);
-                        debug_pop();
 
                         $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to property %s but links via ID which is not replication-safe, aborting'), $this->name, $this->_field['storage']['location']), 'error');
 
@@ -473,10 +461,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         if (   empty($this->searchfields)
             && !isset($this->_callback_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} does not have searchfields defined, it can never return results.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -546,9 +532,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $this->_renderer_callback_class) . '.php';
             if (! file_exists($path))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Auto-loading of the renderer callback class {$this->_renderer_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             require_once($path);
@@ -556,9 +540,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (! class_exists($this->_renderer_callback_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The renderer callback class {$this->_renderer_callback_class} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $this->_renderer_callback = new $this->_renderer_callback_class($this->_renderer_callback_args);
@@ -599,9 +581,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $this->_callback_class) . '.php';
             if (! file_exists($path))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Auto-loading of the callback class {$this->_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                debug_pop();
                 return false;
             }
             require_once($path);
@@ -609,9 +589,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (! class_exists($this->_callback_class))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("The callback class {$this->_callback_class} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $this->_callback = new $this->_callback_class($this->_callback_args);
@@ -916,9 +894,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
             if (! $matching_type)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("no matches found for {$this->clever_class}!");
-                debug_pop();
                 return false;
             }
 

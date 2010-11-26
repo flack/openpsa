@@ -32,13 +32,10 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
      */
     function get_balance()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->_sanity_check())
         {
-            debug_pop();
             return false;
         }
-        debug_pop();
         return 'unknown'; //Non numeric balance is supposed to be infinite
     }
 
@@ -64,10 +61,8 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
      */
     function send_sms($number, $msg, $sender=false, $dlr=false, $udh=false, $clientid=false)
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         if (!$this->_sanity_check())
         {
-            debug_pop();
             return false;
         }
         if ($sender)
@@ -81,7 +76,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
                     debug_add('alphanumeric sender too long (max 11 ASCII characters)', MIDCOM_LOG_ERROR);
                     $this->errstr = 'sender too long';
                     $this->errcode = 400;
-                    debug_pop();
                     return false;
                 }
             }
@@ -92,7 +86,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
                     debug_add('numeric sender too long (max 16 numbers)', MIDCOM_LOG_ERROR);
                     $this->errstr = 'sender too long';
                     $this->errcode = 400;
-                    debug_pop();
                     return false;
                 }
             }
@@ -131,7 +124,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
         {
             debug_add("Error opening {$url}, response: " . $http_response_header[0]);
             debug_add("Failed to send message, HTTP error: {$this->errstr}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
         $content = '';
@@ -145,13 +137,11 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
         if ($this->_get_content_error($content))
         {
             debug_add("Failed to send message, API error: {$this->errstr}", MIDCOM_LOG_ERROR);
-            debug_pop();
             return false;
         }
 
         //TODO: Parse rest the returned text and get for example message IDs
 
-        debug_pop();
         return true;
     }
 
@@ -160,7 +150,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
      */
     function _encode_req_feat()
     {
-        debug_push_class(__CLASS__, __FUNCTION__);
         $feat_arr_rev = explode(' ', $this->features);
         //Make sure each feature is specified only once
         foreach ($feat_arr_rev as $feature)
@@ -206,7 +195,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
                     break;
             }
         }
-        debug_pop();
         return $feat_dec;
     }
 

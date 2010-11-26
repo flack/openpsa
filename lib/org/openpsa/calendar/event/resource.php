@@ -55,26 +55,20 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
     {
         if (empty($this->resource))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Resource is set to empty value returning true");
-            debug_pop();
             return true;
         }
         $resource = new org_openpsa_calendar_resource_dba($this->resource);
         if (   !is_object($resource)
             || empty($resource->id))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Cannot fetch resource #{$this->resource} returning false", MIDCOM_LOG_INFO);
-            debug_pop();
             return false;
         }
         $stat =  $resource->can_do('org.openpsa.calendar:reserve');
         if (!$stat)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("\$resource->can_do('org.openpsa.calendar:reserve'), returned false, so will we", MIDCOM_LOG_INFO);
-            debug_pop();
         }
         return $stat;
     }

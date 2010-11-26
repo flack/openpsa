@@ -146,9 +146,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
         if (sizeof($items) > 1)
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Multiple attachments have been found for document #" . $this->id . ", returning only the first.", MIDCOM_LOG_INFO);
-            debug_pop();
         }
 
         foreach ($items as $item)
@@ -159,9 +157,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
                 || !array_key_exists(1, $info))
             {
                 // Broken item
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Attachment entry '{$item}' is broken!", MIDCOM_LOG_ERROR);
-                debug_pop();
                 continue;
             }
             $identifier = $info[0];
@@ -171,10 +167,8 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             if (   !$attachment
                 || !$attachment->guid)
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
                 debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                debug_pop();
                 continue;
             }
 

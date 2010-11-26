@@ -55,10 +55,8 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_video'))
         {
-            debug_push_class(__CLASS__, __FUNCTION__);
             debug_add("Warning, the field {$this->name} is not an image type or subclass thereof, you cannot use the image widget with it.",
                 MIDCOM_LOG_WARN);
-            debug_pop();
             return false;
         }
 
@@ -521,10 +519,8 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         {
             if (! $this->_type->delete_all_attachments())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to delete all attached old images on the field {$this->name}.",
                     MIDCOM_LOG_ERROR);
-                debug_pop();
             }
 
             // Adapt the form:
@@ -535,10 +531,8 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         {
             if (! $this->_type->delete_screenshot())
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to delete all attached old images on the field {$this->name}.",
                     MIDCOM_LOG_ERROR);
-                debug_pop();
             }
 
             // Adapt the form:
@@ -550,12 +544,9 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
             list ($direction, $dummy) = each($results["{$this->name}_rotate"]);
             if (! $this->_type->rotate($direction))
             {
-                debug_push_class(__CLASS__, __FUNCTION__);
                 debug_add("Failed to rotate image on the field {$this->name}.",
                     MIDCOM_LOG_ERROR);
-                debug_pop();
             }
-
         }
         else
         {
@@ -568,9 +559,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
                 {
                     if (! $this->_type->set_video($file_video['name'], $file_video['tmp_name'], 'Video file'))
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Failed to process image {$this->name}.", MIDCOM_LOG_INFO);
-                        debug_pop();
                         $this->_cast_formgroup_to_upload_video();
                     }
                     else
@@ -597,9 +586,7 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
                 {
                     if (! $this->_type->set_image($file['name'], $file['tmp_name'], $title))
                     {
-                        debug_push_class(__CLASS__, __FUNCTION__);
                         debug_add("Failed to process image {$this->name}.", MIDCOM_LOG_INFO);
-                        debug_pop();
                         $this->_cast_formgroup_to_upload();
                     }
                     else
