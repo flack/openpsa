@@ -15,7 +15,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 {
     /**
      * Phase for showing the list of campaigns
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -56,7 +56,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                     $member->create();
                     if ($member->id)
                     {
-                        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'), 
+                        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
                             sprintf(
                                 $this->_l10n->get('added person %s to campaign %s'),
                                 "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -67,7 +67,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                     }
                     else
                     {
-                        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'), 
+                        $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
                             sprintf(
                                 $this->_l10n->get('Failed adding person %s to campaign %s'),
                                 "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -80,7 +80,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 else
                 {
                     // FIXME: More informative error message
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'), 
+                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.directmarketing'),
                         sprintf(
                             $this->_l10n->get('Failed adding person %s to campaign %s'),
                             "{$this->_request_data['person']->firstname} {$this->_request_data['person']->lastname}",
@@ -97,7 +97,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Show the list of existing campaigns
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -153,7 +153,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             debug_add("Listing campaigns visible to current user");
 
             $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
-            if ($this->topic->component = 'org.openpsa.directmarketing')
+            if ($this->_topic->component = 'org.openpsa.directmarketing')
             {
                 $qb->add_constraint('node', '=', $this->_topic->id);
             }
@@ -169,7 +169,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
             $campaigns = $qb->execute();
         }
-        
+
         if (   is_array($campaigns)
             && count($campaigns) > 0)
         {
@@ -193,7 +193,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Handle the unsubscribe phase
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -240,7 +240,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Show the unsubscribe action
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -261,7 +261,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Support the AJAX request for unsubscribing from a campaign
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -310,7 +310,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Show the empty style of AJAX unsubscribing
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
@@ -319,7 +319,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Handle the request for unsubscribing all subscribers from a campaign
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -383,7 +383,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
     /**
      * Show the unsubscribe status for unsubscribe all
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference

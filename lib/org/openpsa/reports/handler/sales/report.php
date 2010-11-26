@@ -35,7 +35,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         {
             return false;
         }
-        $this->_component_data['active_leaf'] = "{$this->_topic->id}:generator_sales";
+        $this->set_active_leaf($this->_topic->id . ':generator_sales');
         $this->_handler_generator_style();
 
         $data['invoices'] = Array();

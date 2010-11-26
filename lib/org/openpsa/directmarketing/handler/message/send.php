@@ -243,7 +243,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             // This will exit.
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
+        $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $tmp = array();
         $tmp[] = array

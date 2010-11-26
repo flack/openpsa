@@ -281,7 +281,7 @@
  *
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_request extends midcom_baseclasses_core_object
+abstract class midcom_baseclasses_components_request extends midcom_baseclasses_components_base
 {
     /**#@+
      * Request state variable, set during startup. There should be no need to change it
@@ -305,48 +305,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public $_config = null;
 
     /**
-     * A handle to the i18n service.
-     *
-     * @var midcom_services_i18n
-     */
-    public $_i18n = null;
-
-    /**
-     * The components' L10n string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    public $_l10n = null;
-
-    /**
-     * The global MidCOM string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    public $_l10n_midcom = null;
-
-    /**
-     * Component data storage area.
-     *
-     * @var Array
-     */
-    public $_component_data = null;
-
-    /**
      * Request specific data storage area. Registered in the component context
      * as ''.
      *
      * @var Array
      */
     public $_request_data = Array();
-
-    /**
-     * Internal helper, holds the name of the component. Should be used whenever the
-     * components' name is required instead of hardcoding it.
-     *
-     * @var string
-     */
-    public $_component = '';
 
     /**
      * The node toolbar for the current request context. Not available during the can_handle
@@ -441,12 +405,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     public function initialize($component)
     {
         $this->_component = $component;
-        $this->_component_data =& $GLOBALS['midcom_component_data'][$this->_component];
         $_MIDCOM->set_custom_context_data('request_data', $this->_request_data);
-
-        $this->_i18n = $_MIDCOM->get_service('i18n');
-        $this->_l10n = $this->_i18n->get_l10n($this->_component);
-        $this->_l10n_midcom = $this->_i18n->get_l10n('midcom');
 
         $this->_request_data['config'] =& $this->_config;
         $this->_request_data['topic'] = null;

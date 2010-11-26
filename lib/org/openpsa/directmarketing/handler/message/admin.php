@@ -218,7 +218,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             // This will exit.
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
+        $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_controller();
         $data['message_dm'] =& $this->_controller;
@@ -284,7 +284,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             // This will exit.
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
+        $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_datamanager();
 

@@ -61,7 +61,6 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
     function _prepare_request_data()
     {
         $this->_request_data['controller'] =& $this->_controller;
-        $this->_request_data['indexmode'] =& $this->_indexmode;
         $this->_request_data['schema'] =& $this->_schema;
         $this->_request_data['schemadb'] =& $this->_schemadb;
     }
@@ -194,8 +193,8 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
         $this->_prepare_request_data();
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
-        
+        org_openpsa_helpers::dm2_savecancel($this);
+
         if ($this->_group)
         {
             $_MIDCOM->set_26_request_metadata($this->_group->metadata->revised, $this->_group->guid);
@@ -238,24 +237,24 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
         {
             $group = $this->_request_data['parent'];
             $root_group = $this->_config->get('root_group');
-    
+
             if (!$group)
             {
                 return false;
             }
-    
+
             $parent = $group;
-    
+
             while ($parent)
             {
                 $group = $parent;
-    
+
                 if (   $group->guid === $root_group
                     || !$group->guid)
                 {
                     break;
                 }
-    
+
                 if ($group->code)
                 {
                     $url = "{$group->code}/";
@@ -264,8 +263,8 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
                 {
                     $url = "{$group->guid}/";
                 }
-    
-    
+
+
                 $tmp[] = Array
                 (
                     MIDCOM_NAV_URL => $url,

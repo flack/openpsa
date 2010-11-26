@@ -361,7 +361,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             array_unshift($old_passwords_array, $this->password);
         }
         $count = count($old_passwords_array);
-        $max = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['config']->get('max_old_passwords');
+        $max = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('max_old_passwords');
         if($count > $max)
         {
             for($i = $max;$i <= $count;$i++)
@@ -392,7 +392,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         {
             $old_passwords_array = unserialize($old_passwords_string);
             $count = count($old_passwords_array);
-            $max = (int) $GLOBALS['midcom_component_data']['org.openpsa.contacts']['config']->get('max_old_passwords');
+            $max = (int) midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('max_old_passwords');
             if($count > $max)
             {
                 //only as much passwords as given in config
@@ -495,8 +495,8 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             $score += strlen($this->check_repetition($count , $password)) - $password_length ;
         }
 
-        $max = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['config']->get('min_password_length');
-        $rules = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['config']->get('password_match_score');
+        $max = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('min_password_length');
+        $rules = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('password_match_score');
 
         $data_snippet = midcom_get_snippet_content($rules);
         $result = eval ("\$contents = array ( {$data_snippet}\n );");
@@ -520,7 +520,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
                 $score += $rule['score'];
             }
         }
-        if($score <= $GLOBALS['midcom_component_data']['org.openpsa.contacts']['config']->get('min_password_score'))
+        if($score <= midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('min_password_score'))
         {
             $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password weak' , 'org.openpsa.contacts') , 'error');
             return false;
@@ -578,7 +578,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
      */
     function check_password_age()
     {
-        $max_age_days = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['config']->get('password_max_age_days');
+        $max_age_days = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('password_max_age_days');
         if($max_age_days == 0)
         {
             return true;
@@ -605,7 +605,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
      */
     function disable_account()
     {
-        $timeframe_minutes = $GLOBALS['midcom_component_data']['org.openpsa.contacts']['config']->get('password_block_timeframe_min');
+        $timeframe_minutes = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('password_block_timeframe_min');
         if($timeframe_minutes == 0)
         {
             return false;

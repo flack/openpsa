@@ -119,9 +119,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         // Get the localization library for Asgard
         $this->_request_data['l10n'] = $_MIDCOM->i18n->get_l10n('midgard.admin.asgard');
-        $this->_l10n =& $this->_request_data['l10n'];
         midgard_admin_asgard_plugin::get_default_mode($this->_request_data);
-
         // Accordion is needed for per-type help when available
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');

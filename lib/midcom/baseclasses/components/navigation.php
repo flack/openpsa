@@ -20,7 +20,7 @@
  * @package midcom.baseclasses
  */
 
-abstract class midcom_baseclasses_components_navigation
+abstract class midcom_baseclasses_components_navigation extends midcom_baseclasses_components_base
 {
     /**#@+
      * Component state variable, set during startup. There should be no need to change it
@@ -30,54 +30,11 @@ abstract class midcom_baseclasses_components_navigation
      */
 
     /**
-     * Internal helper, holds the name of the component. Should be used whenever the
-     * components' name is required instead of hardcoding it.
-     *
-     * @var string
-     */
-    var $_component = '';
-
-    /**
-     * Component data storage area.
-     *
-     * @var Array
-     */
-    var $_component_data = null;
-
-    /**
      * The topic for which we are handling a request.
      *
      * @var midcom_db_topic
      */
     var $_topic = null;
-
-    /**
-     * The current configuration.
-     *
-     * @var midcom_helper_configuration
-     */
-    var $_config = null;
-
-    /**
-     * A handle to the i18n service.
-     *
-     * @var midcom_services_i18n
-     */
-    var $_i18n = null;
-
-    /**
-     * The components' L10n string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    var $_l10n = null;
-
-    /**
-     * The global MidCOM string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    var $_l10n_midcom = null;
 
     /**#@-*/
 
@@ -89,13 +46,10 @@ abstract class midcom_baseclasses_components_navigation
     public function initialize($component)
     {
         $this->_component = $component;
-        $this->_component_data =& $GLOBALS['midcom_component_data'][$this->_component];
 
         $this->_i18n = $_MIDCOM->get_service('i18n');
         $this->_l10n = $this->_i18n->get_l10n($this->_component);
         $this->_l10n_midcom = $this->_i18n->get_l10n('midcom');
-
-        $this->_config = $this->_component_data['config'];
     }
 
     /**

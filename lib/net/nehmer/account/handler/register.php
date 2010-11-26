@@ -343,7 +343,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         // Prepare output
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
-        $this->_component_data['active_leaf'] = NET_NEHMER_ACCOUNT_LEAFID_REGISTER;
+        $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_REGISTER);
 
         switch($this->_stage)
         {
@@ -951,7 +951,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         // Prepare the output
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
-        $this->_component_data['active_leaf'] = NET_NEHMER_ACCOUNT_LEAFID_REGISTER;
+        $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_REGISTER);
         $_MIDCOM->set_pagetitle($this->_l10n->get('account registration') . ': ' . $this->_l10n->get('activation successful'));
 
         $this->activated = true;

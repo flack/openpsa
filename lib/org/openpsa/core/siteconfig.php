@@ -288,7 +288,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
     public function create_ui_page()
     {
         //first check if the page does already exist
-        $page_name = $GLOBALS['midcom_component_data']['org.openpsa.core']['config']->get('ui_page');
+        $page_name = $this->_config->get('ui_page');
         $qb_page = midcom_db_page::new_query_builder();
         $qb_page->add_constraint('name' , '=' , $page_name);
 

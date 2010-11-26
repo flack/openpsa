@@ -507,7 +507,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
             return $data['default_mode'];
         }
 
-        if ($GLOBALS['midcom_component_data']['midgard.admin.asgard']['config']->get('edit_mode') == 1)
+        if (midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config')->get('edit_mode') == 1)
         {
             $data['default_mode'] = 'edit';
         }

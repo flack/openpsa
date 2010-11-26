@@ -574,7 +574,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
 
         $_MIDCOM->substyle_append($this->_datamanager->schema->name);
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
-        $this->_component_data['active_leaf'] = NET_NEHMER_ACCOUNT_LEAFID_PUBLISH;
+        $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_PUBLISH);
         $_MIDCOM->set_pagetitle($this->_l10n->get('publish account details'));
 
         return true;

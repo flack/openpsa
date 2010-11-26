@@ -59,7 +59,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($this->_campaign);
 
-        $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";
+        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $this->_request_data['campaign'] =& $this->_campaign;
         $this->_request_data['datamanager'] =& $this->_datamanager;

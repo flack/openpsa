@@ -157,7 +157,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             {
                 $segment_data = $segment_prototype;
             }
-            
+
             if (!isset($link_data['tokens'][$link->token]))
             {
                 $link_data['tokens'][$link->token] = 0;
@@ -166,7 +166,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             {
                 $segment_data['tokens'][$link->token] = 0;
             }
-            
+
             if (!isset($link_data['counts'][$link->target]))
             {
                 $link_data['counts'][$link->target] = array();
@@ -424,7 +424,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         }
 
         $data['campaign'] =& $this->_campaign;
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
+        $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         if (   isset($_POST['org_openpsa_directmarketing_campaign_userule'])
             && isset($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']])

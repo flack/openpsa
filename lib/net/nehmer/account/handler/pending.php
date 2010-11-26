@@ -21,7 +21,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
     function _on_initialize()
     {
         // Active leaf of the topic
-        $this->_component_data['active_leaf'] = NET_NEHMER_ACCOUNT_LEAFID_PENDING;
+        $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_PENDING);
 
         // Add table sorder
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
@@ -323,7 +323,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
         $mail->from = $this->_config->get('activation_mail_sender');
-        
+
         if (!$mail->from)
         {
             $mail->from = $person->email;
@@ -332,19 +332,19 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
         $mail->subject = $subject;
         $mail->body = $body;
         $mail->to = $person->email;
-        
+
         // Get the commonly used parameters
         $parameters = net_nehmer_account_viewer::get_mail_parameters($person);
-        
+
         // Convert the parameters
         $mail->subject = net_nehmer_account_viewer::parse_parameters($parameters, $mail->subject);
         $mail->body = net_nehmer_account_viewer::parse_parameters($parameters, $mail->body);
-        
+
         $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.account'), sprintf($this->_l10n->get('person %s has been rejected and deleted'), $person->name));
-        
+
         // Delete the person in the end
         $person->delete();
-        
+
         return $mail->send();
     }
 }

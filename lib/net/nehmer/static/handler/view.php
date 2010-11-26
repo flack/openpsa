@@ -290,7 +290,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
             || $this->_config->get('autoindex')
             || $this->_article->name != 'index')
         {
-            $this->_component_data['active_leaf'] = $this->_article->id;
+            $this->set_active_leaf($this->_article->id);
         }
 
         if (   $this->_config->get('folder_in_title')

@@ -80,7 +80,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $invoice_sender = new midcom_db_person($invoicer);
         if ($invoice_sender)
         {
-            $config = $GLOBALS['midcom_component_data']['org.openpsa.invoices']['config'];
+            $config = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config');
             $task = new org_openpsa_projects_task_dba();
             $task->get_members();
             $task->resources[$invoice_sender->id] = true;
@@ -103,7 +103,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     function get_label()
     {
-        $config =& $GLOBALS['midcom_component_data']['org.openpsa.invoices']['config'];
+        $config = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config');
         return sprintf($config->get('invoice_number_format'), $this->number);
     }
 
@@ -376,19 +376,9 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         }
 
         //set the default-values for vat&due from config
-        if (!array_key_exists('org.openpsa.invoices', $GLOBALS['midcom_component_data']))
-        {
-            if (!$_MIDCOM->componentloader->load('org.openpsa.invoices'))
-            {
-                debug_push_class(__CLASS__, __FUNCTION__);
-                debug_add("Failed to load org.openpsa.invoices: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                debug_pop();
-                return false;
-            }
-        }
         $billing_data = new org_openpsa_invoices_billing_data_dba();
-        $due = $GLOBALS['midcom_component_data']['org.openpsa.invoices']['config']->get('default_due_days');
-        $vat = explode(',' , $GLOBALS['midcom_component_data']['org.openpsa.invoices']['config']->get('vat_percentages'));
+        $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
+        $vat = explode(',' , midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
 
         $billing_data->vat = $vat[0];
         $billing_data->due = $due;

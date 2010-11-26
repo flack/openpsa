@@ -13,7 +13,7 @@ if (   isset($_GET['cache'])
 
 $qb = midcom_db_person::new_query_builder();
 $qb->add_order('metadata.revised', 'ASC');
-$qb->set_limit((int) $GLOBALS['midcom_component_data']['net.nehmer.account']['config']->get('karma_calculate_per_hour'));
+$qb->set_limit((int) midcom_baseclasses_components_configuration::get('net.nehmer.account', 'config')->get('karma_calculate_per_hour'));
 $persons = $qb->execute();
 $persons_array = array();
 

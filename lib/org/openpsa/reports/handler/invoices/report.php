@@ -36,7 +36,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         {
             return false;
         }
-        $this->_component_data['active_leaf'] = "{$this->_topic->id}:generator_invoices";
+        $this->set_active_leaf($this->_topic->id . ':generator_invoices');
         $this->_handler_generator_style();
 
 
@@ -60,7 +60,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         }
 
         org_openpsa_core_ui::enable_jqgrid();
-        
+
         return true;
     }
 

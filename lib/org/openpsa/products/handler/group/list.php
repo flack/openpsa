@@ -621,7 +621,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             if (isset($temp))
             {
                 // Active leaf of the topic
-                $this->_component_data['active_leaf'] = $temp;
+                $this->set_active_leaf($temp);
             }
         }
 

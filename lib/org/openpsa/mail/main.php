@@ -19,6 +19,8 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     var $headers;     //array, key is header name, value is header data
     var $from;        //string, simpler access to headers['From']
     var $to;          //string, simpler access to headers['To']
+    var $cc;          //string, simpler access to headers['Cc']
+    var $bcc;          //string, simpler access to headers['Bcc']
 
     var $htmlBody;    //text, HTML body (of MIME/multipart message)  reference to below
     var $html_body;    //text, HTML body (of MIME/multipart message)

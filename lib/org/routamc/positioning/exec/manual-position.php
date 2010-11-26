@@ -65,7 +65,7 @@ function org_routamc_positioning_msg_to_utf8($msg)
 }
 
 
-$config = $GLOBALS['midcom_component_data']['org.routamc.positioning']['config'];
+$config = midcom_baseclasses_components_configuration::get('org.routamc.positioning', 'config');
 if (   array_key_exists('msisdn', $_GET)
     && $config->get('sms_import_enable'))
 {

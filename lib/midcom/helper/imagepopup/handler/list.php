@@ -29,16 +29,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     var $_search_results = array();
 
-    /**
-     * Load the schemadb and other midcom.admin.folder specific stuff
-     *
-     * @access public
-     */
-    function _on_initialize()
-    {
-        $this->_config =& $GLOBALS['midcom_component_data']['midcom.helper.imagepopup']['config'];
-    }
-
     function _prepare_request_data()
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;

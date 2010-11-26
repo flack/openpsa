@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/simpleposition.php');
-
 /**
  * Datamanager 2 Positioning widget
  *
@@ -68,7 +65,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
      * @access public
      */
     var $input_defaults = array();
-    
+
     /**
      * List of additional XEP fields included in location
      * (ie. 'text', 'room')
@@ -77,7 +74,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
      * @access public
      */
     var $use_xep_keys = array();
-    
+
     /**
      * The group of widgets items as QuickForm elements
      */
@@ -632,7 +629,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
         {
             $city = new org_routamc_positioning_city_dba();
             $city->city = $city_name;
-            
+
             if (   isset($results["{$this->_element_id}_input_place_country"])
                 && $results["{$this->_element_id}_input_place_country"])
             {
@@ -699,7 +696,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
         {
             $this->_type->location->longitude = $results["{$this->_element_id}_input_coordinates_longitude"];
         }
-        
+
         foreach ($this->_allowed_xep_keys as $xep_key)
         {
             if (   !in_array($xep_key, $this->use_xep_keys)

@@ -140,7 +140,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
 
         $_MIDCOM->auth->require_do('midgard:create', $data['campaign']);
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
+        $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_schema = $args[1];
         $this->_load_schemadb();

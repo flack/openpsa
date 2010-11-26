@@ -14,6 +14,8 @@
  */
 class midgard_admin_asgard_handler_component_configuration extends midcom_baseclasses_components_handler
 {
+    private $_controller;
+
     /**
      * Simple constructor
      *
@@ -118,7 +120,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component);
 
         // Load and parse the global config
-        $cfg = midcom_baseclasses_components_interface::read_array_from_file("{$componentpath}/config/config.inc");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
         if (! $cfg)
         {
             // Empty defaults
@@ -133,14 +135,14 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
 
         // Go for the sitewide default
-        $cfg = midcom_baseclasses_components_interface::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("/etc/midgard/midcom/{$component}/config.inc");
         if ($cfg !== false)
         {
             $config->store($cfg, false);
         }
 
         // Finally, check the sitegroup config
-        $cfg = midcom_baseclasses_components_interface::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$component}/config");
         if ($cfg !== false)
         {
             $config->store($cfg, false);
@@ -165,7 +167,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         if (file_exists(MIDCOM_ROOT . $schemadb_config_path))
         {
             // Check that the schema is valid DM2 schema
-            $schema_array = midcom_baseclasses_components_interface::read_array_from_file(MIDCOM_ROOT . $schemadb_config_path);
+            $schema_array = midcom_baseclasses_components_configuration::read_array_from_file(MIDCOM_ROOT . $schemadb_config_path);
             if (isset($schema_array['config']))
             {
                 $schema = 'config';

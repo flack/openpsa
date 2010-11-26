@@ -20,7 +20,7 @@
  * @see midcom_services_cron
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_cron_handler
+abstract class midcom_baseclasses_components_cron_handler extends midcom_baseclasses_components_base
 {
     /**
      * The local handler configuration as written in the Component Manifest.
@@ -52,14 +52,6 @@ abstract class midcom_baseclasses_components_cron_handler
     var $_component_data = null;
 
     /**
-     * The name of the component to which this handler is associated.
-     *
-     * @var Array
-     * @access protected
-     */
-    var $_component = null;
-
-    /**
      * This is a reference to the Component Interface class. It is loaded during class instantiation.
      *
      * Not available for midcom core cron jobs.
@@ -77,28 +69,23 @@ abstract class midcom_baseclasses_components_cron_handler
      */
     public function initialize($config)
     {
+        $this->_component = $config['component'];
+        $this->_handler_config = $config['handler_config'];
+
         if ($config['component'] == 'midcom')
         {
             // Special treatment for MidCOM internal handlers.
-            $this->_handler_config = $config['handler_config'];
-            $this->_component = $config['component'];
-            $this->_component_data = null;
-            $this->_config = null;
             $this->_component_interface = null;
         }
         else
         {
-            $this->_handler_config = $config['handler_config'];
-            $this->_component = $config['component'];
-            $this->_component_data =& $GLOBALS['midcom_component_data'][$this->_component];
-            $this->_config = $this->_component_data['config'];
             $this->_component_interface = $_MIDCOM->componentloader->get_interface_class($this->_component);
         }
         return $this->_on_initialize();
     }
 
     /**
-     * This callback is executed immediately after object constuction. You can initialize your class here.
+     * This callback is executed immediately after object construction. You can initialize your class here.
      * If you return false here, the handler is not executed, the system skips it.
      *
      * All class members are already initialized when this event handler is called.

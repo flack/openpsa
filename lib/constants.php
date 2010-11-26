@@ -415,25 +415,6 @@ $GLOBALS['midcom'] = null;
 $GLOBALS['midcom_debugger'] = null;
 
 /**
- * This is a component specific global data storage area, which should
- * be used for stuff like default configurations etc. thus avoiding the
- * pollution of the global namespace. Each component has its own array
- * in the global one, allowing storage of arbitrary data indexed by arbitrary
- * keys in there. The component-specific arrays are indexed by their
- * name.
- *
- * Note, that this facility is quite a different thing to the component
- * context from midcom_application, even if it has many similar applications.
- * The component context is only available and valid for components, which
- * are actually handling a request. This data storage area is static to the
- * complete component and shared over all subrequests and therefore suitable
- * to hold default configurations, -schemas and the like.
- *
- * @global Array $GLOBALS['midcom_component_data']
- */
-$GLOBALS['midcom_component_data'] = Array();
-
-/**
  * Global instance of the Caching service. This is also available as $midcom->cache.
  *
  * @global midcom_services_cache $GLOBALS['midcom_cache']

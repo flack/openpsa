@@ -97,7 +97,8 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
 
     public static function get_config_value($value)
     {
-        return $GLOBALS['midcom_component_data']['org.openpsa.core']['config']->get($value);
+        $config = midcom_baseclasses_components_configuration::get('org.openpsa.core', 'config');
+        return $config->get($value);
     }
 
     /**

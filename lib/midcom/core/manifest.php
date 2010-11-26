@@ -87,7 +87,7 @@
  * MIDCOM_PRIVILEGE_ALLOW you would do something like this:
  *
  * <code>
- * $this->_acl_privileges['read'] => MIDCOM_PRIVILEGE_ALLOW;
+ * 'privileges' => array('read' => MIDCOM_PRIVILEGE_ALLOW)
  * </code>
  *
  * This assumes, that object owners should get no specific treatment, e.g.
@@ -96,11 +96,11 @@
  * object owner, you must pass an array to this function:
  *
  * <code>
- * $this->_acl_privileges['write'] => Array
+ * 'privileges' => array('write' => Array
  * (
  *     MIDCOM_PRIVILEGE_DENY, // default privilege value
  *     MIDCOM_PRIVILEGE_ALLOW // owner default privilege value
- * )
+ * ))
  * </code>
  *
  * In this case the definition grants object owners the defined privilege. The
@@ -110,11 +110,11 @@
  * Note, that it is often sensible to do something like this:
  *
  * <code>
- * $this->_acl_privileges['read'] => Array
+ * 'privileges' => array('read' => Array
  * (
  *     MIDCOM_PRIVILEGE_ALLOW, // default privilege value
  *     MIDCOM_PRIVILEGE_ALLOW // owner default privilege value
- * )
+ * ))
  * </code>
  *
  * That way, object owners can read the object, even if the read access is
@@ -125,11 +125,11 @@
  * the Array), it is read by MidCOM as if you would have specified this:
  *
  * <code>
- * $this->_acl_privileges['read'] => Array
+ * 'privileges' => array('read' => Array
  * (
  *     MIDCOM_PRIVILEGE_ALLOW, // default privilege value
  *     MIDCOM_PRIVILEGE_INHERIT // owner default privilege value
- * )
+ * ))
  * </code>
  *
  * Note, that INHERIT does not INHERIT from the system default privilege but

@@ -92,7 +92,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('buddy requests'));
-        $this->_component_data['active_leaf'] = NET_NEHMER_BUDDYLIST_LEAFID_PENDING;
+        $this->set_active_leaf(NET_NEHMER_BUDDYLIST_LEAFID_PENDING);
 
         return true;
     }
@@ -213,7 +213,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('buddy requests'));
-        $this->_component_data['active_leaf'] = NET_NEHMER_BUDDYLIST_LEAFID_PENDING;
+        $this->set_active_leaf(NET_NEHMER_BUDDYLIST_LEAFID_PENDING);
 
         return true;
     }

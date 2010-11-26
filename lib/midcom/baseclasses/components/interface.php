@@ -35,7 +35,7 @@
  * - The components data storage area will contain two keys when the initialized
  *   event handler is called: The NAP active id, defaulting to false and stored
  *   as <i>active_leaf</i> and the components' default configuration, stored as
- *   a midcom_helper_configuration object in the key <i>$_config_snippet_name</i>.
+ *   a midcom_helper_configuration object in the key <i>config</i>.
  *   The active leaf check now automatically returns the contents of the component
  *   data storage area, the components get_active_leaf NAP function is no longer
  *   called.
@@ -50,7 +50,6 @@
  * - $_autoload_files
  * - $_autoload_libraries
  * - $_component
- * - $_config_snippet_name
  * - $_nap_class_suffix
  * - $_site_class_suffix
  *
@@ -186,13 +185,12 @@
  * </code>
  *
  * @package midcom.baseclasses
- * @see $GLOBALS['midcom_component_data']
  * @see midcom_helper__componentloader
  * @see midcom_core_manifest
  * @todo Document class parameters
  */
 
-abstract class midcom_baseclasses_components_interface
+abstract class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
 {
     // START OF CONFIGURATION VARIABLES
     /**#@+
@@ -201,13 +199,6 @@ abstract class midcom_baseclasses_components_interface
      *
      * @access protected
      */
-
-    /**
-     * The name of the component, e.g. net.nehmer.static
-     *
-     * @var string
-     */
-    var $_component = '';
 
     /**
      * A list of files, relative to the components root directory, that
@@ -227,20 +218,6 @@ abstract class midcom_baseclasses_components_interface
     var $_autoload_libraries = Array();
 
     /**
-     * This is used during initialization when loading the default configurations
-     * from the filesystem ($prefix/config/$name.inc) and the snippetdirs
-     * ($GLOBALS['midcom_config']['midcom_sgconfig_basedir']/$component/$name).
-     * They will be merged and placed into the
-     * component data store under a key with the same name then the snippet as
-     * a midcom_helper_configuration object.
-     *
-     * Set this to null to disable automatic configuration handling.
-     *
-     * @var string
-     */
-    var $_config_snippet_name = 'config';
-
-    /**
      * This is the class suffix used when constructing the NAP handler class.
      * It is appended to the component class prefix, f.x. resulting in
      * net_nehmer_static_navigation (as a default).
@@ -258,7 +235,7 @@ abstract class midcom_baseclasses_components_interface
      */
     var $_site_class_suffix = 'viewer';
 
-    // END OF CONFOIGURATION VARIABLES
+    // END OF CONFIGURATION VARIABLES
     /**#@-*/
 
     // START OF COMPONENT STATE VARIABLES
@@ -268,25 +245,6 @@ abstract class midcom_baseclasses_components_interface
      *
      * @access protected
      */
-
-    /**
-     * The full path to the components' root directory. Used for loading files.
-     *
-     * @var string
-     */
-    var $_component_path = '';
-
-    /**
-     * The component-specific data storage, hold in the global Array
-     * $midcom_component_data, which is indexed by the component name.
-     *
-     * It is created during initialization, and a reference to the actual
-     * storage is put into $_data.
-     *
-     * @var Array
-     * @see $GLOBALS['midcom_component_data']
-     */
-    var $_data = null;
 
     /**
      * The component manifest instance associated with this component. Read-Only and automatically
@@ -315,9 +273,7 @@ abstract class midcom_baseclasses_components_interface
     public function initialize($component)
     {
         // Preparation
-        $loader = $_MIDCOM->get_component_loader();
         $this->_component = $component;
-        $this->_component_path = MIDCOM_ROOT . $loader->path_to_snippetpath($this->_component);
         $this->_manifest = $_MIDCOM->componentloader->manifests[$this->_component];
 
         // Load libraries
@@ -331,140 +287,14 @@ abstract class midcom_baseclasses_components_interface
         }
 
         // Load scripts
+        $loader = $_MIDCOM->get_component_loader();
         foreach ($this->_autoload_files as $file)
         {
-            require_once("{$this->_component_path}/{$file}");
+            require_once(MIDCOM_ROOT . $loader->path_to_snippetpath($this->_component) . '/' .$file);
         }
-
-        // Initialize the global data storage
-        $GLOBALS['midcom_component_data'][$this->_component] = Array();
-        $this->_data =& $GLOBALS['midcom_component_data'][$this->_component];
-        $this->_data['active_leaf'] = false;
-
-        // Process configuration
-        $this->_load_configuration();
 
         // Call the event handler.
         return $this->_on_initialize();
-    }
-
-    /**
-     * Loads the configuration file specified by the component configuration
-     * and constructs a midcom_helper_configuration object out of it. Both
-     * Component defaults and sitegroup-configuration gets merged. The
-     * resulting object is stored under the key 'config' in the
-     * components' data storage area.
-     *
-     * Errors will be logged as MIDCOM_LOG_WARN but silently ignored. This
-     * should be viable, since as of MidCOM 2.4 the configuration class is
-     * more flexible when local and global configurations do not match.
-     *
-     * Three files will be loaded in order:
-     *
-     * 1. The components default configuration, placed in $prefix/config/$name.inc
-     * 2. Any systemwide default configuration, currently placed in /etc/midgard/midcom/$component/$name.inc.
-     * 3. Any site configuration in the snippet $GLOBALS['midcom_config']['midcom_sgconfig_basedir']/$component/$name.
-     *
-     * If $_config_snippet_name is set to null, no configuration will be done.
-     *
-     * @access protected
-     * @see midcom_helper_configuration
-     * @see $_config_snippet_name
-     */
-    private function _load_configuration()
-    {
-        if (is_null($this->_config_snippet_name))
-        {
-            // Nothing to do.
-            return;
-        }
-
-        // Load and parse the global config
-        $data = $this->read_array_from_file("{$this->_component_path}/config/{$this->_config_snippet_name}.inc");
-        if (! $data)
-        {
-            // Empty defaults
-            $data = Array();
-        }
-        $config = new midcom_helper_configuration($data);
-
-        // Go for the sitewide default
-        $data = $this->read_array_from_file("/etc/midgard/midcom/{$this->_component}/{$this->_config_snippet_name}.inc");
-        if ($data !== false)
-        {
-            $config->store($data, false);
-        }
-
-        // Finally, check the sitegroup config
-        $data = $this->read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$this->_component}/{$this->_config_snippet_name}");
-        if ($data !== false)
-        {
-            $config->store($data, false);
-        }
-
-        $this->_data['config'] = new midcom_helper_configuration($config->get_all());
-    }
-
-    /**
-     * This helper function reads a file from disk and evaluates its content as array.
-     * This is essentially a simple Array($data\n) eval construct.
-     *
-     * If the file does not exist, false is returned.
-     *
-     * This function may be called statically.
-     *
-     * @param string $filename The name of the file that should be parsed.
-     * @return Array The read data or false on failure.
-     * @see read_array_from_snippet()
-     */
-    public function read_array_from_file($filename)
-    {
-        if (!file_exists($filename))
-        {
-            return array();
-        }
-
-        try
-        {
-            $data = file_get_contents($filename);
-        }
-        catch (Exception $e)
-        {
-            return false;
-        }
-        $result = eval("\$data = array({$data}\n);");
-        if ($result === false)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse content loaded from file '{$filename}', see above for PHP errors.");
-            // This will exit.
-        }
-        return $data;
-    }
-
-    /**
-     * This helper function reads a snippet and evaluates its content as array.
-     * This is essentially a simple Array($data\n) eval construct.
-     *
-     * If the snippet does not exist, false is returned.
-     *
-     * This function may be called statically.
-     *
-     * @param string $snippetpath The full path to the snippet that should be returned.
-     * @return Array The read data or false on failure.
-     * @see read_array_from_file()
-     */
-    public function read_array_from_snippet($snippetpath)
-    {
-        $code = midcom_get_snippet_content_graceful($snippetpath);
-        $result = eval("\$data = Array({$code}\n);");
-        if ($result === false)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse content loaded from snippet '{$snippetpath}', see above for PHP errors.");
-            // This will exit.
-        }
-        return $data;
     }
 
     // ===================== COMPONENT INTERFACE ======================
@@ -500,14 +330,8 @@ abstract class midcom_baseclasses_components_interface
 
         $data =& $this->_context_data[$contextid];
 
-        if (is_null($this->_data['config']))
-        {
-            $data['config'] = new midcom_helper_configuration($this->_component);
-        }
-        else
-        {
-            $data['config'] = $this->_data['config'];
-        }
+        $data['config'] = $this->_config;
+
         if (! $data['config']->store($configuration))
         {
             return false;
@@ -638,15 +462,11 @@ abstract class midcom_baseclasses_components_interface
     /**
      * Returns the currently selected leaf of the request.
      *
-     * Originally, this was relayed to the NAP instance. With the new
-     * component data framework, the NAP active leaf ID can be returned
-     * directly using the data key <i>active_leaf</i>.
-     *
      * @return int The active leaf ID out of the component data storage.
      */
     public function get_current_leaf()
     {
-        return $this->_data['active_leaf'];
+        return midcom_baseclasses_components_configuration::get($this->component, 'active_leaf');
     }
 
 
@@ -720,7 +540,7 @@ abstract class midcom_baseclasses_components_interface
      */
     public function get_config_for_topic($topic = null)
     {
-        $config = $this->_data['config'];
+        $config = $this->_config;
         if ($topic !== null)
         {
             $config->store_from_object($topic, $this->_component);

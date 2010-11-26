@@ -77,7 +77,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($args[0]);
 
         // Load and parse the global config
-        $cfg = midcom_baseclasses_components_interface::read_array_from_file("{$componentpath}/config/config.inc");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
         if (! $cfg)
         {
             // hmmm... that should never happen
@@ -87,14 +87,14 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         $this->_libconfig = new midcom_helper_configuration($cfg);
 
         // Go for the sitewide default
-        $cfg = midcom_baseclasses_components_interface::read_array_from_file("/etc/midgard/midcom/{$args[0]}/config.inc");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("/etc/midgard/midcom/{$args[0]}/config.inc");
         if ($cfg !== false)
         {
             $this->_libconfig->store($cfg, false);
         }
 
         // Finally, check the sitegroup config
-        $cfg = midcom_baseclasses_components_interface::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$args[0]}/config");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$args[0]}/config");
         if ($cfg !== false)
         {
             $this->_libconfig->store($cfg, false);

@@ -200,7 +200,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
 
     /**
      * Transforms the current object's state into a email-friendly string representation.
-     * 
+     *
      * Escaping and other encoding is done by the caller, you just return the string.
      *
      * If this method is not overwritten, convert_to_csv will be used instead.
@@ -234,7 +234,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     {
         return $this->convert_to_storage();
     }
-    
+
     /**
      * Main validation interface, currently only calls the main type callback, but this
      * can be extended later by a configurable callback into the component.

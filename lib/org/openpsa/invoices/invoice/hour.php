@@ -34,6 +34,11 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
 
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
+
     function _on_created()
     {
         parent::_on_created();
@@ -64,7 +69,7 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
             debug_pop();
             return;
         }
-        
+
         $hour_report = new org_openpsa_projects_hour_report_dba($this->hourReport);
         if (!$hour_report)
         {
@@ -78,7 +83,7 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
             debug_add("Failed to mark hour report {$hour_report->id} as uninvoiced, last Midgard error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_pop();
         }
-        
+
         $_MIDCOM->auth->drop_sudo();
         return;
     }

@@ -284,7 +284,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             $_MIDCOM->skip_page_style = true;
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";
+        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $_MIDCOM->set_pagetitle($this->_campaign->title);
         $_MIDCOM->bind_view_to_object($this->_campaign);
@@ -405,7 +405,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             // This will exit()
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";
+        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $_MIDCOM->set_pagetitle($this->_campaign->title);
 
@@ -445,7 +445,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         }
 
         $this->_campaign->require_do('midgard:update');
-        $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";
+        $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $this->_load_controller();
 
@@ -541,7 +541,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             // This will exit()
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$this->_campaign->id}";
+        $this->set_active_leaf('campaign_' .$this->_campaign->id);
 
         $this->_prepare_request_data($handler_id);
 

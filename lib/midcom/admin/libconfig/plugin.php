@@ -82,7 +82,7 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
             {
                 $_MIDCOM->componentloader->load_graceful($name);
                 $configpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($name)."/config/config.inc";
-                $lib = midcom_baseclasses_components_interface::read_array_from_file("{$configpath}");
+                $lib = midcom_baseclasses_components_configuration::read_array_from_file("{$configpath}");
 
                 if (!$lib)
                 {

@@ -859,11 +859,11 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $child_classes_all[$this->mgdschema_class] = false;
         }
         $child_classes =& $child_classes_all[$this->mgdschema_class];
+
         if ($child_classes === false)
         {
             $child_classes = $this->_resolve_child_classes();
         }
-
         return $child_classes;
     }
 
@@ -883,11 +883,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             debug_pop();
             return false;
         }
-        if (!$this->_sanity_check_config())
-        {
-            return false;
-        }
+
         $child_class_exceptions_neverchild = $this->_config->get('child_class_exceptions_neverchild');
+
         // Safety against misconfiguration
         if (!is_array($child_class_exceptions_neverchild))
         {
@@ -963,7 +961,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      */
     function _resolve_root_classes()
     {
-        $root_exceptions_notroot = $GLOBALS['midcom_component_data']['midcom.helper.reflector']['config']->get('root_class_exceptions_notroot');
+        $root_exceptions_notroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_notroot');
         // Safety against misconfiguration
         if (!is_array($root_exceptions_notroot))
         {
@@ -1013,7 +1011,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             $root_classes[] = $schema_type;
         }
         unset($root_exceptions_notroot);
-        $root_exceptions_forceroot = $GLOBALS['midcom_component_data']['midcom.helper.reflector']['config']->get('root_class_exceptions_forceroot');
+        $root_exceptions_forceroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_forceroot');
         // Safety against misconfiguration
         if (!is_array($root_exceptions_forceroot))
         {

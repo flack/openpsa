@@ -14,6 +14,8 @@
  */
 class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handler
 {
+    private $_controllers = array();
+
     /**
      * The salesproject to display
      *

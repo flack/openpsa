@@ -261,7 +261,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
     function _set_active_leaf()
     {
         // This should be overridden, but we default for 'generator_<module>'
-        $this->_component_data['active_leaf'] = "{$this->_topic->id}:generator_{$this->module}";
+        $this->set_active_leaf($this->_topic->id . ':generator_' . $this->module);
     }
 
 

@@ -33,7 +33,7 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
             && midcom_connection::get_user())
         {
 
-            if ($this->_data['config']->get('default_workgroup_filter') == 'me')
+            if ($this->_config->get('default_workgroup_filter') == 'me')
             {
                 if ($_MIDCOM->auth->user)
                 {
@@ -47,7 +47,7 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
             }
             else
             {
-                $default_filter = $this->_data['config']->get('default_workgroup_filter');
+                $default_filter = $this->_config->get('default_workgroup_filter');
             }
 
             $GLOBALS['org_openpsa_core_workgroup_filter'] = $default_filter;

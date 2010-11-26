@@ -96,11 +96,11 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         if ($this->_config->get('archive_in_navigation'))
         {
-            $this->_component_data['active_leaf'] = "{$this->_topic->id}_ARCHIVE";
+            $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
         }
-        
+
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
-        
+
         $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
         return true;
     }
@@ -339,7 +339,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                     $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Year archive not allowed');
                     // This will exit
                 }
-            
+
                 $data['category'] = trim(strip_tags($args[1]));
                 $multiple_categories = true;
                 if (   isset($data['schemadb']['default']->fields['categories'])
@@ -407,11 +407,11 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         if ($this->_config->get('archive_in_navigation'))
         {
-            $this->_component_data['active_leaf'] = "{$this->_topic->id}_ARCHIVE";
+            $this->set_active_leaf($this->_topic->id . '_ARCHIVE');
         }
         else
         {
-            $this->_component_data['active_leaf'] = "{$this->_topic->id}_ARCHIVE_{$args[0]}";
+            $this->set_active_leaf($this->_topic->id . '_ARCHIVE_' . $args[0]);
         }
 
         $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);

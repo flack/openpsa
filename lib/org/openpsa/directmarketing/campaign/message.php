@@ -14,7 +14,7 @@
 class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_campaign_member';
+    var $__mgdschema_class_name__ = 'org_openpsa_campaign_message';
 
     var $send_output = false;
     var $sms_lib = 'org.openpsa.smslib';
@@ -51,7 +51,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             $this->mms_lib_password = &$this->sms_lib_password;
         }
 
-        $config =& $GLOBALS['midcom_component_data']['org.openpsa.directmarketing']['config'];
+        $config = midcom_baseclasses_components_configuration::get('org.openpsa.directmarketing', 'config');
 
         $this->chunk_size = $config->get('chunk_size');
 

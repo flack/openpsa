@@ -18,64 +18,19 @@
  *
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_purecode
+abstract class midcom_baseclasses_components_purecode extends midcom_baseclasses_components_base
 {
-    /**
-     * The current configuration, possibly modified by the _load_topic_configuration
-     * helper.
-     *
-     * @var midcom_helper_configuration
-     */
-    var $_config = null;
-
-    /**
-     * A handle to the i18n service.
-     *
-     * @var midcom_services_i18n
-     */
-    var $_i18n = null;
-
-    /**
-     * The components' L10n string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    var $_l10n = null;
-
-    /**
-     * The global MidCOM string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    var $_l10n_midcom = null;
-
-    /**
-     * Component data storage area.
-     *
-     * @var Array
-     */
-    var $_component_data = null;
-
-    /**
-     * Internal helper, holds the name of the component. Should be used whenever the
-     * components' name is required instead of hardcoding it.
-     *
-     * This variable must be set before the baseclasses' constructor is called.
-     *
-     * @var string
-     */
-    var $_component = '';
-
     /**
      * Initialize all member variables, remember to set $_component before calling
      * this constructor from your derived classes.
      */
     public function __construct()
     {
-        $this->_component_data =& $GLOBALS['midcom_component_data'][$this->_component];
-        $this->_i18n = $_MIDCOM->get_service('i18n');
-        $this->_l10n = $this->_i18n->get_l10n($this->_component);
-        $this->_l10n_midcom = $this->_i18n->get_l10n('midcom');
+        if ($this->_component == '')
+        {
+            $this->_component = preg_replace('/^(.+?)_(.+?)_(.+?)_.+/', '$1.$2.$3', get_class($this));
+        }
+
         $this->_load_topic_configuration(null);
     }
 
@@ -90,7 +45,6 @@ abstract class midcom_baseclasses_components_purecode
      */
     private function _load_topic_configuration($topic = null)
     {
-        $this->_config = $GLOBALS['midcom_component_data'][$this->_component]['config'];
         if ($topic !== null)
         {
             $this->_config->store_from_object($topic, $this->_component);

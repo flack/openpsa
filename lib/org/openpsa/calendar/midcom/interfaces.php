@@ -20,12 +20,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         (
             'org.openpsa.core',
         );
-
-        /*
-         * Calendar uses visibility permissions slightly differently than
-         * midgard:read
-         */
-        $this->_acl_privileges['read'] = MIDCOM_PRIVILEGE_ALLOW;
     }
 
     function create_root_event()
@@ -60,7 +54,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
             }
         }
 
-        $data =& $GLOBALS['midcom_component_data']['org.openpsa.calendar'];
+        $data = midcom_baseclasses_components_configuration::get('org.openpsa.calendar');
 
         //Check if we have already initialized
         if (isset($data['calendar_root_event'])

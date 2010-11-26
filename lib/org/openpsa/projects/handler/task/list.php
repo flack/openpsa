@@ -405,12 +405,12 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 $qb->add_order('end', 'DESC');
                 break;
             case 'open':
-                $this->_component_data['active_leaf'] = "{$this->_topic->id}:tasks_open";
+                $this->set_active_leaf($this->_topic->id . ':tasks_open');
                 $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_CLOSED);
                 $qb->add_order('end');
                 break;
             case 'closed':
-                $this->_component_data['active_leaf'] = "{$this->_topic->id}:tasks_closed";
+                $this->set_active_leaf($this->_topic->id . ':tasks_closed');
                 $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_CLOSED);
                 $qb->add_order('end', 'DESC');
                 break;
@@ -430,12 +430,12 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 $qb->add_order('end');
                 break;
             case 'invoiceable':
-                $this->_component_data['active_leaf'] = "{$this->_topic->id}:tasks_invoiceable";
+                $this->set_active_leaf($this->_topic->id . ':tasks_invoiceable');
                 $qb->add_constraint('invoiceableHours', '>', 0);
                 $qb->add_order('end');
                 break;
             case 'invoiced':
-                $this->_component_data['active_leaf'] = "{$this->_topic->id}:tasks_invoiced";
+                $this->set_active_leaf($this->_topic->id . ':tasks_invoiced');
                 $qb->add_constraint('invoicedHours', '>', 0);
                 $qb->add_order('end', 'DESC');
                 break;

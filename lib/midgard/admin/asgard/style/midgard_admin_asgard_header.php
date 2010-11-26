@@ -1,6 +1,6 @@
 <?php
 // Check the user preference and configuration
-$config =& $GLOBALS['midcom_component_data']['midgard.admin.asgard']['config'];
+$config = midcom_baseclasses_components_configuration::get('midgard.admin.asgard', 'config');
 if (   midgard_admin_asgard_plugin::get_preference('escape_frameset')
     || (   midgard_admin_asgard_plugin::get_preference('escape_frameset') !== '0'
         && $config->get('escape_frameset')))

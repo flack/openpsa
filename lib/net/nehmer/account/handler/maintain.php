@@ -109,7 +109,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
 
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
 
-        $this->_component_data['active_leaf'] = NET_NEHMER_ACCOUNT_LEAFID_PASSWORDCHANGE;
+        $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_PASSWORDCHANGE);
         $this->_view_toolbar->hide_item('password/');
 
         $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);
@@ -423,7 +423,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
             $_MIDCOM->substyle_append($this->_datamanager->schema->name);
         }
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
-        $this->_component_data['active_leaf'] = NET_NEHMER_ACCOUNT_LEAFID_LOSTPASSWORD;
+        $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_LOSTPASSWORD);
         $_MIDCOM->set_pagetitle($this->_l10n->get('lost password'));
 
         return true;

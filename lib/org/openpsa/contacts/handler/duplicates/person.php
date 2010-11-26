@@ -10,8 +10,8 @@
 /**
  * Duplicates handler
  *
- * @todo This cannot work in 8.09, since metadata fields like creator are read-only. 
- * Also, deleting persons isn't supported (although it works if you just call delete()) 
+ * @todo This cannot work in 8.09, since metadata fields like creator are read-only.
+ * Also, deleting persons isn't supported (although it works if you just call delete())
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_components_handler
@@ -24,7 +24,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
      */
     function _handler_sidebyside($handler_id, $args, &$data)
     {
-        $this->_component_data['active_leaf'] = 'persons_merge';
+        $this->set_active_leaf('persons_merge');
         $_MIDCOM->auth->require_valid_user();
 
         // Process the selection if present.
@@ -178,7 +178,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
     {
         if (!$this->_request_data['notfound'])
         {
-            $_MIDCOM->load_library('org.openpsa.contactwidget');        
+            $_MIDCOM->load_library('org.openpsa.contactwidget');
             midcom_show_style('show-duplicate-persons');
         }
         else

@@ -24,7 +24,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
     /**
      * MidCOM helper Datamanager2 class
-     * 
+     *
      * @access private
      * @var midcom_helper_datamanager2_datamanager
      */
@@ -49,7 +49,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
     /**
      * Phase for composing a message
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
@@ -77,7 +77,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             // This will exit.
         }
 
-        $this->_component_data['active_leaf'] = "campaign_{$data['campaign']->id}";
+        $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
@@ -152,7 +152,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
     /**
      * Compose the message and send it for post-formatting
-     * 
+     *
      * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference

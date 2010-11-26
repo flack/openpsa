@@ -120,7 +120,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
 
         return true;
     }
-    
+
     /**
      * function to add css & toolbar-items
      */
@@ -213,7 +213,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
     {
         $_MIDCOM->componentloader->load('org.openpsa.relatedto');
 
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_component_data']['org.openpsa.relatedto']['config']->get('schemadb_journalentry'));
+        $this->_schemadb = midcom_helper_datamanager2_schema::load_database(midcom_baseclasses_components_configuration::get('org.openpsa.relatedto', 'config')->get('schemadb_journalentry'));
         $this->_schema = 'default';
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -252,7 +252,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             // This will exit.
         }
     }
-    
+
     /**
      * Datamanager callback
      */
@@ -272,7 +272,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
 
         return $reminder;
     }
-    
+
     function _handler_remove($handler_id, $args, &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
@@ -291,7 +291,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
     function _handler_edit($handler_id, $args, &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-        
+
         //passed guid does not exist
         if (empty($this->_journal_entry->guid))
         {
@@ -300,7 +300,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             debug_pop();
             return false;
         }
-        
+
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
         $this->_prepare_datamanager();

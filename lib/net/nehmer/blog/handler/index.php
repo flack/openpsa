@@ -129,7 +129,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             if (   $this->_config->get('show_navigation_pseudo_leaves')
                 && in_array($data['category'], $data['categories']))
             {
-                $this->_component_data['active_leaf'] = "{$this->_topic->id}_CAT_{$data['category']}";
+                $this->set_active_leaf($this->_topic->id . '_CAT_' . $data['category']);
             }
 
             // Add RSS feed to headers

@@ -35,7 +35,7 @@
  *
  * @package midcom.baseclasses
  */
-abstract class midcom_baseclasses_components_handler
+abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_components_base
 {
     /**#@+
      * Request state variable, set during startup. There should be no need to change it
@@ -52,55 +52,12 @@ abstract class midcom_baseclasses_components_handler
     var $_topic = null;
 
     /**
-     * The current configuration.
-     *
-     * @var midcom_helper_configuration
-     */
-    var $_config = null;
-
-    /**
-     * A handle to the i18n service.
-     *
-     * @var midcom_services_i18n
-     */
-    var $_i18n = null;
-
-    /**
-     * The components' L10n string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    var $_l10n = null;
-
-    /**
-     * The global MidCOM string database
-     *
-     * @var midcom_services__i18n_l10n
-     */
-    var $_l10n_midcom = null;
-
-    /**
-     * Component data storage area.
-     *
-     * @var Array
-     */
-    var $_component_data = null;
-
-    /**
      * Request specific data storage area. Registered in the component context
      * as ''.
      *
      * @var Array
      */
-    var $_request_data = Array();
-
-    /**
-     * Internal helper, holds the name of the component. Should be used whenever the
-     * components' name is required instead of hardcoding it.
-     *
-     * @var string
-     */
-    var $_component = null;
+    var $_request_data = array();
 
     /**
      * A reference to the request class that has invoked this handler instance.
@@ -155,8 +112,6 @@ abstract class midcom_baseclasses_components_handler
     function initialize(&$master)
     {
         $this->_master =& $master;
-        $this->_i18n = $_MIDCOM->i18n;
-        $this->_l10n_midcom =& $master->_l10n_midcom;
 
         $this->_request_data =& $master->_request_data;
         $this->_topic =& $master->_topic;
@@ -166,17 +121,11 @@ abstract class midcom_baseclasses_components_handler
         if (   $this->_component
             && $this->_component != $master->_component)
         {
-            $this->_l10n = $this->_i18n->get_l10n($this->_component);
-            $this->_component_data =& $GLOBALS['midcom_component_data'][$this->_component];
-            $this->_config = $this->_component_data['config'];
             $this->_config->store_from_object($this->_topic, $this->_component);
         }
         else
         {
             $this->_component = $master->_component;
-            $this->_l10n = $master->_l10n;
-            $this->_component_data =& $master->_component_data;
-            $this->_config =& $master->_config;
         }
 
         $this->_on_initialize();

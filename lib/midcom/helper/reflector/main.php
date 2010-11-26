@@ -20,29 +20,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     var $_original_class = false;
     var $get_class_label_l10n_ok = false;
 
-
-    function _sanity_check_config()
-    {
-        if (   !isset($this->_config)
-            || !is_a($this->_config, 'midcom_helper_configuration'))
-        {
-            // 1. option, make sure the component is actually loaded
-            $_MIDCOM->componentloader->load('midcom.helper.reflector');
-        }
-        // Then for a second pass
-        if (   !isset($this->_config)
-            || !is_a($this->_config, 'midcom_helper_configuration'))
-        {
-            debug_push_class(__CLASS__, __FUNCTION__);
-            debug_add('Cannot read configuration, something is SERIOUSLY wrong here', MIDCOM_LOG_ERROR);
-            debug_add("\$this->mgdschema_class={$this->mgdschema_class}",  MIDCOM_LOG_INFO);
-            debug_print_r('$this->_config', $this->_config);
-            debug_pop();
-            return false;
-        }
-        return true;
-    }
-
     /**
      * Constructor, takes classname or object, resolved MgdSchema root class automagically
      *
@@ -144,7 +121,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @return midcom_services__i18n_l10n  Localization library for the reflector object class
      */
-    function &get_component_l10n()
+    function get_component_l10n()
     {
         // Use cache if we have it
         if (!isset($GLOBALS['midcom_helper_reflector_get_component_l10n_cache']))
@@ -457,7 +434,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // Get the component configuration
         if (is_null($config))
         {
-            $config =& $GLOBALS['midcom_component_data']['midcom.helper.reflector']['config'];
+            $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
         }
 
         if (empty($config_icon_map))
@@ -538,7 +515,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // Get the component configuration
         if (is_null($config))
         {
-            $config =& $GLOBALS['midcom_component_data']['midcom.helper.reflector']['config'];
+            $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
         }
 
         if (empty($config_icon_map))
@@ -742,7 +719,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Exceptions - always search these fields
-        $this->_sanity_check_config();
         if (is_object($this->_config))
         {
             $always_search_all = $this->_config->get('always_search_fields');
@@ -778,7 +754,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Exceptions - never search these fields
-        $this->_sanity_check_config();
         if (is_object($this->_config))
         {
             $never_search_all = $this->_config->get('never_search_fields');
@@ -948,11 +923,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         static $extends = false;
         if ($extends === false)
         {
-            if (!isset($GLOBALS['midcom_component_data']['midcom.helper.reflector']['config']))
-            {
-                $_MIDCOM->componentloader->load_graceful('midcom.helper.reflector');
-            }
-            $extends = $GLOBALS['midcom_component_data']['midcom.helper.reflector']['config']->get('class_extends');
+            $extends = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('class_extends');
             // Safety against misconfiguration
             if (!is_array($extends))
             {
@@ -1384,10 +1355,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Configured properties
-        if (!$this->_sanity_check_config())
-        {
-            return false;
-        }
         $name_exceptions = $this->_config->get('name_exceptions');
         foreach ($name_exceptions as $class => $property)
         {
@@ -1534,10 +1501,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         // Configured properties
-        if (!$this->_sanity_check_config())
-        {
-            return false;
-        }
         $title_exceptions = $this->_config->get('title_exceptions');
         foreach ($title_exceptions as $class => $property)
         {

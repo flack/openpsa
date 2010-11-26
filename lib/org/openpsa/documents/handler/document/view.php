@@ -53,7 +53,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The document '{$guid}' could not be found in this folder.");
         }
-        
+
         // Load the document to datamanager
         if (!$this->_datamanager->autoset_storage($document))
         {
@@ -69,7 +69,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
     /**
      * Displays older versions of the document
-     * 
+     *
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
@@ -78,7 +78,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
     function _handler_versions($handler_id, $args, &$data)
     {
         $this->_document = $this->_load_document($args[0]);
-        
+
         // Get list of older versions
         $qb = org_openpsa_documents_document_dba::new_query_builder();
         $qb->add_constraint('nextVersion', '=', $this->_document->id);
@@ -90,7 +90,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         return true;
     }
-    
+
     /**
      *
      * @param mixed $handler_id The ID of the handler.
@@ -102,7 +102,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         {
             return;
         }
-        
+
         midcom_show_style('show-document-grid');
     }
 
@@ -163,7 +163,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
         $this->_request_data['document_versions'] = $qb->count();
 
-        $GLOBALS['midcom_component_data']['org.openpsa.documents']['active_leaf'] = $this->_document->id;
+        $this->set_active_leaf($this->_document->id);
 
         $_MIDCOM->add_link_head
         (
