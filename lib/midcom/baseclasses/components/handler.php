@@ -86,6 +86,12 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
 
     /**#@-*/
 
+    /**
+     * Holds breadcrumb entries the handler wants to add
+     *
+     * @var array
+     */
+    private $_breadcrumbs = array();
 
     /**
      * Main constructor does not do much yet, it shouldn't be overridden though,
@@ -147,6 +153,32 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     }
 
     /**#@-*/
-}
 
+    /**
+     * Registers a new breadcrumb entry 
+     *
+     * @param string $url The URL
+     * @param string $title The text to display
+     */
+    public function add_breadcrumb($url, $title)
+    {
+        $this->_breadcrumbs[] = array
+        (
+            MIDCOM_NAV_URL => $url,
+            MIDCOM_NAV_NAME => $title,
+        );
+    }
+
+    /**
+     * Adds the registered breadcrumb entries to context_data 
+     */
+    public function populate_breadcrumb_line()
+    {
+        if (empty($this->_breadcrumbs))
+        {
+            return;
+        }
+        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $this->_breadcrumbs);
+    }
+}
 ?>

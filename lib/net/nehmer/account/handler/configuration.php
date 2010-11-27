@@ -60,25 +60,6 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param string $handler_id
-     */
-    function _update_breadcrumb_line($handler_id)
-    {
-        $tmp = Array();
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "config/",
-            MIDCOM_NAV_NAME => $this->_l10n_midcom->get('component configuration', 'midcom'),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
-    /**
      * Displays a config edit view.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -108,7 +89,7 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n_midcom->get('component configuration'));
-        $this->_update_breadcrumb_line($handler_id);
+        $this->add_breadcrumb("config/", $this->_l10n_midcom->get('component configuration', 'midcom'));
 
         return true;
     }

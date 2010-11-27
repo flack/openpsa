@@ -203,32 +203,10 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
 
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $this->_update_breadcrumb_line();
+        $this->add_breadcrumb("person/{$this->_person->guid}/", $this->_person->name);
+        $this->add_breadcrumb('', $this->_l10n->get('permissions'));
 
         return true;
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "person/{$this->_person->guid}/",
-            MIDCOM_NAV_NAME => $this->_person->name,
-        );
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $this->_l10n->get('permissions'),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

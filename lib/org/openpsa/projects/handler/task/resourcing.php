@@ -68,23 +68,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = $breadcrumb = org_openpsa_projects_viewer::update_breadcrumb_line($this->_request_data['task']);
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "task/resourcing/{$this->_task->guid}/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('resourcing'),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
-    /**
      * Display possible available resources
      *
      * @param mixed $handler_id The ID of the handler.
@@ -167,7 +150,9 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $this->_prepare_request_data($handler_id);
         $_MIDCOM->set_pagetitle($this->_task->title);
         $_MIDCOM->bind_view_to_object($this->_task);
-        $this->_update_breadcrumb_line();
+
+        org_openpsa_projects_viewer::add_breadcrumb_path($data['task'], $this);
+        $this->add_breadcrumb("task/resourcing/{$this->_task->guid}/", $this->_l10n->get('resourcing'));
 
         return true;
     }

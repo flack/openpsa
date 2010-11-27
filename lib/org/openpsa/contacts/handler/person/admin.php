@@ -187,35 +187,18 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $tmp = Array();
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "person/{$this->_contact->guid}/",
-            MIDCOM_NAV_NAME => $this->_contact->name,
-        );
+        $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
 
         switch ($handler_id)
         {
             case 'person_edit':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "person/edit/{$this->_contact->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('edit'),
-                );
+                $this->add_breadcrumb("person/edit/{$this->_contact->guid}/", $this->_l10n_midcom->get('edit'));
                 break;
             case 'person_delete':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "person/delete/{$this->_contact->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('delete'),
-                );
+                $this->add_breadcrumb("person/delete/{$this->_contact->guid}/", $this->_l10n_midcom->get('delete'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 
     /**
      * Displays a contact edit view.

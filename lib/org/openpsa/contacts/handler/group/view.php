@@ -120,7 +120,7 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
 
         $_MIDCOM->set_pagetitle($this->_group->official);
 
-        $this->_update_breadcrumb_line();
+        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
 
         return true;
     }
@@ -219,20 +219,6 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
                 )
             );
         }
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        org_openpsa_contacts_viewer::get_breadcrumb_path_for_group($this->_group, $tmp);
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

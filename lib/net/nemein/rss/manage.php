@@ -473,57 +473,30 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
      *
+     * @param string $handler_id The current handler's ID
      */
-    function _update_breadcrumb_line($handler_id)
+    private function _update_breadcrumb_line($handler_id)
     {
-        $tmp = Array();
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "feeds/list/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('manage feeds', 'net.nemein.rss'),
-        );
+        $this->add_breadcrumb("feeds/list/", $this->_l10n->get('manage feeds'));
 
         switch ($handler_id)
         {
             case 'feeds_subscribe':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "feeds/subscribe/",
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('subscribe feeds', 'net.nemein.rss'),
-                );
+                $this->add_breadcrumb("feeds/subscribe/", $this->_l10n->get('subscribe feeds'));
                 break;
             case 'feeds_edit':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "feeds/edit/{$this->_request_data['feed']->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('edit'),
-                );
+                $this->add_breadcrumb("feeds/edit/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('edit'));
                 break;
             case 'feeds_delete':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "feeds/delete/{$this->_request_data['feed']->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('delete'),
-                );
+                $this->add_breadcrumb("feeds/delete/{$this->_request_data['feed']->guid}/", $this->_l10n_midcom->get('delete'));
                 break;
             case 'feeds_fetch_all':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "feeds/fetch/all/",
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('refresh all feeds', 'net.nemein.rss'),
-                );
+                $this->add_breadcrumb("feeds/fetch/all/", $this->_l10n->get('refresh all feeds'));
                 break;
             case 'feeds_fetch':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "feeds/fetch/{$this->_request_data['feed']->guid}/",
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('refresh feed', 'net.nemein.rss'),
-                );
+                $this->add_breadcrumb("feeds/fetch/{$this->_request_data['feed']->guid}/", $this->_l10n->get('refresh feed'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
 ?>

@@ -220,34 +220,30 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
      *
-     * @param org_openpsa_projects_task_dba
+     * @param org_openpsa_projects_task_dba $task
+     * @param mixed &$handler The current handler
      */
-    function update_breadcrumb_line($task)
+    public static function add_breadcrumb_path($task, &$handler)
     {
-        $tmp = Array();
-
+        $tmp = array();
         while ($task)
         {
             if ($task->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
             {
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "project/{$task->guid}/",
-                    MIDCOM_NAV_NAME => $task->title,
-                );
+                $tmp["project/{$task->guid}/"] = $task->title;
             }
             else
             {
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "task/{$task->guid}/",
-                    MIDCOM_NAV_NAME => $task->title,
-                );
+                $tmp["task/{$task->guid}/"] = $task->title;
             }
             $task = $task->get_parent();
         }
         $tmp = array_reverse($tmp);
-        return $tmp;
+
+        foreach ($tmp as $url => $title)
+        {
+            $handler->add_breadcrumb($url, $title);
+        }
     }
 }
 ?>

@@ -476,30 +476,17 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         }
     }
     /**
-     * helper function to prepare the breadcrumb
+     * Helper function to prepare the breadcrumb
      */
     private function _prepare_breadcrumb()
     {
-        $tmp = Array();
-
         $ref = midcom_helper_reflector::get($this->_current_object);
         $object_label = $ref->get_object_label($this->_current_object);
 
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => $_MIDCOM->permalinks->create_permalink($this->_current_object->guid),
-            MIDCOM_NAV_NAME => $object_label,
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/org.openpsa.relatedto/render/' . $this->_current_object->guid . '/both/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('view related information', 'org.openpsa.relatedto'),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('journal entry', 'org.openpsa.relatedto') . " : " . $object_label,
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_current_object->guid), $object_label);
+        $this->add_breadcrumb($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . '__mfa/org.openpsa.relatedto/render/' . $this->_current_object->guid . '/both/', $this->_l10n->get('view related information'));
+
+        $this->add_breadcrumb("", $this->_l10n->get('journal entry') . " : " . $object_label);
     }
 }
+?>

@@ -170,24 +170,15 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
     }
 
     /**
-     * helper to update the breadcrumb
+     * Helper to update the breadcrumb
      */
     private function _update_breadcrumb()
     {
         $ref = midcom_helper_reflector::get($this->_linked_object);
         $object_label = $ref->get_object_label($this->_linked_object);
 
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => $_MIDCOM->permalinks->create_permalink($this->_linked_object->guid),
-            MIDCOM_NAV_NAME => $object_label,
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '#',
-            MIDCOM_NAV_NAME => $this->_l10n->get('billing data') . " : " . $object_label,
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_linked_object->guid), $object_label);
+        $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
     }
 
     function _handler_create($handler_id, $args, &$data)

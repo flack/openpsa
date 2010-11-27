@@ -64,40 +64,22 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      *
      * @param string $handler_id The ID of the current handler
      */
-    function _update_breadcrumb_line($handler_id)
+    private function _update_breadcrumb_line($handler_id)
     {
-        $tmp = Array();
+        $this->add_breadcrumb('__mfa/asgard_midcom.admin.babel/', $this->_l10n->get('midcom.admin.babel'));
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard_midcom.admin.babel/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('midcom.admin.babel'),
-        );
+        $lang_translated = $this->_l10n->get($this->_l10n->_language_db[$this->_lang]['enname']);
 
         switch ($handler_id)
         {
             case '____mfa-asgard_midcom.admin.babel-status':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.babel/status/{$this->_lang}/",
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n->get('translation status for language %s'), $this->_l10n->get($this->_l10n->_language_db[$this->_lang]['enname'])),
-                );
+                $this->add_breadcrumb("", sprintf($this->_l10n->get('translation status for language %s'), $lang_translated));
                 break;
             case '____mfa-asgard_midcom.admin.babel-edit':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.babel/status/{$this->_lang}/",
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n->get('translation status for language %s'), $this->_l10n->get($this->_l10n->_language_db[$this->_lang]['enname'])),
-                );
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.babel/status/{$this->_lang}/",
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n->get('edit strings for %s [%s]'), $this->_request_data['component_translated'], $this->_l10n->get($this->_l10n->_language_db[$this->_lang]['enname'])),
-                );
+                $this->add_breadcrumb("__mfa/asgard_midcom.admin.babel/status/{$this->_lang}/", sprintf($this->_l10n->get('translation status for language %s'), $lang_translated));
+                $this->add_breadcrumb("", sprintf($this->_l10n->get('edit strings for %s [%s]'), $this->_request_data['component_translated'], $lang_translated));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

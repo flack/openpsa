@@ -47,19 +47,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
     }
 
-
-    function _update_breadcrumb()
-    {
-        // Populate breadcrumb
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
     function _prepare_toolbar(&$data)
     {
         $data['asgard_toolbar']->add_item
@@ -229,7 +216,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             $this->list_groups_for_select(0, $data, 0);
         }
 
-        $this->_update_breadcrumb();
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
         $this->_prepare_toolbar($data);
         $_MIDCOM->set_pagetitle($data['view_title']);
 

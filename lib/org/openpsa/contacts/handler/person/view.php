@@ -92,24 +92,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "person/{$this->_contact->guid}/",
-            MIDCOM_NAV_NAME => $this->_contact->name,
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
-    /**
      * Looks up a contact to display.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -150,7 +132,8 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $this->_populate_toolbar($handler_id);
         $_MIDCOM->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
-        $this->_update_breadcrumb_line();
+
+        $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
         $_MIDCOM->set_pagetitle($this->_contact->name);
 
         return true;

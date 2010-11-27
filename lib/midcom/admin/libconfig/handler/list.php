@@ -34,19 +34,6 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'), $this->_request_data);
     }
 
-
-    private function _update_breadcrumb()
-    {
-        // Populate breadcrumb
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.libconfig/",
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
     private function _prepare_toolbar(&$data)
     {
         midgard_admin_asgard_plugin::get_common_toolbar($data);
@@ -64,7 +51,7 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
     public function _handler_list($handler_id, $args, &$data)
     {
         $this->_libs = midcom_admin_libconfig_plugin::get_libraries();
-        $this->_update_breadcrumb();
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $data['view_title']);
         $this->_prepare_toolbar($data);
         $_MIDCOM->set_pagetitle($data['view_title']);
 

@@ -119,48 +119,23 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $tmp = array();
-
         switch ($handler_id)
         {
             case 'edit_campaign':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/edit/{$this->_campaign->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('edit campaign'),
-                );
+                $this->add_breadcrumb("campaign/edit/{$this->_campaign->guid}/", $this->_l10n->get('edit campaign'));
                 break;
             case 'delete_campaign':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/delete/{$this->_campaign->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('delete campaign'),
-                );
+                $this->add_breadcrumb("campaign/delete/{$this->_campaign->guid}/", $this->_l10n->get('delete campaign'));
                 break;
             case 'edit_campaign_query':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/edit_query/{$this->_campaign->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('edit rules'),
-                );
+                $this->add_breadcrumb("campaign/edit_query/{$this->_campaign->guid}/", $this->_l10n->get('edit rules'));
                 break;
             case 'edit_campaign_query_advanced':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/edit_query/{$this->_campaign->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('edit rules'),
-                );
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/edit_query_advanced/{$this->_campaign->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('advanced rule editor'),
-                );
+                $this->add_breadcrumb("campaign/edit_query/{$this->_campaign->guid}/", $this->_l10n->get('edit rules'));
+                $this->add_breadcrumb("campaign/edit_query_advanced/{$this->_campaign->guid}/", $this->_l10n->get('advanced rule editor'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 
     /**
      * Displays an campaign edit view.

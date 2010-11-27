@@ -172,29 +172,11 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
         }
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
         $_MIDCOM->set_pagetitle($data['view_title']);
-        $this->_update_breadcrumb_line($handler_id);
+        $this->add_breadcrumb("create/{$this->_schema}/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)));
 
         org_openpsa_helpers::dm2_savecancel($this);
 
         return true;
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrum line towards the current
-     * location.
-     *
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "create/{$this->_schema}/",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description)),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**
@@ -205,5 +187,4 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
         midcom_show_style('show-message-new');
     }
 }
-
 ?>

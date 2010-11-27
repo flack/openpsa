@@ -599,50 +599,40 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
     private function _prepare_breadcrumb($handler_id)
     {
-        $breadcrumb = array();
+        $this->add_breadcrumb("__ais/help/", $this->_l10n->get('midcom.admin.help'));
+
+        if (   $handler_id == '____ais-help-help'
+            || $handler_id == '____ais-help-component')
+        {
+            $this->add_breadcrumb
+            (
+                "__ais/help/{$this->_request_data['component']}/", 
+                sprintf($this->_l10n->get('help for %s'), $_MIDCOM->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
+            );
+        }
 
         if ($handler_id == '____ais-help-help')
         {
-            if ($this->_request_data['help_id'] == 'handlers'
+            if (   $this->_request_data['help_id'] == 'handlers'
                 || $this->_request_data['help_id'] == 'dependencies'
                 || $this->_request_data['help_id'] == 'urlmethods'
                 || $this->_request_data['help_id'] == 'mgdschemas')
             {
-                $breadcrumb[] = array
+                $this->add_breadcrumb
                 (
-                    MIDCOM_NAV_URL => "__ais/help/{$this->_request_data['component']}/{$this->_request_data['help_id']}",
-                    MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string($this->_request_data['help_id'], 'midcom.admin.help'),
+                    "__ais/help/{$this->_request_data['component']}/{$this->_request_data['help_id']}",
+                    $this->_l10n->get($this->_request_data['help_id'])
                 );
             }
             else
             {
-                $breadcrumb[] = array
+                $this->add_breadcrumb
                 (
-                    MIDCOM_NAV_URL => "__ais/help/{$this->_request_data['component']}/{$this->_request_data['help_id']}",
-                    MIDCOM_NAV_NAME => self::get_help_title($this->_request_data['help_id'], $this->_request_data['component']),
+                    "__ais/help/{$this->_request_data['component']}/{$this->_request_data['help_id']}",
+                    self::get_help_title($this->_request_data['help_id'], $this->_request_data['component'])
                 );
             }
         }
-
-        if ($handler_id == '____ais-help-help'
-            || $handler_id == '____ais-help-component')
-        {
-            $breadcrumb[] = array
-            (
-                MIDCOM_NAV_URL => "__ais/help/{$this->_request_data['component']}/",
-                MIDCOM_NAV_NAME => sprintf($_MIDCOM->i18n->get_string('help for %s', 'midcom.admin.help'), $_MIDCOM->i18n->get_string($this->_request_data['component'], $this->_request_data['component'])),
-            );
-        }
-
-        $breadcrumb[] = array
-        (
-            MIDCOM_NAV_URL => "__ais/help/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help'),
-        );
-
-        $breadcrumb = array_reverse($breadcrumb);
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
     }
 
     /**

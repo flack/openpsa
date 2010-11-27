@@ -522,60 +522,27 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Update the breadcrumb line
      *
-     * @access private
      * @param String $handler_id
      * @param array $args
      */
-    function _update_breadcrumb($handler_id, $args)
+    private function _update_breadcrumb($handler_id, $args)
     {
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "campaign/{$args[0]}/",
-            MIDCOM_NAV_NAME => $this->_request_data['campaign']->title,
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "campaign/import/{$args[0]}/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('import subscribers'),
-        );
+        $this->add_breadcrumb("campaign/{$args[0]}/", $this->_request_data['campaign']->title);
+        $this->add_breadcrumb("campaign/import/{$args[0]}/", $this->_l10n->get('import subscribers'));
 
         switch ($handler_id)
         {
             case 'import_simpleemails':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/import/simpleemails/{$args[0]}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('email addresses'),
-                );
+                $this->add_breadcrumb("campaign/import/simpleemails/{$args[0]}/", $this->_l10n->get('email addresses'));
                 break;
-
             case 'import_vcards':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/import/vcards/{$args[0]}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('vcards'),
-                );
+                $this->add_breadcrumb("campaign/import/vcards/{$args[0]}/", $this->_l10n->get('vcards'));
                 break;
-
             case 'import_csv_file_select':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/import/csv/{$args[0]}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('csv'),
-                );
-                break;
-
             case 'import_csv_field_select':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "campaign/import/csv/{$args[0]}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('csv'),
-                );
+                $this->add_breadcrumb("campaign/import/csv/{$args[0]}/", $this->_l10n->get('csv'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

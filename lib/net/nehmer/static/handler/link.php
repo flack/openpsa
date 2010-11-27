@@ -170,29 +170,10 @@ class net_nehmer_static_handler_link extends midcom_baseclasses_components_handl
         $this->_prepare_request_data();
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$title}");
-        $this->_update_breadcrumb_line($handler_id);
+        $this->add_breadcrumb("create/link/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
         return true;
     }
     
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     */
-    function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "create/link/",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
     /**
      * Shows the loaded article.
      *

@@ -45,33 +45,6 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
     }
 
-    function _update_breadcrumb($handler_id)
-    {
-        // Populate breadcrumb
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'),
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/edit/{$this->_person->guid}/",
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
-
-        if ($handler_id == '____mfa-asgard_midcom.admin.user-user_edit_password')
-        {
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/password/{$this->_person->guid}/",
-                MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('edit account', 'midcom.admin.user'),
-            );
-        }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
     function _prepare_toolbar(&$data,$handler_id)
     {
         $data['asgard_toolbar']->add_item
@@ -177,7 +150,7 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
         $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->_prepare_toolbar($data, $handler_id);
-        $this->_update_breadcrumb($handler_id);
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $data['view_title']);
 
         // Add jQuery Form handling for generating passwords with AJAX
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.form.js');

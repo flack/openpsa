@@ -246,44 +246,30 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      *
      * @param string $handler_id
      */
-    function _update_breadcrumb($handler_id)
+    public function _update_breadcrumb($handler_id)
     {
         $tmp = array();
         if ($this->_object)
         {
-            $tmp = org_openpsa_projects_viewer::update_breadcrumb_line($this->_object);
+            org_openpsa_projects_viewer::add_breadcrumb_path($this->_object, $this);
         }
         else if ($this->_parent)
         {
-            $tmp = org_openpsa_projects_viewer::update_breadcrumb_line($this->_parent);
+            org_openpsa_projects_viewer::add_breadcrumb_path($this->_parent, $this);
         }
 
         switch ($this->_mode)
         {
             case 'update':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "task/edit/{$this->_object->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('edit'),
-                );
+                $this->add_breadcrumb("task/edit/{$this->_object->guid}/", $this->_l10n_midcom->get('edit'));
                 break;
             case 'delete':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "task/delete/{$this->_object->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('delete'),
-                );
+                $this->add_breadcrumb("task/delete/{$this->_object->guid}/", $this->_l10n_midcom->get('delete'));
                 break;
             case 'create':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('new task'),
-                );
+                $this->add_breadcrumb("", $this->_l10n->get('new task'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

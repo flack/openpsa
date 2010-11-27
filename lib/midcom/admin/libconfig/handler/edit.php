@@ -32,28 +32,16 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'),$this->_request_data);
     }
 
+    /**
+     * Populate breadcrumb
+     */
     private function _update_breadcrumb($name)
     {
-        // Populate breadcrumb
-        $label = $_MIDCOM->i18n->get_string($name,$name);
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.libconfig/",
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.libconfig/view/{$name}",
-            MIDCOM_NAV_NAME => $label,
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.libconfig/edit/{$name}",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('edit','midcom'),
-        );
+        $label = $_MIDCOM->i18n->get_string($name, $name);
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $this->_request_data['view_title']);
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/view/{$name}", $label);
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/edit/{$name}", $this->_l10n_midcom->get('edit'));
     }
 
     private function _prepare_toolbar(&$data)

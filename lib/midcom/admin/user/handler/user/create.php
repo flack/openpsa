@@ -42,25 +42,7 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
             )
         );
 
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
-    }
-
-
-    function _update_breadcrumb()
-    {
-        // Populate breadcrumb
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'),
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/create/",
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'), $this->_request_data);
     }
 
     /**
@@ -136,7 +118,9 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
 
         $data['view_title'] = $_MIDCOM->i18n->get_string('create user', 'midcom.admin.user');
         $_MIDCOM->set_pagetitle($data['view_title']);
-        $this->_update_breadcrumb();
+
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/create/", $data['view_title']);
 
         return true;
     }

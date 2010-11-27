@@ -373,8 +373,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     function _update_breadcrumb($handler_id)
     {
-        $tmp = Array();
-
         $customer = false;
         if (!empty($this->_object->customer))
         {
@@ -387,48 +385,26 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if (   $customer
             && $customer->guid != "")
         {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "list/customer/all/{$customer->guid}/",
-                MIDCOM_NAV_NAME => $customer->official,
-            );
+            $this->add_breadcrumb("list/customer/all/{$customer->guid}/", $customer->official);
         }
 
         if ($this->_mode != 'create')
         {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "invoice/" . $this->_object->guid . "/",
-                MIDCOM_NAV_NAME => $this->_l10n->get('invoice') . ' ' . $this->_object->get_label(),
-            );
+            $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
         }
 
         switch ($this->_mode)
         {
             case 'create':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('create invoice'),
-                );
+                $this->add_breadcrumb("/", $this->_l10n->get('create invoice'));
                 break;
             case 'update':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "",
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice')),
-                );
+                $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice')));
                 break;
             case 'delete':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "",
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('invoice')),
-                );
+                $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('invoice')));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

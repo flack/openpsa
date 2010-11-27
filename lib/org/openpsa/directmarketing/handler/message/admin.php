@@ -154,40 +154,20 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      */
     private function _update_breadcrumb_line($handler_id)
     {
-        $tmp = array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "message/{$this->_message->guid}/",
-            MIDCOM_NAV_NAME => $this->_message->title,
-        );
+        $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
 
         switch ($handler_id)
         {
             case 'message_edit':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "message/edit/{$this->_message->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('edit message'),
-                );
+                $this->add_breadcrumb("message/edit/{$this->_message->guid}/", $this->_l10n->get('edit message'));
                 break;
             case 'message_delete':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "message/delete/{$this->_message->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('delete message'),
-                );
+                $this->add_breadcrumb("message/delete/{$this->_message->guid}/", $this->_l10n->get('delete message'));
                 break;
             case 'message_copy':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "message/copy/{$this->_message->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('copy message'),
-                );
+                $this->add_breadcrumb("message/copy/{$this->_message->guid}/", $this->_l10n->get('copy message'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

@@ -25,6 +25,11 @@ class net_nehmer_account_invites_invite_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
     
     function get_class_magic_default_privileges()
     {

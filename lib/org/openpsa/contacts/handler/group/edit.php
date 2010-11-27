@@ -144,29 +144,10 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
             )
         );
 
-        $this->_update_breadcrumb_line();
+        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('organization')));
 
         return true;
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     */
-    function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        org_openpsa_contacts_viewer::get_breadcrumb_path_for_group($this->_group, $tmp);
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('organization')),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

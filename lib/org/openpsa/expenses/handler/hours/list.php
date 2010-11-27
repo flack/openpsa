@@ -181,7 +181,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $this->_add_filter_widget();
 
         $_MIDCOM->set_pagetitle($data['view_title']);
-        $this->_update_breadcrumb_line();
+        $this->add_breadcrumb('', $data['breadcrumb_title']);
 
         return true;
     }
@@ -260,24 +260,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             }
         }
     }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $this->_request_data['breadcrumb_title'],
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
 
     /**
      * This function does the output.

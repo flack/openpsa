@@ -183,7 +183,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         $_MIDCOM->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
 
-        $this->_update_breadcrumb_line();
+        $this->add_breadcrumb('document/' . $this->_document->guid . '/', $this->_document->title);
 
         return true;
     }
@@ -196,34 +196,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
     function _show_view($handler_id, &$data)
     {
         midcom_show_style("show-document");
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param mixed $action The current action
-     */
-    private function _update_breadcrumb_line($action = false)
-    {
-        $tmp = Array();
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "document/{$this->_document->guid}/",
-            MIDCOM_NAV_NAME => $this->_document->title,
-        );
-
-        if ($action)
-        {
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => "",
-                MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get($action . ' %s'), $this->_l10n->get('document')),
-            );
-        }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
 ?>

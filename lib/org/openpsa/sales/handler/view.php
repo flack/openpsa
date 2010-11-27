@@ -111,7 +111,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         $this->_populate_toolbar();
 
-        $this->_update_breadcrumb_line();
+        $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
         $_MIDCOM->set_26_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
         $_MIDCOM->set_pagetitle($this->_salesproject->title);
 
@@ -155,17 +155,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
             $this->_controllers[$deliverable->id]->process_ajax();
             $this->_request_data['deliverables_objects'][$deliverable->guid] = $deliverable;
         }
-    }
-
-    private function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "salesproject/{$this->_salesproject->guid}/",
-            MIDCOM_NAV_NAME => $this->_salesproject->title,
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

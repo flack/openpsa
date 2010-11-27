@@ -44,35 +44,28 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
     }
 
-    function _update_breadcrumb()
+    /**
+     * Populate breadcrumb
+     */
+    private function _update_breadcrumb()
     {
-        // Populate breadcrumb
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
+
         $tmp = Array();
         $grp = $this->_group;
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/folders/{$grp->guid}/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('folders', 'midcom.admin.user'),
-        );
-
         while ($grp)
         {
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/edit/{$grp->guid}/",
-                MIDCOM_NAV_NAME => $grp->official,
-            );
+            $tmp[$grp->guid] = $grp->official;
             $grp = $grp->get_parent();
         }
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midcom.admin.user', 'midcom.admin.user'),
-        );
         $tmp = array_reverse($tmp);
 
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        foreach ($tmp as $guid => $title)
+        {
+            $this->add_breadcrumb('__mfa/asgard_midcom.admin.user/group/edit/' . $guid . '/', $title);
+        }
+        $this->add_breadcrumb('', $this->_l10n->get('folders'));
     }
 
     /**

@@ -172,21 +172,11 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
 
     function _prepare_breadcrumb()
     {
-        $tmp = Array();
         if (!is_a($this->_object, 'midcom_db_topic'))
         {
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => $_MIDCOM->permalinks->create_permalink($this->_object->guid),
-                MIDCOM_NAV_NAME => $this->_resolve_object_title(),
-            );
+            $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_object->guid), $this->_resolve_object_title());
         }
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__ais/rcs/{$this->_object->guid}/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('show history', 'no.bergfald.rcs'),
-        );
-        return $tmp;
+        $this->add_breadcrumb("__ais/rcs/{$this->_object->guid}/", $this->_l10n->get('show history'));
     }
 
     /**
@@ -313,10 +303,9 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('no.bergfald.rcs');
 
-        $tmp = $this->_prepare_breadcrumb();
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->_prepare_breadcrumb();
 
-        $this->_request_data['view_title'] = sprintf($_MIDCOM->i18n->get_string('revision history of %s', 'no.bergfald.rcs'), $this->_resolve_object_title());
+        $data['view_title'] = sprintf($this->_l10n->get('revision history of %s'), $this->_resolve_object_title());
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
 
         return true;
@@ -408,18 +397,17 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         $this->_request_data['view_title'] = sprintf($_MIDCOM->i18n->get_string('changes done in revision %s to %s', 'no.bergfald.rcs'), $this->_request_data['latest_revision'], $this->_resolve_object_title());
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
 
-        $tmp = $this->_prepare_breadcrumb();
-        $tmp[] = array
+        $this->_prepare_breadcrumb();
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => "__ais/rcs/preview/{$this->_guid}/{$data['latest_revision']}/",
-            MIDCOM_NAV_NAME => sprintf($_MIDCOM->i18n->get_string('version %s', 'no.bergfald.rcs'), $this->_request_data['latest_revision']),
+            "__ais/rcs/preview/{$this->_guid}/{$data['latest_revision']}/",
+            sprintf($this->_l10n->get('version %s'), $data['latest_revision'])
         );
-        $tmp[] = array
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => "__ais/rcs/diff/{$this->_guid}/{$data['previous_revision']}/{$data['latest_revision']}/",
-            MIDCOM_NAV_NAME => sprintf($_MIDCOM->i18n->get_string('changes from version %s', 'no.bergfald.rcs'), $this->_request_data['previous_revision']),
+            "__ais/rcs/diff/{$this->_guid}/{$data['previous_revision']}/{$data['latest_revision']}/",
+            sprintf($this->_l10n->get('changes from version %s'), $data['previous_revision'])
         );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         return true;
     }
@@ -460,19 +448,18 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         $this->_request_data['view_title'] = sprintf($_MIDCOM->i18n->get_string('viewing version %s of %s', 'no.bergfald.rcs'), $revision, $this->_resolve_object_title());
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
 
-        $tmp = $this->_prepare_breadcrumb();
-        $tmp[] = array
+        $this->_prepare_breadcrumb();
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => "__ais/rcs/preview/{$this->_guid}/{$revision}/",
-            MIDCOM_NAV_NAME => sprintf($_MIDCOM->i18n->get_string('version %s', 'no.bergfald.rcs'), $revision),
+            "__ais/rcs/preview/{$this->_guid}/{$revision}/",
+            sprintf($this->_l10n->get('version %s'), $revision)
         );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         // Set the version numbers
-        $this->_request_data['previous_revision'] = $this->_backend->get_prev_version($args[1]);
-        $this->_request_data['latest_revision'] = $args[1];
-        $this->_request_data['next_revision']  = $this->_backend->get_next_version($args[1]);
-        $this->_request_data['guid'] = $args[0];
+        $data['previous_revision'] = $this->_backend->get_prev_version($args[1]);
+        $data['latest_revision'] = $args[1];
+        $data['next_revision']  = $this->_backend->get_next_version($args[1]);
+        $data['guid'] = $args[0];
         return true;
     }
 

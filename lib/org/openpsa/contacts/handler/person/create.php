@@ -194,7 +194,8 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $this->_update_breadcrumb_line();
+        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')));
 
         return true;
     }
@@ -223,25 +224,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
     {
         $this->_request_data['controller'] =& $this->_controller;
         midcom_show_style("show-person-create");
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        org_openpsa_contacts_viewer::get_breadcrumb_path_for_group($this->_group, $tmp);
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
 ?>

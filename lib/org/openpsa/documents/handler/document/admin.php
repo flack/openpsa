@@ -303,24 +303,12 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     private function _update_breadcrumb_line($action = false)
     {
-        $tmp = Array();
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "document/{$this->_document->guid}/",
-            MIDCOM_NAV_NAME => $this->_document->title,
-        );
+        $this->add_breadcrumb("document/{$this->_document->guid}/", $this->_document->title);
 
         if ($action)
         {
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => "",
-                MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get($action . ' %s'), $this->_l10n->get('document')),
-            );
+            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($action . ' %s'), $this->_l10n->get('document')));
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
 ?>

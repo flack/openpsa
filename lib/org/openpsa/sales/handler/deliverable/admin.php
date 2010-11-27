@@ -193,38 +193,26 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $fields['at_entry']['default'] = $entry->id;
     }
 
-
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
      *
      * @param string $handler_id
      */
-    function _update_breadcrumb_line($handler_id)
+    private function _update_breadcrumb_line($handler_id)
     {
-        $tmp = org_openpsa_sales_viewer::update_breadcrumb_line($this->_request_data['deliverable']);
+        org_openpsa_sales_viewer::add_breadcrumb_path($this->_request_data['deliverable'], $this);
 
         switch ($handler_id)
         {
             case 'deliverable_edit':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "deliverable/edit/{$this->_deliverable->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('edit'),
-                );
+                $this->add_breadcrumb("deliverable/edit/{$this->_deliverable->guid}/", $this->_l10n_midcom->get('edit'));
                 break;
             case 'deliverable_delete':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "deliverable/delete/{$this->_deliverable->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('delete'),
-                );
+                $this->add_breadcrumb("deliverable/delete/{$this->_deliverable->guid}/", $this->_l10n_midcom->get('delete'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 
     /**
      * Displays a deliverable edit view.

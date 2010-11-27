@@ -195,30 +195,13 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         $this->_view_toolbar->bind_to($this->_salesproject);
 
-        $this->_update_breadcrumb_line();
+        org_openpsa_sales_viewer::add_breadcrumb_path($data['salesproject'], $this);
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')));
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_salesproject->title));
 
         return true;
     }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = org_openpsa_sales_viewer::update_breadcrumb_line($this->_request_data['salesproject']);
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('salesproject')),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
 
     /**
      *

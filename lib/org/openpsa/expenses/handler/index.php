@@ -185,28 +185,11 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
         }
 
-        $this->_update_breadcrumb_line();
+        $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
 
         return true;
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

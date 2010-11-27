@@ -324,23 +324,8 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      */
     private function _update_breadcrumb_line()
     {
-        $tmp = Array();
-
-        $tmp = array_reverse($tmp);
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "person/{$this->_person->guid}/",
-            MIDCOM_NAV_NAME => $this->_person->name,
-        );
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $this->_l10n->get($this->_request_data['person_action']),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("person/{$this->_person->guid}/", $this->_person->name);
+        $this->add_breadcrumb("", $this->_l10n->get($this->_request_data['person_action']));
     }
 
     /**

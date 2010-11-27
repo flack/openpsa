@@ -366,25 +366,12 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             $task = new org_openpsa_projects_task_dba($this->_request_data['task']);
         }
 
-        $tmp = Array();
-
         if ($task)
         {
-            $tmp[] = array
-            (
-               MIDCOM_NAV_URL => "hours/task/" . $task->guid,
-               MIDCOM_NAV_NAME => $task->get_label(),
-            );
-
-            $tmp[] = array
-            (
-               MIDCOM_NAV_URL => "",
-               MIDCOM_NAV_NAME => $this->_l10n->get($handler_id),
-            );
+            $this->add_breadcrumb("hours/task/" . $task->guid, $task->get_label());
+            $this->add_breadcrumb("", $this->_l10n->get($handler_id));
         }
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 
     /**
      * Shows the hour_report edit form.

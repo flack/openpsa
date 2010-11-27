@@ -146,8 +146,9 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
      * location.
      *
      * @param mixed $object
+     * @param mixed &$handler The current handler
      */
-    function update_breadcrumb_line($object)
+    public static function add_breadcrumb_path($object, &$handler)
     {
         $tmp = array();
 
@@ -155,25 +156,20 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         {
             if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
             {
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "deliverable/{$object->guid}/",
-                    MIDCOM_NAV_NAME => $object->title,
-                );
+                $tmp["deliverable/{$object->guid}/"] = $object->title;
             }
             else
             {
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "salesproject/{$object->guid}/",
-                    MIDCOM_NAV_NAME => $object->title,
-                );
+                $tmp["salesproject/{$object->guid}/"] = $object->title;
             }
             $object = $object->get_parent();
         }
         $tmp = array_reverse($tmp);
-        return $tmp;
+
+        foreach ($tmp as $url => $title)
+        {
+            $handler->add_breadcrumb($url, $titl);
+        }
     }
 }
-
 ?>

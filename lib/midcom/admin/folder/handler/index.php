@@ -28,19 +28,12 @@ class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_h
     function _handler_index ($handler_id, $args)
     {
         $this->_request_data['name']  = "midcom.admin.folder";
-        // the handler must return true
-        /***
-         * Set the breadcrumb text
-         */
-        $this->_update_breadcrumb_line($handler_id);
-        /**
-         * change the pagetitle. (must be supported in the style)
-         */
+
+        $this->add_breadcrumb("/", $this->_l10n->get('index'));
+
         $title = $this->_l10n_midcom->get('index');
         $_MIDCOM->set_pagetitle(":: {$title}");
-        /**
-         * Example of getting a config var.
-         */
+
         $this->_request_data['sort_order'] = $this->_config->get('sort_order');
         return true;
     }
@@ -49,27 +42,9 @@ class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_h
      * This function does the output.
      *
      */
-    function _show_index() {
-        // hint: look in the style/index.php file to see what happens here.
-        midcom_show_style('index');
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     */
-    function _update_breadcrumb_line()
+    function _show_index()
     {
-        $tmp = Array();
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('index'),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        midcom_show_style('index');
     }
 }
 ?>

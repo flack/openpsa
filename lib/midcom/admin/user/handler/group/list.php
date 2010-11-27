@@ -50,36 +50,19 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'), $this->_request_data);
     }
 
-    function _update_breadcrumb($handler_id)
+    /**
+     * Populate breadcrumb
+     */
+    private function _update_breadcrumb($handler_id)
     {
-        // Populate breadcrumb
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('midcom.admin.user', 'midcom.admin.user'),
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('groups'),
-        );
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/", $this->_l10n->get('groups'));
 
         if (preg_match('/group_move$/', $handler_id))
         {
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/{$this->_request_data['group']->guid}/",
-                MIDCOM_NAV_NAME => $this->_request_data['group']->official,
-            );
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/group/move/{$this->_request_data['group']->guid}/",
-                MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('move', 'midcom'),
-            );
+            $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/{$this->_request_data['group']->guid}/", $this->_request_data['group']->official);
+            $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/move/{$this->_request_data['group']->guid}/", $this->_l10n_midcom->get_string('move'));
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

@@ -103,8 +103,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $this->_request_data['controller']->set_storage($this->_deliverable);
         $this->_request_data['controller']->process_ajax();
 
-        $tmp =  org_openpsa_sales_viewer::update_breadcrumb_line($this->_deliverable);
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        org_openpsa_sales_viewer::add_breadcrumb_path($this->_deliverable, $this);
 
         $this->_prepare_request_data();
 

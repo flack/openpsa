@@ -91,29 +91,19 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      *
      * @param string $handler_id
      */
-    function _update_breadcrumb($handler_id)
+    public function _update_breadcrumb($handler_id)
     {
-        $tmp = org_openpsa_projects_viewer::update_breadcrumb_line($this->_object);
+        org_openpsa_projects_viewer::add_breadcrumb_path($this->_object, $this);
 
         switch ($handler_id)
         {
             case 'project_edit':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "project/edit/{$this->_object->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('edit'),
-                );
+                $this->add_breadcrumb("project/edit/{$this->_object->guid}/", $this->_l10n_midcom->get('edit'));
                 break;
             case 'project_delete':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "project/delete/{$this->_object->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get('delete'),
-                );
+                $this->add_breadcrumb("project/delete/{$this->_object->guid}/", $this->_l10n_midcom->get('delete'));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

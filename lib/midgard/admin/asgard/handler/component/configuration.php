@@ -78,41 +78,33 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         midgard_admin_asgard_plugin::get_common_toolbar($this->_request_data);
     }
 
-    function _prepare_breadcrumbs($handler_id)
+    /**
+     * Set the breadcrumb data
+     */
+    private function _prepare_breadcrumbs($handler_id)
     {
-        // Set the breadcrumb data
-        $tmp = array();
-        $tmp[] = array
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
+
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => '__mfa/asgard/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
+            "__mfa/asgard/components/{$this->_request_data['name']}/",
+            $_MIDCOM->i18n->get_string($this->_request_data['name'], $this->_request_data['name'])
         );
-        $tmp[] = array
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => '__mfa/asgard/components/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('components', 'midgard.admin.asgard'),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard/components/{$this->_request_data['name']}/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string($this->_request_data['name'], $this->_request_data['name']),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+            "__mfa/asgard/components/configuration/{$this->_request_data['name']}/",
+            $this->_l10n_midcom->get('component configuration')
         );
 
         if ($handler_id == '____mfa-asgard-components_configuration_edit')
         {
-            $tmp[] = array
+            $this->add_breadcrumb
             (
-                MIDCOM_NAV_URL => "__mfa/asgard/components/configuration/{$this->_request_data['name']}/edit/",
-                MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('edit', 'midcom'),
+                "__mfa/asgard/components/configuration/{$this->_request_data['name']}/edit/",
+                $this->_l10n_midcom->get('edit')
             );
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     function _load_configs($component, $object = null)

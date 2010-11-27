@@ -185,7 +185,8 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
 
         $_MIDCOM->set_pagetitle($this->_l10n->get("create organization"));
 
-        $this->_update_breadcrumb_line();
+        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_parent_group, $this);
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('organization')));
 
         return true;
     }
@@ -198,26 +199,6 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
     function _show_create($handler_id, &$data)
     {
         midcom_show_style("show-group-create");
-    }
-
-    /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     */
-    private function _update_breadcrumb_line()
-    {
-        $tmp = Array();
-
-        org_openpsa_contacts_viewer::get_breadcrumb_path_for_group($this->_parent_group, $tmp);
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('organization')),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 }
 ?>

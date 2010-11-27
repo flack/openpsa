@@ -167,10 +167,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      *
      * @param string $handler_id
      */
-    function _update_breadcrumb_line($handler_id)
+    private function _update_breadcrumb_line($handler_id)
     {
-        $tmp = Array();
-
         $arg = $this->_article->name ? $this->_article->name : $this->_article->guid;
 
         if ($this->_config->get('view_in_url'))
@@ -182,31 +180,16 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
             $view_url = "{$arg}/";
         }
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => $view_url,
-            MIDCOM_NAV_NAME => $this->_article->title,
-        );
+        $this->add_breadcrumb($view_url, $this->_article->title);
 
         switch ($handler_id)
         {
             case 'delete_link':
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "delete/link/{$this->_article->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('delete link'),
-                );
+                $this->add_breadcrumb("delete/link/{$this->_article->guid}/", $this->_l10n->get('delete link'));
                 break;
-
             default:
-                $tmp[] = Array
-                (
-                    MIDCOM_NAV_URL => "{$handler_id}/{$this->_article->guid}/",
-                    MIDCOM_NAV_NAME => $this->_l10n_midcom->get($handler_id),
-                );
+                $this->add_breadcrumb("{$handler_id}/{$this->_article->guid}/", $this->_l10n_midcom->get($handler_id));
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

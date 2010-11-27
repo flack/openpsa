@@ -27,30 +27,6 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
     }
 
     /**
-     * Helper, updates the context so that we get a complete breadcrumb line towards the current
-     * location.
-     *
-     * @param string $leave The last leave, if any
-     */
-    private function _update_breadcrumb_line($leave = null)
-    {
-        $tmp = Array();
-
-        org_openpsa_contacts_viewer::get_breadcrumb_path_for_group($this->_request_data['group'], $tmp);
-
-        if ($leave)
-        {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "",
-                MIDCOM_NAV_NAME => $leave,
-            );
-        }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-    }
-
-    /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
@@ -99,7 +75,9 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
 
         $_MIDCOM->set_pagetitle($group->official . ": ". $this->_l10n->get("notification settings"));
 
-        $this->_update_breadcrumb_line($this->_l10n->get("notification settings"));
+        org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_request_data['group'], $this);
+        $this->add_breadcrumb("", $this->_l10n->get("notification settings"));
+
         org_openpsa_helpers::dm2_savecancel($this);
 
         return true;
