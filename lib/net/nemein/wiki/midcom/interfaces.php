@@ -101,12 +101,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
         {
             //Match found, word is reserved
             debug_add("QB found matches for name '{$wikiword_name}' in topic #{$node[MIDCOM_NAV_OBJECT]->id}, given word '{$wikiword}' is reserved", MIDCOM_LOG_INFO);
-            //sprint_r is not part of MidCOM helpers
-            ob_start();
-            print_r($ret);
-            $ret_r = ob_get_contents();
-            ob_end_clean();
-            debug_add("QB results:\n===\n{$ret_r}===\n");
+            debug_print_r('QB results:', $ret);
             return false;
         }
         return true;

@@ -120,12 +120,20 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
      * this yourself.
      *
      * @param string $message The error message to print.
+     * @param mixed $var A variable you want to print, if any.
      */
-    public function print_error($message)
+    public function print_error($message, $var = null)
     {
         $class = get_class($this);
         echo "ERROR ({$class}): {$message}\n";
+        if (!is_null($var))
+        {
+            ob_start();
+            print_r($var);
+            $varstring = ob_get_contents();
+            ob_end_clean();
+            echo $var . "\n";
+        }
     }
 }
-
 ?>

@@ -38,9 +38,8 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
      */
     function at_test($args, &$handler)
     {
-        $message = "got args:\n===\n" . org_openpsa_helpers::sprint_r($args) . "===\n";
-        $handler->print_error($message);
-        debug_add($message);
+        $handler->print_error("got args:", $args);
+        debug_print_r("got args:", $args);
         return true;
     }
 

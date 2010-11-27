@@ -9,7 +9,7 @@
 
 /**
  * At service library, this interface class is used to register jobs to the service.
- * 
+ *
  * <b>Job registration</b>
  *
  * First load this library, either via autoload_libraries or using  $_MIDCOM->componentloader->load('midcom.services.at')
@@ -24,14 +24,13 @@
  *   The method can use the $handler->display_error() method to display better error messages.
  * - <i>array args</i> contains the arguments used by the method above, passed on to the method
  *   as an array.
- * 
+ *
  * Example method (from org.openpsa.directmarketing):
  * <code>
  *  function at_test($args, &$handler)
  *  {
- *      $message = "got args:\n===\n" . sprint_r($args) . "===\n";
- *      debug_add($message);
- *      $handler->print_error($message);
+ *      $handler->print_error('got args:', $args);
+ *      debug_print_r('got args:', $args);
  *      return true;
  *  }
  * </code>
@@ -61,7 +60,7 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
         define ('MIDCOM_SERVICES_AT_STATUS_RUNNING', 110);
         define ('MIDCOM_SERVICES_AT_STATUS_FAILED', 120);
     }
-    
+
     /**
      * Registers a job to the AT service.
      *

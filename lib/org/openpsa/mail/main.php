@@ -670,7 +670,7 @@ EOF;
         {
             // Sort the results to make sure '=' gets encoded first (otherwise there will be double-encodes...)
             usort($matches[0], create_function('$a,$b', $this->_code_for_sort_encode_subject()));
-            debug_add("matches[0]\n===\n" . org_openpsa_mail_sprint_r($matches) . "===\n");
+            debug_print_r("matches[0]", $matches);
             $cache = array();
             $newSubj = $this->subject;
             while (list ($k, $char) = each ($matches[0]))
@@ -734,12 +734,12 @@ EOF;
             $this->body = $mime->get();
             // mime->headers() has some corner cases with UTF-8 so we encode at least the subject ourselves
             $this->encode_subject();
-            debug_add("Headers before mime->headers\n===\n" . org_openpsa_mail_sprint_r($this->headers) . "===\n");
+            debug_print_r("Headers before mime->headers", $this->headers);
             $this->headers = $mime->headers($this->headers);
-            debug_add("Headers after mime->headers\n===\n" . org_openpsa_mail_sprint_r($this->headers) . "===\n");
+            debug_print_r("Headers after mime->headers", $this->headers);
             // some MTAs manage to mangle multiline headers (RFC "folded"), here we make sure at least the content type is in single line
             $this->headers['Content-Type'] = preg_replace('/\s+/', ' ', $this->headers['Content-Type']);
-            debug_add("Headers after multiline fix\n===\n" . org_openpsa_mail_sprint_r($this->headers) . "===\n");
+            debug_print_r("Headers after multiline fix\n===\n", $this->headers);
         }
 
         // Encode subject (if necessary) and set Content-Type (if not set already)
@@ -804,7 +804,7 @@ EOF;
         if (class_exists($classname))
         {
             $this->_backend = new $classname();
-            debug_add("backend is now\n===\n" . org_openpsa_mail_sprint_r($this->_backend) . "===\n");
+            debug_print_r("backend is now", $this->_backend);
             return true;
         }
         debug_add("backend class {$classname} is not available", MIDCOM_LOG_WARN);
@@ -953,7 +953,7 @@ EOF;
 
             $regExp_file = "/(.*\/|^)(.+?)$/";
             preg_match($regExp_file, $search['location'][$k], $match_file);
-            debug_add("match_file:\n===\n" . org_openpsa_mail_sprint_r($match_file) . "===\n");
+            debug_print_r("match_file:", $match_file);
             $search['filename'][$k] = $match_file[2];
 
             if (isset($embeds_data_cache[$search['location'][$k]]))
@@ -1085,21 +1085,10 @@ EOF;
             $embeds = array();
         }
 
-        //Make sure we have this function
-        if (!function_exists('file_get_contents'))
-        {
-            include_once('Compat/Function/file_get_contents.php');
-        }
-        if (!function_exists('file_get_contents'))
-        {
-            debug_add('Function file_get_contents() missing', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         //Anything with SRC = "" something in it (images etc)
         $regExp_src = "/(src|background)=([\"'�])(((https?|ftp):\/\/)?(.*?))\\2/i";
         preg_match_all($regExp_src, $html, $matches_src);
-        debug_add("matches_src:\n===\n" . org_openpsa_mail_sprint_r($matches_src) . "===\n");
+        debug_print_r("matches_src:", $matches_src);
         $tmpArr = array();
         $tmpArr['whole']    = $matches_src[0];
         $tmpArr['uri']      = $matches_src[3];
@@ -1114,13 +1103,13 @@ EOF;
             //Anything with url() something in it (images etc)
             $regExp_url = "/url\s*\(([\"'�])?(((https?|ftp):\/\/)?(.*?))\\1?\)/i";
             preg_match_all($regExp_url, $html, $matches_url);
-            debug_add("matches_url:\n===\n" . org_openpsa_mail_sprint_r($matches_url) . "===\n");
+            debug_print_r("matches_url:", $matches_url);
             $tmpArr = array();
             $tmpArr['whole']    = $matches_url[0];
             $tmpArr['uri']      = $matches_url[2];
             $tmpArr['proto']    = $matches_url[3];
             $tmpArr['location'] = $matches_url[5];
-            debug_add("tmpArr:\n===\n" . org_openpsa_mail_sprint_r($tmpArr) . "===\n");
+            debug_print_r("tmpArr:", $tmpArr);
             list ($html, $embeds) = $this->_html_get_embeds_loop($obj, $html, $tmpArr, $embeds, 'url');
         }
 
@@ -1195,18 +1184,6 @@ EOF;
         ob_end_clean();
 
         return $mail;
-    }
-}
-
-if (!function_exists('org_openpsa_mail_sprint_r'))
-{
-    function org_openpsa_mail_sprint_r($var)
-    {
-        ob_start();
-        print_r($var);
-        $ret = ob_get_contents();
-        ob_end_clean();
-        return $ret;
     }
 }
 ?>

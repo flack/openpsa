@@ -107,14 +107,6 @@ if (!function_exists('debug_add'))
     }
 }
 
-if (!function_exists('sprint_r'))
-{
-    function sprint_r($var)
-    {
-        return;
-    }
-}
-
 if (!function_exists('mgd_version'))
 {
     function mgd_version()

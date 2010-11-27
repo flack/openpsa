@@ -15,18 +15,6 @@
 class org_openpsa_helpers
 {
     /**
-     * returns output of print_r as string
-     */
-    static function sprint_r($var)
-    {
-        ob_start();
-        print_r($var);
-        $ret = ob_get_contents();
-        ob_end_clean();
-        return $ret;
-    }
-
-    /**
      * returns array as code to generate it
      */
     static function array2code($arr, $level = 0, $code = '')
