@@ -94,28 +94,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
             $this->_reflectors[$classname] = midcom_helper_reflector_tree::get($object);
         }
 
-        // Get the configuration value first
-        if ($this->_config->get('show_sg0'))
-        {
-            $this->_reflectors[$classname]->show_sg0_objects = true;
-        }
-        else
-        {
-            $this->_reflectors[$classname]->show_sg0_objects = false;
-        }
-
-        // Then override it with user preference if requred
-        switch (midgard_admin_asgard_plugin::get_preference('show_sg0'))
-        {
-            case 'no':
-                $this->_reflectors[$classname]->show_sg0_objects = false;
-                break;
-
-            case 'yes':
-                $this->_reflectors[$classname]->show_sg0_objects = true;
-                break;
-        }
-
         return $this->_reflectors[$classname];
     }
 

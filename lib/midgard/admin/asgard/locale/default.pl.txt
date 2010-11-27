@@ -727,10 +727,6 @@ Pokaż zmiany
 Pokaż historię
 ---STRINGEND
 
----STRING show sg0 objects in navigation
-Pokaż obiekty SG0
----STRINGEND
-
 ---STRING size
 Rozmiar
 ---STRINGEND

@@ -130,27 +130,6 @@
             'type' => 'text',
             'widget' => 'text',
         ),
-        'show_sg0' => array
-        (
-            'title' => 'show sg0 objects in navigation',
-            'storage' => array
-            (
-                'location' => 'parameter',
-                'domain' => 'midgard.admin.asgard:preferences',
-                'name' => 'show_sg0',
-            ),
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'default setting',
-                    'yes' => 'yes',
-                    'no' => 'no',
-                ),
-            ),
-            'widget' => 'select',
-        ),
         'enable_quicklinks' => array
         (
             'title' => 'enable quicklinks',
