@@ -84,8 +84,6 @@ class midcom_core_group
      */
     function __construct($id = null)
     {
-        parent::__construct();
-
         if (is_null($id))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'The class midcom_core_group is not default constructible.');

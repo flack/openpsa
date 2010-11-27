@@ -96,8 +96,6 @@ class midcom_services_uimessages
      */
     function __construct()
     {
-        parent::__construct();
-
         // Set the list of allowed message types
         $this->_allowed_types[] = 'info';
         $this->_allowed_types[] = 'ok';
@@ -166,8 +164,12 @@ class midcom_services_uimessages
 
     function get_class_magic_default_privileges()
     {
-        $privileges = parent::get_class_magic_default_privileges();
-        return $privileges;
+        return array
+        (
+            'EVERYONE' => array(),
+            'ANONYMOUS' => array(),
+            'USERS' => array()
+        );
     }
 
     /**
