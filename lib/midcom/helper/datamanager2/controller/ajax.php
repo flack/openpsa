@@ -174,7 +174,6 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         {
             case (array_key_exists("{$this->form_identifier}_edit", $_REQUEST)):
                 // User has requested editor
-                require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_form($this->form_identifier);
@@ -184,7 +183,6 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
             case (array_key_exists("{$this->form_identifier}_preview", $_REQUEST)):
                 // User has requested editor
-                require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->process_form();
@@ -195,7 +193,6 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             case (array_key_exists("{$this->form_identifier}_save", $_REQUEST)):
 
                 // User has requested editor
-                require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $exitcode = $this->formmanager->process_form();
@@ -214,7 +211,6 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
             case (array_key_exists("{$this->form_identifier}_cancel", $_REQUEST)):
                 // User has cancelled, display view
-                require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types);
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 $this->formmanager->display_view($this->form_identifier);
@@ -235,7 +231,6 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
             default:
                 // User isn't yet in editing stage. We must however initialize form manager to load JS dependencies etc
-                require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
                 $this->formmanager = new midcom_helper_datamanager2_formmanager_ajax($this->datamanager->schema, $this->datamanager->types, 'view');
                 $this->formmanager->initialize($this->form_identifier . '_qf');
                 return $state;

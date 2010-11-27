@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once('blobs.php');
-
 /**
  * Datamanager 2 PEAR packages type
  *
@@ -68,7 +65,7 @@ class midcom_helper_datamanager2_type_pearpackages extends midcom_helper_dataman
 
             return false;
         }
-        
+
         if (   $this->storage->object
             && $this->storage->object->guid
             && is_a($this->storage->object, 'org_openpsa_products_product_dba')
@@ -80,18 +77,18 @@ class midcom_helper_datamanager2_type_pearpackages extends midcom_helper_dataman
             {
                 var_dump($package_parts);
                 debug_add("{$filename} has faulty name.", MIDCOM_LOG_WARN);
-                
+
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get('uploaded file has faulty name'), 'error');
-                
+
                 return false;
             }
-            
+
             if ($package_parts[0] != $this->storage->object->code)
             {
                 debug_add("{$filename} doesn't match product name {$this->storage->object->code}.", MIDCOM_LOG_WARN);
-                
+
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), $this->_l10n->get("uploaded file doesn't match product name"), 'error');
-                
+
                 return false;
             }
         }
@@ -116,12 +113,12 @@ class midcom_helper_datamanager2_type_pearpackages extends midcom_helper_dataman
         $this->attachments[$identifier]->set_parameter('midcom.helper.datamanager2.type.pearpackages', 'notes', $this->package->getNotes());
         $this->attachments[$identifier]->set_parameter('midcom.helper.datamanager2.type.pearpackages', 'stability', $this->package->getState());
         $this->attachments[$identifier]->set_parameter('midcom.helper.datamanager2.type.pearpackages', 'package.xml', file_get_contents($this->package->getPackageFile()));
-        
+
         if (   $this->storage->object
             && $this->storage->object->guid)
         {
             $version = $this->storage->object->get_parameter('net.nemein.pearserver', 'version');
-            
+
             if (   !$version
                 || version_compare($this->package->getVersion(), $version, '>'))
             {

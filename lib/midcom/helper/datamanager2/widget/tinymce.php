@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** Base class */
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/textarea.php');
-
 /**
  * Datamanager 2 TinyMCE driven textarea widget
  *

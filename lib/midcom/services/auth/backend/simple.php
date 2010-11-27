@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** Auth Backend base class */
-require_once (MIDCOM_ROOT . '/midcom/services/auth/backend.php');
-
 /**
  * The simple auth backend uses cookies to store a session identifier which
  * consists of the midgard person GUID.

@@ -211,8 +211,6 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
         {
             $file = $_FILES['avatar'];
 
-            // First, ensure that the imagefilter helper is available
-            require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
             $filter = new midcom_helper_imagefilter();
 
             if (   ! $filter->set_file($file['tmp_name'])

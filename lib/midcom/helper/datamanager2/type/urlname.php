@@ -7,19 +7,16 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/type/text.php');
-
 /**
  * Datamanager 2 URL-name datatype, text encapsulated here is checked for
- * name cleanliness and url-safety semantics and for uniqueness. This extends 
+ * name cleanliness and url-safety semantics and for uniqueness. This extends
  * the normal text datatype with the following config additions:
  *
  * <b>New configuration options:</b>
  *
- * - <i>string title_field:</i> Defaults to 'title', this is the name of the field 
+ * - <i>string title_field:</i> Defaults to 'title', this is the name of the field
  *   (in same schema) to use for title information (used when autogenerating values)
- * - <i>bool allow_catenate:</i> Defaults to false, if this is set to true then on 
+ * - <i>bool allow_catenate:</i> Defaults to false, if this is set to true then on
  *   name value clash, we autogenerate a new unique name and use it transparently
  *   in stead of raisin validation error.
  * - <i>bool allow_unclean:</i> Defaults to false, if this is set to true then we
@@ -44,7 +41,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
      * @access public
      */
     var $allow_unclean = false;
-    
+
     /**
      * The field (in the same schema) that we use for title value
      *
@@ -128,14 +125,14 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
 
         if (!midcom_helper_reflector::name_is_safe($copy, $property))
         {
-            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "URL-safe", try "%s"'), midcom_generate_urlname_from_string($this->value)); 
+            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "URL-safe", try "%s"'), midcom_generate_urlname_from_string($this->value));
             return false;
         }
 
         if (   !$this->allow_unclean
             && !midcom_helper_reflector::name_is_clean($copy, $property))
         {
-            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "clean", try "%s"'), midcom_generate_urlname_from_string($this->value)); 
+            $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "clean", try "%s"'), midcom_generate_urlname_from_string($this->value));
             return false;
         }
 
@@ -151,7 +148,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
             }
             else
             {
-                $this->validation_error = sprintf($this->_l10n->get('type urlname: name is already taken, try "%s"'), $new_name); 
+                $this->validation_error = sprintf($this->_l10n->get('type urlname: name is already taken, try "%s"'), $new_name);
                 return false;
             }
         }

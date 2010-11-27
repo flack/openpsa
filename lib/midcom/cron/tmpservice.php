@@ -17,7 +17,6 @@ class midcom_cron_tmpservice extends midcom_baseclasses_components_cron_handler
     function _on_execute()
     {
         $_MIDCOM->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
-        require_once(MIDCOM_ROOT . '/midcom/core/temporary/object.php');
 
         $qb = midcom_core_temporary_object::new_query_builder();
         $qb->add_constraint('timestamp', '<', time() - $GLOBALS['midcom_config']['midcom_temporary_resource_timeout']);

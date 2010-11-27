@@ -16,15 +16,6 @@
  * allow the application to let the user specify a list of filters that should
  * be applied during upload.
  *
- * This class is originally known as net_siriux_photos_filter.
- *
- * Usage note: This class is not loaded automatically for the sake of performance.
- * If you want to utilize it, you have to require_once it first:
- *
- * <code>
- * require_once(MIDCOM_ROOT . 'lib/helper/imagefilter.php');
- * </code>
- *
  * @todo Image type automatic best-web-format conversion
  * @todo Add support for working on attachments
  * @author Eero af Heurlin, Nemein Oy <eero.afheurlin@nemein.com>

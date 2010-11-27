@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore Baseclass include */
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/type/select.php');
-
 /**
  * Datamanager 2 m:n membership management type.
  *

@@ -55,7 +55,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
     {
         $this->_config_storage = new midcom_db_page((int) $_MIDGARD['page']);
 
-        require_once MIDCOM_ROOT . '/midcom/helper/hostconfig.php';
         require_once MIDCOM_ROOT . '/midcom/admin/folder/folder_management.php';
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.folder');

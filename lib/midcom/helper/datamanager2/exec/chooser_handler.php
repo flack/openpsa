@@ -8,11 +8,6 @@
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-if (!class_exists('midcom_helper_datamanager2_widget_chooser'))
-{
-    require(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/chooser.php');
-}
-
 
 // Common variables
 $encoding = 'UTF-8';

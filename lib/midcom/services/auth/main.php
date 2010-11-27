@@ -309,11 +309,9 @@ class midcom_services_auth
      */
     function _prepare_authentication_drivers()
     {
-        require_once (MIDCOM_ROOT . "/midcom/services/auth/backend/{$GLOBALS['midcom_config']['auth_backend']}.php");
         $classname = "midcom_services_auth_backend_{$GLOBALS['midcom_config']['auth_backend']}";
         $this->_auth_backend = new $classname($this);
 
-        require_once (MIDCOM_ROOT . "/midcom/services/auth/frontend/{$GLOBALS['midcom_config']['auth_frontend']}.php");
         $classname = "midcom_services_auth_frontend_{$GLOBALS['midcom_config']['auth_frontend']}";
         $this->_auth_frontend = new $classname();
     }

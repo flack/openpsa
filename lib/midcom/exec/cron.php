@@ -1,8 +1,8 @@
-<?php 
+<?php
 // IP Address Checks
 $ips = $GLOBALS['midcom_config']['indexer_reindex_allowed_ips'];
 $ip_sudo = false;
-if (   $ips 
+if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
     if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
@@ -20,9 +20,7 @@ else
 
 $_MIDCOM->cache->content->enable_live_mode();
 
-header('Content-Type: text/plain'); 
-
-require(MIDCOM_ROOT . '/midcom/services/cron.php');
+header('Content-Type: text/plain');
 
 // Ensure cron doesn't timeout
 @ini_set('max_execution_time', 0);

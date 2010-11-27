@@ -1,5 +1,4 @@
 <?php
-require_once(MIDCOM_ROOT . '/net/nehmer/account/calculator.php');
 $_MIDCOM->auth->require_admin_user();
 
 $calculator = new net_nehmer_account_calculator();

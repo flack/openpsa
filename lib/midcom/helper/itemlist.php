@@ -67,7 +67,6 @@ abstract class midcom_helper_itemlist
     /**
      * factory generate the object you want to use for getting a list of items for a certain topic.
      * Use this function to create sorted lists. Example:
-     *     require_once 'itemlist.php';
      *     $nav_object = midcom_helper_itemlist::factory( $navorder, &$this, $parent_topic);
      *     $result = $nav_object->get_sorted_list();
      *     print_r($result);

@@ -218,8 +218,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
 
         $_MIDCOM->enable_jquery();
 
-        require_once(MIDCOM_ROOT . "/midcom/helper/datamanager2/formmanager/ajax.php");
-
         // Add the required JavaScript
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.dm2_ajax_editor.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.dimensions-1.2.min.js');

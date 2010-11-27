@@ -95,7 +95,6 @@
         {
             if ( $this->_test_rcs_config())
             {
-                require_once MIDCOM_ROOT. '/midcom/services/rcs/backend/rcs.php';
                 return 'midcom_services_rcs_backend_rcs';
             }
             else

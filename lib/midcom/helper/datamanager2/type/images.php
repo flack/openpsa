@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/type/image.php');
-
 /**
  * Datamanager 2 Images type.
  *

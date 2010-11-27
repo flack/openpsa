@@ -36,30 +36,6 @@
 class midcom_services_tmp extends midcom_baseclasses_core_object
 {
     /**
-     * Internal status variable, set to true if the temporary object class
-     * has already been loaded.
-     *
-     * @access private
-     * @var boolean
-     */
-    var $_tmp_object_class_loaded = false;
-
-    /**
-     * Internal helper function, ensures that the temporary object class is loaded.
-     * If it has already been loaded, the call is ignored silently.
-     *
-     * @access protected
-     */
-    function _load_tmp_object_class()
-    {
-        if (! $this->_tmp_object_class_loaded)
-        {
-            require_once(MIDCOM_ROOT . '/midcom/core/temporary/object.php');
-            $this->_tmp_object_class_loaded = true;
-        }
-    }
-
-    /**
      * This class creates a new temporary object for use with the application.
      * The id member of the object is used in the future to reference it in
      * request and release operations. The GUID of the object should not be used
@@ -76,7 +52,6 @@ class midcom_services_tmp extends midcom_baseclasses_core_object
      */
     function create_object()
     {
-        $this->_load_tmp_object_class();
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'midcom_core_temporary_object');
 
         $tmp = new midcom_core_temporary_object();
@@ -108,8 +83,6 @@ class midcom_services_tmp extends midcom_baseclasses_core_object
      */
     function request_object($id)
     {
-        $this->_load_tmp_object_class();
-
         if (! $id)
         {
             debug_add("Invalid argument, may not evaluate to false", MIDCOM_LOG_INFO);

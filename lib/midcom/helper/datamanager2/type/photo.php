@@ -33,7 +33,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
             return true;
         }
         // Prepare internal members
-        require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
         $this->_filter = new midcom_helper_imagefilter();
         // PHP5-TODO: Must be copy-by-value
         $this->_pending_attachments = $this->attachments;
@@ -129,9 +128,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
      */
     function set_image($filename, $tmpname, $title, $autodelete = true)
     {
-        // First, ensure that the imagefilter helper is available.
-        require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
-
         // Ensure that the filename is URL safe and contains only one extension
         $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
 

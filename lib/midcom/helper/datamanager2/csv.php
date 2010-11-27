@@ -14,13 +14,6 @@
  * a CSV listing. It uses a datamanager instance set to a given schema as base to
  * work on and provides convenience methods of converting full QB resultsets to CSV.
  *
- * This class file is not available by default to keep MidCOMs memory profile
- * in check, add this line to the scripts that use it:
- *
- * <code>
- * require_once MIDCOM_ROOT . '/midcom/helper/datamanager2/csv.php';
- * </code>
- *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purecode

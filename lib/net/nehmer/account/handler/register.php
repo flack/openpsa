@@ -596,7 +596,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      */
     function _register_username_validation_rule(&$controller)
     {
-        require_once(MIDCOM_ROOT . '/net/nehmer/account/callbacks/validation.php');
         $controller->formmanager->form->registerRule
         (
             'check_user_name',

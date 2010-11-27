@@ -7,9 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-/** @ignore */
-require_once('blobs.php');
-
 /**
  * Datamanager 2 Image type.
  *
@@ -360,7 +357,6 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             return true;
         }
         // Prepare internal members
-        require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
         $this->_filter = new midcom_helper_imagefilter();
         // PHP5-TODO: Must be copy-by-value
         $this->_pending_attachments = $this->attachments;
@@ -491,7 +487,6 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         {
             return false;
         }
-        require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
 
         if (!array_key_exists($identifier, $this->attachments))
         {
@@ -630,9 +625,6 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             // the method will log errors and raise uimessages as needed
             return false;
         }
-
-        // First, ensure that the imagefilter helper is available.
-        require_once(MIDCOM_ROOT . '/midcom/helper/imagefilter.php');
 
         // Ensure that the filename is URL safe and contains only one extension
         $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);

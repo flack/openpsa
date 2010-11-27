@@ -310,7 +310,6 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         // as we have to register the callback first. We have to load the callback
         // file manually, as we don't add it to the standard loader code.
         // This will prohibit duplicate user names.
-        require_once(MIDCOM_ROOT . '/net/nehmer/account/callbacks/validation.php');
         $this->_controller->formmanager->form->registerRule
         (
             'check_user_name',
@@ -600,7 +599,6 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         // as we have to register the callback first. We have to load the callback
         // file manually, as we don't add it to the standard loader code.
         // This will prohibit duplicate user names.
-        require_once(MIDCOM_ROOT . '/net/nehmer/account/callbacks/validation.php');
 
         if($this->_config->get('lostpassword_email_reset'))
         {
