@@ -96,8 +96,6 @@ class midcom_services_toolbars
      */
     function __construct()
     {
-        parent::__construct();
-
         // Default label for the "Page" toolbar
         $this->_view_toolbar_label = $_MIDCOM->i18n->get_string('page', 'midcom');
 
@@ -194,8 +192,12 @@ class midcom_services_toolbars
 
     function get_class_magic_default_privileges()
     {
-        $privileges = parent::get_class_magic_default_privileges();
-        return $privileges;
+        return array
+        (
+            'EVERYONE' => array(),
+            'ANONYMOUS' => array(),
+            'USERS' => array()
+        );
     }
 
     /**

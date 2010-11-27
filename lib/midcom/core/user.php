@@ -185,8 +185,6 @@ class midcom_core_user
      */
     function __construct($id = null)
     {
-        parent::__construct();
-
         if (is_null($id))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'The class midcom_user is not default constructible.');

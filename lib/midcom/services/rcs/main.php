@@ -49,8 +49,6 @@ class midcom_services_rcs
      */
     function __construct($config = null)
     {
-        parent::__construct();
-
         if (is_null($config))
         {
             $config = $GLOBALS['midcom_config'];

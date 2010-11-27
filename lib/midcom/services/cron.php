@@ -141,12 +141,11 @@ class midcom_services_cron
     );
 
     /**
-     * Empty constructor yet.
+     * Constructor.
      */
     function __construct($recurrence = MIDCOM_CRON_MINUTE)
     {
         $this->_recurrence = $recurrence;
-        parent::__construct();
     }
 
     /**
