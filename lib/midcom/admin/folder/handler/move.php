@@ -25,41 +25,6 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     var $_object = null;
 
     /**
-     * Get the object title of the content topic.
-     *
-     * @return string containing the content topic title
-     */
-    function _get_object_title(&$object)
-    {
-        $title = '';
-        if (   array_key_exists('title', $object)
-            && $object->title !== '')
-        {
-            $title = $object->title;
-        }
-        else if (is_a($object, 'midcom_db_topic')
-            && $object->extra !== '')
-        {
-            $title = $object->extra;
-        }
-        else if (array_key_exists('name', $object)
-            && $object->name !== '')
-        {
-            $title = $object->name;
-        }
-        else if (!empty($object->name))
-        {
-            $title = $object->name;
-        }
-        else
-        {
-            $title = get_class($object) . " GUID {$object->guid}";
-        }
-
-        return $title;
-    }
-
-    /**
      * Handler for folder move. Checks for updating permissions, initializes
      * the move and the content topic itself. Handles also the sent form.
      *
@@ -93,14 +58,14 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         {
             $move_to_topic = new midcom_db_topic();
             $move_to_topic->get_by_id((int) $_POST['move_to']);
-            
+
             if (   !$move_to_topic
                 || !$move_to_topic->guid)
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the topic. Could not get the target topic');
                 // This will exit
             }
-            
+
             $move_to_topic->require_do('midgard:create');
 
             if (is_a($this->_object, 'midcom_db_topic'))
@@ -145,6 +110,8 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             // This will exit
         }
 
+        $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
+
         if (is_a($this->_object, 'midcom_db_topic'))
         {
             // This is a topic
@@ -160,7 +127,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             $tmp[] = array
             (
                 MIDCOM_NAV_URL => $_MIDCOM->permalinks->create_permalink($this->_object->guid),
-                MIDCOM_NAV_NAME => $this->_get_object_title($this->_object),
+                MIDCOM_NAV_NAME => $object_label,
             );
             $this->_view_toolbar->hide_item("__ais/folder/move/{$this->_object->guid}/");
 
@@ -174,7 +141,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         );
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
-        $data['title'] = sprintf($_MIDCOM->i18n->get_string('move %s', 'midcom.admin.folder'), $this->_get_object_title($this->_object));
+        $data['title'] = sprintf($_MIDCOM->i18n->get_string('move %s', 'midcom.admin.folder'), $object_label);
         $_MIDCOM->set_pagetitle($data['title']);
 
         // Ensure we get the correct styles

@@ -41,17 +41,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
     var $_schemadb = null;
 
     /**
-     * Get the object title of the content topic.
-     *
-     * @return string containing the content topic title
-     */
-    function _get_object_title(&$object)
-    {
-        $this->_request_data['object_reflector'] = midcom_helper_reflector::get($object);
-        return $this->_request_data['object_reflector']->get_object_label($object);
-    }
-
-    /**
      * Load the DM2 edit controller instance
      *
      * @access private
@@ -149,6 +138,8 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
                 // This will exit
         }
 
+        $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
+
         $tmp = array();
 
         if (is_a($this->_object, 'midcom_db_topic'))
@@ -160,7 +151,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
             $tmp[] = array
             (
                 MIDCOM_NAV_URL => $_MIDCOM->permalinks->create_permalink($this->_object->guid),
-                MIDCOM_NAV_NAME => $this->_get_object_title($this->_object),
+                MIDCOM_NAV_NAME => $object_label,
             );
             $this->_view_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
         }
@@ -172,7 +163,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         );
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
-        $data['title'] = sprintf($_MIDCOM->i18n->get_string('edit metadata of %s', 'midcom.admin.folder'), $this->_get_object_title($this->_object));
+        $data['title'] = sprintf($_MIDCOM->i18n->get_string('edit metadata of %s', 'midcom.admin.folder'), $object_label);
         $_MIDCOM->set_pagetitle($data['title']);
 
         // Set the help object in the toolbar

@@ -23,33 +23,6 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     private $_anchor_prefix = null;
 
     /**
-     * Get the object title of the content topic.
-     *
-     * @return string containing the content topic title
-     */
-    function _get_object_title($object)
-    {
-        $title = '';
-        if (array_key_exists('title', $object))
-        {
-            $title = $object->title;
-        }
-        else if (is_a($object, 'midcom_db_topic'))
-        {
-            $title = $object->extra;
-        }
-        else if (array_key_exists('name', $object))
-        {
-            $title = $object->name;
-        }
-        else
-        {
-            $title = get_class($object) . " GUID {$object->guid}";
-        }
-        return $title;
-    }
-
-    /**
      * Initializes the context data and toolbar objects
      *
      * @access private
@@ -285,7 +258,6 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
         foreach (self::get_component_list() as $component => $details)
         {
-            // TODO: configuration options for either excluding or including components to the list
             if (   isset($GLOBALS['midcom_config']['component_listing_allowed'])
                 && is_array($GLOBALS['midcom_config']['component_listing_allowed'])
                 && !in_array($component, $GLOBALS['midcom_config']['component_listing_allowed'])

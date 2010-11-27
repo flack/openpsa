@@ -179,7 +179,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             debug_add("Deleting guid {$guid} from the index.");
             $indexer->delete($guid);
         }
-
     }
 
     /**
@@ -393,7 +392,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             foreach ($objects as $object)
             {
-                $title = self::_get_object_title($class, $object);
+                $title = midcom_helper_reflector::get($class)->get_object_label($object);
                 echo "    <li class=\"leaf $class\"$style>\n";
                 echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/new-text.png\" alt=\"\" /> {$title}\n";
                 self::_list_leaf_children($object);
@@ -426,7 +425,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             {
                 foreach ($objects as $object)
                 {
-                    $title = self::_get_object_title($class, $object);
+                    $title = midcom_helper_reflector::get($class)->get_object_label($object);
                     echo "            <li class=\"leaf_child $class\" style=\"display: none;\">{$title}\n";
                     self::_list_leaf_children($object);
                     echo "            </li>\n";
@@ -434,20 +433,6 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             echo "        </ul>\n";
         }
-    }
-
-    function _get_object_title($class, $object)
-    {
-        $title = trim(midcom_helper_reflector::get_object_title($object));
-        if (empty($title))
-        {
-            $title = trim(midcom_helper_reflector::get_object_name($object));
-        }
-        if (empty($title))
-        {
-            $title = $class . " " . $object->guid;
-        }
-        return $title;
     }
 
     function _get_child_objects($object)
