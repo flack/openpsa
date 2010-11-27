@@ -73,16 +73,6 @@ define ('MIDCOM_CONTEXT_URLTOPICS', 15);
 define ('MIDCOM_CONTEXT_CUSTOMDATA', 1000);
 
 /**#@+
- * URL PARSER Object Types
- */
-define ('MIDCOM_HELPER_URLPARSER_TOPIC',0);
-define ('MIDCOM_HELPER_URLPARSER_ARTICLE',1);
-define ('MIDCOM_HELPER_URLPARSER_ATTACHMENT',2);
-define ('MIDCOM_HELPER_URLPARSER_KEY',3);
-define ('MIDCOM_HELPER_URLPARSER_VALUE',4);
-/**#@-*/
-
-/**#@+
  * Debugger
  */
 define ('MIDCOM_LOG_DEBUG', 4);
@@ -102,19 +92,6 @@ define ('MIDCOM_CLIENT_NETSCAPE',3);
 define ('MIDCOM_CLIENT_UNIX',10);
 define ('MIDCOM_CLIENT_MAC',11);
 define ('MIDCOM_CLIENT_WIN',12);
-/**#@-*/
-
-/**#@+
- * Data Manager
- */
-define ('MIDCOM_DATAMGR_EDITING',0);
-define ('MIDCOM_DATAMGR_SAVED',1);
-define ('MIDCOM_DATAMGR_FAILED',2);
-define ('MIDCOM_DATAMGR_CANCELLED',3);
-define ('MIDCOM_DATAMGR_CANCELLED_NONECREATED',4);
-define ('MIDCOM_DATAMGR_CREATING',5);
-define ('MIDCOM_DATAMGR_CREATEFAILED',6);
-define ('MIDCOM_DATAMGR_SAVE_DELAYED',7);
 /**#@-*/
 
 /**#@+
@@ -396,13 +373,6 @@ define ('MIDCOM_CRON_DAY', 30);
  * @global string $GLOBALS['midcom_errstr']
  */
 $GLOBALS['midcom_errstr'] = '';
-
-/**
- * The main MidCOM application class.
- *
- * @global midcom_application $GLOBALS['midcom']
- */
-$GLOBALS['midcom'] = null;
 
 /**
  * The MidCOM Logging interface. Note, that even though this variable
