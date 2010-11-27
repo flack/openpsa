@@ -130,7 +130,6 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('preview message'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'p',
-                MIDCOM_TOOLBAR_ENABLED => true,
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_BLANK'),
             )
         );
@@ -140,10 +139,8 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             (
                 MIDCOM_TOOLBAR_URL => "message/report/{$this->_request_data['message']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("message report"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ACCESSKEY => 'r',
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -154,7 +151,6 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             (
                 MIDCOM_TOOLBAR_URL => "message/send_test/{$this->_request_data['message']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to testers"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
                 MIDCOM_TOOLBAR_ENABLED => (count($this->_campaign->testers) > 0) ? true : false,
             )
@@ -172,7 +168,6 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
             (
                 MIDCOM_TOOLBAR_URL => "message/send/{$this->_request_data['message']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("send message to whole campaign"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
                 MIDCOM_TOOLBAR_ENABLED => (count($keys) > 0 && $this->_message->can_do('midgard:update')) ? true : false,
                 MIDCOM_TOOLBAR_OPTIONS => array

@@ -97,7 +97,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 (
                     MIDCOM_TOOLBAR_URL => "campaign/edit_query/{$this->_campaign->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit rules'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
                 )
@@ -112,7 +111,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 (
                     MIDCOM_TOOLBAR_URL => "campaign/import/{$this->_campaign->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import subscribers'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'),
                 )
@@ -124,9 +122,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
             (
                 MIDCOM_TOOLBAR_URL => "campaign/export/csv/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('export as csv'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));

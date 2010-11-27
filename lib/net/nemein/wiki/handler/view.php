@@ -78,9 +78,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             (
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('view'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
                 MIDCOM_TOOLBAR_ACCESSKEY => 'v',
             )
         );
@@ -90,7 +88,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             (
                 MIDCOM_TOOLBAR_URL => "edit/{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:update'),
@@ -102,7 +99,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             (
                 MIDCOM_TOOLBAR_URL => "delete/{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('delete'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
                 MIDCOM_TOOLBAR_ENABLED => $this->_page->can_do('midgard:delete'),
@@ -127,7 +123,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                         $this->_l10n->get('change to %s'),
                         $this->_l10n->get($this->_request_data['schemadb'][$name]->description)
                     ),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_refresh.png',
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
@@ -144,9 +139,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             (
                 MIDCOM_TOOLBAR_URL => "whatlinks/{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n']->get('what links'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -161,7 +154,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     (
                         MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n']->get('unsubscribe'),
-                        MIDCOM_TOOLBAR_HELPTEXT => null,
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => Array
@@ -179,7 +171,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     (
                         MIDCOM_TOOLBAR_URL => "subscribe/{$this->_page->name}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n']->get('subscribe'),
-                        MIDCOM_TOOLBAR_HELPTEXT => null,
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail.png',
                         MIDCOM_TOOLBAR_POST => true,
                         MIDCOM_TOOLBAR_POST_HIDDENARGS => Array

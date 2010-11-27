@@ -36,7 +36,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
             (
                 MIDCOM_TOOLBAR_URL => "task/edit/{$this->_task->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_task->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',

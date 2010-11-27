@@ -80,9 +80,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => '#',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                     MIDCOM_TOOLBAR_OPTIONS  => array
                     (
                         'rel' => 'directlink',
@@ -102,9 +100,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => $path . '/' . $previous . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
             $this->_view_toolbar->add_item
@@ -113,9 +109,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => $path . '/' . $next . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }
@@ -206,9 +200,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => '#',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/web-calendar.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
                 MIDCOM_TOOLBAR_OPTIONS  => array
                 (
                     'rel' => 'directlink',
@@ -222,9 +214,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => "{$path}/" . $this->_get_datestring(time()) . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('today'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/web-calendar.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $this->_view_toolbar->add_item
@@ -233,9 +223,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => "filters/?org_openpsa_calendar_returnurl=" . midcom_connection::get_url('uri'),
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('choose calendars'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
     }
@@ -517,9 +505,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => 'week/' . $this->_get_datestring() . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week view'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $this->_view_toolbar->add_item
@@ -528,9 +514,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => 'day/' . $this->_get_datestring() . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day view'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -632,9 +616,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => 'month/' . $this->_get_datestring() . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('month view'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $this->_view_toolbar->add_item
@@ -643,9 +625,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => 'day/' . $this->_get_datestring() . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('day view'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -759,9 +739,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => 'month/' . $this->_get_datestring() . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('month view'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $this->_view_toolbar->add_item
@@ -770,9 +748,7 @@ function openPsaShowMonthSelector()
             (
                 MIDCOM_TOOLBAR_URL => 'week/' . $this->_get_datestring() . '/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('week view'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -896,7 +872,6 @@ function openPsaShowMonthSelector()
                 (
                     MIDCOM_TOOLBAR_URL => 'event/edit/' . $this->_request_data['event']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_request_data['event']),
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -908,7 +883,6 @@ function openPsaShowMonthSelector()
                 (
                     MIDCOM_TOOLBAR_URL => 'event/delete/' . $this->_request_data['event']->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $this->_request_data['event']),
                 )
@@ -919,9 +893,7 @@ function openPsaShowMonthSelector()
                 (
                     MIDCOM_TOOLBAR_URL => 'javascript:window.print()',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('print'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                     MIDCOM_TOOLBAR_OPTIONS  => array
                     (
                         'rel' => 'directlink',

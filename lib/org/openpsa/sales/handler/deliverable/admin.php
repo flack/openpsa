@@ -72,7 +72,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             (
                 MIDCOM_TOOLBAR_URL => "deliverable/edit/{$this->_deliverable->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_deliverable->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',

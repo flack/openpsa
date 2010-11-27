@@ -189,9 +189,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
             (
                 MIDCOM_TOOLBAR_URL => $_MIDCOM->permalinks->create_permalink($this->_guid),
                 MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('back to %s', 'no.bergfald.rcs'), $this->_resolve_object_title()),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_up.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -234,9 +232,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$first}/{$second}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('view %s differences with previous (%s)'), $second, $first),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }
@@ -247,9 +243,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
             (
                 MIDCOM_TOOLBAR_URL => "__ais/rcs/preview/{$this->_guid}/{$revision}/",
                 MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('view this revision (%s)'), $revision),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/search.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -262,7 +256,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/rcs/restore/{$this->_guid}/{$revision}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('restore this revision (%s)'), $revision),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editpaste.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
                 )
@@ -274,9 +267,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
                 (
                     MIDCOM_TOOLBAR_URL => "__ais/rcs/diff/{$this->_guid}/{$revision}/{$after}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_get('view %s differences with next (%s)'), $revision, $after),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_right.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }

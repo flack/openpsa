@@ -72,7 +72,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             (
                 MIDCOM_TOOLBAR_URL => "message/edit/{$this->_message->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit message'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_message->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',

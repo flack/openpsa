@@ -42,7 +42,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             (
                 MIDCOM_TOOLBAR_URL => "product/edit/{$this->_product->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -55,7 +54,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             (
                 MIDCOM_TOOLBAR_URL => "product/delete/{$this->_product->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:delete'),
             )
@@ -70,7 +68,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 (
                     MIDCOM_TOOLBAR_URL => "productlink/{$product_link_guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('view productlink'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/view.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:update'),
                 )
@@ -81,7 +78,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 (
                     MIDCOM_TOOLBAR_URL => "productlink/edit/{$product_link_guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit productlink'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:update'),
                 )
@@ -92,7 +88,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 (
                     MIDCOM_TOOLBAR_URL => "productlink/delete/{$product_link_guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete productlink'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_product->can_do('midgard:delete'),
                 )
@@ -115,7 +110,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                     (
                         MIDCOM_TOOLBAR_URL => "edit/{$product_group->guid}/",
                         MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit group'),
-                        MIDCOM_TOOLBAR_HELPTEXT => null,
                         MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                         MIDCOM_TOOLBAR_ENABLED => $product_group->can_do('midgard:update'),
                     )

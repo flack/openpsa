@@ -55,7 +55,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
             (
                 MIDCOM_TOOLBAR_URL => "project/edit/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
 
@@ -67,7 +66,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
             (
                 MIDCOM_TOOLBAR_URL => "task/new/project/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create task'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
             )

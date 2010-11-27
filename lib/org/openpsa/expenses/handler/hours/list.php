@@ -123,7 +123,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                         (
                             MIDCOM_TOOLBAR_URL => $projects_url . "task/{$task->guid}/",
                             MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $task->title),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                             MIDCOM_TOOLBAR_ACCESSKEY => 'g',
                         )

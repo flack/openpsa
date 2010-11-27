@@ -464,7 +464,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',

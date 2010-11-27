@@ -304,9 +304,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/render/{$guid}/{$mode}/",
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('view related information', 'org.openpsa.relatedto'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
     }
@@ -407,10 +405,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
                         (
                             MIDCOM_TOOLBAR_URL => "#",
                             MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create event', $button_component),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                             //TODO: Check for privileges somehow
-                            MIDCOM_TOOLBAR_ENABLED => true,
                             MIDCOM_TOOLBAR_OPTIONS  => array
                             (
                                 'rel' => 'directlink',
@@ -434,7 +430,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}task/new/?" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create task', $button_component),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
                             MIDCOM_TOOLBAR_OPTIONS  => array
@@ -477,7 +472,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}create/?wikiword={$data['wikiword_encoded']}&amp;" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create note', $button_component),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             //TODO: Different icon from new document ?
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             //TODO: Check privileges somehow ($_MIDCOM->auth->can_do('midgard:create', $data['node'][MIDCOM_NAV_OBJECT] ?)
@@ -505,7 +499,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)),
                             MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create document', $button_component),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $data['node'][MIDCOM_NAV_OBJECT]),
                             MIDCOM_TOOLBAR_OPTIONS  => array
@@ -533,9 +526,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
             (
                 MIDCOM_TOOLBAR_URL => "__mfa/org.openpsa.relatedto/journalentry/{$guid}/html/",
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('view journal entries', 'org.openpsa.relatedto'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
     }

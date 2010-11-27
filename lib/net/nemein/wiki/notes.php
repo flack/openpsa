@@ -164,7 +164,6 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             (
                 MIDCOM_TOOLBAR_URL => "{$this->wiki[MIDCOM_NAV_FULLURL]}create/{$this->new_wikipage}/{$this->target_node[MIDCOM_NAV_GUID]}/{$this->target->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create note'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                 MIDCOM_TOOLBAR_ENABLED => $enable_creation,
                 MIDCOM_TOOLBAR_OPTIONS => array

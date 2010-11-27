@@ -437,7 +437,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                         (
                             MIDCOM_TOOLBAR_URL => "{$buddylist_path}delete",
                             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
                             MIDCOM_TOOLBAR_POST => true,
@@ -459,7 +458,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                         (
                             MIDCOM_TOOLBAR_URL => "{$buddylist_path}request/{$this->_account->guid}?relocate_to={$view_url}",
                             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
                         )
@@ -944,7 +942,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                         (
                             MIDCOM_TOOLBAR_URL => "{$buddylist_path}delete",
                             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
                             MIDCOM_TOOLBAR_POST => true,
@@ -966,7 +963,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                         (
                             MIDCOM_TOOLBAR_URL => "{$buddylist_path}request/{$this->_account->guid}?relocate_to={$view_url}",
                             MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
-                            MIDCOM_TOOLBAR_HELPTEXT => null,
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
                         )

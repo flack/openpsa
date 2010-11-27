@@ -258,9 +258,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
             (
                 MIDCOM_TOOLBAR_URL => 'javascript:document.getElementById("org_openpsa_documents_document_deleteform").submit();',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("delete"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
                 MIDCOM_TOOLBAR_OPTIONS  => array
                 (
                     'rel' => 'directlink',
@@ -273,9 +271,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
             (
                 MIDCOM_TOOLBAR_URL => 'document/' . $this->_document->guid.'/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("cancel"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
              )
          );
         $this->_update_breadcrumb_line('delete');

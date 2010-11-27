@@ -50,9 +50,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
             (
                 MIDCOM_TOOLBAR_URL => '',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("back to index"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
 
@@ -64,9 +62,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
                 (
                     MIDCOM_TOOLBAR_URL => 'project/new/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("create project"),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }

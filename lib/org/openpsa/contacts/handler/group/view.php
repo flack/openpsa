@@ -133,7 +133,6 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
             (
                 MIDCOM_TOOLBAR_URL => "group/edit/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get("edit"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -146,7 +145,6 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
             (
                 MIDCOM_TOOLBAR_URL => "group/create/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create suborganization'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_group->can_do('midgard:update'),
             )
@@ -168,7 +166,6 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
             (
                 MIDCOM_TOOLBAR_URL => "person/create/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create person'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
                 MIDCOM_TOOLBAR_ENABLED => $allow_person_create,
             )
@@ -180,7 +177,6 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
             (
                 MIDCOM_TOOLBAR_URL => "group/notifications/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
             )
@@ -192,7 +188,6 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
             (
                 MIDCOM_TOOLBAR_URL => "group/privileges/{$this->_group->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:privileges', $this->_group),
             )
@@ -208,9 +203,7 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
                 (
                     MIDCOM_TOOLBAR_URL => "#",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create event'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                     MIDCOM_TOOLBAR_OPTIONS  => array
                     (
                         'rel' => 'directlink',

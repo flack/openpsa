@@ -60,7 +60,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
             (
                 MIDCOM_TOOLBAR_URL => 'invoice/new/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
             )
@@ -72,7 +71,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
             (
                 MIDCOM_TOOLBAR_URL => 'projects/',
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('project invoicing'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'),
             )
@@ -255,7 +253,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => "invoice/new/{$this->_request_data['customer']->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create invoice'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/printer.png',
                 )
             );
@@ -275,7 +272,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => "billingdata/" . $billing_data_url,
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit billingdata', 'org.openpsa.contacts'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_customer->can_do('midgard:update'),
                 )
@@ -290,7 +286,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . "group/{$this->_request_data['customer']->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                 )
             );

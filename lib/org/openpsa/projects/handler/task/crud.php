@@ -58,7 +58,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             (
                 MIDCOM_TOOLBAR_URL => "task/edit/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_object->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -142,9 +141,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 (
                     MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/reopen/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('reopen'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder-expanded.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }
@@ -157,9 +154,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 (
                     MIDCOM_TOOLBAR_URL => "task/{$this->_object->guid}/complete/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark completed'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }
@@ -192,7 +187,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 (
                     MIDCOM_TOOLBAR_URL => $expenses_url . "hours/task/all/{$this->_object->guid}",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('hour reports'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/scheduled_and_shown.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'h',
                 )

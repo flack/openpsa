@@ -153,9 +153,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 (
                     MIDCOM_TOOLBAR_URL => 'document/create/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new document'),
-                    MIDCOM_TOOLBAR_HELPTEXT => '',
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
             $this->_view_toolbar->add_item
@@ -164,9 +162,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 (
                     MIDCOM_TOOLBAR_URL => 'create/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('new directory'),
-                    MIDCOM_TOOLBAR_HELPTEXT => '',
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }
@@ -178,9 +174,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 (
                     MIDCOM_TOOLBAR_URL => 'edit/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit directory'),
-                    MIDCOM_TOOLBAR_HELPTEXT => '',
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );

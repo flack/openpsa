@@ -230,9 +230,7 @@ class midcom_helper_toolbar
             (
                 MIDCOM_TOOLBAR_URL => $uri,
                 MIDCOM_TOOLBAR_LABEL => $label,
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_help-agent.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
                 MIDCOM_TOOLBAR_ACCESSKEY => 'h',
                 MIDCOM_TOOLBAR_OPTIONS => array
                 (

@@ -168,9 +168,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             (
                 MIDCOM_TOOLBAR_URL => "campaign/edit_query_advanced/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('advanced rule editor'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $_MIDCOM->enable_jquery();
@@ -526,7 +524,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             (
                 MIDCOM_TOOLBAR_URL => "campaign/edit/{$this->_campaign->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit campaign'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',

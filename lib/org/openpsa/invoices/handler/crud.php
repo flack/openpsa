@@ -279,9 +279,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => "invoice/pdf/{$this->_object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create pdf for invoice'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }
@@ -300,7 +298,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 MIDCOM_TOOLBAR_URL => "invoice/edit/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -315,7 +312,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => "invoice/mark_sent/{$this->_object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
@@ -330,7 +326,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 (
                     MIDCOM_TOOLBAR_URL => "invoice/mark_paid/{$this->_object->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark paid'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/ok.png',
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
@@ -344,7 +339,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 MIDCOM_TOOLBAR_URL => "invoice/delete/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $this->_object),
             )
@@ -356,7 +350,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             (
                 MIDCOM_TOOLBAR_URL => "invoice/itemedit/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
             )

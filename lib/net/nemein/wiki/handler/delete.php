@@ -105,9 +105,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
             (
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('cancel'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $this->_view_toolbar->bind_to($this->_page);

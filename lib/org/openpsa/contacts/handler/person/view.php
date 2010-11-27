@@ -152,7 +152,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             (
                 MIDCOM_TOOLBAR_URL => "person/edit/{$this->_contact->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
@@ -177,7 +176,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => $invoices_url."billingdata/" . $billing_data_url,
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
                 )
@@ -192,7 +190,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => "account/edit/{$this->_contact->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_contact),
                 )
@@ -203,7 +200,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => "person/privileges/{$this->_contact->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:privileges', $this->_contact),
                 )
@@ -217,7 +213,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => "account/create/{$this->_contact->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create account'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_contact),
                 )
@@ -251,7 +246,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => "buddylist/remove/{$this->_contact->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
                 )
@@ -266,7 +260,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => "buddylist/add/{$this->_contact->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
                 )

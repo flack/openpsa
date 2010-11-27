@@ -244,7 +244,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                 (
                     MIDCOM_TOOLBAR_URL => $projects_url . "task/{$parent->guid}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('show task %s'), $parent->title),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'g',
                 )
@@ -316,10 +315,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             (
                 MIDCOM_TOOLBAR_URL => "hours/delete/{$this->_hour_report->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
-
             )
         );
 

@@ -21,9 +21,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
             (
                 MIDCOM_TOOLBAR_URL => "next/{$this->_request_data['campaign']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next interview'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_landline-phone.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
         $this->_view_toolbar->add_item(
@@ -31,9 +29,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
             (
                 MIDCOM_TOOLBAR_URL => "report/all/{$this->_request_data['campaign']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show interviews'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
     }

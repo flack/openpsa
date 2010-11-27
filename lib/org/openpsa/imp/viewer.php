@@ -59,9 +59,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
             (
                 MIDCOM_TOOLBAR_URL => 'settings/',
                 MIDCOM_TOOLBAR_LABEL => $this->_request_data['l10n_midcom']->get('settings'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                MIDCOM_TOOLBAR_ENABLED => true
             )
         );
 

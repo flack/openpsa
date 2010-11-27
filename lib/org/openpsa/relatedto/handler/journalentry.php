@@ -130,7 +130,6 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             (
                 MIDCOM_TOOLBAR_URL => $this->_relocate_url,
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
             )
         );
@@ -140,7 +139,6 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             (
                 MIDCOM_TOOLBAR_URL => $this->_request_data['url_prefix'] . "create/" . $this->_current_object->guid . "/",
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('add journal entry', 'org.openpsa.relatedto'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
             )
         );

@@ -72,7 +72,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
             (
                 MIDCOM_TOOLBAR_URL => "person/edit/{$this->_contact->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',

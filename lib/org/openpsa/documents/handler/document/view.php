@@ -130,9 +130,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
                 (
                     MIDCOM_TOOLBAR_URL => "document/edit/{$this->_document->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_HELPTEXT => '',
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                     MIDCOM_TOOLBAR_ACCESSKEY => 'e',
                 )
             );
@@ -145,9 +143,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
                 (
                     MIDCOM_TOOLBAR_URL => "document/delete/{$this->_document->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('delete'),
-                    MIDCOM_TOOLBAR_HELPTEXT => '',
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    MIDCOM_TOOLBAR_ENABLED => true,
                 )
             );
         }

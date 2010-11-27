@@ -21,9 +21,7 @@ class org_openpsa_interviews_handler_report extends midcom_baseclasses_component
             (
                 MIDCOM_TOOLBAR_URL => "campaign/{$this->_request_data['campaign']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('back'),
-                MIDCOM_TOOLBAR_HELPTEXT => null,
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_left.png',
-                MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
     }

@@ -146,7 +146,6 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
                 (
                     MIDCOM_TOOLBAR_URL => 'config/recreate/',
                     MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('recreate images', 'midcom'),
-                    MIDCOM_TOOLBAR_HELPTEXT => null,
                     // TODO: better icon
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/recurring.png',
                     MIDCOM_TOOLBAR_POST => true,
