@@ -31,7 +31,7 @@
  *
  * @package midcom
  */
-class midcom_core_querybuilder extends midcom_baseclasses_core_object
+class midcom_core_querybuilder
 {
     /**
      * This private helper holds the type that the application expects to retrieve

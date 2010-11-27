@@ -39,7 +39,7 @@
  * @see midcom_baseclasses_components_interface::_on_resolve_permalink()
  * @package midcom.services
  */
-class midcom_services_permalinks extends midcom_baseclasses_core_object
+class midcom_services_permalinks
 {
     /**
      * This function resolves any GUID into a fully qualified URL which can be relocated

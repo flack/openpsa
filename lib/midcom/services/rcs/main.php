@@ -29,7 +29,7 @@ require MIDCOM_ROOT. '/midcom/services/rcs/config.php';
 /**
  * @package midcom.services.rcs
  */
-class midcom_services_rcs extends midcom_baseclasses_core_object
+class midcom_services_rcs
 {
     /**
      * Array of handlers that rcs uses to manage object versioning.

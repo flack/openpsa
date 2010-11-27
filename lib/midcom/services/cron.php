@@ -93,7 +93,7 @@
  *
  * @package midcom.services
  */
-class midcom_services_cron extends midcom_baseclasses_core_object
+class midcom_services_cron
 {
     /**
      * The list of jobs to run. See the class introduction for a more precise definition of

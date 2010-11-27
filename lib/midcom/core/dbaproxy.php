@@ -12,11 +12,11 @@
  *
  * @package midcom
  */
-class midcom_core_dbaproxy extends midcom_baseclasses_core_object
+class midcom_core_dbaproxy
 {
     /**
      * MidCOM DBA object
-     * 
+     *
      * @access private
      * @var object
      */
@@ -24,7 +24,7 @@ class midcom_core_dbaproxy extends midcom_baseclasses_core_object
 
     /**
      * MidCOM DBA classname
-     * 
+     *
      * @access public
      * @var string
      */
@@ -32,24 +32,24 @@ class midcom_core_dbaproxy extends midcom_baseclasses_core_object
 
     /**
      * MidCOM DBA object identifier, can be ID or GUID
-     * 
+     *
      * @access private
      * @var mixed
      */
     private $__identifier;
 
     /**
-     * Flag that indicates whether or not we already tried to load this 
+     * Flag that indicates whether or not we already tried to load this
      * object
-     * 
+     *
      * @access private
      * @var boolean
      */
     private $__tried_to_load = false;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @access public
      */
     public function __construct($identifier, $classname)
@@ -80,14 +80,14 @@ class midcom_core_dbaproxy extends midcom_baseclasses_core_object
         }
         return false;
     }
-    
+
     /**
      * Magic getter for object property mapping
-     * 
+     *
      * @access public
      * @param string $property Name of the property
      */
-    public function __get($property) 
+    public function __get($property)
     {
         if (!$this->_load_object())
         {
@@ -99,12 +99,12 @@ class midcom_core_dbaproxy extends midcom_baseclasses_core_object
 
     /**
      * Magic setter for object property mapping
-     * 
+     *
      * @access public
      * @param string $property  Name of the property
      * @param mixed $value      Property value
      */
-    public function __set($property, $value) 
+    public function __set($property, $value)
     {
         if (!$this->_load_object())
         {
@@ -116,20 +116,20 @@ class midcom_core_dbaproxy extends midcom_baseclasses_core_object
 
     /**
      * Magic isset test for object property mapping
-     * 
+     *
      * @access public
      * @param string $property  Name of the property
      */
-    public function __isset($property) 
+    public function __isset($property)
     {
         if (!$this->_load_object())
         {
             return null;
         }
 
-        return isset($this->__object->$property); 
+        return isset($this->__object->$property);
     }
-    
+
     public function __call($method, $arguments)
     {
         if (!$this->_load_object())
@@ -142,7 +142,7 @@ class midcom_core_dbaproxy extends midcom_baseclasses_core_object
 
     /**
      * This is called when the object is serialized (f.x. written to memcache). It eliminates the object
-     * to increase performance 
+     * to increase performance
      */
     public function __sleep()
     {

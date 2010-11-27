@@ -14,7 +14,7 @@
  *
  * @package midcom
  */
-class midcom_helper__dbfactory extends midcom_baseclasses_core_object
+class midcom_helper__dbfactory
 {
     /**
      * This is a replacement for the original midgard_object_class::get_object_by_guid method, which takes

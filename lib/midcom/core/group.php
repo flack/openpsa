@@ -12,7 +12,7 @@
  *
  * @package midcom
  */
-class midcom_core_group extends midcom_baseclasses_core_object
+class midcom_core_group
 {
     /**
      * The storage object on which we are based. This is usually a midgard_group

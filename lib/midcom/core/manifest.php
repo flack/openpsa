@@ -191,7 +191,7 @@
  *
  * @package midcom
  */
-class midcom_core_manifest extends midcom_baseclasses_core_object
+class midcom_core_manifest
 {
     /**
      * The raw manifest array as loaded from disc.

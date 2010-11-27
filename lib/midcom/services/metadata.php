@@ -16,7 +16,7 @@
  *
  * @package midcom.services
  */
-class midcom_services_metadata extends midcom_baseclasses_core_object
+class midcom_services_metadata
 {
     /**
      * The metadata currently available. This array is indexed by context id; each

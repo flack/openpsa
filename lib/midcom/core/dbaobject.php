@@ -12,7 +12,7 @@
  *
  * @package midcom
  */
-abstract class midcom_core_dbaobject extends midcom_baseclasses_core_object
+abstract class midcom_core_dbaobject
 {
     /**
      * MgdSchema object

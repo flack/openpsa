@@ -33,7 +33,7 @@
  *
  * @package midcom.services
  */
-class midcom_services_tmp extends midcom_baseclasses_core_object
+class midcom_services_tmp
 {
     /**
      * This class creates a new temporary object for use with the application.

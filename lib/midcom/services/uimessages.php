@@ -49,7 +49,7 @@
  *
  * @package midcom.services
  */
-class midcom_services_uimessages extends midcom_baseclasses_core_object
+class midcom_services_uimessages
 {
     /**
      * The current message stack

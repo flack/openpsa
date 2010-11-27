@@ -51,7 +51,7 @@
  *
  * @package midcom.services
  */
-class midcom_services_toolbars extends midcom_baseclasses_core_object
+class midcom_services_toolbars
 {
     /**
      * The toolbars currently available.

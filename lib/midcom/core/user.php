@@ -17,7 +17,7 @@
  *
  * @package midcom
  */
-class midcom_core_user extends midcom_baseclasses_core_object
+class midcom_core_user
 {
     /**
      * The storage object on which we are based.

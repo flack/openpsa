@@ -10,7 +10,7 @@
 /**
  * @package midcom.services
  */
-class midcom_services_js_css_merger extends midcom_baseclasses_core_object
+class midcom_services_js_css_merger
 {
     /**
      * local document root of the website

@@ -29,7 +29,7 @@
  *
  * @package midcom.baseclasses
  */
-class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
+class midcom_baseclasses_core_dbobject
 {
     static $parameter_cache = array();
     /**
