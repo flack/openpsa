@@ -105,32 +105,31 @@ foreach ($properties_map as $class => $properties)
     foreach ($properties as $property => $localized)
     {
         $i2++;
-    if ($i2 < $cnt2)
-    {
+        if ($i2 < $cnt2)
+        {
             echo "                 {$property}: '{$localized}',\n";
-    }
-    else
-    {
+        }
+        else
+        {
             echo "                 {$property}: '{$localized}'\n";
+        }
+        }
+        echo "             }\n";
 
+        if ($i < $cnt)
+        {
+            echo "        },\n";
+        }
+        else
+        {
+            echo "        },\n";
+            echo "        'generic_parameters': {\n";
+            echo "            localized: '" . $data['l10n']->get("class:generic parameters") . "',\n";
+            echo "            parameters: true,\n";
+            echo "            properties: false\n";
+            echo "        }\n";
+        }
     }
-    }
-    echo "             }\n";
-
-    if ($i < $cnt)
-    {
-        echo "        },\n";
-    }
-    else
-    {
-        echo "        },\n";
-        echo "        'generic_parameters': {\n";
-        echo "            localized: '" . $data['l10n']->get("class:generic parameters") . "',\n";
-        echo "            parameters: true,\n";
-        echo "            properties: false\n";
-        echo "        }\n";
-    }
-}
 ?>
     };
     var org_openpsa_directmarketing_edit_query_match_map = {
@@ -196,7 +195,7 @@ foreach ($properties_map as $class => $properties)
         {
             var group_id = first_group("org_openpsa_directmarketing_rules_editor_container" ,<?php
             // pass type of first rule_group to javascript, if there is one
-            if(count($current_rules) > 0 )
+            if (count($current_rules) > 0 )
             {
                 if(isset($current_rules['type']))
                 {
@@ -206,7 +205,6 @@ foreach ($properties_map as $class => $properties)
                 {
                     echo '"'.$current_rules['groups'].'"';
                 }
-
             }
             else
             {

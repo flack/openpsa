@@ -66,8 +66,8 @@ $GLOBALS['midcom_services_i18n__l10n_localedb'] = Array();
  *
  * @package midcom.services
  */
-class midcom_services__i18n_l10n {
-
+class midcom_services__i18n_l10n
+{
     /**
      * The name of the locale library we use, this is usually
      * a component's name.

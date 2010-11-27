@@ -110,7 +110,6 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
                 $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
             );
         }
-
     }
 
     /**

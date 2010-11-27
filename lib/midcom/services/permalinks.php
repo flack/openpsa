@@ -220,7 +220,5 @@ class midcom_services_permalinks extends midcom_baseclasses_core_object
     {
         return "{$GLOBALS['midcom_config']['midcom_site_url']}midcom-permalink-{$guid}";
     }
-
 }
-
 ?>

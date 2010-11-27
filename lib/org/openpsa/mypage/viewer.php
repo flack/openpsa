@@ -202,5 +202,5 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
     {
         midcom_show_style("show-updates");
     }
-
 }
+?>

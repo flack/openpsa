@@ -13,10 +13,8 @@
  */
 class org_openpsa_documents_navigation extends midcom_baseclasses_components_navigation
 {
-
-    function get_leaves() 
+    function get_leaves()
     {
-
         $leaves = array ();
         return $leaves;
 
@@ -32,7 +30,7 @@ class org_openpsa_documents_navigation extends midcom_baseclasses_components_nav
         {
             foreach ($ret as $document)
             {
-                $leaves[$document->id] = array 
+                $leaves[$document->id] = array
                 (
                     MIDCOM_NAV_URL => 'document/' . $document->guid . '/',
                     MIDCOM_NAV_NAME => ($document->title != "") ? $document->title : "document #" . $document->id,
@@ -43,7 +41,5 @@ class org_openpsa_documents_navigation extends midcom_baseclasses_components_nav
         }
         return $leaves;
     }
-    
 }
-
 ?>

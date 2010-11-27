@@ -70,6 +70,5 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
 
         return true;
     }
-
 }
 ?>

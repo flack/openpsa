@@ -16,7 +16,6 @@
  */
 class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_components_handler
 {
-
     /**
      * The reporter cache
      *
@@ -259,10 +258,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                     $reports['uninvoiceable']['hours'] += $report->hours;
                     break;
             }
-
         }
     }
-
 
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current

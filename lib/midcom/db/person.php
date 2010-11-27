@@ -80,7 +80,7 @@ class midcom_db_person extends midcom_core_dbaobject
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without
      * having a this (this call is static).
-     * 
+     *
      * @static
      */
     static function new_query_builder()
@@ -92,12 +92,12 @@ class midcom_db_person extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     /**
      * Updates all computed members.
      *
@@ -257,9 +257,5 @@ class midcom_db_person extends midcom_core_dbaobject
         }
         return true;
     }
-
-
 }
-
-
 ?>

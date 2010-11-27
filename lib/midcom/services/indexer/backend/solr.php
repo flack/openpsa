@@ -109,7 +109,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     {
         $this->factory->delete($RI);
         return $this->request->execute();
-
     }
 
     /**
@@ -198,7 +197,6 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
                 if ($name == 'score' && $filter == null) {
                     $doc->score = (float) $str->nodeValue;
                 }
-
             }
             /* FIXME: before result slicing is properly supported this can be too heavy
             if (   isset($doc->source)
@@ -254,7 +252,6 @@ class midcom_services_indexer_solrDocumentFactory
      */
     public function add($document)
     {
-
         $root = $this->xml->createElement('add');
         $this->xml->appendChild($root);
         $element = $this->xml->createElement('doc');
@@ -280,7 +277,6 @@ class midcom_services_indexer_solrDocumentFactory
             $field->nodeValue = htmlspecialchars($field_record['content']);
             $element->appendChild($field);
         }
-
     }
 
     /**
@@ -328,7 +324,6 @@ class midcom_services_indexer_solrDocumentFactory
         }
         return $this->xml->saveXML();
     }
-
 }
 
 

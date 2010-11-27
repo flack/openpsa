@@ -128,8 +128,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
                     || (   $deliverable->start < $this->_request_data['end']
                         && $deliverable->end > $this->_request_data['start'])))
             {
-                  $invoices = array_merge($invoices, $this->_get_invoices_for_subscription($deliverable, $at_entry));
-
+                $invoices = array_merge($invoices, $this->_get_invoices_for_subscription($deliverable, $at_entry));
             }
         }
 
@@ -147,7 +146,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             return 0;
         }
         return ($a->{$this->_request_data['date_field']} < $b->{$this->_request_data['date_field']}) ? -1 : 1;
-}
+    }
 
     private function _filter_by_date($inv)
     {
@@ -197,7 +196,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
                 $qb->add_constraint('paid', '=', 0);
                 $qb->add_constraint('due', '>', mktime(0, 0, 0, date('n'), date('j') - 1, date('Y')));
                 break;
-
         }
 
         $qb->add_order($this->_request_data['date_field'], 'DESC');
@@ -240,6 +238,5 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 
         midcom_show_style('invoices_report-grid');
     }
-
 }
 ?>

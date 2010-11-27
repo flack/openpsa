@@ -242,7 +242,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
 
         $this->_defaults['code'] = org_openpsa_sales_salesproject_dba::generate_salesproject_number();
-        $this->_defaults['owner'] = midcom_connection::get_user(); 
+        $this->_defaults['owner'] = midcom_connection::get_user();
 
         if (!isset($this->_datamanager))
         {
@@ -281,7 +281,5 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         midcom_show_style('show-salesproject-new');
     }
-
 }
-
 ?>

@@ -816,7 +816,6 @@ EOF;
      */
     function send($backend = 'try_default', $backend_params = array())
     {
-
         switch ($backend)
         {
             case 'try_default':
@@ -1081,7 +1080,6 @@ EOF;
      */
     function html_get_embeds($obj = false, $html = null, $embeds = null)
     {
-
         if (!is_array($embeds))
         {
             $embeds = array();

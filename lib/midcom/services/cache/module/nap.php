@@ -158,7 +158,6 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
                 unset($parent_entry_from_object[MIDCOM_NAV_SUBNODES]);
                 $this->_cache->put("{$this->_prefix}-{$parent_entry_from_object[MIDCOM_NAV_ID]}", $parent_entry_from_object);
             }
-
         }
         $leaves_key = "{$node_id}-leaves";
 
@@ -260,6 +259,5 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
         $this->_cache->put("{$this->_prefix}-{$key}", $data, $timeout);
     }
-
 }
 ?>

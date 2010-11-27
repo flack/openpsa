@@ -229,7 +229,6 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
 
         $data['rss'] = $data['rss_creator']->createFeed('RSS2.0');
         echo $data['rss'];
-
     }
 }
 ?>

@@ -149,7 +149,6 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
             'href' => MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.datepicker.min.css',
         );
         $_MIDCOM->add_link_head($attributes);
-
     }
 
     /**
@@ -163,7 +162,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
 <script type="text/javascript">
         jQuery("#{$this->_namespace}{$this->name}").datepicker(
         {
-          maxDate: new Date({$this->maxyear}, 1, 1), 
+          maxDate: new Date({$this->maxyear}, 1, 1),
           minDate: new Date({$this->minyear}, 1, 1),
           dateFormat: 'yy-mm-dd',
                 //altFormat: 'yyyy-mm-dd',

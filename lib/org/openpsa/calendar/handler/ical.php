@@ -33,7 +33,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
             return;
         }
         $root_event = org_openpsa_calendar_interface::find_root_event();
-        
+
         $qb = org_openpsa_calendar_event_member_dba::new_query_builder();
         $qb->add_constraint('eid.up', '=', $root_event->id);
         // Display events two weeks back
@@ -96,7 +96,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     function _show_user_events($handler_id, &$data)
     {
-
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();
         foreach ($this->_request_data['events'] as $event)
@@ -162,7 +161,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      */
     function _show_user_busy($handler_id, &$data)
     {
-
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();
         foreach ($this->_request_data['events'] as $event)
@@ -199,6 +197,5 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         }
         echo $event->vcal_footers();
     }
-
 }
 ?>

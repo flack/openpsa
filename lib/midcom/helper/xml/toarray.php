@@ -41,7 +41,6 @@
  */
 class midcom_helper_xml_toarray
 {
-
     /**
      * An instance of the Expat parser
      * @access private
@@ -62,12 +61,14 @@ class midcom_helper_xml_toarray
      * @var array
      */
     var $_stack = array ();
+
     /**
      * reference to the current element
      * @var reference
      * @access private
      */
     var $_stack_ref;
+
     /**
      * The end output
      * @var array
@@ -85,6 +86,7 @@ class midcom_helper_xml_toarray
     {
         return $this->_parse($data);
     }
+
     /**
      * Push an element to the stack
      * @access private
@@ -100,6 +102,7 @@ class midcom_helper_xml_toarray
         unset ($this->_stack[count($this->_stack) - 1]);
         $this->_stack_ref = & $this->_stack[count($this->_stack) - 1];
     }
+
     /**
      * Parse the data and build the array
      * @param string the xml to be parsed
@@ -146,6 +149,7 @@ class midcom_helper_xml_toarray
 
         return $this->_output;
     }
+
     /**
      * This callback function is called when the parser finds an open
      * tag.
@@ -154,7 +158,6 @@ class midcom_helper_xml_toarray
      * @param array attrs the attributes found in the tag.
      * @access private
      */
-
     function _tag_open($parser, $name, $attrs = array ())
     {
         if (isset ($this->_stack_ref[$name]))
@@ -178,7 +181,7 @@ class midcom_helper_xml_toarray
         else
         {
             $this->_stack_ref[$name] = array ('_content' => '');
-            if (   isset ($attrs) 
+            if (   isset ($attrs)
                 && count($attrs) > 0)
             {
                 $this->_stack_ref[$name]['attributes'] = $attrs;
@@ -186,6 +189,7 @@ class midcom_helper_xml_toarray
             $this->_push_pos($this->_stack_ref[$name]);
         }
     }
+
     /**
      * This function handles the data that is within
      * an xml tag.
@@ -193,7 +197,6 @@ class midcom_helper_xml_toarray
      * @param string the data.
      * @access private
      */
-
     function _tag_data($parser, $tag_data)
     {
         if (trim($tag_data))
@@ -204,16 +207,16 @@ class midcom_helper_xml_toarray
                 $this->_stack_ref['_content'] = $tag_data;
         }
     }
+
     /**
      * this function is called when a tag ends.
      * @param resource parser
      * @param string the name of the tag.
      * @access private
      */
-
     function _tag_closed($parser, $name)
     {
         $this->_pop_pos();
     }
-
 }
+?>

@@ -32,13 +32,11 @@
  */
 class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanager2_widget
 {
-
     /**
      * JS actions bound to widget
      *
      * @var array
      */
-
     var $jsevents=null;
 
     /**
@@ -46,7 +44,6 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
      *
      * @var array
      */
-
     var $show_title = true;
 
     /**
@@ -54,7 +51,6 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
      *
      * @var array
      */
-
     var $description = '';
 
     /**
@@ -77,7 +73,6 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
      */
     function add_elements_to_form()
     {
-
         $attr = Array
         (
             'class' => 'checkbox',
@@ -100,7 +95,6 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
         }
 
         $this->_form->addElement('checkbox', $this->name, $title, $this->description, $attr );
-
     }
 
     function get_default()
@@ -120,7 +114,5 @@ class midcom_helper_datamanager2_widget_checkbox extends midcom_helper_datamanag
         $element = $this->_form->getElement($this->name);
         $this->_type->value = $element->getChecked();
     }
-
 }
-
 ?>

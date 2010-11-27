@@ -15,7 +15,6 @@
  */
 class org_openpsa_documents_handler_document_create extends midcom_baseclasses_components_handler
 {
-
     /**
      * The document we're working with (if any).
      *
@@ -148,8 +147,8 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         $this->_request_data['controller'] =& $this->_controller;
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
-        
+        org_openpsa_helpers::dm2_savecancel($this);
+
         $tmp = Array();
 
         $tmp[] = Array
@@ -182,6 +181,5 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
     {
         midcom_show_style("show-document-create");
     }
-
 }
 ?>

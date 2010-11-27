@@ -143,7 +143,5 @@ class midcom_services_tmp extends midcom_baseclasses_core_object
 
         return $tmp;
     }
-
 }
-
 ?>

@@ -63,7 +63,6 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
          $this->_component = 'midcom.helper.datamanager2';
          $this->datamanager = $datamanager;
          parent::__construct();
-
     }
 
     /**
@@ -211,7 +210,5 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
-
 }
-
 ?>

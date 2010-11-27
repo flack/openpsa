@@ -93,7 +93,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      */
     function _handler_metadata($handler_id, $args, &$data)
     {
-
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (! $this->_object)
         {

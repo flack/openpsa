@@ -72,7 +72,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['salesproject'], $this->_component, $relatedto_button_settings);
 
         $_MIDCOM->bind_view_to_object($this->_salesproject);
-
     }
 
     private function _load_controller()
@@ -177,7 +176,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      */
     function _show_view($handler_id, &$data)
     {
-
         // For AJAX handling it is the controller that renders everything
         $data['view_salesproject'] = $this->_request_data['controller']->get_content_html();
         midcom_show_style('show-salesproject');

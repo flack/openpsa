@@ -115,7 +115,5 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
 
         return $result;
     }
-
 }
-
 ?>

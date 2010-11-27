@@ -370,7 +370,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         if ($task)
         {
-
             $tmp[] = array
             (
                MIDCOM_NAV_URL => "hours/task/" . $task->guid,
@@ -536,6 +535,5 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $_MIDCOM->relocate($relocate);
     }
-
 }
 ?>

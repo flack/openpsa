@@ -506,6 +506,5 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
         }
         return $class;
     }
-
 }
 ?>

@@ -10,9 +10,9 @@
 /**
  * Datamanager 2 Simple privilege datatype.
  *
- * The class encapsulates a single privilege record with its three states of 
+ * The class encapsulates a single privilege record with its three states of
  * ALLOWED, DENIED and INHERITED.
- * 
+ *
  * It requires the privilege widget for correct display.
  *
  * Note, that magic class privileges are currently not supported by this type. Only
@@ -28,38 +28,38 @@
 class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanager2_type
 {
     /**
-     * The privilege record encapsulated by this type (note that this does not 
+     * The privilege record encapsulated by this type (note that this does not
      * necessarily is an already persisted privilege).
-     * 
+     *
      * This member may be null in case that we do not yet have a storage object.
      * Setting/getting the value of this type must thus not be done directly
      * in this member but using the get/set_value accessors.
-     * 
+     *
      * @var midcom_core_privilege
      */
     var $privilege = null;
 
     /**
      * The name of the privilege to manage (f.x. 'midgard:update')
-     * 
+     *
      * @var string
-     */    
-    var $privilege_name = null; 
-    
+     */
+    var $privilege_name = null;
+
     /**
      * The name assignee of the privilege to manage (f.x. 'USERS')
-     * 
+     *
      * @var string
-     */    
+     */
     var $assignee = null;
-    
+
     /**
      * Classname the privilege applies to
-     * 
+     *
      * @var string
-     */    
+     */
     var $classname = '';
-    
+
     /**
      * This startup handler validates that the class is populated correctly.
      */
@@ -74,12 +74,12 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         }
         return true;
     }
-    
+
     /**
      * Returns the current privilege value, defaulting to INHERIT in case the
      * privilege is yet unset.
-     * 
-     * @return int Privilege value 
+     *
+     * @return int Privilege value
      */
     function get_value()
     {
@@ -92,12 +92,12 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
             return MIDCOM_PRIVILEGE_INHERIT;
         }
     }
-    
+
     /**
      * Sets the privileges value. If the privilege record has not yet been created,
-     * it creates a new one (getting a temporary object from the DM core if 
+     * it creates a new one (getting a temporary object from the DM core if
      * necessary).
-     * 
+     *
      * @param int $value The new value of the privilege.
      */
     function set_value($value)
@@ -113,7 +113,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
                 $this->storage->create_temporary_object();
             }
             $object = $this->storage->object;
-            
+
             $this->privilege = $object->get_privilege($this->privilege_name, $this->assignee, $this->classname);
             $this->privilege->value = $value;
         }
@@ -132,9 +132,8 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         {
             $this->privilege = $this->storage->object->get_privilege($this->privilege_name, $this->assignee, $this->classname);
         }
-
     }
-    
+
     /**
      * Writes the privilege to the DB unless the privilege member is still null (in which
      * case the inherited default will kick in). In all other cases the type will have
@@ -145,7 +144,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         if ($this->privilege)
         {
             $object = $this->storage->object;
-    
+
             // If we have sufficient privileges, we set all privilege accordingly.
             // otherwise we log this and exit silently.
             if ($object->can_do('midgard:privileges'))
@@ -154,12 +153,12 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
             }
             else
             {
-                debug_add("Could not synchronize privilege of field {$this->name}, access was denied, midgard:privileges is needed here.", 
+                debug_add("Could not synchronize privilege of field {$this->name}, access was denied, midgard:privileges is needed here.",
                     MIDCOM_LOG_WARN);
             }
         }
     }
-    
+
     function convert_from_csv ($source)
     {
         $this->set_value((int) $source);
@@ -181,13 +180,13 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         {
             case MIDCOM_PRIVILEGE_ALLOW:
                 return $this->_l10n->get('widget privilege: allow');
-                
+
             case MIDCOM_PRIVILEGE_DENY:
                 return $this->_l10n->get('widget privilege: deny');
-                
+
             case MIDCOM_PRIVILEGE_INHERIT:
                 return $this->_l10n->get('widget privilege: inherit');
-                
+
             default:
                 return $this->get_value();
         }

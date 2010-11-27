@@ -24,7 +24,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     private $_content_topic = null;
 
     /**
-     * The list of index entries 
+     * The list of index entries
      *
      * @var array
      * @access protected
@@ -106,7 +106,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      */
     function _show_autoindex($handler_id, &$data)
     {
-
         midcom_show_style('autoindex-start');
 
         if (count ($this->_index_entries) > 0)

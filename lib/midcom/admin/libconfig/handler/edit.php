@@ -258,7 +258,6 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
 
         midcom_show_style('midcom-admin-libs-edit');
         midgard_admin_asgard_plugin::asgard_footer();
-
     }
 
     function _get_config()
@@ -341,11 +340,9 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
                         $data .= "    '{$key}' => '{$val}',\n";
                     }
             }
-
         }
         $result = "array(\n{$data}),\n";
         return $result;
     }
-
 }
 ?>

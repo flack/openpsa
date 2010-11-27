@@ -282,6 +282,5 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
             return true;
         }
     }
-
 }
 ?>

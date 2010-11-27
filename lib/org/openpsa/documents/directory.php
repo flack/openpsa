@@ -44,7 +44,7 @@ class org_openpsa_documents_directory extends midcom_db_topic
     private function _update_parent_timestamp()
     {
         $parent = $this->get_parent();
-        if (   $parent 
+        if (   $parent
             && $parent->component == 'org.openpsa.documents')
         {
             $_MIDCOM->auth->request_sudo('org.openpsa.documents');
@@ -57,7 +57,5 @@ class org_openpsa_documents_directory extends midcom_db_topic
             $_MIDCOM->auth->drop_sudo();
         }
     }
-
-
 }
 ?>

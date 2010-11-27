@@ -9,7 +9,7 @@
 
 /**
  * Collection of helper functions for array sorting
- *  
+ *
  * @package org.openpsa.sales
  */
 class org_openpsa_sales_sort
@@ -53,12 +53,12 @@ class org_openpsa_sales_sort
         }
         return false;
     }
-    
+
     static function by_title($a, $b)
     {
         return strnatcasecmp($a->title, $b->title);
     }
-    
+
     static function by_customer($a, $b)
     {
         // Convert to strings
@@ -85,7 +85,7 @@ class org_openpsa_sales_sort
         // Only be has customer set, it is therefore greater (no customer is always lower than customer)
         return -1;
     }
-    
+
     static function by_owner($a, $b)
     {
         // Convert to strings
@@ -112,8 +112,8 @@ class org_openpsa_sales_sort
         // Only be has owner set, it is therefore greater (no customer is always lower than customer)
         return -1;
     }
-    
-    
+
+
     static function by_probability($a, $b)
     {
         $a = (float)$a->probability;
@@ -128,7 +128,7 @@ class org_openpsa_sales_sort
         }
         return 0;
     }
-    
+
     static function by_close_est($a, $b)
     {
         $a = $a->closeEst;
@@ -152,7 +152,7 @@ class org_openpsa_sales_sort
         }
         return 0;
     }
-    
+
     static function by_value($a, $b)
     {
         $a = (float)$a->value;
@@ -167,7 +167,7 @@ class org_openpsa_sales_sort
         }
         return 0;
     }
-    
+
     static function by_profit($a, $b)
     {
         $a = (float)$a->profit;
@@ -182,7 +182,7 @@ class org_openpsa_sales_sort
         }
         return 0;
     }
-    
+
     static function by_weighted_value($a, $b)
     {
         $a = (float)$a->value / 100 * $a->probability;
@@ -197,42 +197,14 @@ class org_openpsa_sales_sort
         }
         return 0;
     }
-    
+
     static function by_next_action($a, $b)
     {
         $aproject = $GLOBALS['org_openpsa_sales_project_cache'][$GLOBALS['org_openpsa_sales_project_map'][$a->id]];
         $bproject = $GLOBALS['org_openpsa_sales_project_cache'][$GLOBALS['org_openpsa_sales_project_map'][$b->id]];
         $a_action = $aproject->next_action;
         $b_action = $bproject->next_action;
-    
-        $a = (int)$a_action['time'];
-        $b = (int)$b_action['time'];
-        if ($a == 0)
-        {
-            return 1;
-        }
-        if ($b == 0)
-        {
-            return -1;
-        }
-        if ($a > $b)
-        {
-            return 1;
-        }
-        if ($b > $a)
-        {
-            return -1;
-        }
-        return 0;
-    }
-    
-    static function by_prev_action($a, $b)
-    {
-        $aproject = $GLOBALS['org_openpsa_sales_project_cache'][$GLOBALS['org_openpsa_sales_project_map'][$a->id]];
-        $bproject = $GLOBALS['org_openpsa_sales_project_cache'][$GLOBALS['org_openpsa_sales_project_map'][$b->id]];
-        $a_action = $aproject->prev_action;
-        $b_action = $bproject->prev_action;
-    
+
         $a = (int)$a_action['time'];
         $b = (int)$b_action['time'];
         if ($a == 0)
@@ -254,5 +226,32 @@ class org_openpsa_sales_sort
         return 0;
     }
 
+    static function by_prev_action($a, $b)
+    {
+        $aproject = $GLOBALS['org_openpsa_sales_project_cache'][$GLOBALS['org_openpsa_sales_project_map'][$a->id]];
+        $bproject = $GLOBALS['org_openpsa_sales_project_cache'][$GLOBALS['org_openpsa_sales_project_map'][$b->id]];
+        $a_action = $aproject->prev_action;
+        $b_action = $bproject->prev_action;
+
+        $a = (int)$a_action['time'];
+        $b = (int)$b_action['time'];
+        if ($a == 0)
+        {
+            return 1;
+        }
+        if ($b == 0)
+        {
+            return -1;
+        }
+        if ($a > $b)
+        {
+            return 1;
+        }
+        if ($b > $a)
+        {
+            return -1;
+        }
+        return 0;
+    }
 }
 ?>

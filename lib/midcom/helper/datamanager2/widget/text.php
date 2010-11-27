@@ -125,7 +125,6 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
             $this->_form->addRule($this->name, $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
             $this->_form->addFormRule(Array(&$this, 'validate_number'));
         }
-
     }
 
     /**

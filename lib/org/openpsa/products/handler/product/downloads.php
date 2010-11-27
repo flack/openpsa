@@ -59,9 +59,7 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
                     }
                     $product_qb->add_constraint('productGroup', 'IN', $categories_in);
                 }
-
             }
-
         }
 
         if ($this->_config->get('enable_scheduling'))
@@ -255,7 +253,6 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
 
         $data['rss'] = $data['rss_creator']->createFeed('RSS2.0');
         echo $data['rss'];
-
     }
 }
 ?>

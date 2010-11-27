@@ -262,7 +262,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
     function _generator_load_redirect(&$args)
     {
-
         debug_add('Loading query object ' . $args[0]);
         $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
 
@@ -419,12 +418,9 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return $request_data['object_cache'][$type][$obj->id];
     }
 
-
     function _get_cache_obj_tasks($id)
     {
         return new org_openpsa_projects_task_dba($id);
     }
-
 }
-
 ?>

@@ -238,7 +238,6 @@ function openPsaShowMonthSelector()
                 MIDCOM_TOOLBAR_ENABLED => true,
             )
         );
-
     }
 
     /**
@@ -975,6 +974,5 @@ function openPsaShowMonthSelector()
             midcom_show_style('show-event-raw');
         }
     }
-
 }
 ?>

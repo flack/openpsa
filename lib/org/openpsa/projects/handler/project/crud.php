@@ -22,7 +22,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $this->_dba_class = 'org_openpsa_projects_project';
         $this->_prefix = 'project';
     }
-    
+
     /**
      * Method for adding the supported operations into the toolbar.
      *
@@ -40,7 +40,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
             $this->_add_read_toolbar($handler_id);
         }
     }
-    
+
     /**
      * Special helper for adding the supported operations from read into the toolbar.
      *
@@ -139,7 +139,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
                 $view_title = sprintf($this->_l10n_midcom->get('delete %s'), $this->_object->get_label());
                 break;
         }
-        
+
         $_MIDCOM->set_pagetitle($view_title);
     }
 
@@ -192,7 +192,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     {
         $this->_defaults['manager'] = midcom_connection::get_user();
     }
-    
+
     /**
      * This is what Datamanager calls to actually create a project
      */
@@ -232,12 +232,11 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         $document->read_metadata_from_object($dm->storage->object);
         $document->component = $node[MIDCOM_NAV_COMPONENT];
 
-        if($indexer->index($document))
+        if ($indexer->index($document))
         {
             return true;
         }
         return false;
     }
-
 }
 ?>

@@ -170,7 +170,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function _resolve_rule_group($group, $match_class = false)
     {
-
         if (!is_array($group))
         {
             debug_add('group is not an array', MIDCOM_LOG_ERROR);
@@ -224,7 +223,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function add_rules($rules , $class)
     {
-
         debug_add("try to build rules for class: {$class}");
 
         //special case parameters - uses 3 rules standard
@@ -238,7 +236,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         {
             switch ($class)
             {
-
                 case 'org_openpsa_contacts_person_dba':
                 case 'midgard_person':
                 case 'org_openpsa_contacts_person':
@@ -272,9 +269,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     debug_add("class " . $class . " not supported", MIDCOM_LOG_WARN);
                     break;
             }
-
         }
     }
+
     /**
      * Adds rule directly to the querybuilder
      * @param array $rule contains the rule
@@ -441,8 +438,5 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         $this->_result_mc->add_constraint('id' , $constraint_match , $persons);
     }
-
-
 }
-
 ?>

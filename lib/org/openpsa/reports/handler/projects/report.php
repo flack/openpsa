@@ -331,7 +331,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      */
     function _show_generator($handler_id, &$data)
     {
-
         // Builtin style prefix
         if (preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style'], $matches))
         {
@@ -433,7 +432,5 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             }
         }
     }
-
-
 }
 ?>

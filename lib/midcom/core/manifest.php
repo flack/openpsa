@@ -301,7 +301,6 @@ class midcom_core_manifest extends midcom_baseclasses_core_object
     {
         $this->filename = $filename;
         $this->_load_manifest($values);
-
     }
 
     /**

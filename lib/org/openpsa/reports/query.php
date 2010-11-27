@@ -89,7 +89,5 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
         $qb->add_order('title');
         return $qb->execute();
     }
-
 }
-
 ?>

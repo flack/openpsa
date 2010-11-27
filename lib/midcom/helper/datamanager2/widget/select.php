@@ -241,7 +241,6 @@ class midcom_helper_datamanager2_widget_select extends midcom_helper_datamanager
             echo $this->_translate($this->othertext) . ': ';
             echo implode(',', $this->_type->others);
         }
-
     }
 }
 ?>

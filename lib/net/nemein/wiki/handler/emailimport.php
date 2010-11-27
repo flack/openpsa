@@ -14,7 +14,6 @@
  */
 class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_handler
 {
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -286,5 +285,5 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         //PONDER: What to return in case of multiple matches ?, now we always return first
         return $results[0];
     }
-
 }
+?>

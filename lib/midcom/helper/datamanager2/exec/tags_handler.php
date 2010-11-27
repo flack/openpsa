@@ -135,7 +135,6 @@ else
     {
         $items[$id] = $data;
     }
-
 }
 
 $results = array();

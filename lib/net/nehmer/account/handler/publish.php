@@ -488,7 +488,6 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
 
             case 'user':
                 return in_array($name, $this->_visible_fields_user_selection);
-
         }
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
             "Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
@@ -546,7 +545,6 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
                 $this->_request_data['current_field'] =& $this->_fields[$name];
                 midcom_show_style('show-publish-field-nolinkers');
             }
-
         }
         midcom_show_style('show-publish-end');
     }
@@ -592,7 +590,5 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
     {
         midcom_show_style('show-publish-ok');
     }
-
 }
-
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.services
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: dba.php 26503 2010-07-06 12:00:38Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,14 +9,14 @@
 
 /**
  * DBA-Style flat file database caching backend.
- * 
+ *
  * Uses DBA database locking for synchronization.
- * 
+ *
  * <b>Configuration options:</b>
- * 
+ *
  * - <i>string handler</i> Defines the DBA handler to use. If omitted, autodetection
  *   is attempted.
- * 
+ *
  * @package midcom.services
  */
 
@@ -24,28 +24,28 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
 {
     /**
      * The handler to use
-     * 
+     *
      * @access private
      * @var string
      */
     var $_handler = null;
-    
+
     /**
      * The full database filename.
-     * 
+     *
      * @access private
      * @var string
      */
     var $_filename = null;
-    
+
     /**
      * The current handle, controlled by _open() and _close().
-     * 
+     *
      * @access private
      * @var resource
      */
     var $_handle = null;
-    
+
     /**
      * This handler completes the configuration.
      */
@@ -53,7 +53,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
     {
         // We need to serialize data
         $this->_auto_serialize = true;
-    
+
         if (array_key_exists('handler', $this->_config))
         {
             $this->_handler = $this->_config['handler'];
@@ -72,7 +72,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
                     $this->_handler = 'db3';
                 }
                 else if (in_array('db2', $handlers))
-                {    
+                {
                     $this->_handler = 'db2';
                 }
                 else if (in_array('gdbm', $handlers))
@@ -85,7 +85,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
                 }
                 else
                 {
-                    _midcom_stop_request("dba cache handler: Failed autodetection of a usable DBA handler. Found handlers were: {$handlers}"); 
+                    _midcom_stop_request("dba cache handler: Failed autodetection of a usable DBA handler. Found handlers were: {$handlers}");
                     // This will exit.
                 }
             }
@@ -96,7 +96,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
             }
         }
         $this->_filename = "{$this->_cache_dir}{$this->_name}.{$this->_handler}";
-        
+
         // Check for file existence by opening it once for write access.
         if (! file_exists($this->_filename))
         {
@@ -109,17 +109,17 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
             }
             dba_close($handle);
         }
-        
+
         debug_add("DBA Cache backend '{$this->_name}' initialized to file: {$this->_filename}");
     }
-    
+
     /**
      * Internal helper, which opens a handle to the DBA file in either
      * read-only or read/write mode. The handle has to be closed by the
      * _close() function.
-     * 
+     *
      * The handle is stored in $_handle
-     * 
+     *
      * @param boolean $write Set to true to enable read/write access with the corresponding exclusive lock. Otherwise
      *        shared read-only mode is used.
      */
@@ -141,7 +141,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         $this->_handle = $handle;
     }
-    
+
     function _close()
     {
         if ($this->_handle == null)
@@ -152,8 +152,8 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         dba_close($this->_handle);
         $this->_handle = null;
     }
-    
-    
+
+
     function _get($key)
     {
         if (! $this->_exists($key))
@@ -172,7 +172,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         return $result;
     }
-    
+
     function _put($key, $data)
     {
         if (! @dba_replace($key, $data, $this->_handle))
@@ -182,7 +182,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
             // This will exit.
         }
     }
-    
+
     function _remove($key)
     {
         if (! $this->_exists($key))
@@ -197,7 +197,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
             // This will exit.
         }
     }
-    
+
     function _remove_all()
     {
         // This will open the database in truncate/write mode once to clear the file.
@@ -210,10 +210,10 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         dba_close($handle);
     }
-    
+
     function _exists($key)
     {
         return dba_exists($key, $this->_handle);
     }
-    
 }
+?>

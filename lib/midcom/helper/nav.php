@@ -26,7 +26,6 @@
  */
 class midcom_helper_nav
 {
-
     /**
      * A reference to the basicnav instance in use.
      *

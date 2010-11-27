@@ -38,7 +38,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         $qb = org_openpsa_contacts_group_dba::new_query_builder();
@@ -47,7 +46,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         if (   is_array($ret)
             && count($ret) > 0)
         {
-
             $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schema);
             if (!$datamanager)
@@ -75,7 +73,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         if (   is_array($ret)
             && count($ret) > 0)
         {
-
             $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_person'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schema);
             if (!$datamanager)

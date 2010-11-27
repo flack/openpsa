@@ -294,7 +294,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
                     return false;
                 }
             }
-
         }
         return $this->set_storage($object);
     }

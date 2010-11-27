@@ -146,7 +146,6 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
      */
     function _prepare_datamanager()
     {
-
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_socialweb'));
 
         $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('net.nehmer.account.socialweb');

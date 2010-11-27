@@ -105,7 +105,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      */
     function _handler_list($handler_id, $args, &$data)
     {
-
         // See what fields we want to use in the search
         $data['search_fields'] = $this->_config->get('search_fields');
         $data['list_fields'] = $this->_config->get('list_fields');
@@ -329,7 +328,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
         midcom_show_style('midcom-admin-user-personlist-footer');
         midgard_admin_asgard_plugin::asgard_footer();
-
     }
 }
 ?>

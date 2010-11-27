@@ -28,12 +28,12 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_parent_guid_uncached()
     {
         // FIXME: Midgard Core should do this
@@ -107,7 +107,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             return;
         }
         $parent = $this->get_parent();
-        if (   $parent 
+        if (   $parent
             && $parent->component == 'org.openpsa.documents')
         {
             $_MIDCOM->auth->request_sudo('org.openpsa.documents');
@@ -122,9 +122,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function to load the document's attachment 
+     * Helper function to load the document's attachment
      *
-     * @return midcom_db_attachment The attachment object 
+     * @return midcom_db_attachment The attachment object
      */
     public function load_attachment()
     {
@@ -133,7 +133,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             // Non-persistent object will not have attachments
             return null;
         }
-        
+
         $raw_list = $this->get_parameter('midcom.helper.datamanager2.type.blobs', "guids_document");
         if (!$raw_list)
         {
@@ -141,7 +141,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
 
         $attachment = array();
-        
+
         $items = explode(',', $raw_list);
 
         if (sizeof($items) > 1)
@@ -178,7 +178,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
     /**
      * Helper function that tries to generate a human-readable file type by
-     * doing some educated guessing based on mimetypes 
+     * doing some educated guessing based on mimetypes
      *
      * @param string $mimetype The mimetype as reported by PHP
      * @return string The localized file type
@@ -251,7 +251,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         // Copy current properties
         foreach ($properties as $key)
         {
-            if ($key != 'guid' 
+            if ($key != 'guid'
                 && $key != 'id'
                 && $key != 'metadata')
             {
@@ -264,13 +264,13 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
         if (!$stat)
         {
-            return $stat;   
+            return $stat;
         }
         $backup = new org_openpsa_documents_document_dba($backup->id);
 
         // Copy parameters
         $params = $this->list_parameters();
-        
+
         if ($params)
         {
             foreach ($params as $domain => $array)
@@ -291,9 +291,9 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
 
         if (!$attachments)
         {
-            return $stat;   
+            return $stat;
         }
-        
+
         foreach ($attachments as $original_attachment)
         {
             $backup_attachment = $backup->create_attachment($original_attachment->name, $original_attachment->title, $original_attachment->mimetype);
@@ -305,7 +305,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
                 // Failed to copy the attachment, abort
                 return $backup->delete();
             }
-            
+
             // Copy the contents
             $backup_handle = $backup_attachment->open('w');
 
@@ -336,7 +336,5 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         }
         return true;
     }
-
 }
-
 ?>

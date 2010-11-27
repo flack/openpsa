@@ -2,8 +2,8 @@
 <script type="text/javascript">
 
       $(document).ready(function () {
-        $("#treemenu").dynatree({
-
+        $("#treemenu").dynatree(
+        {
             title: "openpsa root",
             rootVisible: false,
             minExpandLevel: 2,
@@ -22,7 +22,6 @@
                     window.location.href = dtnode.data.url;
                 }
             }
-
         });
       });
 

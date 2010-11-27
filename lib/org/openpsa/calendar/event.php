@@ -266,7 +266,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      */
     private function _prepare_save($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
     {
-
         // Make sure we have accessType
         if (!$this->orgOpenpsaAccesstype)
         {
@@ -719,7 +718,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
 
     private function _busy_em_event_constraints(&$qb_ev, $fieldname = 'eid')
     {
-
         $qb_ev->add_constraint($fieldname . '.busy', '<>', false);
         if ($this->id)
         {
@@ -896,7 +894,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
                 //PONDER: The display end might have issues with event guid that they cannot see without sudo...
                 $this->busy_em[$member->uid][] = $event->guid;
             }
-
         }
 
         //We might get multiple matches for same event/resource
@@ -980,7 +977,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
                 //PONDER: The display end might have issues with event guid that they cannot see without sudo...
                 $this->busy_er[$member->resource][] = $event->guid;
             }
-
         }
 
         if (   is_array($this->busy_em)
@@ -1310,7 +1306,5 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         $ret .= "END:VCALENDAR{$nl}";
         return $ret;
     }
-
 }
-
 ?>

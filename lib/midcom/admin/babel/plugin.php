@@ -13,7 +13,6 @@ class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
 {
     function get_plugin_handlers()
     {
-
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.babel');
 
@@ -45,7 +44,6 @@ class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
             ),
         );
     }
-
 
     function calculate_language_status($lang)
     {
@@ -156,9 +154,6 @@ class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
         }
 
         echo "</ul>\n";
-
     }
-
 }
-
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.services
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: backend.php 26503 2010-07-06 12:00:38Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -11,14 +11,14 @@
  * Authentication backend, responsible for validating user/password pairs and
  * mapping them to a given user as well as the "sessioning" part, e.g. the transition
  * of the authentication credentials over several requests.
- * 
- * All functions except authenticate() must be implemented, see their individual 
+ *
+ * All functions except authenticate() must be implemented, see their individual
  * documentation about what exactly they should do.
- * 
+ *
  * Configuration, if necessary, should be done using the MidCOM configuration
- * system, prefixing all values with 'auth_backend_$name_', e.g. 
+ * system, prefixing all values with 'auth_backend_$name_', e.g.
  * 'auth_backend_cookie_timeout'.
- * 
+ *
  * @package midcom.services
  */
 abstract class midcom_services_auth_backend
@@ -26,21 +26,21 @@ abstract class midcom_services_auth_backend
     /**
      * This variable holds the user that has been successfully authenticated by the class,
      * it is considered to be read-only.
-     * 
+     *
      * @var midcom_core_user
      */
     var $user = null;
-    
+
     /**
      * The ID of the session we are currently using, usable as an authentication token
      * in the login session manager.
-     * 
+     *
      * @var string
      */
     var $session_id = null;
-    
+
     var $auth = null;
-    
+
     /**
      * The constructor should do only basic initialization.
      */
@@ -52,21 +52,21 @@ abstract class midcom_services_auth_backend
     /**
      * This function, always called first in the order of execution, should check
      * whether we have a usable login session. It has to use the login session management
-     * system to load a login session. At the end of the successful execution of this 
+     * system to load a login session. At the end of the successful execution of this
      * function, you have to populate the $session_id and $user members accordingly.
-     * 
-     * @return boolean Return true if the the login session was successfully loaded, false 
+     *
+     * @return boolean Return true if the the login session was successfully loaded, false
      *     otherwise.
-     */    
+     */
     abstract function read_login_session();
-    
+
     /**
      * This function checks the given username / password pair is valid and sets
      * the $user member accordingly. The default implementation checks against
      * midgard_user::auth and retrieves the user using $_MIDGARD.
-     * 
+     *
      * Normally you should not need to override this function.
-     * 
+     *
      * @param string $username The name of the user to authenticate.
      * @param string $password The password of the user to authenticate.
      * @return boolean Indicating successful authentication.
@@ -78,11 +78,11 @@ abstract class midcom_services_auth_backend
 
     /**
      * This function stores a login session using the given credentials through the
-     * session service. It assumes that no login has concluded earlier. The login 
+     * session service. It assumes that no login has concluded earlier. The login
      * session management system is used for authentication. If the login session
      * was created successfully, the _on_login_session_created() handler is called
      * with the $user and $session_id members populated.
-     * 
+     *
      * @param string $username The name of the user to authenticate.
      * @param string $password The password of the user to authenticate.
      * @param string $clientip The client IP to which this session is assigned to. This
@@ -113,11 +113,11 @@ abstract class midcom_services_auth_backend
 
     /**
      * This function stores a trusted login session using the given credentials through the
-     * session service. It assumes that no login has concluded earlier. The login 
+     * session service. It assumes that no login has concluded earlier. The login
      * session management system is used for authentication. If the login session
      * was created successfully, the _on_login_session_created() handler is called
      * with the $user and $session_id members populated.
-     * 
+     *
      * @param string $username The name of the user to authenticate.
      * @param string $clientip The client IP to which this session is assigned to. This
      *     defaults to the client IP reported by Apache.
@@ -154,11 +154,11 @@ abstract class midcom_services_auth_backend
     {
         return;
     }
-    
+
     /**
      * The logout function should delete the currently active login session,
      * which has been loaded by a previous call to read_login_session.
-     * 
+     *
      * You should call generate_error if anything goes wrong here.
      */
     function logout()
@@ -172,26 +172,24 @@ abstract class midcom_services_auth_backend
 
         if (! $this->auth->sessionmgr->delete_session($this->session_id))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 'The system could not log you out, check the log file for details.');
             // This will exit.
         }
-        
+
         $this->_on_login_session_deleted();
-        
+
         $this->session_id = null;
     }
-     
-     /**
-      * This event handler is called immediately after the successful deletion of a login
-      * session. Use this to drop any session identifier store you might have created during
-      * _on_login_session_created.
-      */
-     function _on_login_session_deleted()
-     {
-         return;
-     }
-     
-}
 
+    /**
+     * This event handler is called immediately after the successful deletion of a login
+     * session. Use this to drop any session identifier store you might have created during
+     * _on_login_session_created.
+     */
+    function _on_login_session_deleted()
+    {
+        return;
+    }
+}
 ?>

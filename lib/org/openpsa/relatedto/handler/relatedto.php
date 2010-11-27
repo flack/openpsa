@@ -465,7 +465,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 $this->_render_line_default($link, $other_obj);
                 break;
         }
-
     }
 
     /**
@@ -875,10 +874,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete($handler_id, &$data)
-    {
-    }
-
+    function _show_delete($handler_id, &$data){}
 }
-
 ?>

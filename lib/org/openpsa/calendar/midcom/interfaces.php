@@ -125,7 +125,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $root_event = self::find_root_event();
 
@@ -363,6 +362,5 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         }
         return true;
     }
-
 }
 ?>

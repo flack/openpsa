@@ -33,7 +33,6 @@
  */
 class midcom_services_i18n
 {
-
     /**
      * The language database, loaded from /midcom/config/language_db.inc
      *
@@ -146,7 +145,6 @@ class midcom_services_i18n
      */
     function __construct()
     {
-
         $this->_http_lang = Array();
         $this->_http_charset = Array();
         $this->_cookie_data = null;
@@ -162,7 +160,6 @@ class midcom_services_i18n
         $this->set_language($this->_fallback_language);
 
         $this->_set_startup_langs();
-
     }
 
     /**

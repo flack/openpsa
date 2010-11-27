@@ -1,13 +1,13 @@
 <?php
 /**
  * Reindex script.
- * 
+ *
  * Iterates through all nodes and calls reindex_singlenode.php for each of them in the background.
- * 
+ *
  * This may take some time.
- * 
+ *
  * @package midcom
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id$
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // IP Address Checks
 $ips = $GLOBALS['midcom_config']['indexer_reindex_allowed_ips'];
 $ip_sudo = false;
-if (   $ips 
+if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
     if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
@@ -125,12 +125,12 @@ while (! is_null($nodeid))
     // Update script execution time
     // This should suffice for really large topics as well.
     set_time_limit(5000);
-    
+
     // Reindex the node...
     $node = $nap->get_node($nodeid);
     echo "Processing node #{$nodeid}, {$node[MIDCOM_NAV_FULLURL]}: ";
     flush();
-    //pass the node-id & the language 
+    //pass the node-id & the language
     $post_variables = array('nodeid' => $nodeid , 'language' => $language);
     $response = $http_client->post($reindex_topic_uri, $post_variables, array('User-Agent' => 'midcom-exec-midcom/reindex.php'));
     if ($response === false)
@@ -170,7 +170,6 @@ while (! is_null($nodeid))
     }
     $nodes = array_merge($nodes, $childs);
     $nodeid = array_shift($nodes);
-
 }
 
 debug_add('Enabling script abort through client again.');

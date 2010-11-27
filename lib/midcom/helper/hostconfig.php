@@ -13,7 +13,6 @@
  */
 class midcom_helper_hostconfig
 {
-
     /**
      * The array containing various configuration details
      * @access private
@@ -62,10 +61,8 @@ class midcom_helper_hostconfig
      * Read current configuration from root page parameters
      *
      */
-
     function get_configuration()
     {
-
         $params = $this->page->list_parameters($this->setting_parameter_domain);
 
         if (!empty($params))
@@ -76,15 +73,14 @@ class midcom_helper_hostconfig
                 $this->config[$name] = $value;
                 $configuration_keys_handled[$name] = true;
             }
-
         }
-        
+
         if ($this->page->id != $_MIDGARD['page'])
         {
             // We're editing config of another MidCOM page
             return;
         }
-        
+
         // Read run-time configuration
         foreach ($GLOBALS['midcom_config_local'] as $name => $value)
         {
@@ -93,7 +89,7 @@ class midcom_helper_hostconfig
                 // HTML_QuickForm doesn't like booleans
                 $value = 0;
             }
-            
+
             $this->config[$name] = $value;
             $configuration_keys_handled[$name] = true;
         }
@@ -175,7 +171,7 @@ class midcom_helper_hostconfig
                 {
                     $txt = $template;
                     $txt = str_replace('{__NAME__}', $name, $txt);
-                    
+
                     if (is_numeric($value))
                     {
                         $txt = str_replace('{__VALUE__}', $value, $txt);
@@ -184,7 +180,7 @@ class midcom_helper_hostconfig
                     {
                         $txt = str_replace('{__VALUE__}', "\"{$value}\"", $txt);
                     }
-                    
+
                     $configuration[] = $txt;
                 }
                 $this->config[$name] = $value;

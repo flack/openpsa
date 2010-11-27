@@ -490,9 +490,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $this->_request_data['view_article'] = $this->_datamanager->get_content_html();
         midcom_show_style('admin-delete');
     }
-
-
-
 }
 
 ?>

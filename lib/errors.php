@@ -73,7 +73,6 @@ class midcom_exception_handler
                 // I don't think we reach this
                 return  true;
                 break;
-
         }
         // Leave other errors for PHP to take care of
         return false;
@@ -98,7 +97,6 @@ class midcom_exception_handler
      */
     public function show($httpcode, $message)
     {
-
         debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
         debug_print_function_stack('Stacktrace:');
         $message = htmlentities($message);

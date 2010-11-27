@@ -30,6 +30,5 @@ class net_nehmer_buddylist_navigation extends midcom_baseclasses_components_navi
 
         return $leaves;
     }
-
 }
 ?>

@@ -266,7 +266,5 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
             return false;
         }
     }
-
 }
-
 ?>

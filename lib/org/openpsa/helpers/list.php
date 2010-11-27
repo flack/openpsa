@@ -14,7 +14,6 @@
  */
 class org_openpsa_helpers_list
 {
-
     /**
      * Function for listing groups tasks contacts are members of
      *
@@ -219,7 +218,6 @@ class org_openpsa_helpers_list
                             $GLOBALS[$array_name][$key2] = '&nbsp;&nbsp;&nbsp;' . $person->name;
                         }
                     }
-
                 }
 
                 asort($GLOBALS[$array_name]);
@@ -229,7 +227,6 @@ class org_openpsa_helpers_list
                     //TODO: Localization
                     $GLOBALS[$array_name][$_MIDCOM->auth->user->id] = 'me';
                 }
-
             }
         }
         return $GLOBALS[$array_name];
@@ -276,7 +273,5 @@ class org_openpsa_helpers_list
         }
         return $GLOBALS['org_openpsa_helpers_resources'];
     }
-
 }
-
 ?>

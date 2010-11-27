@@ -13,7 +13,6 @@
  */
 class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 {
-
     var $mgdschema_class = false;
     var $_mgd_reflector = false;
     var $_dummy_object = false;
@@ -165,7 +164,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function get_class_label()
     {
-
         static $component_l10n = false;
         $component_l10n = $this->get_component_l10n();
         $use_classname = $this->mgdschema_class;
@@ -252,7 +250,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // FIXME: Remove hardcoded class logic
         switch(true)
         {
-
             case (method_exists($obj,'get_label_property')):
                 $property = $obj->get_label_property();
                 break;

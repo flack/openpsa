@@ -378,7 +378,6 @@ class midcom_core_collector
      */
     function add_constraint($field, $operator, $value)
     {
-
         $this->_reset();
         // Add check against null values, Core MC is too stupid to get this right.
         if ($value === null)

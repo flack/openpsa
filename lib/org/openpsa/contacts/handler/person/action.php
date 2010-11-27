@@ -202,7 +202,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      */
     function _handler_account_edit($handler_id, $args, &$data)
     {
-
         // Check if we get the person
         $this->_person = $this->_load_person($args[0]);
         if (!$this->_person)
@@ -231,7 +230,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         if (array_key_exists('midcom_helper_datamanager2_save', $_POST))
         {
-
             // Check that the inputted passwords match
             if ($_POST['org_openpsa_contacts_person_account_newpassword'] != $_POST['org_openpsa_contacts_person_account_newpassword2'])
             {
@@ -395,6 +393,5 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
     {
         midcom_show_style("show-person-account-edit");
     }
-
 }
 ?>

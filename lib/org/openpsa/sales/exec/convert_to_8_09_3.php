@@ -13,7 +13,7 @@ foreach($results as $salesproject)
     $profit = $salesproject->get_parameter('org.openpsa.sales', 'profit');
     $value = $salesproject->get_parameter('org.openpsa.sales', 'value');
     $probability = $salesproject->get_parameter('org.openpsa.sales', 'probability');
-    
+
     $needs_update = false;
 
     if ($value)
@@ -54,7 +54,6 @@ foreach($results as $salesproject)
             _midcom_stop_request();
         }
     }
-
 }
 echo "Done.\n";
 echo "</pre>";

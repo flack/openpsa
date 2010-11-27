@@ -203,5 +203,5 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
         // using get() instead of _get() to let local caching kick-in
         return ($this->get($key) !== false);
     }
-
 }
+?>

@@ -52,7 +52,6 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
      */
     function initialize()
     {
-
         // Load root topic
         $root_topic_guid = $this->_config->get('groupsync_root_topic');
         if (empty($root_topic_guid))
@@ -355,7 +354,6 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
             unset($subgroup);
         }
         unset($subtopic, $name);
-
     }
 
     /**

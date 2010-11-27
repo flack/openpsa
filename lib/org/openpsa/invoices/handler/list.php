@@ -392,8 +392,5 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
             midcom_show_style('show-grid');
         }
     }
-
-
 }
-
 ?>

@@ -17,13 +17,10 @@
  */
 class org_openpsa_imp_navigation extends midcom_baseclasses_components_navigation
 {
-
     function get_leaves()
     {
         $leaves = array();
         return $leaves;
     }
-
 }
-
 ?>

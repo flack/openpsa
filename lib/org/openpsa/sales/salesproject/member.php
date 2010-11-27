@@ -22,7 +22,7 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
         $this->_use_rcs = false;
         return parent::__construct($id);
     }
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -37,7 +37,7 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     /**
      * Human-readable label for cases like Asgard navigation
      */
@@ -98,7 +98,5 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
             return null;
         }
     }
-
 }
-
 ?>

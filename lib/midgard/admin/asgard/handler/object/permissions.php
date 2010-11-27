@@ -128,7 +128,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                 'href' => MIDCOM_STATIC_URL . '/midgard.admin.asgard/permissions/layout.css'
             )
         );
-
     }
 
     /**

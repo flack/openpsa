@@ -363,7 +363,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
             midcom_show_style('groupsblock_subgroups_footer');
         }
-
     }
 
     /**

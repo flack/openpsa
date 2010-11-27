@@ -143,8 +143,5 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
         }
         return $result;
     }
-
-
 }
-
 ?>

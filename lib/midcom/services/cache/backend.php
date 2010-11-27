@@ -147,7 +147,6 @@ abstract class midcom_services_cache_backend
      */
     function initialize($name, $config)
     {
-
         $this->_name = $name;
         if (is_array($config))
         {
@@ -170,7 +169,6 @@ abstract class midcom_services_cache_backend
         $this->_check_cache_dir();
 
         $this->_on_initialize();
-
     }
 
     /**
@@ -178,7 +176,6 @@ abstract class midcom_services_cache_backend
      */
     function shutdown()
     {
-
         $this->flush_unsynced();
         $this->_on_shutdown();
     }
@@ -248,7 +245,7 @@ abstract class midcom_services_cache_backend
             _midcom_stop_request("Failed to create the cache base directory {$this->_cache_dir}: {$php_errormsg}");
             // This will exit.
         }
-        
+
         if (!file_exists($this->_cache_dir))
         {
             if (!@mkdir($this->_cache_dir, 0755))

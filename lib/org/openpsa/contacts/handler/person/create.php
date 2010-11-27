@@ -132,7 +132,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      */
     function _handler_create($handler_id, $args, &$data)
     {
-
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
 
@@ -244,6 +243,5 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 }
 ?>

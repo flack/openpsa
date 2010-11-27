@@ -204,9 +204,6 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
             echo $this->_translate($this->othertext) . ': ';
             echo implode(',', $this->_type->others);
         }
-
     }
-
 }
-
 ?>

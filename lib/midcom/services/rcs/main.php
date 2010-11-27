@@ -31,7 +31,6 @@ require MIDCOM_ROOT. '/midcom/services/rcs/config.php';
  */
 class midcom_services_rcs extends midcom_baseclasses_core_object
 {
-
     /**
      * Array of handlers that rcs uses to manage object versioning.
      */
@@ -51,12 +50,12 @@ class midcom_services_rcs extends midcom_baseclasses_core_object
     function __construct($config = null)
     {
         parent::__construct();
-        
+
         if (is_null($config))
         {
             $config = $GLOBALS['midcom_config'];
         }
-        
+
         $this->config = new midcom_services_rcs_config($config);
     }
 
@@ -100,8 +99,5 @@ class midcom_services_rcs extends midcom_baseclasses_core_object
         }
         return true;
     }
-
 }
-
-
 ?>

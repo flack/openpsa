@@ -33,6 +33,5 @@ class org_openpsa_contactwidget_interface extends midcom_baseclasses_components_
         );
         return true;
     }
-
 }
 ?>

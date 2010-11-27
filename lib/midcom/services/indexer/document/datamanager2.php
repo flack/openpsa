@@ -325,9 +325,7 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                 debug_add("Adding field {$name} to content");
                 $this->content .= $this->datamanager2_get_text_representation($this->_datamanager, $name) . "\n";
                 break;
-
         }
     }
 }
-
 ?>

@@ -129,7 +129,5 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
     {
         midcom_show_style('request-sent');
     }
-
 }
-
 ?>

@@ -225,6 +225,5 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
 
         return $group_list;
     }
-
 }
 ?>

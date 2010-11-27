@@ -51,19 +51,16 @@
     function hKit_hreview_post($a)
     {
         foreach ($a as &$hreview){
-
             hKit_labels_toUpper($hreview);
-
         }
 
         return $a;
-
     }
 
 
     function hKit_labels_toUpper(&$hreview)
     {
-    $hreview = array_change_key_case($hreview, CASE_UPPER);
+        $hreview = array_change_key_case($hreview, CASE_UPPER);
     }
 
 ?>

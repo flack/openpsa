@@ -9,8 +9,8 @@
     $.fn.samePassword = '<?php echo $data['l10n']->get("username and password identical"); ?>';
     $.fn.resultStyle = "";
 
-     $.fn.passStrength = function(options) {
-
+    $.fn.passStrength = function(options)
+    {
          var defaults = {
                 shortPass:      "shortPass",    //optional
                 badPass:        "badPass",      //optional
@@ -27,7 +27,6 @@
 
                 $(obj).unbind().keyup(function()
                 {
-
                     var results = $.fn.teststrength($(this).val(),$(opts.userid).val(),opts);
 
                     if(opts.messageloc === 1)
@@ -42,7 +41,7 @@
                         $(this).before("<span class=\""+opts.baseStyle+"\" style=\"padding-left:10px;color:red;\"><span></span></span>");
                         $(this).prev("." + opts.baseStyle).addClass($(this).resultStyle).find("span").text(results);
                     }
-                 });
+                });
 
                 //FUNCTIONS
                 $.fn.teststrength = function(password,username,option){
@@ -85,9 +84,7 @@
 
                        this.resultStyle= option.strongPass;
                        return $(this).strongPass;
-
                 };
-
           });
      };
 })(jQuery);
@@ -112,7 +109,4 @@ $.fn.checkRepetition = function(pLen,str) {
      }
      return res;
     };
-
-
-
     </script>

@@ -70,7 +70,6 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
             }
             else
             {
-
                 echo "{$prefix}    <tr>\n";
                 echo "{$prefix}        <td class=\"label\" style=\"padding-left: {$child_indent}px\" colspan=\"5\"><a href=\"?show_children[{$object->guid}][{$type}]=1\">" . sprintf($_MIDCOM->i18n->get_string('show %s %s children', 'midgard.admin.asgard'), count($children), midgard_admin_asgard_plugin::get_type_label($type)) . "</a></td>\n";
                 echo "{$prefix}    </tr>\n";

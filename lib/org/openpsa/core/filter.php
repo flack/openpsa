@@ -14,7 +14,6 @@
  */
 class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
 {
-
     /**
      * contains filters
      *
@@ -183,7 +182,6 @@ class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
             {
                 $person_array[$person->id]['selected'] = true;
             }
-
         }
         return $person_array;
     }
@@ -229,6 +227,5 @@ class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
         $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('no filter available', 'org.openpsa.core'), $message_content, 'error');
         return false;
     }
-
 }
 ?>

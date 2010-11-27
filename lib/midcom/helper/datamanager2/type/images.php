@@ -614,7 +614,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
         $attachment->set_parameter('midcom.helper.datamanager2.type.images', 'images_identifier', $info['images_identifier']);
         // This would be the name of the 'derived_images' key.
         $attachment->set_parameter('midcom.helper.datamanager2.type.images', 'images_name', $info['images_name']);
-
     }
 
     /**
@@ -882,7 +881,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
 
     function _batch_handler($extension, $file_data)
     {
-
         $tmp_name = $file_data['tmp_name'];
         $new_name = "{$tmp_name}.{$extension}";
         $mv_cmd = "mv -f {$tmp_name} {$new_name}";

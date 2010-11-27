@@ -84,7 +84,5 @@ class midcom_helper_datamanager2_widget_privilegecheckbox extends midcom_helper_
             return false;
         }
     }
-
 }
-
 ?>

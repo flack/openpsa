@@ -15,7 +15,6 @@
  */
 class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_components_handler
 {
-
     /**
      * The document we're working with (if any).
      *
@@ -85,7 +84,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The document '{$guid}' could not be found in this folder.");
         }
-        
+
         // Load the document to datamanager
         if (!$this->_datamanager->autoset_storage($document))
         {
@@ -151,7 +150,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_document->title));
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
+        org_openpsa_helpers::dm2_savecancel($this);
         $_MIDCOM->bind_view_to_object($this->_document, $this->_controller->datamanager->schema->name);
 
         $_MIDCOM->add_link_head
@@ -190,7 +189,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
                         $this->_document->backup_version();
                         return;
                     }
-                }  
+                }
             }
         }
 
@@ -323,6 +322,5 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 }
 ?>

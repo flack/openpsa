@@ -152,16 +152,13 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
             {
                 $data['even'] = false;
             }
-
         }
         midcom_show_style('midcom-admin-libs-view-footer');
         midgard_admin_asgard_plugin::asgard_footer();
-
     }
 
     function _detect($value)
     {
-
         $type = gettype($value);
 
         switch ($type)
@@ -198,12 +195,9 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
                 break;
             default:
                 $result = $value;
-
         }
 
         return $result;
-
     }
-
 }
 ?>

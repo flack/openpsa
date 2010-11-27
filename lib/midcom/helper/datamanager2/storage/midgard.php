@@ -16,7 +16,6 @@
  */
 class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanager2_storage
 {
-
     /**
      * Optional callback that will be used if the storage variant
      * "callback" has been called.

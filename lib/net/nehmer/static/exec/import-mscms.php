@@ -177,7 +177,6 @@ class net_nehmer_static_import_forrest
 
                 if ($path_parts['extension'] == 'htm')
                 {
-
                     $file = $this->parse_file("{$path}/{$entry}");
                     if (!is_null($file))
                     {

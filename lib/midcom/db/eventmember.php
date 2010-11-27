@@ -56,7 +56,6 @@ class midcom_db_eventmember extends midcom_core_dbaobject
      */
     function get_parent_guid_uncached()
     {
-
         if ($this->eid == 0)
         {
             return null;

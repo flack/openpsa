@@ -334,7 +334,6 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      */
     function _on_can_handle($argc, $argv)
     {
-
         if (   $argc >= 2
             && $argv[0] == 'plugin')
         {

@@ -241,7 +241,6 @@ class midcom_core_group extends midcom_baseclasses_core_object
      */
     function list_memberships($user)
     {
-
         $mc = new midgard_collector('midgard_member', 'uid', $user->_storage->id);
         $mc->add_constraint('gid', '<>', 0);
         $mc->set_key_property('gid');
@@ -290,7 +289,6 @@ class midcom_core_group extends midcom_baseclasses_core_object
     {
         if (is_null($this->_cached_parent_group))
         {
-
             if ($this->_storage->owner == 0)
             {
                 return null;
@@ -359,7 +357,5 @@ class midcom_core_group extends midcom_baseclasses_core_object
         }
         return new midcom_db_group($this->_storage);
     }
-
-
 }
 ?>

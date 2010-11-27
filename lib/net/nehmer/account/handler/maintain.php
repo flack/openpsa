@@ -993,7 +993,5 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
             midcom_show_style('show-cancel-membership');
         }
     }
-
 }
-
 ?>

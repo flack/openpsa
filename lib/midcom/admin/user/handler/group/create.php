@@ -120,7 +120,6 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
      */
     function _handler_create($handler_id, $args, &$data)
     {
-
         $this->_load_controller();
         switch ($this->_controller->process_form())
         {

@@ -26,19 +26,19 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
      * @access private
      */
     var $id = '';
-    
+
     /**
      * Type of the map to use
      * @access private
      */
     var $type = 'google';
-    
+
     /**
      * API key to use with the mapping service, if needed
      * @access private
      */
     var $api_key = '';
-    
+
     /**
      * Markers to display on the map
      * @access private
@@ -60,7 +60,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         $this->id = $id;
         $this->_component = 'org.routamc.positioning';
         parent::__construct();
-        
+
         if (is_null($type))
         {
             $this->type = $this->_config->get('map_provider');
@@ -71,7 +71,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         }
         $this->api_key = $this->_config->get('map_api_key');
     }
-    
+
     /**
      * Add an object to the map
      *
@@ -85,10 +85,10 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         {
             return false;
         }
-        
+
         $marker = array();
         $marker['coordinates'] = $coordinates;
-        
+
         // TODO: Use reflection to get the label property
         if (isset($object->title))
         {
@@ -102,12 +102,12 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         {
             $marker['title'] = $object->guid;
         }
-        
+
         if (isset($object->abstract))
         {
             $marker['abstract'] = $object->abstract;
         }
-        
+
         if (!is_null($icon))
         {
             $marker['icon'] = $icon;
@@ -121,7 +121,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
 
         return $this->add_marker($marker);
     }
-    
+
     /**
      * Add a marker to the map
      *
@@ -148,13 +148,13 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         {
             return false;
         }
-        
+
         if (   !isset($marker['title'])
             || empty($marker['title']))
         {
             return false;
         }
-        
+
         $this->markers[] = $marker;
         return true;
     }
@@ -169,23 +169,23 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         {
             return false;
         }
-        
+
         if ($echo_output)
         {
-            echo "<script type=\"text/javascript\" src=\"" . MIDCOM_STATIC_URL . "/org.routamc.positioning/mapstraction.js\"></script>\n";            
+            echo "<script type=\"text/javascript\" src=\"" . MIDCOM_STATIC_URL . "/org.routamc.positioning/mapstraction.js\"></script>\n";
         }
         else
         {
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/mapstraction.js');
         }
-        
+
         // TODO: We can remove this once mapstraction does the includes by itself
         switch ($this->type)
         {
             case 'microsoft':
                 if ($echo_output)
                 {
-                    echo "<script type=\"text/javascript\" src=\"http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js\"></script>\n";                    
+                    echo "<script type=\"text/javascript\" src=\"http://dev.virtualearth.net/mapcontrol/v3/mapcontrol.js\"></script>\n";
                 }
                 else
                 {
@@ -225,11 +225,11 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
                 }
                 break;
         }
-        
+
         $added[$this->type] = true;
         return true;
     }
-    
+
     /**
      * Display the map
      *
@@ -253,9 +253,9 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         unset($callbacks);
         $html = '';
         $script = '';
-                
+
         $this->add_jsfiles($echo_output);
-        
+
         // Show the map div
         $html .= "<div class=\"org_routamc_positioning_map\" id=\"{$this->id}\"";
         if (   !is_null($width)
@@ -264,22 +264,22 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
             $html .= " style=\"width: {$width}px; height: {$height}px\"";
         }
         $html .= "></div>\n";
-        
+
         // Start mapstraction
         if ($echo_output)
         {
-            $script .= "<script type=\"text/javascript\">\n";            
+            $script .= "<script type=\"text/javascript\">\n";
         }
         $script .= "var mapelement = document.getElementById('{$this->id}');\n";
         $script .= "if (mapelement) {\n";
         $script .= "    var mapstraction_{$this->id} = new Mapstraction('{$this->id}','{$this->type}', true);\n";
-        
+
         if ($this->type == 'google')
         {
             // Workaround, Google requires you to start with a center
             $script .= "    mapstraction_{$this->id}.setCenter(new LatLonPoint(0, 0));\n";
         }
-        
+
         foreach ($this->markers as $marker)
         {
             $marker_instance = $this->create_js_marker($marker, $script);
@@ -292,21 +292,21 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
             // FIXME: if this is set do not bother with autozoom
             $script .= "    mapstraction_{$this->id}.setZoom({$this->zoom_level});\n";
         }
-        $script .= "}\n";        
+        $script .= "}\n";
         if ($echo_output)
         {
             $script .= "</script>\n";
         }
-        
+
         if (!$echo_output)
         {
             $_MIDCOM->add_jquery_state_script($script);
             return $html;
-        }      
-        
+        }
+
         echo "{$html}{$script}";
     }
-    
+
     /**
      * Create a marker javascript object and return its name
      */
@@ -314,20 +314,19 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
     {
         static $i = 0;
         $i++;
-        
+
         // Just in case.. cast lat/lon to 'dot' delimited numbers
         $lat = number_format($marker['coordinates']['latitude'], 6, '.', '');
         $lon = number_format($marker['coordinates']['longitude'],6, '.', '');
         $script .= "var marker_{$i} = new Marker(new LatLonPoint({$lat}, {$lon}))\n";
-        
+
         $title = htmlspecialchars($marker['title'],ENT_QUOTES);
         $script .= "marker_{$i}.setLabel('{$title}');\n";
-        
+
         if (   !isset($marker['icon'])
             || !is_array($marker['icon']))
         {
             $marker['icon'] = array();
-            
         }
         if (!isset($marker['icon']['path']))
         {
@@ -335,7 +334,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         }
 
         $script .= "marker_{$i}.setIcon('{$marker['icon']['path']}');\n";
-        
+
         if (   isset($marker['icon']['width'])
             && isset($marker['icon']['height']))
         {
@@ -347,9 +346,9 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
         {
             if (   isset($marker['shadow_icon']['width'])
                 && isset($marker['shadow_icon']['height']))
-            {   
+            {
                 $script .= "marker_{$i}.setShadowIcon('{$marker['shadow_icon']['path']}', [{$marker['shadow_icon']['width']}, {$marker['shadow_icon']['height']}]);\n";
-            }       
+            }
             else
             {
                 $script .= "marker_{$i}.setShadowIcon('{$marker['shadow_icon']['path']}');\n";
@@ -358,7 +357,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
 
         if (isset($marker['abstract']))
         {
-            if (   isset($marker['abstract_allow_html']) 
+            if (   isset($marker['abstract_allow_html'])
                 && $marker['abstract_allow_html'] = true)
             {
                 $abstract = $marker['abstract'];
@@ -369,9 +368,9 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
             }
             $script .= "marker_{$i}.setInfoBubble('{$abstract}');\n";
         }
-        
+
         // TODO: Set other marker properties
-        
+
         return "marker_{$i}";
     }
 }

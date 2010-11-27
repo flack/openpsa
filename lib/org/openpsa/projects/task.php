@@ -63,7 +63,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
     function _on_loaded()
     {
-
         if ($this->title == "")
         {
             $this->title = "Task #{$this->id}";
@@ -584,6 +583,5 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
         return $resource_array;
     }
-
 }
 ?>

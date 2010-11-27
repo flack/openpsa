@@ -504,7 +504,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
             for ($i = 0; $i < count($this->_groupElements); $i++)
             {
                 $html .= (0 == $i? '': $separator[($i - 1) % $count]) . $this->_groupElements[$i];
-
             }
         }
         else
@@ -540,7 +539,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
             $this->_html .= $html;
             $this->_inGroup = false;
         }
-
     }
 
     /**

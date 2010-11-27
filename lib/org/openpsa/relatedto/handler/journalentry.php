@@ -155,7 +155,6 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
                 'href'  => MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css",
             )
         );
-
     }
 
     function _show_entry($handler_id , &$data)
@@ -366,10 +365,8 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
 
         return true;
     }
-    function _show_delete($handler_id, &$data)
-    {
 
-    }
+    function _show_delete($handler_id, &$data){}
 
     function _handler_list($handler_id , $args , &$data)
     {

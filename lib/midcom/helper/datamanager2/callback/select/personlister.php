@@ -289,7 +289,5 @@ class midcom_helper_datamanager2_callback_select_personlister
 
         return $results;
     }
-
 }
-
 ?>

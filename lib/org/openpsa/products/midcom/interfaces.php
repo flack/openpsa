@@ -27,7 +27,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         // Component that a product is based on, usually something
         // acquired from a supplier
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT', 3000);
-        
+
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART', 1000);
 
         return true;
@@ -151,7 +151,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                             $intree = true;
                         }
                     }
-                    
+
                     if ($intree)
                     {
                         $category_qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -213,7 +213,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                             $intree = true;
                         }
                     }
-                    
+
                     if ($intree)
                     {
                         if ($product_group->code)
@@ -249,7 +249,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         if (   !$config->get('index_products')

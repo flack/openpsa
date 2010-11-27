@@ -84,14 +84,12 @@
         return $this->config['midcom_services_rcs_bin_dir'];
     }
 
-
     /**
      * Loads the backend file needed and returns the class.
      * @return string of the backend to start
      */
     function _get_handler_class()
     {
-
         if (   array_key_exists('midcom_services_rcs_enable',$this->config)
             && $this->config['midcom_services_rcs_enable'])
         {
@@ -111,12 +109,12 @@
             return 'midcom_services_rcs_backend_null';
         }
     }
+
     /**
      * Checks if the basic rcs service is usable.
      */
     function _test_rcs_config()
     {
-
         if (!array_key_exists('midcom_services_rcs_root', $this->config))
         {
             debug_add("midcom_services_rcs_root configuration not defined.\n", MIDCOM_LOG_ERROR);

@@ -787,7 +787,6 @@ class midcom_helper_metadata
 
                     return false;
                 }
-
             }
             else
             {

@@ -617,7 +617,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             || ! $this->_add_thumbnail_to_derived_images()
             || ! $this->_save_derived_images()) // This fucker returns false
         {
-
             debug_add("Failed to process the conversion batch 2 (derived images) for the uploaded file {$filename} in {$tmpname}, aborting type processing.",
                 MIDCOM_LOG_ERROR);
 
@@ -936,7 +935,6 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
                                                    $this->_target_mimetype_video,
                                                    $this->_current_tmpname_video,
                                                    false);
-
             }
             else
             {
@@ -1234,5 +1232,5 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
         return $result;
     }
-
 }
+?>

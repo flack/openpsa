@@ -4,7 +4,7 @@
  * @author Eero af Heurlin
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * 
+ *
  */
 error_reporting(E_ALL);
 require_once('Console/Getargs.php');
@@ -13,7 +13,7 @@ array_pop($path_parts);
 require_once(implode('/', $path_parts) . '/nonmidcom.php');
 
 
-$opts_config = array(); 
+$opts_config = array();
 $opts_config['user'] = array
 (
     'short' => 'u',
@@ -64,10 +64,9 @@ if (   PEAR::isError($args)
     if (   empty($url)
         || $args->getCode() === CONSOLE_GETARGS_HELP)
     {
-        
         echo Console_Getargs::getHelp($opts_config, $header)."\n";
     }
-    else if ($args->getCode() === CONSOLE_GETARGS_ERROR_USER) 
+    else if ($args->getCode() === CONSOLE_GETARGS_ERROR_USER)
     {
         echo Console_Getargs::getHelp($opts_config, $header , $args->getMessage())."\n";
     }

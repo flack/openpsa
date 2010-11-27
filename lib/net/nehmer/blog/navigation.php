@@ -294,7 +294,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      */
     function _determine_content_topic()
     {
-
         $guid = $this->_config->get('symlink_topic');
         if (is_null($guid))
         {
@@ -313,7 +312,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open symlink content topic.');
             // This will exit.
         }
-
     }
 }
 ?>

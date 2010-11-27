@@ -117,7 +117,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
                 $view_title = sprintf($this->_l10n_midcom->get('delete %s'), $this->_object->get_label());
                 break;
         }
-        
+
         $_MIDCOM->set_pagetitle($view_title);
     }
 
@@ -433,7 +433,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             // Populate some default data from parent as needed
             $task->orgOpenpsaAccesstype = $this->_parent->orgOpenpsaAccesstype;
             $task->orgOpenpsaOwnerWg = $this->_parent->orgOpenpsaOwnerWg;
-
         }
 
         if (! $task->create())

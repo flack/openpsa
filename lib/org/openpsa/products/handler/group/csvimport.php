@@ -273,7 +273,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
         while ($csv_line = fgetcsv($handle, 1000, $separator))
         {
-
             if ($total_columns == 0)
             {
                 $total_columns = count($csv_line);

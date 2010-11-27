@@ -157,7 +157,5 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
     {
         midcom_show_style('welcome');
     }
-
 }
-
 ?>

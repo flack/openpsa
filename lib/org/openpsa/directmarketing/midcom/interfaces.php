@@ -354,6 +354,5 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         // All done
         return true;
     }
-
 }
 ?>

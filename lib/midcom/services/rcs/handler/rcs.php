@@ -13,7 +13,6 @@
  */
 class no_bergfald_rcs
 {
-
     /**
      * The guid of the object in question
      * @var string guid
@@ -83,7 +82,6 @@ class no_bergfald_rcs
 
     function get_diff ($latest_revison, $oldest_revision)
     {
-
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revison);
 
@@ -98,9 +96,10 @@ class no_bergfald_rcs
             }
 
             $return[$attribute] = array ('old' => $oldest_value, 'new' => $newest[$attribute]);
-            if ( $oldest_value != $newest[$attribute] ) {
-                if (class_exists('Text_Diff')) {
-
+            if ( $oldest_value != $newest[$attribute] )
+            {
+                if (class_exists('Text_Diff'))
+                {
                     $lines1 = explode ("\n", $oldest_value);
                     $lines2 = explode ("\n", $newest[$attribute]);
 
@@ -109,11 +108,13 @@ class no_bergfald_rcs
 
                     $renderer = new Text_Diff_Renderer_unified();
 
-
-                    if (!$diff->isEmpty()) {
+                    if (!$diff->isEmpty())
+                    {
                         $return[$attribute]['diff'] = $renderer->render($diff);
                     }
-                } elseif (!is_null($GLOBALS['midcom_config']['utility_diff'])){
+                }
+                else if (!is_null($GLOBALS['midcom_config']['utility_diff']))
+                {
                     /* this doesn't work */
                     $command = $GLOBALS['midcom_config']['utility_diff'] . " -u <(echo \"$oldest_value\") <(echo \"{$newest[$attribute]}\") ";
 
@@ -121,8 +122,9 @@ class no_bergfald_rcs
                     $result = shell_exec($command);
 
                     $return[$attribute]['diff'] = $command. "\n'".$result . "'";
-
-                } else {
+                }
+                else
+                {
                     $return[$attribute]['diff'] = "THIS IS AN OUTRAGE!";
                 }
             }
@@ -142,7 +144,6 @@ class no_bergfald_rcs
             $this->_history = $this->list_history();
         }
         return $this->_history[$revision];
-
     }
 
     /**
@@ -155,18 +156,14 @@ class no_bergfald_rcs
         return array();
      }
 
-
-
     /**
      * Restore an object to a certain revision.
      *
      * @param string id of revision to restore object to.
      * @return boolean true on success.
      */
-
     function restore_to_revision($revision)
     {
-
         return false;
     }
 

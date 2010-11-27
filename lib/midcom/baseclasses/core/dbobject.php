@@ -94,7 +94,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
      **/
     public static function update_post_ops($object)
     {
-
         if (   $GLOBALS['midcom_config']['midcom_services_rcs_enable']
             && $object->_use_rcs)
         {
@@ -168,7 +167,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
      **/
     public static function create_pre_checks($object)
     {
-
         $parent = $object->get_parent();
         if (! is_null($parent))
         {
@@ -212,7 +210,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
         // Still check name uniqueness
         return self::_pre_check_name($object);
     }
-
 
     /**
      * Helper method to call in the _xxx_pre_checks, handles the API
@@ -1648,7 +1645,6 @@ class midcom_baseclasses_core_dbobject extends midcom_baseclasses_core_object
      */
     public static function set_privilege($object, $privilege, $assignee = null, $value = MIDCOM_PRIVILEGE_ALLOW, $classname = '')
     {
-
         if (   ! $_MIDCOM->auth->can_do('midgard:update', $object)
             || ! $_MIDCOM->auth->can_do('midgard:privileges', $object))
         {

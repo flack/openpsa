@@ -72,7 +72,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     function _populate_toolbar()
     {
-
         $this->_view_toolbar->add_item
         (
             array
@@ -204,7 +203,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     'href' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "edit/{$this->_page->name}/",
                 )
             );
-
         }
 
         if ($_MIDCOM->componentloader->is_installed('org.openpsa.relatedto'))
@@ -300,12 +298,10 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     function _handler_view($handler_id, $args, &$data, $view_mode = true)
     {
-
         if (!$this->_page)
         {
             return false;
         }
-
 
         $this->_load_datamanager();
 

@@ -231,7 +231,6 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
 
             //If you need any custom switches add them here
         }
-
     }
 
     /**

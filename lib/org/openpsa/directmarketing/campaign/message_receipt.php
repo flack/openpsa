@@ -67,7 +67,5 @@ class org_openpsa_directmarketing_campaign_message_receipt_dba extends midcom_co
         }
         return false;
     }
-
 }
-
 ?>

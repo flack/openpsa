@@ -5,19 +5,19 @@
  * @package midcom.helper.xml
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * 
+ *
  */
 /**
  * This class tests the midcom_helper_xml_toarray class.
  * Run it through the midcom.tests component.
- */ 
+ */
 
 $_MIDCOM->load_library('midcom.helper.xml');
 $GLOBALS['testclasses'] = array ('midcom_helper_xml_toarray_test' => 0);
- 
 
-class midcom_helper_xml_toarray_test extends UnitTestCase {
 
+class midcom_helper_xml_toarray_test extends UnitTestCase
+{
     var $testdata_1 =  "<topic>
                         <realm>topic</realm>
                         <guid>0942711831d4fa72e327a6f00fde0405</guid>
@@ -38,12 +38,12 @@ class midcom_helper_xml_toarray_test extends UnitTestCase {
                         <creator>1</creator>
                         <up>0</up>
                         </topic>";
-    
+
     /**
-     * toarray instance 
+     * toarray instance
      */
     var $toarray = null;
-    
+
     function setUp() {
         $this->toarray = new midcom_helper_xml_toarray();
     }
@@ -51,21 +51,20 @@ class midcom_helper_xml_toarray_test extends UnitTestCase {
     /**
      * Test
      */
-    function test_toarray_no_data () 
+    function test_toarray_no_data ()
     {
-        
         $this->assertFalse($this->toarray->parse(''), "Parse should return false on no data.");
-        
+
         $this->assertTrue($this->toarray->errstr != '', "The errorstring should be set.");
     }
-    
+
     function test_toarray_false_data() {
         $data = 'weoirjoij/s</oij>';
         $this->assertFalse($this->toarray->parse($data), "Parse should return false on no data.");
         $this->assertTrue($this->toarray->errstr != '', "The errorstring should be set.");
     }
-    
-    function test_if_propper_data_is_correctly_handled () 
+
+    function test_if_propper_data_is_correctly_handled ()
     {
         $result = $this->toarray->parse($this->testdata_1);
         $this->assertTrue(is_array($result), "The parsed result should be an array");
@@ -74,16 +73,15 @@ class midcom_helper_xml_toarray_test extends UnitTestCase {
         $this->assertTrue($keys[0] == 'topic', "The first key should be the topic");
         $this->assertTrue(array_key_exists('id',$result['topic']), "The array should contain an id");
         $this->assertTrue(array_key_exists('_content', $result['topic']['id']) , "Values should be stored in the _content key");
-    } 
-    
+    }
+
     /**
      * Node this function does not look for _valid_ xml
      * , just that it looks the same from the two outputengines.
      */
-    function assertRightXml($xml) 
+    function assertRightXml($xml)
     {
         var_dump($xml);
     }
-   
 }
-
+?>

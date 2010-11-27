@@ -441,10 +441,8 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param string guid
      * @return string xml representation of guid
      */
-
     function rcs_readfile ($guid)
     {
-
         $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
         $filename = $this->_generate_rcs_filename($object);
         if (is_null($filename))
@@ -498,7 +496,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      *      3 on missing object->guid
      *      nonzero on error in one of the commands.
      */
-
     function rcs_create($object, $description)
     {
         $output = null;
@@ -569,7 +566,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      */
     function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
     {
-
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);
 
@@ -577,7 +573,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
         foreach ($oldest as $attribute => $oldest_value)
         {
-
             if (!array_key_exists($attribute, $newest))
             {
                 continue;
@@ -600,7 +595,6 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
             {
                 if (class_exists('Text_Diff'))
                 {
-
                     $lines1 = explode ("\n", $oldest_value);
                     $lines2 = explode ("\n", $newest[$attribute]);
 
@@ -630,7 +624,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
                         }
                     }
                 }
-                elseif (!is_null($GLOBALS['midcom_config']['utility_diff']))
+                else if (!is_null($GLOBALS['midcom_config']['utility_diff']))
                 {
                     /* this doesn't work */
                     $command = $GLOBALS['midcom_config']['utility_diff'] . " -u <(echo \"{$oldest_value}\") <(echo \"{$newest[$attribute]}\")";
@@ -638,8 +632,9 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
                     $output = array();
                     $result = shell_exec($command);
                     $return[$attribute]['diff'] = $command. "\n'".$result . "'";
-
-                } else {
+                }
+                else
+                {
                     $return[$attribute]['diff'] = "THIS IS AN OUTRAGE!";
                 }
             }

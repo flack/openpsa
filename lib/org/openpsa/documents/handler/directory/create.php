@@ -129,8 +129,8 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
 
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
-        
+        org_openpsa_helpers::dm2_savecancel($this);
+
         return true;
     }
 
@@ -143,6 +143,5 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
     {
         midcom_show_style("show-directory-create");
     }
-    
 }
 ?>

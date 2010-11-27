@@ -29,7 +29,6 @@
  */
 class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_type
 {
-
     /**
      * The name of or reference to the callback object to be used.
      * @var string
@@ -42,6 +41,7 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      * A list of rows for the table
      */
     var $rows = array();
+
     /**
      * Headers for the rows
      * @var array
@@ -49,7 +49,7 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      */
     var $headers = array('domain', 'name', 'value', 'delete');
 
-       /**
+    /**
      * Set this to true if you want the keys to be exported to the csv dump instead of the
      * values. Note, that this does not affect import, which is only available with keys, not
      * values.
@@ -69,15 +69,12 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      */
     var $_callback = null;
 
-
-
     /**
      * Initialize the class, if necessary, create a callback instance, otherwise
      * validate that an option array is present.
      */
     function _on_initialize()
     {
-
         if (is_string($this->callback))
         {
             $classname = $this->callback;
@@ -182,7 +179,5 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
 
         return $table;
     }
-
 }
-
 ?>

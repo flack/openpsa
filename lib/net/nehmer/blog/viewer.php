@@ -444,7 +444,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $rss_switches = net_nemein_rss_manage::get_plugin_handlers();
             $this->_request_switch = array_merge($this->_request_switch, $rss_switches);
         }
-
     }
 
     /**
@@ -663,7 +662,6 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      */
     function _determine_content_topic()
     {
-
         $guid = $this->_config->get('symlink_topic');
         if (is_null($guid))
         {
@@ -943,7 +941,5 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         $qb->add_constraint('up', '=', 0);
     }
-
 }
-
 ?>

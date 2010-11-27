@@ -266,7 +266,6 @@ class midcom_helper_toolbar
      */
     function add_item($item, $before = -1)
     {
-
         if ($before != -1)
         {
             $before = $this->_check_index($before, false);
@@ -407,7 +406,6 @@ class midcom_helper_toolbar
                 . $item[MIDCOM_TOOLBAR_URL];
         }
         return $item;
-
     }
 
     /**
@@ -792,7 +790,6 @@ class midcom_helper_toolbar
         }
 
         return $output;
-
     }
 
     /**
@@ -859,9 +856,7 @@ class midcom_helper_toolbar
         }
 
         return $output;
-
     }
-
 
     /**
      * This function will traverse all available items and return the first

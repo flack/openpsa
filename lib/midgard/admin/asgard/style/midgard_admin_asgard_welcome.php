@@ -226,15 +226,14 @@ else
     $activities = midcom_helper_activitystream_activity_dba::get($data['config']->get('last_visited_size'));
     if (count($activities) > 0)
     {
-
         $reflectors = Array();
-        
+
         echo "<h2>" . $_MIDCOM->i18n->get_string('latest activities', 'midcom.helper.activitystream') . "</h2>\n";
         echo "<table class=\"results table_widget\" id =\"last_visited\">\n";
         echo "    <thead>\n";
         echo "        <tr>\n";
         echo "            <th class=\"icon\">&nbsp;</th>\n";
-        echo "            <th class=\"title\">" . $_MIDCOM->i18n->get_string('title', 'midcom') . "</th>\n";      
+        echo "            <th class=\"title\">" . $_MIDCOM->i18n->get_string('title', 'midcom') . "</th>\n";
         echo "            <th class=\"revised\">" . $_MIDCOM->i18n->get_string('date', 'midcom') . "</th>\n";
         echo "            <th class=\"revisor\">" . $_MIDCOM->i18n->get_string('actor', 'midcom.helper.activitystream') . "</th>\n";
         echo "            <th class=\"action\">" . $_MIDCOM->i18n->get_string('action', 'midcom.helper.activitystream') . "</th>\n";
@@ -254,7 +253,7 @@ else
                 }
                 continue;
             }
-            
+
             if (!isset($actors))
             {
                 $actors = array();
@@ -263,15 +262,15 @@ else
             {
                 $actors[$activity->actor] = new midcom_db_person($activity->actor);
             }
-            
+
             $class = get_class($object);
             if (!array_key_exists($class, $reflectors))
             {
                 $reflectors[$class] = new midcom_helper_reflector($object);
             }
-        
+
             $title = htmlspecialchars($reflectors[$class]->get_object_label($object));
-            
+
             echo "        <tr>\n";
             echo "            <td class=\"icon\">" . $reflectors[$class]->get_object_icon($object) . "</td>\n";
             echo "            <td class=\"title\"><a href=\"{$prefix}__mfa/asgard/object/{$data['default_mode']}/{$object->guid}/\" title=\"{$class}\">" . $title . "</a></td>\n";
@@ -279,8 +278,7 @@ else
             echo "            <td class=\"revisor\">{$actors[$activity->actor]->name}</td>\n";
             echo "            <td class=\"revision\">{$activity->summary}</td>\n";
             echo "        </tr>\n";
-        
-    }
+        }
         echo "    </tbody>\n";
         echo "</table>\n";
         echo "<script type=\"text/javascript\">\n";

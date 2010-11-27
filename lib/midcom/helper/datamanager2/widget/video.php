@@ -29,7 +29,6 @@
  */
 class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2_widget
 {
-
     /**
      * The QF upload form element, used for processing.
      *
@@ -314,7 +313,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
                 $static_html .= "<li title=\"{$info['guid']}\"><a href='{$info['url']}' target='_new'>{$info['filename']}:</a> " .
                     "{$size}, {$info['formattedsize']}</li>\n";
             }
-
         }
         $static_html .= "</ul>\n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
@@ -552,7 +550,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         {
             if ($this->_upload_element_video->isUploadedFile())
             {
-
                 $file_video = $this->_upload_element_video->getValue();
 
                 if (!empty($file_video['name']))
@@ -676,7 +673,5 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $static_html .= "</div>\n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_image_actions_static", '', $static_html);
     }
-
 }
-
 ?>

@@ -90,7 +90,6 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      */
     function _handler_navigation($handler_id, $args, &$data)
     {
-
         $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
         $current_component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC)->component;
         $root_topic = $current_topic;
@@ -111,6 +110,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         $_MIDCOM->skip_page_style = true;
         return true;
     }
+
     /**
      *
      * @param mixed $handler_id The ID of the handler.
@@ -127,9 +127,6 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
         midcom_show_style("show-navigation-start");
         $this->_show_navigation_tree($tree_array, midcom_connection::get_url('prefix'));
         midcom_show_style("show-navigation-end");
-
     }
-
-
 }
 ?>

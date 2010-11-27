@@ -74,7 +74,6 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
                     MIDCOM_NAV_URL => "{$group->code}/",
                     MIDCOM_NAV_NAME => $group->title,
                     );
-
                 }
                 $group = $parent;
             }

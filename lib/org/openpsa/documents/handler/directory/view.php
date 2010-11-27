@@ -15,7 +15,6 @@
  */
 class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_components_handler
 {
-    
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
@@ -33,6 +32,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @access private
      */
     private $_documents = array();
+
     /**
      * The directories of the directory we're working with.
      *
@@ -40,6 +40,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @access private
      */
     private $_directories = array();
+
     /**
      * The wanted output mode.
      *
@@ -184,7 +185,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 )
             );
         }
-                
+
         $_MIDCOM->bind_view_to_object($this->_request_data['directory']);
     }
 
@@ -253,13 +254,10 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     function _prepare_directories(&$root_topic , &$current_component)
     {
-
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint("component", "=", $current_component);
         $qb->add_constraint("up", "=", $root_topic->id);
         $this->_directories = $qb->execute();
-
     }
-
 }
 ?>

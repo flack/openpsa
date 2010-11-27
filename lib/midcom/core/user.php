@@ -533,7 +533,6 @@ class midcom_core_user extends midcom_baseclasses_core_object
      */
     private function _merge_privileges($privileges)
     {
-
         debug_print_r("Got these Privileges:", $privileges);
 
         foreach ($privileges as $privilege)
@@ -799,7 +798,6 @@ class midcom_core_user extends midcom_baseclasses_core_object
      */
     function delete()
     {
-
         $person = $this->get_storage();
         if (! $person)
         {
@@ -843,6 +841,5 @@ class midcom_core_user extends midcom_baseclasses_core_object
 
         return true;
     }
-
 }
 ?>

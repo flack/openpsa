@@ -706,7 +706,5 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
     {
         return $this->_main_group->isFrozen();
     }
-
 }
-
 ?>

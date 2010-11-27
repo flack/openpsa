@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     /**
      * Set this to true to keep the original file available as "original".
      *
-     * @var boolean 
+     * @var boolean
      */
     var $keep_original = false;
 
@@ -206,7 +206,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      * @access private
      */
     var $_instance_mode = 'single';
-    
+
     /**
      * Whether to check for imagemagic by running some commands
      *
@@ -384,7 +384,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         {
             return false;
         }
-        
+
         $src = $att->open('r');
 
         // Create tmp file and copy by handles
@@ -659,7 +659,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             || ! $this->_auto_convert_to_web_type())
         {
             // TODO: Raise uimessage
-        
+
             debug_add("Failed to process the conversion batch 1 (save original & web conversion) for the uploaded file {$filename} in {$tmpname}, aborting type processing.",
                 MIDCOM_LOG_ERROR);
 
@@ -678,7 +678,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             || ! $this->_save_derived_images())
         {
             // TODO: Raise uimessage
-        
+
             debug_add("Failed to process the conversion batch 2 (derived images) for the uploaded file {$filename} in {$tmpname}, aborting type processing.",
                 MIDCOM_LOG_ERROR);
 
@@ -1051,7 +1051,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
     function convert_to_html()
     {
         $result = '';
-        
+
         // Use either main or original image
         if (isset($this->attachments_info['main']))
         {
@@ -1065,7 +1065,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         {
             return $result;
         }
-        
+
         switch ($this->output_mode)
         {
             case 'html':
@@ -1078,7 +1078,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
                 {
                     $title = $main['filename'];
                 }
-                
+
                 if (array_key_exists('thumbnail', $this->attachments_info))
                 {
                     $thumb = $this->attachments_info['thumbnail'];
@@ -1089,22 +1089,22 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
                     $result .= "<img src=\"{$main['url']}\" {$main['size_line']} alt=\"{$title}\" title=\"{$title}\" />";
                 }
                 break;
-            
+
             // FIXME: wouldn't it be better to access $dm2->types->imagefield->attachments_info ??
             case 'array':
                 $result = array();
                 $tmp = $main;
-                
+
                 if (array_key_exists('thumbnail', $this->attachments_info))
                 {
                     $tmp['thumbnail'] = $this->attachments_info['thumbnail'];
                 }
-                
+
                 $result = $tmp;
                 break;
         }
 
         return $result;
     }
-
 }
+?>

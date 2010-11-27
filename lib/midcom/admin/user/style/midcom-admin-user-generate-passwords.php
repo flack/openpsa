@@ -67,12 +67,11 @@ else
     for ($i = 0; $i < $n; $i++)
     {
         $password = midcom_admin_user_plugin::generate_password($length, $no_similars, $strong);
-        
+
         echo "    <input type=\"text\" class=\"plain-text\" value=\"{$password}\" onclick=\"this.select();\" />\n";
-        
+
         echo "\n";
     }
-    
 }
 
 if (!isset($_GET['ajax-form']))

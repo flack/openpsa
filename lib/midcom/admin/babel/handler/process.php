@@ -28,7 +28,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
     function _on_initialize()
     {
-
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.babel');
         $this->_request_data['l10n'] = $this->_l10n;
         $this->_debug_prefix = 'midcom_admin_babel::';
@@ -270,7 +269,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
                 $_MIDCOM->cache->memcache->invalidate($this->_lang);
                 $_MIDCOM->cache->memcache->invalidate($this->_fallback_language);
             }
-
         }
 
         $this->_update_breadcrumb_line($handler_id);
@@ -420,8 +418,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      */
     function _show_edit($handler_id, &$data)
     {
-
-
         $this->_request_data['view_component'] = $this->_component_path;
         $this->_request_data['view_lang'] = $this->_lang;
         $this->_request_data['view_language_db'] = $this->_i18n->get_language_db();

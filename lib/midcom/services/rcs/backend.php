@@ -13,7 +13,6 @@
  */
 class midcom_services_rcs_backend
 {
-
     /**
      * The configuration of the service
      */
@@ -88,7 +87,6 @@ class midcom_services_rcs_backend
  */
 class midcom_services_rcs_backend_null extends midcom_services_rcs_backend
 {
-
     /**
      * Empty constructor
      */

@@ -448,7 +448,6 @@ class midcom_services_auth
      */
     function request_sudo ($domain = null)
     {
-
         if (! $GLOBALS['midcom_config']['auth_allow_sudo'])
         {
             debug_add("SUDO is not allowed on this website.", MIDCOM_LOG_ERROR);
@@ -481,7 +480,6 @@ class midcom_services_auth
      */
     function drop_sudo()
     {
-
         if ($this->_component_sudo > 0)
         {
             debug_add('Leaving SUDO mode.');
@@ -1389,6 +1387,5 @@ class midcom_services_auth
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
-
 }
 ?>

@@ -149,7 +149,6 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
      */
     function _add_initscript($mode = 'exact')
     {
-
         $config = midcom_get_snippet_content_graceful($this->mce_config_snippet);
 
         if (! $config)
@@ -322,7 +321,6 @@ plugin_insertdate_timeFormat : "%H:%M:%S",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 
 EOT;
-
     }
 
     /**
@@ -343,7 +341,6 @@ theme_advanced_toolbar_align : "left",
 extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
 
 EOT;
-
     }
 
     /**
@@ -432,7 +429,5 @@ EOT;
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
     }
-
 }
-
 ?>

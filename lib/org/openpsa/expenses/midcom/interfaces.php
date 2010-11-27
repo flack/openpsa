@@ -84,6 +84,5 @@ class org_openpsa_expenses_interface extends midcom_baseclasses_components_inter
         // All done
         return true;
     }
-
 }
 ?>

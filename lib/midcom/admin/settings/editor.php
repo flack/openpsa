@@ -76,12 +76,9 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
             )
         );
 
-
         // Initialize Asgard plugin
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.settings'), $this->_request_data);
-
     }
-
 
     function get_plugin_handlers()
     {
@@ -306,7 +303,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
             {
                 continue;
             }
-            
+
             // Read correct value from DM2 type
             $val = $this->_controller->datamanager->types[$key]->convert_to_storage();
 
@@ -351,7 +348,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
 
     function get_default_bool($key)
     {
-
         return sprintf($_MIDCOM->i18n->get_string('default (%s)', 'midcom.admin.settings'), $GLOBALS['midcom_config_default'][$key] ? $_MIDCOM->i18n->get_string('yes', 'midcom') : $_MIDCOM->i18n->get_string('no', 'midcom'));
     }
 
@@ -385,9 +381,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
         }
 
         echo '</ul>';
-
     }
-
 }
-
 ?>

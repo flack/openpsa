@@ -144,7 +144,6 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
             unset($fields['campaigns_editing']);
         }
         $fields['salesproject_creation']['privilege_object'] = $person_object;
-
     }
 
     /**
@@ -242,6 +241,5 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
         $this->_request_data['acl_dm'] =& $this->_controller;
         midcom_show_style("show-privileges");
     }
-
 }
 ?>

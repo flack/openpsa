@@ -156,7 +156,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      */
     function _handler_list($handler_id, $args, &$data)
     {
-
         // Query for sub-objects
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
         if ($handler_id == 'list_intree')
@@ -179,7 +178,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $data['parent_category_id'] = $categories[0]->id;
                 $data['parent_category'] = $groups[0]->code;
             }
-
         }
         else if ($handler_id == 'listall')
         {
@@ -203,7 +201,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                     $categories_in[$i] = $categories[$i]->id;
                 }
             }
-
         }
         else if ($handler_id == 'list')
         {
@@ -763,7 +760,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             midcom_show_style('group_empty');
         }
-
     }
 
     /**

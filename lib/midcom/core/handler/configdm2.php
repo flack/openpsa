@@ -9,9 +9,9 @@
 
 /**
  * midcom.helper.datamanager2 based configuration
- * 
+ *
  * Usage:
- * 
+ *
  * 1. Write a midcom_helper_datamanager2_schema compatible configuration
  *    schema and place it among your component files
  * 2. Point a configuration key 'schemadb_config' to it within your
@@ -26,45 +26,45 @@
  *         'fixed_args' => array ('config'),
  *     );
  * </code>
- * 
+ *
  * @package midcom.core.handler
  */
 class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handler
 {
     /**
      * DM2 controller instance
-     * 
+     *
      * @access private
      * @var midcom_helper_datamanager2_controller $_controller
      */
     var $_controller;
-    
+
     /**
      * DM2 configuration schema
-     * 
+     *
      * @access private
      * @var midcom_helper_datamanager2_schema $_schemadb
      */
     var $_schemadb;
-    
+
     /**
      * Load midcom.helper.datamanager2. Called on handler initialization phase.
-     * 
+     *
      * @access public
      */
     function _on_initialize()
     {
         $_MIDCOM->componentloader->load('midcom.helper.datamanager2');
     }
-    
+
     /**
      * Load midcom_helper_datamanager2_controller instance or output an error on any error
-     * 
+     *
      * @access private
      * @return boolean Indicating success
      */
     function _load_controller()
-    {    
+    {
         if (isset($this->_master->handler['schemadb']))
         {
             $this->_schemadb_path = $this->_master->handler['schemadb'];
@@ -77,42 +77,42 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         {
             debug_add(__CLASS__, __FUNCTION__);
             debug_add('No configuration schema defined', MIDCOM_LOG_ERROR);
-            
+
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "No configuration schema defined");
             // This will exit
         }
-        
+
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
-        
+
         if (empty($this->_schemadb))
         {
             debug_add(__CLASS__, __FUNCTION__);
             debug_add('Failed to load the schemadb', MIDCOM_LOG_ERROR);
-            
+
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to load configuration schemadb');
             // This will exit
         }
-        
+
         // Create a 'simple' controller
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_topic);
-        
+
         if (! $this->_controller->initialize())
         {
-            debug_add(__CLASS__, __FUNCTION__);        
+            debug_add(__CLASS__, __FUNCTION__);
             debug_add('Failed to initialize the configuration controller');
-            
+
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for photo {$this->_photo->id}.");
             // This will exit.
         }
-        
+
         return true;
     }
-    
+
     /**
      * Generic handler for all the DM2 based configuration requests
-     * 
+     *
      * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
@@ -120,11 +120,11 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
      * @return boolean              Indicating success
      */
     function _handler_config($handler_id, $args, &$data)
-    {        
+    {
         // Require corresponding ACL's
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
-        
+
         // Add DM2 link head
         $_MIDCOM->add_link_head
         (
@@ -160,7 +160,7 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
 
         // Load the midcom_helper_datamanager2_controller for form processing
         $this->_load_controller();
-        
+
         // Process the form
         switch ($this->_controller->process_form())
         {
@@ -169,15 +169,14 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
                 $_MIDCOM->relocate('');
                 // This will exit
                 break;
-            
+
             case 'cancel':
                 $_MIDCOM->uimessages->add($this->_l10n_midcom->get('component configuration'), $this->_l10n_midcom->get('cancelled'));
                 $_MIDCOM->relocate('');
                 // This will exit
                 break;
-            
         }
-        
+
         // Update the breadcrumb and page title
         $tmp = array();
         $tmp[] = array
@@ -186,30 +185,30 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
             MIDCOM_NAV_NAME => $this->_l10n_midcom->get('component configuration'),
         );
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);        
+        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($_MIDCOM->i18n->get_string('component %s configuration for folder %s', 'midcom'), $_MIDCOM->i18n->get_string($data['component'], $data['component']), $data['topic']->extra);
         $_MIDCOM->set_pagetitle($data['title']);
-        
+
         return true;
     }
-    
+
     /**
      * Show the configuration screen
-     * 
+     *
      * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $data          Miscellaneous output data
      */
     function _show_config($handler_id, &$data)
     {
-        if (   function_exists('mgd_is_element_loaded')    
+        if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('dm2_config'))
         {
             $data['controller'] =& $this->_controller;
             midcom_show_element('dm2_config');
             return;
         }
-        
+
         // No user-defined element, show directly here
         echo "<div class=\"dm2_config\">\n";
         echo "<h1>{$data['title']}</h1>\n";
@@ -220,14 +219,14 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     /**
      * Handler for regenerating all derived images used in the folder.
      *
-     * If used in a component, you should implement the _load_datamanagers and _load_objects methods in an 
+     * If used in a component, you should implement the _load_datamanagers and _load_objects methods in an
      * inherited handler class.
      *
      * _load_datamanagers must return an array of midcom_helper_datamanager2_datamanager objects indexed by
      * DBA class name.
      *
      * _load_objects must return an array of DBA objects.
-     * 
+     *
      * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
@@ -247,7 +246,7 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, '_load_objects method not available, recreation support disabled.');
             // This will exit.
         }
-    
+
         // Require corresponding ACL's
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
@@ -263,7 +262,7 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
             $_MIDCOM->relocate('config/');
             // This will exit.
         }
-        
+
         $data['datamanagers'] = $this->_load_datamanagers();
 
         // Update the breadcrumb and page title
@@ -279,16 +278,16 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
             MIDCOM_NAV_NAME => $this->_l10n_midcom->get('recreate images'),
         );
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);        
+        $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($_MIDCOM->i18n->get_string('recreate images for folder %s', 'midcom'), $data['topic']->extra);
         $_MIDCOM->set_pagetitle($data['title']);
-        
+
         return true;
     }
 
     /**
      * Show the recreation screen
-     * 
+     *
      * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $data          Miscellaneous output data
@@ -300,7 +299,7 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         @ini_set('memory_limit', -1);
         @ini_set('max_execution_time', 0);
 
-        if (   function_exists('mgd_is_element_loaded')    
+        if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('dm2_config_recreate'))
         {
             midcom_show_element('dm2_config_recreate');
@@ -310,7 +309,7 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         // No user-defined element, show directly here
 
         echo "<h1>{$data['title']}</h1>\n";
-        
+
         echo "<p>" . $_MIDCOM->i18n->get_string('recreating', 'midcom') . "</p>\n";
 
         echo "<pre>\n";
@@ -343,8 +342,8 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
             }
         }
         echo "</pre>\n";
-        
-        echo "<p>" . $_MIDCOM->i18n->get_string('done', 'midcom') . "</p>\n";        
+
+        echo "<p>" . $_MIDCOM->i18n->get_string('done', 'midcom') . "</p>\n";
     }
 }
 ?>

@@ -186,7 +186,6 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
         {
             $this->day = date('d');
         }
-
     }
 
     private function _calculate_height($start_time, $end_time, $cell_height = null)
@@ -350,7 +349,6 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
                 $reservations_added++;
                 continue;
             }
-
         }
         return $reservations_found;
     }
@@ -534,7 +532,6 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
                 echo "</div>";
             }
         }
-
     }
 
     private function _hcalendar_from_reservations($resource, $reservations, $start, $after_start, $end, $before_end, $resources_shown = false, $slots)
@@ -821,7 +818,6 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
                         }
                         echo "          </div>\n";
                         echo "        </td>\n";
-
                     }
                     else
                     {

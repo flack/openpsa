@@ -262,7 +262,6 @@
 
 class midcom_services_auth_acl
 {
-
     var $auth = null;
 
     /**
@@ -1127,7 +1126,5 @@ class midcom_services_auth_acl
                 return true;
         }
     }
-
 }
-
 ?>

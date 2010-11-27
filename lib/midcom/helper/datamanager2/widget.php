@@ -367,7 +367,5 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
         $element = $this->_form->getElement($this->name);
         return $element->isFrozen();
     }
-
 }
-
 ?>

@@ -187,22 +187,22 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                 {
                     $_MIDCOM->relocate('list/');
                 }
-                
+
                 // Show authenticated user the profile page
                 if ($_MIDCOM->auth->user)
                 {
                     $_MIDCOM->relocate('me/');
                 }
-                
+
                 // Go to registration if allowed
                 if ($this->_config->get('allow_register'))
                 {
                     $_MIDCOM->relocate('register/');
                 }
-                
+
                 // As the last resort, show login page
                 $_MIDCOM->auth->require_valid_user();
-                
+
                 break;
 
             case 'self':
@@ -416,7 +416,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
 
             if ($this->_config->get('net_nehmer_buddylist_integration'))
             {
-
                 $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
                 $view_url = $this->_get_view_url();
 
@@ -807,7 +806,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
 
             case 'user':
                 return in_array($name, $this->_visible_fields_user_selection);
-
         }
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
             "Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
@@ -991,9 +989,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                 )
             );
         }
-
     }
-
 }
-
 ?>

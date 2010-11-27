@@ -364,5 +364,5 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product deleted: ' . midcom_connection::get_error_string());
         // This will exit
     }
-
 }
+?>

@@ -290,7 +290,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
         midcom_show_style('midgard_admin_asgard_component_configuration_footer');
         midgard_admin_asgard_plugin::asgard_footer();
-
     }
 
     function _detect($value)
@@ -327,11 +326,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
                 break;
             default:
                 $result = $value;
-
         }
 
         return $result;
-
     }
 
     /**
@@ -667,7 +664,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
 
         return $result;
-
     }
 
     function _draw_array($array, $prefix = '', $type_array = null)
@@ -720,10 +716,8 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             }
 
             $data .= ",\n";
-
         }
         return $data;
     }
-
 }
 ?>

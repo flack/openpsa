@@ -55,7 +55,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             {
                 /**
                  * Is there a particular reason to do this this way (with invalid handling for selects etc ?)
-                 * 
+                 *
                 if (is_a($this->_datamanager->types[$key], 'midcom_helper_datamanager2_type_date'))
                 {
                     $this->_datamanager->types[$key]->value = new Date($value);
@@ -120,7 +120,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         {
             return $data;
         }
-        
+
         // Ragnaroek-todo: Use try-catch to prevent error_handler trouble
         $stat = @iconv($encoding, $iconv_target, $data);
         if (empty($stat))
@@ -171,7 +171,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             // FIXME: the product group should be taken into account here, codes are quaranteed to be unique only within the group
             $qb = org_openpsa_products_product_dba::new_query_builder();
             $qb->add_constraint('code', '=', (string) $productdata['code']);
-            
+
             $products = $qb->execute();
             if (count($products) > 0)
             {
@@ -253,16 +253,16 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
         return $product;
     }
-    
+
     function _get_product_group_tree($up)
     {
         $groups = array();
-        
+
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $qb->add_constraint('up', '=', $up);
         $qb->add_order('metadata.score');
         $results = $qb->execute();
-        
+
         foreach ($results as $result)
         {
             $groups[$result->id] = midcom_helper_reflector_tree::resolve_path($result);
@@ -284,24 +284,20 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
     function _handler_csv_select($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
-        
+
         $data['product_groups'] = array();
-        
+
         $up = 0;
-        
+
         if ($this->_config->get('root_group') != 0)
         {
             $root_group_guid = $this->_config->get('root_group');
             $root_group_obj = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
             $up = $root_group_obj->up;
         }
-        else
-        {
-        
-        }
-        
+
         $data['product_groups'] = $this->_get_product_group_tree($up);
-        
+
         if (isset($_POST['org_openpsa_products_import_schema']))
         {
             $data['schema'] = $_POST['org_openpsa_products_import_schema'];
@@ -419,7 +415,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No CSV separator specified.');
             // This will exit.
         }
-        
+
         if (!array_key_exists('org_openpsa_products_import_schema', $_POST))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No schema specified.');
@@ -448,8 +444,8 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         {
             $data['new_products_product_group'] = 0;
         }
-        $data['schema'] = $_POST['org_openpsa_products_import_schema']; 
-        $this->_datamanager->set_schema($data['schema']);       
+        $data['schema'] = $_POST['org_openpsa_products_import_schema'];
+        $this->_datamanager->set_schema($data['schema']);
 
         // Start processing the file
         $read_rows = 0;
@@ -459,7 +455,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
         while ($csv_line = fgetcsv($handle, 3000, $separator))
         {
-
             if ($total_columns == 0)
             {
                 $total_columns = count($csv_line);

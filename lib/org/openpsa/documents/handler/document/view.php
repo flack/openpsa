@@ -15,7 +15,6 @@
  */
 class org_openpsa_documents_handler_document_view extends midcom_baseclasses_components_handler
 {
-
     /**
      * The document we're working with (if any).
      *
@@ -226,6 +225,5 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 }
 ?>

@@ -254,7 +254,6 @@ class midcom_services_dbclassloader extends midcom_baseclasses_core_object
         {
             $this->_class_definition_filename = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component) . "/config/{$filename}";
         }
-
     }
 
     /**

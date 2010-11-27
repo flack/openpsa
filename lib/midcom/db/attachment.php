@@ -235,7 +235,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     static function get_cache_path(midcom_db_attachment $attachment, $check_privileges = true)
     {
-
         if (!$GLOBALS['midcom_config']['attachment_cache_enabled'])
         {
             return null;
@@ -364,7 +363,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     function _create_attachment_location()
     {
-
         $location_in_use = true;
         $location = '';
 

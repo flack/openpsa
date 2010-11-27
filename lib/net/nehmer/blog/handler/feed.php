@@ -92,7 +92,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
                 {
                     return false;
                 }
-
             }
 
             // TODO: Check for ".xml" suffix
@@ -175,7 +174,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "The feed handler {$handler_id} is unsupported");
                 // This will exit.
         }
-
     }
 
     /**

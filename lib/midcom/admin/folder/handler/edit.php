@@ -157,7 +157,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_event->id}.");
             // This will exit.
         }
-
     }
 
     /**
@@ -256,7 +255,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                             $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
                             return false;
                         }
-
                     }
 
                     $_MIDCOM->auth->request_sudo('midcom.admin.folder');
@@ -453,7 +451,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      */
     function _create_style($style_name)
     {
-
         if (isset($GLOBALS['midcom_style_inherited']))
         {
             $up = $_MIDCOM->style->get_style_id_from_path($GLOBALS['midcom_style_inherited']);

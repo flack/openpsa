@@ -16,7 +16,6 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
 {
     function _on_initialize()
     {
-
         // Match /project/list/<status>
         $this->_request_switch['project-list-status'] = array
         (

@@ -5,7 +5,6 @@
     if( !array_key_exists('dynamic_load' , $data)
         && array_key_exists('entries' , $data))
     {
-
         echo "var entries = [\n";
         foreach($data['entries'] as $entry)
         {

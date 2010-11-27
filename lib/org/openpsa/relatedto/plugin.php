@@ -37,7 +37,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
      */
     static function create(&$from_obj, $from_component, &$to_obj, $to_component, $status = false , $extra = false)
     {
-
         if (   !is_object($from_obj)
             || !is_object($to_obj))
         {

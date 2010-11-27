@@ -127,7 +127,6 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         }
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
     }
 
     /**

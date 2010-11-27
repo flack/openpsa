@@ -106,6 +106,5 @@ jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?> .icon').cl
         jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').addClass('expanded');
         jQuery('#deliverable_<?php echo $data['deliverable_object']->guid; ?>').removeClass('collapsed');
     }
-
 });
 </script>

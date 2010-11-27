@@ -828,7 +828,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         {
             // Atom feed, the value can be either full name or username
             $author_info['user_or_full'] = $item['author_name'];
-
         }
 
         if (isset($item['dc']))
@@ -900,7 +899,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
         if (   is_null($matched_person)
             && isset($author_info['full_name']))
         {
-
             $name_parts = explode(' ', $author_info['full_name']);
             if (count($name_parts) > 1)
             {
@@ -1035,7 +1033,6 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      */
     function normalize_item($item)
     {
-
         if (!is_array($item))
         {
             // Broken item, skip

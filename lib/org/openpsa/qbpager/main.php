@@ -701,6 +701,5 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_count_mode = 'count_unchecked';
         return $this->count;
     }
-
 }
 ?>

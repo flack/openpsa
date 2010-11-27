@@ -86,7 +86,6 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "  });\n";
             echo "// ]]>\n";
             echo "</script>\n";
-
         }
         else
         {

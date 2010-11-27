@@ -61,7 +61,6 @@ foreach($data['entries'] as $entry)
         }
 
     echo "</row>";
-
 }
 echo "</rows>";
 ?>

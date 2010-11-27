@@ -34,7 +34,6 @@
  */
 class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
 {
-
     /**
      * Current object Guid.
      * @var string
@@ -101,7 +100,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         );
 
         return $request_switch;
-
     }
 
     /**
@@ -240,7 +238,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
 
         if ($show_previous)
         {
-
             $this->_view_toolbar->add_item
             (
                 array

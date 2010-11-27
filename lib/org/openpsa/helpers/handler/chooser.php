@@ -338,6 +338,5 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
         return json_encode($jsdata);
     }
-
 }
 ?>

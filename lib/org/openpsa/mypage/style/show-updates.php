@@ -43,7 +43,6 @@ foreach ($view_types as $type)
                 $contact = new org_openpsa_contactwidget($editor);
                 echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . strftime("%x %X", $document->_fields['__EDITED_TS']['content']) . " (" . $contact->show_inline() . ")</div></li>\n";
             }
-
         }
         echo "</ul></div>\n";
     }

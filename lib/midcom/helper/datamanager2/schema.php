@@ -230,7 +230,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 {
                     $extended_schema_name = $schema['extends']['name'];
                 }
-
             }
             elseif (isset($contents[$schema['extends']]))
             {
@@ -306,7 +305,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 {
                     $extended_schemadb[$extended_schema_name][$key] = $value;
                 }
-
             }
 
             // Replace the new schema with extended schema
@@ -745,8 +743,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         $session = $_MIDCOM->get_service('session');
         $session->set('midcom.helper.datamanager2', $key, $this->_raw_schema);
         return $key;
-
     }
 }
-
 ?>

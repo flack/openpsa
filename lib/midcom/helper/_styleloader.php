@@ -657,7 +657,6 @@ class midcom_helper__styleloader
      */
     private function _getComponentStyle($topic)
     {
-
         // get user defined style for component
         // style inheritance
         // should this be cached somehow?

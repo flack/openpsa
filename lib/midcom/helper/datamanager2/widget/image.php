@@ -421,7 +421,6 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 debug_add("Failed to rotate image on the field {$this->name}.",
                     MIDCOM_LOG_ERROR);
             }
-
         }
         else if ($this->_upload_element->isUploadedFile())
         {
@@ -524,7 +523,5 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $static_html .= "</div>\n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_image_actions_static", '', $static_html);
     }
-
 }
-
 ?>

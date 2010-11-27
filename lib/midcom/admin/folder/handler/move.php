@@ -36,7 +36,6 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      */
     function _handler_move($handler_id, $args, &$data)
     {
-
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (! $this->_object)
         {
@@ -175,6 +174,5 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
         midcom_show_style('midcom-admin-show-folder-move');
     }
-
 }
 ?>

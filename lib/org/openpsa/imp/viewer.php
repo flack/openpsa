@@ -73,7 +73,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      */
     function _check_imp_settings()
     {
-
         $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
         $current_user_dbobj = $_MIDCOM->auth->user->get_storage();
 

@@ -86,7 +86,6 @@
         {
             resize_grid();
         });
-
     });
     </script>
         <h1><?php echo $data['directory']->extra; ?></h1>

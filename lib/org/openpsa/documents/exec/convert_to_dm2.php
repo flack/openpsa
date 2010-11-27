@@ -32,7 +32,6 @@ foreach($results as $document)
         echo "Attachment for document #{$document->title} updated\n";
         flush();
     }
-
 }
 echo "</pre>";
 ob_start();

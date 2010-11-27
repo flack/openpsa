@@ -23,7 +23,7 @@ require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/recaptcha/recaptc
  * reCaptcha is valid for only one post. If host reloads a page a new reCaptha is created
  *
  * <b>Available configuration options:</b>
- * 
+ *
  * <b>Integration Guide:</b>
  *
  * Integrating Captcha support does not need any changes to your components, you just
@@ -39,7 +39,7 @@ require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/recaptcha/recaptc
  *     'widget' => 'recaptcha',
  * ),
  * </code>
- * 
+ *
  * reCaptcha is configured by setting private and public keys to snippet
  * sitegroup-config/midcom.helper.datamanager2/config
  *
@@ -52,7 +52,6 @@ require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/recaptcha/recaptc
  */
 class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamanager2_widget
 {
- 
     /**
      * The input textbox used which needs to be frozen when operating on the captcha.
      *
@@ -60,14 +59,14 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
      * @access private
      */
     var $_element = null;
-    
+
     /**
      * Public and private keys used by recaptcha
      * TODO: These could come from configuration
      */
     var $_public_key = null;
     var $_private_key = null;
-    
+
     var $_validated = false;
 
     /**
@@ -89,7 +88,7 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
     function add_elements_to_form()
     {
         $elements = Array();
-        
+
         $attributes = Array
         (
             'class' => 'captcha',
@@ -100,7 +99,7 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
         $static_html = midcom_get_snippet_content_graceful('/sitegroup-config/midcom.helper.datamanager2/recaptcha').$static_html;
 
         $this->_element = HTML_QuickForm::createElement('static', "{$this->name}_captcha", '', $static_html);
-        
+
         $elements[] = $this->_element;
         $elements[] = HTML_QuickForm::createElement('hidden', $this->name, '', $attributes);
         $this->_form->applyFilter($this->name, 'trim');
@@ -115,22 +114,22 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
      * QF Valiation callback which verifies the passcode against the Captcha.
      */
     function validate($fields)
-    {   
+    {
         /* For some reason this validation is runned twice. Recaptha gives only one
-         * true answer per captcha. So first we check if it has been given 
+         * true answer per captcha. So first we check if it has been given
          */
         if($this->_validated)
         {
             return true;
         }
-    
+
         $resp = recaptcha_check_answer ($this->_private_key,
                                         $_SERVER["REMOTE_ADDR"],
                                         $fields["recaptcha_challenge_field"],
                                         $fields["recaptcha_response_field"]);
-                                        
+
         if (!$resp->is_valid)
-        {   
+        {
             return Array ("{$this->name}_group" => $this->_l10n->get('captcha validation failed'));
         }
         /*
@@ -173,7 +172,5 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
     {
         return $this->_element->isFrozen();
     }
-
 }
-
 ?>

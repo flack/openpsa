@@ -16,21 +16,21 @@
  * This widget supports the privilege type only. It shows a triplet of radioboxes having
  * allowed, denied and inherited as option according to the type's value.
  *
- * The widget will not display itself if the user does not have privileges permission on 
+ * The widget will not display itself if the user does not have privileges permission on
  * the storage object.
- * 
+ *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamanager2_widget
 {
     /**
      * The QF Element list added to the form. Saved for freezing/unfreezing.
-     * 
+     *
      * @var Array
      * @access protected
      */
     var $_elements = null;
-    
+
     /**
      * The initialization event handler validates the base type.
      *
@@ -58,7 +58,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         }
 
         $elements = Array();
-        
+
         $elements[] = HTML_QuickForm::createElement
         (
             'radio',
@@ -86,14 +86,14 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             MIDCOM_PRIVILEGE_INHERIT,
             Array('class' => 'radiobutton')
         );
-        
+
         $this->_elements = $elements;
-        
+
         $group = $this->_form->addGroup
         (
-            $this->_elements, 
-            $this->name, 
-            $this->_translate($this->_field['title']), 
+            $this->_elements,
+            $this->name,
+            $this->_translate($this->_field['title']),
             "&nbsp;"
         );
         $group->setAttributes(Array('class' => 'radiobox'));
@@ -127,11 +127,11 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
             return false;
         }
         else
-        {        
+        {
             return $this->_elements[0]->isFrozen();
-        } 
+        }
     }
-    
+
     function freeze()
     {
         if (    (   $this->_type->storage->object
@@ -140,14 +140,14 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         {
             return;
         }
-        
-        
+
+
         foreach (array_keys($this->_elements) as $index)
-        {         
+        {
             $this->_elements[$index]->freeze();
-        } 
+        }
     }
-    
+
     function unfreeze()
     {
         if (    (   $this->_type->storage->object
@@ -156,16 +156,13 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
         {
             return;
         }
-        
-        
+
+
         foreach (array_keys($this->_elements) as $index)
-        {         
+        {
             $this->_elements[$index]->unfreeze();
-        } 
+        }
     }
-    
-    
-    
 }
 
 ?>

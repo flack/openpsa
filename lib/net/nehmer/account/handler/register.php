@@ -230,7 +230,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
             $dest = "{$prefix}register/{$schema_name}/";
 
             $_MIDCOM->relocate($dest);
-
         }
 
         if (isset($_POST['net_nehmer_account_cancel_invitation']))
@@ -378,7 +377,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
                 $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
                 $_MIDCOM->set_pagetitle($this->_l10n->get('account registration') . ': ' . $this->_l10n->get('registration successful'));
                 break;
-
         }
 
         return true;
@@ -733,8 +731,6 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     "Failed to store the data into the newly created record, this indicates tampering with the request data");
                 // This will exit.
-
-
         }
 
         // Generate a random password and activation Hash

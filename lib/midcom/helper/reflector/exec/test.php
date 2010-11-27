@@ -39,7 +39,5 @@ if (midcom_helper_reflector_tree::has_children($object))
     $children = midcom_helper_reflector_tree::get_child_objects($object);
     var_dump($children);
     echo "</pre>\n";
-    
 }
-
 ?>

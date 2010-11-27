@@ -1,7 +1,7 @@
 <?php
 /**
  * @package midcom.services
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: null.php 22991 2009-07-23 16:09:46Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -15,12 +15,12 @@ class midcom_services_cache_backend_null extends midcom_services_cache_backend
 {
     /**
      * The full directory filename.
-     * 
+     *
      * @access private
      * @var string
      */
     var $_dirname = null;
-    
+
     /**
      * This handler completes the configuration.
      */
@@ -42,25 +42,25 @@ class midcom_services_cache_backend_null extends midcom_services_cache_backend
     {
         return null;
     }
-    
+
     function put($key, $data)
     {
        return;
     }
-    
+
     function remove($key)
     {
         return;
     }
-    
+
     function remove_all()
     {
         return;
     }
-    
+
     function exists($key)
     {
         return false;
     }
-    
 }
+?>

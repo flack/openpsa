@@ -14,7 +14,6 @@
  */
 class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_handler
 {
-
     /**
      * The invoice we're working with
      *

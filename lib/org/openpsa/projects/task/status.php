@@ -89,7 +89,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
 
     function _on_created()
     {
-
         //Remove the resource if necessary
         if ($this->type == ORG_OPENPSA_TASKSTATUS_DECLINED
             && $this->targetPerson)

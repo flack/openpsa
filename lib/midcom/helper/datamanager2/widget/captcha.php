@@ -106,7 +106,6 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
      */
     function _on_initialize()
     {
-
         $request_fieldname = "{$this->name}_session_key";
         if (array_key_exists($request_fieldname, $_REQUEST))
         {
@@ -217,7 +216,5 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     {
         return $this->_element->isFrozen();
     }
-
 }
-
 ?>

@@ -217,6 +217,5 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
     function _show_action($handler_id, &$data)
     {
     }
-
 }
 ?>

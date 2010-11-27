@@ -60,7 +60,5 @@ class net_nehmer_buddylist_callbacks_categorylister extends midcom_baseclasses_c
     {
         return $this->_data;
     }
-
 }
-
 ?>

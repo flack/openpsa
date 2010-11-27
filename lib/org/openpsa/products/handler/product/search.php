@@ -514,7 +514,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
             if (count($data['search_constraints']) > 0)
             {
-
                 // Process search
                 $data['results'] = $this->_qb_search($data['search_constraints']);
             }

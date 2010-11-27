@@ -185,7 +185,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
             ),
             'variable_args' => 1,
         );
-
     }
 
     /**
@@ -195,7 +194,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      */
     function _determine_content_topic()
     {
-
         $guid = $this->_config->get('symlink_topic');
         if (is_null($guid))
         {

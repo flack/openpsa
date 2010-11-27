@@ -69,7 +69,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
 
         $qb = new org_openpsa_qbpager('midcom_db_person', 'net_nehmer_account_list');
         $data['qb'] =& $qb;
-        
+
         if ($handler_id == 'list_by_alpha')
         {
             if (   !is_string($args[0])
@@ -79,17 +79,17 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
                 $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Invalid letter \"{$args[0]}\" for alphabetical search");
                 // This will exit
             }
-        
+
             $qb->add_constraint('lastname', 'LIKE', "{$args[0]}%");
         }
-        
+
         $list_orders = $this->_config->get('list_order');
         foreach ($list_orders as $property => $order)
         {
             $qb->add_order($property, $order);
         }
         $qb->results_per_page = $this->_config->get('list_entries');
-        
+
         $data['users'] = $qb->execute();
 
         $this->_view_toolbar->hide_item('list/');
@@ -121,7 +121,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
 
         midcom_show_style('show-list-footer');
     }
-    
+
     /**
      * This handler loads the account, validates permissions and starts up the
      * datamanager.
@@ -172,7 +172,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
         unset($mc);
 
         $data['users'] = array();
-        
+
         foreach ($person_ids as $person_id)
         {
             $user = new midcom_db_person();
@@ -279,7 +279,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
             else
             {
                 $offset = mt_rand(0, $data['total_users']);
-
             }
             $qb->set_offset($offset);
             $users = $qb->execute_unchecked();
@@ -339,7 +338,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
             }
         }
     }
-    
+
    /**
      * This helper uses the 'visible_mode' customdata member to compute actual visibility
      * of a field. Possible settings:
@@ -379,7 +378,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
 
             case 'user':
                 return in_array($name, $this->_visible_fields_user_selection[$user_guid]);
-
         }
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
             "Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");

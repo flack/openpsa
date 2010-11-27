@@ -263,7 +263,5 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         /*** /Copied from sales/handler/deliverable/report.php ***/
         midcom_show_style('sales_report-deliverable-end');
     }
-
-
 }
 ?>

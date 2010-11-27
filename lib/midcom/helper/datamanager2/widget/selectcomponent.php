@@ -65,8 +65,8 @@ class midcom_helper_datamanager2_widget_selectcomponent extends  midcom_helper_d
             }
 
             $select_element->addOption($this->_translate($value), $key, $option_attributes);
-        }       
-        
+        }
+
         $select_element->setMultiple($this->_type->allow_multiple);
         if ($this->_type->allow_multiple)
         {
@@ -115,7 +115,6 @@ class midcom_helper_datamanager2_widget_selectcomponent extends  midcom_helper_d
             echo $this->_translate($this->othertext) . ': ';
             echo implode(',', $this->_type->others);
         }
-
     }
 }
 ?>

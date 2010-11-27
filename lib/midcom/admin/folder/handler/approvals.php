@@ -51,7 +51,7 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
             // This will exit.
         }
 
-        /** 
+        /**
          * This flag is used to make it possible to explicitly recognize user intent
          * to for example do special operations in midcom.helper.replicator
          */
@@ -74,6 +74,5 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
         $_MIDCOM->relocate($_REQUEST['return_to']);
         // This will exit.
     }
-
 }
 ?>

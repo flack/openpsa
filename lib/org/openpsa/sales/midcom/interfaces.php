@@ -66,7 +66,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             return "deliverable/{$deliverable->guid}/";
         }
         return null;
-
     }
 
     /**

@@ -579,7 +579,6 @@ class midcom_application
      */
     public function dynamic_load($url, $config = array(), $pass_get = false)
     {
-
         debug_add("Dynamic load of URL {$url}", MIDCOM_LOG_DEBUG);
 
         if (substr($url, -5) == '.html')
@@ -944,7 +943,6 @@ class midcom_application
                 $success = true;
                 break;
             }
-
         } while ($this->_parsers[$this->_currentcontext]->get_object() !== false);
 
         if (! $success)
@@ -1012,7 +1010,6 @@ class midcom_application
      */
     private function _handle()
     {
-
         $path = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
 
         $handler = $this->componentloader->get_interface_class($path);
@@ -1536,7 +1533,6 @@ class midcom_application
         }
 
         return $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA][$component][$key];
-
     }
 
     /**
@@ -2746,7 +2742,6 @@ class midcom_application
             fpassthru($handle);
             $this->finish();
             _midcom_stop_request();
-
         }
         else if (is_numeric($count))
         {
@@ -2756,7 +2751,6 @@ class midcom_application
             passthru ("tail -" . abs($count) . " " . escapeshellarg($filename));
             $this->finish();
             _midcom_stop_request();
-
         }
         else
         {

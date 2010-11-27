@@ -14,7 +14,6 @@
  */
 class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_components_handler
 {
-
     /**
      * The Controller of the document used for creating
      *
@@ -46,17 +45,17 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
      * @access private
      */
     private $_defaults = array();
-    
+
     /**
      * The group we're working with
-     * 
+     *
      * @var org_openpsa_contacts_group_dba
      */
     private $_group = null;
 
     /**
      * The parent group, if any
-     * 
+     *
      * @var org_openpsa_contacts_group_dba
      */
     private $_parent_group = null;
@@ -189,7 +188,6 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
         $this->_update_breadcrumb_line();
 
         return true;
-
     }
 
     /**
@@ -221,6 +219,5 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
-
 }
 ?>

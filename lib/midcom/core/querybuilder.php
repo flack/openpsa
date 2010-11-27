@@ -33,7 +33,6 @@
  */
 class midcom_core_querybuilder extends midcom_baseclasses_core_object
 {
-
     /**
      * This private helper holds the type that the application expects to retrieve
      * from this instance.
@@ -264,7 +263,6 @@ class midcom_core_querybuilder extends midcom_baseclasses_core_object
                 {
                     debug_add("Could not create a MidCOM metadata instance for {$this->_real_class} ID {$object->id}, assuming an invisible object", MIDCOM_LOG_INFO);
                     continue;
-
                 }
                 if (! $object->metadata->is_object_visible_onsite())
                 {

@@ -40,7 +40,5 @@ class org_openpsa_directmarketing_navigation extends midcom_baseclasses_componen
         }
         return $leaves;
     }
-
 }
-
 ?>

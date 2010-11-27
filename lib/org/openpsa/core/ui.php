@@ -13,7 +13,6 @@
  */
 class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
 {
-
     /**
      * Helper function that tries to determine the correct behavior when a GUID could not be loaded
      *
@@ -43,7 +42,6 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         //If other options fail, go for the server error
         $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Failed to load object {$guid}, cannot continue. Last error: " . $last_error_string);
-
     }
 
     /**

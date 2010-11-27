@@ -144,7 +144,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                     }
                 }
             }
-
         }
         else
         {

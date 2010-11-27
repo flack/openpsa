@@ -6,7 +6,7 @@
  * @package midcom.helper.xml
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * 
+ *
  */
 
 /**
@@ -18,7 +18,6 @@ $GLOBALS['testclasses'] = array ('midcom_helper_xml_objectmapper_test' => 0);
 
 class midcom_helper_xml_objectmapper_test extends UnitTestCase
 {
-
     /**
      * Testdata
      */
@@ -73,10 +72,8 @@ class midcom_helper_xml_objectmapper_test extends UnitTestCase
         $this->assertTrue(is_array($array), "The data must be parseable back to an array");
         $class = $this->objectmapper->_get_classname($object);
         $this->assertTrue(array_key_exists($class, $array), "The array should have the objectclass as it's first key");
-        
-        $this->assertTrue(in_array($class, midcom_connection::get_schema_types()), "The array should have the objectclass as its first key: $class");
-        
 
+        $this->assertTrue(in_array($class, midcom_connection::get_schema_types()), "The array should have the objectclass as its first key: $class");
     }
 
     function test_objectmapper_data2object()
@@ -88,9 +85,8 @@ class midcom_helper_xml_objectmapper_test extends UnitTestCase
         $this->assertTrue($object2->id == '', "Id isn't set on the testobject and shouldn't be changed by the mapper. Current value:".$object2->id);
         $this->assertTrue($object2->description == '', "Values that are empty should be set accordingly");
         $this->assertTrue($object2->owner == 3);
-        
-        var_dump($object2);
 
+        var_dump($object2);
     }
 
     function make_test_object()

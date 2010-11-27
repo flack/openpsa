@@ -145,7 +145,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
         );
 
         $this->_update_breadcrumb_line();
-        
+
         return true;
     }
 
@@ -178,6 +178,5 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
     {
         midcom_show_style("show-group-edit");
     }
-
 }
 ?>

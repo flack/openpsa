@@ -14,7 +14,6 @@
  */
 class org_openpsa_invoices_handler_projects extends midcom_baseclasses_components_handler
 {
-
     /**
      * The array of tasks.
      *

@@ -85,7 +85,7 @@ class midcom_services_cache_backend_apc extends midcom_services_cache_backend
         {
             return;
         }
-        
+
         $key = "{$this->_name}-{$key}";
         apc_delete($key);
     }
@@ -112,5 +112,5 @@ class midcom_services_cache_backend_apc extends midcom_services_cache_backend
 
         return $success;
     }
-
 }
+?>

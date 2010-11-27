@@ -32,12 +32,10 @@ class org_openpsa_core_interface extends midcom_baseclasses_components_interface
             // Sessioning kills caching and I doubt we really need this info when we don't have a user
             && midcom_connection::get_user())
         {
-
             if ($this->_config->get('default_workgroup_filter') == 'me')
             {
                 if ($_MIDCOM->auth->user)
                 {
-
                     $default_filter = $_MIDCOM->auth->user->id;
                 }
                 else

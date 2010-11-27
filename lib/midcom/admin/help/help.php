@@ -14,7 +14,6 @@
  */
 class midcom_admin_help_help extends midcom_baseclasses_components_handler
 {
-
     var $mgdtypes = array
     (
         MGD_TYPE_STRING => "string",
@@ -29,7 +28,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
     );
 
     var $special_ids = array('handlers', 'dependencies', 'urlmethods', 'mgdschemas');
-
 
     function __construct()
     {
@@ -139,7 +137,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
     static function generate_file_path($help_id, $component, $language = null)
     {
-
         if ($language === null)
         {
             $language = $_MIDCOM->i18n->get_current_language();
@@ -164,7 +161,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
     static function get_help_title($help_id, $component)
     {
-
         $subject = $_MIDCOM->i18n->get_string("help_" . $help_id, 'midcom.admin.help');
         $path = self::generate_file_path($help_id, $component);
         if (!$path)

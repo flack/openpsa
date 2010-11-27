@@ -27,7 +27,6 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
      */
     function _on_reindex($topic, $config, &$indexer)
     {
-
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         $qb = org_openpsa_documents_document_dba::new_query_builder();
@@ -38,7 +37,6 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
         if (   is_array($ret)
             && count($ret) > 0)
         {
-
             $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_document'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schema);
             if (!$datamanager)
@@ -59,7 +57,6 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
                 }
 
                 $indexer->index($datamanager);
-
             }
         }
         return true;

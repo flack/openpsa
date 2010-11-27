@@ -191,7 +191,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      */
     function _show_delete_invite($handler_id, &$data)
     {
-
     }
 
     /**
@@ -270,7 +269,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
                         $_POST["net_nehmer_accounts_invitation_invitee_name_{$i}"]
                     );
                 }
-
             }
             $_MIDCOM->relocate('sent_invites');
         }
@@ -337,7 +335,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
             {
                 $invite->delete();
             }
-
         }
 
         $this->_sent_invites = $qb->execute();

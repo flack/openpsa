@@ -244,6 +244,5 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
     {
         midcom_show_style("show-group");
     }
-
 }
 ?>

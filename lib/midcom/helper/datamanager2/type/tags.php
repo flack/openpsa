@@ -50,7 +50,6 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
 
     function convert_to_storage()
     {
-    
         $tag_array = net_nemein_tag_handler::string2tag_array($this->value);
         $this->auto_context = trim($this->auto_context);
         if (!empty($this->auto_context))
@@ -75,7 +74,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
             debug_add("Tried to save the tags \"{$this->value}\" for field {$this->name}, but failed. Ignoring silently.",
                 MIDCOM_LOG_WARN);
         }
-    
+
         return null;
     }
 
@@ -84,5 +83,4 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
         return net_nemein_tag_handler::string2tag_array($this->value);
     }
 }
-
 ?>

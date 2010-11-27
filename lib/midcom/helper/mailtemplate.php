@@ -134,7 +134,6 @@
  */
 class midcom_helper_mailtemplate
 {
-
     /**
      * The Mail template, a mailtemplate datamanager type.
      *

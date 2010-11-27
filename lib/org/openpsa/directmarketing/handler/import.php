@@ -576,7 +576,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         }
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
     }
 
     /**
@@ -1047,7 +1046,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         while ($csv_line = fgetcsv($handle, 1000, $separator))
         {
-
             if ($total_columns == 0)
             {
                 $total_columns = count($csv_line);
@@ -1140,6 +1138,5 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     {
         midcom_show_style('show-import-status');
     }
-
 }
 ?>

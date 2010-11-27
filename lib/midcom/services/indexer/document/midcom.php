@@ -2,27 +2,27 @@
 
 /**
  * @package midcom.services
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: midcom.php 25326 2010-03-18 17:19:32Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
 /**
- * This is a base class which is targeted at MidCOM content object indexing. It should 
+ * This is a base class which is targeted at MidCOM content object indexing. It should
  * be used whenever MidCOM documents are indexed, either directly or as a base class.
- * 
+ *
  * It will take an arbitrary Midgard Object, for which Metadata must be available.
  * The document class will then load the metadata information out of the database
- * and populate all metadata fields of the document from there. 
- * 
+ * and populate all metadata fields of the document from there.
+ *
  * If you want to index datamanager driven objects, you should instead look at
  * the class midcom_services_indexer_document_datamanager.
- * 
+ *
  * The GUID of the object being referred is used as a RI.
- * 
+ *
  * The documents type is "midcom".
- * 
+ *
  * @package midcom.services
  * @see midcom_services_indexer
  * @see midcom_helper_metadata
@@ -32,20 +32,20 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
 {
     /**
      * The metadata instance attached to the object to be indexed.
-     * 
+     *
      * @access protected
      * @var midcom_helper_metadata
      */
     var $_metadata = null;
-    
-    
+
+
     /**
      * The constructor initializes the content object, loads the metadata object
      * and populates the metadata fields accordingly.
-     * 
+     *
      * The source member is automatically populated with the GUID of the document,
-     * the RI is set to it as well. The URL is set to a on-site permalink. 
-     * 
+     * the RI is set to it as well. The URL is set to a on-site permalink.
+     *
      * @param mixed $object The content object to load, passed to the metadata constructor.
      * @see midcom_helper_metadata
      */
@@ -59,7 +59,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         }
 
         $this->_set_type('midcom');
-        
+
         if (is_a($object, 'midcom_helper_metadata'))
         {
             $this->_metadata =& $object;
@@ -79,7 +79,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         // Add language code to RI as well so that different language versions of the object have unique identifiers
         $this->RI = "{$this->source}_{$this->lang}";
         $this->document_url = $_MIDCOM->permalinks->create_permalink($this->source);
-        
+
         $this->_process_metadata();
         $this->_process_topic();
     }
@@ -110,14 +110,14 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
                     // Fall-through intentional
                 default:
                     $this->add_text("META_{$key}", $this->datamanager2_get_text_representation($datamanager, $key));
-                    break; 
+                    break;
             }
         }
         $this->_metadata->release_datamanager();
     }
-    
+
     /**
-     * Tries to determine the topic GUID and component, we use NAPs 
+     * Tries to determine the topic GUID and component, we use NAPs
      * reverse-lookup capabilities.
      */
     function _process_topic()
@@ -138,7 +138,5 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
         $this->topic_url = $object[MIDCOM_NAV_FULLURL];
         $this->component = $object[MIDCOM_NAV_COMPONENT];
     }
-    
 }
-
 ?>

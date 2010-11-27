@@ -16,7 +16,6 @@
  */
 class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 {
-
     /**
      * The components for which we're creating the structure information
      *
@@ -70,7 +69,6 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
    public static function get_instance()
    {
-
        if (is_null(self::$instance))
        {
            self::$instance = new self;
@@ -81,7 +79,6 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
     private function initialize_site_structure()
     {
-
         $nodes = array();
         foreach ($this->components as $component)
         {

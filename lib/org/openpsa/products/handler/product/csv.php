@@ -79,7 +79,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
         $qb->add_order('code');
         $qb->add_order('title');
         $products = array();
-        
+
         $root_group_guid = $this->_config->get('root_group');
         if ($root_group_guid)
         {
@@ -104,7 +104,6 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
                 }
                 $qb->end_group('OR');
             }
-            
         }
 
         $all_products = $qb->execute();
@@ -115,7 +114,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             {
                 continue;
             }
-            
+
             $products[] = $product;
         }
 

@@ -609,7 +609,6 @@ class midcom_helper__basicnav
      */
     private function _load_leaves($node)
     {
-
         if (array_key_exists($node[MIDCOM_NAV_ID], $this->_loaded_leaves))
         {
             debug_add("Warning, tried to load the leaves of node {$node[MIDCOM_NAV_ID]} more then once.", MIDCOM_LOG_INFO);

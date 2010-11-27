@@ -9,7 +9,6 @@ if (count($data['mgdschemas']) > 0)
     echo "<dl>\n";
     foreach ($data['properties'] as $schema => $properties)
     {
-
         echo "<dt id=\"{$schema}\">{$schema}</dt>\n";
         echo "<dd>\n";
         echo "    <table>\n";
@@ -19,10 +18,9 @@ if (count($data['mgdschemas']) > 0)
         echo "                <th>" . $_MIDCOM->i18n->get_string('description', 'midcom.admin.help') . "</th>\n";
         echo "            </tr>\n";
 
-        $i=1;
+        $i = 1;
         foreach ($properties as $key=>$val)
         {
-
             $propname = $key;
 
             $proplink = "";

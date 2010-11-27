@@ -14,7 +14,6 @@
  */
 class org_openpsa_projects_navigation extends midcom_baseclasses_components_navigation
 {
-
     /**
      * Returns a static leaf list with access to different task lists.
      */
@@ -48,7 +47,5 @@ class org_openpsa_projects_navigation extends midcom_baseclasses_components_navi
 
         return $leaves;
     }
-
 }
-
 ?>

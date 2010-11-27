@@ -41,7 +41,6 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
 
     function _load_data($handler_id, &$args, &$data)
     {
-
         $_MIDCOM->auth->require_valid_user();
         if (   !isset($_POST['guids'])
             || !is_array($_POST['guids'])
@@ -51,7 +50,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
             // This will exit
         }
         $guids =& $_POST['guids'];
-        
+
         $dummy_object = $_MIDCOM->dbfactory->get_object_by_guid($guids[0]);
         $dba_class = get_class($dummy_object);
 

@@ -155,7 +155,6 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
 
         foreach ($this->widgets as $name => $widget)
         {
-
             // TODO: Add support for other datatypes as we go
             switch (get_class($this->_types[$name]))
             {

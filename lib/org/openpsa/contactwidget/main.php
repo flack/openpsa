@@ -538,7 +538,6 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
                     $cards_to_show[] = $cardname;
                 }
             }
-
         }
 
         if (sizeof($cards_to_show) == 0)

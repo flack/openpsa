@@ -19,7 +19,6 @@ class net_nehmer_account_cron_karma extends midcom_baseclasses_components_cron_h
 {
     function _on_execute()
     {
-
         if (!$this->_config->get('karma_enable'))
         {
             debug_add('Karma calculation disabled, aborting', MIDCOM_LOG_INFO);

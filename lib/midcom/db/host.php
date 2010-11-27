@@ -9,15 +9,15 @@
 
 /**
  * MidCOM level replacement for the Midgard Host record with framework support.
- * 
+ *
  * Hosts do not have a parent object.
- * 
+ *
  * Note, as with all MidCOM DB layer objects, you should not use the get_by*
  * operations directly, instead, you have to use the constructor's $id parameter.
- * 
- * Also, all QueryBuilder operations need to be done by the factory class 
+ *
+ * Also, all QueryBuilder operations need to be done by the factory class
  * obtainable through the statically callable new_query_builder() DBA methods.
- * 
+ *
  * @see midcom_services_dbclassloader
  * @package midcom.db
  */
@@ -31,7 +31,7 @@ class midcom_db_host extends midcom_core_dbaobject
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without
      * having a this (this call is static).
-     * 
+     *
      * @static
      */
     static function new_query_builder()
@@ -58,8 +58,5 @@ class midcom_db_host extends midcom_core_dbaobject
         }
         return "{$this->name}:{$this->port}{$this->prefix}";
     }
-
 }
-
-
 ?>

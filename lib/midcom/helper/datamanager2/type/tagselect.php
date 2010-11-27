@@ -303,7 +303,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function list_all()
     {
-
         if (   empty($this->options)
             && (   $this->use_tag_library
                 || $this->force_saving_to_tag_library)
@@ -347,7 +346,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function convert_from_storage($source)
     {
-
         debug_print_r("source",$source);
 
         $this->selection = Array();
@@ -445,7 +443,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function convert_to_storage()
     {
-
         if ($this->allow_multiple)
         {
             return $this->_convert_multiple_to_storage();
@@ -548,7 +545,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function _convert_multiple_from_storage($source)
     {
-
         $glue = '|';
 
         if (   $this->use_tag_library
@@ -610,7 +606,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function _convert_multiple_to_storage()
     {
-
         if (   $this->option_callback !== null
             && $this->enable_saving_to_callback)
         {
@@ -724,7 +719,6 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function _on_validate()
     {
-
         if (   ! $this->allow_other
             && $this->others)
         {
@@ -741,7 +735,5 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
         return true;
     }
-
 }
-
 ?>

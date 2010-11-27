@@ -20,11 +20,11 @@
  */
 class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanager2_type
 {
-
     /**
      * A list of rows for the table
      */
     var $rows = array();
+
     /**
      * Headers for the rows
      * @var array
@@ -53,7 +53,6 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
         // todo check the headers and rows
         return true;
     }
-
 
     /**
      * Converts storage format to live format, all invalid keys are dropped, and basic validation
@@ -105,7 +104,6 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
             } // only update parameters that do not have empty names or domains.
             else if (trim($row[0]) != '' && trim($row[1]) != '')
             {
-
                 if (! $this->storage->object->set_parameter(
                     $row[0],
                     $row[1],
@@ -114,13 +112,11 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
                 {
                     echo "Could not update parameter {$row[0]} {$row[1]}!";
                 }
-
             }
         }
 
         $this->convert_from_storage(true);
         return;
-
     }
 
     /**
@@ -201,7 +197,5 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
 
         return $table;
     }
-
 }
-
 ?>

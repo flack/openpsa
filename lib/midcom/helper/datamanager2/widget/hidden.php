@@ -23,7 +23,6 @@
  */
 class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager2_widget
 {
-
     /**
      * The initialization event handler post-processes the maxlength setting.
      *
@@ -62,7 +61,6 @@ class midcom_helper_datamanager2_widget_hidden extends midcom_helper_datamanager
             $this->_form->addRule($this->name, $this->_translate('validation failed: numeric'), 'regex', '/^-?[0-9]*([.,][0-9]*)?$/');
             $this->_form->addFormRule(Array(&$this, 'validate_number'));
         }
-
     }
 
     /**

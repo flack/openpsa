@@ -28,7 +28,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
     function _on_execute()
     {
         debug_add('_on_execute called');
-        
+
         $root_event = org_openpsa_calendar_interface::find_root_event();
         if ( !is_object($root_event))
         {
@@ -158,7 +158,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                     }
                     continue;
                 }
-
             }
         }
 

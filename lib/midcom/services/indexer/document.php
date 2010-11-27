@@ -631,7 +631,6 @@ class midcom_services_indexer_document
             ' ',
         );
         return $this->_i18n->html_entity_decode(preg_replace($search, $replace, $text));
-
     }
 
     /**

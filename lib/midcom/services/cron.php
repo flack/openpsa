@@ -155,7 +155,6 @@ class midcom_services_cron extends midcom_baseclasses_core_object
      */
     function _load_jobs()
     {
-
         $data = $_MIDCOM->componentloader->get_all_manifest_customdata('midcom.services.cron');
         $data['midcom'] = $this->_midcom_jobs;
 
@@ -182,7 +181,6 @@ class midcom_services_cron extends midcom_baseclasses_core_object
                 $this->_register_job($job);
             }
         }
-
     }
 
     /**
@@ -304,7 +302,6 @@ class midcom_services_cron extends midcom_baseclasses_core_object
      */
     function execute()
     {
-
         $this->_load_jobs();
 
         foreach ($this->_jobs as $job)
@@ -337,7 +334,5 @@ class midcom_services_cron extends midcom_baseclasses_core_object
         }
         $handler->execute();
     }
-
 }
-
 ?>

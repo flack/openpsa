@@ -716,7 +716,6 @@ class org_openpsa_calendarwidget_month
             $this->_next_month = 1;
             $this->_next_year = $this->_year + 1;
         }
-
     }
 
     /**
@@ -1024,7 +1023,6 @@ class org_openpsa_calendarwidget_month
             {
                 $this->_draw_details_box($this->_events[date('Y-m-d', $timestamp)], $timestamp);
             }
-
         }
         else
         {

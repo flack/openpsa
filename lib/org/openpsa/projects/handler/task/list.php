@@ -523,7 +523,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                         }
 
                         midcom_show_style("show-tasks-list-footer");
-
                     }
                     midcom_show_style("show-tasks-footer");
                 }

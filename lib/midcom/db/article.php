@@ -36,7 +36,7 @@ class midcom_db_article extends midcom_core_dbaobject
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without
      * having a this (this call is static).
-     * 
+     *
      * @static
      */
     static function new_query_builder()
@@ -54,7 +54,7 @@ class midcom_db_article extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    
+
     /**
      * Returns the Parent of the Article. This can either be another article if we have
      * a reply article, or a topic otherwise.
@@ -73,7 +73,7 @@ class midcom_db_article extends midcom_core_dbaobject
 
     /**
      * Statically callable method to get parent guid when object guid is given
-     * 
+     *
      * Uses midgard_collector to avoid unnecessary full object loads
      *
      * @param guid $guid guid of topic to get the parent for
@@ -204,6 +204,5 @@ class midcom_db_article extends midcom_core_dbaobject
     {
         return true;
     }
-
 }
 ?>

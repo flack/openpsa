@@ -9,13 +9,13 @@
 
 /**
  * MidCOM level replacement for the Midgard Group record with framework support.
- * 
+ *
  * Note, as with all MidCOM DB layer objects, you should not use the GetBy*
  * operations directly, instead, you have to use the constructor's $id parameter.
- * 
- * Also, all QueryBuilder operations need to be done by the factory class 
+ *
+ * Also, all QueryBuilder operations need to be done by the factory class
  * obtainable as midcom_application::dbfactory.
- * 
+ *
  * @see midcom_services_dbclassloader
  * @package midcom.db
  */
@@ -29,14 +29,14 @@ class midcom_db_group extends midcom_core_dbaobject
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without
      * having a this (this call is static).
-     * 
+     *
      * @static
      */
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
-    
+
     static function new_collector($domain, $value)
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
@@ -63,19 +63,19 @@ class midcom_db_group extends midcom_core_dbaobject
         {
             $this->official = $this->name;
         }
-        
+
         if (empty($this->official))
         {
             $this->official = "Group #{$this->id}";
         }
         return true;
     }
-    
+
     /**
-     * Gets the parent object of the current one. 
-     * 
+     * Gets the parent object of the current one.
+     *
      * Groups that have an owner group return the owner group as a parent.
-     * 
+     *
      * @return midcom_db_group Owner group or null if there is none.
      */
     function get_parent_guid_uncached()
@@ -84,15 +84,15 @@ class midcom_db_group extends midcom_core_dbaobject
         {
             return null;
         }
-        
+
         $parent = new midcom_db_group($this->owner);
         if (! $parent)
         {
-            debug_add("Could not load Group ID {$this->owner} from the database, aborting.", 
+            debug_add("Could not load Group ID {$this->owner} from the database, aborting.",
                 MIDCOM_LOG_INFO);
             return null;
         }
-        
+
         return $parent->guid;
     }
 
@@ -146,8 +146,5 @@ class midcom_db_group extends midcom_core_dbaobject
         }
         return true;
     }
-
 }
-
-
 ?>

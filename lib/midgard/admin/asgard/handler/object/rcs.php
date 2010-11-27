@@ -35,7 +35,6 @@
 
 class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_components_handler
 {
-
     /**
      * Current object Guid.
      * @var string
@@ -365,7 +364,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         if ($show_previous)
         {
-
             $this->_view_toolbar->add_item(
                 array
                 (
@@ -582,7 +580,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         // Load the toolbars
         $this->_rcs_toolbar();
         return true;
-
     }
 
     /**

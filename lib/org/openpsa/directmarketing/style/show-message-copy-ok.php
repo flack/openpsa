@@ -12,7 +12,6 @@ foreach ($data['targets'] as $message)
     $campaign = new org_openpsa_directmarketing_campaign_dba($message->campaign);
     echo "<dt><a href=\"{$prefix}campaign/{$campaign->guid}/\">{$campaign->title}</a></dt>\n";
     echo "    <dd><a href=\"{$prefix}message/{$message->guid}/\">{$message->title}</a></dd>\n";
-
 }
 ?>
 </dl>

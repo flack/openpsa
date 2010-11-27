@@ -115,9 +115,9 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
-        
+
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
+        org_openpsa_helpers::dm2_savecancel($this);
         $_MIDCOM->bind_view_to_object($this->_request_data['directory'], $this->_controller->datamanager->schema->name);
 
         return true;
@@ -132,6 +132,5 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
     {
         midcom_show_style("show-directory-edit");
     }
-
 }
 ?>

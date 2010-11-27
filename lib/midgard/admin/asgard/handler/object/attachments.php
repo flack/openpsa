@@ -264,7 +264,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     {
         if (sizeof($this->_files) > 0)
         {
-
             // Add Thickbox
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
@@ -505,8 +504,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
                 $_MIDCOM->relocate("__mfa/asgard/object/attachments/{$this->_object->guid}/");
                 // This will exit
             }
-
-
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
@@ -531,6 +528,5 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
         midgard_admin_asgard_plugin::asgard_footer();
     }
-
 }
 ?>

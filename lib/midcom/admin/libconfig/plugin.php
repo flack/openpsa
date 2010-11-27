@@ -109,7 +109,6 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
         }
 
         echo "</ul>";
-
     }
 }
 ?>

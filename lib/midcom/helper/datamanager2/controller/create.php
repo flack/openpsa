@@ -341,7 +341,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      */
     function process_form()
     {
-
         if ($this->formmanager === null)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'You must initialize a controller class before using it.');
@@ -444,7 +443,5 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         $storage = new midcom_helper_datamanager2_storage_midgard($this->datamanager->schema, $object);
         $this->datamanager->set_storage($storage);
     }
-
 }
-
 ?>

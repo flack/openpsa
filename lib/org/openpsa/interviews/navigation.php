@@ -14,7 +14,6 @@
  */
 class org_openpsa_interviews_navigation extends midcom_baseclasses_components_navigation
 {
-
     function get_leaves()
     {
         $leaves = array();

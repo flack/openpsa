@@ -490,7 +490,6 @@ class fi_protie_navigation
      */
     function _list_child_elements($id, $indent = '')
     {
-
         // If only nodes are to be listed use the appropriate NAP call
         if (!$this->list_leaves)
         {
@@ -629,12 +628,10 @@ class fi_protie_navigation
         }
 
         return implode(' ', $classes);
-
     }
 
     function _display_element($item, $indent, $css_classes)
     {
-
         // Finalize the class naming
         if ($css_classes !== '')
         {

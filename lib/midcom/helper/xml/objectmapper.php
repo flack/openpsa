@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Created on Jan 12, 2006
  * @author tarjei huse
@@ -33,13 +31,13 @@
  */
 class midcom_helper_xml_objectmapper
 {
-
     /**
      * The classname of the last read object
      * @var string classname
      * @access public
      */
     var $classname = "";
+
     /**
      * The errorstring
      * @access public
@@ -60,7 +58,7 @@ class midcom_helper_xml_objectmapper
             debug_add("Missing data cannot unserialize");
             return false;
         }
-        
+
         if (!is_object($object))
         {
             debug_add("Missing object, cannot unserialize");
@@ -85,14 +83,14 @@ class midcom_helper_xml_objectmapper
             {
                 continue;
             }
-            
+
             // skip read_only fields
-            if (   $field_name == 'guid' 
+            if (   $field_name == 'guid'
                 && $field_name == 'id')
             {
                 continue;
             }
-            
+
             if ($field_name == 'metadata')
             {
                 // TODO: decide what to do with object metadata!!!
@@ -206,9 +204,9 @@ class midcom_helper_xml_objectmapper
         {
             $label = $fallback_label;
         }
-        
+
         $content = array_merge($content, $additional_data);
-        
+
         return $this->array2data($content, $label);
     }
 

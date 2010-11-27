@@ -499,7 +499,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             $styleeditor_url = '';
             if ($topic->style != '')
             {
-
                 $style_id = $_MIDCOM->style->get_style_id_from_path($topic->style);
                 if ($style_id)
                 {
@@ -568,7 +567,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                 )
             );
         }
-
     }
 
     /**
@@ -640,8 +638,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
                 )
             );
         }
-
-
     }
 
     /**
@@ -1040,7 +1036,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             $enable_drag = true;
             $toolbar_class = "midcom_services_toolbars_fancy";
             $toolbar_style = "display: none;";
-
         }
 
         echo "<div class=\"{$toolbar_class} type_{$this->type}\" style=\"{$toolbar_style}\">\n";
@@ -1077,8 +1072,6 @@ class midcom_services_toolbars extends midcom_baseclasses_core_object
             echo "     <div class=\"dragbar\"></div>\n";
         }
         echo "</div>\n";
-
     }
 }
-
 ?>

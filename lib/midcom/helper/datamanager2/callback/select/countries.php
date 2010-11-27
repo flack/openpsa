@@ -87,7 +87,5 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
 
     /** Ignored. */
     function set_type(&$type) {}
-
 }
-
 ?>

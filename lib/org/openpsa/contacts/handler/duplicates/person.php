@@ -94,7 +94,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                     // TODO: Localize
                     $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), 'Merge failed, errstr: ' . $merger->errstr(), 'error');
                 }
-
             }
 
             //PONDER: redirect to avoid reloading the POST in case user presses reload ??
@@ -186,6 +185,5 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
             midcom_show_style('show-duplicate-persons-notfound');
         }
     }
-
 }
 ?>

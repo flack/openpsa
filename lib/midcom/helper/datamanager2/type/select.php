@@ -418,7 +418,6 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
         {
             return $this->_callback->list_all();
         }
-
     }
 
     /**

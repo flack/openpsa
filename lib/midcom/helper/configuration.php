@@ -45,7 +45,6 @@
  */
 class midcom_helper_configuration
 {
-
     /**
      * Globally assigned configuration data.
      *
@@ -69,7 +68,7 @@ class midcom_helper_configuration
      * @access private
      */
     var $_merged;
-    
+
     /**
      * Internal cache-related items
      * @ignore
@@ -339,7 +338,5 @@ class midcom_helper_configuration
 
         return array_key_exists($key, $this->_merged);
     }
-
 }
-
 ?>

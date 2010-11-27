@@ -41,6 +41,5 @@ class net_nehmer_markdown_markdown extends midcom_baseclasses_components_purecod
     {
         return Markdown($text);
     }
-
 }
 ?>

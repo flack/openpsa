@@ -33,7 +33,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      */
     function run_cycle($cycle_number, $send_invoice = true)
     {
-
         if (time() < $this->_deliverable->start)
         {
             debug_add('Subscription hasn\'t started yet, register the start-up event to $start');
@@ -546,7 +545,5 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         return $next_cycle;
     }
-
 }
-
 ?>

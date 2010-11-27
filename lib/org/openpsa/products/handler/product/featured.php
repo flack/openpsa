@@ -64,9 +64,7 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
                     }
                     $product_qb->add_constraint('productGroup', 'IN', $categories_in);
                 }
-
             }
-
         }
 
         if ($this->_config->get('enable_scheduling'))
@@ -87,11 +85,10 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
 
         if ($show_products > 1)
         {
-        /***
-         * Set the breadcrumb text
-         */
-        $this->_update_breadcrumb_line();
-
+            /***
+             * Set the breadcrumb text
+             */
+            $this->_update_breadcrumb_line();
         }
     }
 
@@ -170,7 +167,6 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
 
             midcom_show_style('featured_products_footer');
         }
-
     }
 
     /**
@@ -252,7 +248,6 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
 
         $data['rss'] = $data['rss_creator']->createFeed('RSS2.0');
         echo $data['rss'];
-
     }
 
     /**
@@ -272,6 +267,5 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', array_reverse($tmp));
     }
-
 }
 ?>

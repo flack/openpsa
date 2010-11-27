@@ -50,7 +50,6 @@ class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_
         {
             if (substr($key, 0, 8) == 'account_')
             {
-
                 $to_delete[] = substr($key, 8);
             }
         }
@@ -112,7 +111,5 @@ class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_
     {
         midcom_show_style('delete-ok');
     }
-
 }
-
 ?>

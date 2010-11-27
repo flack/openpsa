@@ -337,7 +337,5 @@ class midcom_services_uimessages extends midcom_baseclasses_core_object
 
         echo "</div>\n";
     }
-
 }
-
 ?>

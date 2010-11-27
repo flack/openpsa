@@ -14,8 +14,8 @@
  * not in the constructor, to allow for error handling.
  *
  * This widget supports the composite type or any subtype thereof. Each child object will be
- * displayed using its own AJAX form inside a MidCOM style element listing: _dm2_composite_xx_header, 
- * _dm2_composite_xx_item and _dm2_composite_xx_footer where xx is the value of the 
+ * displayed using its own AJAX form inside a MidCOM style element listing: _dm2_composite_xx_header,
+ * _dm2_composite_xx_item and _dm2_composite_xx_footer where xx is the value of the
  * <i>style_element_name</i>.
  *
  * <b>Available configuration options:</b>
@@ -25,7 +25,6 @@
  */
 class midcom_helper_datamanager2_widget_composite extends midcom_helper_datamanager2_widget
 {
-
     /**
      * The initialization event handler, check type.
      *
@@ -53,18 +52,12 @@ class midcom_helper_datamanager2_widget_composite extends midcom_helper_datamana
             $this->_type->add_object_item($identifier);
         }
     }
-    
-    function sync_type_with_widget($results)
-    {
-    }
-    
-    function freeze()
-    {
 
-    }
-    function unfreeze()
-    {
-    }
+    function sync_type_with_widget($results){}
+
+    function freeze(){}
+
+    function unfreeze(){}
 
     /**
      * Returns always false
@@ -72,7 +65,6 @@ class midcom_helper_datamanager2_widget_composite extends midcom_helper_datamana
     function is_frozen()
     {
         return false;
-    }    
+    }
 }
-
 ?>

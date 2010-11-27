@@ -179,7 +179,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         {
             $result->delete();
         }
-
     }
 
     function _on_deleted()

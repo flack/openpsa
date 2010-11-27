@@ -56,24 +56,21 @@
 
     function hKit_hcard_post($a)
     {
-
-        foreach ($a as &$vcard){
-
+        foreach ($a as &$vcard)
+        {
             hKit_implied_n_optimization($vcard);
             hKit_implied_n_from_fn($vcard);
-
         }
 
         return $a;
-
     }
 
 
     function hKit_implied_n_optimization(&$vcard)
     {
         if (array_key_exists('fn', $vcard) && !is_array($vcard['fn']) &&
-            !array_key_exists('n', $vcard) && (!array_key_exists('org', $vcard) || $vcard['fn'] != $vcard['org'])){
-
+            !array_key_exists('n', $vcard) && (!array_key_exists('org', $vcard) || $vcard['fn'] != $vcard['org']))
+            {
             if (sizeof(explode(' ', $vcard['fn'])) == 2){
                 $patterns    = array();
                 $patterns[] = array('/^(\S+),\s*(\S{1})$/', 2, 1);         // Lastname, Initial
@@ -100,8 +97,8 @@
     function hKit_implied_n_from_fn(&$vcard)
     {
         if (array_key_exists('fn', $vcard) && is_array($vcard['fn'])
-            && !array_key_exists('n', $vcard) && (!array_key_exists('org', $vcard) || $vcard['fn'] != $vcard['org'])){
-
+            && !array_key_exists('n', $vcard) && (!array_key_exists('org', $vcard) || $vcard['fn'] != $vcard['org']))
+            {
             $vcard['n']        = $vcard['fn'];
         }
 

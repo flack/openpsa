@@ -70,7 +70,8 @@ class midcom_url_notfound_exception extends Exception {    }
  *
  * @package midcom
  */
-class midcom_urlparserfactory {
+class midcom_urlparserfactory
+{
 
     /**
      * Builds the list of filters that should be applied. Note that the filters are
@@ -78,9 +79,11 @@ class midcom_urlparserfactory {
      * before.
      *
      */
-    function __construct($config) {
+    function __construct($config)
+    {
         $this->config = $config;
     }
+
     /**
      * Runs through all the different urlparsers building a definition of
      * which command to run.
@@ -91,7 +94,8 @@ class midcom_urlparserfactory {
      * interpreter.
      * @return midcom_url_paramcollector
      */
-    function execute ($argv) {
+    function execute ($argv)
+    {
         $urlstack = new midcom_url_urlstack($argv);
         $last_parser = new midcom_url_nullparser;
         foreach ($this->config as $parser_class) {
@@ -102,6 +106,7 @@ class midcom_urlparserfactory {
         return $parser->get_param_collector();
     }
 }
+
 /**
  * Implements a simple representation of the url as a stack
  *
@@ -255,7 +260,6 @@ class midcom_url_nullparser  extends midcom_url_parser
 class midcom_url_topicgetter {
     public function get_topic($topic_name, $up) {
         // todo!
-
     }
 }
 /**
@@ -278,10 +282,7 @@ class midcom_url_topic extends midcom_url_parser
         }
         $this->get_param_collector()->set_content_topic($this->topics[-1]);
         $this->get_param_collector()->set_command($this->topics[-1]);
-
     }
-
-
 
     public function check_next_word($word) {
         $up = ($this->topics !== array()) ? $this->topics[-1] : 0;
@@ -292,11 +293,6 @@ class midcom_url_topic extends midcom_url_parser
         }
         return $topic;
     }
-
-
-
-
-
 }
 /**
  * This class parses prefixes like
@@ -306,8 +302,8 @@ class midcom_url_topic extends midcom_url_parser
  *
  * @package midcom
  */
-class midcom_url_midcom extends midcom_url_parser {
-
+class midcom_url_midcom extends midcom_url_parser
+{
     public function __construct($urlstack, $parser) {
         if (substr($urlstack->get(), 0,7) == 'midcom-') {
             $this->parse_variable($urlstack->get());
@@ -339,11 +335,8 @@ class midcom_url_midcom extends midcom_url_parser {
                 break;
             default:
                 throw new Exception("Unknown MidCOM URL Property ignored: ");
-
-
         }
         $this->end = true;
     }
-
 }
 ?>

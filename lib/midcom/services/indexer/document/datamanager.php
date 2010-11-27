@@ -370,7 +370,6 @@ class midcom_services_indexer_document_datamanager extends midcom_services_index
                 debug_add("Adding field {$name} to content");
                 $this->content .= $this->_get_text_representation($name) . "\n";
                 break;
-
         }
     }
 
