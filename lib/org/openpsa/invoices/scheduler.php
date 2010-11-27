@@ -139,7 +139,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             'deliverable' => $this->_deliverable->guid,
             'cycle'       => $cycle_number,
         );
-        $at_entry = new midcom_services_at_entry();
+        $at_entry = new midcom_services_at_entry_dba();
         $at_entry->start = $start;
         $at_entry->component = 'org.openpsa.sales';
         $at_entry->method = 'new_subscription_cycle';

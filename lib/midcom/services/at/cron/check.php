@@ -24,7 +24,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
     {
         debug_add('_on_execute called');
 
-        $qb = midcom_services_at_entry::new_query_builder();
+        $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('start', '<=', time());
         $qb->begin_group('OR');
             $qb->add_constraint('host', '=', $_MIDGARD['host']);

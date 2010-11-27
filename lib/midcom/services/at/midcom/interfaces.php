@@ -72,7 +72,7 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
      */
     function register($start, $component, $method, $args)
     {
-        $entry = new midcom_services_at_entry();
+        $entry = new midcom_services_at_entry_dba();
         $entry->start = $start;
         $entry->component = $component;
         $entry->method = $method;

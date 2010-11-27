@@ -80,7 +80,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             debug_add('Job GUID missing', MIDCOM_LOG_ERROR);
             return false;
         }
-        $job = new midcom_services_at_entry($args[2]);
+        $job = new midcom_services_at_entry_dba($args[2]);
         if (!$_MIDCOM->dbfactory->is_a($job, 'midcom_services_at_entry_db'))
         {
             debug_add('Invalid job GUID', MIDCOM_LOG_ERROR);

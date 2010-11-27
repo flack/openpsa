@@ -107,7 +107,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
-        
+
         $_MIDCOM->add_link_head
         (
             array
@@ -174,7 +174,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     {
         $_MIDCOM->load_library('midcom.services.at');
 
-        $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry');
+        $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
         $mc->add_object_order('start', 'ASC');
         $mc->set_object_limit(1);
         $at_entries = $mc->get_related_objects();
@@ -241,7 +241,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $formdata = $this->_controller->datamanager->types; 
+                $formdata = $this->_controller->datamanager->types;
                 $entry = isset($formdata['at_entry']) ? (int) $formdata['at_entry']->value : 0;
                 $next_cycle = isset($formdata['next_cycle']) ? $formdata['next_cycle']->value->getTime() : 0;
                 if (   $entry != 0
@@ -269,8 +269,8 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         }
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
-        
+        org_openpsa_helpers::dm2_savecancel($this);
+
         $this->_prepare_request_data($handler_id);
         $_MIDCOM->set_pagetitle($this->_deliverable->title);
         $_MIDCOM->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->name);

@@ -183,13 +183,4 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
         return $privileges;
     }
 }
-
-/**
- * Another wrap level to make midcom_services_at_entry::new_query_builder() happy
- * @package midcom.services.at
- */
-class midcom_services_at_entry extends midcom_services_at_entry_dba
-{
-}
-
 ?>

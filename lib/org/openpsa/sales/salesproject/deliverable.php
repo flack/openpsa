@@ -150,7 +150,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     {
         $_MIDCOM->load_library('midcom.services.at');
 
-        $mc = new org_openpsa_relatedto_collector($this->guid, 'midcom_services_at_entry');
+        $mc = new org_openpsa_relatedto_collector($this->guid, 'midcom_services_at_entry_dba');
         $at_entries = $mc->get_related_objects();
 
         return $at_entries;

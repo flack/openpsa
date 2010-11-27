@@ -21,7 +21,7 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
     {
         debug_add('_on_execute called');
 
-        $qb = midcom_services_at_entry::new_query_builder();
+        $qb = midcom_services_at_entry_dba::new_query_builder();
         // (to be) start(ed) AND last touched over two days ago
         $qb->add_constraint('start', '<=', time()-3600*24*2);
         $qb->begin_group('OR');
