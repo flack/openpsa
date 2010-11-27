@@ -9,14 +9,6 @@
  */
 
 /**
- * Global string table cache, it stores the string tables
- * loaded during runtime.
- *
- * @global Array $GLOBALS["midcom_services_i18n__l10n_localedb"]
- */
-$GLOBALS['midcom_services_i18n__l10n_localedb'] = Array();
-
-/**
  * This is the L10n main interface class, used by the components. It
  * allows you to get entries from the l10n string tables in the current
  * language with an automatic conversion to the destination character
@@ -119,12 +111,13 @@ class midcom_services__i18n_l10n
     var $_language;
 
     /**
-     * The language database, loaded from /lib/midcom/services/_i18n_language-db.dat
+     * Global string table cache, it stores the string tables
+     * loaded during runtime.
      *
      * @var Array
      * @access private
      */
-    var $_localedb;
+    private static $_localedb = array();
 
     /**
      * The string database, a reference into the global cache.
@@ -152,12 +145,10 @@ class midcom_services__i18n_l10n
      */
     function __construct ($library = null, $database)
     {
-        global $midcom;
-
         if (is_null($library))
         {
             debug_add("Default constructor for midcom_services__i18n_l10n forbidden, library path must be present.", MIDCOM_LOG_ERROR);
-            $midcom->generate_error(MIDCOM_ERRCRIT,
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                 "Default constructor for midcom_services__i18n_l10n forbidden, library path must be present.");
             // This will exit();
         }
@@ -171,19 +162,18 @@ class midcom_services__i18n_l10n
             $library = "/{$library}locale/{$database}";
         }
 
-        $this->_localedb =& $GLOBALS['midcom_services_i18n__l10n_localedb'];
         $this->_library_filename = MIDCOM_ROOT . $library;
         $this->_library = $library;
 
         $this->_language_db = $_MIDCOM->i18n->get_language_db();
         $this->_fallback_language = $_MIDCOM->i18n->get_fallback_language();
 
-        if (!isset($this->_localedb[$this->_library]))
+        if (!isset(self::$_localedb[$this->_library]))
         {
-            $GLOBALS['midcom_services_i18n__l10n_localedb'][$this->_library] = array();
+            self::$_localedb[$this->_library] = array();
         }
 
-        $this->_stringdb =& $GLOBALS['midcom_services_i18n__l10n_localedb'][$this->_library];
+        $this->_stringdb =& self::$_localedb[$this->_library];
 
         $this->set_language($_MIDCOM->i18n->get_current_language());
         $this->set_charset($_MIDCOM->i18n->get_current_charset());
@@ -474,7 +464,8 @@ class midcom_services__i18n_l10n
      * @param string $lang    Language name.
      * @see midcom_services_i18n::set_fallback_language()
      */
-    function set_fallback_language ($lang) {
+    function set_fallback_language ($lang)
+    {
         $this->_fallback_language = $lang;
     }
 
@@ -486,7 +477,8 @@ class midcom_services__i18n_l10n
      * @param string $language The language to search in.
      * @return boolean Indicating availability.
      */
-    function string_exists($string, $language = null) {
+    function string_exists($string, $language = null)
+    {
         if (is_null($language))
         {
             $language = $this->_language;
@@ -533,7 +525,8 @@ class midcom_services__i18n_l10n
      * @param string $language The language to search in, uses the current language as default.
      * @return string The translated string if available, the fallback string otherwise.
      */
-    function get ($string, $language = null) {
+    function get ($string, $language = null)
+    {
         if (is_null($language))
         {
             $language = $this->_language;
@@ -623,5 +616,4 @@ class midcom_services__i18n_l10n
         return $found_strings;
     }
 }
-
 ?>
