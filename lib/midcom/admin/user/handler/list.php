@@ -18,8 +18,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 
     /**
      * Simple constructor
-     *
-     * @access public
      */
     function __construct()
     {

@@ -29,27 +29,24 @@ class midcom_helper_datamanager2_type_boolean extends midcom_helper_datamanager2
      * The current string encapsulated by this type.
      *
      * @var boolean
-     * @access public
      */
-    var $value = false;
+    public $value = false;
 
     /**
      * The text displayed if the value of the type is true. This defaults to
      * a graphic "checked" icon. Must be valid for usage in convert_to_html.
      *
      * @var string
-     * @access public
      */
-    var $true_text = null;
+    public $true_text = null;
 
     /**
      * The text displayed if the value of the type is false. This defaults to
      * a graphic "not checked" icon. Must be valid for usage in convert_to_html.
      *
      * @var string
-     * @access public
      */
-    var $false_text = null;
+    public $false_text = null;
 
     function convert_from_storage ($source)
     {

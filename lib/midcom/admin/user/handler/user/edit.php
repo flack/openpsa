@@ -18,8 +18,6 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
 
     /**
      * Simple constructor
-     *
-     * @access public
      */
     function __construct()
     {
@@ -225,13 +223,12 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
     /**
      * Auto-generate passwords on the fly
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_passwords($handler_id, $args, &$data)
+    public function _handler_passwords($handler_id, $args, &$data)
     {
         $_MIDCOM->skip_page_style = true;
         return true;
@@ -242,9 +239,8 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access public
      */
-    function _show_passwords($handler_id, &$data)
+    public function _show_passwords($handler_id, &$data)
     {
         // Show passwords
         $data['l10n'] =& $this->_l10n;
@@ -401,13 +397,12 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
     /**
      * Batch process password change
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_batch($handler_id, $args, &$data)
+    public function _handler_batch($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_admin_user();
 
@@ -450,9 +445,8 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access public
      */
-    function _show_batch($handler_id, &$data)
+    public function _show_batch($handler_id, &$data)
     {
         if (!isset($_GET['ajax']))
         {

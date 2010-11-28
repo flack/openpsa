@@ -33,9 +33,8 @@ class midcom_core_group
      * The variable is considered to be read-only.
      *
      * @var string
-     * @access public
      */
-    var $name = '';
+    public $name = '';
 
     /**
      * The identification string used to internally identify the group uniquely
@@ -44,9 +43,8 @@ class midcom_core_group
      * The variable is considered to be read-only.
      *
      * @var string
-     * @access public
      */
-    var $id = '';
+    public $id = '';
 
     /**
      * The scope value, which must be set during the _load callback, indicates the "depth" of the
@@ -57,17 +55,15 @@ class midcom_core_group
      * The variable is considered to be read-only.
      *
      * @var integer
-     * @access public
      */
-    var $scope = MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP;
+    public $scope = MIDCOM_PRIVILEGE_SCOPE_ROOTGROUP;
 
     /**
      * Contains the parent of the current group, cached for repeated accesses.
      *
-     * @access private
      * @var midcom_core_group
      */
-    var $_cached_parent_group = null;
+    private $_cached_parent_group = null;
 
     /**
      * The constructor retrieves the group identified by its name from the database and

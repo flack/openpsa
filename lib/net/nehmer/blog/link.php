@@ -33,23 +33,11 @@ class net_nehmer_blog_link_dba extends midcom_core_dbaobject
     }
         
     /**
-     * Check if all the fields contain required information upon creation
-     * 
-     * @access public
-     * @return boolean Indicating success
-     */
-    function _on_creating()
-    {
-        return true;
-    }
-    
-    /**
      * Check if all the fields contain required information upon update
      * 
-     * @access public
      * @return boolean Indicating success
      */
-    function _on_updating()
+    public function _on_updating()
     {
         if (   !$this->topic
             || !$this->article)

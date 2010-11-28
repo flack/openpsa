@@ -35,7 +35,6 @@ class midcom_core_privilege
     /**
      * Cached actual midcom_core_privilege_db data for this privilege.
      *
-     * @access private
      * @var array
      */
     private $__privilege = array
@@ -52,7 +51,6 @@ class midcom_core_privilege
     /**
      * The actual midcom_core_privilege_db object for this privilege.
      *
-     * @access private
      * @var midcom_core_privilege_db
      */
     private $__privilege_object = null;
@@ -60,7 +58,6 @@ class midcom_core_privilege
     /**
      * GUID of the midcom_core_privilege_db object, used when values are retrieved via collector instead of QB
      *
-     * @access private
      * @var string
      */
     private $__guid = '';
@@ -68,7 +65,6 @@ class midcom_core_privilege
     /**
      * Cached content object, based on $objectguid.
      *
-     * @access private
      * @var object
      */
     private $__cached_object = null;
@@ -369,7 +365,6 @@ class midcom_core_privilege
      * @access protected
      * @param object $the_object A reference to the object or GUID to query.
      * @return Array A list of midcom_core_privilege instances.
-     * @static
      */
     public static function get_content_privileges($guid)
     {
@@ -386,7 +381,6 @@ class midcom_core_privilege
      * @access protected
      * @param object $the_object A reference to the object or GUID to query.
      * @return Array A list of midcom_core_privilege instances.
-     * @static
      */
     public static function get_self_privileges($guid)
     {
@@ -403,7 +397,6 @@ class midcom_core_privilege
      * @access protected
      * @param string GUID the GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
-     * @static
      */
     public static function get_all_privileges($guid)
     {
@@ -422,7 +415,6 @@ class midcom_core_privilege
      * @access protected
      * @param string GUID the GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
-     * @static
      */
     private static function _get_privileges($guid, $type)
     {
@@ -458,11 +450,9 @@ class midcom_core_privilege
      * It is used by get_all_privileges in case that there is no cache hit. It will query the
      * database and construct all necessary objects out of it.
      *
-     * @access protected
      * @param string $guid The GUID of the object for which to query ACL data.
      * @param string $type SELF or CONTENT
      * @return Array A list of midcom_core_privilege instances.
-     * @static
      */
     protected static function _query_privileges($guid, $type)
     {
@@ -538,13 +528,11 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @access protected
      * @param object &$object A reference to the object to query.
      * @param string $name The name of the privilege to query
      * @param string $assignee The identifier of the assignee to query.
      * @param string $classname The optional classname required only for class-limited SELF privileges.
      * @return midcom_core_privilege The privilege matching the constraints.
-     * @static
      */
     public static function get_privilege(&$object, $name, $assignee, $classname = '')
     {

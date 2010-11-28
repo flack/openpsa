@@ -105,9 +105,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * underscore).
      *
      * @var const string
-     * @access public
      */
-    var $namespace = '';
+    public $namespace = '';
 
     /**
      * Number of open fieldsets. This will be used to close the same amount to prevent open fieldset tags
@@ -120,10 +119,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     /**
      * State of the form manager
      *
-     * @access public
      * @var string
      */
-    var $state = 'edit';
+    public $state = 'edit';
 
     /**
      * Initializes the Form manager with a list of types for a given schema.

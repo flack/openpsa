@@ -286,8 +286,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     /**#@+
      * Request state variable, set during startup. There should be no need to change it
      * in most cases.
-     *
-     * @access public
      */
 
     /**
@@ -351,7 +349,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * it will be post-processed afterwards during initialize to provide a unified
      * set of data. Therefore you must not modify this switch after construction.
      *
-     * @access public
      * @var Array
      */
     public $_request_switch = Array();
@@ -359,8 +356,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     /**#@+
      * Internal request handling state variable, these are considered read-only for
      * all purposes (except this base class).
-     *
-     * @access public
      */
 
     /**
@@ -636,8 +631,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     /**
      * Helper function, which prepares the handler callback for execution.
      * This will create the handler class instance if required.
-     *
-     * @access public
      */
     public function _prepare_handler()
     {
@@ -872,7 +865,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
-     * @access public
      * @return boolean Indicating Success
      */
     public function _load_plugin_class($namespace, $plugin)
@@ -935,7 +927,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
      * @param Array $handlers The plugin specific handlers without the appropriate prefixes.
-     * @access public
      * @return boolean Indicating Success
      */
     public function _prepare_plugin ($namespace, $plugin, $handlers)

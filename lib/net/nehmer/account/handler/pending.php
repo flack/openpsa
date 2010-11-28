@@ -40,13 +40,12 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
     /**
      * List accounts that are pending for an approval
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         // Require administrator privileges
         $_MIDCOM->auth->require_admin_user();
@@ -72,9 +71,8 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access public
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         if (count($this->persons) === 0)
         {
@@ -111,13 +109,12 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
     /**
      * Handle the actions for the pending account request(s)
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_approve($handler_id, $args, &$data)
+    public function _handler_approve($handler_id, $args, &$data)
     {
         // Require administrator privileges
         $_MIDCOM->auth->require_admin_user();
@@ -183,9 +180,8 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access public
      */
-    function _show_approve($handler_id, &$data)
+    public function _show_approve($handler_id, &$data)
     {
         midcom_show_style('pending-approval-header');
 

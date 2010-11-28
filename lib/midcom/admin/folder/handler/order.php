@@ -18,8 +18,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 {
     /**
      * Constructor method
-     *
-     * @access public
      */
     function __construct()
     {

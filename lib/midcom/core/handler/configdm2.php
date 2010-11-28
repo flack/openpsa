@@ -34,25 +34,21 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     /**
      * DM2 controller instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_controller $_controller
      */
-    var $_controller;
+    private $_controller;
 
     /**
      * DM2 configuration schema
      *
-     * @access private
      * @var midcom_helper_datamanager2_schema $_schemadb
      */
-    var $_schemadb;
+    private $_schemadb;
 
     /**
      * Load midcom.helper.datamanager2. Called on handler initialization phase.
-     *
-     * @access public
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->componentloader->load('midcom.helper.datamanager2');
     }
@@ -60,10 +56,9 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     /**
      * Load midcom_helper_datamanager2_controller instance or output an error on any error
      *
-     * @access private
      * @return boolean Indicating success
      */
-    function _load_controller()
+    private function _load_controller()
     {
         if (isset($this->_master->handler['schemadb']))
         {
@@ -113,13 +108,12 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     /**
      * Generic handler for all the DM2 based configuration requests
      *
-     * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
      * @param array  $data          Miscellaneous output data
      * @return boolean              Indicating success
      */
-    function _handler_config($handler_id, $args, &$data)
+    public function _handler_config($handler_id, $args, &$data)
     {
         // Require corresponding ACL's
         $this->_topic->require_do('midgard:update');
@@ -180,11 +174,10 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     /**
      * Show the configuration screen
      *
-     * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $data          Miscellaneous output data
      */
-    function _show_config($handler_id, &$data)
+    public function _show_config($handler_id, &$data)
     {
         if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('dm2_config'))
@@ -212,13 +205,12 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
      *
      * _load_objects must return an array of DBA objects.
      *
-     * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
      * @param array  $data          Miscellaneous output data
      * @return boolean              Indicating success
      */
-    function _handler_recreate($handler_id, $args, &$data)
+    public function _handler_recreate($handler_id, $args, &$data)
     {
         if (!method_exists($this, '_load_datamanagers'))
         {
@@ -263,11 +255,10 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     /**
      * Show the recreation screen
      *
-     * @access public
      * @param string $handler_id    Name of the handler
      * @param array  $data          Miscellaneous output data
      */
-    function _show_recreate($handler_id, &$data)
+    public function _show_recreate($handler_id, &$data)
     {
         //Disable limits
         // TODO: Could this be done more safely somehow

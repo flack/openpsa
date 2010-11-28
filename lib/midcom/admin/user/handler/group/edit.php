@@ -18,8 +18,6 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
 
     /**
      * Simple constructor
-     *
-     * @access public
      */
     function __construct()
     {

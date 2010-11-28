@@ -44,9 +44,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * containing this attachment.
      *
      * @var boolean
-     * @access public
      */
-    var $_duplicate = false;
+    public $_duplicate = false;
 
     function __construct($id = null)
     {
@@ -179,10 +178,9 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * This function reads the file and returns its contents
      *
-     * @access public
      * @return string
      */
-    function read()
+    public function read()
     {
         $attachment = new midgard_attachment($this->guid);
         $blob = new midgard_blob($attachment);

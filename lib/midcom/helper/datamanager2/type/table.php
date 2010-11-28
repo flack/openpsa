@@ -44,10 +44,10 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
 
     /**
      * Headers for the rows
+     *
      * @var array
-     * @access public
      */
-    var $headers = array('domain', 'name', 'value', 'delete');
+    public $headers = array('domain', 'name', 'value', 'delete');
 
     /**
      * Set this to true if you want the keys to be exported to the csv dump instead of the
@@ -57,17 +57,16 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      * This option is not supported at the moment.
      *
      * @var boolean
-     * @access public
      */
-    var $csv_export_key = false;
+    public $csv_export_key = false;
 
     /**
      * In case the options are returned by a callback, this member holds the callback
      * instance.
+     *
      * @var object
-     * @access public
      */
-    var $_callback = null;
+    public $_callback = null;
 
     /**
      * Initialize the class, if necessary, create a callback instance, otherwise

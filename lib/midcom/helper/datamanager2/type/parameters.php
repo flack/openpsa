@@ -27,12 +27,12 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
 
     /**
      * Headers for the rows
+     *
      * @var array
-     * @access public
      */
-    var $headers = array('domain', 'name', 'value', 'delete');
+    public $headers = array('domain', 'name', 'value', 'delete');
 
-       /**
+    /**
      * Set this to true if you want the keys to be exported to the csv dump instead of the
      * values. Note, that this does not affect import, which is only available with keys, not
      * values.
@@ -40,9 +40,8 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
      * This option is not supported at the moment.
      *
      * @var boolean
-     * @access public
      */
-    var $csv_export_key = false;
+    public $csv_export_key = false;
 
     /**
      * Initialize the class, if necessary, create a callback instance, otherwise

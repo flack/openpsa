@@ -41,13 +41,12 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     /**
      * Handle the editing phase
      * 
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
@@ -85,11 +84,10 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     /**
      * Show event editing interface
      * 
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         // Set title to popup
         $this->_request_data['popup_title'] = sprintf($this->_l10n->get('edit %s'), $this->_event->title);
@@ -104,13 +102,12 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     /**
      * Handle the delete phase
      * 
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
@@ -140,11 +137,10 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     /**
      * Show event delete interface
      * 
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         // Set title to popup
         if ($this->_request_data['delete_succeeded'])

@@ -109,18 +109,16 @@ class org_openpsa_calendarwidget_month
     /**
      * Link text for selecting the previous month
      *
-     * @access public
      * @var string
      */
-    var $previous = '&lt;&lt;';
+    public $previous = '&lt;&lt;';
 
     /**
      * Link text for selecting the next month
      *
-     * @access public
      * @var string
      */
-    var $next = '&gt;&gt;';
+    public $next = '&gt;&gt;';
 
     /**
      * An array containing all the events.
@@ -132,100 +130,88 @@ class org_openpsa_calendarwidget_month
     /**
      * Switch to tell the methods whether it is supposed to draw the week number column.
      *
-     * @access public
      * @var boolean
      */
-    var $week_numbers = true;
+    public $week_numbers = true;
 
     /**
      * Name for the table header for week numbers column, if set to empty value localized from 'week'
      *
-     * @access public
      * @var string
      */
-    var $week_text = '';
+    public $week_text = '';
 
     /**
      * Switch for the links. This will determine whether the links should open in a remote page.
      *
-     * @access public
      * @var boolean
      */
-    var $link_to_pages = false;
+    public $link_to_pages = false;
 
     /**
      * Location of the remote page
      *
-     * @access public
      * @var string
      */
-    var $link_to_pages_uri = '';
+    public $link_to_pages_uri = '';
 
     /**
      * Extra query string
      *
-     * @access public
      * @var string
      */
-    var $suffix = '';
+    public $suffix = '';
 
     /**
      * Switch to determine whether month navigation is enabled.
      *
-     * @access public
      * @var boolean
      */
-    var $month_navigation = true;
+    public $month_navigation = true;
 
     /**
      * Switch to determine if details box should appear
      *
-     * @access public
      * @var boolean
      */
-    var $details_box = true;
+    public $details_box = true;
 
     /**
      * Switch to define if JavaScript should be used to display the details box
      *
-     * @access public
      * @var boolean
      */
-    var $use_javascript = false;
+    public $use_javascript = false;
 
     /**
      * Switch to determine if the days outside the month scope but inside the viewed weeks
      * should be shown.
      *
-     * @access public
      * @var boolean
      */
-    var $days_outside_month = false;
+    public $days_outside_month = false;
 
     /**
      * Switch to determine whether we should use short or long day names for the table headers
      *
-     * @access public
      * @var boolean
      */
-    var $short_day_names = true;
+    public $short_day_names = true;
 
     /**
      * Switch to determine whether month navigation should be handled with changing the
      * path instead of GET parameters
      *
-     * @access public
      * @var boolean
      */
-    var $path_mode = false;
+    public $path_mode = false;
 
     /**
      * Root URL for the calendar widget
      *
-     * @access public
      * @var string
      */
-    var $path = '';
+    public $path = '';
 
     /**
      * Timestamp for the beginning of the calendar view
@@ -286,219 +272,191 @@ class org_openpsa_calendarwidget_month
     /**
      * CSS class for the calendar itself
      *
-     * @access public
      * @var string
      */
-    var $css_calendar = 'org_openpsa_calendarwidget_month';
+    public $css_calendar = 'org_openpsa_calendarwidget_month';
 
     /**
      * CSS class for the month navigation
      *
-     * @access public
      * @var string
      */
-    var $css_month_navi = 'month-navi';
+    public $css_month_navi = 'month-navi';
 
     /**
      * CSS class for the next month in month navigation
      *
-     * @access public
      * @var string
      */
-    var $css_next = 'next';
+    public $css_next = 'next';
 
     /**
      * CSS class for the previous month in month navigation
      *
-     * @access public
      * @var string
      */
-    var $css_previous = 'previous';
+    public $css_previous = 'previous';
 
     /**
      * CSS class for the month name
      *
-     * @access public
      * @var string
      */
-    var $css_month_class = 'month-name';
+    public $css_month_class = 'month-name';
 
     /**
      * CSS class for year visible with month name in table headers
      *
-     * @access public
      * @var string
      */
-    var $css_year = 'year';
+    public $css_year = 'year';
 
     /**
      * CSS class for month name in table headers
      *
-     * @access public
      * @var string
      */
-    var $css_month_name = 'month-name';
+    public $css_month_name = 'month-name';
 
     /**
      * CSS class for the details box
      *
-     * @access public
      * @var string
      */
-    var $css_details_box = 'details';
+    public $css_details_box = 'details';
 
     /**
      * CSS class for the details list
      *
-     * @access public
      * @var string
      */
-    var $css_details_box_list = 'details-list';
+    public $css_details_box_list = 'details-list';
 
     /**
      * CSS class for Monday
      *
-     * @access public
      * @var string
      */
-    var $css_monday = '';
+    public $css_monday = '';
 
     /**
      * CSS class for Tuesday
      *
-     * @access public
      * @var string
      */
-    var $css_tuesday = '';
+    public $css_tuesday = '';
 
     /**
      * CSS class for Wednesday
      *
-     * @access public
      * @var string
      */
-    var $css_wednesday = '';
+    public $css_wednesday = '';
 
     /**
      * CSS class for Thursday
      *
-     * @access public
      * @var string
      */
-    var $css_thurday = '';
+    public $css_thurday = '';
 
     /**
      * CSS class for Friday
      *
-     * @access public
      * @var string
      */
-    var $css_friday = '';
+    public $css_friday = '';
 
     /**
      * CSS class for Saturday
      *
-     * @access public
      * @var string
      */
-    var $css_saturday = 'weekend';
+    public $css_saturday = 'weekend';
 
     /**
      * CSS class for Sunday
      *
-     * @access public
      * @var string
      */
-    var $css_sunday = 'weekend sunday';
+    public $css_sunday = 'weekend sunday';
 
     /**
      * CSS class for week numbers
      *
-     * @access public
      * @var string
      */
-    var $css_week = 'week';
+    public $css_week = 'week';
 
     /**
      * CSS class for today
      *
-     * @access public
      * @var string
      */
-    var $css_today = 'today';
+    public $css_today = 'today';
 
     /**
      * CSS class for an event
      *
-     * @access public
      * @var string
      */
-    var $css_event = 'event';
+    public $css_event = 'event';
 
     /**
      * CSS class for events list
      *
-     * @access public
      * @var string
      */
-    var $css_event_list = 'event-list';
+    public $css_event_list = 'event-list';
 
     /**
      * CSS class for date
      *
-     * @access public
      * @var string
      */
-    var $css_event_date = 'event-date';
+    public $css_event_date = 'event-date';
 
     /**
      * CSS class for event title
      *
-     * @access public
      * @var string
      */
-    var $css_event_title = 'event-title';
+    public $css_event_title = 'event-title';
 
     /**
      * CSS class for the checker to close the details box
      *
-     * @access public
      * @var string
      */
-    var $css_close_checker = 'close';
+    public $css_close_checker = 'close';
 
     /**
      * CSS class for days outside the month scope
      *
-     * @access public
      * @var string
      */
-    var $css_outside_month = 'outside-month';
+    public $css_outside_month = 'outside-month';
 
     /**
      * Additional link-text for showing detailed events
      *
-     * @access public
      * @var string
      */
-    var $additional_name_for_links = '';
-
+    public $additional_name_for_links = '';
 
     /**
      * Last year to show (leave false to allow going forward in time infinitely)
      *
-     * @access public
      * @var string
      */
-    var $last_year = false;
+    public $last_year = false;
 
     /**
      * First year to show (leave false to allow going back in time infinitely)
      *
-     * @access public
      * @var string
      */
-    var $first_year = false;
+    public $first_year = false;
 
     /**
      * Simple constructor method. Initializes
@@ -517,10 +475,9 @@ class org_openpsa_calendarwidget_month
     /**
      * Returns the timestamp of the beginning of the calendar view
      *
-     * @access public
      * @return integer Describing the timestamp of the calendar view start
      */
-    function get_start()
+    public function get_start()
     {
         return $this->_calendar_start;
     }
@@ -528,10 +485,9 @@ class org_openpsa_calendarwidget_month
     /**
      * Returns the timestamp of the end of the calendar view
      *
-     * @access public
      * @return integer Describing the timestamp of the calendar view end
      */
-    function get_end()
+    public function get_end()
     {
         return $this->_calendar_end;
     }
@@ -558,10 +514,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Set the viewed year
-     *
-     * @access public
      */
-    function set_year ($year = null, $recalculate = true)
+    public function set_year ($year = null, $recalculate = true)
     {
         if (is_null($year))
         {
@@ -587,10 +541,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Set the viewed month
-     *
-     * @access public
      */
-    function set_month ($month = null, $recalculate = true)
+    public function set_month ($month = null, $recalculate = true)
     {
         if (is_null($month))
         {
@@ -616,10 +568,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Set the viewed day
-     *
-     * @access public
      */
-    function set_day ($day = null, $recalculate = true)
+    public function set_day ($day = null, $recalculate = true)
     {
         if (is_null($day))
         {
@@ -736,10 +686,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draw the requested objects
-     *
-     * @access public
      */
-    function show()
+    public function show()
     {
         // Draw a month
         $this->_draw_month();
@@ -747,10 +695,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Add JavaScript headers
-     *
-     * @access public
      */
-    function javascript_headers()
+    public function javascript_headers()
     {
         // TODO: Load the JavaScript headers
     }
@@ -1271,10 +1217,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Set the events to be displayed on calendar
-     *
-     * @access public
      */
-    function add_event($object)
+    public function add_event($object)
     {
         // Bulletproofing
         if (   !is_object($object)

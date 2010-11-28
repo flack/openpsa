@@ -16,63 +16,55 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
     /**
      * Switch to determine if the whole tree should be copied
      *
-     * @access public
      * @var boolean
      */
-    var $copy_tree = false;
+    public $copy_tree = false;
 
     /**
      * Switch to determine the visibility of inputs
      *
-     * @access public
      * @var boolean
      */
-    var $inputs = true;
+    public $inputs = true;
 
     /**
      * Choose the target type
      *
-     * @access public
      * @var String
      */
-    var $input_type;
+    public $input_type;
 
     /**
      * Choose the target name for the form
      *
-     * @access public
      * @var String
      */
-    var $input_name;
+    public $input_name;
 
     /**
      * Show the link to view the object
      *
-     * @access public
      * @var boolean
      */
-    var $view_link = false;
+    public $view_link = false;
 
     /**
      * Show the link to view the object
      *
-     * @access public
      * @var boolean
      */
-    var $edit_link = false;
+    public $edit_link = false;
 
     /**
      * Page prefix
      *
      * @var String
-     * @access public
      */
-    var $page_prefix = '';
+    public $page_prefix = '';
 
     /**
      * Constructor, connect to the parent class constructor.
      *
-     * @access public
      * @param mixed $object
      * @param Array $request_data
      */
@@ -181,10 +173,8 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
 
     /**
      * Draw the tree selector
-     *
-     * @access public
      */
-    function draw()
+    public function draw()
     {
         if (!$this->input_type)
         {
@@ -203,8 +193,8 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
             }
         }
 
-        $this->_root_object =& $this->_object;
-        $this->_list_child_elements($this->_root_object);
+        $root_object =& $this->_object;
+        $this->_list_child_elements($root_object);
     }
 }
 ?>

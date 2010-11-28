@@ -85,10 +85,9 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
     /**
      * Maximum amount of images allowed to be stored in the same field
      *
-     * @access public
      * @var integer
      */
-    var $max_count = 0;
+    public $max_count = 0;
 
     /**
      * Sort index or what is the position in the list

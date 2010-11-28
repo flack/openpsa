@@ -19,7 +19,6 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
      * Baseclasses Components (midcom.baseclasses.components.request)
      *
-     * @access public
      * @return mixed Array of the plugin handlers
      */
     public function get_plugin_handlers()

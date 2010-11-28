@@ -110,9 +110,8 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
 
     /**
      * Shortcut for getting XML output started
-     * @access public
      */
-    function start()
+    public function start()
     {
         $this->_prepare();
         $this->_xmlheader();
@@ -120,9 +119,8 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
 
     /**
      * Shortcut for finalizing the XML output, this will exit the script.
-     * @access public
      */
-    function end()
+    public function end()
     {
         $this->_xmlfooter();
         $this->_close();

@@ -17,10 +17,9 @@ class net_nemein_wiki_navigation  extends midcom_baseclasses_components_navigati
     /**
      * Get the leaves set to be displayed in navigation
      * 
-     * @access public
      * @return array
      */
-    function get_leaves()
+    public function get_leaves()
     {
         // Get the required information with midgard_collector
         $qb = midcom_db_article::new_query_builder();

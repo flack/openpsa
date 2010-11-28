@@ -63,18 +63,16 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
     /**
      * Lock timeout defines the length of lock in seconds.
      *
-     * @access public
      * @var integer
      */
-    var $lock_timeout = null;
+    public $lock_timeout = null;
 
     /**
      * Override the whole locking scheme
      *
-     * @access public
      * @var boolean
      */
-    var $lock_object = true;
+    public $lock_object = true;
 
     /**
      * Initializes the class. The real startup is done by the initialize() call.
@@ -270,10 +268,8 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
 
     /**
      * Show the lock status
-     *
-     * @access public
      */
-    function show_unlock()
+    public function show_unlock()
     {
         if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('midcom_helper_datamanager2_unlock'))

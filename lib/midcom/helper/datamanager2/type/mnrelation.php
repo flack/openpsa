@@ -151,9 +151,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * by default for mn relations, since by its nature this is intended for dynamic searches.
      *
      * @var boolean
-     * @access public
      */
-     var $require_corresponding_option = false;
+    public $require_corresponding_option = false;
 
     /**
      * This is a regular expression pattern constructed from $member_limit_like to verify
@@ -181,43 +180,38 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * Should the sorting feature be enabled. This will affect the way chooser widget will act
      * and how the results will be presented. If the sorting feature is enabled,
      *
-     * @access public
      * @var boolean
      */
-    var $sortable = false;
+    public $sortable = false;
 
     /**
      * Sort order. Which direction should metadata.score force the results. This should be either
      * `ASC` or `DESC`
      *
-     * @access public
      * @var string
      */
-    var $sortable_sort_order = 'DESC';
+    public $sortable_sort_order = 'DESC';
 
     /**
      * Sorted order, which is returned by the widget.
      *
-     * @access public
      * @var Array
      */
-    var $sorted_order = array();
+    public $sorted_order = array();
 
     /**
      * Additional fields to set on the object
      *
-     * @access public
      * @var Array
      */
-    var $additional_fields = array();
+    public $additional_fields = array();
 
     /**
      * This flag controls whether multiple selections are allowed, or not.
      *
      * @var boolean
-     * @access public
      */
-    var $allow_multiple = true;
+    public $allow_multiple = true;
 
     /**
      * Initialize the class, if necessary, create a callback instance, otherwise

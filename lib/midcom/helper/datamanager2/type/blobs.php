@@ -45,9 +45,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * within styles.
      *
      * @var Array
-     * @access public
      */
-    var $attachments = Array();
+    public $attachments = Array();
 
     /**
      * This is the base URL used for attachment serving.
@@ -57,9 +56,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * "{$baseurl}{$guid}/{$filename}".
      *
      * @var string
-     * @access public
      */
-    var $attachment_server_url = null;
+    public $attachment_server_url = null;
 
     /**
      * This member is populated and synchronized with all known changes to the
@@ -89,33 +87,29 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * the attachment object directly.
      *
      * @var Array
-     * @access public
      */
-    var $attachments_info = Array();
+    public $attachments_info = Array();
 
     /**
      * Maximum amount of blobs allowed to be stored in the same field
      *
-     * @access public
      * @var integer
      */
-    var $max_count = 0;
+    public $max_count = 0;
 
     /**
      * Should the widget offer sorting feature
      *
-     * @access public
      * @var boolean
      */
-    var $sortable = false;
+    public $sortable = false;
 
     /**
      * Sorted attachments list
      *
-     * @access public
      * @var array
      */
-    var $_sorted_list = array();
+    public $_sorted_list = array();
 
     /**
      * Set the base URL accordingly
@@ -206,12 +200,11 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * See the usort() documentation for further details.
      *
-     * @access public
      * @param midcom_db_attachment $a The first attachment.
      * @param midcom_db_attachment $b The second attachment.
      * @return int A value according to the rules from strcmp().
      */
-    static function sort_attachments_cmp($a, $b)
+    static public function sort_attachments_cmp($a, $b)
     {
         if ($a->metadata->score > $b->metadata->score)
         {

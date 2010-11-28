@@ -107,13 +107,12 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
     /**
      * Handle the creation phase
      * 
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         // Get the root event
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
@@ -168,11 +167,10 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
     /**
      * Show the create screen
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         if (   array_key_exists('view', $this->_request_data)
             && $this->_request_data['view'] === 'conflict_handler')

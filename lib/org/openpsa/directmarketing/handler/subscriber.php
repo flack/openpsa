@@ -16,13 +16,12 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Phase for showing the list of campaigns
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
@@ -97,11 +96,10 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Show the list of existing campaigns
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         $qb_all = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $campaigns = array();
@@ -190,13 +188,12 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Handle the unsubscribe phase
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_unsubscribe($handler_id, $args, &$data)
+    public function _handler_unsubscribe($handler_id, $args, &$data)
     {
         if (count($args) != 1)
         {
@@ -235,11 +232,10 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Show the unsubscribe action
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_unsubscribe($handler_id, &$data)
+    public function _show_unsubscribe($handler_id, &$data)
     {
         if ($this->_request_data['unsubscribe_status'] == false)
         {
@@ -254,13 +250,12 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Support the AJAX request for unsubscribing from a campaign
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_unsubscribe_ajax($handler_id, $args, &$data)
+    public function _handler_unsubscribe_ajax($handler_id, $args, &$data)
     {
         if (count($args) != 1)
         {
@@ -301,22 +296,20 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Show the empty style of AJAX unsubscribing
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_unsubscribe_ajax($handler_id, &$data)  { }
+    public function _show_unsubscribe_ajax($handler_id, &$data)  { }
 
     /**
      * Handle the request for unsubscribing all subscribers from a campaign
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_unsubscribe_all($handler_id, $args, &$data)
+    public function _handler_unsubscribe_all($handler_id, $args, &$data)
     {
         if (count($args) < 1)
         {
@@ -374,11 +367,10 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     /**
      * Show the unsubscribe status for unsubscribe all
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_unsubscribe_all($handler_id, &$data)
+    public function _show_unsubscribe_all($handler_id, &$data)
     {
         if ($data['unsubscribe_status'] == false)
         {

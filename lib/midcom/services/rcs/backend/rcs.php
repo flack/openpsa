@@ -228,11 +228,10 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     /**
      * Mirror method for get_prev_version()
      *
-     * @access public
      * @param string $version
      * @return mixed
      */
-    function get_previous_version($version)
+    public function get_previous_version($version)
     {
         return $this->get_prev_version($version);
     }
@@ -273,10 +272,10 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * key => value par where the key is the index of the revision
      * and the value is the revision id.
      * Order: revision 0 is the newest.
+     *
      * @return array
-     * @access public
      */
-    function list_history_numeric()
+    public function list_history_numeric()
     {
         $revs = $this->list_history();
         $i = 0;
@@ -561,10 +560,9 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      *
      * @param string latest_revision id of the latest revision
      * @param string oldest_revision id of the oldest revision
-     * @access public
      * @return array array with the original value, the new value and a diff -u
      */
-    function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
+    public function get_diff($oldest_revision, $latest_revision, $renderer_style = 'inline')
     {
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revision);

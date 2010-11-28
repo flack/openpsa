@@ -23,60 +23,53 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      * values.
      *
      * @var Array
-     * @access public
      */
-    var $selection = array();
+    public $selection = array();
 
     /**
      * This flag controls whether multiple selections are allowed, or not.
      *
      * @var boolean
-     * @access public
      */
-    var $enable_saving_to_callback = false;
+    public $enable_saving_to_callback = false;
 
     /**
      * This flag controls whether we use net_nehmer_tag or not
      *
      * @var boolean
-     * @access public
      */
-    var $use_tag_library = true;
+    public $use_tag_library = true;
 
     /**
      * This flag controls whether we force net_nehmer_tag to be used as the saving location
      * or should we use callback or storage
      *
      * @var boolean
-     * @access public
      */
-    var $force_saving_to_tag_library = false;
+    public $force_saving_to_tag_library = false;
 
     /**
      * This flag controls whether we force net_nehmer_tag to be used as the location
      * to read tags data on rendering or should we use callback or storage
      *
      * @var boolean
-     * @access public
      */
-    var $force_rendering_from_tag_library = false;
+    public $force_rendering_from_tag_library = false;
 
     /**
      * This flag controls whether we require tags found with net_nehmer_tag
      * to exist in callback also (we check with key_exists with second argument set as true). This is only applied if we have callback defined.
      *
      * @var boolean
-     * @access public
      */
-    var $must_exist_also_in_callback = false;
+    public $must_exist_also_in_callback = false;
 
     /**
      * The arguments to pass to the option callback constructor.
      *
      * @var mixed
-     * @access public
      */
-    var $option_callback_args = null;
+    public $option_callback_args = null;
 
     /**
      *

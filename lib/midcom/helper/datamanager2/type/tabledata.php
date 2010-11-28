@@ -53,192 +53,170 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * Column header data
      * 
-     * @access public
      * @var Array
      */
-    var $columns = array('value' => 'value');
+    public $columns = array('value' => 'value');
     
     /**
      * Safety for the original columns
      * 
-     * @access public
      * @var Array
      */
-    var $_original_columns;
+    public $_original_columns;
     
     /**
      * Row header data
      * 
-     * @access public
      * @var Array
      */
-    var $rows = null;
+    public $rows = null;
     
     /**
      * Row sort order
      *
-     * @access public
      * @var String
      */
-    var $row_sort_order = 'asc';
+    public $row_sort_order = 'asc';
     
     /**
      * Maximum amount of rows
      *
-     * @access public
      * @var String
      */
-    var $row_limit = null;
+    public $row_limit = null;
     
     /**
      * Maximum number of columns
      * 
-     * @access public
      * @var integer
      */
-    var $column_limit = null;
+    public $column_limit = null;
     
     /**
      * Allow sorting of the rows
      *
-     * @access public
      * @var boolean
      */
-    var $sortable_rows = true;
+    public $sortable_rows = true;
     
     /**
      * Allow sorting of the columns
      *
-     * @access public
      * @var boolean
      */
-    var $sortable_columns = false;
+    public $sortable_columns = false;
     
     /**
      * Should the row names be printed?
      *
-     * @access public
      * @var boolean
      */
-    var $print_row_names = false;
+    public $print_row_names = false;
     
     /**
      * Storage mode determines how the information is stored
      * 
-     * @access public
      * @var String
      */
-    var $storage_mode = 'parameter';
+    public $storage_mode = 'parameter';
     
     /**
      * Storage mode 'parameter' limiter
      *
-     * @access public
      * @var String
      */
-    var $storage_mode_parameter_limiter = '|';
+    public $storage_mode_parameter_limiter = '|';
     
     /**
      * Allow creation of new rows
      * 
-     * @access public
      * @var boolean
      */
-    var $allow_new_rows = true;
+    public $allow_new_rows = true;
     
     /**
      * Should adding new columns be allowed?
      *
-     * @access public
      * @var boolean
      */
-    var $allow_new_columns = false;
+    public $allow_new_columns = false;
     
     /**
      * Should the column renaming be enabled
      * 
-     * @access public
      * @var boolean
      */
-    var $allow_column_rename = true;
+    public $allow_column_rename = true;
     
     /**
      * Parameter domain that will be used to store the data
      * 
-     * @access public
      * @var String
      */
-    var $parameter_domain = 'midcom.helper.datamanager2.type.tabledata';
+    public $parameter_domain = 'midcom.helper.datamanager2.type.tabledata';
     
     /**
      * DBA class of the link object
      *
      * for storage_mode link only
      * 
-     * @access public
      * @var String
      */
-    var $link_class = '';
+    public $link_class = '';
 
     /**
      * The property of the link object which links to the current object
      *
      * for storage_mode link only
      * 
-     * @access public
      * @var String
      */
-    var $link_parent_field = '';
+    public $link_parent_field = '';
 
     /**
      * Is the object connected to the link via GUID or ID
      *
      * for storage_mode link only
      * 
-     * @access public
      * @var String
      */
-    var $link_parent_type = 'guid';
+    public $link_parent_type = 'guid';
 
     /**
      * Link fields that should be displayed as columns
      *
      * for storage_mode link only
      * 
-     * @access public
      * @var Array
      */
-    var $link_columns = 'guid';
+    public $link_columns = 'guid';
 
     /**
      * The link field that should be displayed as the row title
      *
      * for storage_mode link only
      * 
-     * @access public
      * @var Array
      */
-    var $link_row_property = 'guid';
+    public $link_row_property = 'guid';
 
     /**
      * The classname of the object used for rows
      *
      * for storage_mode link only
      * 
-     * @access public
      * @var Array
      */
-    var $link_row_class = 'guid';
+    public $link_row_class = 'guid';
 
     /**
      * The title property of the object used for rows
      *
      * for storage_mode link only
      * 
-     * @access public
      * @var Array
      */
-    var $link_row_title_field = 'guid';
+    public $link_row_title_field = 'guid';
 
     /**
      * Storage data or the data that should be stored
@@ -267,10 +245,9 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * List of columns that shall be removed
      * 
-     * @access public
      * @var Array
      */
-    var $_remove_columns = array();
+    public $_remove_columns = array();
     
     /**
      * How many rows have been printed
@@ -296,10 +273,9 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * Get the existing rows.
      * 
-     * @access public
      * @return Array containing row information
      */
-    function get_existing_rows()
+    public function get_existing_rows()
     {
         $rows = array();
         
@@ -475,10 +451,9 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * Get the existing columns in the correct order
      * 
-     * @access public
      * @return Array containing column details as key => name pairs
      */
-    function get_existing_columns()
+    public function get_existing_columns()
     {
         if (   !$this->storage
             || !$this->storage->object
@@ -538,11 +513,10 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * Get row by its ID
      * 
-     * @access public
      * @param String $row    Row identifier
      * @return mixed         Array containing columns and values as key => value pairs or false on failure
      */
-    function get_row($row)
+    public function get_row($row)
     {
         $column = array();
         
@@ -643,10 +617,9 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * Get the whole table
      * 
-     * @access public
      * @return Array containing values
      */
-    function get_table_data()
+    public function get_table_data()
     {
         if (count($this->rows) === 0)
         {
@@ -672,11 +645,10 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * Get the value of a single cell
      * 
-     * @access public
      * @param String $row      Row name
      * @param String $column   Column name
      */
-    function get_value($row, $column)
+    public function get_value($row, $column)
     {
         switch ($this->storage_mode)
         {
@@ -756,20 +728,17 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * Convert the data from storage
      * 
-     * @access public
      * @param String source
      */
-    function convert_from_storage ($source)
+    public function convert_from_storage ($source)
     {
         $this->value = $source;
     }
     
     /**
      * Convert the data to storage
-     * 
-     * @access public
      */
-    function convert_to_storage()
+    public function convert_to_storage()
     {
         if ($this->storage_mode === 'parameter')
         {
@@ -941,10 +910,9 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * HTML output
      *
-     * @access public
      * @return String    Output string
      */
-    function convert_to_html()
+    public function convert_to_html()
     {
         // Get the column order and added columns
         $this->get_existing_columns();

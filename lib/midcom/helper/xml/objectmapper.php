@@ -33,17 +33,17 @@ class midcom_helper_xml_objectmapper
 {
     /**
      * The classname of the last read object
+     *
      * @var string classname
-     * @access public
      */
-    var $classname = "";
+    public $classname = "";
 
     /**
      * The errorstring
-     * @access public
+     * 
      * @var string
      */
-    var $errstr = "";
+    public $errstr = "";
 
     /**
      * Take xml and move it into an object

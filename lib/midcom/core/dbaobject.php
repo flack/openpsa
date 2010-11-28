@@ -17,7 +17,6 @@ abstract class midcom_core_dbaobject
     /**
      * MgdSchema object
      *
-     * @access public
      * @var mixed MgdSchema object
      */
     public $__object = null;
@@ -25,7 +24,6 @@ abstract class midcom_core_dbaobject
     /**
      * Metadata object
      *
-     * @acccess public
      * @var midcom_helper_metadata MidCOM metadata object
      */
     public $__metadata = null;
@@ -67,15 +65,12 @@ abstract class midcom_core_dbaobject
      * Should it be allowed to automatically generate unique name in case of clash
      *
      * @see http://trac.midgard-project.org/ticket/809
-     * @access public
      * @var boolean
      */
-    var $allow_name_catenate = false;
+    public $allow_name_catenate = false;
 
     /**
      * Constructor. Creates an abstraction layer for an MgdSchema object.
-     *
-     * @access public
      */
     public function __construct($id = null)
     {
@@ -139,7 +134,6 @@ abstract class midcom_core_dbaobject
     /**
      * Magic getter for object property mapping
      *
-     * @access public
      * @param string $property Name of the property
      */
     public function __get($property)
@@ -183,7 +177,6 @@ abstract class midcom_core_dbaobject
     /**
      * Magic setter for object property mapping
      *
-     * @access public
      * @param string $property  Name of the property
      * @param mixed $value      Property value
      */
@@ -200,7 +193,6 @@ abstract class midcom_core_dbaobject
     /**
      * Magic isset test for object property mapping
      *
-     * @access public
      * @param string $property  Name of the property
      */
     public function __isset($property)
@@ -242,7 +234,6 @@ abstract class midcom_core_dbaobject
     /**
      * API for creating a new object
      *
-     * @access public
      * @return boolean Indicating success
      */
     public function create()
@@ -253,7 +244,6 @@ abstract class midcom_core_dbaobject
     /**
      * API for creating an attachment for the object
      *
-     * @access public
      * @param string $name      Machine-readable name of the attachment
      * @param string $title     Human-readable title of the attachment
      * @param string $mimetype  MIME-type of the attachment
@@ -267,7 +257,6 @@ abstract class midcom_core_dbaobject
     /**
      * Create new privilege for the object.
      *
-     * @access public
      * @param string $privilege  Privilege name
      * @param mixed $assignee    ID or GUID of the assignee
      * @param int $value         Privilege level
@@ -282,7 +271,6 @@ abstract class midcom_core_dbaobject
     /**
      * Delete the current object
      *
-     * @access public
      * @return boolean Indicating success
      */
     public function delete()
@@ -293,7 +281,6 @@ abstract class midcom_core_dbaobject
     /**
      * Undelete object defined by a GUID
      *
-     * @access static
      * @return boolean Indicating success
      */
     public static function undelete($guid)
@@ -305,7 +292,6 @@ abstract class midcom_core_dbaobject
     /**
      * Purge the current object from database
      *
-     * @access public
      * @return boolean Indicating success
      */
     public function purge()
@@ -320,7 +306,6 @@ abstract class midcom_core_dbaobject
     /**
      * Delete an attachment of the this object
      *
-     * @access public
      * @param string $name     Name of the attachment
      * @return boolean Indicating success
      */
@@ -332,7 +317,6 @@ abstract class midcom_core_dbaobject
     /**
      * Delete a parameter
      *
-     * @access public
      * @param string $domain    Parameter domain
      * @param string $name      Parameter name
      * @return boolean Indicating success
@@ -345,7 +329,6 @@ abstract class midcom_core_dbaobject
     /**
      * Delete the current object tree, starting from this object
      *
-     * @access public
      * @return boolean Indicating success
      */
     public function delete_tree()
@@ -356,7 +339,6 @@ abstract class midcom_core_dbaobject
     /**
      * Get the requested attachment object
      *
-     * @access public
      * @param string $name    Attachment URL name
      * @return boolean Indicating success
      */

@@ -87,9 +87,8 @@ class midcom_services_uimessages
      * DOM path of the UI message holder object
      *
      * @var String
-     * @access public
      */
-    var $uimessage_holder = 'body';
+    public $uimessage_holder = 'body';
 
     /**
      * Simple constructor, calls base class.

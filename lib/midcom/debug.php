@@ -37,31 +37,28 @@ class midcom_debug
      * Logfile name
      *
      * @var string
-     * @access private
      */
-    var $_filename;
+    private $_filename;
 
     /**
      * Current loglevel
      *
      * @var int
-     * @access private
      */
-    var $_loglevel;
+    private $_loglevel;
 
     /**
      * Flag which is true if the debugger is enabled.
      *
      * @var boolean
-     * @access private
      */
-    var $_enabled;
+    private $_enabled;
 
     /**
      * Access to installed FirePHP logger
-      *
-      * @var FirePHP
-      */
+     *
+     * @var FirePHP
+     */
     public $firephp = null;
 
     /**

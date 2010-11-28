@@ -64,50 +64,44 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
     /**
      * MgdSchema class of the child item
      *
-     * @access public
      * @var mixed MgdSchema object
      */
-    var $child_class = '';
+    public $child_class = '';
 
     /**
      * midcom_helper_datamanager2_schema compatible schema path of the composite item
      *
-     * @access public
      * @var mixed MgdSchema object
      */
-    var $child_schemadb = '';
+    public $child_schemadb = '';
 
     /**
      * Key of the child item for linking child to master item
      *
-     * @access public
      * @var String
      */
-    var $child_foreign_key_fieldname = 'up';
+    public $child_foreign_key_fieldname = 'up';
 
     /**
      * Key of the master item for linking child to master item
      *
-     * @access public
      * @var String
      */
-    var $parent_key_fieldname = 'id';
+    public $parent_key_fieldname = 'id';
 
     /**
      * Constraints for selecting the correct child items
      *
-     * @access public
      * @var Array
      */
-    var $child_constraints = array();
+    public $child_constraints = array();
 
     /**
      * Array of orders for sorting the items
      *
-     * @access public
      * @var Array
      */
-    var $orders = array
+    public $orders = array
     (
         'metadata.created' => 'ASC',
     );
@@ -115,19 +109,16 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
     /**
      * Context for the composite item. A must if there are more than one composite in one schema.
      *
-     * @access public
      * @var String
      */
-    var $context = null;
-
+    public $context = null;
 
     /**
      * Key for storing the context information in the child item. Has to be a property of the child.
      *
-     * @access public
      * @var String
      */
-    var $context_key = 'parameter';
+    public $context_key = 'parameter';
 
     var $style_element_name = 'child';
     var $window_mode = false;
@@ -136,34 +127,30 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
     /**
      * Maximum amount of items
      *
-     * @access public
      * @var integer
      */
-    var $maximum_items = null;
+    public $maximum_items = null;
 
     /**
      * Should the creation mode be enabled
      *
-     * @access public
      * @var boolean
      */
-    var $enable_creation = true;
+    public $enable_creation = true;
 
     /**
      * Wrapping item tag name
      *
-     * @access public
      * @var String
      */
-    var $area_element = 'div';
+    public $area_element = 'div';
 
     /**
      * Default values for the composite item
      *
-     * @access public
      * @var Array
      */
-    var $defaults = array();
+    public $defaults = array();
 
     /**
      * The schema database in use for the child elements
@@ -194,9 +181,8 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
      * their identifier within the field.
      *
      * @var Array
-     * @access public
      */
-    var $objects = Array();
+    public $objects = Array();
 
     /**
      * Initialize the class, if necessary, create a callback instance, otherwise

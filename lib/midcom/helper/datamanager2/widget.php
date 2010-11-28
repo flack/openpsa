@@ -52,9 +52,8 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * This maps to the schema's field name. You should never have to change them.
      *
      * @var string
-     * @access public
      */
-    var $name = '';
+    public $name = '';
 
     /**
      * A reference to the schema field we should draw.

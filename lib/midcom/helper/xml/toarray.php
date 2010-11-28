@@ -49,11 +49,11 @@ class midcom_helper_xml_toarray
     var $_parser;
 
     /**
-     * Errorstring
+     * Error string
+     *
      * @var string
-     * @access public
      */
-    var $errstr = "";
+    public $errstr = "";
 
     /**
      * The stack of tags currently being processed
@@ -78,11 +78,11 @@ class midcom_helper_xml_toarray
 
     /**
      * Simple wrapper.
+     *
      * @param string the xml data
      * @return array the parsed data
-     * @access public
      */
-    function parse($data)
+    public function parse($data)
     {
         return $this->_parse($data);
     }

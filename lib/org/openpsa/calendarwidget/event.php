@@ -18,9 +18,8 @@ class org_openpsa_calendarwidget_event
     * Event CGUID
     *
     * @var string
-    * @access public
     */
-    var $guid = '';
+    public $guid = '';
     
    /**
     * Defines the start of an event - this property is required for calendar to work
@@ -61,25 +60,22 @@ class org_openpsa_calendarwidget_event
     * Event description
     *
     * @var string
-    * @access public
     */
-   var $description = '';
+   public $description = '';
 
    /**
     * Event location
     *
     * @var string
-    * @access public
     */
-   var $location = '';
+   public $location = '';
 
    /**
     * Event CSS class
     *
     * @var string
-    * @access public
     */
-    var $class = '';
+    public $class = '';
 
     /**
      * Actual event object
@@ -183,10 +179,8 @@ class org_openpsa_calendarwidget_event
 
     /**
      * Draws one single event
-     *
-     * @access public
      */
-    function render($element = 'div', $h_level = 3)
+    public function render($element = 'div', $h_level = 3)
     {
         $rendered_event  = '';
         $rendered_event .= "<{$element} class=\"vevent\">\n";

@@ -16,8 +16,6 @@ class org_openpsa_mypage_workingon
 {
     /**
      * Time person started working on the task
-     *
-     * @access public
      */
     public $start = 0;
 
@@ -30,15 +28,11 @@ class org_openpsa_mypage_workingon
 
     /**
      * Task being worked on
-     *
-     * @access public
      */
     public $task = null;
 
     /**
      * The description for the current hour report
-     *
-     * @access public
      */
     public $description = null;
 
@@ -50,11 +44,9 @@ class org_openpsa_mypage_workingon
     protected $person = null;
 
     /**
-     * if hour report is invoiceable
-     *
-     * @access public
+     * If hour report is invoiceable
      */
-     public $invoiceable = false;
+    public $invoiceable = false;
 
     /**
      * Constructor.

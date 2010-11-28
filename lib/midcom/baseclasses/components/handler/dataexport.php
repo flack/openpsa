@@ -26,7 +26,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      * Flag indicating whether or not the GUID should be included in exports.
      *
      * @var boolean
-     * @access public
      */
     public $include_guid = true;
 
@@ -34,7 +33,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      * Flag indicating whether or not totals for number fields should be generated
      *
      * @var boolean
-     * @access public
      */
     public $include_totals = false;
 

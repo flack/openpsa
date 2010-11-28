@@ -20,24 +20,21 @@ class midcom_helper_hostconfig
     var $config = array();
 
     /**
-     * the path to the midcom lib directory.
+     * The path to the midcom lib directory.
      * Defaults to a PEAR installation.
      * Appends midcom.php itself.
-     * @access public
      */
-    var $midcom_path = 'midcom';
+    public $midcom_path = 'midcom';
 
     /**
      * Version of the hostsetup.
-     * @access public
      */
-    var $version = '1.0.0';
+    public $version = '1.0.0';
 
     /**
      * Domain for the cached setting parameters
-     * @access public
      */
-    var $setting_parameter_domain = 'midgard';
+    public $setting_parameter_domain = 'midgard';
 
     /**
      * The page to save the configuration on.
@@ -244,9 +241,8 @@ class midcom_helper_hostconfig
      * Set a configuration value
      * @param string name name of the configuration value
      * @param string value the value
-     * @access public
      */
-    function set($name, $value)
+    public function set($name, $value)
     {
         if ($name == 'midcom_path')
         {
@@ -259,11 +255,11 @@ class midcom_helper_hostconfig
 
     /**
      * Get a config value
+     *
      * @return string the value
      * @param string name of the config value.
-     * @access public
      */
-    function get($name)
+    public function get($name)
     {
         return $this->config[$name];
     }

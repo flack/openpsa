@@ -109,10 +109,8 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
 
     /**
      * Add creation link
-     *
-     * @access public
      */
-    function _on_handle($handler_id, $args)
+    public function _on_handle($handler_id, $args)
     {
         if ($this->_topic->can_do('midgard:create'))
         {
@@ -135,13 +133,12 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     /**
      * Check for hijacked URL space
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _can_handle_redirect($handler_id, $args, &$data)
+    public function _can_handle_redirect($handler_id, $args, &$data)
     {
         // Process the request immediately
         if (isset($args[0]))
@@ -237,11 +234,10 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     /**
      * Show redirection page.
      *
-     * @access public
      * @param string $handler_id    Handler ID
      * @param array &$data          Pass-by-reference of request data
      */
-    function _show_redirect($handler_id, &$data)
+    public function _show_redirect($handler_id, &$data)
     {
         midcom_show_style('redirection-page');
     }
@@ -249,12 +245,10 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     /**
      * Get the URL where the topic links to
      *
-     * @static
-     * @access public
      * @param array &$data   Request data
      * @return String containing redirection URL
      */
-    static function topic_links_to(&$data)
+    public static function topic_links_to(&$data)
     {
         $config =& $data['config'];
 

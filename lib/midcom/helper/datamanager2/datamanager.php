@@ -52,9 +52,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * the storage target.
      *
      * @var midcom_helper_datamanager2_storage
-     * @access public
      */
-    var $storage = null;
+    public $storage = null;
 
     /**
      * This is a listing of all types that have been loaded from the storage object. You may

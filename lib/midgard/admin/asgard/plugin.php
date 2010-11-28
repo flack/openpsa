@@ -17,10 +17,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
      * Baseclasses Components (midcom.baseclasses.components.request)
      *
-     * @access public
      * @return mixed array of the plugin handlers
      */
-    function get_plugin_handlers()
+    public function get_plugin_handlers()
     {
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
@@ -390,12 +389,10 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
     /**
      * Static method other plugins may use
      *
-     * @static
-     * @access public
      * @param string $title     Page title
      * @param array &$data      Local request data
      */
-    static function prepare_plugin($title, &$data)
+    public static function prepare_plugin($title, &$data)
     {
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
         // Disable content caching
@@ -494,11 +491,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
 
     /**
      * Helper function that sets the default object mode
-     *
-     * @static
-     * @access public
      */
-    static function get_default_mode(&$data)
+    public static function get_default_mode(&$data)
     {
         //only set mode once per request
         if (!empty($data['default_mode']))
@@ -1087,11 +1081,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
 
     /**
      * Add Asgard styling for plugins
-     *
-     * @static
-     * @access public
      */
-    static function asgard_header()
+    public static function asgard_header()
     {
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
@@ -1099,11 +1090,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
 
     /**
      * Add Asgard styling for plugins
-     *
-     * @static
-     * @access public
      */
-    static function asgard_footer()
+    public static function asgard_footer()
     {
         midcom_show_style('midgard_admin_asgard_footer');
     }
@@ -1115,11 +1103,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
     /**
      * Get a preference for the current user
      *
-     * @static
-     * @access public
      * @param string $preference    Name of the preference
      */
-    static function get_preference($preference)
+    public static function get_preference($preference)
     {
         static $preferences = array();
 
@@ -1145,11 +1131,9 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_handler
     /**
      * Get the MgdSchema root classes
      *
-     * @static
-     * @access public
      * @return array containing class name and translated name
      */
-    static function get_root_classes()
+    public static function get_root_classes()
     {
         static $root_classes = array();
 

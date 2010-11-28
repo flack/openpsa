@@ -729,12 +729,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
     /**
      * Registers a schema into the session so it is readable by the imagepopup.
-     * @return string the form sessionkey
-     * @throws none
-     * @access public
      *
+     * @return string the form sessionkey
      */
-    function register_to_session($guid)
+    public function register_to_session($guid)
     {
         $key = $this->name .  $guid;
         // Seems we do not need this anymore, but return key still

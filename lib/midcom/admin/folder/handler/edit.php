@@ -39,8 +39,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     /**
      * Constructor method
-     *
-     * @access public
      */
     function __construct()
     {
@@ -49,10 +47,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     /**
      * Load the schemadb and other midcom.admin.folder specific stuff
-     *
-     * @access public
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Load the configuration
         $_MIDCOM->componentloader->load('midcom.admin.folder');

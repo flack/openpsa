@@ -838,11 +838,10 @@ class midcom_helper_metadata
      * Check if the requested object is locked
      *
      * @static
-     * @access public
      * @param mixed &$object    MgdSchema object
      * @return boolean          True if the object is locked, false if it isn't
      */
-    function is_locked()
+    public function is_locked()
     {
         // Object hasn't been marked to be edited
         if ($this->get('locked') == 0)
@@ -872,12 +871,11 @@ class midcom_helper_metadata
     /**
      * Set the object lock
      *
-     * @access public
      * @param int $timeout   Length of the lock timeout
      * @param String $user   GUID of the midgard_person object
      * @return boolean       Indicating success
      */
-    function lock($timeout = null, $user = null)
+    public function lock($timeout = null, $user = null)
     {
         $_MIDCOM->auth->require_do('midgard:update', $this->__object);
 
@@ -913,11 +911,10 @@ class midcom_helper_metadata
     /**
      * Unlock the object
      *
-     * @access public
      * @param boolean $soft_unlock If this is true, the changes are not written to disk
      * @return boolean    Indicating success
      */
-    function unlock($soft_unlock = false)
+    public function unlock($soft_unlock = false)
     {
         if (!$this->can_unlock())
         {

@@ -578,21 +578,16 @@ class FeedCreator extends HtmlDescribable {
      * Adds a FeedItem to the feed.
      *
      * @param object FeedItem $item The FeedItem to add to the feed.
-     * @access public
      */
-    function addItem($item) {
+    public function addItem($item)
+    {
         $this->items[] = $item;
     }
 
-    /**
-     *
-     *
-     *
-     */
-     function version() {
-
-         return FEEDCREATOR_VERSION." (".$this->generator.")";
-     }
+    function version()
+    {
+        return FEEDCREATOR_VERSION." (".$this->generator.")";
+    }
 
     /**
      * Truncates a string to a certain length at the most sensible point.

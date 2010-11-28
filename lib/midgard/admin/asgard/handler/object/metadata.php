@@ -42,8 +42,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
 
     /**
      * Constructor, call for the class parent constructor method.
-     *
-     * @access public
      */
     function __construct()
     {

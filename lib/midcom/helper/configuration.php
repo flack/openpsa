@@ -49,25 +49,22 @@ class midcom_helper_configuration
      * Globally assigned configuration data.
      *
      * @var Array
-     * @access private
      */
-    var $_global;
+    public $_global;
 
     /**
      * Locally overridden configuration data.
      *
      * @var Array
-     * @access private
      */
-    var $_local;
+    public $_local;
 
     /**
      * Merged, current configuration state.
      *
      * @var Array
-     * @access private
      */
-    var $_merged;
+    public $_merged;
 
     /**
      * Internal cache-related items
@@ -127,7 +124,6 @@ class midcom_helper_configuration
      * Any error such as invalid configuration data will trigger a MidCOM error.
      *
      * @param boolean            $global        Set to true to replace the global configuration.
-     * @access private
      */
     private function _store_from_object($global = false)
     {
@@ -157,8 +153,6 @@ class midcom_helper_configuration
     /**
      * This method will merge the local and the global configuration arrays into the
      * cache array.
-     *
-     * @access private
      */
     private function _update_cache()
     {
@@ -180,11 +174,6 @@ class midcom_helper_configuration
      * included in the global configuration, this function is used to check a local
      * array against the current global configuration. true/false is returned
      * accordingly.
-     *
-     * On any inconsistency a WARNING level message is logged, but the error
-     * is silently ignored as of 2.4.0.
-     *
-     * @access private
      */
     private function _check_local_array($array)
     {

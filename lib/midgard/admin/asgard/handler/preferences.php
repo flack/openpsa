@@ -48,8 +48,6 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
     /**
      * Connect to the parent class constructor
-     *
-     * @access public
      */
     function __construct()
     {
@@ -58,10 +56,8 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
     /**
      * Startup routines
-     *
-     * @access public
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -195,11 +191,10 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
     /**
      * Static method for getting the languages, but
-     *
-     * @access public
+     * 
      * @static
      */
-    function get_languages()
+    public function get_languages()
     {
         $lang_str = $_MIDCOM->i18n->get_current_language();
         $languages = $_MIDCOM->i18n->list_languages();
@@ -223,13 +218,12 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     /**
      * AJAX backend for saving data on the fly
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_ajax($handler_id, $args, &$data)
+    public function _handler_ajax($handler_id, $args, &$data)
     {
         $this->_person = new midcom_db_person(midcom_connection::get_user());
 

@@ -695,12 +695,11 @@ class midcom_helper_imagefilter
     /**
      * Crop an image to given proportions
      *
-     * @access public
      * @param int $x Width
      * @param int $y Height
      * @return boolean true on success.
      */
-    function crop($x, $y, $gravity = 'center')
+    public function crop($x, $y, $gravity = 'center')
     {
         $data = @getimagesize($this->_filename);
         $data = null;
@@ -754,14 +753,13 @@ class midcom_helper_imagefilter
     /**
      * Resize image and apply fill to match given size
      *
-     * @access public
      * @param int $x Width
      * @param int $y Height
      * @param string $color Color
      * @param string $gravity Gravity point
      * @return boolean true on success.
      */
-    function fill($x, $y, $color, $gravity = 'center')
+    public function fill($x, $y, $color, $gravity = 'center')
     {
         // Currently accepting only hex colors
         if (!preg_match('/^#?([0-9a-f]{3}){1,2}$/', $color))

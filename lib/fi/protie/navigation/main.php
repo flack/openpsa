@@ -40,267 +40,233 @@ class fi_protie_navigation
     /**
      * MidCOM helper class for navigation subsystem. Uses class 'midcom.helper.nav'
      *
-     * @access private
      * @var midcom_helper_nav
      */
-    var $_nap = null;
+    private $_nap = null;
 
     /**
      * Stores the navigation access point history or in other words path to the current point.
      *
-     * @access private
      * @var Array
      */
-    var $node_path = array();
+    private $node_path = array();
 
     /**
      * ID for the folder to get the navigation
      *
-     * @access public
      * @var integer
      */
-    var $root_id = null;
+    public $root_id = null;
 
     /**
      * ID for the first printed list. Defined only in method $this->css_dropdown_headers();
      *
-     * @access private
      * @var string
      */
-    var $_root_element_id = null;
+    private $_root_element_id = null;
 
     /**
      * Number of the parsed level
      *
-     * @access private
      * @var integer
      */
-    var $_level = 1;
+    private $_level = 1;
 
     /**
      * The amount of lowest level elements to be skipped.
      *
-     * @access public
      * @var integer
      */
-    var $skip_levels = 0;
+    public $skip_levels = 0;
 
     /**
      * Switch to determine if navigation should display leaves or pages.
      *
-     * @access public
      * @var boolean
      */
-    var $list_leaves = true;
+    public $list_leaves = true;
 
     /**
      * List only the leaf elements or pages
      *
-     * @access public
      * @var boolean
      */
-    var $list_nodes = true;
+    public $list_nodes = true;
 
     /**
      * Switch to determine if navigation should follow node path (on true) or stop on the
      * spot.
      *
-     * @access public
      * @var boolean
      */
-    var $follow_selected = true;
+    public $follow_selected = true;
 
     /**
      * Switch to determine if navigation should follow all the nodes or only the current
      *
-     * @access public
      * @var boolean
      */
-    var $follow_all = false;
+    public $follow_all = false;
 
     /**
      * Switch to determine if navigation should show only the information of the currently selected node.
      *
-     * @access public
      * @var boolean
      */
-    var $show_only_current = false;
+    public $show_only_current = false;
 
     /**
      * Should the CSS class be in the link as well
      *
-     * @access public
      * @var boolean
      */
-    var $class_to_link = false;
+    public $class_to_link = false;
 
     /**
      * Restrict the amount of levels listed.
      *
-     * @access public
      * @var integer
      */
-    var $list_levels = 0;
+    public $list_levels = 0;
 
     /**
      * ID of the root level list object
      *
-     * @access public
      * @var integer
      */
-    var $root_object_id = null;
+    public $root_object_id = null;
 
     /**
      * CSS class for styling the lists
      *
-     * @access public
      * @var string
      */
-    var $css_list_style = 'fi_protie_navigation';
+    public $css_list_style = 'fi_protie_navigation';
 
     /**
      * Add URL name to list item class name
      *
-     * @access public
      * @var boolean
      */
-    var $url_name_to_class = false;
+    public $url_name_to_class = false;
 
     /**
      * Add component name to list item ul class name
      *
-     * @access public
      * @var boolean
      */
-    var $component_name_to_class = false;
+    public $component_name_to_class = false;
 
     /**
      * Add first and last-class names to list item ul class name
      *
-     * @access public
      * @var boolean
      */
-    var $first_and_last_to_class = false;
+    public $first_and_last_to_class = false;
 
     /**
      * CSS class for first
      *
-     * @access public
      * @var string
      */
-    var $css_first = 'first';
+    public $css_first = 'first';
 
     /**
      * CSS class for last
      *
-     * @access public
      * @var string
      */
-    var $css_last = 'last';
+    public $css_last = 'last';
 
     /**
      * CSS class for first and last together
      *
-     * @access public
      * @var string
      */
-    var $css_first_last = 'first_last';
+    public $css_first_last = 'first_last';
 
     /**
      * Check if item has children and if so, add children-class to list item ul class name
      *
-     * @access public
      * @var boolean
      */
-    var $has_children_to_class = false;
+    public $has_children_to_class = false;
 
     /**
      * Should the object's status be added to list item ul class names
      * Since this forces us to load the entire object, set it to false if you don't need it
      *
-     * @access public
      * @var boolean
      */
-    var $object_status_to_class = true;
+    public $object_status_to_class = true;
 
     /**
      * CSS class for has children
      *
-     * @access public
      * @var string
      */
-    var $css_has_children = 'children';
+    public $css_has_children = 'children';
 
     /**
      * CSS class for nodes
      *
-     * @access public
      * @var string
      */
-    var $css_node = 'node';
+    public $css_node = 'node';
 
     /**
      * CSS class for leaves
      *
-     * @access public
      * @var string
      */
-    var $css_leaf = 'leaf';
+    public $css_leaf = 'leaf';
 
     /**
      * CSS class for the elements in node path. All the elements in node path will have this class.
      *
-     * @access public
      * @var string
      */
-    var $css_selected = 'selected';
+    public $css_selected = 'selected';
 
     /**
      * CSS class for the current, active node or leaf. There can be only one active element.
      *
-     * @access public
      * @var string
      */
-    var $css_active = 'active';
+    public $css_active = 'active';
 
     /**
      * parameter listening enabled
      *
-     * @access private
      * @var boolean
      */
-    var $_listen_params = false;
+    private $_listen_params = false;
 
     /**
      * Registered get -parameters for listening
      *
-     * @access private
      * @var array
      */
-    var $_get_params = array();
+    private $_get_params = array();
 
     /**
      * Registered post -parameters for listening
      * Not supported yet.
      *
-     * @access private
      * @var array
      */
-    var $_post_params = array();
+    private $_post_params = array();
 
     /**
      * Cache for parameters to be listened
      *
-     * @access private
      * @var string
      */
-    var $_params_cache = false;
+    private $_params_cache = false;
 
     /**
      * Constructor method. Here we initialize the classes and variables
      * needed through the class.
-     *
-     * @access protected
      */
     function __construct($id = null)
     {
@@ -389,11 +355,8 @@ class fi_protie_navigation
 
     /**
      * Traverses through the node path to fetch the location of the current navigation access point.
-     *
-     * @access public
-     * @static
      */
-    function get_node_path()
+    public static function get_node_path()
     {
         // Initialize variables
         $node_path = array ();
@@ -417,10 +380,8 @@ class fi_protie_navigation
 
     /**
      * This method prints out links to CSS file when using CSS-based dropdown navigation.
-     *
-     * @access public
      */
-    function css_dropdown_headers()
+    public function css_dropdown_headers()
     {
         // Print the link for external CSS file
         $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/fi.protie.navigation/dropdown.css', 'screen');
@@ -433,10 +394,8 @@ class fi_protie_navigation
 
     /**
      * Traverse the child nodes starting from the requested node id
-     *
-     * @access private
      */
-    function _list_child_nodes($id, $indent = '')
+    private function _list_child_nodes($id, $indent = '')
     {
         $children = $this->_nap->list_nodes($id);
 
@@ -477,10 +436,8 @@ class fi_protie_navigation
 
     /**
      * Traverse the child elements starting from the requested node id
-     *
-     * @access private
      */
-    function _list_child_elements($id, $indent = '')
+    private function _list_child_elements($id, $indent = '')
     {
         // If only nodes are to be listed use the appropriate NAP call
         if (!$this->list_leaves)
@@ -669,10 +626,8 @@ class fi_protie_navigation
 
     /**
      * Method for drawing the navigation.
-     *
-     * @access public
      */
-    function draw()
+    public function draw()
     {
         if (!$this->root_id)
         {
@@ -700,10 +655,9 @@ class fi_protie_navigation
     /**
      * Set the root element id
      *
-     * @access public
      * @param string $id root ul id
      */
-    function set_root_element_id($id)
+    public function set_root_element_id($id)
     {
         $this->root_object_id = $id;
     }

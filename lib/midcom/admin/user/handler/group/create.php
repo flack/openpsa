@@ -18,8 +18,6 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
 
     /**
      * Simple constructor
-     *
-     * @access public
      */
     function __construct()
     {

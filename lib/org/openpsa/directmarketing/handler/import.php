@@ -538,13 +538,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for selecting the import type
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_index($handler_id, $args, &$data)
+    public function _handler_index($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
         if (!$this->_request_data['campaign'])
@@ -561,12 +560,11 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the selection list for import types
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _show_index($handler_id, &$data)
+    public function _show_index($handler_id, &$data)
     {
         midcom_show_style('show-import-index');
     }
@@ -574,13 +572,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing simple email addresses
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_simpleemails($handler_id, $args, &$data)
+    public function _handler_simpleemails($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
         if (!$this->_request_data['campaign'])
@@ -666,11 +663,10 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the import phase of email addresses
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_simpleemails($handler_id, &$data)
+    public function _show_simpleemails($handler_id, &$data)
     {
         if (   $this->_request_data['import_status']['subscribed_new'] == 0
             && $this->_request_data['import_status']['subscribed_existing'] == 0)
@@ -686,13 +682,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing vcards
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_vcards($handler_id, $args, &$data)
+    public function _handler_vcards($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
         if (!$this->_request_data['campaign'])
@@ -826,11 +821,10 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the vcard import interface
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_vcards($handler_id, &$data)
+    public function _show_vcards($handler_id, &$data)
     {
         if (   $this->_request_data['import_status']['subscribed_new'] == 0
             && $this->_request_data['import_status']['subscribed_existing'] == 0)
@@ -846,13 +840,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Phase for importing CSV. This interface lets user to define what the fields of the CSV represent
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_csv_select($handler_id, $args, &$data)
+    public function _handler_csv_select($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
         if (!$data['campaign'])
@@ -935,13 +928,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the CSV selection phase where user defines which field in CSV corresponds to which schema fields
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _show_csv_select($handler_id, &$data)
+    public function _show_csv_select($handler_id, &$data)
     {
         if (array_key_exists('rows', $data))
         {
@@ -959,13 +951,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Handle the CSV import phase
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
         if (!$data['campaign'])
@@ -1087,11 +1078,10 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Show the CSV import phase
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, &$data)
     {
         midcom_show_style('show-import-status');
     }

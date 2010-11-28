@@ -17,10 +17,9 @@ class midcom_helper_itemlist_score extends midcom_helper_itemlist
     /**
      * get_sorted_list  - get a list objects ready for showing.
      *
-     * @access public
      * @return mixed  False on failure or an array of navigation items on success
      */
-    function get_sorted_list()
+    public function get_sorted_list()
     {
         $nodes_list = $this->_basicnav->list_nodes($this->parent_node_id);
         if ($nodes_list === false)
@@ -66,13 +65,11 @@ class midcom_helper_itemlist_score extends midcom_helper_itemlist
     /**
      * User defined sort comparison method
      *
-     * @static
-     * @access public
      * @param array $a    Navigation item array
      * @param array $b    Navigation item array
      * @return integer    Preferred order
      */
-    function sort_cmp ($a, $b)
+    public static function sort_cmp ($a, $b)
     {
         // This should also sort out the situation were score is not
         // set.

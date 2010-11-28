@@ -39,25 +39,22 @@ class midcom_helper_datamanager2_type_password extends midcom_helper_datamanager
      * string for any storage operation to take place.
      *
      * @var string
-     * @access public
      */
-    var $value = null;
+    public $value = null;
 
     /**
      * The real value as stored in the object. This takes crypting etc. into account.
      *
      * @var string
-     * @access public
      */
-    var $_real_value = '';
+    public $_real_value = '';
 
     /**
      * Indicating crypted operation
      *
      * @param boolean
-     * @access public
      */
-    var $crypted = true;
+    public $crypted = true;
 
     function convert_from_storage ($source)
     {
@@ -115,10 +112,9 @@ class midcom_helper_datamanager2_type_password extends midcom_helper_datamanager
     /** 
      * HTML display for password always displays asterisks only
      * 
-     * @access public
      * @return string
      */
-    function convert_to_html()
+    public function convert_to_html()
     {
         return '**********';
     }

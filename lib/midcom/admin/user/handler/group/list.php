@@ -24,8 +24,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
 
     /**
      * Simple constructor, call for the parent class contructor
-     *
-     * @access public
      */
     function __construct()
     {
@@ -60,13 +58,12 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     /**
      * Handle the moving of a group phase
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_move($handler_id, $args, &$data)
+    public function _handler_move($handler_id, $args, &$data)
     {
         $data['group'] = new midcom_db_group($args[0]);
 
@@ -124,9 +121,8 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access public
      */
-    function _show_move($handler_id, &$data)
+    public function _show_move($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-list-start');
@@ -267,12 +263,11 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     /**
      * Internal helper to check if the requested group belongs to the haystack
      *
-     * @access public
      * @static
      * @param int $id
      * @param int $owner
      */
-    function belongs_to($id, $owner)
+    public function belongs_to($id, $owner)
     {
         do
         {

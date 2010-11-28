@@ -158,9 +158,8 @@ class midcom_helper__styleloader
      *
      * @param int $id    Style id to look up path for
      * @return    string Style path
-     * @access public
      */
-    function get_style_path_from_id($id)
+    public function get_style_path_from_id($id)
     {
         static $path_cache = array();
         if (!isset($path_cache[$id]))
@@ -211,9 +210,8 @@ class midcom_helper__styleloader
      * @param string $path        The path to retrieve
      * @param int $rootstyle_id    ???
      * @return    int ID of the matching style or FALSE
-     * @access public
      */
-    function get_style_id_from_path($path, $rootstyle = 0)
+    public function get_style_id_from_path($path, $rootstyle = 0)
     {
         static $cached = array();
 

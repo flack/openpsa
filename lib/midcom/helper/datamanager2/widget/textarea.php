@@ -44,39 +44,36 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
      * -1 tries to bind to the types maxlength member, if available.
      *
      * @var int
-     * @access public
      */
-    var $maxlength = -1;
+    public $maxlength = -1;
 
     /**
      * Width of the textbox.
      *
      * @var int
-     * @access public
      */
-    var $width = 50;
+    public $width = 50;
 
     /**
      * Height of the textbox.
      *
      * @var int
-     * @access public
      */
-    var $height = 6;
+    public $height = 6;
 
     /**
      * Wrapping mode of the textbox.
      *
      * @var string
-     * @access public
      */
-    var $wrap = 'virtual';
+    public $wrap = 'virtual';
+
     /**
      * Add expand link to textbox?
-     * @access public
+     *
      * @var boolean
      */
-    var $expand = false;
+    public $expand = false;
     
     /**
      * The initialization event handler post-processes the maxlength setting.

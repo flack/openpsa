@@ -54,10 +54,9 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
      * Baseclasses Components (midcom.baseclasses.components.request)
      *
-     * @access public
      * @return mixed Array of the plugin handlers
      */
-    function get_plugin_handlers()
+    public function get_plugin_handlers()
     {
         $_MIDCOM->load_library('midcom.admin.folder');
         $return = array
@@ -178,11 +177,10 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     /**
      * Static method to list names of the non-purecore components
      *
-     * @access public
      * @param string $parent_component  Name of the parent component, which will pop the item first on the list
      * @return mixed Array containing names of the components
      */
-    function get_component_list($parent_component = '')
+    public function get_component_list($parent_component = '')
     {
         $components = array ();
 
@@ -240,11 +238,10 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     /**
      * Static method for populating user interface for editing and creating topics
      *
-     * @access public
      * @static
      * @return Array Containing a list of components
      */
-    function list_components($parent_component = '', $all = false)
+    public function list_components($parent_component = '', $all = false)
     {
         $list = array();
 
@@ -284,10 +281,8 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
     /**
      * Static method for listing available style templates
-     *
-     * @access public
      */
-    function list_styles($up = 0, $prefix = '/', $spacer = '')
+    public function list_styles($up = 0, $prefix = '/', $spacer = '')
     {
         static $style_array = array();
 
@@ -327,11 +322,10 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     /**
      * Checks if the folder has finite (healthy) tree below it.
      *
-     * @access public
      * @param object $topic The folder to be checked.
      * @return boolean Indicating success
      */
-    function is_child_listing_finite($topic, $stop = array())
+    public function is_child_listing_finite($topic, $stop = array())
     {
         if (!empty($topic->symlink))
         {

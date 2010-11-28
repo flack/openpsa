@@ -40,8 +40,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
     /**
      * Simple constructor
-     *
-     * @access public
      */
     function __construct()
     {
@@ -324,13 +322,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Handler method for listing style elements for the currently used component topic
      *
-     * @access public
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (   !$this->_object
@@ -425,13 +422,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Handler method for confirming file deleting for the requested file
      *
-     * @access public
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (   !$this->_object

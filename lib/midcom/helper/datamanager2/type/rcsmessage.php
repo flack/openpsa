@@ -19,9 +19,8 @@ class midcom_helper_datamanager2_type_rcsmessage extends midcom_helper_datamanag
      * The current string encapsulated by this type.
      *
      * @var string
-     * @access public
      */
-    var $value = '';
+    public $value = '';
 
     function convert_from_storage ($source)
     {

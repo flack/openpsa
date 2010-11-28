@@ -210,10 +210,9 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      * @param int $limit        How many results should be returned
      * @param array &$results   Result set
      * @return Array            Containing results
-     * @access public
      * @static
      */
-    function get_articles($topic_id, $offset, $limit, &$results)
+    public function get_articles($topic_id, $offset, $limit, &$results)
     {
         $mc = net_nehmer_blog_link_dba::new_collector('topic', $topic_id);
         $mc->add_value_property('article');

@@ -88,12 +88,10 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
     /**
      * Get the country object by code
      * 
-     * @static
-     * @access public
      * @param string $code                            Either two or three character representation
      * @return org_routamc_positioning_country_dba    Country object or null on failure
      */
-    static function get_by_code($code)
+    public static function get_by_code($code)
     {
         $qb = self::new_query_builder();
         $qb->begin_group('OR');

@@ -38,10 +38,9 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
      * Select automatically every object. This is for using the widget only to sort, not to select what
      * has been sorted.
      *
-     * @access public
      * @var boolean
      */
-    var $select_all = false;
+    public $select_all = false;
 
     /**
      * The initialization event handler post-processes the maxlength setting.

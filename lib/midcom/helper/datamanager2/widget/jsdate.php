@@ -295,11 +295,10 @@ EOT;
      *
      * Be liberal with input, strict with output
      *
-     * @access public
      * @param mixed $input  User input
      * @return String       Formatted date
      */
-    function check_user_input($input)
+    public function check_user_input($input)
     {
         $input = trim($input);
 

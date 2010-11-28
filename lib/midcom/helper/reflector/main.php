@@ -156,7 +156,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get the localized label of the class
      *
-     * @access public
      * @return string Class label
      * @todo remove any hardcoded class names/prefixes
      */
@@ -280,12 +279,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get the object label property value
      *
-     * @access public
      * @param mixed $object    MgdSchema object
      * @return String       Label of the object
      * @todo remove any hardcoded class names/prefixes
      */
-    function get_object_label(&$object)
+    public function get_object_label(&$object)
     {
         // Check against static calling
         if (   !isset($this->mgdschema_class)
@@ -390,8 +388,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get the name of the create icon image
      *
-     * @static
-     * @access public
      * @param string $type  Name of the type
      * @return string       URL name of the image
      */
@@ -468,8 +464,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get the name of the icon image
      *
-     * @static
-     * @access public
      * @param mixed $obj          MgdSchema object
      * @param boolean $url_only   Get only the URL location instead of full <img /> tag
      * @return string             URL name of the image
@@ -576,7 +570,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get headers to be used with chooser
      *
-     * @access public
      * @return array
      * @todo this should not be here but part of the chooser widget
      */
@@ -924,8 +917,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get an object, deleted or not
      *
-     * @static
-     * @access public
      * @param string $guid    GUID of the object
      * @param string $type    MgdSchema type
      * @return mixed          MgdSchema object
@@ -1049,8 +1040,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * - ID or GUID of the object
      * - left empty to copy as a parentless object
      *
-     * @static
-     * @access public
      * @param mixed $source        GUID or MgdSchema object that will be copied
      * @param mixed $parent        MgdSchema or MidCOM db object or ID of the parent object
      * @param boolean $parameters  Switch to determine if the parameters should be copied
@@ -1079,8 +1068,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     /**
      * Get the target properties and return an array that is used e.g. in copying
      *
-     * @static
-     * @access public
      * @param mixed $object     MgdSchema object or MidCOM db object
      * @return array            id, parent property, class and label of the object
      */

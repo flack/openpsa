@@ -260,11 +260,10 @@ class midcom_services__sessioning
     /**
      * Get the session data
      * 
-     * @access public
      * @param string $domain   Session domain
      * @return Array containing session values
      */
-    function get_session_data($domain)
+    public function get_session_data($domain)
     {
         if (   !isset($_SESSION)
             || !is_array($_SESSION))

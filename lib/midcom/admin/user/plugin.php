@@ -19,10 +19,9 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_handler
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
      * Baseclasses Components (midcom.baseclasses.components.request)
      *
-     * @access public
      * @return mixed Array of the plugin handlers
      */
-    function get_plugin_handlers()
+    public function get_plugin_handlers()
     {
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.user');
@@ -236,11 +235,10 @@ class midcom_admin_user_plugin extends midcom_baseclasses_components_handler
     /**
      * Static method for generating one password
      *
-     * @access public
      * @static
      * @param int $length
      */
-    function generate_password($length = 8, $no_similars = true, $strong = true)
+    public function generate_password($length = 8, $no_similars = true, $strong = true)
     {
         $similars = array
         (

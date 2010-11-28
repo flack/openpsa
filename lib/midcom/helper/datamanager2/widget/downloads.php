@@ -81,26 +81,23 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     /**
      * Maximum amount of blobs allowed to be stored in the same field
      *
-     * @access public
      * @var integer
      */
-    var $max_count = 0;
+    public $max_count = 0;
 
     /**
      * ID for upload-progress
      *
-     * @access public
      * @var string
      */
-    var $progress_id = 0;
+    public $progress_id = 0;
+
     /**
      * indicates if progressbar is shown
      *
-     * @access public
      * @var bool
      */
-    var $show_progressbar = false;
-
+    public $show_progressbar = false;
 
     /**
      * Sort index or what is the position in the list

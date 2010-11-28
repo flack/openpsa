@@ -27,10 +27,8 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
     /**
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
      * Baseclasses Components (midcom.baseclasses.components.request)
-     *
-     * @access public
      */
-    function get_plugin_handlers()
+    public function get_plugin_handlers()
     {
         return array
         (

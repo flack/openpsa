@@ -37,9 +37,8 @@ class midcom_core_user
      * Username of the current user, it is to be considered read-only.
      *
      * @var string
-     * @access public
      */
-    var $username = null;
+    public $username = null;
 
     /**
      * The full name of the current user.
@@ -48,9 +47,8 @@ class midcom_core_user
      * to the username if both are unset. It is to be considered read-only.
      *
      * @var string
-     * @access public
      */
-    var $name = null;
+    public $name = null;
 
     /**
      * The full reversed name of the current user.
@@ -59,9 +57,8 @@ class midcom_core_user
      * to the username if both are unset. It is to be considered read-only.
      *
      * @var string
-     * @access public
      */
-    var $rname = null;
+    public $rname = null;
 
     /**
      * Lists all groups in which a user is a member, both directly and indirectly.
@@ -75,7 +72,6 @@ class midcom_core_user
      * It is loaded on demand.
      *
      * @var Array
-     * @access private
      */
     private $_all_groups = null;
 
@@ -90,7 +86,6 @@ class midcom_core_user
      * It is loaded on demand.
      *
      * @var Array
-     * @access private
      */
     private $_direct_groups = null;
 
@@ -107,7 +102,6 @@ class midcom_core_user
      * This member is populated with $_all_groups.
      *
      * @var Array
-     * @access private
      */
     private $_inheritance_chains = null;
 
@@ -119,7 +113,6 @@ class midcom_core_user
      * It is loaded on demand.
      *
      * @var Array
-     * @access private
      */
     private $_privileges = null;
 
@@ -133,7 +126,6 @@ class midcom_core_user
      * It is loaded on demand.
      *
      * @var Array
-     * @access private
      */
     private $_per_class_privileges = null;
 
@@ -144,17 +136,15 @@ class midcom_core_user
      * This is usually some kind of user:$guid string combination.
      *
      * @var string
-     * @access public
      */
-    var $id;
+    public $id;
 
     /**
      * The GUID identifying this user, made directly available for easier linking.
      *
      * @var string
-     * @access public
      */
-    var $guid;
+    public $guid;
 
     /**
      * The scope value, which must be set during the _load callback, indicates the
@@ -167,9 +157,8 @@ class midcom_core_user
      * The variable is considered to be read-only.
      *
      * @var integer
-     * @access public
      */
-    var $scope = MIDCOM_PRIVILEGE_SCOPE_USER;
+    public $scope = MIDCOM_PRIVILEGE_SCOPE_USER;
 
     /**
      * The constructor retrieves the user identified by its name from the database and
@@ -392,8 +381,6 @@ class midcom_core_user
 
     /**
      * Loads all groups the user is a direct member and assigns them to the _direct_groups member.
-     *
-     * @access protected
      */
     private function _load_direct_groups()
     {
@@ -443,8 +430,6 @@ class midcom_core_user
 
     /**
      * Loads the complete group hierarchy the user is a member in.
-     *
-     * @access protected
      */
     private function _load_all_groups()
     {
@@ -481,8 +466,6 @@ class midcom_core_user
      *
      * This uses the inheritance chains
      * loaded by _load_all_groups().
-     *
-     * @access private
      */
     private function _load_privileges()
     {

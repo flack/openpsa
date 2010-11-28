@@ -33,7 +33,6 @@ require_once('HTML/QuickForm/Renderer.php');
  * A concrete renderer for HTML_QuickForm,
  * based on QuickForm 2.x built-in one
  * @package midcom.helper.datamanager2
- * @access public
  */
 class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
 {
@@ -201,8 +200,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
 
    /**
     * Constructor
-    *
-    * @access public
     */
     function __construct($namespace = '')
     {
@@ -214,10 +211,9 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
    /**
     * returns the HTML generated for the form
     *
-    * @access public
     * @return string
     */
-    function toHtml()
+    public function toHtml()
     {
         return $this->_html;
     }
@@ -386,10 +382,9 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * @param object     An HTML_QuickForm_element object being visited
     * @param boolean       Whether an element is required
     * @param string     An error message associated with an element
-    * @access public
     * @return void
     */
-    function renderElement(&$element, $required, $error)
+    public function renderElement(&$element, $required, $error)
     {
         if (!$this->_inGroup)
         {
@@ -421,10 +416,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * Called when visiting a hidden element
     *
     * @param object     An HTML_QuickForm_hidden object being visited
-    * @access public
-    * @return void
     */
-    function renderHidden(&$element)
+    public function renderHidden(&$element)
     {
         $this->_hiddenHtml .= $element->toHtml() . "\n";
     }
@@ -433,10 +426,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * Called when visiting a raw HTML/text pseudo-element
     *
     * @param  object     An HTML_QuickForm_html element being visited
-    * @access public
-    * @return void
     */
-    function renderHtml(&$data)
+    public function renderHtml(&$data)
     {
         $this->_html .= $data->toHtml();
     }
@@ -447,10 +438,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * @param object     An HTML_QuickForm_group object being visited
     * @param boolean       Whether a group is required
     * @param string     An error message associated with a group
-    * @access public
-    * @return void
     */
-    function startGroup(&$group, $required, $error)
+    public function startGroup(&$group, $required, $error)
     {
         $name = $group->getName();
 

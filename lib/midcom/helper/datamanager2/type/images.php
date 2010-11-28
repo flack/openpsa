@@ -162,26 +162,23 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * Output mode
      *
-     * @access public
      * @var string
      */
-    var $output_mode = 'html';
+    public $output_mode = 'html';
 
     /**
      * Maximum amount of images allowed to be stored in the same field
      *
-     * @access public
      * @var integer
      */
-    var $max_count = 0;
+    public $max_count = 0;
 
     /**
      * Should the widget offer sorting feature
      *
-     * @access public
      * @var boolean
      */
-    var $sortable = true;
+    public $sortable = true;
 
     function _on_initialize()
     {
@@ -326,8 +323,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * Resolve attachments map from imagemap
      *
-     * @static
-     * @access public
      * @param string $source
      * @return string Attachment map
      */

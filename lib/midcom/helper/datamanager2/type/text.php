@@ -37,18 +37,16 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      * The current string encapsulated by this type.
      *
      * @var string
-     * @access public
      */
-    var $value = '';
+    public $value = '';
 
     /**
      * Maximum length of the string encapsulated by this type. 0 means no limit.
      * This is checked during validation.
      *
      * @param int
-     * @access public
      */
-    var $maxlength = 0;
+    public $maxlength = 0;
 
     /**
      * Sets output formatting. See class introduction.

@@ -317,11 +317,11 @@ class midcom_helper_toolbar
     /**
      * Clean up an item that is added, making sure that the item has all the
      * needed options and indexes.
+     *
      * @param array the item to be cleaned
      * @return array the cleaned item.
-     * @access public
      */
-    function clean_item($item)
+    public function clean_item($item)
     {
         static $used_access_keys = array();
 
@@ -891,9 +891,8 @@ class midcom_helper_toolbar
      * @param mixed $index The integer index or URL to check
      * @param boolean $raise_error Whether we should raise an error on missing item
      * @return int $index The valid index (possibly translated from the URL) or null on missing index.
-     * @access private
      */
-    function _check_index ($index, $raise_error = true)
+    private function _check_index ($index, $raise_error = true)
     {
         if (is_string($index))
         {

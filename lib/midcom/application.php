@@ -342,9 +342,8 @@ class midcom_application
      * components won't change anything.
      *
      * @var boolean
-     * @access public
      */
-    var $skip_page_style = false;
+    public $skip_page_style = false;
 
     /**
      * Main MidCOM initialization.

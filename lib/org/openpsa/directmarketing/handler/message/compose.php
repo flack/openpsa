@@ -50,13 +50,12 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     /**
      * Phase for composing a message
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_compose($handler_id, $args, &$data)
+    public function _handler_compose($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->request_sudo();
         //Load message
@@ -148,12 +147,11 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     /**
      * Compose the message and send it for post-formatting
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      * @return String               Composed message
      */
-    function _show_compose($handler_id, &$data)
+    public function _show_compose($handler_id, &$data)
     {
         if ($handler_id === 'compose4person')
         {

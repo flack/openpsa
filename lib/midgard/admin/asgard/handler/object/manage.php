@@ -1359,13 +1359,12 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Copy handler
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_copy($handler_id, $args, &$data)
+    public function _handler_copy($handler_id, $args, &$data)
     {
         // Get the object that will be copied
         $this->_load_object($args[0]);
@@ -1585,11 +1584,10 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Show copy style
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_copy($handler_id, &$data)
+    public function _show_copy($handler_id, &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
 

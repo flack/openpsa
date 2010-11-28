@@ -30,17 +30,15 @@ class midcom_helper_nav
      * A reference to the basicnav instance in use.
      *
      * @var midcom_helper__basicnav
-     * @access private
      */
-    var $_basicnav;
+    private $_basicnav;
 
     /**
      * The context ID we're associated with.
      *
      * @var int
-     * @access private
      */
-    var $_contextid;
+    private $_contextid;
 
     /**
      * Create a NAP instance for the given context. If unspecified, it

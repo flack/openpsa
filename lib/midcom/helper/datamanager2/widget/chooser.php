@@ -278,17 +278,15 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      * class.
      *
      * @var string
-     * @access public
      */
-    var $_callback_class = null;
+    public $_callback_class = null;
 
     /**
      * The arguments to pass to the option callback constructor.
      *
      * @var mixed
-     * @access public
      */
-    var $_callback_args = null;
+    public $_callback_args = null;
 
     /**
      * Renderer

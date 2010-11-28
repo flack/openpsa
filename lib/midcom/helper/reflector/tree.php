@@ -535,10 +535,8 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
 
     /**
      * Creates a QB instance for _get_child_objects_type and _count_child_objects_type
-     *
-     * @access private
      */
-    function &_child_objects_type_qb(&$schema_type, &$for_object, $deleted)
+    private function &_child_objects_type_qb(&$schema_type, &$for_object, $deleted)
     {
         if (empty($schema_type))
         {
@@ -710,10 +708,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Used by get_child_objects
      *
-     * @access private
      * @return array of objects
      */
-    function _get_child_objects_type(&$schema_type, &$for_object, $deleted)
+    private function _get_child_objects_type(&$schema_type, &$for_object, $deleted)
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)
@@ -733,10 +730,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Used by count_child_objects
      *
-     * @access private
      * @return array of objects
      */
-    function _count_child_objects_type(&$schema_type, &$for_object, $deleted)
+    private function _count_child_objects_type(&$schema_type, &$for_object, $deleted)
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)
@@ -878,10 +874,9 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
     /**
      * Resolves the "root level" classes, used by get_root_classes()
      *
-     * @access private
      * @return array of classnames (or false on critical failure)
      */
-    function _resolve_root_classes()
+    private function _resolve_root_classes()
     {
         $root_exceptions_notroot = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config')->get('root_class_exceptions_notroot');
         // Safety against misconfiguration
@@ -1338,8 +1333,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      * Eventually this method will return the first root object that was created, i.e. the root
      * of the new tree.
      *
-     * @static
-     * @access public
      * @param mixed $source        GUID or MgdSchema object that will be copied
      * @param mixed $parent        MgdSchema or MidCOM db object, predefined array or ID of the parent object
      * @param array $exclude       IDs that will be excluded from the copying

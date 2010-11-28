@@ -141,26 +141,23 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     /**
      * Request data for storing output variables
      * 
-     * @access public
      * @var Array
      */
-    var $_request_data;
+    public $_request_data;
     
     /**
      * DM2 schema for the events
      * 
-     * @access public
      * @var midcom_helper_datamanager2_schema
      */
-    var $schemadb = null;
+    public $schemadb = null;
     
     /**
      * DM2 instance for the events
      * 
-     * @access public
      * @var midcom_helper_datamanager2
      */
-    var $_datamanager = null;
+    public $_datamanager = null;
 
     /**
      * Simple constructor method. Initializes
@@ -175,10 +172,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * Draw the requested objects
-     *
-     * @access public
      */
-    function show()
+    public function show()
     {
         // Initialize the DM2 instance if possible
         $this->_load_datamanager();

@@ -51,13 +51,12 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
     /**
      * Handle the request for editing contact list
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -109,11 +108,10 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
     /**
      * Show the contact editing interface
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         $data['controller'] =& $this->_controller;
         $data['person'] =& $this->_person;

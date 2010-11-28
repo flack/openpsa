@@ -197,15 +197,12 @@ class midcom_core_manifest
      * The raw manifest array as loaded from disc.
      *
      * @var string
-     * @access private
      */
-    var $_raw_data = null;
+    public $_raw_data = null;
 
     /**#@+
      * Component meta-information, read and post-processed from the manifest
      * file.
-     *
-     * @access public
      */
 
     /**
@@ -213,15 +210,15 @@ class midcom_core_manifest
      *
      * @var string
      */
-    var $name = '';
+    public $name = '';
 
     /**
      * This is the translated, full component name obtained by looking up the string
      * $name in the l10n library $name.
-
+     *
      * This member is only populated on demand by the get_translated_name() function.
      */
-    var $name_translated = null;
+    public $name_translated = null;
 
     /**
      * If this is true, it is a pure-code component, otherwise it is a full blown
@@ -229,21 +226,21 @@ class midcom_core_manifest
      *
      * @var boolean
      */
-    var $purecode = false;
+    public $purecode = false;
 
     /**
      * Version number of the components.
      *
      * @var string
      */
-    var $version = '0.0.1';
+    public $version = '0.0.1';
 
     /**
      * State of the components.
      *
      * @var string
      */
-    var $state = 'devel';
+    public $state = 'devel';
 
     /**
      * Privileges array definition.
@@ -255,7 +252,7 @@ class midcom_core_manifest
      *
      * @var Array
      */
-    var $privileges = Array();
+    public $privileges = Array();
 
     /**
      * A list of class definition filenames
@@ -264,14 +261,14 @@ class midcom_core_manifest
      *
      * @var array
      */
-    var $class_definitions = Array();
+    public $class_definitions = Array();
 
     /**
      * A list of all watches defined by the component.
      *
      * @var array
      */
-    var $watches = null;
+    public $watches = null;
 
     /**
      * Custom place to extend the schema.
@@ -281,11 +278,12 @@ class midcom_core_manifest
      *
      * @var array
      */
-    var $customdata = Array();
+    public $customdata = Array();
+
     /**
      * the filename the manifest was loaded from
      */
-    var $filename;
+    public $filename;
     /**#@-*/
 
     /**

@@ -24,8 +24,6 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
 
     /**
      * Constructor, call for the class parent constructor method.
-     *
-     * @access public
      */
     function __construct()
     {

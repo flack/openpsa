@@ -229,7 +229,6 @@ class midcom_services_i18n
      * Convert the language code to its corresponding ID in Midgard database
      *
      * @static
-     * @access public
      * @param String $code    Two-letter code
      * @return int            ID field of the database
      */
@@ -258,7 +257,6 @@ class midcom_services_i18n
      * Convert the ID to its corresponding language code in Midgard database
      *
      * @static
-     * @access public
      * @param int $id   ID field of the database
      * @return String Two-letter code
      */

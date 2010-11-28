@@ -53,9 +53,8 @@ class midcom_helper_datamanager2_type_privilegeset extends midcom_helper_dataman
      * The value must be one of MIDCOM_PRIVILEGE_ALLOW or ..._DENY.
      *
      * @var Array
-     * @access public
      */
-    var $privileges = Array();
+    public $privileges = Array();
 
     /**
      * This startup handler validates that the privileges array is populated.

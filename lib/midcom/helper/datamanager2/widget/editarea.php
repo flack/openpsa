@@ -34,25 +34,22 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
      * for example php or javascript
      *
      * @var string
-     * @access public
      */
-    var $language = 'php';
+    public $language = 'php';
 
     /**
      * Width of the textbox.
      *
      * @var int
-     * @access public
      */
-    var $width = 50;
+    public $width = 50;
 
     /**
      * Height of the textbox.
      *
      * @var int
-     * @access public
      */
-    var $height = 6;
+    public $height = 6;
     
     /**
      * Whether to actually enable editarea

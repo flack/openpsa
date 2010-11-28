@@ -35,25 +35,22 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
      * Width of the textbox.
      *
      * @var int
-     * @access public
      */
-    var $width = 50;
+    public $width = 50;
 
     /**
      * Height of the textbox.
      *
      * @var int
-     * @access public
      */
-    var $height = 6;
+    public $height = 6;
 
     /**
      * Wrapping mode of the textbox.
      *
      * @var string
-     * @access public
      */
-    var $wrap = 'virtual';
+    public $wrap = 'virtual';
 
     /**
      * The initialization event handler post-processes the maxlength setting.

@@ -50,10 +50,8 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
 
     /**
      * Initialization scripts
-     *
-     * @access public
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_tinyurl'));
     }
@@ -140,13 +138,12 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Create a new TinyURL
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -181,11 +178,10 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Show the creation form
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         $data['controller'] =& $this->_controller;
         midcom_show_style('tinyurl-create');
@@ -194,13 +190,12 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Edit an existing TinyURL
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
 
@@ -248,11 +243,10 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Show the creation form
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('tinyurl-edit');
     }
@@ -260,13 +254,12 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * List TinyURLs
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);
@@ -288,11 +281,10 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Show the list of TinyURL's
      *
-     * @access public
      * @param mixed $handler_id The ID of the handler.
      * @param Array &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         midcom_show_style('tinyurl-list-start');
 

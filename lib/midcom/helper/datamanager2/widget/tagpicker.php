@@ -39,33 +39,29 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
      * 0 means no limit
      *
      * @var int
-     * @access public
      */
-    var $maxtags = 0;
+    public $maxtags = 0;
 
     /**
      * The size of the input box.
      *
      * @var int
-     * @access public
      */
-    var $size = 40;
+    public $size = 40;
 
     /**
      * Whether the input should be shown in the widget, or not.
      *
      * @var boolean
-     * @access public
      */
-    var $hideinput = false;
+    public $hideinput = false;
 
     /**
      * Whether to allow users to add tags that are not yet in database
      *
      * @var boolean
-     * @access public
      */
-    var $allow_other = false;
+    public $allow_other = false;
 
     var $_taglist_html = '';
 

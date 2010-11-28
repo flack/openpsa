@@ -38,7 +38,6 @@ class midcom_core_querybuilder
      * from this instance.
      *
      * @var string
-     * @access private
      */
     private $_real_class;
 
@@ -46,7 +45,6 @@ class midcom_core_querybuilder
      * The query builder instance that is internally used.
      *
      * @var midgard_query_builder
-     * @access private
      */
     private $_qb;
 
@@ -54,34 +52,30 @@ class midcom_core_querybuilder
      * The number of groups open
      *
      * @var int
-     * @access private
      */
-    var $_groups = 0;
+    private $_groups = 0;
 
     /**
      * The number of records to return to the client at most.
      *
      * @var int
-     * @access private
      */
-    var $_limit = 0;
+    private $_limit = 0;
 
     /**
      * The offset of the first record the client wants to have available.
      *
      * @var int
-     * @access private
      */
-    var $_offset = 0;
+    private $_offset = 0;
 
     /**
      * This is an internal count which is incremented by one each time a constraint is added.
      * It is used to emit a warning if no constraints have been added to the QB during execution.
      *
      * @var int
-     * @access private
      */
-    var $_constraint_count = 0;
+    private $_constraint_count = 0;
 
     /**
      * The number of records found by the last execute() run. This is -1 as long as no
@@ -591,12 +585,11 @@ class midcom_core_querybuilder
     /**
      * Get result by its index
      *
-     * @access public
      * @param int $key      Requested index in result set
      * @param string $mode  Execution mode: normal (default), unchecked, notwindowed
      * @return mixed        False on failure (key does not exist), object given to constructor on success
      */
-    function get_result($key, $mode = null)
+    public function get_result($key, $mode = null)
     {
         switch ($mode)
         {

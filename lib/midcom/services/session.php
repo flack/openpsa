@@ -170,10 +170,9 @@ class midcom_services_session
     /**
      * Get all the session data
      *
-     * @access public
      * @return Array containing session data
      */
-    function get_session_data()
+    public function get_session_data()
     {
         return $this->_sessioning->get_session_data($this->_domain);
     }

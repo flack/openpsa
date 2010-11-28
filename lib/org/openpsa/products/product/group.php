@@ -82,15 +82,13 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
     /**
      * Helper to make an array usable with DM2 select datatype for selecting product groups
      *
-     * @access public
-     * @static
      * @param mixed $up            Either the ID or GUID of the product group
      * @param string $prefix       Prefix for the code
      * @param string $keyproperty  Property to use as the key of the resulting array
      * @param array $label_fields  Object properties to show in the label (will be shown space separated)
      * @return array
      */
-    static function list_groups($up = 0, $prefix = '', $keyproperty = 'id', $order_by_score = false, $label_fields = array('code', 'title'))
+    public static function list_groups($up = 0, $prefix = '', $keyproperty = 'id', $order_by_score = false, $label_fields = array('code', 'title'))
     {
         static $result_cache = array();
         $cache_key = md5($up . $keyproperty . $prefix . $order_by_score . implode('', $label_fields));

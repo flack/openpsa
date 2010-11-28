@@ -574,10 +574,9 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      * @param midcom_db_person $person  The newly created person account.
      * @param string $password          Password to be included in the message
      * @param activation_link
-     * @access public
      * @static
      */
-    function send_registration_mail(&$person, $password, $activation_link, $config)
+    public function send_registration_mail(&$person, $password, $activation_link, $config)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
@@ -626,10 +625,9 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      *
      * @param midcom_db_person $person Person account.
      * @param string $link for resetting password
-     * @access public
      * @static
      */
-    function send_password_reset_mail($person, $link, &$config)
+    public function send_password_reset_mail($person, $link, &$config)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
@@ -679,12 +677,11 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
     /**
      * Generate the commonly used parameters used in messages sent to the user.
      *
-     * @access public
      * @static
      * @param midcom_db_person $person      Person object
      * @return Array                        Parameters for the message
      */
-    function get_mail_parameters($person)
+    public function get_mail_parameters($person)
     {
         // Prefix
         $prefix = $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -704,11 +701,10 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
     /**
      * Parse the parameters
      *
-     * @access public
      * @param Array $parameters    Presented parameters
      * @param String source        String to be parsed
      */
-    function parse_parameters($parameters, $source)
+    public function parse_parameters($parameters, $source)
     {
         foreach ($parameters as $key => $value)
         {
@@ -774,10 +770,9 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      *
      * @param mixed $obj    Any PHP object that can be parsed with get_object_vars().
      * @return string        String representation.
-     * @access public
      * @static
      */
-    function format_object ($obj)
+    public function format_object ($obj)
     {
         $result = "";
         foreach (get_object_vars($obj) as $key => $value)
@@ -812,10 +807,9 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      *
      * @param Array $array    The array to be dumped.
      * @return string        String representation.
-     * @access public
      * @static
      */
-    function format_array ($array)
+    public function format_array ($array)
     {
         $result = "";
         foreach ($array as $key => $value)

@@ -30,9 +30,8 @@ class midcom_services_auth
      * It is to be considered read-only.
      *
      * @var midcom_core_user
-     * @access public
      */
-    var $user = null;
+    public $user = null;
 
     /**
      * Admin user level state. This is true if the currently authenticated user is an
@@ -42,25 +41,22 @@ class midcom_services_auth
      * for consistency reasons nevertheless.
      *
      * @var boolean
-     * @access public
      */
-    var $admin = false;
+    public $admin = false;
 
     /**
      * This is a reference to the login session management system.
      *
      * @var midcom_services_auth_sessionmgr
-     * @access public
      */
-    var $sessionmgr = null;
+    public $sessionmgr = null;
 
     /**
      * This is a reference to the ACL management system.
      *
      * @var midcom_services_auth_acl
-     * @access public
      */
-    var $acl = null;
+    public $acl = null;
 
     /**
      * Internal cache of all loaded groups, indexed by their identifiers.
@@ -122,9 +118,8 @@ class midcom_services_auth
      * The variable is to be considered read-only.
      *
      * @var boolean
-     * @access public
      */
-    var $auth_credentials_found = false;
+    public $auth_credentials_found = false;
 
     /**
      * Initialize the service:

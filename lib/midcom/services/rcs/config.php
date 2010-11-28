@@ -21,10 +21,10 @@
  {
     /**
      * The array of configuration options
+     *
      * @var array
-     * @access public
      */
-    var $config = null;
+    public $config = null;
 
     /**
      * Constructor

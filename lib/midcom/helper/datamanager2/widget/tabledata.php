@@ -28,10 +28,8 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     
     /**
      * Separate widgets for each column
-     * 
-     * @access public
      */
-    var $column_widget = array();
+    public $column_widget = array();
     
     /**
      * Initialization script placeholder. Not yet needed.
@@ -98,10 +96,8 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     
     /**
      * Add elements to form
-     * 
-     * @access public
      */
-    function add_elements_to_form()
+    public function add_elements_to_form()
     {
         // Get the correct column order
         $this->_type->get_existing_columns();

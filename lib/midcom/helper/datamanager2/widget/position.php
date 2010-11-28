@@ -48,9 +48,8 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
      * Defaults to all.
      *
      * @var array
-     * @access public
      */
-    var $enabled_methods = null;
+    public $enabled_methods = null;
 
     /**
      * The service backend to use for searches. Defaults to geonames
@@ -62,18 +61,16 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
      * key => value pairs (ie. 'country' => 'FI')
      *
      * @var array
-     * @access public
      */
-    var $input_defaults = array();
+    public $input_defaults = array();
 
     /**
      * List of additional XEP fields included in location
      * (ie. 'text', 'room')
      *
      * @var array
-     * @access public
      */
-    var $use_xep_keys = array();
+    public $use_xep_keys = array();
 
     /**
      * The group of widgets items as QuickForm elements

@@ -17,7 +17,6 @@ class midcom_core_dbaproxy
     /**
      * MidCOM DBA object
      *
-     * @access private
      * @var object
      */
     private $__object = null;
@@ -25,7 +24,6 @@ class midcom_core_dbaproxy
     /**
      * MidCOM DBA classname
      *
-     * @access public
      * @var string
      */
     public $__midcom_class_name__;
@@ -33,7 +31,6 @@ class midcom_core_dbaproxy
     /**
      * MidCOM DBA object identifier, can be ID or GUID
      *
-     * @access private
      * @var mixed
      */
     private $__identifier;
@@ -42,15 +39,12 @@ class midcom_core_dbaproxy
      * Flag that indicates whether or not we already tried to load this
      * object
      *
-     * @access private
      * @var boolean
      */
     private $__tried_to_load = false;
 
     /**
      * Constructor
-     *
-     * @access public
      */
     public function __construct($identifier, $classname)
     {
@@ -84,7 +78,6 @@ class midcom_core_dbaproxy
     /**
      * Magic getter for object property mapping
      *
-     * @access public
      * @param string $property Name of the property
      */
     public function __get($property)
@@ -100,7 +93,6 @@ class midcom_core_dbaproxy
     /**
      * Magic setter for object property mapping
      *
-     * @access public
      * @param string $property  Name of the property
      * @param mixed $value      Property value
      */
@@ -117,7 +109,6 @@ class midcom_core_dbaproxy
     /**
      * Magic isset test for object property mapping
      *
-     * @access public
      * @param string $property  Name of the property
      */
     public function __isset($property)

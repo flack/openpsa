@@ -16,7 +16,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Source
      *
-     * @access public
      * @var mixed        GUID, MgdSchema or MidCOM dba object
      */
     public $source = null;
@@ -24,7 +23,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Target
      *
-     * @access public
      * @var mixed        GUID, MgdSchema or MidCOM dba object
      */
     public $target = null;
@@ -32,7 +30,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Exclusion list
      *
-     * @access public
      * @var array        List of GUIDs of objects that shall not be copied
      */
     public $exclude = array();
@@ -41,7 +38,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Override properties of the new root object. This feature is
      * directed for overriding e.g. parent information.
      *
-     * @access public
      * @var array        Property-value pairs
      */
     public $root_object_values = array();
@@ -49,7 +45,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Switch for attachments
      *
-     * @access public
      * @var boolean
      */
     public $copy_attachments = true;
@@ -57,7 +52,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Switch for parameters
      *
-     * @access public
      * @var boolean
      */
     public $copy_parameters = true;
@@ -65,7 +59,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Switch for privileges
      *
-     * @access public
      * @var boolean
      */
     public $copy_privileges = true;
@@ -73,7 +66,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Switch for metadata
      *
-     * @access public
      * @var boolean
      */
     public $copy_metadata = true;
@@ -81,7 +73,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy the whole tree
      *
-     * @access public
      * @var boolean
      */
     public $copy_tree = true;
@@ -89,7 +80,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Switch for name catenating
      *
-     * @access public
      * @var boolean
      */
     public $allow_name_catenate = true;
@@ -112,7 +102,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Switch for halt on error. If this is set to false, errors will be
      * reported, but will not stop executing
      *
-     * @access public
      * @var boolean        Set to false to continue on errors
      */
     public $halt_on_errors = true;
@@ -120,7 +109,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Encountered errors
      *
-     * @access public
      * @var array
      */
     public $errors = array();
@@ -128,7 +116,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Newly created objects
      *
-     * @access public
      * @var array
      */
     public $new_objects = array();
@@ -136,14 +123,12 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * New root object
      *
-     * @access public
      */
     public $new_root_object = null;
 
     /**
      * Reflectors for different MgdSchema object types
      *
-     * @access private
      * @var array         class_name => midcom_helper_reflector
      */
     private $reflectors = array();
@@ -151,7 +136,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Properties for each encountered MgdSchema object
      *
-     * @access private
      * @var array         class_name => array of properties
      */
     private $properties = array();
@@ -159,10 +143,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Get the newly created root object
      *
-     * @access public
      * @return mixed     Lowest level new MgdSchema object
      */
-    function get_object()
+    public function get_object()
     {
         return $this->new_root_object;
     }
@@ -170,11 +153,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Get object properties
      *
-     * @access public
      * @param mixed &$object
      * @return array
      */
-    function get_object_properties(&$object)
+    public function get_object_properties(&$object)
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
 
@@ -223,11 +205,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Get the parent property for overriding it
      *
-     * @access public
      * @param mixed &$object     MgdSchema object for resolving the parent property
      * @return string            Parent property
      */
-    function get_parent_property(&$object)
+    public function get_parent_property(&$object)
     {
         $mgdschema_class = midcom_helper_reflector::resolve_baseclass(get_class($object));
 
@@ -252,8 +233,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Resolve MgdSchema object from guid or miscellaneous extended object
      *
-     * @static
-     * @access public
      * @param mixed &$object    MgdSchema object, GUID or ID
      * @param string $class     MgdSchema class for resolving ID
      * @return mixed MgdSchema object or false on failure
@@ -302,11 +281,8 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
     /**
      * Copy object tree
-     *
-     * @access public
-     * @var
      */
-    function copy_tree(&$source, &$parent)
+    public function copy_tree(&$source, &$parent)
     {
         // Copy the root object
         $root = $this->copy_object(&$source, &$parent);
@@ -353,14 +329,13 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy an object
      *
-     * @access public
      * @param mixed &$source     MgdSchema object for reading the parameters
      * @param mixed $target      MgdSchema object for storing the parameters
      * @param mixed $parent      MgdSchema parent object
      * @param array $defaults
      * @return boolean Indicating success
      */
-    function copy_object(&$source, $parent = null, $defaults = array())
+    public function copy_object(&$source, $parent = null, $defaults = array())
     {
         // Resolve the source object
         self::resolve_object(&$source);
@@ -533,12 +508,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy parameters for the object
      *
-     * @access public
      * @param mixed &$source      MgdSchema object for reading the parameters
      * @param mixed &$target      MgdSchema object for storing the parameters
      * @return boolean Indicating success
      */
-    function copy_parameters(&$source, &$target)
+    public function copy_parameters(&$source, &$target)
     {
         if (!$this->copy_parameters)
         {
@@ -572,12 +546,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy metadata for the object
      *
-     * @access public
      * @param mixed &$source      MgdSchema object for reading the metadata
      * @param mixed &$target      MgdSchema object for storing the metadata
      * @return boolean Indicating success
      */
-    function copy_metadata(&$source, &$target)
+    public function copy_metadata(&$source, &$target)
     {
         foreach ($this->copy_metadata_fields as $property)
         {
@@ -596,12 +569,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy attachments
      *
-     * @access public
      * @param mixed &$source      MgdSchema object for reading the attachments
      * @param mixed &$target      MgdSchema object for storing the attachments
      * @return boolean Indicating success
      */
-    function copy_attachments(&$source, &$target)
+    public function copy_attachments(&$source, &$target)
     {
         $defaults = array
         (
@@ -619,12 +591,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy privileges
      *
-     * @access public
      * @param mixed &$source      MgdSchema object for reading the privileges
      * @param mixed &$target      MgdSchema object for storing the privileges
      * @return boolean Indicating success
      */
-    function copy_privileges(&$source, &$target)
+    public function copy_privileges(&$source, &$target)
     {
         $qb = midcom_db_privilege::new_query_builder();
         $qb->add_constraint('objectguid', '=', $source->guid);
@@ -667,10 +638,9 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     /**
      * Copy an object
      *
-     * @access public
      * @return boolean Indicating success
      */
-    function copy()
+    public function copy()
     {
         if (!$this->resolve_object(&$this->source))
         {

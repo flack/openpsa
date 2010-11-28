@@ -467,13 +467,12 @@ function openPsaShowMonthSelector()
     /**
      * Month view
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_month($handler_id, $args, &$data)
+    public function _handler_month($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
@@ -559,11 +558,10 @@ function openPsaShowMonthSelector()
     /**
      * Show the month view
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_month($handler_id, &$data)
+    public function _show_month($handler_id, &$data)
     {
         $this->_request_data['selected_time'] = $this->_selected_time;
         midcom_show_style('show-month');
@@ -572,13 +570,12 @@ function openPsaShowMonthSelector()
     /**
      * Week view
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_week($handler_id, $args, &$data)
+    public function _handler_week($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
@@ -666,13 +663,12 @@ function openPsaShowMonthSelector()
     /**
      * Show the week view
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _show_week($handler_id, &$data)
+    public function _show_week($handler_id, &$data)
     {
         $this->_request_data['selected_time'] = $this->_selected_time;
         midcom_show_style('show-week');
@@ -681,13 +677,12 @@ function openPsaShowMonthSelector()
     /**
      * Day view
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_day($handler_id, $args, &$data)
+    public function _handler_day($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
@@ -770,11 +765,10 @@ function openPsaShowMonthSelector()
     /**
      * Show day view
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_day($handler_id, &$data)
+    public function _show_day($handler_id, &$data)
     {
         $this->_request_data['selected_time'] = $this->_selected_time;
         midcom_show_style('show-day');
@@ -783,13 +777,12 @@ function openPsaShowMonthSelector()
     /**
      * Handle the single event view
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    function _handler_event($handler_id, $args, &$data)
+    public function _handler_event($handler_id, $args, &$data)
     {
         // We're using a popup here
         $_MIDCOM->skip_page_style = true;
@@ -893,11 +886,10 @@ function openPsaShowMonthSelector()
     /**
      * Show a single event
      *
-     * @access public
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    function _show_event($handler_id, &$data)
+    public function _show_event($handler_id, &$data)
     {
         if ($handler_id == 'event_view')
         {

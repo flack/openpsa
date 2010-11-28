@@ -247,10 +247,9 @@ class midcom_services_indexer_document
      *
      * @see is_a()
      * @see _set_type
-     * @access public
      * @var string
      */
-    var $type = '';
+    public $type = '';
 
     /**
      * Security mechanism used to determine the availability of a search result.
@@ -266,11 +265,10 @@ class midcom_services_indexer_document
      *   returns a usable instance of the class (mostly, this should be a singleton, for performance reasons). The instance returned is assigned
      *   by-reference. On that object, the method check_document_permissions, whose signature must be identical to the function callback.
      *
-     * @access public
      * @var string
      * @see midcom_baseclasses_components_interface::_on_check_document_permissions()
      */
-    var $security = 'default';
+    public $security = 'default';
 
 
     /**
@@ -279,10 +277,9 @@ class midcom_services_indexer_document
      * If set to false the indexer backend will silently skip this document.
      *
      * @see http://trac.midgard-project.org/ticket/651
-     * @access public
      * @var boolean
      */
-    var $actually_index = true;
+    public $actually_index = true;
 
     /* ------ END OF DOCUMENT FIELDS --------- */
 

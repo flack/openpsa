@@ -28,18 +28,16 @@ class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datama
      * Options: 'hex', 'rgb', 'hsb' for hexagonal, red-green-blue and
      * hue-saturation-brightness respectively
      *
-     * @access public
      * @var string
      */
-    var $color_scheme = 'hex';
+    public $color_scheme = 'hex';
 
     /**
      * The size of the input box.
      *
      * @var int
-     * @access public
      */
-    var $size = 40;
+    public $size = 40;
 
     /**
      * The initialization event handler post-processes the maxlength setting.

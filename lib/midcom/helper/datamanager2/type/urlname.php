@@ -30,25 +30,22 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
      * Do we allow automatic catenation to make the name unique?
      *
      * @type boolean
-     * @access public
      */
-    var $allow_catenate = false;
+    public $allow_catenate = false;
 
     /**
      * Do we allow "unclean" names
      *
      * @type boolean
-     * @access public
      */
-    var $allow_unclean = false;
+    public $allow_unclean = false;
 
     /**
      * The field (in the same schema) that we use for title value
      *
      * @type string
-     * @access public
      */
-    var $title_field = 'title';
+    public $title_field = 'title';
 
     /**
      * Keep the original value in store

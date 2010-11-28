@@ -71,16 +71,15 @@ class no_bergfald_rcs
         }
         return $object;
     }
+
     /**
      * Get a html diff between two versions.
      *
      * @param string latest_revision id of the latest revision
      * @param string oldest_revision id of the oldest revision
-     * @access public
      * @return array array with the original value, the new value and a diff -u
      */
-
-    function get_diff ($latest_revison, $oldest_revision)
+    public function get_diff ($latest_revison, $oldest_revision)
     {
         $oldest = $this->get_revision($oldest_revision);
         $newest = $this->get_revision($latest_revison);

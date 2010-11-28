@@ -314,10 +314,9 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Handle the message copying interface
      *
-     * @access public
      * @return boolean Indicating success
      */
-    function _handler_copy($handler_id, $args, &$data)
+    public function _handler_copy($handler_id, $args, &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -383,10 +382,8 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
     /**
      * Show the copy interface
-     *
-     * @access public
      */
-    function _show_copy($handler_id, &$data)
+    public function _show_copy($handler_id, &$data)
     {
         $data['controller'] =& $this->_controller;
 

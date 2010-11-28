@@ -18,8 +18,6 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     /**
      * Simple constructor
-     *
-     * @access public
      */
     function __construct()
     {

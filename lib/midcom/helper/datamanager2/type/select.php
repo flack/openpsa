@@ -100,9 +100,8 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * values.
      *
      * @var array
-     * @access public
      */
-    var $selection = array();
+    public $selection = array();
 
     /**
      * This member contains the other key, in case it is set. In case of multiselects,
@@ -112,9 +111,8 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * This is only valid if the allow_other flag is set.
      *
      * @var String
-     * @access public
      */
-    var $others = array();
+    public $others = array();
 
     /**
      * The options available to the client. You should not access this variable directly,
@@ -122,26 +120,23 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      *
      * @see get_all_options()
      * @var array
-     * @access public
      */
-    var $options = array();
+    public $options = array();
 
     /**
      * In case the options are returned by a callback, this member holds the name of the
      * class.
      *
      * @var string
-     * @access public
      */
-    var $option_callback = null;
+    public $option_callback = null;
 
     /**
      * The argument to pass to the option callback constructor.
      *
      * @var mixed
-     * @access public
      */
-    var $option_callback_arg = null;
+    public $option_callback_arg = null;
 
     /**
      * Set this to true if you want to allow selection of values not part of the regular
@@ -149,26 +144,23 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * member.
      *
      * @var boolean
-     * @access public
      */
-    var $allow_other = false;
+    public $allow_other = false;
 
     /**
      * This flag controls whether multiple selections are allowed, or not.
      *
      * @var boolean
-     * @access public
      */
-    var $allow_multiple = false;
+    public $allow_multiple = false;
 
     /**
      * Set this to false to use with chooser, this skips making sure the key exists in option list
      * Mainly used to avoid unnecessary seeks to load all a ton of objects to the options list.
      *
      * @var boolean
-     * @access public
      */
-     var $require_corresponding_option = true;
+    public $require_corresponding_option = true;
 
     /**
      * Set this to true if you want the keys to be exported to the csv dump instead of the
@@ -176,44 +168,39 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * values.
      *
      * @var boolean
-     * @access public
      */
-    var $csv_export_key = false;
+    public $csv_export_key = false;
 
     /**
      * In case the options are returned by a callback, this member holds the callback
      * instance.
      *
      * @var string
-     * @access public
      */
-    var $_callback = null;
+    public $_callback = null;
 
     /**
      * The storage mode used when multiselect is enabled, see the class' introduction for
      * details.
      *
      * @var string
-     * @access public
      */
-    var $multiple_storagemode = 'serialized';
+    public $multiple_storagemode = 'serialized';
 
     /**
      * Glue that will be used for separating the keys
      *
      * @var string
-     * @access public
      */
-    var $multiple_separator = '|';
+    public $multiple_separator = '|';
 
     /**
      * Should the sorting feature be enabled. This will affect the way chooser widget will act
      * and how the results will be presented. If the sorting feature is enabled,
      *
-     * @access public
      * @var boolean
      */
-    var $sortable = false;
+    public $sortable = false;
 
     /**
      * Initialize the class, if necessary, create a callback instance, otherwise

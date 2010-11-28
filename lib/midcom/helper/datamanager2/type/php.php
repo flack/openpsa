@@ -19,9 +19,8 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
      * The current string encapsulated by this type.
      *
      * @var string
-     * @access public
      */
-    var $value = '';
+    public $value = '';
 
     var $code_valid = true;
     var $code_valid_errors = array();

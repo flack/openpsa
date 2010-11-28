@@ -57,17 +57,15 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * Unique identifier form a creation instance, used mainly in AJAX mode
      *
      * @var string
-     * @access public
      */
-    var $form_identifier = '';
+    public $form_identifier = '';
 
     /**
      * Whether we're in AJAX mode
      *
      * @var boolean
-     * @access public
      */
-    var $ajax_mode = false;
+    public $ajax_mode = false;
 
     /**
      * Editable status of the object
@@ -81,34 +79,30 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * Options to pass for the AJAX controller
      *
      * @param Array
-     * @access public
      */
-    var $ajax_options = Array();
+    public $ajax_options = Array();
 
     /**
      * Wide mode switch
      *
-     * @access public
      * @var boolean
      */
-    var $wide_mode = false;
+    public $wide_mode = false;
 
     /**
      * Window mode switch
      *
-     * @access public
      * @var boolean
      */
-    var $window_mode = false;
+    public $window_mode = false;
 
     /**
      * The defaults to initialize the form manager with. This array is indexed
      * by field names.
      *
      * @param Array
-     * @access public
      */
-    var $defaults = Array();
+    public $defaults = Array();
 
     /**
      * The name of the schema to use. If this is left to null, the first schema
@@ -121,18 +115,16 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * must be set prior initialization.
      *
      * @var object
-     * @access public
      */
-    var $callback_object = null;
+    public $callback_object = null;
 
     /**
      * The name of the callback method to execute. This defaults to _dm2_create_callback.
      * If this member is changed, it must be done prior initialization.
      *
      * @var object
-     * @access public
      */
-    var $callback_method = 'dm2_create_callback';
+    public $callback_method = 'dm2_create_callback';
 
     /**
      * You need to set the schema database before calling this function. Optionally
