@@ -242,18 +242,8 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'weekreview/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('week review'),
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => '',
-            MIDCOM_NAV_NAME => $data['title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('weekreview/', $this->_l10n->get('week review'));
+        $this->add_breadcrumb('', $data['title']);
 
         return true;
     }

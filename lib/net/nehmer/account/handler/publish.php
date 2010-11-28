@@ -132,12 +132,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
 
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'publish/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('publish account details'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('publish/', $this->_l10n->get('publish account details'));
         $this->_view_toolbar->hide_item('publish/');
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('publish account details'));

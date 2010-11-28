@@ -66,15 +66,9 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      */
     function _populate_request_data($handler_id)
     {
-        $tmp = array();
-
         if ($this->_tinyurl)
         {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "{$this->_tinyurl->name}/",
-                MIDCOM_NAV_NAME => $this->_tinyurl->title,
-            );
+            $this->add_breadcrumb("{$this->_tinyurl->name}/", $this->_tinyurl->title);
             $this->_view_toolbar->bind_to($this->_tinyurl);
         }
 
@@ -82,23 +76,13 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         {
             case 'edit':
             case 'delete':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "{$this->_tinyurl->name}/{$handler_id}",
-                    MIDCOM_NAV_NAME => $this->_l10n->get($this->_l10n_midcom->get($handler_id)),
-                );
+                $this->add_breadcrumb("{$this->_tinyurl->name}/{$handler_id}", $this->_l10n->get($this->_l10n_midcom->get($handler_id)));
                 break;
 
             case 'create':
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "create/",
-                    MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')),
-                );
+                $this->add_breadcrumb("create/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('tinyurl')));
                 break;
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

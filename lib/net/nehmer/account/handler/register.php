@@ -354,27 +354,15 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
             case 'confirm':
                 // Set the breadcrumb path
-                $tmp = array();
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "register/account/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('confirm account details'),
-                );
+                $this->add_breadcrumb("register/account/", $this->_l10n->get('confirm account details'));
 
-                $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
                 $_MIDCOM->set_pagetitle($this->_l10n->get('confirm account details') . ': ' . $this->_l10n->get('confirm account details'));
                 break;
 
             case 'success':
                 // Set the breadcrumb path
-                $tmp = array();
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "register/account/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('registration finished'),
-                );
+                $this->add_breadcrumb("register/account/", $this->_l10n->get('registration finished'));
 
-                $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
                 $_MIDCOM->set_pagetitle($this->_l10n->get('account registration') . ': ' . $this->_l10n->get('registration successful'));
                 break;
         }
@@ -708,14 +696,8 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
 
             case 'save':
                 // Set the breadcrumb path
-                $tmp = array();
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "register/account/",
-                    MIDCOM_NAV_NAME => $this->_l10n->get('registration finished'),
-                );
+                $this->add_breadcrumb("register/account/", $this->_l10n->get('registration finished'));
 
-                $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
                 break;
 
             default:

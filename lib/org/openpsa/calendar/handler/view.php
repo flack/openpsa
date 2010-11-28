@@ -540,20 +540,16 @@ function openPsaShowMonthSelector()
         $this->_request_data['calendar'] =& $this->_calendar;
 
         // Set the breadcrumb
-        $tmp = array();
-
-        $tmp[] = array
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => 'year/' . date('Y-01-01', $this->_calendar->get_week_start()) . '/',
-            MIDCOM_NAV_NAME => strftime('%Y', $this->_selected_time),
+            'year/' . date('Y-01-01', $this->_calendar->get_week_start()) . '/',
+            strftime('%Y', $this->_selected_time)
         );
-        $tmp[] = array
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => 'month/' . date('Y-m-01', $this->_calendar->get_week_start()) . '/',
-            MIDCOM_NAV_NAME => strftime('%B', $this->_selected_time),
+            'month/' . date('Y-m-01', $this->_calendar->get_week_start()) . '/',
+            strftime('%B', $this->_selected_time)
         );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         $_MIDCOM->set_pagetitle(strftime("%B %Y", $this->_selected_time));
 
@@ -654,25 +650,13 @@ function openPsaShowMonthSelector()
         $this->_request_data['calendar'] =& $this->_calendar;
 
         // Set the breadcrumb
-        $tmp = array();
-
-        $tmp[] = array
+        $this->add_breadcrumb('year/' . date('Y-01-01', $week_start) . '/', strftime('%Y', $week_start));
+        $this->add_breadcrumb('month/' . date('Y-m-01', $week_start) . '/', strftime('%B', $week_start));
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => 'year/' . date('Y-01-01', $week_start) . '/',
-            MIDCOM_NAV_NAME => strftime('%Y', $week_start),
+            "week/{$args[0]}/",
+            sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $week_start), strftime("%Y", $week_start))
         );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => 'month/' . date('Y-m-01', $week_start) . '/',
-            MIDCOM_NAV_NAME => strftime('%B', $week_start),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "week/{$args[0]}/",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $week_start), strftime("%Y", $week_start)),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
 
@@ -774,24 +758,9 @@ function openPsaShowMonthSelector()
         $this->_request_data['calendar'] =& $this->_calendar;
 
         // Set the breadcrumb
-        $tmp = array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => 'year/' . date('Y-01-01', $this->_selected_time) . '/',
-            MIDCOM_NAV_NAME => strftime('%Y', $this->_selected_time),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => 'month/' . date('Y-m-01', $this->_selected_time) . '/',
-            MIDCOM_NAV_NAME => strftime('%B', $this->_selected_time),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "day/{$args[0]}/",
-            MIDCOM_NAV_NAME => strftime('%x', $this->_selected_time),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('year/' . date('Y-01-01', $this->_selected_time) . '/', strftime('%Y', $this->_selected_time));
+        $this->add_breadcrumb('month/' . date('Y-m-01', $this->_selected_time) . '/', strftime('%B', $this->_selected_time));
+        $this->add_breadcrumb("day/{$args[0]}/", strftime('%x', $this->_selected_time));
 
         $_MIDCOM->set_pagetitle(strftime("%x", $this->_selected_time));
 

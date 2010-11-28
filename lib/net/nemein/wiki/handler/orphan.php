@@ -47,13 +47,7 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
             }
         }
 
-        $tmp = array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'orphans/',
-            MIDCOM_NAV_NAME => $data['view_title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('orphans/', $data['view_title']);
 
         return true;
     }

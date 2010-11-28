@@ -66,13 +66,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($this->_message);
 
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "message/{$this->_message->guid}/",
-            MIDCOM_NAV_NAME => $this->_message->title,
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
 
         $data['message'] =& $this->_message;
         $data['campaign'] =& $this->_campaign;

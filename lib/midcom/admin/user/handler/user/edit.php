@@ -439,19 +439,8 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
         $this->_prepare_toolbar($data, $handler_id);
 
         // Populate breadcrumb
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard_midcom.admin.user/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('midcom.admin.user'),
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard_midcom.admin.user/password/batch/',
-            MIDCOM_NAV_NAME => $this->_request_data['view_title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
+        $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
+        $this->add_breadcrumb('__mfa/asgard_midcom.admin.user/password/batch/', $data['view_title']);
 
         return true;
     }

@@ -185,13 +185,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
         unset($person_ids);
 
         // At this point our $data['users'] array is ordered by the desired karma-category
-
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "list/category/{$args[0]}/",
-            MIDCOM_NAV_NAME => $this->_l10n->get("by {$args[0]}"),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("list/category/{$args[0]}/", $this->_l10n->get("by {$args[0]}"));
 
         $data['view_title'] = $this->_l10n->get('user list') . ': ' . $this->_l10n->get("by {$args[0]}");
         $_MIDCOM->set_pagetitle($data['view_title']);

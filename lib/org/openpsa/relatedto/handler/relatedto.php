@@ -150,23 +150,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             $this->_request_data['show_title'] = true;
         }
 
-        $tmp = Array();
-
         if ($object_url)
         {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => $object_url,
-                MIDCOM_NAV_NAME => $object_label
-            );
+            $this->add_breadcrumb($object_url, $object_label);
         }
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('view related information', 'org.openpsa.relatedto')
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("", $this->_l10n->get('view related information'));
     }
 
 

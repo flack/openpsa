@@ -245,19 +245,8 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
         $this->_prepare_request_data($data);
 
         // Add the view to breadcrumb trail
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard_midcom.admin.settings/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('host configuration'),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '',
-            MIDCOM_NAV_NAME => $data['hostname'],
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('__mfa/asgard_midcom.admin.settings/', $this->_l10n->get('host configuration'));
+        $this->add_breadcrumb( '', $data['hostname']);
 
         // Set page title
         $_MIDCOM->set_pagetitle($this->_l10n->get('host configuration')." : ". $data['hostname']);

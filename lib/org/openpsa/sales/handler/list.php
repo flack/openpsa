@@ -169,15 +169,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $this->_l10n->get('salesprojects ' . $data['list_title']),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
+        $this->add_breadcrumb("", $this->_l10n->get('salesprojects ' . $data['list_title']));
 
         return true;
     }

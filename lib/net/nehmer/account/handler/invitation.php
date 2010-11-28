@@ -281,14 +281,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
         }
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('import contacts'));
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'invite/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('import contacts'),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('invite/', $this->_l10n->get('import contacts'));
 
         return true;
     }
@@ -340,19 +333,8 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
         $this->_sent_invites = $qb->execute();
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('invited contacts'));
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'invite/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('import contacts'),
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'sent_invites/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('invited contacts'),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('invite/', $this->_l10n->get('import contacts'));
+        $$this->add_breadcrumb('sent_invites/', $this->_l10n->get('invited contacts'));
 
         return true;
     }

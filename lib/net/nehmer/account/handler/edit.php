@@ -117,12 +117,7 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
 
         $this->_prepare_request_data($return_url);
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'edit/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('edit account'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('edit/', $this->_l10n->get('edit account'));
         $this->_view_toolbar->hide_item('edit/');
 
         $_MIDCOM->bind_view_to_object($this->_account, $this->_controller->datamanager->schema->name);

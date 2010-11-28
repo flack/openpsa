@@ -113,13 +113,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('latest updates in %s'), $this->_topic->extra);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
-        $tmp = array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'latest/',
-            MIDCOM_NAV_NAME => $data['view_title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('latest/', $data['view_title']);
 
         return true;
     }

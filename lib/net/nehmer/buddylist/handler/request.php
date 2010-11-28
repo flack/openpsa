@@ -103,15 +103,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle($this->_topic->extra);
-        $tmp = Array
-        (
-            Array
-            (
-                MIDCOM_NAV_URL => "delete.html",
-                MIDCOM_NAV_NAME => $this->_l10n->get('buddy request'),
-            ),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("", $this->_l10n->get('buddy request'));
 
         return true;
     }

@@ -72,18 +72,8 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         }
 
         // Set the breadcrumb data
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard/trash/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('trash', 'midgard.admin.asgard'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/trash/', $this->_l10n->get('trash'));
 
         return true;
     }
@@ -209,23 +199,13 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $data['trash'] = $qb->execute_unchecked();
 
         // Set the breadcrumb data
-        $tmp = array();
-        $tmp[] = array
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => '__mfa/asgard/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
+            "__mfa/asgard/trash/{$this->type}/",
+            sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']))
         );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard/{$this->type}/",
-            MIDCOM_NAV_NAME => $data['view_title'],
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "__mfa/asgard/trash/{$this->type}/",
-            MIDCOM_NAV_NAME => sprintf($_MIDCOM->i18n->get_string('%s trash', 'midgard.admin.asgard'), midgard_admin_asgard_plugin::get_type_label($data['type'])),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         return true;
     }

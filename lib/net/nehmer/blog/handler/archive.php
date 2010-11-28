@@ -392,15 +392,9 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             $this->_end->subtractSeconds(86400);
         }
 
-        $breadcrumb = Array();
         $start = $this->_start->format($this->_l10n_midcom->get('short date'));
         $end = $this->_end->format($this->_l10n_midcom->get('short date'));
-        $breadcrumb[] = Array
-        (
-            MIDCOM_NAV_URL => "archive/year/{$args[0]}/",
-            MIDCOM_NAV_NAME => "{$start} - {$end}",
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
+        $this->add_breadcrumb("archive/year/{$args[0]}/", "{$start} - {$end}");
 
         $this->_prepare_request_data();
 

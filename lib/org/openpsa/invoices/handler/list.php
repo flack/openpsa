@@ -295,15 +295,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
 
         $_MIDCOM->set_pagetitle($title);
 
-        $tmp = Array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $title,
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("", $title);
 
         return true;
     }

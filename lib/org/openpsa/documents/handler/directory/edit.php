@@ -105,16 +105,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
 
         $this->_request_data['controller'] = $this->_controller;
 
-        $tmp = array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('directory')),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
+        $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('directory')));
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);

@@ -96,23 +96,14 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             $object_url = $_MIDCOM->permalinks->create_permalink($this->_current_object->guid);
             if ($object_url)
             {
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => $object_url,
-                    MIDCOM_NAV_NAME => $object_label
-                );
+                $this->add_breadcrumb($object_url, $object_label);
             }
-            $tmp[] = array
+            $this->add_breadcrumb
             (
-                MIDCOM_NAV_URL => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->_current_object->guid . "/both/",
-                MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('view related information', 'org.openpsa.relatedto')
+                $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/" . $this->_current_object->guid . "/both/",
+                $_MIDCOM->i18n->get_string('view related information', 'org.openpsa.relatedto')
             );
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "",
-                MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('journal entries', 'org.openpsa.relatedto')
-            );
-            $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+            $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
         }
         $this->_prepare_header();
 

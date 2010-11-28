@@ -207,8 +207,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $tmp = Array();
-
         if (isset($data['query']))
         {
             $breadcrumb_label =  sprintf($this->_l10n->get('edit report %s'), $data['query']->title);
@@ -217,14 +215,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         {
             $breadcrumb_label =  $this->_l10n->get('define custom report');
         }
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $breadcrumb_label,
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("", $breadcrumb_label);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 

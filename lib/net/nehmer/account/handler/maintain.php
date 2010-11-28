@@ -278,12 +278,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
 
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
 
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => 'username/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('change username'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('username/', $this->_l10n->get('change username'));
         $this->_view_toolbar->hide_item('username/');
 
         $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);
@@ -842,12 +837,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
 
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'cancel_membership/',
-            MIDCOM_NAV_NAME => $this->_l10n->get('cancel membership'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('cancel_membership/', $this->_l10n->get('cancel membership'));
         $this->_view_toolbar->hide_item('cancel_membership/');
 
         $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);

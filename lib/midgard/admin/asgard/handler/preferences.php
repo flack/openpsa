@@ -105,28 +105,13 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         // Set the breadcrumb data
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard/preferences/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'),
-        );
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb('__mfa/asgard/preferences/', $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'));
 
         if ($this->_person->guid !== $_MIDCOM->auth->user->guid)
         {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
-                MIDCOM_NAV_NAME => $this->_person->name,
-            );
+            $this->add_breadcrumb("__mfa/asgard/preferences/{$this->_person->guid}/", $this->_person->name);
         }
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
     }
 
     /**

@@ -434,24 +434,9 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $this->_create_campaign_from_link();
         }
 
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "campaign/{$this->_campaign->guid}/",
-            MIDCOM_NAV_NAME => $this->_campaign->title,
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "message/{$this->_message->guid}/",
-            MIDCOM_NAV_NAME => $this->_message->title,
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "message/report/{$this->_message->guid}/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('message report'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
+        $this->add_breadcrumb("campaign/{$this->_campaign->guid}/", $this->_campaign->title);
+        $this->add_breadcrumb("message/{$this->_message->guid}/", $this->_message->title);
+        $this->add_breadcrumb("message/report/{$this->_message->guid}/", $this->_l10n->get('message report'));
 
         $this->_view_toolbar->add_item
         (

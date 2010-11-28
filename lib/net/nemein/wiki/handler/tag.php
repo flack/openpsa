@@ -60,17 +60,11 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "No wiki pages tagged with {$data['tag']}");
             // This will exit
         }
-        
+
         $data['view_title'] = sprintf($this->_request_data['l10n']->get('pages tagged with %s in %s'), $data['tag'], $this->_topic->extra);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
-        $tmp = array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "tags/{$data['tag']}/",
-            MIDCOM_NAV_NAME => $data['view_title'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("tags/{$data['tag']}/", $data['view_title']);
 
         return true;
     }

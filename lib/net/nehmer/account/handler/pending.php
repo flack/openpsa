@@ -168,13 +168,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
         $this->_process_form();
 
         // Set the breadcrumb path
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "pending/{$args[0]}/",
-            MIDCOM_NAV_NAME => (!isset($person)) ? $this->_l10n->get('multiple') : $person->rname,
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("pending/{$args[0]}/", (!isset($person)) ? $this->_l10n->get('multiple') : $person->rname);
 
         // Load the Datamanager2 instance of the person object
         $this->_load_datamanager();

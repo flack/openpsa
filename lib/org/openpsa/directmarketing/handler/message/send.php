@@ -233,18 +233,8 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "message/{$data['message']->guid}/",
-            MIDCOM_NAV_NAME => $data['message']->title,
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "send_test/{$data['message']->guid}/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('send'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("message/{$data['message']->guid}/", $data['message']->title);
+        $this->add_breadcrumb("send_test/{$data['message']->guid}/", $this->_l10n->get('send'));
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);

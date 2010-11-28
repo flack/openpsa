@@ -87,16 +87,7 @@ class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_
 
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('buddies deleted'));
-        $tmp = Array
-        (
-            Array
-            (
-                MIDCOM_NAV_URL => "delete.html",
-                MIDCOM_NAV_NAME => $this->_l10n->get('buddies deleted'),
-            ),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
+        $this->add_breadcrumb("delete/", $this->_l10n->get('buddies deleted'));
 
         return true;
     }

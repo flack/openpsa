@@ -168,13 +168,8 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         }
 
         // Update the breadcrumb and page title
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => 'config/',
-            MIDCOM_NAV_NAME => $this->_l10n_midcom->get('component configuration'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
+
         $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($_MIDCOM->i18n->get_string('component %s configuration for folder %s', 'midcom'), $_MIDCOM->i18n->get_string($data['component'], $data['component']), $data['topic']->extra);
         $_MIDCOM->set_pagetitle($data['title']);
@@ -256,18 +251,8 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         $data['datamanagers'] = $this->_load_datamanagers();
 
         // Update the breadcrumb and page title
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => 'config/',
-            MIDCOM_NAV_NAME => $this->_l10n_midcom->get('component configuration'),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => 'config/recreate/',
-            MIDCOM_NAV_NAME => $this->_l10n_midcom->get('recreate images'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('config/', $this->_l10n_midcom->get('component configuration'));
+        $this->add_breadcrumb('config/recreate/', $this->_l10n_midcom->get('recreate images'));
         $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($_MIDCOM->i18n->get_string('recreate images for folder %s', 'midcom'), $data['topic']->extra);
         $_MIDCOM->set_pagetitle($data['title']);

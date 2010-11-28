@@ -117,16 +117,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
         }
         $this->_request_data['controller'] = $this->_controller;
 
-        $tmp = array();
-
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $this->_l10n->get('new directory'),
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
+        $this->add_breadcrumb("", $this->_l10n->get('new directory'));
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);

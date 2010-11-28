@@ -233,17 +233,12 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     {
         $this->add_stylesheet('/org.openpsa.core/list.css');
 
-        $tmp[] = array
+        $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
+        $this->add_breadcrumb
         (
-            MIDCOM_NAV_URL => "invoice/" . $this->_object->guid . "/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('invoice') . ' ' . $this->_object->get_label(),
+            "invoice/" . $this->_object->guid . "/",
+            $this->_l10n->get('edit invoice items') . ': ' . $this->_l10n->get('invoice') . ' ' . $this->_object->get_label()
         );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "invoice/" . $this->_object->guid . "/",
-            MIDCOM_NAV_NAME => $this->_l10n->get('edit invoice items') . ': ' . $this->_l10n->get('invoice') . ' ' . $this->_object->get_label() ,
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
         $this->_view_toolbar->add_item
         (

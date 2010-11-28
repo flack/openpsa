@@ -225,18 +225,8 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         // Set the breadcrumb pieces
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "{$this->_page->name}/",
-            MIDCOM_NAV_NAME => $this->_page->title,
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "edit/{$this->_page->name}/",
-            MIDCOM_NAV_NAME => $this->_request_data['l10n_midcom']->get('edit'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
+        $this->add_breadcrumb("edit/{$this->_page->name}/", $this->_l10n_midcom->get('edit'));
 
         // Set the help object in the toolbar
         $this->_view_toolbar->add_help_item('markdown', 'net.nemein.wiki');

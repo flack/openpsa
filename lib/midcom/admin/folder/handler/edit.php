@@ -402,15 +402,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         }
 
         // Add the view to breadcrumb trail
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__ais/folder/edit/',
-            MIDCOM_NAV_NAME => $data['title']
-        );
-
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
-
+        $this->add_breadcrumb('__ais/folder/edit/', $data['title']);
 
         $data['topic'] =& $this->_topic;
         $data['controller'] =& $this->_controller;

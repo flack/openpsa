@@ -65,13 +65,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         $this->_request_data['topic'] = $this->_topic;
 
         // Add the view to breadcrumb trail
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__ais/folder/delete/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('delete folder', 'midcom.admin.folder'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('__ais/folder/delete/', $this->_l10n->get('delete folder'));
 
         // Hide the button in toolbar
         $this->_node_toolbar->hide_item('__ais/folder/delete/');

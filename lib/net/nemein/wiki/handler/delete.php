@@ -110,18 +110,8 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         );
         $this->_view_toolbar->bind_to($this->_page);
 
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "{$this->_page->name}/",
-            MIDCOM_NAV_NAME => $this->_page->title,
-        );
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "delete/{$this->_page->name}/",
-            MIDCOM_NAV_NAME => $this->_request_data['l10n_midcom']->get('delete'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
+        $this->add_breadcrumb("delete/{$this->_page->name}/", $this->_l10n_midcom->get('delete'));
 
         $_MIDCOM->set_pagetitle($this->_page->title);
         return true;

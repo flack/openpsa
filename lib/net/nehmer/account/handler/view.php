@@ -279,12 +279,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         if (   $handler_id == 'other'
             || $handler_id == 'other_quick')
         {
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => '',
-                MIDCOM_NAV_NAME => $this->_user->name,
-            );
-            $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+            $this->add_breadcrumb('', $this->_user->name);
         }
 
         return true;

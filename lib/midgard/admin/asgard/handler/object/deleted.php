@@ -83,18 +83,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         }
 
         // Set the breadcrumb data
-        $tmp = array();
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => '__mfa/asgard/',
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'),
-        );
-        $tmp[] = array
-        (
-            MIDCOM_NAV_URL => "",
-            MIDCOM_NAV_NAME => $this->_l10n->get('object deleted')
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
+        $this->add_breadcrumb("", $this->_l10n->get('object deleted'));
 
         return true;
     }

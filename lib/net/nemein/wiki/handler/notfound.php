@@ -76,13 +76,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
             )
         );
 
-        $tmp = Array();
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => 'notfound/' . rawurlencode($data['wikiword']),
-            MIDCOM_NAV_NAME => $data['wikiword'],
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb('notfound/' . rawurlencode($data['wikiword']), $data['wikiword']);
 
         return true;
     }

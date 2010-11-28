@@ -174,12 +174,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
             $view_url = "{$arg}/";
         }
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => $view_url,
-            MIDCOM_NAV_NAME => $this->_article->title,
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb($view_url, $this->_article->title);
 
         $this->_prepare_request_data();
 

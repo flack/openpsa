@@ -139,28 +139,17 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
 
         $object_label = midcom_helper_reflector::get($this->_object)->get_object_label($this->_object);
 
-        $tmp = array();
-
         if (is_a($this->_object, 'midcom_db_topic'))
         {
             $this->_node_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
         }
         else
         {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => $_MIDCOM->permalinks->create_permalink($this->_object->guid),
-                MIDCOM_NAV_NAME => $object_label,
-            );
+            $this->add_breadcrumb($_MIDCOM->permalinks->create_permalink($this->_object->guid), $object_label);
             $this->_view_toolbar->hide_item("__ais/folder/metadata/{$this->_object->guid}/");
         }
 
-        $tmp[] = Array
-        (
-            MIDCOM_NAV_URL => "__ais/folder/metadata/{$this->_object->guid}/",
-            MIDCOM_NAV_NAME => $_MIDCOM->i18n->get_string('edit metadata', 'midcom.admin.folder'),
-        );
-        $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+        $this->add_breadcrumb("__ais/folder/metadata/{$this->_object->guid}/", $this->_l10n->get('edit metadata'));
 
         $data['title'] = sprintf($_MIDCOM->i18n->get_string('edit metadata of %s', 'midcom.admin.folder'), $object_label);
         $_MIDCOM->set_pagetitle($data['title']);

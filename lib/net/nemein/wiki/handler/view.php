@@ -325,13 +325,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         if ($this->_page->name != 'index')
         {
-            $tmp = Array();
-            $tmp[] = Array
-            (
-                MIDCOM_NAV_URL => "{$this->_page->name}/",
-                MIDCOM_NAV_NAME => $this->_page->title,
-            );
-            $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
+            $this->add_breadcrumb("{$this->_page->name}/", $this->_page->title);
         }
 
         $_MIDCOM->set_pagetitle($this->_page->title);
