@@ -48,15 +48,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
     }
 
 
@@ -134,15 +126,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->official));
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('organization')));

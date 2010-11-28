@@ -126,16 +126,7 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         $this->_topic->require_do('midcom:component_config');
 
         // Add DM2 link head
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'type' => 'text/css',
-                'rel' => 'stylesheet',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/legacy.css',
-                'media' => 'all',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/legacy.css');
 
         if (   method_exists($this, '_load_datamanagers')
             && method_exists($this, '_load_objects'))

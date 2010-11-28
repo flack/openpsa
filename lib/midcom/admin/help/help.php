@@ -32,15 +32,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
     function __construct()
     {
         parent::__construct();
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css');
 
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL.'/midcom.admin.help/twisty.js');
         if (defined('MGD_TYPE_NONE'))
@@ -606,7 +598,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             $this->add_breadcrumb
             (
-                "__ais/help/{$this->_request_data['component']}/", 
+                "__ais/help/{$this->_request_data['component']}/",
                 sprintf($this->_l10n->get('help for %s'), $_MIDCOM->i18n->get_string($this->_request_data['component'], $this->_request_data['component']))
             );
         }

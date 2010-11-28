@@ -10,7 +10,7 @@
 /**
  * Datamanager 2 colorpicker chooser widget
  *
- * Colorpicker chooser allows to 
+ * Colorpicker chooser allows to
  *
  * <b>Available configuration options:</b>
  *
@@ -24,15 +24,15 @@ class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datama
 {
     /**
      * Storage mode for colorpicker
-     * 
+     *
      * Options: 'hex', 'rgb', 'hsb' for hexagonal, red-green-blue and
      * hue-saturation-brightness respectively
-     * 
+     *
      * @access public
      * @var string
      */
     var $color_scheme = 'hex';
-    
+
     /**
      * The size of the input box.
      *
@@ -51,17 +51,10 @@ class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datama
         $_MIDCOM->enable_jquery();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/colorpicker/colorpicker.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jquery.widget.colorpicker.js');
-        $_MIDCOM->add_link_head(
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/colorpicker/colorpicker.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/colorpicker/colorpicker.css');
         return true;
     }
-    
+
     /**
      * Adds a simple single-line text form element at this time.
      */
@@ -73,10 +66,10 @@ class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datama
             'class' => "midcom_helper_datamanager2_colorpicker {$this->color_scheme}",
             'id'    => "{$this->_namespace}{$this->name}",
         );
-        
+
         $this->_form->addElement('text', $this->name, $this->_translate($this->_field['title']), $attributes);
     }
-    
+
     /**
      * Checks if the widget is frozen.
      *

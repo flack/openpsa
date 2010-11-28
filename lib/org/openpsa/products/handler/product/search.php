@@ -536,15 +536,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         // Prepare datamanager
         $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
 
         // Populate toolbar
         if ($this->_topic->can_do('midgard:create'))

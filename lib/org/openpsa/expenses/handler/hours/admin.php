@@ -204,15 +204,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -331,15 +323,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         $this->_update_breadcrumb_line($handler_id);
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
         return true;
     }
 

@@ -155,7 +155,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     /**#@-*/
 
     /**
-     * Registers a new breadcrumb entry 
+     * Registers a new breadcrumb entry
      *
      * @param string $url The URL
      * @param string $title The text to display
@@ -170,7 +170,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     }
 
     /**
-     * Adds the registered breadcrumb entries to context_data 
+     * Adds the registered breadcrumb entries to context_data
      */
     public function populate_breadcrumb_line()
     {

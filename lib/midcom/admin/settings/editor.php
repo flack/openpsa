@@ -65,15 +65,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
         $this->_request_data['l10n'] = $this->_l10n;
         $_MIDCOM->cache->content->no_cache();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.admin.settings/style.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.settings/style.css');
 
         // Initialize Asgard plugin
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.settings'), $this->_request_data);

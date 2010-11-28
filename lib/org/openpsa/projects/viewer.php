@@ -193,25 +193,8 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.projects/projects.css",
-            )
-        );
-
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.projects/projects.css");
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         return parent::_on_handle($handler, $args);
     }

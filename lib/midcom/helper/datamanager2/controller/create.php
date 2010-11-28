@@ -246,15 +246,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config}, true);";
         $_MIDCOM->add_jquery_state_script($script);
 
-        $_MIDCOM->add_link_head(
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'screen',
-                'href'  => MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/dm2_ajax_editor.css", 'screen');
 
         switch (true)
         {

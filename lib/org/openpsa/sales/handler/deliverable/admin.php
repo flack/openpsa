@@ -108,15 +108,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
     }
 
     /**

@@ -143,16 +143,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             )
         );
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'all',
-                'href'  => MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css");
     }
 
     function _show_entry($handler_id , &$data)
@@ -324,15 +315,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             )
         );
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
 
         $this->_prepare_breadcrumb();
         $_MIDCOM->bind_view_to_object($this->_journal_entry, $this->_controller->datamanager->schema->name);

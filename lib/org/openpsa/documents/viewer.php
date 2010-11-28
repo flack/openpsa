@@ -118,15 +118,7 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
         org_openpsa_core_ui::enable_jqgrid();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.documents/dynatree_0.4/jquery.dynatree.min.js');
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/org.openpsa.documents/dynatree_0.4/skin/ui.dynatree.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/org.openpsa.documents/dynatree_0.4/skin/ui.dynatree.css");
 
         return parent::_on_handle($handler, $args);
     }

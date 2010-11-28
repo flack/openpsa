@@ -105,15 +105,7 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
         $this->_populate_toolbar();
         $_MIDCOM->bind_view_to_object($this->_group);
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
         // This handler uses Ajax, include the handler javascripts
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
         org_openpsa_core_ui::enable_ui_tab();

@@ -159,15 +159,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $tmp);
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
 
         return true;
     }

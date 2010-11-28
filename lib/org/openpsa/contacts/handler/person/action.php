@@ -159,15 +159,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $this->_request_data['default_password'] .= $passwdchars[$rand(0, strlen($passwdchars) - 1)];
         }
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
         //get rules for js in style
         $rules = $this->_config->get('password_match_score');
@@ -283,15 +275,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
         }
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         $_MIDCOM->enable_jquery();
 
         //get rules for js in style

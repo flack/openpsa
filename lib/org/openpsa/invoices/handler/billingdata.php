@@ -60,15 +60,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $this->_process_billing_form();
 
         $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         $this->_update_breadcrumb();
 
@@ -199,15 +191,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $this->_process_billing_form();
 
         $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         $this->_update_breadcrumb();
 

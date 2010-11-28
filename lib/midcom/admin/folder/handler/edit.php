@@ -428,16 +428,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         // Serve the correct localization
         $data['l10n'] =& $this->_l10n;
 
-        // Add style sheet
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
 
         return true;
     }

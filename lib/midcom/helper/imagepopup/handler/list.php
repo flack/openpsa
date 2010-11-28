@@ -62,16 +62,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             }
         }
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'screen',
-                'href'  => MIDCOM_STATIC_URL ."/midcom.helper.imagepopup/styling.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL ."/midcom.helper.imagepopup/styling.css", 'screen');
 
         $data['schema_name'] = $args[0];
         $data['object'] = null;

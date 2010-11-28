@@ -28,15 +28,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
     function _on_initialize()
     {
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
 
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');

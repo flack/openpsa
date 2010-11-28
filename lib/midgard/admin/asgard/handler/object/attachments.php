@@ -47,25 +47,8 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     {
         $this->_component = 'midgard.admin.asgard';
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.admin.styleeditor/style-editor.css',
-            )
-        );
-
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.styleeditor/style-editor.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
     }
 
     function _on_initialize()
@@ -267,29 +250,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             // Add Thickbox
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/thickbox/jquery-thickbox-3.1.pack.js');
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL . '/jQuery/thickbox/thickbox.css',
-                    'media' => 'screen',
-                )
-            );
+            $this->add_stylesheet(MIDCOM_STATIC_URL . '/jQuery/thickbox/thickbox.css', 'screen');
             $_MIDCOM->add_jscript('var tb_pathToImage = "' . MIDCOM_STATIC_URL . '/jQuery/thickbox/loadingAnimation.gif"');
 
             //add table widget
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css',
-                )
-            );
+            $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
     }
 

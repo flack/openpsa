@@ -265,15 +265,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
                   //this will exit
             }
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css',
-                )
-            );
+            $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
 
         midgard_admin_asgard_plugin::get_common_toolbar($data);

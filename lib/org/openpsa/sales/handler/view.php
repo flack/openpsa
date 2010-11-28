@@ -115,15 +115,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $_MIDCOM->set_26_request_metadata($this->_salesproject->metadata->revised, $this->_salesproject->guid);
         $_MIDCOM->set_pagetitle($this->_salesproject->title);
 
-        $_MIDCOM->add_link_head
-        (
-                array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/list.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
         org_openpsa_core_ui::enable_jqgrid();
 

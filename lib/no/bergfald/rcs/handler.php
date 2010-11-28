@@ -141,15 +141,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      */
     function _on_initialize()
     {
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/no.bergfald.rcs/rcs.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/no.bergfald.rcs/rcs.css");
     }
 
     /**

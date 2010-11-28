@@ -38,16 +38,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
         $_MIDCOM->cache->content->no_cache();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'screen',
-                'href'  => MIDCOM_STATIC_URL .'/midcom.admin.babel/babel.css'
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL .'/midcom.admin.babel/babel.css', 'screen');
 
         // Initialize Asgard plugin
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.babel'), $this->_request_data);

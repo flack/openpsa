@@ -114,13 +114,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
-        $_MIDCOM->add_link_head(array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/midgard.admin.asgard/rcs.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midgard.admin.asgard/rcs.css");
 
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midgard.admin.asgard');
         $this->_request_data['l10n'] =& $this->_l10n;

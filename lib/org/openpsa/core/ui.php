@@ -71,26 +71,8 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'all',
-                'href'  => MIDCOM_STATIC_URL . $jqgrid_path . 'css/ui.jqgrid.css',
-            )
-        );
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'all',
-                'href'  => MIDCOM_STATIC_URL . '/org.openpsa.core/ui.custom.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'css/ui.jqgrid.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui.custom.css');
     }
 
     public static function get_config_value($value)
@@ -170,16 +152,7 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/tab_functions.js');
 
         //add the needed css-files
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'all',
-                'href'  => MIDCOM_STATIC_URL . '/org.openpsa.core/ui.custom.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui.custom.css');
     }
 
     /**

@@ -83,5 +83,26 @@ abstract class midcom_baseclasses_components_base
     {
         midcom_baseclasses_components_configuration::set($this->_component, 'active_leaf', $leaf_id);
     }
+
+    /**
+     * Convenience shortcut for adding CSS files
+     *
+     * @param string $url The stylesheet URL
+     * @param string $media The media type(s) for the stylesheet, if any
+     */
+    public function add_stylesheet($url, $media = false)
+    {
+        $attributes = array
+        (
+            'rel'  => 'stylesheet',
+            'type' => 'text/css',
+            'href' => $url,
+        );
+        if ($media)
+        {
+            $attributes['media'] = $media;
+        }
+        $_MIDCOM->add_link_head($attributes);
+    }
 }
 ?>

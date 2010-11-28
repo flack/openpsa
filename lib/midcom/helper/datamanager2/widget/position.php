@@ -130,24 +130,8 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
 
         $_MIDCOM->enable_jquery();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/position_widget.css'
-            )
-        );
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/jquery.tabs.css'
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/position_widget.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/jquery.tabs.css');
         $_MIDCOM->add_link_head
         (
             array

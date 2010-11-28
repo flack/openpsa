@@ -22,7 +22,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     public function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-        if (   $this->_mode == 'create' 
+        if (   $this->_mode == 'create'
             && count($this->_master->_handler['args']) == 1)
         {
             // We're creating invoice for chosen company
@@ -186,30 +186,14 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     function _handler_callback($handler_id, $args, &$data)
     {
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         if ($this->_mode == 'read')
         {
             $this->_count_invoice_hours();
             org_openpsa_core_ui::enable_jqgrid();
 
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/list.css",
-                )
-            );
+            $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         }
 
         return true;
@@ -422,7 +406,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 $view_title = sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
                 break;
         }
-        
+
         $_MIDCOM->set_pagetitle($view_title);
     }
 

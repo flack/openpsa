@@ -173,24 +173,8 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         );
         $_MIDCOM->enable_jquery();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.js');
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css'
-            )
-        );
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.core/list.css'
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
 
         // PONDER: Locking ?
 
@@ -312,15 +296,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             // This will exit()
         }
 
-         $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css'
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.directmarketing/edit_query.css');
 
         if (   isset($_POST['midcom_helper_datamanager2_save'])
             && !empty($_POST['midcom_helper_datamanager2_save']))

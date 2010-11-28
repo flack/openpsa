@@ -155,15 +155,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
     function _on_handle($handler, $args)
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css");
 
         return parent::_on_handle($handler, $args);
     }

@@ -153,15 +153,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         org_openpsa_helpers::dm2_savecancel($this);
         $_MIDCOM->bind_view_to_object($this->_document, $this->_controller->datamanager->schema->name);
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
 
         $this->_update_breadcrumb_line('edit');
 

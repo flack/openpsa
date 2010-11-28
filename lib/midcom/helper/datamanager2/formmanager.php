@@ -940,15 +940,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     function process_form($ajax_mode = false)
     {
         // Make sure we have CSS loaded
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
+
         $results = $this->form->getSubmitValues(true);
 
         // Get the result (this includes validation)

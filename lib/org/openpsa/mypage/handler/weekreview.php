@@ -154,9 +154,9 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         {
             return false;
         }
-        
+
         $_MIDCOM->load_library('org.openpsa.positioning');
-        
+
         // List user's position reports
         $qb = org_routamc_positioning_log_dba::new_query_builder();
         $qb->add_constraint('date', '>=', $from);
@@ -206,12 +206,12 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         $data['week_start'] = (int) $date->format('U');
         $date->modify('+6 days');
         $date->setTime(23, 59, 59);
-        $data['week_end'] = (int) $date->format('U'); 
+        $data['week_end'] = (int) $date->format('U');
 
         $date->modify('+1 second');
-        $data['next_week'] = $date->format('Y-m-d'); 
+        $data['next_week'] = $date->format('Y-m-d');
         $date->modify('-2 weeks');
-        $data['prev_week'] = $date->format('Y-m-d'); 
+        $data['prev_week'] = $date->format('Y-m-d');
 
         // Empty the data array
         $data['review_data'] = array();
@@ -240,15 +240,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
         $this->_populate_toolbar();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/list.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
         $tmp = Array();
         $tmp[] = Array

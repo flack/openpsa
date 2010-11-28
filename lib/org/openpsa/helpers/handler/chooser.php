@@ -119,15 +119,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         $data['controller'] =& $this->_controller;
         $data['action'] =& $this->_action;
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css",
-            )
-        );
+        $this->add_stylesheet("/org.openpsa.core/ui-elements.css");
 
         $_MIDCOM->skip_page_style = true;
 

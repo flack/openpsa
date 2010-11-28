@@ -65,15 +65,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
             'failed_add' => 0,
         );
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
         //Disable limits
         // TODO: Could this be done more safely somehow

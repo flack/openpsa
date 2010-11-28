@@ -30,15 +30,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     {
         $this->_request_data['group'] =& $this->_group;
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
     }
 
     function _modify_schema()

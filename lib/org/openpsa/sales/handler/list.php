@@ -167,15 +167,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
 
         org_openpsa_core_ui::enable_jqgrid();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/list.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
         $tmp = array();
         $tmp[] = array

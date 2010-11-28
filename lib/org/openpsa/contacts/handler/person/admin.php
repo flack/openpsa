@@ -107,15 +107,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
     }
 
     /**

@@ -52,16 +52,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             $this->_request_data['results'] = $indexer->query($query, null);
         }
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'all',
-                'href'  => MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");
 
         $this->_populate_toolbar();
 
@@ -103,7 +94,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
         {
             return false;
         }
-        
+
         return $document;
     }
 

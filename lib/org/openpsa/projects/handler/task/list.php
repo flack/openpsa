@@ -87,15 +87,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 case 'project':
                     $this->_prepare_output();
 
-                    $_MIDCOM->add_link_head
-                    (
-                        array
-                        (
-                            'rel' => 'stylesheet',
-                            'type' => 'text/css',
-                            'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/list.css",
-                        )
-                    );
+                    $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
                     return $this->_handler_list_project($args);
                     break;

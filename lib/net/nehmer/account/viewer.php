@@ -314,15 +314,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             );
         }
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/net.nehmer.account/net_nehmer_account.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/net.nehmer.account/net_nehmer_account.css");
     }
 
     /**

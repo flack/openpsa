@@ -151,26 +151,10 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      */
     function _handler_callback($handler_id, $args, &$data)
     {
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         if ($handler_id == 'project')
         {
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/list.css",
-                )
-            );
+            $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
             $_MIDCOM->load_library('org.openpsa.contactwidget');
         }
         return true;

@@ -162,15 +162,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $_MIDCOM->cache->content->no_cache();
 
         // Custom styles
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL.'/midcom.admin.folder/midcom-admin-order.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.admin.folder/midcom-admin-order.css');
 
         $this->_topic->require_do('midgard:update');
 

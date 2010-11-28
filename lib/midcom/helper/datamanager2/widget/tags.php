@@ -170,15 +170,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
 
         $_MIDCOM->enable_jquery();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/tags/jquery.tags_widget.css'
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/tags/jquery.tags_widget.css');
 
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.bgiframe.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/tags/jquery.tags_widget.js');

@@ -133,22 +133,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
 
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js");
 
-
-        $attributes = array
-        (
-            'rel' => 'stylesheet',
-            'type' => 'text/css',
-            'href' => MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.min.css',
-        );
-        $_MIDCOM->add_link_head($attributes);
-
-        $attributes = array
-        (
-            'rel' => 'stylesheet',
-            'type' => 'text/css',
-            'href' => MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.datepicker.min.css',
-        );
-        $_MIDCOM->add_link_head($attributes);
+        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.min.css');
+        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.datepicker.min.css');
     }
 
     /**

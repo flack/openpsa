@@ -245,25 +245,8 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
 
         $this->_request_data['view'] = 'default';
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css',
-            )
-        );
-
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jscript-calendar/calendar-win2k-1.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/jscript-calendar/calendar-win2k-1.css");
 
         return true;
     }

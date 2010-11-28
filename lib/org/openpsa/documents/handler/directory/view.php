@@ -215,27 +215,8 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         //load js/css for jqgrid
         org_openpsa_core_ui::enable_jqgrid();
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'all',
-                'href'  => MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css",
-            )
-        );
-
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'media' => 'all',
-                'href'  => MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css");
 
         $this->_populate_toolbar();
     }

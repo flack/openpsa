@@ -29,15 +29,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midgard.admin.asgard/components.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/components.css');
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
@@ -77,7 +69,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             )
         );
-        
+
         if (isset($_MIDCOM->componentloader->manifests['midcom.admin.babel']))
         {
             $component_array['toolbar']->add_item
@@ -90,7 +82,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
                 )
             );
         }
-        
+
         if (isset($_MIDCOM->componentloader->manifests['midcom.admin.help']))
         {
             $component_array['toolbar']->add_item
@@ -103,7 +95,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
                 )
             );
         }
-        
+
         return $component_array;
     }
 
@@ -248,7 +240,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
             )
         );
-        
+
         if (isset($_MIDCOM->componentloader->manifests['midcom.admin.babel']))
         {
             $data['asgard_toolbar']->add_item
@@ -261,7 +253,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
                 )
             );
         }
-        
+
 
 
         // Set the breadcrumb data

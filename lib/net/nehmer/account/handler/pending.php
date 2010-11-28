@@ -27,15 +27,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/net.nehmer.account/jquery.tablesorter.widget.column_highlight.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/net.nehmer.account/twisty.js');
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/net.nehmer.account/net_nehmer_account.css',
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/net.nehmer.account/net_nehmer_account.css');
     }
 
     /**

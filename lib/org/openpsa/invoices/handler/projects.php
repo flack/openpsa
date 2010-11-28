@@ -157,15 +157,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
             $this->_generate_invoice();
         }
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.core/list.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
         $title = $this->_l10n->get('project invoicing');
 

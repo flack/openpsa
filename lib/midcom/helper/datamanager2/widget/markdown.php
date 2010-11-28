@@ -54,7 +54,7 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
      * @access public
      */
     var $wrap = 'virtual';
-    
+
     /**
      * The initialization event handler post-processes the maxlength setting.
      *
@@ -74,25 +74,9 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         $_MIDCOM->enable_jquery();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/jquery.markitup.pack.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/set.js');
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/skins/markitup/style.css',
-            )
-        );
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/style.css',
-            )
-        );
-        
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/skins/markitup/style.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/markitup/sets/markdown/style.css');
+
         return true;
     }
 
@@ -116,9 +100,9 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         $elements = Array();
         $elements[] = HTML_QuickForm::createElement('textarea', $this->name, $this->_translate($this->_field['title']), $attributes);
         $this->_form->applyFilter($this->name, 'trim');
-        
+
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_toolbar", '', "<script> jQuery('#{$this->_namespace}{$this->name}').markItUp(mySettings);\n</script>");
-        
+
         // Load help text
         $_MIDCOM->load_library('net.nehmer.markdown');
         // TODO: l10n
@@ -127,7 +111,7 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
         {
             $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_help", '', "<div class=\"net_nehmer_markdown_cheatsheet\" style=\"display: none;\">" . Markdown(file_get_contents($file)) . "</div>");
         }
-                             
+
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);
         $this->_form->updateElementAttr($this->name, array('class' => 'midcom_helper_datamanager2_widget_markdown'));
     }

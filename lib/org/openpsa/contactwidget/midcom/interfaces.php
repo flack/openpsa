@@ -22,15 +22,7 @@ class org_openpsa_contactwidget_interface extends midcom_baseclasses_components_
     function _on_initialize()
     {
         // Make the hCards pretty
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css");
         return true;
     }
 }

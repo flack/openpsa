@@ -231,15 +231,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     private function _prepare_output()
     {
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/org.openpsa.core/list.css'
-            )
-        );
+        $this->add_stylesheet('/org.openpsa.core/list.css');
 
         $tmp[] = array
         (

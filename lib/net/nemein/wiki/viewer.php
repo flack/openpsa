@@ -158,19 +158,11 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
                 'rel'   => 'alternate',
                 'type'  => 'application/rss+xml',
                 'title' => 'Latest changes RSS',
-                'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX).'rss.xml',
+                'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'rss.xml',
             )
         );
 
-        $_MIDCOM->add_link_head
-        (
-            array
-            (
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL."/net.nemein.wiki/wiki.css",
-            )
-        );
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/net.nemein.wiki/wiki.css");
 
         if ($_MIDCOM->auth->user)
         {

@@ -105,15 +105,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             }
 
             // Make sure we have CSS loaded
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css",
-                )
-            );
+            $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
             $result = 'edit';
         }
