@@ -17,9 +17,6 @@
  *
  * @package net.nehmer.account
  */
-
-$_MIDCOM->componentloader->load_graceful('org.routamc.positioning');
-
 class net_nehmer_account_callbacks_countries extends midcom_baseclasses_components_purecode
 {
     /**
@@ -41,6 +38,7 @@ class net_nehmer_account_callbacks_countries extends midcom_baseclasses_componen
 
     function __construct($args)
     {
+        $_MIDCOM->componentloader->load_graceful('org.routamc.positioning');
         $this->_component = 'net.nehmer.account';
         parent::__construct();
 

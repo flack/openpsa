@@ -14,7 +14,7 @@
  *
  * <b>Available configuration options</b>
  *
- *
+ * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamanager2_widget
 {
