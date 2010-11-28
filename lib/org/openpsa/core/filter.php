@@ -18,7 +18,6 @@ class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
      * contains filters
      *
      * @var Array
-     * @access private
      */
     private $_filter = array();
 

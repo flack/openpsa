@@ -64,8 +64,6 @@ class midcom_helper__basicnav
 {
     /**#@+
      * NAP data variable.
-     *
-     * @access private
      */
 
     /**
@@ -137,8 +135,6 @@ class midcom_helper__basicnav
 
     /**#@+
      * Internal runtime state variable.
-     *
-     * @access private
      */
 
     /**
@@ -178,7 +174,6 @@ class midcom_helper__basicnav
      * to avoid unnecessary overhead
      *
      * @var string
-     * @access private
      */
     private $_user_id = false;
 
@@ -276,7 +271,6 @@ class midcom_helper__basicnav
      * @param mixed $node_id    The node ID of the node to be loaded
      * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
      * @return int            MIDCOM_ERROK on success, one of the MIDCOM_ERR... constants upon an error
-     * @access private
      */
     private function _loadNode($node_id, $up = null)
     {
@@ -438,7 +432,6 @@ class midcom_helper__basicnav
      * @param mixed $topic_id The node ID for which the NAP information is requested.
      * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
      * @return Array NAP node data structure or NULL in case no NAP information is available for this topic.
-     * @access private
      */
     private function _get_node($topic_id, $up = null)
     {
@@ -483,7 +476,6 @@ class midcom_helper__basicnav
      * @param mixed $topic_id The ID of the node for which the NAP information is requested.
      * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
      * @return Array Node data structure or NULL in case no NAP information is available for this topic.
-     * @access private
      */
     private function _get_node_from_database($topic_id, $up = null)
     {
@@ -641,7 +633,6 @@ class midcom_helper__basicnav
      *
      * @param Array $node The node data structure for which to retrieve the leaves.
      * @return Array All leaves found for that node, in complete post processed leave data structures.
-     * @access private
      */
     private function _get_leaves($node)
     {
@@ -698,7 +689,6 @@ class midcom_helper__basicnav
      *
      * @param Array $node The node data structure for which to retrieve the leaves.
      * @return Array All leaves found for that node, in complete post processed leave data structures.
-     * @access private
      */
     private function _get_leaves_from_database($node)
     {
@@ -818,7 +808,6 @@ class midcom_helper__basicnav
      * and NAV_URL are populated based on the administration mode with NAV_SITE values
      *
      * @param Array $leaves A reference to the list of leaves which has to be processed.
-     * @access private
      */
     private function _update_leaflist_urls(&$leaves)
     {
@@ -858,7 +847,6 @@ class midcom_helper__basicnav
      *
      * @param Array $node The node data structure to which the leaves should be assigned.
      * @param Array $leaves The leaves to store in the cache.
-     * @access private
      */
     private function _write_leaves_to_cache($node, $leaves)
     {
@@ -1398,7 +1386,6 @@ class midcom_helper__basicnav
      *
      * @param Array $napdata The NAP data structure for the object to check (supports NULL values).
      * @return boolean Indicating visibility.
-     * @access private
      * @todo Integrate with midcom_helper_metadata::is_object_visible_onsite()
      */
     private function _is_object_visible($napdata)

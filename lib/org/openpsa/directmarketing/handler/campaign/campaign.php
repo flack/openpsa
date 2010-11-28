@@ -18,14 +18,11 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
      * The campaign which has been created
      *
      * @var org_openpsa_directmarketing_campaign
-     * @access private
      */
     private $_campaign = null;
 
     /**
      * Internal helper, loads the datamanager for the current campaign. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_datamanager()
     {

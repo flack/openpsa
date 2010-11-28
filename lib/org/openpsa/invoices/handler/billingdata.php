@@ -110,8 +110,6 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
 
     /**
      * load controller for datamanager
-     *
-     * @access private
      */
     private function _load_controller()
     {

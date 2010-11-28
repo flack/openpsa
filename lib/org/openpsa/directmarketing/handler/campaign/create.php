@@ -80,8 +80,6 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_controller()
     {

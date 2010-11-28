@@ -17,7 +17,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      * The schema databases used for importing to various objects like persons and organizations
      *
      * @var Array
-     * @access private
      */
     private $_schemadbs = array();
 
@@ -25,7 +24,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      * Datamanagers used for saving various objects like persons and organizations
      *
      * @var Array
-     * @access private
      */
     private $_datamanagers = array();
 
@@ -72,8 +70,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     /**
      * This function prepares the schemadb
-     *
-     * @access private
      */
     private function _load_schemas()
     {

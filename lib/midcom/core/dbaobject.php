@@ -205,7 +205,6 @@ abstract class midcom_core_dbaobject
      *
      * @return midcom_core_querybuilder The initialized instance of the query builder.
      * @see midcom_core_querybuilder
-     * @static
      */
     abstract static function new_query_builder();
 
@@ -216,7 +215,6 @@ abstract class midcom_core_dbaobject
      * @param mixed $value Value match for the collector instance
      * @return midcom_core_collector The initialized instance of the collector.
      * @see midcom_core_collector
-     * @static
      */
     abstract static function new_collector($domain, $value);
 
@@ -227,7 +225,6 @@ abstract class midcom_core_dbaobject
                                 out with late static bindings, but...)
      * @param mixed $src GUID of object (ids work but are discouraged)
      * @return mixed Reference to the object or false
-     * @static
      */
     abstract static function &get_cached($src);
 

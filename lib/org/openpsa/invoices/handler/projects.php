@@ -18,7 +18,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      * The array of tasks.
      *
      * @var Array
-     * @access private
      */
     private $_tasks = array();
 
@@ -26,7 +25,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      * The customer cache.
      *
      * @var Array
-     * @access private
      */
     private $_customers = array();
 

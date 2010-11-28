@@ -19,7 +19,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * The document we're working with (if any).
      *
      * @var org_openpsa_documents_documen_dba
-     * @access private
      */
     private $_document = null;
 
@@ -27,7 +26,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * The Controller of the document used for creating or editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -35,7 +33,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -43,7 +40,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * The schema to use for the new document.
      *
      * @var string
-     * @access private
      */
     private $_schema = 'default';
 
@@ -51,7 +47,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * The defaults to use for the new document.
      *
      * @var Array
-     * @access private
      */
     private $_defaults = array();
 
@@ -63,8 +58,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_create_controller()
     {

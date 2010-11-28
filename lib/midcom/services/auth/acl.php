@@ -272,7 +272,6 @@ class midcom_services_auth_acl
      * for not authenticated users or admin level users.
      *
      * @var boolean
-     * @access private
      */
     private $_internal_sudo = false;
 
@@ -281,7 +280,6 @@ class midcom_services_auth_acl
      * is a privilege name/value map.
      *
      * @var array
-     * @access private
      */
     private static $_default_privileges = array();
 
@@ -291,7 +289,6 @@ class midcom_services_auth_acl
      * map.
      *
      * @var array
-     * @access private
      */
     private static $_owner_default_privileges = array();
 
@@ -316,7 +313,6 @@ class midcom_services_auth_acl
      *     The component manifest might help here too.
      *
      * @var array
-     * @access private
      */
     private static $_default_magic_class_privileges = array();
 
@@ -327,7 +323,6 @@ class midcom_services_auth_acl
      * EVERYONE as user identifier.
      *
      * @var Array
-     * @access private
      */
     private static $_privileges_cache = array();
 
@@ -345,7 +340,6 @@ class midcom_services_auth_acl
      * privileges currently defined.
      *
      * @see $_default_privileges
-     * @access private
      */
     private function _register_core_privileges()
     {
@@ -432,7 +426,6 @@ class midcom_services_auth_acl
      * usage. It will assign them to the $_*_default_class_privileges members.
      *
      * @param string $class The class name for which defaults should be loaded.
-     * @access private
      */
     private function _load_class_magic_privileges($class)
     {
@@ -660,12 +653,10 @@ class midcom_services_auth_acl
      * only in the case of nonpersistent objects (no valid GUID yet), it will revert to
      * regular object usage.
      *
-     * @access private
      * @param $guid The GUID for which we should load privileges.
      * @param string $user_id The MidCOM user assignee for which we should collect the privileges.
      * @param $class The DBA classname
      * @return Array An array of privilege_name => privilege_value pairs valid for the given user.
-     * @static
      */
     private static function _collect_content_privileges($guid, $user_id, $class = null)
     {
@@ -1107,7 +1098,6 @@ class midcom_services_auth_acl
      *
      * @param string $privilege The privilege to check for
      * @return boolean True if the privilege has been granted, false otherwise.
-     * @access private
      * @see $_internal_sudo
      */
     private function _can_do_internal_sudo($privilege)

@@ -18,7 +18,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * The customer we're working with, if any
      *
      * @var org_openpsa_contacts_group_dba
-     * @access private
      */
     private $_customer = null;
 

@@ -20,7 +20,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * The Controller of the document used for creating
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -28,7 +27,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -36,7 +34,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * The schema to use for the new person.
      *
      * @var string
-     * @access private
      */
     private $_schema = 'default';
 
@@ -44,7 +41,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * The defaults to use for the new person.
      *
      * @var Array
-     * @access private
      */
     private $_defaults = array();
 
@@ -52,7 +48,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * The person we're working on, if any
      *
      * @param org_openpsa_contacts_person_dba
-     * @access private
      */
     private $_person = null;
 
@@ -65,8 +60,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_controller()
     {

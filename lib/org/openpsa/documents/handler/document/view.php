@@ -19,7 +19,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * The document we're working with (if any).
      *
      * @var org_openpsa_documents_documen_dba
-     * @access private
      */
     private $_document = null;
 
@@ -27,7 +26,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 

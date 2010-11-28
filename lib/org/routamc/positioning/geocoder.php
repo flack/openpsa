@@ -48,7 +48,6 @@ class org_routamc_positioning_geocoder extends midcom_baseclasses_components_pur
      *
      * @param string $type The type of the geocoder (the file name from the geocoder directory).
      * @return org_routamc_positioning_geocoder A reference to the newly created geocoder instance.
-     * @static
      */
     static function & create($type)
     {

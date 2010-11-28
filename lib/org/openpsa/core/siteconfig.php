@@ -20,7 +20,6 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      * The components for which we're creating the structure information
      *
      * @var array
-     * @access private
      */
     private $components = array
     (
@@ -40,7 +39,6 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      * The snippet we're working with
      *
      * @var midcom_db_snippet
-     * @access private
      */
     private $snippet = null;
 

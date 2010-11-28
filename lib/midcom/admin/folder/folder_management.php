@@ -17,7 +17,6 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
     /**
      * Anchor prefix stores the link back to the edited content topic
      *
-     * @access private
      * @var string
      */
     private $_anchor_prefix = null;

@@ -34,13 +34,8 @@ class no_bergfald_rcs
      * @access private
      * @var text_diff
      */
-     var $_diff = null;
-    /**
-     *
-     *
-     * @param string guid
-     * @param string backend to use
-     */
+    var $_diff = null;
+
     /**
      * History array of object
      */

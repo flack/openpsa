@@ -19,7 +19,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * The document we're working with (if any).
      *
      * @var org_openpsa_documents_documen_dba
-     * @access private
      */
     private $_document = null;
 
@@ -27,7 +26,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * The Controller of the document used for creating or editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -35,7 +33,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -43,7 +40,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * The schema to use for the new document.
      *
      * @var string
-     * @access private
      */
     private $_schema = 'default';
 
@@ -58,8 +54,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     /**
      * Internal helper, loads the controller for the current document. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_edit_controller()
     {

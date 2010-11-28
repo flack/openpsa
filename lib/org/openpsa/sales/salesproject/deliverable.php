@@ -20,7 +20,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      * Combination property containing HTML depiction of the deliverable
      *
      * @var string
-     * @access private
      */
     private $_deliverable_html = null;
 

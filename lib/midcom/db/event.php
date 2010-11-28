@@ -28,8 +28,6 @@ class midcom_db_event extends midcom_core_dbaobject
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without
      * having a this (this call is static).
-     *
-     * @static
      */
     static function new_query_builder()
     {

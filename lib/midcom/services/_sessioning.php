@@ -48,7 +48,6 @@
  * variable, this is a 100% must-not, as this will break functionality.
  *
  * @package midcom.services
- * @access private
  * @see midcom_services_session
  */
 class midcom_services__sessioning
@@ -94,7 +93,7 @@ class midcom_services__sessioning
         {
             return false;
         }
-        
+
         if (_midcom_headers_sent())
         {
             // Don't try starting a session if we're past the headers phase
@@ -256,10 +255,10 @@ class midcom_services__sessioning
         }
         $_SESSION["midcom_session_data"][$domain][$key] = serialize($value);
     }
-    
+
     /**
      * Get the session data
-     * 
+     *
      * @param string $domain   Session domain
      * @return Array containing session values
      */
@@ -270,20 +269,20 @@ class midcom_services__sessioning
         {
             return false;
         }
-        
+
         if (!array_key_exists($domain, $_SESSION['midcom_session_data']))
         {
             return false;
         }
-        
+
         $session = array();
-        
+
         foreach ($_SESSION['midcom_session_data'][$domain] as $key => $serialized_data)
         {
             $data = unserialize($serialized_data);
             $session[$key] = $data;
         }
-        
+
         return $session;
     }
 }

@@ -14,11 +14,9 @@
  * The date filter restricts the query to documents where the filtered field
  * falls within the given timespan (which can be open at any one end).
  *
- * @abstract Abstract indexer filter class
  * @package midcom.services
  * @see midcom_services_indexer
  */
-
 class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
 {
     /**

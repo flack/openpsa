@@ -71,8 +71,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_create_controller()
     {

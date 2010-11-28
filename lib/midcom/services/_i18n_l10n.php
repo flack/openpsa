@@ -112,7 +112,6 @@ class midcom_services__i18n_l10n
      * loaded during runtime.
      *
      * @var Array
-     * @access private
      */
     private static $_localedb = array();
 

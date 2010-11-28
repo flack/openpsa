@@ -133,7 +133,6 @@ class midcom_baseclasses_core_dbobject
      * This is essentially sets the midgard:owner privilege for the current user.
      *
      * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
-     * @access private
      */
     private static function _set_owner_privileges($object)
     {
@@ -164,7 +163,7 @@ class midcom_baseclasses_core_dbobject
      * "Pre-flight" checks for create method
      *
      * Separated so that dbfactory->import() can reuse the code
-     **/
+     */
     public static function create_pre_checks($object)
     {
         $parent = $object->get_parent();
@@ -1179,7 +1178,6 @@ class midcom_baseclasses_core_dbobject
 
     /**
      * This method is deprecated. It does nothing.
-     * @access private
      */
     private static function _clear_object($object)
     {
@@ -1204,7 +1202,6 @@ class midcom_baseclasses_core_dbobject
      *
      * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @return bool Indicating Success.
-     * @access private
      */
     private static function _delete_privileges($object)
     {

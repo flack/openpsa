@@ -348,8 +348,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
     /**
      * Internal helper, loads the datamanager for the current object. Any error triggers a 500.
-     *
-     * @access private
      */
     public function _load_datamanager()
     {
@@ -373,7 +371,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * Internal helper, loads the controller for the current object. Any error triggers a 500.
      *
      * @param string $type Controller to instantiate (typically 'simple' or 'ajax')
-     * @access private
      */
     public function _load_controller($type = 'simple')
     {

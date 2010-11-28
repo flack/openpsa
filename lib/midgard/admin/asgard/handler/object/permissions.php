@@ -348,8 +348,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
 
     /**
      * Internal helper, loads the controller for the current object. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_controller()
     {

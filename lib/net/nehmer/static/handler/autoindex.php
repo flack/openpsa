@@ -19,7 +19,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -27,7 +26,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * The list of index entries
      *
      * @var array
-     * @access protected
      */
     protected $_index_entries = array();
 

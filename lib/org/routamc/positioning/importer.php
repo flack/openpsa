@@ -27,7 +27,7 @@ class org_routamc_positioning_importer extends midcom_baseclasses_components_pur
      * @var string
      */
     var $error = 'MGD_ERR_OK';
-    
+
     /**
      * Error string from trying to import. Either a midcom_connection::get_error_string() or an additional error code from component
      *
@@ -99,7 +99,6 @@ class org_routamc_positioning_importer extends midcom_baseclasses_components_pur
      *
      * @param string $type The type of the importer (the file name from the importer directory).
      * @return org_routamc_positioning_importer A reference to the newly created importer instance.
-     * @static
      */
     static function & create($type)
     {

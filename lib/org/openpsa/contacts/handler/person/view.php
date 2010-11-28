@@ -18,7 +18,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * The contact to display
      *
      * @var org_openpsa_contacts_person_dba
-     * @access private
      */
     private $_contact = null;
 
@@ -26,7 +25,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * Schema to use for contact display
      *
      * @var string
-     * @access private
      */
     private $_schema = null;
 
@@ -41,7 +39,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * The Controller of the contact used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 

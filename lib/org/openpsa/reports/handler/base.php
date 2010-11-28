@@ -92,8 +92,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
     /**
      * Internal helper, loads the controller for the current salesproject. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_edit_controller()
     {
@@ -141,8 +139,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_create_controller()
     {

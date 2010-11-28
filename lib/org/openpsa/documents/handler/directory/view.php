@@ -19,7 +19,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -29,7 +28,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * The documents of the directory we're working with.
      *
      * @var Array
-     * @access private
      */
     private $_documents = array();
 
@@ -37,7 +35,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * The directories of the directory we're working with.
      *
      * @var Array
-     * @access private
      */
     private $_directories = array();
 
@@ -45,7 +42,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * The wanted output mode.
      *
      * @var String
-     * @access private
      */
     private $_output_mode = 'html';
 

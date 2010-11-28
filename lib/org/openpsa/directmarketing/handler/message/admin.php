@@ -113,8 +113,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_datamanager()
     {
@@ -129,8 +127,6 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
     /**
      * Internal helper, loads the controller for the current message. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_controller()
     {

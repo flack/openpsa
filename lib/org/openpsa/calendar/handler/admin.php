@@ -16,20 +16,18 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 {
     /**
      * Datamanager2 instance
-     * 
-     * @access private
+     *
      * @var midcom_helper_datamanager2_datamanager
      */
     private $_datamanager;
 
     /**
      * The event we're working on
-     * 
-     * @access private
+     *
      * @var org_openpsa_calendar_event_dba
      */
-    private $_event;    
-    
+    private $_event;
+
     function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();
@@ -40,7 +38,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 
     /**
      * Handle the editing phase
-     * 
+     *
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
@@ -50,12 +48,12 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     {
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
-        
+
         $this->_event->require_do('midgard:update');
 
         // Load schema database
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-                
+
         // Load the controller
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $schemadb;
@@ -65,7 +63,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
             // This will exit.
         }
-        
+
         switch ($this->_controller->process_form())
         {
             case 'save':
@@ -76,14 +74,14 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         }
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);        
+        org_openpsa_helpers::dm2_savecancel($this);
 
         return true;
     }
-    
+
     /**
      * Show event editing interface
-     * 
+     *
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
@@ -98,10 +96,10 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         midcom_show_style('show-event-edit');
         midcom_show_style('show-popup-footer');
     }
-    
+
     /**
      * Handle the delete phase
-     * 
+     *
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
@@ -111,17 +109,17 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     {
         // Get the event
         $this->_event = new org_openpsa_calendar_event_dba($args[0]);
-        
+
         $this->_event->require_do('midgard:delete');
         $this->_request_data['delete_succeeded'] = false;
-        
+
         // Cancel pressed
         if (isset($_POST['org_openpsa_calendar_delete_cancel']))
         {
             $_MIDCOM->relocate("event/{$this->_event->guid}/");
             // This will exit
         }
-        
+
         // Delete confirmed, remove the event
         if (isset($_POST['org_openpsa_calendar_deleteok']))
         {
@@ -133,10 +131,10 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         $this->_request_data['event'] =& $this->_event;
         return true;
     }
-    
+
     /**
      * Show event delete interface
-     * 
+     *
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
@@ -151,7 +149,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         {
             $this->_request_data['popup_title'] = $this->_l10n->get('delete event');
         }
-    
+
         // Show popup
         midcom_show_style('show-popup-header');
         $this->_request_data['event_dm'] =& $this->_datamanager;

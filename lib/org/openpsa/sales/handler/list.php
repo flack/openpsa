@@ -18,7 +18,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * The list of salesprojects.
      *
      * @var Array
-     * @access private
      */
     private $_salesprojects = array();
 
@@ -26,7 +25,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * The map of salesprojects id key relations.
      *
      * @var Array
-     * @access private
      */
     private $_salesprojects_map_id_key = array();
 
@@ -34,7 +32,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * The cache of customers.
      *
      * @var Array
-     * @access private
      */
     private $_customers = array();
 
@@ -42,7 +39,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * The cache of owners.
      *
      * @var Array
-     * @access private
      */
     private $_owners = array();
 

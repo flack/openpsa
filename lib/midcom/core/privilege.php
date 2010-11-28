@@ -362,7 +362,6 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @access protected
      * @param object $the_object A reference to the object or GUID to query.
      * @return Array A list of midcom_core_privilege instances.
      */
@@ -378,7 +377,6 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @access protected
      * @param object $the_object A reference to the object or GUID to query.
      * @return Array A list of midcom_core_privilege instances.
      */
@@ -394,7 +392,6 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @access protected
      * @param string GUID the GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
      */
@@ -412,7 +409,6 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @access protected
      * @param string GUID the GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
      */

@@ -26,7 +26,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      * The calendar widget we're working on
      *
      * @var org_openpsa_calendarwidget
-     * @access private
      */
     private $_calendar = null;
 
@@ -34,7 +33,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      * The calendar root event
      *
      * @var midcom_db_event
-     * @access private
      */
     private $_root_event = null;
 
@@ -42,7 +40,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      * The time to show
      *
      * @var int
-     * @access private
      */
     private $_selected_time = null;
 
@@ -64,7 +61,6 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     /**
      * Populate the toolbar
      *
-     * @access private
      * @param String $today_path    Path to the today's calendar
      */
     private function _populate_toolbar($path = null)
@@ -247,7 +243,6 @@ function openPsaShowMonthSelector()
     /**
      * Populate the calendar with resources
      *
-     * @access private
      * @param midcom_db_person $resource
      * @param int $from Start time
      * @param int $to End time
@@ -332,7 +327,6 @@ function openPsaShowMonthSelector()
     /**
      * Populate the calendar with selected contacts
      *
-     * @access private
      * @param int $from    Start time
      * @param int $to      End time
      */

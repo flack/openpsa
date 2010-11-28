@@ -180,13 +180,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     function _sort_attachments()
     {
         // Sortable attachments should be already sorted in the correct order
-        /**
-         * Commented out, the sort routines take score into account, no reason to trust saving order
-        if ($this->sortable)
-        {
-            return;
-        }
-         */
 
         uasort($this->attachments,
             Array('midcom_helper_datamanager2_type_blobs', '_sort_attachments_callback'));

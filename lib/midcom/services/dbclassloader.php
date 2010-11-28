@@ -142,7 +142,6 @@ class midcom_services_dbclassloader
      * construct  the actual helper classes.
      *
      * @var Array
-     * @access private
      */
     private $_midgard_classes = Array();
 
@@ -154,7 +153,6 @@ class midcom_services_dbclassloader
      * generic by-GUID object getter.
      *
      * @var Array
-     * @access private
      */
     private $_mgdschema_class_handler = Array();
 

@@ -91,7 +91,6 @@ class midcom_baseclasses_components_configuration
      *
      * If $_config_snippet_name is set to null, no configuration will be done.
      *
-     * @access private
      * @see midcom_helper_configuration
      * @see $_config_snippet_name
      */

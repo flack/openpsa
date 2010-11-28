@@ -60,7 +60,7 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
     }
 
-   /**
+    /**
      * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
      *
      * @access private

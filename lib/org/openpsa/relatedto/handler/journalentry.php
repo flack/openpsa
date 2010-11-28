@@ -201,10 +201,9 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
             // This will exit.
         }
     }
-        /**
+
+    /**
      * load controller for datamanager
-     *
-     * @access private
      */
     private function _load_controller()
     {

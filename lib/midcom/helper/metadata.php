@@ -493,7 +493,6 @@ class midcom_helper_metadata
      * "0" is rewritten to "1" to use the MidgardAdministrator account instead.
      *
      * @param string $key The key to retrieve.
-     * @access private
      */
     private function _retrieve_value($key)
     {

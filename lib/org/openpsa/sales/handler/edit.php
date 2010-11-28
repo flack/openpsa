@@ -21,7 +21,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * The Controller of the document used for creating or editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -29,7 +28,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -37,7 +35,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * The schema to use for the new salesproject.
      *
      * @var string
-     * @access private
      */
     private $_schema = 'default';
 
@@ -45,7 +42,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * The defaults to use for the new salesproject.
      *
      * @var Array
-     * @access private
      */
     private $_defaults = array();
 
@@ -53,14 +49,11 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * The salesproject we're working, if any
      *
      * @param org_openpsa_sales_salesproject_dba
-     * @access private
      */
     private $_salesproject = null;
 
     /**
      * Internal helper, loads the controller for the current salesproject. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_edit_controller()
     {
@@ -76,8 +69,6 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_create_controller()
     {

@@ -396,8 +396,6 @@ class org_openpsa_contacts_duplicates
 
     /**
      * Prepare person fields for easier comparison
-     *
-     * @access private
      */
     private static function _normalize_person_fields($arr, $guid)
     {
@@ -415,8 +413,6 @@ class org_openpsa_contacts_duplicates
 
     /**
      * Used by check_all_xxx() -method to walk the QB result and checking each against the rest
-     *
-     * @access private
      */
     private static function _check_all_arraywalk(&$arr1, $key1, &$params)
     {
@@ -555,8 +551,6 @@ class org_openpsa_contacts_duplicates
 
     /**
      * Prepare person fields for easier comparison
-     *
-     * @access private
      */
     private static function _normalize_group_fields($arr, $guid)
     {

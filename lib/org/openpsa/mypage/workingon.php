@@ -21,8 +21,6 @@ class org_openpsa_mypage_workingon
 
     /**
      * Time spent working on the task, in seconds
-     *
-     * @access protected
      */
     protected $time = 0;
 
@@ -38,8 +36,6 @@ class org_openpsa_mypage_workingon
 
     /**
      * Person working on the task
-     *
-     * @access protected
      */
     protected $person = null;
 

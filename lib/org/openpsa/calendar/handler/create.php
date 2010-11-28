@@ -20,18 +20,17 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
      * @var midcom_helper_datamanager2_controller_create
      */
     var $_controller;
-    
+
     /**
      * Defaults for the creation mode
-     * 
-     * @access private
+     *
      * @var Array
      */
     private $_defaults = array();
-    
+
     /**
      * Load the creation controller
-     * 
+     *
      * @access private
      */
     function _load_controller()
@@ -43,14 +42,14 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
         $this->_controller->schemadb =& $schemadb;
         $this->_controller->defaults = $this->_defaults;
         $this->_controller->callback_object =& $this;
-        
+
         if (! $this->_controller->initialize())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
             // This will exit.
         }
     }
-    
+
     /**
      * Event conflicts
      */
@@ -106,7 +105,7 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
 
     /**
      * Handle the creation phase
-     * 
+     *
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
@@ -116,35 +115,35 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
     {
         // Get the root event
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
-        
+
         // ACL handling: require create privileges
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba');
-        
+
         if (isset($args[0]))
         {
             $this->_person = new midcom_db_person($args[0]);
-            
+
             if (   $this->_person
                 && $this->_person->guid)
             {
                 $this->_defaults['participants'][$this->_person->id] = $this->_person;
             }
         }
-        
+
         if (isset($args[1]))
         {
             $time = $args[1];
-            
+
             if ($time)
             {
                 $this->_defaults['start'] = $time;
                 $this->_defaults['end'] = $time + 3600;
             }
         }
-        
+
         // Load the controller instance
         $this->_load_controller();
-        
+
         // Process form
         switch ($this->_controller->process_form())
         {
@@ -156,14 +155,14 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
         }
 
         // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this); 
-                
+        org_openpsa_helpers::dm2_savecancel($this);
+
         // Hide the ROOT style
         $_MIDCOM->skip_page_style = true;
-        
+
         return true;
     }
-    
+
     /**
      * Show the create screen
      *

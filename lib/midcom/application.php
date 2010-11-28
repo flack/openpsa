@@ -128,7 +128,6 @@ class midcom_application
      * the code-init phase.
      *
      * @var Array
-     * @access private
      */
     private $_context = array();
 
@@ -136,7 +135,6 @@ class midcom_application
      * Contains the ID of the currently active context or FALSE is none is active.
      *
      * @var int
-     * @access private
      */
     private $_currentcontext = 0;
 
@@ -144,7 +142,6 @@ class midcom_application
      * The client status array.
      *
      * @var Array
-     * @access private
      */
     private $_client = array();
 
@@ -156,7 +153,6 @@ class midcom_application
      * see constructor.
      *
      * @var string
-     * @access private
      */
     private $_prefix = '';
 
@@ -166,7 +162,6 @@ class midcom_application
      * See the MIDCOM_STATUS_... constants
      *
      * @var int
-     * @access private
      */
     private $_status = null;
 
@@ -177,7 +172,6 @@ class midcom_application
      * for all i18n stuff).
      *
      * @var Array
-     * @access private
      */
     private $_services = array();
 
@@ -206,7 +200,6 @@ class midcom_application
      * Array of URL parsers by context.
      *
      * @var midcom_core_service_urlparser
-     * @access private
      */
     private $_parsers = array();
 
@@ -219,7 +212,6 @@ class midcom_application
      * Array with all JavaScript declarations for the page's head.
      *
      * @var Array
-     * @access private
      */
     private $_jshead = array();
 
@@ -227,7 +219,6 @@ class midcom_application
      * Array with all JavaScript file inclusions.
      *
      * @var Array
-     * @access private
      */
     private $_jsfiles = array();
 
@@ -235,7 +226,6 @@ class midcom_application
      * String with all prepend JavaScript declarations for the page's head.
      *
      * @var string
-     * @access private
      */
     private $_prepend_jshead = '';
 
@@ -243,7 +233,6 @@ class midcom_application
      * Boolean showing if jQuery is enabled
      *
      * @var boolean
-     * @access private
      */
     private $_jquery_enabled = false;
 
@@ -253,7 +242,6 @@ class midcom_application
      * Array with all JQuery state scripts for the page's head.
      *
      * @var array
-     * @access private
      */
     private $_jquery_states = array();
 
@@ -261,7 +249,6 @@ class midcom_application
      * Array with all linked URLs for HEAD.
      *
      * @var Array
-     * @access private
      */
     private $_linkhrefs = array();
 
@@ -269,21 +256,20 @@ class midcom_application
      * Array with all methods for the BODY's onload event.
      *
      * @var Array
-     * @access private
      */
     private $_jsonload = array();
 
     /**
      * string with all metatags to go into the page head.
+     *
      * @var string
-     * @access private
      */
     private $_meta_head = '';
 
     /**
      * string with all object tags to go into a page's head.
+     *
      * @var string
-     * @access private
      */
     private $_object_head = '';
 
@@ -291,7 +277,6 @@ class midcom_application
      * String with all css styles to go into a page's head.
      *
      * @var string
-     * @access private
      */
     private $_style_head = '';
 
@@ -299,7 +284,6 @@ class midcom_application
      * String with all link elements to be included in a page's head.
      *
      * @var string
-     * @access private
      */
     private $_link_head = '';
 
@@ -307,7 +291,6 @@ class midcom_application
      * Host prefix cache to avoid computing it each time.
      *
      * @var string
-     * @access private
      * @see get_host_prefix()
      */
     private $_cached_host_prefix = '';
@@ -316,7 +299,6 @@ class midcom_application
      * Page prefix cache to avoid computing it each time.
      *
      * @var string
-     * @access private
      * @see get_page_prefix()
      */
     private $_cached_page_prefix = '';
@@ -325,7 +307,6 @@ class midcom_application
      * Host name cache to avoid computing it each time.
      *
      * @var string
-     * @access private
      * @see get_host_name()
      */
     private $_cached_host_name = '';
@@ -735,8 +716,6 @@ class midcom_application
      *
      * If the parsing process doesn't find any component that declares to be able to
      * handle the request, an HTTP 404 - Not Found error is triggered.
-     *
-     * @access private
      */
     private function _process()
     {
@@ -1004,8 +983,6 @@ class midcom_application
      * from the Component Loader and instruct it to handle a request. If the handler
      * hook returns false (i.e. handling failed), it will produce an Errorpage
      * according to the error code and -string of the component in question.
-     *
-     * @access private
      */
     private function _handle()
     {
@@ -1057,7 +1034,6 @@ class midcom_application
      *
      * @param midcom_db_topic $object    The node that is currently being tested.
      * @return boolean                    Indication, whether a component can handle a request.
-     * @access private
      */
     private function _can_handle($object)
     {
@@ -1100,7 +1076,6 @@ class midcom_application
      *
      * @param MidgardObject $object    The node from which to load the configuration.
      * @return midcom_helper_configuration    Reference to the newly constructed configuration object.
-     * @access private
      */
     private function _loadconfig($context_id, $object)
     {
@@ -1135,7 +1110,6 @@ class midcom_application
      * the buffer to stdout, in all other cases you have to do this by yourself.
      *
      * @param boolean $showcontent    If set and false, the output will not be automatically flushed.
-     * @access private
      */
     private function _output()
     {
@@ -1402,7 +1376,6 @@ class midcom_application
      * @param int $param1    See get_context_data()
      * @param int $param2    See get_context_data()
      * @see get_context_data()
-     * @access private
      */
     function _set_context_data($value, $param1, $param2 = null)
     {
@@ -1665,8 +1638,6 @@ class midcom_application
     /**
      * Populates the client status array that can be queried using the get_client()
      * method.
-     *
-     * @access private
      */
     function _populate_client ()
     {
@@ -1770,7 +1741,6 @@ class midcom_application
      * @param int $id Explicitly specify the ID for context creation (used during construction), this parameter is usually omitted.
      * @param MidgardObject $node Root node of the context
      * @return int The ID of the newly created component.
-     * @access private
      */
     private function _create_context($id = null, $node = null)
     {
@@ -2736,7 +2706,6 @@ class midcom_application
      * MidCOM Error pages (FORBIDDEN/NOTFOUND) are created upon error.
      *
      * @param mixed $count Number of lines to be dumped or 'all' for everything
-     * @access private
      */
     private function _showdebuglog($count)
     {

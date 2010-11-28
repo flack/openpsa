@@ -375,7 +375,6 @@ class midcom_helper__styleloader
      * @param int $id        The style id to search in.
      * @param string $name    The element to locate.
      * @return string    Value of the found element, or false on failure.
-     * @access private
      */
     private function _get_element_in_styletree($id, $name)
     {

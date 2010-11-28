@@ -397,7 +397,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * The NAP interface instance from the component, initialized on demand.
      *
      * @var object
-     * @access private
      */
     private $_nap_instance = null;
 
@@ -407,8 +406,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * This check is only done during the set_object calls, which will always be the
      * first calls in a sequence of NAP calls. (For performance reasons.)
-     *
-     * @access private
      */
     private function _check_nap_instance()
     {

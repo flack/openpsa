@@ -11,11 +11,9 @@
 /**
  * This class provides an abstract base class for all indexer backends.
  *
- * @abstract Abstract indexer backend class
  * @package midcom.services
  * @see midcom_services_indexer
  */
-
 interface midcom_services_indexer_backend
 {
     /**

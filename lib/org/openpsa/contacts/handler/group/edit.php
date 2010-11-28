@@ -25,7 +25,6 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      * The Controller of the organization used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -33,7 +32,6 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -41,7 +39,6 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      * Schema to use for organization display
      *
      * @var string
-     * @access private
      */
     private $_schema = null;
 
@@ -51,11 +48,8 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
     }
 
-
     /**
      * Internal helper, loads the controller for the current contact. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_controller()
     {

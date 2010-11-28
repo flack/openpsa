@@ -20,7 +20,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * The contact to operate on
      *
      * @var org_openpsa_contacts_contact_dba
-     * @access private
      */
     private $_contact = null;
 
@@ -28,7 +27,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * The Datamanager of the contact to display (for delete mode)
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
     private $_datamanager = null;
 
@@ -36,7 +34,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * The Controller of the contact used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -44,7 +41,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -52,7 +48,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * Schema to use for contact display
      *
      * @var string
-     * @access private
      */
     private $_schema = null;
 
@@ -136,8 +131,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 
     /**
      * Internal helper, loads the datamanager for the current contact. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_datamanager()
     {
@@ -154,8 +147,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
 
     /**
      * Internal helper, loads the controller for the current contact. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_controller()
     {

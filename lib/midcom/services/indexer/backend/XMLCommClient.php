@@ -443,7 +443,7 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      * @param Array $attribs The attributes to the element
      * @access private
      */
-     function xmltag_warning($parser, $name, $attribs)
+    function xmltag_warning($parser, $name, $attribs)
     {
         $this->_current_id = $attribs['ID'];
         $this->_current_data = '';
@@ -487,8 +487,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      */
     function xmltag_error_($parser, $name)
     {
-            $msg = "The MidCOM Indexer failed critically:\n{$this->_current_data}";
-            debug_add($msg, MIDCOM_LOG_ERROR);
+        $msg = "The MidCOM Indexer failed critically:\n{$this->_current_data}";
+        debug_add($msg, MIDCOM_LOG_ERROR);
     }
 
     /**

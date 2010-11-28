@@ -17,7 +17,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The DBA class of the new object.
      *
      * @var string
-     * @access private
      */
     private $_dbaclass = '';
 
@@ -25,7 +24,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The NAP node for the component the DBA class is from.
      *
      * @var array
-     * @access private
      */
     private $_node = null;
 
@@ -33,10 +31,8 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The current action
      *
      * @var string
-     * @access private
      */
     private $_action = 'form';
-
 
     private $_datamanager;
 
@@ -44,7 +40,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The Controller of the document used for creating
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -52,7 +47,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -60,7 +54,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The schema to use for the new object.
      *
      * @var string
-     * @access private
      */
     private $_schema = 'default';
 
@@ -68,7 +61,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The defaults to use for the new object.
      *
      * @var Array
-     * @access private
      */
     private $_defaults = array();
 
@@ -76,7 +68,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * The object we're working on, if any
      *
      * @param midcom_core_dbaobject
-     * @access private
      */
     private $_object = null;
 
@@ -203,8 +194,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
     private function _load_controller()
     {

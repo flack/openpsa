@@ -25,7 +25,6 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
      * unless overridden by the symlink topic feature.
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
