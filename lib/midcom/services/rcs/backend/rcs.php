@@ -1,6 +1,5 @@
 <?php
 /**
- * Created on Aug 16, 2005
  * @author tarjei huse
  * @package midcom.services.rcs
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -53,6 +52,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /**
      * Save a new revision
+     *
      * @param object object to be saved
      * @return boolean true on success.
      */
@@ -97,9 +97,9 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * called just before $object->update(), if the type parameter is omitted
      * the function will use GUID to determine the type, this makes an
      * extra DB query.
+     *
      * @param string root of rcs directory.
      * @param object object to be updated.
-     * @param boolean links2guids - whether to turn links into guids. NOT IN USE
      * @return int :
      *      0 on success
      *      3 on missing object->guid
@@ -147,7 +147,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
    /**
     * Get the object of a revision
-    * @param string object guid (or other identifier)
+    *
     * @param string revision identifier of revision wanted
     * @return array array representation of the object
     */
@@ -185,6 +185,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /**
      * Check if a revision exists
+     *
      * @param string  version
      * @return booleann true if exists
      */
@@ -287,6 +288,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         }
         return $revisions;
     }
+
     /**
      * Lists the number of changes that has been done to the object
      *
@@ -401,6 +403,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /**
      * execute a command
+     *
      * @param string command
      * @return string command result.
      */
@@ -409,8 +412,9 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         $fh = popen($command, "r");
         $ret = "";
         while ($reta = fgets($fh, 1024))
+        {
             $ret .= $reta;
-
+        }
         pclose($fh);
         return $ret;
     }
@@ -437,6 +441,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /**
      * Reads data from file $guid and returns it.
+     *
      * @param string guid
      * @return string xml representation of guid
      */
@@ -462,6 +467,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /**
      * Make xml out of an object.
+     *
      * @param object
      * @return xmldata
      */
@@ -482,14 +488,13 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         return false;
     }
 
-
     /**
      * This function takes an object and adds it to RCS, it should be
      * called just after $object->create(). Remember that you first need
      * to mgd_get the object since $object->create() returns only the id,
      * one way of doing this is:
-     * @param object object to be saved
-     * @param string changelog comment.-
+     * @param object $object object to be saved
+     * @param string $description changelog comment.-
      * @return int :
      *      0 on success
      *      3 on missing object->guid
@@ -643,6 +648,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /**
      * Get the comment of one revision.
+     *
      * @param string revison id
      * @return string comment
      */

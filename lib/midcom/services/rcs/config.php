@@ -1,21 +1,18 @@
 <?php
 /**
- * Created on 31/07/2006
+ * The class containing the configuration options for RCS.
+ *
  * @author tarjei huse
  * @package midcom.services.rcs
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- *
- * The config class is used to generate the RCS configuration.
- *
  */
 
 /**
- * The class containing the configuration options for RCS.
+ * The config class is used to generate the RCS configuration.
+ *
  * @see midcom_services_rcs for an overview of the options
- *
  * @package midcom.services.rcs
- *
  */
  class midcom_services_rcs_config
  {
@@ -86,6 +83,7 @@
 
     /**
      * Loads the backend file needed and returns the class.
+     *
      * @return string of the backend to start
      */
     function _get_handler_class()

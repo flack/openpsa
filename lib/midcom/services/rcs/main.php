@@ -1,7 +1,5 @@
 <?php
 /**
- * Created on 31/07/2006
- *
  * The RCS service gives a write only interface to different services wanting to save changes to objects.
  *
  * The RCS service will try to initialize the backend based on GNU RCS, but, if that fails, fall back
@@ -22,11 +20,6 @@
  * * string midcom_services_rcs_root - the directory where the rcs files get placed.
  * * boolean midcom_services_rcs_enable - if set, midcom will fail hard if the rcs service is not operational.
  *
- */
-require MIDCOM_ROOT. '/midcom/services/rcs/backend.php';
-require MIDCOM_ROOT. '/midcom/services/rcs/config.php';
-
-/**
  * @package midcom.services.rcs
  */
 class midcom_services_rcs

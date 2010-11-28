@@ -1,14 +1,12 @@
 <?php
 /**
- * Created on Aug 16, 2005
- *
  * @author tarjei Huse
  * @package midcom.services.rcs
- *
- * Abstract class for the rcs interface.
  */
 
 /**
+ * Abstract class for the rcs interface.
+ *
  * @package midcom.services.rcs
  */
 class no_bergfald_rcs
@@ -218,7 +216,7 @@ class no_bergfald_rcs
         return "";
     }
 
-   /**
+    /**
      * Lists the number of changes that has been done to the object
      *
      * @return array list of changeids or empty array if no changes.
@@ -233,7 +231,8 @@ class no_bergfald_rcs
      * @param separator default = <br/>
      * @return string errormessage
      */
-     function get_error($sep = '<br/>') {
+     function get_error($sep = '<br/>')
+     {
         return join ($sep,$this->error);
      }
 }

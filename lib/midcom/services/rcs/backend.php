@@ -1,11 +1,9 @@
 <?php
 /**
- * Created on 25/08/2006
  * @author tarjei huse
  * @package midcom.services.rcs
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- *
  */
 
 /**
@@ -79,25 +77,6 @@ class midcom_services_rcs_backend
     function restore_to_revision($revision)
     {
         return false;
-    }
-}
-
-/**
- * @package midcom.services.rcs
- */
-class midcom_services_rcs_backend_null extends midcom_services_rcs_backend
-{
-    /**
-     * Empty constructor
-     */
-    function __construct($object, &$config)
-    {
-        parent::__construct($config, $config);
-    }
-
-    function update(&$object, $comment)
-    {
-        return true;
     }
 }
 ?>
