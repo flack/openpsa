@@ -302,7 +302,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         return true;
     }
 
-
     /**
      * Shows the loaded contact.
      *
@@ -316,5 +315,4 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         midcom_show_style('show-person-delete');
     }
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * FireEagle OAuth+API PHP bindings
  *
@@ -73,8 +72,8 @@ class FireEagle {
   function methodURL($method) { return self::$FE_API_ROOT.'/api/0.1/'.$method.'.json'; }
 
   function __construct($consumerKey,
-               $consumerSecret, 
-               $oAuthToken = null, 
+               $consumerSecret,
+               $oAuthToken = null,
                $oAuthTokenSecret = null)  {
     $this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
     $this->consumer = new OAuthConsumer($consumerKey, $consumerSecret, NULL);
@@ -107,7 +106,7 @@ class FireEagle {
   public function getAuthorizeURL($token) {
     return $this->authorizeURL() . '?oauth_token=' . $token;
   }
-  
+
   /**
    * Exchange the request token and secret for an access token and
    * secret, to sign API calls.
@@ -140,7 +139,7 @@ class FireEagle {
   }
 
   // --- Wrappers for individual methods ---
-  
+
   /**
    * Wrapper for 'user' API method, which fetches the current location
    * for a user.
@@ -174,7 +173,7 @@ class FireEagle {
     unset($loc);
       }
     }
-    
+
     return $r;
   }
 
@@ -211,7 +210,7 @@ class FireEagle {
       throw new FireEagleException("This function requires an OAuth token", FireEagleException::TOKEN_REQUIRED);
     }
   }
-  
+
   // Parse a URL-encoded OAuth response
   protected function oAuthParseResponse($responseString) {
     $r = array();
@@ -219,7 +218,7 @@ class FireEagle {
       $pair = explode('=', $param, 2);
       if (count($pair) != 2) continue;
       $r[urldecode($pair[0])] = urldecode($pair[1]);
-    }  
+    }
     return $r;
   }
 
@@ -288,7 +287,7 @@ class FireEagle {
     if (self::$FE_DEBUG) {
       echo "[HTTP response: <code>".nl2br(htmlspecialchars($response))."</code>]";
     }
-    
+
     return $response;
   }
 

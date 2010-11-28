@@ -111,7 +111,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
                     continue;
                 }
             }
-            
+
             if ($type_definition['readonly'])
             {
                 // Skip storage as we may raise exceptions if the field doesn't exist
@@ -186,7 +186,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
             if ($type_definition['storage']['location'] !== null)
             {
                 $data = $this->_on_load_data($name);
-                if ($types[$name]->serialized_storage 
+                if ($types[$name]->serialized_storage
                     && is_string($data))
                 {
                     // Hide unserialization errors, but log them.
@@ -251,5 +251,4 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
         }
     }
 }
-
 ?>

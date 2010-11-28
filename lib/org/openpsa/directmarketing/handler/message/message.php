@@ -188,5 +188,4 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
         midcom_show_style('show-message');
     }
 }
-
 ?>

@@ -126,5 +126,4 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
         $this->_close();
     }
 }
-
 ?>

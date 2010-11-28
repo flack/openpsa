@@ -48,8 +48,9 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
         }
         $_MIDCOM->auth->drop_sudo();
     }
-      /**
-      * Iterate over all invoices and create index record using the datamanager indexer
+
+    /**
+     * Iterate over all invoices and create index record using the datamanager indexer
      * method.
      */
     function _on_reindex($topic, $config, &$indexer)
@@ -94,5 +95,4 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
         return true;
     }
 }
-
 ?>

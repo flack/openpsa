@@ -46,7 +46,6 @@ $components[''] = $data['l10n']->get('search all content types');
 midcom_helper_search_process_node($nap->get_root_node(), $nap, $topics, $components, '', $data);
 $_MIDCOM->load_library('midcom.helper.xsspreventer');
 $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
-
 ?>
 <form method='get' name='midcom_helper_search_form' action='&(prefix);result/' class='midcom.helper.search'>
 <input type='hidden' name='type' value='advanced' />
@@ -94,8 +93,6 @@ foreach ($components as $id => $name)
         <td>
             <select name="lastmodified" size="1" style="width: 20em;">
 <?php
-
-
 foreach ($lastmod_content as $timestamp => $name)
 {
     $selected = (abs($data['lastmodified'] - $timestamp) < 10000) ? ' selected' : '';

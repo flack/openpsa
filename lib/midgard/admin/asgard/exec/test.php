@@ -75,7 +75,7 @@ foreach (midcom_connection::get_schema_types() as $schema_type)
 {
     $ref = midcom_helper_reflector::get($schema_type);
     $label_pro = $ref->get_label_property();
-    echo "label property for {$schema_type} is {$label_pro}<br>\n";    
+    echo "label property for {$schema_type} is {$label_pro}<br>\n";
     $info = $ref->get_link_properties();
     echo "link properties for {$schema_type}<pre>\n";
     print_r($info);
@@ -86,5 +86,4 @@ foreach (midcom_connection::get_schema_types() as $schema_type)
     print_r($info);
     echo "</pre>\n";
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_POST['n_level']))
 {
     $level = $_POST['n_level'] + 1;

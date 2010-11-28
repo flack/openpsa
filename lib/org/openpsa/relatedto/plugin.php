@@ -507,6 +507,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
             }
         }
     }
+
     /**
      * function to add the button for journal_entry to the toolbar
      */
@@ -523,5 +524,4 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         );
     }
 }
-
 ?>

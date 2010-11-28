@@ -11,6 +11,7 @@
  * Datamanager 2 position management type.
  *
  * This type allows you to position objects in the Midgard database geographically.
+ *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_type_position extends midcom_helper_datamanager2_type
@@ -152,5 +153,4 @@ class midcom_helper_datamanager2_type_position extends midcom_helper_datamanager
         return $result;
     }
 }
-
 ?>

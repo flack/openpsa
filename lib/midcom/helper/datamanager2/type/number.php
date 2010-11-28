@@ -199,5 +199,4 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
         return true;
     }
 }
-
 ?>

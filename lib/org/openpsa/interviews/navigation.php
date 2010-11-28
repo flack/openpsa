@@ -37,5 +37,4 @@ class org_openpsa_interviews_navigation extends midcom_baseclasses_components_na
         return $leaves;
     }
 }
-
 ?>

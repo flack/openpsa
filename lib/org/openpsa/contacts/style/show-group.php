@@ -94,6 +94,5 @@ $addresses = array();
         );
     }
     org_openpsa_core_ui::render_tabs($data['group']->guid, $tabs);
-
     ?>
 </div>

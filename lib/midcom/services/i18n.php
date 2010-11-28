@@ -824,6 +824,4 @@ class midcom_services_i18n
         return mb_decode_numericentity($entity, $convmap, $this->_current_charset);
     }
 }
-
-
 ?>

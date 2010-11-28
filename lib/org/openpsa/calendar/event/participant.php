@@ -127,8 +127,5 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
         }
         return org_openpsa_notifications::notify($action, $recipient->guid, $message);
     }
-
-// *** End class org_openpsa_calendar_event_participant_dba ***
 }
-
 ?>

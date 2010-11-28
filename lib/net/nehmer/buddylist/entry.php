@@ -18,7 +18,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nehmer_buddylist_entry_db';
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -33,7 +33,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-        
+
     function get_parent_guid_uncached()
     {
         if ($this->account)
@@ -43,7 +43,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
         }
         return null;
     }
-    
+
     /**
      * Human-readable label for cases like Asgard navigation
      */
@@ -111,7 +111,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
             $_MIDCOM->auth->require_valid_user();
             $user =& $_MIDCOM->auth->user;
         }
-        
+
         $qb = net_nehmer_buddylist_entry::_get_buddy_qb($user);
         $buddies = $qb->execute();
 
@@ -299,7 +299,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
         $_MIDCOM->auth->require_do('midgard:owner', $this);
         $_MIDCOM->auth->require_do('midgard:update', $buddy);
         $_MIDCOM->auth->require_do('midgard:privileges', $buddy);
-        
+
         // Invalidate cache for both users
         $_MIDCOM->cache->invalidate($buddy_user->guid);
         $_MIDCOM->cache->invalidate($buddy->guid);
@@ -413,5 +413,4 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
         }
     }
 }
-
 ?>

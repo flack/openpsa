@@ -106,5 +106,4 @@
             $vcard['fn']    = $vcard['fn']['text'];
         }
     }
-
 ?>

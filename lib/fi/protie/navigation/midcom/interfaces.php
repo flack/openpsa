@@ -7,7 +7,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-
 /**
  * Versatile class for drawing dynamically navigation elements according to
  * user preferences.

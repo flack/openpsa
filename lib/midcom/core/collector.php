@@ -405,7 +405,6 @@ class midcom_core_collector
         /**
          * NOTE: So see also querybuilder.php when making changes here
          */
-
         if ($ordering === null)
         {
             $result = $this->_mc->add_order($field);
@@ -542,5 +541,4 @@ class midcom_core_collector
         return $this->_mc->count();
     }
 }
-
 ?>

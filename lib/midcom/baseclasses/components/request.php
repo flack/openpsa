@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package midcom.baseclasses
  * @author The Midgard Project, http://www.midgard-project.org

@@ -38,5 +38,4 @@ class midcom_helper_datamanager2_storage_tmp extends midcom_helper_datamanager2_
         $this->object = $object;
     }
 }
-
 ?>

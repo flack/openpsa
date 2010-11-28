@@ -109,8 +109,6 @@ foreach ($data['totals'] as $label => $sum)
         'sum' => org_openpsa_helpers::format_number($sum)
     );
 }
-
-
 ?>
 
 <div class="org_openpsa_invoices <?php echo $classes ?> full-width">

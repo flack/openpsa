@@ -47,7 +47,6 @@ if ($data['max_pages'] > 1)
         $desc = $data['l10n']->get('next page');
         echo "&nbsp;&nbsp;&nbsp;<a href='{$url}'>{$desc} &rArr;</a>";
     }
-
 ?>
 </p>
 <?php

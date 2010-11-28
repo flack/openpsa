@@ -509,7 +509,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         return true;
     }
 
-
     /**
      * Shows the loaded campaign.
      */
@@ -520,5 +519,4 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         midcom_show_style('show-campaign-delete');
     }
 }
-
 ?>

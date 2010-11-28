@@ -8,8 +8,6 @@
  */
 
 /**
- *
- *
  * @package midcom.services
  */
 class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handler

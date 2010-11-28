@@ -12,7 +12,6 @@
  *
  * @package net.nehmer.static
  */
-
 class net_nehmer_static_handler_admin extends midcom_baseclasses_components_handler
 {
     /**
@@ -461,7 +460,6 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         return true;
     }
 
-
     /**
      * Shows the loaded article.
      *
@@ -474,5 +472,4 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         midcom_show_style('admin-delete');
     }
 }
-
 ?>

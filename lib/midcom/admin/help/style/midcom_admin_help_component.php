@@ -2,7 +2,7 @@
 if (count($data['help_files']) > 0)
 {
     echo "<h2>" . $_MIDCOM->i18n->get_string('toc', 'midcom.admin.help') . "</h2>\n";
-    
+
     echo "<ul>\n";
     foreach ($data['help_files'] as $file_info)
     {
@@ -13,5 +13,4 @@ if (count($data['help_files']) > 0)
     }
     echo "</ul>\n";
 }
-
 ?>

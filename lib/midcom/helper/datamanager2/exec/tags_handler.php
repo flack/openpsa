@@ -180,5 +180,4 @@ echo "</response>\n";
 
 $_MIDCOM->finish();
 _midcom_stop_request();
-
 ?>

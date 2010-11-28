@@ -210,5 +210,4 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         return gmmktime(date('G'), date('i'), date('s'), date('n'), date('j'), date('Y'));
     }
 }
-
 ?>

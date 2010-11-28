@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package org.openpsa.reports
  * @author Nemein Oy, http://www.nemein.com/

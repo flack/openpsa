@@ -68,5 +68,4 @@ class midcom_helper_datamanager2_qfrule_select_requiremultiselect extends HTML_Q
         return array('', '');
     }
 }
-
 ?>

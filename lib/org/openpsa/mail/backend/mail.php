@@ -61,5 +61,4 @@ class org_openpsa_mail_backend_mail
         return function_exists('mail');
     }
 }
-
 ?>

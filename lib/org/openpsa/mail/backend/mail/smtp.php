@@ -96,5 +96,4 @@ class org_openpsa_mail_backend_mail_smtp
         return class_exists('Mail_smtp');
     }
 }
-
 ?>

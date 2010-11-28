@@ -18,9 +18,6 @@
  * _dm2_composite_xx_item and _dm2_composite_xx_footer where xx is the value of the
  * <i>style_element_name</i>.
  *
- * <b>Available configuration options:</b>
- *
- *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_widget_composite extends midcom_helper_datamanager2_widget

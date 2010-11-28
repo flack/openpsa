@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package org.openpsa.directmarketing
  * @author Nemein Oy, http://www.nemein.com/

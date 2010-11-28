@@ -53,5 +53,4 @@ if ($data['current_row']['customer'])
     }
     $group_total_by_customer[$task->customer] += $hour->hours;
 }
-
 ?>

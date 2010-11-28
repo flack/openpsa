@@ -377,7 +377,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $mc_entry->execute();
         $entry_keys = $mc_entry->list_keys();
         //check date
-        if($formdata['notify']->value->year != '0000' )//&& $unix_time > time())
+        if ($formdata['notify']->value->year != '0000' )//&& $unix_time > time())
         {
             $notification_entry = null;
 
@@ -413,13 +413,13 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             $notification_entry->arguments = array('deliverable' => $this->_deliverable->guid);
             $notification_entry->update();
         }//void date - so delete existing at_entrys for this notify_date
-        elseif($formdata['notify']->value->year == '0000')
+        else if($formdata['notify']->value->year == '0000')
         {
             foreach($entry_keys as $key => $empty)
             {
                 $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key , 'fromGuid'));
                 //check if related at_entry exists & delete it
-                if(!empty($notification_entry->guid))
+                if (!empty($notification_entry->guid))
                 {
                     $notification_entry->delete();
                 }
@@ -427,5 +427,4 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         }
     }
 }
-
 ?>

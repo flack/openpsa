@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package org.openpsa.documents
  * @author The Midgard Project, http://www.midgard-project.org
@@ -11,7 +10,6 @@
  * org.openpsa.documents document handler and viewer class.
  *
  * @package org.openpsa.documents
- *
  */
 class org_openpsa_documents_handler_directory_navigation extends midcom_baseclasses_components_handler
 {

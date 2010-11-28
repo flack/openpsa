@@ -49,5 +49,4 @@ foreach (midcom_connection::get_schema_types() as $mgdschema)
 }
 
 echo "<br/><br/>Done.";
-
 ?>

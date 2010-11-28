@@ -24,7 +24,7 @@ class org_openpsa_projects_projectbroker
         if (!$owner_guid)
         {
             return false;
-        }        
+        }
         $this->_owner_grp = new org_openpsa_contacts_group_dba($owner_guid);
     }
 
@@ -242,5 +242,4 @@ class org_openpsa_projects_projectbroker
         return $slots;
     }
 }
-
 ?>

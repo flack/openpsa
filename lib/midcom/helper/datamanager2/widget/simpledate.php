@@ -371,5 +371,4 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
         echo $this->_type->value->format($format_string);
     }
 }
-
 ?>

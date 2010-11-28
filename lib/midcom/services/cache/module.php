@@ -18,7 +18,6 @@
  *
  * @package midcom.services
  */
-
 abstract class midcom_services_cache_module
 {
     /**

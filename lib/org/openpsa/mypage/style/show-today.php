@@ -25,7 +25,6 @@ $view_today =& $data['view_today'];
 
 <div class="org_openpsa_mypage main">
     <?php
-
     if ($data['calendar_url'])
     {
         ?>
@@ -37,8 +36,7 @@ $view_today =& $data['view_today'];
         <?php
     }
 
-
-    if($data['journal_url'])
+    if ($data['journal_url'])
     {
         ?>
         <div class="journal full-width" style="padding-bottom:20px;">

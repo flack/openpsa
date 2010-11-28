@@ -5,7 +5,6 @@ require_once ("recaptchalib.php");
 // get a key at http://mailhide.recaptcha.net/apikey
 $mailhide_pubkey = '';
 $mailhide_privkey = '';
-
 ?>
 
 The Mailhide version of example@example.com is

@@ -32,6 +32,7 @@ require_once('HTML/QuickForm/Renderer.php');
 /**
  * A concrete renderer for HTML_QuickForm,
  * based on QuickForm 2.x built-in one
+ *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer

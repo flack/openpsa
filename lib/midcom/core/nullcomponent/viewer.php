@@ -30,5 +30,4 @@ class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_req
         );
     }
 }
-
 ?>

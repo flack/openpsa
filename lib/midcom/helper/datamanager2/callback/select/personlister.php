@@ -261,7 +261,6 @@ class midcom_helper_datamanager2_callback_select_personlister
     /**
      * Chooser related methods
      */
-
     function get_key_data($key)
     {
         return $this->_load_person($key, true);

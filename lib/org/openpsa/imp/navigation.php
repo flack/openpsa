@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package org.openpsa.imp
  * @author Nemein Oy, http://www.nemein.com/

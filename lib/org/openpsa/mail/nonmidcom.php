@@ -11,10 +11,9 @@
  *
  * @package org.openpsa.mail
  */
-
 if (!defined('MIDCOM_ROOT'))
 {
-    $try = array('/usr/share/php', '/usr/share/pear', '/usr/share/php4');
+    $try = array('/usr/share/php', '/usr/share/pear', '/usr/share/php5');
     foreach ($try as $pear_root)
     {
         $path = "{$pear_root}/midcom/lib";
@@ -124,6 +123,4 @@ require_once(MIDCOM_ROOT . '/org/openpsa/mail/backend/mail/sendmail.php');
 require_once(MIDCOM_ROOT . '/org/openpsa/mail/backend/mail/smtp.php');
 require_once(MIDCOM_ROOT . '/org/openpsa/mail/backend/bouncer.php');
 require_once(MIDCOM_ROOT . '/org/openpsa/mail/main.php');
-
-
 ?>

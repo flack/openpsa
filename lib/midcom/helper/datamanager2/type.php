@@ -308,5 +308,4 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
         return $this->storage->can_do($privilege);
     }
 }
-
 ?>

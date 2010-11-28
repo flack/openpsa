@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
@@ -17,7 +16,7 @@
  * and populate all metadata fields of the document from there.
  *
  * If you want to index datamanager driven objects, you should instead look at
- * the class midcom_services_indexer_document_datamanager.
+ * the class midcom_services_indexer_document_datamanager2.
  *
  * The GUID of the object being referred is used as a RI.
  *
@@ -27,7 +26,6 @@
  * @see midcom_services_indexer
  * @see midcom_helper_metadata
  */
-
 class midcom_services_indexer_document_midcom extends midcom_services_indexer_document
 {
     /**
@@ -37,7 +35,6 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      * @var midcom_helper_metadata
      */
     var $_metadata = null;
-
 
     /**
      * The constructor initializes the content object, loads the metadata object

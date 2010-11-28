@@ -1,5 +1,4 @@
 <?php
-
 /*************************************************
 
 Snoopy - the PHP net client
@@ -1251,5 +1250,4 @@ class Snoopy
         return $postdata;
     }
 }
-
 ?>

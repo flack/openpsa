@@ -62,5 +62,4 @@
     {
         $hreview = array_change_key_case($hreview, CASE_UPPER);
     }
-
 ?>

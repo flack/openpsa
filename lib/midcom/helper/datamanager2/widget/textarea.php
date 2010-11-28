@@ -74,7 +74,7 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
      * @var boolean
      */
     public $expand = false;
-    
+
     /**
      * The initialization event handler post-processes the maxlength setting.
      *
@@ -121,11 +121,11 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
         {
             $attributes['wrap'] = $this->wrap;
         }
-        if ($this->expand) 
+        if ($this->expand)
         {
-            $this->_form->addElement('link', 
+            $this->_form->addElement('link',
                             $this->_l10n->get('expand'),
-                            '', 
+                            '',
                             "#",$this->_l10n->get('expand area'),
                             array ('onclick'=> "expandArea(this,'{$attributes['id']}');")
                             );
@@ -150,11 +150,11 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
     {
         $this->_type->value = $results[$this->name];
     }
-    
+
     function _add_expand_js() {
         $expand_area = $this->_l10n->get("Expand area");
-        $contract_area = $this->_l10n->get("Contract area");    
-    
+        $contract_area = $this->_l10n->get("Contract area");
+
         $script = <<<EOT
     /* http://www.webreference.com/programming/javascript/gr/column9/index.html */
 var undefined;
@@ -168,27 +168,27 @@ function expandArea(evt, textAreaId) {
         midcom_helper_datamanager2_textAreas[textAreaId] = new Object();
         midcom_helper_datamanager2_textAreas[textAreaId].expanded = false;
     }
-    
-    if (evt) 
-    {   
+
+    if (evt)
+    {
         obj = document.getElementById(textAreaId);
-        if (!midcom_helper_datamanager2_textAreas[textAreaId].expanded) 
+        if (!midcom_helper_datamanager2_textAreas[textAreaId].expanded)
         {
             midcom_helper_datamanager2_textAreas[textAreaId].height = obj.style.height;
-            midcom_helper_datamanager2_textAreas[textAreaId].width  = obj.style.width;      
-        
+            midcom_helper_datamanager2_textAreas[textAreaId].width  = obj.style.width;
+
             pos = getElementPosition(obj.id);
             obj.style.height = window.innerHeight -pos.top -50 + "px";
             obj.style.width = window.innerWidth -pos.left -50 + "px";
             obj.style.border = "solid 1px black";
             midcom_helper_datamanager2_textAreas[textAreaId].expanded = true;
             evt.innerHTML = "$contract_area";
-        } 
-        else 
+        }
+        else
         {
             // object is to contract.
             obj.style.height = midcom_helper_datamanager2_textAreas[textAreaId].height;
-            obj.style.width = midcom_helper_datamanager2_textAreas[textAreaId].width;   
+            obj.style.width = midcom_helper_datamanager2_textAreas[textAreaId].width;
             evt.innerHTML = "$expand_area";
             midcom_helper_datamanager2_textAreas[textAreaId].expanded = false;
         }
@@ -198,5 +198,4 @@ EOT;
         $_MIDCOM->add_jscript($script);
     }
 }
-
 ?>

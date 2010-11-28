@@ -73,5 +73,4 @@ class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
         return true;
     }
 }
-
 ?>

@@ -26,8 +26,6 @@ if ($task_status->targetPerson)
 }
 
 $message = sprintf($_MIDCOM->i18n->get_string($task_status->get_status_message(), 'org.openpsa.projects'), $status_changer_label, $target_person_label);
-
-
 ?>
 <tr class="hour_report &(data['class']);">
     <td class="time">

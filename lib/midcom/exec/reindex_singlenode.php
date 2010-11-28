@@ -1,12 +1,11 @@
 <?php
-
 /**
  * Reindex script for single node.
- * 
+ *
  * Reindexes a single node with id given in $_REQUEST['nodeid']
- * 
+ *
  * @package midcom
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id$
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -15,7 +14,7 @@
 // IP Address Checks
 $ips = $GLOBALS['midcom_config']['indexer_reindex_allowed_ips'];
 $ip_sudo = false;
-if (   $ips 
+if (   $ips
     && in_array($_SERVER['REMOTE_ADDR'], $ips))
 {
     if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))

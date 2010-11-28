@@ -715,5 +715,4 @@ class midcom_helper__dbfactory
         return true;
     }
 }
-
 ?>

@@ -926,5 +926,4 @@ function midcom_show_style($param, $guids = null)
 {
     return $_MIDCOM->style->show($param, $guids);
 }
-
 ?>

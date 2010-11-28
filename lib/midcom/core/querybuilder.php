@@ -824,5 +824,4 @@ class midcom_core_querybuilder
         }
     }
 }
-
 ?>

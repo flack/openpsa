@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package org.openpsa.invoices
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
 
 /**
  * MidCOM wrapped class for access to stored queries
@@ -31,7 +37,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
     }
 
     /**
-     * funciton to render the address of billing_data
+     * function to render the address of billing_data
      */
     function render_address()
     {

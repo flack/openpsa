@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package net.nehmer.account
  * @author The Midgard Project, http://www.midgard-project.org
@@ -49,7 +48,7 @@ class net_nehmer_account_interface extends midcom_baseclasses_components_interfa
         define ('NET_NEHMER_ACCOUNT_LEAFID_PASSWORDCHANGE', 6);
         define ('NET_NEHMER_ACCOUNT_LEAFID_PENDING', 10);
         define ('NET_NEHMER_ACCOUNT_LEAFID_OTHER', 999);
-        
+
         $this->_autoload_libraries = Array
         (
             'midcom.helper.datamanager2',
@@ -74,20 +73,20 @@ class net_nehmer_account_interface extends midcom_baseclasses_components_interfa
      * Simple lookup method which tries to map the guid to an article of out topic.
      */
     function _on_resolve_permalink($topic, $config, $guid)
-    {    
+    {
         $person = $_MIDCOM->auth->get_user($guid);
         if (   !$person
             || !$person->guid)
         {
             return null;
         }
-        
+
         if (!$person->username)
         {
             return null;
         }
 
         return "view/{$person->username}/";
-    }  
+    }
 }
 ?>

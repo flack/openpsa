@@ -106,5 +106,4 @@ else
     error_log("link detected: $token $link");
 }
 exit(0);
-
 ?>

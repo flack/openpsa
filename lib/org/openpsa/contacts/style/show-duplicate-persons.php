@@ -10,7 +10,6 @@ $contact1->show_groups = false;
 $contact2 = new org_openpsa_contactwidget($data['person2']);
 $contact2->link = "{$node[MIDCOM_NAV_FULLURL]}person/{$data['person2']->guid}/";
 $contact2->show_groups = false;
-
 ?>
 <h1><?php echo $data['l10n']->get('merge persons'); ?></h1>
 <p><?php echo $data['l10n']->get('choose the person to keep'); ?></p>

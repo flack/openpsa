@@ -182,5 +182,4 @@ class midcom_helper_datamanager2_widget_tagpicker extends midcom_helper_datamana
         return $html;
     }
 }
-
 ?>

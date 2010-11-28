@@ -61,7 +61,6 @@
                         score += ( $.fn.checkRepetition(4,password).length - password.length ) * 1;
 
                         <?php
-
                         foreach($data['password_rules'] as $rule)
                         {
                             echo " if (password.match(".$rule['match'].")){ score += ".$rule['score'].";}";

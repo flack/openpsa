@@ -1,5 +1,4 @@
 <?php
-
 $_MIDCOM->auth->require_admin_user();
 
 $is_group = false;
@@ -41,5 +40,4 @@ $priv->assignee = "SELF";
 $priv->classname = 'midcom_services_toolbars';
 $priv->value = 1;
 $priv->create();
-
 ?>

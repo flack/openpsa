@@ -45,7 +45,7 @@ foreach ($data['invoices'] as $invoice)
     {
         $entry['number'] = $invoice->description;
     }
-    
+
     $owner = org_openpsa_contacts_person_dba::get_cached($invoice->owner);
 
     $entry['owner'] = $owner->name;
@@ -75,7 +75,7 @@ foreach ($data['invoices'] as $invoice)
 
     $entry['index_contact'] = '';
     $entry['contact'] = '';
-        
+
     if ($contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact))
     {
         $entry['index_contact'] = $contact->rname;
@@ -94,7 +94,6 @@ foreach ($data['invoices'] as $invoice)
 echo '<script type="text/javascript">//<![CDATA[';
 echo "\nvar " . $grid_id . '_entries = ' . json_encode($entries);
 echo "\n//]]></script>";
-
 ?>
 
 <div class="report &(data['table_class']); org_openpsa_invoices full-width">
@@ -138,7 +137,7 @@ jQuery("#&(grid_id);").jqGrid({
       caption: "&(data['table_title']);",
       footerrow: true,
       grouping: true,
-      groupingView: { 
+      groupingView: {
           groupField: ['owner'],
           groupColumnShow: [false],
           groupText : ['<strong>{0}</strong> ({1})'],

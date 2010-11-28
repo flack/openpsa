@@ -698,5 +698,4 @@ class org_openpsa_helpers_vxparser
         return $ret;
     }
 }
-
 ?>

@@ -141,5 +141,4 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
        echo "</pre>";
     }
 }
-
 ?>

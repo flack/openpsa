@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
@@ -93,7 +92,6 @@
  * @see midcom_services_indexer
  * @see midcom_helper_datamanager2_datamanager
  */
-
 class midcom_services_indexer_document_datamanager2 extends midcom_services_indexer_document_midcom
 {
     /**

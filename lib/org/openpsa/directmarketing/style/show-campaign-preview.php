@@ -27,7 +27,7 @@ $url = $url."person/";
 $even = 'even';
 $target = "target='_blank'";
 
-foreach($data['preview_persons'] as $id => $person)
+foreach ($data['preview_persons'] as $id => $person)
 {
     echo "<tr class='".$even."'>";
     echo "<td><a ".$target." href='".$url.$person['guid']."/'>".$person['lastname']."</a></td>";
@@ -43,7 +43,6 @@ foreach($data['preview_persons'] as $id => $person)
         $even = 'even';
     }
 }
-
 ?>
 
 </tbody>

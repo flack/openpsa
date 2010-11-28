@@ -230,5 +230,4 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
         }
     }
 }
-
 ?>

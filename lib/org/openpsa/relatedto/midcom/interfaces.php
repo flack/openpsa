@@ -148,5 +148,4 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         return true;
     }
 }
-
 ?>

@@ -10,6 +10,7 @@
  * Send backend for org_openpsa_mail, using jzs bounce detection system
  * in fact the bounce detect can work both with mail_smtp and mail_sendmail
  * but to simplify usage we wrap both here into this "meta backend"
+ *
  * @package org.openpsa.mail
  */
 class org_openpsa_mail_backend_bouncer
@@ -90,5 +91,4 @@ class org_openpsa_mail_backend_bouncer
         return false;
     }
 }
-
 ?>

@@ -34,7 +34,7 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
         );
 
         org_openpsa_core_ui::enable_ui_tab();
-        
+
         $sales_url = org_openpsa_core_siteconfig::get_instance()->get_node_relative_url('org.openpsa.sales');
 
         $data['tabs'] = array
@@ -84,5 +84,4 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
         midcom_show_style('show-frontpage');
     }
 }
-
 ?>

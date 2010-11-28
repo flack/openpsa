@@ -20,7 +20,6 @@ $_MIDCOM->auth->require_admin_user();
     <th>Recommendations</th>
   </tr>
 <?php
-
 define('OK', 0);
 define('WARNING', 1);
 define('ERROR', 2);
@@ -391,8 +390,6 @@ else
 {
     println('MidCOM cache base directory', OK);
 }
-
-
 ?>
 </table>
 </body>

@@ -20,5 +20,4 @@ echo "  values for anchor rel '{$anchor_relation}'<pre>\n";
 print_r($anchor_values);
 echo "  </pre>\n";
 echo "</p>\n";
-
 ?>

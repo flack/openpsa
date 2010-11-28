@@ -50,7 +50,7 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
      * @var int
      */
     public $height = 6;
-    
+
     /**
      * Whether to actually enable editarea
      */
@@ -77,7 +77,7 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
         //    // EditArea really messes up Asgard for WebKit browsers
         //    $this->editarea_enabled = false;
         //}
-        
+
         if ($this->editarea_enabled)
         {
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/edit_area/edit_area_full.js');
@@ -98,7 +98,7 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
             'class' => "editarea {$this->language}",
             'id'    => "{$this->_namespace}{$this->name}",
         );
-        
+
         if (!$this->editarea_enabled)
         {
             $attributes['class'] = 'longtext';
@@ -138,5 +138,4 @@ class midcom_helper_datamanager2_widget_editarea extends midcom_helper_datamanag
         $this->_type->value = $results[$this->name];
     }
 }
-
 ?>

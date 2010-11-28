@@ -92,5 +92,4 @@ class net_nehmer_account_callbacks_validation extends midcom_baseclasses_compone
         }
     }
 }
-
 ?>

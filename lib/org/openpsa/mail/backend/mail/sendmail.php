@@ -97,5 +97,4 @@ class org_openpsa_mail_backend_mail_sendmail
         return class_exists('Mail_sendmail');
     }
 }
-
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
@@ -19,7 +18,6 @@
  * @package midcom.services
  * @see midcom_services_indexer
  */
-
 class midcom_services_indexer_filter
 {
     /**

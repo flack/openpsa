@@ -19,7 +19,6 @@
  *
  * @package midcom.baseclasses
  */
-
 abstract class midcom_baseclasses_components_navigation extends midcom_baseclasses_components_base
 {
     /**#@+

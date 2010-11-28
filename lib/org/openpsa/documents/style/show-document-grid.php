@@ -58,7 +58,6 @@ foreach ($data['documents'] as $document)
 echo '<script type="text/javascript">//<![CDATA[';
 echo "\nvar " . $grid_id . '_entries = ' . json_encode($entries);
 echo "\n//]]></script>";
-
 ?>
 
 <div class="org_openpsa_documents full-width">

@@ -33,5 +33,4 @@ class org_openpsa_interviews_interface extends midcom_baseclasses_components_int
         return true;
     }
 }
-
 ?>

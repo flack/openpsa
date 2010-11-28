@@ -900,5 +900,4 @@ class midcom_helper__componentloader
         return 'stock-icons/16x16/component.png';
     }
 }
-
 ?>

@@ -15,5 +15,4 @@ else
     /* We should not ever hit this, the handler aborts
        if anything critical is missing */
 }
-
 ?>

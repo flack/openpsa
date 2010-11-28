@@ -133,5 +133,4 @@ class midcom_helper_datamanager2_type_privilegeset extends midcom_helper_dataman
         }
     }
 }
-
 ?>

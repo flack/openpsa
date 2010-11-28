@@ -78,5 +78,4 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
         return true;
     }
 }
-
 ?>

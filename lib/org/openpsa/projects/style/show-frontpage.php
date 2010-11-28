@@ -26,7 +26,6 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
        </tr>
       </tfoot>
     <?php
-
     foreach ($data['customers'] as $customer => $projects)
     {
         $customer_title = $data['l10n']->get('no customer');
@@ -42,7 +41,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         $class = "odd";
 
-	$position = '';
+    	$position = '';
 
         foreach ($projects as $i => $project)
         {

@@ -30,7 +30,7 @@ $nap = new midcom_helper_nav();
 
 $qb = midcom_db_topic::new_query_builder();
 $qb->add_constraint('up', 'INTREE', $site_root->id);
-$qb->begin_group('OR'); 
+$qb->begin_group('OR');
     $qb->add_constraint('metadata.hidden', '=', 1);
     $qb->add_constraint('metadata.navnoentry', '=', 1);
 $qb->end_group();
@@ -51,7 +51,7 @@ foreach ($topics as $topic)
 echo "<h2>Articles</h2>\n";
 $qb = midcom_db_article::new_query_builder();
 $qb->add_constraint('topic', 'INTREE', $site_root->id);
-$qb->begin_group('OR'); 
+$qb->begin_group('OR');
     $qb->add_constraint('metadata.hidden', '=', 1);
     $qb->add_constraint('metadata.navnoentry', '=', 1);
 $qb->end_group();
@@ -74,5 +74,4 @@ foreach ($articles as $article)
     echo "<a href='{$crumb['napobject'][MIDCOM_NAV_FULLURL]}{$article->name}/'>{$article->title}</a>";
     echo " (<a href='{$host_prefix}__mfa/asgard/object/view/{$article->guid}'>in Asgard</a>)<br/>\n";
 }
-
 ?>

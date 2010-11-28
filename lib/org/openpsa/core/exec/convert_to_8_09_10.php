@@ -10,5 +10,4 @@
     {
         echo "Page was created or already exists";
     }
-
 ?>

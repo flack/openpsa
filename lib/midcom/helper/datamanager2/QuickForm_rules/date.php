@@ -130,5 +130,4 @@ class midcom_helper_datamanager2_qfrule_date_checksimpledate extends HTML_QuickF
         return array('', '');
     }
 }
-
 ?>

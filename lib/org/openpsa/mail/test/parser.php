@@ -10,6 +10,4 @@ while(!feof(STDIN))
 fclose(STDIN);
 $parser->mime_decode();
 print_r($parser);
-
-
 ?>

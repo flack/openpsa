@@ -12,7 +12,6 @@
  *
  * @package net.nehmer.account
  */
-
 class net_nehmer_account_handler_list extends midcom_baseclasses_components_handler
 {
     /**
@@ -395,5 +394,4 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
         }
     }
 }
-
 ?>

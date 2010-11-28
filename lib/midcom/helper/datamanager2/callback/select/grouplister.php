@@ -302,5 +302,4 @@ class midcom_helper_datamanager2_callback_select_grouplister
         return $results;
     }
 }
-
 ?>

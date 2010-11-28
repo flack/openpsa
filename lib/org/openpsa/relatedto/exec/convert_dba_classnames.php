@@ -1,13 +1,12 @@
 <?php
-
 /**
- * Update script to convert all relatedto objects to use the new DBA classnames in their 
+ * Update script to convert all relatedto objects to use the new DBA classnames in their
  * properties.
- * 
+ *
  * The script requires admin privileges to execute properly.
  *
  * @package org.openpsa.relatedto
- * @author The Midgard Project, http://www.midgard-project.org 
+ * @author The Midgard Project, http://www.midgard-project.org
  * @version $Id: convert_dba_classnames.php 25183 2010-02-23 22:19:32Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License

@@ -39,9 +39,8 @@ foreach ($test_instances as $instance)
     {
         $stat = (int)$_MIDCOM->dbfactory->property_exists($instance, $property);
         echo "(int)\$_MIDCOM->dbfactory->property_exists({$instance_hr}, '{$property}') returned {$stat}<br>\n";
-        $stat = (int)property_exists($instance, $property); 
+        $stat = (int)property_exists($instance, $property);
         echo "(int)property_exists({$instance_hr}, '{$property}') returned {$stat}<br>\n";
     }
 }
-
 ?>

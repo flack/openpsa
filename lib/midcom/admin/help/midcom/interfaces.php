@@ -12,9 +12,9 @@
  *
  * @package midcom.admin.help
  */
-class midcom_admin_help_interface extends midcom_baseclasses_components_interface 
+class midcom_admin_help_interface extends midcom_baseclasses_components_interface
 {
-    function __construct() 
+    function __construct()
     {
         $this->_autoload_files = array
         (
@@ -26,5 +26,4 @@ class midcom_admin_help_interface extends midcom_baseclasses_components_interfac
         );
     }
 }
-
 ?>

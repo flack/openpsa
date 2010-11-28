@@ -12,7 +12,6 @@
  *
  * @package net.nehmer.buddylist
  */
-
 class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components_handler
 {
     /**
@@ -297,5 +296,4 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
         midcom_show_style('pending-processed');
     }
 }
-
 ?>

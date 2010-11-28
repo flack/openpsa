@@ -59,7 +59,7 @@ class midcom_helper_datamanager2_widget_simpleposition extends midcom_helper_dat
             $longitude->freeze();
         }
     }
-    
+
     function unfreeze()
     {
         $latitude = $this->_form->getElement("{$this->name}_latitude");
@@ -101,5 +101,4 @@ class midcom_helper_datamanager2_widget_simpleposition extends midcom_helper_dat
         }
     }
 }
-
 ?>

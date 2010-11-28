@@ -93,5 +93,4 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
         midcom_show_style("show-message-list-footer");
     }
 }
-
 ?>

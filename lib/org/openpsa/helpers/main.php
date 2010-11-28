@@ -168,5 +168,4 @@ class org_openpsa_helpers
         return $output;
     }
 }
-
 ?>

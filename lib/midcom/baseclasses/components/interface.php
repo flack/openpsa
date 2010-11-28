@@ -189,7 +189,6 @@
  * @see midcom_core_manifest
  * @todo Document class parameters
  */
-
 abstract class midcom_baseclasses_components_interface extends midcom_baseclasses_components_base
 {
     // START OF CONFIGURATION VARIABLES

@@ -297,5 +297,4 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         return $slots;
     }
 }
-
 ?>

@@ -26,7 +26,6 @@ if ($_MIDCOM->componentloader->is_installed('com.magnettechnologies.contactgrabb
 }
 
 $total_contacts = $email_fields + count($contacts);
-
 ?>
 
 <h2><?php echo $data['l10n']->get("add contacts"); ?></h2>
@@ -40,7 +39,6 @@ $total_contacts = $email_fields + count($contacts);
 <table class="net_nehmer_accounts_invitation_emails">
   <th><?php echo $data['l10n']->get("name"); ?> </th><th><?php echo $data['l10n']->get("email"); ?></th>
 <?php
-
     for ($i = 0; $i < $email_fields; $i++)
     {
     ?>
@@ -71,7 +69,6 @@ $total_contacts = $email_fields + count($contacts);
       </tr>
     <?php
     }
-
 ?>
 <tr>
   <td>

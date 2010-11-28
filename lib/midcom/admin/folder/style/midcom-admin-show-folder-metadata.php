@@ -1,6 +1,5 @@
 <h1><?php echo $data['title']; ?></h1>
 <?php
-
 if (isset($data['symlink']))
 {
     ?><p><?php

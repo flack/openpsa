@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package org.openpsa.jabber
  * @author Nemein Oy, http://www.nemein.com/

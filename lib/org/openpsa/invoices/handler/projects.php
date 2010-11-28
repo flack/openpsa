@@ -234,5 +234,4 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         midcom_show_style('show-projects-footer');
     }
 }
-
 ?>

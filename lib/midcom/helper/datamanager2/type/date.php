@@ -45,7 +45,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
      * @var string
      */
     var $storage_type = 'ISO';
-    
+
     /**
      * Possible date field that must be earlier than this date field
      *
@@ -67,7 +67,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         {
             return true;
         }
-        
+
         if (   !isset($this->_datamanager->types[$this->earlier_field])
             || !is_a($this->_datamanager->types[$this->earlier_field], 'midcom_helper_datamanager2_type_date')
             || !$this->_datamanager->types[$this->earlier_field]->value)
@@ -77,7 +77,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             $this->validation_error = sprintf($this->_l10n->get('type date: failed to compare date with field %s'), $this->earlier_field);
             return false;
         }
-        
+
         // There is a bug in Date::compare() which converts the given values to UTC and changes timezone also to UTC
         // We need to change our values back because of that bug
         // (Even if your version of Date does not do this, do not remove this because other versions *do have* the bug)
@@ -96,7 +96,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         date_default_timezone_set($tz);
         $this->value = $value;
         $this->_datamanager->types[$this->earlier_field]->value = $earlier_value;
-        
+
         return true;
     }
 
@@ -216,7 +216,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
 
     /**
      * Helper function that returns the localized date format with or without time
-     * 
+     *
      * @param string $base The format we want to use
      */
     private function _get_format($base = 'short date')
@@ -252,5 +252,4 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         );
     }
 }
-
 ?>

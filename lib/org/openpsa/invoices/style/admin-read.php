@@ -9,7 +9,6 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 ?>
     <div class="sidebar">
         <?php
-
         if ($invoice->customerContact)
         {
             echo "<h2>" . $data['l10n']->get('customer contact') . "</h2>\n";
@@ -38,7 +37,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
             {
                 echo sprintf($data['l10n']->get('due on %s'), strftime("%x", $invoice->due));
             }
-            else 
+            else
             {
                 echo '<span class="bad">' . sprintf($data['l10n']->get('overdue since %s'), strftime("%x", $invoice->due)) . '</span>';
             }
@@ -198,13 +197,13 @@ jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', <?php
-                 echo '"index_date", "' .  $_MIDCOM->i18n->get_string('date', 'org.openpsa.projects') . '",'; 
-                 
-                 echo '"index_reporter", "' .  $_MIDCOM->i18n->get_string('reporter', 'org.openpsa.projects') . '",'; 
-                 echo '"' . $_MIDCOM->i18n->get_string('hours', 'org.openpsa.projects') . '",'; 
-                 echo '"' . $_MIDCOM->i18n->get_string('description', 'org.openpsa.projects') . '",'; 
-                 echo '"' . $_MIDCOM->i18n->get_string('approved', 'org.openpsa.projects') . '",'; 
-                 echo '"' . $_MIDCOM->i18n->get_string('task', 'org.openpsa.projects') . '"'; 
+                 echo '"index_date", "' .  $_MIDCOM->i18n->get_string('date', 'org.openpsa.projects') . '",';
+
+                 echo '"index_reporter", "' .  $_MIDCOM->i18n->get_string('reporter', 'org.openpsa.projects') . '",';
+                 echo '"' . $_MIDCOM->i18n->get_string('hours', 'org.openpsa.projects') . '",';
+                 echo '"' . $_MIDCOM->i18n->get_string('description', 'org.openpsa.projects') . '",';
+                 echo '"' . $_MIDCOM->i18n->get_string('approved', 'org.openpsa.projects') . '",';
+                 echo '"' . $_MIDCOM->i18n->get_string('task', 'org.openpsa.projects') . '"';
                 ?>],
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
@@ -222,12 +221,12 @@ jQuery("#&(grid_id);").jqGrid({
       scroll: 1,
       caption: '<?php echo $data['l10n']->get('invoiced hour reports'); ?>',
       grouping: true,
-      groupingView: { 
+      groupingView: {
           groupField: ['task'],
           groupColumnShow: [false],
           groupText : ['<strong>{0}</strong> ({1})'],
           groupOrder: ['asc'],
-          groupSummary : [true], 
+          groupSummary : [true],
           showSummaryOnHide: true
        }
     });

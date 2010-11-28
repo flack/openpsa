@@ -85,7 +85,6 @@ $properties_map = array
     'group' => list_object_properties($tmp_group, $data['l10n']),
     'membership' => list_object_properties($tmp_member, $data['l10n']),
 );
-
 ?>
 <!-- Automatically built on PHP level -->
 <script type="text/javascript">
@@ -210,7 +209,6 @@ foreach ($properties_map as $class => $properties)
             {
                 echo "false";
             }
-
             ?>);
             <?php
                 // add an empty rule if no rules are currently given

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package net.nehmer.static
  * @author The Midgard Project, http://www.midgard-project.org

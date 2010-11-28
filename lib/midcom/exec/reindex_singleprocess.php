@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Reindex script.
  *
@@ -37,12 +36,9 @@ if ($GLOBALS['midcom_config']['indexer_backend'] === false)
 {
     $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No indexer backend has been defined. Aborting.');
 }
-
 ?>
 <pre>
 <?php
-
-
 debug_add('Disabling script abort through client.');
 ignore_user_abort(true);
 // Disable ob
@@ -111,7 +107,6 @@ if ($ip_sudo)
 
 //re-enable OB
 ob_start();
-
 ?>
 
 Reindex complete

@@ -35,13 +35,13 @@ class midcom_db_snippet extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    public function __set($property, $value) 
+    public function __set($property, $value)
     {
         if (   $property == 'up'
             && extension_loaded('midgard2'))
@@ -51,7 +51,7 @@ class midcom_db_snippet extends midcom_core_dbaobject
         return parent::__set($property, $value);
     }
 
-    public function __get($property) 
+    public function __get($property)
     {
         if (   $property == 'up'
             && extension_loaded('midgard2'))
@@ -84,5 +84,4 @@ class midcom_db_snippet extends midcom_core_dbaobject
         return $parent->guid;
     }
 }
-
 ?>

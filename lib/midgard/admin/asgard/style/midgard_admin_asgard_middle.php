@@ -52,7 +52,6 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                         }
 
                         echo "{$data['view_title']}</h1>\n";
-
                         ?>
                     </div>
 <?php

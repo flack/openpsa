@@ -37,7 +37,6 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 $person = $user->get_storage();
                 $buddy_meta['view_account_url'] = $person->homepage;
             }
-
             ?>
             <tr>
             <?php

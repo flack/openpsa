@@ -23,7 +23,6 @@ require_once 'HTTP/Request.php';
  * @see midcom_services_indexer_backend
  * @see midcom_services_indexer_XMLComm_RequestWriter
  * @see midcom_services_indexer_XMLComm_ResponseParser
- *
  */
 class midcom_services_indexer_backend_solr implements midcom_services_indexer_backend
 {
@@ -214,6 +213,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
 
 /**
  * This class provides methods to make XML for the different solr xml requests.
+ *
  * @package midcom.services
  * @see midcom_services_indexer
  */

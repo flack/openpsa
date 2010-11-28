@@ -763,5 +763,4 @@ class midcom_services_js_css_merger
 
 // Instantiate the server
 $_MIDCOM->jscss = new midcom_services_js_css_merger();
-
 ?>

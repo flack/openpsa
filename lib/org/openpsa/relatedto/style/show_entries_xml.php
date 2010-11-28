@@ -1,5 +1,4 @@
 <?php
-
 echo "<rows>";
 echo "<page>" . $data['page'] . "</page>";
 echo "<total>" . count($data['entries']) ."</total>";

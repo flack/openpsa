@@ -2,7 +2,6 @@
   <body>
     <form action="" method="post">
 <?php
-
 require_once('recaptchalib.php');
 
 // Get a key from http://recaptcha.net/api/getkey

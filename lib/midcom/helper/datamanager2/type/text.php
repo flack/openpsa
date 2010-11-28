@@ -55,14 +55,14 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      * @access private
      */
     var $output_mode = 'specialchars';
-    
+
     /**
      * Run HTML contents through the HTML Purifier library to ensure safe XHTML compatibility.
      *
      * If left undefined global config according to output_mode is used.
      */
     var $purify = null;
-    
+
     /**
      * Configuration values for HTML Purifier
      */
@@ -74,7 +74,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      * If left undefined global config is used.
      */
     var $purify_markdown_on_output = null;
-    
+
     /**
      * Define the quotes behavior when htmlspecialchars() is called
      *
@@ -175,7 +175,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
 
     function purify_string($content)
     {
-        if (   isset($this->purify_config['Cache']['SerializerPath']) 
+        if (   isset($this->purify_config['Cache']['SerializerPath'])
             && !file_exists($this->purify_config['Cache']['SerializerPath']))
         {
             mkdir($this->purify_config['Cache']['SerializerPath']);
@@ -242,10 +242,10 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         {
             debug_add("HTML Purifier failed to purify contents of field {$this->name}: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
-        
+
         return $ret;
     }
-    
+
     function purify_content()
     {
         $this->value = $this->purify_string($this->value);
@@ -255,12 +255,12 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
     {
         // Normalize line breaks to the UNIX format
         $this->value = preg_replace("/\n\r|\r\n|\r/", "\n", $this->value);
-                
+
         if ($this->purify)
         {
             $this->purify_content();
         }
-        
+
         return $this->value;
     }
 
@@ -396,26 +396,25 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                     $_MIDCOM->load_library('net.nehmer.markdown');
                     $markdown = new net_nehmer_markdown_markdown();
                 }
-                
+
                 if (   !$this->purify
                     || !$this->purify_markdown_on_output)
                 {
                     // Return the Markdown straight away
                     return $markdown->render($this->value);
                 }
-                
+
                 // Run the Markdown-generated HTML through Purifier to ensure consistency. This is expensive, however
                 return $this->purify_string($markdown->render($this->value));
-            
+
             case (substr($this->output_mode, 0, 1) == 'x'):
                 // Run the contents through a custom formatter registered via mgd_register_filter
                 return mgd_format($this->value, $this->output_mode);
-                
+
             default:
             case 'html':
                 return $this->value;
         }
     }
 }
-
 ?>

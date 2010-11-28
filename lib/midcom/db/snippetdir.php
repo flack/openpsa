@@ -35,7 +35,7 @@ class midcom_db_snippetdir extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
@@ -64,5 +64,4 @@ class midcom_db_snippetdir extends midcom_core_dbaobject
         return $parent->guid;
     }
 }
-
 ?>

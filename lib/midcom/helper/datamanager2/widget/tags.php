@@ -417,5 +417,4 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
         echo '</ul>';
     }
 }
-
 ?>

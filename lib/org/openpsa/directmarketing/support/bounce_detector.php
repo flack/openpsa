@@ -79,5 +79,4 @@ elseif (   substr($BOUNCE_LOGGER, 0, strlen("http://")) == "http://"
 }
 error_log("Error logging bounce token: $BOUNCE_LOGGER");
 exit(1);
-
 ?>

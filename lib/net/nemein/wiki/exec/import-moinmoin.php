@@ -897,5 +897,4 @@ $worker->wiki_root = $wiki_root;
 $worker->import_revisions = $import_revisions;
 $worker->root_topic = $root_topic;
 $worker->import();
-
 ?>

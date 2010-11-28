@@ -110,5 +110,4 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         return $privileges;
     }
 }
-
 ?>

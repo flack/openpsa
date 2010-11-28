@@ -22,7 +22,6 @@ $sums_all = $data['sums_all'];
                             <?php
                         }
                     }
-
                     ?>
                     <tr>
                         <td colspan="&(colspan);"><?php echo $data['l10n']->get('total'); ?></td>

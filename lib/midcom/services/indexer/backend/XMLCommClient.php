@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
@@ -14,13 +13,10 @@
  *
  * This class is responsible for producing an XML Request file.
  *
- * ...
- *
  * @package midcom.services
  * @see midcom_services_indexer
  * @see midcom_services_indexer_XMLComm_ResponseReader
  */
-
 class midcom_services_indexer_XMLComm_RequestWriter
 {
     /**

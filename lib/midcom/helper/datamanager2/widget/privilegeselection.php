@@ -195,5 +195,4 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
         $this->_element->unfreeze();
     }
 }
-
 ?>
