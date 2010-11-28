@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package midcom.helper.search
  * @author The Midgard Project, http://www.midgard-project.org
@@ -355,5 +354,4 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         midcom_show_style('opensearch_description');
     }
 }
-
 ?>

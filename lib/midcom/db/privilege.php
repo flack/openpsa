@@ -33,11 +33,10 @@ class midcom_db_privilege extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 }
-
 ?>

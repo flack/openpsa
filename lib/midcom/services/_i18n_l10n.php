@@ -14,9 +14,6 @@
  * language with an automatic conversion to the destination character
  * set.
  *
- * <b>Note:</b> With MidCOM 2.0.0 the backwards compatibility to NemeinLocalization
- * has been removed.
- *
  * <b>L10n language database file format specification:</b>
  *
  * Lines starting with --- are considered command lines and treated specially,
@@ -570,7 +567,8 @@ class midcom_services__i18n_l10n
      * @param string $language        The language to edit.
      * @param string $translation    The UTF-8 encoded string to add/update.
      */
-    function update ($string, $language, $translation) {
+    function update ($string, $language, $translation)
+    {
         $this->_check_for_language($language);
         $this->_stringdb[$language][$string] = $translation;
     }
