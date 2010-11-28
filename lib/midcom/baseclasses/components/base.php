@@ -92,17 +92,7 @@ abstract class midcom_baseclasses_components_base
      */
     public function add_stylesheet($url, $media = false)
     {
-        $attributes = array
-        (
-            'rel'  => 'stylesheet',
-            'type' => 'text/css',
-            'href' => $url,
-        );
-        if ($media)
-        {
-            $attributes['media'] = $media;
-        }
-        $_MIDCOM->add_link_head($attributes);
+        $_MIDCOM->add_stylesheet($url, $media);
     }
 }
 ?>

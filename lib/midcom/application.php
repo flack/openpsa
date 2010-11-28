@@ -2376,6 +2376,7 @@ class midcom_application
         }
         $this->_style_head .= '<style '. $output . ' type="text/css" ><!--' . $script . "--></style>\n";
     }
+
     /**
      * Register a linkelement to be placed in the pagehead.
      * This allows MidCom components to register extra css-links in the pagehead.
@@ -2440,6 +2441,27 @@ class midcom_application
         {
             $this->_link_head .= "<![endif]-->\n";
         }
+    }
+
+    /**
+     * Convenience shortcut for adding CSS files
+     *
+     * @param string $url The stylesheet URL
+     * @param string $media The media type(s) for the stylesheet, if any
+     */
+    public function add_stylesheet($url, $media = false)
+    {
+        $attributes = array
+        (
+            'rel'  => 'stylesheet',
+            'type' => 'text/css',
+            'href' => $url,
+        );
+        if ($media)
+        {
+            $attributes['media'] = $media;
+        }
+        $this->add_link_head($attributes);
     }
 
     /**

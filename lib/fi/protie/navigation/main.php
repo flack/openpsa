@@ -423,15 +423,7 @@ class fi_protie_navigation
     function css_dropdown_headers()
     {
         // Print the link for external CSS file
-        $_MIDCOM->add_link_head(
-            array
-            (
-                'rel'   => 'stylesheet',
-                'type'  => 'text/css',
-                'href'  => MIDCOM_STATIC_URL . '/fi.protie.navigation/dropdown.css',
-                'media' => 'screen',
-            )
-        );
+        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/fi.protie.navigation/dropdown.css', 'screen');
 
         $this->_first_level_navigation_id = 'fi_protie_navigation_root_element';
 

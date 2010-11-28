@@ -913,15 +913,7 @@ class midcom_helper__styleloader
         {
             // TODO: Support media types
             $filename = $mc->get_subkey($guid, 'name');
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}",
-                )
-            );
+            $_MIDCOM->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
         }
 
         $called = true;

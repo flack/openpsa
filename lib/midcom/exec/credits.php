@@ -1,14 +1,7 @@
 <?php
 echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
-$_MIDCOM->add_link_head
-(
-    array
-    (
-        'rel' => 'stylesheet',
-        'type' => 'text/css',
-        'href' => MIDCOM_STATIC_URL.'/midcom.services.auth/style.css',
-    )
-);
+$_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
+
 $title = 'MidCOM Developers';
 
 $_MIDCOM->auth->require_valid_user();

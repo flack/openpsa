@@ -145,16 +145,7 @@ class midcom_services_toolbars
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.services.toolbars/jquery.midcom_services_toolbars.js');
 
 
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel'   => 'stylesheet',
-                    'type'  => 'text/css',
-                    'media' => 'screen',
-                    'href'  => MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css',
-                )
-            );
+            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.toolbars/fancy.css', 'screen');
 
             $this->type = $GLOBALS['midcom_config']['toolbars_type'];
 
@@ -172,15 +163,7 @@ class midcom_services_toolbars
         }
         else
         {
-            $_MIDCOM->add_link_head(
-                array
-                (
-                    'rel'   => 'stylesheet',
-                    'type'  => 'text/css',
-                    'media' => 'screen',
-                    'href'  => $GLOBALS['midcom_config']['toolbars_simple_css_path'],
-                )
-            );
+            $_MIDCOM->add_stylesheet($GLOBALS['midcom_config']['toolbars_simple_css_path'], 'screen');
 
             $this->type = 'normal';
         }

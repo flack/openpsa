@@ -118,28 +118,11 @@ class midcom_services_uimessages
             $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.core.min.js');
             $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.effects.pulsate.min.js');
 
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel'   => 'stylesheet',
-                    'type'  => 'text/css',
-                    'media' => 'screen',
-                    'href'  => MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css',
-                )
-            );
+            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/growl.css', 'screen');
         }
         else
         {
-            $_MIDCOM->add_link_head(
-                array
-                (
-                    'rel'   => 'stylesheet',
-                    'type'  => 'text/css',
-                    'media' => 'screen',
-                    'href'  => MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css',
-                )
-            );
+            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.services.uimessages/simple.css', 'screen');
         }
 
         // Read messages from session

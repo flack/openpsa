@@ -1195,15 +1195,7 @@ class midcom_services_auth
         }
         else
         {
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL.'/midcom.services.auth/style.css',
-                )
-            );
+            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
             echo '<?'.'xml version="1.0" encoding="ISO-8859-1"?'.">\n";
             ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -1321,15 +1313,7 @@ class midcom_services_auth
         }
         else
         {
-            $_MIDCOM->add_link_head
-            (
-                array
-                (
-                    'rel' => 'stylesheet',
-                    'type' => 'text/css',
-                    'href' => MIDCOM_STATIC_URL.'/midcom.services.auth/style.css',
-                )
-            );
+            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
             echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
             ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
