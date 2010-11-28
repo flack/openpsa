@@ -198,7 +198,6 @@ class midcom_core_collector
     /**
      * Executes the MC
      *
-     * @return void
      * @see midgard_collector::execute()
      */
     function _real_execute()

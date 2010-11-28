@@ -223,10 +223,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * Called when visiting a form, before processing any form elements
     *
     * @param    object      An HTML_QuickForm object being visited
-    * @access   public
-    * @return   void
     */
-    function startForm(&$form)
+    public function startForm(&$form)
     {
         $this->_html = '';
         $this->_hiddenHtml = '';
@@ -237,10 +235,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * Adds required note, form attributes, validation javascript and form content.
     *
     * @param    object      An HTML_QuickForm object being visited
-    * @access   public
-    * @return   void
     */
-    function finishForm(&$form)
+    public function finishForm(&$form)
     {
         // add a required note, if one is needed
         if (!empty($form->_required)
@@ -271,10 +267,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * Called when visiting a header element
     *
     * @param    object     An HTML_QuickForm_header element being visited
-    * @access   public
-    * @return   void
     */
-    function renderHeader(&$header)
+    public function renderHeader(&$header)
     {
         $name = $header->getName();
         if (!empty($name)
@@ -296,7 +290,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * @param    boolean        Whether an element is required
     * @param    string      Error message associated with the element
     * @param    string      Element type (optional)
-    * @access   private
     * @see      renderElement()
     * @return   string      Html for element
     */
@@ -383,7 +376,6 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     * @param object     An HTML_QuickForm_element object being visited
     * @param boolean       Whether an element is required
     * @param string     An error message associated with an element
-    * @return void
     */
     public function renderElement(&$element, $required, $error)
     {
@@ -477,14 +469,13 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
         $this->_groupWrap            = $this->_currentGroupTemplates[$name]['_groupWrap'];
         $this->_groupElements        = $this->_currentGroupTemplates[$name]['_groupElements'];
     }
-   /**
-    * Called when visiting a group, after processing all group elements
-    *
-    * @param    object      An HTML_QuickForm_group object being visited
-    * @access   public
-    * @return   void
-    */
-    function finishGroup(&$group)
+
+    /**
+     * Called when visiting a group, after processing all group elements
+     *
+     * @param    object      An HTML_QuickForm_group object being visited
+     */
+    public function finishGroup(&$group)
     {
         $separator = $group->_separator;
         if (is_array($separator))
@@ -536,10 +527,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
      *
      * @param       string      The HTML surrounding an element
      * @param       string      (optional) Name of the element to apply template for
-     * @access      public
-     * @return      void
      */
-    function setElementTemplate($html, $element = null)
+    public function setElementTemplate($html, $element = null)
     {
         if (is_null($element))
         {
@@ -561,10 +550,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
      *
      * @param       string      The HTML surrounding group elements
      * @param       string      Name of the group to apply template for
-     * @access      public
-     * @return      void
      */
-    function setGroupTemplate($html, $group)
+    public function setGroupTemplate($html, $group)
     {
         $this->_groupWraps[$group] = $html;
     }
@@ -574,10 +561,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
      *
      * @param       string      The HTML surrounding an element
      * @param       string      Name of the group to apply template for
-     * @access      public
-     * @return      void
      */
-    function setGroupElementTemplate($html, $group)
+    public function setGroupElementTemplate($html, $group)
     {
         $this->_groupTemplates[$group] = $html;
     }
@@ -586,10 +571,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
      * Sets header template
      *
      * @param       string      The HTML surrounding the header
-     * @access      public
-     * @return      void
      */
-    function setHeaderTemplate($html)
+    public function setHeaderTemplate($html)
     {
         $this->_headerTemplate = $html;
     }
@@ -598,10 +581,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
      * Sets form template
      *
      * @param     string    The HTML surrounding the form tags
-     * @access    public
-     * @return    void
      */
-    function setFormTemplate($html)
+    public function setFormTemplate($html)
     {
         $this->_formTemplate = $html;
     }
@@ -610,10 +591,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
      * Sets the note indicating required fields template
      *
      * @param       string      The HTML surrounding the required note
-     * @access      public
-     * @return      void
      */
-    function setRequiredNoteTemplate($html)
+    public function setRequiredNoteTemplate($html)
     {
         $this->_requiredNoteTemplate = $html;
     }
@@ -621,11 +600,8 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     /**
      * Clears all the HTML out of the templates that surround notes, elements, etc.
      * Useful when you want to use addData() to create a completely custom form look
-     *
-     * @access  public
-     * @return  void
      */
-    function clearAllTemplates()
+    public function clearAllTemplates()
     {
         $this->setElementTemplate('{element}');
         $this->setFormTemplate("\n\t<form{attributes}>{content}\n\t</form>\n");
