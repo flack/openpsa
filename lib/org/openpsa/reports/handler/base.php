@@ -55,7 +55,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return;
     }
 
-    private function _initialize_datamanager()
+    protected function _initialize_datamanager()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -238,7 +238,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         $this->set_active_leaf($this->_topic->id . ':generator_' . $this->module);
     }
 
-    private function _generator_load_redirect(&$args)
+    protected function _generator_load_redirect(&$args)
     {
         debug_add('Loading query object ' . $args[0]);
         $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
@@ -306,7 +306,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
     /**
      * Convert midcom acl identifier to array of person ids
      */
-    private function _expand_resource($resource_id, $ret = array())
+    protected function _expand_resource($resource_id, $ret = array())
     {
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = $_MIDCOM->auth->get_assignee($resource_id);

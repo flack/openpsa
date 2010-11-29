@@ -30,11 +30,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      */
     private $_search_results = array();
 
-    private function _prepare_request_data()
-    {
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.

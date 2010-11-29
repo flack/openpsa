@@ -211,7 +211,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      *
      * @param array $tasks array containing the task id's to recalculate for - if empty all tasks will be recalculated
      */
-    private function _recalculate_invoice_items($tasks = array(), $skip_invoice_update = false)
+    public function _recalculate_invoice_items($tasks = array(), $skip_invoice_update = false)
     {
         $result_items = array();
         $result_tasks = array();

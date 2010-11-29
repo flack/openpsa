@@ -410,66 +410,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         return false;
     }
 
-    private function _check_parameter($object, $domain, $name, $constraint)
-    {
-        $value = $object->parameter($domain, $name);
-        debug_add("calling _constraint_test_value({$constraint}, {$value}, true)");
-        return $this->_constraint_test_value($constraint, $value, true);
-    }
-
-    /**
-     * Search products using combination of Query Builder and PHP-based checks
-     */
-    private function _php_list_all()
-    {
-        $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
-        $qb->results_per_page = $this->_config->get('products_per_page');
-
-        $filtered_products = array();
-
-        foreach ($this->_config->get('search_index_order') as $ordering)
-        {
-            if (preg_match('/\s*reversed?\s*/', $ordering))
-            {
-                $reversed = true;
-                $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-            }
-            else
-            {
-                $reversed = false;
-            }
-
-            if ($reversed)
-            {
-                $qb->add_order($ordering, 'DESC');
-            }
-            else
-            {
-                $qb->add_order($ordering);
-            }
-        }
-
-        $initial_products = $qb->execute();
-
-        foreach ($initial_products as $product)
-        {
-            $display = true;
-
-            // Check that the schema is correct
-            if ($product->get_parameter('midcom.helper.datamanager2', 'schema_name') != $this->_request_data['search_schema'])
-            {
-                $display = false;
-            }
-
-            if ($display)
-            {
-                $filtered_products[] = $product;
-            }
-        }
-
-        return $filtered_products;
-    }
-
     /**
      * Looks up a product to display.
      *

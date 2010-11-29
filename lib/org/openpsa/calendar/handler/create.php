@@ -48,41 +48,6 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
     }
 
     /**
-     * Event conflicts
-     */
-    private function _event_resourceconflict_messages(&$conflict_event)
-    {
-        reset($conflict_event->busy_em);
-        foreach ($conflict_event->busy_em as $pid => $events)
-        {
-            $person = org_openpsa_contacts_person_dba::get_cached($pid);
-            if (   !is_object($person)
-                || !$person->id)
-            {
-                continue;
-            }
-            debug_add("{$person->name} is busy, adding DM errors");
-            reset($events);
-            foreach ($events as $eguid)
-            {
-                //We might need sudo to get the event
-                $_MIDCOM->auth->request_sudo();
-                $event = new org_openpsa_calendar_event_dba($eguid);
-                $_MIDCOM->auth->drop_sudo();
-                if (   !is_object($event)
-                    || !$event->id)
-                {
-                    continue;
-                }
-                //Then on_loaded checks again
-                $event->_on_loaded();
-                debug_add("{$person->name} is busy in event {$event->title}, appending error\n===\n" . sprintf('%s is busy in event "%s" (%s)', $person->name, $event->title, $event->format_timeframe()) . "\n===\n");
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.calendar'), sprintf($this->_l10n->get('%s is busy in event \'%s\' (%s)'), $person->name, $event->title, $event->format_timeframe()), 'error');
-            }
-        }
-    }
-
-    /**
      * DM2 creation callback, binds to the current content topic.
      */
     function & dm2_create_callback (&$controller)

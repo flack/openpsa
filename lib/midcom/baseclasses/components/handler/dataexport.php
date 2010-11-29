@@ -43,7 +43,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    private function _prepare_request_data()
+    public function _prepare_request_data()
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['objects'] =& $this->_objects;
@@ -52,7 +52,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     /**
      * Internal helper, loads the datamanager for the current type. Any error triggers a 500.
      */
-    private function _load_datamanager($schemadb)
+    public function _load_datamanager($schemadb)
     {
         if (empty($this->_schema))
         {

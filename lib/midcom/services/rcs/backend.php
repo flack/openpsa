@@ -21,7 +21,7 @@ interface midcom_services_rcs_backend
      * @throws MIDCOM_ERRCRIT on serious errors.
      * @param string $comment the message to be saved with the object.
      */
-    public function update(&$object, $comment);
+    public function update(&$object, $updatemessage = null);
 
     public function get_revision($revision);
 

@@ -78,7 +78,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function _load_schemadb()
+    public function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_project'));
     }
@@ -160,7 +160,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         return true;
     }
 
-    private function _load_defaults()
+    public function _load_defaults()
     {
         $this->_defaults['manager'] = midcom_connection::get_user();
     }

@@ -145,7 +145,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Makes sure we have some absolutely required things properly set
      */
-    private function _sanity_check()
+    protected function _sanity_check()
     {
         if (!is_object($this->_midcom_qb))
         {
@@ -539,7 +539,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * sets LIMIT and OFFSET for requested page
      */
-    private function _qb_limits(&$qb)
+    protected function _qb_limits(&$qb)
     {
         $this->_check_page_vars();
 
@@ -552,16 +552,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $qb->set_limit($this->_limit);
         $qb->set_offset($this->_offset);
         debug_add("set offset to {$this->_offset} and limit to {$this->_limit}");
-        return;
-    }
-
-    private function _clear_qb_limits(&$qb)
-    {
-        $limit = abs(pow(2,31)-1); //Largest signed integer we can use as limit.
-        $offset = 0;
-        $qb->set_limit($limit);
-        $qb->set_offset($offset);
-        debug_add("set offset to {$offset} and limit to {$limit}");
         return;
     }
 
