@@ -52,7 +52,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      *
      * @var midcom_db_object
      */
-    private $_object = null;
+    public $_object = null;
 
     function __construct()
     {
