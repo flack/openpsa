@@ -181,7 +181,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param int $id
      * @param array &$data
      */
-    private function list_groups($id, &$data, $move = false)
+    public function list_groups($id, &$data, $move = false)
     {
         $mc = midcom_db_group::new_collector('owner', (int) $id);
         $mc->add_value_property('name');

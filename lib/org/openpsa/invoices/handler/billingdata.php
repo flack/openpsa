@@ -120,11 +120,11 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         else
         {
             $this->_controller = midcom_helper_datamanager2_controller::create('create');
+            $this->_controller->callback_object =& $this;
         }
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->schemaname = $this->_schema;
-        $this->_controller->callback_object =& $this;
-        if($this->_billing_data)
+        if ($this->_billing_data)
         {
             $this->_controller->set_storage($this->_billing_data, $this->_schema);
         }

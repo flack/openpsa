@@ -436,17 +436,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     }
 
     /**
-     * Adds the common constraints and then returns "fast" (not ACL-checked) count of members matching any other
-     * constraints the QB object passed has
-     */
-    private function _qb_count_members($qb)
-    {
-        $this->_qb_common_constaints($qb);
-        return $qb->count_unchecked();
-        //return $qb->count();
-    }
-
-    /**
      * Returns the count of matching members and message receipts
      */
     function send_email_status()

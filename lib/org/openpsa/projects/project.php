@@ -98,7 +98,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
      * This adjusts the timeframe if necessary and tries to determine the project's
      * status according to the current task situation
      */
-    private function _refresh_from_tasks()
+    protected function _refresh_from_tasks()
     {
         $update_required = false;
 

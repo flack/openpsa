@@ -36,15 +36,6 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
     private $_product = null;
 
     /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
-    {
-        $this->_request_data['deliverable'] =& $this->_deliverable;
-    }
-
-    /**
      * Processes a deliverable.
      *
      * @param mixed $handler_id The ID of the handler.

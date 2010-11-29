@@ -429,7 +429,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             $report_data = $report_mc->get($guid);
 
             $report_hours = $report_data['hours'];
-            $is_approved = $report_data['isapproved'];
+            var_dump($report_data);            $is_approved = $report_data['isapproved'];
 
             $hours['reported'] += $report_hours;
 

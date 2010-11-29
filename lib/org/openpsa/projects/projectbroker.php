@@ -91,52 +91,6 @@ class org_openpsa_projects_projectbroker
         return $return;
     }
 
-    private function _find_task_prospects_filter_by_memberships(&$task, &$prospects)
-    {
-        static $group_cache = array();
-        foreach ($prospects as $key => $person)
-        {
-            $qb = new midgard_query_builder('midgard_member');
-            $qb->add_constraint('uid', '=', $person->id);
-            $qb->begin_group('OR');
-            foreach ($this->membership_filter as $guid)
-            {
-                if (!array_key_exists($guid, $group_cache))
-                {
-                    if ($guid === 'owner_group')
-                    {
-                        $group_cache[$guid] =& $this->_owner_grp;
-                    }
-                    else
-                    {
-                        $group_cache[$guid] = new org_openpsa_contacts_group_dba($guid);
-                    }
-                }
-                $group =& $group_cache[$guid];
-                if (!$group->id)
-                {
-                    // safety
-                    continue;
-                }
-                $qb->add_constraint('gid', '=', $group->id);
-            }
-            $qb->end_group();
-            $count = $qb->count();
-            if ($count === false)
-            {
-                // QB error, what to do ?
-                continue;
-            }
-            if ($count > 0)
-            {
-                // Is member of one of the groups required
-                continue;
-            }
-            // Is not member in any the the groups, remove
-            unset($prospects[$key]);
-        }
-    }
-
     private function _find_task_prospects_filter_by_minimum_time_slot(&$task, &$prospects)
     {
         $keep_prospects = array();
