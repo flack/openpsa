@@ -12,7 +12,7 @@
  */
 class midcom_cron_loginservice extends midcom_baseclasses_components_cron_handler
 {
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('called!');
         $_MIDCOM->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);

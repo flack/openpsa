@@ -46,7 +46,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
 
     var $hostconfig = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_config_storage = new midcom_db_page((int) $_MIDGARD['page']);
 
@@ -88,7 +88,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data(&$data)
+    private function _prepare_request_data(&$data)
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['controller'] =& $this->_controller;
@@ -104,7 +104,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         foreach ($GLOBALS['midcom_config_local'] as $key => $value)
         {
@@ -138,7 +138,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_admin_user();
         $data['hostname'] = $_SERVER['SERVER_NAME'] . midcom_connection::get_url('prefix');
@@ -254,7 +254,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         if(is_null($this->_config_storage))
@@ -268,7 +268,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
         midgard_admin_asgard_plugin::asgard_footer();
     }
 
-    function _get_code_init()
+    private function _get_code_init()
     {
         foreach ($this->_controller->formmanager->form->_submitValues as $key => $val)
         {

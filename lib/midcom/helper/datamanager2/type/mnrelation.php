@@ -216,7 +216,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * Initialize the class, if necessary, create a callback instance, otherwise
      * validate that an option array is present.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (   ! $this->mapping_class_name
             || ! $this->master_fieldname

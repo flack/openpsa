@@ -69,7 +69,7 @@ class midcom_db_person extends midcom_core_dbaobject
      *
      * @param mixed $id A valid object ID or GUID, omit for an empty object.
      */
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->__mgdschema_class_name__ = $GLOBALS['midcom_config']['person_class'];
         parent::__construct($id);
@@ -101,7 +101,7 @@ class midcom_db_person extends midcom_core_dbaobject
      *
      * @access protected
      */
-    function _on_loaded()
+    public function _on_loaded()
     {
         if (! parent::_on_loaded())
         {
@@ -117,7 +117,7 @@ class midcom_db_person extends midcom_core_dbaobject
      * are used at this point, since only memberships are associated to the groups, not persons
      * and event memberships belong to the event, again not to the person.
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         parent::_on_deleted();
 
@@ -168,7 +168,7 @@ class midcom_db_person extends midcom_core_dbaobject
      *
      * @access protected
      */
-    function _on_created()
+    public function _on_created()
     {
         parent::_on_created();
 
@@ -183,7 +183,7 @@ class midcom_db_person extends midcom_core_dbaobject
      *
      * @access protected
      */
-    function _on_updated()
+    public function _on_updated()
     {
         parent::_on_updated();
         $this->_update_computed_members();
@@ -196,7 +196,7 @@ class midcom_db_person extends midcom_core_dbaobject
      *
      * @access protected
      */
-    function _update_computed_members()
+    private function _update_computed_members()
     {
         @$this->name = trim("{$this->firstname} {$this->lastname}");
 

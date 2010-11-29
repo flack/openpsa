@@ -16,7 +16,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
 {
     var $recipient = null;
 
-    function __construct($recipient)
+    public function __construct($recipient)
     {
         $this->_component = 'org.openpsa.notifications';
 

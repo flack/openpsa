@@ -59,7 +59,7 @@ class midcom_helper_datamanager2_type_privilegeset extends midcom_helper_dataman
     /**
      * This startup handler validates that the privileges array is populated.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (! $this->privileges)
         {

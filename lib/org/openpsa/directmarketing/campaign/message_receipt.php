@@ -16,7 +16,7 @@ class org_openpsa_directmarketing_campaign_message_receipt_dba extends midcom_co
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_campaign_message_receipt';
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -38,7 +38,7 @@ class org_openpsa_directmarketing_campaign_message_receipt_dba extends midcom_co
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->timestamp)
         {

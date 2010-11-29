@@ -28,7 +28,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
     /**
      * Initializes the class
      */
-    function __construct()
+    public function __construct()
     {
          $this->_component = 'org.openpsa.httplib';
          parent::__construct();
@@ -39,9 +39,8 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      *
      * @param int $response_code HTTP response code to check
      * @return boolean Whether HTTP response code is successfull
-     * @access private
      */
-    function _is_success($response_code)
+    private function _is_success($response_code)
     {
         if (   $response_code >= 200
             && $response_code < 300)
@@ -168,7 +167,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         return $c->getResponseBody();
     }
 
-    function _http_code2error($code)
+    private function _http_code2error($code)
     {
         switch((int)$code)
         {
@@ -187,7 +186,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         }
     }
 
-    function _user_agent()
+    private function _user_agent()
     {
         return 'Midgard/' . substr(mgd_version(), 0, 4);
     }

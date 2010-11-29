@@ -32,7 +32,7 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
     /**
      * This handler completes the configuration.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_dirname = "{$this->_cache_dir}{$this->_name}/";
 

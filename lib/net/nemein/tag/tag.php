@@ -15,13 +15,13 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nemein_tag';
-    
-    function __construct($id = null)
+
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         return parent::__construct($id);
     }
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -36,7 +36,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-        
+
     function get_label()
     {
         return $this->tag;
@@ -64,7 +64,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         return null;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->validate_tag($this->tag))
         {
@@ -110,7 +110,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if (!$this->validate_tag($this->tag))
         {
@@ -123,7 +123,7 @@ class net_nemein_tag_tag_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _check_duplicates()
+    private function _check_duplicates()
     {
         $qb = net_nemein_tag_tag_dba::new_query_builder();
         if ($this->id)

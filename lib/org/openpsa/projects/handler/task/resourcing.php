@@ -57,7 +57,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.calendarwidget');
         $_MIDCOM->load_library('org.openpsa.contactwidget');
@@ -73,7 +73,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_resourcing($handler_id, $args, &$data)
+    public function _handler_resourcing($handler_id, $args, &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($args[0]);
         if (! $this->_task)
@@ -162,7 +162,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_resourcing($handler_id, &$data)
+    public function _show_resourcing($handler_id, &$data)
     {
         midcom_show_style('show-task-resourcing');
     }
@@ -173,7 +173,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list_prospects($handler_id, $args, &$data)
+    public function _handler_list_prospects($handler_id, $args, &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($args[0]);
         if (! $this->_task)
@@ -205,7 +205,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list_prospects($handler_id, &$data)
+    public function _show_list_prospects($handler_id, &$data)
     {
         midcom_show_style('show-prospects-xml');
     }
@@ -216,7 +216,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_prospect_slots($handler_id, $args, &$data)
+    public function _handler_prospect_slots($handler_id, $args, &$data)
     {
         $data['prospect'] = new org_openpsa_projects_task_resource_dba($args[0]);
         if (!$data['prospect'])
@@ -253,7 +253,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_prospect_slots($handler_id, &$data)
+    public function _show_prospect_slots($handler_id, &$data)
     {
         midcom_show_style('show-prospect');
     }

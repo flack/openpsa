@@ -16,7 +16,7 @@
  */
 class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $components = org_openpsa_reports_viewer::available_component_generators();
         foreach ($components as $component => $loc)
@@ -86,7 +86,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
@@ -101,7 +101,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete_report($handler_id, $args, &$data)
+    public function _handler_delete_report($handler_id, $args, &$data)
     {
         $report = new org_openpsa_reports_query_dba($args[0]);
         if ( !$report->guid)
@@ -125,7 +125,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, $args, &$data)
     {
         if ( !isset($_POST['org_openpsa_reports_csv']) )
         {
@@ -145,7 +145,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, &$data)
     {
         echo $_POST['org_openpsa_reports_csv'];
         return true;
@@ -157,7 +157,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -171,7 +171,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, &$data)
     {
         midcom_show_style('show-frontpage');
 

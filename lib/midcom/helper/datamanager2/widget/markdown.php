@@ -57,7 +57,7 @@ class midcom_helper_datamanager2_widget_markdown extends midcom_helper_datamanag
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (   ! array_key_exists('value', $this->_type)
             || is_array($this->_type->value)

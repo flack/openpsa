@@ -60,7 +60,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         if ($this->_processing_msg_raw)
         {
@@ -82,7 +82,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -98,10 +98,8 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
 
     /**
      * Prepares the $_pending member.
-     *
-     * @access private
      */
-    function _load_pending()
+    private function _load_pending()
     {
         $this->_pending = Array();
 
@@ -151,7 +149,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         midcom_show_style('pending-start');
 
@@ -173,7 +171,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_process($handler_id, $args, &$data)
+    public function _handler_process($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -219,10 +217,8 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
 
     /**
      * Processes buddy rejection.
-     *
-     * @access private
      */
-    function _process_reject()
+    private function _process_reject()
     {
         $this->_entry->reject();
         $this->_processing_msg_raw = 'request rejected.';
@@ -230,10 +226,8 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
 
     /**
      * Processes buddy approval.
-     *
-     * @access private
      */
-    function _process_approve()
+    private function _process_approve()
     {
         $this->_entry->approve();
         $this->_processing_msg_raw = 'request approved.';
@@ -241,10 +235,8 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
 
     /**
      * Processes buddy approval and opens a buddy request for the original account.
-     *
-     * @access private
      */
-    function _process_approve_and_add()
+    private function _process_approve_and_add()
     {
         $this->_entry->approve();
         $this->_processing_msg_raw = 'request approved and buddy request sent.';
@@ -282,7 +274,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_process($handler_id, &$data)
+    public function _show_process($handler_id, &$data)
     {
         if (net_nehmer_buddylist_entry::get_unapproved_count() > 0)
         {

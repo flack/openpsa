@@ -11,7 +11,7 @@
  */
 class org_openpsa_products_interface extends midcom_baseclasses_components_interface
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Define delivery types
         define('ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE', 1000);
@@ -33,7 +33,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         return true;
     }
 
-    function _on_watched_operation($operation, &$object)
+    public function _on_watched_operation($operation, &$object)
     {
         $config = $this->get_config_for_topic();
         if (!$config->get('groupsync_watches_enabled'))
@@ -56,7 +56,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         unset($sync_helper);
     }
 
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $real_config = new midcom_helper_configuration($topic, 'org.openpsa.products');
 
@@ -247,7 +247,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
      * Iterate over all articles and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -293,7 +293,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         return true;
     }
 
-    function _on_reindex_tree_iterator(&$indexer, &$dms, &$topic, &$group, &$topic, &$config)
+    public function _on_reindex_tree_iterator(&$indexer, &$dms, &$topic, &$group, &$topic, &$config)
     {
         if ($dms['group']->autoset_storage($group))
         {

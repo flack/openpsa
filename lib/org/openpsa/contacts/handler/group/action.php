@@ -14,7 +14,7 @@
  */
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
 {
-    function _load($identifier)
+    private function _load($identifier)
     {
         $group = new org_openpsa_contacts_group_dba($identifier);
 
@@ -32,7 +32,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_notifications($handler_id, $args, &$data)
+    public function _handler_notifications($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
@@ -89,7 +89,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_action($handler_id, $args, &$data)
+    public function _handler_action($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
@@ -146,7 +146,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_notifications($handler_id, &$data)
+    public function _show_notifications($handler_id, &$data)
     {
         midcom_show_style("show-notifications");
     }
@@ -156,7 +156,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_action($handler_id, &$data)
+    public function _show_action($handler_id, &$data)
     {
         switch ($this->_view)
         {

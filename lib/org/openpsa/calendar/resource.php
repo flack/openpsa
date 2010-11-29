@@ -25,12 +25,12 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_parent_guid_uncached()
     {
         if ($this->owner != 0)
@@ -44,7 +44,7 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
         }
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if ($this->_check_duplicates($this->name))
         {
@@ -54,7 +54,7 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if ($this->_check_duplicates($this->name))
         {
@@ -64,7 +64,7 @@ class org_openpsa_calendar_resource_dba extends  midcom_core_dbaobject
         return true;
     }
 
-    function _check_duplicates($name)
+    private function _check_duplicates($name)
     {
         if ($name == '')
         {

@@ -17,7 +17,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
     /**
      * Initialization script, which sets the request switches
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /
         if (   $this->_config->get('admin_redirection')
@@ -193,7 +193,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_redirect($handler_id, $args, &$data)
+    public function _handler_redirect($handler_id, $args, &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 

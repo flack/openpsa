@@ -53,7 +53,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['schema'] =& $this->_schema;
@@ -68,7 +68,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
     }
@@ -119,7 +119,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
      *
      * If create privileges apply, we relocate to the index creation message,
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
         if (   !$data['campaign']
@@ -175,7 +175,7 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
     /**
      * Shows the loaded message.
      */
-    function _show_create ($handler_id, &$data)
+    public function _show_create ($handler_id, &$data)
     {
         midcom_show_style('show-message-new');
     }

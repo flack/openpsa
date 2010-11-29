@@ -17,7 +17,7 @@ class org_openpsa_directmarketing_cron_cleanup extends midcom_baseclasses_compon
     /**
      * Find all old entries and delete them.
      */
-    function _on_execute()
+    public function _on_execute()
     {
         if (!$this->_config->get('delete_older'))
         {

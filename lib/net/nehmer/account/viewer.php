@@ -97,7 +97,7 @@
 
 class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // DM2 configuration screen
         $this->_request_switch['config'] = array
@@ -324,7 +324,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _on_can_handle($argc, $argv)
+    public function _on_can_handle($argc, $argv)
     {
         if (   $argc >= 2
             && $argv[0] == 'plugin')
@@ -346,7 +346,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      * - Add the LINK HTML HEAD elements
      * - Populate the Toolbar
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $this->_handler_id = $handler;
 
@@ -368,9 +368,8 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      *
      * @param string $name The plugin name as registered in the plugins configuration
      *     option.
-     * @access private
      */
-    function _load_nna_plugin($name)
+    private function _load_nna_plugin($name)
     {
         // Validate the plugin name and load the associated configuration
         $plugins = $this->_config->get('plugins');
@@ -417,10 +416,9 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      *     option.
      * @param Array $plugin_config The configuration associated with the plugin.
      * @param Array $handlers The plugin specific handlers without the appropriate prefixes.
-     * @access private
      * @return boolean Indicating Success
      */
-    function _prepare_nna_plugin ($name, $plugin_config, $handlers)
+    private function _prepare_nna_plugin ($name, $plugin_config, $handlers)
     {
         foreach ($handlers as $identifier => $handler_config)
         {
@@ -454,10 +452,9 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      * @param string $name The plugin name as registered in the plugins configuration
      *     option.
      * @param Array $plugin_config The configuration associated with the plugin.
-     * @access private
      * @return boolean Indicating Success
      */
-    function _load_nna_plugin_class($name, $plugin_config)
+    private function _load_nna_plugin_class($name, $plugin_config)
     {
         // Sanity check, we return directly if the configured class name is already
         // available (dynamic_load could trigger this).
@@ -491,7 +488,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _populate_toolbar()
+    private function _populate_toolbar()
     {
         if ($this->_topic->can_do('midcom:component_config'))
         {

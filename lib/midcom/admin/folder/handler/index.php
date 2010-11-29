@@ -25,7 +25,7 @@ class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_h
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_index ($handler_id, $args)
+    public function _handler_index ($handler_id, $args)
     {
         $this->_request_data['name']  = "midcom.admin.folder";
 
@@ -42,7 +42,7 @@ class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_h
      * This function does the output.
      *
      */
-    function _show_index()
+    public function _show_index()
     {
         midcom_show_style('index');
     }

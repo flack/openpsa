@@ -138,7 +138,7 @@ class midcom_helper__styleloader
     /**
      * Simple initialization
      */
-    function __construct()
+    public function __construct()
     {
         $this->_context = array ();
         $this->_scope = array ();

@@ -14,7 +14,7 @@
  */
 class org_openpsa_interviews_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /
         $this->_request_switch[] = array

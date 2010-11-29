@@ -197,7 +197,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return;
     }
 
-    function __get($property)
+    public function __get($property)
     {
         if ($property == 'contacts')
         {
@@ -210,7 +210,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return parent::__get($property);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->start)
         {
@@ -231,7 +231,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if (   $this->status != ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE
             && !$this->end)
@@ -249,7 +249,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         if (empty($this->title))
         {
@@ -259,12 +259,12 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _pid_to_obj($pid)
+    private function _pid_to_obj($pid)
     {
         return $_MIDCOM->auth->get_user($pid);
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         //Ensure owner can do stuff regardless of other ACLs
         if ($this->owner)

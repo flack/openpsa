@@ -49,7 +49,7 @@ class org_openpsa_mypage_workingon
      *
      * @param midcom_db_person $person Person to handle "now working on" for. By default current user
      */
-    function __construct($person = null)
+    public function __construct($person = null)
     {
         if (is_null($person))
         {
@@ -69,7 +69,7 @@ class org_openpsa_mypage_workingon
     /**
      * Load task and time person is working on
      */
-    function _get()
+    private function _get()
     {
         $task_guid = $this->person->get_parameter('org.openpsa.mypage:workingon', 'task');
         if (!$task_guid)
@@ -145,7 +145,7 @@ class org_openpsa_mypage_workingon
 
     /**
      * Report hours based on time used
-     * 
+     *
      * @return boolean
      */
     private function _report_hours($description , $invoiceable = false)

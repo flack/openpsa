@@ -81,7 +81,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     var $_result_mc = null; // Contact-qb containing results
 
 
-    function __construct($rules = false)
+    public function __construct($rules = false)
     {
         // Make sure all supported classes are loaded
         $_MIDCOM->componentloader->load_graceful('org.maemo.devcodes');
@@ -162,13 +162,15 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
         return $ret;
     }
+
     /**
      * Resolves the rules in a single rule group
+     *
      * @param array $group single group from rules array
      * @param string $match_class wanted class in group
      * @return boolean indicating success/failure
      */
-    function _resolve_rule_group($group, $match_class = false)
+    private function _resolve_rule_group($group, $match_class = false)
     {
         if (!is_array($group))
         {

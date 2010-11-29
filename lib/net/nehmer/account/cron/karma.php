@@ -17,7 +17,7 @@
  */
 class net_nehmer_account_cron_karma extends midcom_baseclasses_components_cron_handler
 {
-    function _on_execute()
+    public function _on_execute()
     {
         if (!$this->_config->get('karma_enable'))
         {

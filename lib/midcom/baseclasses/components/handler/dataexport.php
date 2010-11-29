@@ -43,7 +43,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['objects'] =& $this->_objects;
@@ -69,17 +69,11 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
     }
 
-    function _load_schemadb()
-    {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Method "_load_schemadb" must be overridden in implementation');
-    }
+    abstract function _load_schemadb();
 
-    function _load_data()
-    {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Method "_load_data" must be overridden in implementation');
-    }
+    abstract function _load_data();
 
-    function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -125,7 +119,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         return true;
     }
 
-    function _init_csv_variables()
+    private function _init_csv_variables()
     {
         // FIXME: Use global configuration
         if (   !isset($this->csv['s'])
@@ -171,7 +165,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
     }
 
-    function _encode_csv($data, $add_separator = true, $add_newline = false)
+    private function _encode_csv($data, $add_separator = true, $add_newline = false)
     {
         /* START: Quick'n'Dirty on-the-fly charset conversion */
         if (   $this->csv['charset'] !== 'UTF-8'
@@ -226,7 +220,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         return $this->_datamanager->set_storage($object);
     }
 
-    function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, &$data)
     {
         // Make real sure we're dumping data live
         $_MIDCOM->cache->content->enable_live_mode();

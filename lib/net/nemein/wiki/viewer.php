@@ -14,7 +14,7 @@
  */
 class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /delete/<wikipage>
         $this->_request_switch[] = array
@@ -146,7 +146,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _on_handle($handler_id, $args)
+    public function _on_handle($handler_id, $args)
     {
         $this->_request_data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 

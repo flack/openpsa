@@ -40,7 +40,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
     /**
      * Basic constructor, initialized the sync helper
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'org.openpsa.products';
         parent::__construct();
@@ -224,7 +224,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
      * @param object $topic reference to midcom_db_topic
      * @return array of QB results rekeyed by url-name
      */
-    function _get_subtopics(&$topic)
+    private function _get_subtopics(&$topic)
     {
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint('up', '=', $topic->id);
@@ -253,7 +253,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
      * @param object $topic reference to org_openpsa_products_product_group_dba
      * @return array of QB rekeyed by url-name (to be used for topic, so to make array comparisons easy)
      */
-    function _get_subgroups(&$group)
+    private function _get_subgroups(&$group)
     {
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $qb->add_constraint('up', '=', $group->id);
@@ -276,7 +276,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         return $ret;
     }
 
-    function _full_sync_recursive(&$topic, &$group, $root_level = false)
+    private function _full_sync_recursive(&$topic, &$group, $root_level = false)
     {
         $subtopics = $this->_get_subtopics($topic);
         $subgroups = $this->_get_subgroups($group);

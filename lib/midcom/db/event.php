@@ -71,7 +71,7 @@ class midcom_db_event extends midcom_core_dbaobject
     /**
      * Deletes event membership records associated with this event.
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         parent::_on_deleted();
 

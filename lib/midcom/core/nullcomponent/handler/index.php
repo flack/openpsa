@@ -19,7 +19,7 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midcom.core.nullcomponent';
     }
@@ -32,7 +32,7 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_index ($handler_id, $args, &$data)
+    public function _handler_index ($handler_id, $args, &$data)
     {
         $_MIDCOM->style->prepend_component_styledir('midcom.core.nullcomponent');
         $_MIDCOM->set_pagetitle($this->_topic->extra);
@@ -47,7 +47,7 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_index($handler_id, &$data)
+    public function _show_index($handler_id, &$data)
     {
         $data['node'] =& $this->_topic;
         midcom_show_style('index');

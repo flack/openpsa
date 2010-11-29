@@ -14,7 +14,7 @@
  */
 class org_openpsa_core_interface extends midcom_baseclasses_components_interface
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->define_constants();
         $this->set_acl_options();

@@ -77,24 +77,24 @@ class org_openpsa_expenses_expense extends midcom_core_dbaobject
         setlocale(LC_NUMERIC, $this->_locale_backup);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         $this->_locale_set();
         return $this->_prepare_save();
     }
 
-    function _on_created()
+    public function _on_created()
     {
         $this->_locale_restore();
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         $this->_locale_set();
         return $this->_prepare_save();
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         $this->_locale_restore();
     }

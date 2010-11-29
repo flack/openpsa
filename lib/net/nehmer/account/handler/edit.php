@@ -60,7 +60,7 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         if ($handler_id == 'admin_edit')
         {
@@ -134,7 +134,7 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
      *     and no-admin mode).
      * @access private
      */
-    function _prepare_request_data($return_url)
+    private function _prepare_request_data($return_url)
     {
         $this->_request_data['datamanager'] =& $this->_controller;
         $this->_request_data['schema'] =& $this->_controller->datamanager->schema;
@@ -146,7 +146,7 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
     /**
      * Internal helper function, prepares a datamanager based on the current account.
      */
-    function _prepare_datamanager()
+    private function _prepare_datamanager()
     {
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->load_schemadb($this->_config->get('schemadb_account'));
@@ -160,7 +160,7 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('show-edit-account');
     }

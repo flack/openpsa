@@ -49,7 +49,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         return $parent->guid;
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         if ($this->title == "")
         {
@@ -64,7 +64,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_DOCUMENT;
         if (!$this->author)
@@ -75,7 +75,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_created()
+    public function _on_created()
     {
         $this->_update_directory_timestamp();
 
@@ -83,7 +83,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     }
 
 
-    function _on_updated()
+    public function _on_updated()
     {
         $this->_update_directory_timestamp();
 
@@ -93,7 +93,7 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_deleted()
+    public function _on_deleted()
     {
         $this->_update_directory_timestamp();
 

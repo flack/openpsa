@@ -84,7 +84,7 @@ class org_openpsa_calendarwidget_event
      */
     var $event = null;
 
-    function __construct($event = null)
+    public function __construct($event = null)
     {
         if (is_object($event))
         {

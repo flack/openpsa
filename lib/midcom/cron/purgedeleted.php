@@ -12,7 +12,7 @@
  */
 class midcom_cron_purgedeleted extends midcom_baseclasses_components_cron_handler
 {
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('called!');
         $cut_off = mktime(23, 59, 59, date('n'), date('j')-$GLOBALS['midcom_config']['cron_pure_deleted_after'], date('Y'));

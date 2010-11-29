@@ -14,7 +14,7 @@
  */
 class midcom_admin_help_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_files = array
         (

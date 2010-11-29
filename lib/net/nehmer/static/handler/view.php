@@ -43,7 +43,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['article'] =& $this->_article;
         $this->_request_data['datamanager'] =& $this->_datamanager;
@@ -94,7 +94,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
     }
@@ -111,7 +111,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    function _can_handle_view ($handler_id, $args, &$data)
+    public function _can_handle_view ($handler_id, $args, &$data)
     {
         if ($handler_id == 'index')
         {
@@ -183,7 +183,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view ($handler_id, $args, &$data)
+    public function _handler_view ($handler_id, $args, &$data)
     {
         if ($handler_id == 'index')
         {
@@ -302,10 +302,8 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
 
     /**
      * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 
@@ -323,7 +321,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view ($handler_id, &$data)
+    public function _show_view ($handler_id, &$data)
     {
         if (   $this->_config->get('enable_ajax_editing')
             && isset($data['controller']))

@@ -32,7 +32,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
     }
@@ -46,7 +46,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_autoindex ($handler_id, $args, &$data)
+    public function _handler_autoindex ($handler_id, $args, &$data)
     {
         // Get last modified timestamp
         $qb = midcom_db_article::new_query_builder();
@@ -102,7 +102,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_autoindex($handler_id, &$data)
+    public function _show_autoindex($handler_id, &$data)
     {
         midcom_show_style('autoindex-start');
 

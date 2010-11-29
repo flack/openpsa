@@ -194,7 +194,7 @@ class midcom_helper__basicnav
      *
      * @param int $context    The Context ID for which to create NAP data for, defaults to 0
      */
-    function __construct($context = 0)
+    public function __construct($context = 0)
     {
         $tmp = $_MIDCOM->get_context_data($context, MIDCOM_CONTEXT_ROOTTOPIC);
         $this->_root = $tmp->id;

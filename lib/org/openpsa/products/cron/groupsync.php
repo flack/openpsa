@@ -16,7 +16,7 @@ class org_openpsa_products_cron_groupsync extends midcom_baseclasses_components_
     /**
      * Process the replication queue
      */
-    function _on_execute()
+    public function _on_execute()
     {
         if (!$this->_config->get('groupsync_cron_enabled'))
         {

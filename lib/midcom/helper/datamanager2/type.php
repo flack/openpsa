@@ -88,7 +88,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * Nothing fancy, the actual startup work is done by the initialize call.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midcom.helper.datamanager2';
         parent::__construct();
@@ -132,7 +132,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      *
      * @param Array $config The configuration passed to the type.
      */
-    function _on_configuring($config) {}
+    public function _on_configuring($config) {}
 
     /**
      * Small helper which sets the current storage object to a new one. The
@@ -254,7 +254,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * @access protected
      * @return boolean Indicating value validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         return true;
     }

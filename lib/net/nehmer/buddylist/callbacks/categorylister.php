@@ -29,7 +29,7 @@ class net_nehmer_buddylist_callbacks_categorylister extends midcom_baseclasses_c
      * Initializes the class to the category listing in the configuration. It does the necessary
      * postprocessing to move the configuration syntax to the rendering one.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'net.nehmer.buddylist';
 

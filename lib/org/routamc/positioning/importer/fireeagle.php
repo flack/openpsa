@@ -35,12 +35,12 @@ class org_routamc_positioning_importer_fireeagle extends org_routamc_positioning
         }
     }
 
-    function _fetch_fireeagle_positions($fireeagle_access_key, $fireeagle_access_secret)
+    private function _fetch_fireeagle_positions($fireeagle_access_key, $fireeagle_access_secret)
     {
         $position = array();
 
         require_once(MIDCOM_ROOT . '/org/routamc/positioning/lib/fireeagle.php');
-        
+
         $fireeagle = new FireEagle($this->_config->get('fireeagle_consumer_key'), $this->_config->get('fireeagle_consumer_secret'), $fireeagle_access_key, $fireeagle_access_secret);
 
         // Note: this must be C so we get floats correctly from JSON. See http://bugs.php.net/bug.php?id=41403
@@ -55,7 +55,7 @@ class org_routamc_positioning_importer_fireeagle extends org_routamc_positioning
         }
 
         $best_position = $user_data->user->location_hierarchy[0];
-        
+
         switch ($best_position->level_name)
         {
             case 'exact':
@@ -76,7 +76,7 @@ class org_routamc_positioning_importer_fireeagle extends org_routamc_positioning
         $position['longitude'] = $best_position->longitude;
 
         $position['date'] = strtotime($best_position->located_at);
-        
+
         return $position;
     }
 

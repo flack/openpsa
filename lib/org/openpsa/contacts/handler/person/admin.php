@@ -99,7 +99,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
@@ -195,7 +195,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         if (! $this->_contact)
@@ -231,14 +231,13 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         return true;
     }
 
-
     /**
      * Shows the loaded contact.
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, &$data)
     {
         midcom_show_style('show-person-edit');
     }
@@ -256,7 +255,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
 
@@ -308,7 +307,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, &$data)
     {
         $data['contact_view'] = $this->_datamanager->get_content_html();
 

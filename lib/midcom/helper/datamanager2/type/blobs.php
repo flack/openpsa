@@ -116,7 +116,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * this requires midcom_config access and is thus not possible using class member initializers.
      */
-    function _on_configuring($config)
+    public function _on_configuring($config)
     {
         parent::_on_configuring($config);
 

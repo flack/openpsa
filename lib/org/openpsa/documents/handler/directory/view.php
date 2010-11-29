@@ -38,7 +38,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      */
     private $_output_mode = 'html';
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document_listview'));
@@ -51,7 +51,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -177,7 +177,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         switch($this->_output_mode)
         {
@@ -197,7 +197,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
     /**
      * Helper function to add needed css & js files
      */
-    function _prepare_output()
+    private function _prepare_output()
     {
         $this->_request_data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -216,7 +216,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @param root_topic - the topic to search the directories for
      * @param current_component - component of the topic/directories
      */
-    function _prepare_directories(&$root_topic , &$current_component)
+    private function _prepare_directories(&$root_topic , &$current_component)
     {
         $qb = midcom_db_topic::new_query_builder();
         $qb->add_constraint("component", "=", $current_component);

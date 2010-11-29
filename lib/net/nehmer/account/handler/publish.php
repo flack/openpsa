@@ -111,7 +111,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_publish($handler_id, $args, &$data)
+    public function _handler_publish($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -147,7 +147,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * The online state privilege is set according to the field's presence in the request data.
      * Default is not to show online state when publishing, in case the field is missing.
      */
-    function _process_form()
+    private function _process_form()
     {
         if (array_key_exists('net_nehmer_account_publish_delete_avatar', $_REQUEST))
         {
@@ -199,7 +199,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * Helper function, called during form processing. Takes any image upload from the avatar
      * field and processes it accordingly.
      */
-    function _process_image_upload()
+    private function _process_image_upload()
     {
         if (   array_key_exists('avatar', $_FILES)
             && $_FILES['avatar']['error'] == 0)
@@ -249,7 +249,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param string $tmpname The file to load.
      * @return midcom_db_attachment The generated / updated attachment, or false on failure.
      */
-    function _update_image_attachment($name, $title, $mimetype, $tmpname)
+    private function _update_image_attachment($name, $title, $mimetype, $tmpname)
     {
         $attachment = $this->_account->get_attachment($name);
         if (! $attachment)
@@ -317,10 +317,8 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * A special case is the visible_data array, which maps field names
      * to prepared values, which can be used in display directly. The
      * information returned is already HTML escaped.
-     *
-     * @access private
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $att_prefix = $_MIDCOM->get_page_prefix();
@@ -372,7 +370,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
     /**
      * Internal helper function, prepares a datamanager based on the current account.
      */
-    function _prepare_datamanager()
+    private function _prepare_datamanager()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
@@ -393,7 +391,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      *
      * @see is_field_visisble()
      */
-    function _compute_fields()
+    private function _compute_fields()
     {
         $this->_visible_fields_user_selection = explode(',', $this->_account->get_parameter('net.nehmer.account', 'visible_field_list'));
         $this->_fields = Array();
@@ -452,7 +450,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      *
      * @return boolean Indicating Visibility
      */
-    function _is_field_visible($name)
+    private function _is_field_visible($name)
     {
         switch ($this->_datamanager->schema->fields[$name]['customdata']['visible_mode'])
         {
@@ -490,7 +488,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
     /**
      * A little helper which extracts the view of the given type
      */
-    function _render_field($name)
+    private function _render_field($name)
     {
         return $this->_datamanager->types[$name]->convert_to_html();
     }
@@ -505,7 +503,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_publish($handler_id, &$data)
+    public function _show_publish($handler_id, &$data)
     {
         midcom_show_style('show-publish-start');
         foreach($this->_fields as $name => $field)
@@ -552,7 +550,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_publish_ok($handler_id, $args, &$data)
+    public function _handler_publish_ok($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -579,7 +577,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_publish_ok($handler_id, &$data)
+    public function _show_publish_ok($handler_id, &$data)
     {
         midcom_show_style('show-publish-ok');
     }

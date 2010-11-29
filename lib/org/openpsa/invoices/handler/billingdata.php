@@ -47,7 +47,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
      */
      private $_schema = 'default';
 
-    function _handler_billingdata($handler_id, $args, &$data)
+    public function _handler_billingdata($handler_id, $args, &$data)
     {
         //get billing_data
         $this->_billing_data = org_openpsa_invoices_billing_data_dba::get_cached($args[0]);
@@ -74,7 +74,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         return true;
     }
 
-    function _show_billingdata($handler_id, &$data)
+    public function _show_billingdata($handler_id, &$data)
     {
         midcom_show_style('show-billingdata');
     }
@@ -171,7 +171,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
     }
 
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -203,7 +203,7 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         return true;
     }
 
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         midcom_show_style('show-billingdata');
     }

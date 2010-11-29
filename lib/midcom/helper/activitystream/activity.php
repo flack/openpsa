@@ -150,7 +150,7 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         return $qb->execute();
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->summary)
         {

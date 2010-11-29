@@ -37,7 +37,7 @@ class net_nehmer_static_import_mscms_file
  */
 class net_nehmer_static_import_mscms
 {
-    function __construct()
+    public function __construct()
     {
         $this->purifier = new HTMLPurifier();
         $this->purifier->config->set('HTML', 'EnableAttrID', true);

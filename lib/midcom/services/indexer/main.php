@@ -55,7 +55,7 @@ class midcom_services_indexer
      *
      * @param midcom_services_indexer_backend $backend An explicit indexer to initialize with.
      */
-    function __construct($backend = null)
+    public function __construct($backend = null)
     {
         if ($GLOBALS['midcom_config']['indexer_backend'] == false)
         {

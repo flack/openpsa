@@ -15,7 +15,7 @@
  */
 class org_openpsa_products_handler_product_bestrated extends midcom_baseclasses_components_handler
 {
-    function _list_products($limit = 5, $product_group = '')
+    private function _list_products($limit = 5, $product_group = '')
     {
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'bestrated_products');
         $this->_request_data['product_qb'] =& $product_qb;
@@ -92,7 +92,7 @@ class org_openpsa_products_handler_product_bestrated extends midcom_baseclasses_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_bestrated($handler_id, $args, &$data)
+    public function _handler_bestrated($handler_id, $args, &$data)
     {
         if ($handler_id == 'bestrated_products_intree')
         {
@@ -118,7 +118,7 @@ class org_openpsa_products_handler_product_bestrated extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_bestrated($handler_id, &$data)
+    public function _show_bestrated($handler_id, &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -170,7 +170,7 @@ class org_openpsa_products_handler_product_bestrated extends midcom_baseclasses_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_feed($handler_id, $args, &$data)
+    public function _handler_feed($handler_id, $args, &$data)
     {
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
@@ -190,7 +190,7 @@ class org_openpsa_products_handler_product_bestrated extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_feed($handler_id, &$data)
+    public function _show_feed($handler_id, &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 

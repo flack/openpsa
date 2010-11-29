@@ -301,7 +301,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      *
      * Also makes sure that DM2 is loaded
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (!$_MIDCOM->componentloader->is_loaded('midcom.helper.datamanager2'))
         {
@@ -434,7 +434,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_mode = 'create';
         $this->_load_parent($handler_id, $args, $data);
@@ -502,7 +502,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         $prefix = $this->_get_style_prefix();
         midcom_show_style($prefix . 'admin-create');
@@ -516,7 +516,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_read($handler_id, $args, &$data)
+    public function _handler_read($handler_id, $args, &$data)
     {
         $this->_mode = 'read';
         $this->_load_object($handler_id, $args, $data);
@@ -565,7 +565,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_read($handler_id, &$data)
+    public function _show_read($handler_id, &$data)
     {
         $prefix = $this->_get_style_prefix();
         midcom_show_style($prefix . 'admin-read');
@@ -579,7 +579,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_update($handler_id, $args, &$data)
+    public function _handler_update($handler_id, $args, &$data)
     {
         $this->_mode = 'update';
         $this->_load_object($handler_id, $args, $data);
@@ -622,7 +622,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_update($handler_id, &$data)
+    public function _show_update($handler_id, &$data)
     {
         $prefix = $this->_get_style_prefix();
         midcom_show_style($prefix . 'admin-update');
@@ -641,7 +641,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_mode = 'delete';
         $this->_load_object($handler_id, $args, $data);

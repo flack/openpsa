@@ -14,7 +14,7 @@
  */
 class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_components_cron_handler
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         return array_key_exists('org.openpsa.projects', $_MIDCOM->componentloader->manifests);
     }
@@ -25,7 +25,7 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
      * for each participant (who is task resource) towards
      * said task.
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
 

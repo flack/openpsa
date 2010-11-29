@@ -59,7 +59,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
      * @return boolean Indicating success, false will abort the type construction sequence.
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // We need the reflector later
         $_MIDCOM->componentloader->load('midcom.helper.reflector');
@@ -102,7 +102,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
      *
      * @see http://trac.midgard-project.org/ticket/809
      */
-    function _on_validate()
+    public function _on_validate()
     {
         $schema = $this->storage->_schema->fields[$this->name];
         $copy = $this->_copy_object($this->storage->object);

@@ -15,12 +15,12 @@
  */
 class org_openpsa_products_handler_product_featured extends midcom_baseclasses_components_handler
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.qbpager');
     }
 
-    function _list_products($show_products = 1,$product_group = '')
+    private function _list_products($show_products = 1,$product_group = '')
     {
         $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'featured_products');
         $this->_request_data['product_qb'] =& $product_qb;
@@ -100,7 +100,7 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_featured($handler_id, $args, &$data)
+    public function _handler_featured($handler_id, $args, &$data)
     {
         $data['products'] = array();
         if ($handler_id == 'featured_products_intree')
@@ -127,7 +127,7 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_featured($handler_id, &$data)
+    public function _show_featured($handler_id, &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -177,7 +177,7 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_feed($handler_id, $args, &$data)
+    public function _handler_feed($handler_id, $args, &$data)
     {
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
@@ -208,7 +208,7 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_feed($handler_id, &$data)
+    public function _show_feed($handler_id, &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -253,9 +253,8 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
-     *
      */
-    function _update_breadcrumb_line()
+    private function _update_breadcrumb_line()
     {
         $tmp = Array();
 

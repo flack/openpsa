@@ -14,7 +14,7 @@
  */
 class org_openpsa_sales_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = array
         (
@@ -22,7 +22,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         );
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Load needed data classes
         $_MIDCOM->componentloader->load_graceful('org.openpsa.products');
@@ -52,7 +52,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     }
 
 
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $salesproject = new org_openpsa_sales_salesproject_dba($guid);
         if ($salesproject->guid == $guid)
@@ -105,7 +105,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
      * Current rule: all participants of event must be either manager,contact or resource in task
      * that overlaps in time with the event.
      */
-    function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
+    private function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
     {
         debug_add('called');
         if (   !is_array($object->participants)
@@ -179,7 +179,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
+    private function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
     {
         $qb = new midgard_query_builder('org_openpsa_salesproject_member');
         $qb->add_constraint('person', '=', $object->id);

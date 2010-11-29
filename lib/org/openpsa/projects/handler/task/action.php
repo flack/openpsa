@@ -20,7 +20,7 @@ class org_openpsa_projects_handler_task_action extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_action($handler_id, $args, &$data)
+    public function _handler_action($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -58,7 +58,7 @@ class org_openpsa_projects_handler_task_action extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_action($handler_id, &$data)
+    public function _show_action($handler_id, &$data)
     {
     }
 }

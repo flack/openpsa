@@ -377,7 +377,7 @@ EOT;
      * register the schema to a session key
      * @return boolean always true
      */
-     function _on_initialize ()
+     public function _on_initialize ()
      {
         if ($this->_initialize_dependencies)
         {

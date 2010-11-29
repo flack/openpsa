@@ -56,7 +56,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * Initializes the class with a given feed
      */
-    function __construct($feed)
+    public function __construct($feed)
     {
         $this->_feed = $feed;
 

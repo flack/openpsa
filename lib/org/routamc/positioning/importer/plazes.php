@@ -16,7 +16,7 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    function __construct()
+    public function __construct()
     {
          parent::__construct();
         $_MIDCOM->load_library('org.openpsa.httplib');
@@ -44,7 +44,7 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
         }
     }
 
-    function _get_plazes_userid($user, $plazes_username, $plazes_password, $cache)
+    private function _get_plazes_userid($user, $plazes_username, $plazes_password, $cache)
     {
         $client = new org_openpsa_httplib();
         $xml = $client->get('http://plazes.com/me.xml', 'User-agent: device: midgard', $plazes_username, $plazes_password);
@@ -66,7 +66,7 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
         return $user_id;
     }
 
-    function _fetch_plazes_positions($plazes_username, $plazes_password)
+    private function _fetch_plazes_positions($plazes_username, $plazes_password)
     {
         $positions = array();
 

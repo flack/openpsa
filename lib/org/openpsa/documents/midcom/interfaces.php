@@ -13,7 +13,7 @@
  */
 class org_openpsa_documents_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = array
         (
@@ -25,7 +25,7 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
      * Iterate over all documents and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -62,7 +62,7 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
         return true;
     }
 
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $document = new org_openpsa_documents_document_dba($guid);
         if (   ! $document

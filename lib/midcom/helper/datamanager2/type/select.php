@@ -206,7 +206,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      * Initialize the class, if necessary, create a callback instance, otherwise
      * validate that an option array is present.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (   !is_array($this->options)
             && $this->option_callback === null)
@@ -670,7 +670,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
      *
      * @return boolean Indicating validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         if (   ! $this->allow_other
             && $this->others)

@@ -61,7 +61,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
         $this->_request_data['config'] =& $this->_config;
@@ -71,7 +71,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['start'] =& $this->_start;
@@ -89,7 +89,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_welcome ($handler_id, $args, &$data)
+    public function _handler_welcome ($handler_id, $args, &$data)
     {
         $this->_compute_welcome_data();
         $this->_prepare_request_data();
@@ -114,9 +114,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * If sudo cannot be acquired, the system falls back to excute().
      *
      * @return Date The time of the first posting or null on failure.
-     * @access private
      */
-    function _compute_welcome_first_post()
+    private function _compute_welcome_first_post()
     {
         $qb = midcom_db_article::new_query_builder();
         $data =& $this->_request_data;
@@ -153,7 +152,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param Date $end End of the timeframe (exclusive)
      * @return int Posting count
      */
-    function _compute_welcome_posting_count($start, $end)
+    private function _compute_welcome_posting_count($start, $end)
     {
         $data =& $this->_request_data;
         $qb = midcom_db_article::new_query_builder();
@@ -168,10 +167,8 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     /**
      * Computes the data nececssary for the welcome screen. Automatically put into the request
      * data array.
-     *
-     * @access private
      */
-    function _compute_welcome_data()
+    private function _compute_welcome_data()
     {
         // Helpers
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'archive/';
@@ -298,7 +295,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_welcome($handler_id, &$data)
+    public function _show_welcome($handler_id, &$data)
     {
         midcom_show_style('archive-welcome-start');
 
@@ -323,7 +320,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list ($handler_id, $args, &$data)
+    public function _handler_list ($handler_id, $args, &$data)
     {
         // Get Articles, distinguish by handler.
         $qb = midcom_db_article::new_query_builder();
@@ -421,7 +418,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      *
      * @param int $year The year to query.
      */
-    function _set_startend_from_year($year)
+    private function _set_startend_from_year($year)
     {
         if (   ! is_numeric($year)
             || strlen($year) != 4)
@@ -452,7 +449,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param int $year The year to query.
      * @param int $month The month to query.
      */
-    function _set_startend_from_month($year, $month)
+    private function _set_startend_from_month($year, $month)
     {
         if (   ! is_numeric($year)
             || strlen($year) != 4)
@@ -504,7 +501,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         // FIXME: For some reason the config topic is lost between _handle and _show phases
         $this->_config->store_from_object($this->_topic, $this->_component);

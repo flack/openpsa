@@ -18,7 +18,7 @@ class midcom_core_nullcomponent_viewer extends midcom_baseclasses_components_req
      *
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         /**
          * Prepare the request switch, which contains URL handlers for the component

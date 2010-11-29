@@ -362,7 +362,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      *
      * @access protected
      */
-    function _populate_node_toolbar()
+    private function _populate_node_toolbar()
     {
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midcom:component_config'))
@@ -383,7 +383,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     /**
      * The handle callback populates the toolbars.
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $this->_populate_node_toolbar();
 
@@ -396,7 +396,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -430,7 +430,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, &$data)
     {
         midcom_show_style("show-frontpage");
     }
@@ -441,7 +441,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_debug($handler_id, $args, &$data)
+    public function _handler_debug($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['config'] =& $this->_config;
@@ -453,7 +453,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_debug($handler_id, &$data)
+    public function _show_debug($handler_id, &$data)
     {
         midcom_show_style("show-debug");
     }

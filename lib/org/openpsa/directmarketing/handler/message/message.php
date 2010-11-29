@@ -39,7 +39,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     /**
      * Looks up an message to display.
      */
-    function _handler_view ($handler_id, $args, &$data)
+    public function _handler_view ($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
@@ -179,7 +179,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     /**
      * Shows the loaded message.
      */
-    function _show_view ($handler_id, &$data)
+    public function _show_view ($handler_id, &$data)
     {
         $data['view_message'] = $this->_datamanager->get_content_html();
         midcom_show_style('show-message');

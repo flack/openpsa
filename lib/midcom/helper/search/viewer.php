@@ -19,7 +19,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
     /**
      * Nothing fancy, defines the request switch.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Default search form, no args, Basic search from
         $this->_request_switch['basic'] = array
@@ -49,7 +49,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _on_handle($handler_id, $args)
+    public function _on_handle($handler_id, $args)
     {
         $_MIDCOM->add_link_head
         (
@@ -75,7 +75,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_searchform($handler_id, $args, &$data)
+    public function _handler_searchform($handler_id, $args, &$data)
     {
         switch ($handler_id)
         {
@@ -106,7 +106,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_searchform($handler_id, &$data)
+    public function _show_searchform($handler_id, &$data)
     {
         midcom_show_style('search_form');
     }
@@ -145,7 +145,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_result($handler_id, $args, &$data)
+    public function _handler_result($handler_id, $args, &$data)
     {
         $indexer = $_MIDCOM->get_service('indexer');
 
@@ -314,7 +314,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_result($handler_id, &$data)
+    public function _show_result($handler_id, &$data)
     {
         if ($data['document_count'] > 0)
         {
@@ -334,7 +334,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_opensearchdescription($handler_id, $args, &$data)
+    public function _handler_opensearchdescription($handler_id, $args, &$data)
     {
         $_MIDCOM->cache->content->content_type("application/opensearchdescription+xml");
         $_MIDCOM->header("Content-type: application/opensearchdescription+xml; charset=UTF-8");
@@ -348,7 +348,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_opensearchdescription($handler_id, &$data)
+    public function _show_opensearchdescription($handler_id, &$data)
     {
         $data['node'] = $this->_topic;
         midcom_show_style('opensearch_description');

@@ -21,7 +21,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
@@ -105,7 +105,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
 
@@ -117,7 +117,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    function _handler_savefilter($handler_id, $args, &$data)
+    public function _handler_savefilter($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (array_key_exists('org_openpsa_workgroup_filter', $_POST))
@@ -141,7 +141,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_userinfo($handler_id, $args, &$data)
+    public function _handler_userinfo($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if ($_MIDCOM->auth->user)
@@ -161,7 +161,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_userinfo($handler_id, &$data)
+    public function _show_userinfo($handler_id, &$data)
     {
         if ($_MIDCOM->auth->user)
         {
@@ -175,7 +175,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_updates($handler_id, $args, &$data)
+    public function _handler_updates($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // Instantiate indexer
@@ -198,7 +198,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_updates($handler_id, &$data)
+    public function _show_updates($handler_id, &$data)
     {
         midcom_show_style("show-updates");
     }

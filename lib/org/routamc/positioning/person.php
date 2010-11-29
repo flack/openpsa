@@ -38,7 +38,7 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    function __construct($person)
+    public function __construct($person)
     {
         $this->_component = 'org.routamc.positioning';
 

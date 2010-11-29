@@ -16,7 +16,7 @@ class org_openpsa_reports_cron_clearold extends midcom_baseclasses_components_cr
     /**
      * Find all old temporary reports and clear them.
      */
-    function _on_execute()
+    public function _on_execute()
     {
         //Disable limits, TODO: think if this could be done in smaller chunks to save memory.
         @ini_set('memory_limit', -1);

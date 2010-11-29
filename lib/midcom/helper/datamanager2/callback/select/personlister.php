@@ -88,7 +88,7 @@ class midcom_helper_datamanager2_callback_select_personlister
      * The default constructor reads in the configuration. See above for allowed
      * options.
      */
-    function __construct($options)
+    public function __construct($options)
     {
         if ($options)
         {
@@ -102,7 +102,7 @@ class midcom_helper_datamanager2_callback_select_personlister
      * Reads and validates the configuration options. Invalid options are logged
      * and ignored.
      */
-    function _process_options($options)
+    private function _process_options($options)
     {
         if (array_key_exists('key_field', $options))
         {
@@ -188,7 +188,7 @@ class midcom_helper_datamanager2_callback_select_personlister
      * @param midcom_db_person $person The person to query.
      * @return mixed the key.
      */
-    function _get_key($person)
+    private function _get_key($person)
     {
         if ($this->_key_field == 'midcomid')
         {
@@ -209,7 +209,7 @@ class midcom_helper_datamanager2_callback_select_personlister
      *
      * @param mixed $key The key to look up.
      */
-    function _load_person($key, $return=false)
+    private function _load_person($key, $return=false)
     {
         if ($this->_list_all_done)
         {

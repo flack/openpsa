@@ -17,7 +17,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     /**
      * Constructor.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (!$this->_config->get('calendar_root_event'))
         {
@@ -236,7 +236,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     /**
      * Add common elements and settings
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
@@ -257,7 +257,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_notinitialized($handler_id, $args, &$data)
+    public function _handler_notinitialized($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_admin_user();
 
@@ -274,12 +274,12 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_notinitialized($handler_id, &$data)
+    public function _show_notinitialized($handler_id, &$data)
     {
         midcom_show_style('show-not-initialized');
     }
 
-    function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $selected_time = time();

@@ -24,12 +24,12 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -42,7 +42,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['object'] =& $this->_object;
     }
@@ -55,7 +55,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (   !$this->_object
@@ -86,7 +86,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');

@@ -45,7 +45,7 @@ class org_openpsa_products_product_link_dba extends midcom_core_dbaobject
         }
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->validate_code($this->code))
         {
@@ -55,7 +55,7 @@ class org_openpsa_products_product_link_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         return true;
     }

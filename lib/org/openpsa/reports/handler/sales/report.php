@@ -14,7 +14,7 @@
  */
 class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handler_base
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->module = 'sales';
         $this->_initialize_datamanager();
@@ -27,7 +27,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_generator($handler_id, $args, &$data)
+    public function _handler_generator($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -97,7 +97,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_generator($handler_id, &$data)
+    public function _show_generator($handler_id, &$data)
     {
         midcom_show_style('sales_report-deliverable-start');
 

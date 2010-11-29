@@ -17,7 +17,7 @@ class net_nemein_rss_interface extends midcom_baseclasses_components_interface
     /**
      * Initialize MagpieRSS
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // RSS bandwidth usage settings
         define('MAGPIE_CACHE_ON', false);

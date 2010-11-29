@@ -18,7 +18,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // *** Prepare the request switch ***
         $this->_request_switch['config'] = Array
@@ -503,7 +503,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _populate_node_toolbar()
+    private function _populate_node_toolbar()
     {
         if (   $this->_topic->can_do('midgard:update')
             && $this->_topic->can_do('midgard:create'))
@@ -548,7 +548,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates root group information
      */
-    function _on_can_handle($argc, $argv)
+    public function _on_can_handle($argc, $argv)
     {
         if ($this->_config->get('root_group') === 0)
         {
@@ -583,7 +583,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates the toolbars.
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_request_data['schemadb_group'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));

@@ -25,7 +25,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['product'] =& $this->_product;
         $this->_request_data['enable_components'] = $this->_config->get('enable_components');
@@ -92,7 +92,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 )
             );
         }
-        
+
         if ($_MIDCOM->componentloader->is_installed('org.openpsa.relatedto'))
         {
             org_openpsa_relatedto_plugin::add_button($this->_view_toolbar, $this->_product->guid);
@@ -114,11 +114,11 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                     )
                 );
             }
-            
+
             if ($product_group)
             {
                 $allow_create_group = $product_group->can_do('midgard:create');
-                $allow_create_product = $product_group->can_do('midgard:create');            
+                $allow_create_product = $product_group->can_do('midgard:create');
 
                 if ($product_group->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
                 {
@@ -130,7 +130,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                 $allow_create_group = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
                 $allow_create_product = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
             }
-            
+
             foreach (array_keys($this->_request_data['schemadb_group']) as $name)
             {
                 $this->_view_toolbar->add_item
@@ -148,7 +148,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                     )
                 );
             }
-    
+
             foreach (array_keys($this->_request_data['schemadb_product']) as $name)
             {
                 if (isset($this->_request_data['schemadb_product'][$name]->customdata['icon']))
@@ -175,7 +175,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                     )
                 );
             }
-            
+
             if (   $this->_config->get('enable_productlinks')
                 && isset($this->_request_data['schemadb_productlink']))
             {
@@ -218,7 +218,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         if (preg_match('/_raw$/', $handler_id))
         {
@@ -448,7 +448,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         if ($data['controller'])
         {

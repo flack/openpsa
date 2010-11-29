@@ -13,14 +13,14 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
 {
     var $uri = ''; //URL for tambur gateway (reference to location)
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->location = &$this->uri;
         return true;
     }
 
-    function _sanity_check()
+    private function _sanity_check()
     {
         if (   !$this->uri
             || !$this->user
@@ -149,7 +149,7 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
         return true;
     }
 
-    function _get_remote_error($headers)
+    private function _get_remote_error($headers)
     {
         preg_match('/HTTP\/[0-9.]+\s([0-9]+)\s(.*)/', $headers[0], $matches_hdr);
         $code = $matches_hdr[1];

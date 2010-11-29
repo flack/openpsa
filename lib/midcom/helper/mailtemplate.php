@@ -231,7 +231,7 @@ class midcom_helper_mailtemplate
      *
      * @param Array $template    The value of a Datamanager mailtemplate type
      */
-    function __construct ($template)
+    public function __construct ($template)
     {
         /* First, we include all necessary PEAR classes */
         debug_add('Mailtemplate::c\'tor: loading PEAR package Mail (if not already required)...');

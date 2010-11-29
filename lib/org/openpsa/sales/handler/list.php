@@ -48,7 +48,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -175,7 +175,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         if (count($this->_salesprojects) == 0)
         {

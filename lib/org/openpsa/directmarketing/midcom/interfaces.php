@@ -13,7 +13,7 @@
  */
 class org_openpsa_directmarketing_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_files = array
         (
@@ -116,7 +116,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
     /**
      * The permalink servie resolver
      */
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $campaign = false;
         $message = false;
@@ -145,7 +145,7 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         return null;
     }
 
-    function _on_watched_dba_create($post)
+    public function _on_watched_dba_create($post)
     {
         // TODO: Move this logic to a separate class
 

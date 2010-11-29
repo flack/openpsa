@@ -41,7 +41,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
 
@@ -66,7 +66,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function _create_article($title)
+    private function _create_article($title)
     {
         $author = $_MIDCOM->auth->user->get_storage();
 
@@ -109,10 +109,8 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
     /**
      * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 
@@ -123,7 +121,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
     }
 
-    function _params_to_args($message)
+    private function _params_to_args($message)
     {
         $args = array();
 
@@ -691,7 +689,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_rsd($handler_id, $args, &$data)
+    public function _handler_rsd($handler_id, $args, &$data)
     {
         //Content-Type
         $_MIDCOM->skip_page_style = true;
@@ -705,7 +703,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_rsd($handler_id, &$data)
+    public function _show_rsd($handler_id, &$data)
     {
         $data['content_topic'] = $this->_content_topic;
         midcom_show_style('rsd');
@@ -717,7 +715,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_server($handler_id, $args, &$data)
+    public function _handler_server($handler_id, $args, &$data)
     {
         if (!$this->_config->get('api_metaweblog_enable'))
         {
@@ -778,7 +776,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_server($handler_id, &$data)
+    public function _show_server($handler_id, &$data)
     {
         // Serve the RPC request
         new XML_RPC_Server($data['dispatchmap']);

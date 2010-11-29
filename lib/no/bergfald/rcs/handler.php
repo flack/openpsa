@@ -136,7 +136,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     /**
      * Load the text_diff libaries needed to show diffs.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/no.bergfald.rcs/rcs.css");
     }
@@ -145,7 +145,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      * Load the object and the rcs backend
      *
      */
-    function _load_object()
+    private function _load_object()
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
 
@@ -159,7 +159,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         }
     }
 
-    function _prepare_breadcrumb()
+    private function _prepare_breadcrumb()
     {
         if (!is_a($this->_object, 'midcom_db_topic'))
         {
@@ -171,7 +171,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     /**
      * Call this after loading an object
      */
-    function _prepare_toolbars($revision = '', $diff_view = false)
+    private function _prepare_toolbars($revision = '', $diff_view = false)
     {
         $this->_view_toolbar->add_item(
             array
@@ -271,7 +271,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_history($handler_id, $args, &$data)
+    public function _handler_history($handler_id, $args, &$data)
     {
         $this->_guid = $args[0];
         $this->_load_object();
@@ -291,14 +291,14 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         return true;
     }
 
-    function _show_history()
+    public function _show_history()
     {
         $this->_request_data['history'] = $this->_backend->list_history();
         $this->_request_data['guid']    = $this->_guid;
         midcom_show_style('bergfald-rcs-history');
     }
 
-    function _resolve_object_title()
+    private function _resolve_object_title()
     {
         if (method_exists($this->_object, 'get_label'))
         {
@@ -323,7 +323,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     /**
      * Show a diff between two versions
      */
-    function _handler_diff($handler_id, $args, &$data)
+    public function _handler_diff($handler_id, $args, &$data)
     {
         $this->_guid = $args[0];
         $this->_load_object();
@@ -395,7 +395,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     /**
      * Show the differences between the versions
      */
-    function _show_diff()
+    public function _show_diff()
     {
         if (!$this->_request_data['libs_ok'])
         {
@@ -409,7 +409,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     /**
      * View previews
      */
-    function _handler_preview($handler_id, $args, &$data)
+    public function _handler_preview($handler_id, $args, &$data)
     {
         $this->_guid = $args[0];
         $this->_args = $args;
@@ -443,7 +443,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
         return true;
     }
 
-    function _show_preview()
+    public function _show_preview()
     {
         midcom_show_style('bergfald-rcs-preview');
     }
@@ -451,7 +451,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     /**
      * Restore to diff
      */
-    function _handler_restore($handler_id, $args, &$data)
+    public function _handler_restore($handler_id, $args, &$data)
     {
         $this->_guid = $args[0];
         $this->_args = $args;

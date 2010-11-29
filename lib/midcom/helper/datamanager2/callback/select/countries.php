@@ -29,7 +29,7 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
      */
     private $_data = null;
 
-    function __construct($args)
+    public function __construct($args)
     {
         $this->_component = 'net.nehmer.account';
         parent::__construct();
@@ -52,7 +52,7 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
         $this->_populate_data($countries);
     }
 
-    function _populate_data(&$countries)
+    private function _populate_data(&$countries)
     {
         foreach ($countries as $country)
         {

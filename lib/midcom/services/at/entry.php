@@ -26,7 +26,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     /**
      * Empty constructor
      */
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -53,7 +53,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      *
      * @return boolean Always true
      */
-    function _on_loaded()
+    public function _on_loaded()
     {
         $this->_unserialize_arguments();
         return true;
@@ -64,7 +64,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      *
      * @return boolean Always true
      */
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->status)
         {
@@ -83,7 +83,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      *
      * @return boolean Always true
      */
-    function _on_updating()
+    public function _on_updating()
     {
         $this->_serialize_arguments();
         return true;
@@ -92,7 +92,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     /**
      * Autopurge after delete
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         if (!method_exists($this, 'purge'))
         {

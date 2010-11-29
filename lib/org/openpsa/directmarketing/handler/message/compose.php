@@ -162,7 +162,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         return $this->_real_show_compose($handler_id, $data);
     }
 
-    function _real_show_compose($handler_id, &$data)
+    private function _real_show_compose($handler_id, &$data)
     {
         $prefix='';
         if (   array_key_exists('substyle', $data['message_array'])

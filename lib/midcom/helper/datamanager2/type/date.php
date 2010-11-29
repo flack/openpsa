@@ -56,12 +56,12 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     /**
      * Initialize the value with an empty Date class.
      */
-    function _on_configuring($config)
+    public function _on_configuring($config)
     {
         $this->value = new Date();
     }
 
-    function _on_validate()
+    public function _on_validate()
     {
         if (empty($this->earlier_field))
         {

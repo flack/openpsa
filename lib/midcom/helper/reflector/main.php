@@ -26,7 +26,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @param string/midgard_object $src classname or object
      */
-    function __construct($src)
+    public function __construct($src)
     {
         $this->_component = 'midcom.helper.reflector';
         parent::__construct();

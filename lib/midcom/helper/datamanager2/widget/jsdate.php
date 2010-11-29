@@ -66,7 +66,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     /**
      * Adapts the min/maxyear defaults if the base date is set to UNIXDATE storage.
      */
-    function _on_configuring()
+    public function _on_configuring()
     {
         if (   is_a($this->_type, 'midcom_helper_datamanager2_type_date')
             && $this->_type->storage_type == 'UNIXDATE')
@@ -79,7 +79,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     /**
      * Validates the base type.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_date'))
         {

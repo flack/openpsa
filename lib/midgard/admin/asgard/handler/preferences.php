@@ -45,7 +45,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     /**
      * Connect to the parent class constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
@@ -110,7 +110,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_preferences($handler_id, $args, &$data)
+    public function _handler_preferences($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -168,7 +168,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_preferences($handler_id, &$data)
+    public function _show_preferences($handler_id, &$data)
     {
         if (isset($_GET['ajax']))
         {
@@ -256,7 +256,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_ajax($handler_id, &$data)
+    public function _show_ajax($handler_id, &$data)
     {
         // Do nothing at the moment
     }

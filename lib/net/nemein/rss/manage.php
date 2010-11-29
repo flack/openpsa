@@ -14,7 +14,7 @@
  */
 class net_nemein_rss_manage extends midcom_baseclasses_components_handler
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('net.nemein.rss');
@@ -73,7 +73,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_opml($handler_id, $args, &$data)
+    public function _handler_opml($handler_id, $args, &$data)
     {
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
@@ -95,7 +95,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_opml($handler_id, &$data)
+    public function _show_opml($handler_id, &$data)
     {
         $opml = new OPMLCreator();
         $opml->title = $this->_topic->extra;
@@ -117,7 +117,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $qb = net_nemein_rss_feed_dba::new_query_builder();
         $qb->add_order('title');
@@ -134,7 +134,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         $data['folder'] = $this->_topic;
         midcom_show_style('net-nemein-rss-feeds-list-header');
@@ -151,7 +151,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
         midcom_show_style('net-nemein-rss-feeds-list-footer');
     }
 
-    function _subscribe_feed($feed_url, $feed_title = null)
+    private function _subscribe_feed($feed_url, $feed_title = null)
     {
         // Try to fetch the new feed
         $rss = net_nemein_rss_fetch::raw_fetch($feed_url);
@@ -210,7 +210,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_subscribe($handler_id, $args, &$data)
+    public function _handler_subscribe($handler_id, $args, &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -273,13 +273,13 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_subscribe($handler_id, &$data)
+    public function _show_subscribe($handler_id, &$data)
     {
         $data['folder'] = $this->_topic;
         midcom_show_style('net-nemein-rss-feeds-subscribe');
     }
 
-    function _load_controller(&$data)
+    private function _load_controller(&$data)
     {
         $data['schemadb'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_feed'));
         $data['controller'] = midcom_helper_datamanager2_controller::create('simple');
@@ -298,7 +298,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
         if (!$data['feed'])
@@ -333,7 +333,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('net-nemein-rss-feed-edit');
     }
@@ -351,7 +351,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
         if (!$data['feed'])
@@ -400,7 +400,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, &$data)
     {
         midcom_show_style('net-nemein-rss-feed-delete');
     }
@@ -411,7 +411,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_fetch($handler_id, $args, &$data)
+    public function _handler_fetch($handler_id, $args, &$data)
     {
         $this->_topic->require_do('midgard:create');
         $_MIDCOM->cache->content->enable_live_mode();
@@ -464,7 +464,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_fetch($handler_id, &$data)
+    public function _show_fetch($handler_id, &$data)
     {
         midcom_show_style('net-nemein-rss-feed-fetch');
     }

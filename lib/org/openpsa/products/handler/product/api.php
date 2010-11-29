@@ -24,7 +24,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (!$this->_config->get('api_products_enable'))
         {
@@ -58,7 +58,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function _create_product($title, $productgroup)
+    private function _create_product($title, $productgroup)
     {
         $product = new org_openpsa_products_product_dba();
         $product->productGroup = $productgroup;
@@ -100,7 +100,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_options($handler_id, $args, &$data)
+    public function _handler_options($handler_id, $args, &$data)
     {
         $_MIDCOM->skip_page_style = false;
 
@@ -112,7 +112,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_options($handler_id, &$data)
+    public function _show_options($handler_id, &$data)
     {
         midcom_show_style('api_product_options');
     }
@@ -123,7 +123,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_product_get($handler_id, $args, &$data)
+    public function _handler_product_get($handler_id, $args, &$data)
     {
         $this->_product = new org_openpsa_products_product_dba($args[0]);
         if (   !$this->_product
@@ -149,7 +149,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_product_get($handler_id, &$data)
+    public function _show_product_get($handler_id, &$data)
     {
         $data['datamanager'] =& $this->_datamanager;
         $data['view_product'] = $this->_datamanager->get_content_html();
@@ -163,7 +163,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_product_list($handler_id, $args, &$data)
+    public function _handler_product_list($handler_id, $args, &$data)
     {
         $qb = org_openpsa_products_product_dba::new_query_builder();
 
@@ -212,7 +212,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_product_list($handler_id, &$data)
+    public function _show_product_list($handler_id, &$data)
     {
         midcom_show_style('api_product_list_header');
         foreach ($data['products'] as $product)
@@ -230,7 +230,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_product_create($handler_id, $args, &$data)
+    public function _handler_product_create($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
 
@@ -288,7 +288,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_product_update($handler_id, $args, &$data)
+    public function _handler_product_update($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
 
@@ -330,7 +330,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_product_delete($handler_id, $args, &$data)
+    public function _handler_product_delete($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
 

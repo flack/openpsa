@@ -46,7 +46,7 @@ class midcom_services_indexer_document_attachment extends midcom_services_indexe
      * @param MidgardAttachment $attachment The Attachment to index.
      * @param MidgardObject $source The source objece to which the attachment is bound.
      */
-    function __construct($attachment, $source)
+    public function __construct($attachment, $source)
     {
         //before doing anything else, verify that the attachment is readable, otherwise we might get stuck in endless loops later on
         $test = $attachment->open('r');

@@ -278,7 +278,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      * This event handler will determine the content topic, which might differ due to a
      * set content symlink.
      */
-    function _on_set_object()
+    public function _on_set_object()
     {
         $this->_determine_content_topic();
         return true;
@@ -291,7 +291,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      *
      * @access protected
      */
-    function _determine_content_topic()
+    private function _determine_content_topic()
     {
         $guid = $this->_config->get('symlink_topic');
         if (is_null($guid))

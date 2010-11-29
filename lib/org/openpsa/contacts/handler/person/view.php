@@ -42,7 +42,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      */
     private $_controller = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
@@ -96,7 +96,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         if (!$this->_contact)
@@ -270,7 +270,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         // For AJAX handling it is the controller that renders everything
         $data['contact_view'] =& $this->_controller->get_content_html();

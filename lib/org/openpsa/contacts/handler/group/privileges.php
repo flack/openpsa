@@ -42,13 +42,12 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
      */
     private $_group = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
 
-
-    function _load_group($identifier)
+    private function _load_group($identifier)
     {
         $group = new org_openpsa_contacts_group_dba($identifier);
 
@@ -141,7 +140,7 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_privileges($handler_id, $args, &$data)
+    public function _handler_privileges($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -185,7 +184,7 @@ class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_privileges($handler_id, &$data)
+    public function _show_privileges($handler_id, &$data)
     {
         $this->_request_data['acl_dm'] =& $this->_controller;
         midcom_show_style("show-privileges");

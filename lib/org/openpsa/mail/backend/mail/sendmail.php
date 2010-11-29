@@ -15,7 +15,7 @@ class org_openpsa_mail_backend_mail_sendmail
     var $error = false;
     var $_mail = null;
 
-    function __construct()
+    public function __construct()
     {
         debug_add('constructor called');
         if (!class_exists('Mail'))

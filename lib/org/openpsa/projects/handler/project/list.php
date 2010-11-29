@@ -14,7 +14,7 @@
  */
 class org_openpsa_projects_handler_project_list extends midcom_baseclasses_components_handler
 {
-    function _load_project($identifier)
+    private function _load_project($identifier)
     {
         $project = new org_openpsa_projects_project($identifier);
 
@@ -33,7 +33,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // QB queries of projects by status
@@ -225,7 +225,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();

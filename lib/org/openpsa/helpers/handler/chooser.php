@@ -71,7 +71,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      */
     private $_object = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $_MIDCOM->style->prepend_component_styledir('org.openpsa.helpers');
@@ -83,7 +83,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_dbaclass = $args[0];
         $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_dbaclass);
@@ -256,7 +256,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         switch ($this->_dbaclass)
         {

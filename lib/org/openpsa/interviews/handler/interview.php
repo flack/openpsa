@@ -44,7 +44,7 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
     }
@@ -71,7 +71,7 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_interview($handler_id, $args, &$data)
+    public function _handler_interview($handler_id, $args, &$data)
     {
         $this->_member = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         if (!$this->_member)
@@ -107,7 +107,7 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_interview($handler_id, &$data)
+    public function _show_interview($handler_id, &$data)
     {
         $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['person'] = new midcom_db_person($this->_member->person);

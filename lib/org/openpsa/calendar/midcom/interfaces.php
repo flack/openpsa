@@ -14,7 +14,7 @@
  */
 class org_openpsa_calendar_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = array
         (
@@ -123,7 +123,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
      * Iterate over all events and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $root_event = self::find_root_event();
@@ -215,7 +215,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     /**
      * Returns string of correct window options for JS
      */
-    function _js_window_options($height, $width)
+    private function _js_window_options($height, $width)
     {
         $ret = "toolbar=0,";
         $ret .= "location=0,";
@@ -232,7 +232,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
     /**
      * Verifies that given node has all we need to construct the popup
      */
-    function _popup_verify_node($node)
+    private function _popup_verify_node($node)
     {
         if (   !is_array($node)
             || !array_key_exists(MIDCOM_NAV_FULLURL, $node)
@@ -246,7 +246,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         return true;
     }
 
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $event = new org_openpsa_calendar_event_dba($guid);
 

@@ -26,7 +26,7 @@ class org_openpsa_core_acl_synchronizer
         return $this->_write_full_midcom_acls($object, $owner_id, $accesstype);
     }
 
-    function _write_full_midcom_acls($object, $owner_id, $accesstype)
+    private function _write_full_midcom_acls($object, $owner_id, $accesstype)
     {
         // Exit if no owner workgroup has been assigned
         if ($owner_id == '')
@@ -110,7 +110,7 @@ class org_openpsa_core_acl_synchronizer
         return true;
     }
 
-    function _set_attachment_permission($object, $privilege, $assignee, $value)
+    private function _set_attachment_permission($object, $privilege, $assignee, $value)
     {
         $attachments = $object->list_attachments();
         if ($attachments)

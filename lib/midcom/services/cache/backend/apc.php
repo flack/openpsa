@@ -26,7 +26,7 @@ class midcom_services_cache_backend_apc extends midcom_services_cache_backend
     /**
      * This handler completes the configuration.
      */
-     function _on_initialize()
+     public function _on_initialize()
     {
         $this->_auto_serialize = false; // apc doesn't need serialization to work
         self::$apc_operational = extension_loaded('apc') && ini_get('apc.enabled');

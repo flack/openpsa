@@ -30,7 +30,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
      */
     var $editarea_enabled = true;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         //if (strpos($_SERVER['HTTP_USER_AGENT'], 'WebKit') !== false)
         //{
@@ -75,7 +75,7 @@ class midcom_helper_datamanager2_type_php extends midcom_helper_datamanager2_typ
      *
      * @return boolean Indicating validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         if (   is_array($this->value)
             || is_object($this->value))

@@ -28,7 +28,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_determine_content_topic();
         $this->_request_data['content_topic'] =& $this->_content_topic;
@@ -451,7 +451,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _add_link_head()
+    private function _add_link_head()
     {
         if ($this->_config->get('rss_enable'))
         {
@@ -495,7 +495,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _populate_node_toolbar()
+    private function _populate_node_toolbar()
     {
         if ($this->_content_topic->can_do('midgard:create'))
         {
@@ -607,13 +607,13 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      * - Add the LINK HTML HEAD elements
      * - Populate the Node Toolbar
      */
-    function _on_can_handle($handler, $args)
+    public function _on_can_handle($handler, $args)
     {
         $this->_request_data['viewer_instance'] =& $this;
         return true;
     }
 
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $this->_request_data['schemadb'] =
             midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
@@ -628,7 +628,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
     /**
      * Populate the categories configured for the topic into the schemas
      */
-    function _add_categories()
+    private function _add_categories()
     {
         if ($this->_config->get('categories') == '')
         {
@@ -660,7 +660,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _determine_content_topic()
+    private function _determine_content_topic()
     {
         $guid = $this->_config->get('symlink_topic');
         if (is_null($guid))

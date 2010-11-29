@@ -452,7 +452,7 @@ class org_openpsa_calendarwidget_month
     /**
      * Simple constructor method. Initializes
      */
-    function __construct()
+    public function __construct()
     {
         if (empty($this->week_text))
         {

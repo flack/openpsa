@@ -47,7 +47,7 @@ class midcom_helper_nav
      *
      * @param int $contextid    The id of the context you want to navigate.
      */
-    function __construct($contextid = -1)
+    public function __construct($contextid = -1)
     {
         if ($contextid == -1)
         {

@@ -24,12 +24,12 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     /**
      * Constructor, call for the class parent constructor method.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -40,7 +40,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['object'] =& $this->_object;
         $this->_request_data['l10n'] =& $this->_l10n;

@@ -17,7 +17,7 @@
  */
 class net_nehmer_account_cron_cleanup extends midcom_baseclasses_components_cron_handler
 {
-    function _on_execute()
+    public function _on_execute()
     {
         $timeout_days = $this->_config->get('account_activation_timeout');
         $timeout_stamp = time() - ($timeout_days * 86400);

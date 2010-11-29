@@ -17,7 +17,7 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_salesproject_member';
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         return parent::__construct($id);
@@ -52,7 +52,7 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
     }
 
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->orgOpenpsaObtype)
         {
@@ -61,7 +61,7 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_created()
+    public function _on_created()
     {
         // Check if the salesman and the contact are buddies already
         $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);

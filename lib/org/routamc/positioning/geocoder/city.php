@@ -17,7 +17,7 @@ class org_routamc_positioning_geocoder_city extends org_routamc_positioning_geoc
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    function __construct()
+    public function __construct()
     {
          $this->_component = 'org.routamc.positioning';
          parent::__construct();

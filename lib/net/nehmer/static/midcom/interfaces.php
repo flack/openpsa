@@ -19,7 +19,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = Array
         (
@@ -31,7 +31,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
      * Iterate over all articles and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         if (is_null($config->get('symlink_topic')))
         {
@@ -73,7 +73,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
     /**
      * Simple lookup method which tries to map the guid to an article of out topic.
      */
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $topic_guid = $config->get('symlink_topic');
         if (   !empty($topic_guid)

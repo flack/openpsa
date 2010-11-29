@@ -17,12 +17,12 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     /**
      * Simple constructor, call for the parent class contructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midcom.admin.user';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
         $this->_request_data['l10n'] = $this->_l10n;
@@ -140,7 +140,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         // Get the prefix
         $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -163,7 +163,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-list-start');

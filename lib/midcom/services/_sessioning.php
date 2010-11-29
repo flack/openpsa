@@ -57,7 +57,7 @@ class midcom_services__sessioning
      * and initialize the session data. This might involve creating an empty
      * session array.
      */
-    function __construct()
+    public function __construct()
     {
         static $started = false;
 

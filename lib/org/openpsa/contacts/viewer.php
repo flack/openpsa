@@ -24,7 +24,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
      * - Third parameter defines current view/action
      * - Additional parameters are defined by the action concerned
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /duplicates/person
         $this->_request_switch['person_duplicates'] = array
@@ -222,7 +222,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates the toolbars.
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();

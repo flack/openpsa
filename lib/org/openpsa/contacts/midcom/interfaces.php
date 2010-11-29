@@ -19,7 +19,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      *
      * Initialize the basic data structures needed by the component
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         //org.openpsa.contacts object types
         define('ORG_OPENPSA_OBTYPE_OTHERGROUP', 0);
@@ -36,7 +36,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      * Iterate over all groups and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -149,7 +149,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         return $root_group;
     }
 
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $group = false;
         $person = false;
@@ -317,7 +317,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         return true;
     }
 
-    function _get_data_from_url($url)
+    private function _get_data_from_url($url)
     {
         $data = array();
 

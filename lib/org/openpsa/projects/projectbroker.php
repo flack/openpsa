@@ -17,7 +17,7 @@ class org_openpsa_projects_projectbroker
     var $_owner_grp = false;
     var $membership_filter = array();
 
-    function __construct()
+    public function __construct()
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $owner_guid = $siteconfig->get_my_company_guid();
@@ -85,14 +85,13 @@ class org_openpsa_projects_projectbroker
             }
         }
 
-
         // TODO: Check other constraints (available time, country, time zone)
         $this->_find_task_prospects_filter_by_minimum_time_slot($task, $return);
 
         return $return;
     }
 
-    function _find_task_prospects_filter_by_memberships(&$task, &$prospects)
+    private function _find_task_prospects_filter_by_memberships(&$task, &$prospects)
     {
         static $group_cache = array();
         foreach ($prospects as $key => $person)
@@ -138,7 +137,7 @@ class org_openpsa_projects_projectbroker
         }
     }
 
-    function _find_task_prospects_filter_by_minimum_time_slot(&$task, &$prospects)
+    private function _find_task_prospects_filter_by_minimum_time_slot(&$task, &$prospects)
     {
         $keep_prospects = array();
         $minimum_time_slot = $task->get_parameter('org.openpsa.projects.projectbroker', 'minimum_slot');

@@ -46,7 +46,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
     /**
      * This handler completes the configuration.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // We need to serialize data
         $this->_auto_serialize = true;

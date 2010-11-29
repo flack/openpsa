@@ -53,7 +53,7 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
      *
      * @param midcom_helper_datamanager2_schema &$schema The data schema to use for processing.
      */
-    function __construct($schema)
+    public function __construct($schema)
     {
         parent::__construct();
 

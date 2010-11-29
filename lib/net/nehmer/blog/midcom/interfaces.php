@@ -19,7 +19,7 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         define('NET_NEHMER_BLOG_LEAFID_FEEDS', 2);
 
@@ -38,7 +38,7 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
      * Iterate over all articles and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         if (   is_null($config->get('symlink_topic'))
             && !$config->get('disable_indexing'))
@@ -86,7 +86,7 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
     /**
      * Simple lookup method which tries to map the guid to an article of out topic.
      */
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         if (   isset($config)
             && $config->get('disable_permalinks'))

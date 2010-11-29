@@ -295,7 +295,7 @@ class midcom_core_manifest
      * @param string $filename The name of the manifest file to load.
      * @param array $values the values the manifest uses.
      */
-    function __construct($filename,$values)
+    public function __construct($filename,$values)
     {
         $this->filename = $filename;
         $this->_load_manifest($values);
@@ -309,7 +309,7 @@ class midcom_core_manifest
      * @access protected
      * @todo move this into the constructor, use isset.
      */
-    function _load_manifest($values )
+    private function _load_manifest($values )
     {
         $this->_raw_data = $values;
         if (!is_array($this->_raw_data))
@@ -374,7 +374,7 @@ class midcom_core_manifest
      *
      * @access protected
      */
-    function _process_privileges()
+    private function _process_privileges()
     {
         foreach ($this->_raw_data['privileges'] as $name => $defaults)
         {

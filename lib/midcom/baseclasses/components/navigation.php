@@ -133,7 +133,7 @@ abstract class midcom_baseclasses_components_navigation extends midcom_baseclass
      *   to the topic. NAP will abort loading this node and log the error accordingly.
      *   Return true if everything is fine.
      */
-    function _on_set_object()
+    public function _on_set_object()
     {
         return true;
     }

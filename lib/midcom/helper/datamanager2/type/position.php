@@ -20,7 +20,7 @@ class midcom_helper_datamanager2_type_position extends midcom_helper_datamanager
     var $object = null;
     var $relation = 30; // ORG_ROUTAMC_POSITIONING_RELATION_LOCATED
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         return $_MIDCOM->load_library('org.routamc.positioning');
     }

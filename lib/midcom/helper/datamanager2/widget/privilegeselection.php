@@ -52,7 +52,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_privilege'))
         {

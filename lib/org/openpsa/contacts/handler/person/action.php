@@ -21,12 +21,12 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      */
     private $_person = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();
     }
 
-    function _load_person($identifier)
+    private function _load_person($identifier)
     {
         $person = new org_openpsa_contacts_person_dba($identifier);
 
@@ -47,7 +47,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_group_memberships($handler_id, $args, &$data)
+    public function _handler_group_memberships($handler_id, $args, &$data)
     {
         // Check if we get the person
         $this->_person = $this->_load_person($args[0]);
@@ -75,7 +75,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_account_create($handler_id, $args, &$data)
+    public function _handler_account_create($handler_id, $args, &$data)
     {
         // Check if we get the person
         $this->_person = $this->_load_person($args[0]);
@@ -192,7 +192,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_account_edit($handler_id, $args, &$data)
+    public function _handler_account_edit($handler_id, $args, &$data)
     {
         // Check if we get the person
         $this->_person = $this->_load_person($args[0]);
@@ -317,7 +317,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_group_memberships($handler_id, &$data)
+    public function _show_group_memberships($handler_id, &$data)
     {
         // This is most likely a dynamic_load
         if (count($data['memberships']) > 0)
@@ -348,7 +348,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_account_create($handler_id, &$data)
+    public function _show_account_create($handler_id, &$data)
     {
         midcom_show_style("show-person-account-create");
     }
@@ -358,7 +358,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_account_edit($handler_id, &$data)
+    public function _show_account_edit($handler_id, &$data)
     {
         midcom_show_style("show-person-account-edit");
     }

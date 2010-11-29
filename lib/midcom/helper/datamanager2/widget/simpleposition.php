@@ -21,7 +21,7 @@ class midcom_helper_datamanager2_widget_simpleposition extends midcom_helper_dat
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (   !isset($this->_type->location)
             || !is_object($this->_type->location))

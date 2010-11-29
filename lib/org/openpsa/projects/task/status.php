@@ -16,7 +16,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_task_status';
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -59,7 +59,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         }
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         //Make sure we have timestamp
         if ($this->timestamp == 0)
@@ -87,7 +87,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_created()
+    public function _on_created()
     {
         //Remove the resource if necessary
         if ($this->type == ORG_OPENPSA_TASKSTATUS_DECLINED

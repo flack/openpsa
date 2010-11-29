@@ -16,7 +16,7 @@ class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_link_log';
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -38,7 +38,7 @@ class org_openpsa_directmarketing_link_log_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->timestamp)
         {

@@ -19,12 +19,12 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     /**
      * Simple constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midcom.admin.user';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
         $this->_request_data['l10n'] = $this->_l10n;
@@ -37,7 +37,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
     }
 
-    function _prepare_toolbar(&$data)
+    private function _prepare_toolbar(&$data)
     {
         $data['asgard_toolbar']->add_item
         (

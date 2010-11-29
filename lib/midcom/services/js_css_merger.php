@@ -72,7 +72,7 @@ class midcom_services_js_css_merger
     /**
      * Constructor, sets default value and test memcached
      */
-    function __construct()
+    public function __construct()
     {
         $this->documentroot = @getenv('DOCUMENT_ROOT');
         // We check this key later

@@ -23,7 +23,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_generator_get($handler_id, $args, &$data)
+    public function _handler_generator_get($handler_id, $args, &$data)
     {
         $this->_set_active_leaf();
         $_MIDCOM->auth->require_valid_user();
@@ -48,14 +48,14 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_generator_get($handler_id, &$data)
+    public function _show_generator_get($handler_id, &$data)
     {
         $this->_show_generator($handler_id, $data);
 
         return;
     }
 
-    function _initialize_datamanager()
+    private function _initialize_datamanager()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -73,7 +73,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return true;
     }
 
-    function _load_query($identifier, $dm_key)
+    private function _load_query($identifier, $dm_key)
     {
         $query = new org_openpsa_reports_query_dba($identifier);
 
@@ -160,7 +160,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_query_form($handler_id, $args, &$data)
+    public function _handler_query_form($handler_id, $args, &$data)
     {
         $this->_set_active_leaf();
         $_MIDCOM->auth->require_valid_user();
@@ -225,21 +225,20 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_query_form($handler_id, &$data)
+    public function _show_query_form($handler_id, &$data)
     {
         midcom_show_style("{$this->module}_query_form");
 
         return true;
     }
 
-    function _set_active_leaf()
+    private function _set_active_leaf()
     {
         // This should be overridden, but we default for 'generator_<module>'
         $this->set_active_leaf($this->_topic->id . ':generator_' . $this->module);
     }
 
-
-    function _generator_load_redirect(&$args)
+    private function _generator_load_redirect(&$args)
     {
         debug_add('Loading query object ' . $args[0]);
         $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
@@ -279,7 +278,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return true;
     }
 
-    function _handler_generator_style()
+    public function _handler_generator_style()
     {
         //Handle style
         if (empty($this->_request_data['query_data']['style']))
@@ -307,7 +306,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
     /**
      * Convert midcom acl identifier to array of person ids
      */
-    function _expand_resource($resource_id, $ret = array())
+    private function _expand_resource($resource_id, $ret = array())
     {
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = $_MIDCOM->auth->get_assignee($resource_id);
@@ -343,7 +342,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return $ret;
     }
 
-    function _verify_cache($key, &$request_data)
+    private function _verify_cache($key, &$request_data)
     {
         if (   !array_key_exists('object_cache', $request_data)
             || !is_array($request_data['object_cache']))
@@ -397,7 +396,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return $request_data['object_cache'][$type][$obj->id];
     }
 
-    function _get_cache_obj_tasks($id)
+    private function _get_cache_obj_tasks($id)
     {
         return new org_openpsa_projects_task_dba($id);
     }

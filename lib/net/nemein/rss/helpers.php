@@ -8,7 +8,7 @@
 
 class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
 {
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'net.nemein.rss';
         parent::__construct();

@@ -123,7 +123,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
@@ -213,7 +213,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         $this->_request_data['controller'] =& $this->_controller;
         midcom_show_style("show-person-create");

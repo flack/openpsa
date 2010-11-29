@@ -38,7 +38,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
      */
     private $_current_object = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $_MIDCOM->style->prepend_component_styledir('org.openpsa.relatedto');
@@ -51,7 +51,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_entry($handler_id, $args, &$data)
+    public function _handler_entry($handler_id, $args, &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         //passed guid does not exist
@@ -137,7 +137,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css");
     }
 
-    function _show_entry($handler_id , &$data)
+    public function _show_entry($handler_id , &$data)
     {
         switch($this->_output_mode)
         {
@@ -151,7 +151,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         }
     }
 
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
@@ -178,7 +178,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         return true;
     }
 
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         midcom_show_style('journal_entry_edit');
     }
@@ -247,7 +247,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         return $reminder;
     }
 
-    function _handler_remove($handler_id, $args, &$data)
+    public function _handler_remove($handler_id, $args, &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $reminder = new org_openpsa_relatedto_journal_entry_dba($args[1]);
@@ -262,7 +262,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         return true;
     }
 
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
 
@@ -313,12 +313,12 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         return true;
     }
 
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('journal_entry_edit');
     }
 
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
@@ -337,9 +337,9 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         return true;
     }
 
-    function _show_delete($handler_id, &$data){}
+    public function _show_delete($handler_id, &$data){}
 
-    function _handler_list($handler_id , $args , &$data)
+    public function _handler_list($handler_id , $args , &$data)
     {
         if (isset($args[0]))
         {
@@ -400,7 +400,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         return true;
     }
 
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         midcom_show_style('show_entries_' . $this->_output_mode);
     }

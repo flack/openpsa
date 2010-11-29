@@ -86,7 +86,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_navigation($handler_id, $args, &$data)
+    public function _handler_navigation($handler_id, $args, &$data)
     {
         $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
         $current_component = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC)->component;
@@ -114,7 +114,7 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_navigation($handler_id, &$data)
+    public function _show_navigation($handler_id, &$data)
     {
         $tree_array = array
         (

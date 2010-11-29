@@ -53,7 +53,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['schema'] =& $this->_schema;
@@ -65,7 +65,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb =& midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_hours'));
     }
@@ -126,7 +126,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         //load component here to be able to access its constants
         $_MIDCOM->componentloader->load('org.openpsa.projects');
@@ -242,7 +242,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         midcom_show_style('hours_create');
     }
@@ -255,7 +255,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
         if (   !$this->_hour_report
@@ -353,7 +353,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('hours_edit');
     }
@@ -366,7 +366,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
         if (!$this->_hour_report)
@@ -417,7 +417,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         midcom_show_style('hours_delete');
     }
@@ -429,7 +429,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    function _handler_batch($handler_id, $args, &$data)
+    public function _handler_batch($handler_id, $args, &$data)
     {
         //get url to relocate
         $relocate = "/";

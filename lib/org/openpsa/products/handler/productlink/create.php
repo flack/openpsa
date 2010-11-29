@@ -53,7 +53,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['indexmode'] =& $this->_indexmode;
@@ -66,7 +66,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb =& $this->_request_data['schemadb_productlink'];
 
@@ -133,7 +133,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         //Check if args[0] is a product group code.
         if ((int)$args[0] == 0
@@ -246,7 +246,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         midcom_show_style('productlink_create');
     }
@@ -255,7 +255,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
      */
-    function _update_breadcrumb_line()
+    private function _update_breadcrumb_line()
     {
         $tmp = array();
 

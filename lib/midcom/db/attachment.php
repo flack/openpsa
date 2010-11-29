@@ -46,7 +46,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public $_duplicate = false;
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -358,7 +358,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @return string An unused attachment location.
      */
-    function _create_attachment_location()
+    private function _create_attachment_location()
     {
         $location_in_use = true;
         $location = '';
@@ -418,7 +418,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
      *
      * @return boolean True if creation may commence.
      */
-    function _on_creating()
+    public function _on_creating()
     {
         if (empty($this->mimetype))
         {
@@ -441,7 +441,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Created callback, triggers watches on the parent(!) object.
      */
-    function _on_created()
+    public function _on_created()
     {
         parent::_on_created();
         $object = $this->get_parent();
@@ -470,7 +470,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Updated callback, triggers watches on the parent(!) object.
      */
-    function _on_updated()
+    public function _on_updated()
     {
         parent::_on_updated();
         $this->update_cache();
@@ -484,7 +484,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     /**
      * Deleted callback, triggers watches on the parent(!) object.
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         parent::_on_deleted();
 

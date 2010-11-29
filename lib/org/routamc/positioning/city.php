@@ -70,7 +70,7 @@ class org_routamc_positioning_city_dba extends midcom_core_dbaobject
     /**
      * Don't save city if another city is in same place
      */
-    function _on_creating()
+    public function _on_creating()
     {
         $qb = org_routamc_positioning_city_dba::new_query_builder();
         $qb->add_constraint('longitude', '=', (double)$this->longitude);

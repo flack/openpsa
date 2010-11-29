@@ -30,7 +30,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         // Backwards compatibility
         if ($this->name == '')
@@ -41,7 +41,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return true;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (   $this->title == ''
             || !$this->topic)
@@ -69,7 +69,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if ($_MIDCOM->auth->user)
         {
@@ -84,7 +84,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return parent::_on_updating();
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         $stat = parent::_on_updated();
         $this->_update_watchers();
@@ -95,7 +95,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * Caches links in the wiki page into database for faster "what links here" queries
      */
-    function _update_link_cache()
+    private function _update_link_cache()
     {
         $links_in_content = $this->find_links_in_content();
 
@@ -163,7 +163,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return $watchers;
     }
 
-    function _update_watchers()
+    private function _update_watchers()
     {
         $watchers = $this->list_watchers();
         if (empty($watchers))
@@ -214,7 +214,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
     }
 
-    function _get_diff($field = 'content')
+    private function _get_diff($field = 'content')
     {
         $_MIDCOM->load_library('midcom.helper.xml');
 
@@ -262,7 +262,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * Abbreviation support [abbr: Abbreviation - Explanation]
      */
-    function _replace_wikiwords_macro_abbr($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_abbr($macro_content, $fulltag, $after)
     {
         if (preg_match("/^(.*?) \- (.*)/", $macro_content, $parts))
         {
@@ -275,7 +275,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * Photo inclusion support [photo: GUID]
      */
-    function _replace_wikiwords_macro_photo($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_photo($macro_content, $fulltag, $after)
     {
         $guid = trim($macro_content);
         if (!mgd_is_guid($guid))
@@ -348,7 +348,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
      *
      * @todo Switch to InterWiki format instead
      */
-    function _replace_wikiwords_macro_wiki($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_wiki($macro_content, $fulltag, $after)
     {
         $text = trim($macro_content);
         if (empty($text))
@@ -363,7 +363,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * A notice macro (will display a classed DIV)
      */
-    function _replace_wikiwords_macro_note($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_note($macro_content, $fulltag, $after)
     {
         return $this->_replace_wikiwords__classed_div('note', $macro_content, $fulltag, $after);
     }
@@ -371,7 +371,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * A tip macro (will display a classed DIV)
      */
-    function _replace_wikiwords_macro_tip($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_tip($macro_content, $fulltag, $after)
     {
         return $this->_replace_wikiwords__classed_div('tip', $macro_content, $fulltag, $after);
     }
@@ -379,7 +379,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * A warning macro (will display a classed DIV)
      */
-    function _replace_wikiwords_macro_warning($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_warning($macro_content, $fulltag, $after)
     {
         return $this->_replace_wikiwords__classed_div('warning', $macro_content, $fulltag, $after);
     }
@@ -389,7 +389,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
      *
      * Used by the note, tip and warning macros
      */
-    function _replace_wikiwords__classed_div($css_class, $macro_content, $fulltag, $after)
+    private function _replace_wikiwords__classed_div($css_class, $macro_content, $fulltag, $after)
     {
         $text = trim($macro_content);
         return "\n<div class=\"{$css_class}\">\n{$text}\n</div>\n{$after}";
@@ -398,7 +398,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * table of contents for the current pages node
      */
-    function _replace_wikiwords_macro_nodetoc($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_nodetoc($macro_content, $fulltag, $after)
     {
         $text = trim($macro_content);
         $qb = net_nemein_wiki_wikipage::new_query_builder();
@@ -430,7 +430,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
     /**
      * Links to other wiki pages tagged with arbitrary tags
      */
-    function _replace_wikiwords_macro_tagged($macro_content, $fulltag, $after)
+    private function _replace_wikiwords_macro_tagged($macro_content, $fulltag, $after)
     {
         if (!$_MIDCOM->load_library('net.nemein.tag'))
         {
@@ -648,7 +648,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
     }
 
-    function _list_wiki_nodes($node, $prefix = '')
+    private function _list_wiki_nodes($node, $prefix = '')
     {
         static $nap = null;
         if (is_null($nap))

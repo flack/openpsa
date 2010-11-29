@@ -17,7 +17,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     var $person;
     var $participant;
 
-    function __construct($identifier = NULL)
+    public function __construct($identifier = NULL)
     {
         if (parent::__construct($identifier))
         {
@@ -31,11 +31,6 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
             return true;
         }
         return false;
-    }
-
-    function _on_loaded()
-    {
-        return true;
     }
 
     //TODO: Rewrite

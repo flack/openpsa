@@ -47,7 +47,7 @@ class FireEagleException extends Exception {
   // Values of $this->response->code:
   const UPDATE_NOT_PERMITTED = 1;
 
-  function __construct($msg, $code, $response=null) {
+  public function __construct($msg, $code, $response=null) {
     parent::__construct($msg, $code);
     $this->response = $response;
   }
@@ -71,7 +71,7 @@ class FireEagle {
   // API URLs
   function methodURL($method) { return self::$FE_API_ROOT.'/api/0.1/'.$method.'.json'; }
 
-  function __construct($consumerKey,
+  public function __construct($consumerKey,
                $consumerSecret,
                $oAuthToken = null,
                $oAuthTokenSecret = null)  {

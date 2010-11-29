@@ -49,7 +49,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      */
     private static $instance = null;
 
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'org.openpsa.core';
 

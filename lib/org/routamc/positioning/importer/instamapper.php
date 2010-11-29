@@ -16,7 +16,7 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $_MIDCOM->load_library('org.openpsa.httplib');
@@ -48,18 +48,18 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
         }
     }
 
-    function _fetch_instamapper_positions($api_key)
+    private function _fetch_instamapper_positions($api_key)
     {
         $url = "http://www.instamapper.com/api?action=getPositions&key={$api_key}&num=10";
         $client = new org_openpsa_httplib();
         $csv = $client->get($url);
-        
+
         if (!$csv)
         {
             $this->error = 'POSITIONING_INSTAMAPPER_CONNECTION_NORESULTS';
-            return null;        
+            return null;
         }
-        
+
         $lines = explode("\n", $csv);
         $positions = array();
         foreach ($lines as $line)
@@ -82,7 +82,7 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
                 'bearing' => $position_data[7],
             );
         }
-        
+
         // Return latest first
         return array_reverse($positions);
     }
@@ -155,14 +155,14 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
 
         // Try to create the entry
         $stat = $this->log->create();
-        
+
         if ($stat)
         {
             $this->log->parameter('com.instamapper', 'device', $position['device']);
             $this->log->parameter('com.instamapper', 'device_label', $position['device_label']);
             $this->log->parameter('com.instamapper', 'speed', $position['speed']);
         }
-        
+
         $this->error = midcom_connection::get_error_string();
         return $stat;
     }

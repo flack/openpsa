@@ -32,7 +32,7 @@
  */
 class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 {
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'org.openpsa.notifications';
 

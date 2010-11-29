@@ -66,7 +66,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
@@ -94,7 +94,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -115,7 +115,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['object'] =& $this->_object;
         $this->_request_data['controller'] =& $this->_controller;
@@ -275,7 +275,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb($type = null, $include_fields = null)
+    private function _load_schemadb($type = null, $include_fields = null)
     {
         if ($type != null)
         {
@@ -775,7 +775,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_open($handler_id, $args, &$data)
+    public function _handler_open($handler_id, $args, &$data)
     {
         $page_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $_MIDCOM->relocate($page_prefix . '__mfa/asgard/object/' . $data['default_mode'] . '/' . $args[0] . '/');
@@ -791,7 +791,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         $this->_load_object($args[0]);
 
@@ -824,7 +824,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         if (isset($_GET['ajax']))
         {
@@ -848,7 +848,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_load_object($args[0]);
 
@@ -926,7 +926,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
@@ -934,7 +934,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom_show_style('midgard_admin_asgard_footer');
     }
 
-    function _find_linking_property($new_type)
+    private function _find_linking_property($new_type)
     {
         // Figure out the linking property
         $new_type_reflector = midcom_helper_reflector::get($new_type);
@@ -1003,7 +1003,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_new_type = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($args[0]);
         if (!$this->_new_type)
@@ -1158,7 +1158,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         if ($handler_id == '____mfa-asgard-object_create_chooser')
         {
@@ -1183,8 +1183,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         midcom_show_style('midgard_admin_asgard_footer');
     }
 
-
-    function _object_to_jsdata(&$object)
+    private function _object_to_jsdata(&$object)
     {
         $id = @$object->id;
         $guid = @$object->guid;
@@ -1224,7 +1223,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_load_object($args[0]);
 
@@ -1325,7 +1324,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         $data['view_object'] = $this->_datamanager->get_content_html();
         midcom_show_style('midgard_admin_asgard_header');

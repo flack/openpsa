@@ -26,7 +26,7 @@ class midcom_db_parameter extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'midgard_parameter';
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;

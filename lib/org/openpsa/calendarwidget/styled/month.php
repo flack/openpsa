@@ -139,7 +139,7 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     /**
      * Simple constructor method. Initializes
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         

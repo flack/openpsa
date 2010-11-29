@@ -15,7 +15,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
     var $_datamanager = null;
     var $_groups_processed = array();
 
-    function _prepare_handler($args)
+    private function _prepare_handler($args)
     {
         // Mass importing is for now better left for admins only
         // TODO: Add smarter per-type ACL checks
@@ -37,7 +37,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         @ini_set('max_execution_time', 0);
     }
 
-    function _datamanager_process($groupdata, $object)
+    private function _datamanager_process($groupdata, $object)
     {
         // Load datamanager2 for the object
         if (!$this->_datamanager->autoset_storage($object))
@@ -63,8 +63,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         return true;
     }
 
-
-    function _import_group($groupdata)
+    private function _import_group($groupdata)
     {
         // Convert fields from latin-1 to MidCOM charset (usually utf-8)
         foreach ($groupdata as $key => $value)
@@ -143,7 +142,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_csv_select($handler_id, $args, &$data)
+    public function _handler_csv_select($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
 
@@ -221,7 +220,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_csv_select($handler_id, &$data)
+    public function _show_csv_select($handler_id, &$data)
     {
         if (array_key_exists('rows', $data))
         {
@@ -242,7 +241,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
 
@@ -388,7 +387,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, &$data)
     {
         midcom_show_style('show-import-status');
     }

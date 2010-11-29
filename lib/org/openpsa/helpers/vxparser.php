@@ -33,7 +33,7 @@ class org_openpsa_helpers_vxparser
      */
     private $_parsed = false;
 
-    function __construct($input = false)
+    public function __construct($input = false)
     {
         // Compatibility defaults, need to be adjusted for various states of client b0rkedness
         $this->compatibility['data'] = array();
@@ -74,7 +74,7 @@ class org_openpsa_helpers_vxparser
     /**
      * Merges two given arrays recursively
      */
-    function _merge_compatibility_array_recursive(&$merge, &$comp)
+    private function _merge_compatibility_array_recursive(&$merge, &$comp)
     {
         if (!is_array($merge))
         {
@@ -255,7 +255,7 @@ class org_openpsa_helpers_vxparser
         return date('Ymd', $stamp) . 'T' . date('His', $stamp);
     }
 
-    function _vtimezone_decode_offset($str)
+    private function _vtimezone_decode_offset($str)
     {
         preg_match('/([+-])([0-9]{2})([0-9]{2})/', $str, $matches);
         $sign=$matches[1];
@@ -394,7 +394,7 @@ class org_openpsa_helpers_vxparser
         return $str;
     }
 
-    function _vx_encode_fold(&$str, $nl = "\r\n")
+    private function _vx_encode_fold(&$str, $nl = "\r\n")
     {
         $str = chunk_split($str, 75, "{$nl} "); //"Fold" data
         //In case chunk_split adds the separator to end of string, we don't want that.
@@ -498,7 +498,7 @@ class org_openpsa_helpers_vxparser
         return $data;
       }
 
-    function _unfold($data)
+    private function _unfold($data)
     {
         $data=preg_replace("/\r\n|\n\r|\r/", "\n", $data); //Make sure we only have newlines in the
         $data=preg_replace("/\n[\x9\x20]|=\n/", '', $data); //RFC and MIME "soft-linebreak" unfolding
@@ -548,7 +548,7 @@ class org_openpsa_helpers_vxparser
         return true;
       }
 
-      function _vCal_parse_line(&$data, &$parameters, $v) {
+      private function _vCal_parse_line(&$data, &$parameters, $v) {
               $key=''; $keyData=''; $keyParam=array(); //Reset temp data
               //Get us the key and parameters (and data)
               list ($keyTmp, $keyData) = explode (":", $v, 2);
@@ -584,7 +584,7 @@ class org_openpsa_helpers_vxparser
      * Defensively checks the compatibility settings and returns true/false
      * @return boolean true if folding is allowed
      */
-    function _check_folding()
+    private function _check_folding()
     {
         if (   isset($this->compatibility['data'])
             && $this->compatibility['data']['folding']
@@ -601,7 +601,7 @@ class org_openpsa_helpers_vxparser
      * Defensively checks the compatibility settings and returns true/false
      * @return boolean true if folding is allowed
      */
-    function _check_quoting()
+    private function _check_quoting()
     {
         if (   isset($this->compatibility['data'])
             && isset($this->compatibility['data']['quoting'])

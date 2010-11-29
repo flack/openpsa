@@ -29,7 +29,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
 
     var $special_ids = array('handlers', 'dependencies', 'urlmethods', 'mgdschemas');
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.help/style-editor.css');
@@ -65,7 +65,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         );
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // doing this here as this component most probably will not be called by itself.
         $_MIDCOM->style->prepend_component_styledir('midcom.admin.help');
@@ -633,7 +633,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_welcome($handler_id, $args, &$data)
+    public function _handler_welcome($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->skip_page_style = true;
@@ -654,7 +654,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_welcome($handler_id, &$data)
+    public function _show_welcome($handler_id, &$data)
     {
         midcom_show_style('midcom_admin_help_header');
         $list_types = array('core_components','core_libraries','components','libraries');
@@ -680,7 +680,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_component($handler_id, $args, &$data)
+    public function _handler_component($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -711,7 +711,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_component($handler_id, &$data)
+    public function _show_component($handler_id, &$data)
     {
         midcom_show_style('midcom_admin_help_header');
 
@@ -727,7 +727,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_help($handler_id, $args, &$data)
+    public function _handler_help($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -772,7 +772,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_help($handler_id, &$data)
+    public function _show_help($handler_id, &$data)
     {
         midcom_show_style('midcom_admin_help_header');
         switch($this->_request_data['help_id'])

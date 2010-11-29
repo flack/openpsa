@@ -36,7 +36,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      */
     private $_schema = 'default';
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
@@ -73,7 +73,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_do('midgard:update', $this->_request_data['directory']);
 
@@ -114,7 +114,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style("show-directory-edit");
     }

@@ -16,7 +16,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 {
     var $user = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();
     }
@@ -51,7 +51,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         return true;
     }
 
-    function _populate_toolbar()
+    private function _populate_toolbar()
     {
         $this->_view_toolbar->add_item
         (
@@ -144,7 +144,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_today($handler_id, $args, &$data)
+    public function _handler_today($handler_id, $args, &$data)
     {
         $this->user = $_MIDCOM->auth->user->get_storage();
 
@@ -213,7 +213,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_today($handler_id, &$data)
+    public function _show_today($handler_id, &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_url'] = $siteconfig->get_node_relative_url('org.openpsa.calendar');
@@ -234,7 +234,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_expenses($handler_id, $args, &$data)
+    public function _handler_expenses($handler_id, $args, &$data)
     {
         $data['requested_time'] = date('Y-m-d');
 
@@ -256,7 +256,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_expenses($handler_id, &$data)
+    public function _show_expenses($handler_id, &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
@@ -266,7 +266,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     /**
      * Function to list invoiceable and uninvoicable hours
      */
-    function _list_work_hours()
+    private function _list_work_hours()
     {
         $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', midcom_connection::get_user());
         $hours_mc->add_value_property('task');

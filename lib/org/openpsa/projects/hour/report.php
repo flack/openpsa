@@ -78,13 +78,13 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         setlocale(LC_NUMERIC, $this->_locale_backup);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         $this->_locale_set();
         return $this->_prepare_save();
     }
 
-    function _on_created()
+    public function _on_created()
     {
         $this->_locale_restore();
         //Try to mark the parent task as started
@@ -97,14 +97,14 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         $this->_locale_set();
         $this->modify_hours_by_time_slot(false);
         return $this->_prepare_save();
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         $this->_locale_restore();
         if ($this->_skip_parent_refresh)
@@ -120,7 +120,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_deleted()
+    public function _on_deleted()
     {
         $parent = new org_openpsa_projects_task_dba($this->task);
         if ($parent->guid)

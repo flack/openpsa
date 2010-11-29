@@ -43,7 +43,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
         $this->_request_data['config'] =& $this->_config;
@@ -55,7 +55,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;
     }
@@ -70,7 +70,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_index ($handler_id, $args, &$data)
+    public function _handler_index ($handler_id, $args, &$data)
     {
         if ($handler_id == 'ajax-latest')
         {
@@ -192,7 +192,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_index($handler_id, &$data)
+    public function _show_index($handler_id, &$data)
     {
         $data['index_fulltext'] = $this->_config->get('index_fulltext');
 

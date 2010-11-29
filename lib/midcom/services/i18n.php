@@ -132,7 +132,7 @@ class midcom_services_i18n
      * The fallback language is read from the MidCOM configuration directive
      * <i>i18n_fallback_language</i>.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_http_lang = Array();
         $this->_http_charset = Array();

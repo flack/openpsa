@@ -12,7 +12,7 @@
  */
 class midcom_cron_tmpservice extends midcom_baseclasses_components_cron_handler
 {
-    function _on_execute()
+    public function _on_execute()
     {
         $_MIDCOM->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
 

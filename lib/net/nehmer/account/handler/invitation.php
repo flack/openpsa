@@ -26,7 +26,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
     /**
      * _on_initialize is called by midcom on creation of the handler.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.mail');
 
@@ -42,7 +42,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
     /**
      * Checks if user is already registered
      */
-    function _is_person_registered($email)
+    private function _is_person_registered($email)
     {
         $qb = midcom_db_person::new_query_builder();
         $qb->add_constraint('email', '=', $email);
@@ -62,42 +62,42 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
     /**
      * Adds a buddy
      */
-     function _add_as_buddy($buddy_user_guid)
-     {
-         if (!$_MIDCOM->componentloader->is_loaded('net.nehmer.buddylist'))
-         {
-             if ($_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist'))
-             {
-                 $_MIDCOM->auth->require_valid_user();
-
-                 // Setup.
-                 $buddy_user = $_MIDCOM->auth->get_user($buddy_user_guid);
-                 if (!$buddy_user)
-                 {
-                     debug_add("The user guid {$buddy_user} is unknown.");
-                 }
-
-                 if (net_nehmer_buddylist_entry::is_on_buddy_list($buddy_user))
-                 {
-                     $this->_processing_msg_raw = 'user already on your buddylist.';
-                 }
-                 else
-                 {
-                     $entry = new net_nehmer_buddylist_entry();
-                     $entry->account = $_MIDCOM->auth->user->guid;
-                     $entry->buddy = $buddy_user->guid;
-                     $entry->create();
-                     $this->_processing_msg_raw = 'buddy request sent.';
-                 }
-             }
-         }
-     }
-
-    function _send_email_invitation($email, $name='')
+    private function _add_as_buddy($buddy_user_guid)
     {
-        /**
-         * Sending invitations
-         */
+        if (!$_MIDCOM->componentloader->is_loaded('net.nehmer.buddylist'))
+        {
+            if ($_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist'))
+            {
+                $_MIDCOM->auth->require_valid_user();
+
+                // Setup.
+                $buddy_user = $_MIDCOM->auth->get_user($buddy_user_guid);
+                if (!$buddy_user)
+                {
+                    debug_add("The user guid {$buddy_user} is unknown.");
+                }
+
+                if (net_nehmer_buddylist_entry::is_on_buddy_list($buddy_user))
+                {
+                    $this->_processing_msg_raw = 'user already on your buddylist.';
+                }
+                else
+                {
+                    $entry = new net_nehmer_buddylist_entry();
+                    $entry->account = $_MIDCOM->auth->user->guid;
+                    $entry->buddy = $buddy_user->guid;
+                    $entry->create();
+                    $this->_processing_msg_raw = 'buddy request sent.';
+                }
+            }
+        }
+    }
+
+    /**
+     * Sending invitations
+     */
+    private function _send_email_invitation($email, $name='')
+    {
         if (!$_MIDCOM->auth->user->_storage->email)
         {
             $_MIDCOM->auth->user->_storage->email = "webmaster@{$_SERVER['HTTP_HOST']}";
@@ -132,7 +132,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_remind_invite($handler_id, $args, &$data)
+    public function _handler_remind_invite($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -161,7 +161,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete_invite($handler_id, $args, &$data)
+    public function _handler_delete_invite($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -189,7 +189,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete_invite($handler_id, &$data)
+    public function _show_delete_invite($handler_id, &$data)
     {
     }
 
@@ -199,7 +199,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_invite($handler_id, $args, &$data)
+    public function _handler_invite($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -291,7 +291,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_invite($handler_id, &$data)
+    public function _show_invite($handler_id, &$data)
     {
         midcom_show_style('show-invite-emails');
     }
@@ -302,7 +302,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_sent_invites($handler_id, $args, &$data)
+    public function _handler_sent_invites($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -344,7 +344,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_sent_invites($handler_id, &$data)
+    public function _show_sent_invites($handler_id, &$data)
     {
         midcom_show_style('invites-list-header');
 

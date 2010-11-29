@@ -25,23 +25,22 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['group'] =& $this->_group;
 
         $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
     }
 
-    function _modify_schema()
+    private function _modify_schema()
     {
     }
 
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
-     *
      */
-    function _update_breadcrumb_line()
+    private function _update_breadcrumb_line()
     {
         $tmp = Array();
         if ($this->_group->up != 0)
@@ -95,7 +94,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_group = new org_openpsa_products_product_group_dba($args[0]);
         if (   !$this->_group
@@ -149,7 +148,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         $this->_request_data['view_group'] = $this->_request_data['controller']->datamanager->get_content_html();
         midcom_show_style('product_group_edit');

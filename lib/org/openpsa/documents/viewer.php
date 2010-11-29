@@ -19,7 +19,7 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
     /**
      * Constructor.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /document/create/choosefolder
         $this->_request_switch['document-create-choosefolder'] = array
@@ -106,7 +106,7 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         // Pass topic to handlers
         $this->_request_data['directory'] = new org_openpsa_documents_directory($this->_topic->id);

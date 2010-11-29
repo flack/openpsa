@@ -46,7 +46,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
     /**
      * Constructor is empty at this time.
      */
-    function __construct($index_name = null)
+    public function __construct($index_name = null)
     {
         if (is_null($index_name))
         {
@@ -345,7 +345,7 @@ class midcom_services_indexer_solrRequest
      */
     var $factory = null;
 
-    function __construct ($factory, $index_name = null)
+    public function __construct ($factory, $index_name = null)
     {
         $this->factory = $factory;
     }

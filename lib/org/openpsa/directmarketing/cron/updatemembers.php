@@ -16,7 +16,7 @@ class org_openpsa_directmarketing_cron_updatemembers extends midcom_baseclasses_
     /**
      * Loads all (not-archived) smart campaigns and schedules a separate background update for each
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();

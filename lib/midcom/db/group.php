@@ -55,7 +55,7 @@ class midcom_db_group extends midcom_core_dbaobject
      *
      * @access protected
      */
-    function _on_loaded()
+    public function _on_loaded()
     {
         if (empty($this->official))
         {

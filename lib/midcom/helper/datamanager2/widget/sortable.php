@@ -46,7 +46,7 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->enable_jquery();
 

@@ -118,7 +118,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         return $event;
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         // Make sure we have correct class
         $x =& $this;

@@ -25,7 +25,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['productlink'] =& $this->_productlink;
         $this->_request_data['enable_components'] = $this->_config->get('enable_components');
@@ -62,7 +62,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         if (preg_match('/_raw$/', $handler_id))
         {
@@ -107,7 +107,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         $data['view_productlink'] = $data['datamanager']->get_content_html();
         midcom_show_style('productlink_view');

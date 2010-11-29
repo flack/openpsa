@@ -36,7 +36,7 @@ class net_nehmer_account_interface extends midcom_baseclasses_components_interfa
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         define ('NET_NEHMER_ACCOUNT_LEAFID_EDIT', 0);
         define ('NET_NEHMER_ACCOUNT_LEAFID_PUBLISH', 1);
@@ -72,7 +72,7 @@ class net_nehmer_account_interface extends midcom_baseclasses_components_interfa
     /**
      * Simple lookup method which tries to map the guid to an article of out topic.
      */
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $person = $_MIDCOM->auth->get_user($guid);
         if (   !$person

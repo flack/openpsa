@@ -117,7 +117,7 @@ class org_openpsa_products_handler_productlink_crud extends midcom_baseclasses_c
     /**
      * Show method is overridden so that we can keep the style element naming consistent
      */
-    function _show_update($handler_id, &$data)
+    public function _show_update($handler_id, &$data)
     {
         $this->_request_data['view_productlink'] = $this->_request_data['controller']->datamanager->get_content_html();
         midcom_show_style('productlink_edit');

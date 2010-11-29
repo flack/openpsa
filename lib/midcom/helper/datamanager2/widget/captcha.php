@@ -100,7 +100,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $request_fieldname = "{$this->name}_session_key";
         if (array_key_exists($request_fieldname, $_REQUEST))

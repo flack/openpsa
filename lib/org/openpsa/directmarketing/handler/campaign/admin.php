@@ -129,7 +129,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      *
      * If create privileges apply, we relocate to the index creation campaign,
      */
-    function _handler_edit_query($handler_id, $args, &$data)
+    public function _handler_edit_query($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
         if (   !$this->_campaign
@@ -238,7 +238,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Shows the loaded campaign.
      */
-    function _show_edit_query($handler_id, &$data)
+    public function _show_edit_query($handler_id, &$data)
     {
         if (isset($_POST['show_rule_preview']))
         {
@@ -258,7 +258,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      *
      * If create privileges apply, we relocate to the index creation campaign,
      */
-    function _handler_edit_query_advanced($handler_id, $args, &$data)
+    public function _handler_edit_query_advanced($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
         if (   !$this->_campaign
@@ -354,7 +354,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Shows the loaded campaign.
      */
-    function _show_edit_query_advanced($handler_id, &$data)
+    public function _show_edit_query_advanced($handler_id, &$data)
     {
         midcom_show_style('show-campaign-edit_query-advanced');
     }
@@ -367,7 +367,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      *
      * If create privileges apply, we relocate to the index creation campaign,
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
         if (   !$this->_campaign
@@ -422,7 +422,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Shows the loaded campaign.
      */
-    function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, &$data)
     {
         midcom_show_style('show-campaign-edit');
     }
@@ -435,7 +435,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      *
      * If create privileges apply, we relocate to the index creation campaign,
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
         if (   !$this->_campaign
@@ -500,7 +500,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     /**
      * Shows the loaded campaign.
      */
-    function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, &$data)
     {
         $data['view_campaign'] = $this->_datamanager->get_content_html();
 

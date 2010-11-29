@@ -17,7 +17,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     /**
      * Strips last "file extension" from given string
      */
-    function _strip_extension($str)
+    private function _strip_extension($str)
     {
         return preg_replace('/\.(.*?)$/', '', $str);
     }
@@ -25,7 +25,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     /**
      * If we have person defined populate $this->_request_data['events']
      */
-    function _get_events()
+    private function _get_events()
     {
         $this->_request_data['events'] = array();
         if (!is_object($this->request_data['person']))
@@ -53,7 +53,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     /**
      * Set Content-Type headers
      */
-    function _content_type()
+    private function _content_type()
     {
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('text/calendar');
@@ -71,7 +71,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_user_events($handler_id, $args, &$data)
+    public function _handler_user_events($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
 
@@ -94,7 +94,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_user_events($handler_id, &$data)
+    public function _show_user_events($handler_id, &$data)
     {
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();
@@ -113,7 +113,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param string username
      * @return object person
      */
-    function _find_person_by_name($username)
+    private function _find_person_by_name($username)
     {
         if (empty($username))
         {
@@ -143,7 +143,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_user_busy($handler_id, $args, &$data)
+    public function _handler_user_busy($handler_id, $args, &$data)
     {
         $username = $this->_strip_extension($args[0]);
         $this->request_data['person'] = $this->_find_person_by_name($username);
@@ -159,7 +159,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_user_busy($handler_id, &$data)
+    public function _show_user_busy($handler_id, &$data)
     {
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();

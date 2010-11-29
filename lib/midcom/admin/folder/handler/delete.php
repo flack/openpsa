@@ -17,7 +17,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     /**
      * Constructor method
      */
-    function __construct ()
+    public function __construct ()
     {
         $_MIDCOM->componentloader->load('midcom.helper.reflector');
     }
@@ -209,7 +209,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         return true;
     }
 
-    function _delete_children($object)
+    private function _delete_children($object)
     {
         $children = self::_get_child_objects($object);
         if ($children === false)
@@ -380,7 +380,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         echo "</ul>\n";
     }
 
-    function _list_leaf_children($object, $skip = array())
+    private function _list_leaf_children($object, $skip = array())
     {
         if ($children = self::_get_child_objects($object))
         {
@@ -412,7 +412,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         }
     }
 
-    function _get_child_objects($object)
+    private function _get_child_objects($object)
     {
         $children = midcom_helper_reflector_tree::get_child_objects($object);
         if ($children === false)

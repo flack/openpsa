@@ -16,10 +16,10 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    function __construct()
+    public function __construct()
     {
          parent::__construct();
-         
+
          $_MIDCOM->load_library('net.nemein.rss');
     }
 
@@ -45,7 +45,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
         }
     }
 
-    function _fetch_georss_position($url)
+    private function _fetch_georss_position($url)
     {
         $rss_content = net_nemein_rss_fetch::raw_fetch($url);
         if (isset($rss_content->items))
@@ -103,7 +103,7 @@ class org_routamc_positioning_importer_georss extends org_routamc_positioning_im
                     {
                         $item['date_timestamp'] = time();
                     }
-                    
+
                     $position = array
                     (
                         'latitude'    => $latitude,

@@ -34,7 +34,7 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['node'] =& $this->_topic;
         $this->_request_data['controller'] =& $this->_controller;
@@ -45,7 +45,7 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
      *
      * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_config'));
 
@@ -67,7 +67,7 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_configuration($handler_id, $args, &$data)
+    public function _handler_configuration($handler_id, $args, &$data)
     {
         $this->_topic->require_do('midgard:update');
 
@@ -100,7 +100,7 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_configuration($handler_id, &$data)
+    public function _show_configuration($handler_id, &$data)
     {
         midcom_show_style('admin-config');
     }

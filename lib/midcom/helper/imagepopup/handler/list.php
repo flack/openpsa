@@ -15,21 +15,22 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 {
     /**
      * The datamanager controller
+     *
      * @var midcom_helper_datamanager2_controller_simple
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * Listing type
      */
-    var $_list_type = null;
+    private $_list_type = null;
 
     /**
      * Search results
      */
-    var $_search_results = array();
+    private $_search_results = array();
 
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;
     }
@@ -40,7 +41,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $_MIDCOM->cache->content->no_cache();
         $_MIDCOM->auth->require_valid_user();
@@ -124,7 +125,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         return true;
     }
 
-    function _create_controller(&$data)
+    private function _create_controller(&$data)
     {
         // Run datamanager for handling the images
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -153,7 +154,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $_MIDCOM->add_jsonload("jQuery('.midcom_helper_datamanager2_widget_downloads_download').dm2ImagePopupConvert();");
     }
 
-    function _run_search(&$data)
+    private function _run_search(&$data)
     {
         $qb = midcom_db_attachment::new_query_builder();
         $query = str_replace('*', '%', $data['query']);
@@ -168,7 +169,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         $_MIDCOM->add_jsonload("jQuery('.midcom_helper_imagepopup_search_result_item').dm2ImagePopupConvert();");
     }
 
-    function _show_list()
+    public function _show_list()
     {
         midcom_show_style('midcom_helper_imagepopup_init');
         if ($this->_list_type == 'unified')
@@ -183,7 +184,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
         midcom_show_style('midcom_helper_imagepopup_finish');
     }
 
-    function _show_search_results()
+    private function _show_search_results()
     {
         midcom_show_style('midcom_helper_imagepopup_search_result_start');
 
@@ -202,7 +203,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
     /**
      * Loads and filters the schema from the session.
      */
-    function _load_schema()
+    private function _load_schema()
     {
         if ($this->_request_data['object'])
         {

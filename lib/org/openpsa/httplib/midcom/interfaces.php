@@ -16,7 +16,7 @@ class org_openpsa_httplib_interface extends midcom_baseclasses_components_interf
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_files = array
         (

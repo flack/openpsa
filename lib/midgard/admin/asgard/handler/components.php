@@ -17,13 +17,13 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
         parent::__construct();
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -34,7 +34,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
 
-    function _load_component_data($name, $manifest)
+    private function _load_component_data($name, $manifest)
     {
         $component_array = array();
         $component_array['name'] = $name;
@@ -99,7 +99,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         return $component_array;
     }
 
-    function _list_components()
+    private function _list_components()
     {
         $this->_request_data['core_components'] = array();
         $this->_request_data['components'] = array();
@@ -137,7 +137,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $data['view_title'] = $_MIDCOM->i18n->get_string('components', 'midgard.admin.asgard');
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -160,7 +160,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -202,7 +202,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_component($handler_id, $args, &$data)
+    public function _handler_component($handler_id, $args, &$data)
     {
         $data['component'] = $args[0];
         if (!isset($_MIDCOM->componentloader->manifests[$data['component']]))
@@ -257,7 +257,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_component($handler_id, &$data)
+    public function _show_component($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

@@ -14,7 +14,7 @@
  */
 class org_openpsa_products_handler_product_search extends midcom_baseclasses_components_handler
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.qbpager');
     }
@@ -26,7 +26,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    function _handler_search_redirect($handler_id, $args, &$data)
+    public function _handler_search_redirect($handler_id, $args, &$data)
     {
         foreach ($data['schemadb_product'] as $name => $schema)
         {
@@ -35,7 +35,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         }
     }
 
-    function _validate_operator($operator)
+    private function _validate_operator($operator)
     {
         switch ($operator)
         {
@@ -60,7 +60,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         }
     }
 
-    function _normalize_operator($operator)
+    private function _normalize_operator($operator)
     {
         switch ($operator)
         {
@@ -84,7 +84,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     /**
      * Check each search constraint for validity and normalize
      */
-    function _normalize_search($constraints)
+    private function _normalize_search($constraints)
     {
         $normalized_parameters = array();
 
@@ -172,7 +172,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     /**
      * Search products using Midgard 1.8+ Query Builder
      */
-    function _qb_list_all()
+    private function _qb_list_all()
     {
         $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $qb->results_per_page = $this->_config->get('products_per_page');
@@ -222,7 +222,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     /**
      * Search products using Midgard 1.8+ Query Builder
      */
-    function _qb_search($constraints)
+    private function _qb_search($constraints)
     {
         $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $qb->results_per_page = $this->_config->get('products_per_page');
@@ -327,7 +327,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         return array_merge($ret);
     }
 
-    function _constraint_test_value($constraint, $value, $parameter_exceptions = false)
+    private function _constraint_test_value($constraint, $value, $parameter_exceptions = false)
     {
         switch ($constraint['constraint'])
         {
@@ -410,7 +410,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         return false;
     }
 
-    function _check_parameter($object, $domain, $name, $constraint)
+    private function _check_parameter($object, $domain, $name, $constraint)
     {
         $value = $object->parameter($domain, $name);
         debug_add("calling _constraint_test_value({$constraint}, {$value}, true)");
@@ -420,7 +420,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
     /**
      * Search products using combination of Query Builder and PHP-based checks
      */
-    function _php_list_all()
+    private function _php_list_all()
     {
         $qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
         $qb->results_per_page = $this->_config->get('products_per_page');
@@ -478,7 +478,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_search($handler_id, $args, &$data)
+    public function _handler_search($handler_id, $args, &$data)
     {
         $data['search_schema'] = $args[0];
         if (!array_key_exists($data['search_schema'], $data['schemadb_product']))
@@ -588,7 +588,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_search($handler_id, &$data)
+    public function _show_search($handler_id, &$data)
     {
         midcom_show_style('product_search_header');
         midcom_show_style('product_search_form');

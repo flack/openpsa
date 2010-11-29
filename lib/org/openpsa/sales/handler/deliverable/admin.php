@@ -55,7 +55,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data($handler_id)
+    private function _prepare_request_data($handler_id)
     {
         $this->_request_data['deliverable'] =& $this->_deliverable;
         $this->_request_data['datamanager'] =& $this->_datamanager;
@@ -99,7 +99,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -111,10 +111,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_deliverable'));
-        ;
     }
 
     /**
@@ -209,7 +208,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         if (! $this->_deliverable)
@@ -271,7 +270,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, &$data)
     {
         midcom_show_style('show-deliverable-edit');
     }
@@ -289,7 +288,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         if (! $this->_deliverable)
@@ -341,7 +340,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, &$data)
     {
         $data['deliverable_view'] = $this->_datamanager->get_content_html();
 

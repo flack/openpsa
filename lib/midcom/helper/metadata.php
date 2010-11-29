@@ -142,7 +142,7 @@ class midcom_helper_metadata
      * @see midcom_helper_metadata::get()
      * @access private
      */
-    function __construct(&$guid, $object, $schemadb)
+    public function __construct(&$guid, $object, $schemadb)
     {
         $this->guid =& $guid;
         $this->__metadata = $object->__object->metadata;

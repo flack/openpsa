@@ -175,7 +175,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *     specified schema database. If unspecified, the default schema is used.
      * @see midcom_get_snippet_content()
      */
-    function __construct($schemadb, $name = null, $schemadb_path = null)
+    public function __construct($schemadb, $name = null, $schemadb_path = null)
     {
         $this->_component = 'midcom.helper.datamanager2';
         parent::__construct();

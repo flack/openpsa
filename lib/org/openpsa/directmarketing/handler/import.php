@@ -27,7 +27,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      */
     private $_datamanagers = array();
 
-    function _prepare_handler($args)
+    private function _prepare_handler($args)
     {
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba');
 
@@ -108,7 +108,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Load the datamanagers for different types
      */
-    function _load_datamanagers()
+    private function _load_datamanagers()
     {
         $this->_datamanagers['campaign_member'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['campaign_member']);
         if (!$this->_datamanagers['campaign_member'])
@@ -188,7 +188,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         }
     }
 
-    function _import_subscribers_person($subscriber)
+    private function _import_subscribers_person($subscriber)
     {
         $person = null;
         if ($this->_config->get('csv_import_check_duplicates'))
@@ -253,7 +253,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         return $person;
     }
 
-    function _import_subscribers_campaign_member($subscriber, $person)
+    private function _import_subscribers_campaign_member($subscriber, $person)
     {
         // Check if person is already in campaign
         $member = null;
@@ -331,7 +331,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         return $member;
     }
 
-    function _import_subscribers_organization($subscriber)
+    private function _import_subscribers_organization($subscriber)
     {
         $organization = null;
         if (   array_key_exists('official', $subscriber['organization'])
@@ -392,7 +392,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         return $organization;
     }
 
-    function _import_subscribers_organization_member($subscriber, $person, $organization)
+    private function _import_subscribers_organization_member($subscriber, $person, $organization)
     {
         // Check if person is already in organization
         $member = null;
@@ -433,7 +433,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Takes an array of new subscribers and processes each of them using datamanager2.
      */
-    function _import_subscribers($subscribers)
+    private function _import_subscribers($subscribers)
     {
         if (!is_array($subscribers))
         {

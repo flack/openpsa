@@ -19,12 +19,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * Simple constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');
 
@@ -33,7 +33,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         $_MIDCOM->skip_page_style = true;
     }
 
-    function _prepare_toolbar($handler_id)
+    private function _prepare_toolbar($handler_id)
     {
         $this->_request_data['asgard_toolbar'] = new midcom_helper_toolbar();
         $this->_request_data['asgard_toolbar']->add_item
@@ -97,7 +97,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
     }
 
-    function _load_configs($component, $object = null)
+    private function _load_configs($component, $object = null)
     {
         $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($component);
 
@@ -138,7 +138,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $config;
     }
 
-    function _load_schemadb($component)
+    private function _load_schemadb($component)
     {
         // Load SchemaDb
         $schemadb_config_path = $_MIDCOM->componentloader->path_to_snippetpath($component) . '/config/config_schemadb.inc';
@@ -221,7 +221,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         $data['name'] = $args[0];
         if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
@@ -273,7 +273,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         midgard_admin_asgard_plugin::asgard_footer();
     }
 
-    function _detect($value)
+    private function _detect($value)
     {
         $type = gettype($value);
 
@@ -339,7 +339,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      *
      * @return boolean
      */
-    function _save_snippet($config)
+    private function _save_snippet($config)
     {
         $sg_snippetdir = new midcom_db_snippetdir();
         $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
@@ -392,7 +392,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      *
      * @return boolean
      */
-    function _save_topic($topic, $config)
+    private function _save_topic($topic, $config)
     {
         foreach ($this->_request_data['config']->_global as $global_key => $global_val)
         {
@@ -471,7 +471,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $data['name'] = $args[0];
         if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
@@ -610,7 +610,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         midgard_admin_asgard_plugin::asgard_footer();
     }
 
-    function _detect_schema($key, $value)
+    private function _detect_schema($key, $value)
     {
         $result = array
         (
@@ -646,7 +646,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $result;
     }
 
-    function _draw_array($array, $prefix = '', $type_array = null)
+    private function _draw_array($array, $prefix = '', $type_array = null)
     {
         $data = '';
         foreach ($array as $key => $val)

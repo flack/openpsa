@@ -27,7 +27,7 @@ class midcom_helper_datamanager2_widget_composite extends midcom_helper_datamana
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_composite'))
         {

@@ -130,7 +130,7 @@ class midcom_services__i18n_l10n
      * @param string $library    Name of the locale library to use.
      * @param string $database    Name of the database in the library to load.
      */
-    function __construct ($library = null, $database)
+    public function __construct ($library = null, $database)
     {
         if (is_null($library))
         {
@@ -209,7 +209,7 @@ class midcom_services__i18n_l10n
      *
      * - Leading and trailing whitespace will be eliminated
      */
-    function _load_language ($lang)
+    private function _load_language ($lang)
     {
         $filename = "{$this->_library_filename}.{$lang}.txt";
         if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')

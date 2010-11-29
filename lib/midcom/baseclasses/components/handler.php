@@ -97,7 +97,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * Main constructor does not do much yet, it shouldn't be overridden though,
      * use the _on_initilize event handler instead.
      */
-    function __construct()
+    public function __construct()
     {
     }
 
@@ -147,7 +147,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * Use this for all initialization work you need, as the component state is already
      * populated when this event handler is called.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         return;
     }

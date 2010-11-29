@@ -45,7 +45,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
     }
@@ -53,7 +53,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function _create_article($title)
+    private function _create_article($title)
     {
         $this->_article = new midcom_db_article();
         $author = $this->_find_email_person($this->_request_data['from']);
@@ -125,10 +125,8 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
 
     /**
      * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 
@@ -147,7 +145,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_import($handler_id, $args, &$data)
+    public function _handler_import($handler_id, $args, &$data)
     {
         if (!$this->_config->get('api_email_enable'))
         {
@@ -283,13 +281,13 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_import($handler_id, &$data)
+    public function _show_import($handler_id, &$data)
     {
         //All done
         echo "OK\n";
     }
 
-    function _decode_email()
+    private function _decode_email()
     {
         //Load o.o.mail
         $_MIDCOM->load_library('org.openpsa.mail');
@@ -322,7 +320,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         $this->_decoder->mime_decode();
     }
 
-    function _parse_email_persons()
+    private function _parse_email_persons()
     {
         //Parse email addresses
         $regex = '/<?([a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)>?[ ,]?/';
@@ -355,7 +353,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
     }
 
-    function _add_image($att)
+    private function _add_image($att)
     {
         if (!array_key_exists('image_field', $this->_request_data))
         {
@@ -378,7 +376,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         return $this->_datamanager->types[$this->_request_data['image_field']]->set_image($att['name'], $tmp_name, $att['name']);
     }
 
-    function _add_attachment($att)
+    private function _add_attachment($att)
     {
         return false;
 
@@ -432,7 +430,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
     }
 
-    function _find_email_person($email, $prefer_user = true)
+    private function _find_email_person($email, $prefer_user = true)
     {
         // TODO: Use the new helpers for finding persons by email (a person might have multiple ones...)
         $qb = midcom_db_person::new_query_builder();

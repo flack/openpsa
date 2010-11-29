@@ -91,7 +91,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      *     indexed by their schema name. This member is taken by reference.
      * @see midcom_helper_datamanager2_schema::load_database()
      */
-    function __construct(&$schemadb)
+    public function __construct(&$schemadb)
     {
          parent::__construct();
          $this->_schemadb =& $schemadb;

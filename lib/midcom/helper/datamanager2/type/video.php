@@ -196,7 +196,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     var $output_mode = 'html';
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)

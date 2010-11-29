@@ -42,7 +42,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      */
     private $_schema = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
@@ -71,7 +71,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
@@ -133,7 +133,7 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style("show-group-edit");
     }

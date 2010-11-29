@@ -20,7 +20,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_notfound($handler_id, $args, &$data)
+    public function _handler_notfound($handler_id, $args, &$data)
     {
         $data['wikiword'] = $args[0];
         $qb = net_nemein_wiki_wikipage::new_query_builder();
@@ -86,7 +86,7 @@ class net_nemein_wiki_handler_notfound extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_notfound($handler_id, &$data)
+    public function _show_notfound($handler_id, &$data)
     {
         midcom_show_style('view-notfound');
     }

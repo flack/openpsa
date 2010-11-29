@@ -21,7 +21,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         'person' => true,
     );
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->module = 'projects';
         $this->_initialize_datamanager();
@@ -31,7 +31,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     /**
      * Get array of IDs of all tasks in subtree
      */
-    function _expand_task($task, $ret = array())
+    private function _expand_task($task, $ret = array())
     {
         //When recursing we get object, otherwise GUID
         if (!is_object($task))
@@ -197,7 +197,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         return 0;
     }
 
-    function _analyze_raw_hours()
+    private function _analyze_raw_hours()
     {
         if (   !array_key_exists('raw_results', $this->_request_data)
             || !array_key_exists('hr', $this->_request_data['raw_results'])
@@ -310,7 +310,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_generator($handler_id, $args, &$data)
+    public function _handler_generator($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -329,7 +329,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_generator($handler_id, &$data)
+    public function _show_generator($handler_id, &$data)
     {
         // Builtin style prefix
         if (preg_match('/^builtin:(.+)/', $this->_request_data['query_data']['style'], $matches))
@@ -407,7 +407,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         return true;
     }
 
-    function _show_generator_group(&$data, $bpr, $level = 0)
+    public function _show_generator_group(&$data, $bpr, $level = 0)
     {
         reset($data);
         foreach ($data as $row)

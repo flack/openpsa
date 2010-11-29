@@ -25,7 +25,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    function _can_handle_list($handler_id, $args, &$data)
+    public function _can_handle_list($handler_id, $args, &$data)
     {
         if ($handler_id == 'index')
         {
@@ -154,7 +154,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         // Query for sub-objects
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -634,7 +634,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         if ($data['group'])
         {
@@ -764,9 +764,8 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
-     *
      */
-    function _update_breadcrumb_line()
+    private function _update_breadcrumb_line()
     {
         $tmp = Array();
 

@@ -78,7 +78,7 @@ class midcom_services_session
      *
      * @param mixed $context    Either null or a context ID (uses the context's component) or an explicit domain.
      */
-    function __construct($context = null)
+    public function __construct($context = null)
     {
         if (is_null($context))
         {

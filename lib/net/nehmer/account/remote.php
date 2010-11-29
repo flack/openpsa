@@ -55,7 +55,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
      *
      * @param string $guid The topic to bind to.
      */
-    function __construct($guid)
+    public function __construct($guid)
     {
         $this->_component = 'net.nehmer.account';
         parent::__construct();
@@ -73,10 +73,8 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
     /**
      * Internal helper, which loads the schema database into the member _schemadb if it
      * has not yet been loaded.
-     *
-     * @access private
      */
-    function _load_schema_db()
+    private function _load_schema_db()
     {
         if ($this->_schemadb === null)
         {
@@ -87,10 +85,8 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
     /**
      * Internal helper, which loads the account group listing into the member _type_groups
      * if it has not yet been loaded.
-     *
-     * @access private
      */
-    function _load_type_groups()
+    private function _load_type_groups()
     {
         if ($this->_type_groups === null)
         {

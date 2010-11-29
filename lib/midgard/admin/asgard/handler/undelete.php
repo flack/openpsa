@@ -21,12 +21,12 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -47,7 +47,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_trash($handler_id, $args, &$data)
+    public function _handler_trash($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_admin_user();
         $_MIDCOM->cache->content->no_cache();
@@ -84,7 +84,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_trash($handler_id, &$data)
+    public function _show_trash($handler_id, &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
@@ -100,7 +100,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_trash_type($handler_id, $args, &$data)
+    public function _handler_trash_type($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_admin_user();
         $_MIDCOM->cache->content->no_cache();
@@ -216,7 +216,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_trash_type($handler_id, &$data)
+    public function _show_trash_type($handler_id, &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         $data['current_type'] = $this->type;

@@ -17,7 +17,7 @@ class midcom_db_privilege extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'midcom_core_privilege_db';
 
-    function __construct($id=null)
+    public function __construct($id=null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;

@@ -79,7 +79,7 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
     /**
      * Don't save aerodrome if another aerodrome is in same place or exists with same ICAO
      */
-    function _on_creating()
+    public function _on_creating()
     {
         if (   $this->longitude
             && $this->latitude)

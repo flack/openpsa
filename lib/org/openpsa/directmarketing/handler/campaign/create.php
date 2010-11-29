@@ -117,7 +117,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
      *
      * If create privileges apply, we relocate to the index creation campaign,
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
 
@@ -163,7 +163,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
     /**
      * Shows the loaded campaign.
      */
-    function _show_create ($handler_id, &$data)
+    public function _show_create ($handler_id, &$data)
     {
         midcom_show_style('show-campaign-new');
     }

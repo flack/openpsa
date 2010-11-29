@@ -185,7 +185,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
      * Initialize the class, if necessary, create a callback instance, otherwise
      * validate that an option array is present.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (!$this->child_class)
         {

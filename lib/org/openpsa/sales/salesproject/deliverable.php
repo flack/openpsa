@@ -56,13 +56,13 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         $this->calculate_price(false);
         return parent::_on_creating();
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         $this->calculate_price(false);
 
@@ -78,7 +78,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return parent::_on_updating();
     }
 
-    function _on_deleted()
+    public function _on_deleted()
     {
         $parent = $this->get_parent();
         if (is_object($parent))
@@ -87,7 +87,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
     }
 
-    function __get($property)
+    public function __get($property)
     {
         if ($property == 'deliverable_html')
         {

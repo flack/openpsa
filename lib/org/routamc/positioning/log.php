@@ -31,7 +31,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     /**
      * Returns the person who reported the position
      *
@@ -54,7 +54,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
 
         return null;
     }
-    
+
     /**
      * Human-readable label for cases like Asgard navigation
      */
@@ -66,7 +66,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
     /**
      * Don't save log if previous log is in same place
      */
-    function _on_creating()
+    public function _on_creating()
     {
         $previous = $this->get_previous();
         if (   $previous
@@ -132,7 +132,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
         return null;
     }
 
-    function _claim_location_entries()
+    private function _claim_location_entries()
     {
         $previous = $this->get_previous();
 
@@ -170,7 +170,7 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
      * Checks after log creation, switch cached location entries of objects
      * made after the previous log entry by the person and before this one.
      */
-    function _on_created()
+    public function _on_created()
     {
         $this->_claim_location_entries();
 

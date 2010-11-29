@@ -20,12 +20,12 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -36,11 +36,11 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
     }
 
-    function _prepare_qb($dummy_object)
+    private function _prepare_qb($dummy_object)
     {
         // Figure correct MidCOM DBA class to use and get midcom QB
         $qb = false;
@@ -69,7 +69,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $qb;
     }
 
-    function _search($term)
+    private function _search($term)
     {
         $dummy_objects = Array();
         $type_class = $this->type;
@@ -95,7 +95,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $search_results;
     }
 
-    function _search_type_qb($dummy_object, $term)
+    private function _search_type_qb($dummy_object, $term)
     {
         $object_class = get_class($dummy_object);
         $type_fields = array_keys(get_object_vars($dummy_object));
@@ -131,7 +131,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         return $qb->execute();
     }
 
-    function _find_component()
+    private function _find_component()
     {
         // Figure out the component
         $dummy = new $this->type;
@@ -161,7 +161,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_type($handler_id, $args, &$data)
+    public function _handler_type($handler_id, $args, &$data)
     {
         $this->type = $args[0];
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -283,7 +283,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_type($handler_id, &$data)
+    public function _show_type($handler_id, &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         $data['current_type'] = $this->type;

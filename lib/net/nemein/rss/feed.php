@@ -31,7 +31,7 @@ class net_nemein_rss_feed_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
     
-    function _on_loaded()
+    public function _on_loaded()
     {
         if (   $this->title == ''
             && $this->id)

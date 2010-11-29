@@ -14,7 +14,7 @@
  */
 class org_openpsa_documents_directory extends midcom_db_topic
 {
-    function _on_updated()
+    public function _on_updated()
     {
         $this->_update_parent_timestamp();
 
@@ -31,12 +31,12 @@ class org_openpsa_documents_directory extends midcom_db_topic
         }
     }
 
-    function _on_created()
+    public function _on_created()
     {
         $this->_update_parent_timestamp();
     }
 
-    function _on_deleted()
+    public function _on_deleted()
     {
         $this->_update_parent_timestamp();
     }

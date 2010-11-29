@@ -55,7 +55,7 @@ class org_openpsa_contacts_buddy_dba extends midcom_core_dbaobject
      * created, so that there is no discrepancy later in case administrators
      * create the object.
      */
-    function _on_created()
+    public function _on_created()
     {
     	if ($user = $_MIDCOM->auth->get_user($this->buddy))
     	{
@@ -71,7 +71,7 @@ class org_openpsa_contacts_buddy_dba extends midcom_core_dbaobject
      * The pre-creation hook sets the added field to the current timestamp if and only if
      * it is unset.
      */
-    function _on_creating()
+    public function _on_creating()
     {
         if (! $this->added)
         {

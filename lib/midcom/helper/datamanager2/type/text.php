@@ -132,7 +132,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      */
     var $allowed_patterns = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $stat = parent::_on_initialize();
         // if purification is not explicitly set use according to config variables and output mode
@@ -279,7 +279,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      *
      * @return boolean Indicating validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         if (   is_array($this->value)
             || is_object($this->value))

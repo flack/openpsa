@@ -151,7 +151,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    function _can_handle_view($handler_id, $args, &$data)
+    public function _can_handle_view($handler_id, $args, &$data)
     {
         if ($handler_id == 'self' || $handler_id == 'self_quick' || $handler_id == 'root')
         {
@@ -177,7 +177,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         switch ($handler_id)
         {
@@ -285,7 +285,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         return true;
     }
 
-    function _populate_person_toolbar()
+    private function _populate_person_toolbar()
     {
         if (!$_MIDCOM->auth->user)
         {
@@ -464,7 +464,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         $this->_render_person_toolbar();
     }
 
-    function _render_person_toolbar()
+    private function _render_person_toolbar()
     {
         if (! $this->person_toolbar)
         {
@@ -560,7 +560,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         $this->person_toolbar_html = $output;
     }
 
-    function _get_view_url()
+    private function _get_view_url()
     {
         $url = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'view/';
 
@@ -578,7 +578,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @param string $id GUID or username
      * @return boolean false on critical failure, true otherwise.
      */
-    function _get_account($id)
+    private function _get_account($id)
     {
         if (mgd_is_guid($id))
         {
@@ -621,10 +621,8 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * A special case is the visible_data array, which maps field names
      * to prepared values, which can be used in display directly. The
      * information returned is already HTML escaped.
-     *
-     * @access private
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         $att_prefix = $_MIDCOM->get_page_prefix();
@@ -708,7 +706,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
     /**
      * A little helper which extracts the view of the given type
      */
-    function _render_field($name)
+    private function _render_field($name)
     {
         return $this->_datamanager->types[$name]->convert_to_html();
     }
@@ -716,7 +714,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
     /**
      * Internal helper function, prepares a datamanager based on the current account.
      */
-    function _prepare_datamanager()
+    private function _prepare_datamanager()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
@@ -736,7 +734,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      *
      * @see is_field_visisble()
      */
-    function _compute_visible_fields()
+    private function _compute_visible_fields()
     {
         if ($this->_view_quick)
         {
@@ -769,7 +767,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      *
      * @return boolean Indicating Visibility
      */
-    function _is_field_visible($name)
+    private function _is_field_visible($name)
     {
         if (   $_MIDCOM->auth->admin
             || (   $this->_view_self
@@ -811,7 +809,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         if ($this->_view_quick)
         {
@@ -823,7 +821,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         }
     }
 
-    function _populate_toolbar()
+    private function _populate_toolbar()
     {
         if ($_MIDCOM->auth->user == null)
         {

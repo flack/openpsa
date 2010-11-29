@@ -17,7 +17,7 @@ class midcom_services_at_cron_clean extends midcom_baseclasses_components_cron_h
     /**
      * Loads all entries that need to be processed and processes them.
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
 

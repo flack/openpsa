@@ -20,7 +20,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -94,7 +94,7 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, &$data)
     {
         midcom_show_style("show-frontpage");
     }

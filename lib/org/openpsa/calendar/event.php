@@ -142,7 +142,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         }
     }
 
-    function __get($property)
+    public function __get($property)
     {
         if ($property == 'vCal_store')
         {
@@ -157,7 +157,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         return parent::__get($property);
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
 
@@ -379,7 +379,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     }
 
     //TODO: Move these options elsewhere
-    function _on_creating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
+    public function _on_creating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
     {
         if (!$this->_prepare_save($ignorebusy_em, $rob_tentantive, $repeat_handler))
         {
@@ -390,7 +390,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         return true;
     }
 
-    function _on_created()
+    public function _on_created()
     {
         //TODO: handle the repeats somehow (if set)
         // When anonymous creation is allowed creating the members can be problematic, this works around that
@@ -537,7 +537,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     }
 
     //TODO: move these options elsewhere
-    function _on_updating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
+    public function _on_updating($ignorebusy_em = false, $rob_tentantive = false, $repeat_handler='this')
     {
         //TODO: Handle repeats
 
@@ -556,7 +556,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
         return true;
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         $this->_get_em();
 
@@ -650,7 +650,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     }
 
     //TODO: move this option elsewhere
-    function _on_deleting($repeat_handler = 'this')
+    public function _on_deleting($repeat_handler = 'this')
     {
         $this->_get_em();
         //Remove participants

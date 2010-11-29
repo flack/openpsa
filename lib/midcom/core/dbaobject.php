@@ -778,21 +778,21 @@ abstract class midcom_core_dbaobject
     }
 
     // Event handlers
-    function _on_created() {}
-    function _on_creating() { return true; }
-    function _on_deleted() {}
-    function _on_deleting() { return true; }
-    function _on_loaded() { return true; }
-    function _on_prepare_exec_query_builder(&$qb) { return true; }
-    function _on_prepare_new_query_builder(&$qb) {}
-    function _on_process_query_result(&$result) {}
-    function _on_prepare_new_collector(&$mc) {}
-    function _on_prepare_exec_collector(&$mc) { return true; }
-    function _on_process_collector_result(&$result) {}
-    function _on_updated() {}
-    function _on_updating() { return true; }
-    function _on_imported() {}
-    function _on_importing() { return true; }
+    public function _on_created() {}
+    public function _on_creating() { return true; }
+    public function _on_deleted() {}
+    public function _on_deleting() { return true; }
+    public function _on_loaded() { return true; }
+    public function _on_prepare_exec_query_builder(&$qb) { return true; }
+    public function _on_prepare_new_query_builder(&$qb) {}
+    public function _on_process_query_result(&$result) {}
+    public function _on_prepare_new_collector(&$mc) {}
+    public function _on_prepare_exec_collector(&$mc) { return true; }
+    public function _on_process_collector_result(&$result) {}
+    public function _on_updated() {}
+    public function _on_updating() { return true; }
+    public function _on_imported() {}
+    public function _on_importing() { return true; }
 
     // Exec handlers
     public function __exec_create() { return @$this->__object->create(); }

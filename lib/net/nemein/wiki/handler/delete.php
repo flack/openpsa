@@ -43,7 +43,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         }
     }
 
-    function _load_page($wikiword)
+    private function _load_page($wikiword)
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -64,7 +64,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data, $delete_mode = true)
+    public function _handler_delete($handler_id, $args, &$data, $delete_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
@@ -118,7 +118,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         $this->_request_data['wikipage_view'] = $this->_datamanager->get_content_html();
 

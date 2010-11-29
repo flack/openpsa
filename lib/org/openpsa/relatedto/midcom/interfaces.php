@@ -15,12 +15,12 @@
  */
 class org_openpsa_relatedto_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_files = array('dba.php');
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         define('ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED', 100);
         define('ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED', 120);
@@ -29,7 +29,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
         return true;
     }
 
-    function _on_watched_dba_create(&$object)
+    public function _on_watched_dba_create(&$object)
     {
         $ret = array();
         //Check if we have data in session, if so use that.
@@ -66,7 +66,7 @@ class org_openpsa_relatedto_interface extends midcom_baseclasses_components_inte
     /**
      * Ensure relatedto links pointing to an object are deleted when the object is
      */
-    function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete($object)
     {
         $qb = org_openpsa_relatedto_dba::new_query_builder();
         $qb->begin_group('OR');

@@ -172,7 +172,7 @@ class midcom_core_user
      * @param mixed $id This is either a Midgard Person ID or GUID, a midcom_user ID or an already instantiated midgard_person.
      * @access protected
      */
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         if (is_null($id))
         {

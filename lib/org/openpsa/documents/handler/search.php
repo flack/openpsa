@@ -17,7 +17,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
 {
     var $_datamanagers;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $schema = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
@@ -30,7 +30,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_search($handler_id, $args, &$data)
+    public function _handler_search($handler_id, $args, &$data)
     {
         $this->_request_data['results'] = array();
         if (array_key_exists('query', $_GET))
@@ -103,7 +103,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_search($handler_id, &$data)
+    public function _show_search($handler_id, &$data)
     {
         $displayed = 0;
         midcom_show_style('show-search-header');

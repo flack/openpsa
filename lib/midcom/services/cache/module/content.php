@@ -312,7 +312,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * trigger the delivery of the cached page and exit) and start the output buffer
      * afterwards.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $backend_config = $GLOBALS['midcom_config']['cache_module_content_backend'];
         if (! array_key_exists('directory', $backend_config))
@@ -422,7 +422,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * The shutdown event handler will finish the caching sequence by storing the cached data,
      * if required.
      */
-    function _on_shutdown()
+    public function _on_shutdown()
     {
         $this->_finish_caching();
     }

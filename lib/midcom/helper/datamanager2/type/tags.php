@@ -28,7 +28,7 @@ class midcom_helper_datamanager2_type_tags extends midcom_helper_datamanager2_ty
      * @return boolean Indicating success, false will abort the type construction sequence.
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         return $_MIDCOM->load_library('net.nemein.tag');
     }

@@ -15,7 +15,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
     var $_datamanager = null;
     var $_products_processed = array();
 
-    function _prepare_handler($args)
+    private function _prepare_handler($args)
     {
         // Mass importing is for now better left for admins only
         // TODO: Add smarter per-type ACL checks
@@ -38,7 +38,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         @ini_set('max_execution_time', 0);
     }
 
-    function _datamanager_process(&$productdata, &$object)
+    private function _datamanager_process(&$productdata, &$object)
     {
         $data =& $this->_request_data;
         // Load datamanager2 for the object
@@ -86,7 +86,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
      * @param string $data the data to convert
      * @return string converted data
      */
-    function _charset_convert($data)
+    private function _charset_convert($data)
     {
         if (   !function_exists('mb_detect_encoding')
             || !function_exists('iconv'))
@@ -132,7 +132,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         return $data;
     }
 
-    function _import_product($productdata)
+    private function _import_product($productdata)
     {
         $data =& $this->_request_data;
 
@@ -254,7 +254,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         return $product;
     }
 
-    function _get_product_group_tree($up)
+    private function _get_product_group_tree($up)
     {
         $groups = array();
 
@@ -281,7 +281,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_csv_select($handler_id, $args, &$data)
+    public function _handler_csv_select($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
 
@@ -383,7 +383,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_csv_select($handler_id, &$data)
+    public function _show_csv_select($handler_id, &$data)
     {
         if (array_key_exists('rows', $data))
         {
@@ -404,7 +404,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
 
@@ -544,7 +544,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, &$data)
     {
         midcom_show_style('show-import-status');
     }

@@ -177,7 +177,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
      *
      * @return boolean Indicating validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         $this->_round_value();
 

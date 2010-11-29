@@ -47,7 +47,7 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
      * Initialize the class, if necessary, create a callback instance, otherwise
      * validate that an option array is present.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // todo check the headers and rows
         return true;
@@ -171,7 +171,7 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
      *
      * @return boolean Indicating validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         return true;
     }

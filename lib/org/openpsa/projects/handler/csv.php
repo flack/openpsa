@@ -12,7 +12,7 @@
  */
 class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_handler_dataexport
 {
-    function __construct()
+    public function __construct()
     {
         $this->include_guid = false;
         $this->include_totals = true;

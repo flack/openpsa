@@ -176,7 +176,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
         if (!$this->_request_data['campaign'])
@@ -344,7 +344,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, &$data)
     {
         // Make absolutely sure we're in live output
         $_MIDCOM->cache->content->enable_live_mode();

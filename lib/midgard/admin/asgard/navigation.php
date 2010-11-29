@@ -39,7 +39,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
     var $expanded_root_types = array();
     var $shown_objects = array();
 
-    function __construct($object, &$request_data)
+    public function __construct($object, &$request_data)
     {
         parent::__construct();
 
@@ -115,7 +115,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return array_reverse($object_path);
     }
 
-    function _list_child_elements($object, $prefix = '    ', $level = 0)
+    private function _list_child_elements($object, $prefix = '    ', $level = 0)
     {
         if ($level > 25)
         {
@@ -192,7 +192,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      * @param array &$root_objects reference to the array of root objects
      * @param midcom_helper_reflector_tree &$ref Reflector singleton
      */
-    function _list_root_elements(&$root_objects, &$ref)
+    private function _list_root_elements(&$root_objects, &$ref)
     {
         echo "<ul class=\"midgard_admin_asgard_navigation\">\n";
 
@@ -235,7 +235,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         echo "</ul>\n";
     }
 
-    function _draw_plugins()
+    private function _draw_plugins()
     {
         $this->_request_data['chapter_name'] = $_MIDCOM->i18n->get_string('asgard plugins', 'midgard.admin.asgard');
         midcom_show_style('midgard_admin_asgard_navigation_chapter');
@@ -271,7 +271,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    function _is_selected(&$object)
+    private function _is_selected(&$object)
     {
         if (in_array($object->guid, $this->_object_path))
         {
@@ -280,7 +280,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return false;
     }
 
-    function _common_css_classes(&$object, &$ref, &$css_class)
+    private function _common_css_classes(&$object, &$ref, &$css_class)
     {
         $css_class .= " {$ref->mgdschema_class}";
 
@@ -309,7 +309,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      *
      * @return Array
      */
-    function _process_root_types()
+    private function _process_root_types()
     {
         // Included or excluded types
         $types = array();
@@ -453,7 +453,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         }
     }
 
-    function _draw_select_navigation()
+    private function _draw_select_navigation()
     {
         if (!empty($this->_object_path))
         {

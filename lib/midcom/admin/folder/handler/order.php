@@ -19,7 +19,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     /**
      * Constructor method
      */
-    function __construct()
+    public function __construct()
     {
         $_MIDCOM->componentloader->load('midcom.helper.reflector');
     }
@@ -143,7 +143,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_order($handler_id, $args, &$data)
+    public function _handler_order($handler_id, $args, &$data)
     {
         // jQuery sorting
         $_MIDCOM->enable_jquery();

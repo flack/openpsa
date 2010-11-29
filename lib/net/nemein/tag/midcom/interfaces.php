@@ -16,7 +16,7 @@ class net_nemein_tag_interface extends midcom_baseclasses_components_interface
     /**
      * Ensure tag links pointing to an object are deleted when the object is
      */
-    function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete($object)
     {
         $qb = net_nemein_tag_link_dba::new_query_builder();
         $qb->add_constraint('fromGuid', '=', $object->guid);

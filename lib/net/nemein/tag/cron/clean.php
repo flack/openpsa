@@ -16,7 +16,7 @@ class net_nemein_tag_cron_clean extends midcom_baseclasses_components_cron_handl
     /**
      * Find all old temporary reports and clear them.
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
 

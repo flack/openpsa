@@ -85,7 +85,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_add($handler_id, $args, &$data)
+    public function _handler_add($handler_id, $args, &$data)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
@@ -179,7 +179,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    function _show_add($handler_id, &$data)
+    public function _show_add($handler_id, &$data)
     {
         $data['product'] =& $this->_product;
         $data['salesproject'] =& $this->_salesproject;

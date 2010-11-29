@@ -16,7 +16,7 @@ class net_nehmer_account_karma_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nehmer_account_karma';
     
-    function __construct($src = null)
+    public function __construct($src = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;

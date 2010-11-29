@@ -75,7 +75,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['indexmode'] =& $this->_indexmode;
@@ -86,7 +86,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
     }
@@ -100,7 +100,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if ($this->_config->get('simple_name_handling'))
@@ -114,10 +114,8 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('create');
@@ -190,7 +188,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_content_topic->require_do('midgard:create');
 
@@ -247,7 +245,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create ($handler_id, &$data)
+    public function _show_create ($handler_id, &$data)
     {
         midcom_show_style('admin-create');
     }

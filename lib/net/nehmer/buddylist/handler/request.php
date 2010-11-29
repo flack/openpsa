@@ -43,7 +43,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         if ($this->_processing_msg_raw)
         {
@@ -64,7 +64,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_request($handler_id, $args, &$data)
+    public function _handler_request($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -117,7 +117,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_request($handler_id, &$data)
+    public function _show_request($handler_id, &$data)
     {
         midcom_show_style('request-sent');
     }

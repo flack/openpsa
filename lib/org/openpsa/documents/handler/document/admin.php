@@ -45,7 +45,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
     var $_datamanager = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
@@ -97,7 +97,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -197,7 +197,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style("show-document-edit");
     }
@@ -208,7 +208,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -270,7 +270,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         $this->_request_data['document_dm'] =& $this->_datamanager;
         $this->_request_data['document'] =& $this->_document;

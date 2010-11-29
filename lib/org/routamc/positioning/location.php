@@ -104,7 +104,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     /**
      * Checks after location cache creation
      */
-    function _on_created()
+    public function _on_created()
     {
         if (   !$this->log
             && $this->relation == ORG_ROUTAMC_POSITIONING_RELATION_IN)

@@ -84,7 +84,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      * @return boolean Indicating success, false will abort the type construction sequence.
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (   $this->options === null
             && $this->option_callback === null
@@ -706,7 +706,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      *
      * @return boolean Indicating validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         if (   ! $this->allow_other
             && $this->others)

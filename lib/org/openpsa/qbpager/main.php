@@ -46,7 +46,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     private $_params_cache = false;
 
-    function __construct($classname, $pager_id)
+    public function __construct($classname, $pager_id)
     {
         $this->_component = 'org.openpsa.qbpager';
         parent::__construct();
@@ -83,7 +83,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_listen_params = true;
     }
 
-    function _collect_parameters()
+    private function _collect_parameters()
     {
         if (empty($this->_get_params))
         {
@@ -127,7 +127,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         }
     }
 
-    function _get_parameter_string()
+    private function _get_parameter_string()
     {
         if (! $this->_listen_params)
         {
@@ -145,7 +145,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Makes sure we have some absolutely required things properly set
      */
-    function _sanity_check()
+    private function _sanity_check()
     {
         if (!is_object($this->_midcom_qb))
         {
@@ -168,7 +168,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Check $_REQUEST for variables and sets internal status accordingly
      */
-    function _check_page_vars()
+    private function _check_page_vars()
     {
         $page_var = $this->_prefix . 'page';
         $results_var =  $this->_prefix . 'results';
@@ -200,12 +200,10 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return $this->_current_page;
     }
 
-
     /**
      * Fetch all $_GET variables, but leave out the page number
-     *
      */
-    function _get_query_string()
+    private function _get_query_string()
     {
         $query_string = '';
         foreach(explode('&', $_SERVER["QUERY_STRING"]) as $key)
@@ -541,7 +539,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * sets LIMIT and OFFSET for requested page
      */
-    function _qb_limits(&$qb)
+    private function _qb_limits(&$qb)
     {
         $this->_check_page_vars();
 
@@ -557,7 +555,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         return;
     }
 
-    function _clear_qb_limits(&$qb)
+    private function _clear_qb_limits(&$qb)
     {
         $limit = abs(pow(2,31)-1); //Largest signed integer we can use as limit.
         $offset = 0;

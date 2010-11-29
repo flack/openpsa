@@ -15,14 +15,14 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
 {
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'net_nemein_tag_link';
-    
-    function __construct($id = null)
+
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
         parent::__construct($id);
     }
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -37,7 +37,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_parent_guid_uncached()
     {
         if (empty($this->fromGuid))
@@ -81,7 +81,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return $this->guid;
     }
 
-    function _sanity_check()
+    private function _sanity_check()
     {
         if (   empty($this->fromGuid)
             || empty($this->fromClass)
@@ -94,7 +94,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->_sanity_check())
         {
@@ -110,7 +110,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_created()
+    public function _on_created()
     {
         if ($this->context == 'geo')
         {
@@ -120,7 +120,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return parent::_on_created();
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if (!$this->_sanity_check())
         {
@@ -135,7 +135,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         if ($this->context == 'geo')
         {
@@ -145,8 +145,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         return parent::_on_updated();
     }
 
-
-    function _check_duplicates()
+    private function _check_duplicates()
     {
         $qb = net_nemein_tag_link_dba::new_query_builder();
         if ($this->id)
@@ -167,7 +166,7 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
      *
      * @return boolean
      */
-    function _geotag()
+    private function _geotag()
     {
         if (!$GLOBALS['midcom_config']['positioning_enable'])
         {

@@ -19,7 +19,7 @@ class org_openpsa_contacts_duplicates_merge
      * Constructor, the parameter governs which objects the instance works on
      * @param string mode, currently valid modes are 'person' and 'group'
      */
-    function __construct($mode)
+    public function __construct($mode)
     {
         switch($mode)
         {

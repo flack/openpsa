@@ -89,7 +89,7 @@ class midcom_services_uimessages
     /**
      * Simple constructor, calls base class.
      */
-    function __construct()
+    public function __construct()
     {
         // Set the list of allowed message types
         $this->_allowed_types[] = 'info';

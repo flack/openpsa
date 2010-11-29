@@ -24,7 +24,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     /**
      * Populate request switch, which contains URL handlers for the component.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
@@ -50,7 +50,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _populate_toolbar()
+    private function _populate_toolbar()
     {
         //Add icon for user settings
         $this->_view_toolbar->add_item
@@ -69,7 +69,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     /**
      * Tries to read settings for webmail
      */
-    function _check_imp_settings()
+    private function _check_imp_settings()
     {
         $current_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);
         $current_user_dbobj = $_MIDCOM->auth->user->get_storage();
@@ -121,7 +121,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_redirect($handler_id, $args, &$data)
+    public function _handler_redirect($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -215,7 +215,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_redirect($handler_id, &$data)
+    public function _show_redirect($handler_id, &$data)
     {
         midcom_show_style("imp-redirect");
     }
@@ -226,7 +226,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_settings($handler_id, $args, &$data)
+    public function _handler_settings($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -288,7 +288,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_settings($handler_id, &$data)
+    public function _show_settings($handler_id, &$data)
     {
         midcom_show_style("show-settings");
     }
@@ -299,7 +299,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -322,7 +322,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, &$data)
     {
         midcom_show_style("show-frontpage");
     }

@@ -57,7 +57,7 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
     /**
      * Update the object timestamp.
      */
-    function _on_creating()
+    public function _on_creating()
     {
         $this->timestamp = time();
         return true;
@@ -66,7 +66,7 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
     /**
      * Update the object timestamp.
      */
-    function _on_updating()
+    public function _on_updating()
     {
         $this->timestamp = time();
         return true;
@@ -140,7 +140,7 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
     /**
      * Autopurge after delete
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         if (!method_exists($this, 'purge'))
         {

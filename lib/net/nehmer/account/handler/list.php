@@ -55,7 +55,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $_MIDCOM->load_library('org.openpsa.qbpager');
 
@@ -105,7 +105,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         $this->_prepare_datamanager();
         midcom_show_style('show-list-header');
@@ -135,7 +135,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list_by_category($handler_id, $args, &$data)
+    public function _handler_list_by_category($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_list'))
         {
@@ -198,7 +198,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list_by_category($handler_id, &$data)
+    public function _show_list_by_category($handler_id, &$data)
     {
         $this->_prepare_datamanager();
         midcom_show_style('show-list-header');
@@ -223,7 +223,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list_random($handler_id, $args, &$data)
+    public function _handler_list_random($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_list'))
         {
@@ -296,7 +296,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list_random($handler_id, &$data)
+    public function _show_list_random($handler_id, &$data)
     {
         $this->_prepare_datamanager();
         midcom_show_style('show-list-header');
@@ -318,7 +318,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      *
      * @see is_field_visisble()
      */
-    function _compute_visible_fields($user)
+    private function _compute_visible_fields($user)
     {
         $this->_visible_fields_user_selection[$user->guid] = explode(',', $user->get_parameter('net.nehmer.account', 'visible_field_list'));
         $this->_visible_fields[$user->guid] = array();
@@ -332,7 +332,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
         }
     }
 
-   /**
+    /**
      * This helper uses the 'visible_mode' customdata member to compute actual visibility
      * of a field. Possible settings:
      *
@@ -343,7 +343,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      *
      * @return boolean Indicating Visibility
      */
-    function _is_field_visible($name, $user_guid)
+    private function _is_field_visible($name, $user_guid)
     {
         if ($_MIDCOM->auth->admin)
         {
@@ -380,7 +380,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
     /**
      * Internal helper function, prepares a datamanager.
      */
-    function _prepare_datamanager()
+    private function _prepare_datamanager()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);

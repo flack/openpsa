@@ -26,7 +26,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    function _can_handle_groupsblock($handler_id, $args, &$data)
+    public function _can_handle_groupsblock($handler_id, $args, &$data)
     {
       // We're in some level of groups
       $qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -68,7 +68,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_groupsblock($handler_id, $args, &$data)
+    public function _handler_groupsblock($handler_id, $args, &$data)
     {
         // Query for sub-objects
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -303,7 +303,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_groupsblock($handler_id, &$data)
+    public function _show_groupsblock($handler_id, &$data)
     {
         if ($data['group'])
         {
@@ -367,9 +367,8 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
-     *
      */
-    function _update_breadcrumb_line()
+    private function _update_breadcrumb_line()
     {
         $tmp = Array();
 

@@ -45,7 +45,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     /**
      * Initialization of the handler class
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.calendarwidget');
         $_MIDCOM->load_library('midcom.helper.datamanager2');
@@ -446,7 +446,7 @@ function openPsaShowMonthSelector()
         }
     }
 
-    function _load_event($guid)
+    private function _load_event($guid)
     {
         $event = new org_openpsa_calendar_event_dba($guid);
         if (   !is_object($event)

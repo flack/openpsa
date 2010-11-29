@@ -155,7 +155,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
      * @param int $month Selected month MM
      * @param int $day Selected day DD
      */
-    function __construct($year = null, $month = null, $day = null)
+    public function __construct($year = null, $month = null, $day = null)
     {
         parent::__construct();
 

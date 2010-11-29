@@ -30,7 +30,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if ($this->_check_duplicates($this->code))
         {
@@ -40,7 +40,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if ($this->_check_duplicates($this->code))
         {
@@ -50,7 +50,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _check_duplicates($code)
+    private function _check_duplicates($code)
     {
         if (!$code)
         {

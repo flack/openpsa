@@ -601,7 +601,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *     which applies.
      * @param object $object The object on which the operation has occurred.
      */
-    function _on_watched_operation($operation, $object) {}
+    public function _on_watched_operation($operation, $object) {}
 
     /**
      * This function is triggered at the end of the request for each watched create operation
@@ -615,7 +615,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    function _on_watched_dba_create($object) {}
+    public function _on_watched_dba_create($object) {}
 
     /**
      * This function is triggered at the end of the request for each watched update operation
@@ -629,7 +629,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    function _on_watched_dba_update($object) {}
+    public function _on_watched_dba_update($object) {}
 
     /**
      * This function is triggered at the end of the request for each watched delete operation
@@ -639,7 +639,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    function _on_watched_dba_delete($object) {}
+    public function _on_watched_dba_delete($object) {}
 
     /**
      * This function is triggered at the end of the request for each watched import operation
@@ -649,7 +649,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @param object $object The object on which the operation has occurred.
      */
-    function _on_watched_dba_import($object) {}
+    public function _on_watched_dba_import($object) {}
 
     /**
      * This is an event handler, called after the basic component initialization has been done
@@ -661,7 +661,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      *
      * @return boolean Indicating whether the initialization has been successful.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         return true;
     }
@@ -678,7 +678,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @param midcom_services_indexer The indexer object to use for indexing. (Passed by reference!)
      * @return boolean Indicating success.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         return true;
     }
@@ -702,7 +702,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @param MidgardTopic $topic The topic this document is assigned to.
      * @return boolean True if the object may be shown, false otherwise.
      */
-    function _on_check_document_permissions (&$document, $config, $topic)
+    public function _on_check_document_permissions (&$document, $config, $topic)
     {
         return true;
     }
@@ -743,7 +743,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      * @param midcom_helper_configuration $config The configuration used for the given topic.
      * @return string The local URL (without leading slashes) or null on failure.
      */
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $nav = new midcom_helper_nav();
         $leaves = $nav->list_leaves($topic->id);

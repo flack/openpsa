@@ -261,7 +261,7 @@ class fi_protie_navigation
      * Constructor method. Here we initialize the classes and variables
      * needed through the class.
      */
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_nap = new midcom_helper_nav();
         $this->node_path = $this->get_node_path();
@@ -304,7 +304,7 @@ class fi_protie_navigation
         $this->_listen_params = true;
     }
 
-    function _collect_parameters()
+    private function _collect_parameters()
     {
         if (empty($this->_get_params))
         {
@@ -336,7 +336,7 @@ class fi_protie_navigation
         }
     }
 
-    function _get_parameter_string()
+    private function _get_parameter_string()
     {
         if (! $this->_params_cache)
         {
@@ -558,7 +558,7 @@ class fi_protie_navigation
         return implode(' ', $classes);
     }
 
-    function _display_element($item, $indent, $css_classes)
+    private function _display_element($item, $indent, $css_classes)
     {
         // Finalize the class naming
         if ($css_classes !== '')

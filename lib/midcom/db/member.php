@@ -73,7 +73,7 @@ class midcom_db_member extends midcom_core_dbaobject
     /**
      * Invalidate person's cache when a member record changes
      */
-    function _invalidate_person_cache()
+    private function _invalidate_person_cache()
     {
         if (!$this->uid)
         {
@@ -87,7 +87,7 @@ class midcom_db_member extends midcom_core_dbaobject
         $_MIDCOM->cache->invalidate($person->guid);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         // Allow root group membership creation only for admins
         if ($this->gid == 0)
@@ -106,7 +106,7 @@ class midcom_db_member extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         // Allow root group membership creation only for admins (check update as well to avoid sneaky bastards
         if ($this->gid == 0)
@@ -121,7 +121,7 @@ class midcom_db_member extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_deleting()
+    public function _on_deleting()
     {
         // Disable automatic activity stream entry, we use custom here
         $this->_use_activitystream = false;
@@ -129,7 +129,7 @@ class midcom_db_member extends midcom_core_dbaobject
         return parent::_on_deleting();
     }
 
-    function _on_created()
+    public function _on_created()
     {
         $this->_invalidate_person_cache();
 
@@ -160,12 +160,12 @@ class midcom_db_member extends midcom_core_dbaobject
         $_MIDCOM->auth->drop_sudo();
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         $this->_invalidate_person_cache();
     }
 
-    function _on_deleted()
+    public function _on_deleted()
     {
         $this->_invalidate_person_cache();
 

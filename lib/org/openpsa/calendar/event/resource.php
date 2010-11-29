@@ -73,7 +73,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
         return $stat;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->verify_can_reserve())
         {
@@ -83,7 +83,7 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if (!$this->verify_can_reserve())
         {

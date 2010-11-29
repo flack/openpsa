@@ -19,7 +19,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
     /**
      * Simple constructor, which only initializes the parent constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'org.openpsa.notifications';
     }
@@ -40,7 +40,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
         );
     }
 
-    function _list_notifiers()
+    private function _list_notifiers()
     {
         // TODO: Figure out which notifiers are possible
         $notifiers = array
@@ -59,7 +59,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
         return $notifiers;
     }
 
-    function _populate_schema()
+    private function _populate_schema()
     {
         $notifiers = $this->_list_notifiers();
 
@@ -104,7 +104,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
         }
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         parent::_on_initialize();
 

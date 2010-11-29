@@ -34,7 +34,7 @@ abstract class midcom_baseclasses_components_base
      */
     private $_services = array();
 
-    function __construct(){}
+    public function __construct(){}
 
     public function __get($field)
     {

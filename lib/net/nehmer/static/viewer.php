@@ -32,7 +32,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_determine_content_topic();
         $this->_request_data['content_topic'] =& $this->_content_topic;
@@ -192,7 +192,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _determine_content_topic()
+    private function _determine_content_topic()
     {
         $guid = $this->_config->get('symlink_topic');
         if (is_null($guid))
@@ -267,7 +267,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _populate_node_toolbar()
+    private function _populate_node_toolbar()
     {
         if ($this->_content_topic->can_do('midgard:create'))
         {
@@ -322,7 +322,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates the toolbars.
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $GLOBALS['net_nehmer_static_mode'] = $handler;
 

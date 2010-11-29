@@ -270,14 +270,14 @@ abstract class midcom_services_cache_backend
      * Add any custom startup code here. The configuration variables are
      * all initialized when this handler is called.
      */
-    function _on_initialize() {}
+    public function _on_initialize() {}
 
     /**
      * Backend shutdown
      *
      * Called, if the backend is no longer used.
      */
-    function _on_shutdown() {}
+    public function _on_shutdown() {}
 
     /**#@-*/
 

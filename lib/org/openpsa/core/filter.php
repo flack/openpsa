@@ -34,7 +34,7 @@ class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
      * @param string compare - contains the compare-symbol for the constraint
      * @param array fitler_options - contains options to filter ( needed if the functions don't gather them theirself')
      */
-    function __construct($filters, $query, $compare = '=', $filter_options = array())
+    public function __construct($filters, $query, $compare = '=', $filter_options = array())
     {
         $this->_filter_options = $filter_options;
         if (!isset($_POST['unset_filter']))

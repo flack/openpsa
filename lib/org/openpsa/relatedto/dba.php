@@ -17,7 +17,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
     var $__midcom_class_name__ = __CLASS__;
     var $__mgdschema_class_name__ = 'org_openpsa_relatedto';
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -39,7 +39,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->status)
         {
@@ -49,7 +49,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         if (!$this->status)
         {
@@ -58,7 +58,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if (!$this->status)
         {

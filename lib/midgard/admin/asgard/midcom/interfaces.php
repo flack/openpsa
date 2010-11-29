@@ -18,7 +18,7 @@ class midgard_admin_asgard_interface extends midcom_baseclasses_components_inter
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_files = array
         (
@@ -33,7 +33,7 @@ class midgard_admin_asgard_interface extends midcom_baseclasses_components_inter
         );
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Enable jQuery
         $_MIDCOM->enable_jquery();

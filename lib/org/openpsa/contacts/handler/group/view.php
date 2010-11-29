@@ -21,7 +21,7 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
      */
     private $_schemadb = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
     }
@@ -31,12 +31,12 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb =& midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }
 
-    function _load($identifier)
+    private function _load($identifier)
     {
         $this->_group = new org_openpsa_contacts_group_dba($identifier);
 
@@ -56,14 +56,13 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
         }
     }
 
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -210,7 +209,7 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         midcom_show_style("show-group");
     }

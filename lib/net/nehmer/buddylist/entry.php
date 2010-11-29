@@ -64,7 +64,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
      * @param midcom_core_user $user The user of whom the pending approvals should be listed.
      * @access protected
      */
-    function _get_unapproved_qb($user)
+    private function _get_unapproved_qb($user)
     {
         $qb = net_nehmer_buddylist_entry::new_query_builder();
         $qb->add_constraint('buddy', '=', $user->guid);
@@ -80,7 +80,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
      * @param midcom_core_user $user The user of whom the buddies should be listed.
      * @access protected
      */
-    function _get_buddy_qb($user)
+    private function _get_buddy_qb($user)
     {
         $qb = net_nehmer_buddylist_entry::new_query_builder();
         $qb->add_constraint('account', '=', $user->guid);
@@ -252,7 +252,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
      * created, so that there is no discrepancy later in case administrators
      * create the object.
      */
-    function _on_created()
+    public function _on_created()
     {
         $this->set_privilege('midgard:owner', "user:{$this->buddy}");
         $this->set_privilege('midgard:owner', "user:{$this->account}");
@@ -262,7 +262,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
      * The pre-creation hook sets the added field to the current timestamp if and only if
      * it is unset.
      */
-    function _on_creating()
+    public function _on_creating()
     {
         $this->_activitystream_verb = 'http://activitystrea.ms/schema/1.0/make-friend';
         if (! $this->added)
@@ -327,7 +327,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
      * When a buddy is deleted, we use sudo to drop the isonline privilege from the buddy
      * again (of course if and only if this record is approved).
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         if ($this->isapproved)
         {

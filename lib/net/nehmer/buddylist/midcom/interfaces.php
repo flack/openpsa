@@ -31,7 +31,7 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         define ('NET_NEHMER_BUDDYLIST_LEAFID_PENDING', 1);
     }
@@ -41,7 +41,7 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
      * deleted. We don't need to check for watched classes at this time, since we have no other
      * watches defined.
      */
-    function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete($object)
     {
         $qb = net_nehmer_buddylist_entry::new_query_builder();
         $qb->begin_group('OR');
@@ -63,7 +63,7 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
      * Checks the index documents' permission using the unindexed _anonymous_read field
      * associated with the document.
      */
-    function _on_check_document_permissions (&$document, $config, $topic)
+    public function _on_check_document_permissions (&$document, $config, $topic)
     {
         return ($_MIDCOM->auth->user !== null);
     }
@@ -71,7 +71,7 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
     /**
      * Resolves entry guids into view URLs.
      */
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         if ($config->get('index_to'))
         {

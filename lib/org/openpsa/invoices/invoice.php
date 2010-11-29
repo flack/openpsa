@@ -115,7 +115,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return 'number';
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if (!$this->date)
         {
@@ -127,7 +127,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     /**
      * Deletes all invoice_hours related to the invoice
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         parent::_on_deleted();
 
@@ -211,7 +211,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      *
      * @param array $tasks array containing the task id's to recalculate for - if empty all tasks will be recalculated
      */
-    function _recalculate_invoice_items($tasks = array(), $skip_invoice_update = false)
+    private function _recalculate_invoice_items($tasks = array(), $skip_invoice_update = false)
     {
         $result_items = array();
         $result_tasks = array();
@@ -384,9 +384,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     /**
      * Helper function to get invoice_item for the passed task id , if there is no item
      * it will return a new created one
-     *
      */
-    function _probe_invoice_item_for_task($task_id)
+    private function _probe_invoice_item_for_task($task_id)
     {
         //check if there is already an invoice_item for this task
         $qb_invoice_item = org_openpsa_invoices_invoice_item_dba::new_query_builder();

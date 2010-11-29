@@ -16,7 +16,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
     var $__mgdschema_class_name__ = 'org_openpsa_invoice_item';
     var $skip_invoice_update = false;
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -38,7 +38,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_created()
+    public function _on_created()
     {
         parent::_on_created();
 
@@ -48,7 +48,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
     /**
      *
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         if(!$this->skip_invoice_update)
         {
@@ -63,7 +63,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
     /**
      *
      */
-    function _on_updated()
+    public function _on_updated()
     {
         if(!$this->skip_invoice_update)
         {

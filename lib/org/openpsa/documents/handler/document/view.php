@@ -31,7 +31,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
     var $_datamanager = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->load_library('midcom.helper.datamanager2');
@@ -70,7 +70,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_versions($handler_id, $args, &$data)
+    public function _handler_versions($handler_id, $args, &$data)
     {
         $this->_document = $this->_load_document($args[0]);
 
@@ -91,7 +91,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_versions($handler_id, &$data)
+    public function _show_versions($handler_id, &$data)
     {
         if (sizeof($data['documents']) == 0)
         {
@@ -107,7 +107,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         // Get the requested document object
         $this->_document = $this->_load_document($args[0]);
@@ -179,7 +179,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         midcom_show_style("show-document");
     }

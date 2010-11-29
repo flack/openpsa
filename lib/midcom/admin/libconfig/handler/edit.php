@@ -14,7 +14,7 @@
  */
 class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_handler
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.libconfig');
         $this->_request_data['l10n'] = $this->_l10n;
@@ -47,7 +47,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         if (!array_key_exists($args[0],$_MIDCOM->componentloader->manifests))
         {
@@ -239,7 +239,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         midgard_admin_asgard_plugin::asgard_footer();
     }
 
-    function _get_config()
+    private function _get_config()
     {
         $post = $this->_controller->formmanager->form->_submitValues;
         foreach ($this->_libconfig->_global as $key => $val)
@@ -264,7 +264,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         return $data;
     }
 
-    function _detect_schema($key,$value)
+    private function _detect_schema($key,$value)
     {
         $result = array
         (
@@ -295,7 +295,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         return $result;
     }
 
-    function _draw_array($array)
+    private function _draw_array($array)
     {
         foreach ($array as $key => $val)
         {

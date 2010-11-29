@@ -38,7 +38,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Simple constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
 
@@ -46,7 +46,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
@@ -80,7 +80,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return midcom_generate_urlname_from_string($name) . $ext;
     }
 
-    function _process_file_upload($uploaded_file)
+    private function _process_file_upload($uploaded_file)
     {
         if (is_null($this->_file))
         {
@@ -120,7 +120,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return $local_file->name;
     }
 
-    function _process_form()
+    private function _process_form()
     {
         if (!isset($_POST['midgard_admin_asgard_save']))
         {
@@ -210,7 +210,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return $local_file->name;
     }
 
-    function _get_file($filename)
+    private function _get_file($filename)
     {
         $qb = midcom_db_attachment::new_query_builder();
         $qb->add_constraint('parentguid', '=', $this->_object->guid);
@@ -224,7 +224,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         return $files[0];
     }
 
-    function _list_files()
+    private function _list_files()
     {
         $qb = midcom_db_attachment::new_query_builder();
         $qb->add_constraint('parentguid', '=', $this->_object->guid);
@@ -238,7 +238,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * Helper function that adds the necessary files for attachment operations,
      * if attachments exist
      */
-    function _add_jscripts()
+    private function _add_jscripts()
     {
         if (sizeof($this->_files) > 0)
         {

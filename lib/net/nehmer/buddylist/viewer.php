@@ -16,7 +16,7 @@
  */
 class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Generic and personal welcome pages
         $this->_request_switch['welcome'] = Array
@@ -53,7 +53,7 @@ class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates the toolbars.
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         if ($this->_config->get('user'))
         {

@@ -46,7 +46,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
 
@@ -76,7 +76,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         }
     }
 
-    function _load_page($wikiword)
+    private function _load_page($wikiword)
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -207,7 +207,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         $data['controller'] =& $this->_controller;
         $data['preview_mode'] = $this->_preview;
@@ -258,7 +258,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    function _handler_change($handler_id, $args, &$data)
+    public function _handler_change($handler_id, $args, &$data)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {

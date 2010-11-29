@@ -74,7 +74,7 @@ class net_nemein_wiki_moinmoin_importer
     var $import_revisions = true;
     var $resolver = false;
 
-    function __construct($schemadb_path = 'file:/net/nemein/wiki/config/schemadb_default.inc')
+    public function __construct($schemadb_path = 'file:/net/nemein/wiki/config/schemadb_default.inc')
     {
         $this->resolver = new net_nemein_wiki_wikipage();
         $this->_schemadb['default'] = new midcom_helper_datamanager2_schema($schemadb_path, 'default');
@@ -447,7 +447,7 @@ class net_nemein_wiki_moinmoin_importer
     /**
      * Here the fun starts (moinmoin linking syntax is very inconsistent)
      */
-    function _moinmoin2markdown_handle_links(&$content, $title = false)
+    private function _moinmoin2markdown_handle_links(&$content, $title = false)
     {
         $global_search = array();
         $global_replace = array();
@@ -588,7 +588,7 @@ class net_nemein_wiki_moinmoin_importer
         $content = preg_replace('#(\[.*?\]):#', "\\1", $content);
     }
 
-    function _moinmoin2markdown_handle_tables(&$content)
+    private function _moinmoin2markdown_handle_tables(&$content)
     {
         // Look for tables
         $tables = array();
@@ -625,7 +625,7 @@ class net_nemein_wiki_moinmoin_importer
         }
     }
 
-    function _moinmoin_table2markdown_parserow($code)
+    private function _moinmoin_table2markdown_parserow($code)
     {
         $return = array
         (
@@ -735,7 +735,7 @@ class net_nemein_wiki_moinmoin_importer
         return $return;
     }
 
-    function _moinmoin_table2markdown($moinmoincode)
+    private function _moinmoin_table2markdown($moinmoincode)
     {
         $rows = explode("\n", $moinmoincode);
         // Find column sizes and table data
@@ -785,7 +785,7 @@ class net_nemein_wiki_moinmoin_importer
         }
     }
 
-    function _moinmoin_table2markdown_html(&$table_data, &$table_size, $columns_array, &$table_parameters)
+    private function _moinmoin_table2markdown_html(&$table_data, &$table_size, $columns_array, &$table_parameters)
     {
         $rendered = "<table>\n    <thead>\n        <tr>\n";
         $pad = '            ';
@@ -837,7 +837,7 @@ class net_nemein_wiki_moinmoin_importer
         return $rendered;
     }
 
-    function _moinmoin_table2markdown_markdown(&$table_data, &$table_size, $columns_array)
+    private function _moinmoin_table2markdown_markdown(&$table_data, &$table_size, $columns_array)
     {
         $rendered = '';
         // First row is heading

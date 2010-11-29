@@ -14,7 +14,7 @@
  */
 class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /
         $this->_request_switch['dashboard'] = array
@@ -152,7 +152,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.invoices/invoices.css");

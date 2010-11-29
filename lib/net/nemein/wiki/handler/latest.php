@@ -20,7 +20,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
     /**
      * List all items updated with then given timeframe
      */
-    function _seek_updated($from, $to = null)
+    private function _seek_updated($from, $to = null)
     {
         if (is_null($to))
         {
@@ -89,7 +89,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_latest($handler_id, $args, &$data)
+    public function _handler_latest($handler_id, $args, &$data)
     {
         $this->_request_data['latest_pages'] = Array();
 
@@ -123,7 +123,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_latest($handler_id, &$data)
+    public function _show_latest($handler_id, &$data)
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
         $data['wikiname'] = $this->_topic->extra;

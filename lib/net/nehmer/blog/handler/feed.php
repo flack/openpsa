@@ -51,7 +51,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
         $this->_request_data['config'] =& $this->_config;
@@ -66,7 +66,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_feed ($handler_id, $args, &$data)
+    public function _handler_feed ($handler_id, $args, &$data)
     {
         $_MIDCOM->load_library('de.bitfolge.feedcreator');
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
@@ -130,7 +130,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
     /**
      * Creates the Feedcreator instance.
      */
-    function _create_feed($handler_id)
+    private function _create_feed($handler_id)
     {
         $this->_feed = new UniversalFeedCreator();
         if ($this->_config->get('rss_title'))
@@ -182,7 +182,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_feed($handler_id, &$data)
+    public function _show_feed($handler_id, &$data)
     {
         $data['feedcreator'] =& $this->_feed;
 
@@ -227,7 +227,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_index ($handler_id, $args, &$data)
+    public function _handler_index ($handler_id, $args, &$data)
     {
         $this->set_active_leaf(NET_NEHMER_BLOG_LEAFID_FEEDS);
         $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
@@ -240,7 +240,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_index ($handler_id, &$data)
+    public function _show_index ($handler_id, &$data)
     {
         midcom_show_style('feeds');
     }

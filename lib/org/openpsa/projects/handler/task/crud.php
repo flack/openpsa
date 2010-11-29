@@ -200,7 +200,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_task'));
     }
@@ -274,7 +274,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_callback($handler_id, $args, &$data)
+    public function _handler_callback($handler_id, $args, &$data)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
@@ -296,7 +296,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_read($handler_id, &$data)
+    public function _show_read($handler_id, &$data)
     {
         $data['datamanager'] =& $this->_datamanager;
 
@@ -377,8 +377,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         return 0;
     }
 
-
-    function _load_defaults()
+    private function _load_defaults()
     {
         $this->_defaults['manager'] = midcom_connection::get_user();
     }

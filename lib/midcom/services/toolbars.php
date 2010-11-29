@@ -90,7 +90,7 @@ class midcom_services_toolbars
     /**
      * Simple constructor, calls base class.
      */
-    function __construct()
+    public function __construct()
     {
         // Default label for the "Page" toolbar
         $this->_view_toolbar_label = $_MIDCOM->i18n->get_string('page', 'midcom');

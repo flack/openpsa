@@ -69,7 +69,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
      * We use persistant connections, so we let midcom assume the read/write
      * connection is always open
      */
-    function __construct()
+    public function __construct()
     {
         $this->_open_for_reading = true;
         $this->_open_for_writing = true;
@@ -78,7 +78,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
     /**
      * This handler completes the configuration.
      */
-     function _on_initialize()
+     public function _on_initialize()
     {
         if (array_key_exists('host', $this->_config))
         {

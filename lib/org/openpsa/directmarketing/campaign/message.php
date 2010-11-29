@@ -36,7 +36,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     var $_chunk_max_recurse = 15; //How many times to recurse if all results are filtered (speed vs memory [and risk on crashing], higher is faster)
     var $token_size = 15;
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $stat = parent::__construct($id);
         if ($stat)
@@ -140,7 +140,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return 'org_openpsa_directmarketing_campaign_dba';
     }
 
-    function _on_created()
+    public function _on_created()
     {
         parent::_on_created();
 
@@ -151,7 +151,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         }
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         $this->title = trim($this->title);
         if (   $this->id
@@ -243,7 +243,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     /**
      * Check if this message is attached to a smart campaign, if so update the campaign members
      */
-    function _check_campaign_up_to_date()
+    private function _check_campaign_up_to_date()
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
         $campaign = new org_openpsa_directmarketing_campaign_dba($this->campaign);
@@ -338,8 +338,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return $status;
     }
 
-
-    function _qb_filter_results($results)
+    private function _qb_filter_results($results)
     {
         //Make a map for receipt filtering
         $results_persons = array();
@@ -382,7 +381,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return $results;
     }
 
-    function _qb_chunk_limits(&$qb)
+    private function _qb_chunk_limits(&$qb)
     {
         debug_add("Processing chunk {$this->_chunk_num}");
         $this->_offset = $this->_chunk_num*$this->chunk_size;
@@ -398,7 +397,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     /**
      * Loops trough send filter in chunks, adds some common constraints and checks for send-receipts.
      */
-    function _qb_send_loop($callback_name)
+    private function _qb_send_loop($callback_name)
     {
         $ret = $this->_qb_single_chunk($callback_name);
         $this->_chunk_num++;
@@ -410,7 +409,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     /**
      * Sets the common constrains for campaign members queries
      */
-    function _qb_common_constaints(&$qb)
+    private function _qb_common_constaints(&$qb)
     {
         debug_add("Setting constraint campaign = {$this->campaign}");
         $qb->add_constraint('campaign', '=', $this->campaign);
@@ -440,7 +439,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      * Adds the common constraints and then returns "fast" (not ACL-checked) count of members matching any other
      * constraints the QB object passed has
      */
-    function _qb_count_members($qb)
+    private function _qb_count_members($qb)
     {
         $this->_qb_common_constaints($qb);
         return $qb->count_unchecked();
@@ -474,7 +473,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      *
      * @return random token string
      */
-    function _create_email_token()
+    private function _create_email_token()
     {
         //Testers need dummy token
         if ($this->test_mode)
@@ -517,7 +516,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      * @param string $address the link detector address
      * @return HTML source with the link detector
      */
-    function _insert_link_detector($html, $address)
+    private function _insert_link_detector($html, $address)
     {
         $address = addslashes($address);
         return preg_replace_callback(
@@ -536,7 +535,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      * @param string $type type of contact, for example 'email' or 'sms'
      * @return boolean true if denied, false if allowed
      */
-    function _check_member_deny(&$member, $type)
+    private function _check_member_deny(&$member, $type)
     {
         $person =& org_openpsa_contacts_person_dba::get_cached($member->person);
         if (!$this->_sanity_check_person($person, $member))
@@ -562,7 +561,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
      * @param object $member reference to campaign_member object related to the person
      * @return boolean indicating sanity
      */
-    function _sanity_check_person(&$person, &$member)
+    private function _sanity_check_person(&$person, &$member)
     {
         if (   !$person
             || !isset($person->guid)
@@ -576,7 +575,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return true;
     }
 
-    function _send_email_member($member, &$subject, &$content, &$from, &$data_array)
+    private function _send_email_member($member, &$subject, &$content, &$from, &$data_array)
     {
         if ($this->_check_member_deny($member, 'email'))
         {
@@ -765,8 +764,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return $status;
     }
 
-
-    function _qb_single_chunk($callback_name, $level = 0)
+    private function _qb_single_chunk($callback_name, $level = 0)
     {
         $callback_method = "_callback_get_qb_{$callback_name}";
         if (!method_exists($this, $callback_method))
@@ -850,7 +848,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return $ret;
     }
 
-    function &_callback_get_qb_send_email()
+    private function &_callback_get_qb_send_email()
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('person.email', 'LIKE', '%@%');
@@ -902,7 +900,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     /**
      * Function tries to normalize the phone number to a single string of numbers
      */
-    function _normalize_phone($phone)
+    private function _normalize_phone($phone)
     {
         //Quite simplistic approach but works correctly on +358-(0)40-5401446
         return preg_replace("/(\([0-9]+\))|([^0-9+]+?)/", '', $phone);
@@ -926,7 +924,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return array($valid_members, $send_receipts);
     }
 
-    function _send_sms_member(&$smsbroker, $member, &$content, &$from, &$data_array)
+    private function _send_sms_member(&$smsbroker, $member, &$content, &$from, &$data_array)
     {
         if ($this->_check_member_deny($member, 'sms'))
         {
@@ -1035,7 +1033,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return $ret;
     }
 
-    function _check_sms_balance(&$smsbroker, $results)
+    private function _check_sms_balance(&$smsbroker, $results)
     {
         if (!method_exists('get_balance', $smsbroker))
         {
@@ -1061,7 +1059,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         return true;
     }
 
-    function &_callback_get_qb_send_sms()
+    private function &_callback_get_qb_send_sms()
     {
         $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb->add_constraint('person.handphone', '<>', '');

@@ -18,7 +18,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Handle /hours/task/batch/
         $this->_request_switch['hours_task_action'] = array
@@ -109,7 +109,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
      *
      * @access protected
      */
-    function _populate_node_toolbar($task)
+    private function _populate_node_toolbar($task)
     {
         foreach (array_keys($this->_request_data['schemadb_hours_simple']) as $name)
         {
@@ -149,7 +149,7 @@ class org_openpsa_expenses_viewer extends midcom_baseclasses_components_request
     /**
      * The handle callback populates the toolbars.
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 

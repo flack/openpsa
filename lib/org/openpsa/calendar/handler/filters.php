@@ -19,7 +19,7 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
      *
      * @todo This function is unused
      */
-    function _handle_ajax()
+    public function _handle_ajax()
     {
         $update_succeeded = false;
         $errstr = NULL;

@@ -26,7 +26,7 @@
     /**
      * Constructor
      */
-    function __construct($config_array)
+    public function __construct($config_array)
     {
         $this->config = $config_array;
     }

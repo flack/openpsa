@@ -70,7 +70,7 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      * Initialize the class, if necessary, create a callback instance, otherwise
      * validate that an option array is present.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (is_string($this->callback))
         {
@@ -151,7 +151,7 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
      *
      * @return boolean Indicating validity.
      */
-    function _on_validate()
+    public function _on_validate()
     {
         return true;
     }

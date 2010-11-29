@@ -46,7 +46,7 @@ class midcom_services_indexer_document_midcom extends midcom_services_indexer_do
      * @param mixed $object The content object to load, passed to the metadata constructor.
      * @see midcom_helper_metadata
      */
-    function __construct($object)
+    public function __construct($object)
     {
         parent::__construct();
 

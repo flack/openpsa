@@ -39,11 +39,10 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['deliverable'] =& $this->_deliverable;
     }
-
 
     /**
      * Processes a deliverable.
@@ -53,7 +52,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_process($handler_id, $args, &$data)
+    public function _handler_process($handler_id, $args, &$data)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {

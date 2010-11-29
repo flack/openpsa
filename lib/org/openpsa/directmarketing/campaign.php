@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
 
     var $rules = array(); //rules for smart-campaign
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $stat = parent::__construct($id);
         if (   !$this->orgOpenpsaObtype
@@ -46,7 +46,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         $this->_unserialize_rules();
         if (!is_array($this->rules))
@@ -56,13 +56,13 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         $this->_serialize_rules();
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         $this->_serialize_rules();
         return true;
@@ -94,7 +94,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     /**
      * Unserializes rulesSerialized to rules
      */
-    function _unserialize_rules()
+    private function _unserialize_rules()
     {
         $unserRet = @unserialize($this->rulesSerialized);
         if ($unserRet === false)
@@ -114,7 +114,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     /**
      * Serializes rules to rulesSerialized
      */
-    function _serialize_rules()
+    private function _serialize_rules()
     {
         $this->rulesSerialized = serialize($this->rules);
     }
@@ -125,7 +125,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
      * @param string $data The data to fix.
      * @return string $data with serializations fixed.
      */
-    function _fix_serialization($data = null)
+    private function _fix_serialization($data = null)
     {
         return org_openpsa_helpers::fix_serialization($data);
     }
@@ -133,6 +133,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
     /**
      * Creates/Removes members for this smart campaign based on the rules array
      * NOTE: This is highly resource intensive for large campaigns
+     *
      * @return boolean indicating success/failure
      */
     function update_smart_campaign_members()

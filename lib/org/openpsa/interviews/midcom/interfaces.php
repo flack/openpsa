@@ -19,7 +19,7 @@ class org_openpsa_interviews_interface extends midcom_baseclasses_components_int
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = array
         (
@@ -27,7 +27,7 @@ class org_openpsa_interviews_interface extends midcom_baseclasses_components_int
         );
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->componentloader->load('org.openpsa.directmarketing');
         return true;

@@ -48,7 +48,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $privileges;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         $this->_locale_set();
         $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_TASK;
@@ -56,12 +56,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return $this->_prepare_save();
     }
 
-    function _on_created()
+    public function _on_created()
     {
         $this->_locale_restore();
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         if ($this->title == "")
         {
@@ -77,7 +77,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function __get($property)
+    public function __get($property)
     {
         if ($property == 'status_type')
         {
@@ -95,7 +95,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return parent::__get($property);
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         $this->_locale_set();
         if ($this->_prepare_save())
@@ -107,7 +107,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return false;
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         // Sync the object's ACL properties into MidCOM ACL system
         if (   !$this->_skip_acl_refresh)
@@ -148,7 +148,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->_locale_restore();
     }
 
-    function _on_deleting()
+    public function _on_deleting()
     {
         $this->update_cache(false);
         if ($this->reportedHours > 0)
@@ -278,7 +278,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
     }
 
-    function _prepare_save()
+    private function _prepare_save()
     {
         //Make sure we have start
         if (!$this->start)

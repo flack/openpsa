@@ -16,7 +16,7 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
     /**
      * Fetches subscribed feeds and imports them
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
         if (!$_MIDCOM->auth->request_sudo('net.nemein.rss'))

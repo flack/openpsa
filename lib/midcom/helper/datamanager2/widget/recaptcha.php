@@ -73,7 +73,7 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_public_key = $this->_config->get('recaptcha_pubkey');
         $this->_private_key = $this->_config->get('recaptcha_privkey');

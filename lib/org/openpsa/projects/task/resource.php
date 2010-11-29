@@ -18,7 +18,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     var $_personobject;
 
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
@@ -61,7 +61,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
     }
 
-    function _add_to_buddylist_of($account)
+    private function _add_to_buddylist_of($account)
     {
         if (!$_MIDCOM->auth->user)
         {
@@ -85,7 +85,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
     }
 
-    function _find_duplicates()
+    private function _find_duplicates()
     {
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
         $qb->add_constraint('person', '=', (int)$this->person);
@@ -105,7 +105,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         return false;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         if ($this->_find_duplicates())
         {
@@ -181,14 +181,14 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
     }
 
-    function _on_deleted()
+    public function _on_deleted()
     {
         $task = new org_openpsa_projects_task_dba($this->task);
         $this->remove_resource_from_parent($task);
         return true;
     }
 
-    function _on_created()
+    public function _on_created()
     {
         // Add resources to the parent task/project
         $task = new org_openpsa_projects_task_dba($this->task);
@@ -248,7 +248,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         }
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if ($this->_find_duplicates())
         {

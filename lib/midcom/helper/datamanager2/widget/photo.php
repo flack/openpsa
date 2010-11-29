@@ -14,7 +14,7 @@
  */
 class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2_widget_image
 {
-    function __construct(&$renderer)
+    public function __construct(&$renderer)
     {
         return parent::__construct($renderer);
     }

@@ -14,7 +14,7 @@
  */
 class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /list/<status>
         $this->_request_switch['list_status'] = array
@@ -92,7 +92,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
      * - Load the Schema Database
      * - Add the LINK HTML HEAD elements
      */
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
 

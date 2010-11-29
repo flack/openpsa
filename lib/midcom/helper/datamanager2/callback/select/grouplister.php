@@ -91,7 +91,7 @@ class midcom_helper_datamanager2_callback_select_grouplister
      * The default constructor reads in the configuration. See above for allowed
      * options.
      */
-    function __construct($options)
+    public function __construct($options)
     {
         if ($options)
         {
@@ -105,7 +105,7 @@ class midcom_helper_datamanager2_callback_select_grouplister
      * Reads and validates the configuration options. Invalid options are logged
      * and ignored.
      */
-    function _process_options($options)
+    private function _process_options($options)
     {
         if (array_key_exists('key_field', $options))
         {
@@ -189,7 +189,7 @@ class midcom_helper_datamanager2_callback_select_grouplister
      * @param midcom_db_group $group The group to query.
      * @return mixed the key.
      */
-    function _get_key($group)
+    private function _get_key($group)
     {
         if ($this->_key_field == 'midcomid')
         {
@@ -210,7 +210,7 @@ class midcom_helper_datamanager2_callback_select_grouplister
      *
      * @param mixed $key The key to look up.
      */
-    function _load_group($key, $return=false)
+    private function _load_group($key, $return=false)
     {
         if ($this->_list_all_done)
         {

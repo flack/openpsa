@@ -26,7 +26,7 @@ class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -98,7 +98,7 @@ class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         midcom_show_style('delete-ok');
     }

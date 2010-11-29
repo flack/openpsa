@@ -14,17 +14,17 @@
  */
 class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components_handler
 {
-    var $_group = null;
+    private $_group = null;
 
     /**
      * Simple constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midcom.admin.user';
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
@@ -62,7 +62,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
     /**
      * Loads and prepares the schema database.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }

@@ -25,7 +25,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
      * @param midcom_helper_datamanager2_schema &$schema The data schema to use for processing.
      * @param MidCOMDBAObject &$object A reference to the DBA object to user for Data I/O.
      */
-    function __construct($schema, $object)
+    public function __construct($schema, $object)
     {
         parent::__construct($schema);
         if (! $_MIDCOM->dbclassloader->is_mgdschema_object($object))
@@ -38,7 +38,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
         $this->object = $object;
     }
 
-    function _on_store_data($name, $data)
+    public function _on_store_data($name, $data)
     {
         if (is_null($data))
         {
@@ -82,7 +82,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
     }
 
 
-    function _on_load_data($name)
+    public function _on_load_data($name)
     {
         // Cache parameter queries so we get them once
         static $loaded_domains = array();
@@ -131,7 +131,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
         }
     }
 
-    function _on_update_object()
+    public function _on_update_object()
     {
         return $this->object->update();
     }

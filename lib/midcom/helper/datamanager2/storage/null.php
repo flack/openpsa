@@ -43,7 +43,7 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
      * @param Array $defaults The defaults to use as "artificial" storage. This can be omitted
      *     safely.
      */
-    function __construct(&$schema, $defaults = Array())
+    public function __construct(&$schema, $defaults = Array())
     {
         parent::__construct($schema);
         $this->_defaults = $defaults;
@@ -52,12 +52,12 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
     /**
      * We don't store anything, this can be safely ignored therefore.
      */
-    function _on_store_data($name, $data) {}
+    public function _on_store_data($name, $data) {}
 
     /**
      * This returns the defaults set. An empty string is used for unset defaults.
      */
-    function _on_load_data($name)
+    public function _on_load_data($name)
     {
         if (array_key_exists($name, $this->_defaults))
         {
@@ -72,7 +72,7 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
     /**
      * We do as if we can store successfully at all times.
      */
-    function _on_update_object()
+    public function _on_update_object()
     {
         return true;
     }

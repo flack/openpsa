@@ -14,7 +14,7 @@
  */
 class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_handler_crud
 {
-    function __construct()
+    public function __construct()
     {
         $this->_dba_class = 'org_openpsa_invoices_invoice_dba';
     }
@@ -184,7 +184,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_callback($handler_id, $args, &$data)
+    public function _handler_callback($handler_id, $args, &$data)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
@@ -416,7 +416,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_pdf($handler_id, $args, &$data)
+    public function _handler_pdf($handler_id, $args, &$data)
     {
         $this->_load_pdf_creator();
         try
@@ -480,7 +480,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_pdf($handler_id, &$data)
+    public function _show_pdf($handler_id, &$data)
     {
         //if attachment was manually uploaded show confirm if file should be replaced
         if($this->update_attachment)

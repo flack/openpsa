@@ -18,7 +18,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      *
      * @access private
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Active leaf of the topic
         $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_PENDING);
@@ -98,7 +98,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @access private
      * @return boolean Indicating success
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
@@ -206,7 +206,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      *
      * @access private
      */
-    function _process_form()
+    private function _process_form()
     {
         // Handle the cancel request
         if (isset($_POST['f_cancel']))
@@ -300,7 +300,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @param string $subject             Subject of the message that will be sent to the user
      * @param string $body                Body of the message that will be sent to the user
      */
-    function _send_rejection_mail(&$person, $subject, $body)
+    private function _send_rejection_mail(&$person, $subject, $body)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();

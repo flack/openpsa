@@ -14,7 +14,7 @@
  */
 class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_components_handler
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();
     }
@@ -24,13 +24,13 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    function _handler_redirect($handler_id, $args, &$data)
+    public function _handler_redirect($handler_id, $args, &$data)
     {
         $date = date('Y-m-d');
         $_MIDCOM->relocate("weekreview/{$date}/");
     }
 
-    function _populate_toolbar()
+    private function _populate_toolbar()
     {
         $this->_view_toolbar->add_item
         (
@@ -52,7 +52,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         );
     }
 
-    function _list_events_between(&$data_array, $person, $from, $to)
+    private function _list_events_between(&$data_array, $person, $from, $to)
     {
         // List user's event memberships
         $qb = midcom_db_eventmember::new_query_builder();
@@ -95,7 +95,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    function _list_hour_reports_between(&$data_array, $person, $from, $to)
+    private function _list_hour_reports_between(&$data_array, $person, $from, $to)
     {
         // List user's hour reports
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
@@ -120,7 +120,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    function _list_task_statuses_between(&$data_array, $person, $from, $to)
+    private function _list_task_statuses_between(&$data_array, $person, $from, $to)
     {
         // List user's hour reports
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
@@ -148,7 +148,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
         }
     }
 
-    function _list_positions_between(&$data_array, $person, $from, $to)
+    private function _list_positions_between(&$data_array, $person, $from, $to)
     {
         if (!$GLOBALS['midcom_config']['positioning_enable'])
         {
@@ -186,7 +186,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_review($handler_id, $args, &$data)
+    public function _handler_review($handler_id, $args, &$data)
     {
         // Get start and end times
         try
@@ -253,7 +253,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_review($handler_id, &$data)
+    public function _show_review($handler_id, &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_node'] = midcom_helper_find_node_by_component('org.openpsa.calendar');

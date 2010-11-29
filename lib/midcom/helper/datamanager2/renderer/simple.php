@@ -194,7 +194,7 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     /**
      * Constructor
      */
-    function __construct($namespace = '')
+    public function __construct($namespace = '')
     {
         $this->namespace = $namespace;
         $this->_groupTemplate = $this->_orig_group_template;

@@ -24,7 +24,7 @@ class midcom_helper_datamanager2_widget_privilegecheckbox extends midcom_helper_
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (! parent::_on_initialize())
         {

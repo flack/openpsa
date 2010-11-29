@@ -39,7 +39,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     /**
      * Looks up an campaign to display.
      */
-    function _handler_view ($handler_id, $args, &$data)
+    public function _handler_view ($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
 
@@ -148,7 +148,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     /**
      * Shows the loaded campaign.
      */
-    function _show_view ($handler_id, &$data)
+    public function _show_view ($handler_id, &$data)
     {
         $data['view_campaign'] = $this->_datamanager->get_content_html();
 

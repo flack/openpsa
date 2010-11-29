@@ -16,7 +16,7 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
     /**
      * Find hanging duplicate marks (that no longer point anywhere) and clear them
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
         if (!$this->_config->get('enable_duplicate_search'))

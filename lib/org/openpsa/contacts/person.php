@@ -39,7 +39,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         //Fill name and rname
         if (   !empty($this->firstname)
@@ -143,7 +143,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     /**
      * Make sure user has correct privileges to allow to edit themselves
      */
-    function _verify_privileges()
+    private function _verify_privileges()
     {
         return false;
         if (!$this->id)
@@ -237,7 +237,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         parent::_on_creating();
 
@@ -249,7 +249,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function _on_updating()
+    public function _on_updating()
     {
         if ($this->homepage)
         {
@@ -265,21 +265,21 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return parent::_on_updating();
     }
 
-    function _on_updated()
+    public function _on_updated()
     {
         parent::_on_updated();
         $this->_verify_privileges();
         return true;
     }
 
-    function _on_created()
+    public function _on_created()
     {
         parent::_on_created();
         $this->_verify_privileges();
         return true;
     }
 
-    function _on_deleting()
+    public function _on_deleting()
     {
         // FIXME: Call duplicate checker's dependency handling methods
         return parent::_on_deleting();

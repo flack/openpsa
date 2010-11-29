@@ -19,7 +19,7 @@
  */
 class net_nehmer_account_callbacks_validation extends midcom_baseclasses_components_purecode
 {
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'net.nehmer.account';
         parent::__construct();

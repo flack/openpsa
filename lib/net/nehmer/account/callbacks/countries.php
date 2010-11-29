@@ -36,7 +36,7 @@ class net_nehmer_account_callbacks_countries extends midcom_baseclasses_componen
      */
     var $_callback = null;
 
-    function __construct($args)
+    public function __construct($args)
     {
         $_MIDCOM->componentloader->load_graceful('org.routamc.positioning');
         $this->_component = 'net.nehmer.account';
@@ -60,7 +60,7 @@ class net_nehmer_account_callbacks_countries extends midcom_baseclasses_componen
         $this->_populate_data($countries);
     }
 
-    function _populate_data(&$countries)
+    private function _populate_data(&$countries)
     {
         foreach ($countries as $country)
         {

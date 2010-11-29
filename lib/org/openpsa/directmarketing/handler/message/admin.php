@@ -48,7 +48,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data($handler_id)
+    private function _prepare_request_data($handler_id)
     {
         $this->_request_data['message'] =& $this->_message;
         $this->_request_data['datamanager'] =& $this->_datamanager;
@@ -161,7 +161,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      *
      * If create privileges apply, we relocate to the index creation message,
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         if (   !$this->_message
@@ -214,7 +214,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Shows the loaded message.
      */
-    function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, &$data)
     {
         midcom_show_style('show-message-edit');
     }
@@ -227,7 +227,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      *
      * If create privileges apply, we relocate to the index creation message,
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         if (   !$this->_message
@@ -288,7 +288,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     /**
      * Shows the loaded message.
      */
-    function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, &$data)
     {
         $data['view_message'] = $this->_datamanager->get_content_html();
 

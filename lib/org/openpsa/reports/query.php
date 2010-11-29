@@ -31,7 +31,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_loaded()
+    public function _on_loaded()
     {
         if (!$this->orgOpenpsaObtype)
         {
@@ -71,7 +71,7 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
     /**
      * Autopurge after delete
      */
-    function _on_deleted()
+    public function _on_deleted()
     {
         if (!method_exists($this, 'purge'))
         {

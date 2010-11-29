@@ -43,7 +43,7 @@ if (!class_exists('midcom_baseclasses_components_purecode'))
         var $_config = null;
         var $_i18n = null;
 
-        function __construct()
+        public function __construct()
         {
             $this->_config = new midcom_helper_configuration();
             $this->_i18n = new midcom_helper_i18n();
@@ -70,7 +70,7 @@ if (!class_exists('midcom_helper_configuration'))
     {
         var $options = array();
 
-        function __construct()
+        public function __construct()
         {
             $data = file_get_contents(MIDCOM_ROOT . '/org/openpsa/httplib/config/config.inc');
             $code = "\$tmparray = array(\n$data\n);";

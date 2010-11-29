@@ -20,7 +20,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
      *
      * @todo FIXME: refactor to use more modern MidCOM interfaces and better sanity-checking
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
 

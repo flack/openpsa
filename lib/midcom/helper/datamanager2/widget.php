@@ -126,7 +126,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * Nothing fancy, the actual startup work is done by the initialize call.
      */
-    function __construct($renderer)
+    public function __construct($renderer)
     {
         $this->_component = 'midcom.helper.datamanager2';
         $this->_renderer = $renderer;
@@ -194,7 +194,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * This function is called  before the configuration keys are merged into the types
      * configuration.
      */
-    function _on_configuring() {}
+    public function _on_configuring() {}
 
     /**
      * This event handler is called during construction, so passing references to $this to the

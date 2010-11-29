@@ -16,7 +16,7 @@
  */
 class org_openpsa_calendarwidget_interface extends midcom_baseclasses_components_interface
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Constants for the rendering styles we need
         if (!defined('ORG_OPENPSA_CALENDARWIDGET_MONTH'))

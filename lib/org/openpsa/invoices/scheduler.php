@@ -20,7 +20,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
      */
     private $_deliverable = null;
 
-    function __construct($deliverable)
+    public function __construct($deliverable)
     {
         $this->_deliverable = $deliverable;
     }

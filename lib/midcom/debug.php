@@ -63,7 +63,7 @@ class midcom_debug
     /**
      * Standard constructor
      */
-    function __construct($filename)
+    public function __construct($filename)
     {
         $this->_filename = $filename;
         $this->_enabled = true;

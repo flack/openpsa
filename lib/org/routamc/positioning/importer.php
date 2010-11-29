@@ -38,7 +38,7 @@ class org_routamc_positioning_importer extends midcom_baseclasses_components_pur
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    function __construct()
+    public function __construct()
     {
          $this->_component = 'org.routamc.positioning';
          parent::__construct();

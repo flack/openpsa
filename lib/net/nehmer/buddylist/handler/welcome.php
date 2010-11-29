@@ -42,7 +42,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -61,7 +61,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_welcome($handler_id, $args, &$data)
+    public function _handler_welcome($handler_id, $args, &$data)
     {
         $_MIDCOM->load_library('org.openpsa.qbpager');
         $qb = new org_openpsa_qbpager('net_nehmer_buddylist_entry', 'net_nehmer_buddylist');
@@ -90,7 +90,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
     /**
      * Prepares the metadata for each buddy.
      */
-    function _prepare_buddies_meta()
+    private function _prepare_buddies_meta()
     {
         if ($this->_config->get('net_nehmer_mail_integration'))
         {
@@ -153,7 +153,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_welcome($handler_id, &$data)
+    public function _show_welcome($handler_id, &$data)
     {
         midcom_show_style('welcome');
     }

@@ -50,7 +50,7 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
     /**
      * Event conflicts
      */
-    function _event_resourceconflict_messages(&$conflict_event)
+    private function _event_resourceconflict_messages(&$conflict_event)
     {
         reset($conflict_event->busy_em);
         foreach ($conflict_event->busy_em as $pid => $events)

@@ -20,7 +20,7 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, $args, &$data)
     {
         $this->_view_toolbar->add_item
         (
@@ -79,7 +79,7 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, &$data)
     {
         midcom_show_style('show-frontpage');
     }

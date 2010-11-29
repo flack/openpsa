@@ -78,7 +78,7 @@ class midcom_core_group
      *     a database ID or GUID for Midgard Groups or a valid complete MidCOM group identifier, which
      *     will work for all subclasses.
      */
-    function __construct($id = null)
+    public function __construct($id = null)
     {
         if (is_null($id))
         {

@@ -14,7 +14,7 @@
  */
 class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_handler
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.libconfig');
         $this->_request_data['l10n'] = $this->_l10n;
@@ -56,7 +56,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, $args, &$data)
     {
         $data['name'] = $args[0];
         if (!array_key_exists($data['name'],$_MIDCOM->componentloader->manifests))
@@ -139,7 +139,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
         midgard_admin_asgard_plugin::asgard_footer();
     }
 
-    function _detect($value)
+    private function _detect($value)
     {
         $type = gettype($value);
 

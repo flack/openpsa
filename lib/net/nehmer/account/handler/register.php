@@ -111,7 +111,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * This is the request data preparation code used during the actual registration sequence.
      * The account type selection is not covered by this call.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['account'] =& $this->_account;
@@ -131,7 +131,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_select_type($handler_id, $args, &$data)
+    public function _handler_select_type($handler_id, $args, &$data)
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account_creation'));
 
@@ -182,7 +182,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
     /**
      * Lists the available account types.
      */
-    function _show_select_type($handler_id, &$data)
+    public function _show_select_type($handler_id, &$data)
     {
         midcom_show_style('registration-account-type-list');
     }
@@ -194,7 +194,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_register_invitation($handler_id, $args, &$data)
+    public function _handler_register_invitation($handler_id, $args, &$data)
     {
         $hash = $args[0];
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -254,7 +254,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
     /**
      * @todo Please comment *at least* on a method scope what these are doing!
      */
-    function _show_register_invitation($handler_id, &$data)
+    public function _show_register_invitation($handler_id, &$data)
     {
         if (count($this->_sent_invites) > 0)
         {
@@ -274,7 +274,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_register($handler_id, $args, &$data)
+    public function _handler_register($handler_id, $args, &$data)
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account_creation'));
         if (!array_key_exists($args[0], $this->_schemadb))
@@ -381,7 +381,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * Processing will only be done after basic validation of the environment (to protect
      * against F5-hitters).
      */
-    function _handle_input_stage()
+    private function _handle_input_stage()
     {
         // This will shortcut without creating any datamanager to avoid the possibly
         // expensive creation process.
@@ -416,7 +416,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         // edit result remains unhandled, so that we stay in the edit-loop.
     }
 
-    function _add_inviter_as_buddy($inviter_guid)
+    private function _add_inviter_as_buddy($inviter_guid)
     {
         if (!$_MIDCOM->componentloader->is_loaded('net.nehmer.buddylist'))
         {
@@ -452,7 +452,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * selection screen, next will save previous will go back to allow the user to edit the
      * data.
      */
-    function _handle_confirm_stage()
+    private function _handle_confirm_stage()
     {
         // This will shortcut without creating any datamanager to avoid the possibly
         // expensive creation process.
@@ -496,7 +496,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
     /**
      * Lists the available account types.
      */
-    function _show_register($handler_id, &$data)
+    public function _show_register($handler_id, &$data)
     {
         switch ($this->_stage)
         {
@@ -527,7 +527,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * This function patches the active schema to have the correct navigation buttons
      * present.
      */
-    function _patch_schema()
+    private function _patch_schema()
     {
         switch ($this->_stage)
         {
@@ -548,7 +548,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * This starts up a datamanager suitable for the first stage of processing. It
      * will render the form without any storage object.
      */
-    function _create_null_controller()
+    private function _create_null_controller()
     {
         $defaults = array();
         $session = new midcom_services_session();
@@ -582,7 +582,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      *     the validation rules should be added.
      * @access private
      */
-    function _register_username_validation_rule(&$controller)
+    private function _register_username_validation_rule(&$controller)
     {
         $controller->formmanager->form->registerRule
         (
@@ -630,7 +630,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * This function operates with SUDO privileges unless it detects that the currently active
      * user has write permissions to the person tree.
      */
-    function _create_account()
+    private function _create_account()
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
@@ -800,10 +800,9 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
     /**
      * Send an email to the user waiting for approval
      *
-     * @access private
      * @param midcom_db_person $this->_person  The newly created person account
      */
-    function _send_activation_pending_mail()
+    private function _send_activation_pending_mail()
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
@@ -833,11 +832,10 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * Send a reminder to the configured administrator email address of a pending user
      * account that needs either to be approved or disapproved
      *
-     * @access private
      * @param midcom_db_person   Person record
      * @return boolean           Indicating success
      */
-    function _send_activation_request_mail()
+    private function _send_activation_request_mail()
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         $mail = new org_openpsa_mail();
@@ -878,7 +876,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_activate($handler_id, $args, &$data)
+    public function _handler_activate($handler_id, $args, &$data)
     {
         $guid = $args[0];
         $hash = $args[1];
@@ -933,7 +931,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
     /**
      * Lists the available account types.
      */
-    function _show_activate($handler_id, &$data)
+    public function _show_activate($handler_id, &$data)
     {
         if ($this->activated)
         {
@@ -951,12 +949,12 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_finish($handler_id, $args, &$data)
+    public function _handler_finish($handler_id, $args, &$data)
     {
         return true;
     }
 
-    function _show_finish($handler_id, &$data)
+    public function _show_finish($handler_id, &$data)
     {
         midcom_show_style('registration-finished');
     }
@@ -965,7 +963,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * This call will actually activate the account, gaining privileges using the
      * sudo service.
      */
-    function _activate_account()
+    private function _activate_account()
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
@@ -1055,10 +1053,8 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * This call automatically publishes the account details if the component is configured
      * to do so. This encompasses all user-publishable schema fields regardless of their
      * content.
-     *
-     * @access private
      */
-    function _auto_publish_account_details()
+    private function _auto_publish_account_details()
     {
         if (! $this->_config->get('publish_all_on_activation'))
         {
@@ -1099,10 +1095,8 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * </pre>
      *
      * The callback function will receive the midcom_db_person object instance as an argument.
-     *
-     * @access private
      */
-    function _invoke_account_activation_callback()
+    private function _invoke_account_activation_callback()
     {
         $callback = $this->_config->get('on_activate_account');
         if ($callback)
@@ -1131,7 +1125,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * Sends a welcome mail to the user given in the _account member. It will exit directly
      * if the net.nehmer.mail integration is disabled.
      */
-    function _send_welcome_mail()
+    private function _send_welcome_mail()
     {
         if (! $this->_config->get('have_net_nehmer_mail'))
         {

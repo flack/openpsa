@@ -41,7 +41,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     /**
      * Builds the message report array
      */
-    function _analyze_message_report(&$data)
+    private function _analyze_message_report(&$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $segmentation_param = false;
@@ -398,7 +398,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_report($handler_id, $args, &$data)
+    public function _handler_report($handler_id, $args, &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         if (   !$this->_message
@@ -473,7 +473,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_report($handler_id, &$data)
+    public function _show_report($handler_id, &$data)
     {
         midcom_show_style('show-message-report');
     }
@@ -484,7 +484,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_status($handler_id, $args, &$data)
+    public function _handler_status($handler_id, $args, &$data)
     {
         $this->_request_data['message_obj'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $reply = new org_openpsa_helpers_ajax();

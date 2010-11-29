@@ -14,7 +14,7 @@
  */
 class org_openpsa_invoices_interface extends midcom_baseclasses_components_interface
 {
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $invoice = new org_openpsa_invoices_invoice_dba($guid);
 
@@ -32,7 +32,7 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
      *
      * @param mixed $object The object triggering the watch
      */
-    function _on_watched_dba_delete($object)
+    public function _on_watched_dba_delete($object)
     {
         $_MIDCOM->auth->request_sudo();
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
@@ -53,7 +53,7 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
      * Iterate over all invoices and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 

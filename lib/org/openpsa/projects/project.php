@@ -30,7 +30,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    function _on_creating()
+    public function _on_creating()
     {
         $stat = parent::_on_creating();
         $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECT;
@@ -98,7 +98,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
      * This adjusts the timeframe if necessary and tries to determine the project's
      * status according to the current task situation
      */
-    function _refresh_from_tasks()
+    private function _refresh_from_tasks()
     {
         $update_required = false;
 
@@ -109,12 +109,12 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         $task_qb->add_constraint('up', '=', $this->id);
         $ret = $task_qb->execute();
 
-        if ( sizeof($ret) == 0)
+        if (sizeof($ret) == 0)
         {
             return;
         }
 
-        foreach($ret as $task)
+        foreach ($ret as $task)
         {
             if ($task->start < $this->start)
             {

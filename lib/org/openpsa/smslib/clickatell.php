@@ -14,7 +14,7 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
     var $api_id = ''; //reference to client_id
     var $features = 'FEAT_8BIT FEAT_UDH FEAT_CONCAT FEAT_ALPHA FEAT_NUMER'; //req_feat list
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->location = &$this->uri;
@@ -39,7 +39,7 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
         return 'unknown'; //Non numeric balance is supposed to be infinite
     }
 
-    function _sanity_check()
+    private function _sanity_check()
     {
         if (   !$this->uri
             || !$this->user
@@ -148,7 +148,7 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
     /**
      * Encodes the features list to decimal value used by the server
      */
-    function _encode_req_feat()
+    private function _encode_req_feat()
     {
         $feat_arr_rev = explode(' ', $this->features);
         //Make sure each feature is specified only once
@@ -201,7 +201,7 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
     /**
      * Server HTTP level error decode
      */
-    function _get_http_error($headers)
+    private function _get_http_error($headers)
     {
         preg_match('/HTTP\/[0-9.]+\s([0-9]+)\s(.*)/', $headers[0], $matches_hdr);
         $code = $matches_hdr[1];
@@ -234,7 +234,7 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
     /**
      * Look for error messages in content and decode them, returns false on no errors found, true on errors found.
      */
-    function _get_content_error($content)
+    private function _get_content_error($content)
     {
         if (!preg_match('/ERR:\s([0-9]{3}),\s(.+)/', $content, $matches))
         {

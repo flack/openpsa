@@ -19,7 +19,7 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
     /**
      * Initializes the class. The real startup is done by the initialize() call.
      */
-    function __construct()
+    public function __construct()
     {
          $this->_component = 'org.routamc.positioning';
          $_MIDCOM->load_library('org.openpsa.httplib');

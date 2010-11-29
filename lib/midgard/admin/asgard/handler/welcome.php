@@ -24,7 +24,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'midgard.admin.asgard';
     }
@@ -45,11 +45,11 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
     }
 
-    function _list_revised($since, $review_by = null, $type = null, $only_mine = false)
+    private function _list_revised($since, $review_by = null, $type = null, $only_mine = false)
     {
         $classes = array();
         $revised = array();
@@ -148,7 +148,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_welcome($handler_id, $args, &$data)
+    public function _handler_welcome($handler_id, $args, &$data)
     {
         $this->_prepare_request_data();
 
@@ -266,7 +266,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         return true;
     }
 
-    function _mass_delete($guids)
+    private function _mass_delete($guids)
     {
         foreach ($guids as $guid)
         {
@@ -283,7 +283,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         }
     }
 
-    function _mass_approve($guids)
+    private function _mass_approve($guids)
     {
         foreach ($guids as $guid)
         {
@@ -307,7 +307,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_welcome($handler_id, &$data)
+    public function _show_welcome($handler_id, &$data)
     {
         $data['reflectors'] = $this->_reflectors;
         $data['config'] = $this->_config;

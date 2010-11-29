@@ -18,7 +18,7 @@ class org_openpsa_smslib extends midcom_baseclasses_components_purecode
     var $errstr = '';
     var $errcode = 200; //Use HTTP style error codes as default
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->_component='org.openpsa.smslib';

@@ -17,7 +17,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
     /**
      * Simple default constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_dba_class = 'org_openpsa_projects_project';
         $this->_prefix = 'project';
@@ -78,7 +78,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_project'));
     }
@@ -136,7 +136,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_read($handler_id, &$data)
+    public function _show_read($handler_id, &$data)
     {
         midcom_show_style('show-project');
     }
@@ -149,7 +149,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_callback($handler_id, $args, &$data)
+    public function _handler_callback($handler_id, $args, &$data)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         if ($handler_id == 'project')
@@ -160,7 +160,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         return true;
     }
 
-    function _load_defaults()
+    private function _load_defaults()
     {
         $this->_defaults['manager'] = midcom_connection::get_user();
     }

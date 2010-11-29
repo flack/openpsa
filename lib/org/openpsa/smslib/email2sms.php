@@ -9,7 +9,7 @@
  */
 class org_openpsa_smslib_email2sms extends org_openpsa_smslib
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 

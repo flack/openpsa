@@ -35,7 +35,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      */
     private $_datamanager = null;
 
-    function __construct()
+    public function __construct()
     {
         $this->_request_data['page'] =& $this->_page;
     }
@@ -65,7 +65,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         }
     }
 
-    function _populate_toolbar()
+    private function _populate_toolbar()
     {
         $this->_view_toolbar->add_item
         (
@@ -199,7 +199,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $_MIDCOM->bind_view_to_object($this->_page, $this->_datamanager->schema->name);
     }
 
-    function _load_page($wikiword)
+    private function _load_page($wikiword)
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_topic->id);
@@ -264,7 +264,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    function _can_handle_view($handler_id, $args, &$data)
+    public function _can_handle_view($handler_id, $args, &$data)
     {
         if (count($args) == 0)
         {
@@ -282,7 +282,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_view($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_view($handler_id, $args, &$data, $view_mode = true)
     {
         if (!$this->_page)
         {
@@ -334,7 +334,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         $_MIDCOM->load_library('net.nemein.tag');
 
@@ -452,7 +452,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_raw($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_raw($handler_id, $args, &$data, $view_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
@@ -470,7 +470,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_raw($handler_id, &$data)
+    public function _show_raw($handler_id, &$data)
     {
         if ($this->_controller)
         {
@@ -495,7 +495,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_source($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_source($handler_id, $args, &$data, $view_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
@@ -513,7 +513,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_source($handler_id, &$data)
+    public function _show_source($handler_id, &$data)
     {
         if ($this->_controller)
         {
@@ -534,7 +534,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    function _handler_subscribe($handler_id, $args, &$data)
+    public function _handler_subscribe($handler_id, $args, &$data)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
@@ -595,7 +595,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_whatlinks($handler_id, $args, &$data, $view_mode = true)
+    public function _handler_whatlinks($handler_id, $args, &$data, $view_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
@@ -620,7 +620,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_whatlinks($handler_id, &$data)
+    public function _show_whatlinks($handler_id, &$data)
     {
         if ($this->_controller)
         {

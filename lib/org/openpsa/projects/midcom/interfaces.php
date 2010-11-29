@@ -13,7 +13,7 @@
  */
 class org_openpsa_projects_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = array
         (
@@ -21,7 +21,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         );
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         //With the plentyness of typecasting around any other numeric locale calls for trouble with floats
         setlocale(LC_NUMERIC, 'C');
@@ -58,7 +58,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         return true;
     }
 
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $task = new org_openpsa_projects_task_dba($guid);
         if (    !$task
@@ -114,7 +114,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
      * Current rule: all participants of event must be either manager, contact or resource in task
      * that overlaps in time with the event.
      */
-    function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
+    private function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
     {
         if (   !is_array($object->participants)
             || count($object->participants) < 1)
@@ -180,7 +180,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
      */
-    function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
+    private function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
     {
         //List all projects and tasks given person is involved with
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
@@ -421,7 +421,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
      * Iterate over all projects and create index record using the datamanager indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 

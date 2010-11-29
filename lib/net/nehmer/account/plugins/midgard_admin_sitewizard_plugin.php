@@ -26,7 +26,7 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
     var $_creation_root_group_parent_guid ='';
     var $_creation_root_group_name = '';
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         require_once($this->_request_data['plugin_config']['sitewizard_path']);
 
@@ -82,7 +82,7 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
     /**
      * @return boolean Indicating success.
      */
-    function _handler_create_user_home()
+    public function _handler_create_user_home()
     {
         $user = $_MIDCOM->auth->user;
 
@@ -92,7 +92,7 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
         return true;
     }
 
-    function _show_create_user_home()
+    public function _show_create_user_home()
     {
         echo "<pre>";
         try

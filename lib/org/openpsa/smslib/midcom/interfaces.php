@@ -10,7 +10,7 @@
  */
 class org_openpsa_smslib_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_files = array
         (

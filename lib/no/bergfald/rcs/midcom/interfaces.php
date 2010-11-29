@@ -9,7 +9,7 @@
  */
 class no_bergfald_rcs_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = array
         (

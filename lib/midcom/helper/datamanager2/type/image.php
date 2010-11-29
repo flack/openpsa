@@ -203,7 +203,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     private $check_imagemagic = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $stat = parent::_on_initialize();
         if (!isset($this->check_imagemagic))

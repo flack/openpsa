@@ -89,7 +89,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_password($handler_id, $args, &$data)
+    public function _handler_password($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_change_password'))
         {
@@ -122,7 +122,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
     /**
      * This function prepares the form manager used to change the password.
      */
-    function _prepare_pwchange_formmanager()
+    private function _prepare_pwchange_formmanager()
     {
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
         $schemadb = midcom_helper_datamanager2_schema::load_database('file:/net/nehmer/account/config/schemadb_internal.inc');
@@ -149,7 +149,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * This function processes the form, computing the visible field list for the current
      * selection. If no form submission can be found, the method exits unconditionally.
      */
-    function _process_pwchange_form()
+    private function _process_pwchange_form()
     {
         switch ($this->_controller->process_form())
         {
@@ -179,7 +179,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * This helper will update the password to the new value and synchronize the last changed
      * timestamp accordingly.
      */
-    function _update_password()
+    private function _update_password()
     {
         $new_password = $this->_controller->datamanager->types['newpassword']->value;
         if (! $_MIDCOM->auth->user->update_password($new_password, false))
@@ -193,7 +193,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * This function checks the old password entered into the pwchange_controller
      * against the account password.
      */
-    function _check_old_password()
+    private function _check_old_password()
     {
         // We check the entered password against the possibly crypted one:
         $salt = substr($this->_account->password, 0, 2);
@@ -217,7 +217,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      *
      * @access private
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['formmanager'] =& $this->_controller->formmanager;
@@ -229,7 +229,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
     /**
      * Internal helper function, prepares a datamanager based on the current account.
      */
-    function _prepare_datamanager()
+    private function _prepare_datamanager()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
@@ -242,7 +242,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_password($handler_id, &$data)
+    public function _show_password($handler_id, &$data)
     {
         if ($this->_success)
         {
@@ -263,7 +263,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_username($handler_id, $args, &$data)
+    public function _handler_username($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -291,7 +291,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
     /**
      * This function prepares the form manager used to change the password.
      */
-    function _prepare_usernamechange_formmanager()
+    private function _prepare_usernamechange_formmanager()
     {
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
         $schemadb = midcom_helper_datamanager2_schema::load_database('file:/net/nehmer/account/config/schemadb_internal.inc');
@@ -341,7 +341,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * This function processes the form, computing the visible field list for the current
      * selection. If no form submission can be found, the method exits unconditionally.
      */
-    function _process_usernamechange_form()
+    private function _process_usernamechange_form()
     {
         switch ($this->_controller->process_form())
         {
@@ -382,7 +382,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_username($handler_id, &$data)
+    public function _show_username($handler_id, &$data)
     {
         if ($this->_success)
         {
@@ -406,7 +406,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_lostpassword($handler_id, $args, &$data)
+    public function _handler_lostpassword($handler_id, $args, &$data)
     {
         $this->_prepare_lostpassword_formmanager();
         $this->_process_lostpassword_form();
@@ -431,7 +431,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_lostpassword_reset($handler_id, $args, &$data)
+    public function _handler_lostpassword_reset($handler_id, $args, &$data)
     {
         $guid = $args[0];
         $hash = $args[1];
@@ -489,12 +489,12 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_lostpassword_reset($handler_id, &$data)
+    public function _show_lostpassword_reset($handler_id, &$data)
     {
         midcom_show_style('show-lostpassword-ok');
     }
 
-    function _send_lostpassword_reset_link($email, $username=false)
+    private function _send_lostpassword_reset_link($email, $username=false)
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
@@ -554,11 +554,10 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         return true;
     }
 
-
     /**
      * This function prepares the form manager used to change the password.
      */
-    function _prepare_lostpassword_formmanager()
+    private function _prepare_lostpassword_formmanager()
     {
         $include_username = false;
 
@@ -654,7 +653,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * This function processes the form, creating a new password and mailing it to the
      * user in question.
      */
-    function _process_lostpassword_form()
+    private function _process_lostpassword_form()
     {
         switch ($this->_controller->process_form())
         {
@@ -716,7 +715,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      *
      * @param string $username The name of the user who wants his password reset.
      */
-    function _reset_password($username)
+    private function _reset_password($username)
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
@@ -758,7 +757,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      *
      * @param midcom_db_person $person The newly created person account.
      */
-    function _send_reset_mail($person, $password)
+    private function _send_reset_mail($person, $password)
     {
         $from = $this->_config->get('password_reset_mail_sender');
         if (! $from)
@@ -795,7 +794,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_lostpassword($handler_id, &$data)
+    public function _show_lostpassword($handler_id, &$data)
     {
         if ($this->_success)
         {
@@ -816,7 +815,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_cancel_membership($handler_id, $args, &$data)
+    public function _handler_cancel_membership($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -854,7 +853,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * the next request wouldn't be possible anyway, we do this for safety reasons
      * nevertheless.
      */
-    function _process_cancel_membership()
+    private function _process_cancel_membership()
     {
         if (array_key_exists('net_nehmer_account_deleteok', $_REQUEST))
         {
@@ -895,7 +894,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      *
      * @return string The generated hash.
      */
-    function _compute_cancel_membership_confirm_hash()
+    private function _compute_cancel_membership_confirm_hash()
     {
         $hash_source = $_MIDCOM->auth->sessionmgr->current_session_id
             . $_SERVER["REMOTE_ADDR"]
@@ -905,7 +904,6 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         debug_add("Computed this confirmation hash {$hash} using this as a basis: {$hash_source}");
         return $hash;
     }
-
 
     /**
      * This function invokes the callback set in the component configuration upon
@@ -923,10 +921,8 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * </pre>
      *
      * The callback function will receive the midcom_db_person object instance as an argument.
-     *
-     * @access private
      */
-    function _invoke_cancel_membership_callback()
+    private function _invoke_cancel_membership_callback()
     {
         $callback = $this->_config->get('on_cancel_membership');
         if ($callback)
@@ -953,7 +949,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
     /**
      * Actually deletes the current account. On any error, generate_error is triggered.
      */
-    function _drop_account()
+    private function _drop_account()
     {
         $user = $_MIDCOM->auth->get_user($this->_account);
         if (! $user->delete())
@@ -970,7 +966,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_cancel_membership($handler_id, &$data)
+    public function _show_cancel_membership($handler_id, &$data)
     {
         if ($this->_success)
         {

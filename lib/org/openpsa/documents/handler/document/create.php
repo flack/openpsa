@@ -50,7 +50,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      */
     private $_defaults = array();
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_document'));
@@ -101,7 +101,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_do('midgard:create', $this->_request_data['directory']);
 
@@ -154,7 +154,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         midcom_show_style("show-document-create");
     }

@@ -40,7 +40,7 @@ class midcom_services_rcs
      * @param array $config the midcom_config
      * @param midcom_application $midcom midcom_application reference.
      */
-    function __construct($config = null)
+    public function __construct($config = null)
     {
         if (is_null($config))
         {

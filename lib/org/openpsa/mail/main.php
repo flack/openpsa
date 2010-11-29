@@ -42,7 +42,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     var $__textBodyFound; //boolean, used in part_decode
     var $__htmlBodyFound; // --''--
 
-    function __construct()
+    public function __construct()
     {
         $this->_component = 'org.openpsa.mail';
         parent::__construct();
@@ -233,7 +233,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return $this->__mime;
     }
 
-    function _fix_mime_css_embeds()
+    private function _fix_mime_css_embeds()
     {
         //Hacked support for inline CSS url() type images
         if (   is_array($this->__mime->_html_images)
@@ -407,7 +407,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * No-op for now
      */
-    function _compatibility_checks()
+    private function _compatibility_checks()
     {
         return;
     }
@@ -633,7 +633,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return $mime;
     }
 
-    function _code_for_sort_encode_subject()
+    private function _code_for_sort_encode_subject()
     {
         return <<<EOF
         if (\$a == '=')
@@ -798,7 +798,7 @@ EOF;
     /**
      * Tries to load a send backend
      */
-    function _load_backend($backend)
+    private function _load_backend($backend)
     {
         $classname = "org_openpsa_mail_backend_{$backend}";
         if (class_exists($classname))
@@ -885,7 +885,7 @@ EOF;
      * Determine correct mimetype for file we have only content
      * (and perhaps filename) for.
      */
-    function _get_mimetype($content, $name = 'unknown')
+    private function _get_mimetype($content, $name = 'unknown')
     {
         if (!function_exists('mime_content_type'))
         {
@@ -911,7 +911,7 @@ EOF;
     /**
      * Whether given file definition is already in embeds
      */
-    function _exists_in_embeds($input, $embeds)
+    private function _exists_in_embeds($input, $embeds)
     {
         reset($embeds);
         foreach ($embeds as $file_arr)
@@ -925,7 +925,7 @@ EOF;
         return false;
     }
 
-    function _html_get_embeds_loop(&$obj, $html, $search, $embeds, $type)
+    private function _html_get_embeds_loop(&$obj, $html, $search, $embeds, $type)
     {
         if (!isset($_SERVER))
         { //Make sure we have this information (even on older PHPs)
@@ -1143,7 +1143,7 @@ EOF;
      * The main mailer class can work without them, gracefully degrading
      * in functionality.
      */
-    function _initialize_pear()
+    private function _initialize_pear()
     {
         if (!class_exists('Mail'))
         {

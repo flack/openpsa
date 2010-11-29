@@ -127,7 +127,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
      *
      * @return boolean Indicating Success
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (is_a('midcom_helper_datamanager2_type_tagselect', $this->_type))
         {

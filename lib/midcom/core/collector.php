@@ -124,7 +124,7 @@ class midcom_core_collector
      *
      * @param string $classname The classname which should be queried.
      */
-    function __construct($classname, $domain, $value)
+    public function __construct($classname, $domain, $value)
     {
         static $_class_mapping_cache = array();
 
@@ -200,7 +200,7 @@ class midcom_core_collector
      *
      * @see midgard_collector::execute()
      */
-    function _real_execute()
+    private function _real_execute()
     {
         // Add the limit / offsets
         if ($this->_limit)
@@ -255,7 +255,7 @@ class midcom_core_collector
         return $newresult;
     }
 
-    function _list_keys_and_check_privileges()
+    private function _list_keys_and_check_privileges()
     {
         $this->_real_execute();
         $result = $this->_mc->list_keys();

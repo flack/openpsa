@@ -14,7 +14,7 @@
  */
 class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Match /project/list/<status>
         $this->_request_switch['project-list-status'] = array
@@ -182,7 +182,7 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
         );
     }
 
-    function _on_handle($handler, $args)
+    public function _on_handle($handler, $args)
     {
         $this->_request_data['view'] = 'default';
         $this->_request_data['config'] = $this->_config;

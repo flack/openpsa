@@ -19,7 +19,7 @@ class org_openpsa_contactwidget_interface extends midcom_baseclasses_components_
     /**
      * Adds the default hCard rendering CSS rule to HTML inclusion list
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Make the hCards pretty
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.contactwidget/hcard.css");

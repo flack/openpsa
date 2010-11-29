@@ -16,7 +16,7 @@ class org_routamc_positioning_cron_fetchplazes extends midcom_baseclasses_compon
     /**
      * Fetches Plazes information for users
      */
-    function _on_execute()
+    public function _on_execute()
     {
         debug_add('_on_execute called');
 

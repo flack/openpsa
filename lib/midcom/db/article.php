@@ -118,7 +118,7 @@ class midcom_db_article extends midcom_core_dbaobject
      *
      * @param id $parent_id id of topic to get the guid for
      */
-    function _get_parent_guid_uncached_static_topic($parent_id)
+    private function _get_parent_guid_uncached_static_topic($parent_id)
     {
         if (empty($parent_id))
         {
@@ -149,7 +149,7 @@ class midcom_db_article extends midcom_core_dbaobject
      *
      * @param id $parent_id id of topic to get the guid for
      */
-    function _get_parent_guid_uncached_static_article($parent_id)
+    private function _get_parent_guid_uncached_static_article($parent_id)
     {
         if (empty($parent_id))
         {
@@ -188,7 +188,7 @@ class midcom_db_article extends midcom_core_dbaobject
      *
      * @return boolean Indicating success.
      */
-    function _on_creating()
+    public function _on_creating()
     {
         return true;
     }
@@ -198,7 +198,7 @@ class midcom_db_article extends midcom_core_dbaobject
      *
      * @return boolean Indicating success.
      */
-    function _on_updating()
+    public function _on_updating()
     {
         return true;
     }

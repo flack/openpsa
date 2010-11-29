@@ -59,7 +59,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
-    function _prepare_request_data()
+    private function _prepare_request_data()
     {
         $this->_request_data['article'] =& $this->_article;
         $this->_request_data['datamanager'] =& $this->_datamanager;
@@ -98,7 +98,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     /**
      * Maps the content topic from the request data to local member variables.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
     }
@@ -112,7 +112,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      *
      * The operations are done on all available schemas within the DB.
      */
-    function _load_schemadb()
+    private function _load_schemadb()
     {
         $this->_schemadb =& $this->_request_data['schemadb'];
         if (   $this->_config->get('simple_name_handling')
@@ -127,10 +127,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
     /**
      * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -145,10 +143,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
     /**
      * Internal helper, loads the controller for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -205,7 +201,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
 
@@ -272,7 +268,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, &$data)
     {
         midcom_show_style('admin-edit');
     }
@@ -285,7 +281,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_deletelink($handler_id, $args, &$data)
+    public function _handler_deletelink($handler_id, $args, &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
 
@@ -326,10 +322,8 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     /**
      * Internal helper method, which will check if the delete request has been
      * confirmed
-     *
-     * @access private
      */
-    function _process_link_delete()
+    private function _process_link_delete()
     {
         if (isset($_POST['f_cancel']))
         {
@@ -371,7 +365,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_deletelink($handler_id, &$data)
+    public function _show_deletelink($handler_id, &$data)
     {
         $data['article'] =& $this->_article;
         $nap = new midcom_helper_nav();
@@ -397,7 +391,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
         if (   !$this->_article
@@ -484,7 +478,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, &$data)
     {
         midcom_show_style('admin-delete');
     }

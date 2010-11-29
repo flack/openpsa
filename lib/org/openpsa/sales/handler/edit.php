@@ -84,7 +84,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         }
     }
 
-    function _initialize_datamanager($schemadb_snippet)
+    private function _initialize_datamanager($schemadb_snippet)
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
@@ -109,8 +109,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $fields['customer']['type_config']['options'] = org_openpsa_helpers_list::task_groups($this->_salesproject);
     }
 
-
-    function _load_salesproject($identifier)
+    private function _load_salesproject($identifier)
     {
         $salesproject = new org_openpsa_sales_salesproject_dba($identifier);
 
@@ -163,7 +162,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['salesproject'] = $this->_load_salesproject($args[0]);
@@ -199,7 +198,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midcom_show_style('show-salesproject-edit');
     }
@@ -210,7 +209,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_new($handler_id, $args, &$data)
+    public function _handler_new($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_sales_salesproject_dba');
@@ -251,7 +250,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_new($handler_id, &$data)
+    public function _show_new($handler_id, &$data)
     {
         midcom_show_style('show-salesproject-new');
     }

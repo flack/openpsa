@@ -16,7 +16,7 @@
  */
 class org_routamc_positioning_interface extends midcom_baseclasses_components_interface
 {
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_files = array
         (
@@ -24,7 +24,7 @@ class org_routamc_positioning_interface extends midcom_baseclasses_components_in
         );
     }
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         define('ORG_ROUTAMC_POSITIONING_ACCURACY_GPS', 10);
         define('ORG_ROUTAMC_POSITIONING_ACCURACY_PLAZES', 15);

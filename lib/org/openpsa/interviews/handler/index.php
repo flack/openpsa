@@ -20,7 +20,7 @@ class org_openpsa_interviews_handler_index extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_index($handler_id, $args, &$data)
+    public function _handler_index($handler_id, $args, &$data)
     {
         $this->_request_data['campaigns'] = Array();
 
@@ -35,7 +35,7 @@ class org_openpsa_interviews_handler_index extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_index($handler_id, &$data)
+    public function _show_index($handler_id, &$data)
     {
         midcom_show_style('show-index');
     }

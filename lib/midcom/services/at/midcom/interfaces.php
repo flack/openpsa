@@ -54,7 +54,7 @@ class midcom_services_at_interface extends midcom_baseclasses_components_interfa
     /**
      * Constructor defines constants the  library uses and loads required classes
      */
-    function __construct()
+    public function __construct()
     {
         define ('MIDCOM_SERVICES_AT_STATUS_SCHEDULED', 100);
         define ('MIDCOM_SERVICES_AT_STATUS_RUNNING', 110);

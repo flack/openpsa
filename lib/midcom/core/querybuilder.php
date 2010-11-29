@@ -139,7 +139,7 @@ class midcom_core_querybuilder
      * @param string $classname The classname which should be queried.
      * @todo remove baseclass resolution, Midgard core can handle extended classnames correctly nowadays
      */
-    function __construct($classname)
+    public function __construct($classname)
     {
         $this->classname = $classname;
 
@@ -196,7 +196,7 @@ class midcom_core_querybuilder
      * @param boolean $false_on_empty_mgd_resultset used in the moving window loop to get false in stead of empty array back from this method in case the **core** QB returns empty resultset
      * @return array of objects filtered by ACL and metadata visibility (or false in case of failure)
      */
-    function _execute_and_check_privileges($false_on_empty_mgd_resultset = false)
+    private function _execute_and_check_privileges($false_on_empty_mgd_resultset = false)
     {
         try
         {

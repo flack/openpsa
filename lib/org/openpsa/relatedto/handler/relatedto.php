@@ -42,7 +42,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      */
     private $_links = null;
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $_MIDCOM->style->prepend_component_styledir('org.openpsa.relatedto');
@@ -55,7 +55,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_render($handler_id, $args, &$data)
+    public function _handler_render($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
@@ -288,7 +288,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_render($handler_id, &$data)
+    public function _show_render($handler_id, &$data)
     {
         midcom_show_style('relatedto_start');
 
@@ -322,7 +322,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      * Sorts the given link array based on $this->_sort
      */
-    function _sort_link_array(&$arr)
+    private function _sort_link_array(&$arr)
     {
         switch ($this->_sort)
         {
@@ -778,7 +778,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_ajax($handler_id, $args, &$data)
+    public function _handler_ajax($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->skip_page_style = true;
@@ -824,7 +824,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_ajax($handler_id, &$data)
+    public function _show_ajax($handler_id, &$data)
     {
     }
 
@@ -834,7 +834,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->skip_page_style = true;
@@ -861,6 +861,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_delete($handler_id, &$data){}
+    public function _show_delete($handler_id, &$data){}
 }
 ?>

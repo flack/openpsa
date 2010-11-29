@@ -19,7 +19,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
      *
      * Nothing fancy, loads all script files and the datamanager library.
      */
-    function __construct()
+    public function __construct()
     {
         $this->_autoload_libraries = array
         (
@@ -31,7 +31,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
      * Iterate over all wiki pages and create index record using the datamanager2 indexer
      * method.
      */
-    function _on_reindex($topic, $config, &$indexer)
+    public function _on_reindex($topic, $config, &$indexer)
     {
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic', '=', $topic->id);
@@ -63,7 +63,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
         return true;
     }
 
-    function _on_resolve_permalink($topic, $config, $guid)
+    public function _on_resolve_permalink($topic, $config, $guid)
     {
         $article = new midcom_db_article($guid);
         if (   ! $article

@@ -91,7 +91,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         return $this->_page;
     }
 
-    function _check_unique_wikiword($wikiword)
+    private function _check_unique_wikiword($wikiword)
     {
         $resolver = new net_nemein_wiki_wikipage();
         $resolver->topic = $this->_topic->id;
@@ -182,7 +182,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         // Initialize sessioning first
         $data['session'] = new midcom_services_session();
@@ -292,7 +292,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         $this->_request_data['controller'] =& $this->_controller;
         midcom_show_style('view-wikipage-edit');

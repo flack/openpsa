@@ -16,7 +16,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 {
     var $_task_cache = Array();
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
     }
@@ -28,7 +28,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
      * @param string $list Key of the task list
      * @return boolean
      */
-    function _add_task_to_list($task_id, $list = 'current')
+    private function _add_task_to_list($task_id, $list = 'current')
     {
         if (!$task_id)
         {
@@ -66,7 +66,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['tasks'] = Array();
@@ -466,7 +466,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         switch ($data['view'])
         {
@@ -604,9 +604,9 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
     }
 
     /**
-     * helper to get priorities from default-schema
+     * Helper to get priorities from default-schema
      */
-    function _get_priorities()
+    private function _get_priorities()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_task'));
         if(array_key_exists('priority' , $schemadb['default']->fields))
@@ -626,7 +626,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
     }
 
     /**
-     * helper to prepare non json output
+     * Helper to prepare non json output
      */
     private function _prepare_output()
     {

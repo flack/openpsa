@@ -34,7 +34,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     /**
      * Read the configuration
      */
-    function __construct($auth)
+    public function __construct($auth)
     {
         $this->_cookie_id .= $GLOBALS['midcom_config']['auth_backend_simple_cookie_id'];
 
@@ -145,12 +145,12 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
         );
     }
 
-    function _on_login_session_created()
+    public function _on_login_session_created()
     {
         $this->_set_cookie();
     }
 
-    function _on_login_session_deleted()
+    public function _on_login_session_deleted()
     {
         $this->_delete_cookie();
     }

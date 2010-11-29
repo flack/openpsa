@@ -21,7 +21,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private $_customer = null;
 
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Locate Contacts node for linking
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
@@ -49,7 +49,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_dashboard($handler_id, $args, &$data)
+    public function _handler_dashboard($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -100,7 +100,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_dashboard($handler_id, &$data)
+    public function _show_dashboard($handler_id, &$data)
     {
         $this->_request_data['header-size'] = 2;
 
@@ -226,7 +226,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_customer($handler_id, $args, &$data)
+    public function _handler_customer($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -304,7 +304,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_customer($handler_id, &$data)
+    public function _show_customer($handler_id, &$data)
     {
         $this->_request_data['header-size'] = 2;
 
@@ -320,7 +320,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_deliverable($handler_id, $args, &$data)
+    public function _handler_deliverable($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -358,7 +358,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
      */
-    function _show_deliverable($handler_id, &$data)
+    public function _show_deliverable($handler_id, &$data)
     {
         $this->_request_data['header-size'] = 4;
         $this->_show_invoice_list();

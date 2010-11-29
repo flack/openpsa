@@ -77,7 +77,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      *
      * Initializes the backend configuration.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $this->_backend = $GLOBALS['midcom_config']['cache_module_memcache_backend'];
 

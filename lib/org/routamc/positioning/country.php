@@ -43,7 +43,7 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
     /**
      * Don't save country if another country with name exists
      */
-    function _on_creating()
+    public function _on_creating()
     {
         $qb = org_routamc_positioning_country_dba::new_query_builder();
         $qb->add_constraint('name', '=', (string)$this->name);

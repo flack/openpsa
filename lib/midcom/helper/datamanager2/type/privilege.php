@@ -63,7 +63,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
     /**
      * This startup handler validates that the class is populated correctly.
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         if (   ! $this->name
             || ! $this->assignee)
