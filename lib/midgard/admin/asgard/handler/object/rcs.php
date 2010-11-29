@@ -36,24 +36,23 @@
 class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_components_handler
 {
     /**
-     * Current object Guid.
+     * Current object GUID.
+     *
      * @var string
-     * @access private
      */
-    var $_guid = null;
+    private $_guid = null;
 
     /**
      * RCS backend
-     * @access private
      */
-    var $_backend = null;
+    private $_backend = null;
 
     /**
      * Pointer to midgard object
+     *
      * @var midcom_db_object
-     * @access private
      */
-    var $_object = null;
+    private $_object = null;
 
     function __construct()
     {
@@ -62,10 +61,8 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
     /**
      * Get the localized strings
-     *
-     * @access private
      */
-    function _l10n_get($string_id)
+    private function _l10n_get($string_id)
     {
         return $this->_l10n->get($string_id);
     }
@@ -162,10 +159,8 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
     /**
      * Prepare version control toolbar
-     *
-     * @access private
      */
-    function _rcs_toolbar($args = null)
+    private function _rcs_toolbar($args = null)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 

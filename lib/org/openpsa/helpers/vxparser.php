@@ -22,6 +22,7 @@ class org_openpsa_helpers_vxparser
      * Container for parsed vTimezone records
      */
     var $timezones = array();
+
     /**
      * charset to use
      */
@@ -29,9 +30,8 @@ class org_openpsa_helpers_vxparser
 
     /**
      * Used then constructor decoding
-     * @access private
      */
-    var $_parsed = false;
+    private $_parsed = false;
 
     function __construct($input = false)
     {

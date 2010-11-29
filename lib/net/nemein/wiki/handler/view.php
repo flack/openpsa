@@ -18,25 +18,22 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * The wikipage we're viewing
      *
      * @var net_nemein_wiki_wikipage
-     * @access private
      */
-    var $_page = null;
+    private $_page = null;
 
     /**
      * The Datamanager 2 controller of the article to display
      *
      * @var midcom_helper_datamanager2_controller
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The Datamanager 2 for article to display
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     function __construct()
     {
@@ -45,10 +42,8 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
     /**
      * Internal helper, loads the datamanager for the current wikipage. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         if ($GLOBALS['midcom_config']['enable_ajax_editing'])
         {

@@ -17,17 +17,15 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * The schema databases used for importing to various objects like persons and organizations
      *
      * @var Array
-     * @access private
      */
-    var $_schemadbs = array();
+    private $_schemadbs = array();
 
     /**
      * Datamanagers used for saving various objects like persons and organizations
      *
      * @var Array
-     * @access private
      */
-    var $_datamanagers = array();
+    private $_datamanagers = array();
 
     function _prepare_handler($args)
     {
@@ -75,10 +73,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * This function prepares the schemadb
-     *
-     * @access private
      */
-    function _load_schemas()
+    private function _load_schemas()
     {
         // We try to combine these schemas to provide a single centralized controller
         $this->_schemadbs['campaign_member'] = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign_member'));
@@ -143,13 +139,12 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     /**
      * Process the datamanager
      *
-     * @access private
      * @param String $type        Subscription type
      * @param array $subscriber
      * @param mixed $object
      * @return boolean            Indicating success
      */
-    function _datamanager_process($type, $subscriber, $object)
+    private function _datamanager_process($type, $subscriber, $object)
     {
         if (   !array_key_exists($type, $subscriber)
             || count($subscriber[$type]) == 0)
@@ -184,10 +179,8 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
     /**
      * Clean the new objects
-     *
-     * @access private
      */
-    function _clean_new_objects()
+    private function _clean_new_objects()
     {
         foreach ($this->_request_data['new_objects'] as $object)
         {

@@ -252,18 +252,16 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     /**
      * How many rows have been printed
      * 
-     * @access private
      * @var integer
      */
-    var $_row_count = 0;
+    private $_row_count = 0;
     
     /**
      * Add JavaScript files if requested
      *
-     * @access private
      * @return boolean Indicating success
      */
-    function _on_initialize()
+    private function _on_initialize()
     {
         $this->_original_columns = $this->columns;
         

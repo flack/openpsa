@@ -66,25 +66,22 @@ class midcom_helper__styleloader
      * Current style scope
      *
      * @var array
-     * @access private
      */
-    var $_scope;
+    private $_scope;
 
     /**
      * Current topic
      *
      * @var midcom_db_topic
-     * @access private
      */
-    var $_topic;
+    private $_topic;
 
     /**
      * Default style path
      *
      * @var string
-     * @access private
      */
-    var $_snippetdir;
+    private $_snippetdir;
 
     /**
      * Path to file styles.
@@ -96,40 +93,37 @@ class midcom_helper__styleloader
      * Current context
      *
      * @var id
-     * @access private
      */
-    var $_context;
+    private $_context;
 
     /**
      * Style element cache
      *
      * @var array
-     * @access private
      */
-    var $_styles;
+    private $_styles;
 
     /**
      * Default style element cache
      *
      * @todo Is this still in use?
      * @var array
-     * @access private
      */
-    var $_snippets;
+    private $_snippets;
 
     /**
      * List of styledirs to handle after componentstyle
+     *
      * @var array
-     * @access private
      */
-    var $_styledirs_append = array();
+    private $_styledirs_append = array();
 
     /**
      * List of styledirs to handle before componentstyle
+     *
      * @var array
-     * @access private
      */
-    var $_styledirs_prepend = array();
+    private $_styledirs_prepend = array();
 
     /**
      * The stack of directories to check for styles.

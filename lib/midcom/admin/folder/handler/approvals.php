@@ -18,13 +18,12 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
      * Checks the integrity of the content topic and gets the stored approvals of
      * the content folder.
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_approval($handler_id, $args, &$data)
+    public function _handler_approval($handler_id, $args, &$data)
     {
         if (   ! array_key_exists('guid', $_REQUEST)
             || ! array_key_exists('return_to', $_REQUEST))

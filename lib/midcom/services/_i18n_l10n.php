@@ -61,50 +61,44 @@ class midcom_services__i18n_l10n
      * a component's name.
      *
      * @var string
-     * @access private
      */
-    var $_library;
+    private $_library;
 
     /**
      * The full path basename to the active library files. The individual
      * files are ending with .$lang.txt.
      *
      * @var string
-     * @access private
      */
-    var $_library_filename;
+    private $_library_filename;
 
     /**
      * A copy of the language DB from i18n.
      *
      * @var Array
-     * @access private
      */
-    var $_language_db;
+    private $_language_db;
 
     /**
      * Fallback language, in case the selected language is not available.
      *
      * @var string
-     * @access private
      */
-    var $_fallback_language;
+    private $_fallback_language;
 
     /**
      * Current character set
      *
      * @var string
-     * @access private
      */
-    var $_charset;
+    private $_charset;
 
     /**
      * Current language.
      *
      * @var string
-     * @access private
      */
-    var $_language;
+    private $_language;
 
     /**
      * Global string table cache, it stores the string tables
@@ -118,17 +112,15 @@ class midcom_services__i18n_l10n
      * The string database, a reference into the global cache.
      *
      * @var Array
-     * @access private
      */
-    var $_stringdb;
+    private $_stringdb;
 
     /**
-     * The current L10n DB file format number (corresponds to the MidCOM versions).
+     * The current L10n DB file format number
      *
      * @var string
-     * @access private
      */
-    var $_version = '2.1.0';
+    private $_version = '2.1.0';
 
     /**
      * The constructor loads the translation library indicated by the snippetdir
@@ -386,9 +378,8 @@ class midcom_services__i18n_l10n
      *
      * @param string $lang The language to check for.
      * @see midcom_services__i18n_l10n::_load_language()
-     * @access private
      */
-    function _check_for_language($lang)
+    private function _check_for_language($lang)
     {
         if (! array_key_exists($lang, $this->_stringdb))
         {
@@ -399,10 +390,8 @@ class midcom_services__i18n_l10n
     /**
      * This tries to load the language files for all languages defined
      * in the i18n's language database.
-     *
-     * @access private
      */
-    function _load_all_languages()
+    private function _load_all_languages()
     {
         foreach ($this->_language_db as $lang => $data)
         {
@@ -610,6 +599,16 @@ class midcom_services__i18n_l10n
         }
         sort($found_strings, SORT_STRING);
         return $found_strings;
+    }
+
+    public function get_language_name($lang)
+    {
+        return $this->_language_db[$lang]['enname'];
+    }
+
+    public function get_languages()
+    {
+        return $this->_language_db;
     }
 }
 ?>

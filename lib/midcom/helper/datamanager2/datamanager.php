@@ -25,9 +25,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * instances, indexed by their name.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * This variable holds the schema currently in use, it has been created from the array
@@ -39,7 +38,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      *
      * @var midcom_helper_datamanager2_schema
      */
-    var $schema = null;
+    public $schema = null;
 
     /**
      * The id (array index) of the current schema
@@ -189,9 +188,8 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      * based on the schema.
      *
      * @return boolean Indicating success
-     * @access private
      */
-    function _load_types()
+    private function _load_types()
     {
         $this->types = Array();
 

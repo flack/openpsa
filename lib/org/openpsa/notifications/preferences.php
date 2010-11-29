@@ -117,10 +117,8 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
 
     /**
      * Internal helper, loads the controller for the current task. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $user = $_MIDCOM->auth->user->get_storage();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -136,13 +134,12 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
     /**
      * Handles the notification preferences edit form
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -165,9 +162,8 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         echo "<h1>" . $this->_l10n->get('notification preferences') . "</h1>\n";
         $this->_controller->display_form();

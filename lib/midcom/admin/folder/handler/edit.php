@@ -17,25 +17,21 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     /**
      * DM2 schema
      *
-     * @access private
      * @var midcom_helper_datamanager2_schema $_schema
      */
-    var $_schemadb;
+    private $_schemadb;
 
     /**
      * DM2 controller instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_controller $_controller
      */
-    var $_controller;
+    private $_controller;
 
     /**
      * ID of the handler
-     *
-     * @access private
      */
-    var $_handler_id;
+    private $_handler_id;
 
     /**
      * Constructor method
@@ -61,10 +57,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
     /**
      * Load either a create controller or an edit (simple) controller or trigger an error message
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         // Get the configured schemas
         $schemadbs = $this->_config->get('schemadbs_folder');
@@ -178,13 +172,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     /**
      * Handler for folder editing. Checks for the permissions and folder integrity.
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
 
@@ -424,11 +417,10 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     /**
      * Create a new style for the topic
      *
-     * @access private
      * @param string $name Name of the style
      * @return string Style path
      */
-    function _create_style($style_name)
+    private function _create_style($style_name)
     {
         if (isset($GLOBALS['midcom_style_inherited']))
         {
@@ -463,9 +455,8 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         // Show the style element
         if ($this->_handler_id === 'create')

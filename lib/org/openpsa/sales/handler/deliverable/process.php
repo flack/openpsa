@@ -18,25 +18,22 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
      * The deliverable we're working with
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
-     * @access private
      */
-    var $_deliverable = null;
+    private $_deliverable = null;
 
     /**
      * The salesproject the deliverable is connected to
      *
      * @var org_openpsa_sales_salesproject_dba
-     * @access private
      */
-    var $_salesproject = null;
+    private $_salesproject = null;
 
     /**
      * The product to deliver
      *
      * @var org_openpsa_products_product_dba
-     * @access private
      */
-    var $_product = null;
+    private $_product = null;
 
     /**
      * Simple helper which references all important members to the request data listing

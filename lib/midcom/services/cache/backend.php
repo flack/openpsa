@@ -96,8 +96,6 @@ abstract class midcom_services_cache_backend
 
     /**#@+
      * Internal state variable
-     *
-     * @access private
      */
 
     /**
@@ -109,14 +107,14 @@ abstract class midcom_services_cache_backend
      *
      * @var boolean
      */
-    var $_open_for_reading = false;
+    private $_open_for_reading = false;
 
     /**
      * True, if the database has been opened for writing previously.
      *
      * @var boolean
      */
-    var $_open_for_writing = false;
+    private $_open_for_writing = false;
 
     /**
      * cache of objects, which were already requested from backend.
@@ -233,10 +231,8 @@ abstract class midcom_services_cache_backend
      * This helper will ensure that the cache base directory is created and usable
      * by checking it is actually a directory. If it does not exist, it will be created
      * automatically. Errors will be handled by calling generate_error.
-     *
-     * @access private
      */
-    function _check_cache_dir()
+    private function _check_cache_dir()
     {
         if (   !file_exists($GLOBALS['midcom_config']['cache_base_directory'])
             && !@mkdir($GLOBALS['midcom_config']['cache_base_directory'], 0755))

@@ -25,9 +25,8 @@ class midcom_services_metadata
      * on-demand.
      *
      * @var Array
-     * @access private
      */
-    var $_metadata = Array();
+    private $_metadata = Array();
 
     /**
      * Class of the current page per each context.
@@ -35,9 +34,8 @@ class midcom_services_metadata
      * This can be used for changing site styling based on body class="" etc.
      *
      * @var Array
-     * @access private
      */
-    var $_page_classes = Array();
+    private $_page_classes = Array();
 
     /**
      * Returns a reference to the node metadata of the specified context. The metadata

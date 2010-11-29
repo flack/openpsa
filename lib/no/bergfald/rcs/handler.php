@@ -36,30 +36,27 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
 {
     /**
      * Current object Guid.
+     *
      * @var string
-     * @access private
      */
-    var $_guid = null;
+    private $_guid = null;
 
     /**
      * RCS backend
-     * @access private
      */
-    var $_backend = null;
+    private $_backend = null;
 
     /**
      * Pointer to midgard object
+     *
      * @var midcom_db_object
-     * @access private
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Get the localized strings
-     *
-     * @access private
      */
-    function _l10n_get($string_id)
+    private function _l10n_get($string_id)
     {
         return $_MIDCOM->i18n->get_string($string_id, 'no.bergfald.rcs');
     }

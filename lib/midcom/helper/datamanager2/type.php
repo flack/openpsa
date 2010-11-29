@@ -26,10 +26,8 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
 {
     /**
      * Reference to the datamanager instance this type belongs to
-     *
-     * @access private
      */
-    var $_datamanager = null;
+    protected $_datamanager = null;
 
     /**
      * Set this to true during one of the startup callbacks if you need to have the
@@ -59,11 +57,10 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * by a corresponding getter/setter pair.
      *
      * @var Array
-     * @access private
      * @see set_external_config()
      * @see get_external_config()
      */
-    var $_external_config = Array();
+    private $_external_config = Array();
 
     /**
      * The name field holds the name of the field the datatype is encapsulating.

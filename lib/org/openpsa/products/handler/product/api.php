@@ -18,9 +18,8 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * The product to operate on
      *
      * @var org_openpsa_products_product_dba
-     * @access private
      */
-    var $_product;
+    private $_product;
 
     /**
      * Maps the content topic from the request data to local member variables.
@@ -44,10 +43,8 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
     /**
      * Internal helper, loads the datamanager for the current product. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_product']);
 

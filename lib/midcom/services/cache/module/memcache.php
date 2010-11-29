@@ -44,8 +44,6 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
 {
     /**#@+
      * Internal runtime state variable.
-     *
-     * @access private
      */
 
     /**
@@ -54,21 +52,21 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      *
      * @var Array
      */
-    var $_backend = null;
+    private $_backend = null;
 
     /**
      * List of known data groups. See the class introduction for details.
      *
      * @var Array
      */
-    var $_data_groups = null;
+    private $_data_groups = null;
 
     /**
      * The cache backend instance to use.
      *
      * @var midcom_services_cache_backend
      */
-    var $_cache = null;
+    private $_cache = null;
 
     /**#@-*/
 

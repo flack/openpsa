@@ -40,19 +40,17 @@ class midcom_services_cache
     /**
      * List of all loaded modules, indexed by their class name.
      *
-     * @access private
      * @var Array
      */
-    var $_modules = Array();
+    private $_modules = Array();
 
     /**
      * List of all modules in the order they need to be unloaded. This is a FILO queue, the
      * module loaded first is unloaded last.
      *
-     * @access private
      * @var Array
      */
-    var $_unload_queue = Array();
+    private $_unload_queue = Array();
 
     /**
      * Cache service startup. It initializes all cache modules configured in the

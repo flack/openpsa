@@ -111,10 +111,9 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     /**
      * Number of open fieldsets. This will be used to close the same amount to prevent open fieldset tags
      *
-     * @access private
      * @var integer
      */
-    var $_fieldsets = 0;
+    private $_fieldsets = 0;
 
     /**
      * State of the form manager
@@ -494,11 +493,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * by key `start_fieldset` or `start_fieldgroup` to provide backwards compatibility to
      * @see midcom_helper_datamanager2_schema
      *
-     * @access private
      * @param string $name
      * @param Array $config
      */
-    function _start_fieldset($name, $config)
+    private function _start_fieldset($name, $config)
     {
         // Backwards compatibility for midcom.helper.datamanager styled fieldgroups
         if (   isset($config['start_fieldgroup'])
@@ -571,11 +569,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * End a fieldset. Ends the requested amount of fieldsets when 'end_fieldset' key is
      * defined in the schema field or at least once when the key exists in the field.
      *
-     * @access private
      * @param string $name
      * @param Array $config
      */
-    function _end_fieldset($name, $config)
+    private function _end_fieldset($name, $config)
     {
         // Backwards compatibility for midcom.helper.datamanager styled fieldgroups
         if (   isset($config['end_fieldgroup'])
@@ -663,9 +660,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @param string $name The name of the widget.
      * @param Array $config Widget configuration.
      * @return boolean Visibility state.
-     * @access private
      */
-    function _is_widget_visible($name, $config)
+    private function _is_widget_visible($name, $config)
     {
         if ($config['hidden'])
         {

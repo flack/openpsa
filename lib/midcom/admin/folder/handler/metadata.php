@@ -19,34 +19,30 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
     /**
      * Object requested for metadata editing
      *
-     * @access private
      * @var mixed Object for metadata editing
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Edit controller instance for Datamanager 2
      *
-     * @access private
      * @var midcom_helper_datamanager2_controller
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * Datamanager 2 schema instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_schema
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Load the DM2 edit controller instance
      *
-     * @access private
      * @return boolean Indicating success of DM2 edit controller instance
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_config']['metadata_schema']);
 
@@ -85,13 +81,12 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      * Handler for folder metadata. Checks for updating permissions, initializes
      * the metadata and the content topic itself. Handles also the sent form.
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_metadata($handler_id, $args, &$data)
+    public function _handler_metadata($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (! $this->_object)
@@ -169,9 +164,8 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_metadata($handler_id, &$data)
+    public function _show_metadata($handler_id, &$data)
     {
         // Bind object details to the request data
         $data['controller'] =& $this->_controller;

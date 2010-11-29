@@ -17,10 +17,9 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     /**
      * Object requested
      *
-     * @access private
      * @var mixed Object
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Constructor, call for the class parent constructor method.
@@ -52,13 +51,12 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
     /**
      * Handler for deleted objects
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_deleted($handler_id, $args, &$data)
+    public function _handler_deleted($handler_id, $args, &$data)
     {
         $data['guid'] = $args[0];
         /*
@@ -92,9 +90,8 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_deleted($handler_id, &$data)
+    public function _show_deleted($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_object_deleted');

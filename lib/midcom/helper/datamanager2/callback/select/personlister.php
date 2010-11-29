@@ -54,17 +54,15 @@ class midcom_helper_datamanager2_callback_select_personlister
      * The key field used for referencing.
      *
      * @var string
-     * @access private
      */
-    var $_key_field = 'guid';
+    private $_key_field = 'guid';
 
     /**
      * The field use for display purposes.
      *
      * @var string
-     * @access private
      */
-    var $_value_field = 'name';
+    private $_value_field = 'name';
 
     /**
      * The cache of loaded person names, indexed by the selected key field.
@@ -75,18 +73,16 @@ class midcom_helper_datamanager2_callback_select_personlister
      * this list but with a null value.
      *
      * @var Array
-     * @access private
      */
-    var $_loaded_persons = Array();
+    private $_loaded_persons = Array();
 
     /**
      * This flag will be set after list_all has been executed to short-cut
      * various lookups where possible.
      *
      * @var boolean
-     * @access private
      */
-    var $_list_all_done = false;
+    private $_list_all_done = false;
 
     /**
      * The default constructor reads in the configuration. See above for allowed

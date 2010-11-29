@@ -50,17 +50,15 @@ class midcom_services_session
      * Sessioning singleton.
      *
      * @var midcom_services__sessioning
-     * @access private
      */
-    var $_sessioning;
+    private $_sessioning;
 
     /**
      * The domain we're working in.
      *
      * @var string
-     * @access private
      */
-    var $_domain;
+    private $_domain;
 
     /**
      * Constructs a session object.

@@ -26,18 +26,16 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
      * The array with the data we're working on.
      *
      * @var array
-     * @access private
      */
-    var $_data = null;
+    private $_data = null;
 
     /**
      * The callback class instance, a callback matching the signature required for the DM2 select
      * type callbacks.
      *
      * @var object
-     * @access private
      */
-    var $_callback = null;
+    private $_callback = null;
 
     function __construct($args)
     {

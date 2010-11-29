@@ -19,22 +19,20 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     /**
      * Object requested for move editing
      *
-     * @access private
      * @var mixed Object for move editing
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Handler for folder move. Checks for updating permissions, initializes
      * the move and the content topic itself. Handles also the sent form.
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_move($handler_id, $args, &$data)
+    public function _handler_move($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (! $this->_object)
@@ -147,9 +145,8 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_move($handler_id, &$data)
+    public function _show_move($handler_id, &$data)
     {
         // Bind object details to the request data
         $data['object'] =& $this->_object;

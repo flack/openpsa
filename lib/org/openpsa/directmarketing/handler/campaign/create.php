@@ -18,41 +18,36 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
      * The campaign which has been created
      *
      * @var org_openpsa_directmarketing_campaign
-     * @access private
      */
-    var $_campaign = null;
+    private $_campaign = null;
 
     /**
      * The Controller of the campaign used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The schema to use for the new campaign.
      *
      * @var string
-     * @access private
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * The defaults to use for the new campaign.
      *
      * @var array
-     * @access private
      */
-    var $_defaults = array();
+    private $_defaults = array();
 
     /**
      * Simple helper which references all important members to the request data listing

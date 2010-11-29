@@ -62,17 +62,15 @@ class midcom_services_auth
      * Internal cache of all loaded groups, indexed by their identifiers.
      *
      * @var Array
-     * @access private
      */
-    var $_group_cache = Array();
+    private $_group_cache = Array();
 
     /**
      * Internal cache of all loaded users, indexed by their identifiers.
      *
      * @var Array
-     * @access private
      */
-    var $_user_cache = Array();
+    private $_user_cache = Array();
 
     /**
      * This flag indicates if sudo mode is active during execution. This will only be the
@@ -89,27 +87,24 @@ class midcom_services_auth
      * for an enabled sudo mode.
      *
      * @var int
-     * @access private
      * @see request_sudo()
      * @see drop_sudo()
      */
-    var $_component_sudo = 0;
+    private $_component_sudo = 0;
 
     /**
      * A reference to the authentication backend we should use by default.
      *
      * @var midcom_services_auth_backend
-     * @access private
      */
-    var $_auth_backend = null;
+    private $_auth_backend = null;
 
     /**
      * A reference to the authentication frontend we should use by default.
      *
      * @var midcom_services_auth_frontend
-     * @access private
      */
-    var $_auth_frontend = null;
+    private $_auth_frontend = null;
 
     /**
      * Flag, which is set to true if the system encountered any new login credentials
@@ -150,9 +145,8 @@ class midcom_services_auth
      * ready. If yes, it processes the login accordingly.
      *
      * @return boolean Returns true, if a new login session was created, false if no credentials were found.
-     * @access private
      */
-    function _check_for_new_login_session()
+    private function _check_for_new_login_session()
     {
         $credentials = $this->_auth_frontend->read_authentication_data();
         if (! $credentials)
@@ -259,10 +253,8 @@ class midcom_services_auth
     /**
      * Internal startup helper, checks the currently running authentication backend for
      * a running login session.
-     *
-     * @access private
      */
-    function _check_for_active_login_session()
+    private function _check_for_active_login_session()
     {
         if (! $this->_auth_backend->read_login_session())
         {
@@ -281,10 +273,8 @@ class midcom_services_auth
     /**
      * Internal startup helper, synchronizes the authenticated user with the Midgard Authentication
      * for startup. This will be overridden by MidCOM Auth, but is there for compatibility reasons.
-     *
-     * @access private
      */
-    function _initialize_user_from_midgard()
+    private function _initialize_user_from_midgard()
     {
         if (midcom_connection::get_user())
         {
@@ -299,10 +289,8 @@ class midcom_services_auth
 
     /**
      * Internal startup helper, loads all configured authentication drivers.
-     *
-     * @access private
      */
-    function _prepare_authentication_drivers()
+    private function _prepare_authentication_drivers()
     {
         $classname = "midcom_services_auth_backend_{$GLOBALS['midcom_config']['auth_backend']}";
         $this->_auth_backend = new $classname($this);
@@ -482,6 +470,11 @@ class midcom_services_auth
         {
             debug_add('Requested to leave SUDO mode, but sudo was already disabled. Ignoring request.', MIDCOM_LOG_INFO);
         }
+    }
+
+    public function is_component_sudo()
+    {
+        return ($this->_component_sudo > 0);
     }
 
     /**
@@ -1168,11 +1161,8 @@ class midcom_services_auth
             _midcom_stop_request();
         }
 
-        // Drop any output buffer first, hack this into the content cache.
-        while (@ob_end_clean())
-            // Empty Loop
-        ;
-        $_MIDCOM->cache->content->_obrunning = false;
+        // Drop any output buffer first.
+        $_MIDCOM->cache->content->disable_ob();
 
         $this->_generate_http_response();
 
@@ -1270,14 +1260,12 @@ class midcom_services_auth
      */
     function show_login_page()
     {
-        // Drop any output buffer first, hack this into the content cache.
-        while (@ob_end_clean())
-            // Empty Loop
-        ;
+        // Drop any output buffer first
+        $_MIDCOM->cache->content->disable_ob();
 
         $this->_generate_http_response();
 
-        $_MIDCOM->cache->content->_obrunning = false;
+
         $_MIDCOM->cache->content->no_cache();
 
         $title = $_MIDCOM->i18n->get_string('login', 'midcom');

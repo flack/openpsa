@@ -32,10 +32,8 @@ class midcom_helper_datamanager2_type_table extends midcom_helper_datamanager2_t
     /**
      * The name of or reference to the callback object to be used.
      * @var string
-     * @access private
      */
-    var $callback = null;
-
+    private $callback = null;
 
     /**
      * A list of rows for the table

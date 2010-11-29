@@ -18,9 +18,8 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      * The product to display
      *
      * @var midcom_db_group
-     * @access private
      */
-    var $_group = null;
+    private $_group = null;
 
     /**
      * Simple helper which references all important members to the request data listing

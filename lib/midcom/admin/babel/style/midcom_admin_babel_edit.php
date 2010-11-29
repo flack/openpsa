@@ -2,7 +2,7 @@
 $prefix = $data['plugin_anchorprefix'];
 
 // available languages
-$languages = $data['l10n']->_language_db;
+$languages = $data['l10n']->get_languages();
 // available compoments
 
 $components = array_keys($_MIDCOM->componentloader->manifests);

@@ -101,26 +101,23 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      * The raw schema array as read by the system. This is a reference
      * into the schema database.
      *
-     * @access private
      * @var Array
      */
-    var $_raw_schema = null;
+    private $_raw_schema = null;
 
     /**
      * The raw schema database as read by the system.
      *
-     * @access private
      * @var Array
      */
-    var $_raw_schemadb = null;
+    private $_raw_schemadb = null;
 
     /**
      * The schema database path as read by the system.
      *
-     * @access private
      * @var Array
      */
-    var $_schemadb_path = null;
+    private $_schemadb_path = null;
 
     /**
      * A simple array holding the fields in the order they should be rendered identified
@@ -348,11 +345,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     /**
      * Load the schemadb contents
      *
-     * @access private
      * @param mixed $schemadb    Path of the schemadb or raw schema array
      * @return array             Containing schemadb definitions
      */
-    function _load_schemadb_contents($schemadb)
+    private function _load_schemadb_contents($schemadb)
     {
         if (is_string($schemadb))
         {

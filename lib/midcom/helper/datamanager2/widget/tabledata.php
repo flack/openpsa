@@ -21,10 +21,9 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     /**
      * Row count keeps track on the amount of rows already written
      *
-     * @access private
      * @var Integer
      */
-    var $_row_count = 0;
+    private $_row_count = 0;
 
     /**
      * Separate widgets for each column
@@ -34,10 +33,9 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     /**
      * Initialization script placeholder. Not yet needed.
      *
-     * @access private
      * @return boolean Indicating success
      */
-    function _on_initialize()
+    private function _on_initialize()
     {
         // Enable jQuery. This will not work without
         $_MIDCOM->enable_jquery();
@@ -186,10 +184,8 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
 
     /**
      * Add each row
-     *
-     * @access private
      */
-    function _add_rows()
+    private function _add_rows()
     {
         $html = '';
         $rows = $this->_get_rows();
@@ -234,10 +230,9 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     /**
      * Add columns to the widget
      *
-     * @access private
      * @param String $row     Name of the row
      */
-    function _add_columns($row)
+    private function _add_columns($row)
     {
         $html = '';
 
@@ -269,10 +264,8 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
 
     /**
      * Draw the column widget
-     *
-     * @access private
      */
-    function _draw_column_widget($column, $cell_value, $row)
+    private function _draw_column_widget($column, $cell_value, $row)
     {
         switch($this->column_widget[$column]['type'])
         {
@@ -316,10 +309,9 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     /**
      * Get the details on what rows should be printed
      *
-     * @access private
      * @return Array          Row details
      */
-    function _get_rows()
+    private function _get_rows()
     {
         if (is_array($this->_type->rows))
         {

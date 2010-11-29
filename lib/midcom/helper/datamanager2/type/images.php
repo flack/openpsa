@@ -141,18 +141,16 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
     /**
      * The current image identifier to use when operating on images.
      *
-     * @access private
      * @var string
      */
-    var $_identifier = null;
+    private $_identifier = null;
 
     /**
      * The current image title to use when operating on images.
      *
-     * @access private
      * @var string
      */
-    var $_title = null;
+    private $_title = null;
 
     /**
      * Titles of each image, keyed by the MD5 identifier

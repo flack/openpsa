@@ -77,66 +77,57 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * An array containing all the events.
-     *
-     * @access private
      */
-    var $_events = array ();
+    private $_events = array ();
 
     /**
      * Timestamp for the beginning of the calendar view
      *
-     * @access private
      * @var integer
      */
-    var $_calendar_start = 0;
+    private  $_calendar_start = 0;
 
     /**
      * Timestamp for the end of the calendar view
      *
-     * @access private
      * @var integer
      */
-    var $_calendar_end = 0;
+    private $_calendar_end = 0;
 
     /**
      * Timestamp for the beginning of the currently viewed month
      *
-     * @access private
      * @var integer
      */
-    var $_month_start = 0;
+    private $_month_start = 0;
 
     /**
      * Timestamp for the end of the currently viewed month
      *
-     * @access private
      * @var integer
      */
-    var $_month_end = 0;
+    private $_month_end = 0;
 
     /**
      * Timestamp for the first Monday in the calendar, regardless of it belonging to the scope or not
      *
-     * @access private
      * @var integer
      */
-    var $_first_monday = 0;
+    private $_first_monday = 0;
 
     /**
      * Timestamp for the last Sunday in the calendar, regardless of it belonging to the scope or not
      *
-     * @access private
      * @var integer
      */
-    var $_last_sunday = 0;
+    private $_last_sunday = 0;
 
     /**
      * Timestamp for traversing the month.
      *
-     * @access private
      * @var integer
      */
-    var $_parser = 0;
+    private $_parser = 0;
     
     /**
      * Request data for storing output variables
@@ -187,10 +178,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     
     /**
      * Load the DM2 instance for the events
-     * 
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         if (!$this->schemadb)
         {
@@ -209,10 +198,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * Draws the month view
-     *
-     * @access private
      */
-    function _draw_month($month = FALSE, $year = FALSE)
+    private function _draw_month($month = FALSE, $year = FALSE)
     {
         $this->_request_data['calendar_widget'] =& $this;
         $this->_draw_month_header();
@@ -222,10 +209,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * Draw the month headers
-     *
-     * @access private
      */
-    function _draw_month_header()
+    private function _draw_month_header()
     {
         // Set the variables
         $this->_request_data['year'] = $this->_year;
@@ -244,10 +229,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * Ends the month table
-     *
-     * @access private
      */
-    function _draw_month_footer()
+    private function _draw_month_footer()
     {
         midcom_show_style('calendarwidget-month-footer');
     }
@@ -255,10 +238,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     /**
      * Draws the month body, starting from the first Monday and ending to the last Sunday
      * of the calendar view.
-     *
-     * @access private
      */
-    function _draw_month_body()
+    private function _draw_month_body()
     {
         $this->_parser = $this->_first_monday;
 
@@ -270,10 +251,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * Draws one week at a time
-     *
-     * @access private
      */
-    function _draw_week()
+    private function _draw_week()
     {
         $this->_request_data['week_start'] = $this->_parser;
         midcom_show_style('calendarwidget-week-start');
@@ -292,10 +271,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * Draws one day
-     *
-     * @access private
      */
-    function _draw_day($timestamp)
+    private function _draw_day($timestamp)
     {
         // Set the daily variables
         $this->_request_data['day'] = $timestamp;
@@ -334,10 +311,8 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
 
     /**
      * Draws the details box
-     *
-     * @access private
      */
-    function _show_events($events, $timestamp)
+    private function _show_events($events, $timestamp)
     {
         // Bulletproofing the variable
         if (!is_array($events))

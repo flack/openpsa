@@ -29,19 +29,16 @@ class midcom_services_indexer_backend_xmlshell implements midcom_services_indexe
     /**
      * The request to execute.
      *
-     * @access private
      * @var midcom_services_indexer_XMLComm_RequestWriter
      */
-    var $_request = null;
+    private $_request = null;
 
     /**
      * The response received.
      *
-     * @access private
      * @var midcom_services_indexer_XMLComm_ResponseParser
      */
-    var $_response = null;
-
+    private $_response = null;
 
     /**
      * Adds a document to the index.

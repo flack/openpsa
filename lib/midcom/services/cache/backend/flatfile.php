@@ -25,10 +25,9 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
     /**
      * The full directory filename.
      *
-     * @access private
      * @var string
      */
-    var $_dirname = null;
+    private $_dirname = null;
 
     /**
      * This handler completes the configuration.

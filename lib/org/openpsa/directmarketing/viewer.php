@@ -16,7 +16,7 @@
  */
 class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_request
 {
-    function _on_initialize()
+    public function _on_initialize()
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();

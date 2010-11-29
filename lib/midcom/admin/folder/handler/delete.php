@@ -25,13 +25,12 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     /**
      * Handler for folder deletion.
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, $args, &$data)
     {
         // Symlink support requires that we use actual URL topic object here
         if ($urltopic = end($_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS)))
@@ -88,10 +87,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
     /**
      * Removes the folder from indexer if applicable.
-     *
-     * @access private
      */
-    function _delete_topic_update_index()
+    private function _delete_topic_update_index()
     {
         if ($GLOBALS['midcom_config']['indexer_backend'] === false)
         {
@@ -167,10 +164,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
 
     /**
      * Deletes the folder and _midcom_db_article_ objects stored in it.
-     *
-     * @access private
      */
-    function _process_delete_form()
+    private function _process_delete_form()
     {
         if ($GLOBALS['midcom_config']['symlinks'])
         {
@@ -246,9 +241,8 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         if (!empty($this->_topic->symlink))
         {

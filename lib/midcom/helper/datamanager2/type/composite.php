@@ -156,25 +156,22 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
      * The schema database in use for the child elements
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Array of Datamanager 2 controllers for child object display and management
      *
      * @var array
-     * @access private
      */
-    var $_controllers = Array();
+    private $_controllers = Array();
 
     /**
      * Array of Datamanager 2 controllers for child object creation
      *
      * @var array
-     * @access private
      */
-    var $_creation_controllers = Array();
+    private $_creation_controllers = Array();
 
     /**
      * All objects covered by this field. The array contains Midgard objects indexed by

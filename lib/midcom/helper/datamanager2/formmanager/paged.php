@@ -35,9 +35,8 @@ class midcom_helper_datamanager2_formmanager_paged extends midcom_helper_dataman
      * ...
      *
      * @return boolean Indicating success
-     * @access private
      */
-    function _load_widgets()
+    private function _load_widgets()
     {
         $this->widgets = Array();
 

@@ -93,17 +93,15 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      * id of the input element
      *
      * @var String
-     * @access private
      */
-    var $_element_id = "chooser_widget";
+    private $_element_id = "chooser_widget";
 
     /**
      * Array of options that are passed to javascript widget
      *
      * @var Array
-     * @access private
      */
-    var $_js_widget_options = array();
+    private $_js_widget_options = array();
 
     var $_input_element = null;
 
@@ -1093,10 +1091,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
     /**
      * Internal helper for parsing the $_REQUEST data for including the elements requested via GET or POST
      *
-     * @access private
      * @return Array
      */
-    function _get_request_elements()
+    private function _get_request_elements()
     {
         $results = array();
 

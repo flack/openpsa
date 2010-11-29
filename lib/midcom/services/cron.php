@@ -100,28 +100,25 @@ class midcom_services_cron
      * these keys.
      *
      * @var array
-     * @access private
      */
-    var $_jobs = Array();
+    private $_jobs = Array();
 
     /**
      * The recurrence rule to use, one of the MIDCOM_CRON_* constants (MIDCOM_CRON_MINUTE, MIDCOM_CRON_HOUR, MIDCOM_CRON_DAY).
      * Set in the constructor
      *
      * @var int
-     * @access private
      */
-    var $_recurrence = MIDCOM_CRON_MINUTE;
+    private $_recurrence = MIDCOM_CRON_MINUTE;
 
     /**
      * Jobs specific to the MidCOM core not covered by any component. (Services
      * use this facility for example.)
      *
      * @var Array
-     * @access private
      * @todo Factor this out into its own configuration file.
      */
-    var $_midcom_jobs = Array
+    private $_midcom_jobs = Array
     (
         Array
         (

@@ -71,33 +71,29 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
      * The passphrase currently in use.
      *
      * @var string
-     * @access private
      */
-    var $_passphrase = null;
+    private $_passphrase = null;
 
     /**
      * The session key in use for this Formmanager instance.
      *
      * @var string
-     * @access private
      */
-    var $_session_key = null;
+    private $_session_key = null;
 
     /**
      * The input textbox used which needs to be frozen when operating on the captcha.
      *
      * @var HTML_QuickForm_Element
-     * @access private
      */
-    var $_element = null;
+    private $_element = null;
 
     /**
      * The session namespace to use.
      *
      * @var string
-     * @access private
      */
-    var $_session_domain = 'midcom_helper_datamanager2_widget_captcha';
+    private $_session_domain = 'midcom_helper_datamanager2_widget_captcha';
 
     /**
      * The initialization event handler creates the captcha passphrase (if necessary).

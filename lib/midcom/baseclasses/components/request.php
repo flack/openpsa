@@ -610,7 +610,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $this->errcode = MIDCOM_ERRCRIT;
         }
 
-        $handler->populate_breadcrumb_line();
+        if (is_a($handler, 'midcom_baseclasses_components_handler'))
+        {
+            $handler->populate_breadcrumb_line();
+        }
 
         // Check whether this request should not be cached by default:
         if ($this->_handler['no_cache'] == true)

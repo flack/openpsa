@@ -33,18 +33,16 @@ class midcom_services_indexer
     /**
      * The backend indexer implementation
      *
-     * @access private
      * @var midcom_services_indexer_backend
      */
-    var $_backend = null;
+    private $_backend = null;
 
     /**
      * Flag for disabled indexing, set by the constructor.
      *
-     * @access private
      * @var boolean
      */
-    var $_disabled = false;
+    private $_disabled = false;
 
     /**
      * Initialization

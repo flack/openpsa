@@ -172,9 +172,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
      * Only objects matching the member_limit_regex will be memorized.
      *
      * @var Array
-     * @access private
      */
-    var $_membership_objects = null;
+    private $_membership_objects = null;
 
     /**
      * Should the sorting feature be enabled. This will affect the way chooser widget will act
@@ -263,10 +262,8 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
     /**
      * Synchronizes the member list regex with the given LIKE query.
-     *
-     * @access private
      */
-    function _update_member_limit_regex()
+    private function _update_member_limit_regex()
     {
         if ($this->member_limit_like)
         {

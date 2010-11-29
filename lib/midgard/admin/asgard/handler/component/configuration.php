@@ -244,11 +244,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * Show list of the style elements for the currently edited topic component
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -601,11 +600,10 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
     /**
      * Show list of the style elements for the currently edited topic component
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_component_configuration_edit');

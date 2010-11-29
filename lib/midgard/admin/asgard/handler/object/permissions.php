@@ -18,73 +18,64 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
      * The object which permissions we handle
      *
      * @var mixed
-     * @access private
      */
-    var $object = null;
+    private $object = null;
 
     /**
      * The Datamanager of the object
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the object used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Privileges we're managing here
      *
      * @var Array
-     * @access private
      */
-    var $_privileges = array();
+    private $_privileges = array();
 
     /**
      * Table header
      *
      * @var String
-     * @access private
      */
-    var $_header = '';
+    private $_header = '';
 
     /**
      * Available row labels
      *
      * @var Array
-     * @access private
      */
-    var $_row_labels = array();
+    private $_row_labels = array();
 
     /**
      * Rendered row labels
      *
      * @var Array
-     * @access private
      */
-    var $_rendered_row_labels = array();
+    private $_rendered_row_labels = array();
 
     /**
      * Rendered row actions
      *
      * @var Array
-     * @access private
      */
-    var $_rendered_row_actions = array();
+    private $_rendered_row_actions = array();
 
     /**
      * Simple default constructor.

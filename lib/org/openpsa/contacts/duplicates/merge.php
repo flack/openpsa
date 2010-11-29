@@ -99,9 +99,8 @@ class org_openpsa_contacts_duplicates_merge
      * @param object Object that data will be merged to
      * @param string merge mode
      * @return boolean Indicating success/failure
-     * @access private
      */
-    function _call_component_merge($component, &$obj1, &$obj2, $merge_mode)
+    private function _call_component_merge($component, &$obj1, &$obj2, $merge_mode)
     {
         //Make sure we can load and access the component
         if (!$_MIDCOM->componentloader->is_loaded($component))

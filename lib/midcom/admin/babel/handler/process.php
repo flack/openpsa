@@ -58,8 +58,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     private function _update_breadcrumb_line($handler_id)
     {
         $this->add_breadcrumb('__mfa/asgard_midcom.admin.babel/', $this->_l10n->get('midcom.admin.babel'));
-
-        $lang_translated = $this->_l10n->get($this->_l10n->_language_db[$this->_lang]['enname']);
+        $lang_translated = $this->_l10n->get($this->_l10n->get_language_name($this->_lang));
 
         switch ($handler_id)
         {
@@ -81,7 +80,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      */
     function validate_language($lang)
     {
-        if (array_key_exists($lang, $this->_l10n->_language_db))
+        if (array_key_exists($lang, $this->_l10n->get_languages()))
         {
             return true;
         }

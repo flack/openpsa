@@ -69,10 +69,8 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
 
     /**
      * Internal helper, loads the controller for the current group. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
 
@@ -104,13 +102,12 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
     /**
      * Handler method for listing style elements for the currently used component topic
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_group = new midcom_db_group($args[0]);
         if (   !$this->_group
@@ -171,11 +168,10 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
     /**
      * Show list of the style elements for the currently edited topic component
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

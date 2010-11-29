@@ -49,9 +49,8 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * The name of the hidden field used to remember the temporary object id.
      *
      * @var string
-     * @access private
      */
-    var $_tmpid_fieldname = '__midcom_helper_datamanager2_controller_create_tmpid';
+    private $_tmpid_fieldname = '__midcom_helper_datamanager2_controller_create_tmpid';
 
     /**
      * Unique identifier form a creation instance, used mainly in AJAX mode
@@ -70,10 +69,9 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     /**
      * Editable status of the object
      *
-     * @access private
      * @var boolean
      */
-    var $_editable = null;
+    private $_editable = null;
 
     /**
      * Options to pass for the AJAX controller

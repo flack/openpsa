@@ -22,10 +22,9 @@ class midcom_services_cache_backend_sqlite extends midcom_services_cache_backend
     /**
      * The full directory filename.
      *
-     * @access private
      * @var string
      */
-    var $_db = null;
+    private $_db = null;
 
     /**
      * Sanitized version of database table name

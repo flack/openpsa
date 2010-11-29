@@ -70,17 +70,15 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
      * id of the input element
      *
      * @var String
-     * @access private
      */
-    var $_input_element_id = "tags-widget";
+    private $_input_element_id = "tags-widget";
 
     /**
      * Array of options that are passed to javascript widget
      *
      * @var Array
-     * @access private
      */
-    var $_js_widget_options = array();
+    private $_js_widget_options = array();
 
     var $_input_element = null;
 

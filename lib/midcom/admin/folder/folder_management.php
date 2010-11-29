@@ -23,10 +23,8 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
 
     /**
      * Initializes the context data and toolbar objects
-     *
-     * @access private
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         $config = $this->_request_data['plugin_config'];
         if ($config)

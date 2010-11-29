@@ -56,9 +56,8 @@ class midcom_helper_datamanager2_widget_recaptcha extends midcom_helper_datamana
      * The input textbox used which needs to be frozen when operating on the captcha.
      *
      * @var HTML_QuickForm_Element
-     * @access private
      */
-    var $_element = null;
+    private $_element = null;
 
     /**
      * Public and private keys used by recaptcha

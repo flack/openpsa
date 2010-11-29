@@ -67,8 +67,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 {
     /**#@+
      * Internal runtime state variable.
-     *
-     * @access private
      */
 
     /**
@@ -77,7 +75,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var boolean
      */
-    var $_no_cache = false;
+    private $_no_cache = false;
 
     /**
      * Page expiration in seconds. If NULL (unset), the page does
@@ -85,14 +83,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var int
      */
-    var $_expires = null;
+    private $_expires = null;
 
     /**
      * The time of the last modification, set during auto-header-completion.
      *
      * @var int
      */
-    var $_last_modified = 0;
+    private $_last_modified = 0;
 
     /**
      * An array storing all HTTP headers registered through register_sent_header().
@@ -100,7 +98,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var array
      */
-    var $_sent_headers = Array();
+    private $_sent_headers = Array();
 
     /**
      * The MIME content-type of the current request. It defaults to text/html, but
@@ -109,14 +107,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var string
      */
-    var $_content_type = 'text/html';
+    private $_content_type = 'text/html';
 
     /**
      * Internal flag indicating whether the output buffering is active.
      *
      * @var boolean
      */
-    var $_obrunning = false;
+    private $_obrunning = false;
 
     /**
      * This flag is true if the live mode has been activated. This prevents the
@@ -124,14 +122,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var boolean
      */
-    var $_live_mode = false;
+    private $_live_mode = false;
 
     /**#@-*/
 
     /**#@+
      * Module configuration variable.
-     *
-     * @access private
      */
 
     /**
@@ -141,7 +137,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var boolean
      */
-    var $_uncached = false;
+    private $_uncached = false;
 
     /**
      * controls cache headers strategy
@@ -151,7 +147,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var string
      */
-    var $_headers_strategy = 'revalidate';
+    private $_headers_strategy = 'revalidate';
 
     /**
      * controls cache headers strategy for authenticated users, needed because some proxies store cookies too
@@ -160,7 +156,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * @see $_headers_strategy
      * @var string
      */
-    var $_headers_strategy_authenticated = 'private';
+    private $_headers_strategy_authenticated = 'private';
 
     /**
      * Default lifetime of page for public/private headers strategy
@@ -168,7 +164,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * @var int
      */
-    var $_default_lifetime = 0;
+    private $_default_lifetime = 0;
 
     /**
      * Default lifetime of page for public/private headers strategy for authenticated users
@@ -176,7 +172,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * @see $_default_lifetime
      * @var int
      */
-    var $_default_lifetime_authenticated = 0;
+    private $_default_lifetime_authenticated = 0;
 
     /**#@-*/
 
@@ -445,10 +441,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      *
      * Note, that HTTP GET is <b>not</b> checked this way, as GET requests can be
      * safely distinguished by their URL.
-     *
-     * @access private
      */
-    function _check_hit()
+    private function _check_hit()
     {
         foreach (midcom_connection::get_url('argv') as $arg)
         {
@@ -734,6 +728,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             }
             $this->_obrunning = false;
         }
+    }
+
+    public function disable_ob()
+    {
+        while (@ob_end_clean())
+            // Empty Loop
+        ;
+        $this->_obrunning = false;
     }
 
     /**
@@ -1171,9 +1173,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * go unnoticed otherwise), the Cache-Control header max-age=0 is added automatically.
      *
      * @param Array &$cache_data The current cache data that will be written to the database.
-     * @access private
      */
-    function _complete_sent_headers(& $cache_data)
+    private function _complete_sent_headers(& $cache_data)
     {
         // Detected headers flags
         $ranges = false;

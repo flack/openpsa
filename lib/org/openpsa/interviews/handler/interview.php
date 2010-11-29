@@ -18,33 +18,29 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      * The member we're interviewing
      *
      * @var org_openpsa_directmarketing_campaign_member
-     * @access private
      */
-    var $_member = null;
+    private $_member = null;
 
     /**
      * The Datamanager of the member to display
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the member used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Loads and prepares the schema database.
@@ -62,10 +58,8 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
 
     /**
      * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -80,10 +74,8 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
 
     /**
      * Internal helper, loads the controller for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');

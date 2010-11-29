@@ -18,17 +18,15 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      * The deliverable to display
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
-     * @access private
      */
-    var $_deliverable = null;
+    private $_deliverable = null;
 
     /**
      * The salesproject of the deliverable
      *
      * @var org_openpsa_sales_salesproject_dba
-     * @access private
      */
-    var $_salesproject = null;
+    private $_salesproject = null;
 
     /**
      * Simple helper which references all important members to the request data listing

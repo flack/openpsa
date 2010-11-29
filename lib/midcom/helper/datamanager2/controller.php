@@ -213,18 +213,13 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
      *
      * On any error (class not found etc.) the factory method will call generate_error.
      *
-     * <b>This function must be called statically.</b>
-     *
      * @param string $type The type of the controller (the file name from the controller directory).
      * @return midcom_helper_datamanager2_controller A reference to the newly created controller instance.
-     * @static
      */
-    function create($type)
+    public static function create($type)
     {
-        $filename = MIDCOM_ROOT . "/midcom/helper/datamanager2/controller/{$type}.php";
         $classname = "midcom_helper_datamanager2_controller_{$type}";
 
-        require_once($filename);
         return new $classname();
     }
 

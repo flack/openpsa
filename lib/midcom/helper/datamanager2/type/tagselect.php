@@ -74,9 +74,8 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
     /**
      *
      * @var Array
-     * @access private
      */
-    var $_data_template = array();
+    private $_data_template = array();
 
     /**
      * This event handler is called after construction, so passing references to $this to the

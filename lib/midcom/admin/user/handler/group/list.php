@@ -17,10 +17,9 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     /**
      * Currently viewed group
      *
-     * @access private
      * @var midcom_db_group
      */
-    var $_group = null;
+    private $_group = null;
 
     /**
      * Simple constructor, call for the parent class contructor
@@ -186,11 +185,10 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     /**
      * Internal helper for showing the groups recursively
      *
-     * @access private
      * @param int $id
      * @param array &$data
      */
-    function list_groups($id, &$data, $move = false)
+    private function list_groups($id, &$data, $move = false)
     {
         $mc = midcom_db_group::new_collector('owner', (int) $id);
         $mc->add_value_property('name');

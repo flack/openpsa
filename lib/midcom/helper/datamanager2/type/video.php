@@ -129,56 +129,50 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
     /**
      * The original filename of the uploaded file.
      *
-     * @access private
      * @var string
      */
-    var $_filename = null;
+    private $_filename = null;
     var $_filename_video = null;
 
     /**
      * The name of the original temporary uploaded file (which will already be converted
      * to a Web-Aware format).
      *
-     * @access private
      * @var string
      */
-    var $_original_tmpname = null;
+    private $_original_tmpname = null;
     var $_original_tmpname_video = null;
 
     /**
      * The current working file.
      *
-     * @access private
      * @var string
      */
-    var $_current_tmpname = null;
+    private $_current_tmpname = null;
     var $_current_tmpname_video = null;
 
     /**
      * The image-filter instance to use.
      *
-     * @access private
      * @var midcom_helper_imagefilter
      */
-    var $_filter = null;
+    private $_filter = null;
 
     /**
      * The target mimetype used after automatic conversion for all
      * generated images.
      *
-     * @access private
      * @var string
      */
-    var $_target_mimetype = null;
+    private $_target_mimetype = null;
     var $_target_mimetype_video = null;
 
     /**
      * The original mimetype of the uploaded file.
      *
-     * @access private
      * @var string
      */
-    var $_original_mimetype = null;
+    private $_original_mimetype = null;
     var $_original_mimetype_video = null;
 
     /**
@@ -188,10 +182,9 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      * be deleted. This keeps attachment GUIDs stable during updates but also
      * adds resilience against against changed type configuration.
      *
-     * @access private
      * @var Array
      */
-    var $_pending_attachments = Array();
+    private $_pending_attachments = Array();
     var $_pending_attachments_video = Array();
 
     /**
@@ -956,10 +949,9 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      * the old file must be unlinked by the callee.) The filter instance will automatically
      * be set to the new file.
      *
-     * @access private
      * @return boolean Indicating success.
      */
-    function _create_working_copy()
+    private function _create_working_copy()
     {
         $this->_current_tmpname = tempnam($GLOBALS['midcom_config']['midcom_tempdir'], "midcom_helper_datamanager2_type_video");
         // TODO: error handling

@@ -20,9 +20,8 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      * The salesproject to display
      *
      * @var org_openpsa_sales_salesproject_dba
-     * @access private
      */
-    var $_salesproject = null;
+    private $_salesproject = null;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -158,7 +157,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
     function _show_view($handler_id, &$data)
     {
         // For AJAX handling it is the controller that renders everything
-        $data['view_salesproject'] = $this->_request_data['controller']->get_content_html();
+        $data['view_salesproject'] = $data['controller']->get_content_html();
         midcom_show_style('show-salesproject');
 
         if (count($data['products']) > 0)

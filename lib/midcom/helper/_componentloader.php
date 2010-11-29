@@ -79,9 +79,8 @@ class midcom_helper__componentloader
      * components. Its elements are used as keys for the cache storage.
      *
      * @var Array
-     * @access private
      */
-    var $_loaded = Array();
+    private $_loaded = Array();
 
     /**
      * This array contains a list of components that were tried to be loaded.
@@ -93,18 +92,16 @@ class midcom_helper__componentloader
      * either false or true as per the result of the load call.
      *
      * @var Array
-     * @access private
      */
-    var $_tried_to_load = Array();
+    private $_tried_to_load = Array();
 
     /**
      * This is a part of the component cache. It stores the properties
      * of the already loaded components.
      *
      * @var Array
-     * @access private
      */
-    var $_component_properties = Array();
+    private $_component_properties = Array();
 
     /**
      * This is a part of the component cache. It stores references to
@@ -112,10 +109,9 @@ class midcom_helper__componentloader
      * their MidCOM Path.
      *
      * @var Array
-     * @access private
      * @see midcom_baseclasses_components_interface
      */
-    var $_interface_classes = Array();
+    private $_interface_classes = Array();
 
     /**
      * This lists all available components in the systems in the form of their manifests,
@@ -136,9 +132,8 @@ class midcom_helper__componentloader
      * elements are the types involved (so a single count means all objects).
      *
      * @var array
-     * @access private
      */
-    var $_watches = array
+    private $_watches = array
     (
         MIDCOM_OPERATION_DBA_CREATE => Array(),
         MIDCOM_OPERATION_DBA_UPDATE => Array(),
@@ -154,9 +149,8 @@ class midcom_helper__componentloader
      * subsequent keys.
      *
      * @var array
-     * @access private
      */
-    var $_watch_notifications = array
+    private $_watch_notifications = array
     (
         MIDCOM_OPERATION_DBA_CREATE => Array(),
         MIDCOM_OPERATION_DBA_UPDATE => Array(),
@@ -198,9 +192,8 @@ class midcom_helper__componentloader
      *
      * @param string $path    The component to load.
      * @return boolean Indicating success.
-     * @access private
      */
-    function _load($path)
+    private function _load($path)
     {
         $GLOBALS['midcom_errstr'] = '';
 

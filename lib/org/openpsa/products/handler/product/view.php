@@ -18,9 +18,8 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * The product to display
      *
      * @var midcom_db_product
-     * @access private
      */
-    var $_product = null;
+    private $_product = null;
 
     /**
      * Simple helper which references all important members to the request data listing

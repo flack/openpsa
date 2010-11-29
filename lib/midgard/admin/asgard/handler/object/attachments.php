@@ -18,25 +18,22 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * Current loaded object
      *
      * @var MidCOM DBA object
-     * @access private
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Files in the current object
      *
      * @var array
-     * @access private
      */
-    var $_files = array();
+    private $_files = array();
 
     /**
      * Current file being edited
      *
      * @var midcom_db_attachment
-     * @access private
      */
-    var $_file = null;
+    private $_file = null;
 
     /**
      * Simple constructor
@@ -260,13 +257,12 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Handler method for creating new attachments
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (   !$this->_object
@@ -300,11 +296,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Show the editing view for the requested style
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -397,11 +392,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Show the editing view for the requested style
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -476,11 +470,10 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     /**
      * Show the delete request
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

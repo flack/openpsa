@@ -19,25 +19,22 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      * The Controller of the directory used for creating or editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The schema to use for the new directory.
      *
      * @var string
-     * @access private
      */
-    var $_schema = 'default';
+    private $_schema = 'default';
 
     function _on_initialize()
     {

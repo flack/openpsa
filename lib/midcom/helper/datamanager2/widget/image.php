@@ -33,9 +33,8 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * The QF upload form element, used for processing.
      *
      * @var HTML_QuickForm_file
-     * @access private
      */
-    var $_upload_element = null;
+    protected $_upload_element = null;
 
     /**
      * Controls title processing.
@@ -102,10 +101,8 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     /**
      * Switches the Element Group from a replace/delete constellation to a
      * simple upload form.
-     *
-     * @access private
      */
-    function _cast_formgroup_to_upload()
+    private function _cast_formgroup_to_upload()
     {
         $new_elements = Array();
         $this->_create_upload_elements($new_elements);
@@ -117,10 +114,8 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     /**
      * Switches the Element Group from a simple upload form to a
      * replace/delete constellation.
-     *
-     * @access private
      */
-    function _cast_formgroup_to_replacedelete()
+    private function _cast_formgroup_to_replacedelete()
     {
         $new_elements = Array();
         $this->_create_replace_elements($new_elements);
@@ -135,7 +130,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * @param Array &$elements The array where the references to the created elements should
      *     be added.
      */
-    function _create_upload_elements(&$elements)
+    private function _create_upload_elements(&$elements)
     {
         // Get preview image size
         if ($this->_type->auto_thumbnail)
@@ -174,6 +169,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
 
         $elements[] = $this->_upload_element;
+
         $attributes = Array
         (
             'id'    => "{$this->_namespace}{$this->name}_upload_button",

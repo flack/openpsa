@@ -62,18 +62,16 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
     /**
      * The group of elements forming our widget.
      *
-     * @access private
      * @var HTML_QuickForm_Group
      */
-    var $_group = null;
+    private $_group = null;
 
     /**
      * The list of elements added to the widget, indexed by their element name.
      *
      * @var Array
-     * @access private
      */
-    var $_elements = null;
+    private $_elements = null;
 
     /**
      * Should the user be able to set the filename and title on upload?
@@ -92,10 +90,9 @@ class midcom_helper_datamanager2_widget_images extends midcom_helper_datamanager
     /**
      * Sort index or what is the position in the list
      *
-     * @access private
      * @var integer
      */
-    var $_sort_index = 1;
+    private $_sort_index = 1;
 
     /**
      * The initialization event handler post-processes the maxlength setting.
@@ -166,9 +163,8 @@ END;
      * Adds the table header to the widget.
      *
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
-     * @access private
      */
-    function _add_table_header($frozen)
+    private function _add_table_header($frozen)
     {
         if ($frozen)
         {
@@ -207,9 +203,8 @@ END;
      * Adds the new upload row to the bottom of the table.
      *
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
-     * @access private
      */
-    function _add_new_upload_row_old($frozen)
+    private function _add_new_upload_row_old($frozen)
     {
         // Show only a configured amount of new image rows
         if (   $this->max_count
@@ -277,9 +272,8 @@ END;
      * Adds the new upload row to the bottom of the table.
      *
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
-     * @access private
      */
-    function _add_new_upload_row($frozen)
+    private function _add_new_upload_row($frozen)
     {
         // Show only a configured amount of new image rows
         if (   $this->max_count
@@ -324,9 +318,8 @@ END;
      *
      * @param string $identifier The identifier of the image to add.
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
-     * @access private
      */
-    function _add_image_row($identifier, $frozen)
+    private function _add_image_row($identifier, $frozen)
     {
         debug_print_r("\$this->_type->images[{$identifier}]", $this->_type->images[$identifier]);
 
@@ -492,9 +485,8 @@ END;
      * Adds the table footer.
      *
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
-     * @access private
      */
-    function _add_table_footer($frozen)
+    private function _add_table_footer($frozen)
     {
         $html = "    </tbody>\n" .
                 "</table>\n";
@@ -530,9 +522,8 @@ END;
      * initialized with a new, empty array during startup.
      *
      * @param boolean $frozen Set this to true, if you want to skip all elements which cannot be frozen.
-     * @access private
      */
-    function _compute_elements($frozen = false)
+    private function _compute_elements($frozen = false)
     {
         $this->_elements = Array();
 
@@ -558,9 +549,8 @@ END;
      * Checks whether a new file has been uploaded. If yes, it is processed.
      *
      * @param Array $values The values associated with our element group (not the full submit value list).
-     * @access private
      */
-    function _check_new_upload($values)
+    private function _check_new_upload($values)
     {
         if (! array_key_exists('e_new_file', $this->_elements))
         {
@@ -627,9 +617,8 @@ END;
      *
      * @param string $identifier The attachment identifier to check for updates.
      * @param Array $values The values associated with our element group (not the full submit value list).
-     * @access private
      */
-    function _check_for_update($identifier, $values)
+    private function _check_for_update($identifier, $values)
     {
         if (! array_key_exists($identifier, $this->_type->images))
         {

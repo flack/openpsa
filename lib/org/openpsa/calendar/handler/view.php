@@ -17,10 +17,9 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     /**
      * Datamanager2 instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_datamanager
      */
-    var $_datamanager;
+    private $_datamanager;
 
     /**
      * The calendar widget we're working on

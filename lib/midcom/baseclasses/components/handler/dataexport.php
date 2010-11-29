@@ -18,9 +18,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
      * The Datamanager of the objects to export.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * Flag indicating whether or not the GUID should be included in exports.
@@ -52,10 +51,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     /**
      * Internal helper, loads the datamanager for the current type. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager($schemadb)
+    private function _load_datamanager($schemadb)
     {
         if (empty($this->_schema))
         {

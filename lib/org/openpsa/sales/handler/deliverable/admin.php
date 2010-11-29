@@ -20,41 +20,36 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * The deliverable to operate on
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
-     * @access private
      */
-    var $_deliverable = null;
+    private $_deliverable = null;
 
     /**
      * The Datamanager of the deliverable to display (for delete mode)
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the deliverable used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Schema to use for deliverable display
      *
      * @var string
-     * @access private
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -124,10 +119,8 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
     /**
      * Internal helper, loads the datamanager for the current deliverable. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -142,10 +135,8 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
     /**
      * Internal helper, loads the controller for the current deliverable. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_modify_schema();

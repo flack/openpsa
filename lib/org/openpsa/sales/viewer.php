@@ -133,7 +133,7 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
 
         foreach ($tmp as $url => $title)
         {
-            $handler->add_breadcrumb($url, $titl);
+            $handler->add_breadcrumb($url, $title);
         }
     }
 }

@@ -29,10 +29,9 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
     /**
      * Sortable elements
      *
-     * @access private
      * @var Array
      */
-    var $_elements = array();
+    private $_elements = array();
 
     /**
      * Select automatically every object. This is for using the widget only to sort, not to select what
@@ -94,10 +93,8 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
 
     /**
      * Create a sortable list
-     *
-     * @access private
      */
-    function _create_select_element()
+    private function _create_select_element()
     {
         $readonly = $this->_field['readonly'];
 

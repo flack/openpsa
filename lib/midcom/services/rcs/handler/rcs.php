@@ -13,26 +13,24 @@ class no_bergfald_rcs
 {
     /**
      * The guid of the object in question
+     *
      * @var string guid
-     * @access private
      */
-     var $_guid = null;
+    private $_guid = null;
 
     /**
      * Backend object
      *
      * @var midcom_servcies_rcs_backend
-     * @access private
      */
-     var $backend = null;
+    private $backend = null;
 
     /**
      * Pointer to the diff object
      *
-     * @access private
      * @var text_diff
      */
-    var $_diff = null;
+    private $_diff = null;
 
     /**
      * History array of object

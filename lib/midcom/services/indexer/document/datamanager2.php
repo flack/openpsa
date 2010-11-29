@@ -98,18 +98,16 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
      * The datamanager instance of the document we need to index.
      * This is passed by reference through the constructor.
      *
-     * @access private
      * @var midcom_helper_datamanager2_datamanager
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The schema in use. This is referenced into the datamanager2 instance.
      *
-     * @access private
      * @var midcom_helper_datamanager2_schema
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * The constructor initializes the member variables and invokes
@@ -141,10 +139,8 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
      *
      * The title is set to the documents' URL in case that no title is set yet. The title
      * is not added to the content field in that case.
-     *
-     * @access private
      */
-    function _complete_fields()
+    private function _complete_fields()
     {
         $this->content .= "{$this->author}\n{$this->title}\n";
 
@@ -159,7 +155,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
             $this->title = $this->document_url;
         }
     }
-
 
     /**
      * Processes the information contained in the datamanager instance.
@@ -270,11 +265,10 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
      * UNIX timestamp. For all other cases you should use an ISO 8601 representation,
      * which should work as well with Lucene range queries.
      *
-     * @access private
      * @todo Refactor this to use PEAR Date
      * @param string $name The name of the field that should be stored
      */
-    function _add_as_date_field($name)
+    private function _add_as_date_field($name)
     {
         if ($this->_schema->fields[$name]['type'] == 'date')
         {

@@ -36,9 +36,8 @@ class midcom_services_i18n
      * The language database, loaded from /midcom/config/language_db.inc
      *
      * @var Array
-     * @access private
      */
-    var $_language_db;
+    private $_language_db;
 
     /**
      * Preferred languages extracted out of the HTTP content negotiation.
@@ -46,9 +45,8 @@ class midcom_services_i18n
      * Array keys are the languages, the value is their q-index.
      *
      * @var Array
-     * @access private
      */
-    var $_http_lang;
+    private $_http_lang;
 
     /**
      * Preferred charsets extracted out of the HTTP content negotiation.
@@ -56,9 +54,8 @@ class midcom_services_i18n
      * Array keys are the charsets, the value is their q-index.
      *
      * @var Array
-     * @access private
      */
-    var $_http_charset;
+    private $_http_charset;
 
     /**
      * Stores the associative array stored in the cookie "midcom_services_i18n"
@@ -67,17 +64,15 @@ class midcom_services_i18n
      * "charset" or null if the cookie was not set.
      *
      * @var Array
-     * @access private
      */
-    var $_cookie_data;
+    private $_cookie_data;
 
     /**
      * Fallback language, in case the selected language is not available.
      *
      * @var string
-     * @access private
      */
-    var $_fallback_language;
+    private $_fallback_language;
 
     /**
      * Cache of all instantiated localization classes.
@@ -85,17 +80,15 @@ class midcom_services_i18n
      * They are delivered by reference to all clients.
      *
      * @var Array
-     * @access private
      */
-    var $_obj_l10n;
+    private $_obj_l10n;
 
     /**
      * Current language.
      *
      * @var string
-     * @access private
      */
-    var $_current_language;
+    private $_current_language;
 
     /**
      * Current language for content.
@@ -103,17 +96,15 @@ class midcom_services_i18n
      * May be different than the UI language
      *
      * @var string
-     * @access private
      */
-    var $_current_content_language;
+    private $_current_content_language;
 
     /**
      * Current character set
      *
      * @var string
-     * @access private
      */
-    var $_current_charset;
+    private $_current_charset;
 
     /**
      * List of different language versions of the site
@@ -121,9 +112,8 @@ class midcom_services_i18n
      * Format: An array indexed by language ID and containing midgard_host objects
      *
      * @var array
-     * @access private
      */
-    var $_language_hosts = array();
+    private $_language_hosts = array();
 
     /**
      * This method initializes the available i18n framework by determining

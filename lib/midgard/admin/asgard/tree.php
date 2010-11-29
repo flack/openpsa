@@ -77,12 +77,11 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
     /**
      * List the child elements
      *
-     * @access private
      * @param mixed $object     MgdSchema object
      * @param string $prefix     Indent for the output
      * @param int $level         Level of depth
      */
-    function _list_child_elements($object, $prefix = '    ', $level = 0)
+    public function _list_child_elements($object, $prefix = '    ', $level = 0)
     {
         if ($level > 25)
         {

@@ -99,10 +99,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     /**
      * Adds the external HTML dependencies, both JS and CSS. A static flag prevents
      * multiple insertions of these dependencies.
-     *
-     * @access private
      */
-    function _add_external_html_elements()
+    private function _add_external_html_elements()
     {
         static $executed = false;
 

@@ -29,9 +29,8 @@ class midcom_db_attachment extends midcom_core_dbaobject
      * attachment.
      *
      * @var resource
-     * @access private
      */
-    var $_open_handle = null;
+    private $_open_handle = null;
 
     /**
      * Internal tracking state variable, TRUE if the attachment has a handle opened in write mode

@@ -43,10 +43,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 {
     /**#@+
      * Internal runtime state variable.
-     *
-     * @access private
      */
-
 
     /**
      * The configuration to use to start up the backend drivers. Initialized during
@@ -54,21 +51,21 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      *
      * @var Array
      */
-    var $_backend = null;
+    private $_backend = null;
 
     /**
      * The cache backend instance to use.
      *
      * @var midcom_services_cache_backend
      */
-    var $_cache = null;
+    private $_cache = null;
 
     /**
      * The cache key prefix.
      *
      * @var string
      */
-    var $_prefix = "NAP";
+    public $_prefix = "NAP";
 
     /**#@-*/
 

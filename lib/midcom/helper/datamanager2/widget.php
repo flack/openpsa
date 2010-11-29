@@ -40,11 +40,10 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * by a corresponding getter/setter pair.
      *
      * @var Array
-     * @access private
      * @see set_external_config()
      * @see get_external_config()
      */
-    var $_external_config = Array();
+    private $_external_config = Array();
 
     /**
      * The name field holds the name of the field the widget is encapsulating.
@@ -104,26 +103,23 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * trailing underscore).
      *
      * @var string
-     * @access private
      */
-    var $_namespace = null;
+    private $_namespace = null;
 
     /**
      * Whether widget should always load its dependencies on initialization, or only during
      * add_elements_to_form call.
      *
      * @var boolean
-     * @access private
      */
-    var $_initialize_dependencies = false;
+    private $_initialize_dependencies = false;
 
     /**
      * State of the form manager
      *
-     * @access private
      * @var string
      */
-    var $_state = 'edit';
+    private $_state = 'edit';
 
     /**
      * Constructor.

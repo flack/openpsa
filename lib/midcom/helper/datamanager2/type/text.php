@@ -52,9 +52,8 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
      * Sets output formatting. See class introduction.
      *
      * @var string
-     * @access private
      */
-    var $output_mode = 'specialchars';
+    public $output_mode = 'specialchars';
 
     /**
      * Run HTML contents through the HTML Purifier library to ensure safe XHTML compatibility.

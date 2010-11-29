@@ -11,42 +11,37 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * TinyURL object
      *
-     * @access private
      * @var net_nemein_redirector_tinyurl
      */
-    var $_tinyurl = null;
+    private $_tinyurl = null;
 
     /**
      * TinyURL object array
      *
-     * @access private
      * @var array
      */
-    var $_tinyurls = array();
+    private $_tinyurls = array();
 
     /**
      * Datamanager2 instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_datamanager
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * Datamanager2 schemadb
      *
-     * @access private
      * @var midcom_helper_datamanager2_schema
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * Controller for creating or editing
      *
-     * @access private
      * @var mixed
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * Initialization scripts
@@ -59,10 +54,9 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Populate request data
      *
-     * @access private
      * @param String $handler_id
      */
-    function _populate_request_data($handler_id)
+    private function _populate_request_data($handler_id)
     {
         if ($this->_tinyurl)
         {
@@ -86,11 +80,10 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     /**
      * Get the item according to the given rule
      *
-     * @access private
      * @param mixed $rule
      * @return false on failure or net_nemein_redirector_tinyurl_dba on success
      */
-    function _get_item($rule)
+    private function _get_item($rule)
     {
         $mc = net_nemein_redirector_tinyurl_dba::new_collector('node', $this->_topic->guid);
 

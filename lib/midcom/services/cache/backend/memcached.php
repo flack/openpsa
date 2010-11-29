@@ -37,26 +37,23 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
     /**
      * The IP to connect to.
      *
-     * @access private
      * @var string
      */
-    var $_host = 'localhost';
+    private $_host = 'localhost';
 
     /**
      * The Port to connect to.
      *
-     * @access private
      * @var int
      */
-    var $_port = 11211;
+    private $_port = 11211;
 
     /**
      * The Memcache interface object.
      *
-     * @access private
      * @var Memcache
      */
-    static $memcache = null;
+    private static $memcache = null;
 
     /**
      * Whether to abort the request if connection to memcached fails

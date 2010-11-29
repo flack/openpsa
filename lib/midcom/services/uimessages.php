@@ -55,33 +55,29 @@ class midcom_services_uimessages
      * The current message stack
      *
      * @var Array
-     * @access private
      */
-    var $_message_stack = array();
+    private $_message_stack = array();
 
     /**
      * List of allowed message types
      *
      * @var Array
-     * @access private
      */
-    var $_allowed_types = array();
+    private $_allowed_types = array();
 
     /**
      * List of messages retrieved from session to avoid storing them again
      *
      * @var Array
-     * @access private
      */
-    var $_messages_from_session = array();
+    private $_messages_from_session = array();
 
     /**
      * ID of the latest UI message added so we can auto-increment
      *
      * @var integer
-     * @access private
      */
-    var $_latest_message_id = 0;
+    private $_latest_message_id = 0;
 
     /**
      * DOM path of the UI message holder object

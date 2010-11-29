@@ -19,10 +19,8 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     /**
      * Shorthand access for contact members
-     *
-     * @access private
      */
-    var $_contacts = null;
+    private $_contacts = null;
 
     /**
      * These two are filled correctly as arrays with the get_actions method

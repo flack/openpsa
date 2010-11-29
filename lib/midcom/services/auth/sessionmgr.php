@@ -33,9 +33,8 @@ class midcom_services_auth_sessionmgr
      * This is used for authentication purposes.
      *
      * @var Array
-     * @access private
      */
-    var $_loaded_sessions = Array();
+    private $_loaded_sessions = Array();
 
     /**
      * Once a session has been authenticated, this variable holds the ID of the current
@@ -579,9 +578,8 @@ class midcom_services_auth_sessionmgr
      * @param string $password The password to obfuscate.
      * @return string The obfuscated password.
      * @see _unobfuscate_password()
-     * @access private
      */
-    function _obfuscate_password($password)
+    private function _obfuscate_password($password)
     {
         return base64_encode($password);
     }
@@ -592,9 +590,8 @@ class midcom_services_auth_sessionmgr
      * @param string $password The password to obfuscate.
      * @return string The obfuscated password.
      * @see _unobfuscate_password()
-     * @access private
      */
-    function _unobfuscate_password($password)
+    private function _unobfuscate_password($password)
     {
         return base64_decode($password);
     }

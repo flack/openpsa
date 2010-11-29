@@ -104,10 +104,8 @@ class org_openpsa_calendarwidget_event
 
     /**
      * Draws links to the right location
-     *
-     * @access private
      */
-    function _render_link($text, $title = '', $link = false, $class = '')
+    private function _render_link($text, $title = '', $link = false, $class = '')
     {
         if (!$link)
         {

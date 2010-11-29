@@ -18,33 +18,29 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      * The wikipage we're editing
      *
      * @var net_nemein_wiki_wikipage
-     * @access private
      */
-    var $_page = null;
+    private $_page = null;
 
     /**
      * The Datamanager of the article to display
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the article used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     var $_preview = false;
 
@@ -71,12 +67,10 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         }
     }
 
-   /**
+    /**
      * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager($page)
+    private function _load_datamanager($page)
     {
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -91,10 +85,8 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
     /**
      * Internal helper, loads the controller for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');

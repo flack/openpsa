@@ -17,34 +17,30 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     /**
      * Controller instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_controller
      */
-    var $_controller;
+    private $_controller;
 
     /**
      * Schemadb instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_schema
      */
-    var $_schemadb;
+    private $_schemadb;
 
     /**
      * User for the preferences page
      *
-     * @access private
      * @var midcom_db_person
      */
-    var $_person;
+    private $_person;
 
     /**
      * Status of the request
      *
-     * @access private
      * @var boolean
      */
-    var $_status = true;
+    private $_status = true;
 
     /**
      * Connect to the parent class constructor
@@ -68,10 +64,8 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
     /**
      * Load the controller instance
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         // Get the user preferences schema
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_preferences'));
@@ -89,10 +83,8 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
     /**
      * Process the UI information
-     *
-     * @access private
      */
-    function _process_request_data(&$data)
+    private function _process_request_data(&$data)
     {
         $data['view_title'] = $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard');
         $data['asgard_toolbar'] = new midcom_helper_toolbar();

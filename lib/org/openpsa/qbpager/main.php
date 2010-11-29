@@ -28,26 +28,23 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     /**
      * Parameter listening enabled
      *
-     * @access private
      * @var boolean
      */
-    var $_listen_params = false;
+    private $_listen_params = false;
 
     /**
      * Registered get -parameters for listening
      *
-     * @access private
      * @var array
      */
-    var $_get_params = array();
+    private $_get_params = array();
 
     /**
      * Cache for parameters to be listened
      *
-     * @access private
      * @var string
      */
-    var $_params_cache = false;
+    private $_params_cache = false;
 
     function __construct($classname, $pager_id)
     {

@@ -71,9 +71,8 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
 
     /**
      * Prepare MidCOM cache & style engine for plain XML output
-     * @access private
      */
-    function _prepare()
+    private function _prepare()
     {
         $_MIDCOM->cache->content->content_type('text/xml');
         $_MIDCOM->header('Content-type: text/xml; charset=' . $this->encoding);
@@ -81,9 +80,8 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
 
     /**
      * Start XML output response
-     * @access private
      */
-    function _xmlheader()
+    private function _xmlheader()
     {
         echo '<?xml version="1.0" encoding="' . $this->encoding . '" standalone="yes"?>' . "\n";
         echo "<response>\n";
@@ -91,18 +89,16 @@ class org_openpsa_helpers_ajax extends midcom_baseclasses_components_purecode
 
     /**
      * End XML output response
-     * @access private
      */
-    function _xmlfooter()
+    private function _xmlfooter()
     {
         echo "</response>\n";
     }
 
     /**
      * Finalize the response, this will exit the script.
-     * @access private
      */
-    function _close()
+    private function _close()
     {
         $_MIDCOM->finish();
         _midcom_stop_request();

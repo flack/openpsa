@@ -18,25 +18,22 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
      * The deliverable to display
      *
      * @var org_openpsa_sales_salesproject_deliverable_dba
-     * @access private
      */
-    var $_deliverable = null;
+    private $_deliverable = null;
 
     /**
      * The salesproject the deliverable is connected to
      *
      * @var org_openpsa_sales_salesproject_dba
-     * @access private
      */
-    var $_salesproject = null;
+    private $_salesproject = null;
 
     /**
      * The product to deliver
      *
      * @var org_openpsa_products_product_dba
-     * @access private
      */
-    var $_product = null;
+    private $_product = null;
 
     private function _create_deliverable(&$product, $up = 0, $units = 1)
     {

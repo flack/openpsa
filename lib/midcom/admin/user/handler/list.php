@@ -74,13 +74,12 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     /**
      * Handler method for listing style elements for the currently used component topic
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, $args, &$data)
     {
         // See what fields we want to use in the search
         $data['search_fields'] = $this->_config->get('search_fields');
@@ -216,12 +215,11 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     /**
      * Internal helper for showing the groups recursively
      *
-     * @access private
      * @param int $id
      * @param array &$data
      * @param int $level
      */
-    function list_groups_for_select($id, &$data, $level)
+    private function list_groups_for_select($id, &$data, $level)
     {
         $mc = midcom_db_group::new_collector('owner', (int) $id);
         $mc->add_value_property('name');
@@ -276,11 +274,10 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     /**
      * Show list of the style elements for the currently edited topic component
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['config'] =& $this->_config;

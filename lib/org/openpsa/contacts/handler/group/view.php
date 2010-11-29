@@ -18,9 +18,8 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     function _on_initialize()
     {

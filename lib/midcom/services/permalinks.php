@@ -65,11 +65,10 @@ class midcom_services_permalinks
         // components permalink interface code.
 
         $nav = new midcom_helper_nav();
-        $basicnav =& $nav->_basicnav;
 
         // Step 1: Maybe NAP already knows the topic.
-        $napobj = $basicnav->get_loaded_object_by_guid($guid);
-        if ($napobj !== null)
+        $napobj = $nav->resolve_guid($guid);
+        if ($napobj)
         {
             return $napobj[MIDCOM_NAV_FULLURL];
         }

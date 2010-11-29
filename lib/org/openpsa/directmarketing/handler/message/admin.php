@@ -20,41 +20,36 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      * The message to operate on
      *
      * @var org_openpsa_directmarketing_campaign_message
-     * @access private
      */
-    var $_message = null;
+    private $_message = null;
 
     /**
      * The Datamanager of the message to display (for delete mode)
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the message used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Schema to use for message display
      *
      * @var string
-     * @access private
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * Simple helper which references all important members to the request data listing

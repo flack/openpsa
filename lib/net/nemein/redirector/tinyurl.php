@@ -60,10 +60,8 @@ class net_nemein_redirector_tinyurl_dba extends midcom_core_dbaobject
 
     /**
      * Check for duplicate names
-     *
-     * @access private
      */
-    function duplicate_names()
+    private function duplicate_names()
     {
         $mc = net_nemein_redirector_tinyurl_dba::new_collector('name', $this->name);
         $mc->add_constraint('node', '=', $this->node);

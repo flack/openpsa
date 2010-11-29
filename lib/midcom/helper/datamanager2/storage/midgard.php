@@ -19,10 +19,10 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
     /**
      * Optional callback that will be used if the storage variant
      * "callback" has been called.
+     *
      * @var object
-     * @access private
      */
-    var $_callback = null;
+    private $_callback = null;
 
     /**
      * Start up the storage manager and bind it to a given MidgardObject.

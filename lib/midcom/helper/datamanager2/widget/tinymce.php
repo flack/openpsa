@@ -116,10 +116,8 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
     /**
      * Adds the external HTML dependencies, both JS and CSS. A static flag prevents
      * multiple insertions of these dependencies.
-     *
-     * @access private
      */
-    function _add_external_html_elements()
+    private function _add_external_html_elements()
     {
         static $executed = false;
 
@@ -241,10 +239,10 @@ EOT;
     }
     /**
      * Returns the configuration theme based on the local_config_theme.
+     *
      * @return string
-     * @access private
      */
-    function _get_configuration()
+    private function _get_configuration()
     {
         $ok_elements = array
         (
@@ -279,9 +277,8 @@ EOT;
      * </pre>
      *
      * @return string The default configuration
-     * @access private
      */
-    function _get_simple_configuration()
+    private function _get_simple_configuration()
     {
         $popup = $this->_get_imagepopup_jsstring();
         return <<<EOT
@@ -348,9 +345,8 @@ EOT;
      * from the config file at this point.
      *
      * @todo make overrideable.
-     * @access private
      */
-    function _on_configuring()
+    public function _on_configuring()
     {
         parent::_on_configuring();
 

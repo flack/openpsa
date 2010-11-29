@@ -12,42 +12,37 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      * The config storage to use
      *
      * @var midcom_db_topic
-     * @access private
      */
-    var $_codeinit = null;
+    private $_codeinit = null;
     var $_config_storage = null;
 
     /**
      * The Datamanager of the article to display (for delete mode)
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The controller of the article used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Defaults for the schema database
      *
      * @var array
-     * @access private
      */
-    var $_defaults = array();
+    private $_defaults = array();
 
     var $hostconfig = null;
 
@@ -121,10 +116,8 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
 
     /**
      * Internal helper, loads the controller for the current article. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_controller = & midcom_helper_datamanager2_controller::create('nullstorage');

@@ -45,10 +45,8 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
 
     /**
      * Internal helper, loads the controller for the current person. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('create');
@@ -85,13 +83,12 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
     /**
      * Handler method for listing style elements for the currently used component topic
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, $args, &$data)
     {
         $this->_load_controller();
         switch ($this->_controller->process_form())
@@ -118,11 +115,10 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
     /**
      * Show list of the style elements for the currently createed topic component
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['person'] =& $this->_person;

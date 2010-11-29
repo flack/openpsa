@@ -61,9 +61,8 @@ class midcom_services_toolbars
      * View toolbar. The toolbars are created on-demand.
      *
      * @var array
-     * @access private
      */
-    var $_toolbars = array();
+    private $_toolbars = array();
 
     /**
      * midcom.services.toolbars has two modes, it can either display one centralized toolbar
@@ -71,25 +70,22 @@ class midcom_services_toolbars
      * property controls whether centralized mode is enabled.
      *
      * @var boolean
-     * @access private
      */
-    var $_enable_centralized = false;
+    private $_enable_centralized = false;
 
     /**
      * Whether we're in centralized mode, i.e. centralized toolbar has been shown
      *
      * @var boolean
-     * @access private
      */
-    var $_centralized_mode = false;
+    private $_centralized_mode = false;
 
     /**
      * Label for the "Page" toolbar
      *
      * @var string
-     * @access private
      */
-    var $_view_toolbar_label = '';
+    private $_view_toolbar_label = '';
 
     /**
      * Simple constructor, calls base class.

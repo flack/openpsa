@@ -85,10 +85,8 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
 
     /**
      * Internal helper, loads the controller for the current person. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
         $this->_controller->schemadb =& $this->_schemadb;
@@ -104,13 +102,12 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
     /**
      * Handler method for listing style elements for the currently used component topic
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_person = new midcom_db_person($args[0]);
 
@@ -198,11 +195,10 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
     /**
      * Show list of the style elements for the currently edited topic component
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -249,10 +245,8 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
 
     /**
      * Internal helper for processing the batch change of passwords
-     *
-     * @access private
      */
-    function _process_batch_change()
+    private function _process_batch_change()
     {
         if (   !isset($_POST['midcom_admin_user'])
             || count($_POST['midcom_admin_user']) === 0)

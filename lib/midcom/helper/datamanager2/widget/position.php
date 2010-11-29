@@ -38,9 +38,8 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
      * id of the element
      *
      * @var String
-     * @access private
      */
-    var $_element_id = "positioning_widget";
+    private $_element_id = "positioning_widget";
 
     /**
      * List of enabled positioning methods

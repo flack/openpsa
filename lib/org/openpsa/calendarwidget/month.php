@@ -122,10 +122,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * An array containing all the events.
-     *
-     * @access private
      */
-    var $_events = array ();
+    private $_events = array ();
 
     /**
      * Switch to tell the methods whether it is supposed to draw the week number column.
@@ -216,58 +214,51 @@ class org_openpsa_calendarwidget_month
     /**
      * Timestamp for the beginning of the calendar view
      *
-     * @access private
      * @var integer
      */
-    var $_calendar_start = 0;
+    private $_calendar_start = 0;
 
     /**
      * Timestamp for the end of the calendar view
      *
-     * @access private
      * @var integer
      */
-    var $_calendar_end = 0;
+    private $_calendar_end = 0;
 
     /**
      * Timestamp for the beginning of the currently viewed month
      *
-     * @access private
      * @var integer
      */
-    var $_month_start = 0;
+    private $_month_start = 0;
 
     /**
      * Timestamp for the end of the currently viewed month
      *
-     * @access private
      * @var integer
      */
-    var $_month_end = 0;
+    private $_month_end = 0;
 
     /**
      * Timestamp for the first Monday in the calendar, regardless of it belonging to the scope or not
      *
-     * @access private
      * @var integer
      */
-    var $_first_monday = 0;
+    private $_first_monday = 0;
 
     /**
      * Timestamp for the last Sunday in the calendar, regardless of it belonging to the scope or not
      *
-     * @access private
      * @var integer
      */
-    var $_last_sunday = 0;
+    private $_last_sunday = 0;
 
     /**
      * Timestamp for traversing the month.
      *
-     * @access private
      * @var integer
      */
-    var $_parser = 0;
+    private $_parser = 0;
 
     /**
      * CSS class for the calendar itself
@@ -494,10 +485,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draws links to the right location
-     *
-     * @access private
      */
-    function _draw_link($text, $title = '', $link = false, $class = '')
+    private function _draw_link($text, $title = '', $link = false, $class = '')
     {
         if (!$link)
         {
@@ -595,10 +584,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Calculates the timestamps.
-     *
-     * @access private
      */
-    function _calculate_timestamps()
+    private function _calculate_timestamps()
     {
         // Create the Unix timestamp for the beginning of the selected month
         $this->_month_start = mktime(0, 0, 0, $this->_month, 1, $this->_year);
@@ -670,10 +657,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Set the environment variables
-     *
-     * @access private
      */
-    function _read_environment_variables ()
+    private function _read_environment_variables ()
     {
         // Create the Unix timestamp for today
         $this->today = time();
@@ -703,10 +688,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draws the month view
-     *
-     * @access private
      */
-    function _draw_month($month = FALSE, $year = FALSE)
+    private function _draw_month($month = FALSE, $year = FALSE)
     {
         $this->_draw_month_header();
         $this->_draw_month_body();
@@ -715,10 +698,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draw the month headers
-     *
-     * @access private
      */
-    function _draw_month_header()
+    private function _draw_month_header()
     {
         echo "<table class=\"{$this->css_calendar}\">\n";
         echo "    <thead>\n";
@@ -888,10 +869,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Ends the month table
-     *
-     * @access private
      */
-    function _draw_month_footer()
+    private function _draw_month_footer()
     {
         echo "    </tbody>\n";
         echo "</table>\n";
@@ -900,10 +879,8 @@ class org_openpsa_calendarwidget_month
     /**
      * Draws the month body, starting from the first Monday and ending to the last Sunday
      * of the calendar view.
-     *
-     * @access private
      */
-    function _draw_month_body()
+    private function _draw_month_body()
     {
         $this->_parser = $this->_first_monday;
 
@@ -915,10 +892,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draws one week at a time
-     *
-     * @access private
      */
-    function _draw_week()
+    private function _draw_week()
     {
         echo "        <tr>\n";
 
@@ -943,10 +918,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draws one day
-     *
-     * @access private
      */
-    function _draw_day($timestamp)
+    private function _draw_day($timestamp)
     {
         // Set the table cell classes
         echo "            <td" . $this->_day_class($timestamp) . $this->_javascript_functions($timestamp).">\n";
@@ -979,10 +952,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draw javascript functions to table cell
-     *
-     * @access private
      */
-    function _javascript_functions($timestamp)
+    private function _javascript_functions($timestamp)
     {
         if (!$this->details_box)
         {
@@ -1002,10 +973,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draws one single event
-     *
-     * @access private
      */
-    function _draw_event($event)
+    private function _draw_event($event)
     {
         if (!is_object($event))
         {
@@ -1074,10 +1043,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Draws the details box
-     *
-     * @access private
      */
-    function _draw_details_box($events, $timestamp)
+    private function _draw_details_box($events, $timestamp)
     {
         // Bulletproofing the variable
         if (!is_array($events))
@@ -1124,10 +1091,8 @@ class org_openpsa_calendarwidget_month
 
     /**
      * Get the class names for the currently checked day
-     *
-     * @access private
      */
-    function _day_class($timestamp)
+    private function _day_class($timestamp)
     {
         $class = '';
 

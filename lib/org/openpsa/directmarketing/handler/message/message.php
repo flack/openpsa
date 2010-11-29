@@ -18,16 +18,13 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
      * The message which has been created
      *
      * @var org_openpsa_directmarketing_campaign_message
-     * @access private
      */
-    var $_message = null;
+    private $_message = null;
 
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);

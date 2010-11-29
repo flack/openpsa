@@ -37,38 +37,34 @@ require_once('HTML/QuickForm/Renderer.php');
  */
 class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
 {
-   /**
-    * The HTML of the form
-    * @var      string
-    * @access   private
-    */
-    var $_html;
+    /**
+     * The HTML of the form
+     * @var      string
+     */
+    private $_html;
 
-   /**
-    * Header Template string
-    * @var      string
-    * @access   private
-    */
-    var $_headerTemplate =
+    /**
+     * Header Template string
+     * @var      string
+     */
+    private $_headerTemplate =
         "\n\t<div class='ais_header'>\n\t\t{header}\n\t</div>"; // hvorfor tr?
 
-   /**
-    * Element template string
-    * @var      string
-    * @access   private
-    */
-    var $_elementTemplate = "<label for='{namespace}{element_name}' id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
+    /**
+     * Element template string
+     * @var      string
+     */
+    private $_elementTemplate = "<label for='{namespace}{element_name}' id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
         <span class=\"field_text\">
                 {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span>\n\t\t
 
         <!-- BEGIN error --><span class='field_error' style=\"color: #ff0000\">{error}</span><br /><!-- END error -->\t{element}\n\t</label>";
 
-   /**
-    * Element template string
-    * @var      string
-    * @access   private
-    */
-    var $_orig_group_template = "<div id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
+    /**
+     * Element template string
+     * @var      string
+     */
+    private $_orig_group_template = "<div id='{element_name}_label'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
         <label><span class=\"field_text\">
                 {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span></label>\n\t\t
 
@@ -79,12 +75,11 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
         </div>";
     var $_groupTemplate;
 
-   /**
-    * Form template string
-    * @var      string
-    * @access   private
-    */
-    var $_formTemplate =
+    /**
+     * Form template string
+     * @var      string
+     */
+    private $_formTemplate =
         "\n<form{attributes} class=\"datamanager2\" >\n<div>\n{hidden} \n{content}\n\n</div>\n</form>";
 
    /**
@@ -181,27 +176,24 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
     /**
      * The stack of groups
      * @var array
-     * @access private
      */
-    var $_currentGroups = array();
+    private $_currentGroups = array();
 
     /**
      * All group templates for running groups (i.e. prepared and ready).
      * @var array
-     * @access private
      */
-    var $_currentGroupTemplates = array();
+    private $_currentGroupTemplates = array();
 
-   /**
-    * Collected HTML of the hidden fields
-    * @var      string
-    * @access   private
-    */
-    var $_hiddenHtml = '';
+    /**
+     * Collected HTML of the hidden fields
+     * @var      string
+     */
+    private $_hiddenHtml = '';
 
-   /**
-    * Constructor
-    */
+    /**
+     * Constructor
+     */
     function __construct($namespace = '')
     {
         $this->namespace = $namespace;

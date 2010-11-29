@@ -20,41 +20,36 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      * The campaign to operate on
      *
      * @var org_openpsa_directmarketing_campaign
-     * @access private
      */
-    var $_campaign = null;
+    private $_campaign = null;
 
     /**
      * The Datamanager of the campaign to display (for delete mode)
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the campaign used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Schema to use for campaign display
      *
      * @var string
-     * @access private
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * Simple helper which references all important members to the request data listing

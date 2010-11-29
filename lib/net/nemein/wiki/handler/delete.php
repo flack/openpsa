@@ -18,24 +18,20 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      * The wikipage we're deleting
      *
      * @var net_nemein_wiki_wikipage
-     * @access private
      */
-    var $_page = null;
+    private $_page = null;
 
     /**
      * The Datamanager of the article to display
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * Internal helper, loads the datamanager for the current wikipage. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_datamanager()
+    private function _load_datamanager()
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
 

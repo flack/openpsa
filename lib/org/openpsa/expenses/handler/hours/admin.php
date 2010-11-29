@@ -18,41 +18,36 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * The hour report
      *
      * @var org_openpsa_projects_hour_report_dba
-     * @access private
      */
-    var $_hour_report = null;
+    private $_hour_report = null;
 
     /**
      * The Controller of the report used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The schema to use for the new article.
      *
      * @var string
-     * @access private
      */
-    var $_schema = 'default';
+    private $_schema = 'default';
 
     /**
      * The defaults to use for the new report.
      *
      * @var Array
-     * @access private
      */
-    var $_defaults = Array();
+    private $_defaults = Array();
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -77,10 +72,8 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_create_controller()
+    private function _load_create_controller()
     {
         $this->_defaults['task'] = $this->_request_data['task'];
         $this->_defaults['person'] = midcom_connection::get_user();

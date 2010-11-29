@@ -145,10 +145,10 @@ class org_openpsa_mypage_workingon
 
     /**
      * Report hours based on time used
-     * @access private
+     * 
      * @return boolean
      */
-    function _report_hours($description , $invoiceable = false)
+    private function _report_hours($description , $invoiceable = false)
     {
         $hour_report = new org_openpsa_projects_hour_report_dba();
         $hour_report->invoiceable = $invoiceable;

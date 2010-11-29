@@ -24,17 +24,15 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      * Some object
      *
      * @var midgard_object
-     * @access private
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Object path to the current object.
      *
-     * @access private
      * @var Array
      */
-    var $_object_path = array();
+    private $_object_path = array();
 
     var $_reflectors = array();
     var $_request_data = array();

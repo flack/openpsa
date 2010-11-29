@@ -19,26 +19,23 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
     /**
      * Object requested for metadata editing
      *
-     * @access private
      * @var mixed Object for metadata editing
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Edit controller instance for Datamanager 2
      *
-     * @access private
      * @var midcom_helper_datamanager2_controller
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * Datamanager 2 schema instance
      *
-     * @access private
      * @var midcom_helper_datamanager2_schema
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Constructor, call for the class parent constructor method.
@@ -71,10 +68,9 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
     /**
      * Load the DM2 edit controller instance
      *
-     * @access private
      * @return boolean Indicating success of DM2 edit controller instance
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_config']['metadata_schema']);
 
@@ -119,13 +115,12 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
      * Handler for folder metadata. Checks for updating permissions, initializes
      * the metadata and the content topic itself. Handles also the sent form.
      *
-     * @access private
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (   !$this->_object
@@ -182,9 +177,8 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_object_metadata');

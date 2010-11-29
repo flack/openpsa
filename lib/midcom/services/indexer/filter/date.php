@@ -22,17 +22,15 @@ class midcom_services_indexer_filter_date extends midcom_services_indexer_filter
      * Start timestamp, may be 0
      *
      * @var int
-     * @access private
      */
-    var $_start;
+    private $_start;
 
     /**
      * End timestamp, may be 0
      *
      * @var int
-     * @access private
      */
-    var $_end;
+    private $_end;
 
     /**
      * Create a new date filter.

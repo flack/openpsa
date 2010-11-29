@@ -18,41 +18,36 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
      * The message which has been created
      *
      * @var org_openpsa_directmarketing_campaign_message
-     * @access private
      */
-    var $_message = null;
+    private $_message = null;
 
     /**
      * The Controller of the message used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The schema to use for the new message.
      *
      * @var string
-     * @access private
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * The defaults to use for the new message.
      *
      * @var array
-     * @access private
      */
-    var $_defaults = array();
+    private $_defaults = array();
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -80,10 +75,8 @@ class org_openpsa_directmarketing_handler_message_create extends midcom_baseclas
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_controller = midcom_helper_datamanager2_controller::create('create');
         $this->_controller->schemadb =& $this->_schemadb;

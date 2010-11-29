@@ -16,10 +16,9 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
     /**
      * Datamanager2 create controller
      *
-     * @access private
      * @var midcom_helper_datamanager2_controller_create
      */
-    var $_controller;
+    private $_controller;
 
     /**
      * Defaults for the creation mode
@@ -30,10 +29,8 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
 
     /**
      * Load the creation controller
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         // Load schema database
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));

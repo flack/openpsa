@@ -18,41 +18,36 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
      * The article which has been created
      *
      * @var org_openpsa_products_product_group_dba
-     * @access private
      */
-    var $_group = null;
+    private $_group = null;
 
     /**
      * The Controller of the article used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The schema to use for the new article.
      *
      * @var string
-     * @access private
      */
-    var $_schema = 'default';
+    private $_schema = 'default';
 
     /**
      * The defaults to use for the new article.
      *
      * @var Array
-     * @access private
      */
-    var $_defaults = Array();
+    private $_defaults = Array();
 
     /**
      * Simple helper which references all important members to the request data listing
@@ -84,10 +79,8 @@ class org_openpsa_products_handler_group_create extends midcom_baseclasses_compo
 
     /**
      * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_controller()
+    private function _load_controller()
     {
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('create');

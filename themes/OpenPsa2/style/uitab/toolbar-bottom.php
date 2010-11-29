@@ -4,13 +4,14 @@ $back_button_name = $_MIDCOM->i18n->get_string("back" , "midcom");
 //remove the back-button
 //TODO: any better way to identify the back button ?
 
-foreach($_MIDCOM->toolbars->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW]->items as $key => $item)
+$view_toolbar = $_MIDCOM->toolbars->get_view_toolbar();
+foreach($view_toolbar->items as $key => $item)
 {
    if (   $item[1] == $back_button_name
        || (    array_key_exists('HTTP_REFERER', $_SERVER) 
             && strpos($_SERVER['HTTP_REFERER'], $item[0]) !== false))
    {
-       unset($_MIDCOM->toolbars->_toolbars[$context_id][MIDCOM_TOOLBAR_VIEW]->items[$key]);
+       $view_toolbar->hide_item($key);
    }
 }
 $_MIDCOM->toolbars->show_view_toolbar();

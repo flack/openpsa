@@ -27,10 +27,9 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     /**
      * This function will set the score.
      *
-     * @access private
      * @return boolean Indicating success
      */
-    function _process_order_form()
+    private function _process_order_form()
     {
         if (isset($_POST['f_navorder']))
         {
@@ -204,9 +203,8 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      *
      * @param mixed $handler_id The ID of the handler.
      * @param mixed &$data The local request data.
-     * @access private
      */
-    function _show_order($handler_id, &$data)
+    public function _show_order($handler_id, &$data)
     {
         $data['navigation'] = array();
         $data['navorder'] = $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
@@ -327,11 +325,10 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     /**
      * Fill a given integer with zeros for alphabetic ordering
      *
-     * @access private
      * @param int $int    Integer
      * @return string     String filled with leading zeros
      */
-    function _get_score($int)
+    private function _get_score($int)
     {
         $string = (string) $int;
 

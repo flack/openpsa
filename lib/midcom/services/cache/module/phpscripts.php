@@ -44,9 +44,8 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
      * The base directory in which we may add script files.
      *
      * @var string
-     * @access private
      */
-    var $_cache_dir;
+    private $_cache_dir;
 
     /**
      * Initializes the cache module, verifying the existence of the script cache

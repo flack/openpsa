@@ -23,9 +23,8 @@ class midcom_services_indexer_XMLComm_RequestWriter
      * The index name to use
      *
      * @var string
-     * @access private
      */
-    var $_index_name = null;
+    private $_index_name = null;
 
     /**
      * The current request content. This does not include the XML header
@@ -256,10 +255,9 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      * Current Data collected by the CDATA handler, will be processed by
      * the end-element handlers.
      *
-     * @access private
      * @var string
      */
-    var $_current_data = '';
+    private $_current_data = '';
 
     /**
      * An array of resultsets. A resultset is an array of documents.
@@ -286,35 +284,30 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
     /**
      * The current document, before being added to the resultset.
      *
-     * @access private
      * @var midcom_services_indexer_document
      */
-    var $_current_document = null;
+    private $_current_document = null;
 
     /**
      * The current request ID.
      *
-     * @access private
      * @var string
      */
-    var $_current_id = '';
+    private $_current_id = '';
 
     /**
      * The name of the current field, which is collected in _current_data at this time.
      *
-     * @access private
      * @var string
      */
-    var $_current_field = null;
+    private $_current_field = null;
 
     /**
      * The RI of the document currently being parsed.
      *
-     * @access private
      * @var string
      */
-    var $_current_document_id = '';
-
+    private $_current_document_id = '';
 
     /**
      * Initialize the XML Parser.
@@ -336,9 +329,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      *
      * @param object $parser The XML Parser resource
      * @param string $data The read data.
-     * @access private
      */
-    function cdataHandler($parser, $data)
+    private function cdataHandler($parser, $data)
     {
         $this->_current_data .= $data;
     }
@@ -352,9 +344,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
      * @param Array $attribs The attributes to the element
-     * @access private
      */
-    function xmltag_resultset($parser, $name, $attribs)
+    private function xmltag_resultset($parser, $name, $attribs)
     {
         $this->_current_id = $attribs['ID'];
         $this->resultsets[$this->_current_id] = Array();
@@ -365,9 +356,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      *
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
-     * @access private
      */
-    function xmltag_resultset_($parser, $name)
+    private function xmltag_resultset_($parser, $name)
     {
         $this->_current_id = '';
     }
@@ -380,9 +370,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
      * @param Array $attribs The attributes to the element
-     * @access private
      */
-    function xmltag_document($parser, $name, $attribs)
+    private function xmltag_document($parser, $name, $attribs)
     {
         $this->_current_document = new midcom_services_indexer_document();
         $this->_current_document->score = (double) $attribs['SCORE'];
@@ -394,9 +383,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      *
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
-     * @access private
      */
-    function xmltag_document_($parser, $name)
+    private function xmltag_document_($parser, $name)
     {
         $this->_current_document->dump("Document complete:");
         $this->resultsets[$this->_current_id][] = $this->_current_document;
@@ -410,9 +398,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
      * @param Array $attribs The attributes to the element
-     * @access private
      */
-    function xmltag_field($parser, $name, $attribs)
+    private function xmltag_field($parser, $name, $attribs)
     {
         $this->_current_field = $attribs['NAME'];
         $this->_current_data = '';
@@ -423,9 +410,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      *
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
-     * @access private
      */
-    function xmltag_field_($parser, $name)
+    private function xmltag_field_($parser, $name)
     {
         $this->_current_document->add_result($this->_current_field, $this->_current_data);
         $this->_current_field = null;
@@ -437,9 +423,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
      * @param Array $attribs The attributes to the element
-     * @access private
      */
-    function xmltag_warning($parser, $name, $attribs)
+    private function xmltag_warning($parser, $name, $attribs)
     {
         $this->_current_id = $attribs['ID'];
         $this->_current_data = '';
@@ -450,9 +435,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      *
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
-     * @access private
      */
-    function xmltag_warning_($parser, $name)
+    private function xmltag_warning_($parser, $name)
     {
         $this->warnings[$this->_current_id] = $this->_current_data;
     }
@@ -463,9 +447,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
      * @param Array $attribs The attributes to the element
-     * @access private
      */
-    function xmltag_error($parser, $name, $attribs)
+    private function xmltag_error($parser, $name, $attribs)
     {
         $this->_current_id = $attribs['ID'];
         $this->_current_data = '';
@@ -479,9 +462,8 @@ class midcom_services_indexer_XMLComm_ResponseReader extends XML_Parser
      *
      * @param object $parser The XML parser resource
      * @param string $name The name of the element being parsed
-     * @access private
      */
-    function xmltag_error_($parser, $name)
+    private function xmltag_error_($parser, $name)
     {
         $msg = "The MidCOM Indexer failed critically:\n{$this->_current_data}";
         debug_add($msg, MIDCOM_LOG_ERROR);

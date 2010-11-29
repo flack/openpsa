@@ -102,11 +102,10 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
     /**
      * Show list of the style elements for the currently edited topic component
      *
-     * @access private
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

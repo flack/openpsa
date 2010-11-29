@@ -18,65 +18,57 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Some object
      *
      * @var midgard_object
-     * @access private
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Some newly created object
      *
      * @var midgard_object
-     * @access private
      */
-    var $_new_object = null;
+    private $_new_object = null;
 
     /**
      * Some MgdSchema class
      *
      * @var string
-     * @access private
      */
-    var $_new_type = null;
+    private $_new_type = null;
 
     /**
      * The Datamanager of the object to display.
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the object used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Midgard reflection property instance for the current object's class.
      *
      * @var midgard_reflection_property
-     * @access private
      */
-    var $_reflector = null;
+    private $_reflector = null;
 
     /**
      * Authenticated person record
      *
      * @var midcom_db_person
-     * @access private
      */
-    var $_person;
+    private $_person;
 
     /**
      * Simple default constructor.

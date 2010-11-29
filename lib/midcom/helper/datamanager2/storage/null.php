@@ -33,9 +33,8 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
      * The defaults to use when loading the data from the "artificial" storage.
      *
      * @var Array
-     * @access private
      */
-    var $_defaults = Array();
+    private $_defaults = Array();
 
     /**
      * TODO

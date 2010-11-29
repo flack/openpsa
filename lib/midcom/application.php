@@ -1777,9 +1777,8 @@ class midcom_application
      * Sets a new context, doing some minor sanity checking.
      *
      * @return boolean    Indicating if the switch was successful.
-     * @access private
      */
-    function _set_current_context($id)
+    public function _set_current_context($id)
     {
         if ($id < 0 || $id >= count ($this->_context)) {
             debug_add("Could not switch to invalid context $id.", MIDCOM_LOG_WARN);

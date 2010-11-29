@@ -19,25 +19,22 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      * The Controller of the directory used for creating or editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The schema to use for the new directory.
      *
      * @var string
-     * @access private
      */
-    var $_schema = 'default';
+    private $_schema = 'default';
 
     function _on_initialize()
     {
@@ -56,10 +53,8 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
 
     /**
      * Internal helper, loads the controller for the current directoy. Any error triggers a 500.
-     *
-     * @access private
      */
-    function _load_edit_controller()
+    private function _load_edit_controller()
     {
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');

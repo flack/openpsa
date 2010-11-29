@@ -114,26 +114,23 @@ class midcom_services_dbclassloader
      * constructed code.
      *
      * @var string
-     * @access private
      */
-    var $_class_string = '';
+    private $_class_string = '';
 
     /**
      * The filename of the class definition currently being read.
      *
      * @var string
-     * @access private
      */
-    var $_class_definition_filename = '';
+    private $_class_definition_filename = '';
 
     /**
      * Temporary variable during class construction, stores the
      * class definition that is currently processed.
      *
      * @var Array
-     * @access private
      */
-    var $_class_definition = null;
+    private $_class_definition = null;
 
     /**
      * List of all midgard classes which have been loaded.

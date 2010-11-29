@@ -925,7 +925,7 @@ class midcom_services_auth_acl
             return $this->_can_do_internal_sudo($privilege);
         }
 
-        if ($this->auth->_component_sudo)
+        if ($this->auth->is_component_sudo())
         {
             return true;
         }

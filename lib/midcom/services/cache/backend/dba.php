@@ -25,26 +25,23 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
     /**
      * The handler to use
      *
-     * @access private
      * @var string
      */
-    var $_handler = null;
+    private $_handler = null;
 
     /**
      * The full database filename.
      *
-     * @access private
      * @var string
      */
-    var $_filename = null;
+    private $_filename = null;
 
     /**
      * The current handle, controlled by _open() and _close().
      *
-     * @access private
      * @var resource
      */
-    var $_handle = null;
+    private $_handle = null;
 
     /**
      * This handler completes the configuration.

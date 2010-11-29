@@ -51,10 +51,9 @@ class midcom_services_indexer_document
      * Each field is indexed by its name (a string). The value is another
      * array containing the fields "name", type" and "content".
      *
-     * @access private
      * @var Array
      */
-    var $_fields = Array();
+    private $_fields = Array();
 
     /**
      * A reference to the i18n service, used for charset conversion.
