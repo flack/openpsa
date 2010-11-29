@@ -22,13 +22,6 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
     private $_member = null;
 
     /**
-     * The Datamanager of the member to display
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
      * The Controller of the member used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
@@ -54,22 +47,6 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
     function _load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-    }
-
-    /**
-     * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     */
-    private function _load_datamanager()
-    {
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (   ! $this->_datamanager
-            || ! $this->_datamanager->autoset_storage($this->_member))
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for member {$this->_member->id}.");
-            // This will exit.
-        }
     }
 
     /**

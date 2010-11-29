@@ -152,7 +152,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
      * @return boolean Indicating success, false will abort the type construction sequence.
      * @access protected
      */
-    function _on_initialize()
+    public function _on_initialize()
     {
         return true;
     }

@@ -35,13 +35,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
     private $_controller = null;
 
     /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
      * The schema to use for the new article.
      *
      * @var string

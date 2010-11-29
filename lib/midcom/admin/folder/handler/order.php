@@ -321,23 +321,5 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             midcom_show_style('midcom-admin-folder-order-end');
         }
     }
-
-    /**
-     * Fill a given integer with zeros for alphabetic ordering
-     *
-     * @param int $int    Integer
-     * @return string     String filled with leading zeros
-     */
-    private function _get_score($int)
-    {
-        $string = (string) $int;
-
-        while (strlen($string) < 5)
-        {
-            $string = "0{$string}";
-        }
-
-        return $string;
-    }
 }
 ?>

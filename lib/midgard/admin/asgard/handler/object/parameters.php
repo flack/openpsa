@@ -15,25 +15,11 @@
 class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_components_handler
 {
     /**
-     * The hour report
+     * The object we're working on
      *
-     * @var org_openpsa_projectsobject
+     * @var midcom_core_dbaobject
      */
-    private $object = null;
-
-    /**
-     * The Controller of the object used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var array
-     */
-    private $_schemadb = null;
+    private $_object = null;
 
     /**
      * Simple default constructor.

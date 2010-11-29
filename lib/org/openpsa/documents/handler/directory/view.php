@@ -15,13 +15,6 @@
  */
 class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_components_handler
 {
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
     private $_datamanager = null;
 
     /**

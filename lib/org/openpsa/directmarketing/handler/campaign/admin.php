@@ -45,13 +45,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     private $_schemadb = null;
 
     /**
-     * Schema to use for campaign display
-     *
-     * @var string
-     */
-    private $_schema = null;
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */

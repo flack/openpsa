@@ -96,14 +96,6 @@ class midcom_helper__componentloader
     private $_tried_to_load = Array();
 
     /**
-     * This is a part of the component cache. It stores the properties
-     * of the already loaded components.
-     *
-     * @var Array
-     */
-    private $_component_properties = Array();
-
-    /**
      * This is a part of the component cache. It stores references to
      * the interface classes of the different loaded components, indexed by
      * their MidCOM Path.

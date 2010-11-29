@@ -17,14 +17,6 @@
 class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanager2_storage
 {
     /**
-     * Optional callback that will be used if the storage variant
-     * "callback" has been called.
-     *
-     * @var object
-     */
-    private $_callback = null;
-
-    /**
      * Start up the storage manager and bind it to a given MidgardObject.
      * The passed object must be a MidCOM DBA object, otherwise the system bails with
      * generate_error. In this case, no automatic conversion is done, as this would

@@ -15,18 +15,11 @@
 class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses_components_handler
 {
     /**
-     * The object which permissions we handle
+     * The object whose permissions we handle
      *
      * @var mixed
      */
-    private $object = null;
-
-    /**
-     * The Datamanager of the object
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
+    private $_object = null;
 
     /**
      * The Controller of the object used for editing

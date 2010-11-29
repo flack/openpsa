@@ -29,14 +29,6 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
      */
     private $_data = null;
 
-    /**
-     * The callback class instance, a callback matching the signature required for the DM2 select
-     * type callbacks.
-     *
-     * @var object
-     */
-    private $_callback = null;
-
     function __construct($args)
     {
         $this->_component = 'net.nehmer.account';

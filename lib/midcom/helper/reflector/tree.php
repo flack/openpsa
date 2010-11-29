@@ -710,7 +710,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of objects
      */
-    private function _get_child_objects_type(&$schema_type, &$for_object, $deleted)
+    public function _get_child_objects_type(&$schema_type, &$for_object, $deleted)
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)
@@ -732,7 +732,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
      *
      * @return array of objects
      */
-    private function _count_child_objects_type(&$schema_type, &$for_object, $deleted)
+    public function _count_child_objects_type(&$schema_type, &$for_object, $deleted)
     {
         $qb = $this->_child_objects_type_qb($schema_type, $for_object, $deleted);
         if (!$qb)

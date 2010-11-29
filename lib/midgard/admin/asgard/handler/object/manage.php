@@ -64,13 +64,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     private $_reflector = null;
 
     /**
-     * Authenticated person record
-     *
-     * @var midcom_db_person
-     */
-    private $_person;
-
-    /**
      * Simple default constructor.
      */
     function __construct()

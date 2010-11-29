@@ -30,13 +30,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     private $_datamanager = null;
 
     /**
-     * Datamanager2 schemadb
-     *
-     * @var midcom_helper_datamanager2_schema
-     */
-    private $_schema = null;
-
-    /**
      * Controller for creating or editing
      *
      * @var mixed

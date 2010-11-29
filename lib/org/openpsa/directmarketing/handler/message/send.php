@@ -15,13 +15,6 @@
 class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasses_components_handler
 {
     /**
-     * The message which has been created
-     *
-     * @var org_openpsa_directmarketing_message
-     */
-    private $_message = null;
-
-    /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.
      */
     private function _load_datamanager()

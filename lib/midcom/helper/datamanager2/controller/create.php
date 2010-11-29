@@ -67,13 +67,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     public $ajax_mode = false;
 
     /**
-     * Editable status of the object
-     *
-     * @var boolean
-     */
-    private $_editable = null;
-
-    /**
      * Options to pass for the AJAX controller
      *
      * @param Array

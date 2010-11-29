@@ -15,13 +15,6 @@
 class org_openpsa_contacts_handler_group_privileges extends midcom_baseclasses_components_handler
 {
     /**
-     * The Datamanager of the contact to display (for delete mode)
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager;
-
-    /**
      * The Controller of the contact used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple

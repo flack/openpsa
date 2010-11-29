@@ -19,13 +19,6 @@
 class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamanager2_widget
 {
     /**
-     * Row count keeps track on the amount of rows already written
-     *
-     * @var Integer
-     */
-    private $_row_count = 0;
-
-    /**
      * Separate widgets for each column
      */
     public $column_widget = array();
@@ -35,7 +28,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
      *
      * @return boolean Indicating success
      */
-    private function _on_initialize()
+    public function _on_initialize()
     {
         // Enable jQuery. This will not work without
         $_MIDCOM->enable_jquery();

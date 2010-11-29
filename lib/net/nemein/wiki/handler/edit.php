@@ -22,13 +22,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     private $_page = null;
 
     /**
-     * The Datamanager of the article to display
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
      * The Controller of the article used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
@@ -64,22 +57,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         foreach ($this->_schemadb as $name => $schema)
         {
             $this->_schemadb[$name]->operations = $operations;
-        }
-    }
-
-    /**
-     * Internal helper, loads the datamanager for the current article. Any error triggers a 500.
-     */
-    private function _load_datamanager($page)
-    {
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (   ! $this->_datamanager
-            || ! $this->_datamanager->autoset_storage($page))
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for article {$this->_article->id}.");
-            // This will exit.
         }
     }
 

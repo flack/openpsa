@@ -81,20 +81,6 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     private $_events = array ();
 
     /**
-     * Timestamp for the beginning of the calendar view
-     *
-     * @var integer
-     */
-    private  $_calendar_start = 0;
-
-    /**
-     * Timestamp for the end of the calendar view
-     *
-     * @var integer
-     */
-    private $_calendar_end = 0;
-
-    /**
      * Timestamp for the beginning of the currently viewed month
      *
      * @var integer

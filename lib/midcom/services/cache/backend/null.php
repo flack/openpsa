@@ -13,21 +13,6 @@
  */
 class midcom_services_cache_backend_null extends midcom_services_cache_backend
 {
-    /**
-     * The full directory filename.
-     *
-     * @var string
-     */
-    private $_dirname = null;
-
-    /**
-     * This handler completes the configuration.
-     */
-    function _on_initialize()
-    {
-        return;
-    }
-
     function _check_cache_dir()
     {
         return;

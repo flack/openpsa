@@ -188,26 +188,6 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
         }
     }
 
-    private function _calculate_height($start_time, $end_time, $cell_height = null)
-    {
-        if (!$cell_height)
-        {
-            $cell_height = $this->cell_height;
-        }
-
-        if ($this->type == ORG_OPENPSA_CALENDARWIDGET_MONTH)
-        {
-            // TODO: Handle multiple day events
-            return $cell_height;
-        }
-        else
-        {
-            // Reservation length in minutes
-            $length = ($end_time - $start_time);
-            return ($cell_height / $this->calendar_slot_length) * $length;
-        }
-    }
-
     /**
      * Get start timestamp of the current month
      * @return integer Timestamp showing first second of the month

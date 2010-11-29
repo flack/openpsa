@@ -15,13 +15,6 @@
 class midcom_admin_user_handler_group_list extends midcom_baseclasses_components_handler
 {
     /**
-     * Currently viewed group
-     *
-     * @var midcom_db_group
-     */
-    private $_group = null;
-
-    /**
      * Simple constructor, call for the parent class contructor
      */
     function __construct()

@@ -59,13 +59,6 @@ class fi_protie_navigation
     public $root_id = null;
 
     /**
-     * ID for the first printed list. Defined only in method $this->css_dropdown_headers();
-     *
-     * @var string
-     */
-    private $_root_element_id = null;
-
-    /**
      * Number of the parsed level
      *
      * @var integer
@@ -376,20 +369,6 @@ class fi_protie_navigation
         }
 
         return $node_path;
-    }
-
-    /**
-     * This method prints out links to CSS file when using CSS-based dropdown navigation.
-     */
-    public function css_dropdown_headers()
-    {
-        // Print the link for external CSS file
-        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/fi.protie.navigation/dropdown.css', 'screen');
-
-        $this->_first_level_navigation_id = 'fi_protie_navigation_root_element';
-
-        // When using the CSS dropdown navigation we should always list the whole site tree
-        $this->follow_all = true;
     }
 
     /**
