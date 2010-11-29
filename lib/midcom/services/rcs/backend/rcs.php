@@ -9,25 +9,27 @@
 /**
  * @package midcom.services.rcs
  */
-class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
+class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 {
     /**
      * GUID of the current object
      */
-    var $_guid;
+    private $_guid;
 
     /**
      * Cached revision history for the object
      */
-    var $_history;
+    private $_history;
 
-    function __construct(&$object, &$config)
+    private $_config;
+
+    public function __construct(&$object, &$config)
     {
+        $this->_config = $config;
         $this->_guid = $object->guid;
-        parent::__construct($object, $config);
     }
 
-    function _generate_rcs_filename($object)
+    public function _generate_rcs_filename($object)
     {
         if (!isset($object->guid))
         {
@@ -35,13 +37,13 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         }
 
         // Keep files organized to subfolders to keep filesystem sane
-        $dirpath = $this->config->get_rcs_root() . "/{$object->guid[0]}/{$object->guid[1]}";
+        $dirpath = $this->_config->get_rcs_root() . "/{$object->guid[0]}/{$object->guid[1]}";
         if (!file_exists($dirpath))
         {
             debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_WARN);
-            if (!file_exists($this->config->get_rcs_root() . "/{$object->guid[0]}"))
+            if (!file_exists($this->_config->get_rcs_root() . "/{$object->guid[0]}"))
             {
-                mkdir($this->config->get_rcs_root() . "/{$object->guid[0]}");
+                mkdir($this->_config->get_rcs_root() . "/{$object->guid[0]}");
             }
             mkdir($dirpath);
         }
@@ -56,7 +58,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param object object to be saved
      * @return boolean true on success.
      */
-    function update(&$object, $updatemessage = null)
+    public function update(&$object, $updatemessage = null)
     {
         // Store user identifier and IP address to the update string
         if ($_MIDCOM->auth->user)
@@ -105,7 +107,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      *      3 on missing object->guid
      *      nonzero on error in one of the commands.
      */
-    function rcs_update ($object, $message)
+    public function rcs_update ($object, $message)
     {
         $status = null;
 
@@ -151,7 +153,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     * @param string revision identifier of revision wanted
     * @return array array representation of the object
     */
-    function get_revision( $revision)
+    public function get_revision( $revision)
     {
         $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
 
@@ -189,7 +191,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param string  version
      * @return booleann true if exists
      */
-    function version_exists($version)
+    public function version_exists($version)
     {
         $history = $this->list_history();
         return array_key_exists($version,$history);
@@ -197,10 +199,11 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /**
      * Get the previous versionID
+     *
      * @param string version
      * @return string versionid before this one or empty string.
      */
-    function get_prev_version($version)
+    public function get_prev_version($version)
     {
         $versions = $this->list_history_numeric();
 
@@ -238,11 +241,12 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     }
 
     /**
-     * Get the previous versionID
+     * Get the next versionID
+     *
      * @param string version
      * @return string versionid before this one or empty string.
      */
-    function get_next_version($version)
+    public function get_next_version($version)
     {
         $versions = $this->list_history_numeric();
 
@@ -294,7 +298,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      *
      * @return array list of changeids
      */
-    function list_history()
+    public function list_history()
     {
         $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
         $filepath = $this->_generate_rcs_filename($object);
@@ -308,7 +312,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
 
     /* it is debatable to move this into the object when it resides nicely in a libary... */
 
-    function rcs_parse_history_entry($entry)
+    private function rcs_parse_history_entry($entry)
     {
         // Create the empty history array
         $history = array
@@ -371,7 +375,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param string objectid (usually the guid)
      * @return array list of revisions and revision comment.
      */
-    function rcs_gethistory($what)
+    private function rcs_gethistory($what)
     {
         $history = $this->rcs_exec('rlog "' . $what . ',v"');
         $revisions = array();
@@ -407,7 +411,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param string command
      * @return string command result.
      */
-    function rcs_exec($command)
+    private function rcs_exec($command)
     {
         $fh = popen($command, "r");
         $ret = "";
@@ -422,9 +426,9 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
     /**
      * Writes $data to file $guid, does not return anything.
      */
-    function rcs_writefile ($guid, $data)
+    private function rcs_writefile ($guid, $data)
     {
-        if (!is_writable($this->config->get_rcs_root()))
+        if (!is_writable($this->_config->get_rcs_root()))
         {
             return false;
         }
@@ -445,7 +449,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param string guid
      * @return string xml representation of guid
      */
-    function rcs_readfile ($guid)
+    private function rcs_readfile ($guid)
     {
         $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
         $filename = $this->_generate_rcs_filename($object);
@@ -471,7 +475,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param object
      * @return xmldata
      */
-    function rcs_object2data($object)
+    private function rcs_object2data($object)
     {
         if (!is_object($object))
         {
@@ -500,7 +504,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      *      3 on missing object->guid
      *      nonzero on error in one of the commands.
      */
-    function rcs_create($object, $description)
+    private function rcs_create($object, $description)
     {
         $output = null;
         $status = null;
@@ -529,7 +533,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
         return $status;
     }
 
-    function exec($command)
+    private function exec($command)
     {
         $status = null;
         $output = null;
@@ -652,7 +656,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param string revison id
      * @return string comment
      */
-    function get_comment($revision)
+    public function get_comment($revision)
     {
         if (is_null($this->_history))
         {
@@ -667,7 +671,7 @@ class midcom_services_rcs_backend_rcs extends midcom_services_rcs_backend
      * @param string id of revision to restore object to.
      * @return boolean true on success.
      */
-    function restore_to_revision($revision)
+    public function restore_to_revision($revision)
     {
         $new = $this->get_revision($revision);
 

@@ -9,11 +9,58 @@
 /**
  * @package midcom.services.rcs
  */
-class midcom_services_rcs_backend_null extends midcom_services_rcs_backend
+class midcom_services_rcs_backend_null implements midcom_services_rcs_backend
 {
+    function __construct(&$object, &$config){}
+
     function update(&$object, $comment)
     {
         return true;
+    }
+
+    function get_revision($revision)
+    {
+        return false;
+    }
+
+    function version_exists($version)
+    {
+        return false;
+    }
+
+    function get_prev_version($version)
+    {
+        return false;
+    }
+
+    function get_next_version($version)
+    {
+        return false;
+    }
+
+    function list_history_numeric()
+    {
+        return array();
+    }
+
+    function list_history()
+    {
+        return array();
+    }
+
+    function get_diff($oldest_revision, $latest_revision)
+    {
+        return array();
+    }
+
+    function get_comment($revision)
+    {
+        return false;
+    }
+
+    function restore_to_revision($revision)
+    {
+        return false;
     }
 }
 ?>

@@ -9,17 +9,9 @@
 /**
  * @package midcom.services.rcs
  */
-class midcom_services_rcs_backend
+interface midcom_services_rcs_backend
 {
-    /**
-     * The configuration of the service
-     */
-    var $config = null;
-
-    function __construct(&$object, &$config)
-    {
-        $this->config = $config;
-    }
+    public function __construct(&$object, &$config);
 
     /**
      * This function saves a revision of an object, creating a revision
@@ -29,54 +21,24 @@ class midcom_services_rcs_backend
      * @throws MIDCOM_ERRCRIT on serious errors.
      * @param string $comment the message to be saved with the object.
      */
-    function update(&$object, $comment)
-    {
-        return false;
-    }
+    public function update(&$object, $comment);
 
-    function get_revision($revision)
-    {
-        return false;
-    }
+    public function get_revision($revision);
 
-    function version_exists($version)
-    {
-        return false;
-    }
+    public function version_exists($version);
 
-    function get_prev_version($version)
-    {
-        return false;
-    }
+    public function get_prev_version($version);
 
-    function get_next_version($version)
-    {
-        return false;
-    }
+    public function get_next_version($version);
 
-    function list_history_numeric()
-    {
-        return array();
-    }
+    public function list_history_numeric();
 
-    function list_history()
-    {
-        return array();
-    }
+    public function list_history();
 
-    function get_diff($oldest_revision, $latest_revision)
-    {
-        return array();
-    }
+    public function get_diff($oldest_revision, $latest_revision);
 
-    function get_comment($revision)
-    {
-        return false;
-    }
+    public function get_comment($revision);
 
-    function restore_to_revision($revision)
-    {
-        return false;
-    }
+    public function restore_to_revision($revision);
 }
 ?>

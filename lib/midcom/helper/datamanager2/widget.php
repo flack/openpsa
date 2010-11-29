@@ -104,7 +104,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * @var string
      */
-    private $_namespace = null;
+    protected $_namespace = null;
 
     /**
      * Whether widget should always load its dependencies on initialization, or only during

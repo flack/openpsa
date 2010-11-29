@@ -852,7 +852,7 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
                 || !isset($event->guid)
                 || empty($event->guid))
             {
-                debug_add("eventmember #{$member->id} links ot bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
+                debug_add("eventmember #{$member->id} links to bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
                 $member->delete();
                 continue;
             }

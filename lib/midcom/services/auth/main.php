@@ -1265,7 +1265,6 @@ class midcom_services_auth
 
         $this->_generate_http_response();
 
-
         $_MIDCOM->cache->content->no_cache();
 
         $title = $_MIDCOM->i18n->get_string('login', 'midcom');
@@ -1284,7 +1283,6 @@ class midcom_services_auth
         {
             $login_warning = $_MIDCOM->i18n->get_string('login message - user or password wrong', 'midcom');
         }
-
 
         if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('midcom_services_auth_login_page'))
