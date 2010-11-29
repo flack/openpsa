@@ -400,7 +400,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         $current_tag_level = false;
         $current_list_level = 1;
-        echo "\n<ol class=\"midcom_helper_toc_formatter level_{$current_list_level}\">\n";
+        $toc .= "\n<ol class=\"midcom_helper_toc_formatter level_{$current_list_level}\">\n";
         foreach ($headings[4] as $key => $heading)
         {
             $anchor = md5($heading);
