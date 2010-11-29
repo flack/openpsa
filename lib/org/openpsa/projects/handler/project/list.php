@@ -73,151 +73,176 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
             if (   $this->_request_data['view'] == 'not_started'
                 || $this->_request_data['view'] == 'all')
             {
-                $this->_request_data['project_list_results']['not_started'] = array();
-
-                $qb = org_openpsa_projects_project::new_query_builder();
-                $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_STARTED);
-                $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ONHOLD);
-                $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
-
-                // Workgroup filtering
-                if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-                {
-                    $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-                }
-
-                $ret = $qb->execute();
-                if (   is_array($ret)
-                    && count($ret) > 0)
-                {
-                    foreach ($ret as $project)
-                    {
-                        $this->_request_data['project_list_results']['not_started'][$project->guid] = $project;
-                    }
-                }
+                $this->_list_not_started_projects();
             }
 
             // Currently going projects
             if (   $this->_request_data['view'] == 'ongoing'
                 || $this->_request_data['view'] == 'all')
             {
-                $this->_request_data['project_list_results']['ongoing'] = array();
-
-                $qb = org_openpsa_projects_project::new_query_builder();
-                $qb->add_constraint('start', '<', time());
-                $qb->add_constraint('status', '>=', ORG_OPENPSA_TASKSTATUS_ACCEPTED);
-                $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ACCEPTED);
-                $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ONHOLD);
-                $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
-                $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
-
-                // Workgroup filtering
-                if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-                {
-                    $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-                }
-
-                $ret = $qb->execute();
-                if (   is_array($ret)
-                    && count($ret) > 0)
-                {
-                    foreach ($ret as $project)
-                    {
-                        $this->_request_data['project_list_results']['ongoing'][$project->guid] = $project;
-                    }
-                }
+                $this->_list_ongoing_projects();
             }
 
             // Projects that are over time
             if (   $this->_request_data['view'] == 'overtime'
                 || $this->_request_data['view'] == 'all')
             {
-                $this->_request_data['project_list_results']['overtime'] = array();
-
-                $qb = org_openpsa_projects_project::new_query_builder();
-                $qb->add_constraint('end', '<', time());
-                $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
-                $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
-
-                // Workgroup filtering
-                if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-                {
-                    $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-                }
-
-                $ret = $qb->execute();
-                if (   is_array($ret)
-                    && count($ret) > 0)
-                {
-                    foreach ($ret as $project)
-                    {
-                        $this->_request_data['project_list_results']['overtime'][$project->guid] = $project;
-                    }
-                }
+                $this->_list_overtime_projects();
             }
 
             // Projects that have been completed
             if (   $this->_request_data['view'] == 'completed'
                 || $this->_request_data['view'] == 'all')
             {
-                $this->_request_data['project_list_results']['completed'] = array();
-
-                $qb = org_openpsa_projects_project::new_query_builder();
-                $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_CLOSED);
-                $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
-
-                // Workgroup filtering
-                if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-                    && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-                {
-                    $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-                }
-
-                $ret = $qb->execute();
-                if (   is_array($ret)
-                    && count($ret) > 0)
-                {
-                    foreach ($ret as $project)
-                    {
-                        $this->_request_data['project_list_results']['completed'][$project->guid] = $project;
-                    }
-                }
+                $this->_list_completed_projects();
             }
         }
         else
         {
-            // List *all* projects
-            $this->_request_data['project_list_results']['all'] = array();
-
-            $qb = org_openpsa_projects_project::new_query_builder();
-            $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
-
-            // Workgroup filtering
-            if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
-                && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
-                && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
-            {
-                $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
-            }
-
-            $ret = $qb->execute();
-            if (   is_array($ret)
-                && count($ret) > 0)
-            {
-                foreach ($ret as $project)
-                {
-                    $this->_request_data['project_list_results']['all'][$project->guid] = $project;
-                }
-            }
+            $this->_list_all_projects();
         }
         return true;
+    }
+
+    private function _list_not_started_projects()
+    {
+        $this->_request_data['project_list_results']['not_started'] = array();
+
+        $qb = org_openpsa_projects_project::new_query_builder();
+        $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_STARTED);
+        $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ONHOLD);
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
+
+        // Workgroup filtering
+        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
+        {
+            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
+        }
+
+        $ret = $qb->execute();
+        if (   is_array($ret)
+            && count($ret) > 0)
+        {
+            foreach ($ret as $project)
+            {
+                $this->_request_data['project_list_results']['not_started'][$project->guid] = $project;
+            }
+        }
+    }
+
+    private function _list_ongoing_projects()
+    {
+        $this->_request_data['project_list_results']['ongoing'] = array();
+
+        $qb = org_openpsa_projects_project::new_query_builder();
+        $qb->add_constraint('start', '<', time());
+        $qb->add_constraint('status', '>=', ORG_OPENPSA_TASKSTATUS_ACCEPTED);
+        $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ACCEPTED);
+        $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ONHOLD);
+        $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
+
+        // Workgroup filtering
+        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
+        {
+            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
+        }
+
+        $ret = $qb->execute();
+        if (   is_array($ret)
+            && count($ret) > 0)
+        {
+            foreach ($ret as $project)
+            {
+                $this->_request_data['project_list_results']['ongoing'][$project->guid] = $project;
+            }
+        }
+    }
+
+    private function _list_overtime_projects()
+    {
+        $this->_request_data['project_list_results']['overtime'] = array();
+
+        $qb = org_openpsa_projects_project::new_query_builder();
+        $qb->add_constraint('end', '<', time());
+        $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
+
+        // Workgroup filtering
+        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
+        {
+            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
+        }
+
+        $ret = $qb->execute();
+        if (   is_array($ret)
+            && count($ret) > 0)
+        {
+            foreach ($ret as $project)
+            {
+                $this->_request_data['project_list_results']['overtime'][$project->guid] = $project;
+            }
+        }
+    }
+
+    private function _list_completed_projects()
+    {
+        $this->_request_data['project_list_results']['completed'] = array();
+
+        $qb = org_openpsa_projects_project::new_query_builder();
+        $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_CLOSED);
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
+
+        // Workgroup filtering
+        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
+        {
+            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
+        }
+
+        $ret = $qb->execute();
+        if (   is_array($ret)
+            && count($ret) > 0)
+        {
+            foreach ($ret as $project)
+            {
+                $this->_request_data['project_list_results']['completed'][$project->guid] = $project;
+            }
+        }
+    }
+
+    private function _list_all_projects()
+    {
+        // List *all* projects
+        $this->_request_data['project_list_results']['all'] = array();
+
+        $qb = org_openpsa_projects_project::new_query_builder();
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
+
+        // Workgroup filtering
+        if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && !is_null($GLOBALS['org_openpsa_core_workgroup_filter'])
+            && $GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
+        {
+            $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
+        }
+
+        $ret = $qb->execute();
+        if (   is_array($ret)
+            && count($ret) > 0)
+        {
+            foreach ($ret as $project)
+            {
+                $this->_request_data['project_list_results']['all'][$project->guid] = $project;
+            }
+        }
     }
 
     /**

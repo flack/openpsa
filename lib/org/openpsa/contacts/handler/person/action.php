@@ -99,7 +99,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         {
             // User has tried to create account
             $plaintext = true;
-            if(array_key_exists('org_openpsa_contacts_person_account_encrypt' , $_POST))
+            if (array_key_exists('org_openpsa_contacts_person_account_encrypt' , $_POST))
             {
                 $plaintext = false;
             }
@@ -136,28 +136,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $this->_request_data['default_username'] = midcom_generate_urlname_from_string($this->_person->firstname) . '.' . midcom_generate_urlname_from_string($this->_person->lastname);
         }
 
-        // We should do this by listing to /dev/urandom
-        $d = $this->_config->get('default_password_lenght');
-        // Safety
-        if ($d == 0)
-        {
-            $d = 6;
-        }
-        if (function_exists('mt_rand'))
-        {
-            $rand = 'mt_rand';
-        }
-        else
-        {
-            $rand = 'rand';
-        }
-        // Valid characters for default password (PONDER: make configurable ?)
-        $passwdchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@';
-        $this->_request_data['default_password'] = '';
-        while ($d--)
-        {
-            $this->_request_data['default_password'] .= $passwdchars[$rand(0, strlen($passwdchars) - 1)];
-        }
+        $this->_generate_password();
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
@@ -185,6 +164,31 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         return true;
     }
 
+    private function _generate_password()
+    {
+        // We should do this by listing to /dev/urandom
+        $d = $this->_config->get('default_password_lenght');
+        // Safety
+        if ($d == 0)
+        {
+            $d = 6;
+        }
+        if (function_exists('mt_rand'))
+        {
+            $rand = 'mt_rand';
+        }
+        else
+        {
+            $rand = 'rand';
+        }
+        // Valid characters for default password (PONDER: make configurable ?)
+        $passwdchars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@';
+        $this->_request_data['default_password'] = '';
+        while ($d--)
+        {
+            $this->_request_data['default_password'] .= $passwdchars[$rand(0, strlen($passwdchars) - 1)];
+        }
+    }
 
     /**
      * @param mixed $handler_id The ID of the handler.
