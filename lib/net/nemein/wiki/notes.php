@@ -18,10 +18,10 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
     var $target_node = null;
     var $wiki = null;
     var $related = array();
-    var $_related_guids = array();
+    private $_related_guids = array();
     var $link_target = 'wiki';
     var $new_wikipage = null;
-    var $_paged_qb = null;
+    private $_paged_qb = null;
 
     public function __construct($target_node, $target_object, $new_wikipage = null)
     {

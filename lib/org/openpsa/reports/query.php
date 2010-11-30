@@ -13,8 +13,8 @@
  */
 class org_openpsa_reports_query_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_query';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_query';
 
     static function new_query_builder()
     {

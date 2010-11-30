@@ -21,7 +21,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * @var Array
      * @access protected
      */
-    var $_buddies = array();
+    private $_buddies = array();
 
     /**
      * A listing of meta-information for the current buddylist, indexed by the username,
@@ -36,7 +36,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * @var Array
      * @access protected
      */
-    var $_buddies_meta = null;
+    private $_buddies_meta = null;
 
     /**
      * Simple helper which references all important members to the request data listing

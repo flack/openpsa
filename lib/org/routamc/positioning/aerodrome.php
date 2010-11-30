@@ -26,8 +26,8 @@
  */
 class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_routamc_positioning_aerodrome';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_routamc_positioning_aerodrome';
     
     static function new_query_builder()
     {

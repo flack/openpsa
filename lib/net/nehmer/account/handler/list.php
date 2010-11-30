@@ -21,7 +21,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @var Array
      * @access private
      */
-    var $_visible_fields = Array();
+    private $_visible_fields = Array();
 
     /**
      * This is an array extracted out of the parameter net.nehmer.account/visible_field_list,
@@ -31,7 +31,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @var Array
      * @access private
      */
-    var $_visible_fields_user_selection = Array();
+    private $_visible_fields_user_selection = Array();
 
     /**
      * The datamanager used to load the account-related information.
@@ -39,7 +39,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @var midcom_helper_datamanager2_datamanager
      * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * This handler loads the account, validates permissions and starts up the

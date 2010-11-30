@@ -13,8 +13,8 @@
  */
 class midcom_services_at_entry_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midcom_services_at_entry_db';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midcom_services_at_entry_db';
 
     /**
      * Unserialized form of argumentsstore

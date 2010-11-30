@@ -18,8 +18,8 @@
  */
 class midcom_core_temporary_object extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midcom_core_temporary_object_db';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midcom_core_temporary_object_db';
 
     static function new_query_builder()
     {

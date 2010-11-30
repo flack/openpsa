@@ -21,7 +21,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     private $_message = null;
 
-    var $_datamanager = false;
+    private $_datamanager = false;
 
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.

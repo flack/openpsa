@@ -23,35 +23,35 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
     /**
      * The feed object we're fetching
      */
-    var $_feed;
+    private $_feed;
 
     /**
      * Timestamp, when was the latest item in the feed updated
      */
-    var $_feed_updated;
+    private $_feed_updated;
 
     /**
      * Property of midcom_db_article we're using for storing the feed item GUIDs
      */
-    var $_guid_property = 'extra2';
+    private $_guid_property = 'extra2';
 
     /**
      * Current node we're importing to
      * @var midcom_db_topic
      */
-    var $_node = null;
+    private $_node = null;
 
     /**
      * Configuration of node we're importing to
      * @var midcom_helper_configuration
      */
-    var $_node_config = null;
+    private $_node_config = null;
 
     /**
      * Datamanager for handling saves
      * @var midcom_helper_datamanager2
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * Initializes the class with a given feed

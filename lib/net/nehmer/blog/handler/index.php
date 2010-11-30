@@ -23,7 +23,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * The articles to display
@@ -31,14 +31,14 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * @var Array
      * @access private
      */
-    var $_articles = null;
+    private $_articles = null;
 
     /**
      * The datamanager for the currently displayed article.
      *
      * @var midcom_helper_datamanager2_datamanager
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * Maps the content topic from the request data to local member variables.

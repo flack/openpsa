@@ -13,7 +13,7 @@
 class org_openpsa_mail_backend_mail_smtp
 {
     var $error = false;
-    var $_mail = null;
+    private $_mail = null;
 
     public function __construct()
     {

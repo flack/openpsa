@@ -24,7 +24,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * Returns a static leaf list with access to the archive.

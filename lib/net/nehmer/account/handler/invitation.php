@@ -16,12 +16,12 @@
  */
 class net_nehmer_account_handler_invitation extends midcom_baseclasses_components_handler
 {
-    var $_mail = null;
-    var $_invite = null;
-    var $_sent_invites = null;
-    var $_processing_msg_raw = "";
-    var $_user_defined_message = "";
-    var $_contactgrabber = null;
+    private $_mail = null;
+    private $_invite = null;
+    private $_sent_invites = null;
+    private $_processing_msg_raw = "";
+    private $_user_defined_message = "";
+    private $_contactgrabber = null;
 
     /**
      * _on_initialize is called by midcom on creation of the handler.

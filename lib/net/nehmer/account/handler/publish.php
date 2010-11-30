@@ -38,7 +38,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var midcom_db_person
      * @access private
      */
-    var $_account = null;
+    private $_account = null;
 
     /**
      * The Avatar image, if set.
@@ -46,7 +46,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var midcom_db_attachment
      * @access private
      */
-    var $_avatar = null;
+    private $_avatar = null;
 
     /**
      * The Avatar thumbnail image, if set.
@@ -54,7 +54,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var midcom_db_attachment
      * @access private
      */
-    var $_avatar_thumbnail = null;
+    private $_avatar_thumbnail = null;
 
     /**
      * The datamanager used to load the account-related information.
@@ -62,7 +62,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var midcom_helper_datamanager2_datamanager
      * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * This is a list of visible field names of the current account. It is computed after
@@ -71,7 +71,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var Array
      * @access private
      */
-    var $_fields = Array();
+    private $_fields = Array();
 
     /**
      * This is an array extracted out of the parameter net.nehmer.account/visible_field_list,
@@ -81,7 +81,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var Array
      * @access private
      */
-    var $_visible_fields_user_selection = Array();
+    private $_visible_fields_user_selection = Array();
 
     /**
      * Helper variable, containing a localized message to be shown to the user indicating the form's
@@ -90,7 +90,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var string
      * @access private
      */
-    var $_processing_msg = '';
+    private $_processing_msg = '';
 
     /**
      * The raw, untranslated processing message. Use this if you want to have your own translation
@@ -99,7 +99,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @var string
      * @access private
      */
-    var $_processing_msg_raw = '';
+    private $_processing_msg_raw = '';
 
     /**
      * The handler provides publishing support. After creating and preparing all members,

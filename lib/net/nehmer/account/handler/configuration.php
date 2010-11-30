@@ -20,7 +20,7 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
      * @var midcom_helper_datamanager2_controller_simple
      * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
@@ -28,7 +28,7 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
      * @var Array
      * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Simple helper which references all important members to the request data listing

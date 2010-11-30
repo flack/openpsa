@@ -20,7 +20,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * The article which has been created
@@ -28,7 +28,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @var midcom_db_article
      * @access private
      */
-    var $_article = null;
+    private $_article = null;
 
     /**
      * The Controller of the article used for editing
@@ -36,7 +36,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @var midcom_helper_datamanager2_controller_simple
      * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
@@ -44,7 +44,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @var Array
      * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The schema to use for the new article.
@@ -52,7 +52,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @var string
      * @access private
      */
-    var $_schema = null;
+    private $_schema = null;
 
     /**
      * This flag indicates whether we have been called from the index-article check
@@ -61,7 +61,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @var boolean
      * @access private
      */
-    var $_indexmode = false;
+    private $_indexmode = false;
 
     /**
      * The defaults to use for the new article.
@@ -69,7 +69,7 @@ class net_nehmer_static_handler_create extends midcom_baseclasses_components_han
      * @var Array
      * @access private
      */
-    var $_defaults = Array();
+    private $_defaults = Array();
 
     /**
      * Simple helper which references all important members to the request data listing

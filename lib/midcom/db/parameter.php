@@ -23,8 +23,8 @@
  */
 class midcom_db_parameter extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_parameter';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midgard_parameter';
 
     public function __construct($id = null)
     {

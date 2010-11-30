@@ -12,8 +12,8 @@
  */
 class org_openpsa_contacts_duplicates_merge
 {
-    var $_object_mode = false;
-    var $_errstr = false;
+    private $_object_mode = false;
+    private $_errstr = false;
 
     /**
      * Constructor, the parameter governs which objects the instance works on

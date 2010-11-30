@@ -13,8 +13,8 @@
  */
 class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_salesproject_deliverable';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_salesproject_deliverable';
 
     /**
      * Combination property containing HTML depiction of the deliverable

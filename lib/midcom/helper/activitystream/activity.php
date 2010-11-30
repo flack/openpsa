@@ -14,8 +14,8 @@
  */
 class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midcom_helper_activitystream_activity';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midcom_helper_activitystream_activity';
 
     // Don't activity log or version activity stream entries
     var $_use_activitystream = false;

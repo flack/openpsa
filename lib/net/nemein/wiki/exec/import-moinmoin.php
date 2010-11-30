@@ -64,9 +64,9 @@ echo "<p>\n";
 
 class net_nemein_wiki_moinmoin_importer
 {
-    var $_l10n = false;
-    var $_schemadb = array();
-    var $_datamanager = false;
+    private $_l10n = false;
+    private $_schemadb = array();
+    private $_datamanager = false;
     var $wiki_root = false;
     var $root_topic = false;
     var $testing = true;

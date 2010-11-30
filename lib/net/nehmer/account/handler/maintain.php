@@ -34,7 +34,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @var midcom_db_person
      * @access private
      */
-    var $_account = null;
+    private $_account = null;
 
     /**
      * The datamanager used to load the account-related information.
@@ -42,7 +42,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @var midcom_helper_datamanager2_datamanager
      * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The controller used to display the password changer dialog.
@@ -50,7 +50,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @var midcom_helper_datamanager2_controller
      * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * Helper variable, containing a localized message to be shown to the user indicating the form's
@@ -59,7 +59,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @var string
      * @access private
      */
-    var $_processing_msg = '';
+    private $_processing_msg = '';
 
     /**
      * The raw, untranslated processing message. Use this if you want to have your own translation
@@ -68,7 +68,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @var string
      * @access private
      */
-    var $_processing_msg_raw = '';
+    private $_processing_msg_raw = '';
 
     /**
      * This is true if we did successfully change the password. It will then display a simple
@@ -77,7 +77,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      * @var boolean
      * @access private
      */
-    var $_success = false;
+    private $_success = false;
 
     /**
      * The handler provides publishing support. After creating and preparing all members,

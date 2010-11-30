@@ -25,7 +25,7 @@ class org_openpsa_contacts_duplicates
     /**
      * Cache memberships when possible
      */
-    var $_membership_cache = array();
+    private $_membership_cache = array();
 
     /**
      * Find duplicates for given org_openpsa_contacts_person_dba object

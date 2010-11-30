@@ -11,20 +11,20 @@
  */
 class midcom_admin_babel_handler_process extends midcom_baseclasses_components_handler
 {
-    var $_debug_prefix;
+    private $_debug_prefix;
 
     /** which language is edited */
-    var $_lang = 'en';
+    private $_lang = 'en';
 
     /** path of the component to localize */
-    var $_component_path = null;
+    private $_component_path = null;
 
     /** data to be saved */
-    var $_save_new;
-    var $_save_update;
+    private $_save_new;
+    private $_save_update;
 
     /** midcom_l10n instance $_component_path */
-    var $_component_l10n;
+    private $_component_l10n;
 
     public function _on_initialize()
     {

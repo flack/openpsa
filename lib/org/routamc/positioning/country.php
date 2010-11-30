@@ -14,8 +14,8 @@
  */
 class org_routamc_positioning_country_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_routamc_positioning_country';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_routamc_positioning_country';
     
     static function new_query_builder()
     {

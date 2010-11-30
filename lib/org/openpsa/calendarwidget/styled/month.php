@@ -57,7 +57,7 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
      * @access protected
      * @var integer
      */
-    var $_year = null;
+    private $_year = null;
 
     /**
      * Currently viewed month
@@ -65,7 +65,7 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
      * @access protected
      * @var integer
      */
-    var $_month = null;
+    private $_month = null;
 
     /**
      * Currently viewed day
@@ -73,7 +73,7 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
      * @access protected
      * @var integer
      */
-    var $_day = null;
+    private $_day = null;
 
     /**
      * An array containing all the events.

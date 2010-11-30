@@ -24,8 +24,8 @@
  */
 class midcom_db_language extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_language';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midgard_language';
 
     static function new_query_builder()
     {

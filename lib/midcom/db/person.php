@@ -21,8 +21,8 @@
  */
 class midcom_db_person extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_person';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midgard_person';
 
     /**
      * Read-Only variable, consisting of "$firstname $lastname".

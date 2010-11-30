@@ -14,7 +14,7 @@
  */
 class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_components_handler
 {
-    var $_group = null;
+    private $_group = null;
 
     /**
      * Simple constructor

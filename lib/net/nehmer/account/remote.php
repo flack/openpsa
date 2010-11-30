@@ -30,7 +30,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
      * @var midcom_db_topic
      * @access private
      */
-    var $_topic = null;
+    private $_topic = null;
 
     /**
      * The schema database in use at this topic. This is loaded on-demand only.
@@ -38,7 +38,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
      * @var Array
      * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Internal helper, which contains a list of all midcom_core_group records
@@ -47,7 +47,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
      * @var Array
      * @access private
      */
-    var $_type_groups = null;
+    private $_type_groups = null;
 
     /**
      * Creates an instance of this class bound to the topic referenced by the

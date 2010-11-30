@@ -13,8 +13,8 @@
  */
 class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_campaign';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_campaign';
 
     var $testers = array(); // List of tests members (stored as campaign_members, referenced here for easier access)
 

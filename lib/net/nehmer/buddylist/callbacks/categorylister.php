@@ -23,7 +23,7 @@ class net_nehmer_buddylist_callbacks_categorylister extends midcom_baseclasses_c
      * @var array
      * @access private
      */
-    var $_data = null;
+    private $_data = null;
 
     /**
      * Initializes the class to the category listing in the configuration. It does the necessary

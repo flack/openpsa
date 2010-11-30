@@ -35,7 +35,7 @@
 
 class net_nehmer_account_handler_register extends midcom_baseclasses_components_handler
 {
-    var $_sent_invites = null;
+    private $_sent_invites = null;
 
     /**
      * The datamanager controller instance used to create the new record.
@@ -43,7 +43,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var midcom_helper_datamanager2_controller
      * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database to use when creating new accounts.
@@ -51,7 +51,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var Array
      * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * The type of account which is being registered. This is a schema name.
@@ -59,7 +59,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var string
      * @access private
      */
-    var $_account_type = '';
+    private $_account_type = '';
 
     /**
      * This member indicates the processing stage we are in, this is used
@@ -69,7 +69,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var string
      * @access private
      */
-    var $_stage = '';
+    private $_stage = '';
 
     /**
      * The account which has been activated, not valid otherwise.
@@ -77,7 +77,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var midcom_core_user
      * @access private
      */
-    var $_account = null;
+    private $_account = null;
 
     /**
      * The person record of the account which has been activated. Not valid otherwise.
@@ -85,7 +85,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var midcom_db_person
      * @access private
      */
-    var $_person = null;
+    private $_person = null;
 
     /**
      * The account activation processing message. Used for already-activated style
@@ -94,7 +94,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var string
      * @access private
      */
-    var $_processing_msg = '';
+    private $_processing_msg = '';
 
     /**
      * The raw, untranslated processing message. Use this if you want to have your own translation
@@ -103,7 +103,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
      * @var string
      * @access private
      */
-    var $_processing_msg_raw = '';
+    private $_processing_msg_raw = '';
 
     var $logged_in = false;
 

@@ -21,8 +21,8 @@
  */
 class midcom_db_attachment extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_attachment';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midgard_attachment';
 
     /**
      * Internal tracking state variable, holds the file handle of any open

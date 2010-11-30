@@ -14,7 +14,7 @@
  */
 class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 {
-    var $_client = null;
+    private $_client = null;
     var $error = '';
     var $basicauth = array
     (

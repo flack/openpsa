@@ -32,15 +32,15 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     var $embed_css_url; //Try to embed also css url() files as inline images (seems not to work with most clients so defaults to false)
 
     //Internal, do not touch unless you know what you're doing
-    var $_backend;    //The backend object
-    var $__debug;     //boolean, output debug information
-    var $__mime;      //object, (Mail_mime / Mail_mimeDecode) holder
-    var $__mail;      //object, (Mail) holder
-    var $__mailErr;   //boolean/object, send error status
-    var $__iconv;     //boolean, when decoding mails, try to convert to desired charset.
-    var $__orig_encoding;  //string, original encoding of the message
-    var $__textBodyFound; //boolean, used in part_decode
-    var $__htmlBodyFound; // --''--
+    private $_backend;    //The backend object
+    private $__debug;     //boolean, output debug information
+    private $__mime;      //object, (Mail_mime / Mail_mimeDecode) holder
+    private $__mail;      //object, (Mail) holder
+    private $__mailErr;   //boolean/object, send error status
+    private $__iconv;     //boolean, when decoding mails, try to convert to desired charset.
+    private $__orig_encoding;  //string, original encoding of the message
+    private $__textBodyFound; //boolean, used in part_decode
+    private $__htmlBodyFound; // --''--
 
     public function __construct()
     {

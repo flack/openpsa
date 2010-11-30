@@ -33,7 +33,7 @@ class org_routamc_positioning_person extends midcom_baseclasses_components_purec
      *
      * @var midcom_db_person
      */
-    var $_person = null;
+    private $_person = null;
 
     /**
      * Initializes the class. The real startup is done by the initialize() call.

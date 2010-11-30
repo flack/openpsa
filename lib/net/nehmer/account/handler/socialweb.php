@@ -36,7 +36,7 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
      * @var midcom_db_person
      * @access private
      */
-    var $_account = null;
+    private $_account = null;
 
     /**
      * The DM2 controller used to edit the datamanager form.
@@ -44,7 +44,7 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
      * @var midcom_helper_datamanager2_controller
      * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * This handler loads the account, validates permissions and starts up the

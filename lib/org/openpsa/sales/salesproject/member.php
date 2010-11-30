@@ -14,8 +14,8 @@
  */
 class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_salesproject_member';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_salesproject_member';
 
     public function __construct($id = null)
     {

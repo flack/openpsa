@@ -13,8 +13,8 @@
  */
 class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_campaign_message';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_campaign_message';
 
     var $send_output = false;
     var $sms_lib = 'org.openpsa.smslib';
@@ -31,9 +31,9 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
     var $mms_lib_password = ''; //Defaults to reference, see constructor
     var $test_mode = false;
     var $chunk_size = 50;
-    var $_offset = 0;
-    var $_chunk_num = 0;
-    var $_chunk_max_recurse = 15; //How many times to recurse if all results are filtered (speed vs memory [and risk on crashing], higher is faster)
+    private $_offset = 0;
+    private $_chunk_num = 0;
+    private $_chunk_max_recurse = 15; //How many times to recurse if all results are filtered (speed vs memory [and risk on crashing], higher is faster)
     var $token_size = 15;
 
     public function __construct($id = null)

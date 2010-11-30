@@ -29,7 +29,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      */
     private $_schemadb = null;
 
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     public function _on_initialize()
     {

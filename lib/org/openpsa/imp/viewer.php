@@ -16,10 +16,10 @@
  */
 class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
 {
-    var $_server_uri = false;
-    var $_imp_username = false;
-    var $_imp_password = false;
-    var $_global_server = false;
+    private $_server_uri = false;
+    private $_imp_username = false;
+    private $_imp_password = false;
+    private $_global_server = false;
 
     /**
      * Populate request switch, which contains URL handlers for the component.

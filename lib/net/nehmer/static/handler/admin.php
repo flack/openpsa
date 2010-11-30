@@ -20,7 +20,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * The article to operate on
@@ -28,7 +28,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * @var midcom_db_article
      * @access private
      */
-    var $_article = null;
+    private $_article = null;
 
     /**
      * The Datamanager of the article to display (for delete mode)
@@ -36,7 +36,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * @var midcom_helper_datamanager2_datamanager
      * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The Controller of the article used for editing
@@ -44,7 +44,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * @var midcom_helper_datamanager2_controller_simple
      * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
@@ -52,7 +52,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * @var Array
      * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
     /**
      * Simple helper which references all important members to the request data listing

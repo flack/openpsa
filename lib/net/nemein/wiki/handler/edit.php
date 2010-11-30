@@ -35,7 +35,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      */
     private $_schemadb = null;
 
-    var $_preview = false;
+    private $_preview = false;
 
     /**
      * Loads and prepares the schema database.

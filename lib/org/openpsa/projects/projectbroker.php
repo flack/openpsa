@@ -14,7 +14,7 @@
  */
 class org_openpsa_projects_projectbroker
 {
-    var $_owner_grp = false;
+    private $_owner_grp = false;
     var $membership_filter = array();
 
     public function __construct()

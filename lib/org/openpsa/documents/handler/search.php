@@ -15,7 +15,7 @@
  */
 class org_openpsa_documents_handler_search extends midcom_baseclasses_components_handler
 {
-    var $_datamanagers;
+    private $_datamanagers;
 
     public function _on_initialize()
     {

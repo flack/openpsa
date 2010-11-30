@@ -13,8 +13,8 @@
  */
 class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_campaign_member';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_campaign_member';
 
     public function __construct($id = null)
     {

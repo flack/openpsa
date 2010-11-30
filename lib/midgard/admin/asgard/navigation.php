@@ -34,8 +34,8 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      */
     private $_object_path = array();
 
-    var $_reflectors = array();
-    var $_request_data = array();
+    private $_reflectors = array();
+    private $_request_data = array();
     var $expanded_root_types = array();
     var $shown_objects = array();
 

@@ -15,11 +15,6 @@
 class net_nemein_wiki_wikipage extends midcom_db_article
 {
     /**
-     * The topic object, cached for ACL checks
-     */
-    var $_topic = null;
-
-    /**
      * Overwrite the query builder getter with a version retrieving the right type.
      * We need a better solution here in DBA core actually, but it will be difficult to
      * do this as we cannot determine the current class in a polymorphic environment without

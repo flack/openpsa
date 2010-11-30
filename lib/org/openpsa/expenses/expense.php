@@ -13,8 +13,8 @@
  */
 class org_openpsa_expenses_expense extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_expense';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_expense';
 
     private $_locale_backup = '';
 

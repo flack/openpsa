@@ -20,7 +20,7 @@ class net_nehmer_blog_handler_link extends midcom_baseclasses_components_handler
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * The article which has been created
@@ -28,7 +28,7 @@ class net_nehmer_blog_handler_link extends midcom_baseclasses_components_handler
      * @var midcom_db_article
      * @access private
      */
-    var $_article = null;
+    private $_article = null;
 
     /**
      * The article link which has been created
@@ -36,7 +36,7 @@ class net_nehmer_blog_handler_link extends midcom_baseclasses_components_handler
      * @var net_nehmer_blog_link_dba
      * @access private
      */
-    var $_link = null;
+    private $_link = null;
 
     /**
      * The Controller of the article used for editing
@@ -44,7 +44,7 @@ class net_nehmer_blog_handler_link extends midcom_baseclasses_components_handler
      * @var midcom_helper_datamanager2_controller_simple
      * @access private
      */
-    var $_controller = null;
+    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
@@ -52,7 +52,7 @@ class net_nehmer_blog_handler_link extends midcom_baseclasses_components_handler
      * @var Array
      * @access private
      */
-    var $_schemadb = null;
+    private $_schemadb = null;
 
 
     /**
@@ -61,7 +61,7 @@ class net_nehmer_blog_handler_link extends midcom_baseclasses_components_handler
      * @var Array
      * @access private
      */
-    var $_defaults = Array();
+    private $_defaults = Array();
 
     /**
      * Simple helper which references all important members to the request data listing

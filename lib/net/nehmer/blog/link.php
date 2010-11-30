@@ -14,8 +14,8 @@
  */
 class net_nehmer_blog_link_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'net_nehmer_blog_link';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'net_nehmer_blog_link';
     
     static function new_query_builder()
     {

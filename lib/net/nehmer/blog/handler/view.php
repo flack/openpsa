@@ -20,7 +20,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * The article to display
@@ -28,7 +28,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * @var midcom_db_article
      * @access private
      */
-    var $_article = null;
+    private $_article = null;
 
     /**
      * The Datamanager of the article to display.
@@ -36,7 +36,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * @var midcom_helper_datamanager2_datamanager
      * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * Simple helper which references all important members to the request data listing

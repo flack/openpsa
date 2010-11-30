@@ -32,7 +32,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
      *
      * @var midcom_core_dbobject
      */
-    var $_object = null;
+    private $_object = null;
 
     /**
      * Initializes the class. The real startup is done by the initialize() call.

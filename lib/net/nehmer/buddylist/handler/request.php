@@ -21,7 +21,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @param midcom_core_user
      * @access protected
      */
-    var $_buddy_user = null;
+    private $_buddy_user = null;
 
     /**
      * Processing message.
@@ -29,7 +29,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @var net_nehmer_buddylist_entry
      * @access protected
      */
-    var $_processing_msg = null;
+    private $_processing_msg = null;
 
     /**
      * Untranslated processing message.
@@ -37,7 +37,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @var net_nehmer_buddylist_entry
      * @access protected
      */
-    var $_processing_msg_raw = null;
+    private $_processing_msg_raw = null;
 
     /**
      * Simple helper which references all important members to the request data listing

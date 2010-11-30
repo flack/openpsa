@@ -16,7 +16,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
     /**
      * Contains the one journal_entry to edit
      */
-    var $_journal_entry = null;
+    private $_journal_entry = null;
 
     /**
      * Contains the query-builder for journal-entries

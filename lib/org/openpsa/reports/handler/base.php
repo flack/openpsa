@@ -14,7 +14,7 @@
  */
 class org_openpsa_reports_handler_base extends midcom_baseclasses_components_handler
 {
-    var $_datamanagers = array();
+    private $_datamanagers = array();
     var $module = false;
 
     /**

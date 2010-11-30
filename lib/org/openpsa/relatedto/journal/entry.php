@@ -11,8 +11,8 @@
  */
 class org_openpsa_relatedto_journal_entry_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_relatedto_journal_entry';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_relatedto_journal_entry';
 
     public function __construct($id = null)
     {

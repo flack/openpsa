@@ -16,8 +16,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 {
     var $type = '';
 
-    var $_undeleted_size = 0;
-
     /**
      * Simple default constructor.
      */

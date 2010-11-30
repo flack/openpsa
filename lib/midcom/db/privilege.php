@@ -14,8 +14,8 @@
  */
 class midcom_db_privilege extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midcom_core_privilege_db';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midcom_core_privilege_db';
 
     public function __construct($id=null)
     {

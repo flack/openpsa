@@ -13,8 +13,8 @@
  */
 class net_nehmer_account_invites_invite_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'net_nehmer_accounts_invites_invite';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'net_nehmer_accounts_invites_invite';
 
     static function new_query_builder()
     {

@@ -43,7 +43,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      */
     private $_schema = 'default';
 
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     public function _on_initialize()
     {

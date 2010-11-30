@@ -43,20 +43,20 @@ class MagpieRSS {
     var $feed_version;
     var $encoding       = '';       // output encoding of parsed rss
     
-    var $_source_encoding = '';     // only set if we have to parse xml prolog
+    private $_source_encoding = '';     // only set if we have to parse xml prolog
     
     var $ERROR = "";
     var $WARNING = "";
     
     // define some constants
     
-    var $_ATOM_CONTENT_CONSTRUCTS = array(
+    private $_ATOM_CONTENT_CONSTRUCTS = array(
         'content', 'summary', 'title', /* common */
     'info', 'tagline', 'copyright', /* Atom 0.3 */
         'rights', 'subtitle', /* Atom 1.0 */
     );
-    var $_XHTML_CONTENT_CONSTRUCTS = array('body', 'div');
-    var $_KNOWN_ENCODINGS    = array('UTF-8', 'US-ASCII', 'ISO-8859-1');
+    private $_XHTML_CONTENT_CONSTRUCTS = array('body', 'div');
+    private $_KNOWN_ENCODINGS    = array('UTF-8', 'US-ASCII', 'ISO-8859-1');
 
     // parser variables, useless if you're not a parser, treat as private
     var $stack              = array(); // parser stack

@@ -14,8 +14,8 @@
  */
 class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasses_components_handler
 {
-    var $_campaign = false;
-    var $_list_type = false;
+    private $_campaign = false;
+    private $_list_type = false;
 
     /**
      * Internal helper, loads the datamanager for the current message. Any error triggers a 500.

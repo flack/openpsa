@@ -11,8 +11,8 @@
  */
 class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_organization';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_organization';
 
     var $members = array();
     var $members_loaded = false;

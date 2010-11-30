@@ -13,18 +13,18 @@
  */
 class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_handler
 {
-    var $_host_guid = '';
-    var $_structure_config_path = '';
-    var $_verbose = false;
-    var $_home_name = '';
-    var $_home_title = '';
-    var $_creation_root_topic_guid = '';
-    var $_creation_root_topic_parent_guid = '';
-    var $_creation_root_topic_component = '';
-    var $_creation_root_topic_parameters = array();
-    var $_creation_root_group_guid = '';
-    var $_creation_root_group_parent_guid ='';
-    var $_creation_root_group_name = '';
+    private $_host_guid = '';
+    private $_structure_config_path = '';
+    private $_verbose = false;
+    private $_home_name = '';
+    private $_home_title = '';
+    private $_creation_root_topic_guid = '';
+    private $_creation_root_topic_parent_guid = '';
+    private $_creation_root_topic_component = '';
+    private $_creation_root_topic_parameters = array();
+    private $_creation_root_group_guid = '';
+    private $_creation_root_group_parent_guid ='';
+    private $_creation_root_group_name = '';
 
     public function _on_initialize()
     {

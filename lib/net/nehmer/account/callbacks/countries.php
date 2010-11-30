@@ -25,16 +25,7 @@ class net_nehmer_account_callbacks_countries extends midcom_baseclasses_componen
      * @var array
      * @access private
      */
-    var $_data = null;
-
-    /**
-     * The callback class instance, a callback matching the signature required for the DM2 select
-     * type callbacks.
-     *
-     * @var object
-     * @access private
-     */
-    var $_callback = null;
+    private $_data = null;
 
     public function __construct($args)
     {

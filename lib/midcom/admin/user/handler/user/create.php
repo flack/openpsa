@@ -14,7 +14,7 @@
  */
 class midcom_admin_user_handler_user_create extends midcom_baseclasses_components_handler
 {
-    var $_person = null;
+    private $_person = null;
 
     /**
      * Simple constructor

@@ -12,8 +12,8 @@
  */
 class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_person';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_person';
 
     var $name; //Compound of firstname, lastname and username
     var $rname; //Another compound of firstname, lastname and username

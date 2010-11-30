@@ -15,8 +15,8 @@
  */
 class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_event';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_event';
 
     /**
      * list of participants
@@ -83,13 +83,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
      * @var mixed
      */
     var $busy_er = false;
-
-    /**
-     * Some compatibility switches, mainly for vCal imports
-     *
-     * @var array
-     */
-    var $_compatibility = array();
 
     /**
      * Send notifications to participants of the event

@@ -74,11 +74,8 @@
  */
 class org_openpsa_directmarketing_campaign_ruleresolver
 {
-    var $_qbs = array(); //QB instances used by class
-    var $_results =  array(); //Resultsets from said QBs
-    var $_rules = null; //Copy of rules as received
-    var $_seek =  array(); //index for quickly finding out which persons are found via which classes
-    var $_result_mc = null; // Contact-qb containing results
+    private $_rules = null; //Copy of rules as received
+    private $_result_mc = null; // Contact-qb containing results
 
 
     public function __construct($rules = false)

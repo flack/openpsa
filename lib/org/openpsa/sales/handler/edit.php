@@ -14,8 +14,7 @@
  */
 class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handler
 {
-    var $_datamanager;
-    var $_schemadb_deliverable;
+    private $_datamanager;
 
     /**
      * The Controller of the document used for creating or editing

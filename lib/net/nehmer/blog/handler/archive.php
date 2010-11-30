@@ -25,7 +25,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * The articles to display
@@ -33,14 +33,14 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @var Array
      * @access private
      */
-    var $_articles = null;
+    private $_articles = null;
 
     /**
      * The datamanager for the currently displayed article.
      *
      * @var midcom_helper_datamanager2_datamanager
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * The start date of the Archive listing.
@@ -48,7 +48,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @var Date
      * @access private
      */
-    var $_start = null;
+    private $_start = null;
 
     /**
      * The end date of the Archive listing.
@@ -56,7 +56,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @var Date
      * @access private
      */
-    var $_end = null;
+    private $_end = null;
 
     /**
      * Maps the content topic from the request data to local member variables.

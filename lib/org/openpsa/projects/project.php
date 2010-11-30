@@ -12,8 +12,8 @@
  */
 class org_openpsa_projects_project extends org_openpsa_projects_task_dba
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'org_openpsa_task';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'org_openpsa_task';
 
     static function new_query_builder()
     {

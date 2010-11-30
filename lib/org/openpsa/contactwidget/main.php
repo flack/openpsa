@@ -20,7 +20,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
     /**
      * Do we have our contact data ?
      */
-    var $_data_read_ok = false;
+    private $_data_read_ok = false;
 
     /**
      * Contact information of the person being displayed

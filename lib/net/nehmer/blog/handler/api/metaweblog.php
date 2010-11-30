@@ -21,22 +21,14 @@ error_reporting(E_ALL);
 class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_components_handler
 {
     /**
-     * The article to operate on
-     *
-     * @var midcom_db_article
-     * @access private
-     */
-    var $_article;
-
-    /**
      * The content topic to use
      *
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
-    var $_positioning = false;
+    private $_positioning = false;
 
     /**
      * Maps the content topic from the request data to local member variables.

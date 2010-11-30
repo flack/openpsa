@@ -67,7 +67,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var midcom_db_person
      * @access private
      */
-    var $_account = null;
+    private $_account = null;
 
     /**
      * The Avatar image, if set.
@@ -75,7 +75,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var midcom_db_attachment
      * @access private
      */
-    var $_avatar = null;
+    private $_avatar = null;
 
     /**
      * The Avatar thumbnail image, if set.
@@ -83,7 +83,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var midcom_db_attachment
      * @access private
      */
-    var $_avatar_thumbnail = null;
+    private $_avatar_thumbnail = null;
 
     /**
      * The midcom_core_user object matching the loaded account. This is useful for
@@ -92,7 +92,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var midcom_core_user
      * @access private
      */
-    var $_user = null;
+    private $_user = null;
 
     /**
      * This flag is set to true if we are viewing the account of the currently registered
@@ -101,7 +101,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var boolean
      * @access private
      */
-    var $_view_self = false;
+    private $_view_self = false;
 
     /**
      * This is true if we are in the quick-view mode, which displays only the administratively
@@ -111,7 +111,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var boolean
      * @access private
      */
-    var $_view_quick = false;
+    private $_view_quick = false;
 
     /**
      * The datamanager used to load the account-related information.
@@ -119,7 +119,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var midcom_helper_datamanager2_datamanager
      * @access private
      */
-    var $_datamanager = null;
+    private $_datamanager = null;
 
     /**
      * This is a list of visible field names of the current account. It is computed after
@@ -128,7 +128,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var Array
      * @access private
      */
-    var $_visible_fields = Array();
+    private $_visible_fields = Array();
 
     /**
      * This is an array extracted out of the parameter net.nehmer.account/visible_field_list,
@@ -138,7 +138,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @var Array
      * @access private
      */
-    var $_visible_fields_user_selection = Array();
+    private $_visible_fields_user_selection = Array();
 
     var $person_toolbar = false;
     var $person_toolbar_html = '';

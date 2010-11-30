@@ -14,7 +14,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      * @var midcom_db_topic
      */
     private $_codeinit = null;
-    var $_config_storage = null;
+    private $_config_storage = null;
 
     /**
      * The Datamanager of the article to display (for delete mode)

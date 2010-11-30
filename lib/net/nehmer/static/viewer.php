@@ -25,7 +25,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
      * @var midcom_db_topic
      * @access private
      */
-    var $_content_topic = null;
+    private $_content_topic = null;
 
     /**
      * Initialize the request switch and the content topic.

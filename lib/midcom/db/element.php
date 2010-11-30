@@ -21,8 +21,8 @@
  */
 class midcom_db_element extends midcom_core_dbaobject
 {
-    var $__midcom_class_name__ = __CLASS__;
-    var $__mgdschema_class_name__ = 'midgard_element';
+    public $__midcom_class_name__ = __CLASS__;
+    public $__mgdschema_class_name__ = 'midgard_element';
 
     /**
      * Overwrite the query builder getter with a version retrieving the right type.

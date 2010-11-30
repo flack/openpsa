@@ -14,7 +14,7 @@
  */
 class midcom_admin_user_handler_list extends midcom_baseclasses_components_handler
 {
-    var $_persons = array();
+    private $_persons = array();
 
     /**
      * Simple constructor
