@@ -180,5 +180,16 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         }
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $this->_breadcrumbs);
     }
+
+    /**
+     * Default helper function for DM2 schema-related operations
+     *
+     * return string The default DM2 schema name
+     */
+    public function get_schema_name()
+    {
+        return 'default';
+    }
+
 }
 ?>

@@ -12,6 +12,7 @@
  * @package org.openpsa.relatedto
  */
 class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * Contains the one journal_entry to edit
@@ -190,10 +191,7 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
     {
         $_MIDCOM->componentloader->load('org.openpsa.relatedto');
 
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database(midcom_baseclasses_components_configuration::get('org.openpsa.relatedto', 'config')->get('schemadb_journalentry'));
-        $this->_schema = 'default';
-
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->load_schemadb());
 
         if (!$this->_datamanager)
         {
@@ -203,25 +201,15 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
     }
 
     /**
-     * load controller for datamanager
+     * Load create controller
      */
     private function _load_controller()
     {
-        if (!empty($this->_journal_entry))
-        {
-            $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        }
-        else
-        {
-            $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        }
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
+        $this->_controller = midcom_helper_datamanager2_controller::create('create');
         $this->_controller->callback_object =& $this;
-        if(!empty($this->_journal_entry))
-        {
-            $this->_controller->set_storage($this->_journal_entry, $this->_schema);
-        }
+        $this->_controller->schemadb = $this->load_schemadb();
+        $this->_controller->schemaname = $this->get_schema_name();
+
         if (! $this->_controller->initialize())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
@@ -262,6 +250,12 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
         return true;
     }
 
+    public function load_schemadb()
+    {
+        $schemadb_name = midcom_baseclasses_components_configuration::get('org.openpsa.relatedto', 'config')->get('schemadb_journalentry');
+        return midcom_helper_datamanager2_schema::load_database($schemadb_name);
+    }
+
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
@@ -275,8 +269,8 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
 
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
-        $this->_prepare_datamanager();
-        $this->_load_controller();
+        $this->_controller = midcom_helper_datamanager2_handler::get_simple_controller($this, $this->_journal_entry);
+
         $url_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
         switch ($this->_controller->process_form())
@@ -288,7 +282,6 @@ class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_comp
                 // This will exit.
                 break;
         }
-        $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['controller'] =& $this->_controller;
 
         org_openpsa_helpers::dm2_savecancel($this);

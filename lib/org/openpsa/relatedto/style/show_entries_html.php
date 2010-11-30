@@ -5,47 +5,40 @@
     if( !array_key_exists('dynamic_load' , $data)
         && array_key_exists('entries' , $data))
     {
-        echo "var entries = [\n";
+        $rows = array();
         foreach($data['entries'] as $entry)
         {
-            if ($start)
-            {
-                $start = false;
-            }
-            else
-            {
-                echo ",\n";
-            }
-            echo "{";
-            echo "id:\"" . $entry->id ."\"";
-            echo ",index_name:\"" . $entry->title ."\"";
+            $row = array
+            (
+                'id' => $entry->id,
+                'index_name' => $entry->title,
+                'description' => $entry->text,
+                'index_date' => $entry->followUp,
+            );
 
             $link_html = "<a href='" . $data['url_prefix'] . "edit/" . $entry->guid ."/'>";
             $link_html .= "<span >" . $entry->title . "</span></a>";
-            echo ",name:\"" . $link_html . "\"";
-
-            echo ",description:\"" . $entry->text . "\"";
-            echo ",index_date:\"" . $entry->followUp . "\"";
+            $row['name'] = $link_html; 
 
             if ($entry->followUp == 0)
             {
-                echo ",remind_date:'none'";
+                $row['remind_date'] = 'none';
             }
             else
             {
-                echo ",remind_date:\"" . date('d.m.Y' , $entry->followUp) ."\"";
+                $row['remind_date'] = date('d.m.Y' , $entry->followUp);
             }
             if ($entry->closed)
             {
-                echo ",closed:\"" . $_MIDCOM->i18n->get_string('finished', 'org.openpsa.relatedto') . "\"";
+                $row['closed'] = $_MIDCOM->i18n->get_string('finished', 'org.openpsa.relatedto');
             }
             else
             {
-                echo ",closed:\"" . $_MIDCOM->i18n->get_string('open', 'org.openpsa.relatedto') . "\"";
+                $row['closed'] = $_MIDCOM->i18n->get_string('open', 'org.openpsa.relatedto');
             }
-            echo "}";
+            $rows[] = $row;
         }
-        echo "\n];";
+        echo 'var entries = ' . json_encode($rows) . ";\n";
     }
     ?>
     function jqgrid_resize()

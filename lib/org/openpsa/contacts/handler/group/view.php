@@ -12,48 +12,28 @@
  *
  * @package org.openpsa.contacts
  */
-class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler
+class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler 
+implements midcom_helper_datamanager2_interfaces_view
 {
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
-
     /**
      * Loads and prepares the schema database.
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
-        $this->_schemadb =& midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }
 
     private function _load($identifier)
     {
         $this->_group = new org_openpsa_contacts_group_dba($identifier);
-
-        if (!$this->_group)
+        if (   !$this->_group
+            || !$this->_group->guid)
         {
             return false;
         }
-
-        $this->_load_schemadb();
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (   ! $this->_datamanager
-            || ! $this->_datamanager->autoset_storage($this->_group))
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for group #{$this->_group->id}.");
-            // This will exit.
-        }
+        return true;
     }
 
     /**
@@ -67,24 +47,22 @@ class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_compone
         $_MIDCOM->auth->require_valid_user();
 
         // Get the requested group object
-        $this->_load($args[0]);
-        if (!$this->_group
-            || !$this->_group->guid)
+        if (!$this->_load($args[0]))
         {
             return false;
         }
 
-        $this->_request_data['group'] =& $this->_group;
-        $this->_request_data['view'] =& $this->_datamanager->get_content_html();
+        $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->_group);
+        $data['group'] =& $this->_group;
 
         $root_group = org_openpsa_contacts_interface::find_root_group();
         if ($this->_group->owner != $root_group->id)
         {
-            $this->_request_data['parent_group'] = $this->_group->get_parent();
+            $data['parent_group'] = $this->_group->get_parent();
         }
         else
         {
-            $this->_request_data['parent_group'] = false;
+            $data['parent_group'] = false;
         }
 
         //pass billing-data if invoices is installed

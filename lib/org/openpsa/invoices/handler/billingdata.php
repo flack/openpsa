@@ -8,44 +8,31 @@
  */
 
 /**
- * billing_data handlers
+ * Billing data handlers
  *
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
-     * contains the object the billing data is linked to
+     * Contains the object the billing data is linked to
      *
      * @var object
      */
     private $_linked_object = null;
 
     /**
-     * contains the billing_data
+     * Contains the billing_data
      *
      * @var object
      */
     private $_billing_data = null;
 
     /**
-     * contains datamanager-controller
+     * Contains datamanager-controller
      */
-     private $_controller = null;
-
-     /**
-     * contains datamanager object
-     */
-     private $_datamanager = null;
-     /**
-     * contains schema for datamanager
-     */
-     private $_schemadb = null;
-
-     /**
-     * contains schema-name
-     */
-     private $_schema = 'default';
+    private $_controller = null;
 
     public function _handler_billingdata($handler_id, $args, &$data)
     {
@@ -53,10 +40,9 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $this->_billing_data = org_openpsa_invoices_billing_data_dba::get_cached($args[0]);
         $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
 
-        $_MIDCOM->set_pagetitle($_MIDCOM->i18n->get_string('edit' , 'midcom') . " " . $this->_l10n->get("billing data"));
+        $_MIDCOM->set_pagetitle($_MIDCOM->i18n->get_string('edit', 'midcom') . " " . $this->_l10n->get("billing data"));
 
-        $this->_prepare_datamanager();
-        $this->_load_controller();
+        $this->_controller = midcom_helper_datamanager2_handler::get_simple_controller($this, $this->_billing_data);
         $this->_process_billing_form();
 
         $_MIDCOM->enable_jquery();
@@ -68,25 +54,16 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         org_openpsa_helpers::dm2_savecancel($this);
         $_MIDCOM->bind_view_to_object($this->_billing_data);
 
-        $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['controller'] =& $this->_controller;
 
         return true;
     }
 
-    public function _show_billingdata($handler_id, &$data)
+    public function load_schemadb()
     {
-        midcom_show_style('show-billingdata');
-    }
-    /**
-     * function to load libraries/schemas for datamanager
-     */
-    private function _prepare_datamanager()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_billing_data'));
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_billing_data'));
 
-        $fields =& $this->_schemadb[$this->_schema]->fields;
+        $fields =& $schemadb[$this->get_schema_name()]->fields;
         // Fill VAT select
         $vat_array = explode(',', $this->_config->get('vat_percentages'));
         if (   is_array($vat_array)
@@ -99,46 +76,38 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
             }
             $fields['vat']['type_config']['options'] = $vat_values;
         }
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+ 
+        $dummy_invoice = new org_openpsa_invoices_invoice_dba();
+        //set the defaults for vat & due to the schema
+        $fields['due']['default'] = $dummy_invoice->get_default_due();
+        $fields['vat']['default'] = $dummy_invoice->get_default_vat();
+        unset($dummy_invoice);
 
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Datamanager could not be instantiated.");
-            // This will exit.
-        }
+        return $schemadb;
+    }
+
+    public function _show_billingdata($handler_id, &$data)
+    {
+        midcom_show_style('show-billingdata');
     }
 
     /**
-     * load controller for datamanager
+     * Load create controller
      */
     private function _load_controller()
     {
-        if($this->_billing_data)
-        {
-            $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        }
-        else
-        {
-            $this->_controller = midcom_helper_datamanager2_controller::create('create');
-            $this->_controller->callback_object =& $this;
-        }
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
-        if ($this->_billing_data)
-        {
-            $this->_controller->set_storage($this->_billing_data, $this->_schema);
-        }
+        $_MIDCOM->load_library('midcom.helper.datamanager2');
+
+        $this->_controller = midcom_helper_datamanager2_controller::create('create');
+        $this->_controller->callback_object =& $this;
+        $this->_controller->schemadb = $this->load_schemadb();
+        $this->_controller->schemaname = $this->get_schema_name();
+
         if (! $this->_controller->initialize())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
             // This will exit.
         }
-
-        $dummy_invoice = new org_openpsa_invoices_invoice_dba();
-        //set the defaults for vat & due to the schema
-        $this->_controller->schemadb[$this->_schema]->fields['due']['default'] = $dummy_invoice->get_default_due();
-        $this->_controller->schemadb[$this->_schema]->fields['vat']['default'] = $dummy_invoice->get_default_vat();
-        unset($dummy_invoice);
     }
 
     /**
@@ -176,14 +145,13 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         $_MIDCOM->auth->require_valid_user();
 
         $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if(empty($this->_linked_object->guid))
+        if (empty($this->_linked_object->guid))
         {
-            debug_print_r('Passed guid does not exists. GUID :', $args[0]);
+            debug_print_r('Passed guid does not exist. GUID :', $args[0]);
         }
 
         $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create' , 'midcom') . " " . $this->_l10n->get("billing data")));
 
-        $this->_prepare_datamanager();
         $this->_load_controller();
 
         $this->_process_billing_form();
@@ -196,8 +164,6 @@ class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_compon
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
 
-
-        $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['controller'] =& $this->_controller;
 
         return true;

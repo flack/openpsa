@@ -13,6 +13,7 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * The group we're working on
@@ -35,34 +36,15 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
      */
     private $_schemadb = null;
 
-    /**
-     * Schema to use for organization display
-     *
-     * @var string
-     */
-    private $_schema = null;
-
     public function _on_initialize()
     {
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
     }
 
-    /**
-     * Internal helper, loads the controller for the current contact. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-
-        $this->_controller->set_storage($this->_group, $this->_schema);
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for contact {$this->_contact->id}.");
-            // This will exit.
-        }
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }
 
     /**
@@ -83,14 +65,14 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
 
         $this->_group->require_do('midgard:update');
 
-        $this->_load_controller();
+        $data['controller'] = midcom_helper_datamanager2_handler::get_simple_controller($this, $this->_group);
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Index the organization
                 $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_group($this->_controller->datamanager, $indexer, $this->_content_topic);
+                org_openpsa_contacts_viewer::index_group($data['controller']->datamanager, $indexer, $this->_content_topic);
 
                 // *** FALL-THROUGH ***
 
@@ -112,7 +94,6 @@ class org_openpsa_contacts_handler_group_edit extends midcom_baseclasses_compone
             $this->_request_data['parent_group'] = false;
         }
 
-        $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['group'] =& $this->_group;
 
         org_openpsa_helpers::dm2_savecancel($this);
