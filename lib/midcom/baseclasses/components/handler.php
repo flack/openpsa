@@ -195,7 +195,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     	switch ($type)
         {
         	case 'simple':
-                return midcom_helper_datamanager_handler::get_simple_controller($this, $object);
+                return midcom_helper_datamanager2_handler::get_simple_controller($this, $object);
             default:
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Unsupported controller type: {$type}");
                 // This will exit.
