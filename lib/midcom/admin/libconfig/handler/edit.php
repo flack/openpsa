@@ -14,6 +14,11 @@
  */
 class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_handler
 {
+    /**
+     * The component we're working on
+     */
+    private $_component_name;
+
     public function _on_initialize()
     {
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.libconfig');
@@ -27,9 +32,9 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
     /**
      * Populate breadcrumb
      */
-    private function _update_breadcrumb($name)
+    private function _update_breadcrumb()
     {
-        $label = $_MIDCOM->i18n->get_string($name, $name);
+        $label = $_MIDCOM->i18n->get_string($this->_component_name, $this->_component_name);
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $this->_request_data['view_title']);
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/view/{$name}", $label);
@@ -49,12 +54,13 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        if (!array_key_exists($args[0],$_MIDCOM->componentloader->manifests))
+        $this->_component_name = $args[0];
+        if (!array_key_exists($this->_component_name, $_MIDCOM->componentloader->manifests))
         {
             return false;
         }
 
-        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($args[0]);
+        $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($this->_component_name);
 
         // Load and parse the global config
         $cfg = midcom_baseclasses_components_configuration::read_array_from_file("{$componentpath}/config/config.inc");
@@ -67,14 +73,14 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         $this->_libconfig = new midcom_helper_configuration($cfg);
 
         // Go for the sitewide default
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("/etc/midgard/midcom/{$args[0]}/config.inc");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_file("/etc/midgard/midcom/$this->_component_name}/config.inc");
         if ($cfg !== false)
         {
             $this->_libconfig->store($cfg, false);
         }
 
         // Finally, check the sitegroup config
-        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$args[0]}/config");
+        $cfg = midcom_baseclasses_components_configuration::read_array_from_snippet("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/$this->_component_name/config");
         if ($cfg !== false)
         {
             $this->_libconfig->store($cfg, false);
@@ -90,7 +96,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         {
             // Create dummy schema. Naughty component would not provide config schema.
             $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midcom/admin/libconfig/config/schemadb_template.inc");
-            $schemadb['default']->l10n_schema = $args[0];
+            $schemadb['default']->l10n_schema = $this->_component_name;
         }
 
         foreach ($this->_libconfig->_global as $key => $value)
@@ -138,63 +144,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $sg_snippetdir = new midcom_db_snippetdir();
-                $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
-                if ($sg_snippetdir->id == false )
-                {
-                    $sd = new midcom_db_snippetdir();
-                    $sd->up = 0;
-                    $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
-                    if (!$sd->create())
-                    {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}".midcom_connection::get_error_string());
-                    }
-                    $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
-                    unset($sd);
-                }
-
-                $lib_snippetdir = new midcom_db_snippetdir();
-                $lib_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']."/".$args[0]);
-                if ($lib_snippetdir->id == false )
-                {
-                    $sd = new midcom_db_snippetdir();
-                    $sd->up = $sg_snippetdir->id;
-                    $sd->name = $args[0];
-                    if (!$sd->create())
-                    {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$args[0]}".midcom_connection::get_error_string());
-                    }
-                    $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
-                    unset($sd);
-                }
-
-                $snippet = new midcom_db_snippet();
-                $snippet->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']."/".$args[0]."/config");
-                if ($snippet->id == false )
-                {
-                    $sn = new midcom_db_snippet();
-                    $sn->up = $lib_snippetdir->id;
-                    $sn->name = "config";
-                    if (!$sn->create())
-                    {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create config snippet".midcom_connection::get_error_string());
-                    }
-                    $snippet = new midcom_db_snippet($sn->id);
-                }
-
-                $snippet->code = $this->_get_config($this->_controller);
-
-                if (   $snippet->code == ''
-                    || !$snippet->code)
-                {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "code-init content generation failed.");
-                    // This will exit.
-                }
-
-                $rst = $snippet->update();
-
-                if ($rst)
+                if ($this->_save_configuration())
                 {
                     mgd_cache_invalidate();
                     $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
@@ -211,18 +161,76 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
                 // *** FALL-THROUGH ***
 
             case 'cancel':
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.libconfig/edit/'.$args[0]);
+                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.libconfig/edit/' . $this->_component_name);
                 // This will exit.
         }
 
-
         $data['controller'] =& $this->_controller;
 
-        $this->_update_breadcrumb($args[0]);
+        $this->_update_breadcrumb();
         $this->_prepare_toolbar($data);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         return true;
+    }
+
+    private function _save_configuration()
+    {
+        $sg_snippetdir = new midcom_db_snippetdir();
+        $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
+        if ($sg_snippetdir->id == false )
+        {
+            $sd = new midcom_db_snippetdir();
+            $sd->up = 0;
+            $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
+            if (!$sd->create())
+            {
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}".midcom_connection::get_error_string());
+            }
+            $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
+            unset($sd);
+        }
+
+        $lib_snippetdir = new midcom_db_snippetdir();
+        $lib_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name);
+        if ($lib_snippetdir->id == false )
+        {
+            $sd = new midcom_db_snippetdir();
+            $sd->up = $sg_snippetdir->id;
+            $sd->name = $this->_component_name;
+            if (!$sd->create())
+            {
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$this->_component_name}".midcom_connection::get_error_string());
+            }
+            $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
+            unset($sd);
+        }
+
+        $snippet = new midcom_db_snippet();
+        $snippet->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir'] . "/" . $this->_component_name . "/config");
+        if ($snippet->id == false )
+        {
+            $sn = new midcom_db_snippet();
+            $sn->up = $lib_snippetdir->id;
+            $sn->name = "config";
+            if (!$sn->create())
+            {
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create config snippet".midcom_connection::get_error_string());
+            }
+            $snippet = new midcom_db_snippet($sn->id);
+        }
+
+        $snippet->code = $this->_get_config($this->_controller);
+
+        if (   $snippet->code == ''
+            || !$snippet->code)
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                                     "code-init content generation failed.");
+            // This will exit.
+        }
+
+        return $snippet->update();
     }
 
     /**

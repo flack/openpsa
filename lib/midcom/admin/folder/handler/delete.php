@@ -275,10 +275,9 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     /**
      * List topic contents
      *
-     * @static
      * @param int $id Topic ID
      */
-    public function list_children($id)
+    public static function list_children($id)
     {
         $children = array();
         if ($topic = new midcom_db_topic($id))

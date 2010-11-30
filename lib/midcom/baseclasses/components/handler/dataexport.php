@@ -69,9 +69,9 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
     }
 
-    abstract function _load_schemadb();
+    abstract function _load_schemadb($handler_id, &$args, &$data);
 
-    abstract function _load_data();
+    abstract function _load_data($handler_id, &$args, &$data);
 
     public function _handler_csv($handler_id, $args, &$data)
     {

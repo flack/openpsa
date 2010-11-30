@@ -174,44 +174,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         if ($this->_save_update)
         {
             debug_add('Updating strings', MIDCOM_LOG_DEBUG);
-            foreach ($this->_save_update['id'] as $k => $v)
-            {
-                $id = $this->_save_update['id'][$k];
-                $loc = $this->_save_update['value'][$k];
-                $origloc = $this->_component_l10n->get($id, $this->_lang);
-
-                if ($this->_component_l10n->string_exists($id, $this->_lang))
-                {
-                    if ($loc == $origloc)
-                    {
-                        debug_add("'{$id}' is unchanged, skipping it.");
-                        continue;
-                    }
-
-                    if (!$loc)
-                    {
-                        debug_add("Resetting '{$id}'", MIDCOM_LOG_DEBUG);
-                        $this->_component_l10n->delete($id, $this->_lang);
-                        $changes = true;
-                    }
-                    else
-                    {
-                        debug_add("Updating '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
-                        $this->_component_l10n->update($id, $this->_lang, $loc);
-                        $changes = true;
-                    }
-                }
-                else if ($loc)
-                {
-                    debug_add("Creating '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
-                    $this->_component_l10n->update($id, $this->_lang, $loc);
-                    $changes = true;
-                }
-                else
-                {
-                    debug_add("Ignoring '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
-                }
-            }
+            $changes = $this->_update_lang();
         }
 
         // create new strings
@@ -248,6 +211,51 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
         $_MIDCOM->relocate("__mfa/asgard_midcom.admin.babel/edit/{$this->_component_path}/{$this->_lang}/");
         // This will exit
+    }
+
+    private function _update_lang()
+    {
+        $changes = false;
+
+        foreach ($this->_save_update['id'] as $k => $v)
+        {
+            $id = $this->_save_update['id'][$k];
+            $loc = $this->_save_update['value'][$k];
+            $origloc = $this->_component_l10n->get($id, $this->_lang);
+
+            if ($this->_component_l10n->string_exists($id, $this->_lang))
+            {
+                if ($loc == $origloc)
+                {
+                    debug_add("'{$id}' is unchanged, skipping it.");
+                    continue;
+                }
+
+                if (!$loc)
+                {
+                    debug_add("Resetting '{$id}'", MIDCOM_LOG_DEBUG);
+                    $this->_component_l10n->delete($id, $this->_lang);
+                    $changes = true;
+                }
+                else
+                {
+                    debug_add("Updating '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
+                    $this->_component_l10n->update($id, $this->_lang, $loc);
+                    $changes = true;
+                }
+            }
+            else if ($loc)
+            {
+                debug_add("Creating '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
+                $this->_component_l10n->update($id, $this->_lang, $loc);
+                $changes = true;
+            }
+            else
+            {
+                debug_add("Ignoring '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
+            }
+        }
+        return $changes;
     }
 
     /**

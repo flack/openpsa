@@ -225,7 +225,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         return $marker->render($text);
     }
 
-    function list_files($component, $with_index = false)
+    public function list_files($component, $with_index = false)
     {
         $files = array();
 
