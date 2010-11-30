@@ -13,6 +13,7 @@
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     private $_group = null;
 
@@ -62,42 +63,25 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
     /**
      * Loads and prepares the schema database.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-    }
-
-    /**
-     * Internal helper, loads the controller for the current group. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_load_schemadb();
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
 
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $this->_group->id);
         if (   $qb->count_unchecked() > $this->_config->get('list_users_max')
-            && isset($this->_schemadb['default']->fields['persons']))
+            && isset($schemadb['default']->fields['persons']))
         {
-            unset($this->_schemadb['default']->fields['persons']);
-            $field_order_key = array_search('persons', $this->_schemadb['default']->field_order);
+            unset($schemadb['default']->fields['persons']);
+            $field_order_key = array_search('persons', $schemadb['default']->field_order);
             if ($field_order_key !== false)
             {
-                unset($this->_schemadb['default']->field_order[$field_order_key]);
+                unset($schemadb['default']->field_order[$field_order_key]);
             }
         }
         unset($qb);
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_group, 'default');
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for group {$this->_group->id}.");
-            // This will exit.
-        }
+        return $schemadb;
     }
-
 
     /**
      * Handler method for listing style elements for the currently used component topic
@@ -117,10 +101,8 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         }
         $this->_group->require_do('midgard:update');
 
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-
-        $this->_load_controller();
-        switch ($this->_controller->process_form())
+        $controller = $this->get_controller('simple', $this->_group);
+        switch ($controller->process_form())
         {
             case 'save':
                 // Show confirmation for the group
@@ -134,6 +116,10 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
+
+        $data['group'] =& $this->_group;
+        $data['controller'] =& $controller;
+        $data['asgard_toolbar'] = new midcom_helper_toolbar();
 
         $ref = new midcom_helper_reflector($this->_group);
         $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $ref->get_object_title($this->_group));
@@ -174,11 +160,7 @@ class midcom_admin_user_handler_group_edit extends midcom_baseclasses_components
     public function _show_edit($handler_id, &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
-
-        $data['group'] =& $this->_group;
-        $data['controller'] =& $this->_controller;
         midcom_show_style('midcom-admin-user-group-edit');
-
         midgard_admin_asgard_plugin::asgard_footer();
     }
 }

@@ -15,6 +15,7 @@
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * Object requested for metadata editing
@@ -29,13 +30,6 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
      * @var midcom_helper_datamanager2_controller
      */
     private $_controller = null;
-
-    /**
-     * Datamanager 2 schema instance
-     *
-     * @var midcom_helper_datamanager2_schema
-     */
-    private $_schemadb = null;
 
     /**
      * Constructor, call for the class parent constructor method.
@@ -62,25 +56,21 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
     {
         $this->_request_data['object'] =& $this->_object;
         $this->_request_data['controller'] =& $this->_controller;
-        $this->_request_data['schemadb'] =& $this->_schemadb;
     }
 
-    /**
-     * Load the DM2 edit controller instance
-     *
-     * @return boolean Indicating success of DM2 edit controller instance
-     */
-    private function _load_controller()
+    public function get_schema_name()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_config']['metadata_schema']);
+    	return 'metadata';
+    }
 
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
+    public function load_schemadb()
+    {
+        $schemadb = midcom_helper_datamanager2_schema::load_database($GLOBALS['midcom_config']['metadata_schema']);
 
         if (   $this->_config->get('enable_review_dates')
-            && !isset($this->_schemadb['metadata']->fields['review_date']))
+            && !isset($schemadb['metadata']->fields['review_date']))
         {
-            $this->_schemadb['metadata']->append_field
+            $schemadb['metadata']->append_field
             (
                 'review_date',
                 array
@@ -101,14 +91,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
                 )
             );
         }
-
-        $this->_controller->set_storage($this->_object, 'metadata');
-
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
-            // This will exit.
-        }
+        return $schemadb;
     }
 
     /**
@@ -150,7 +133,7 @@ class midgard_admin_asgard_handler_object_metadata extends midcom_baseclasses_co
         }
 
         // Load the DM2 controller instance
-        $this->_load_controller();
+        $this->_controller = $this->get_controller('simple', $this->_object);
         switch ($this->_controller->process_form())
         {
             case 'save':

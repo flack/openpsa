@@ -14,7 +14,7 @@
 class midcom_helper_datamanager2_handler
 {
     /**
-     * Loadds the DM2 view of an object.
+     * Loads the DM2 view of an object.
      *
      * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
      * @param midcom_core_dbaobject The object to display

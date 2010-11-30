@@ -182,6 +182,27 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     }
 
     /**
+     * Helper function for quick access to diverse datamanager controllers.
+     *
+     * For this to work, the handler has to implement the respective DM2 interface
+     *
+     * @todo Maybe we should do a class_implements check here
+     * @param string $type The controller type
+     * @param midcom_core_dbaobject $object The object, if any
+     */
+    public function get_controller($type, $object = null)
+    {
+    	switch ($type)
+        {
+        	case 'simple':
+                return midcom_helper_datamanager_handler::get_simple_controller($this, $object);
+            default:
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Unsupported controller type: {$type}");
+                // This will exit.
+        }
+    }
+
+    /**
      * Default helper function for DM2 schema-related operations
      *
      * return string The default DM2 schema name

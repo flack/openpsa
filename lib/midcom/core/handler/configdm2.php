@@ -30,6 +30,7 @@
  * @package midcom.core.handler
  */
 class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * DM2 controller instance
@@ -39,13 +40,6 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
     private $_controller;
 
     /**
-     * DM2 configuration schema
-     *
-     * @var midcom_helper_datamanager2_schema $_schemadb
-     */
-    private $_schemadb;
-
-    /**
      * Load midcom.helper.datamanager2. Called on handler initialization phase.
      */
     public function _on_initialize()
@@ -53,56 +47,35 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         $_MIDCOM->componentloader->load('midcom.helper.datamanager2');
     }
 
-    /**
-     * Load midcom_helper_datamanager2_controller instance or output an error on any error
-     *
-     * @return boolean Indicating success
-     */
-    private function _load_controller()
+    public function load_schemadb()
     {
         if (isset($this->_master->handler['schemadb']))
         {
-            $this->_schemadb_path = $this->_master->handler['schemadb'];
+            $schemadb_path = $this->_master->handler['schemadb'];
         }
-        elseif ($this->_config->get('schemadb_config'))
+        else if ($this->_config->get('schemadb_config'))
         {
-            $this->_schemadb_path = $this->_config->get('schemadb_config');
+            $schemadb_path = $this->_config->get('schemadb_config');
         }
         else
         {
-            debug_add(__CLASS__, __FUNCTION__);
             debug_add('No configuration schema defined', MIDCOM_LOG_ERROR);
 
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "No configuration schema defined");
             // This will exit
         }
 
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
+        $schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_path);
 
-        if (empty($this->_schemadb))
+        if (empty($schemadb))
         {
-            debug_add(__CLASS__, __FUNCTION__);
             debug_add('Failed to load the schemadb', MIDCOM_LOG_ERROR);
 
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to load configuration schemadb');
             // This will exit
         }
 
-        // Create a 'simple' controller
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_topic);
-
-        if (! $this->_controller->initialize())
-        {
-            debug_add(__CLASS__, __FUNCTION__);
-            debug_add('Failed to initialize the configuration controller');
-
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for photo {$this->_photo->id}.");
-            // This will exit.
-        }
-
-        return true;
+        return $schemadb;
     }
 
     /**
@@ -143,7 +116,7 @@ class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handle
         }
 
         // Load the midcom_helper_datamanager2_controller for form processing
-        $this->_load_controller();
+        $this->_controller = $this->get_controller('simple', $this->_topic);
 
         // Process the form
         switch ($this->_controller->process_form())

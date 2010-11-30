@@ -13,6 +13,7 @@
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * The object whose permissions we handle
@@ -27,13 +28,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
      * @var midcom_helper_datamanager2_controller_simple
      */
     private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var array
-     */
-    private $_schemadb = null;
 
     /**
      * Privileges we're managing here
@@ -114,7 +108,6 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
     {
         $this->_request_data['object'] =& $this->_object;
         $this->_request_data['controller'] =& $this->_controller;
-        $this->_request_data['schemadb'] =& $this->_schemadb;
     }
 
     /**
@@ -196,9 +189,9 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_permissions'));
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_permissions'));
 
         // Populate additional assignee selector
         $additional_assignees = array
@@ -275,7 +268,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         asort($additional_assignees);
 
         // Add the 'Add assignees' choices to schema
-        $this->_schemadb['privileges']->fields['add_assignee']['type_config']['options'] = $additional_assignees;
+        $schemadb['privileges']->fields['add_assignee']['type_config']['options'] = $additional_assignees;
 
         $header = '';
 
@@ -303,7 +296,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
                     $header_items[$privilege_label] = "        <th scope=\"col\" class=\"{$privilege_components[1]}\"><span>" . str_replace(' ', "\n", $_MIDCOM->i18n->get_string($privilege_label, 'midgard.admin.asgard')) . "</span></th>\n";
                 }
 
-                $this->_schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(':', '_', str_replace('.', '_', $privilege)), Array
+                $schemadb['privileges']->append_field(str_replace(':', '_', $assignee) . '_' . str_replace(':', '_', str_replace('.', '_', $privilege)), Array
                     (
                         'title' => $privilege_label,
                         'helptext'    => sprintf($_MIDCOM->i18n->get_string('sets privilege %s', 'midgard.admin.asgard'), $privilege),
@@ -328,22 +321,12 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $header .= "        <th scope=\"col\" class=\"row_actions\"><span>&nbsp;</span></th>\n";
 
         $this->_header = $header;
+        return $schemadb;
     }
 
-    /**
-     * Internal helper, loads the controller for the current object. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function get_schema_name()
     {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_object, 'privileges');
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for object {$this->_object->id}.");
-            // This will exit.
-        }
+    	return 'privileges';
     }
 
     /**
@@ -403,7 +386,7 @@ class midgard_admin_asgard_handler_object_permissions extends midcom_baseclasses
         $this->_load_component_privileges();
 
         // Load the datamanager controller
-        $this->_load_controller();
+        $this->_controller = $this->get_controller('simple', $this->_object);
 
         if (   isset($_POST['midcom_helper_datamanager2_add'])
             && isset($_POST['add_assignee'])

@@ -42,7 +42,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $_MIDCOM->set_pagetitle($_MIDCOM->i18n->get_string('edit', 'midcom') . " " . $this->_l10n->get("billing data"));
 
-        $this->_controller = midcom_helper_datamanager2_handler::get_simple_controller($this, $this->_billing_data);
+        $this->_controller = $this->get_controller('simple', $this->_billing_data);
         $this->_process_billing_form();
 
         $_MIDCOM->enable_jquery();
@@ -76,7 +76,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
             $fields['vat']['type_config']['options'] = $vat_values;
         }
- 
+
         $dummy_invoice = new org_openpsa_invoices_invoice_dba();
         //set the defaults for vat & due to the schema
         $fields['due']['default'] = $dummy_invoice->get_default_due();

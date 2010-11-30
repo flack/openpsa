@@ -269,7 +269,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
-        $this->_controller = midcom_helper_datamanager2_handler::get_simple_controller($this, $this->_journal_entry);
+        $this->_controller = $this->get_controller('simple', $this->_journal_entry);
 
         $url_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 

@@ -65,7 +65,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->_group->require_do('midgard:update');
 
-        $data['controller'] = midcom_helper_datamanager2_handler::get_simple_controller($this, $this->_group);
+        $data['controller'] = $this->get_controller('simple', $this->_group);
 
         switch ($data['controller']->process_form())
         {
