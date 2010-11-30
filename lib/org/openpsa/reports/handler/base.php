@@ -12,10 +12,14 @@
  *
  * @package org.openpsa.reports
  */
-class org_openpsa_reports_handler_base extends midcom_baseclasses_components_handler
+abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_components_handler
 {
     private $_datamanagers = array();
     var $module = false;
+
+    abstract function _handler_generator($handler_id, $args, &$data);
+
+    abstract function _show_generator($handler_id, &$data);
 
     /**
      * @param mixed $handler_id The ID of the handler.
@@ -218,8 +222,6 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return true;
     }
 
-
-
     /**
      *
      * @param mixed $handler_id The ID of the handler.
@@ -311,7 +313,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         debug_add('Got resource_id: ' . $resource_id);
         $dba_obj = $_MIDCOM->auth->get_assignee($resource_id);
 
-        org_openpsa_reports_handler_base::_verify_cache('users', $this->_request_data);
+        self::_verify_cache('users', $this->_request_data);
         switch (get_class($dba_obj))
         {
             case 'midcom_core_group':
@@ -342,7 +344,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
         return $ret;
     }
 
-    private function _verify_cache($key, &$request_data)
+    protected static function _verify_cache($key, &$request_data)
     {
         if (   !array_key_exists('object_cache', $request_data)
             || !is_array($request_data['object_cache']))
@@ -361,7 +363,7 @@ class org_openpsa_reports_handler_base extends midcom_baseclasses_components_han
 
     function &_get_cache($type, $id, &$request_data)
     {
-        org_openpsa_reports_handler_base::_verify_cache($type, $request_data);
+        self::_verify_cache($type, $request_data);
         if (!array_key_exists($id, $request_data['object_cache'][$type]))
         {
             switch ($type)

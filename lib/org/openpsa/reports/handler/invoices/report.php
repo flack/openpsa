@@ -39,8 +39,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $this->set_active_leaf($this->_topic->id . ':generator_invoices');
         $this->_handler_generator_style();
 
-
-        /*** Copied from sales/handler/deliverable/report.php ***/
         $data['invoices'] = Array();
 
         $data['start'] = $data['query_data']['start'];
