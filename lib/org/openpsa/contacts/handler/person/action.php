@@ -85,8 +85,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             return false;
         }
 
-        $this->_request_data['person'] =& $this->_person;
-
         $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
         if ($this->_person->username)
@@ -140,6 +138,20 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
+        $this->_prepare_request_data();
+
+        $this->_update_breadcrumb_line();
+
+        // Add toolbar items
+        org_openpsa_helpers::dm2_savecancel($this);
+
+        return true;
+    }
+
+    private function _prepare_request_data()
+    {
+        $this->_request_data['person'] =& $this->_person;
+
         //get rules for js in style
         $rules = $this->_config->get('password_match_score');
         $data_rules = midcom_get_snippet_content($rules);
@@ -151,17 +163,11 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             // This will exit.
         }
         $this->_request_data['password_rules'] = $contents['rules'];
+
         //get password_length & minimum score for js
         $this->_request_data['min_score'] = $this->_config->get('min_password_score');
         $this->_request_data['min_length'] = $this->_config->get('min_password_length');
         $this->_request_data['max_length'] = $this->_config->get('max_password_length');
-
-        $this->_update_breadcrumb_line();
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
-
-        return true;
     }
 
     private function _generate_password()
@@ -206,8 +212,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             return false;
         }
 
-        $this->_request_data['person'] =& $this->_person;
-
         $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
         if ($this->_person->id != midcom_connection::get_user() && !midcom_connection::is_admin())
@@ -224,79 +228,22 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         $this->_request_data['person_action'] = 'edit account';
 
-        if (array_key_exists('midcom_helper_datamanager2_save', $_POST))
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        if (   array_key_exists('midcom_helper_datamanager2_save', $_POST)
+            && $this->_update_account())
         {
-            // Check that the inputted passwords match
-            if ($_POST['org_openpsa_contacts_person_account_newpassword'] != $_POST['org_openpsa_contacts_person_account_newpassword2'])
-            {
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("passwords don't match"), 'error');
-            }
-            elseif($_POST['org_openpsa_contacts_person_account_current_password'] != null || $_MIDCOM->auth->admin)
-            {
-                $plaintext = true;
-                if(array_key_exists('org_openpsa_contacts_person_account_encrypt' , $_POST))
-                {
-                    $plaintext = false;
-                }
-                $check_user = true;
-                //check user auth if current user is not admin
-                if(!$_MIDCOM->auth->admin)
-                {
-                    //user auth
-                    $check_user = midgard_user::auth($this->_person->username, $_POST['org_openpsa_contacts_person_account_current_password']);
-                }
-
-                if(!$check_user)
-                {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("wrong current password"), 'error');
-                    $stat = false;
-                }
-                else
-                {
-                    // Update account
-                    $stat = $this->_person->set_account($_POST['org_openpsa_contacts_person_account_username'], $_POST['org_openpsa_contacts_person_account_newpassword'], $plaintext );
-                }
-                if ($stat)
-                {
-                    // Account updated, redirect to person card
-                    $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-                    $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
-                }
-                else
-                {
-                    // Failure, give a message
-                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("failed to update user account, reason ") . midcom_connection::get_error_string(), 'error');
-                }
-            }
-            else
-            {
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("no current password given"), 'error');
-            }
+            // Account updated, redirect to person card
+            $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
         }
         else if (array_key_exists('midcom_helper_datamanager2_cancel', $_POST))
         {
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         $_MIDCOM->enable_jquery();
 
-        //get rules for js in style
-        $rules = $this->_config->get('password_match_score');
-        $data_rules = midcom_get_snippet_content($rules);
-        $result = eval ("\$contents = array ( {$data_rules}\n );");
-        if ($result === false)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse the schema definition in '{$rules}', see above for PHP errors.");
-            // This will exit.
-        }
-        $this->_request_data['password_rules'] = $contents['rules'];
-        //get password_length & minimum score for js
-        $this->_request_data['min_score'] = $this->_config->get('min_password_score');
-        $this->_request_data['min_length'] = $this->_config->get('min_password_length');
-        $this->_request_data['max_length'] = $this->_config->get('max_password_length');
+        $this->_prepare_request_data();
 
         $this->_update_breadcrumb_line();
 
@@ -304,6 +251,48 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         org_openpsa_helpers::dm2_savecancel($this);
 
         return true;
+    }
+
+    private function _update_account()
+    {
+        $stat = false;
+        // Check that the inputted passwords match
+        if ($_POST['org_openpsa_contacts_person_account_newpassword'] != $_POST['org_openpsa_contacts_person_account_newpassword2'])
+        {
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("passwords don't match"), 'error');
+        }
+        else if ($_POST['org_openpsa_contacts_person_account_current_password'] != null || $_MIDCOM->auth->admin)
+        {
+            $plaintext = (!array_key_exists('org_openpsa_contacts_person_account_encrypt' , $_POST));
+
+            $check_user = true;
+            //check user auth if current user is not admin
+            if (!$_MIDCOM->auth->admin)
+            {
+                //user auth
+                $check_user = midgard_user::auth($this->_person->username, $_POST['org_openpsa_contacts_person_account_current_password']);
+            }
+
+            if (!$check_user)
+            {
+                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("wrong current password"), 'error');
+            }
+            else
+            {
+                // Update account
+                $stat = $this->_person->set_account($_POST['org_openpsa_contacts_person_account_username'], $_POST['org_openpsa_contacts_person_account_newpassword'], $plaintext );
+                if (!$stat)
+                {
+                    // Failure, give a message
+                    $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("failed to update user account, reason ") . midcom_connection::get_error_string(), 'error');
+                }
+            }
+        }
+        else
+        {
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("no current password given"), 'error');
+        }
+        return $stat;
     }
 
     /**
