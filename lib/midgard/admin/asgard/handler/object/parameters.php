@@ -2,7 +2,6 @@
 /**
  * @package midgard.admin.asgard
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: parameters.php 23025 2009-07-28 10:03:50Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

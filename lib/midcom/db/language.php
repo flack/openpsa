@@ -2,7 +2,6 @@
 /**
  * @package midcom.db
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: language.php 23014 2009-07-27 15:44:43Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

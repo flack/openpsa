@@ -6,7 +6,6 @@
  *
  * @package org.openpsa.relatedto
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: convert_dba_classnames.php 22992 2009-07-23 16:11:41Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

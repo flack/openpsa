@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.account
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id:viewer.php 17006 2008-07-30 12:14:37Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

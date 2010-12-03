@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.calendar
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: create.php 26627 2010-08-30 08:09:30Z flack $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

@@ -2,7 +2,6 @@
 /**
  * @package midcom.baseclasses
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: handler.php 25322 2010-03-18 15:38:19Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

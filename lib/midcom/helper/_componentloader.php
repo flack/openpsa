@@ -2,7 +2,6 @@
 /**
  * @package midcom
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: _componentloader.php 26289 2010-06-07 09:44:37Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

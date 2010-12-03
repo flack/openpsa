@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.directmarketing
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: import.php 26677 2010-10-03 16:31:01Z adrenalin $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

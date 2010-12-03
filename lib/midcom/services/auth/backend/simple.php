@@ -2,7 +2,6 @@
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: simple.php 26511 2010-07-06 13:48:41Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

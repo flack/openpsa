@@ -2,7 +2,6 @@
 /**
  * @package midgard.admin.asgard
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: permissions.php 25902 2010-04-30 10:31:29Z adrenalin $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

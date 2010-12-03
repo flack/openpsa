@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.projects
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: projectbroker.php 22916 2009-07-15 09:53:28Z flack $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

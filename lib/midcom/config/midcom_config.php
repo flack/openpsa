@@ -309,7 +309,6 @@
  *
  * @package midcom
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: midcom_config.php 26574 2010-07-30 16:13:23Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

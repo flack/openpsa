@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.projects
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: workflow.php 26653 2010-09-17 09:16:56Z flack $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

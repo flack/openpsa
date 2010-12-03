@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.mypage
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: today.php 26470 2010-06-28 16:13:16Z gudd $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

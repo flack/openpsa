@@ -2,7 +2,6 @@
 /**
  * @package midcom.helper.datamanager2
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: markdown.php 25327 2010-03-18 17:48:42Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

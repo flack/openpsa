@@ -4,7 +4,6 @@
  *
  * @package org.openpsa.helpers
  * @author Eero af Heurlin, http://www.iki.fi/rambo
- * @version $Id: vxparser.php 22916 2009-07-15 09:53:28Z flack $
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

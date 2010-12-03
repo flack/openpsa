@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.static
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: navigation.php 26058 2010-05-07 15:03:42Z jval $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

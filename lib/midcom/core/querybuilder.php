@@ -2,7 +2,6 @@
 /**
  * @package midcom
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: querybuilder.php 26618 2010-08-23 12:00:49Z piotras $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

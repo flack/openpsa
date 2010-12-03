@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.reports
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: report.php 26662 2010-09-24 19:35:07Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

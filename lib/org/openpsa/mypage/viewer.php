@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.mypage
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: viewer.php 25319 2010-03-18 12:44:12Z indeyets $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

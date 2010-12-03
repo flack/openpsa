@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.core
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: synchronizer.php 25323 2010-03-18 15:54:35Z indeyets $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

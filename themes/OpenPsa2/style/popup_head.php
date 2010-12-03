@@ -13,7 +13,7 @@ if (array_key_exists('title', $data))
     <title><?php echo htmlspecialchars($title); ?></title>
     <?php
     $_MIDCOM->print_head_elements();
-    ?>    
+    ?>
     <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/legacy.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo MIDCOM_STATIC_URL; ?>/org.openpsa.core/popup.css" />
     </head>

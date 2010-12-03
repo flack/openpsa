@@ -2,7 +2,6 @@
 /**
  * @package net.nemein.redirector
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: event.php 19755 2008-12-12 11:11:58Z piotras $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

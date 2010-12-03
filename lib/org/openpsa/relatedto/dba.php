@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.relatedto
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: dba.php 25217 2010-02-27 18:56:49Z flack $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

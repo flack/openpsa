@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.calendar
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: admin.php 26508 2010-07-06 13:35:23Z rambo $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

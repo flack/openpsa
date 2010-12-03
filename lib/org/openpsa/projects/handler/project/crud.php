@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.projects
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: crud.php 26462 2010-06-28 12:03:04Z gudd $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

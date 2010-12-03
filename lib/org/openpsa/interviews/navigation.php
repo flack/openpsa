@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.interviews
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: navigation.php,v 1.1 2006/05/08 11:22:49 rambo Exp $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

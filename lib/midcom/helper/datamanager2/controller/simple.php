@@ -2,7 +2,6 @@
 /**
  * @package midcom.helper.datamanager2
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: simple.php 25514 2010-03-31 08:41:52Z adrenalin $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

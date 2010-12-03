@@ -5,14 +5,11 @@
  * @package midcom.helper.xml
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- *
  */
 
 /**
  * This is a simple class to move midgard objects to and from
  * xml.
- *
- * @package midcom.helper.xml
  *
  * Usage:
  * To get data from xml:
@@ -28,6 +25,7 @@
  * $xml = $mapper->object2data($object);
  * echo $xml ; // outputs: "<midcom_db_topic><id>7</id><name>Test</name></midcom_db_topic>"
  *
+ * @package midcom.helper.xml
  */
 class midcom_helper_xml_objectmapper
 {
@@ -40,7 +38,7 @@ class midcom_helper_xml_objectmapper
 
     /**
      * The errorstring
-     * 
+     *
      * @var string
      */
     public $errstr = "";

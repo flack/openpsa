@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.invoices
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: hour.php 24773 2010-01-18 08:15:45Z rambo $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

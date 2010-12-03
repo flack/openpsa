@@ -2,7 +2,6 @@
 /**
  * @package midcom.helper.datamanager2
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: captcha.php 10966 2007-06-15 07:00:37Z adrenalin $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

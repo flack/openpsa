@@ -2,7 +2,6 @@
 /**
  * @package net.nemein.wiki
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: notfound.php 3757 2006-07-27 14:32:42Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

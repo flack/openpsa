@@ -2,7 +2,6 @@
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: nap.php 26683 2010-10-07 19:17:56Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

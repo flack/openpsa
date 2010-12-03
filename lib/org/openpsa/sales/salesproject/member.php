@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.sales
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: member.php 23015 2009-07-28 08:50:55Z flack $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

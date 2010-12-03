@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.contacts
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: view.php 26536 2010-07-09 14:55:05Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

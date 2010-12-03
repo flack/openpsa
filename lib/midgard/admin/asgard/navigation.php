@@ -2,7 +2,6 @@
 /**
  * @package midgard.admin.asgard
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: navigation.php 25567 2010-04-07 13:53:39Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

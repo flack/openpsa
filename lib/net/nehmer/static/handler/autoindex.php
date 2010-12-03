@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.static
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: autoindex.php 26066 2010-05-09 21:42:17Z jval $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

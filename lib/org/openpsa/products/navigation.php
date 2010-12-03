@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.products
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: navigation.php 24525 2009-12-21 17:28:45Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.account
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: edit.php 11541 2007-08-10 10:02:57Z adrenalin $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

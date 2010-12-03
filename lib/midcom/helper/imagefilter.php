@@ -2,7 +2,6 @@
 /**
  * @package midcom
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: imagefilter.php 26716 2010-10-24 11:43:40Z adrenalin $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

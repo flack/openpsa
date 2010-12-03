@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.interviews
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: campaign.php,v 1.2 2006/05/08 13:18:40 rambo Exp $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

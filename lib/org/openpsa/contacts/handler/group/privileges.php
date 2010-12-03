@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.contacts
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: privileges.php 25318 2010-03-18 12:16:52Z indeyets $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

@@ -2,7 +2,6 @@
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: _i18n_l10n.php 25330 2010-03-18 22:19:52Z solt $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

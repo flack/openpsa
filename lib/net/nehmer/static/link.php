@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.static
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: aerodrome.php 3630 2006-06-19 10:03:59Z bergius $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

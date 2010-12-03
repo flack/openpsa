@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.products
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: csv.php 24513 2009-12-21 14:10:44Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

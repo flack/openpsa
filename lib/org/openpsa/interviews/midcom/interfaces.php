@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.interviews
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: interfaces.php,v 1.1 2006/05/08 11:22:49 rambo Exp $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

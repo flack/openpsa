@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.invoices
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: navigation.php 26472 2010-06-28 20:31:41Z flack $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

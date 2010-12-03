@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.documents
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: search.php 26715 2010-10-23 10:14:57Z flack $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

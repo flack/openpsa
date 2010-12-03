@@ -2,7 +2,6 @@
 /**
  * @package org.routamc.positioning
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id$
  * @copyright The Midgard Project, http://www.midgard-project.org
  */
 

@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.account
  * @author Henri Bergius, http://bergie.iki.fi 
- * @version $Id: main.php,v 1.26 2006/07/21 08:40:58 rambo Exp $
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

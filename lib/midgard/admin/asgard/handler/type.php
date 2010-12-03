@@ -2,7 +2,6 @@
 /**
  * @package midgard.admin.asgard
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: type.php 25205 2010-02-25 13:17:37Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

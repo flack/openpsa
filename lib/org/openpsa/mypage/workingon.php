@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.mypage
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: workingon.php 25103 2010-02-17 16:04:39Z gudd $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

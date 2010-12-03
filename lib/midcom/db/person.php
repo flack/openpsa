@@ -2,7 +2,6 @@
 /**
  * @package midcom.db
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: person.php 25326 2010-03-18 17:19:32Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

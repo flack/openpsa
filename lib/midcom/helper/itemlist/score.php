@@ -2,7 +2,6 @@
 /**
  * @package midcom
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: score.php 26464 2010-06-28 13:15:28Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

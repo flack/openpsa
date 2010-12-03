@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.projects
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: viewer.php 25176 2010-02-23 20:10:35Z flack $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

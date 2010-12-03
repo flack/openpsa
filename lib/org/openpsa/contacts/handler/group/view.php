@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.contacts
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: view.php 26541 2010-07-10 05:48:54Z flack $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

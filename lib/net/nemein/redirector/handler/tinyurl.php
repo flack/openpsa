@@ -2,7 +2,6 @@
 /**
  * @package net.nemein.redirector
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: viewer.php 17797 2008-09-30 08:32:08Z adrenalin $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

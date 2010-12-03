@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.markdown
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: markdown.php 14773 2008-02-06 21:58:28Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @copyright (c) 2004-2009 Michel Fortin, http://www.michelf.com/projects/php-markdown/
  * @copyright (c) 2004-2006 John Gruber, http://daringfireball.net/projects/markdown/

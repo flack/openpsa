@@ -4,7 +4,6 @@
  *
  * @package org.openpsa.helpers
  * @author Eero af Heurlin, http://www.iki.fi/rambo
- * @version $Id: list.php 23042 2009-07-30 08:12:38Z flack $
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

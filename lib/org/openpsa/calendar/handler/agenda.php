@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.calendar
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: agenda.php 23015 2009-07-28 08:50:55Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

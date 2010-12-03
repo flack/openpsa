@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.directmarketing
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: subscriber.php 26150 2010-05-20 19:03:32Z flack $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

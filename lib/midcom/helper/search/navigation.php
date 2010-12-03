@@ -2,7 +2,6 @@
 /**
  * @package midcom.helper.search
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: navigation.php 20859 2009-03-05 20:10:51Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

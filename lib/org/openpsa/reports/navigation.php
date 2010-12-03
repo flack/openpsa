@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.reports
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: navigation.php 26543 2010-07-11 12:37:43Z flack $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

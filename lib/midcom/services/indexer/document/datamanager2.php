@@ -2,7 +2,6 @@
 /**
  * @package midcom.services
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: datamanager2.php 24773 2010-01-18 08:15:45Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.sales
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: interfaces.php 26662 2010-09-24 19:35:07Z flack $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

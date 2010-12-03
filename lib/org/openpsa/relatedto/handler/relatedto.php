@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.relatedto
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: relatedto.php 26667 2010-09-26 11:37:31Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

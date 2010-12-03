@@ -2,7 +2,6 @@
 /**
  * @package org.routamc.positioning
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: geocoder.php 11571 2007-08-13 11:07:02Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

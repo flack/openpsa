@@ -2,7 +2,6 @@
 /**
  * @package org.routamc.positioning
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: city.php 26123 2010-05-16 19:03:49Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

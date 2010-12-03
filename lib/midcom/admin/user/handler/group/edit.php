@@ -2,7 +2,6 @@
 /**
  * @package midcom.admin.user
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: edit.php 25957 2010-05-03 15:21:57Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

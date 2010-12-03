@@ -2,7 +2,6 @@
 /**
  * @package midcom.baseclasses
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: dbobject.php 26227 2010-05-30 10:54:30Z jval $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

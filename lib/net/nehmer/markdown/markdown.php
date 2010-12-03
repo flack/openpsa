@@ -2,8 +2,6 @@
 /**
  * @package net.nehmer.markdown
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: markdown.php 17556 2008-09-16 20:14:11Z flack $
- * @version $Id: markdown.php 17556 2008-09-16 20:14:11Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

@@ -4,7 +4,6 @@
  *
  * @package net.nemein.tag
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: xml_search.php 3870 2006-08-24 16:17:29Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

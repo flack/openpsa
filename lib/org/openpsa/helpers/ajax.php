@@ -5,7 +5,6 @@
  *
  * @package org.openpsa.helpers
  * @author Eero af Heurlin, http://www.iki.fi/rambo
- * @version $Id: ajax.php 26504 2010-07-06 12:19:31Z rambo $
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.expenses
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: index.php 26520 2010-07-07 13:49:07Z gudd $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

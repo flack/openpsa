@@ -2,7 +2,6 @@
 /**
  * @package org.routamc.positioning
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: plazes.php 23006 2009-07-24 08:29:00Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  */
 

@@ -2,7 +2,6 @@
 /**
  * @package midcom.helper.search
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: interfaces.php 24112 2009-11-19 16:29:00Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

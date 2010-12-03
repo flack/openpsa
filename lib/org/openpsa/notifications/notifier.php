@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.notifications
  * @author Henri Bergius, http://bergie.iki.fi
- * @version $Id: notifier.php 25323 2010-03-18 15:54:35Z indeyets $
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

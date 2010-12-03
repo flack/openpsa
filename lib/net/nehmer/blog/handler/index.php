@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.blog
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: index.php 26359 2010-06-13 21:05:01Z indeyets $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

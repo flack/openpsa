@@ -2,7 +2,6 @@
 /**
  * @package midcom.helper.reflector
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: tree.php 25203 2010-02-25 12:53:06Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

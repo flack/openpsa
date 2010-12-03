@@ -2,7 +2,6 @@
 /**
  * @package net.nemein.tag
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: clearold.php,v 1.1 2006/04/19 14:08:46 rambo Exp $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

@@ -1,7 +1,7 @@
 <?php
 /**
 * US-ASCII transliterations of Unicode text
-* @version $Id: utf8_to_ascii.php 22990 2009-07-23 15:46:03Z flack $
+*
 * @package utf8_to_ascii
 */
 

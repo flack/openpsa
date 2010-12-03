@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.httplib
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: helpers.php 22916 2009-07-15 09:53:28Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

@@ -2,7 +2,6 @@
 /**
  * @package midcom.helper.reflector
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: copy.php 26551 2010-07-14 22:41:40Z adrenalin $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

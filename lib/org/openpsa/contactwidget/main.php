@@ -5,7 +5,6 @@
  * Uses the hCard microformat for output.
  * @package org.openpsa.contactwidget
  * @author Henri Bergius, http://bergie.iki.fi
- * @version $Id: main.php 23975 2009-11-09 05:44:22Z rambo $
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @link http://www.microformats.org/wiki/hcard hCard microformat documentation

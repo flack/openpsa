@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.blog
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: metaweblog.php 3991 2006-09-07 11:28:16Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

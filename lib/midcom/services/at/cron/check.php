@@ -2,7 +2,6 @@
 /**
  * @package midcom.services.at
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: check.php 26654 2010-09-20 11:52:41Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

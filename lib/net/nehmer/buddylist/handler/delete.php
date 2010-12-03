@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.buddylist
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: delete.php 17555 2008-09-16 19:19:11Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

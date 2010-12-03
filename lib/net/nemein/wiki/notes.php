@@ -2,7 +2,6 @@
 /**
  * @package net.nemein.wiki
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: notes.php 18600 2008-11-05 09:18:59Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

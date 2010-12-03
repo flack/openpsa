@@ -2,7 +2,6 @@
 /**
  * @package net.nemein.wiki
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: emailimport.php 23006 2009-07-24 08:29:00Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

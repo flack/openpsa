@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.sales
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: view.php 26648 2010-09-14 17:05:34Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

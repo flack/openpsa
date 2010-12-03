@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.invoices
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: projects.php 26663 2010-09-25 10:40:27Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

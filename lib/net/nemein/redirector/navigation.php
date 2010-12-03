@@ -2,7 +2,6 @@
 /**
  * @package net.nemein.redirector
  * @author Nemein Oy, http://www.nemein.com/
- * @version $Id: navigation.php 21038 2009-03-11 15:47:19Z bergie $
  * @copyright Nemein Oy, http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

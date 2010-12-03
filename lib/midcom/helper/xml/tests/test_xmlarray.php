@@ -5,17 +5,16 @@
  * @package midcom.helper.xml
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- *
- */
-/**
- * This class tests the midcom_helper_xml_toarray class.
- * Run it through the midcom.tests component.
  */
 
 $_MIDCOM->load_library('midcom.helper.xml');
 $GLOBALS['testclasses'] = array ('midcom_helper_xml_toarray_test' => 0);
 
 
+/**
+ * This class tests the midcom_helper_xml_toarray class.
+ * Run it through the midcom.tests component.
+ */
 class midcom_helper_xml_toarray_test extends UnitTestCase
 {
     var $testdata_1 =  "<topic>

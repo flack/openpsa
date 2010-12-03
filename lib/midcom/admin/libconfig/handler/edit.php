@@ -2,7 +2,6 @@
 /**
  * @package midcom.admin.libconfig
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: edit.php 26508 2010-07-06 13:35:23Z rambo $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

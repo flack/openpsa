@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.jabber
  * @author Nemein Oy http://www.nemein.com/
- * @version $Id: viewer.php,v 1.5 2006/02/03 15:21:21 rambo Exp $
  * @copyright Nemein Oy http://www.nemein.com/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */

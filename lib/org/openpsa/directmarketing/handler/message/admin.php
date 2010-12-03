@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.directmarketing
  * @author The Midgard Project, http://www.midgard-project.net
- * @version $Id: admin.php 25716 2010-04-20 22:57:24Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.net
  * @license http://www.gnu.net/licenses/lgpl.html GNU Lesser General Public License
  */

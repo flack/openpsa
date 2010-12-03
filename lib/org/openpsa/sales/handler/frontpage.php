@@ -3,7 +3,6 @@
  * @package org.openpsa.sales
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
- * @version $Id: fronpage.php 22916 2009-07-15 09:53:28Z flack $
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 

@@ -2,7 +2,6 @@
 /**
  * @package org.openpsa.calendar
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: reporthours.php 25183 2010-02-23 22:19:32Z flack $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

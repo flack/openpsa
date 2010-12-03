@@ -2,7 +2,6 @@
 /**
  * @package net.nehmer.static
  * @author The Midgard Project, http://www.midgard-project.org
- * @version $Id: view.php 26556 2010-07-20 12:48:30Z bergie $
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */

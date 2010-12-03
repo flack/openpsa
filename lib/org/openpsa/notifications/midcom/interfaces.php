@@ -6,7 +6,6 @@
  *
  * @package org.openpsa.notifications
  * @author Henri Bergius, http://bergie.iki.fi
- * @version $Id: interfaces.php 22916 2009-07-15 09:53:28Z flack $
  * @copyright Nemein Oy, http://www.nemein.com
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
