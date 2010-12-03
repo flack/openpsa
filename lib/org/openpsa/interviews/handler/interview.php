@@ -12,6 +12,7 @@
  * @package org.openpsa.interviews
  */
 class org_openpsa_interviews_handler_interview extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * The member we're interviewing
@@ -19,20 +20,6 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      * @var org_openpsa_directmarketing_campaign_member
      */
     private $_member = null;
-
-    /**
-     * The Controller of the member used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
 
     /**
      * Loads and prepares the schema database.
@@ -43,25 +30,9 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-    }
-
-    /**
-     * Internal helper, loads the controller for the current article. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_member);
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
-            // This will exit.
-        }
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
     }
 
     /**
@@ -78,15 +49,15 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
             return false;
         }
         $this->_member->require_do('midgard:update');
-        $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_member->campaign);
+        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_member->campaign);
 
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('simple', $this->_member);
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Redirect to next interviewee
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "next/{$this->_request_data['campaign']->guid}/");
+                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "next/{$data['campaign']->guid}/");
                 // This will exit.
 
             case 'cancel':
@@ -94,7 +65,7 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
                 $this->_member->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
                 $this->_member->update();
 
-                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "campaign/{$this->_request_data['campaign']->guid}/");
+                $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "campaign/{$data['campaign']->guid}/");
                 // This will exit.
         }
 
@@ -108,7 +79,6 @@ class org_openpsa_interviews_handler_interview extends midcom_baseclasses_compon
      */
     public function _show_interview($handler_id, &$data)
     {
-        $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['person'] = new midcom_db_person($this->_member->person);
         midcom_show_style('show-interview');
     }

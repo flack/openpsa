@@ -12,21 +12,8 @@
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
-    /**
-     * Controller instance
-     *
-     * @var midcom_helper_datamanager2_controller
-     */
-    private $_controller;
-
-    /**
-     * Schemadb instance
-     *
-     * @var midcom_helper_datamanager2_schema
-     */
-    private $_schemadb;
-
     /**
      * User for the preferences page
      *
@@ -62,22 +49,11 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     }
 
     /**
-     * Load the controller instance
+     * Get the user preferences schema
      */
-    private function _load_controller()
+    public function load_schemadb()
     {
-        // Get the user preferences schema
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_preferences'));
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb = $this->_schemadb;
-        $this->_controller->set_storage($this->_person);
-
-        if (!$this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to generate the edit controller');
-            // This will exit
-        }
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_preferences'));
     }
 
     /**
@@ -87,7 +63,6 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
     {
         $data['view_title'] = $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard');
         $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        $data['controller'] =& $this->_controller;
 
         midgard_admin_asgard_plugin::get_common_toolbar($data);
 
@@ -132,7 +107,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
         }
 
         // Load the controller instance
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('simple', $this->_person);
 
         $return_page = '__mfa/asgard/';
         if(isset($_GET['return_uri']))
@@ -140,7 +115,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
             $return_page = $_GET['return_uri'];
         }
         // Process the requested form
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('midgard.admin.asgard', 'midgard.admin.asgard'), $_MIDCOM->i18n->get_string('preferences saved', 'midgard.admin.asgard'));
@@ -182,7 +157,7 @@ class midgard_admin_asgard_handler_preferences extends midcom_baseclasses_compon
 
     /**
      * Static method for getting the languages, but
-     * 
+     *
      * @static
      */
     public function get_languages()

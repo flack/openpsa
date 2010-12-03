@@ -12,23 +12,8 @@
  * @package net.nehmer.account
  */
 class net_nehmer_account_handler_configuration extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
-    /**
-     * The Controller of the gallery used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     * @access private
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     * @access private
-     */
-    private $_schemadb = null;
-
     /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
@@ -36,26 +21,11 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
     private function _prepare_request_data()
     {
         $this->_request_data['node'] =& $this->_topic;
-        $this->_request_data['controller'] =& $this->_controller;
     }
 
-    /**
-     * Internal helper, loads the controller for the current photo. Any error triggers a 500.
-     *
-     * @access private
-     */
-    private function _load_controller()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_config'));
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_topic);
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for photo {$this->_photo->id}.");
-            // This will exit.
-        }
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_config'));
     }
 
     /**
@@ -70,9 +40,9 @@ class net_nehmer_account_handler_configuration extends midcom_baseclasses_compon
     {
         $this->_topic->require_do('midgard:update');
 
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('simple', $this->_topic);
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.account'), $this->_l10n->get('configuration saved'));

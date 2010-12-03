@@ -13,7 +13,7 @@
  */
 class org_openpsa_notifications_preferences extends midcom_baseclasses_components_handler
 {
-    var $schemadb = array();
+    private $_schemadb;
 
     /**
      * Simple constructor, which only initializes the parent constructor.

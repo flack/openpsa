@@ -12,39 +12,14 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
-    /**
-     * The Controller of the contact used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
-     * Schema to use for display
-     *
-     * @var string
-     */
-    private $_schema = 'default';
-
     /**
      * The person we're working with, if any
      *
      * @var org_openpsa_contacts_person_dba
      */
     private $_person = null;
-
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-    }
 
     private function _load_person($identifier)
     {
@@ -68,19 +43,12 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
      */
     private function _load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
-        $this->_modify_schema();
-    }
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_acl'));
 
-    /**
-     * Helper function to alter the schema based on the current operation
-     */
-    private function _modify_schema()
-    {
-        $fields =& $this->_schemadb['default']->fields;
+        $fields =& $schemadb['default']->fields;
         $user_object = $_MIDCOM->auth->get_user($this->_person->guid);
 
-	$person_object = $user_object->get_storage();
+	    $person_object = $user_object->get_storage();
 
         // Get the calendar root event
         $root_event = org_openpsa_calendar_interface::find_root_event();
@@ -93,7 +61,6 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
         {
             unset($fields['calendar']);
         }
-
 
         $fields['contact_creation']['privilege_object'] =  $person_object;
         $fields['contact_editing']['privilege_object'] =  $person_object;
@@ -131,22 +98,7 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
             unset($fields['campaigns_editing']);
         }
         $fields['salesproject_creation']['privilege_object'] = $person_object;
-    }
-
-    /**
-     * Internal helper, loads the controller for the current contact. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_person, $this->_schema);
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for contact {$this->_contact->id}.");
-            // This will exit.
-        }
+        return $schemadb;
     }
 
     /**
@@ -171,9 +123,9 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
 
         $this->_request_data['person'] =& $this->_person;
 
-        $this->_load_controller();
+        $data['acl_dm'] = $this->get_controller('simple', $this->_person);
 
-        switch ($this->_controller->process_form())
+        switch ($data['acl_dm']->process_form())
         {
             case 'save':
                 $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
@@ -201,7 +153,6 @@ class org_openpsa_contacts_handler_person_privileges extends midcom_baseclasses_
      */
     public function _show_privileges($handler_id, &$data)
     {
-        $this->_request_data['acl_dm'] =& $this->_controller;
         midcom_show_style("show-privileges");
     }
 }

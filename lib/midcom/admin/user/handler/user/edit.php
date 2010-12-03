@@ -12,8 +12,11 @@
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     private $_person = null;
+
+    private $_schemadb_name = 'schemadb_person';
 
     /**
      * Simple constructor
@@ -77,26 +80,10 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
     /**
      * Loads and prepares the schema database.
      */
-    private function _load_schemadb($config_key)
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get($config_key));
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get($this->_schemadb_name));
     }
-
-    /**
-     * Internal helper, loads the controller for the current person. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_person, 'default');
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for person {$this->_person->id}.");
-            // This will exit.
-        }
-    }
-
 
     /**
      * Handler method for listing style elements for the currently used component topic
@@ -124,11 +111,7 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
             {
                 return false;
             }
-            $this->_load_schemadb('schemadb_account');
-        }
-        else
-        {
-            $this->_load_schemadb('schemadb_person');
+            $this->_schemadb_name = 'schemadb_account';
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
@@ -173,9 +156,9 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
             }
         }
 
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('simple', $this->_person);
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Show confirmation for the user
@@ -204,7 +187,6 @@ class midcom_admin_user_handler_user_edit extends midcom_baseclasses_components_
         $data['handler_id'] = $handler_id;
         $data['l10n'] =& $this->_l10n;
         $data['person'] =& $this->_person;
-        $data['controller'] =& $this->_controller;
         midcom_show_style('midcom-admin-user-person-edit');
 
         if (isset($_GET['f_submit']))
