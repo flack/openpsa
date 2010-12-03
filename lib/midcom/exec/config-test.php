@@ -173,9 +173,9 @@ function check_rcs()
 // Some helpers
 $i18n = $_MIDCOM->get_service('i18n');
 
-if (version_compare(mgd_version(), '8.09.2', '<'))
+if (version_compare(mgd_version(), '8.09.9', '<'))
 {
-    println('Midgard Version', ERROR, 'Midgard 8.09.2 or greater is required for this version of MidCOM.');
+    println('Midgard Version', ERROR, 'Midgard 8.09.9 or greater is required for this version of MidCOM.');
 }
 else
 {

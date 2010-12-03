@@ -257,7 +257,7 @@
  * - <b>string toolbars_view_style_class:</b> defaults to midcom_toolbar view_toolbar
  * - <b>string toolbars_view_style_id:</b> defaults to ""
  * - <b>string toolbars_object_style_class:</b> defaults to midcom_toolbar object_toolbar
- * - <b>string toolbars_css_path:</b> this defaults to MIDCOM_ROOT_URL/midcom.services.toolbars/toolbar.css
+ * - <b>string toolbars_simple_css_path:</b> this defaults to MIDCOM_ROOT_URL/midcom.services.toolbars/simple.css
  *   and is used to set the css for the toolbars used with onsite editing.
  * - <b>boolean toolbars_enable_centralized:</b> defaults to true, whether to enable the centralized,
  *   javascript-floating MidCOM toolbar that users can display with $_MIDCOM->toolbars->show();
@@ -468,16 +468,10 @@ $GLOBALS['midcom_config_default']['toolbars_view_style_class'] = 'midcom_toolbar
 $GLOBALS['midcom_config_default']['toolbars_view_style_id'] = null;
 $GLOBALS['midcom_config_default']['toolbars_help_style_class'] = 'midcom_toolbar help_toolbar';
 $GLOBALS['midcom_config_default']['toolbars_help_style_id'] = null;
-$GLOBALS['midcom_config_default']['toolbars_object_style_class'] = 'midcom_toolbar object_toolbar';
-$GLOBALS['midcom_config_default']['toolbars_css_path'] = MIDCOM_STATIC_URL . "/Javascript_protoToolkit/styles/protoToolbar.css";
 $GLOBALS['midcom_config_default']['toolbars_simple_css_path'] = MIDCOM_STATIC_URL . "/midcom.services.toolbars/simple.css";
 $GLOBALS['midcom_config_default']['toolbars_enable_centralized'] = true;
 $GLOBALS['midcom_config_default']['toolbars_type'] = 'palette'; // Either 'menu' or 'palette'
 $GLOBALS['midcom_config_default']['toolbars_position_storagemode'] = 'cookie';   // Either 'session', 'cookie' or 'parameter'
-
-// Service implementation defaults
-$GLOBALS['midcom_config_default']['service_midcom_core_service_urlparser'] = 'midcom_core_service_implementation_urlparsertopic';
-$GLOBALS['midcom_config_default']['service_midcom_core_service_urlgenerator'] = 'midcom_core_service_implementation_urlgeneratori18n';
 
 // Public attachment caching directives
 $GLOBALS['midcom_config_default']['attachment_cache_enabled'] = false;
@@ -567,8 +561,6 @@ $GLOBALS['midcom_config_default']['jquery_version'] = '1.4.4.min';
 $GLOBALS['midcom_config_default']['jquery_ui_version'] = '1.8.6';
 $GLOBALS['midcom_config_default']['jquery_load_from_google'] = false;
 $GLOBALS['midcom_config_default']['enable_ajax_editing'] = false;
-
-$GLOBALS['midcom_config_default']['auto_formatter'] = array();
 
 $GLOBALS['midcom_config_default']['pear_channel'] = 'ragnaroek.pear.midgard-project.org';
 $GLOBALS['midcom_config_default']['generation'] = 'ragnaroek';
