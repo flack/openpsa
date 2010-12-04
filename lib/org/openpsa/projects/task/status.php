@@ -107,6 +107,11 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             }
         }
 
+        $this->_update_task();
+    }
+
+    private function _update_task()
+    {
         $task = org_openpsa_projects_task_dba::get_cached($this->task);
 
         if ($this->type == ORG_OPENPSA_TASKSTATUS_PROPOSED)
@@ -154,7 +159,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
                         break;
                 }
             }
-            //@todo Some more sophisticated checks, for now we just write everything
+            //TODO Some more sophisticated checks, for now we just write everything
             else
             {
                 $needs_update = true;

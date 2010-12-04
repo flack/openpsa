@@ -171,54 +171,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
                 {
                     $data['deliverable'] = $this->_controllers[$deliverable->id]->get_content_html();
                     $data['deliverable_object'] =& $deliverable;
-                    $data['deliverable_toolbar'] = '';
-
-                    switch ($deliverable->state)
-                    {
-                        case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED:
-                            break;
-                        case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED:
-                            if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
-                            {
-                                $entries = $deliverable->get_at_entries();
-                                if(isset($entries[0]))
-                                {
-                                    $data['deliverable_toolbar'] .= "<p>" . sprintf($this->_l10n->get('next invoice will be sent on %s'), strftime('%x', $entries[0]->start)) . "</p>\n";
-                                }
-                            }
-                            break;
-                        case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED:
-                            if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
-                            {
-                                $entries = $deliverable->get_at_entries();
-                                if(isset($entries[0]))
-                                {
-                                    $data['deliverable_toolbar'] .= "<p>" . sprintf($this->_l10n->get('next invoice will be sent on %s'), strftime('%x', $entries[0]->start)) . "</p>\n";
-                                }
-                            }
-                            else
-                            {
-                                $data['deliverable_toolbar'] .= "<input type=\"submit\" class=\"deliver\" name=\"mark_delivered\" value=\"" . $this->_l10n->get('mark delivered') . "\" />\n";
-                            }
-                            break;
-                        case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED:
-                            $data['deliverable_toolbar'] .= "<input type=\"submit\" class=\"invoice\" name=\"mark_invoiced\" value=\"" . $this->_l10n->get('invoice') . "\" />\n";
-                            $data['deliverable_toolbar'] .= "<input type=\"text\" size=\"5\" name=\"invoice\" value=\"{$deliverable->price}\" />\n";
-                            break;
-                        case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED:
-                            $invoice_value = $deliverable->price - $deliverable->invoiced;
-                            if ($invoice_value > 0)
-                            {
-                                $data['deliverable_toolbar'] .= "<input type=\"submit\" class=\"invoice\" name=\"mark_invoiced\" value=\"" . $this->_l10n->get('invoice') . "\" />\n";
-                                $data['deliverable_toolbar'] .= "<input type=\"text\" size=\"5\" name=\"invoice\" value=\"{$invoice_value}\" />\n";
-                            }
-                            break;
-                        case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_NEW:
-                        case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_PROPOSED:
-                        default:
-                            $data['deliverable_toolbar'] .= "<input type=\"submit\" class=\"order\" name=\"mark_ordered\" value=\"" . $this->_l10n->get('mark ordered') . "\" />\n";
-                            $data['deliverable_toolbar'] .= "<input type=\"submit\" class=\"decline\" name=\"mark_declined\" value=\"" . $this->_l10n->get('mark declined') . "\" />\n";
-                    }
+                    $data['deliverable_toolbar'] = $this->_build_deliverable_toolbar($deliverable);
 
                     if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
                     {
@@ -234,6 +187,59 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         }
 
         midcom_show_style('show-salesproject-related');
+    }
+
+    private function _build_deliverable_toolbar($deliverable)
+    {
+        $toolbar = '';
+        switch ($deliverable->state)
+        {
+            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED:
+                break;
+            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED:
+                if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                {
+                    $entries = $deliverable->get_at_entries();
+                    if (isset($entries[0]))
+                    {
+                        $toolbar .= "<p>" . sprintf($this->_l10n->get('next invoice will be sent on %s'), strftime('%x', $entries[0]->start)) . "</p>\n";
+                    }
+                }
+                break;
+            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED:
+                if ($deliverable->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                {
+                    $entries = $deliverable->get_at_entries();
+                    if (isset($entries[0]))
+                    {
+                        $toolbar .= "<p>" . sprintf($this->_l10n->get('next invoice will be sent on %s'), strftime('%x', $entries[0]->start)) . "</p>\n";
+                    }
+                }
+                else
+                {
+                    $toolbar .= "<input type=\"submit\" class=\"deliver\" name=\"mark_delivered\" value=\"" . $this->_l10n->get('mark delivered') . "\" />\n";
+                }
+                break;
+            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED:
+                $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"mark_invoiced\" value=\"" . $this->_l10n->get('invoice') . "\" />\n";
+                $toolbar .= "<input type=\"text\" size=\"5\" name=\"invoice\" value=\"{$deliverable->price}\" />\n";
+                break;
+            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED:
+                $invoice_value = $deliverable->price - $deliverable->invoiced;
+                if ($invoice_value > 0)
+                {
+                    $toolbar .= "<input type=\"submit\" class=\"invoice\" name=\"mark_invoiced\" value=\"" . $this->_l10n->get('invoice') . "\" />\n";
+                    $toolbar .= "<input type=\"text\" size=\"5\" name=\"invoice\" value=\"{$invoice_value}\" />\n";
+                }
+                break;
+            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_NEW:
+            case ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_PROPOSED:
+            default:
+                $toolbar .= "<input type=\"submit\" class=\"order\" name=\"mark_ordered\" value=\"" . $this->_l10n->get('mark ordered') . "\" />\n";
+                $toolbar .= "<input type=\"submit\" class=\"decline\" name=\"mark_declined\" value=\"" . $this->_l10n->get('mark declined') . "\" />\n";
+        }
+
+        return $toolbar;
     }
 }
 ?>
