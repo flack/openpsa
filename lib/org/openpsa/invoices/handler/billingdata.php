@@ -12,7 +12,7 @@
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_billingdata extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * Contains the object the billing data is linked to
@@ -91,28 +91,9 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
-     * Load create controller
-     */
-    private function _load_controller()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->callback_object =& $this;
-        $this->_controller->schemadb = $this->load_schemadb();
-        $this->_controller->schemaname = $this->get_schema_name();
-
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
-    }
-
-    /**
      * Datamanager callback
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $billing_data = new org_openpsa_invoices_billing_data_dba();
         $billing_data->linkGuid = $this->_linked_object->guid;
@@ -149,14 +130,12 @@ implements midcom_helper_datamanager2_interfaces_edit
             debug_print_r('Passed guid does not exist. GUID :', $args[0]);
         }
 
-        $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create' , 'midcom') . " " . $this->_l10n->get("billing data")));
-
-        $this->_load_controller();
-
+        $this->_controller = $this->get_controller('create');
         $this->_process_billing_form();
 
         $_MIDCOM->enable_jquery();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
+        $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create' , 'midcom') . " " . $this->_l10n->get("billing data")));
 
         $this->_update_breadcrumb();
 

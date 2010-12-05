@@ -12,6 +12,7 @@
  * @package org.openpsa.helpers
  */
 class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The DBA class of the new object.
@@ -34,35 +35,12 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
      */
     private $_action = 'form';
 
-    private $_datamanager;
-
     /**
      * The Controller of the document used for creating
      *
      * @var midcom_helper_datamanager2_controller_simple
      */
     private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
-     * The schema to use for the new object.
-     *
-     * @var string
-     */
-    private $_schema = 'default';
-
-    /**
-     * The defaults to use for the new object.
-     *
-     * @var Array
-     */
-    private $_defaults = array();
 
     /**
      * The object we're working on, if any
@@ -90,10 +68,7 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
         $this->_load_component_node();
 
-        $schemadb_snippet = $this->_get_schemadb_snippet();
-
-        $this->_initialize_datamanager($schemadb_snippet);
-        $this->_load_controller();
+        $this->_controller = $this->get_controller('create');
 
         switch ($this->_controller->process_form())
         {
@@ -118,6 +93,31 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
         org_openpsa_helpers::dm2_savecancel($this);
 
         return true;
+    }
+
+    public function load_schemadb()
+    {
+        return midcom_helper_datamanager2_schema::load_database($this->_get_schemadb_snippet());
+    }
+
+    /**
+     * This is what Datamanager calls to actually create an invoice
+     */
+    public function & dm2_create_callback(&$datamanager)
+    {
+        $object = new $this->_dbaclass();
+
+        if (!$object->create())
+        {
+            debug_print_r('We operated on this object:', $object);
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                "Failed to create a new object, cannot continue. Error: " . midcom_connection::get_error_string());
+            // This will exit.
+        }
+
+        $this->_object =& $object;
+
+        return $object;
     }
 
     /**
@@ -191,65 +191,6 @@ class org_openpsa_helpers_handler_chooser extends midcom_baseclasses_components_
 
         return $this->_node[MIDCOM_NAV_CONFIGURATION]->get($config_key);
     }
-
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
-        $this->_controller->callback_object =& $this;
-        $this->_controller->defaults =& $this->_defaults;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
-    }
-
-    private function _initialize_datamanager($schemadb_snippet)
-    {
-        if ($this->_datamanager)
-        {
-            //already initialized, we can stop now
-            return;
-        }
-
-        // Initialize the datamanager with the schema
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_snippet);
-
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Datamanager could not be instantiated.");
-            // This will exit.
-        }
-    }
-
-    /**
-     * This is what Datamanager calls to actually create an invoice
-     */
-    function & dm2_create_callback(&$datamanager)
-    {
-        $object = new $this->_dbaclass();
-
-        if (!$object->create())
-        {
-            debug_print_r('We operated on this object:', $object);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new object, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
-        }
-
-        $this->_object =& $object;
-
-        return $object;
-    }
-
 
     /**
      *

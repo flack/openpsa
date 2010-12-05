@@ -12,7 +12,7 @@
  * @package org.openpsa.relatedto
  */
 class org_openpsa_relatedto_handler_journalentry extends midcom_baseclasses_components_handler
-implements midcom_helper_datamanager2_interfaces_edit
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * Contains the one journal_entry to edit
@@ -28,11 +28,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Way the entries should be outputed
      */
     private $_output_mode = "html";
-
-    /**
-     * Contains the controller for datamanager
-     */
-    private $_controller = null;
 
     /**
      * Contains the object the journal_entry is bind to
@@ -156,10 +151,9 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
-        $this->_prepare_datamanager();
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('create');
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
             case 'cancel':
@@ -171,8 +165,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // This will exit.
                 break;
         }
-        $this->_request_data['datamanager'] =& $this->_datamanager;
-        $this->_request_data['controller'] =& $this->_controller;
 
         $this->_prepare_breadcrumb();
 
@@ -185,42 +177,9 @@ implements midcom_helper_datamanager2_interfaces_edit
     }
 
     /**
-     * function to load libraries/schemas for datamanager
-     */
-    private function _prepare_datamanager()
-    {
-        $_MIDCOM->componentloader->load('org.openpsa.relatedto');
-
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->load_schemadb());
-
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Datamanager could not be instantiated.");
-            // This will exit.
-        }
-    }
-
-    /**
-     * Load create controller
-     */
-    private function _load_controller()
-    {
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->callback_object =& $this;
-        $this->_controller->schemadb = $this->load_schemadb();
-        $this->_controller->schemaname = $this->get_schema_name();
-
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
-    }
-
-    /**
      * Datamanager callback
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $reminder = new org_openpsa_relatedto_journal_entry_dba();
         $reminder->linkGuid = $this->_current_object->guid;
@@ -269,11 +228,11 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
-        $this->_controller = $this->get_controller('simple', $this->_journal_entry);
+        $data['controller'] = $this->get_controller('simple', $this->_journal_entry);
 
         $url_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
             case 'cancel':
@@ -282,7 +241,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // This will exit.
                 break;
         }
-        $this->_request_data['controller'] =& $this->_controller;
 
         org_openpsa_helpers::dm2_savecancel($this);
         //delete-button
@@ -301,7 +259,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
 
         $this->_prepare_breadcrumb();
-        $_MIDCOM->bind_view_to_object($this->_journal_entry, $this->_controller->datamanager->schema->name);
+        $_MIDCOM->bind_view_to_object($this->_journal_entry, $data['controller']->datamanager->schema->name);
 
         return true;
     }

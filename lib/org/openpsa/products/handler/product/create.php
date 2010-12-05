@@ -12,6 +12,7 @@
  * @package org.openpsa.products
  */
 class org_openpsa_products_handler_product_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The article which has been created
@@ -19,13 +20,6 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
      * @var org_openpsa_products_product_dba
      */
     private $_product = null;
-
-    /**
-     * The Controller of the article used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
@@ -42,19 +36,11 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
     private $_schema = 'default';
 
     /**
-     * The defaults to use for the new article.
-     *
-     * @var Array
-     */
-    private $_defaults = Array();
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['schema'] =& $this->_schema;
         $this->_request_data['schemadb'] =& $this->_schemadb;
     }
@@ -64,35 +50,29 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
         $this->_schemadb =& $this->_request_data['schemadb_product'];
 
-        $this->_defaults['productGroup'] = $this->_request_data['up'];
+        return $this->_schemadb;
     }
 
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function get_schema_name()
     {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
-        $this->_controller->defaults = $this->_defaults;
-        $this->_controller->callback_object =& $this;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
+    	return $this->_schema;
+    }
+
+    public function get_schema_defaults()
+    {
+    	$defaults = array();
+        $defaults['productGroup'] = $this->_request_data['up'];
+        return $defaults;
     }
 
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         $this->_product = new org_openpsa_products_product_dba();
 
@@ -194,9 +174,9 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
         }
         $this->_schema =& $data['selected_schema'];
 
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('create');
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
 
@@ -204,7 +184,7 @@ class org_openpsa_products_handler_product_create extends midcom_baseclasses_com
                 {
                     // Index the product
                     $indexer = $_MIDCOM->get_service('indexer');
-                    org_openpsa_products_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
+                    org_openpsa_products_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
                 }
 
                 $_MIDCOM->cache->invalidate($this->_product->guid);
