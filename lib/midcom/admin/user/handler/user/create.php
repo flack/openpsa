@@ -12,6 +12,7 @@
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_user_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     private $_person = null;
 
@@ -25,7 +26,6 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
 
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
         $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
         $this->_request_data['l10n'] = $this->_l10n;
 
@@ -37,26 +37,9 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
     /**
      * Loads and prepares the schema database.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
-    }
-
-    /**
-     * Internal helper, loads the controller for the current person. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = 'default';
-        $this->_controller->callback_object =& $this;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize a DM2 create controller.');
-            // This will exit.
-        }
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
     }
 
     /**
@@ -64,7 +47,7 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
      *
      * Assumes Admin Privileges.
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         // Create a new person
         $this->_person = new midcom_db_person();
@@ -89,8 +72,8 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
      */
     public function _handler_create($handler_id, $args, &$data)
     {
-        $this->_load_controller();
-        switch ($this->_controller->process_form())
+        $data['controller'] = $this->get_controller('create');
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Show confirmation for the user
@@ -121,7 +104,6 @@ class midcom_admin_user_handler_user_create extends midcom_baseclasses_component
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['person'] =& $this->_person;
-        $data['controller'] =& $this->_controller;
         midcom_show_style('midcom-admin-user-person-create');
         midgard_admin_asgard_plugin::asgard_footer();
     }

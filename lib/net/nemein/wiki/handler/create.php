@@ -12,6 +12,7 @@
  * @package net.nemein.wiki
  */
 class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * Wiki word we're creating page for
@@ -27,47 +28,33 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
     private $_page = null;
 
     /**
-     * The Controller of the article used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
-     * The schema to use for the new article.
+     * The schema to use for the new page.
      *
      * @var string
      */
     private $_schema = 'default';
 
-    /**
-     * The defaults to use for the new article.
-     *
-     * @var Array
-     */
-    private $_defaults = Array();
-
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function load_schemadb()
     {
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_request_data['schemadb'];
-        $this->_controller->schemaname = $this->_schema;
-        $this->_controller->defaults = $this->_defaults;
-        $this->_controller->callback_object =& $this;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
+    	return $this->_request_data['schemadb'];
+    }
+
+    public function get_schema_name()
+    {
+    	return $this->_schema;
+    }
+
+    public function get_schema_defaults()
+    {
+    	$defaults = array();
+        $defaults['title'] = $this->_wikiword;
+        return $defaults;
     }
 
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         $this->_page = new net_nemein_wiki_wikipage();
         $this->_page->topic = $this->_topic->id;
@@ -108,68 +95,68 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
         switch (true)
         {
             case (strstr($resolved['remaining_path'], '/')):
-                    // One or more namespaces left, find first, create it and recurse
-                    $paths = explode('/', $resolved['remaining_path']);
-                    $folder_title = array_shift($paths);
-                    $topic = new midcom_db_topic();
-                    $topic->up = $to_node[MIDCOM_NAV_ID];
-                    $topic->extra = $folder_title;
-                    $topic->title = $folder_title;
-                    $topic->name = midcom_generate_urlname_from_string($folder_title);
-                    $topic->component = 'net.nemein.wiki';
-                    if (!$topic->create())
+                // One or more namespaces left, find first, create it and recurse
+                $paths = explode('/', $resolved['remaining_path']);
+                $folder_title = array_shift($paths);
+                $topic = new midcom_db_topic();
+                $topic->up = $to_node[MIDCOM_NAV_ID];
+                $topic->extra = $folder_title;
+                $topic->title = $folder_title;
+                $topic->name = midcom_generate_urlname_from_string($folder_title);
+                $topic->component = 'net.nemein.wiki';
+                if (!$topic->create())
+                {
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
+                    // This will exit()
+                }
+                // refresh
+                $topic = new midcom_db_topic($topic->id);
+
+                // See if we have article with same title in immediate parent
+                $qb = net_nemein_wiki_wikipage::new_query_builder();
+                $qb->add_constraint('title', '=', $folder_title);
+                $qb->add_constraint('topic', '=', $topic->up);
+                $results = $qb->execute();
+
+                if (   is_array($results)
+                    && count($results) == 1)
+                {
+                    $article =& $results[0];
+                    $article->name = 'index';
+                    $article->topic = $topic->id;
+                    if (!$article->update())
                     {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
+                        // Could not move article, do something ?
+                    }
+                }
+                else
+                {
+                    $created_page = net_nemein_wiki_viewer::initialize_index_article($topic);
+                    if (!$created_page)
+                    {
+                        // Could not create index
+                        $topic->delete();
+                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
                         // This will exit()
                     }
-                    // refresh
-                    $topic = new midcom_db_topic($topic->id);
-
-                    // See if we have article with same title in immediate parent
-                    $qb = net_nemein_wiki_wikipage::new_query_builder();
-                    $qb->add_constraint('title', '=', $folder_title);
-                    $qb->add_constraint('topic', '=', $topic->up);
-                    $results = $qb->execute();
-
-                    if (   is_array($results)
-                        && count($results) == 1)
-                    {
-                        $article =& $results[0];
-                        $article->name = 'index';
-                        $article->topic = $topic->id;
-                        if (!$article->update())
-                        {
-                            // Could not move article, do something ?
-                        }
-                    }
-                    else
-                    {
-                        $created_page = net_nemein_wiki_viewer::initialize_index_article($topic);
-                        if (!$created_page)
-                        {
-                            // Could not create index
-                            $topic->delete();
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
-                            // This will exit()
-                        }
-                    }
-                    // We have created a new topic, now recurse to create the rest of the path.
-                    return $this->_check_unique_wikiword($wikiword);
+                }
+                // We have created a new topic, now recurse to create the rest of the path.
+                return $this->_check_unique_wikiword($wikiword);
                 break;
             case (is_object($resolved['wikipage'])):
-                    // Page exists
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Wiki page with that name already exists.');
-                    //This will exit()
+                // Page exists
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Wiki page with that name already exists.');
+                //This will exit()
                 break;
             default:
-                    // No more namespaces left, create the page to latest parent
-                    if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id)
-                    {
-                        // Last parent is not this topic, redirect there
-                        $wikiword_url = rawurlencode($resolved['remaining_path']);
-                        $_MIDCOM->relocate($to_node[MIDCOM_NAV_FULLURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
-                        // This will exit()
-                    }
+                // No more namespaces left, create the page to latest parent
+                if ($to_node[MIDCOM_NAV_ID] != $this->_topic->id)
+                {
+                    // Last parent is not this topic, redirect there
+                    $wikiword_url = rawurlencode($resolved['remaining_path']);
+                    $_MIDCOM->relocate($to_node[MIDCOM_NAV_FULLURL] . "create/{$this->_schema}?wikiword={$wikiword_url}");
+                    // This will exit()
+                }
                 break;
         }
         return true;
@@ -222,9 +209,7 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
 
         $this->_check_unique_wikiword($this->_wikiword);
 
-        $this->_defaults['title'] = $this->_wikiword;
-
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('create');
 
         if ($handler_id == 'create_by_word_relation')
         {
@@ -253,12 +238,12 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
             }
         }
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Reindex the article
                 $indexer = $_MIDCOM->get_service('indexer');
-                net_nemein_wiki_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
+                net_nemein_wiki_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
                 $_MIDCOM->uimessages->add($this->_l10n->get('net.nemein.wiki'), sprintf($this->_l10n->get('page %s added'), $this->_wikiword), 'ok');
 
@@ -293,7 +278,6 @@ class net_nemein_wiki_handler_create extends midcom_baseclasses_components_handl
      */
     public function _show_create($handler_id, &$data)
     {
-        $this->_request_data['controller'] =& $this->_controller;
         midcom_show_style('view-wikipage-edit');
     }
 }

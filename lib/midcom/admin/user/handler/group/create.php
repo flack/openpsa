@@ -12,6 +12,7 @@
  * @package midcom.admin.user
  */
 class midcom_admin_user_handler_group_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     private $_group = null;
 
@@ -37,26 +38,9 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
     /**
      * Loads and prepares the schema database.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-    }
-
-    /**
-     * Internal helper, loads the controller for the current group. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_load_schemadb();
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = 'default';
-        $this->_controller->callback_object =& $this;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize a DM2 create controller.');
-            // This will exit.
-        }
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }
 
     /**
@@ -89,8 +73,8 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
      */
     public function _handler_create($handler_id, $args, &$data)
     {
-        $this->_load_controller();
-        switch ($this->_controller->process_form())
+        $data['controller'] = $this->get_controller('create');
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Show confirmation for the group
@@ -121,7 +105,6 @@ class midcom_admin_user_handler_group_create extends midcom_baseclasses_componen
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['group'] =& $this->_group;
-        $data['controller'] =& $this->_controller;
         midcom_show_style('midcom-admin-user-group-create');
 
         midgard_admin_asgard_plugin::asgard_footer();

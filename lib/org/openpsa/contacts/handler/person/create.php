@@ -12,37 +12,8 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
-    private $_datamanager;
-
-    /**
-     * The Controller of the document used for creating
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
-     * The schema to use for the new person.
-     *
-     * @var string
-     */
-    private $_schema = 'default';
-
-    /**
-     * The defaults to use for the new person.
-     *
-     * @var Array
-     */
-    private $_defaults = array();
-
     /**
      * The person we're working on, if any
      *
@@ -57,41 +28,9 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      */
     private $_group = null;
 
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function load_schemab()
     {
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
-        $this->_controller->callback_object =& $this;
-        $this->_controller->defaults =& $this->_defaults;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
-    }
-
-    private function _initialize_datamanager($schemadb_snippet)
-    {
-        if ($this->_datamanager)
-        {
-            //already initialized, we can stop now
-            return;
-        }
-        // Initialize the datamanager with the schema
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_snippet);
-
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Datamanager could not be instantiated.");
-            // This will exit.
-        }
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
     }
 
     /**
@@ -141,17 +80,15 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
             $_MIDCOM->auth->require_do('midgard:create', $this->_group);
         }
 
-        $this->_initialize_datamanager($this->_config->get('schemadb_person'));
+        $data['controller'] = $this->get_controller('create');
 
-        $this->_load_controller();
-
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
 
                 // Index the person
                 $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_content_topic);
+                org_openpsa_contacts_viewer::index_person($data['controller']->datamanager, $indexer, $this->_content_topic);
 
                 // Add person to group if requested
                 if ($this->_group)
@@ -179,9 +116,7 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
                 $_MIDCOM->relocate('');
                 // This will exit
         }
-        $this->_request_data['controller'] =& $this->_controller;
 
-        $_MIDCOM->set_pagetitle($this->_l10n->get("create person"));
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
@@ -214,7 +149,6 @@ class org_openpsa_contacts_handler_person_create extends midcom_baseclasses_comp
      */
     public function _show_create($handler_id, &$data)
     {
-        $this->_request_data['controller'] =& $this->_controller;
         midcom_show_style("show-person-create");
     }
 }

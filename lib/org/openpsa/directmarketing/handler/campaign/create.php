@@ -12,6 +12,7 @@
  * @package org.openpsa.directmarketing
  */
 class org_openpsa_directmarketing_handler_campaign_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The campaign which has been created
@@ -19,13 +20,6 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
      * @var org_openpsa_directmarketing_campaign
      */
     private $_campaign = null;
-
-    /**
-     * The Controller of the campaign used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
 
     /**
      * The schema database in use, available only while a datamanager is loaded.
@@ -41,21 +35,9 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
      */
     private $_schema = null;
 
-    /**
-     * The defaults to use for the new campaign.
-     *
-     * @var array
-     */
-    private $_defaults = array();
-
-    /**
-     * Simple helper which references all important members to the request data listing
-     * for usage within the style listing.
-     */
-    private function _prepare_request_data()
+    public function get_schema_name()
     {
-        $this->_request_data['controller'] =& $this->_controller;
-        $this->_request_data['schema'] =& $this->_schema;
+    	return $this->_schema;
     }
 
     /**
@@ -67,32 +49,16 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
-    }
-
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_controller()
-    {
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
-        $this->_controller->defaults = $this->_defaults;
-        $this->_controller->callback_object =& $this;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
+        return $this->_schemadb;
     }
 
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba();
         $this->_campaign->node = $this->_topic->id;
@@ -121,7 +87,7 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
 
         $this->_schema = $args[0];
-        $this->_load_schemadb();
+        $this->load_schemadb();
 
         if (!array_key_exists($this->_schema, $this->_schemadb))
         {
@@ -129,15 +95,14 @@ class org_openpsa_directmarketing_handler_campaign_create extends midcom_basecla
             return false;
         }
 
-        $this->_load_controller();
-        $this->_prepare_request_data();
+        $data['controller'] = $this->get_controller('create');
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Index the campaign
                 //$indexer = $_MIDCOM->get_service('indexer');
-                //org_openpsa_directmarketing_viewer::index($this->_controller->datamanager, $indexer, $this->_topic);
+                //org_openpsa_directmarketing_viewer::index($data['controller']->datamanager, $indexer, $this->_topic);
 
                 $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
 

@@ -45,12 +45,34 @@ class midcom_helper_datamanager2_handler
     {
         $schemadb = $handler->load_schemadb();
         $controller = midcom_helper_datamanager2_controller::create('simple');
-        $controller->schemadb =& $schemadb;
+        $controller->schemadb = $schemadb;
 
         $controller->set_storage($object, $handler->get_schema_name());
         if (! $controller->initialize())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for object {$object->guid}.");
+            // This will exit.
+        }
+        return $controller;
+    }
+
+    /**
+     * Loads and prepares the edit controller. Any error triggers a 500.
+     *
+     * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
+     * @return midcom_helper_datamanager2_controller_create The edit controller for the requested object
+     */
+    public static function get_create_controller(&$handler)
+    {
+        $schemadb = $handler->load_schemadb();
+        $controller = midcom_helper_datamanager2_controller::create('create');
+        $controller->schemadb = $schemadb;
+        $controller->schemaname = $handler->get_schema_name();
+        $controller->defaults = $handler->get_schema_defaults();
+        $controller->callback_object =& $handler;
+        if (! $controller->initialize())
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize a DM2 create controller.');
             // This will exit.
         }
         return $controller;

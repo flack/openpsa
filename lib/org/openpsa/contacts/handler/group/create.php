@@ -12,35 +12,8 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
-    /**
-     * The Controller of the document used for creating
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     */
-    private $_schemadb = null;
-
-    /**
-     * The schema to use for the new group.
-     *
-     * @var string
-     */
-    private $_schema = 'default';
-
-    /**
-     * The defaults to use for the new group.
-     *
-     * @var Array
-     */
-    private $_defaults = array();
-
     /**
      * The group we're working with
      *
@@ -55,35 +28,26 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
      */
     private $_parent_group = null;
 
-    public function _on_initialize()
+    public function load_schemadb()
     {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
+    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }
 
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function get_schema_defaults()
     {
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->schemaname = $this->_schema;
-        $this->_controller->callback_object =& $this;
-        $this->_controller->defaults =& $this->_defaults;
-
-        if (! $this->_controller->initialize())
+    	$defaults = array();
+        if (!is_null($this->_parent_group))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
+            // Set the default type to "department"
+            $defaults['object_type'] = ORG_OPENPSA_OBTYPE_DEPARTMENT;
         }
+        return $defaults;
     }
 
     /**
      * This is what Datamanager calls to actually create a group
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $group = new org_openpsa_contacts_group_dba();
 
@@ -128,16 +92,13 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
             // Get the parent organization
             $this->_parent_group = new org_openpsa_contacts_group_dba($args[0]);
 
-            if (!$this->_parent_group
+            if (   !$this->_parent_group
                 || !$this->_parent_group->guid)
             {
                 return false;
             }
 
             $_MIDCOM->auth->require_do('midgard:create', $this->_parent_group);
-
-            // Set the default type to "department"
-            $this->_defaults['object_type'] = ORG_OPENPSA_OBTYPE_DEPARTMENT;
         }
         else
         {
@@ -145,13 +106,13 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
             $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_contacts_group_dba');
         }
 
-        $this->_load_controller();
-        switch ($this->_controller->process_form())
+        $data['controller'] = $this->get_controller('create');
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 // Index the organization
                 $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_group($this->_controller->datamanager, $indexer, $this->_content_topic);
+                org_openpsa_contacts_viewer::index_group($data['controller']->datamanager, $indexer, $this->_content_topic);
 
                 // Relocate to group view
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -162,7 +123,8 @@ class org_openpsa_contacts_handler_group_create extends midcom_baseclasses_compo
                 $_MIDCOM->relocate('');
                 // This will exit
         }
-        $this->_request_data['controller'] =& $this->_controller;
+
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);

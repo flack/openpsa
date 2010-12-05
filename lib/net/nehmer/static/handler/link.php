@@ -12,6 +12,7 @@
  * @package net.nehmer.static
  */
 class net_nehmer_static_handler_link extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * The content topic to use
@@ -38,40 +39,12 @@ class net_nehmer_static_handler_link extends midcom_baseclasses_components_handl
     private $_link = null;
 
     /**
-     * The Controller of the article used for editing
-     *
-     * @var midcom_helper_datamanager2_controller_simple
-     * @access private
-     */
-    private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var Array
-     * @access private
-     */
-    private $_schemadb = null;
-
-
-    /**
-     * The defaults to use for the new article.
-     *
-     * @var Array
-     * @access private
-     */
-    private $_defaults = Array();
-
-    /**
      * Simple helper which references all important members to the request data listing
      * for usage within the style listing.
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['controller'] =& $this->_controller;
         $this->_request_data['indexmode'] =& $this->_indexmode;
-        $this->_request_data['schema'] =& $this->_schema;
-        $this->_request_data['schemadb'] =& $this->_schemadb;
     }
 
     /**
@@ -80,39 +53,31 @@ class net_nehmer_static_handler_link extends midcom_baseclasses_components_handl
     public function _on_initialize()
     {
         $this->_content_topic =& $this->_request_data['content_topic'];
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_link'));
     }
 
-    /**
-     * Internal helper, fires up the creation mode controller. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function load_schemadb()
     {
+    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_link'));
+    }
+
+    public function get_schema_defaults()
+    {
+        $defaults = array();
         if (isset($_GET['article']))
         {
-            $this->_defaults['article'] = $_GET['article'];
+            $defaults['article'] = $_GET['article'];
         }
         else
         {
-            $this->_defaults['topic'] = $this->_topic->id;
+            $defaults['topic'] = $this->_topic->id;
         }
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->defaults = $this->_defaults;
-        $this->_controller->callback_object =& $this;
-
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
+        return $defaults;
     }
 
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function &dm2_create_callback (&$controller)
+    public function &dm2_create_callback (&$controller)
     {
         $this->_link = new net_nehmer_static_link_dba();
         $this->_link->topic = $this->_topic->id;
@@ -150,9 +115,9 @@ class net_nehmer_static_handler_link extends midcom_baseclasses_components_handl
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Article linking disabled');
         }
 
-        $this->_load_controller();
+        $data['controller'] = $this->get_controller('create');
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 $this->_article = new midcom_db_article($this->_link->article);

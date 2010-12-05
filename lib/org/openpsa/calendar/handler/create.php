@@ -11,45 +11,41 @@
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
-     * Datamanager2 create controller
+     * The reuqested start time
      *
-     * @var midcom_helper_datamanager2_controller_create
+     * @var int
      */
-    private $_controller;
+    private $_requested_time;
 
-    /**
-     * Defaults for the creation mode
-     *
-     * @var Array
-     */
-    private $_defaults = array();
-
-    /**
-     * Load the creation controller
-     */
-    private function _load_controller()
+    public function load_schemadb()
     {
-        // Load schema database
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+    }
 
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $schemadb;
-        $this->_controller->defaults = $this->_defaults;
-        $this->_controller->callback_object =& $this;
-
-        if (! $this->_controller->initialize())
+    public function get_schema_defaults()
+    {
+    	$defaults = array();
+        if (   $this->_person
+            && $this->_person->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
+            $defaults['participants'][$this->_person->id] = $this->_person;
         }
+
+        if (!is_null($this->_requested_time))
+        {
+            $defaults['start'] = $this->_requested_time;
+            $defaults['end'] = $this->_requested_time + 3600;
+        }
+        return $defaults;
     }
 
     /**
      * DM2 creation callback, binds to the current content topic.
      */
-    function & dm2_create_callback (&$controller)
+    public function & dm2_create_callback (&$controller)
     {
         $this->_event = new org_openpsa_calendar_event_dba();
         $this->_event->up = $this->_root_event->id;
@@ -83,30 +79,18 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
         if (isset($args[0]))
         {
             $this->_person = new midcom_db_person($args[0]);
-
-            if (   $this->_person
-                && $this->_person->guid)
-            {
-                $this->_defaults['participants'][$this->_person->id] = $this->_person;
-            }
         }
 
         if (isset($args[1]))
         {
-            $time = $args[1];
-
-            if ($time)
-            {
-                $this->_defaults['start'] = $time;
-                $this->_defaults['end'] = $time + 3600;
-            }
+            $this->_requested_time = $args[1];
         }
 
         // Load the controller instance
-        $this->_load_controller();
+        $data['event_dm'] = $this->get_controller('create');
 
         // Process form
-        switch ($this->_controller->process_form())
+        switch ($data['event_dm']->process_form())
         {
             case 'save':
             case 'cancel':
@@ -137,7 +121,6 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
         {
             $this->_request_data['popup_title'] = 'resource conflict';
             midcom_show_style('show-popup-header');
-            $this->_request_data['event_dm'] =& $this->_controller;
             midcom_show_style('show-event-conflict');
             midcom_show_style('show-popup-footer');
         }
@@ -147,7 +130,6 @@ class org_openpsa_calendar_handler_create extends midcom_baseclasses_components_
             $this->_request_data['popup_title'] = $this->_l10n->get('create event');
             // Show popup
             midcom_show_style('show-popup-header');
-            $this->_request_data['event_dm'] =& $this->_controller;
             midcom_show_style('show-event-new');
             midcom_show_style('show-popup-footer');
         }

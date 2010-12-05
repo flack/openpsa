@@ -195,6 +195,8 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         {
         	case 'simple':
                 return midcom_helper_datamanager2_handler::get_simple_controller($this, $object);
+            case 'simple':
+                return midcom_helper_datamanager2_handler::get_create_controller($this);
             default:
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Unsupported controller type: {$type}");
                 // This will exit.
@@ -211,5 +213,14 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         return 'default';
     }
 
+    /**
+     * Default helper function for DM2 schema-related operations
+     *
+     * return string The default DM2 schema name
+     */
+    public function get_schema_defaults()
+    {
+        return array();
+    }
 }
 ?>
