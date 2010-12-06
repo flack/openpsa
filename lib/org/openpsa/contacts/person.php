@@ -490,7 +490,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $max = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('min_password_length');
         $rules = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('password_match_score');
 
-        $data_snippet = midcom_get_snippet_content($rules);
+        $data_snippet = midcom_helper_misc::get_snippet_content($rules);
         $result = eval ("\$contents = array ( {$data_snippet}\n );");
         if ($result === false)
         {

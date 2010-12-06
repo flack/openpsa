@@ -1113,7 +1113,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // Try autoload:
             if (array_key_exists('autoload_snippet', $callback))
             {
-                mgd_include_snippet_php($callback['autoload_snippet']);
+                midcom_helper_misc::include_snippet_php($callback['autoload_snippet']);
             }
             if (array_key_exists('autoload_file', $callback))
             {

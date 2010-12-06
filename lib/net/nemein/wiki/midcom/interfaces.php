@@ -90,7 +90,7 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
             debug_add('given node is not valid', MIDCOM_LOG_ERROR);
             return false;
         }
-        $wikiword_name = midcom_generate_urlname_from_string($wikiword);
+        $wikiword_name = midcom_helper_misc::generate_urlname_from_string($wikiword);
         $qb = new midgard_query_builder('midgard_article');
         $qb->add_constraint('topic', '=', $node[MIDCOM_NAV_OBJECT]->id);
         $qb->add_constraint('name', '=', $wikiword_name);

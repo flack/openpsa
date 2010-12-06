@@ -1272,7 +1272,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 debug_add("Object " . get_class($object) . " #{$object->id} has empty name and title, aborting", MIDCOM_LOG_WARN);
                 return false;
             }
-            $current_name = midcom_generate_urlname_from_string($title_copy);
+            $current_name = midcom_helper_misc::generate_urlname_from_string($title_copy);
             unset($title_copy);
         }
 

@@ -314,7 +314,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $info['guid'] = $att->guid;
 
         $info['filesize'] = $stats[7];
-        $info['formattedsize'] = midcom_helper_filesize_to_string($stats[7]);
+        $info['formattedsize'] = midcom_helper_misc::filesize_to_string($stats[7]);
         $info['lastmod'] = $stats[9];
         $info['isoformattedlastmod'] = strftime('%Y-%m-%d %T', $stats[9]);
 
@@ -978,7 +978,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             $name = $filename;
             $ext = '';
         }
-        return midcom_generate_urlname_from_string($name) . $ext;
+        return midcom_helper_misc::generate_urlname_from_string($name) . $ext;
     }
 
     /**

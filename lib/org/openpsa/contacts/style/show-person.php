@@ -8,7 +8,7 @@ $node = $nap->get_node($nap->get_current_node());
     midcom_show_style("show-person-account");
 
     // Try to find campaigns component
-    $campaigns_node = midcom_helper_find_node_by_component('org.openpsa.directmarketing');
+    $campaigns_node = midcom_helper_misc::find_node_by_component('org.openpsa.directmarketing');
     if ($campaigns_node)
     {
         $_MIDCOM->dynamic_load($campaigns_node[MIDCOM_NAV_RELATIVEURL] . "campaign/list/{$data['person']->guid}/");

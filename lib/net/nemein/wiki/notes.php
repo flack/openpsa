@@ -35,7 +35,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             // This will exit.
         }
 
-        $this->wiki = midcom_helper_find_node_by_component('net.nemein.wiki');
+        $this->wiki = midcom_helper_misc::find_node_by_component('net.nemein.wiki');
 
         if ($new_wikipage)
         {

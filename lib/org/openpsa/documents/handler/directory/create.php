@@ -50,7 +50,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
         $topic->component = 'org.openpsa.documents';
 
         // Set the name by default
-        $topic->name = midcom_generate_urlname_from_string($_POST['extra']);
+        $topic->name = midcom_helper_misc::generate_urlname_from_string($_POST['extra']);
 
         if (! $topic->create())
         {

@@ -236,7 +236,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         }
 
         // No comments topic specified, autoprobe
-        $comments_node = midcom_helper_find_node_by_component('net.nehmer.comments');
+        $comments_node = midcom_helper_misc::find_node_by_component('net.nehmer.comments');
 
         // Cache the data
         if ($_MIDCOM->auth->request_sudo('net.nehmer.blog'))

@@ -162,7 +162,7 @@ class midcom_exception_handler
             $GLOBALS['midcom_error_title'] = $title;
             $GLOBALS['midcom_error_message'] = htmlentities($message);
             $GLOBALS['midcom_error_code'] = $code;
-            midcom_show_element("midcom_error_{$code}");
+            midcom_helper_misc::show_element("midcom_error_{$code}");
         }
         else
         {

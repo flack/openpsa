@@ -160,7 +160,7 @@ implements midcom_helper_datamanager2_interfaces_view
             )
         );
 
-        $cal_node = midcom_helper_find_node_by_component('org.openpsa.calendar');
+        $cal_node = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         if (!empty($cal_node))
         {
             //TODO: Check for privileges somehow

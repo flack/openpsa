@@ -15,7 +15,7 @@ $item_type = "image";
                 break;
             default:
                 $item_type = "attachment";
-                $mime_icon = midcom_helper_get_mime_icon($item->mimetype);
+                $mime_icon = midcom_helper_misc::get_mime_icon($item->mimetype);
     ?>
     <?php
         }

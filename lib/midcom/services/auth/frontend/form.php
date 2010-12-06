@@ -75,7 +75,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
         if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('midcom_services_auth_frontend_form'))
         {
-            midcom_show_element('midcom_services_auth_frontend_form');
+            midcom_helper_misc::show_element('midcom_services_auth_frontend_form');
         }
         else
         {

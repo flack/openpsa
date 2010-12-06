@@ -43,7 +43,7 @@
 <form class="urlform" method="post" action="&(data['delete_url']:h);">
     <?php
     $file_url = $_MIDCOM->get_host_prefix() . "midcom-serveattachmentguid-{$data['file']->guid}/{$data['file']->name}";
-    $mime_icon = midcom_helper_get_mime_icon($data['file']->mimetype);
+    $mime_icon = midcom_helper_misc::get_mime_icon($data['file']->mimetype);
     ?>
     <fieldset>
         <legend><?php echo $_MIDCOM->i18n->get_string('file information', 'midgard.admin.asgard'); ?></legend>
@@ -51,7 +51,7 @@
         <div class="icon">
             <a href="&(file_url);">
                 <img src="&(mime_icon);" />
-                <?php echo midcom_helper_filesize_to_string($data['file']->metadata->size) . " {$data['file']->mimetype}"; ?>
+                <?php echo midcom_helper_misc::filesize_to_string($data['file']->metadata->size) . " {$data['file']->mimetype}"; ?>
             </a>
         </div>
 

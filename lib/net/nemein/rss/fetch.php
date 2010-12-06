@@ -433,7 +433,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
             if (empty($article->name))
             {
-                $article->name = midcom_generate_urlname_from_string($article->title);
+                $article->name = midcom_helper_misc::generate_urlname_from_string($article->title);
                 $updated = true;
             }
 
@@ -465,7 +465,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             // Safety, make sure we have sane name (the allow_catenate was set earlier, so this will not clash
             if (empty($article->name))
             {
-                $article->name = midcom_generate_urlname_from_string($article->title);
+                $article->name = midcom_helper_misc::generate_urlname_from_string($article->title);
             }
             // This is a new item
             $node = new midcom_db_topic($this->_feed->node);

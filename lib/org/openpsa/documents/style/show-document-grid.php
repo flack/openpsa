@@ -16,7 +16,7 @@ foreach ($data['documents'] as $document)
     $icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
     if ($att)
     {
-        $icon = midcom_helper_get_mime_icon($att->mimetype);
+        $icon = midcom_helper_misc::get_mime_icon($att->mimetype);
     }
 
     $title = '<a class="tab_escape" href="' .$prefix . 'document/' . $document->guid .'/"><img src="' . $icon . '"';
@@ -35,7 +35,7 @@ foreach ($data['documents'] as $document)
     {
         $stats = $att->stat();
         $entry['index_filesize'] = $stats[7];
-        $entry['filesize'] = midcom_helper_filesize_to_string($stats[7]);
+        $entry['filesize'] = midcom_helper_misc::filesize_to_string($stats[7]);
         $entry['mimetype'] = org_openpsa_documents_document_dba::get_file_type($att->mimetype);
     }
 

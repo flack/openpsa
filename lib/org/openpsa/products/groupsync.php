@@ -151,7 +151,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
             $this->full_sync();
             return true;
         }
-        $topic->name = midcom_generate_urlname_from_string($group->{$this->name_from});
+        $topic->name = midcom_helper_misc::generate_urlname_from_string($group->{$this->name_from});
         $topic->title = $group->{$this->title_from};
         $topic->extra = $topic->title;
         if (!$topic->update())
@@ -269,7 +269,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         }
         foreach ($results as $k => $subgroup)
         {
-            $urlname = midcom_generate_urlname_from_string($subgroup->{$this->name_from});
+            $urlname = midcom_helper_misc::generate_urlname_from_string($subgroup->{$this->name_from});
             $ret[$urlname] = $subgroup;
         }
         unset($results, $k, $subgroup, $urlname);
@@ -368,7 +368,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
     {
         if (!$name)
         {
-            $name = midcom_generate_urlname_from_string($group->{$this->name_from});
+            $name = midcom_helper_misc::generate_urlname_from_string($group->{$this->name_from});
         }
         $subtopic = new midcom_db_topic();
         $subtopic->name = $name;

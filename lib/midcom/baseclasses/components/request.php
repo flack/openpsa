@@ -902,7 +902,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 break;
 
             case 'snippet':
-                mgd_include_snippet_php($src);
+                midcom_helper_misc::include_snippet_php($src);
                 break;
 
             default:

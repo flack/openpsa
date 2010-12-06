@@ -166,13 +166,13 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
     /**
      * Construct a schema, takes a schema snippet URI resolvable through the
-     * midcom_get_snippet_content() helper function.
+     * midcom_helper_misc::get_snippet_content() helper function.
      *
      * @param mixed $schemadb Either the path or the already loaded schema database
      *     to use.
      * @param string $name The name of the Schema to use. It must be a member in the
      *     specified schema database. If unspecified, the default schema is used.
-     * @see midcom_get_snippet_content()
+     * @see midcom_helper_misc::get_snippet_content()
      */
     public function __construct($schemadb, $name = null, $schemadb_path = null)
     {
@@ -193,11 +193,11 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
     /**
      * This function loads the schema database into the class, either from a copy
-     * already in memory, or from a URL resolvable by midcom_get_snippet_content.
+     * already in memory, or from a URL resolvable by midcom_helper_misc::get_snippet_content.
      *
      * @param mixed $schemadb Either the path or the already loaded schema database
      *     to use.
-     * @see midcom_get_snippet_content()
+     * @see midcom_helper_misc::get_snippet_content()
      */
     function _load_schemadb($schemadb)
     {
@@ -351,7 +351,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     {
         if (is_string($schemadb))
         {
-            $data = midcom_get_snippet_content($schemadb);
+            $data = midcom_helper_misc::get_snippet_content($schemadb);
             $result = eval ("\$contents = array ( {$data}\n );");
             if ($result === false)
             {
@@ -675,10 +675,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
      *
      * This function may (and usually will) be called statically.
      *
-     * @param mixed $raw_db Either an already created raw schema array, or a midgard_get_snippet_content
+     * @param mixed $raw_db Either an already created raw schema array, or a midcom_helper_misc::get_snippet_content
      *     compatible URL to a snippet / file from which the db should be loaded or schemadb contents as a string.
      * @return Array An array of midcom_helper_datamanager2_schema class instances.
-     * @see midcom_get_snippet_content()
+     * @see midcom_helper_misc::get_snippet_content()
      */
     function load_database($raw_db)
     {
@@ -694,7 +694,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             else
             {
                 $path = $raw_db;
-                $data = midcom_get_snippet_content($raw_db);
+                $data = midcom_helper_misc::get_snippet_content($raw_db);
                 $result = eval ("\$raw_db = array ( {$data}\n );");
             }
 

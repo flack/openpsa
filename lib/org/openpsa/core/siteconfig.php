@@ -80,7 +80,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $nodes = array();
         foreach ($this->components as $component)
         {
-            $nodes[$component] = midcom_helper_find_node_by_component($component);
+            $nodes[$component] = midcom_helper_misc::find_node_by_component($component);
         }
 
         if (empty($nodes))

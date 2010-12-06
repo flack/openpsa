@@ -105,7 +105,7 @@ $form_suffix =& $data['form_suffix'];
     <input type="submit" class="button create_campaign" value="<?php echo $l10n->get('create campaign from link'); ?>"/>
 </form>
 <?php
-        $reports_node = midcom_helper_find_node_by_component('org.openpsa.reports');
+        $reports_node = midcom_helper_misc::find_node_by_component('org.openpsa.reports');
         if (!empty($reports_node))
         {
             $reports_prefix = $reports_node[MIDCOM_NAV_FULLURL];

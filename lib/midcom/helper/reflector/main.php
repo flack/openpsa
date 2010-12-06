@@ -1150,7 +1150,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // empty name is not "clean"
             return false;
         }
-        if ($name_copy !== midcom_generate_urlname_from_string($name_copy))
+        if ($name_copy !== midcom_helper_misc::generate_urlname_from_string($name_copy))
         {
             unset($name_copy);
             return false;

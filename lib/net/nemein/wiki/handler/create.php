@@ -102,7 +102,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $topic->up = $to_node[MIDCOM_NAV_ID];
                 $topic->extra = $folder_title;
                 $topic->title = $folder_title;
-                $topic->name = midcom_generate_urlname_from_string($folder_title);
+                $topic->name = midcom_helper_misc::generate_urlname_from_string($folder_title);
                 $topic->component = 'net.nemein.wiki';
                 if (!$topic->create())
                 {

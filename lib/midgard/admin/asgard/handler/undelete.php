@@ -145,7 +145,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
             if ($undeleted_size > 0)
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_filesize_to_string($undeleted_size)), 'info');
+                $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s undeleted'), midcom_helper_misc::filesize_to_string($undeleted_size)), 'info');
             }
             $_MIDCOM->relocate("__mfa/asgard/trash/{$this->type}/");
         }
@@ -181,7 +181,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
             if ($purged_size)
             {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s purged'), midcom_helper_filesize_to_string($purged_size)), 'info');
+                $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), sprintf($this->_l10n->get('in total %s purged'), midcom_helper_misc::filesize_to_string($purged_size)), 'info');
             }
 
             $_MIDCOM->relocate("__mfa/asgard/trash/{$this->type}/");

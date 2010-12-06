@@ -265,7 +265,7 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
         if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('midcom_helper_datamanager2_unlock'))
         {
-            midcom_show_element('midcom_helper_datamanager2_unlock');
+            midcom_helper_misc::show_element('midcom_helper_datamanager2_unlock');
         }
         else
         {

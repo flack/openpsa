@@ -49,7 +49,7 @@ function midgard_admin_asgard_trash_type_show($object, $indent = 0, $prefix = ''
     {
         echo "{$prefix}    <td>&nbsp;</td>\n";
     }
-    echo "{$prefix}    <td>" . midcom_helper_filesize_to_string($object->metadata->size) . "</td>\n";
+    echo "{$prefix}    <td>" . midcom_helper_misc::filesize_to_string($object->metadata->size) . "</td>\n";
     echo "{$prefix}</tr>\n";
 
     $child_types = $reflector->get_child_objects($object, true);

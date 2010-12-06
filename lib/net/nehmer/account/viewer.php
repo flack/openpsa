@@ -470,7 +470,7 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         else
         {
             // Load from snippet
-            mgd_include_snippet_php($plugin_config['src']);
+            midcom_helper_misc::include_snippet_php($plugin_config['src']);
         }
 
         if (! class_exists($plugin_config['class']))

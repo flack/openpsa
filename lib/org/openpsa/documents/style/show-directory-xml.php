@@ -114,7 +114,7 @@ foreach ($data['documents'] as $document)
         if ($attach)
         {
             $file_size = $attach['filesize'];
-            $icon = midcom_helper_get_mime_icon($attach['mimetype']);
+            $icon = midcom_helper_misc::get_mime_icon($attach['mimetype']);
             if (!$file_size)
             {
                 $file_size = 0;
@@ -149,7 +149,7 @@ foreach ($data['documents'] as $document)
 
     //filesize-index & modified file_size
     echo "<cell>" . $file_size . "</cell>";
-    echo "<cell><![CDATA[<span class='jqgrid_size'>" . midcom_helper_filesize_to_string($file_size) . "</span>]]></cell>";
+    echo "<cell><![CDATA[<span class='jqgrid_size'>" . midcom_helper_misc::filesize_to_string($file_size) . "</span>]]></cell>";
 
     //level & parent of document
     echo "<cell>" . $level . "</cell>";

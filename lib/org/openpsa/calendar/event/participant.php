@@ -114,7 +114,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
             (
                 array
                 (
-                    'name' => midcom_generate_urlname_from_string(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
+                    'name' => midcom_helper_misc::generate_urlname_from_string(sprintf('%s on %s', $event->title, date('Ymd_Hi', $event->start))) . '.ics',
                     'mimetype' => 'text/calendar',
                     'content' => $vcal_data,
                 ),

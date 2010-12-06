@@ -128,7 +128,7 @@ class net_nemein_wiki_moinmoin_importer
                     $topic->up = $to_node[MIDCOM_NAV_ID];
                     $topic->extra = $folder_title;
                     $topic->title = $folder_title;
-                    $topic->name = midcom_generate_urlname_from_string($folder_title);
+                    $topic->name = midcom_helper_misc::generate_urlname_from_string($folder_title);
                     $topic->component = 'net.nemein.wiki';
                     if (!$topic->create())
                     {
@@ -187,7 +187,7 @@ class net_nemein_wiki_moinmoin_importer
                     echo "INFO: Creating new wikipage '{$resolved['remaining_path']}' in topic #{$to_node[MIDCOM_NAV_ID]} <br/>\n";
                     $wikipage = new net_nemein_wiki_wikipage();
                     $wikipage->title = $resolved['remaining_path'];
-                    $wikipage->name = midcom_generate_urlname_from_string($resolved['remaining_path']);
+                    $wikipage->name = midcom_helper_misc::generate_urlname_from_string($resolved['remaining_path']);
                     $wikipage->topic = $to_node[MIDCOM_NAV_ID];
                     $wikipage->author = midcom_connection::get_user();
                     if (!$wikipage->create())

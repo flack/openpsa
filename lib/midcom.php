@@ -284,7 +284,6 @@ $GLOBALS['midcom_cache']->initialize();
 // Helpers and First-Generation services
 // Services
 require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
-require(MIDCOM_ROOT . '/midcom/helper/misc.php');
 
 /////////////////////////////////////
 // Instantiate the MidCOM main class

@@ -255,7 +255,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     public function _show_review($handler_id, &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
-        $data['calendar_node'] = midcom_helper_find_node_by_component('org.openpsa.calendar');
+        $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         $data['projects_url'] = $siteconfig->get_node_full_url('org.openpsa.projects');
 
         $date = new DateTime(date('Y-m-d', $data['week_start']));

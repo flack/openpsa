@@ -21,7 +21,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             echo "    <tbody>\n";
             foreach ($data['files'] as $file)
             {
-                $mime_icon = midcom_helper_get_mime_icon($file->mimetype);
+                $mime_icon = midcom_helper_misc::get_mime_icon($file->mimetype);
 
                 if (!isset($persons[$file->metadata->revisor]))
                 {
@@ -53,7 +53,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 {
                     echo "<td>&nbsp;</td>\n";
                 }
-                echo "  <td>" . midcom_helper_filesize_to_string($file->metadata->size) . "</td>\n";
+                echo "  <td>" . midcom_helper_misc::filesize_to_string($file->metadata->size) . "</td>\n";
                 echo "  <td>\n";
                 $class = "";
                 if (strpos($file->mimetype, "application") !== 0)

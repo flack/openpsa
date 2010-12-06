@@ -236,7 +236,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $nap = new midcom_helper_nav();
         $node = $nap->get_node($this->_topic->id);
 
-        $urlized_wikiword = midcom_generate_urlname_from_string($wikiword);
+        $urlized_wikiword = midcom_helper_misc::generate_urlname_from_string($wikiword);
         if ($urlized_wikiword != $wikiword)
         {
             // Lets see if the page for the wikiword exists

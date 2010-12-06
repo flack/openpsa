@@ -6,7 +6,7 @@ $att =& $data['document_attachment'];
 $icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
 if ($view['document'])
 {
-    $icon = midcom_helper_get_mime_icon($att['mimetype']);
+    $icon = midcom_helper_misc::get_mime_icon($att['mimetype']);
 }
 $class = 'visited';
 if (!$data['visited'])
@@ -25,7 +25,7 @@ if (!$data['visited'])
         <span class="icon"><img src="&(icon);" <?php
         if ($view['document'])
         {
-            echo 'title="' . sprintf($data['l10n']->get("%s %s document"), midcom_helper_filesize_to_string($att['filesize']), $data['l10n']->get($att['mimetype'])).'" alt="' . $view['title'] . '" ';
+            echo 'title="' . sprintf($data['l10n']->get("%s %s document"), midcom_helper_misc::filesize_to_string($att['filesize']), $data['l10n']->get($att['mimetype'])).'" alt="' . $view['title'] . '" ';
         }
         ?>style="border: 0px;"/></span>
         <?php

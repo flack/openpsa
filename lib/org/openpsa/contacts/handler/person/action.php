@@ -130,7 +130,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         else
         {
             // Otherwise use cleaned up firstname.lastname
-            $this->_request_data['default_username'] = midcom_generate_urlname_from_string($this->_person->firstname) . '.' . midcom_generate_urlname_from_string($this->_person->lastname);
+            $this->_request_data['default_username'] = midcom_helper_misc::generate_urlname_from_string($this->_person->firstname) . '.' . midcom_generate_urlname_from_string($this->_person->lastname);
         }
 
         $this->_generate_password();
@@ -153,7 +153,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         //get rules for js in style
         $rules = $this->_config->get('password_match_score');
-        $data_rules = midcom_get_snippet_content($rules);
+        $data_rules = midcom_helper_misc::get_snippet_content($rules);
         $result = eval ("\$contents = array ( {$data_rules}\n );");
         if ($result === false)
         {

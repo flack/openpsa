@@ -398,7 +398,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 // Try autoload:
                 if (array_key_exists('autoload_snippet', $config))
                 {
-                    mgd_include_snippet_php($config['autoload_snippet']);
+                    midcom_helper_misc::include_snippet_php($config['autoload_snippet']);
                 }
                 if (array_key_exists('autoload_file', $config))
                 {
@@ -422,7 +422,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 // Try autoload:
                 if (array_key_exists('autoload_snippet', $config))
                 {
-                    mgd_include_snippet_php($config['autoload_snippet']);
+                    midcom_helper_misc::include_snippet_php($config['autoload_snippet']);
                 }
                 if (array_key_exists('autoload_file', $config))
                 {
@@ -828,7 +828,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             // Ensure that the snippet is only loaded once.
             if (! class_exists($default))
             {
-                mgd_include_snippet_php($src);
+                midcom_helper_misc::include_snippet_php($src);
                 if (! class_exists($default))
                 {
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT,

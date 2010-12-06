@@ -76,7 +76,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
             $name = $filename;
             $ext = '';
         }
-        return midcom_generate_urlname_from_string($name) . $ext;
+        return midcom_helper_misc::generate_urlname_from_string($name) . $ext;
     }
 
     private function _process_file_upload($uploaded_file)

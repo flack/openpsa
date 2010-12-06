@@ -25,7 +25,7 @@
  * - <i>string mce_config_snippet:</i> Indicates the name of the snippet which holds the base
  *   configuration. This is looked up in the DM2 directory in SG-Config. This defaults to
  *   '$GLOBALS['midcom_config']['midcom_sgconfig_basedir']/midcom.helper.datamanager2/tinymce'.
- *   Any valid option for midcom_get_snippet_content() is allowed at this point.
+ *   Any valid option for midcom_helper_misc::get_snippet_content() is allowed at this point.
  * - <i>string local_config:</i> Local configuration options which should overwrite the defaults
  *   from the config snippet. This defaults to an empty string.
  * - <i>boolean tinymce_use_compressor:</i> TinyMCE's PHP Compressor can help to reduce the page
@@ -84,7 +84,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
 {
     /**
      * The MCE configuration snippet to use. Argument must be applicable to use with
-     * midcom_get_snippet_content.
+     * midcom_helper_misc::get_snippet_content.
      *
      * @var string
      */
@@ -143,7 +143,7 @@ class midcom_helper_datamanager2_widget_tinymce extends midcom_helper_datamanage
      */
     function _add_initscript($mode = 'exact')
     {
-        $config = midcom_get_snippet_content_graceful($this->mce_config_snippet);
+        $config = midcom_helper_misc::get_snippet_content_graceful($this->mce_config_snippet);
 
         if (! $config)
         {

@@ -175,7 +175,7 @@ class midcom_baseclasses_components_configuration
      */
     public static function read_array_from_snippet($snippetpath)
     {
-        $code = midcom_get_snippet_content_graceful($snippetpath);
+        $code = midcom_helper_misc::get_snippet_content_graceful($snippetpath);
         $result = eval("\$data = Array({$code}\n);");
         if ($result === false)
         {

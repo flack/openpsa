@@ -284,7 +284,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if ($handler_id == 'task_view')
         {
             $_MIDCOM->load_library('org.openpsa.contactwidget');
-            $data['calendar_node'] = midcom_helper_find_node_by_component('org.openpsa.calendar');
+            $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         }
 
         return true;

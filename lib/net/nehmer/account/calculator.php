@@ -348,7 +348,7 @@ class net_nehmer_account_calculator extends midcom_baseclasses_components_pureco
         {
             if (!is_callable($plugin_config['function']))
             {
-                mgd_include_snippet_php($plugin_config['snippet']);
+                midcom_helper_misc::include_snippet_php($plugin_config['snippet']);
             }
             
             if (!is_callable($plugin_config['function']))

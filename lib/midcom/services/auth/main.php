@@ -1175,7 +1175,7 @@ class midcom_services_auth
             $GLOBALS['midcom_services_auth_access_denied_message'] = $message;
             $GLOBALS['midcom_services_auth_access_denied_title'] = $title;
             $GLOBALS['midcom_services_auth_access_denied_login_warning'] = $login_warning;
-            midcom_show_element('midcom_services_auth_access_denied');
+            midcom_helper_misc::show_element('midcom_services_auth_access_denied');
         }
         else
         {
@@ -1289,7 +1289,7 @@ class midcom_services_auth
             // Pass our local but very useful variables on to the style element
             $GLOBALS['midcom_services_auth_show_login_page_title'] = $title;
             $GLOBALS['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
-            midcom_show_element('midcom_services_auth_login_page');
+            midcom_helper_misc::show_element('midcom_services_auth_login_page');
         }
         else
         {

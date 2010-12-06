@@ -114,7 +114,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         /*** Copied from sales/handler/deliverable/report.php ***/
         midcom_show_style('sales_report-deliverable-header');
 
-        $invoices_node = midcom_helper_find_node_by_component('org.openpsa.invoices');
+        $invoices_node = midcom_helper_misc::find_node_by_component('org.openpsa.invoices');
 
         $sums_per_person = Array();
         $sums_all = Array

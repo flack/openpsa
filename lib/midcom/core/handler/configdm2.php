@@ -155,7 +155,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             && mgd_is_element_loaded('dm2_config'))
         {
             $data['controller'] =& $this->_controller;
-            midcom_show_element('dm2_config');
+            midcom_helper_misc::show_element('dm2_config');
             return;
         }
 
@@ -240,7 +240,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         if (   function_exists('mgd_is_element_loaded')
             && mgd_is_element_loaded('dm2_config_recreate'))
         {
-            midcom_show_element('dm2_config_recreate');
+            midcom_helper_misc::show_element('dm2_config_recreate');
             return;
         }
 

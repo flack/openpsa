@@ -431,16 +431,16 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             $name_parts = explode('.', $target->$name_property, 2);
             if (isset($name_parts[1]))
             {
-                $target->$name_property = midcom_generate_urlname_from_string($name_parts[0]) . ".{$name_parts[1]}";
+                $target->$name_property = midcom_helper_misc::generate_urlname_from_string($name_parts[0]) . ".{$name_parts[1]}";
                 // Doublecheck safety and fall back if needed
                 if (!midcom_helper_reflector::name_is_safe_or_empty($target))
                 {
-                    $target->$name_property = midcom_generate_urlname_from_string($target->$name_property);
+                    $target->$name_property = midcom_helper_misc::generate_urlname_from_string($target->$name_property);
                 }
             }
             else
             {
-                $target->$name_property = midcom_generate_urlname_from_string($target->$name_property);
+                $target->$name_property = midcom_helper_misc::generate_urlname_from_string($target->$name_property);
             }
             unset($name_parts, $name_property);
         }

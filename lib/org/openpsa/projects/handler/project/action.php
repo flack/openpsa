@@ -130,7 +130,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
                 $news_topic->up = $this->_request_data['project_topic']->id;
                 $news_topic->extra = sprintf($this->_l10n->get("%s news area"), $this->_request_data['project']->title);
                 $news_topic->component = 'net.nehmer.blog';
-                $news_topic->name = midcom_generate_urlname_from_string($news_topic->extra);
+                $news_topic->name = midcom_helper_misc::generate_urlname_from_string($news_topic->extra);
                 $news_topic->create();
 
                 if ($news_topic->id)
@@ -177,7 +177,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
                 $forum_topic->up = $this->_request_data['project_topic']->id;
                 $forum_topic->extra = sprintf($this->_l10n->get("%s discussion"), $this->_request_data['project']->title);
                 $forum_topic->component = 'net.nemein.discussion';
-                $forum_topic->name = midcom_generate_urlname_from_string($forum_topic->extra);
+                $forum_topic->name = midcom_helper_misc::generate_urlname_from_string($forum_topic->extra);
                 $forum_topic->create();
 
                 if ($forum_topic->id)

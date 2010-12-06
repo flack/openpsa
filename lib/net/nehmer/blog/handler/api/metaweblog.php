@@ -77,13 +77,13 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         // Generate URL name
         if ($article->name == '')
         {
-            $article->name = midcom_generate_urlname_from_string($article->title);
+            $article->name = midcom_helper_misc::generate_urlname_from_string($article->title);
             $tries = 0;
             $maxtries = 999;
             while(   !$article->update()
                   && $tries < $maxtries)
             {
-                $article->name = midcom_generate_urlname_from_string($article->title);
+                $article->name = midcom_helper_misc::generate_urlname_from_string($article->title);
                 if ($tries > 0)
                 {
                     // Append an integer if articles with same name exist

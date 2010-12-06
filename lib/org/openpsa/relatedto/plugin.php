@@ -312,8 +312,8 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         if (   !array_key_exists('node', $data)
             || empty($data['node']))
         {
-            debug_add("data['node'] not given, trying with midcom_helper_find_node_by_component({$button_component})", MIDCOM_LOG_INFO);
-            $data['node'] = midcom_helper_find_node_by_component($button_component);
+            debug_add("data['node'] not given, trying with midcom_helper_misc::find_node_by_component({$button_component})", MIDCOM_LOG_INFO);
+            $data['node'] = midcom_helper_misc::find_node_by_component($button_component);
         }
         if (empty($data['node']))
         {
