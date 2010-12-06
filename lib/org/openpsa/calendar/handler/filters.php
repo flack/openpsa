@@ -12,6 +12,7 @@
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * Handle the AJAX request
@@ -47,6 +48,11 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
         $ajax->simpleReply($update_succeeded, $errstr);
     }
 
+    public function load_schemadb()
+    {
+    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_filters'));
+    }
+
     /**
      * Handle the request for editing contact list
      *
@@ -63,21 +69,11 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
         $this->_person = new midcom_db_person(midcom_connection::get_user());
         $this->_person->require_do('midgard:update');
 
-        // Load the schema database
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_filters'));
-
         // Load the controller
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->set_storage($this->_person);
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
-            // This will exit.
-        }
+        $data['controller'] = midcom_helper_datamanager2_controller::create('simple', $this->_person);
 
         // Process the form
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
             case 'cancel':
@@ -112,7 +108,6 @@ class org_openpsa_calendar_handler_filters extends midcom_baseclasses_components
      */
     public function _show_edit($handler_id, &$data)
     {
-        $data['controller'] =& $this->_controller;
         $data['person'] =& $this->_person;
 
         midcom_show_style('calendar-filter-chooser');

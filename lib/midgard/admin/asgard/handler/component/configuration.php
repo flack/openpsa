@@ -12,6 +12,7 @@
  * @package midgard.admin.asgard
  */
 class midgard_admin_asgard_handler_component_configuration extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     private $_controller;
 
@@ -137,13 +138,12 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         return $config;
     }
 
-    private function _load_schemadb($component)
+    public function load_schemadb()
     {
         // Load SchemaDb
-        $schemadb_config_path = $_MIDCOM->componentloader->path_to_snippetpath($component) . '/config/config_schemadb.inc';
+        $schemadb_config_path = $_MIDCOM->componentloader->path_to_snippetpath($this->_request_data['name']) . '/config/config_schemadb.inc';
         $schemadb = null;
         $schema = 'default';
-
 
         if (file_exists(MIDCOM_ROOT . $schemadb_config_path))
         {
@@ -168,9 +168,9 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             // Create dummy schema. Naughty component would not provide config schema.
             $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midgard/admin/asgard/config/schemadb_libconfig.inc");
         }
-        $schemadb[$schema]->l10n_schema = $component;
+        $schemadb[$schema]->l10n_schema = $this->_request_data['name'];
 
-        foreach($this->_request_data['config']->_global as $key => $value)
+        foreach ($this->_request_data['config']->_global as $key => $value)
         {
             // try to sniff what fields are missing in schema
             if (!array_key_exists($key, $schemadb[$schema]->fields))
@@ -193,7 +193,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
         }
 
         // Prepare defaults
-        foreach($this->_request_data['config']->_merged as $key => $value)
+        foreach ($this->_request_data['config']->_merged as $key => $value)
         {
             if (!isset($schemadb[$schema]->fields[$key]))
             {
@@ -252,7 +252,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
 
         midcom_show_style('midgard_admin_asgard_component_configuration_header');
 
-        foreach($data['config']->_global as $key => $value)
+        foreach ($data['config']->_global as $key => $value)
         {
             $data['key'] = $_MIDCOM->i18n->get_string($key, $data['name']);
             $data['global'] = $this->_detect($data['config']->_global[$key]);
@@ -498,15 +498,7 @@ class midgard_admin_asgard_handler_component_configuration extends midcom_basecl
             $data['config'] = $this->_load_configs($data['name']);
         }
 
-        $data['schemadb'] = $this->_load_schemadb($data['name']);
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $this->_controller->schemadb =& $data['schemadb'];
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for configuration.");
-        // This will exit.
-        }
+        $this->_controller = $this->_get_controller('nullstorage');
 
         switch ($this->_controller->process_form())
         {

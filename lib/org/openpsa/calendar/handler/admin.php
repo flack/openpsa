@@ -8,6 +8,7 @@
 
 /**
  * org.openpsa.calendar site interface class.
+ *
  * @package org.openpsa.calendar
  */
 class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_handler

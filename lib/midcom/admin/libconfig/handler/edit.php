@@ -12,6 +12,7 @@
  * @package midcom.admin.libconfig
  */
 class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     /**
      * The component we're working on
@@ -43,6 +44,59 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
     private function _prepare_toolbar(&$data)
     {
         midgard_admin_asgard_plugin::get_common_toolbar($data);
+    }
+
+    public function load_schemadb()
+    {
+        if (isset($this->_libconfig->_global['schemadb_config']))
+        {
+            // We rely on config schema. Hope that schema covers all fields
+            $schemadb = midcom_helper_datamanager2_schema::load_database($this->_libconfig->_global['schemadb_config']);
+        }
+        else
+        {
+            // Create dummy schema. Naughty component would not provide config schema.
+            $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midcom/admin/libconfig/config/schemadb_template.inc");
+            $schemadb['default']->l10n_schema = $this->_component_name;
+        }
+
+        foreach ($this->_libconfig->_global as $key => $value)
+        {
+            // try to sniff what fields are missing in schema
+            if (!array_key_exists($key, $schemadb['default']->fields))
+            {
+                $schemadb['default']->append_field
+                (
+                    $key,
+                    $this->_detect_schema($key,$value)
+                );
+            }
+
+            if (   !isset($this->_libconfig->_local[$key])
+                || !$this->_libconfig->_local[$key])
+            {
+                $schemadb['default']->fields[$key]['static_prepend'] = "<div class='global'><span>Global value</span>";
+                $schemadb['default']->fields[$key]['static_append'] = "</div>";
+            }
+        }
+        return $schemadb;
+    }
+
+    public function get_schema_defaults()
+    {
+    	$defaults = array();
+        foreach ($this->_libconfig->_merged as $key => $value)
+        {
+            if (is_array($value))
+            {
+                $defaults[$key] = $this->_draw_array($value);
+            }
+            else
+            {
+                $defaults[$key] = $value;
+            }
+        }
+        return $defaults;
     }
 
     /**
@@ -85,60 +139,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
             $this->_libconfig->store($cfg, false);
         }
 
-        //schemadb
-        if (isset($this->_libconfig->_global['schemadb_config']))
-        {
-            // We rely on config schema. Hope that schema covers all fields
-            $schemadb = midcom_helper_datamanager2_schema::load_database($this->_libconfig->_global['schemadb_config']);
-        }
-        else
-        {
-            // Create dummy schema. Naughty component would not provide config schema.
-            $schemadb = midcom_helper_datamanager2_schema::load_database("file:/midcom/admin/libconfig/config/schemadb_template.inc");
-            $schemadb['default']->l10n_schema = $this->_component_name;
-        }
-
-        foreach ($this->_libconfig->_global as $key => $value)
-        {
-            // try to sniff what fields are missing in schema
-            if (!array_key_exists($key, $schemadb['default']->fields))
-            {
-                $schemadb['default']->append_field
-                (
-                    $key,
-                    $this->_detect_schema($key,$value)
-                );
-            }
-
-            if (   !isset($this->_libconfig->_local[$key])
-                || !$this->_libconfig->_local[$key])
-            {
-                $schemadb['default']->fields[$key]['static_prepend'] = "<div class='global'><span>Global value</span>";
-                $schemadb['default']->fields[$key]['static_append'] = "</div>";
-            }
-        }
-
-        //prepare values
-        foreach ($this->_libconfig->_merged as $key => $value)
-        {
-            if (is_array($value))
-            {
-                $defaults[$key] = $this->_draw_array($value);
-            }
-            else
-            {
-                $defaults[$key] = $value;
-            }
-        }
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $this->_controller->schemadb =& $schemadb;
-        $this->_controller->defaults = $defaults;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for configuration.");
-        // This will exit.
-        }
+        $this->_controller = $this->get_controller('nullstorage');
 
         switch ($this->_controller->process_form())
         {
@@ -271,7 +272,7 @@ class midcom_admin_libconfig_handler_edit extends midcom_baseclasses_components_
         return $data;
     }
 
-    private function _detect_schema($key,$value)
+    private function _detect_schema($key, $value)
     {
         $result = array
         (

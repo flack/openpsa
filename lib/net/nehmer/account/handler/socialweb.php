@@ -25,8 +25,8 @@
  *
  * @package net.nehmer.account
  */
-
 class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
      * The user account we are managing. This is taken from the currently active user
@@ -36,14 +36,6 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
      * @access private
      */
     private $_account = null;
-
-    /**
-     * The DM2 controller used to edit the datamanager form.
-     *
-     * @var midcom_helper_datamanager2_controller
-     * @access private
-     */
-    private $_controller = null;
 
     /**
      * This handler loads the account, validates permissions and starts up the
@@ -98,9 +90,9 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
             // This will exit.
         }
 
-        $this->_prepare_datamanager();
+        $data['datamanager'] = $this->get_controller('simple', $this->_account);
 
-        if ($this->_controller->process_form() == 'save')
+        if ($data['datamanager']->process_form() == 'save')
         {
             // Relocate back to view
             $_MIDCOM->relocate($return_url);
@@ -112,7 +104,7 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
         $this->add_breadcrumb('socialweb/', $this->_l10n->get('social web settings'));
         $this->_view_toolbar->hide_item('socialweb/');
 
-        $_MIDCOM->bind_view_to_object($this->_account, $this->_controller->datamanager->schema->name);
+        $_MIDCOM->bind_view_to_object($this->_account, $data['datamanager']->datamanager->schema->name);
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $_MIDCOM->set_pagetitle($this->_l10n->get('social web settings'));
 
@@ -127,20 +119,15 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
      */
     private function _prepare_request_data($return_url)
     {
-        $this->_request_data['datamanager'] =& $this->_controller;
-        $this->_request_data['schema'] =& $this->_controller->datamanager->schema;
+        $this->_request_data['schema'] =& $this->_request_data['datamanager']->datamanager->schema;
         $this->_request_data['account'] =& $this->_account;
         $this->_request_data['profile_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
             . $return_url;
     }
 
-    /**
-     * Internal helper function, prepares a datamanager based on the current account.
-     */
-    private function _prepare_datamanager()
+    public function load_schemadb()
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_socialweb'));
-
+    	$schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_socialweb'));
         $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('net.nehmer.account.socialweb');
 
         foreach ($customdata as $component => $settings)
@@ -168,14 +155,15 @@ class net_nehmer_account_handler_socialweb extends midcom_baseclasses_components
                     $field_config['title'] = $_MIDCOM->i18n->get_string($label, $component);;
                 }
 
-                $this->_schemadb['socialweb']->append_field(str_replace('.', '_', $component) . "_{$label}", $field_config);
+                $schemadb['socialweb']->append_field(str_replace('.', '_', $component) . "_{$label}", $field_config);
             }
         }
+        return $schemadb;
+    }
 
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
-        $this->_controller->set_schemadb($this->_schemadb);
-        $this->_controller->set_storage($this->_account, 'socialweb');
-        $this->_controller->initialize();
+    public function get_schema_name()
+    {
+    	return 'socialweb';
     }
 
     /**

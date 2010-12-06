@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_create
 {
     /**
      * TinyURL object
@@ -28,19 +29,28 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      */
     private $_datamanager = null;
 
-    /**
-     * Controller for creating or editing
-     *
-     * @var mixed
-     */
-    private $_controller = null;
+    public function load_schemadb()
+    {
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_tinyurl'));
+    }
+
 
     /**
-     * Initialization scripts
+     * DM2 creation callback, binds to the current content topic.
      */
-    public function _on_initialize()
+    public function &dm2_create_callback (&$controller)
     {
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_tinyurl'));
+        $this->_tinyurl = new net_nemein_redirector_tinyurl_dba();
+        $this->_tinyurl->node = $this->_topic->guid;
+
+        if (!$this->_tinyurl->create())
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                'Failed to create a new TinyURL object, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
+            // This will exit.
+        }
+
+        return $this->_tinyurl;
     }
 
     /**
@@ -103,24 +113,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     }
 
     /**
-     * DM2 creation callback, binds to the current content topic.
-     */
-    function &dm2_create_callback (&$controller)
-    {
-        $this->_tinyurl = new net_nemein_redirector_tinyurl_dba();
-        $this->_tinyurl->node = $this->_topic->guid;
-
-        if (!$this->_tinyurl->create())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new TinyURL object, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
-        }
-
-        return $this->_tinyurl;
-    }
-
-    /**
      * Create a new TinyURL
      *
      * @param mixed $handler_id The ID of the handler.
@@ -132,22 +124,10 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
     {
         $this->_topic->require_do('midgard:create');
 
-        // Ensure that datamanager is available
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
         // Load the controller
-        $this->_controller = midcom_helper_datamanager2_controller::create('create');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->callback_object =& $this;
+        $data['controller'] = $this->get_controller('create');
 
-        // Initialize
-        if (!$this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
-        }
-
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 $_MIDCOM->relocate("edit/{$this->_tinyurl->name}");
@@ -168,7 +148,6 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
      */
     public function _show_create($handler_id, &$data)
     {
-        $data['controller'] =& $this->_controller;
         midcom_show_style('tinyurl-create');
     }
 
@@ -198,18 +177,12 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         // Edit controller
-        $this->_controller = midcom_helper_datamanager2_controller::create('simple');
+        $data['controller'] = $this->get_controller('simple', $this->_tinyurl);
         $this->_controller->schemadb =& $this->_schemadb;
         $this->_controller->set_storage($this->_tinyurl);
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
-            // This will exit.
-        }
-        $data['controller'] =& $this->_controller;
         $data['tinyurl'] =& $this->_tinyurl;
 
-        switch ($this->_controller->process_form())
+        switch ($data['controller']->process_form())
         {
             case 'save':
                 $_MIDCOM->uimessages->add($this->_l10n->get('net.nemein.redirector'), $this->_l10n_midcom->get('saved'));
@@ -255,7 +228,7 @@ class net_nemein_redirector_handler_tinyurl extends midcom_baseclasses_component
         $this->_tinyurls = $qb->execute();
 
         // Initialize the datamanager instance
-        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
+        $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->load_schemadb());
 
         // Set the request data
         $this->_populate_request_data($handler_id);

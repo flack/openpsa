@@ -17,32 +17,11 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
     private $_config_storage = null;
 
     /**
-     * The Datamanager of the article to display (for delete mode)
-     *
-     * @var midcom_helper_datamanager2_datamanager
-     */
-    private $_datamanager = null;
-
-    /**
      * The controller of the article used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
      */
     private $_controller = null;
-
-    /**
-     * The schema database in use, available only while a datamanager is loaded.
-     *
-     * @var array
-     */
-    private $_schemadb = null;
-
-    /**
-     * Defaults for the schema database
-     *
-     * @var array
-     */
-    private $_defaults = array();
 
     var $hostconfig = null;
 
@@ -90,7 +69,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      */
     private function _prepare_request_data(&$data)
     {
-        $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['controller'] =& $this->_controller;
         midgard_admin_asgard_plugin::get_common_toolbar($data);
     }
@@ -104,30 +82,14 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
      *
      * The operations are done on all available schemas within the DB.
      */
-    private function _load_schemadb()
+    public function load_schemadb()
     {
-        foreach ($GLOBALS['midcom_config_local'] as $key => $value)
-        {
-           $this->_defaults[$key] = $value;
-        }
-
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database('file:/midcom/admin/settings/config/schemadb_config.inc');
+        return midcom_helper_datamanager2_schema::load_database('file:/midcom/admin/settings/config/schemadb_config.inc');
     }
 
-    /**
-     * Internal helper, loads the controller for the current article. Any error triggers a 500.
-     */
-    private function _load_controller()
+    public function get_schema_defaults()
     {
-        $this->_load_schemadb();
-        $this->_controller = & midcom_helper_datamanager2_controller::create('nullstorage');
-        $this->_controller->schemadb =& $this->_schemadb;
-        $this->_controller->defaults = $this->hostconfig->config;
-        if (! $this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance.");
-            // This will exit.
-        }
+    	return $this->hostconfig->config;
     }
 
     /**
@@ -180,7 +142,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
         }
 
         $this->hostconfig = new midcom_helper_hostconfig($this->_config_storage);
-        $this->_load_controller();
+        $this->_controller = $this->get_controller('nullstorage');
 
         switch ($this->_controller->process_form())
         {

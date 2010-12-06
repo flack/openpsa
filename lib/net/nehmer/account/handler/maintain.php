@@ -25,6 +25,7 @@
  */
 
 class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     /**
      * The user account we are managing. This is taken from the currently active user
@@ -78,6 +79,58 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      */
     private $_success = false;
 
+
+    public function load_schemadb()
+    {
+        $schemadb = midcom_helper_datamanager2_schema::load_database('file:/net/nehmer/account/config/schemadb_internal.inc');
+        if ($this->_request_data['handler_id'] == 'password')
+        {
+            $schemadb['pwchange']->fields['newpassword']['validation'][] = Array
+            (
+                'type' => 'minlength',
+                'format' => $this->_config->get('password_minlength'),
+                'message' => sprintf
+                (
+                    $this->_l10n->get('password minlength %d characters'),
+                    $this->_config->get('password_minlength')
+                ),
+            );
+        }
+        return $schemadb;
+    }
+
+    public function get_schema_name()
+    {
+        switch ($this->_request_data['handler_id'])
+        {
+            case 'password':
+                return 'pwchange';
+            case 'username':
+                return ($this->_config->get('username_is_email') ? 'emailusernamechange' : 'usernamechange');
+            default:
+                $schemaname = 'lostapssword';
+                if ($this->_config->get('lostpassword_email_reset'))
+                {
+                    $schemaname = 'lostpassword_by_email';
+                    if (is_array($this->_account))
+                    {
+                        $schemaname = 'lostpassword_by_email_username';
+                    }
+                }
+                return $schemaname;
+        }
+    }
+
+    public function get_schema_defaults()
+    {
+        $defaults = array();
+        if ($this->_request_data['handler_id'] == 'username')
+        {
+            $defaults['username'] = $this->_account->username;
+        }
+        return $defaults;
+    }
+
     /**
      * The handler provides publishing support. After creating and preparing all members,
      * it will first process the form. Afterwards, it provides the means to display the
@@ -101,8 +154,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         $_MIDCOM->auth->require_do('midgard:update', $this->_account);
         $_MIDCOM->auth->require_do('midgard:parameters', $this->_account);
 
-        $this->_prepare_datamanager();
-        $this->_prepare_pwchange_formmanager();
+        $this->_controller = $this->get_controller('nullstorage');
         $this->_process_pwchange_form();
         $this->_prepare_request_data();
 
@@ -111,37 +163,11 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_PASSWORDCHANGE);
         $this->_view_toolbar->hide_item('password/');
 
-        $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);
+        $_MIDCOM->bind_view_to_object($this->_account, $this->_controller->datamanager->schema->name);
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('change password'));
 
         return true;
-    }
-
-    /**
-     * This function prepares the form manager used to change the password.
-     */
-    private function _prepare_pwchange_formmanager()
-    {
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $schemadb = midcom_helper_datamanager2_schema::load_database('file:/net/nehmer/account/config/schemadb_internal.inc');
-        // Add further validation rules
-        // Password is not subject to validation at this point, this can only be done
-        // during processing, as the password might be crypted.
-        $schemadb['pwchange']->fields['newpassword']['validation'][] = Array
-        (
-            'type' => 'minlength',
-            'format' => $this->_config->get('password_minlength'),
-            'message' => sprintf
-            (
-                $this->_l10n->get('password minlength %d characters'),
-                $this->_config->get('password_minlength')
-            ),
-        );
-        $this->_controller->schemadb = $schemadb;
-        $this->_controller->schemaname = 'pwchange';
-        $this->_controller->defaults = Array();
-        $this->_controller->initialize();
     }
 
     /**
@@ -218,16 +244,12 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      */
     private function _prepare_request_data()
     {
-        $this->_request_data['datamanager'] =& $this->_datamanager;
         $this->_request_data['formmanager'] =& $this->_controller->formmanager;
         $this->_request_data['processing_msg'] = $this->_processing_msg;
         $this->_request_data['processing_msg_raw'] = $this->_processing_msg_raw;
         $this->_request_data['profile_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     }
 
-    /**
-     * Internal helper function, prepares a datamanager based on the current account.
-     */
     private function _prepare_datamanager()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account'));
@@ -270,7 +292,6 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         $_MIDCOM->auth->require_do('midgard:update', $this->_account);
         $_MIDCOM->auth->require_do('midgard:parameters', $this->_account);
 
-        $this->_prepare_datamanager();
         $this->_prepare_usernamechange_formmanager();
         $this->_process_usernamechange_form();
         $this->_prepare_request_data();
@@ -280,7 +301,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
         $this->add_breadcrumb('username/', $this->_l10n->get('change username'));
         $this->_view_toolbar->hide_item('username/');
 
-        $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);
+        $_MIDCOM->bind_view_to_object($this->_account, $this->_controller->datamanager->schema->name);
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('change username'));
 
@@ -292,13 +313,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      */
     private function _prepare_usernamechange_formmanager()
     {
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $schemadb = midcom_helper_datamanager2_schema::load_database('file:/net/nehmer/account/config/schemadb_internal.inc');
-        $this->_controller->schemadb = $schemadb;
-        $this->_controller->schemaname = $this->_config->get('username_is_email') ?
-            'emailusernamechange' : 'usernamechange';
-        $this->_controller->defaults = Array('username' => $this->_account->username);
-        $this->_controller->initialize();
+        $this->_controller = $this->get_controller('nullstorage');
 
         // Add further validation rules, this is done with the form directly,
         // as we have to register the callback first. We have to load the callback
@@ -407,14 +422,23 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      */
     public function _handler_lostpassword($handler_id, $args, &$data)
     {
+        if (   isset($_POST['email'])
+            && $this->_config->get('lostpassword_email_reset'))
+        {
+            $this->_account = $_MIDCOM->auth->get_user_by_email($_POST['email']);
+            if (is_array($this->_account))
+            {
+                debug_add("Found multiple users with given email {$_POST['email']}.");
+                $this->_processing_msg = $this->_l10n->get('multiple users found with given email');
+                $this->_processing_msg_raw = 'multiple users found with given email';
+            }
+        }
         $this->_prepare_lostpassword_formmanager();
         $this->_process_lostpassword_form();
         $this->_prepare_request_data();
 
-        if ($this->_datamanager)
-        {
-            $_MIDCOM->substyle_append($this->_datamanager->schema->name);
-        }
+        $_MIDCOM->substyle_append($this->_controller->datamanager->schema->name);
+
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_LOSTPASSWORD);
         $_MIDCOM->set_pagetitle($this->_l10n->get('lost password'));
@@ -558,35 +582,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
      */
     private function _prepare_lostpassword_formmanager()
     {
-        $include_username = false;
-
-        if (   isset($_POST['email'])
-            && $this->_config->get('lostpassword_email_reset'))
-        {
-            $user = $_MIDCOM->auth->get_user_by_email($_POST['email']);
-            if (is_array($user))
-            {
-                debug_add("Found multiple users with given email {$_POST['email']}.");
-                $this->_processing_msg = $this->_l10n->get('multiple users found with given email');
-                $this->_processing_msg_raw = 'multiple users found with given email';
-
-                $include_username = true;
-            }
-        }
-
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $schemadb = midcom_helper_datamanager2_schema::load_database('file:/net/nehmer/account/config/schemadb_internal.inc');
-        $this->_controller->schemadb = $schemadb;
-        $this->_controller->schemaname = 'lostpassword';
-        if ($this->_config->get('lostpassword_email_reset'))
-        {
-            $this->_controller->schemaname = 'lostpassword_by_email';
-            if ($include_username)
-            {
-                $this->_controller->schemaname = 'lostpassword_by_email_username';
-            }
-        }
-        $this->_controller->initialize();
+        $this->_controller = $this->get_controller('nullstorage');
 
         // Add further validation rules, this is done with the form directly,
         // as we have to register the callback first. We have to load the callback
@@ -603,7 +599,7 @@ class net_nehmer_account_handler_maintain extends midcom_baseclasses_components_
                 'net_nehmer_account_callbacks_validation'
             );
 
-            if ($include_username)
+            if (is_array($this->_account))
             {
                 $this->_controller->formmanager->form->registerRule
                 (

@@ -31,8 +31,8 @@
  *
  * @package net.nehmer.account
  */
-
 class net_nehmer_account_handler_register extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     private $_sent_invites = null;
 
@@ -543,11 +543,7 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
         }
     }
 
-    /**
-     * This starts up a datamanager suitable for the first stage of processing. It
-     * will render the form without any storage object.
-     */
-    private function _create_null_controller()
+    public function get_schema_defaults()
     {
         $defaults = array();
         $session = new midcom_services_session();
@@ -562,12 +558,26 @@ class net_nehmer_account_handler_register extends midcom_baseclasses_components_
                 $defaults['email'] = $invites[0]->email;
             }
         }
+        return $defaults;
+    }
 
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $this->_controller->schemadb = $this->_schemadb;
-        $this->_controller->schemaname = $this->_account_type;
-        $this->_controller->defaults = $defaults;
-        $this->_controller->initialize();
+    public function load_schemadb()
+    {
+        return $this->_schemadb;
+    }
+
+    public function get_schema_name()
+    {
+    	return $this->_account_type;
+    }
+
+    /**
+     * This starts up a datamanager suitable for the first stage of processing. It
+     * will render the form without any storage object.
+     */
+    private function _create_null_controller()
+    {
+        $this->_controller = $this->get_controller('nullstorage');
         $this->_register_username_validation_rule($this->_controller);
     }
 

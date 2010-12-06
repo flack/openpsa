@@ -57,10 +57,31 @@ class midcom_helper_datamanager2_handler
     }
 
     /**
-     * Loads and prepares the edit controller. Any error triggers a 500.
+     * Loads and prepares the nullstorage controller. Any error triggers a 500.
      *
      * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
-     * @return midcom_helper_datamanager2_controller_create The edit controller for the requested object
+     * @return midcom_helper_datamanager2_controller_nullstorage The requested controller
+     */
+    public static function get_nullstorage_controller(&$handler)
+    {
+        $schemadb = $handler->load_schemadb();
+        $controller = midcom_helper_datamanager2_controller::create('nullstorage');
+        $controller->schemadb = $schemadb;
+        $controller->schemaname = $handler->get_schema_name();
+        $controller->defaults = $handler->get_schema_defaults();
+        if (! $controller->initialize())
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize a DM2 create controller.');
+            // This will exit.
+        }
+        return $controller;
+    }
+
+    /**
+     * Loads and prepares the create controller. Any error triggers a 500.
+     *
+     * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
+     * @return midcom_helper_datamanager2_controller_create The requested controller
      */
     public static function get_create_controller(&$handler)
     {

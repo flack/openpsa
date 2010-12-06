@@ -12,6 +12,7 @@
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
+implements midcom_helper_datamanager2_interfaces_edit
 {
     private function _load($identifier)
     {
@@ -23,6 +24,11 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
         }
 
         return $group;
+    }
+
+    public function load_schemadb()
+    {
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_notifications'));
     }
 
     /**
@@ -45,16 +51,7 @@ class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_compo
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
-        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_notifications'));
-
-        $controller = midcom_helper_datamanager2_controller::create('simple');
-        $controller->schemadb =& $schemadb;
-        $controller->set_storage($group);
-        if (! $controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for group {$group->id}.");
-            // This will exit.
-        }
+        $controller = $this->get_controller('simple', $group);
 
         switch ($controller->process_form())
         {
