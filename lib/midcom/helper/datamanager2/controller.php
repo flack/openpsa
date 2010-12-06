@@ -26,7 +26,7 @@
  * @package midcom.helper.datamanager2
  * @abstract
  */
-class midcom_helper_datamanager2_controller extends midcom_baseclasses_components_purecode
+abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_components_purecode
 {
     /**
      * The schemadb to handle by this controller.
@@ -229,10 +229,7 @@ class midcom_helper_datamanager2_controller extends midcom_baseclasses_component
      * @return string The exitcode of the form processing, usually related to the formmanager
      *     result constants.
      */
-    function process_form()
-    {
-        _midcom_stop_request('The function ' . __CLASS__ . '::' . __FUNCTION__ . ' must be implemented in subclasses.');
-    }
+    abstract function process_form();
 
     /**
      * This function invokes the display_form() hook on the form manager class.
