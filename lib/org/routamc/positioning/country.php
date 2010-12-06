@@ -54,7 +54,7 @@ class org_routamc_positioning_country_dba extends midcom_core_dbaobject
             midcom_connection::set_error(MGD_ERR_DUPLICATE);
             return false;
         }
-        return parent::_on_creating();
+        return true;
     }
 
     static function get_by_name($name)

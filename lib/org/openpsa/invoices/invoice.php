@@ -128,8 +128,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        parent::_on_deleted();
-
         if (! $_MIDCOM->auth->request_sudo('org.openpsa.invoices'))
         {
             debug_add('Failed to get SUDO privileges, skipping invoice hour deletion silently.', MIDCOM_LOG_ERROR);

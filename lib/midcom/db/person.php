@@ -102,11 +102,6 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function _on_loaded()
     {
-        if (! parent::_on_loaded())
-        {
-            return false;
-        }
-
         $this->_update_computed_members();
         return true;
     }
@@ -118,8 +113,6 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        parent::_on_deleted();
-
         if (! $_MIDCOM->auth->request_sudo('midcom'))
         {
             debug_add('Failed to get SUDO privileges, skipping membership deletion silently.', MIDCOM_LOG_ERROR);
@@ -169,12 +162,9 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function _on_created()
     {
-        parent::_on_created();
-
         $this->set_privilege('midgard:owner', "user:{$this->guid}");
 
         $this->_update_computed_members();
-        return true;
     }
 
     /**
@@ -184,9 +174,7 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function _on_updated()
     {
-        parent::_on_updated();
         $this->_update_computed_members();
-        return true;
     }
 
     /**

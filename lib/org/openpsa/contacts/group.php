@@ -120,8 +120,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
                 $this->official = "Group #{$this->id}";
             }
         }
-
-        return parent::_on_loaded();
     }
 
     public function _on_creating()
@@ -131,7 +129,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         {
             $this->orgOpenpsaAccesstype = ORG_OPENPSA_ACCESSTYPE_PUBLIC;
         }
-        return parent::_on_creating();
+        return true;
     }
 
     public function _on_updating()
@@ -147,7 +145,7 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
 
-        return parent::_on_updating();
+        return true;
     }
 
     private function _get_members_array()

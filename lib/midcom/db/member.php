@@ -125,7 +125,7 @@ class midcom_db_member extends midcom_core_dbaobject
         // Disable automatic activity stream entry, we use custom here
         $this->_use_activitystream = false;
 
-        return parent::_on_deleting();
+        return true;
     }
 
     public function _on_created()
@@ -134,7 +134,7 @@ class midcom_db_member extends midcom_core_dbaobject
 
         if (!$_MIDCOM->auth->request_sudo('midcom'))
         {
-            return parent::_on_created();
+            return true;
         }
 
         // Create an Activity Log entry for the membership addition
@@ -170,7 +170,7 @@ class midcom_db_member extends midcom_core_dbaobject
 
         if (!$_MIDCOM->auth->request_sudo('midcom'))
         {
-            return parent::_on_created();
+            return true;
         }
 
         // Create an Activity Log entry for the membership addition

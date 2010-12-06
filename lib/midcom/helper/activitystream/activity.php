@@ -163,7 +163,7 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
             return false;
         }
 
-        return parent::_on_creating();
+        return true;
     }
 }
 ?>

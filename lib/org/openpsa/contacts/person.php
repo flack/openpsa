@@ -239,8 +239,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
 
     public function _on_creating()
     {
-        parent::_on_creating();
-
         //Make sure we have objType
         if (!$this->orgOpenpsaObtype)
         {
@@ -262,27 +260,23 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
 
-        return parent::_on_updating();
+        return true;
     }
 
     public function _on_updated()
     {
-        parent::_on_updated();
         $this->_verify_privileges();
-        return true;
     }
 
     public function _on_created()
     {
-        parent::_on_created();
         $this->_verify_privileges();
-        return true;
     }
 
     public function _on_deleting()
     {
         // FIXME: Call duplicate checker's dependency handling methods
-        return parent::_on_deleting();
+        return true;
     }
 
     function get_label()

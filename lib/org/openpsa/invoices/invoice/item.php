@@ -38,42 +38,26 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    public function _on_created()
-    {
-        parent::_on_created();
-
-        return $this;
-    }
-
-    /**
-     *
-     */
     public function _on_deleted()
     {
-        if(!$this->skip_invoice_update)
+        if (!$this->skip_invoice_update)
         {
             //update the invoice-sum so it will always contain the actual sum
             $invoice = new org_openpsa_invoices_invoice_dba($this->invoice);
             $invoice->sum = $invoice->get_invoice_sum();
             $invoice->update();
         }
-        parent::_on_deleted();
     }
 
-    /**
-     *
-     */
     public function _on_updated()
     {
-        if(!$this->skip_invoice_update)
+        if (!$this->skip_invoice_update)
         {
             //update the invoice-sum so it will always contain the actual sum
             $invoice = new org_openpsa_invoices_invoice_dba($this->invoice);
             $invoice->sum = $invoice->get_invoice_sum();
             $invoice->update();
         }
-
-        return true;
     }
 }
 ?>

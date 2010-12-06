@@ -424,11 +424,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
             $this->mimetype = 'application/octet-stream';
         }
 
-        if (! parent::_on_creating())
-        {
-            return false;
-        }
-
         if (!$this->_duplicate)
         {
             $this->location = $this->_create_attachment_location();
@@ -442,7 +437,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function _on_created()
     {
-        parent::_on_created();
         $object = $this->get_parent();
         if ($object !== null)
         {
@@ -471,7 +465,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function _on_updated()
     {
-        parent::_on_updated();
         $this->update_cache();
         $object = $this->get_parent();
         if ($object !== null)
@@ -485,8 +478,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        parent::_on_deleted();
-
         if ($GLOBALS['midcom_config']['attachment_cache_enabled'])
         {
             // Remove attachment cache

@@ -157,7 +157,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return false;
         }
 
-        return parent::_on_deleting();
+        return true;
     }
 
     /**

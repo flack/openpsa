@@ -112,7 +112,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             return false;
         }
 
-        return parent::_on_creating();
+        return true;
     }
 
     /**
@@ -255,7 +255,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             return false;
         }
 
-        return parent::_on_updating();
+        return true;
     }
 
     static function pid_to_obj($pid)

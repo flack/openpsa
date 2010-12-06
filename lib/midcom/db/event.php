@@ -72,8 +72,6 @@ class midcom_db_event extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        parent::_on_deleted();
-
         // Delete event memberships
         $qb = midcom_db_eventmember::new_query_builder();
         $qb->add_constraint('eid', '=', $this->id);

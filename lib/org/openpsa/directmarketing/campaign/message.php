@@ -142,8 +142,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
     public function _on_created()
     {
-        parent::_on_created();
-
         if (!$this->orgOpenpsaObtype)
         {
             $this->orgOpenpsaObtype = ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT;
