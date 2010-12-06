@@ -182,14 +182,14 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         }
         if (count($campaigns) < 1)
         {
-            return false;
+            return;
         }
 
         // Find an o.o.directmarketing node for message composition
         $directmarketing_node = midcom_helper_misc::find_node_by_component('org.openpsa.directmarketing');
         if (!$directmarketing_node)
         {
-            return false;
+            return;
         }
 
         foreach ($campaigns as $campaign)

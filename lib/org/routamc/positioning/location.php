@@ -15,7 +15,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_routamc_positioning_location';
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -30,7 +30,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-        
+
     /**
      * Human-readable label for cases like Asgard navigation
      */
@@ -74,7 +74,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
         {
             return $parent->guid;
         }
-        
+
         return null;
     }
 
@@ -93,7 +93,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
         {
             return null;
         }
-        
+
         foreach ($link_values as $key => $value)
         {
             return $key;
@@ -128,8 +128,6 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
             $log->accuracy = ORG_ROUTAMC_POSITIONING_ACCURACY_MANUAL;
             $log->create();
         }
-
-        return true;
     }
 }
 ?>

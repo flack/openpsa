@@ -148,7 +148,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function _on_initialize()
     {
-        return;
     }
 
     /**#@-*/

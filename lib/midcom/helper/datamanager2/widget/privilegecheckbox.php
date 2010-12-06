@@ -25,18 +25,13 @@ class midcom_helper_datamanager2_widget_privilegecheckbox extends midcom_helper_
      */
     public function _on_initialize()
     {
-        if (! parent::_on_initialize())
-        {
-            return false;
-        }
-
         if (! is_a($this->_type, 'midcom_helper_datamanager2_type_privilegeset'))
         {
             debug_add("Warning, the field {$this->name} is not of type privilegeset.", MIDCOM_LOG_WARN);
             return false;
         }
 
-        return true;
+        return parent::_on_initialize();
     }
 
     /**

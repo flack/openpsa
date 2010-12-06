@@ -45,13 +45,13 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         {
             case MIDCOM_OPERATION_DBA_DELETE:
                 $sync_helper->on_deleted($object);
-                return;
+                break;
             case MIDCOM_OPERATION_DBA_UPDATE:
                 $sync_helper->on_updated($object);
-                return;
+                break;
             case MIDCOM_OPERATION_DBA_CREATE:
                 $sync_helper->on_created($object);
-                return;
+                break;
         }
         unset($sync_helper);
     }

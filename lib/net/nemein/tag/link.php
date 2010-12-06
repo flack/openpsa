@@ -116,8 +116,6 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
         {
             $this->_geotag();
         }
-
-        return parent::_on_created();
     }
 
     public function _on_updating()

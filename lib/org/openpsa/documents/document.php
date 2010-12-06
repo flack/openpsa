@@ -78,8 +78,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         $this->_update_directory_timestamp();
-
-        return true;
     }
 
 
@@ -90,14 +88,11 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         // Sync the object's ACL properties into MidCOM ACL system
         $sync = new org_openpsa_core_acl_synchronizer();
         $sync->write_acls($this, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
-        return true;
     }
 
     public function _on_deleted()
     {
         $this->_update_directory_timestamp();
-
-        return true;
     }
 
     private function _update_directory_timestamp()

@@ -19,7 +19,7 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
     public function __construct($id = null)
     {
         $this->_use_rcs = false;
-        return parent::__construct($id);
+        parent::__construct($id);
     }
 
     static function new_query_builder()
@@ -82,7 +82,6 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
             $buddy->isapproved = false;
             $buddy->create();
         }
-        return true;
     }
 
     function get_parent_guid_uncached()

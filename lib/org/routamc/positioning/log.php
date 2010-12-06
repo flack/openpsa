@@ -172,8 +172,6 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         $this->_claim_location_entries();
-
-        return true;
     }
 }
 ?>

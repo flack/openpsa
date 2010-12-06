@@ -20,7 +20,7 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
-        return parent::__construct($id);
+        parent::__construct($id);
     }
 
     static function new_query_builder()
@@ -44,12 +44,12 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
         $hour_report = new org_openpsa_projects_hour_report_dba($this->hourReport);
         if (!$hour_report)
         {
-            return false;
+            return;
         }
         $hour_report->invoiced = date('Y-m-d H:i:s', $this->metadata->created);
         $invoicer = org_openpsa_contacts_person_dba::get_cached($this->metadata->creator);
         $hour_report->invoicer = $invoicer->id;
-        return $hour_report->update();
+        $hour_report->update();
     }
 
     /**
@@ -76,7 +76,6 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
         }
 
         $_MIDCOM->auth->drop_sudo();
-        return;
     }
 }
 ?>

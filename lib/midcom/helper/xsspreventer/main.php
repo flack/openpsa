@@ -3,7 +3,7 @@
  * Library for escaping user provided values displayed for example in input etc
  *
  * Backorted from MidCOM3 (http://repo.or.cz/w/midcom.git?a=tree;f=midcom_helper_xsspreventer;h=24b6e322e416d3d11b13a17e4b6dab2b83c99276;hb=HEAD)
- * 
+ *
  * @package midcom.helper.xsspreventer
  */
 class midcom_helper_xsspreventer extends midcom_baseclasses_components_purecode
@@ -11,7 +11,7 @@ class midcom_helper_xsspreventer extends midcom_baseclasses_components_purecode
     public function __construct()
     {
         $this->_component = 'midcom.helper.xsspreventer';
-        return parent::__construct();
+        parent::__construct();
     }
 
     /**
@@ -27,7 +27,7 @@ class midcom_helper_xsspreventer extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Escape contents of an XML element 
+     * Escape contents of an XML element
      * (basically prevents early closure of the element)
      *
      * @param string $element XML element to close
@@ -38,7 +38,7 @@ class midcom_helper_xsspreventer extends midcom_baseclasses_components_purecode
     {
         return preg_replace_callback
         (
-            "%(<\s*)+(/\s*)+{$element}%i", 
+            "%(<\s*)+(/\s*)+{$element}%i",
             create_function
             (
                 '$matches',

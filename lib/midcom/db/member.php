@@ -170,7 +170,7 @@ class midcom_db_member extends midcom_core_dbaobject
 
         if (!$_MIDCOM->auth->request_sudo('midcom'))
         {
-            return true;
+            return;
         }
 
         // Create an Activity Log entry for the membership addition

@@ -170,7 +170,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         }
 
         $_MIDCOM->auth->drop_sudo();
-        return;
     }
 
     /**

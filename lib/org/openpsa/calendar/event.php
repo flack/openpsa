@@ -396,7 +396,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             $this->get_suspected_task_links();
             $this->get_suspected_sales_links();
         }
-        return true;
     }
 
     /**
@@ -621,7 +620,6 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
             $this->get_suspected_task_links();
             $this->get_suspected_sales_links();
         }
-        return true;
     }
 
     private function _get_member_by_personid($id, $type='participant')

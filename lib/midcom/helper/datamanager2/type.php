@@ -117,12 +117,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
             $this->$key = $value;
         }
 
-        if (! $this->_on_initialize())
-        {
-            return false;
-        }
-
-        return true;
+        return $this->_on_initialize();
     }
 
     /**

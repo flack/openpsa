@@ -713,7 +713,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public function _on_initialize()
     {
-        return;
     }
 
     /**

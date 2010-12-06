@@ -27,7 +27,6 @@ class org_openpsa_documents_directory extends midcom_db_topic
             // Sync the object's ACL properties into MidCOM ACL system
             $sync = new org_openpsa_core_acl_synchronizer();
             $sync->write_acls($this, $ownerwg, $accesstype);
-            return true;
         }
     }
 

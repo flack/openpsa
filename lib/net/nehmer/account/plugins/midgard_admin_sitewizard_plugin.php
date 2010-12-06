@@ -56,16 +56,16 @@ class midgard_admin_sitewizard_plugin extends midcom_baseclasses_components_hand
             $this->_creation_root_topic_guid = $this->_request_data['plugin_config']['creation_root_topic_guid'];
         }
 
-    if (isset($this->_request_data['plugin_config']['creation_root_group_parent_guid'])
-        && !empty($this->_request_data['plugin_config']['creation_root_group_parent_guid']))
-    {
+        if (isset($this->_request_data['plugin_config']['creation_root_group_parent_guid'])
+            && !empty($this->_request_data['plugin_config']['creation_root_group_parent_guid']))
+        {
             $this->_creation_root_group_parent_guid = $this->_request_data['plugin_config']['creation_root_group_parent_guid'];
-    }
-    else if (isset($this->_request_data['plugin_config']['creation_root_group_guid'])
-        && !empty($this->_request_data['plugin_config']['creation_root_group_guid']))
-    {
+        }
+        else if (isset($this->_request_data['plugin_config']['creation_root_group_guid'])
+            && !empty($this->_request_data['plugin_config']['creation_root_group_guid']))
+        {
             $this->_creation_root_group_guid = $this->_request_data['plugin_config']['creation_root_group_guid'];
-    }
+        }
     }
 
     function get_plugin_handlers()

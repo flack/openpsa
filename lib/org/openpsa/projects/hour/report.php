@@ -94,7 +94,6 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
             $parent->update_cache();
             org_openpsa_projects_workflow::start($parent, $this->person);
         }
-        return true;
     }
 
     public function _on_updating()
@@ -109,15 +108,13 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         $this->_locale_restore();
         if ($this->_skip_parent_refresh)
         {
-            return true;
+            return;
         }
         $parent = new org_openpsa_projects_task_dba($this->task);
         if ($parent->guid)
         {
             $parent->update_cache();
         }
-
-        return true;
     }
 
     public function _on_deleted()

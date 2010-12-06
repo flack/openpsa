@@ -80,10 +80,9 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
     public function _on_updated()
     {
-        $stat = parent::_on_updated();
+        parent::_on_updated();
         $this->_update_watchers();
         $this->_update_link_cache();
-        return $stat;
     }
 
     /**

@@ -29,7 +29,7 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
-        return parent::__construct($id);
+        parent::__construct($id);
     }
 
     static function new_query_builder()
@@ -93,11 +93,10 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
      */
     public function _on_deleted()
     {
-        if (!method_exists($this, 'purge'))
+        if (method_exists($this, 'purge'))
         {
-            return;
+            $this->purge();
         }
-        $this->purge();
     }
 
     /**

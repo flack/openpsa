@@ -27,7 +27,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     {
         if (!$this->_config->get('api_products_enable'))
         {
-            return false;
+            _midcom_stop_request();
         }
 
         //Content-Type
@@ -36,8 +36,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         $this->_load_datamanager();
         $_MIDCOM->load_library('midcom.helper.xml');
-
-        return true;
     }
 
     /**

@@ -23,7 +23,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
 
-        return parent::__construct($id);
+        parent::__construct($id);
     }
 
     static function new_query_builder()
@@ -185,7 +185,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     {
         $task = new org_openpsa_projects_task_dba($this->task);
         $this->remove_resource_from_parent($task);
-        return true;
     }
 
     public function _on_created()
@@ -212,7 +211,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
                 if (   !$this->_personobject
                     || !$this->_personobject->guid)
                 {
-                    return false;
+                    return;
                 }
             }
             else

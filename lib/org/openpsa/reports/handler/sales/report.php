@@ -17,7 +17,6 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
     {
         $this->module = 'sales';
         $this->_initialize_datamanager();
-        return true;
     }
 
     /**

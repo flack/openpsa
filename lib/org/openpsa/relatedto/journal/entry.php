@@ -18,7 +18,7 @@ class org_openpsa_relatedto_journal_entry_dba extends midcom_core_dbaobject
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
-        return parent::__construct($id);
+        parent::__construct($id);
     }
 
     static function new_query_builder()

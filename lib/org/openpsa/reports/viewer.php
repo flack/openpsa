@@ -89,7 +89,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-        return parent::_on_handle($handler, $args);
+        return true;
     }
 
     /**
