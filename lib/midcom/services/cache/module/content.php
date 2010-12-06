@@ -134,9 +134,10 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      * the cache database. All other headers will be created as usual though, so
      * 304 processing will kick in for example.
      *
+     * @todo When this is set to private, blobs do not get saved. Why?
      * @var boolean
      */
-    private $_uncached = false;
+    public $_uncached = false;
 
     /**
      * controls cache headers strategy
