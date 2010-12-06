@@ -125,7 +125,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $_MIDCOM->auth->require_valid_user();
 
         $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (empty($this->_linked_object->guid))
+        if (!$this->_linked_object)
         {
             debug_print_r('Passed guid does not exist. GUID :', $args[0]);
         }

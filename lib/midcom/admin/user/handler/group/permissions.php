@@ -68,8 +68,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
     public function _handler_folders($handler_id, $args, &$data)
     {
         $this->_group = new midcom_db_group($args[0]);
-        if (   !$this->_group
-            || !$this->_group->guid)
+        if (!$this->_group->guid)
         {
             return false;
         }

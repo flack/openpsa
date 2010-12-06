@@ -156,9 +156,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
             && !empty($productdata['GUID']))
         {
             $product = new org_openpsa_products_product_dba($productdata['GUID']);
-            if (   !$product
-                || !isset($product->guid)
-                || $product->guid != $productdata['GUID'])
+            if ($product->guid != $productdata['GUID'])
             {
                 // Could not fetch correct product
                 unset($product);

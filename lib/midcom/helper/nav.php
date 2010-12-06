@@ -299,8 +299,7 @@ class midcom_helper_nav
         // Note, that objects that cannot be resolved will still be processed using a full-scan of
         // the tree. This is, for example, used by the on-delete cache invalidation.
         $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-        if (   !$object
-            || !$object->guid)
+        if (!$object)
         {
             debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
         }

@@ -117,8 +117,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                     $person = new midcom_db_person($person_id);
                 }
 
-                if (   !$person
-                    || !$person->guid)
+                if (!$person->guid)
                 {
                     continue;
                 }

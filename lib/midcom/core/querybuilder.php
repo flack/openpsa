@@ -240,9 +240,7 @@ class midcom_core_querybuilder
                 continue;
             }
 
-            if (   ! $object
-                || ! is_object($object)
-                || ! $object->guid)
+            if (!$object->guid)
             {
                 debug_add("Could not create a MidCOM DBA instance of the {$this->_real_class} ID {$object->id}. See debug level log for details.",
                     MIDCOM_LOG_INFO);

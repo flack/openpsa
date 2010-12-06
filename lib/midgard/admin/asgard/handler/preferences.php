@@ -98,9 +98,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // Bulletproofing the person
-        if (   !$this->_person
-            || !isset($this->_person->guid)
-            || !$this->_person->guid)
+        if (!$this->_person->guid)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the requested person');
             // This will exit

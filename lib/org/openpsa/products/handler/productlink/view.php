@@ -70,9 +70,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
 
         $this->_productlink = new org_openpsa_products_product_link_dba($args[0]);
 
-        if (   !$this->_productlink
-            || !isset($this->_productlink->guid)
-            || empty($this->_productlink->guid))
+        if (empty($this->_productlink->guid))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Fell through to last product sanity-check and failed");
             // This will exit

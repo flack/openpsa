@@ -61,8 +61,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
     public function _on_resolve_permalink($topic, $config, $guid)
     {
         $task = new org_openpsa_projects_task_dba($guid);
-        if (    !$task
-             || !$task->guid)
+        if (!$task->guid)
         {
             return null;
         }

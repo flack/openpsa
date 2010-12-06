@@ -243,8 +243,7 @@ else
         foreach ($activities as $activity)
         {
             $object = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
-            if (   !$object
-                || empty($object->guid))
+            if (!$object)
             {
                 if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
                 {

@@ -251,8 +251,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         }
 
         $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
-        if (   !$deliverable
-            || $deliverable->guid == "")
+        if ($deliverable->guid == "")
         {
             $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_connection::get_error_string();
             $handler->print_error($msg);

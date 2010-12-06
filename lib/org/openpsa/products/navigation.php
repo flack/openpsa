@@ -110,8 +110,7 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         $group = new org_openpsa_products_product_group_dba($id);
 
         // Return an empty array if not able to get the product group
-        if (   empty($group)
-            || !$group->guid)
+        if (!$group->guid)
         {
             return $levels;
         }

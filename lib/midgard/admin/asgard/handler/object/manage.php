@@ -79,8 +79,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
 
-        if (   !$this->_object
-            || !$this->_object->guid)
+        if (!$this->_object)
         {
             if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
             {
@@ -1036,8 +1035,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         else
         {
             $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
-            if (   !$this->_object
-                || !$this->_object->guid)
+            if (!$this->_object)
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[1]}' was not found.");
                 // This will exit

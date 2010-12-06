@@ -58,8 +58,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
-        if (   !is_object($this->_object)
-            || !$this->_object->guid)
+        if (!$this->_object)
         {
             if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
             {
@@ -196,7 +195,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             );
             $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'fromGuid'));
 
-            if (!is_object($to_arr['other_obj']))
+            if (!$to_arr['other_obj'])
             {
                 continue;
             }
@@ -246,7 +245,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 'status' => $mc->get_subkey($guid, 'status')
             );
             $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'toGuid'));
-            if (!is_object($to_arr['other_obj']))
+            if (!$to_arr['other_obj'])
             {
                 continue;
             }
@@ -841,8 +840,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $ajax = new org_openpsa_helpers_ajax();
 
         $relation = new org_openpsa_relatedto_dba($args[0]);
-        if (   !$relation
-            || !$relation->guid)
+        if (!$relation->guid)
         {
             $ajax->simpleReply(false, "Object '{$args[0]}' could not be loaded, error:" . midcom_connection::get_error_string());
             //this will exit()

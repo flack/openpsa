@@ -60,9 +60,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
             // This will exit
         }
         $this->root_topic = new midcom_db_topic($root_topic_guid);
-        if (   !$this->root_topic
-            || !isset($this->root_topic->guid)
-            || empty($this->root_topic->guid))
+        if (empty($this->root_topic->guid))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "GroupSync could not load topic '{$root_topic_guid}'");
             // This will exit

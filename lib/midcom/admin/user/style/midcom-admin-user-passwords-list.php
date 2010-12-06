@@ -14,13 +14,12 @@ if (isset($_REQUEST['midcom_admin_user']))
     foreach ($_REQUEST['midcom_admin_user'] as $id)
     {
         $person = new midcom_db_person($id);
-        
-        if (   !$person
-            || !$person->guid)
+
+        if (!$person->guid)
         {
             continue;
         }
-        
+
         echo "        <tr>\n";
         echo "            <td>{$person->firstname}</td>\n";
         echo "            <td>{$person->lastname}</td>\n";

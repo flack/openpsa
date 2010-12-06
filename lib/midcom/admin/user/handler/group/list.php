@@ -58,8 +58,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
     {
         $data['group'] = new midcom_db_group($args[0]);
 
-        if (   !$data['group']
-            || !$data['group']->guid)
+        if (!$data['group']->guid)
         {
             return false;
         }

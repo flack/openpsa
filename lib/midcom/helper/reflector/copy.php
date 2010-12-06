@@ -253,8 +253,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
                 $object = new $class($id);
 
                 // Bulletproof the attempt
-                if (   !$object
-                    || !$object->guid)
+                if (!$object->guid)
                 {
                     return false;
                 }

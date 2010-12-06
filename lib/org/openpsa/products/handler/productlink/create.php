@@ -156,8 +156,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         else
         {
             $parent = new org_openpsa_products_product_group_dba($this->_request_data['up']);
-            if (   !$parent
-                || !$parent->guid)
+            if (!$parent->guid)
             {
                 return false;
             }

@@ -74,9 +74,7 @@ class midcom_services_permalinks
 
         $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
 
-        if (   !$object
-            || !isset($object->guid)
-            || empty($object->guid))
+        if (!$object)
         {
             debug_add("Failed to resolve the GUID {$guid}, this is most probably an access denied error.", MIDCOM_LOG_ERROR);
             debug_add('Last MidCOM error string: ' . midcom_connection::get_error_string());

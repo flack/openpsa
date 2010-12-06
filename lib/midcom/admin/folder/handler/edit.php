@@ -285,7 +285,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                             // Only direct symlinks are supported, but indirect symlinks are ok as we change them to direct ones here
                             $this->_new_topic->symlink = $topic->symlink;
                             $topic = new midcom_db_topic($topic->symlink);
-                            if (!$topic || !$topic->guid)
+                            if (!$topic->guid)
                             {
                                 debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
                                     midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);

@@ -14,9 +14,7 @@ if (   !isset($_GET['guid'])
 }
 
 $object = $_MIDCOM->dbfactory->get_object_by_guid($_GET['guid']);
-if (   !is_object($object)
-    || !isset($object->guid)
-    || empty($object->guid))
+if (!is_object($object))
 {
     $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Could not find object with GUID {$_GET['guid']}");
     // this will exit

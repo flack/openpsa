@@ -97,8 +97,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $this->_person = new midcom_db_person($args[0]);
 
-        if (   !$this->_person
-            || !$this->_person->guid)
+        if (!$this->_person->guid)
         {
             return false;
         }
@@ -262,8 +261,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             $person = new midcom_db_person($id);
 
             // Check integrity
-            if (   !$person
-                || !$person->guid)
+            if (!$person->guid)
             {
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $id), 'error');
                 $success = false;

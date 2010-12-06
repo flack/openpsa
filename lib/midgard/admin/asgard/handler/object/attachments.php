@@ -264,8 +264,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     public function _handler_create($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (   !$this->_object
-            || !$this->_object->guid)
+        if (!$this->_object)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
             // This will exit.
@@ -324,8 +323,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (   !$this->_object
-            || !$this->_object->guid)
+        if (!$this->_object)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
             // This will exit.
@@ -423,8 +421,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (   !$this->_object
-            || !$this->_object->guid)
+        if (!$this->_object)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
             // This will exit.

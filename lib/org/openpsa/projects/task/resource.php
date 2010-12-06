@@ -208,8 +208,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
                 //This is sufficient for the _add_to_buddylist_of calls later on
                 $this->_personobject = midcom_db_person::get_cached($this->person);
-                if (   !$this->_personobject
-                    || !$this->_personobject->guid)
+                if (!$this->_personobject->guid)
                 {
                     return;
                 }

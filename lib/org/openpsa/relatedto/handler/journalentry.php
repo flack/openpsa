@@ -51,7 +51,7 @@ implements midcom_helper_datamanager2_interfaces_create
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         //passed guid does not exist
-        if (empty($this->_current_object->guid))
+        if (!$this->_current_object)
         {
             debug_add("Failed to load object for passed guid: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return false;

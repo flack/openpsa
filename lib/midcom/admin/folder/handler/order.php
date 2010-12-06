@@ -72,9 +72,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                 $object = $_MIDCOM->dbfactory->get_object_by_guid($identificator);
 
                 // This is probably a pseudo leaf, store the score to the current node
-                if (   !$object
-                    || !$object->id
-                    || !$object->guid)
+                if (!$object)
                 {
                     $this->_topic->set_parameter('midcom.helper.nav.score', $identificator, $score_r);
                     continue;

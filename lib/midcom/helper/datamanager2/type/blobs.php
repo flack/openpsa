@@ -246,8 +246,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     function _load_attachment($identifier, $guid)
     {
         $attachment = new midcom_db_attachment($guid);
-        if (   ! $attachment
-            || !$attachment->guid)
+        if (!$attachment->guid)
         {
             debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
             debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);

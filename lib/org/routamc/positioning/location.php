@@ -69,8 +69,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
         }
 
         $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->parent);
-        if (   $parent
-            && $parent->guid)
+        if ($parent)
         {
             return $parent->guid;
         }

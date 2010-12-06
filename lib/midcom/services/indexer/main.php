@@ -312,8 +312,7 @@ class midcom_services_indexer
                 // Try to retrieve object:
                 // Strip language code from end of RI if it looks like "<GUID>_<LANG>" (because *many* places suppose it's plain GUID)
                 $object = $_MIDCOM->dbfactory->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
-                if (   !$object
-                    || !$object->guid)
+                if (!$object)
                 {
                     // Skip document, the object is hidden.
                     debug_add("Skipping the MidCOM document {$document->title} because it is not viewable");

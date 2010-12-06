@@ -126,8 +126,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     private function _load_object()
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
-        if (   !$this->_object
-            || !$this->_object->guid)
+        if (!$this->_object)
         {
             $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$this->_guid}' was not found.");
             // This will exit

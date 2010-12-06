@@ -480,8 +480,7 @@ class midcom_helper__basicnav
     {
         $topic = new midcom_core_dbaproxy($topic_id, 'midcom_db_topic');
 
-        if (   !$topic
-            || !$topic->guid)
+        if (!$topic->guid)
         {
             debug_add("Could not load Topic #{$topic_id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             return null;
@@ -495,7 +494,7 @@ class midcom_helper__basicnav
         {
             $topic = new midcom_core_dbaproxy($urltopic->symlink, 'midcom_db_topic');
 
-            if (!$topic || !$topic->guid)
+            if (!$topic->guid)
             {
                 debug_add("Could not load target for symlinked topic {$urltopic->id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 $topic = $urltopic;

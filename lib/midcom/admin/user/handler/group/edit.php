@@ -93,8 +93,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_group = new midcom_db_group($args[0]);
-        if (   !$this->_group
-            || !$this->_group->guid)
+        if (!$this->_group->guid)
         {
             return false;
         }
