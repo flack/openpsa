@@ -159,13 +159,6 @@
  * - <b>indexer_reindex_allowed_ips:</b> Array of IPs that don't need to basic authenticate themselves
  *   to run MidCOM reindexing or cron.
  *
- * <b>Indexer backend configuration: XMLShell module</b>
- *
- * - <b>string indexer_xmlshell_executable:</b> The executable that is used to interface with the
- *   Indexer. This must be a full path and currently has no default and must be set..
- * - <b>string indexer_xmlshell_working_directory:</b> If set, this is the working directory to which
- *   a chdir is made before execution of the script file. This has no default and must be set.
- *
  * <b>Indexer backend configuration: SOLR module</b>
  *
  * - <b>string indexer_xmltcp_host:</b> The host name or IP address where the indexer daemon is running.
@@ -428,11 +421,6 @@ if (isset($_SERVER['SERVER_ADDR']))
 // XMLTCP indexer backend (THE RECOMMENDED ONE)
 $GLOBALS['midcom_config_default']['indexer_xmltcp_host'] = "127.0.0.1";
 $GLOBALS['midcom_config_default']['indexer_xmltcp_port'] = 8983;
-
-// XMLShell indexer backend configuration
-$GLOBALS['midcom_config_default']['indexer_xmlshell_executable'] = '';
-$GLOBALS['midcom_config_default']['indexer_xmlshell_working_directory'] = '';
-
 
 // Logging Configuration
 $GLOBALS['midcom_config_default']['log_filename'] = '/tmp/midcom.log';
