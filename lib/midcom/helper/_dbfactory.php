@@ -53,7 +53,12 @@ class midcom_helper__dbfactory
             return null;
         }
 
-        return $this->convert_midgard_to_midcom($tmp);
+        $tmp = $this->convert_midgard_to_midcom($tmp);
+        if ($tmp->guid == '')
+        {
+        	return null;
+        }
+        return $tmp;
     }
 
     /**
