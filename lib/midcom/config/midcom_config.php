@@ -473,6 +473,10 @@ $GLOBALS['midcom_config_default']['toolbars_enable_centralized'] = true;
 $GLOBALS['midcom_config_default']['toolbars_type'] = 'palette'; // Either 'menu' or 'palette'
 $GLOBALS['midcom_config_default']['toolbars_position_storagemode'] = 'cookie';   // Either 'session', 'cookie' or 'parameter'
 
+// Service implementation defaults
+$GLOBALS['midcom_config_default']['service_midcom_core_service_urlparser'] = 'midcom_core_service_implementation_urlparsertopic';
+$GLOBALS['midcom_config_default']['service_midcom_core_service_urlgenerator'] = 'midcom_core_service_implementation_urlgeneratori18n';
+
 // Public attachment caching directives
 $GLOBALS['midcom_config_default']['attachment_cache_enabled'] = false;
 $GLOBALS['midcom_config_default']['attachment_cache_root'] = '/var/lib/midgard/vhosts/example.net/80/midcom-static/blobs';
