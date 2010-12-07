@@ -56,38 +56,30 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         else
         {
-            if (function_exists('dba_handlers'))
+            $handlers = dba_handlers();
+            if (in_array('db4', $handlers))
             {
-                $handlers = dba_handlers();
-                if (in_array('db4', $handlers))
-                {
-                    $this->_handler = 'db4';
-                }
-                else if (in_array('db3', $handlers))
-                {
-                    $this->_handler = 'db3';
-                }
-                else if (in_array('db2', $handlers))
-                {
-                    $this->_handler = 'db2';
-                }
-                else if (in_array('gdbm', $handlers))
-                {
-                    $this->_handler = 'gdbm';
-                }
-                else if (in_array('flatfile', $handlers))
-                {
-                    $this->_handler = 'flatfile';
-                }
-                else
-                {
-                    _midcom_stop_request("dba cache handler: Failed autodetection of a usable DBA handler. Found handlers were: {$handlers}");
-                    // This will exit.
-                }
+                $this->_handler = 'db4';
+            }
+            else if (in_array('db3', $handlers))
+            {
+                $this->_handler = 'db3';
+            }
+            else if (in_array('db2', $handlers))
+            {
+                $this->_handler = 'db2';
+            }
+            else if (in_array('gdbm', $handlers))
+            {
+                $this->_handler = 'gdbm';
+            }
+            else if (in_array('flatfile', $handlers))
+            {
+                $this->_handler = 'flatfile';
             }
             else
             {
-                _midcom_stop_request("dba cache handler autodetection: DBA-Functions unavailable or PHP prior to 4.3 is being used (checked for the function dba_handlers).");
+                _midcom_stop_request("dba cache handler: Failed autodetection of a usable DBA handler. Found handlers were: {$handlers}");
                 // This will exit.
             }
         }
