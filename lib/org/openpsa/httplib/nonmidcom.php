@@ -12,7 +12,7 @@
  */
 if (!defined('MIDCOM_ROOT'))
 {
-    $try = array('/usr/share/pear', '/usr/share/php4', '/usr/share/php');
+    $try = array('/usr/share/pear', '/usr/share/php5', '/usr/share/php');
     foreach ($try as $pear_root)
     {
         $path = "{$pear_root}/midcom/lib";

@@ -1725,7 +1725,7 @@ class midcom_application
 
         if (!is_null($response_code))
         {
-            // Send the HTTP response code as requested, works on PHP 4.3.0+
+            // Send the HTTP response code as requested
             _midcom_header($header, true, $response_code);
         }
         else
