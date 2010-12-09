@@ -1,14 +1,15 @@
 <?php
 /**
- * @package midcom.helper.replicator
+ * @package org.openpsa.products
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
 /**
- * Cron handler for processing the replication queue
- * @package midcom.helper.replicator
+ * Cron handler for syncing product group and topic hierarchies
+ *
+ * @package org.openpsa.products
  */
 class org_openpsa_products_cron_groupsync extends midcom_baseclasses_components_cron_handler
 {

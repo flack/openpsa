@@ -11,7 +11,7 @@
  *
  * @package midcom
  */
-class midcom_config_test 
+class midcom_config_test
 {
 
     public function __construct()
@@ -138,7 +138,7 @@ class midcom_config_test
             $this->println('Midgard Version', OK);
         }
 
-// Validate the Cache Base Directory.
+        // Validate the Cache Base Directory.
         if  (! is_dir($GLOBALS['midcom_config']['cache_base_directory']))
         {
             $this->println('MidCOM cache base directory', ERROR, "The configured MidCOM cache base directory ({$GLOBALS['midcom_config']['cache_base_directory']}) does not exist or is not a directory. You have to create it as a directory writable by the Apache user.");
