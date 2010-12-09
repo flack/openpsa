@@ -450,7 +450,7 @@ class midcom_application
         if (!$this->_parsers[$this->_currentcontext])
         {
             debug_add('URL Parser is not instantiated, bailing out.', MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRCRIT, $GLOBALS['midcom_errstr']);
+            $this->generate_error(MIDCOM_ERRCRIT, 'URL Parser is not instantiated');
         }
 
         $this->_process();
@@ -604,8 +604,8 @@ class midcom_application
 
         if (!$this->_parsers[$this->_currentcontext])
         {
-            debug_add("URL Parser could not be instantiated: $midcom_errstr", MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRCRIT, "URL Parser could not be instantiated: {$GLOBALS['midcom_errstr']}");
+            debug_add("URL Parser could not be instantiated", MIDCOM_LOG_ERROR);
+            $this->generate_error(MIDCOM_ERRCRIT, "URL Parser could not be instantiated");
         }
 
         // Processing, upon error the generate_error function will die here...
@@ -1304,8 +1304,7 @@ class midcom_application
         if ($this->_context[$contextid][MIDCOM_CONTEXT_NAP] === false)
         {
             $this->generate_error(MIDCOM_ERRCRIT,
-                                  "Failed to create a NAP instance: " . $GLOBALS["midcom_errstr"]
-                                  . "; see the debug log for details");
+                                  "Failed to create a NAP instance; see the debug log for details");
             /* This will exit */
         }
 
@@ -1319,9 +1318,8 @@ class midcom_application
      * context ID $contextid identified by $key. Omitting $contextid will yield
      * the variable from the current context.
      *
-     * If the context ID is invalid, false is returned and $midcom_errstr will be set
-     * accordingly. Be sure to compare the data type with it, since a "0" will evaluate
-     * to false if compared with "==" instead of "===".
+     * If the context ID is invalid, false is returned. Be sure to compare the data
+     * type with it, since a "0" will evaluate to false if compared with "==" instead of "===".
      *
      * @param int param1    Either the ID of the context (two parameters) or the key requested (one parameter).
      * @param int param2    Either the key requested (two parameters) or null (one parameter, the default).
@@ -1329,8 +1327,6 @@ class midcom_application
      */
     function get_context_data($param1, $param2 = null)
     {
-        global $midcom_errstr;
-
         if (is_null($param2))
         {
             $contextid = $this->_currentcontext;
@@ -1344,22 +1340,19 @@ class midcom_application
 
         if (!is_array($this->_context))
         {
-            $midcom_errstr = "Corrupted context data (should be array).";
-            debug_add ($midcom_errstr, MIDCOM_LOG_ERROR);
+            debug_add ("Corrupted context data (should be array).", MIDCOM_LOG_ERROR);
             return false;
         }
 
         if (!array_key_exists($contextid, $this->_context))
         {
-            $midcom_errstr = "Requested Context ID $contextid invalid.";
-            debug_add ($midcom_errstr, MIDCOM_LOG_ERROR);
+            debug_add ("Requested Context ID $contextid invalid.", MIDCOM_LOG_ERROR);
             return false;
         }
 
         if (!array_key_exists($key, $this->_context[$contextid]) || $key >= 1000)
         {
-            $midcom_errstr = "Requested Key ID $key invalid.";
-            debug_add($midcom_errstr, MIDCOM_LOG_ERROR);
+            debug_add("Requested Key ID $key invalid.", MIDCOM_LOG_ERROR);
             return false;
         }
 
@@ -1472,8 +1465,6 @@ class midcom_application
      */
     function & get_custom_context_data($param1, $param2 = null)
     {
-        global $midcom_errstr;
-
         if (is_null($param2))
         {
             $contextid = $this->_currentcontext;
@@ -1489,8 +1480,7 @@ class midcom_application
 
         if (!array_key_exists($contextid, $this->_context))
         {
-            $midcom_errstr = "Requested Context ID $contextid invalid.";
-            debug_add ($midcom_errstr, MIDCOM_LOG_ERROR);
+            debug_add("Requested Context ID $contextid invalid.", MIDCOM_LOG_ERROR);
             $result = false;
             return $result;
         }
@@ -1498,7 +1488,7 @@ class midcom_application
         if (   !array_key_exists($component, $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA])
             || !array_key_exists($key, $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA][$component]))
         {
-            $midcom_errstr = "Requested Key ID {$key} for the component {$component} is invalid.";
+            debug_add("Requested Key ID {$key} for the component {$component} is invalid.", MIDCOM_LOG_ERROR);
             $result = false;
             return $result;
         }

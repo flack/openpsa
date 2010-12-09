@@ -366,14 +366,6 @@ define ('MIDCOM_CRON_HOUR', 20);
 define ('MIDCOM_CRON_DAY', 30);
 
 /**
- * The last non-critical MidCOM error message. This is slowly superseded
- * by having all errors call generate_error.
- *
- * @global string $GLOBALS['midcom_errstr']
- */
-$GLOBALS['midcom_errstr'] = '';
-
-/**
  * The MidCOM Logging interface. Note, that even though this variable
  * is called "debugger", it is actually a full-blown logging solution
  * which should not be turned off any longer. Instead, step up the

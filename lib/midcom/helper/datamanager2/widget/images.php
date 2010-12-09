@@ -660,8 +660,6 @@ END;
      */
     function on_submit($results)
     {
-        parent::on_submit($results);
-
         if (! array_key_exists($this->name, $results))
         {
             return;

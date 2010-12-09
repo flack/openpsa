@@ -179,26 +179,23 @@ class midcom_helper__componentloader
      * This function will load the component specified by the MidCOM
      * path $path. If the component could not be loaded successfully due
      * to integrity errors (missing SnippetDirs, Classes, etc.), it will
-     * return false and populate $GLOBALS['midcom_errstr'] accordingly.
+     * return false.
      *
      * @param string $path    The component to load.
      * @return boolean Indicating success.
      */
     private function _load($path)
     {
-        $GLOBALS['midcom_errstr'] = '';
-
         if (empty($path))
         {
-            debug_add("No path given, aborting");
-            $GLOBALS['midcom_errstr'] = 'No component path given.';
+            debug_add("No component path given, aborting");
             return false;
         }
 
         // Check if this component is already loaded...
         if (array_key_exists($path, $this->_tried_to_load))
         {
-            $GLOBALS['midcom_errstr'] = "Component {$path} already loaded.";
+            debug_add("Component {$path} already loaded.");
             return $this->_tried_to_load[$path];
         }
 
@@ -213,21 +210,18 @@ class midcom_helper__componentloader
         {
             debug_add("The component {$path} was not found in the manifest list. Cannot load it.",
                 MIDCOM_LOG_WARN);
-            $GLOBALS['midcom_errstr'] = 'Component not in manifest list.';
             return false;
         }
 
         // Validate and translate url
         if (! $this->validate_url($path))
         {
-            $GLOBALS['midcom_errstr'] = 'Component URL not valid.';
             return false;
         }
         $snippetpath = $this->path_to_snippetpath($path);
 
         if (! $this->validate_path($snippetpath))
         {
-            $GLOBALS['midcom_errstr'] = 'Component path not valid.';
             return false;
         }
 
@@ -235,18 +229,14 @@ class midcom_helper__componentloader
         $directory = MIDCOM_ROOT . "{$snippetpath}/midcom";
         if (! is_dir($directory))
         {
-            $GLOBALS['midcom_errstr'] = "Failed to access Snippetdir {$directory}: Directory not found.";
-            debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            $GLOBALS['midcom_errstr'] = 'Directory not found.';
+            debug_add("Failed to access Snippetdir {$directory}: Directory not found.", MIDCOM_LOG_CRIT);
             return false;
         }
 
         // Load the interfaces.php snippet, abort if that file is not available.
         if (! file_exists("{$directory}/interfaces.php"))
         {
-            $GLOBALS['midcom_errstr'] = "File {$directory}/interfaces.php is not present.";
-            debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            $GLOBALS['midcom_errstr'] = 'Missing interfaces class.';
+            debug_add("File {$directory}/interfaces.php is not present.", MIDCOM_LOG_CRIT);
             return false;
         }
         require("{$directory}/interfaces.php");
@@ -261,9 +251,7 @@ class midcom_helper__componentloader
         }
         else
         {
-            $GLOBALS['midcom_errstr'] = "Class {$prefix}_interface does not exist.";
-            debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            $GLOBALS['midcom_errstr'] = 'No interface class defined.';
+            debug_add("Class {$prefix}_interface does not exist.", MIDCOM_LOG_CRIT);
             return false;
         }
 
@@ -277,9 +265,7 @@ class midcom_helper__componentloader
         $init_class =& $this->_interface_classes[$path];
         if ($init_class->initialize($path) == false)
         {
-            $GLOBALS['midcom_errstr'] = "Initialize of Component {$path} failed.";
-            debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
-            $GLOBALS['midcom_errstr'] = 'Initialization failed.';
+            debug_add("Initialize of Component {$path} failed.", MIDCOM_LOG_CRIT);
             return false;
         }
 
@@ -338,10 +324,8 @@ class midcom_helper__componentloader
     {
         if (! $this->is_loaded($path))
         {
-            if (!$this->_load($path))
-            {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to load component {$path}: {$GLOBALS['midcom_errstr']}");
-            }
+            $this->load($path);
+            //This will exit on error
         }
 
         return $this->_interface_classes[$path];
@@ -397,8 +381,7 @@ class midcom_helper__componentloader
 
         if (! is_dir($directory))
         {
-            $GLOBALS['midcom_errstr'] = "Failed to validate the component path {$directory}: It is no directory.";
-            debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
+            debug_add("Failed to validate the component path {$directory}: It is no directory.", MIDCOM_LOG_CRIT);
             return false;
         }
 
@@ -419,8 +402,7 @@ class midcom_helper__componentloader
     {
         if (!preg_match("/^[a-z][a-z0-9\.]*[a-z0-9]$/", $path))
         {
-            $GLOBALS['midcom_errstr'] = "Invalid URL: " . $path;
-            debug_add($GLOBALS['midcom_errstr'], MIDCOM_LOG_CRIT);
+            debug_add("Invalid URL: " . $path, MIDCOM_LOG_CRIT);
             return false;
         }
 

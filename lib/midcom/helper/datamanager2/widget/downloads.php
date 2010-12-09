@@ -566,8 +566,6 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
      */
     function on_submit($results)
     {
-        parent::on_submit($results);
-
         if (! array_key_exists($this->name, $results))
         {
             return;

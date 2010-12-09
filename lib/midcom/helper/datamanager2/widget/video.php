@@ -504,8 +504,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
      */
     function on_submit($results)
     {
-        parent::on_submit($results);
-
         // TODO: refactor these checks to separate methods
         if (array_key_exists("{$this->name}_delete_video", $results))
         {
