@@ -10,9 +10,9 @@ $checked = ' checked="checked"';
 <tr class="&(data['class']);">
 <td class="multivalue">
 <form method="post" action="<?php echo $prefix; ?>workflow/<?php echo $task->guid; ?>/">
-        <input type="hidden" name="org_openpsa_projects_workflow_action[&(action);]" value="true" />
-        <input type="checkbox"&(checked:h); name="org_openpsa_projects_workflow_dummy" value="true" onchange="this.form.submit()" /><a href="<?php echo $prefix; ?>task/<?php echo $task->guid; ?>/"><?php echo $task->title; ?></a><br />
-
+    <input type="hidden" name="org_openpsa_projects_workflow_action[&(action);]" value="true" />
+    <input type="checkbox"&(checked:h); name="org_openpsa_projects_workflow_dummy" value="true" onchange="this.form.submit()" /><a href="<?php echo $prefix; ?>task/<?php echo $task->guid; ?>/"><?php echo $task->title; ?></a><br />
+</form>
 <?php
 //PONDER: Check ACL instead?
 if (midcom_connection::get_user() == $task->manager)

@@ -37,7 +37,10 @@ $total_contacts = $email_fields + count($contacts);
 <textarea class="net_nehmer_accounts_invitation_email_message" name="net_nehmer_accounts_invitation_email_message"></textarea>
 
 <table class="net_nehmer_accounts_invitation_emails">
-  <th><?php echo $data['l10n']->get("name"); ?> </th><th><?php echo $data['l10n']->get("email"); ?></th>
+  <tr>
+    <th><?php echo $data['l10n']->get("name"); ?> </th>
+    <th><?php echo $data['l10n']->get("email"); ?></th>
+  </tr>
 <?php
     for ($i = 0; $i < $email_fields; $i++)
     {

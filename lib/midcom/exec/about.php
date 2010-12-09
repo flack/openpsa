@@ -23,7 +23,7 @@ $_MIDCOM->auth->require_valid_user();
             }
             #bottom #version
             {
-                padding-top: 50px;   
+                padding-top: 50px;
             }
             table.apps td
 	        {
@@ -52,16 +52,17 @@ $_MIDCOM->auth->require_valid_user();
                 ?>
                 <p>
                         The <a href="http://www.midgard-project.org/midgard/8.09/">Ragnaroek LTS</a> generation of Midgard is supported until <strong>October 1st 2013</strong>.
-                <p>
+                </p>
                 <?php
             }
             ?>
+            <p>
                     Copyright &copy;1999&ndash;<?php echo date('Y'); ?> <a href="http://www.midgard-project.org/community/">The Midgard Project</a>. <a href="http://www.gnu.org/licenses/lgpl.html">Free software</a>.
-            </p>            
+            </p>
             <table class="apps">
                 <caption>Your installed applications</caption>
                 <thead>
-                    
+
                 </thead>
                 <tbody>
                     <tr>
@@ -88,7 +89,7 @@ $_MIDCOM->auth->require_valid_user();
                         <td><?php echo phpversion(); ?></td>
                         <td>Web programming language</td>
                     </tr>
-                    <?php 
+                    <?php
                     // FIXME: IIRC, there was a function for getting this info
                     $server_software = explode(' ', $_SERVER['SERVER_SOFTWARE']);
                     $apache = explode('/', $server_software[0]);

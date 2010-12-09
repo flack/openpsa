@@ -85,7 +85,7 @@ class midcom_helper__basicnav
      *
      * @var string
      */
-    private $_currentleaf;
+    private $_currentleaf = false;
 
     /**
      * This is the leaf cache. It is an array which contains elements indexed by
@@ -98,7 +98,7 @@ class midcom_helper__basicnav
      * @todo Update the data structure documentation
      * @var Array
      */
-    private $_leaves;
+    private $_leaves = array();
 
     /**
      * This is the node cache. It is an array which contains elements indexed by
@@ -150,7 +150,7 @@ class midcom_helper__basicnav
      *
      * @var int
      */
-    private $_lastgoodnode;
+    private $_lastgoodnode = -1;
 
     /**
      * A reference to the NAP cache store
@@ -200,13 +200,7 @@ class midcom_helper__basicnav
 
         $this->_nap_cache = $_MIDCOM->cache->nap;
 
-        $this->_leaves = array();
-
         $this->_loader = $_MIDCOM->get_component_loader();
-
-        $this->_currentleaf = false;
-
-        $this->_lastgoodnode = -1;
 
         if (!$_MIDCOM->auth->admin)
         {

@@ -7,12 +7,11 @@ if (array_key_exists('filter_priority', $data))
         <select onchange="document.forms['priority_filter'].submit();" name="priority" id="multiselect" size="1" >
         <?php
         foreach($data['filter_priority'] as $id => $priority)
-        { ?>
-            <option value="<?php echo $id;?>"
-            <?php
+        {
+            echo '<option value="' .  $id . '"';
             if ($priority['selected'] == true)
             {
-                echo "selected=\"selected\"";
+                echo " selected=\"selected\"";
             }
             echo '>' . $priority['title'] . '</option>';
         } ?>

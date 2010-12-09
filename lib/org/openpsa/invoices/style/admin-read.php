@@ -77,6 +77,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <p><strong><?php echo $data['l10n']->get('invoice items'); ?>:</strong></p>
         <table class='list invoice_items'>
         <thead>
+        <tr>
         <th>
         <?php echo $_MIDCOM->i18n->get_string('description' , 'midcom'); ?>
         </th>
@@ -89,6 +90,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <th class='numeric'>
         <?php echo $data['l10n']->get('sum'); ?>
         </th>
+        </tr>
         </thead>
         <tbody>
         <?php
@@ -246,7 +248,6 @@ jQuery("#&(grid_id);").jqGrid({
     echo "    <input type=\"hidden\" name=\"order[date]\" value=\"ASC\" />\n";
     echo "    <input class=\"button\" type=\"submit\" value=\"" . $_MIDCOM->i18n->get_string('download as CSV', 'org.openpsa.core') . "\" />\n";
     echo "</form>\n";
-
-    echo "</div>\n";
 }
 ?>
+</div>

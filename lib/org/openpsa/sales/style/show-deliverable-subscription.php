@@ -104,7 +104,6 @@ $status = $data['deliverable']->get_status();
                     <th><?php echo $data['l10n']->get('invoicing period'); ?></th>
                     <td>&(view['unit']:h);</td>
                 </tr>
-                </tr>
                 <?php
                 if($data['deliverable']->notify)
                 {

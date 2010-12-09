@@ -12,7 +12,7 @@ $fallback_language = $_MIDCOM->i18n->get_fallback_language();
 $deflang = $data['l10n']->get($languages[$fallback_language]['enname']);
 $editlang = $data['l10n']->get($languages[$data['view_lang']]['enname']);
 ?>
-<h1><?php 
+<h1><?php
     echo sprintf($data['l10n']->get('edit strings for %s [%s]'), $data['component_translated'], $editlang);
 ?></h1>
 
@@ -28,39 +28,39 @@ $editlang = $data['l10n']->get($languages[$data['view_lang']]['enname']);
         <tr class="header">
             <th><?php echo $data['l10n']->get('string-id')?></th>
             <th>&(deflang); (<?php echo $data['l10n']->get('default');?>)</th>
-            <?php 
+            <?php
             if ($data['view_lang'] !== $fallback_language)
-            { 
+            {
                 ?>
                 <th>&(editlang);</th>
-                <?php 
-            } 
+                <?php
+            }
             ?>
         </tr>
     </thead>
-    
+
     <tbody>
-    
+
         <tr class="newstring">
             <td><?php echo $data['l10n']->get('new string')?><br /><input type="text" name="new_stringid" size="35" /></td>
-            <td><textarea type="text" name="new_fallback" cols="30" rows="3" wrap="virtual"></textarea></td>
-            <?php 
+            <td><textarea name="new_fallback" cols="30" rows="3" wrap="virtual"></textarea></td>
+            <?php
             if ($data['view_lang'] !== $fallback_language)
-            { 
+            {
                 ?>
-                <td><textarea type="text" name="new_loc" cols="30" rows="3" wrap="virtual"></textarea></td>
-                <?php 
-            } 
+                <td><textarea name="new_loc" cols="30" rows="3" wrap="virtual"></textarea></td>
+                <?php
+            }
             ?>
         </tr>
 
         <?php
         $count = 0;
-        foreach ($data['view_strings'] as $id => $str) 
+        foreach ($data['view_strings'] as $id => $str)
         {
             $fallback = $str[$fallback_language];
             $loc = $str[$data['view_lang']];
-            
+
             if ($count % 2 === 0)
             {
                 $row = 'even';
@@ -72,16 +72,16 @@ $editlang = $data['l10n']->get($languages[$data['view_lang']]['enname']);
             ?>
             <tr class="string-&(row);">
                 <th>&(id);</th>
-                <?php 
+                <?php
                 if ($data['view_lang'] !== $fallback_language)
-                { 
+                {
                     ?>
                     <td><span>&(fallback);</span></td>
-                    <?php 
-                } 
+                    <?php
+                }
                 ?>
                 <td><input type="hidden" name="string_id[&(count);]" value="&(id);" /><textarea name="string_value[&(count);]" cols="30" rows="3" wrap="virtual"><?php echo htmlspecialchars($loc); ?></textarea></td>
-            </tr>   
+            </tr>
             <?php
             $count++;
         }

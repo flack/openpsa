@@ -107,7 +107,7 @@ $revised_after_choices[$date] = $_MIDCOM->i18n->get_string('1 month', 'midgard.a
             ?>
             <input type="checkbox" id="only_mine" name="only_mine" value="1" <?php if (isset($data['only_mine']) && $data['only_mine'] == 1) { echo ' checked="checked"'; } ?> />
             <label for="only_mine">
-                <?php echo $_MIDCOM->i18n->get_string('only mine', 'midgard.admin.asgard'); ?></label>
+                <?php echo $_MIDCOM->i18n->get_string('only mine', 'midgard.admin.asgard'); ?>
             </label>
             <input type="submit" name="filter" value="<?php echo $_MIDCOM->i18n->get_string('filter', 'midgard.admin.asgard'); ?>" />
         </form>
