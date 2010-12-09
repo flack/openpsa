@@ -219,9 +219,9 @@ abstract class midcom_core_dbaobject
 
     /**
      * Stub for accessing MidCOM object cache.
+     * Like the previous two methods, this has to be implemented in all DBA classes
+     * for PHP 5.2 compatibility due to the lack of late static bindings
      *
-     * @param string $classname Which DBA are we dealing with (PHP 5.3 could figure this
-                                out with late static bindings, but...)
      * @param mixed $src GUID of object (ids work but are discouraged)
      * @return mixed Reference to the object or false
      */

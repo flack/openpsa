@@ -59,7 +59,7 @@ class midcom_db_topic extends midcom_core_dbaobject
      *
      * Uses midgard_collector to avoid unnecessary full object loads
      *
-     * @param guid $guid guid of topic to get the parent for
+     * @param string $guid GUID of topic to get the parent for
      */
     function get_parent_guid_uncached_static($guid)
     {
@@ -109,7 +109,7 @@ class midcom_db_topic extends midcom_core_dbaobject
      *
      * used by get_parent_guid_uncached_static
      *
-     * @param id $parent_id id of topic to get the guid for
+     * @param int $parent_id id of topic to get the guid for
      */
     private function _get_parent_guid_uncached_static_topic($parent_id)
     {

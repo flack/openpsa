@@ -25,22 +25,21 @@ class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_h
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_index ($handler_id, $args)
+    public function _handler_index ($handler_id, $args, &$data)
     {
-        $this->_request_data['name']  = "midcom.admin.folder";
+        $data['name']  = "midcom.admin.folder";
 
         $this->add_breadcrumb("/", $this->_l10n->get('index'));
 
         $title = $this->_l10n_midcom->get('index');
         $_MIDCOM->set_pagetitle(":: {$title}");
 
-        $this->_request_data['sort_order'] = $this->_config->get('sort_order');
+        $data['sort_order'] = $this->_config->get('sort_order');
         return true;
     }
 
     /**
      * This function does the output.
-     *
      */
     public function _show_index()
     {

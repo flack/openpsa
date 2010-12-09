@@ -294,23 +294,20 @@ class midcom_core_manifest
      * @param string $filename The name of the manifest file to load.
      * @param array $values the values the manifest uses.
      */
-    public function __construct($filename,$values)
+    public function __construct($filename, $values)
     {
         $this->filename = $filename;
+        $this->_raw_data = $values;
         $this->_load_manifest($values);
     }
 
     /**
      * This internal helper loads and evaluates the given manifest file.
      *
-     * @param string $filename The name of the manifest file to load.
-     * @return boolean True if the manifest was successfully loaded, false otherwise.
-     * @access protected
      * @todo move this into the constructor, use isset.
      */
     private function _load_manifest($values )
     {
-        $this->_raw_data = $values;
         if (!is_array($this->_raw_data))
         {
             debug_add("Manifest read from file {$this->filename} does not evaluate properly", MIDCOM_LOG_ERROR);
@@ -346,8 +343,6 @@ class midcom_core_manifest
         {
             $this->customdata = $this->_raw_data['customdata'];
         }
-
-        return true;
     }
 
     /**

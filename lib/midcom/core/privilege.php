@@ -361,7 +361,7 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @param object $the_object A reference to the object or GUID to query.
+     * @param string $guid A GUID to query.
      * @return Array A list of midcom_core_privilege instances.
      */
     public static function get_content_privileges($guid)
@@ -376,7 +376,7 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @param object $the_object A reference to the object or GUID to query.
+     * @param string $guid A GUID to query.
      * @return Array A list of midcom_core_privilege instances.
      */
     public static function get_self_privileges($guid)
@@ -391,7 +391,7 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @param string GUID the GUID of the object for which we should look up privileges.
+     * @param string $guid The GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
      */
     public static function get_all_privileges($guid)
@@ -408,7 +408,7 @@ class midcom_core_privilege
      * This function is for use in the authentication framework only and may only
      * be called statically.
      *
-     * @param string GUID the GUID of the object for which we should look up privileges.
+     * @param string $guid The GUID of the object for which we should look up privileges.
      * @return Array A list of midcom_core_privilege instances.
      */
     private static function _get_privileges($guid, $type)
@@ -581,7 +581,7 @@ class midcom_core_privilege
      * EVERYONE privileges apply always, and all other privileges are checked against the
      * user.
      *
-     * @param string $user The user id in question.
+     * @param string $user_id The user id in question.
      * @return boolean Indicating whether the privilege record applies for the user, or not.
      */
     public function does_privilege_apply($user_id)

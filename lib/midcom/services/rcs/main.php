@@ -31,14 +31,15 @@ class midcom_services_rcs
 
     /**
      * The configuration object for the rcs service.
+     *
      * @var midcom_services_rcs_config
      */
     var $config;
 
     /**
      * Constructor
+     *
      * @param array $config the midcom_config
-     * @param midcom_application $midcom midcom_application reference.
      */
     public function __construct($config = null)
     {
@@ -70,6 +71,7 @@ class midcom_services_rcs
 
     /**
      * Create or update the RCS file for the object.
+     *
      * @param object &$object the midgard object to be saved
      * @param string $message the update message to save (optional)
      */

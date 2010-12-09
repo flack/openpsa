@@ -330,7 +330,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * With images, it evaluates reads image size information from parameters.
      *
-     * @param $info Information array
+     * @param &$info Information array
      * @param midcom_db_attachment $att Attachment to update information from
      */
     function _update_attachment_info_additional(&$info, $att)
@@ -759,7 +759,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      * For now these are only used for backup purposes but in the future we'll move to use them as main source
      *
      * @param string $identifier identifier of the attachment
-     * @param midgard_attachment $attachment reference to the attachment object to operare on.
+     * @param midgard_attachment &$attachment reference to the attachment object to operare on.
      */
     function _store_att_map_parameters($identifier, &$attachment)
     {

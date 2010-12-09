@@ -23,7 +23,7 @@ class midcom_helper_datamanager2_controller_nullstorage extends midcom_helper_da
      * The defaults to initialize the form manager with. This array is indexed
      * by field names.
      *
-     * @param Array
+     * @var Array
      */
     public $defaults = Array();
 

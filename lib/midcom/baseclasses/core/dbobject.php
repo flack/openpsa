@@ -1592,7 +1592,7 @@ class midcom_baseclasses_core_dbobject
      * You need privilege access to get this information (midgard:read (tested during
      * construction) and midgard:privileges) otherwise, the call will fail.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @return Array A list of midcom_core_privilege objects or false on failure.
      */
     public static function get_privileges($object)
@@ -1616,7 +1616,7 @@ class midcom_baseclasses_core_dbobject
      * You can either pass a ready made privilege record or a privilege/assignee/value
      * combination suitable for usage with create_new_privilege_object() (see there).
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param mixed $privilege Either the full privilege object (midcom_core_privilege) to set or the name of the privilege (string).
      *     If the name was specified, the other parameters must be specified as well.
      * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW (invalid if $privilege is a midcom_core_privilege).
@@ -1665,7 +1665,7 @@ class midcom_baseclasses_core_dbobject
     /**
      * Unset a privilege on an object (e.g. set it to INHERIT).
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param mixed $privilege Either the full privilege object (midcom_core_privilege) to set or the name of the privilege (string).
      *     If the name was specified, the other parameters must be specified as well.
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently
@@ -1721,7 +1721,7 @@ class midcom_baseclasses_core_dbobject
     /**
      * Looks up a privilege by its parameters.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param string $privilege The name of the privilege.
      * @param mixed $assignee Either a valid magic assignee (SELF, EVERYONE, USERS, ANONYMOUS), a midcom_core_user or a
      *     midcom_core_group object or subtype thereof.
@@ -1749,7 +1749,7 @@ class midcom_baseclasses_core_dbobject
     /**
      * Unsets all privilege on an object .
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @return bool Indicating success.
      */
     public static function unset_all_privileges($object)
@@ -1776,7 +1776,7 @@ class midcom_baseclasses_core_dbobject
      * If multiple attachments match the name (should not happen in reality), the
      * first match will be returned.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param string $name The name of the attachment to look up.
      * @return midcom_db_attachment The attachment found, or false on failure.
      */
@@ -1806,7 +1806,7 @@ class midcom_baseclasses_core_dbobject
      * If multiple attachments match the name (should not happen in reality), the
      * first match will be deleted.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param string $name The name of the attachment to delete.
      * @return bool Indicating success.
      */
@@ -1834,7 +1834,7 @@ class midcom_baseclasses_core_dbobject
     /**
      * Creates a new attachment at the current object and returns it for usage.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param string $name The name of the attachment.
      * @param string $title The title of the attachment.
      * @param string $mimetype The MIME-Type of the attachment.
@@ -1879,7 +1879,7 @@ class midcom_baseclasses_core_dbobject
      * Returns a prepared query builder that is already limited to the attachments of the given
      * object.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @return midgard_query_builder Prepared Query Builder or false on failure.
      */
     public static function get_attachment_qb($object)
@@ -1900,7 +1900,7 @@ class midcom_baseclasses_core_dbobject
      * Returns a complete list of attachments for the current object. If there are no
      * attachments, an empty array is returned.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @return Array A list of midcom_db_attachment objects or false on failure.
      */
     public static function list_attachments($object)
@@ -1929,7 +1929,7 @@ class midcom_baseclasses_core_dbobject
      *
      * This call requires the <i>midgard:privileges</i> privilege.
      *
-     * @param MidgardObject &$object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
+     * @param MidgardObject $object A class inherited from one of the MgdSchema driven Midgard classes supporting the above callbacks.
      * @param string $name The name of the privilege to add.
      * @param int $value The privilege value, this defaults to MIDCOM_PRIVILEGE_ALLOW.
      * @param mixed $assignee A valid assignee suitable for midcom_core_privilege::set_privilege(). This defaults to the currently

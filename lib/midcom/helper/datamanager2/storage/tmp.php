@@ -26,7 +26,7 @@ class midcom_helper_datamanager2_storage_tmp extends midcom_helper_datamanager2_
     /**
      * Start up the storage manager and bind it to a given temporary object.
      *
-     * @param midcom_helper_datamanager2_schema &$schema The data schema to use for processing.
+     * @param midcom_helper_datamanager2_schema $schema The data schema to use for processing.
      * @param Array $defaults The defaults to use as "artificial" storage. This can be omitted
      *     safely.
      * @param midcom_core_temporary_object $object The temporary object to use.

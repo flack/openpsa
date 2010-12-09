@@ -68,7 +68,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     /**
      * Options to pass for the AJAX controller
      *
-     * @param Array
+     * @var Array
      */
     public $ajax_options = Array();
 
@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
      * The defaults to initialize the form manager with. This array is indexed
      * by field names.
      *
-     * @param Array
+     * @var Array
      */
     public $defaults = Array();
 

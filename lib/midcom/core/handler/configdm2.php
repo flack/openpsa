@@ -147,7 +147,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Show the configuration screen
      *
      * @param string $handler_id    Name of the handler
-     * @param array  $data          Miscellaneous output data
+     * @param array  &$data          Miscellaneous output data
      */
     public function _show_config($handler_id, &$data)
     {
@@ -179,7 +179,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      *
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
-     * @param array  $data          Miscellaneous output data
+     * @param array  &$data          Miscellaneous output data
      * @return boolean              Indicating success
      */
     public function _handler_recreate($handler_id, $args, &$data)

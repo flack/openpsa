@@ -722,7 +722,7 @@ class midcom_core_querybuilder
      * This implementation overrides the original QB implementation for the implementation
      * of ACL restrictions.
      *
-     * @param int $count The maximum number of records in the resultset.
+     * @param int $limit The maximum number of records in the resultset.
      */
     function set_limit($limit)
     {
