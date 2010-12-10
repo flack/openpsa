@@ -802,30 +802,30 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
     function _init_widget_options()
     {
-        $this->_js_widget_options['widget_id'] = "'{$this->_element_id}'";
+        $this->_js_widget_options['widget_id'] = $this->_element_id;
         $this->_js_widget_options['min_chars'] = $this->min_chars;
         $this->_js_widget_options['result_limit'] = 10;
-        $this->_js_widget_options['renderer_callback'] = 'false';
-        $this->_js_widget_options['result_headers'] = '[]';
-        $this->_js_widget_options['allow_multiple'] = 'true';
-        $this->_js_widget_options['id_field'] = "'$this->id_field'";
-        $this->_js_widget_options['format_items'] = 'null';
+        $this->_js_widget_options['renderer_callback'] = false;
+        $this->_js_widget_options['result_headers'] = array();
+        $this->_js_widget_options['allow_multiple'] = true;
+        $this->_js_widget_options['id_field'] = $this->id_field;
+        $this->_js_widget_options['format_items'] = null;
 
         if ($this->generate_path_for)
         {
-            $this->_js_widget_options['generate_path_for'] = "'{$this->generate_path_for}'";
+            $this->_js_widget_options['generate_path_for'] = $this->generate_path_for;
         }
 
         if ($this->sortable)
         {
-            $this->_js_widget_options['sortable'] = 'true';
+            $this->_js_widget_options['sortable'] = true;
         }
 
         if ($this->creation_mode_enabled)
         {
-            $this->_js_widget_options['creation_mode'] = 'true';
-            $this->_js_widget_options['creation_handler'] = "'{$this->creation_handler}'";
-            $this->_js_widget_options['creation_default_key'] = "'{$this->creation_default_key}'";
+            $this->_js_widget_options['creation_mode'] = true;
+            $this->_js_widget_options['creation_handler'] = $this->creation_handler;
+            $this->_js_widget_options['creation_default_key'] = $this->creation_default_key;
         }
 
         if (isset($this->max_results))
@@ -838,56 +838,29 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
         if (isset($this->allow_multiple))
         {
-            $this->_js_widget_options['allow_multiple'] = 'false';
+            $this->_js_widget_options['allow_multiple'] = false;
             if ($this->allow_multiple)
             {
-                $this->_js_widget_options['allow_multiple'] = 'true';
+                $this->_js_widget_options['allow_multiple'] = true;
             }
         }
         if (! empty($this->js_format_items))
         {
-            $format_items = "{ ";
-            $fi_count = count($this->js_format_items);
-            $i = 0;
-            foreach ($this->js_format_items as $k => $formatter)
-            {
-                $i++;
-                $format_items .= "'{$k}': '{$formatter}'";
-
-                if ($i == $fi_count)
-                {
-                    $format_items .= " ";
-                }
-                else
-                {
-                    $format_items .= ", ";
-                }
-            }
-            $format_items .= "}";
-            $this->_js_widget_options['format_items'] = $format_items;
+            $this->_js_widget_options['format_items'] = $this->js_format_items;
         }
 
-        $headers = "[ ";
+        $headers = array();
         $header_count = count($this->result_headers);
         foreach ($this->result_headers as $k => $header_item)
         {
-            $headers .= "{ ";
-
             $header_title = $_MIDCOM->i18n->get_string($_MIDCOM->i18n->get_string($header_item['title'], $this->component), 'midcom');
 
-            $headers .= "title: '{$header_title}', ";
-            $headers .= "name: '{$header_item['name']}' ";
-
-            if (($k+1) == $header_count)
-            {
-                $headers .= " }";
-            }
-            else
-            {
-                $headers .= " }, ";
-            }
+            $headers[] = array
+            (
+                'title' => $header_title,
+                'name' => $header_item['name']
+            );
         }
-        $headers .= " ]";
         $this->_js_widget_options['result_headers'] = $headers;
 
         $this->_generate_extra_params();
@@ -912,7 +885,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $params[$map_key] = $this->$map_key;
         }
 
-        $this->_js_widget_options['extra_params'] = "'" . base64_encode(serialize($params)) . "'";
+        $this->_js_widget_options['extra_params'] = base64_encode(serialize($params));
     }
 
     /**
@@ -970,19 +943,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 'id' => "{$this->_element_id}_handler_url",
             )
         );
-        foreach ($this->_js_widget_options as $key => $value)
-        {
-            $this->widget_elements[] = HTML_QuickForm::createElement
-            (
-                'hidden',
-                "{$this->_element_id}_{$key}",
-                $value,
-                array
-                (
-                    'id' => "{$this->_element_id}_{$key}",
-                )
-            );
-        }
 
         // Text input for the search box
         $search_input = HTML_QuickForm::createElement
@@ -1032,22 +992,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $this->_jscript .= '<script type="text/javascript">';
         $this->_jscript .= 'jQuery().ready(function(){';
 
-        $script = "jQuery('#{$this->_element_id}_search_input').midcom_helper_datamanager2_widget_chooser_widget('{$this->_handler_url}', {\n";
-        if (!empty($this->_js_widget_options))
-        {
-            $opt_cnt = count($this->_js_widget_options);
-            $i = 0;
-            foreach ($this->_js_widget_options as $key => $value)
-            {
-                $i++;
-                $script .= "{$key}: {$value}";
-                if ($i < $opt_cnt)
-                {
-                    $script .= ",\n";
-                }
-            }
-        }
-        $script .= "});";
+        $script = "jQuery('#{$this->_element_id}_search_input').midcom_helper_datamanager2_widget_chooser_widget('{$this->_handler_url}',\n";
+        $script .= json_encode($this->_js_widget_options);
+        $script .= ");";
         $this->_jscript .= $script;
 
         // Add existing and static selections
@@ -1226,23 +1173,21 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $id = @$object->id;
         $guid = @$object->guid;
 
-        $jsdata = "{";
-
-        $jsdata .= "id: '{$id}',";
-        $jsdata .= "guid: '{$guid}',";
-        $jsdata .= "pre_selected: true,";
+        $jsdata = array
+        (
+            'id' => $id,
+            'guid' => $guid,
+            'pre_selected' => true,
+        );
 
         if (   !empty($this->reflector_key)
             && !$this->result_headers)
         {
             $value = @$object->get_label();
-            $value = rawurlencode($value);
-            $jsdata .= "label: '{$value}'";
+            $jsdata['label'] = $value;
         }
         else
         {
-            $hi_count = count($this->result_headers);
-            $i = 1;
             foreach ($this->result_headers as $header_item)
             {
                 $item_name = $header_item['name'];
@@ -1251,27 +1196,16 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
                 {
                     $value = midcom_helper_datamanager2_widget_chooser::resolve_path($object, $value);
                 }
-                $value = rawurlencode(utf8_decode($value));
-
                 $tmp = str_replace('.', '_', $item_name);
 
-                $jsdata .= "{$tmp}: '{$value}'";
-
-                if ($i < $hi_count)
-                {
-                    $jsdata .= ", ";
-                }
-
-                $i++;
+                $jsdata[$tmp] = $value;
             }
         }
 
-        $jsdata .= "}";
-
-        return $jsdata;
+        return json_encode($jsdata);
     }
 
-    function _get_key_data($key, $in_render_mode=false, $return_object=false)
+    function _get_key_data($key, $in_render_mode = false, $return_object = false)
     {
         if ($this->_callback)
         {
