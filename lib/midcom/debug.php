@@ -111,15 +111,6 @@ class midcom_debug
     }
 
     /**
-     * Set log file name
-     *
-     * @param string $filename    New logfile name
-     */
-    function setLogfile($filename) {
-        $this->_filename = $filename;
-    }
-
-    /**
      * Set log level
      *
      * @param int $loglevel        New log level
@@ -202,36 +193,6 @@ class midcom_debug
                 // Ignore FirePHP errors for now
             }
         }
-    }
-
-    /**
-     * Log a message with info loglevel
-     *
-     * @param string $message    The message to be logged
-     */
-    static function log_info($message)
-    {
-        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_INFO);
-    }
-
-    /**
-     * Log a message with debug loglevel
-     *
-     * @param string $message    The message to be logged
-     */
-    static function log_debug($message)
-    {
-        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_DEBUG);
-    }
-
-    /**
-     * Log a message with warning loglevel
-     *
-     * @param string $message    The message to be logged
-     */
-    static function log_warn($message)
-    {
-        $GLOBALS['midcom_debugger']->log($message, MIDCOM_LOG_WARN);
     }
 
     /**
@@ -401,7 +362,7 @@ function debug_print_r($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
 }
 
 /**
- * Shortcut: Create a stack trace and dump it. Works only if XDEBUG is installed.
+ * Shortcut: Create a stack trace and dump it.
  *
  * @param string $message    The message to be logged
  * @param int $loglevel        The log level
