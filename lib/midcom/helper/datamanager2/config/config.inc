@@ -98,3 +98,188 @@
 
 // Lock timeout, which defines how many seconds the object should be locked
 'lock_timeout' => 1800,
+
+//Pre-made chooser configurations
+'clever_classes' => array
+(
+    'buddy' => array
+    (
+        'class' => 'net_nehmer_buddylist_entry',
+        'component' => 'net.nehmer.buddylist',
+        'headers' => array
+        (
+            'firstname',
+            'lastname',
+            'email',
+        ),
+        'constraints' => array
+        (
+            array
+            (
+                'field' => 'account',
+                'op'    => '=',
+                'value' => '__CURRENT_USER__',
+            ),
+            array
+            (
+                'field' => 'blacklisted',
+                'op'    => '=',
+                'value' => false,
+            ),
+        ),
+        'searchfields' => array
+        (
+            'buddy.firstname',
+            'buddy.lastname',
+            'buddy.username',
+        ),
+        'orders' => array
+        (
+            array('buddy.lastname' => 'ASC'),
+            array('buddy.firstname' => 'ASC'),
+        ),
+        'reflector_key' => 'buddy',
+    ),
+    'contact' => array
+    (
+        'class' => 'org_openpsa_contacts_person_dba',
+        'component' => 'org.openpsa.contacts',
+        'headers' => array
+        (
+            'name',
+            'email',
+        ),
+        'constraints' => array
+        (
+            array
+            (
+                'field' => 'username',
+                'op'    => '<>',
+                'value' => '',
+            ),
+        ),
+        'searchfields' => array
+        (
+            'firstname',
+            'lastname',
+            'username',
+        ),
+        'orders' => array
+        (
+            array('lastname' => 'ASC'),
+            array('firstname' => 'ASC'),
+        ),
+    ),
+    'wikipage' => array
+    (
+        'class' => 'net_nemein_wiki_wikipage',
+        'component' => 'net.nemein.wiki',
+        'headers' => array
+        (
+            'revised',
+            'title',
+        ),
+        'constraints' => array(),
+        'searchfields' => array
+        (
+            'title',
+        ),
+        'orders' => array
+        (
+            array('title' => 'ASC'),
+            array('metadata.published' => 'ASC'),
+        ),
+        'creation_default_key' => 'title',
+    ),
+    'article' => array
+    (
+        'class' => 'midcom_db_article',
+        'component' => 'net.nehmer.static',
+        'headers' => array
+        (
+            'title',
+        ),
+        'constraints' => array(),
+        'searchfields' => array
+        (
+            'title'
+        ),
+        'orders' => array
+        (
+            array('title' => 'ASC'),
+            array('metadata.published' => 'ASC'),
+        ),
+        'id_field' => 'guid',
+    ),
+    'topic' => array
+    (
+        'class' => 'midcom_db_topic',
+        'component' => 'midcom.admin.folder',
+        'headers' => array
+        (
+            'extra',
+            'component',
+        ),
+        'constraints' => array(),
+        'searchfields' => array
+        (
+            'extra',
+            'name',
+            'component',
+        ),
+        'orders' => array
+        (
+            array('extra' => 'ASC'),
+            array('metadata.published' => 'ASC'),
+        ),
+        'generate_path_for' => 'extra',
+    ),
+    'group' => array
+    (
+        'class' => 'midcom_db_group',
+        'component' => 'midgard.admin.asgard',
+        'headers' => array
+        (
+            'name',
+            'official',
+        ),
+        'constraints' => array(),
+        'searchfields' => array
+        (
+            'name',
+            'official',
+        ),
+        'orders' => array
+        (
+            array('extra' => 'ASC'),
+            array('metadata.published' => 'ASC'),
+        ),
+        'id_field' => 'id',
+        'generate_path_for' => 'name',
+    ),
+    'event' => array
+    (
+        'class' => 'net_nemein_calendar_event',
+        'component' => 'net.nemein.calendar',
+        'headers' => array
+        (
+            'start',
+            'end',
+            'title',
+            'location',
+        ),
+        'constraints' => array(),
+        'searchfields' => array
+        (
+            'title',
+            'location',
+        ),
+        'orders' => array
+        (
+            array('title' => 'ASC'),
+            array('start' => 'ASC'),
+            array('metadata.published' => 'ASC'),
+        ),
+        'creation_default_key' => 'title',
+    ),
+),
