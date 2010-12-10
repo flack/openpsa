@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.fi.txt 23195 2009-08-19 16:06:12Z flack $
 ---LANGUAGE fi
 
 ---STRING aggregated

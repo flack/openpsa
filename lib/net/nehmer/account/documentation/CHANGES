@@ -1,6 +1,5 @@
                    net.nehmer.account Changelog
                    ----------------------------
-CVS Id: $Id: CHANGES 14594 2008-01-23 15:28:01Z adrenalin $
 
 Legend:
 - All items marked with "!" represent a major API-Change that is

@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id$
 ---LANGUAGE sv
 
 ---STRING instructions for jabber

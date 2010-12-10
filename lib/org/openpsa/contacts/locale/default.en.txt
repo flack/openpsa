@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.en.txt 26257 2010-06-01 15:19:12Z gudd $
 ---LANGUAGE en
 
 ---STRING %s of

@@ -19,7 +19,7 @@
                 'email' => 'email',
                 'nabaztag' => 'nabaztag',
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'org.openpsa.calendar',
                 'css_group' => 'area',
@@ -66,7 +66,7 @@
                 'email' => 'email',
                 'nabaztag' => 'nabaztag',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'org_openpsa_projects_hour_reports_approved' => array
         (
@@ -83,12 +83,12 @@
                 'email' => 'email',
                 'nabaztag' => 'nabaztag',
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'org.openpsa.projects',
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'org_openpsa_sales_new_subscription_cycle' => array
         (
@@ -105,12 +105,12 @@
                 'email' => 'email',
                 'nabaztag' => 'nabaztag',
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'org.openpsa.sales',
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'net_nemein_approvenotifier_expires_today' => array
         (
@@ -127,7 +127,7 @@
                 'email' => 'email',
                 'nabaztag' => 'nabaztag',
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'net.nemein.approvenotifier',
                 'css_group' => 'area',
@@ -148,7 +148,7 @@
                 'email' => 'email',
                 'nabaztag' => 'nabaztag',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'net_nemein_wiki_page_updated' => array
         (
@@ -165,12 +165,12 @@
                 'email' => 'email',
                 'nabaztag' => 'nabaztag',
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'net.nemein.wiki',
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
     )
 ),

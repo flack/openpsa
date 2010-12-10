@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.pl.txt 25331 2010-03-18 23:02:08Z solt $
 ---LANGUAGE pl
 
 ---STRING %s (%s)

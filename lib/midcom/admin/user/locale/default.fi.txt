@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.fi.txt 24736 2010-01-15 21:14:20Z adrenalin $
 ---LANGUAGE fi
 
 ---STRING User Management

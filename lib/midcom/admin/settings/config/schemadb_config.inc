@@ -59,7 +59,7 @@
                     array('extra' => 'ASC')
                 ),
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'core configuration',
             ),
@@ -167,7 +167,7 @@
                 'allow_multiple' => true,
                 'options' => midcom_admin_folder_folder_management::list_components('', true),
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         // Logging Configuration
         'log_filename' => array
@@ -175,7 +175,7 @@
             'type' => 'text',
             'widget' => 'text',
             'title' => 'log_filename',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'logging configuration',
             ),
@@ -214,7 +214,7 @@
                     '0' => 'no',
                 ),
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         // Cache configuration
         'cache_base_directory' => array
@@ -222,7 +222,7 @@
             'type' => 'text',
             'widget' => 'text',
             'title' => 'cache_base_directory',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'cache configuration',
             ),
@@ -267,7 +267,7 @@
             'type' => 'text',
             'widget' => 'text',
             'title' => 'cache_module_content_default_lifetime',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         // Visibility settings (NAP)
         'show_hidden_objects' => array
@@ -284,7 +284,7 @@
                     '0' => 'no',
                 ),
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'nap settings',
             ),
@@ -304,7 +304,7 @@
                     '0' => 'no',
                 ),
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
         // Metadata system
@@ -322,7 +322,7 @@
                     '0' => 'no',
                 ),
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'metadata configuration',
             ),
@@ -362,7 +362,7 @@
             'type' => 'text',
             'widget' => 'text',
             'title' => 'metadata_schema',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
 
@@ -381,7 +381,7 @@
                 ),
             ),
             'widget' => 'select',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'auth configuration',
             ),
@@ -510,7 +510,7 @@
             'type' => 'text',
             'widget' => 'text',
             'title' => 'auth_backend_simple_cookie_domain' ,
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
 
@@ -531,7 +531,7 @@
                 ),
             ),
             'widget' => 'select',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'indexer configuration',
             ),
@@ -557,7 +557,7 @@
             'type' => 'text',
             'widget' => 'text',
             'title' => 'indexer_xmltcp_port',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
 
@@ -567,7 +567,7 @@
             'type' => 'text',
             'widget' => 'text',
             'title' => 'utility_imagemagick_base',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'utilities',
             ),
@@ -672,7 +672,7 @@
                     '0' => 'no',
                 ),
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
 

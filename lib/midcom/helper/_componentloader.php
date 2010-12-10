@@ -461,7 +461,7 @@ class midcom_helper__componentloader
         // First, we locate all manifest includes:
         // We use some find construct like find -follow -type d -name "config"
         // This does follow symlinks, which can be important when several
-        // CVS commits are "merged" manually
+        // repositories are "merged" manually
         $directories = Array();
         exec('find ' . MIDCOM_ROOT . ' -follow -type d -name "config"', $directories);
         $code = "";

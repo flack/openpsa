@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.en.txt 4586 2006-11-09 11:38:34Z bergie $
 ---LANGUAGE en
 
 ---STRING %u new buddy requests.

@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.de.txt 26667 2010-09-26 11:37:31Z flack $
 ---LANGUAGE de
 
 ---STRING add journal entry

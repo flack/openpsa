@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.de.txt 26544 2010-07-11 14:42:47Z flack $
 ---LANGUAGE de
 
 ---STRING %s cycles in %s months

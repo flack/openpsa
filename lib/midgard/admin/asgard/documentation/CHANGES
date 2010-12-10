@@ -1,6 +1,5 @@
                    midgard.admin.asgard Changelog
                    ------------------------------
-CVS Id: $Id: CHANGES 5537 2007-03-19 12:22:38Z bergie $
 
 Legend:
 - All items marked with "!" represent a major API-Change that is

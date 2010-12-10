@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.de.txt 11456 2007-08-01 19:29:16Z flack $
 ---LANGUAGE de
 
 ---STRING %s items

@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.fi.txt 25209 2010-02-25 18:24:54Z flack $
 ---LANGUAGE fi
 
 ---STRING %d closed projects

@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.en.txt 26542 2010-07-11 12:18:43Z flack $
 ---LANGUAGE en
 
 ---STRING account number

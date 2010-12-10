@@ -77,12 +77,12 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'http api information',
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => 1,
+            'end_fieldset' => 1,
         ),
         'email2sms_address' => array
         (
@@ -95,12 +95,12 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'email->sms api information',
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => 2,
+            'end_fieldset' => 2,
         ),
         'token_size' => array
         (
@@ -114,7 +114,7 @@
             'type' => 'number',
             'widget' => 'text',
             'default' => 15,
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'detectors and email configuration',
                 'css_group' => 'area',
@@ -154,12 +154,12 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'bounce detector configuration (note: requires special mail server configuration as well)',
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'linkdetector_address' => array
         (
@@ -172,12 +172,12 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'link detector configuration',
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => 2,
+            'end_fieldset' => 2,
         ),
     ),
 ),

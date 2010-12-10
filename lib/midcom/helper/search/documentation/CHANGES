@@ -1,6 +1,5 @@
                    midcom.helper.search Changelog
                    ------------------------------
-CVS Id: $Id: CHANGES,v 1.6 2005/02/25 12:26:25 torben Exp $
 
 Legend:
 - All items marked with "!" represent a major API-Change that is

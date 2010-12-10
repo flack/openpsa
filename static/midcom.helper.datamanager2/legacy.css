@@ -1,8 +1,6 @@
 /* Datamanager CSS rules. Include this whenever you want to have
  * a datamangager (or at least create the corresponding style
  * rules).
- *
- * $Id: legacy.css 22013 2009-04-25 09:30:50Z flack $
  */
 
 form.datamanager2 label
@@ -75,7 +73,6 @@ form.datamanager2 fieldset
 form.datamanager2 fieldset legend
 {
     font-weight: bold;
-    /* border: 1px solid black; */
     padding: 1px 3px;
 }
 
@@ -83,11 +80,6 @@ form.datamanager2 label.required
 {
     font-weight: bold;
 }
-
-/*form.datamanager2 label.required span.field_text:after
-{
-    content: "*";   
-}*/
 
 form.datamanager2 label span.field_text
 {
@@ -236,12 +228,12 @@ form.datamanager2 label.checkbox div {
 }
 
 /* Selection lists */
-div.form_multiselect ul, div.form_contactchooser ul
+div.form_multiselect ul
 {
     margin: 0px;
     padding: 0px;
 }
-div.form_multiselect ul li, div.form_contactchooser ul li
+div.form_multiselect ul li
 {
     list-style: none;
 }
@@ -320,10 +312,6 @@ form.datamanager2 table.jquery-enabled td.midcom_helper_datamanager2_helper_sort
   display: none;
 }
 
-form.datamanager2 table.jquery-enabled td.midcom_helper_datamanager2_helper_sortable img
-{
-}
-
 form.datamanager2 table.jquery-enabled tr th.index,
 form.datamanager2 table.jquery-enabled tr td.midcom_helper_datamanager2_helper_sortable,
 form.datamanager2 table.jquery-enabled tr th.add_new_row
@@ -377,10 +365,6 @@ form.datamanager2 table.jquery-enabled .deleted textarea
   filter:alpha(opacity=50);
   -moz-opacity:.50;
   vertical-align: middle;
-}
-
-form.datamanager2 table.jquery-enabled thead th.add_column
-{
 }
 
 form.datamanager2 table.jquery-enabled thead img.column_sort,

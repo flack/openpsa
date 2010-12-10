@@ -23,7 +23,7 @@
                 ),
             ),
             'widget' => 'select',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             ( 
                 'title' => 'display settings',
             ),
@@ -220,7 +220,7 @@
                 'options' => org_openpsa_products_product_group_dba::list_groups(0, '', 'guid'),
             ),
             'widget' => 'select',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'index_products' => array
         (
@@ -242,7 +242,7 @@
                 ),
             ),
             'widget' => 'select',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             ( 
                 'title' => 'Indexer related',
             ),
@@ -267,7 +267,7 @@
                 ),
             ),
             'widget' => 'select',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'schemadb_product' => array
         (
@@ -280,7 +280,7 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             ( 
                 'title' => 'advanced schema and data settings',
             ),
@@ -308,7 +308,7 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
     )
 ),

@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.sv.txt 25254 2010-03-09 16:19:26Z rambo $
 ---LANGUAGE sv
 
 ---STRING %s category %s

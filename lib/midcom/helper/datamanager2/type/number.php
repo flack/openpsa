@@ -155,7 +155,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     }
 
     /**
-     * CVS conversion is mapped to regular type conversion.
+     * CSV conversion is mapped to regular type conversion.
      */
     function convert_from_csv ($source)
     {
@@ -163,7 +163,7 @@ class midcom_helper_datamanager2_type_number extends midcom_helper_datamanager2_
     }
 
     /**
-     * CVS conversion is mapped to regular type conversion.
+     * CSV conversion is mapped to regular type conversion.
      */
     function convert_to_csv()
     {

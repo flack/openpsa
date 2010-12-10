@@ -1,7 +1,5 @@
                    midcom.admin.babel Changelog
                    ----------------------------
-CVS Id: $Id: CHANGES 3757 2006-07-27 14:32:42Z bergie $
-                                      
 Legend:
 - All items marked with "!" represent a major API-Change that is
   not guaranteed to be backwards compatible to previous versions

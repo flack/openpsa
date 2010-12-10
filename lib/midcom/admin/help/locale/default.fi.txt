@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.fi.txt 24574 2009-12-28 16:22:50Z bergie $
 ---LANGUAGE fi
 
 ---STRING about midgard

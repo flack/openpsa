@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.en.txt 25388 2010-03-24 14:29:52Z adrenalin $
 ---LANGUAGE en
 
 ---STRING %s (%s)

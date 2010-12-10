@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.fi.txt 23448 2009-09-22 14:42:35Z bergie $
 ---LANGUAGE fi
 
 ---STRING %s cycles in %s months

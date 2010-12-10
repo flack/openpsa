@@ -15,7 +15,7 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'schemadb settings',
             ),
@@ -31,7 +31,7 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'password_minlength' => array
         (
@@ -88,7 +88,7 @@
                 ),
             ),
             'widget' => 'select',
-            'begin_fieldgroup' => array
+            'begin_fieldset' => array
             (
                 'title' => 'user registrations',
             ),
@@ -294,7 +294,7 @@
             ),
             'type' => 'text',
             'widget' => 'text',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'openidprovider_link' => array
         (

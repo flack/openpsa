@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.en.txt 15239 2008-02-25 14:01:46Z netblade $
 ---LANGUAGE en
 
 ---STRING %s, message sent to %s

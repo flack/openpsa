@@ -32,7 +32,7 @@
  * - <i>boolean allow_multiple:</i> If this flag is set, you may select more then one
  *   option. This is disabled by default. If this feature is disabled, the loader
  *   code will drop all matches beyond the first match.
- * - <i>boolean csv_export_key:</i> If this flag is set, the CVS export will store the
+ * - <i>boolean csv_export_key:</i> If this flag is set, the CSV export will store the
  *   field key instead of its value. This is only useful if the foreign tables referenced
  *   are available at the site of import. This flag is not set by default. Note, that
  *   this does not affect import, which is only available with keys, not values.

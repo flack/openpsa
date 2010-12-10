@@ -18,12 +18,12 @@
             ),
             'widget'      => 'privilege',
             'storage'     => null,
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => $_MIDCOM->i18n->get_string('org.openpsa.calendar', 'org.openpsa.calendar'),
                 'css_group' => 'area',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
             'hidden' => !$_MIDCOM->componentloader->is_installed('org.openpsa.calendar'),
         ),
 

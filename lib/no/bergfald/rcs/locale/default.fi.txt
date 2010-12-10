@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id$
 ---LANGUAGE fi
 
 ---STRING back to %s

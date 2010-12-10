@@ -96,7 +96,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             }
             else
             {
-                // We don't know company, present customer contact as contactchooser and hide customer field
+                // We don't know company, present customer contact as chooser and hide customer field
                 $fields['customer']['hidden'] = true;
             }
         }

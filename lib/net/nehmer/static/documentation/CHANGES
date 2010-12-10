@@ -1,6 +1,5 @@
                    net.nehmer.static Changelog
                    ---------------------------
-CVS Id: $Id: CHANGES 14687 2008-01-29 14:53:56Z adrenalin $
 
 Legend:
 - All items marked with "!" represent a major API-Change that is

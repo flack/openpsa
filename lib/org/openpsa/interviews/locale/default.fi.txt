@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.fi.txt,v 1.1 2006/05/08 13:18:40 rambo Exp $
 ---LANGUAGE fi
 
 ---STRING contact

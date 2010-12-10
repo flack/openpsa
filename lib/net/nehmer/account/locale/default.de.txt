@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.de.txt 22058 2009-04-29 09:27:48Z flack $
 ---LANGUAGE de
 
 ---STRING change email

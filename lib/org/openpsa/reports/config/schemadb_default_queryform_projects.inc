@@ -185,7 +185,7 @@
                 ),
                 'default'       => -1,
                 'widget'      => 'radiocheckselect',
-                'end_fieldgroup'    => '',
+                'end_fieldset'    => '',
             ),
             'type' => array
             (

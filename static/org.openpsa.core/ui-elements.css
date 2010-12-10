@@ -220,17 +220,6 @@ div.midcom_helper_datamanager2_view div.field > div{
 div.midcom_helper_datamanager2_view div.field:hover > div {
     border-bottom: 1px solid #999;
 }
-div.form_fieldgroup_title {
-    font-weight: bold;
-    font-size: larger;
-    margin-bottom: .5em
-}
-div.form_description {
-    font-weight: bold;
-}
-div.form_viewfield {
-    margin-left: 100px;
-}
 
 /* Ajax handling */
 input.ajax_editable, select.ajax_editable {

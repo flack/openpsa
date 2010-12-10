@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.fi.txt 25979 2010-05-04 11:55:39Z bergie $
 ---LANGUAGE fi
 
 ---STRING %s in %s

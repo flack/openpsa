@@ -10,11 +10,11 @@
     (
         'opengraph_type' => array
         (
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'opengraph information',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
             'title' => 'opengraph type',
             'type' => 'select',
             'type_config' => array
@@ -33,7 +33,7 @@
         ),
         'navnoentry' => array
         (
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'visibility settings',
             ),
@@ -93,7 +93,7 @@
             (
                 'privilege' => 'midcom.admin.folder:topic_management',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'hidden' => array
         (
@@ -102,7 +102,7 @@
             'hidden' => true,
             'storage' => 'metadata',
             'widget' => 'checkbox',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'description' => array
         (
@@ -115,7 +115,7 @@
             ),
             'type' => 'text',
             'widget' => 'textarea',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'metadata',
             ),
@@ -223,7 +223,7 @@
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/midgard_group/",
                 'creation_default_key' => 'official',
             ),
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'created' => array
         (
@@ -235,7 +235,7 @@
                 // MidCOM DBA converts dates to/from unixtimes to MgdSchema's ISO format
                 'storage_type' => 'UNIXTIME',
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'internal metadata',
             ),
@@ -343,13 +343,13 @@
             'type' => 'number',
             'widget' => 'text',
             'readonly' => true,
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
         // Approvals
         'approved' => array
         (
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'approvals',
             ),
@@ -395,13 +395,13 @@
                 'orders' => array(array('lastname', 'ASC')),
             ),
             'readonly' => true,
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
         // Editing status
         'locked' => array
         (
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'editing status',
             ),
@@ -447,7 +447,7 @@
             ),
             'readonly' => true,
             'hidden' => true,
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
     ),
 ),

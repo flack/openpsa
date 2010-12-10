@@ -31,10 +31,6 @@
  * <pre>
  * ---# Lines starting with a # command are ignored.
  *
- * ---# The CVS lines are ignored too, but they mark a line as CVS variable,
- * ---# this is reserved for later usage.
- * ---CVS $Id: _i18n_l10n.php 25330 2010-03-18 22:19:52Z solt $
- *
  * ---# File format version
  * ---VERSION 2.1.0
  *
@@ -187,7 +183,6 @@ class midcom_services__i18n_l10n
 
             fwrite($file, "---# MidCOM String Database\n");
             fwrite($file, "---VERSION 2.1.0\n");
-            fwrite($file, "---CVS \$Id\$\n");
             fwrite($file, "---LANGUAGE {$lang}\n\n");
 
             foreach  ($table as $key => $translation)
@@ -273,7 +268,6 @@ class midcom_services__i18n_l10n
                     switch ($command)
                     {
                         case '#':
-                        case 'CVS':
                             // Skip
                             break;
 

@@ -216,7 +216,7 @@
                     'options' => $this->_request_data['config']->get('schemadbs'),
                 ),
                 'widget' => 'select',
-                'start_fieldgroup' => array
+                'start_fieldset' => array
                 (
                     'title' => 'schema settings',
                 ),
@@ -462,7 +462,7 @@
                     ),
                 ),
                 'widget' => 'select',
-                'start_fieldgroup' => array
+                'start_fieldset' => array
                 (
                     'title' => 'navigation options',
                 ),

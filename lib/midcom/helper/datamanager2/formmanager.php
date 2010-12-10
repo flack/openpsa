@@ -488,8 +488,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     }
 
     /**
-     * Start a fieldset and set the styles accordingly. Fieldsets can be initialized either
-     * by key `start_fieldset` or `start_fieldgroup` to provide backwards compatibility to
+     * Start a fieldset and set the styles accordingly. Fieldsets can be initialized
+     * by key `start_fieldset`
      * @see midcom_helper_datamanager2_schema
      *
      * @param string $name
@@ -497,13 +497,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     private function _start_fieldset($name, $config)
     {
-        // Backwards compatibility for midcom.helper.datamanager styled fieldgroups
-        if (   isset($config['start_fieldgroup'])
-            && !isset($config['start_fieldset']))
-        {
-            $config['start_fieldset'] = $config['start_fieldgroup'];
-        }
-
         // Return if fieldsets are not requested
         if (!isset($config['start_fieldset']))
         {
@@ -573,13 +566,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     private function _end_fieldset($name, $config)
     {
-        // Backwards compatibility for midcom.helper.datamanager styled fieldgroups
-        if (   isset($config['end_fieldgroup'])
-            && !isset($config['end_fieldset']))
-        {
-            $config['end_fieldset'] = $config['end_fieldgroup'];
-        }
-
         if (   !isset($config['end_fieldset'])
             || $this->_fieldsets <= 0)
         {

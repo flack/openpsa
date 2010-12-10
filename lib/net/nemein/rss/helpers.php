@@ -46,7 +46,7 @@ class net_nemein_rss_helpers extends midcom_baseclasses_components_purecode
                     ),
                 ),
                 'widget' => 'select',
-                'start_fieldgroup' => array
+                'start_fieldset' => array
                 (
                     'title' =>  $_MIDCOM->i18n->get_string('rss export settings', 'net.nemein.rss'),
                 ),

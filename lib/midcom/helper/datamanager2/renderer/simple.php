@@ -25,7 +25,6 @@
 // |          Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: simple.php 24442 2009-12-12 18:20:38Z jbergius $
 /** @ignore */
 require_once('HTML/QuickForm/Renderer.php');
 

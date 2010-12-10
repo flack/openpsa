@@ -1,6 +1,5 @@
 ---# MidCOM String Database
 ---VERSION 2.1.0
----CVS $Id: default.da.txt 334 2005-01-13 18:13:00Z torben $
 ---LANGUAGE da
 
 ---STRING add new feed

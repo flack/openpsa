@@ -74,7 +74,7 @@
                     ),
                 ),
             ),
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'display settings'
             ),
@@ -154,7 +154,7 @@
                 ),
             ),
             'widget' => 'select',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
         'autoindex' => array
         (
@@ -177,7 +177,7 @@
                 ),
             ),
             'widget' => 'select',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'autoindex settings'
             ),
@@ -226,7 +226,7 @@
                 ),
             ),
             'widget' => 'select',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
 
         'schemadb' => array
@@ -244,7 +244,7 @@
                 'options' => $this->_request_data['config']->get('schemadbs'),
             ),
             'widget' => 'select',
-            'start_fieldgroup' => array
+            'start_fieldset' => array
             (
                 'title' => 'schema settings'
             ),
@@ -290,7 +290,7 @@
                 ),
             ),
             'widget' => 'select',
-            'end_fieldgroup' => '',
+            'end_fieldset' => '',
         ),
     ),
 ),
