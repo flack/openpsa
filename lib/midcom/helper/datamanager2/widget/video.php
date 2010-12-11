@@ -235,44 +235,18 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         if (array_key_exists('thumbnail', $this->_type->attachments))
         {
             $url = $this->_type->attachments_info['thumbnail']['url'];
-            $x = $this->_type->attachments_info['thumbnail']['size_x'];
-            $y = $this->_type->attachments_info['thumbnail']['size_y'];
             $is_thumbnail = true;
         }
         else
         {
-       $is_thumbnail = false;
-       $url = "";
-       $x = "";
-       $y = "";
-
             $url = $this->_type->attachments_info['main']['url'];
-            $x = $this->_type->attachments_info['main']['size_x'];
-            $y = $this->_type->attachments_info['main']['size_y'];
             $is_thumbnail = false;
-
-            // Downscale Preview image to max 75px, protect against broken images:
-            if (   $x != 0
-                && $y != 0)
-            {
-                $aspect = $x/$y;
-                if ($x > 75)
-                {
-                    $x = 75;
-                    $y = round($x / $aspect);
-                }
-                if ($y > 75)
-                {
-                    $y = 75;
-                    $x = round($y * $aspect);
-                }
-            }
         }
 
-        $size = " width='{$x}' height='{$y}'";
+        $size = $this->_get_preview_size();
 
-    if (isset($this->_type->attachments_info['main']))
-    {
+        if (isset($this->_type->attachments_info['main']))
+        {
             $main_info = $this->_type->attachments_info['main'];
         }
 
@@ -372,7 +346,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $static_html = "<tr><td>Video:</td><td>" . $this->_l10n->get('no file uploaded') . "</td></tr>\n";
 
         // Video info
-
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter2", '', $static_html);
 
         // The upload field
@@ -454,34 +427,13 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
             if (array_key_exists('thumbnail', $this->_type->attachments))
             {
                 $url = $this->_type->attachments_info['thumbnail']['url'];
-                $x = $this->_type->attachments_info['thumbnail']['size_x'];
-                $y = $this->_type->attachments_info['thumbnail']['size_y'];
             }
             else
             {
                 $url = $this->_type->attachments_info['main']['url'];
-                $x = $this->_type->attachments_info['main']['size_x'];
-                $y = $this->_type->attachments_info['main']['size_y'];
-
-                // Downscale Preview image to max 75px, protect against broken images:
-                if (   $x != 0
-                    && $y != 0)
-                {
-                    $aspect = $x/$y;
-                    if ($x > 75)
-                    {
-                        $x = 75;
-                        $y = round($x / $aspect);
-                    }
-                    if ($y > 75)
-                    {
-                        $y = 75;
-                        $x = round($y * $aspect);
-                    }
-                }
             }
 
-            $size = " width='{$x}' height='{$y}'";
+            $size = $this->_get_preview_size();
             $main_info = $this->_type->attachments_info['main'];
 
             // Add Image with Preview
@@ -494,6 +446,39 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
             $html = $this->_l10n->get('no file uploaded');
         }
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_filename", '', "<p>{$html}</p>");
+    }
+
+    private function _get_preview_size()
+    {
+        if (array_key_exists('thumbnail', $this->_type->attachments))
+        {
+            $x = $this->_type->attachments_info['thumbnail']['size_x'];
+            $y = $this->_type->attachments_info['thumbnail']['size_y'];
+        }
+        else
+        {
+            $x = $this->_type->attachments_info['main']['size_x'];
+            $y = $this->_type->attachments_info['main']['size_y'];
+
+            // Downscale Preview image to max 75px, protect against broken images:
+            if (   $x != 0
+                && $y != 0)
+            {
+                $aspect = $x/$y;
+                if ($x > 75)
+                {
+                    $x = 75;
+                    $y = round($x / $aspect);
+                }
+                if ($y > 75)
+                {
+                    $y = 75;
+                    $x = round($y * $aspect);
+                }
+            }
+        }
+
+        return " width='{$x}' height='{$y}'";
     }
 
     /**
