@@ -82,18 +82,6 @@ define ('MIDCOM_LOG_CRIT', 0);
 /**#@-*/
 
 /**#@+
- * Client Status Array Keys
- */
-define ('MIDCOM_CLIENT_MOZILLA',0);
-define ('MIDCOM_CLIENT_IE',1);
-define ('MIDCOM_CLIENT_OPERA',2);
-define ('MIDCOM_CLIENT_NETSCAPE',3);
-define ('MIDCOM_CLIENT_UNIX',10);
-define ('MIDCOM_CLIENT_MAC',11);
-define ('MIDCOM_CLIENT_WIN',12);
-/**#@-*/
-
-/**#@+
  * MidCOM Core Status Codes
  */
 define ('MIDCOM_STATUS_PREPARE',0);

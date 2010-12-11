@@ -391,9 +391,6 @@ class midcom_application
         // Initialize Context Storage
         $this->_currentcontext = $this->_create_context(0, $root_node);
 
-        // Populate browser information
-        $this->_populate_client();
-
         // Check the midcom_config site prefix for absolute local urls
         if ($GLOBALS['midcom_config']['midcom_site_url'][0] == '/')
         {
@@ -1622,80 +1619,6 @@ class midcom_application
         $this->componentloader->load($path);
 
         return true;
-    }
-
-    /**
-     * Populates the client status array that can be queried using the get_client()
-     * method.
-     */
-    function _populate_client ()
-    {
-        $this->_client = Array();
-
-        if (!array_key_exists("HTTP_USER_AGENT",$_SERVER))
-            $_SERVER["HTTP_USER_AGENT"] = "unspecified";
-
-        if (stristr($_SERVER["HTTP_USER_AGENT"],"Gecko") !== false)
-            $this->_client[MIDCOM_CLIENT_MOZILLA] = true;
-        else
-            $this->_client[MIDCOM_CLIENT_MOZILLA] = false;
-
-        if (stristr($_SERVER["HTTP_USER_AGENT"],"MSIE") !== false)
-            $this->_client[MIDCOM_CLIENT_IE] = true;
-        else
-            $this->_client[MIDCOM_CLIENT_IE] = false;
-
-        if (stristr($_SERVER["HTTP_USER_AGENT"],"Mozilla/4") !== false &&
-          stristr($_SERVER["HTTP_USER_AGENT"], "MSIE") === false)
-            $this->_client[MIDCOM_CLIENT_NETSCAPE] = true;
-        else
-            $this->_client[MIDCOM_CLIENT_NETSCAPE] = false;
-
-        if (stristr($_SERVER["HTTP_USER_AGENT"],"Opera") !== false) {
-            $this->_client[MIDCOM_CLIENT_OPERA] = true;
-            $this->_client[MIDCOM_CLIENT_IE] = false;
-            $this->_client[MIDCOM_CLIENT_NETSCAPE] = false;
-            $this->_client[MIDCOM_CLIENT_MOZILLA] = false;
-        } else {
-            $this->_client[MIDCOM_CLIENT_OPERA] = false;
-        }
-
-        if (stristr($_SERVER["HTTP_USER_AGENT"],"Win") !== false)
-            $this->_client[MIDCOM_CLIENT_WIN] = true;
-        else
-            $this->_client[MIDCOM_CLIENT_WIN] = false;
-
-
-        if (stristr($_SERVER["HTTP_USER_AGENT"],"X11") !== false ||
-
-          stristr($_SERVER["HTTP_USER_AGENT"],"Linux"))
-            $this->_client[MIDCOM_CLIENT_UNIX] = true;
-        else
-            $this->_client[MIDCOM_CLIENT_UNIX] = false;
-
-        if (stristr($_SERVER["HTTP_USER_AGENT"],"Mac") !== false)
-            $this->_client[MIDCOM_CLIENT_MAC] = true;
-        else
-            $this->_client[MIDCOM_CLIENT_MAC] = false;
-    }
-
-    /**
-     * Returns the Client Status Array which gives you all available information about
-     * the client accessing us.
-     *
-     * Currently incorporated is a recognition of client OS and client browser.
-     *
-     * <b>NOTE:</b> Be careful if you rely on this information, the system does not check
-     * for invervening Proxies yet.
-     *
-     * <b>WARNING:</b> If the caching engine is running, you must not rely on this
-     * information! You should set no_cache in these cases.
-     *
-     * @return Array    Key/Value Array with the client information (see MIDCOM_CLIENT_... constants)
-     */
-    function get_client()
-    {
-        return $this->_client;
     }
 
     /**

@@ -355,7 +355,6 @@ class midcom_services_dbclassloader
             switch ($component)
             {
                 // Handle MidCOM's own classes
-                case 'midcom.baseclasses':
                 case 'midcom.db':
                 case 'midcom.core':
                 case 'midgard':

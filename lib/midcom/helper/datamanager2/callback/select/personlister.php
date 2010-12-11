@@ -174,7 +174,6 @@ class midcom_helper_datamanager2_callback_select_personlister
                     $value = $person->{$this->_value_field};
                     $this->_loaded_persons[$key] = $value;
                 }
-                //asort($this->_loaded_persons, SORT_STRING);
             }
             $this->_list_all_done = true;
         }

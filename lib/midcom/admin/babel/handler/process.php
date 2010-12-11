@@ -358,9 +358,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
             return false;
         }
 
-        // make sure text is displayed as utf-8 => REALLY?
-        //header('Content-type: text/html; charset=UTF-8');
-
         if (   $this->_component_path
             && $this->_lang)
         {

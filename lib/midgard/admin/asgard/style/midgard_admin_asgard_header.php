@@ -9,8 +9,7 @@ if (   midgard_admin_asgard_plugin::get_preference('escape_frameset')
 }
 
 //don't send an XML prolog for IE, it knocks IE6 into quirks mode
-$client = $_MIDCOM->get_client();
-if (!$client[MIDCOM_CLIENT_IE])
+if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 6.') !== false)
 {
     echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 }
