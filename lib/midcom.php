@@ -161,17 +161,6 @@ require(MIDCOM_ROOT . '/constants.php');
 require(MIDCOM_ROOT. '/midcom/connection.php');
 require(MIDCOM_ROOT. '/midcom/config/midcom_config.php');
 ini_set('track_errors', '1');
-/**
- * Do not mess about with the servers display_errors setting
- *
- * See http://trac.midgard-project.org/ticket/1688
- *
-ini_set('display_errors', '0');
-if ($GLOBALS['midcom_config']['display_php_errors'])
-{
-    ini_set('display_errors', '1');
-}
- */
 if ($GLOBALS['midcom_config']['enable_error_handler'])
 {
     require(MIDCOM_ROOT. '/errors.php');

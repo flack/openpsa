@@ -428,7 +428,6 @@ $GLOBALS['midcom_config_default']['log_level'] = MIDCOM_LOG_ERROR;
 $GLOBALS['midcom_config_default']['log_tailurl_enable'] = false;
 $GLOBALS['midcom_config_default']['log_firephp'] = false;
 $GLOBALS['midcom_config_default']['enable_included_list'] = false;
-$GLOBALS['midcom_config_default']['display_php_errors'] = true;
 $GLOBALS['midcom_config_default']['enable_error_handler'] = true;
 $GLOBALS['midcom_config_default']['error_actions'] = array();
 
