@@ -63,63 +63,14 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         // Loop through the sortables and store the new score
         foreach ($_POST['sortable'] as $array)
         {
-            foreach ($array as $identificator => $i)
+            foreach ($array as $identifier => $i)
             {
                 // Set the score reversed: the higher the value, the higher the rank
                 $score_r = (int)($count - $i);
 
-                // Use the DB Factory to resolve the class and to get the object
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($identificator);
-
-                // This is probably a pseudo leaf, store the score to the current node
-                if (!$object)
+                if (!$this->_update_score($identifier, $score_r))
                 {
-                    $this->_topic->set_parameter('midcom.helper.nav.score', $identificator, $score_r);
-                    continue;
-                    // This will skip the rest of the handling
-                }
-
-                // Get the original approval status and update metadata reference
-                $metadata = midcom_helper_metadata::retrieve($object);
-                if (!is_object($metadata))
-                {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not fetch metadata for object {$object->guid}");
-                    // This will exit
-                }
-                // Make sure this is reference to correct direction (from our point of view)
-                $metadata->__object =& $object;
-
-                // Get the approval status if metadata object is available
-                $approval_status = false;
-                if ($metadata->is_approved())
-                {
-                    $approval_status = true;
-                }
-
-                $object->metadata->score = $score_r;
-
-
-                //$metadata->set() calls update *AND* updates the metadata cache correctly, thus we use that in stead of raw update
-                if (!$metadata->set('score', $object->metadata->score))
-                {
-                    // Show an error message on an update failure
-                    $_MIDCOM->load_library('midcom.helper.reflector');
-                    $reflector =& midcom_helper_reflector::get($object);
-                    $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
-                    $success = false;
-                    continue;
-                }
-
-                // Approve if possible
-                if (   $approval_status
-                    && $object->can_do('midcom:approve'))
-                {
-                    if (!isset($metadata))
-                    {
-                        $metadata = midcom_helper_metadata::retrieve($object);
-                    }
-                    $metadata->approve();
+                	$success = false;
                 }
             }
         }
@@ -130,6 +81,62 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             $_MIDCOM->relocate('');
             // This will exit
         }
+    }
+
+    private function _update_score($identifier, $score)
+    {
+        // Use the DB Factory to resolve the class and to get the object
+        $object = $_MIDCOM->dbfactory->get_object_by_guid($identifier);
+
+        // This is probably a pseudo leaf, store the score to the current node
+        if (!$object)
+        {
+            $this->_topic->set_parameter('midcom.helper.nav.score', $identifier, $score);
+            return true;
+            // This will skip the rest of the handling
+        }
+
+        // Get the original approval status and update metadata reference
+        $metadata = midcom_helper_metadata::retrieve($object);
+        if (!is_object($metadata))
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not fetch metadata for object {$object->guid}");
+            // This will exit
+        }
+        // Make sure this is reference to correct direction (from our point of view)
+        $metadata->__object =& $object;
+
+        // Get the approval status if metadata object is available
+        $approval_status = false;
+        if ($metadata->is_approved())
+        {
+            $approval_status = true;
+        }
+
+        $object->metadata->score = $score;
+
+        //$metadata->set() calls update *AND* updates the metadata cache correctly, thus we use that in stead of raw update
+        if (!$metadata->set('score', $object->metadata->score))
+        {
+            // Show an error message on an update failure
+            $_MIDCOM->load_library('midcom.helper.reflector');
+            $reflector =& midcom_helper_reflector::get($object);
+            $title = $reflector->get_class_label() . ' ' . $reflector->get_object_label($object);
+            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('failed to update %s due to: %s'), $title, midcom_connection::get_error_string()), 'error');
+            return false;
+        }
+
+        // Approve if possible
+        if (   $approval_status
+            && $object->can_do('midcom:approve'))
+        {
+            if (!isset($metadata))
+            {
+                $metadata = midcom_helper_metadata::retrieve($object);
+            }
+            $metadata->approve();
+        }
+        return true;
     }
 
     /**
@@ -203,7 +210,6 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
      */
     public function _show_order($handler_id, &$data)
     {
-        $data['navigation'] = array();
         $data['navorder'] = $this->_topic->get_parameter('midcom.helper.nav', 'navorder');
 
         // Navorder list for the selection
@@ -220,26 +226,45 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             midcom_show_style('midcom-admin-folder-order-start');
         }
 
+        $data['navigation'] = $this->_get_navigation_data();
+
+        // Loop through each navigation type (node, leaf and mixed)
+        foreach ($data['navigation'] as $key => $array)
+        {
+            $data['navigation_type'] = $key;
+            $data['navigation_items'] = $array;
+            midcom_show_style('midcom-admin-folder-order-type');
+        }
+
+        if (!isset($_GET['ajax']))
+        {
+            midcom_show_style('midcom-admin-folder-order-end');
+        }
+    }
+
+    private function _get_navigation_data()
+    {
+        $ret = array();
         // Initialize the midcom_helper_nav or navigation access point
         $nap = new midcom_helper_nav();
 
         switch ((int) $this->_topic->get_parameter('midcom.helper.nav', 'navorder'))
         {
             case MIDCOM_NAVORDER_DEFAULT:
-                $data['navigation']['nodes'] = array();
+                $ret['nodes'] = array();
                 $nodes = $nap->list_nodes($nap->get_current_node());
 
                 foreach ($nodes as $id => $node_id)
                 {
                     $node = $nap->get_node($node_id);
                     $node[MIDCOM_NAV_TYPE] = 'node';
-                    $data['navigation']['nodes'][$id] = $node;
+                    $ret['nodes'][$id] = $node;
                 }
                 break;
 
             case MIDCOM_NAVORDER_TOPICSFIRST:
                 // Sort the array to have the nodes first
-                $data['navigation'] = array
+                $ret = array
                 (
                     'nodes' => array(),
                     'leaves' => array(),
@@ -249,9 +274,9 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
             case MIDCOM_NAVORDER_ARTICLESFIRST:
                 // Sort the array to have the leaves first
 
-                if (!isset($data['navigation']['leaves']))
+                if (!isset($ret['leaves']))
                 {
-                    $data['navigation'] = array
+                    $ret = array
                     (
                         'leaves' => array(),
                         'nodes' => array(),
@@ -265,7 +290,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                 {
                     $node = $nap->get_node($node_id);
                     $node[MIDCOM_NAV_TYPE] = 'node';
-                    $data['navigation']['nodes'][$id] = $node;
+                    $ret['nodes'][$id] = $node;
                 }
 
                 // Get the leafs
@@ -275,13 +300,13 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                 {
                     $leaf = $nap->get_leaf($leaf_id);
                     $leaf[MIDCOM_NAV_TYPE] = 'leaf';
-                    $data['navigation']['leaves'][$id] = $leaf;
+                    $ret['leaves'][$id] = $leaf;
                 }
                 break;
 
             case MIDCOM_NAVORDER_SCORE:
             default:
-                $data['navigation']['mixed'] = array();
+                $ret['mixed'] = array();
 
                 // Get the navigation items
                 $items = $nap->list_child_elements($nap->get_current_node());
@@ -300,23 +325,12 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
                     // Store the type information
                     $element[MIDCOM_NAV_TYPE] = $item[MIDCOM_NAV_TYPE];
 
-                    $data['navigation']['mixed'][] = $element;
+                    $ret['mixed'][] = $element;
                 }
                 break;
         }
 
-        // Loop through each navigation type (node, leaf and mixed)
-        foreach ($data['navigation'] as $key => $array)
-        {
-            $data['navigation_type'] = $key;
-            $data['navigation_items'] = $array;
-            midcom_show_style('midcom-admin-folder-order-type');
-        }
-
-        if (!isset($_GET['ajax']))
-        {
-            midcom_show_style('midcom-admin-folder-order-end');
-        }
+        return $ret;
     }
 }
 ?>

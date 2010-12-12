@@ -206,145 +206,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             case 'save':
                 if ($this->_handler_id === 'edit')
                 {
-                    if (   !empty($this->_topic->symlink)
-                        && !empty($this->_topic->component))
-                    {
-                        $this->_topic->symlink = null;
-                        $this->_topic->update();
-                    }
-
-                    if ($_REQUEST['style'] === '__create')
-                    {
-                        $this->_topic->style = $this->_create_style($this->_topic->name);
-
-                        // Failed to create the new style template
-                        if ($this->_topic->style === '')
-                        {
-                            return false;
-                        }
-
-                        $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
-
-                        if (! $this->_topic->update())
-                        {
-                            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
-                            return false;
-                        }
-                    }
-
-                    $_MIDCOM->auth->request_sudo('midcom.admin.folder');
-                    // Because edit from a symlink edits its target, it is best to keep name properties in sync to get the expected behavior
-                    $qb_topic = midcom_db_topic::new_query_builder();
-                    $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
-                    foreach ($qb_topic->execute() as $symlink_topic)
-                    {
-                        if (empty($symlink_topic->symlink))
-                        {
-                            debug_add("Symlink topic is not a symlink. Query must have failed. " .
-                                "Constraint was: #{$this->_topic->id}", MIDCOM_LOG_ERROR);
-                        }
-                        else
-                        {
-                            if ($symlink_topic->name !== $this->_topic->name)
-                            {
-                                $symlink_topic->name = $this->_topic->name;
-                                // This might fail if the URL name is already taken,
-                                // but in such case we can just ignore it silently which keeps the original value
-                                $symlink_topic->update();
-                            }
-                        }
-                    }
-                    $_MIDCOM->auth->drop_sudo();
-
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
-
-                    // Get the relocation url
-                    $url = preg_replace("/{$old_name}\/\$/", "{$this->_topic->name}/", $prefix);
+                    $url = $this->_update_topic($prefix);
                 }
                 else
                 {
-                    if (!empty($this->_new_topic->symlink))
-                    {
-                        $name = $this->_new_topic->name;
-                        $topic = $this->_new_topic;
-                        while (!empty($topic->symlink))
-                        {
-                            // Only direct symlinks are supported, but indirect symlinks are ok as we change them to direct ones here
-                            $this->_new_topic->symlink = $topic->symlink;
-                            $topic = new midcom_db_topic($topic->symlink);
-                            if (!$topic->guid)
-                            {
-                                debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
-                                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-                                $topic = $this->_new_topic;
-
-                                $this->_new_topic->purge();
-                                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                    "Refusing to create this symlink because its target folder was not found: " .
-                                    midcom_connection::get_error_string()
-                                );
-                                // This will exit
-
-                                break;
-                            }
-                            $name = $topic->name;
-                        }
-                        if ($this->_new_topic->up == $topic->up)
-                        {
-                            $this->_new_topic->purge();
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                "Refusing to create this symlink because it is located in the same " .
-                                "folder as its target. You must have made a mistake. Sorry, but this " .
-                                "was for your own good."
-                            );
-                            // This will exit
-                        }
-                        if ($this->_new_topic->up == $topic->id)
-                        {
-                            $this->_new_topic->purge();
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                "Refusing to create this symlink because its parent folder is the same " .
-                                "folder as its target. You must have made a mistake because this would " .
-                                "have created an infinite loop situation. The whole site would have " .
-                                "been completely and irrevocably broken if this symlink would have been " .
-                                "allowed to exist. Infinite loops can not be allowed. Sorry, but this " .
-                                "was for your own good."
-                            );
-                            // This will exit
-                        }
-                        $this->_new_topic->update();
-                        if (!midcom_admin_folder_folder_management::is_child_listing_finite($topic))
-                        {
-                            $this->_new_topic->purge();
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                "Refusing to create this symlink because it would have created an " .
-                                "infinite loop situation. The whole site would have been completely " .
-                                "and irrevocably broken if this symlink would have been allowed to " .
-                                "exist. Please redesign your usage of symlinks. Infinite loops can " .
-                                "not be allowed. Sorry, but this was for your own good."
-                            );
-                            // This will exit
-                        }
-                        $this->_new_topic->name = $name;
-                        while (!$this->_new_topic->update() && midcom_connection::get_error() == MGD_ERR_DUPLICATE)
-                        {
-                            $this->_new_topic->name .= "-link";
-                        }
-                    }
-
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
-
-                    // Generate name if it is missing
-                    if (!$this->_new_topic->name)
-                    {
-                        $this->_new_topic->name = midcom_helper_misc::generate_urlname_from_string($this->_new_topic->extra);
-                        $this->_new_topic->update();
-                    }
-
-                    // Get the relocation url
-                    $url = "{$prefix}{$this->_new_topic->name}/";
+                    $url = $this->_create_topic($prefix);
                 }
-
                 $_MIDCOM->relocate($url);
                 // This will exit
         }
@@ -398,6 +265,150 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
 
         return true;
+    }
+
+    private function _update_topic($prefix)
+    {
+        if (   !empty($this->_topic->symlink)
+            && !empty($this->_topic->component))
+        {
+            $this->_topic->symlink = null;
+            $this->_topic->update();
+        }
+
+        if ($_REQUEST['style'] === '__create')
+        {
+            $this->_topic->style = $this->_create_style($this->_topic->name);
+
+            // Failed to create the new style template
+            if ($this->_topic->style === '')
+            {
+                return false;
+            }
+
+            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('new style created'));
+
+            if (! $this->_topic->update())
+            {
+                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), sprintf($this->_l10n->get('could not save folder: %s'), midcom_connection::get_error_string()));
+                return false;
+            }
+        }
+
+        $_MIDCOM->auth->request_sudo('midcom.admin.folder');
+        // Because edit from a symlink edits its target, it is best to keep name properties in sync to get the expected behavior
+        $qb_topic = midcom_db_topic::new_query_builder();
+        $qb_topic->add_constraint('symlink', '=', $this->_topic->id);
+        foreach ($qb_topic->execute() as $symlink_topic)
+        {
+            if (empty($symlink_topic->symlink))
+            {
+                debug_add("Symlink topic is not a symlink. Query must have failed. " .
+                    "Constraint was: #{$this->_topic->id}", MIDCOM_LOG_ERROR);
+            }
+            else
+            {
+                if ($symlink_topic->name !== $this->_topic->name)
+                {
+                    $symlink_topic->name = $this->_topic->name;
+                    // This might fail if the URL name is already taken,
+                    // but in such case we can just ignore it silently which keeps the original value
+                    $symlink_topic->update();
+                }
+            }
+        }
+        $_MIDCOM->auth->drop_sudo();
+
+        $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder saved'));
+
+        // Get the relocation url
+        $url = preg_replace("/{$old_name}\/\$/", "{$this->_topic->name}/", $prefix);
+        return $url;
+    }
+
+    private function create_topic($prefix)
+    {
+        if (!empty($this->_new_topic->symlink))
+        {
+            $name = $this->_new_topic->name;
+            $topic = $this->_new_topic;
+            while (!empty($topic->symlink))
+            {
+                // Only direct symlinks are supported, but indirect symlinks are ok as we change them to direct ones here
+                $this->_new_topic->symlink = $topic->symlink;
+                $topic = new midcom_db_topic($topic->symlink);
+                if (!$topic->guid)
+                {
+                    debug_add("Could not get target for symlinked topic #{$this->_new_topic->id}: " .
+                        midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                    $topic = $this->_new_topic;
+
+                    $this->_new_topic->purge();
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                        "Refusing to create this symlink because its target folder was not found: " .
+                        midcom_connection::get_error_string()
+                    );
+                    // This will exit
+
+                    break;
+                }
+                $name = $topic->name;
+            }
+            if ($this->_new_topic->up == $topic->up)
+            {
+                $this->_new_topic->purge();
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                    "Refusing to create this symlink because it is located in the same " .
+                    "folder as its target. You must have made a mistake. Sorry, but this " .
+                    "was for your own good."
+                );
+                // This will exit
+            }
+            if ($this->_new_topic->up == $topic->id)
+            {
+                $this->_new_topic->purge();
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                    "Refusing to create this symlink because its parent folder is the same " .
+                    "folder as its target. You must have made a mistake because this would " .
+                    "have created an infinite loop situation. The whole site would have " .
+                    "been completely and irrevocably broken if this symlink would have been " .
+                    "allowed to exist. Infinite loops can not be allowed. Sorry, but this " .
+                    "was for your own good."
+                );
+                // This will exit
+            }
+            $this->_new_topic->update();
+            if (!midcom_admin_folder_folder_management::is_child_listing_finite($topic))
+            {
+                $this->_new_topic->purge();
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                    "Refusing to create this symlink because it would have created an " .
+                    "infinite loop situation. The whole site would have been completely " .
+                    "and irrevocably broken if this symlink would have been allowed to " .
+                    "exist. Please redesign your usage of symlinks. Infinite loops can " .
+                    "not be allowed. Sorry, but this was for your own good."
+                );
+                // This will exit
+            }
+            $this->_new_topic->name = $name;
+            while (!$this->_new_topic->update() && midcom_connection::get_error() == MGD_ERR_DUPLICATE)
+            {
+                $this->_new_topic->name .= "-link";
+            }
+        }
+
+        $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.folder'), $this->_l10n->get('folder created'));
+
+        // Generate name if it is missing
+        if (!$this->_new_topic->name)
+        {
+            $this->_new_topic->name = midcom_helper_misc::generate_urlname_from_string($this->_new_topic->extra);
+            $this->_new_topic->update();
+        }
+
+        // Get the relocation url
+        $url = "{$prefix}{$this->_new_topic->name}/";
+        return $url;
     }
 
     /**
