@@ -27,26 +27,6 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-
-        // Match /redirect
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'redirect',
-            'handler' => 'redirect'
-        );
-
-        // Match /settings
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'settings',
-            'handler' => 'settings'
-        );
-
-        // Match /
-        $this->_request_switch[] = array
-        (
-            'handler' => 'frontpage'
-        );
     }
 
     private function _populate_toolbar()

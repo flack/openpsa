@@ -70,7 +70,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_person->require_do('midgard:update');
 
         // Load the controller
-        $data['controller'] = midcom_helper_datamanager2_controller::create('simple', $this->_person);
+        $data['controller'] = $this->get_controller('simple', $this->_person);
 
         // Process the form
         switch ($data['controller']->process_form())

@@ -46,6 +46,16 @@ implements midcom_helper_datamanager2_interfaces_edit
         $_MIDCOM->componentloader->load('midcom.helper.datamanager2');
     }
 
+    public function get_schema_name()
+    {
+        $name = 'config';
+        if (isset($this->_master->handler['schema']))
+        {
+            $name = $this->_master->handler['schema'];
+        }
+        return $name;
+    }
+
     public function load_schemadb()
     {
         if (isset($this->_master->handler['schemadb']))

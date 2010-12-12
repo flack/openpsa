@@ -13,45 +13,5 @@
  */
 class org_openpsa_interviews_viewer extends midcom_baseclasses_components_request
 {
-    public function _on_initialize()
-    {
-        // Match /
-        $this->_request_switch[] = array
-        (
-            'handler' => Array('org_openpsa_interviews_handler_index', 'index'),
-        );
-
-        // Match /campaign/<campaign>
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'campaign',
-            'variable_args' => 1,
-            'handler' => Array('org_openpsa_interviews_handler_campaign', 'summary'),
-        );
-
-        // Match /next/<campaign>
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'next',
-            'variable_args' => 1,
-            'handler' => Array('org_openpsa_interviews_handler_campaign', 'next'),
-        );
-
-        // Match /interview/<member>
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'interview',
-            'variable_args' => 1,
-            'handler' => Array('org_openpsa_interviews_handler_interview', 'interview'),
-        );
-
-        // Match /report/all/<campaign>
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => Array('report', 'all'),
-            'variable_args' => 1,
-            'handler' => Array('org_openpsa_interviews_handler_report', 'all'),
-        );
-    }
 }
 ?>

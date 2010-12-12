@@ -31,79 +31,9 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
         {
             $this->_request_switch['redirect'] = array
             (
-                'handler' => array
-                (
-                    'net_nemein_redirector_handler_tinyurl',
-                    'list',
-                ),
+                'handler' => array('net_nemein_redirector_handler_tinyurl', 'list'),
             );
         }
-
-        // Match /config/
-        $this->_request_switch['config'] = array
-        (
-            'handler' => array
-            (
-                'midcom_core_handler_configdm2',
-                'config',
-            ),
-            'schemadb' => 'file:/net/nemein/redirector/config/schemadb_config.inc',
-            'fixed_args' => array
-            (
-                'config',
-            ),
-        );
-
-        // Match /create/
-        $this->_request_switch['create'] = array
-        (
-            'handler' => array
-            (
-                'net_nemein_redirector_handler_tinyurl',
-                'create',
-            ),
-            'fixed_args' => array
-            (
-                'create',
-            ),
-        );
-
-        // Match /edit/{$tinyurl}/
-        $this->_request_switch['edit'] = array
-        (
-            'handler' => array
-            (
-                'net_nemein_redirector_handler_tinyurl',
-                'edit',
-            ),
-            'fixed_args' => array
-            (
-                'edit',
-            ),
-            'variable_args' => 1,
-        );
-
-        // Match /delete/{$tinyurl}/
-        $this->_request_switch['delete'] = array
-        (
-            'handler' => array
-            (
-                'net_nemein_redirector_handler_tinyurl',
-                'delete',
-            ),
-            'fixed_args' => array
-            (
-                'delete',
-            ),
-            'variable_args' => 1,
-        );
-
-        // Match /{$tinyurl}/
-        $this->_request_switch['tinyurl'] = array
-        (
-            'handler' => 'redirect',
-            'variable_args' => 1,
-        );
     }
 
     /**

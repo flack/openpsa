@@ -15,39 +15,6 @@
  */
 class midcom_helper_search_viewer extends midcom_baseclasses_components_request
 {
-    /**
-     * Nothing fancy, defines the request switch.
-     */
-    public function _on_initialize()
-    {
-        // Default search form, no args, Basic search from
-        $this->_request_switch['basic'] = array
-        (
-            'handler' => 'searchform'
-        );
-
-        // Resultlists, controlled using HTTP GET/POST
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'result',
-            'handler' => 'result'
-        );
-
-        // Advanced search form, no args
-        $this->_request_switch['advanced'] = array
-        (
-            'fixed_args' => 'advanced',
-            'handler' => 'searchform'
-        );
-
-        // OpenSearch description file
-        $this->_request_switch['opensearch_description'] = array
-        (
-            'fixed_args' => 'opensearch.xml',
-            'handler' => 'opensearchdescription'
-        );
-    }
-
     public function _on_handle($handler_id, $args)
     {
         $_MIDCOM->add_link_head

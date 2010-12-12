@@ -22,26 +22,6 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-
-        // Match /applet
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'applet',
-            'handler' => 'applet'
-        );
-
-        // Match /summary
-        $this->_request_switch[] = array
-        (
-            'fixed_args' => 'summary',
-            'handler' => 'summary'
-        );
-
-        // Match /
-        $this->_request_switch[] = array
-        (
-            'handler' => 'frontpage'
-        );
     }
 
     /**

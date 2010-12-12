@@ -98,95 +98,6 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
 {
     public function _on_initialize()
     {
-        // DM2 configuration screen
-        $this->_request_switch['config'] = array
-        (
-            'handler' => array('net_nehmer_account_handler_configuration', 'configuration'),
-            'fixed_args' => array('config'),
-        );
-
-        // INVITATION
-        $this->_request_switch['sent_invites'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_invitation', 'sent_invites'),
-            'fixed_args' => Array('sent_invites'),
-        );
-
-        $this->_request_switch['invite'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_invitation', 'invite'),
-            'fixed_args' => Array('invite'),
-        );
-        $this->_request_switch['delete_invite'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_invitation', 'delete_invite'),
-            'fixed_args' => Array('delete_invite'),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['remind_invite'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_invitation', 'remind_invite'),
-            'fixed_args' => Array('remind_invite'),
-            'variable_args' => 1,
-        );
-
-        // VIEW LINKS
-        $this->_request_switch['root'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_view', 'view'),
-        );
-        $this->_request_switch['self'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_view', 'view'),
-            'fixed_args' => Array('me'),
-        );
-        $this->_request_switch['self_quick'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_view', 'view'),
-            'fixed_args' => Array('me', 'quick'),
-        );
-        $this->_request_switch['other'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_view', 'view'),
-            'fixed_args' => 'view',
-            'variable_args' => 1,
-        );
-        $this->_request_switch['other_quick'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_view', 'view'),
-            'fixed_args' => Array('view', 'quick'),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['list'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_list', 'list'),
-            'fixed_args' => Array('list'),
-        );
-        $this->_request_switch['list_by_category'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_list', 'list_by_category'),
-            'fixed_args' => Array('list', 'category'),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['list_by_alpha'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_list', 'list'),
-            'fixed_args' => Array('list', 'alpha'),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['list_random'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_list', 'list_random'),
-            'fixed_args' => Array('list', 'random'),
-            'variable_args' => 1,
-        );
-        // EDIT LINKS
-        $this->_request_switch['edit'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_edit', 'edit'),
-            'fixed_args' => Array('edit'),
-        );
-
         if ($this->_config->get('allow_socialweb'))
         {
             $this->_request_switch['socialweb'] = Array
@@ -222,17 +133,6 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
                 'fixed_args' => Array('username'),
             );
         }
-        $this->_request_switch['lostpassword_reset'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_maintain', 'lostpassword_reset'),
-            'fixed_args' => Array('lostpassword', 'reset'),
-            'variable_args' => 2,
-        );
-        $this->_request_switch['lostpassword'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_maintain', 'lostpassword'),
-            'fixed_args' => Array('lostpassword'),
-        );
 
         if ($this->_config->get('allow_cancel_membership'))
         {
@@ -242,44 +142,6 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
                 'fixed_args' => Array('cancel_membership'),
             );
         }
-
-        // ADMIN LINKS
-        $this->_request_switch['admin_edit'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_edit', 'edit'),
-            'fixed_args' => Array('admin', 'edit'),
-            'variable_args' => 1,
-        );
-
-        // REGISTRATION LINKS
-        $this->_request_switch['register_finish'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_register', 'finish'),
-            'fixed_args' => Array('register','finish'),
-        );
-        $this->_request_switch['register_select_type'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_register', 'select_type'),
-            'fixed_args' => Array('register'),
-        );
-        $this->_request_switch['register'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_register', 'register'),
-            'fixed_args' => Array('register'),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['register_activate'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_register', 'activate'),
-            'fixed_args' => Array('register', 'activate'),
-            'variable_args' => 2,
-        );
-        $this->_request_switch['register_invitation'] = Array
-        (
-            'handler' => Array('net_nehmer_account_handler_register', 'register_invitation'),
-            'fixed_args' => Array('register_invitation'),
-            'variable_args' => 1,
-        );
 
         // Pending registrations
         if ($this->_config->get('require_activation'))
@@ -308,8 +170,8 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         {
             $this->_request_switch['other_direct'] = Array
             (
-            'handler' => Array('net_nehmer_account_handler_view', 'view'),
-            'variable_args' => 1,
+                'handler' => Array('net_nehmer_account_handler_view', 'view'),
+                'variable_args' => 1,
             );
         }
 

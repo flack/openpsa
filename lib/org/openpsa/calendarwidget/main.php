@@ -131,7 +131,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
      *
      * @var Array
      */
-    private $_resources = Array();
+    public $_resources = Array();
 
     /**
      * Cache of reservations we've shown already

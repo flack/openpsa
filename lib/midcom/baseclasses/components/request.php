@@ -409,6 +409,9 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         {
             $this->_register_core_plugin_namespaces();
         }
+
+        $this->_request_switch = midcom_baseclasses_components_configuration::get($this->_component, 'routes');
+
         $this->_on_initialize();
     }
 

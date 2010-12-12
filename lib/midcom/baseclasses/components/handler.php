@@ -132,7 +132,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         {
             $this->_component = $master->_component;
         }
-
         $this->_on_initialize();
     }
 

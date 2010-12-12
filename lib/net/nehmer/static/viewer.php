@@ -38,102 +38,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
 
         $GLOBALS['net_nehmer_static_mode'] = 'view';
 
-        // *** Prepare the request switch ***
-
-        // Administrative stuff
-        $this->_request_switch['edit'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_admin',
-                'edit',
-            ),
-            'fixed_args' => array
-            (
-                'edit',
-            ),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['delete'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_admin',
-                'delete',
-            ),
-            'fixed_args' => array
-            (
-                'delete',
-            ),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['delete_link'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_admin',
-                'deletelink',
-            ),
-            'fixed_args' => array
-            (
-                'delete',
-                'link',
-            ),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['create_link'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_link',
-                'create',
-            ),
-            'fixed_args' => array
-            (
-                'create',
-                'link',
-            ),
-        );
-        $this->_request_switch['create'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_create',
-                'create',
-            ),
-            'fixed_args' => array
-            (
-                'create',
-            ),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['createindex'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_create',
-                'create',
-            ),
-            'fixed_args' => array
-            (
-                'createindex',
-            ),
-            'variable_args' => 1,
-        );
-        $this->_request_switch['config'] = array
-        (
-            'handler' => array
-            (
-                'midcom_core_handler_configdm2',
-                'config',
-            ),
-            'fixed_args' => array
-            (
-                'config',
-            ),
-        );
-
-
         // View mode handler, set index viewer according to autoindex setting.
         // These, especially the general view handler, must come last, otherwise we'll hide other
         // handlers
@@ -141,49 +45,16 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         {
             $this->_request_switch['autoindex'] = array
             (
-                'handler' => array
-                (
-                    'net_nehmer_static_handler_autoindex',
-                    'autoindex',
-                ),
+                'handler' => array('net_nehmer_static_handler_autoindex', 'autoindex'),
             );
         }
         else
         {
             $this->_request_switch['index'] = array
             (
-                'handler' => array
-                (
-                    'net_nehmer_static_handler_view',
-                    'view',
-                ),
+                'handler' => array('net_nehmer_static_handler_view', 'view'),
             );
         }
-
-        // AJAX version of view, which skips style.
-        $this->_request_switch['view_raw'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_view',
-                'view',
-            ),
-            'fixed_args' => array
-            (
-                'raw',
-            ),
-            'variable_args' => 1,
-        );
-
-        $this->_request_switch['view'] = array
-        (
-            'handler' => array
-            (
-                'net_nehmer_static_handler_view',
-                'view',
-            ),
-            'variable_args' => 1,
-        );
     }
 
     /**
