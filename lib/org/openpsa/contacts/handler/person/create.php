@@ -28,7 +28,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_group = null;
 
-    public function load_schemab()
+    public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
     }
@@ -36,7 +36,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * This is what Datamanager calls to actually create an invoice
      */
-    function & dm2_create_callback(&$datamanager)
+    public function & dm2_create_callback(&$datamanager)
     {
         $person = new org_openpsa_contacts_person_dba();
         $person->firstname = "";

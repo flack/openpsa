@@ -33,25 +33,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
     private $_handler_id;
 
     /**
-     * Constructor method
-     */
-    public function __construct()
-    {
-        $this->_component = 'midcom.admin.folder';
-    }
-
-    /**
      * Load the schemadb and other midcom.admin.folder specific stuff
      */
     public function _on_initialize()
     {
         // Load the configuration
         $_MIDCOM->componentloader->load('midcom.admin.folder');
-
-        if (!class_exists('midcom_helper_datamanager2'))
-        {
-            $_MIDCOM->componentloader->load('midcom.helper.datamanager2');
-        }
     }
 
     /**

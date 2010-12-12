@@ -20,14 +20,6 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      */
     private $_object = null;
 
-    /**
-     * Simple default constructor.
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
     public function _on_initialize()
     {
         // Ensure we get the correct styles

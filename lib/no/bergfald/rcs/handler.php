@@ -32,7 +32,7 @@
  *
  * @package no.bergfald.rcs
  */
-class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
+class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 {
     /**
      * Current object Guid.
@@ -59,44 +59,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_handler
     private function _l10n_get($string_id)
     {
         return $_MIDCOM->i18n->get_string($string_id, 'no.bergfald.rcs');
-    }
-
-    /**
-     * Static function, returns the request array for the rcs functions.
-     *
-     * @return array of request params
-     * @static
-     */
-    function get_plugin_handlers()
-    {
-        $request_switch = array();
-
-        $request_switch[] =  Array
-        (
-            'handler' => array('no_bergfald_rcs_handler','history'),
-            'variable_args' => 1,
-        );
-
-        $request_switch[] =  Array
-        (
-            'fixed_args' => array('preview'),
-            'handler' => array('no_bergfald_rcs_handler','preview'),
-            'variable_args' => 2,
-        );
-        $request_switch[] =  Array
-        (
-            'fixed_args' => array('diff'),
-            'handler' => array('no_bergfald_rcs_handler','diff'),
-            'variable_args' => 3,
-        );
-        $request_switch[] =  Array
-        (
-            'fixed_args' => array('restore'),
-            'handler' => array('no_bergfald_rcs_handler','restore'),
-            'variable_args' => 2,
-        );
-
-        return $request_switch;
     }
 
     /**

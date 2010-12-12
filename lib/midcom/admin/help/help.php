@@ -11,7 +11,7 @@
  *
  * @package midcom.admin.help
  */
-class midcom_admin_help_help extends midcom_baseclasses_components_handler
+class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 {
     var $mgdtypes = array
     (
@@ -38,30 +38,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_handler
         {
             $this->mgdtypes[MGD_TYPE_NONE] = 'none';
         }
-    }
-
-    function get_plugin_handlers()
-    {
-        return array
-        (
-            // Handle / MidCOM help system welcome screen
-            'welcome' => array
-            (
-                'handler' => array('midcom_admin_help_help', 'welcome'),
-            ),
-            // Handle /<component> component documentation ToC
-            'component' => array
-            (
-                'handler' => array('midcom_admin_help_help', 'component'),
-                'variable_args' => 1,
-            ),
-            // Handle /<component>/<help id> display help page from a component
-            'help' => array
-            (
-                'handler' => array('midcom_admin_help_help', 'help'),
-                'variable_args' => 2,
-            ),
-        );
     }
 
     public function _on_initialize()

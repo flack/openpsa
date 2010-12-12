@@ -6,7 +6,7 @@
 /**
  * @package midcom.admin.settings
  */
-class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
+class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
 {
     /**
      * The config storage to use
@@ -27,14 +27,12 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
 
     public function _on_initialize()
     {
+        $_MIDCOM->auth->require_user_do('midcom.admin.settings:access', null, 'midcom_admin_settings_editor');
+
         $this->_config_storage = new midcom_db_page((int) $_MIDGARD['page']);
 
-        require_once MIDCOM_ROOT . '/midcom/admin/folder/folder_management.php';
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.folder');
-
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.settings');
-        $this->_debug_prefix = "midcom_admin_settings::";
 
         $this->_request_data['l10n'] = $this->_l10n;
         $_MIDCOM->cache->content->no_cache();
@@ -43,24 +41,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_handler
 
         // Initialize Asgard plugin
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.settings'), $this->_request_data);
-    }
-
-    function get_plugin_handlers()
-    {
-        $_MIDCOM->auth->require_user_do('midcom.admin.settings:access', null, 'midcom_admin_settings_editor');
-
-        return array
-        (
-            'index' => array
-            (
-                'handler' => array('midcom_admin_settings_editor', 'edit'),
-            ),
-            'edit' => array
-            (
-                'handler' => array('midcom_admin_settings_editor', 'edit'),
-                'variable_args' => 1,
-            ),
-        );
     }
 
     /**

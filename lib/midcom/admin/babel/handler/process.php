@@ -11,8 +11,6 @@
  */
 class midcom_admin_babel_handler_process extends midcom_baseclasses_components_handler
 {
-    private $_debug_prefix;
-
     /** which language is edited */
     private $_lang = 'en';
 
@@ -28,9 +26,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
     public function _on_initialize()
     {
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.babel');
-        $this->_request_data['l10n'] = $this->_l10n;
-        $this->_debug_prefix = 'midcom_admin_babel::';
         $this->_save_new = false;
         $this->_save_update = false;
 

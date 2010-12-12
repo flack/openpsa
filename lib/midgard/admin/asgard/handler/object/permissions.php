@@ -63,14 +63,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_rendered_row_actions = array();
 
-    /**
-     * Simple default constructor.
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
     public function _on_initialize()
     {
         // Ensure we get the correct styles

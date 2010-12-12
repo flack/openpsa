@@ -21,14 +21,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     private $_reflectors = array();
 
     /**
-     * Simple default constructor.
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
-    /**
      * Startup routines
      */
     public function _on_initialize()

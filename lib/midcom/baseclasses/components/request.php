@@ -514,6 +514,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
             // We have a match.
             $this->_handler =& $this->_request_switch[$key];
+
             $this->_handler['id'] = $key;
             $this->_handler['args'] = array_slice($argv, $fixed_args_count);
 
@@ -654,6 +655,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
                     "Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
                 // This will exit
+            }
+
+            //For plugins, set the component name explicitly so that L10n and config can be found
+            if (isset($this->_handler['plugin']))
+            {
+                $this->_handler['handler'][0]->_component = $this->_handler['plugin'];
             }
 
             $this->_handler['handler'][0]->initialize($this);
@@ -858,9 +865,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         // Load remaining configuration, and prepare the plugin,
         // errors are logged by the callers.
-        $handlers = call_user_func(array($plugin_config['class'], 'get_plugin_handlers'));
+        $plugin_object = new $plugin_config['class'];
+        $plugin_object->_component = preg_replace('/([a-z0-9]+)_([a-z0-9]+)_([a-z0-9]+).+/', '$1.$2.$3', $plugin_config['class']);
 
-        return $this->_prepare_plugin($namespace, $plugin, $handlers);
+        $handlers = $plugin_object->get_plugin_handlers();
+
+        return $this->_prepare_plugin($namespace, $plugin, $handlers, $plugin_object->_component);
     }
 
     /**
@@ -930,9 +940,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
      * @param Array $handlers The plugin specific handlers without the appropriate prefixes.
+     * @param string $component The plugin's component name.
      * @return boolean Indicating Success
      */
-    public function _prepare_plugin ($namespace, $plugin, $handlers)
+    public function _prepare_plugin ($namespace, $plugin, $handlers, $component)
     {
         foreach ($handlers as $identifier => $handler_config)
         {
@@ -953,6 +964,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                     $handler_config['fixed_args']
                 );
             }
+            $handler_config['plugin'] = $component;
 
             $this->_request_switch["__{$namespace}-{$plugin}-{$identifier}"] = $handler_config;
         }

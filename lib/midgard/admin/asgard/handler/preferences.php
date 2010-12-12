@@ -29,14 +29,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     private $_status = true;
 
     /**
-     * Connect to the parent class constructor
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
-    /**
      * Startup routines
      */
     public function _on_initialize()

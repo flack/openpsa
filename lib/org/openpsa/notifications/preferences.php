@@ -11,33 +11,9 @@
  *
  * @package org.openpsa.notifications
  */
-class org_openpsa_notifications_preferences extends midcom_baseclasses_components_handler
+class org_openpsa_notifications_preferences extends midcom_baseclasses_components_plugin
 {
     private $_schemadb;
-
-    /**
-     * Simple constructor, which only initializes the parent constructor.
-     */
-    public function __construct()
-    {
-        $this->_component = 'org.openpsa.notifications';
-    }
-
-    /**
-     * Get the plugin handlers, which act alike with Request Switches of MidCOM
-     * Baseclasses Components (midcom.baseclasses.components.request)
-     */
-    public function get_plugin_handlers()
-    {
-        return array
-        (
-            'edit' => array
-            (
-                'handler' => array('org_openpsa_notifications_preferences', 'edit'),
-                'fixed_args' => array('edit'),
-            ),
-        );
-    }
 
     private function _list_notifiers()
     {

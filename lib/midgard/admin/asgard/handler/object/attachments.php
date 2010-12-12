@@ -34,22 +34,13 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      */
     private $_file = null;
 
-    /**
-     * Simple constructor
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.styleeditor/style-editor.css');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
-    }
-
     public function _on_initialize()
     {
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.styleeditor/style-editor.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/attachments/layout.css');
     }
 
     /**

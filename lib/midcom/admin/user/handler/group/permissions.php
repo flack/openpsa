@@ -15,22 +15,11 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
 {
     private $_group = null;
 
-    /**
-     * Simple constructor
-     */
-    public function __construct()
-    {
-        $this->_component = 'midcom.admin.user';
-    }
-
     public function _on_initialize()
     {
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
-        $this->_request_data['l10n'] = $this->_l10n;
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.user/usermgmt.css');
 
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
+        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'), $this->_request_data);
     }
 
     /**

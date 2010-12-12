@@ -12,7 +12,7 @@
  *
  * @package midcom.admin.libconfig
  */
-class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_request
+class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_plugin
 {
     /**
      * Get the plugin handlers, which act alike with Request Switches of MidCOM
@@ -20,48 +20,12 @@ class midcom_admin_libconfig_plugin extends midcom_baseclasses_components_reques
      *
      * @return mixed Array of the plugin handlers
      */
-    public function get_plugin_handlers()
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.libconfig');
 
         $_MIDCOM->auth->require_valid_user();
-
-        return array
-        (
-            /**
-             * List libraries
-             *
-             * Match /
-             */
-            'index' => array
-            (
-                'handler' => array ('midcom_admin_libconfig_handler_list', 'list'),
-            ),
-            /**
-             * Edit library config
-             *
-             * Match /edit/<component>/
-             */
-            'edit' => array
-            (
-                'handler' => array ('midcom_admin_libconfig_handler_edit', 'edit'),
-                'fixed_args' => array ('edit'),
-                'variable_args' => 1,
-            ),
-            /**
-             * Show current settings
-             *
-             * Match /view/<component>/
-             */
-            'view' => array
-            (
-                'handler' => array ('midcom_admin_libconfig_handler_view', 'view'),
-                'fixed_args' => array ('view'),
-                'variable_args' => 1,
-            ),
-
-        );
     }
 
     public function get_libraries()

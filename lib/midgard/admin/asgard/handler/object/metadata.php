@@ -30,14 +30,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_controller = null;
 
-    /**
-     * Constructor, call for the class parent constructor method.
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
     public function _on_initialize()
     {
         // Ensure we get the correct styles

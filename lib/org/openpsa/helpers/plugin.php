@@ -11,27 +11,7 @@
  *
  * @package org.openpsa.helpers
  */
-class org_openpsa_helpers_plugin extends midcom_baseclasses_components_purecode
+class org_openpsa_helpers_plugin extends midcom_baseclasses_components_plugin
 {
-    public function __construct()
-    {
-        $this->_component = 'org.openpsa.helpers';
-        parent::__construct();
-    }
-
-    static function get_plugin_handlers()
-    {
-        $switch = array();
-
-        // Match /chooser/create/<type>/
-        $switch['render_sort'] = array
-        (
-            'handler' => array('org_openpsa_helpers_handler_chooser', 'create'),
-            'fixed_args' => array('chooser', 'create'),
-            'variable_args' => 1,
-        );
-
-        return $switch;
-    }
 }
 ?>

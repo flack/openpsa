@@ -16,14 +16,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 {
     private $_controller;
 
-    /**
-     * Simple constructor
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
     public function _on_initialize()
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/libconfig.css');

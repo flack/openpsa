@@ -54,11 +54,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      */
     public $_object = null;
 
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
     /**
      * Get the localized strings
      */
@@ -112,9 +107,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $_MIDCOM->style->prepend_component_styledir('midgard.admin.asgard');
         $_MIDCOM->skip_page_style = true;
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midgard.admin.asgard/rcs.css");
-
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('midgard.admin.asgard');
-        $this->_request_data['l10n'] =& $this->_l10n;
 
         // Load the helper class
         $_MIDCOM->componentloader->load('midcom.helper.xml');

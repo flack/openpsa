@@ -20,14 +20,6 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      */
     private $_object = null;
 
-    /**
-     * Constructor, call for the class parent constructor method.
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
     public function _on_initialize()
     {
         // Ensure we get the correct styles

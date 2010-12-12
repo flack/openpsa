@@ -9,40 +9,14 @@
 /**
  * @package midcom.admin.babel
  */
-class midcom_admin_babel_plugin extends midcom_baseclasses_components_handler
+class midcom_admin_babel_plugin extends midcom_baseclasses_components_plugin
 {
-    function get_plugin_handlers()
+    function _on_initialize()
     {
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->load_library('midcom.admin.babel');
 
         $_MIDCOM->auth->require_user_do('midcom.admin.babel:access', null, 'midcom_admin_babel_plugin');
-
-        return array
-        (
-           'select' => array
-            (
-                'handler' => Array('midcom_admin_babel_handler_process', 'select'),
-            ),
-            'status' => array
-            (
-                'handler' => Array('midcom_admin_babel_handler_process', 'status'),
-                'fixed_args' => 'status',
-                'variable_args' => 1,
-            ),
-            'edit' => array
-            (
-                'handler' => Array('midcom_admin_babel_handler_process', 'edit'),
-                'fixed_args' => 'edit',
-                'variable_args' => 2,
-            ),
-            'save' => array
-            (
-                'handler' => Array('midcom_admin_babel_handler_process', 'save'),
-                'fixed_args' => 'save',
-                'variable_args' => 2,
-            ),
-        );
     }
 
     function calculate_language_status($lang)

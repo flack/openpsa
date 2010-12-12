@@ -15,19 +15,8 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
 {
     private $_persons = array();
 
-    /**
-     * Simple constructor
-     */
-    public function __construct()
-    {
-        $this->_component = 'midcom.admin.user';
-    }
-
     public function _on_initialize()
     {
-        $this->_l10n = $_MIDCOM->i18n->get_l10n('midcom.admin.user');
-        $this->_request_data['l10n'] = $this->_l10n;
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.user/usermgmt.css');
 
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');

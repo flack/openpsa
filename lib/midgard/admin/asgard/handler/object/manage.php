@@ -63,14 +63,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
     private $_reflector = null;
 
     /**
-     * Simple default constructor.
-     */
-    public function __construct()
-    {
-        $this->_component = 'midgard.admin.asgard';
-    }
-
-    /**
      * Helper function to retrieve the object from the db
      *
      * @param string $guid GUID

@@ -11,14 +11,8 @@
  *
  * @package org.openpsa.relatedto
  */
-class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecode
+class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
 {
-    public function __construct()
-    {
-        $this->_component = 'org.openpsa.relatedto';
-        parent::__construct();
-    }
-
     /**
      * Shorthand for creating a relatedto object.
      *
@@ -193,89 +187,6 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_purecod
         }
         return $ret;
     }
-
-    static function get_plugin_handlers()
-    {
-        $switch = array();
-
-        // Match render/<objguid>/<mode>/<sort>
-        $switch['render_sort'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_relatedto', 'render'),
-            'fixed_args' => array('render'),
-            'variable_args' => 3,
-        );
-
-        // Match render/<objguid>/<mode>
-        $switch['render'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_relatedto', 'render'),
-            'fixed_args' => array('render'),
-            'variable_args' => 2,
-        );
-
-        // Match delete/<guid>
-        $switch['delete'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_relatedto', 'delete'),
-            'fixed_args' => array('delete'),
-            'variable_args' => 1,
-        );
-
-        // Match ajax/<mode>/<objguid>
-        $switch['ajax_object'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_relatedto', 'ajax'),
-            'fixed_args' => array('ajax'),
-            'variable_args' => 2,
-        );
-
-        // Match ajax/<mode>
-        $switch['ajax'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_relatedto', 'ajax'),
-            'fixed_args' => array('ajax'),
-            'variable_args' => 1,
-        );
-        // Match journalentry/list/<mode>
-        $switch['journal_entry_list'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_journalentry', 'list'),
-            'fixed_args' => array('journalentry' , 'list'),
-            'variable_args' => 1,
-        );
-        // Match journalentry/create/<guid>
-        $switch['journal_entry_create'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_journalentry', 'create'),
-            'fixed_args' => array('journalentry' , 'create'),
-            'variable_args' => 1,
-        );
-        // Match journalentry/edit/<guid>/
-        $switch['journal_entry_edit'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_journalentry', 'edit'),
-            'fixed_args' => array('journalentry' , 'edit'),
-            'variable_args' => 1,
-        );
-        // Match journalentry/delete/<guid>/
-        $switch['journal_entry_delete'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_journalentry', 'delete'),
-            'fixed_args' => array('journalentry' , 'delete'),
-            'variable_args' => 1,
-        );
-        // Match journalentry/<guid>/<mode>
-        $switch['journal_entry'] = array
-        (
-            'handler' => array('org_openpsa_relatedto_handler_journalentry', 'entry'),
-            'fixed_args' => array('journalentry'),
-            'variable_args' => 2,
-        );
-
-        return $switch;
-    }
-
 
     /**
      * Helper function that adds the necessary JS/CSS to HTML head
