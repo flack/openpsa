@@ -97,28 +97,6 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
     {
         $readonly = $this->_field['readonly'];
 
-        if ($readonly)
-        {
-            $lock['text'] = ' readonly="readonly"';
-            $lock['input'] = ' disabled="disabled"';
-        }
-        else
-        {
-            $lock['text'] = '';
-            $lock['input'] = '';
-        }
-
-        if ($this->_type->allow_multiple)
-        {
-            $input_type = 'checkbox';
-            $name_suffix = '[]';
-        }
-        else
-        {
-            $input_type = 'radio';
-            $name_suffix = '';
-        }
-
         // Show the help text
         // jQuery help text, hide for now
         $html  = "<p style=\"display: none;\" class=\"sortable-help-jquery\">\n";
@@ -132,8 +110,6 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
         $html .= "<ul id=\"{$this->name}_sortable\" class=\"midcom_helper_datamanager2_widget_sortable\">\n";
 
         $this->_elements['s_header'] = HTML_QuickForm::createElement('static', 's_header', '', $html);
-
-        $i = 1;
 
         // Temporary array for the selection set
         $temp = array();
@@ -162,10 +138,43 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
             $temp[$key] = $value;
         }
 
-        // Reset the form data
-        $html = '';
+        $html = $this->_render_items($temp);
 
-        foreach ($temp as $key => $value)
+        // Add the element HTML to the form
+        $this->_elements['s_body'] = HTML_QuickForm::createElement('static', 's_body', '', $html);
+
+        $this->_elements['s_footer'] = HTML_QuickForm::createElement('static', 's_footer', '', "</ul>\n");
+
+        if (!$readonly)
+        {
+            $html = "<script type=\"text/javascript\">\n";
+            $html .= "    // <![CDATA[\n";
+            $html .= "        jQuery('#{$this->name}_sortable').create_sortable();\n";
+            $html .= "    // ]]>\n";
+            $html .= "</script>\n";
+
+            // Add the JavaScript HTML to the form
+            $this->_elements['s_javascript'] = HTML_QuickForm::createElement('static', 's_body', '', $html);
+        }
+    }
+
+    private function _render_items($array)
+    {
+        $html = '';
+        $i = 1;
+
+        if ($this->_type->allow_multiple)
+        {
+            $input_type = 'checkbox';
+            $name_suffix = '[]';
+        }
+        else
+        {
+            $input_type = 'radio';
+            $name_suffix = '';
+        }
+
+        foreach ($array as $key => $value)
         {
             if (   array_key_exists($key, $this->_type->selection)
                 || $this->select_all)
@@ -199,23 +208,7 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
             $html .= "    </li>\n";
             $i++;
         }
-
-        // Add the element HTML to the form
-        $this->_elements['s_body'] = HTML_QuickForm::createElement('static', 's_body', '', $html);
-
-        $this->_elements['s_footer'] = HTML_QuickForm::createElement('static', 's_footer', '', "</ul>\n");
-
-        if (!$readonly)
-        {
-            $html = "<script type=\"text/javascript\">\n";
-            $html .= "    // <![CDATA[\n";
-            $html .= "        jQuery('#{$this->name}_sortable').create_sortable();\n";
-            $html .= "    // ]]>\n";
-            $html .= "</script>\n";
-
-            // Add the JavaScript HTML to the form
-            $this->_elements['s_javascript'] = HTML_QuickForm::createElement('static', 's_body', '', $html);
-        }
+        return $html;
     }
 
     /**

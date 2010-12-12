@@ -136,62 +136,67 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
             || $result == 'next')
         {
             // Ok, we can save now. At this point we already have a content object.
-            if (! $this->datamanager->validate())
-            {
-                // In case that the type validation fails, we bail with generate_error, until
-                foreach ($this->datamanager->validation_errors as $field => $error)
-                {
-                    $this->formmanager->form->setElementError($field, $error);
-                }
-
-                debug_add("Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors), MIDCOM_LOG_ERROR);
-
-                $dm2_label = $_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2');
-
-                foreach ($this->datamanager->validation_errors as $name => $message)
-                {
-                    if (!isset($this->formmanager->_schema->fields[$name]))
-                    {
-                        $label = $name;
-                    }
-                    else
-                    {
-                        $label = $this->formmanager->_schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
-                    }
-
-                    $_MIDCOM->uimessages->add
-                    (
-                        $dm2_label,
-                        sprintf($_MIDCOM->i18n->get_string('validation failed for field %s: %s', 'midcom.helper.datamanager2'), $label, $message),
-                        'error'
-                    );
-                }
-
-                return 'edit';
-            }
-
-            if ($result == 'save')
-            {
-                if (! $this->datamanager->save())
-                {
-                    if (count($this->datamanager->validation_errors) > 0)
-                    {
-                        debug_add('Type validation failed. Reverting to edit mode transparently.');
-                        debug_print_r('Validation error listing:', $this->datamanager->validation_errors);
-                        $result = 'edit';
-                    }
-                    else
-                    {
-                        // It seems to be a critical error.
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                            'Failed to save the data to disk, last Midgard error: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
-                        // This will exit.
-                    }
-                }
-            }
+            $result = $this->_save_form($result);
         }
         // all others stay untouched.
 
+        return $result;
+    }
+
+    private function _save_form($result)
+    {
+        if (! $this->datamanager->validate())
+        {
+            // In case that the type validation fails, we bail with generate_error, until
+            foreach ($this->datamanager->validation_errors as $field => $error)
+            {
+                $this->formmanager->form->setElementError($field, $error);
+            }
+
+            debug_add("Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors), MIDCOM_LOG_ERROR);
+            $dm2_label = $_MIDCOM->i18n->get_string('midcom.helper.datamanager2', 'midcom.helper.datamanager2');
+
+            foreach ($this->datamanager->validation_errors as $name => $message)
+            {
+                if (!isset($this->formmanager->_schema->fields[$name]))
+                {
+                    $label = $name;
+                }
+                else
+                {
+                    $label = $this->formmanager->_schema->translate_schema_string($this->formmanager->_schema->fields[$name]['title']);
+                }
+
+                $_MIDCOM->uimessages->add
+                (
+                    $dm2_label,
+                    sprintf($_MIDCOM->i18n->get_string('validation failed for field %s: %s', 'midcom.helper.datamanager2'), $label, $message),
+                    'error'
+                );
+            }
+
+            return 'edit';
+        }
+
+        if ($result == 'save')
+        {
+            if (! $this->datamanager->save())
+            {
+                if (count($this->datamanager->validation_errors) > 0)
+                {
+                    debug_add('Type validation failed. Reverting to edit mode transparently.');
+                    debug_print_r('Validation error listing:', $this->datamanager->validation_errors);
+                    $result = 'edit';
+                }
+                else
+                {
+                    // It seems to be a critical error.
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                        'Failed to save the data to disk, last Midgard error: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
+                    // This will exit.
+                }
+            }
+        }
         return $result;
     }
 }

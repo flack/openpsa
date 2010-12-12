@@ -597,77 +597,15 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
         if (   $this->option_callback !== null
             && $this->enable_saving_to_callback)
         {
-            if (   $this->allow_other
-                && !empty($this->others))
-            {
-                $tags = array_merge($this->selection, $this->others);
-            }
-            else
-            {
-                if (count($this->selection) == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    $tags = $this->selection;
-                }
-            }
-
-            debug_print_r('new tags to be saved to callback',$tags);
-
-            $this->_callback->save_values($tags);
-            return null;
+            $this->_save_to_callback();
+            return;
         }
 
         if (   $this->use_tag_library
             || $this->force_saving_to_tag_library)
         {
-            debug_add("use tag lib");
-
-            if (   $this->allow_other
-                && !empty($this->others))
-            {
-                $merged = array_merge($this->selection, $this->others);
-                foreach ($merged as $k => $tag)
-                {
-                    $tags[$tag] = '';
-                }
-            }
-            else
-            {
-                if (count($this->selection) == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    foreach ($this->selection as $k => $tag)
-                    {
-                        $tags[$tag] = '';
-                    }
-                }
-            }
-
-            debug_print_r('new tags to be saved to n.n.tag',$tags);
-
-            $status = net_nemein_tag_handler::tag_object($this->storage->object, $tags);
-            if (!$status)
-            {
-                debug_print_r('Tried to save the tags',$tags);
-                debug_add("for field {$this->name}, but failed. Ignoring silently.", MIDCOM_LOG_WARN);
-            }
-
-            $tmp_tags = net_nemein_tag_handler::get_object_tags($this->storage->object);
-            $tags = array();
-            foreach ($tmp_tags as $name => $url)
-            {
-                $tags[$name] = $name;
-            }
-
-            debug_print_r("new tags:",$tags);
-
-            return null;
+            $this->_save_to_taglib();
+            return;
         }
 
         switch ($this->multiple_storagemode)
@@ -697,6 +635,75 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                     "The multiple_storagemode '{$this->multiple_storagemode}' is invalid, cannot continue.");
                 // This will exit.
         }
+    }
+
+    private function _save_to_callback()
+    {
+        if (   $this->allow_other
+            && !empty($this->others))
+        {
+            $tags = array_merge($this->selection, $this->others);
+        }
+        else
+        {
+            if (count($this->selection) == 0)
+            {
+                return;
+            }
+            else
+            {
+                $tags = $this->selection;
+            }
+        }
+
+        debug_print_r('new tags to be saved to callback', $tags);
+
+        $this->_callback->save_values($tags);
+    }
+
+    private function _save_to_taglib()
+    {
+        if (   $this->allow_other
+            && !empty($this->others))
+        {
+            $merged = array_merge($this->selection, $this->others);
+            foreach ($merged as $k => $tag)
+            {
+                $tags[$tag] = '';
+            }
+        }
+        else
+        {
+            if (count($this->selection) == 0)
+            {
+                return;
+            }
+            else
+            {
+                foreach ($this->selection as $k => $tag)
+                {
+                    $tags[$tag] = '';
+                }
+            }
+        }
+
+        debug_print_r('new tags to be saved to n.n.tag', $tags);
+
+        $status = net_nemein_tag_handler::tag_object($this->storage->object, $tags);
+        if (!$status)
+        {
+            debug_print_r('Tried to save the tags', $tags);
+            debug_add("for field {$this->name}, but failed. Ignoring silently.", MIDCOM_LOG_WARN);
+        }
+
+        $tmp_tags = net_nemein_tag_handler::get_object_tags($this->storage->object);
+        $tags = array();
+        foreach ($tmp_tags as $name => $url)
+        {
+            $tags[$name] = $name;
+        }
+
+        debug_print_r("new tags:", $tags);
     }
 
     /**

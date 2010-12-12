@@ -292,7 +292,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return false;
         }
 
-
         if (!isset($object->__mgdschema_class_name__))
         {
             // Not a MidCOM DBA object
@@ -306,80 +305,31 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             $obj = $object;
         }
-        $properties = array_flip($obj->get_properties());
-        if (empty($properties))
+
+        if (method_exists($obj, 'get_label'))
         {
-            debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
-            return false;
+            $label = $obj->get_label();
         }
-
-        // FIXME: Remove hardcoded class logic
-        switch(true)
+        else
         {
-            case (method_exists($obj, 'get_label')):
-                $label = $obj->get_label();
-                break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_person')):
-                if ($obj->rname)
-                {
-                    $label = $obj->rname;
-                }
-                else
-                {
-                    $label = $obj->username;
-                }
-                break;
-
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_topic')):
-                if ($obj->extra)
-                {
-                    $label = $obj->extra;
-                }
-                else
-                {
-                    $label = $obj->name;
-                }
-                break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_event')):
-            case ($_MIDCOM->dbfactory->is_a($obj, 'org_openpsa_calendar_event')):
-                if ($obj->start == 0)
-                {
-                    $label = $obj->title;
-                }
-                else
-                {
-                    $label = strftime('%x', $obj->start) . " {$obj->title}";
-                }
-                break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_eventmember')):
-                $person = new midcom_db_person($obj->uid);
-                $event = new midcom_db_event($obj->eid);
-                $label = sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $event->title);
-                break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_member')):
-                $person = new midcom_db_person($obj->uid);
-                $grp = new midcom_db_group($obj->gid);
-                $label = sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $grp->official);
-                break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_host')):
-                if (   $obj->port
-                    && $obj->port != '80')
-                {
-                    $label = "{$obj->name}:{$obj->port}{$obj->prefix}";
-                }
-                else
-                {
-                    $label = "{$obj->name}{$obj->prefix}";
-                }
-                break;
-            case (isset($properties['title'])):
+            $properties = array_flip($obj->get_properties());
+            if (empty($properties))
+            {
+                debug_add("Could not list object properties, aborting", MIDCOM_LOG_ERROR);
+                return false;
+            }
+            else if (isset($properties['title']))
+            {
                 $label = $obj->title;
-                break;
-            case (isset($properties['name'])):
+            }
+            else if (isset($properties['name']))
+            {
                 $label = $obj->name;
-                break;
-            default:
+            }
+            else
+            {
                 $label = $obj->guid;
+            }
         }
         return $label;
     }

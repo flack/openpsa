@@ -197,50 +197,10 @@ class midcom_core_user
     private function _load($id)
     {
         $person_class = $GLOBALS['midcom_config']['person_class'];
-        if (   is_string($id))
+        if (   is_string($id)
+            && !$this->_load_from_string($id, $person_class))
         {
-            // Don't even try with the magic assignees
-            if (   'ANONYMOUS' === $id
-                || 'EVERYONE' === $id
-                || 'USERS' === $id
-                || 'OWNER' === $id
-                || 'SELF' === $id)
-            {
-                return false;
-            }
-            else if (substr($id, 0, 5) == 'user:')
-            {
-                $this->_storage = new $person_class();
-                $id = substr($id, 5);
-                try
-                {
-                    $this->_storage->get_by_guid($id);
-                }
-                catch (midgard_error_exception $e)
-                {
-                    debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                    return false;
-                }
-            }
-            else if (mgd_is_guid($id))
-            {
-                $this->_storage = new $person_class();
-                try
-                {
-                    @$this->_storage->get_by_guid($id);
-                }
-                catch (midgard_error_exception $e)
-                {
-                    debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                    return false;
-                }
-            }
-            else
-            {
-                debug_add('Tried to load a midcom_core_user, but $id was of unknown type.', MIDCOM_LOG_ERROR);
-                debug_print_r('Passed argument was:', $id);
-                return false;
-            }
+            return false;
         }
         else if (is_numeric($id))
         {
@@ -258,7 +218,7 @@ class midcom_core_user
         else if (   is_object($id)
                  && (   is_a($id, 'midcom_db_person')
                      || is_a($id, 'org_openpsa_contacts_person')
-                     || is_a($id, $GLOBALS['midcom_config']['person_class'])))
+                     || is_a($id, $person_class)))
         {
             $this->_storage = $id;
         }
@@ -294,6 +254,43 @@ class midcom_core_user
         $this->id = "user:{$this->_storage->guid}";
         $this->guid = $this->_storage->guid;
 
+        return true;
+    }
+
+    private function _load_from_string($id, $person_class)
+    {
+        // Don't even try with the magic assignees
+        if (   'ANONYMOUS' === $id
+            || 'EVERYONE' === $id
+            || 'USERS' === $id
+            || 'OWNER' === $id
+            || 'SELF' === $id)
+        {
+            return false;
+        }
+        if (substr($id, 0, 5) == 'user:')
+        {
+            $id = substr($id, 5);
+        }
+        if (mgd_is_guid($id))
+        {
+            $this->_storage = new $person_class();
+            try
+            {
+                $this->_storage->get_by_guid($id);
+            }
+            catch (midgard_error_exception $e)
+            {
+                debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
+                return false;
+            }
+        }
+        else
+        {
+            debug_add('Tried to load a midcom_core_user, but $id was of unknown type.', MIDCOM_LOG_ERROR);
+            debug_print_r('Passed argument was:', $id);
+            return false;
+        }
         return true;
     }
 

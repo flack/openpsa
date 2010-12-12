@@ -492,10 +492,9 @@ class midcom_helper__styleloader
      * or the default style snippetdir) and displays/evaluates it.
      *
      * @param string $path    The style element to show.
-     * @param array $guids  List of GUIDs included in this element display, if set will enable caching
      * @return boolean            True on success, false otherwise.
      */
-    function show($path, $guids = null)
+    function show($path)
     {
         if ($this->_context === array())
         {
@@ -518,110 +517,16 @@ class midcom_helper__styleloader
             array_unshift($this->_scope, $_styleid);
         }
 
-        $_style = null;
+        $_style = $this->_find_element_in_scope($_element);
 
-        // try to find element in current / given scope
-        if (count($this->_scope) > 0)
+        if (!$_style)
         {
-            $src = "{$this->_scope[0]}/{$_element}";
-            if (array_key_exists($src, $this->_styles))
-            {
-                $_style = $this->_styles[$src];
-            }
-            else if ($this->_scope[0] != '')
-            {
-                if ($_result = $this->_get_element_in_styletree($this->_scope[0], $_element))
-                {
-                    $this->_styles[$src] = $_result;
-                    $_style = $this->_styles[$src];
-                }
-            }
+            $_style = $this->_get_element_from_snippet($_element);
         }
 
-        // fallback: try to get element from default style snippet
-        if (! isset($_style))
+        if ($_style !== false)
         {
-            $src = "{$this->_snippetdir}/{$_element}";
-
-            if (array_key_exists($src, $this->_snippets))
-            {
-                $_style = $this->_snippets[$src];
-            }
-            else
-            {
-                if (array_key_exists('theme', $GLOBALS['midcom_config']))
-                {
-                    $filename = preg_replace('/lib$/', 'themes', MIDCOM_ROOT) . '/' . $GLOBALS['midcom_config']['theme'] .  "/style/{$_element}.php";
-                    if (file_exists($filename))
-                    {
-                        $_style = file_get_contents($filename);
-                        $src = $filename;
-                        $this->_snippets[$src] = $_style;
-                    }
-                }
-
-                if (!isset($_style))
-                {
-                    for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$_MIDCOM->get_current_context()]; $i++)
-                    {
-                        $filename = MIDCOM_ROOT . $this->_styledirs[$_MIDCOM->get_current_context()][$i] .  "/{$_element}.php";
-                        if (file_exists($filename))
-                        {
-                            $_style = file_get_contents($filename);
-                            $src = $filename;
-                            $this->_snippets[$src] = $_style;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (isset($_style))
-        {
-            // This is a bit of a hack to allow &(); tags
-            $data =& $_MIDCOM->get_custom_context_data('request_data');
-            $instance_id = false;
-
-            if (   $guids
-                && in_array('style', $GLOBALS['midcom_config']['cache_module_memcache_data_groups']))
-            {
-                // Cache style elements
-                $instance_id = $path . '-' . md5(serialize($guids));
-
-                if ($_MIDCOM->cache->memcache->exists('style', $instance_id))
-                {
-                    echo $_MIDCOM->cache->memcache->get('style', $instance_id);
-                }
-            }
-
-            if ($GLOBALS['midcom_config']['wrap_style_show_with_name'])
-            {
-                $_style = "\n<!-- Start of style '{$path}' -->\n" . $_style;
-                $_style .= "\n<!-- End of style '{$path}' -->\n";
-            }
-
-            if ($instance_id)
-            {
-                // This element will be cached after display
-                ob_start();
-                $result = eval('?>' . mgd_preparse($_style));
-                $contents = ob_get_contents();
-                $_MIDCOM->cache->memcache->put('style', $instance_id, $result);
-                ob_end_flush();
-            }
-            else
-            {
-                $result = eval('?>' . mgd_preparse($_style));
-            }
-
-            if ($result === false)
-            {
-                // Note that src detection will be semi-reliable, as it depends on all errors being
-                // found before caching kicks in.
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to parse style element '{$path}', content was loaded from '{$src}', see above for PHP errors.");
-                // This will exit.
-            }
+            $this->_parse_element($_style, $path);
         }
         else
         {
@@ -635,6 +540,117 @@ class midcom_helper__styleloader
         }
 
         return true;
+    }
+
+    /**
+     * Try to find element in current / given scope
+     */
+    private function _find_element_in_scope($_element)
+    {
+        if (count($this->_scope) > 0)
+        {
+            $src = "{$this->_scope[0]}/{$_element}";
+            if (array_key_exists($src, $this->_styles))
+            {
+                return $this->_styles[$src];
+            }
+            else if ($this->_scope[0] != '')
+            {
+                if ($_result = $this->_get_element_in_styletree($this->_scope[0], $_element))
+                {
+                    $this->_styles[$src] = $_result;
+                    return $this->_styles[$src];
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Try to get element from default style snippet
+     */
+    private function _get_element_from_snippet($_element)
+    {
+        $src = "{$this->_snippetdir}/{$_element}";
+
+        if (array_key_exists($src, $this->_snippets))
+        {
+            return $this->_snippets[$src];
+        }
+        else
+        {
+            if (array_key_exists('theme', $GLOBALS['midcom_config']))
+            {
+                $filename = preg_replace('/lib$/', 'themes', MIDCOM_ROOT) . '/' . $GLOBALS['midcom_config']['theme'] .  "/style/{$_element}.php";
+                if (file_exists($filename))
+                {
+                    $_style = file_get_contents($filename);
+                    $src = $filename;
+                    $this->_snippets[$src] = $_style;
+                    return $this->_snippets[$src];
+                }
+            }
+
+            if (!isset($_style))
+            {
+                for ($i = 0; ! isset($_style) && $i < $this->_styledirs_count[$_MIDCOM->get_current_context()]; $i++)
+                {
+                    $filename = MIDCOM_ROOT . $this->_styledirs[$_MIDCOM->get_current_context()][$i] .  "/{$_element}.php";
+                    if (file_exists($filename))
+                    {
+                        $_style = file_get_contents($filename);
+                        $src = $filename;
+                        $this->_snippets[$src] = $_style;
+                        return $this->_snippets[$src];
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This is a bit of a hack to allow &(); tags
+     */
+    private function _parse_element($_style, $path)
+    {
+        $data =& $_MIDCOM->get_custom_context_data('request_data');
+        $instance_id = false;
+
+        if (in_array('style', $GLOBALS['midcom_config']['cache_module_memcache_data_groups']))
+        {
+            // Cache style elements
+            $instance_id = $path;
+
+            if ($_MIDCOM->cache->memcache->exists('style', $instance_id))
+            {
+                eval('?>' . $_MIDCOM->cache->memcache->get('style', $instance_id));
+                return;
+            }
+        }
+
+        if ($GLOBALS['midcom_config']['wrap_style_show_with_name'])
+        {
+            $_style = "\n<!-- Start of style '{$path}' -->\n" . $_style;
+            $_style .= "\n<!-- End of style '{$path}' -->\n";
+        }
+
+        $preparsed = mgd_preparse($_style);
+        $result = eval('?>' . $preparsed);
+
+        if ($result === false)
+        {
+            // Note that src detection will be semi-reliable, as it depends on all errors being
+            // found before caching kicks in.
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                "Failed to parse style element '{$path}', content was loaded from '{$src}', see above for PHP errors.");
+            // This will exit.
+        }
+        if ($instance_id)
+        {
+            // This element will be cached after display (if no errors occured)
+            $_MIDCOM->cache->memcache->put('style', $instance_id, $preparsed);
+        }
     }
 
     /**
@@ -917,8 +933,8 @@ class midcom_helper__styleloader
  *
  * @see midcom_helper__styleloader::show()
  */
-function midcom_show_style($param, $guids = null)
+function midcom_show_style($param)
 {
-    return $_MIDCOM->style->show($param, $guids);
+    return $_MIDCOM->style->show($param);
 }
 ?>

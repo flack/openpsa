@@ -221,48 +221,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
                 list($main_key, $main_info) = each($this->_type->attachments_info);
         }
 
-        // Get preview image source
-        if (array_key_exists('thumbnail', $this->_type->attachments))
-        {
-            $url = $this->_type->attachments_info['thumbnail']['url'];
-            $x = $this->_type->attachments_info['thumbnail']['size_x'];
-            $y = $this->_type->attachments_info['thumbnail']['size_y'];
-            $is_thumbnail = true;
-        }
-        else
-        {
-            $is_thumbnail = false;
-            $url = $main_info['url'];
-            $x = $main_info['size_x'];
-            $y = $main_info['size_y'];
-
-            // Downscale Preview image to max 75px, protect against broken images:
-            if (   $x != 0
-                && $y != 0)
-            {
-                $aspect = $x/$y;
-                if ($x > 75)
-                {
-                    $x = 75;
-                    $y = round($x / $aspect);
-                }
-                if ($y > 75)
-                {
-                    $y = 75;
-                    $x = round($y * $aspect);
-                }
-            }
-        }
-
-        $size = " width='{$x}' height='{$y}'";
-
-        // Start widget table, add Thumbnail
-        $static_html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n<tr>\n" .
-            "<td align='center' valign='top' class='midcom_helper_datamanager2_widget_image_thumbnail'><img class='midcom_helper_datamanager2_widget_image_thumbnail' alt='{$this->name}' src='{$url}' {$size} />";
-        if ($is_thumbnail)
-        {
-            $static_html .= "<br />\n(" . $this->_l10n->get('type image: thumbnail') . ')';
-        }
+        $static_html = $this->_get_preview_html($main_info);
 
         // Statistics & Available sizes
         $static_html .= "</td>\n<td valign='top' class='midcom_helper_datamanager2_widget_image_stats'>" . $this->_l10n->get('type blobs: file size') . ": {$main_info['formattedsize']}<br/>\n";
@@ -328,6 +287,52 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
 
         $static_html = "\n</td>\n</tr>\n</table>\n";
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_end", '', $static_html);
+    }
+
+    protected function _get_preview_html($main_info)
+    {
+        if (array_key_exists('thumbnail', $this->_type->attachments))
+        {
+            $url = $this->_type->attachments_info['thumbnail']['url'];
+            $x = $this->_type->attachments_info['thumbnail']['size_x'];
+            $y = $this->_type->attachments_info['thumbnail']['size_y'];
+            $is_thumbnail = true;
+        }
+        else
+        {
+            $is_thumbnail = false;
+            $url = $main_info['url'];
+            $x = $main_info['size_x'];
+            $y = $main_info['size_y'];
+
+            // Downscale Preview image to max 75px, protect against broken images:
+            if (   $x != 0
+                && $y != 0)
+            {
+                $aspect = $x/$y;
+                if ($x > 75)
+                {
+                    $x = 75;
+                    $y = round($x / $aspect);
+                }
+                if ($y > 75)
+                {
+                    $y = 75;
+                    $x = round($y * $aspect);
+                }
+            }
+        }
+
+        $size = " width='{$x}' height='{$y}'";
+
+        // Start widget table, add Thumbnail
+        $html = "<table border='0' class='midcom_helper_datamanager2_widget_image_table' id='{$this->_namespace}{$this->name}_table'>\n<tr>\n" .
+            "<td align='center' valign='top' class='midcom_helper_datamanager2_widget_image_thumbnail'><img class='midcom_helper_datamanager2_widget_image_thumbnail' alt='{$this->name}' src='{$url}' {$size} />";
+        if ($is_thumbnail)
+        {
+            $html .= "<br />\n(" . $this->_l10n->get('type image: thumbnail') . ')';
+        }
+        return $html;
     }
 
     /**

@@ -342,6 +342,24 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_postalcode\" id=\"{$this->_element_id}_input_place_postalcode\" name=\"{$this->_element_id}_input_place_postalcode\" type=\"text\" value=\"{$postalcode}\" />";
         $html .= "</label>";
 
+        $html .= $this->_render_xep_keys();
+
+        $html .= "<div id=\"{$this->_element_id}_status_box\" class=\"status_box\"></div>";
+
+        $html .= "\n</div><!-- tab_content_place ends -->\n";
+
+        $this->_widget_elements[] = HTML_QuickForm::createElement
+        (
+            'static',
+            "{$this->_element_id}_static_place",
+            '',
+            $html
+        );
+    }
+
+    private function _render_xep_keys()
+    {
+        $html = '';
         $inserted_xep_keys = array();
 
         foreach ($this->_allowed_xep_keys as $xep_key)
@@ -373,18 +391,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
             $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_{$xep_key}\" id=\"{$this->_element_id}_input_place_{$xep_key}\" name=\"{$this->_element_id}_input_place_{$xep_key}\" type=\"text\" value=\"{$xep_value}\" />";
             $html .= "</label>";
         }
-
-        $html .= "<div id=\"{$this->_element_id}_status_box\" class=\"status_box\"></div>";
-
-        $html .= "\n</div><!-- tab_content_place ends -->\n";
-
-        $this->_widget_elements[] = HTML_QuickForm::createElement
-        (
-            'static',
-            "{$this->_element_id}_static_place",
-            '',
-            $html
-        );
+        return $html;
     }
 
     function _add_map_method_elements()

@@ -95,82 +95,10 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
             && is_array($_POST['midcom_admin_user'])
             && $_POST['midcom_admin_user_action'])
         {
-            foreach ($_POST['midcom_admin_user'] as $person_id)
-            {
-                if (is_numeric($person_id))
-                {
-                    $person = new midcom_db_person((int) $person_id);
-                }
-                else
-                {
-                    $person = new midcom_db_person($person_id);
-                }
-
-                if (!$person->guid)
-                {
-                    continue;
-                }
-
-                switch ($_POST['midcom_admin_user_action'])
-                {
-                    case 'removeaccount':
-                        if (!$this->_config->get('allow_manage_accounts'))
-                        {
-                            break;
-                        }
-                        $person->parameter('net.nehmer.account', 'username', $person->username);
-                        $person->username = '';
-                        $person->password = '';
-                        if ($person->update())
-                        {
-                            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('user account revoked for %s'), $person->name));
-                        }
-                        break;
-
-                    case 'groupadd':
-                        if (isset($_POST['midcom_admin_user_group']))
-                        {
-                            $member = new midcom_db_member();
-                            $member->uid = $person->id;
-                            $member->gid = (int) $_POST['midcom_admin_user_group'];
-                            if ($member->create())
-                            {
-                                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('user %s added to group'), $person->name));
-                            }
-                        }
-                        break;
-                }
-            }
+            $this->_batch_process();
         }
 
-        if (isset($_REQUEST['midcom_admin_user_search']))
-        {
-            // Run the person-seeking QB
-            $qb = midcom_db_person::new_query_builder();
-            $qb->begin_group('OR');
-                foreach ($data['search_fields'] as $field)
-                {
-                    $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
-                }
-            $qb->end_group('OR');
-            $qb->add_order('lastname');
-            $qb->add_order('firstname');
-
-            $this->_persons = $qb->execute();
-        }
-        else
-        {
-            // List all persons if there are less than N of them
-            $qb = midcom_db_person::new_query_builder();
-
-            if ($qb->count_unchecked() < $this->_config->get('list_without_search'))
-            {
-                $qb->add_order('lastname');
-                $qb->add_order('firstname');
-
-                $this->_persons = $qb->execute();
-            }
-        }
+        $this->_list_persons();
 
         // Used in many checks, keys are IDs, values objects
         $data['groups'] = array();
@@ -197,6 +125,88 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         return true;
+    }
+
+    private function _list_persons()
+    {
+        if (isset($_REQUEST['midcom_admin_user_search']))
+        {
+            // Run the person-seeking QB
+            $qb = midcom_db_person::new_query_builder();
+            $qb->begin_group('OR');
+                foreach ($this->_request_data['search_fields'] as $field)
+                {
+                    $qb->add_constraint($field, 'LIKE', "{$_REQUEST['midcom_admin_user_search']}%");
+                }
+            $qb->end_group('OR');
+            $qb->add_order('lastname');
+            $qb->add_order('firstname');
+
+            $this->_persons = $qb->execute();
+        }
+        else
+        {
+            // List all persons if there are less than N of them
+            $qb = midcom_db_person::new_query_builder();
+
+            if ($qb->count_unchecked() < $this->_config->get('list_without_search'))
+            {
+                $qb->add_order('lastname');
+                $qb->add_order('firstname');
+
+                $this->_persons = $qb->execute();
+            }
+        }
+    }
+
+    private function _batch_process()
+    {
+        foreach ($_POST['midcom_admin_user'] as $person_id)
+        {
+            if (is_numeric($person_id))
+            {
+                $person = new midcom_db_person((int) $person_id);
+            }
+            else
+            {
+                $person = new midcom_db_person($person_id);
+            }
+
+            if (!$person->guid)
+            {
+                continue;
+            }
+
+            switch ($_POST['midcom_admin_user_action'])
+            {
+                case 'removeaccount':
+                    if (!$this->_config->get('allow_manage_accounts'))
+                    {
+                        break;
+                    }
+                    $person->parameter('net.nehmer.account', 'username', $person->username);
+                    $person->username = '';
+                    $person->password = '';
+                    if ($person->update())
+                    {
+                        $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('user account revoked for %s'), $person->name));
+                    }
+                    break;
+
+                case 'groupadd':
+                    if (isset($_POST['midcom_admin_user_group']))
+                    {
+                        $member = new midcom_db_member();
+                        $member->uid = $person->id;
+                        $member->gid = (int) $_POST['midcom_admin_user_group'];
+                        if ($member->create())
+                        {
+                            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('user %s added to group'), $person->name));
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     /**

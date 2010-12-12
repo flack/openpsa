@@ -13,7 +13,7 @@
  * @todo Figure out a good way to always use UTC for internal time storage
  * @package org.openpsa.calendar
  */
-class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
+class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_event';
@@ -119,6 +119,18 @@ class org_openpsa_calendar_event_dba extends  midcom_core_dbaobject
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
+
+    public function get_label()
+    {
+        if ($this->start == 0)
+        {
+            return $this->title;
+        }
+        else
+        {
+            return strftime('%x', $this->start) . " {$this->title}";
+        }
     }
 
     function get_parent_guid_uncached()

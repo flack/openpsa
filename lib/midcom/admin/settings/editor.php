@@ -127,51 +127,8 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $this->_codeinit->value = $this->_get_code_init();
-
-                if (   $this->_codeinit->value == ''
-                    || !$this->_codeinit->value)
-                {
-                    $_MIDCOM->uimessages->add
-                    (
-                        $_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
-                        $_MIDCOM->i18n->get_string('failed to create settings', 'midcom.admin.settings'),
-                        'error'
-                    );
-                    break;
-                }
-
-                if ($this->_codeinit->id)
-                {
-                    $rst = $this->_codeinit->update();
-                }
-                else
-                {
-                    $rst = $this->_codeinit->create();
-                }
-
-                if ($rst)
-                {
-                    mgd_cache_invalidate();
-                    $_MIDCOM->uimessages->add
-                    (
-                        $_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
-                        $_MIDCOM->i18n->get_string('settings saved successfully', 'midcom.admin.settings'),
-                        'ok'
-                    );
-                }
-                else
-                {
-                    $_MIDCOM->uimessages->add
-                    (
-                        $_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
-                        sprintf($_MIDCOM->i18n->get_string('failed to save settings, reason %s', 'midcom.admin.settings'), midcom_connection::get_error_string()),
-                        'error'
-                    );
-                }
-
-                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.settings/'.$host->guid.'/');
-
+                $this->_save_code_init();
+                //Fall-through
             case 'cancel':
                 $_MIDCOM->relocate('__mfa/asgard_midcom.admin.settings/'.$host->guid.'/');
                 // This will exit.
@@ -187,6 +144,52 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
         $_MIDCOM->set_pagetitle($this->_l10n->get('host configuration')." : ". $data['hostname']);
 
         return true;
+    }
+
+    private function _save_code_init()
+    {
+        $this->_codeinit->value = $this->_get_code_init();
+
+        if (   $this->_codeinit->value == ''
+            || !$this->_codeinit->value)
+        {
+            $_MIDCOM->uimessages->add
+            (
+                $_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
+                $_MIDCOM->i18n->get_string('failed to create settings', 'midcom.admin.settings'),
+                'error'
+            );
+            return;
+        }
+
+        if ($this->_codeinit->id)
+        {
+            $rst = $this->_codeinit->update();
+        }
+        else
+        {
+            $rst = $this->_codeinit->create();
+        }
+
+        if ($rst)
+        {
+            mgd_cache_invalidate();
+            $_MIDCOM->uimessages->add
+            (
+                $_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
+                $_MIDCOM->i18n->get_string('settings saved successfully', 'midcom.admin.settings'),
+                'ok'
+            );
+        }
+        else
+        {
+            $_MIDCOM->uimessages->add
+            (
+                $_MIDCOM->i18n->get_string('host configuration', 'midcom.admin.settings'),
+                sprintf($_MIDCOM->i18n->get_string('failed to save settings, reason %s', 'midcom.admin.settings'), midcom_connection::get_error_string()),
+                'error'
+            );
+        }
     }
 
 

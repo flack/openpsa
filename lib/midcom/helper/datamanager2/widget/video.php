@@ -196,10 +196,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
 
         $elements[] = $this->_upload_element;
-        $attributes = Array
-        (
-            'id'    => "{$this->_namespace}{$this->name}_upload_button",
-        );
 
         // Add Title line if configured to do so
         if ($this->show_title)
@@ -303,15 +299,6 @@ class midcom_helper_datamanager2_widget_video extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_inter1", '', $static_html);
 
         $elements[] = $this->_upload_element;
-        $attributes = Array
-        (
-            'id'    => "{$this->_namespace}{$this->name}_upload_button",
-        );
-
-        $attributes = Array
-        (
-            'id'    => "{$this->_namespace}{$this->name}_upload_button",
-        );
 
         // Add Title line if configured to do so.
         if ($this->show_title)

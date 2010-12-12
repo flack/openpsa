@@ -273,116 +273,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
      */
     public function get_existing_rows()
     {
-        $rows = array();
-
-        switch ($this->storage_mode)
-        {
-            case 'serialized':
-                if ($this->value)
-                {
-                    $temp = unserialize($this->value);
-                    if (is_array($temp))
-                    {
-                        $rows = array_keys($temp);
-                    }
-                }
-                else
-                {
-                    $rows = array();
-                }
-                break;
-            case 'parameter':
-                if (   !$this->storage->object
-                    || !$this->storage->object->guid)
-                {
-                    break;
-                }
-
-                // Get the row parameters with collector
-                $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
-                $mc->add_value_property('name');
-
-                // Add the constraints
-                $mc->add_constraint('metadata.deleted', '=', 0);
-                $mc->add_constraint('domain', '=', $this->parameter_domain);
-                $mc->add_constraint('name', 'LIKE', "{$this->name}{$this->storage_mode_parameter_limiter}%");
-
-                // Add orders
-                $mc->add_order('metadata.revised', 'DESC');
-                $mc->add_order('metadata.created', 'DESC');
-
-                $mc->execute();
-
-                $keys = $mc->list_keys();
-                $length = strlen("{$this->name}{$this->storage_mode_parameter_limiter}");
-
-                // List the name fields and get the row data
-                foreach ($keys as $guid => $array)
-                {
-                    $name = substr($mc->get_subkey($guid, 'name'), $length);
-                    $parts = explode("{$this->storage_mode_parameter_limiter}", $name);
-
-                    if (!isset($parts[1]))
-                    {
-                        continue;
-                    }
-
-                    $row = preg_replace('/^row_/', '', $parts[0]);
-
-                    // Already exists, skip
-                    if (in_array($row, $rows))
-                    {
-                        continue;
-                    }
-
-                    $rows[] = $row;
-                }
-                break;
-        case 'link':
-                if (   !$this->storage->object
-                    || !$this->storage->object->guid)
-                {
-                    break;
-                }
-
-                // Get the row parameters with collector
-                $mc = new midgard_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
-                $mc->set_key_property('guid');
-                $mc->add_value_property($this->link_row_property);
-
-                // Add the constraints
-                $mc->add_constraint('metadata.deleted', '=', 0);
-
-                // Add orders
-                $mc->add_order('metadata.revised', 'DESC');
-                $mc->add_order('metadata.created', 'DESC');
-
-                $mc->execute();
-
-                $keys = $mc->list_keys();
-
-                // List the name fields and get the row data
-                foreach ($keys as $guid => $array)
-                {
-                    $row_object_id = $mc->get_subkey($guid, $this->link_row_property);
-                    $row_object = new $this->link_row_class($row_object_id);
-                    $name = $row_object->{$this->link_row_title_field};
-
-
-                    // Already exists, skip
-                    if (in_array($name, $rows))
-                    {
-                        continue;
-                    }
-
-                    $this->rows[$row_object_id] = $name;
-                    $rows[$row_object_id] = $row_object_id;
-                }
-                break;
-            default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Error in type configuration: storage mode cannot be '{$this->storage_mode}'");
-                // This will exit
-        }
+        $rows = $this->_load_rows();
 
         // Sort the rows
         if (   $this->sortable_rows
@@ -441,6 +332,116 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
             }
         }
 
+        return $rows;
+    }
+
+    private function _load_rows()
+    {
+        $rows = array();
+        switch ($this->storage_mode)
+        {
+            case 'serialized':
+                if ($this->value)
+                {
+                    $temp = unserialize($this->value);
+                    if (is_array($temp))
+                    {
+                        $rows = array_keys($temp);
+                    }
+                }
+                break;
+            case 'parameter':
+                if (   !$this->storage->object
+                    || !$this->storage->object->guid)
+                {
+                    break;
+                }
+
+                // Get the row parameters with collector
+                $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
+                $mc->add_value_property('name');
+
+                // Add the constraints
+                $mc->add_constraint('metadata.deleted', '=', 0);
+                $mc->add_constraint('domain', '=', $this->parameter_domain);
+                $mc->add_constraint('name', 'LIKE', "{$this->name}{$this->storage_mode_parameter_limiter}%");
+
+                // Add orders
+                $mc->add_order('metadata.revised', 'DESC');
+                $mc->add_order('metadata.created', 'DESC');
+
+                $mc->execute();
+
+                $keys = $mc->list_keys();
+                $length = strlen("{$this->name}{$this->storage_mode_parameter_limiter}");
+
+                // List the name fields and get the row data
+                foreach ($keys as $guid => $array)
+                {
+                    $name = substr($mc->get_subkey($guid, 'name'), $length);
+                    $parts = explode("{$this->storage_mode_parameter_limiter}", $name);
+
+                    if (!isset($parts[1]))
+                    {
+                        continue;
+                    }
+
+                    $row = preg_replace('/^row_/', '', $parts[0]);
+
+                    // Already exists, skip
+                    if (in_array($row, $rows))
+                    {
+                        continue;
+                    }
+
+                    $rows[] = $row;
+                }
+                break;
+            case 'link':
+                if (   !$this->storage->object
+                    || !$this->storage->object->guid)
+                {
+                    break;
+                }
+
+                // Get the row parameters with collector
+                $mc = new midgard_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
+                $mc->set_key_property('guid');
+                $mc->add_value_property($this->link_row_property);
+
+                // Add the constraints
+                $mc->add_constraint('metadata.deleted', '=', 0);
+
+                // Add orders
+                $mc->add_order('metadata.revised', 'DESC');
+                $mc->add_order('metadata.created', 'DESC');
+
+                $mc->execute();
+
+                $keys = $mc->list_keys();
+
+                // List the name fields and get the row data
+                foreach ($keys as $guid => $array)
+                {
+                    $row_object_id = $mc->get_subkey($guid, $this->link_row_property);
+                    $row_object = new $this->link_row_class($row_object_id);
+                    $name = $row_object->{$this->link_row_title_field};
+
+
+                    // Already exists, skip
+                    if (in_array($name, $rows))
+                    {
+                        continue;
+                    }
+
+                    $this->rows[$row_object_id] = $name;
+                    $rows[$row_object_id] = $row_object_id;
+                }
+                break;
+            default:
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Error in type configuration: storage mode cannot be '{$this->storage_mode}'");
+                // This will exit
+        }
         return $rows;
     }
 
@@ -738,125 +739,11 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     {
         if ($this->storage_mode === 'parameter')
         {
-            foreach ($this->_storage_data as $row => $array)
-            {
-                // Malformatted data
-                if (!is_array($array))
-                {
-                    continue;
-                }
-
-                // Skip the new row placeholder index
-                if ($row === 'row_index')
-                {
-                    unset($this->_storage_data[$row]);
-                    continue;
-                }
-
-                // Check that each field gets populated
-                $hits = false;
-
-                // Store each value in a parameter
-                foreach ($array as $column => $value)
-                {
-                    if ($value)
-                    {
-                        $hits = true;
-                    }
-
-                    if (in_array($column, $this->_remove_columns))
-                    {
-                        $this->storage->object->set_parameter($this->parameter_domain, "{$this->name}{$this->storage_mode_parameter_limiter}{$row}{$this->storage_mode_parameter_limiter}{$column}", '');
-                    }
-                    else
-                    {
-                        $this->storage->object->set_parameter($this->parameter_domain, "{$this->name}{$this->storage_mode_parameter_limiter}{$row}{$this->storage_mode_parameter_limiter}{$column}", $value);
-                    }
-                }
-
-                if (!$hits)
-                {
-                    $key = array_search($row, $this->_row_order);
-                    unset($this->_row_order[$key]);
-                    unset($this->_storage_data[$row]);
-                }
-            }
-
-            // Empty the parameters that are no longer needed
-            foreach ($this->storage->object->list_parameters($this->parameter_domain) as $name => $value)
-            {
-                $temp = explode($this->storage_mode_parameter_limiter, $name);
-
-                // Not this field, skip this
-                if ($temp[0] !== $this->name)
-                {
-                    continue;
-                }
-
-                // Broken entry?
-                if (!isset($temp[1]))
-                {
-                    continue;
-                }
-
-                // Row found in the request list
-                if (isset($this->_storage_data[$temp[1]]))
-                {
-                    continue;
-                }
-
-                // Row not found from the posted request, erase the parameter
-                $this->storage->object->set_parameter($this->parameter_domain, $name, '');
-            }
+            $this->_store_parameters();
         }
         else if ($this->storage_mode == 'link')
         {
-              $ref = new midgard_reflection_property($this->link_class);
-
-              $type_map = Array();
-
-              foreach ($this->link_columns as $column)
-              {
-                  $type_map[$column] = $ref->get_midgard_type($column);
-              }
-
-              foreach($this->_storage_data as $link_row_id => $values)
-              {
-                  $link_object = null;
-                  $needs_update = false;
-
-                  $qb = call_user_func( Array($this->link_class, 'new_query_builder'));
-                  $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
-                  $qb->add_constraint($this->link_row_property, '=', $link_row_id);
-                  $results = $qb->execute();
-
-                  if (sizeof($results) == 1)
-                  {
-                      $link_object = $results[0];
-                  }
-
-                  foreach ($values as $key => $value)
-                  {
-                      switch ($type_map[$key])
-                      {
-                        case MGD_TYPE_INT:
-                          $value = (int) $value;
-                          break;
-                        case MGD_TYPE_FLOAT:
-                          $value = (float) $value;
-                          break;
-                      }
-                      if ($link_object->$key != $value)
-                      {
-                          $needs_update = true;
-                          $link_object->$key = $value;
-                      }
-                  }
-                  if ($needs_update)
-                  {
-                      $link_object->update();
-                  }
-              }
+            $this->_store_links();
         }
 
         // Remove the columns that should not be there
@@ -901,6 +788,130 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         $this->value = serialize($this->_storage_data);
 
         return $this->value;
+    }
+
+    private function _store_parameters()
+    {
+        foreach ($this->_storage_data as $row => $array)
+        {
+            // Malformatted data
+            if (!is_array($array))
+            {
+                continue;
+            }
+
+            // Skip the new row placeholder index
+            if ($row === 'row_index')
+            {
+                unset($this->_storage_data[$row]);
+                continue;
+            }
+
+            // Check that each field gets populated
+            $hits = false;
+
+            // Store each value in a parameter
+            foreach ($array as $column => $value)
+            {
+                if ($value)
+                {
+                    $hits = true;
+                }
+
+                if (in_array($column, $this->_remove_columns))
+                {
+                    $this->storage->object->set_parameter($this->parameter_domain, "{$this->name}{$this->storage_mode_parameter_limiter}{$row}{$this->storage_mode_parameter_limiter}{$column}", '');
+                }
+                else
+                {
+                    $this->storage->object->set_parameter($this->parameter_domain, "{$this->name}{$this->storage_mode_parameter_limiter}{$row}{$this->storage_mode_parameter_limiter}{$column}", $value);
+                }
+            }
+
+            if (!$hits)
+            {
+                $key = array_search($row, $this->_row_order);
+                unset($this->_row_order[$key]);
+                unset($this->_storage_data[$row]);
+            }
+        }
+
+        // Empty the parameters that are no longer needed
+        foreach ($this->storage->object->list_parameters($this->parameter_domain) as $name => $value)
+        {
+            $temp = explode($this->storage_mode_parameter_limiter, $name);
+
+            // Not this field, skip this
+            if ($temp[0] !== $this->name)
+            {
+                continue;
+            }
+
+            // Broken entry?
+            if (!isset($temp[1]))
+            {
+                continue;
+            }
+
+            // Row found in the request list
+            if (isset($this->_storage_data[$temp[1]]))
+            {
+                continue;
+            }
+
+            // Row not found from the posted request, erase the parameter
+            $this->storage->object->set_parameter($this->parameter_domain, $name, '');
+        }
+    }
+
+    private function _store_links()
+    {
+        $ref = new midgard_reflection_property($this->link_class);
+
+        $type_map = Array();
+
+        foreach ($this->link_columns as $column)
+        {
+            $type_map[$column] = $ref->get_midgard_type($column);
+        }
+
+        foreach($this->_storage_data as $link_row_id => $values)
+        {
+            $link_object = null;
+            $needs_update = false;
+
+            $qb = call_user_func( Array($this->link_class, 'new_query_builder'));
+            $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
+            $qb->add_constraint($this->link_row_property, '=', $link_row_id);
+            $results = $qb->execute();
+
+            if (sizeof($results) == 1)
+            {
+                $link_object = $results[0];
+            }
+
+            foreach ($values as $key => $value)
+            {
+                switch ($type_map[$key])
+                {
+                    case MGD_TYPE_INT:
+                        $value = (int) $value;
+                        break;
+                    case MGD_TYPE_FLOAT:
+                        $value = (float) $value;
+                        break;
+                }
+                if ($link_object->$key != $value)
+                {
+                    $needs_update = true;
+                    $link_object->$key = $value;
+                }
+            }
+            if ($needs_update)
+            {
+                $link_object->update();
+            }
+        }
     }
 
     /**

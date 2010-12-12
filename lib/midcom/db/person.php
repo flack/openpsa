@@ -210,6 +210,22 @@ class midcom_db_person extends midcom_core_dbaobject
         }
     }
 
+    public function get_label()
+    {
+        if ($this->rname)
+        {
+            return $this->rname;
+        }
+        else if ($this->username)
+        {
+            return $this->username;
+        }
+        else
+        {
+        	return '#' . $this->id;
+        }
+    }
+
     /**
      * Adds a user to a given Midgard Group. Caller must ensure access permissions
      * are right.

@@ -114,6 +114,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      */
     private $_fieldsets = 0;
 
+    private $_defaults = array();
+
     /**
      * State of the form manager
      *
@@ -237,8 +239,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
         // TODO: make configurable to get URL from $_MIDCOM->get_context_data(MIDCOM_CONTEXT_URI) instead, see #1262
         $this->form = new HTML_QuickForm($name, 'post', $_SERVER['REQUEST_URI'], '_self', Array('id' => $name), true);
-        $defaults = Array();
-        $this->widgets = Array();
+        $this->_defaults = array();
+        $this->widgets = array();
 
         // Create the default renderer specified in the configuration.
         $this->_create_default_renderer();
@@ -280,67 +282,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $this->widgets[$name]->add_elements_to_form();
             $this->_add_rules_and_filters($name, $config);
 
-            $field_default = $this->widgets[$name]->get_default();
-            if ($field_default !== null)
-            {
-                if (is_object($field_default))
-                {
-                    debug_add("An object has been passed as widget default value for {$name}, this is not allowed, skipping default.",
-                        MIDCOM_LOG_WARN);
-                    debug_print_r('Passed object was:', $field_default);
-                }
-                else if (is_array($field_default))
-                {
-                    $defaults = array_merge($defaults, $field_default);
-                }
-                else
-                {
-                    $defaults[$name] = $field_default;
-                }
-            }
-
-            if (!is_null($config['default']))
-            {
-                // There is a "default" value coming from schema. Check if we don't have a value and then set
-                $empty = false;
-
-                if (!isset($defaults[$name]))
-                {
-                    // No value set from widget
-                    $empty = true;
-                }
-                if (   empty($this->_types[$name]->value)
-                    && empty($this->_types[$name]->selection))
-                {
-                    // Widget value is empty
-                    $empty = true;
-                }
-                if (   method_exists($this->_types[$name], 'is_empty')
-                    && $this->_types[$name]->is_empty())
-                {
-                    $empty = true;
-                }
-
-                if ($empty)
-                {
-                    // Empty value from widget, run defaults
-                    $schema_default = $config['default'];
-                    if (is_object($schema_default))
-                    {
-                        debug_add("An object has been passed as schema's default value for {$name}, this is not allowed, skipping default.",
-                            MIDCOM_LOG_WARN);
-                        debug_print_r('Passed object was:', $schema_default);
-                    }
-                    else if (is_array($schema_default))
-                    {
-                        $defaults = array_merge($defaults, $schema_default);
-                    }
-                    else
-                    {
-                        $defaults[$name] = $schema_default;
-                    }
-                }
-            }
+            $this->_load_field_default($name, $config);
 
             if ($config['static_append'] !== null)
             {
@@ -353,7 +295,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         }
 
         // Set the collected defaults.
-        $this->form->setDefaults($defaults);
+        $this->form->setDefaults($this->_defaults);
 
         // Close the fieldsets left open
         if ($this->_fieldsets > 0)
@@ -361,8 +303,71 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $this->_end_fieldset('', array('end_fieldset' => $this->_fieldsets));
         }
 
+        $this->_add_operation_buttons();
+        $this->_add_validation_rules();
+        $this->_add_filter_rules();
 
-        // Add the submit / cancel buttons
+        // Translate the required note
+        $this->form->setRequiredNote
+        (
+            '<span style="font-size:80%; color:#ff0000;">*</span>' .
+            '<span style="font-size:80%;">' .
+            $this->_l10n->get('denotes required field') .
+            '</span>'
+        );
+
+        return true;
+    }
+
+    private function _load_field_default($name, $config)
+    {
+        $field_default = $this->widgets[$name]->get_default();
+
+        if (   is_null($field_default)
+            && !is_null($config['default']))
+        {
+            $empty = false;
+            if (   empty($this->_types[$name]->value)
+                && empty($this->_types[$name]->selection))
+            {
+                // Widget value is empty
+                $empty = true;
+            }
+            if (   method_exists($this->_types[$name], 'is_empty')
+                && $this->_types[$name]->is_empty())
+            {
+                $empty = true;
+            }
+
+            if ($empty)
+            {
+                // Empty value from widget, run defaults
+                $field_default = $config['default'];
+            }
+        }
+
+        if ($field_default !== null)
+        {
+            if (is_object($field_default))
+            {
+                debug_add("An object has been passed as default value for {$name}, this is not allowed, skipping default.",
+                    MIDCOM_LOG_WARN);
+                debug_print_r('Passed object was:', $field_default);
+                return;
+            }
+            else if (is_array($field_default))
+            {
+                $this->_defaults = array_merge($this->_defaults, $field_default);
+            }
+            else
+            {
+                $this->_defaults[$name] = $field_default;
+            }
+        }
+    }
+
+    private function _add_operation_buttons()
+    {
         $buttons = Array();
         foreach ($this->_schema->operations as $operation => $label)
         {
@@ -389,8 +394,13 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $buttons[] = &HTML_QuickForm::createElement('submit', $buttonname, $buttonlabel, Array('class' => $operation, 'accesskey' => $accesskey));
         }
         $this->form->addGroup($buttons, 'form_toolbar', null, '&nbsp;', false);
+    }
 
-        // Add form-wide validation rules
+    /**
+     * Add form-wide validation rules
+     */
+    private function _add_validation_rules()
+    {
         foreach ($this->_schema->validation as $config)
         {
             if (! is_callable($config['callback']))
@@ -413,8 +423,13 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             }
             $this->form->addFormRule($config['callback']);
         }
+    }
 
-        // Add form-wide filter rules
+    /**
+     * Add form-wide filter rules
+     */
+    private function _add_filter_rules()
+    {
         foreach ($this->_schema->filters as $config)
         {
             if (! class_exists($config['callback']))
@@ -474,17 +489,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $this->form->applyFilter($name, $callback);
             }
         }
-
-        // Translate the required note
-        $this->form->setRequiredNote
-        (
-            '<span style="font-size:80%; color:#ff0000;">*</span>' .
-            '<span style="font-size:80%;">' .
-            $this->_l10n->get('denotes required field') .
-            '</span>'
-        );
-
-        return true;
     }
 
     /**

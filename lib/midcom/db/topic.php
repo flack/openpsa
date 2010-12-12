@@ -44,6 +44,22 @@ class midcom_db_topic extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function get_label()
+    {
+        if ($this->extra)
+        {
+            return $this->extra;
+        }
+        else if ($this->name)
+        {
+            return $this->name;
+        }
+        else
+        {
+            return '#' . $this->id;
+        }
+    }
+
     /**
      * Returns the Parent of the Topic, which is always another topic.
      *

@@ -394,6 +394,29 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             $existing_members[$key] = $index;
         }
 
+        //This creates new memberships and moves existing ones out of $this->_membership_objects
+        $new_membership_objects = $this->_get_new_membership_objects($existing_members);
+
+        // Delete all remaining objects, then update the membership_objects list
+        foreach ($this->_membership_objects as $member)
+        {
+            if (!$member->delete())
+            {
+                debug_add("Failed to delete a no longer needed member record #{$member->id}, ignoring silently. " .
+                    'Last Midgard error was: ' .
+                    midcom_connection::get_error_string(),
+                    MIDCOM_LOG_ERROR);
+                debug_print_r('Tried to delete this object:', $member);
+            }
+        }
+
+        $this->_membership_objects = $new_membership_objects;
+
+        return $this->selection;
+    }
+
+    private function _get_new_membership_objects($existing_members)
+    {
         // Cache the total quantity of items and get the order if the field is supposed to store the member order
         if (   $this->sortable
             && isset($this->sorted_order))
@@ -412,7 +435,6 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
         $i = 0;
 
-        $new_membership_objects = Array();
         foreach ($this->selection as $key)
         {
             // Validation
@@ -519,23 +541,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
                 $new_membership_objects[] = $member;
             }
         }
-
-        // Delete all remaining objects, then update the membership_objects list
-        foreach ($this->_membership_objects as $member)
-        {
-            if (!$member->delete())
-            {
-                debug_add("Failed to delete a no longer needed member record #{$member->id}, ignoring silently. " .
-                    'Last Midgard error was: ' .
-                    midcom_connection::get_error_string(),
-                    MIDCOM_LOG_ERROR);
-                debug_print_r('Tried to delete this object:', $member);
-            }
-        }
-
-        $this->_membership_objects = $new_membership_objects;
-
-        return $this->selection;
+        return $new_membership_objects;
     }
 
     function convert_to_csv()

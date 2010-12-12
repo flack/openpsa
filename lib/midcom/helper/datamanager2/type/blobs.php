@@ -558,71 +558,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             $this->storage->create_temporary_object();
         }
 
-        // Make sure we have unique filename
-        // TODO: refactor to separate method for cleanlines, preferably add to reflector itself a "filename mode"
-        $attachment = new midcom_db_attachment();
-        $attachment->name = $filename;
-        $attachment->parentguid = $this->storage->object->guid;
-
-        $_MIDCOM->componentloader->load('midcom.helper.reflector');
-        $resolver = midcom_helper_reflector_tree::get($attachment);
-        if (!$resolver->name_is_unique_nonstatic($attachment))
-        {
-            debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
-            // Name clash, do a bit of rename-magic
-            $ext_regex = '/^(.*)(\..*?)$/';
-            if (preg_match($ext_regex, $filename, $ext_matches))
-            {
-                $name_woext = $ext_matches[1];
-                $ext = $ext_matches[2];
-                unset($ext_matches);
-            }
-            else
-            {
-                $name_woext = $filename;
-                $ext = '';
-            }
-            unset($ext_regex);
-            if (preg_match('/(.*?)-([0-9]{3,})$/', $name_woext, $name_matches))
-            {
-                // Name already has i and base parts, split them.
-                $i = (int)$name_matches[2];
-                $base_name = (string)$name_matches[1];
-                unset($name_matches);
-            }
-            else
-            {
-                // Defaults
-                $i = 1;
-                $base_name = $name_woext;
-            }
-            $d = 100;
-            do
-            {
-                if ($i > 1)
-                {
-                    // Start suffixes from -002
-                    $attachment->name = $base_name . sprintf('-%03d', $i) . $ext;
-                }
-
-                debug_add("Trying with name '{$attachment->name}'");
-
-                // Handle the decrementer
-                --$d;
-                if ($d < 1)
-                {
-                    // Decrementer undeflowed
-                    debug_add("Maximum number of name tries exceeded, current name was: " . $attachment->name , MIDCOM_LOG_ERROR);
-                    return false;
-                }
-                // and the incrementer
-                ++$i;
-            }
-            while (!$resolver->name_is_unique_nonstatic($attachment));
-            unset($i, $d);
-            $filename = $attachment->name;
-        }
-        unset($attachment, $resolver);
+        $filename = $this->_generate_unique_name($filename);
 
         // Try to create a new attachment.
         $attachment = $this->storage->object->create_attachment($filename, $title, $mimetype);
@@ -659,6 +595,78 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $this->_index_attachment($attachment);
 
         return true;
+    }
+
+    /**
+     * Make sure we have unique filename
+     *
+     * @todo Isn't there a reflector method that already does this (for filenames)?
+     */
+    private function _generate_unique_name($filename)
+    {
+        $attachment = new midcom_db_attachment();
+        $attachment->name = $filename;
+        $attachment->parentguid = $this->storage->object->guid;
+
+        $_MIDCOM->componentloader->load('midcom.helper.reflector');
+        $resolver = midcom_helper_reflector_tree::get($attachment);
+        if ($resolver->name_is_unique_nonstatic($attachment))
+        {
+            return $filename;
+        }
+        debug_add("Name '{$attachment->name}' is not unique, trying to generate", MIDCOM_LOG_INFO);
+
+        $ext_regex = '/^(.*)(\..*?)$/';
+        if (preg_match($ext_regex, $filename, $ext_matches))
+        {
+            $name_woext = $ext_matches[1];
+            $ext = $ext_matches[2];
+            unset($ext_matches);
+        }
+        else
+        {
+            $name_woext = $filename;
+            $ext = '';
+        }
+        unset($ext_regex);
+        if (preg_match('/(.*?)-([0-9]{3,})$/', $name_woext, $name_matches))
+        {
+            // Name already has i and base parts, split them.
+            $i = (int)$name_matches[2];
+            $base_name = (string)$name_matches[1];
+            unset($name_matches);
+        }
+        else
+        {
+            // Defaults
+            $i = 1;
+            $base_name = $name_woext;
+        }
+        $d = 100;
+        do
+        {
+            if ($i > 1)
+            {
+                // Start suffixes from -002
+                $attachment->name = $base_name . sprintf('-%03d', $i) . $ext;
+            }
+
+            debug_add("Trying with name '{$attachment->name}'");
+
+            // Handle the decrementer
+            --$d;
+            if ($d < 1)
+            {
+                // Decrementer undeflowed
+                debug_add("Maximum number of name tries exceeded, current name was: " . $attachment->name , MIDCOM_LOG_ERROR);
+                return false;
+            }
+            // and the incrementer
+            ++$i;
+        }
+        while (!$resolver->name_is_unique_nonstatic($attachment));
+        unset($i, $d);
+        return $attachment->name;
     }
 
     /**

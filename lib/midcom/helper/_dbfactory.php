@@ -536,14 +536,6 @@ class midcom_helper__dbfactory
                   && $actual_object_in_db):
                 $handle_action = 'updated';
                 break;
-            // Core bug in earlier 1.8 branch versions set action to none
-            case (   $unserialized_object->action == 'none'
-                  && $actual_object_in_db):
-                $handle_action = 'updated';
-                break;
-            case (   $unserialized_object->action == 'none'
-                  && !$actual_object_in_db):
-                // Fall-through intentional
             case (   $unserialized_object->action == 'updated'
                   && !$actual_object_in_db):
                 $handle_action = 'created';

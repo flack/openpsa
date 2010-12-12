@@ -410,47 +410,9 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             $this->id_field = 'guid';
         }
 
-        // Check that the id_field is replication-safe
-        if (   $this->id_field == 'id'
-            && !is_a($this->_type, 'midcom_helper_datamanager2_type_mnrelation'))
+        if (!$this->_is_replication_safe())
         {
-            switch ($this->_field['storage']['location'])
-            {
-                case 'parameter':
-                case 'configuration':
-                    // Storing IDs to parameters is not replication safe
-                    debug_add("Field \"{$this->name}\" is set to store to a parameter but links via ID which is not replication-safe, aborting.", MIDCOM_LOG_WARN);
-
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to a parameter but links via ID which is not replication-safe, aborting'), $this->name), 'error');
-
-                    return false;
-            }
-
-            // Normal field, verify that it is a link
-            if (   $this->_type->storage->object !== null
-                && !is_a($this->_type->storage->object, 'midcom_core_temporary_object'))
-
-            {
-                // We have an object, check the link type
-                // Note: in creation mode we do not have this so we have no way to check)
-                $mgdschema_object = $_MIDCOM->dbfactory->convert_midcom_to_midgard($this->_type->storage->object);
-                if (    $mgdschema_object !== null
-                     && $this->_field['storage']['location'] !== null)
-                {
-                    $mrp = new midgard_reflection_property(get_class($mgdschema_object));
-
-                    if (   !$mrp
-                        || !$mrp->is_link($this->_field['storage']['location']))
-                    {
-                        // Storing IDs to non-linked fields is not replication safe
-                        debug_add("Field \"{$this->name}\" is set to store to property \"{$this->_field['storage']['location']}\" which is not link, making it replication-unsafe, aborting.", MIDCOM_LOG_WARN);
-
-                        $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to property %s but links via ID which is not replication-safe, aborting'), $this->name, $this->_field['storage']['location']), 'error');
-
-                        return false;
-                    }
-                }
-            }
+        	return false;
         }
 
         if (   empty($this->searchfields)
@@ -487,6 +449,56 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         $this->_init_widget_options();
 
+        return true;
+    }
+
+    /**
+     * Check that the id_field is replication-safe
+     */
+    private function _is_replication_safe()
+    {
+        if (   $this->id_field == 'guid'
+            || is_a($this->_type, 'midcom_helper_datamanager2_type_mnrelation'))
+        {
+            return true;
+        }
+        switch ($this->_field['storage']['location'])
+        {
+            case 'parameter':
+            case 'configuration':
+                // Storing IDs to parameters is not replication safe
+                debug_add("Field \"{$this->name}\" is set to store to a parameter but links via ID which is not replication-safe, aborting.", MIDCOM_LOG_WARN);
+
+                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to a parameter but links via ID which is not replication-safe, aborting'), $this->name), 'error');
+
+                return false;
+        }
+
+        // Normal field, verify that it is a link
+        if (   $this->_type->storage->object !== null
+            && !is_a($this->_type->storage->object, 'midcom_core_temporary_object'))
+
+        {
+            // We have an object, check the link type
+            // Note: in creation mode we do not have this so we have no way to check)
+            $mgdschema_object = $_MIDCOM->dbfactory->convert_midcom_to_midgard($this->_type->storage->object);
+            if (    $mgdschema_object !== null
+                 && $this->_field['storage']['location'] !== null)
+            {
+                $mrp = new midgard_reflection_property(get_class($mgdschema_object));
+
+                if (   !$mrp
+                    || !$mrp->is_link($this->_field['storage']['location']))
+                {
+                    // Storing IDs to non-linked fields is not replication safe
+                    debug_add("Field \"{$this->name}\" is set to store to property \"{$this->_field['storage']['location']}\" which is not link, making it replication-unsafe, aborting.", MIDCOM_LOG_WARN);
+
+                    $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), sprintf($this->_l10n->get('field %s is set to store to property %s but links via ID which is not replication-safe, aborting'), $this->name, $this->_field['storage']['location']), 'error');
+
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -615,189 +627,194 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (array_key_exists($this->clever_class, $clever_classes))
         {
-            $this->class = $clever_classes[$this->clever_class]['class'];
-            $this->component = $clever_classes[$this->clever_class]['component'];
-
-            if (! empty($this->component))
-            {
-                $_MIDCOM->componentloader->load($this->component);
-            }
-
-            if (empty($this->result_headers))
-            {
-                $this->result_headers = array();
-                foreach ($clever_classes[$this->clever_class]['headers'] as $header_key)
-                {
-                    $header = array();
-                    if ($this->component)
-                    {
-                        $header['title'] = $_MIDCOM->i18n->get_string($header_key, $this->component);
-                    }
-                    else
-                    {
-                        $header['title'] = $this->_l10n_midcom->get($header_key);
-                    }
-                    $header['name'] = $header_key;
-                    $this->result_headers[] = $header;
-                }
-            }
-            if (   is_null($this->generate_path_for)
-                && isset($clever_classes[$this->clever_class]['generate_path_for']))
-            {
-                $this->generate_path_for = $clever_classes[$this->clever_class]['generate_path_for'];
-            }
-            if (empty($this->constraints))
-            {
-                $this->constraints = $clever_classes[$this->clever_class]['constraints'];
-            }
-            if (empty($this->searchfields))
-            {
-                $this->searchfields = $clever_classes[$this->clever_class]['searchfields'];
-            }
-            if (empty($this->orders))
-            {
-                $this->orders = $clever_classes[$this->clever_class]['orders'];
-            }
-            if (isset($clever_classes[$this->clever_class]['reflector_key']))
-            {
-                $this->reflector_key = $clever_classes[$this->clever_class]['reflector_key'];
-            }
-            if (!$this->id_field
-                && isset($clever_classes[$this->clever_class]['id_field']))
-            {
-                $this->id_field = $clever_classes[$this->clever_class]['id_field'];
-            }
-
+            $this->_initialize_from_clever_class($clever_classes[$this->clever_class]);
             return true;
         }
         else
         {
-            $matching_type = false;
-            $matched_types = array();
-            foreach (midcom_connection::get_schema_types() as $schema_type)
-            {
-                $pos = strpos($schema_type, $this->clever_class);
-                if ($pos !== false)
-                {
-                    $matched_types[] = $schema_type;
-                }
-            }
+            return $this->_initialize_from_reflector();
+        }
+    }
 
-            if (count($matched_types) == 1)
+    private function _initialize_from_clever_class($class)
+    {
+        $this->class = $class['class'];
+        $this->component = $class['component'];
+
+        if (! empty($this->component))
+        {
+            $_MIDCOM->componentloader->load($this->component);
+        }
+
+        if (empty($this->result_headers))
+        {
+            $this->result_headers = array();
+            foreach ($class['headers'] as $header_key)
             {
-                $matching_type = $matched_types[0];
-            }
-            else
-            {
-                if ($this->clever_class == 'event')
+                $header = array();
+                if ($this->component)
                 {
-                    $matching_type = 'net_nemein_calendar_event';
-                    $this->creation_default_key = 'title';
-                }
-                else if ($this->clever_class == 'person')
-                {
-                    $matching_type = 'midgard_person';
+                    $header['title'] = $_MIDCOM->i18n->get_string($header_key, $this->component);
                 }
                 else
                 {
-                    if (count($matched_types) > 0)
-                    {
-                        $matching_type = $matched_types[0];
-                    }
+                    $header['title'] = $this->_l10n_midcom->get($header_key);
+                }
+                $header['name'] = $header_key;
+                $this->result_headers[] = $header;
+            }
+        }
+        if (   is_null($this->generate_path_for)
+            && isset($class['generate_path_for']))
+        {
+            $this->generate_path_for = $class['generate_path_for'];
+        }
+        if (empty($this->constraints))
+        {
+            $this->constraints = $class['constraints'];
+        }
+        if (empty($this->searchfields))
+        {
+            $this->searchfields = $class['searchfields'];
+        }
+        if (empty($this->orders))
+        {
+            $this->orders = $class['orders'];
+        }
+        if (isset($class['reflector_key']))
+        {
+            $this->reflector_key = $class['reflector_key'];
+        }
+        if (!$this->id_field
+            && isset($class['id_field']))
+        {
+            $this->id_field = $class['id_field'];
+        }
+    }
+
+    private function _initialize_from_reflector()
+    {
+        $matching_type = false;
+        $matched_types = array();
+        foreach (midcom_connection::get_schema_types() as $schema_type)
+        {
+            $pos = strpos($schema_type, $this->clever_class);
+            if ($pos !== false)
+            {
+                $matched_types[] = $schema_type;
+            }
+        }
+
+        if (count($matched_types) == 1)
+        {
+            $matching_type = $matched_types[0];
+        }
+        else
+        {
+            if ($this->clever_class == 'event')
+            {
+                $matching_type = 'net_nemein_calendar_event';
+                $this->creation_default_key = 'title';
+            }
+            else if ($this->clever_class == 'person')
+            {
+                $matching_type = 'midgard_person';
+            }
+            else
+            {
+                if (count($matched_types) > 0)
+                {
+                    $matching_type = $matched_types[0];
                 }
             }
+        }
 
-            if (! $matching_type)
+        if (! $matching_type)
+        {
+            debug_add("no matches found for {$this->clever_class}!");
+            return false;
+        }
+
+        $midcom_reflector = new midcom_helper_reflector($matching_type);
+
+        $labels = array();
+
+        $dummy_object = new $matching_type();
+        $type_fields = array_keys(get_object_vars($dummy_object));
+
+        unset($type_fields['metadata']);
+        foreach ($type_fields as $key)
+        {
+            if (in_array($key, array('title','firstname','lastname','name','email','start','end','location')))
             {
-                debug_add("no matches found for {$this->clever_class}!");
-                return false;
-            }
-
-            $midcom_reflector = new midcom_helper_reflector($matching_type);
-
-            $labels = array();
-
-            $dummy_object = new $matching_type();
-            $type_fields = array_keys(get_object_vars($dummy_object));
-
-            unset($type_fields['metadata']);
-            foreach ($type_fields as $key)
-            {
-                if (in_array($key, array('title','firstname','lastname','name','email','start','end','location')))
+                if (! in_array($key, $labels))
                 {
-                    if (! in_array($key, $labels))
-                    {
-                        $labels[] = $key;
-                    }
+                    $labels[] = $key;
                 }
             }
+        }
 
-            if (empty($labels))
+        if (empty($labels))
+        {
+            $label_properties = $midcom_reflector->get_label_property();
+            if (is_array($label_properties))
             {
-                $label_properties = $midcom_reflector->get_label_property();
-                if (is_array($label_properties))
+                foreach ($label_properties as $key)
                 {
-                    foreach ($label_properties as $key)
+                    if (! in_array($key,array('id','guid')))
                     {
-                        if (! in_array($key,array('id','guid')))
+                        if (! in_array($key, $labels))
                         {
-                            if (! in_array($key, $labels))
-                            {
-                                $labels[] = $key;
-                            }
+                            $labels[] = $key;
                         }
                     }
                 }
             }
-
-            $this->class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($matching_type);
-            $this->component = $_MIDCOM->dbclassloader->get_component_for_class($matching_type);
-
-            if (empty($this->constraints))
-            {
-                $this->constraints = array();
-            }
-            if (empty($this->searchfields))
-            {
-                $this->searchfields = $midcom_reflector->get_search_properties();
-                if (empty($this->searchfields))
-                {
-                    //TODO: Special rules for objects that need them
-                }
-            }
-            if (empty($this->orders))
-            {
-                $this->orders = array();
-            }
-
-            $reflection_l10n = $midcom_reflector->get_component_l10n();
-            if (empty($this->result_headers))
-            {
-                $this->result_headers = array();
-                foreach ($labels as $label)
-                {
-                    $header = array();
-                    $header['title'] = $reflection_l10n->get($label);
-                    $header['name'] = $label;
-                    $this->result_headers[] = $header;
-                }
-
-                if (empty($this->result_headers))
-                {
-                    //Special rules for objects that need them
-                }
-            }
-
-            if (   $this->creation_mode_enabled
-                && empty($this->creation_default_key))
-            {
-                $this->creation_default_key = $this->result_headers[0]['name'];
-            }
-
-            return true;
         }
 
-        return false;
+        $this->class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($matching_type);
+        $this->component = $_MIDCOM->dbclassloader->get_component_for_class($matching_type);
+
+        if (empty($this->constraints))
+        {
+            $this->constraints = array();
+        }
+        if (empty($this->searchfields))
+        {
+            $this->searchfields = $midcom_reflector->get_search_properties();
+            if (empty($this->searchfields))
+            {
+                //TODO: Special rules for objects that need them
+            }
+        }
+        if (empty($this->orders))
+        {
+            $this->orders = array();
+        }
+
+        $reflection_l10n = $midcom_reflector->get_component_l10n();
+        if (empty($this->result_headers))
+        {
+            $this->result_headers = array();
+            foreach ($labels as $label)
+            {
+                $header = array();
+                $header['title'] = $reflection_l10n->get($label);
+                $header['name'] = $label;
+                $this->result_headers[] = $header;
+            }
+
+            if (empty($this->result_headers))
+            {
+                //Special rules for objects that need them
+            }
+        }
+
+        if (   $this->creation_mode_enabled
+            && empty($this->creation_default_key))
+        {
+            $this->creation_default_key = $this->result_headers[0]['name'];
+        }
     }
 
     function _init_widget_options()
@@ -997,14 +1014,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $script .= ");";
         $this->_jscript .= $script;
 
-        // Add existing and static selections
-        $existing_elements = $this->_type->selection;
-
-        // Add to existing elements the ones requested (POST/GET) to this page
-        $new_elements = $this->_get_request_elements();
-
-        $elements = array_merge($this->static_options, $existing_elements, $new_elements);
-
         $this->_static_items_html .= "<table class=\"widget_chooser_static_items_table\">\n";
         $this->_static_items_html .= "    <thead>\n";
         $this->_static_items_html .= "        <tr>\n";
@@ -1029,6 +1038,40 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $this->_static_items_html .= "        </tr>\n";
         $this->_static_items_html .= "    </thead>\n";
         $this->_static_items_html .= "    <tbody>\n";
+
+        $this->_add_items_to_form();
+
+        $this->_static_items_html .= "    </tbody>\n";
+        $this->_static_items_html .= "</table>\n";
+
+        $this->widget_elements[] = HTML_QuickForm::createElement
+        (
+            'static',
+            "{$this->_element_id}_initscripts",
+            '',
+            $this->_jscript
+        );
+
+        $this->widget_elements[] = HTML_QuickForm::createElement
+        (
+            'static',
+            "{$this->_element_id}_noscript",
+            '',
+            $this->_static_items_html
+        );
+
+        $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_chooser'));
+    }
+
+    private function _add_items_to_form()
+    {
+        // Add existing and static selections
+        $existing_elements = $this->_type->selection;
+
+        // Add to existing elements the ones requested (POST/GET) to this page
+        $new_elements = $this->_get_request_elements();
+
+        $elements = array_merge($this->static_options, $existing_elements, $new_elements);
 
         $ee_script = '';
         if ($this->_renderer_callback)
@@ -1071,27 +1114,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         $this->_jscript .= "\nclose_dialog = function(widget_id){jQuery('#' + widget_id + '_creation_dialog').hide();};";
         $this->_jscript .= "\nadd_item = function(data, widget_id){jQuery('#' + widget_id + '_search_input').midcom_helper_datamanager2_widget_chooser_add_result_item(data);};";
         $this->_jscript .= '</script>';
-
-        $this->_static_items_html .= "    </tbody>\n";
-        $this->_static_items_html .= "</table>\n";
-
-        $this->widget_elements[] = HTML_QuickForm::createElement
-        (
-            'static',
-            "{$this->_element_id}_initscripts",
-            '',
-            $this->_jscript
-        );
-
-        $this->widget_elements[] = HTML_QuickForm::createElement
-        (
-            'static',
-            "{$this->_element_id}_noscript",
-            '',
-            $this->_static_items_html
-        );
-
-        $this->_form->addGroup($this->widget_elements, $this->name, $this->_translate($this->_field['title']), '', array('class' => 'midcom_helper_datamanager2_widget_chooser'));
     }
 
     function _add_existing_item_as_static($key)

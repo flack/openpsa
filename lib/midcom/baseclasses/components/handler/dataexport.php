@@ -256,48 +256,8 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
             }
         }
 
-        // Dump objects
-        foreach ($this->_objects as $object)
-        {
-            if (!$this->set_dm_storage($object))
-            {
-                // Object failed to load, skip
-                continue;
-            }
+        $this->_dump_objects();
 
-            if ($this->include_guid)
-            {
-                echo $this->_encode_csv($object->guid, true, false);
-            }
-
-            $i = 0;
-            foreach ($datamanager->schema->field_order as $fieldname)
-            {
-                $type =& $datamanager->types[$fieldname];
-                $typename =& $datamanager->schema->fields[$fieldname]['type'];
-                $data = '';
-                $data = $type->convert_to_csv();
-
-                if ($this->include_totals
-                    && $typename == 'number')
-                {
-                    $totals[$fieldname] += $data;
-                }
-                $i++;
-                if ($i < count($datamanager->schema->field_order))
-                {
-                    echo $this->_encode_csv($data, true, false);
-                }
-                else
-                {
-                    echo $this->_encode_csv($data, false, true);
-                }
-                $data = '';
-                // Prevent buggy types from leaking their old value over
-                $datamanager->types[$fieldname]->value = false;
-            }
-            flush();
-        }
         if ($this->include_totals)
         {
             foreach ($datamanager->schema->field_order as $name)
@@ -321,6 +281,51 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
         // restart ob to keep MidCOM happy
         ob_start();
+    }
+
+    private function _dump_objects()
+    {
+        foreach ($this->_objects as $object)
+        {
+            if (!$this->set_dm_storage($object))
+            {
+                // Object failed to load, skip
+                continue;
+            }
+
+            if ($this->include_guid)
+            {
+                echo $this->_encode_csv($object->guid, true, false);
+            }
+
+            $i = 0;
+            foreach ($this->_datamanager->schema->field_order as $fieldname)
+            {
+                $type =& $this->_datamanager->types[$fieldname];
+                $typename =& $this->_datamanager->schema->fields[$fieldname]['type'];
+                $data = '';
+                $data = $type->convert_to_csv();
+
+                if ($this->include_totals
+                    && $typename == 'number')
+                {
+                    $totals[$fieldname] += $data;
+                }
+                $i++;
+                if ($i < count($this->_datamanager->schema->field_order))
+                {
+                    echo $this->_encode_csv($data, true, false);
+                }
+                else
+                {
+                    echo $this->_encode_csv($data, false, true);
+                }
+                $data = '';
+                // Prevent buggy types from leaking their old value over
+                $this->_datamanager->types[$fieldname]->value = false;
+            }
+            flush();
+        }
     }
 }
 ?>

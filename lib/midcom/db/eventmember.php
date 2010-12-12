@@ -46,6 +46,13 @@ class midcom_db_eventmember extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function get_label()
+    {
+        $person = new midcom_db_person($this->uid);
+        $event = new midcom_db_event($this->eid);
+        return sprintf($_MIDCOM->i18n->get_string('%s in %s', 'midcom'), $person->name, $event->title);
+    }
+
     /**
      * Returns the Parent of the Eventmember. This is the event it is assigned to.
      *

@@ -43,6 +43,18 @@ class midcom_db_event extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function get_label()
+    {
+        if ($this->start == 0)
+        {
+            return $this->title;
+        }
+        else
+        {
+            return strftime('%x', $this->start) . " {$this->title}";
+        }
+    }
+
     /**
      * Returns the Parent of the Event. This can either be another event if we have
      * a reply event, or a topic otherwise.

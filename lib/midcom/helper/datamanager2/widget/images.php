@@ -438,46 +438,50 @@ END;
 
         if (!$frozen)
         {
-            // Controls Column
-            if ($info['object']->can_do('midgard:update'))
-            {
-                $html = "            </td>\n" .
-                        "            <td class=\"exist upload\">\n";
-                $this->_elements["s_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
-                $attributes = Array
-                (
-                    'class' => 'exist file',
-                    'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_file",
-                    'onchange' => "midcom_helper_dm2_widget_images_check(event, 'e_exist_{$identifier}_delete')",
-                );
-                $this->_elements["e_exist_{$identifier}_file"] = HTML_QuickForm::createElement('file', "e_exist_{$identifier}_file", '', $attributes);
-                $this->_elements["s_exist_{$identifier}_br"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
-                $attributes = Array
-                (
-                    'class' => 'exist upload',
-                    'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
-                );
-                $this->_elements["e_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
-            }
-            if ($info['object']->can_do('midgard:delete'))
-            {
-                $attributes = Array
-                (
-                    'class' => 'exist delete',
-                    'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
-                );
-                $this->_elements["e_exist_{$identifier}_delete"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
-            }
-            // WTF, the identifiers look wonky here
-            $html = sprintf("<span id=\"e_exist_{$identifier}_delete\" style=\"display:none;color:red\">%s</span>",
-                            $this->_l10n_midcom->get('You can only upload images here. This file will not be saved.')
-                            );
-            $this->_elements["s_exist_{$identifier}_error"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
+            $this->_add_controls($info, $identifier);
         }
 
         $html = "            </td>\n" .
                 "        </tr>\n";
         $this->_elements["s_exist_{$identifier}_file"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_file", '', $html);
+    }
+
+    private function _add_controls($info, $identifier)
+    {
+        if ($info['object']->can_do('midgard:update'))
+        {
+            $html = "            </td>\n" .
+                    "            <td class=\"exist upload\">\n";
+            $this->_elements["s_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
+            $attributes = Array
+            (
+                'class' => 'exist file',
+                'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_file",
+                'onchange' => "midcom_helper_dm2_widget_images_check(event, 'e_exist_{$identifier}_delete')",
+            );
+            $this->_elements["e_exist_{$identifier}_file"] = HTML_QuickForm::createElement('file', "e_exist_{$identifier}_file", '', $attributes);
+            $this->_elements["s_exist_{$identifier}_br"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', "<br/>");
+            $attributes = Array
+            (
+                'class' => 'exist upload',
+                'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
+            );
+            $this->_elements["e_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_upload", $this->_l10n->get('replace file'), $attributes);
+        }
+        if ($info['object']->can_do('midgard:delete'))
+        {
+            $attributes = Array
+            (
+                'class' => 'exist delete',
+                'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
+            );
+            $this->_elements["e_exist_{$identifier}_delete"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
+        }
+        // WTF, the identifiers look wonky here
+        $html = sprintf("<span id=\"e_exist_{$identifier}_delete\" style=\"display:none;color:red\">%s</span>",
+                        $this->_l10n_midcom->get('You can only upload images here. This file will not be saved.')
+                        );
+        $this->_elements["s_exist_{$identifier}_error"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
     }
 
     /**
