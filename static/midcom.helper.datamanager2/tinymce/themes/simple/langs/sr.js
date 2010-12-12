@@ -1,11 +1,11 @@
 tinyMCE.addI18n('sr.simple',{
 bold_desc:"Podebljaj (Ctrl+B)",
 italic_desc:"Iskosi (Ctrl+I)",
-underline_desc:"Podcrtaj (Ctrl+U)",
+underline_desc:"Podvuci (Ctrl+U)",
 striketrough_desc:"Precrtaj",
-bullist_desc:"Neure\u0111ena lista",
-numlist_desc:"Ure\u0111ena lista",
-undo_desc:"Poni\u0161ti (Ctrl+Z)",
-redo_desc:"Ponovi (Ctrl+Y)",
-cleanup_desc:"Po\u010Disti kod"
+bullist_desc:"Znakovna lista",
+numlist_desc:"Broj\u010Dana lista",
+undo_desc:"Opozovi (Ctrl+Z)",
+redo_desc:"Vrati (Ctrl+Y)",
+cleanup_desc:"O\u010Disti kod"
 });

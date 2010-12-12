@@ -1,6 +1,6 @@
 tinyMCE.addI18n('ar.fullpage_dlg',{
 title:"Document properties",
-meta_tab:"General",
+meta_tab:"\u0639\u0627\u0645",
 appearance_tab:"Appearance",
 advanced_tab:"Advanced",
 meta_props:"Meta information",
@@ -80,6 +80,6 @@ content:"Content",
 rel:"Rel",
 rev:"Rev",
 hreflang:"Href lang",
-general_props:"General",
+general_props:"\u0639\u0627\u0645",
 advanced_props:"Advanced"
 });

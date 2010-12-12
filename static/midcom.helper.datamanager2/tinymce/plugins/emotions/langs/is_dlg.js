@@ -15,6 +15,6 @@ smile:"Bros",
 surprised:"Hissa",
 tongue_out:"Tungan \u00FAt",
 undecided:"\u00D3\u00E1kve\u00F0inn",
-wink:"Wink",
+wink:"Blikk",
 yell:"\u00D6skrandi"
 });

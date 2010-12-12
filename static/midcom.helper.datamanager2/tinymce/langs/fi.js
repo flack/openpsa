@@ -4,7 +4,7 @@ edit_confirm:"Haluatko k\u00E4ytt\u00E4\u00E4 WYSIWYG-tilaa t\u00E4ss\u00E4 teks
 apply:"K\u00E4yt\u00E4",
 insert:"Lis\u00E4\u00E4",
 update:"P\u00E4ivit\u00E4",
-cancel:"Peruuta",
+cancel:"Peru",
 close:"Sulje",
 browse:"Selaa",
 class_name:"Luokka",
@@ -51,7 +51,7 @@ content:"Uusi taso..."
 },
 save:{
 save_desc:"Tallenna",
-cancel_desc:"Peruuta kaikki muutokset"
+cancel_desc:"Peru kaikki muutokset"
 },
 nonbreaking:{
 nonbreaking_desc:"Lis\u00E4\u00E4 tyhj\u00E4 merkki (nbsp)"
@@ -95,9 +95,9 @@ plaintext_mode_sticky:"Liitt\u00E4minen on nyt pelkk\u00E4n\u00E4 tekstin\u00E4.
 plaintext_mode:"Liitt\u00E4minen on nyt pelkk\u00E4n\u00E4 tekstin\u00E4. Klikkaa uudelleen vaihtaaksesi takaisin tavalliseen tilaan."
 },
 paste_dlg:{
-text_title:"Paina CTRL+V liitt\u00E4\u00E4ksesi sis\u00E4ll\u00F6n ikkunaan.",
+text_title:"Paina Ctrl+V liitt\u00E4\u00E4ksesi sis\u00E4ll\u00F6n ikkunaan.",
 text_linebreaks:"S\u00E4ilyt\u00E4 rivinvaihdot",
-word_title:"Paina CTRL+V liitt\u00E4\u00E4ksesi sis\u00E4ll\u00F6n ikkunaan."
+word_title:"Paina Ctrl+V liitt\u00E4\u00E4ksesi sis\u00E4ll\u00F6n ikkunaan."
 },
 table:{
 desc:"Lis\u00E4\u00E4 uusi taulukko",
