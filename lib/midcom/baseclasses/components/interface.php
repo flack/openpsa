@@ -461,7 +461,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
      */
     public function get_current_leaf()
     {
-        return midcom_baseclasses_components_configuration::get($this->component, 'active_leaf');
+        return midcom_baseclasses_components_configuration::get($this->_component, 'active_leaf');
     }
 
 

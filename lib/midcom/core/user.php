@@ -197,10 +197,13 @@ class midcom_core_user
     private function _load($id)
     {
         $person_class = $GLOBALS['midcom_config']['person_class'];
-        if (   is_string($id)
-            && !$this->_load_from_string($id, $person_class))
+
+        if (is_string($id))
         {
-            return false;
+            if (!$this->_load_from_string($id, $person_class))
+            {
+                return false;
+            }
         }
         else if (is_numeric($id))
         {
@@ -268,10 +271,12 @@ class midcom_core_user
         {
             return false;
         }
+
         if (substr($id, 0, 5) == 'user:')
         {
             $id = substr($id, 5);
         }
+
         if (mgd_is_guid($id))
         {
             $this->_storage = new $person_class();
@@ -291,6 +296,7 @@ class midcom_core_user
             debug_print_r('Passed argument was:', $id);
             return false;
         }
+
         return true;
     }
 
