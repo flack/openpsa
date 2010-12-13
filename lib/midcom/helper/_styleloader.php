@@ -135,6 +135,13 @@ class midcom_helper__styleloader
     var $object = null;
 
     /**
+     * Data to pass to the style
+     *
+     * @var array
+     */
+    public $data;
+
+    /**
      * Simple initialization
      */
     public function __construct()
@@ -537,6 +544,55 @@ class midcom_helper__styleloader
         if (isset($_stylepath))
         {
             array_shift($this->_scope);
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Looks for a midcom core style element matching $path and displays/evaluates it.
+     * This offers a bit reduced functionality and will only look in the DB root style,
+     * the theme directory and midcom's style directory, because it has to work even when
+     * midcom is not yet fully initialized 
+     *
+     * @param string $path    The style element to show.
+     * @return boolean            True on success, false otherwise.
+     */
+    function show_midcom($path)
+    {
+        $_element = $path;
+        $_style = false;
+
+        $this->_snippetdir = '/midcom/style';
+        $this->_styledirs_count[0] = 1;
+        $this->_styledirs[0][0] = $this->_snippetdir;
+
+        $root_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
+
+        if (   $root_topic
+            && $root_topic->style)
+        {
+            $db_style = $this->get_style_id_from_path($root_topic->style);
+            if ($db_style)
+            {
+                $_style = $this->_get_element_in_styletree($db_style, $_element);
+            }
+        }
+
+        if ($_style === false)
+        {
+            $_style = $this->_get_element_from_snippet($_element);
+        }
+
+        if ($_style !== false)
+        {
+            $this->_parse_element($_style, $path);
+        }
+        else
+        {
+            debug_add("The element '{$path}' could not be found.", MIDCOM_LOG_INFO);
+            return false;
         }
 
         return true;

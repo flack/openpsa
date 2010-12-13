@@ -288,6 +288,7 @@ if (!class_exists('midcom_application'))
 }
 
 $_MIDCOM = new midcom_application();
+
 $_MIDCOM->auth = $auth;
 $_MIDCOM->cache = $GLOBALS['midcom_cache'];
 

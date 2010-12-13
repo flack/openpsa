@@ -40,7 +40,7 @@ class midcom_exception_handler
                 _midcom_header('HTTP/1.0 500 Server Error');
             }
 
-            _midcom_stop_request('Failed to initialize MidCOM: ' . htmlentities($e->getMessage()));
+            _midcom_stop_request('Failed to initialize MidCOM: ' . $e->getMessage());
         }
 
         $trace = $e->getTraceAsString();
@@ -98,7 +98,6 @@ class midcom_exception_handler
     {
         debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
         debug_print_function_stack('Stacktrace:');
-        $message = htmlentities($message);
 
         // Send error to special log or recipient as per in configuration.
         $this->send($httpcode, $message);
@@ -156,55 +155,25 @@ class midcom_exception_handler
         _midcom_header ($header);
         _midcom_header ('Content-Type: text/html');
 
-        if (   $code < 500
-            && mgd_is_element_loaded("midcom_error_{$code}"))
+        if (isset($_MIDCOM->style))
         {
-            $GLOBALS['midcom_error_title'] = $title;
-            $GLOBALS['midcom_error_message'] = htmlentities($message);
-            $GLOBALS['midcom_error_code'] = $code;
-            midcom_helper_misc::show_element("midcom_error_{$code}");
+            $style = $_MIDCOM->style;
         }
         else
         {
-            echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
-            ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<title><?echo $title; ?></title>
-<style type="text/css">
-    body { color: #000000; background-color: #FFFFFF; }
-    a:link { color: #0000CC; }
-    p, address {margin-left: 3em;}
-    address {font-size: smaller;}
-</style>
-</head>
-
-<body>
-<h1><?echo $title; ?></h1>
-
-<p>
-<?echo $message; ?>
-</p>
-
-<h2>Error <?echo $code; ?></h2>
-<address>
-  <a href="/"><?php echo $_SERVER['SERVER_NAME']; ?></a><br />
-  <?php echo date('r'); ?><br />
-  <?php echo $_SERVER['SERVER_SOFTWARE']; ?>
-</address>
-<?php
-$stacktrace = $this->get_function_stack();
-if (!empty($stacktrace))
-{
-    echo "<pre>{$stacktrace}</pre>\n";
-}
-?>
-</body>
-</html>
-<?php
+            $style = new midcom_helper__styleloader();
         }
+
+        $style->data['error_title'] = $title;
+        $style->data['error_message'] = $message;
+        $style->data['error_code'] = $code;
+        $style->data['error_handler'] = $this;
+
+        if (!$style->show_midcom('midcom_error_' . $code))
+        {
+            $style->show_midcom('midcom_error');
+        }
+
         debug_add("Error Page output finished, exiting now", MIDCOM_LOG_DEBUG);
         $_MIDCOM->cache->content->no_cache();
         $_MIDCOM->finish();
@@ -301,7 +270,7 @@ if (!empty($stacktrace))
         }
     }
 
-    private function get_function_stack()
+    public function get_function_stack()
     {
         $stacktrace = '';
         if (MIDCOM_XDEBUG)

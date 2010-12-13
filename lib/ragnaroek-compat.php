@@ -88,11 +88,6 @@ function mgd_element($name)
     }
 }
 
-function mgd_is_element_loaded($element)
-{
-    return file_exists(OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/style/' . $_MIDGARD['page_style'] . "/{$element}.php");
-}
-
 /**
  * Show a variable
  */

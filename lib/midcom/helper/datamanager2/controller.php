@@ -262,36 +262,8 @@ abstract class midcom_helper_datamanager2_controller extends midcom_baseclasses_
      */
     public function show_unlock()
     {
-        if (   function_exists('mgd_is_element_loaded')
-            && mgd_is_element_loaded('midcom_helper_datamanager2_unlock'))
-        {
-            midcom_helper_misc::show_element('midcom_helper_datamanager2_unlock');
-        }
-        else
-        {
-            $metadata = $this->datamanager->storage->object->metadata;
-            $person = new midcom_db_person($this->datamanager->storage->object->metadata->locker);
-            ?>
-                <div class="midcom_helper_datamanager2_unlock">
-                    <h2><?php echo $this->_l10n->get('object locked'); ?></h2>
-                    <p>
-                        <?php echo sprintf($this->_l10n->get('this object was locked by %s'), $person->name); ?>.
-                        <?php echo sprintf($this->_l10n->get('lock will expire on %s'), strftime('%x %X', ($metadata->get('locked') + ($GLOBALS['midcom_config']['metadata_lock_timeout'] * 60)))); ?>.
-                    </p>
-            <?php
-            if ($metadata->can_unlock())
-            {
-                echo "<form method=\"post\">\n";
-                echo "    <p class=\"unlock\">\n";
-                echo "        <input type=\"hidden\" name=\"midcom_helper_datamanager2_object\" value=\"{$this->datamanager->storage->object->guid}\" />\n";
-                echo "        <input type=\"submit\" name=\"midcom_helper_datamanager2_unlock\" value=\"" . $this->_l10n->get('break the lock') . "\" class=\"unlock\" />\n";
-                echo "    </p>\n";
-                echo "</form>\n";
-            }
-            ?>
-                </div>
-            <?php
-        }
+        $_MIDCOM->style->data['handler'] = $this;
+        $_MIDCOM->style->show_midcom('midcom_helper_datamanager2_unlock');
     }
 }
 ?>

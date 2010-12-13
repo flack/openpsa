@@ -161,19 +161,9 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _show_config($handler_id, &$data)
     {
-        if (   function_exists('mgd_is_element_loaded')
-            && mgd_is_element_loaded('dm2_config'))
-        {
-            $data['controller'] =& $this->_controller;
-            midcom_helper_misc::show_element('dm2_config');
-            return;
-        }
-
-        // No user-defined element, show directly here
-        echo "<div class=\"dm2_config\">\n";
-        echo "<h1>{$data['title']}</h1>\n";
-        $this->_controller->display_form();
-        echo "</div>\n";
+        $_MIDCOM->style->data['controller'] =& $this->_controller;
+        $_MIDCOM->style->data['title'] = $data['title'];
+        $_MIDCOM->style->show_midcom('dm2_config');
     }
 
     /**
@@ -247,51 +237,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         @ini_set('memory_limit', -1);
         @ini_set('max_execution_time', 0);
 
-        if (   function_exists('mgd_is_element_loaded')
-            && mgd_is_element_loaded('dm2_config_recreate'))
-        {
-            midcom_helper_misc::show_element('dm2_config_recreate');
-            return;
-        }
+        $_MIDCOM->style->data['title'] = $data['title'];
+        $_MIDCOM->style->data['objects'] = $this->_load_objects();
+        $_MIDCOM->style->data['datamanagers'] = $data['datamanagers'];
 
-        // No user-defined element, show directly here
-
-        echo "<h1>{$data['title']}</h1>\n";
-
-        echo "<p>" . $_MIDCOM->i18n->get_string('recreating', 'midcom') . "</p>\n";
-
-        echo "<pre>\n";
-        $objects = $this->_load_objects();
-        foreach ($objects as $object)
-        {
-            $type = get_class($object);
-            if (!isset($data['datamanagers'][$type]))
-            {
-                echo sprintf($_MIDCOM->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'No datamanager defined') . "\n";
-                continue;
-            }
-
-            if (   !$object->can_do('midgard:update')
-                || !$object->can_do('midgard:attachments'))
-            {
-                echo sprintf($_MIDCOM->i18n->get_string('not recreating object %s %s, reason %s', 'midcom'), $type, $object->guid, 'Insufficient privileges') . "\n";
-                continue;
-            }
-
-            echo sprintf($_MIDCOM->i18n->get_string('recreating object %s %s', 'midcom'), $type, $object->guid) . ': ';
-            $data['datamanagers'][$type]->autoset_storage($object);
-            if (!$data['datamanagers'][$type]->recreate())
-            {
-                echo "SKIPPED\n";
-            }
-            else
-            {
-                echo "OK\n";
-            }
-        }
-        echo "</pre>\n";
-
-        echo "<p>" . $_MIDCOM->i18n->get_string('done', 'midcom') . "</p>\n";
+        $_MIDCOM->style->show_midcom('dm2_config_recreate');
     }
 }
 ?>

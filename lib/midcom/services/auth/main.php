@@ -535,7 +535,7 @@ class midcom_services_auth
      */
     function require_do($privilege, &$content_object, $message = null)
     {
-        if (! $this->can_do($privilege, $content_object))
+        if (!$this->can_do($privilege, $content_object))
         {
             if (is_null($message))
             {
@@ -649,7 +649,7 @@ class midcom_services_auth
     function require_valid_user($method = 'form')
     {
         debug_print_function_stack("require_valid_user called at this level");
-        if (! $this->is_valid_user())
+        if (!$this->is_valid_user())
         {
             switch ($method)
             {
@@ -1167,60 +1167,12 @@ class midcom_services_auth
 
         $_MIDCOM->cache->content->no_cache();
 
+        $_MIDCOM->style->data['midcom_services_auth_access_denied_message'] = $message;
+        $_MIDCOM->style->data['midcom_services_auth_access_denied_title'] = $title;
+        $_MIDCOM->style->data['midcom_services_auth_access_denied_login_warning'] = $login_warning;
 
-        if (   function_exists('mgd_is_element_loaded')
-            && mgd_is_element_loaded('midcom_services_auth_access_denied'))
-        {
-            // Pass our local but very useful variables on to the style element
-            $GLOBALS['midcom_services_auth_access_denied_message'] = $message;
-            $GLOBALS['midcom_services_auth_access_denied_title'] = $title;
-            $GLOBALS['midcom_services_auth_access_denied_login_warning'] = $login_warning;
-            midcom_helper_misc::show_element('midcom_services_auth_access_denied');
-        }
-        else
-        {
-            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
-            echo '<?'.'xml version="1.0" encoding="ISO-8859-1"?'.">\n";
-            ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-    <head>
-        <title><?php echo $title; ?></title>
-        <?php echo $_MIDCOM->print_head_elements(); ?>
-    </head>
+        $_MIDCOM->style->show_midcom('midcom_services_auth_access_denied');
 
-    <body onload="self.focus();document.midcom_services_auth_frontend_form.username.focus();">
-        <div id="container">
-            <div id="branding">
-                <div id="title"><h1>Midgard CMS</h1><h2><?php echo $title; ?></h2></div>
-                <div id="grouplogo"><a href="http://www.midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.gif" width="104" height="104" /></a></div>
-            </div>
-            <div class="clear"></div>
-            <div id="content">
-                <div id="login">
-                    <?php
-                    $_MIDCOM->auth->show_login_form();
-                    ?>
-                    <div class="clear"></div>
-                </div>
-
-                <div id="error"><?php echo "<div>{$login_warning}</div><div>{$message}</div>"; ?></div>
-            </div>
-
-            <div id="bottom">
-                <div id="version">Midgard <?php echo substr(mgd_version(), 0, 4); ?></div>
-            </div>
-
-            <div id="footer">
-                <div class="midgard">
-                    Copyright &copy; 1998-2008 <a href="http://www.midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
-                </div>
-            </div>
-    </body>
-</html>
-            <?php
-        }
         $_MIDCOM->finish();
         debug_add("Error Page output finished, exiting now", MIDCOM_LOG_DEBUG);
         _midcom_stop_request();
@@ -1283,70 +1235,12 @@ class midcom_services_auth
             $login_warning = $_MIDCOM->i18n->get_string('login message - user or password wrong', 'midcom');
         }
 
-        if (   function_exists('mgd_is_element_loaded')
-            && mgd_is_element_loaded('midcom_services_auth_login_page'))
-        {
-            // Pass our local but very useful variables on to the style element
-            $GLOBALS['midcom_services_auth_show_login_page_title'] = $title;
-            $GLOBALS['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
-            midcom_helper_misc::show_element('midcom_services_auth_login_page');
-        }
-        else
-        {
-            $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL.'/midcom.services.auth/style.css');
-            echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
-            ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-    <head>
-        <title><?php echo $title; ?></title>
-        <?php echo $_MIDCOM->print_head_elements(); ?>
-    </head>
+        // Pass our local but very useful variables on to the style element
+        $_MIDCOM->style->data['midcom_services_auth_show_login_page_title'] = $title;
+        $_MIDCOM->style->data['midcom_services_auth_show_login_page_login_warning'] = $login_warning;
 
-    <body onload="self.focus();document.midcom_services_auth_frontend_form.username.focus();">
-        <div id="container">
-            <div id="branding">
-                <div id="title"><h1>Midgard CMS</h1><h2><?php echo $title; ?></h2></div>
-                <div id="grouplogo"><a href="http://www.midgard-project.org/"><img src="<?php echo MIDCOM_STATIC_URL; ?>/stock-icons/logos/midgard-bubble-104x104.gif" width="104" height="104" /></a></div>
-            </div>
-            <div class="clear"></div>
-            <div id="content">
-                <div id="login">
-                    <?php
-                    $_MIDCOM->auth->show_login_form();
-                    ?>
-                    <div class="clear"></div>
-                </div>
-                <?php
-                if ($login_warning == '')
-                {
-                    echo "<div id=\"ok\">" . $_MIDCOM->i18n->get_string('login message - please enter credentials', 'midcom') . "</div>\n";
-                }
-                else
-                {
-                    echo "<div id=\"error\">{$login_warning}</div>\n";
-                }
-                ?>
-            </div>
+        $_MIDCOM->style->show_midcom('midcom_services_auth_login_page');
 
-            <div id="bottom">
-                <div id="version">Midgard <?php echo substr(mgd_version(), 0, 4); ?></div>
-            </div>
-
-            <div id="footer">
-                <div class="midgard">
-                    Copyright &copy; 1998-2008 <a href="http://www.midgard-project.org/">The Midgard Project</a>. Midgard is <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under <a href="http://www.gnu.org/licenses/lgpl.html">GNU Lesser General Public License</a>.
-                </div>
-            </div>
-        </div>
-    </body>
-    <?php
-    $_MIDCOM->uimessages->show();
-    ?>
-</html>
-            <?php
-        }
         $_MIDCOM->finish();
         _midcom_stop_request();
     }
