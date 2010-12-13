@@ -202,56 +202,32 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
     public function list_files($component, $with_index = false)
     {
-        $files = array();
+        $files = $this->_list_physical_files($component);
+        $files = $this->_add_virtual_files($files, $component);
 
-        $path = midcom_admin_help_help::get_documentation_dir($component);
-        if (!file_exists($path))
+        ksort($files);
+        // prepend 'index' URL if required
+        if ($with_index)
         {
-            return $files;
-        }
-
-        $directory = dir($path);
-        while (false !== ($entry = $directory->read()))
-        {
-            if (substr($entry, 0, 1) == '.' ||
-                substr($entry, 0, 5) == 'index' ||
-                substr($entry, 0, 7) == 'handler' ||
-                substr($entry, 0, 9) == 'urlmethod'
-               )
-            {
-                // Ignore dotfiles, handlers & index.lang.txt
-                continue;
-            }
-
-            $filename_parts = explode('.', $entry);
-            if (count($filename_parts) < 3)
-            {
-                continue;
-            }
-
-            if ($filename_parts[2] != 'txt')
-            {
-                // Not text file, skip
-                continue;
-            }
-
-            if (   $filename_parts[1] != $_MIDCOM->i18n->get_current_language()
-                && $filename_parts[1] != $GLOBALS['midcom_config']['i18n_fallback_language'])
-            {
-                // Wrong language
-                continue;
-            }
-
-            $files[$filename_parts[0]] = array
+            $files = array_merge
             (
-                'path' => "{$path}{$entry}",
-                'subject' => self::get_help_title($filename_parts[0], $component),
-                'lang' => $filename_parts[1],
+                array
+                (
+                    'index' => array
+                    (
+                        'path' => '/',
+                        'subject' => $_MIDCOM->i18n->get_string('help_index','midcom.admin.help'),
+                        'lang' => 'en',
+                    ),
+                ),
+                $files
             );
         }
-        $directory->close();
+        return $files;
+    }
 
-        //Artificial help files.
+    private function _add_virtual_files($files, $component)
+    {
         // Schemas
         $this->_request_data['mgdschemas'] = $_MIDCOM->dbclassloader->get_component_classes($component);
         if (count($this->_request_data['mgdschemas']))
@@ -306,27 +282,61 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 'lang' => 'en',
             );
         }
-        ksort($files);
-        // prepend 'index' URL if required
-        if ($with_index)
-        {
-            $files = array_merge
-            (
-                array
-                (
-                    'index' => array
-                    (
-                        'path' => '/',
-                        'subject' => $_MIDCOM->i18n->get_string('help_index','midcom.admin.help'),
-                        'lang' => 'en',
-                    ),
-                ),
-                $files
-            );
-        }
         return $files;
     }
+    
+    private function _list_physical_files($component)
+    {
+        $path = midcom_admin_help_help::get_documentation_dir($component);
+        if (!file_exists($path))
+        {
+            return array();
+        }
 
+        $files = array();
+        $directory = dir($path);
+        while (false !== ($entry = $directory->read()))
+        {
+            if (substr($entry, 0, 1) == '.' ||
+                substr($entry, 0, 5) == 'index' ||
+                substr($entry, 0, 7) == 'handler' ||
+                substr($entry, 0, 9) == 'urlmethod'
+               )
+            {
+                // Ignore dotfiles, handlers & index.lang.txt
+                continue;
+            }
+
+            $filename_parts = explode('.', $entry);
+            if (count($filename_parts) < 3)
+            {
+                continue;
+            }
+
+            if ($filename_parts[2] != 'txt')
+            {
+                // Not text file, skip
+                continue;
+            }
+
+            if (   $filename_parts[1] != $_MIDCOM->i18n->get_current_language()
+                && $filename_parts[1] != $GLOBALS['midcom_config']['i18n_fallback_language'])
+            {
+                // Wrong language
+                continue;
+            }
+
+            $files[$filename_parts[0]] = array
+            (
+                'path' => "{$path}{$entry}",
+                'subject' => self::get_help_title($filename_parts[0], $component),
+                'lang' => $filename_parts[1],
+            );
+        }
+        $directory->close();
+        return $files;
+    }
+    
 
     function read_component_handlers($component)
     {

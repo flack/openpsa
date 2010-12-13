@@ -203,7 +203,7 @@ class midcom_services__i18n_l10n
      *
      * - Leading and trailing whitespace will be eliminated
      */
-    private function _load_language ($lang)
+    private function _load_language($lang)
     {
         $filename = "{$this->_library_filename}.{$lang}.txt";
         if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] != 'flatfile')
@@ -240,7 +240,6 @@ class midcom_services__i18n_l10n
             if (! $instring)
             {
                 // outside of a string value
-
                 if ($string == '')
                 {
                     // Do nothing

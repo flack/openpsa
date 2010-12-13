@@ -342,34 +342,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             applyRowClasses();
         ";
 
-        // jQuery('.maa_permissions_rows ul').sortable({
-        //     handle: 'div.draghandle',
-        //     start: function(e, ui) {
-        //         console.log(e);
-        //     },
-        //     stop: function(e, ui) {
-        //         applyRowClasses();
-        //     }
-        // });
-
-        // var clear_storage = jQuery('#maa_permissions_clear_storage');
-        //
-        // if (clear_storage.attr('class') != 'done') {
-        //     clear_storage.attr('class','done');
-        //     var data = {
-        //         midcom_helper_datamanager2_save: 'Save',
-        //         _qf__net_nehmer_static: ''
-        //     };
-        //     jQuery('ul.items li').each(function(i,n){
-        //         jQuery(this).find('select').each(function(i,n){
-        //             data[jQuery(n).attr('name')] = '" . MIDCOM_PRIVILEGE_INHERIT . "';
-        //             //jQuery('<input type=\"hidden\" name=\"'+jQuery(n).attr('name')+'\" value=\"'+jQuery(n).val()+'\" />').appendTo(clear_storage);
-        //         });
-        //     });
-        //     console.log(data);
-        //     //jQuery.post('/__mfa/asgard/object/permissions/{$this->_object->guid}/', data, function(){jQuery.get('/__mfa/asgard/object/permissions/{$this->_object->guid}/');});
-        // }
-
         $_MIDCOM->add_jquery_state_script($script);
 
         // Load possible additional component privileges

@@ -206,7 +206,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             case 'save':
                 if ($this->_handler_id === 'edit')
                 {
-                    $url = $this->_update_topic($prefix);
+                    $url = $this->_update_topic($prefix, $old_name);
                 }
                 else
                 {
@@ -218,30 +218,19 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
         if ($this->_handler_id == 'create')
         {
-            $data['title'] = sprintf($_MIDCOM->i18n->get_string('create folder', 'midcom.admin.folder'));
-
-            // Hide the button in toolbar
-            $this->_node_toolbar->hide_item('__ais/folder/create/');
-
-            $this->_topic->require_do('midgard:create');
+            $data['title'] = $this->_l10n->get('create folder');
         }
         else if ($this->_handler_id == 'createlink')
         {
-            $data['title'] = sprintf($_MIDCOM->i18n->get_string('create folder link', 'midcom.admin.folder'));
-
-            // Hide the button in toolbar
-            $this->_node_toolbar->hide_item('__ais/folder/createlink/');
-
-            $this->_topic->require_do('midgard:create');
-            $this->_topic->require_do('midcom.admin.folder:symlinks');
+            $data['title'] = $this->_l10n->get('create folder link');
         }
         else
         {
-            $data['title'] = sprintf($_MIDCOM->i18n->get_string('edit folder %s', 'midcom.admin.folder'), $data['topic']->extra);
-
-            // Hide the button in toolbar
-            $this->_node_toolbar->hide_item('__ais/folder/edit/');
+            $data['title'] = sprintf($this->_l10n->get('edit folder %s'), $data['topic']->extra);
         }
+
+        // Hide the button in toolbar
+        $this->_node_toolbar->hide_item('__ais/folder/' . $this->_handler_id . '/');
 
         // Add the view to breadcrumb trail
         $this->add_breadcrumb('__ais/folder/edit/', $data['title']);
@@ -259,15 +248,12 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
 
-        // Serve the correct localization
-        $data['l10n'] =& $this->_l10n;
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
 
         return true;
     }
 
-    private function _update_topic($prefix)
+    private function _update_topic($prefix, $old_name)
     {
         if (   !empty($this->_topic->symlink)
             && !empty($this->_topic->component))

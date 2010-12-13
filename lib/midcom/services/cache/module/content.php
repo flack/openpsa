@@ -372,43 +372,8 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 $message = "Cache headers strategy '{$this->_headers_strategy}' is not valid, try 'no-cache', 'revalidate', 'public' or 'private'";
                 debug_add($message, MIDCOM_LOG_ERROR);
                 $this->no_cache();
-                /* Copied from midcom_application::generate_error, because we do not yet have midcom fully loaded */
-                $title = "Server Error";
-                $code = 500;
-                _midcom_header('HTTP/1.0 500 Server Error');
-                _midcom_header ('Content-Type: text/html');
-                echo '<?'.'xml version="1.0" encoding="ISO-8859-1"?'.">\n";
-                ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-    <head>
-        <title><?echo $title; ?></title>
-        <style type="text/css">
-            body { color: #000000; background-color: #FFFFFF; }
-            a:link { color: #0000CC; }
-            p, address {margin-left: 3em;}
-            address {font-size: smaller;}
-        </style>
-    </head>
 
-    <body>
-        <h1><?echo $title; ?></h1>
-
-        <p>
-        <?echo $message; ?>
-        </p>
-
-        <h2>Error <?echo $code; ?></h2>
-        <address>
-          <a href="/"><?php echo $_SERVER["SERVER_NAME"]; ?></a><br />
-          <?php echo date("r"); ?><br />
-          <?php echo $_SERVER["SERVER_SOFTWARE"]; ?>
-        </address>
-    </body>
-</html>
-                <?php
-                _midcom_stop_request();
+                throw new Exception($message);
                 break;
         }
 

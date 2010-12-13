@@ -218,19 +218,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private function _process_batch_change()
     {
-        if (   !isset($_POST['midcom_admin_user'])
-            || count($_POST['midcom_admin_user']) === 0)
-        {
-            return;
-        }
-
-        if (isset($_POST['f_cancel']))
-        {
-            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
-            $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
-            // This will exit
-        }
-
         // Load the org.openpsa.mail class
         $_MIDCOM->componentloader->load('org.openpsa.mail');
 
@@ -350,10 +337,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
         }
-
-        // Relocate to the user administration front page
-        $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
-        // This will exit
     }
 
     /**
@@ -383,10 +366,22 @@ implements midcom_helper_datamanager2_interfaces_edit
             '__TIME__' => sprintf($this->_l10n->get('current time (%s)'), strftime('%X')),
         );
 
-        $this->_process_batch_change();
+        if (   isset($_POST['midcom_admin_user'])
+            && count($_POST['midcom_admin_user']) > 0)
+        {
+            if (isset($_POST['f_cancel']))
+            {
+                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $_MIDCOM->i18n->get_string('cancelled', 'midcom'));
+                $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
+                // This will exit
+            }
+            $this->_process_batch_change();
+            // Relocate to the user administration front page
+            $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
+            // This will exit
+        }
 
-
-        if(isset($_GET['ajax']))
+        if (isset($_GET['ajax']))
         {
             return true;
         }

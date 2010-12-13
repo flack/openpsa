@@ -353,46 +353,7 @@ class midcom_services_auth_sessionmgr
             if (is_null($user))
             {
                 //the account apparently has not yet been migrated. Do this now
-                $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
-                $qb->add_constraint('username', '=', $username);
-                $results = $qb->execute();
-                if (sizeof($results) != 1)
-                {
-                    return false;
-                }
-
-                $person = $results[0];
-                $user = new midgard_user();
-                $db_password = $person->password;
-
-                if (substr($person->password, 0, 2) == '**')
-                {
-                    $user->authtype = 'Plaintext';
-                    $db_password = substr($db_password, 2);
-                }
-                else
-                {
-                    $user->authtype = 'Legacy';
-                }
-                $user->password = $db_password;
-                $user->login = $person->username;
-
-                if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
-                {
-                    $mgd_person = new midgard_person($person->guid);
-                }
-                else
-                {
-                    $mgd_person = $person;
-                }
-
-                $user->set_person($mgd_person);
-
-                try
-                {
-                    $user->create();
-                }
-                catch (midgard_error_exception $e)
+                if (!$this->_migrate_account($username))
                 {
                     return false;
                 }
@@ -435,6 +396,54 @@ class midcom_services_auth_sessionmgr
             // Cast the person object to correct person class
             $this->person = new $person_class($this->person->guid);
             $this->person->username = $username;
+        }
+        return true;
+    }
+
+    private function _migrate_account($username)
+    {
+        $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+        $qb->add_constraint('username', '=', $username);
+        $results = $qb->execute();
+        if (sizeof($results) != 1)
+        {
+            return false;
+        }
+
+        $person = $results[0];
+        $user = new midgard_user();
+        $db_password = $person->password;
+
+        if (substr($person->password, 0, 2) == '**')
+        {
+            $user->authtype = 'Plaintext';
+            $db_password = substr($db_password, 2);
+        }
+        else
+        {
+            $user->authtype = 'Legacy';
+        }
+        $user->password = $db_password;
+        $user->login = $person->username;
+
+        if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+        {
+            $mgd_person = new midgard_person($person->guid);
+        }
+        else
+        {
+            $mgd_person = $person;
+        }
+
+        $user->set_person($mgd_person);
+
+        try
+        {
+            $user->create();
+        }
+        catch (midgard_error_exception $e)
+        {
+            return false;
         }
         return true;
     }

@@ -324,51 +324,7 @@ class midcom_services_metadata
 
             if ($GLOBALS['midcom_config']['metadata_opengraph'])
             {
-                $opengraph_type = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_type');
-                if (   $opengraph_type
-                    && $opengraph_type != 'none')
-                {
-                    $_MIDCOM->add_meta_head
-                    (
-                        array
-                        (
-                            'property' => 'og:type',
-                            'content' => $opengraph_type,
-                        )
-                    );
-                    $_MIDCOM->add_meta_head
-                    (
-                        array
-                        (
-                            'property' => 'og:title',
-                            'content' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE),
-                        )
-                    );
-                    $_MIDCOM->add_meta_head
-                    (
-                        array
-                        (
-                            'property' => 'og:url',
-                            'content' => $request_metadata['permalink'],
-                        )
-                    );
-                    $_MIDCOM->add_meta_head
-                    (
-                        array
-                        (
-                            'property' => 'og:image',
-                            'content' => '',
-                        )
-                    );
-                    $_MIDCOM->add_meta_head
-                    (
-                        array
-                        (
-                            'property' => 'og:description',
-                            'content' => $view_metadata->get('description'),
-                        )
-                    );
-                }
+                $this->_add_opengraph_metadata($view_metadata);
             }
 
             if ($GLOBALS['midcom_config']['positioning_enable'])
@@ -380,6 +336,55 @@ class midcom_services_metadata
                 $object_position = new org_routamc_positioning_object($view_metadata->object);
                 $object_position->set_metadata();
             }
+        }
+    }
+
+    private function _add_opengraph_metadata($view_metadata)
+    {
+        $opengraph_type = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_type');
+        if (   $opengraph_type
+               && $opengraph_type != 'none')
+        {
+            $_MIDCOM->add_meta_head
+            (
+                array
+                (
+                    'property' => 'og:type',
+                    'content' => $opengraph_type,
+                )
+            );
+            $_MIDCOM->add_meta_head
+            (
+                array
+                (
+                    'property' => 'og:title',
+                    'content' => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE),
+                )
+            );
+            $_MIDCOM->add_meta_head
+            (
+                array
+                (
+                    'property' => 'og:url',
+                    'content' => $request_metadata['permalink'],
+                )
+            );
+            $_MIDCOM->add_meta_head
+            (
+                array
+                (
+                    'property' => 'og:image',
+                    'content' => '',
+                )
+            );
+            $_MIDCOM->add_meta_head
+            (
+                array
+                (
+                    'property' => 'og:description',
+                    'content' => $view_metadata->get('description'),
+                )
+            );
         }
     }
 

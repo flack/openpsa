@@ -250,42 +250,8 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
 
         $html .= $this->_render_country_list($country);
 
-        $city_name = '';
-        $city_id = $this->_type->location->city;
-
-        if (   !$city_id
-            && isset($_REQUEST["{$this->_element_id}_input_place_city"]))
-        {
-            $city_id = $this->_get_city_by_name($_REQUEST["{$this->_element_id}_input_place_city"]);
-            if (! $city_id)
-            {
-                $city_name = $_REQUEST["{$this->_element_id}_input_place_city"];
-            }
-        }
-
-        if (   !$city_id
-            && isset($this->input_defaults['city'])
-            && is_numeric($this->input_defaults['city']))
-        {
-            $city_id = $this->input_defaults['city'];
-        }
-        if (   !$city_name
-            && isset($this->input_defaults['city'])
-            && is_string($this->input_defaults['city']))
-        {
-            $city_name = $this->input_defaults['city'];
-        }
-
-
-        if ($city_id)
-        {
-            $city = new org_routamc_positioning_city_dba($city_id);
-            if ($city)
-            {
-                $city_name = $city->city;
-            }
-        }
-
+        $city_name = $this->_get_city_name();
+        
         $html .= "<label for='{$this->_element_id}_input_place_city' id='{$this->_element_id}_input_place_city_label'>";
         $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('xep_city', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_city\" id=\"{$this->_element_id}_input_place_city\" name=\"{$this->_element_id}_input_place_city\" type=\"text\" value=\"{$city_name}\" />";
@@ -355,6 +321,45 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
             '',
             $html
         );
+    }
+
+    private function _get_city_name()
+    {
+        $city_name = '';
+        $city_id = $this->_type->location->city;
+
+        if (   !$city_id
+            && isset($_REQUEST["{$this->_element_id}_input_place_city"]))
+        {
+            $city_id = $this->_get_city_by_name($_REQUEST["{$this->_element_id}_input_place_city"]);
+            if (! $city_id)
+            {
+                $city_name = $_REQUEST["{$this->_element_id}_input_place_city"];
+            }
+        }
+
+        if (   !$city_id
+            && isset($this->input_defaults['city'])
+            && is_numeric($this->input_defaults['city']))
+        {
+            $city_id = $this->input_defaults['city'];
+        }
+        if (   !$city_name
+            && isset($this->input_defaults['city'])
+            && is_string($this->input_defaults['city']))
+        {
+            $city_name = $this->input_defaults['city'];
+        }
+
+        if ($city_id)
+        {
+            $city = new org_routamc_positioning_city_dba($city_id);
+            if ($city)
+            {
+                $city_name = $city->city;
+            }
+        }
+        return $city_name;
     }
 
     private function _render_xep_keys()

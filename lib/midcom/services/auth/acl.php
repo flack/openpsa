@@ -702,7 +702,6 @@ class midcom_services_auth_acl
         {
             $is_owner = true;
         }
-
         // }}}
 
 
@@ -785,7 +784,6 @@ class midcom_services_auth_acl
                 $collected_privileges[$name] = $value;
             }
         }
-
 
         // printing debug-statements if object doesn't override base privileges
         if ($GLOBALS['midcom_config']['log_level'] >= MIDCOM_LOG_DEBUG)

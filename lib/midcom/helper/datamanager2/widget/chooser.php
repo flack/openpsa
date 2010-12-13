@@ -949,7 +949,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
         $this->_handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/chooser_handler.php';
 
-
         $this->widget_elements[] = HTML_QuickForm::createElement
         (
             'hidden',

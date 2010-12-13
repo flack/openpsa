@@ -113,40 +113,9 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_result($handler_id, $args, &$data)
     {
+        $this->_prepare_query_data();
+
         $indexer = $_MIDCOM->get_service('indexer');
-
-        // Sane defaults for REQUEST vars
-        if (!isset($_REQUEST['type']))
-        {
-            $_REQUEST['type'] = 'basic';
-        }
-        if (!isset($_REQUEST['page']))
-        {
-            $_REQUEST['page'] = 1;
-        }
-        if (!isset($_REQUEST['component']))
-        {
-            $_REQUEST['component'] = '';
-        }
-        if (!isset($_REQUEST['topic']))
-        {
-            $_REQUEST['topic'] = '';
-        }
-        if (!isset($_REQUEST['lastmodified']))
-        {
-            $_REQUEST['lastmodified'] = 0;
-        }
-        // If we don't have a query string, relocate to empty search form
-        if (!isset($_REQUEST['query']))
-        {
-            debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
-            if ($data['type'] == 'basic')
-            {
-                $_MIDCOM->relocate('');
-            }
-            $_MIDCOM->relocate('advanced/');
-        }
-
         $data['type'] = $_REQUEST['type'];
         $data['query'] = trim($_REQUEST['query']);
 
@@ -167,54 +136,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 break;
 
             case 'advanced':
-                $data['request_topic'] = trim($_REQUEST['topic']);
-                $data['component'] = trim($_REQUEST['component']);
-                $data['lastmodified'] = (integer) trim($_REQUEST['lastmodified']);
-                if ($data['lastmodified'] > 0)
-                {
-                    $filter = new midcom_services_indexer_filter_date('__EDITED', $data['lastmodified'], 0);
-                }
-                else
-                {
-                    $filter = null;
-                }
-
-                if ($data['query'] != '' )
-                {
-                    $final_query = ( $GLOBALS['midcom_config']['indexer_backend'] == 'solr' ) ? $data['query'] : "({$data['query']})";
-                }
-                else
-                {
-                    $final_query = '';
-                }
-
-                if ($data['request_topic'] != '')
-                {
-                    if ($final_query != '')
-                    {
-                        $final_query .= ' AND ';
-                    }
-                    $final_query .= "__TOPIC_URL:\"{$data['request_topic']}*\"";
-                }
-
-                if ($data['component'] != '')
-                {
-                    if ($final_query != '')
-                    {
-                        $final_query .= ' AND ';
-                    }
-                    $final_query .= "__COMPONENT:{$data['component']}";
-                }
-
-                // Way to add very custom terms
-                if (isset($_REQUEST['append_terms']))
-                {
-                    $this->append_terms_recursive($final_query, $_REQUEST['append_terms']);
-                }
-
-                debug_add("Final query: {$final_query}");
-
-                $result = $indexer->query($final_query, $filter);
+                $result = $this->_do_advanced_query($data);
                 break;
 
             default:
@@ -272,6 +194,95 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             reset($data['result']);
         }
         return true;
+    }
+
+    /**
+     * Sane defaults for REQUEST vars
+     */
+    private function _prepare_query_data()
+    {
+        // If we don't have a query string, relocate to empty search form
+        if (!isset($_REQUEST['query']))
+        {
+            debug_add('$_REQUEST["query"] is not set, relocating back to form', MIDCOM_LOG_INFO);
+            if ($this->_request_data['type'] == 'basic')
+            {
+                $_MIDCOM->relocate('');
+            }
+            $_MIDCOM->relocate('advanced/');
+        }
+        if (!isset($_REQUEST['type']))
+        {
+            $_REQUEST['type'] = 'basic';
+        }
+        if (!isset($_REQUEST['page']))
+        {
+            $_REQUEST['page'] = 1;
+        }
+        if (!isset($_REQUEST['component']))
+        {
+            $_REQUEST['component'] = '';
+        }
+        if (!isset($_REQUEST['topic']))
+        {
+            $_REQUEST['topic'] = '';
+        }
+        if (!isset($_REQUEST['lastmodified']))
+        {
+            $_REQUEST['lastmodified'] = 0;
+        }
+    }
+
+    private function _do_advanced_query(&$data)
+    {
+        $data['request_topic'] = trim($_REQUEST['topic']);
+        $data['component'] = trim($_REQUEST['component']);
+        $data['lastmodified'] = (integer) trim($_REQUEST['lastmodified']);
+        if ($data['lastmodified'] > 0)
+        {
+            $filter = new midcom_services_indexer_filter_date('__EDITED', $data['lastmodified'], 0);
+        }
+        else
+        {
+            $filter = null;
+        }
+        
+        if ($data['query'] != '' )
+        {
+            $final_query = ( $GLOBALS['midcom_config']['indexer_backend'] == 'solr' ) ? $data['query'] : "({$data['query']})";
+        }
+        else
+        {
+            $final_query = '';
+        }
+        
+        if ($data['request_topic'] != '')
+        {
+            if ($final_query != '')
+            {
+                $final_query .= ' AND ';
+            }
+            $final_query .= "__TOPIC_URL:\"{$data['request_topic']}*\"";
+        }
+        
+        if ($data['component'] != '')
+        {
+            if ($final_query != '')
+            {
+                $final_query .= ' AND ';
+            }
+            $final_query .= "__COMPONENT:{$data['component']}";
+        }
+        
+        // Way to add very custom terms
+        if (isset($_REQUEST['append_terms']))
+        {
+            $this->append_terms_recursive($final_query, $_REQUEST['append_terms']);
+        }
+        
+        debug_add("Final query: {$final_query}");
+        
+        return $indexer->query($final_query, $filter);
     }
 
     /**

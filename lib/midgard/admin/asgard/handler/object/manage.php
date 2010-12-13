@@ -350,80 +350,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             // Linked fields should use chooser
             if ($this->_reflector->is_link($key))
             {
-                $linked_type = $this->_reflector->get_link_name($key);
-                $linked_type_reflector = midcom_helper_reflector::get($linked_type);
-                $field_type = $this->_reflector->get_midgard_type($key);
-
-                if ($key == 'up')
-                {
-                    $field_label = sprintf($this->_l10n->get('under %s'), midgard_admin_asgard_plugin::get_type_label($linked_type));
-                }
-                else
-                {
-                    $type_label = midgard_admin_asgard_plugin::get_type_label($linked_type);
-                    if (substr($type_label, 0, strlen($key)) == $key)
-                    {
-                        // Handle abbreviations like "lang" for "language"
-                        $field_label = $type_label;
-                    }
-                    elseif ($key == $type_label)
-                    {
-                        $field_label = $key;
-                    }
-                    else
-                    {
-                        $ref = midcom_helper_reflector::get($this->_object);
-                        $component_l10n = $ref->get_component_l10n();
-                        $field_label = sprintf($this->_l10n->get('%s (%s)'), $component_l10n->get($key), $type_label);
-                    }
-                }
-
-                // Get the chooser widgets
-                switch ($field_type)
-                {
-                    case MGD_TYPE_UINT:
-                    case MGD_TYPE_STRING:
-                    case MGD_TYPE_GUID:
-                        $class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
-                        if (! $class)
-                        {
-                            break;
-                        }
-                        $component = $_MIDCOM->dbclassloader->get_component_for_class($linked_type);
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $field_label,
-                                'storage'     => $key,
-                                'type'        => 'select',
-                                'type_config' => array
-                                (
-                                    'require_corresponding_option' => false,
-                                    'options' => array(),
-                                    'allow_other' => true,
-                                    'allow_multiple' => false,
-                                ),
-                                'widget' => 'chooser',
-                                'widget_config' => array
-                                (
-                                    'class' => $class,
-                                    'component' => $component,
-                                    'titlefield' => $linked_type_reflector->get_label_property(),
-                                    'id_field' => $this->_reflector->get_link_target($key),
-                                    'searchfields' => $linked_type_reflector->get_search_properties(),
-                                    'result_headers' => $linked_type_reflector->get_result_headers(),
-                                    'orders' => array(),
-                                    'creation_mode_enabled' => true,
-                                    'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
-                                    'creation_default_key' => $linked_type_reflector->get_label_property(),
-                                    'generate_path_for' => midcom_helper_reflector::get_name_property($this->_object),
-                                ),
-                            )
-                        );
-                        break;
-                }
+                $this->_add_linked_field_to_schema($key);
                 // Skip rest of processing
                 continue;
             }
@@ -436,35 +363,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     if (   $key == 'component'
                         && is_a($this->_object, 'midcom_db_topic'))
                     {
-                        // Component pulldown for topics
-                        $components = array('' => '');
-                        foreach ($_MIDCOM->componentloader->manifests as $manifest)
-                        {
-                            // Skip purecode components
-                            if ($manifest->purecode)
-                            {
-                                continue;
-                            }
-
-                            $components[$manifest->name] = $_MIDCOM->i18n->get_string($manifest->name, $manifest->name) . " ({$manifest->name})";
-                        }
-                        asort($components);
-
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $key,
-                                'storage'     => $key,
-                                'type'        => 'select',
-                                'type_config' => array
-                                (
-                                    'options' => $components,
-                                ),
-                                'widget'      => 'selectcomponent',
-                            )
-                        );
+                        $this->_add_component_dropdown_to_schema($key);
                         break;
                     }
 
@@ -480,34 +379,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
                     if ($key === midcom_helper_reflector::get_name_property($name_obj))
                     {
-                        $type_urlname_config = array();
-                        $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
-                        foreach ($allow_unclean_name_types as $allow_unclean_name_types_type)
-                        {
-                            if ($_MIDCOM->dbfactory->is_a($name_obj, $allow_unclean_name_types_type))
-                            {
-                                $type_urlname_config['allow_unclean'] = true;
-                                break;
-                            }
-                        }
-
-                        // Enable generating the name from the title property
-                        $type_urlname_config['title_field'] = midcom_helper_reflector::get_title_property($name_obj);
-
-                        unset($allow_unclean_name_types, $allow_unclean_name_types_type);
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $key,
-                                'storage'     => $key,
-                                'type'        => 'urlname',
-                                'type_config' => $type_urlname_config,
-                                'widget'      => 'text',
-                            )
-                        );
-                        unset($type_urlname_config);
+                        $this->_add_name_field_to_schema($key, $name_obj);
                         break;
                     }
                     unset($name_obj);
@@ -516,32 +388,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     if (   $key === 'info'
                         && $type === 'midcom_db_page')
                     {
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $key,
-                                'storage'     => $key,
-                                'type'        => 'select',
-                                'type_config' => array
-                                (
-                                    'allow_multiple' => true,
-                                    'multiple_separator' => ',',
-                                    'multiple_storagemode' => 'imploded',
-                                    'options' => array
-                                    (
-                                        'auth'        => 'require authentication',
-                                        'active'      => 'active url parsing',
-                                    ),
-                                ),
-                                'widget'      => 'select',
-                                'widget_config' => array
-                                (
-                                    'height' => 2,
-                                ),
-                            )
-                        );
+                        $this->_add_info_field_to_page_schema($key);
                         break;
                     }
 
@@ -583,118 +430,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                     );
                     break;
                 case MGD_TYPE_LONGTEXT:
-                    // Figure out nice size for the editing field
-
-                    $output_mode = '';
-                    $widget = 'textarea';
-                    $dm_type = 'text';
-
-                    // Workaround for the content field of pages
-                    $adjusted_key = $key;
-                    if (   $type == 'midcom_db_page'
-                        && $key == 'content')
-                    {
-                        $adjusted_key = 'code';
-                    }
-
-                    switch ($adjusted_key)
-                    {
-                        case 'content':
-                        case 'description':
-                            $height = 30;
-
-                            // Check the user preference and configuration
-                            if (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled')
-                                || (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled') !== '0'
-                                    && $this->_config->get('tinymce_enabled')))
-                            {
-                                $widget = 'tinymce';
-                            }
-                            $output_mode = 'html';
-
-                            break;
-                        case 'value':
-                        case 'code':
-                            // These are typical "large" fields
-                            $height = 30;
-
-                            // Check the user preference and configuration
-                            if (   midgard_admin_asgard_plugin::get_preference('editarea_enabled')
-                                || (   midgard_admin_asgard_plugin::get_preference('editarea_enabled') !== '0'
-                                    && $this->_config->get('editarea_enabled')))
-                            {
-                                $widget = 'editarea';
-                            }
-
-                            $dm_type = 'php';
-                            $output_mode = 'code';
-
-                            break;
-
-                        default:
-                            $height = 6;
-                            break;
-                    }
-
-                    $this->_schemadb['object']->append_field
-                    (
-                        $key,
-                        array
-                        (
-                            'title'       => $key,
-                            'storage'     => $key,
-                            'type'        => $dm_type,
-                            'type_config' => Array
-                            (
-                                'output_mode' => $output_mode,
-                            ),
-                            'widget'      => $widget,
-                            'widget_config' => Array
-                            (
-                                'height' => $height,
-                                'width' => '100%',
-                            ),
-                        )
-                    );
+                    $this->_add_longtext_field_to_schema($key, $type);
                     break;
                 case MGD_TYPE_INT:
                 case MGD_TYPE_UINT:
-                    if (   $key == 'start'
-                        || $key == 'end'
-                        || $key == 'added'
-                        || $key == 'date')
-                    {
-                        // We can safely assume that INT fields called start and end store unixtimes
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $key,
-                                'storage'     => $key,
-                                'type' => 'date',
-                                'type_config' => array
-                                (
-                                    'storage_type' => 'UNIXTIME'
-                                ),
-                                'widget' => 'jsdate',
-                            )
-                        );
-                    }
-                    else
-                    {
-                        $this->_schemadb['object']->append_field
-                        (
-                            $key,
-                            array
-                            (
-                                'title'       => $key,
-                                'storage'     => $key,
-                                'type'        => 'number',
-                                'widget'      => 'text',
-                            )
-                        );
-                    }
+                    $this->_add_int_field_to_schema($key);
                     break;
                 case MGD_TYPE_FLOAT:
                     $this->_schemadb['object']->append_field
@@ -738,6 +478,11 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             }
         }
 
+        $this->_add_rcs_field_to_schema();
+    }
+
+    private function _add_rcs_field_to_schema()
+    {
         $this->_schemadb['object']->append_field
         (
             '_rcs_message',
@@ -755,6 +500,293 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 'end_fieldset' => '',
             )
         );
+    }
+
+    private function _add_int_field_to_schema($key)
+    {
+        if (   $key == 'start'
+            || $key == 'end'
+            || $key == 'added'
+            || $key == 'date')
+        {
+            // We can safely assume that INT fields called start and end store unixtimes
+            $this->_schemadb['object']->append_field
+            (
+                $key,
+                array
+                (
+                    'title'       => $key,
+                    'storage'     => $key,
+                    'type' => 'date',
+                    'type_config' => array
+                    (
+                        'storage_type' => 'UNIXTIME'
+                        ),
+                    'widget' => 'jsdate',
+                )
+            );
+        }
+        else
+        {
+            $this->_schemadb['object']->append_field
+            (
+                $key,
+                array
+                (
+                    'title'       => $key,
+                    'storage'     => $key,
+                    'type'        => 'number',
+                    'widget'      => 'text',
+                )
+            );
+        }
+    }
+
+    private function _add_longtext_field_to_schema($key, $type)
+    {
+        // Figure out nice size for the editing field
+
+        $output_mode = '';
+        $widget = 'textarea';
+        $dm_type = 'text';
+
+        // Workaround for the content field of pages
+        $adjusted_key = $key;
+        if (   $type == 'midcom_db_page'
+            && $key == 'content')
+        {
+            $adjusted_key = 'code';
+        }
+
+        switch ($adjusted_key)
+        {
+            case 'content':
+            case 'description':
+                $height = 30;
+            
+                // Check the user preference and configuration
+                if (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled')
+                    || (   midgard_admin_asgard_plugin::get_preference('tinymce_enabled') !== '0'
+                        && $this->_config->get('tinymce_enabled')))
+                {
+                    $widget = 'tinymce';
+                }
+                $output_mode = 'html';
+
+                break;
+            case 'value':
+            case 'code':
+                // These are typical "large" fields
+                $height = 30;
+
+                // Check the user preference and configuration
+                if (   midgard_admin_asgard_plugin::get_preference('editarea_enabled')
+                    || (   midgard_admin_asgard_plugin::get_preference('editarea_enabled') !== '0'
+                        && $this->_config->get('editarea_enabled')))
+                {
+                    $widget = 'editarea';
+                }
+
+                $dm_type = 'php';
+                $output_mode = 'code';
+
+                break;
+
+            default:
+                $height = 6;
+                break;
+        }
+
+        $this->_schemadb['object']->append_field
+        (
+            $key,
+            array
+            (
+                'title'       => $key,
+                'storage'     => $key,
+                'type'        => $dm_type,
+                'type_config' => Array
+                (
+                    'output_mode' => $output_mode,
+                ),
+                'widget'      => $widget,
+                'widget_config' => Array
+                (
+                    'height' => $height,
+                    'width' => '100%',
+                ),
+            )
+        );
+    }
+
+    private function _add_info_field_to_page_schema($key)
+    {
+        $this->_schemadb['object']->append_field
+        (
+            $key,
+            array
+            (
+                'title'       => $key,
+                'storage'     => $key,
+                'type'        => 'select',
+                'type_config' => array
+                (
+                    'allow_multiple' => true,
+                    'multiple_separator' => ',',
+                    'multiple_storagemode' => 'imploded',
+                    'options' => array
+                    (
+                        'auth'        => 'require authentication',
+                        'active'      => 'active url parsing',
+                        ),
+                    ),
+                'widget'      => 'select',
+                'widget_config' => array
+                (
+                    'height' => 2,
+                    ),
+                )
+        );
+    }
+
+    private function _add_name_field_to_schema($key, $name_obj)
+    {
+        $type_urlname_config = array();
+        $allow_unclean_name_types = $this->_config->get('allow_unclean_names_for');
+        foreach ($allow_unclean_name_types as $allow_unclean_name_types_type)
+        {
+            if ($_MIDCOM->dbfactory->is_a($name_obj, $allow_unclean_name_types_type))
+            {
+                $type_urlname_config['allow_unclean'] = true;
+                break;
+            }
+        }
+
+        // Enable generating the name from the title property
+        $type_urlname_config['title_field'] = midcom_helper_reflector::get_title_property($name_obj);
+
+        $this->_schemadb['object']->append_field
+        (
+            $key,
+            array
+            (
+                'title'       => $key,
+                'storage'     => $key,
+                'type'        => 'urlname',
+                'type_config' => $type_urlname_config,
+                'widget'      => 'text',
+                )
+        );
+    }
+
+    private function _add_component_dropdown_to_schema($key)
+    {
+        $components = array('' => '');
+        foreach ($_MIDCOM->componentloader->manifests as $manifest)
+        {
+            // Skip purecode components
+            if ($manifest->purecode)
+            {
+                continue;
+            }
+
+            $components[$manifest->name] = $_MIDCOM->i18n->get_string($manifest->name, $manifest->name) . " ({$manifest->name})";
+        }
+        asort($components);
+
+        $this->_schemadb['object']->append_field
+        (
+            $key,
+            array
+            (
+                'title'       => $key,
+                'storage'     => $key,
+                'type'        => 'select',
+                'type_config' => array
+                (
+                    'options' => $components,
+                ),
+                'widget'      => 'selectcomponent',
+            )
+        );
+    }
+    
+    private function _add_linked_field_to_schema($key)
+    {
+        $linked_type = $this->_reflector->get_link_name($key);
+        $linked_type_reflector = midcom_helper_reflector::get($linked_type);
+        $field_type = $this->_reflector->get_midgard_type($key);
+
+        if ($key == 'up')
+        {
+            $field_label = sprintf($this->_l10n->get('under %s'), midgard_admin_asgard_plugin::get_type_label($linked_type));
+        }
+        else
+        {
+            $type_label = midgard_admin_asgard_plugin::get_type_label($linked_type);
+            if (substr($type_label, 0, strlen($key)) == $key)
+            {
+                // Handle abbreviations like "lang" for "language"
+                $field_label = $type_label;
+            }
+            else if ($key == $type_label)
+            {
+                $field_label = $key;
+            }
+            else
+            {
+                $ref = midcom_helper_reflector::get($this->_object);
+                $component_l10n = $ref->get_component_l10n();
+                $field_label = sprintf($this->_l10n->get('%s (%s)'), $component_l10n->get($key), $type_label);
+            }
+        }
+
+        // Get the chooser widgets
+        switch ($field_type)
+        {
+            case MGD_TYPE_UINT:
+            case MGD_TYPE_STRING:
+            case MGD_TYPE_GUID:
+                $class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($linked_type);
+                if (! $class)
+                {
+                    break;
+                }
+                $component = $_MIDCOM->dbclassloader->get_component_for_class($linked_type);
+                $this->_schemadb['object']->append_field
+                (
+                    $key,
+                    array
+                    (
+                        'title'       => $field_label,
+                        'storage'     => $key,
+                        'type'        => 'select',
+                        'type_config' => array
+                        (
+                            'require_corresponding_option' => false,
+                            'options' => array(),
+                            'allow_other' => true,
+                            'allow_multiple' => false,
+                        ),
+                        'widget' => 'chooser',
+                        'widget_config' => array
+                        (
+                            'class' => $class,
+                            'component' => $component,
+                            'titlefield' => $linked_type_reflector->get_label_property(),
+                            'id_field' => $this->_reflector->get_link_target($key),
+                            'searchfields' => $linked_type_reflector->get_search_properties(),
+                            'result_headers' => $linked_type_reflector->get_result_headers(),
+                            'orders' => array(),
+                            'creation_mode_enabled' => true,
+                            'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
+                            'creation_default_key' => $linked_type_reflector->get_label_property(),
+                            'generate_path_for' => midcom_helper_reflector::get_name_property($this->_object),
+                            ),
+                        )
+                    );
+                break;
+        }
     }
 
     /**
@@ -1360,6 +1392,34 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         // Load the schemadb for searching the parent object
         $this->_load_schemadb($target['class'], $target['parent']);
+        $this->_add_copy_fields_to_schema();
+        // Change the name for the parent field
+        $this->_schemadb['object']->fields[$target['parent']]['title'] = $_MIDCOM->i18n->get_string('choose the target', 'midgard.admin.asgard');
+
+        // Load the nullstorage controller
+        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
+        $this->_controller->schemadb =& $this->_schemadb;
+
+        if (!$this->_controller->initialize())
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize the controller');
+            // This will exit
+        }
+
+        $this->_prepare_request_data();
+
+        // Process the form
+        switch ($this->_controller->process_form())
+        {
+            case 'save':
+                $this->_process_copy($target);
+                // Relocate to the newly created object
+                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
+                break;
+
+            case 'cancel':
+                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
+        }
 
         // Add Thickbox
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/object_browser.js');
@@ -1371,7 +1431,110 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery-copytree.js');
         $_MIDCOM->add_jscript('jQuery(document).ready(function(){jQuery("#midgard_admin_asgard_copytree").tree_checker();})');
 
+        // Common hooks for Asgard
+        midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
+        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
+        // Set the page title
+        switch ($handler_id)
+        {
+            case '____mfa-asgard-object_copy_tree':
+                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s and its descendants', 'midgard.admin.asgard'), $this->_object->$target['label']);
+                break;
+            default:
+                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s', 'midgard.admin.asgard'), $this->_object->$target['label']);
+        }
+
+        $data['target'] = $target;
+
+        return true;
+    }
+
+    private function _process_copy($target)
+    {
+        // Get the target information of the form
+        $target['id'] = $this->_controller->datamanager->types[$target['parent']]->convert_to_storage();
+        $this->_controller->datamanager->types['metadata']->convert_to_storage();
+        $this->_controller->datamanager->types['attachments']->convert_to_storage();
+        $this->_controller->datamanager->types['privileges']->convert_to_storage();
+
+        $copy = new midcom_helper_reflector_copy();
+        $copy->source = $this->_object;
+
+        // Set the target - if available
+        if (   isset($target['id'])
+            && $target['id'])
+        {
+            $link_properties = $target['reflector']->get_link_properties();
+            $parent = $target['parent'];
+
+            if (   !$link_properties
+                || !isset($link_properties[$parent]))
+            {
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to construct the target class object');
+            }
+
+            $class_name = $link_properties[$parent]['class'];
+            $target_object = new $class_name($target['id']);
+
+            if (   $target_object
+                && $target_object->guid)
+            {
+                $copy->target = $target_object;
+            }
+            else
+            {
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the target object');
+            }
+        }
+
+        // Copying of parameters, metadata and such
+        $copy->parameters = $this->_controller->datamanager->types['parameters']->convert_to_storage();
+        $copy->metadata = $this->_controller->datamanager->types['metadata']->convert_to_storage();
+        $copy->attachments = $this->_controller->datamanager->types['attachments']->convert_to_storage();
+        $copy->privileges = $this->_controller->datamanager->types['privileges']->convert_to_storage();
+
+        if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree')
+        {
+            foreach ($_POST['all_objects'] as $guid)
+            {
+                if (!in_array($guid, $_POST['selected']))
+                {
+                    $copy->exclude[] = $guid;
+                }
+            }
+        }
+        else
+        {
+            $copy->copy_tree = false;
+        }
+
+        if (!$copy->copy())
+        {
+            debug_print_r('Copying failed with the following errors', $copy->errors, MIDCOM_LOG_ERROR);
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to successfully copy the object. Details in error level log');
+        }
+
+        $new_object = $copy->get_object();
+
+        if (   !$new_object
+            || !$new_object->guid)
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to copy the object');
+        }
+
+        if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree')
+        {
+            $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
+        }
+        else
+        {
+            $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the new object'));
+        }
+    }
+
+    private function _add_copy_fields_to_schema()
+    {
         // Add switch for copying parameters
         $this->_schemadb['object']->append_field
         (
@@ -1427,131 +1590,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 'default'     => 1,
             )
         );
-
-        // Change the name for the parent field
-        $this->_schemadb['object']->fields[$target['parent']]['title'] = $_MIDCOM->i18n->get_string('choose the target', 'midgard.admin.asgard');
-
-        // Load the nullstorage controller
-        $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $this->_controller->schemadb =& $this->_schemadb;
-
-        if (!$this->_controller->initialize())
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize the controller');
-            // This will exit
-        }
-
-        $this->_prepare_request_data();
-
-        // Process the form
-        switch ($this->_controller->process_form())
-        {
-            case 'save':
-                // Get the target information of the form
-                $target['id'] = $data['controller']->datamanager->types[$target['parent']]->convert_to_storage();
-                $data['controller']->datamanager->types['metadata']->convert_to_storage();
-                $data['controller']->datamanager->types['attachments']->convert_to_storage();
-                $data['controller']->datamanager->types['privileges']->convert_to_storage();
-
-                $copy = new midcom_helper_reflector_copy();
-                $copy->source = $this->_object;
-
-                // Set the target - if available
-                if (   isset($target['id'])
-                    && $target['id'])
-                {
-                    $link_properties = $target['reflector']->get_link_properties();
-                    $parent = $target['parent'];
-
-                    if (   !$link_properties
-                        || !isset($link_properties[$parent]))
-                    {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to construct the target class object');
-                    }
-
-                    $class_name = $link_properties[$parent]['class'];
-                    $target_object = new $class_name($target['id']);
-
-                    if (   $target_object
-                        && $target_object->guid)
-                    {
-                        $copy->target = $target_object;
-                    }
-                    else
-                    {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the target object');
-                    }
-                }
-
-                // Copying of parameters, metadata and such
-                $copy->parameters = $data['controller']->datamanager->types['parameters']->convert_to_storage();
-                $copy->metadata = $data['controller']->datamanager->types['metadata']->convert_to_storage();
-                $copy->attachments = $data['controller']->datamanager->types['attachments']->convert_to_storage();
-                $copy->privileges = $data['controller']->datamanager->types['privileges']->convert_to_storage();
-
-                if ($handler_id === '____mfa-asgard-object_copy_tree')
-                {
-                    foreach ($_POST['all_objects'] as $guid)
-                    {
-                        if (!in_array($guid, $_POST['selected']))
-                        {
-                            $copy->exclude[] = $guid;
-                        }
-                    }
-                }
-                else
-                {
-                    $copy->copy_tree = false;
-                }
-
-                if (!$copy->copy())
-                {
-                    debug_print_r('Copying failed with the following errors', $copy->errors, MIDCOM_LOG_ERROR);
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to successfully copy the object. Details in error level log');
-                }
-
-                $new_object = $copy->get_object();
-
-                if (   !$new_object
-                    || !$new_object->guid)
-                {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to copy the object');
-                }
-
-                if ($handler_id === '____mfa-asgard-object_copy_tree')
-                {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the root of the new object tree'));
-                }
-                else
-                {
-                    $_MIDCOM->uimessages->add($this->_l10n->get('midgard.admin.asgard'), $this->_l10n->get('copy successful, you have been relocated to the new object'));
-                }
-
-                // Relocate to the newly created object
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$new_object->guid}/");
-                break;
-
-            case 'cancel':
-                $_MIDCOM->relocate("__mfa/asgard/object/{$this->_request_data['default_mode']}/{$args[0]}/");
-        }
-
-        // Common hooks for Asgard
-        midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-
-        // Set the page title
-        switch ($handler_id)
-        {
-            case '____mfa-asgard-object_copy_tree':
-                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s and its descendants', 'midgard.admin.asgard'), $this->_object->$target['label']);
-                break;
-            default:
-                $data['page_title'] = sprintf($_MIDCOM->i18n->get_string('copy %s', 'midgard.admin.asgard'), $this->_object->$target['label']);
-        }
-
-        $data['target'] = $target;
-
-        return true;
     }
 
     /**

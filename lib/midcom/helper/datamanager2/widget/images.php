@@ -338,11 +338,6 @@ END;
                 break;
             }
         }
-        if (!isset($info))
-        {
-            // Panic, what to do ??
-            return;
-        }
         if (   !isset($info['object'])
             || !is_object($info['object'])
             || !isset($info['object']->guid)
@@ -353,45 +348,7 @@ END;
             return;
         }
 
-        // Get preview image source
-        if (array_key_exists('thumbnail', $this->_type->images[$identifier]))
-        {
-            $url = $this->_type->images[$identifier]['thumbnail']['url'];
-            $size_line = $this->_type->images[$identifier]['thumbnail']['size_line'];
-            $preview = "<a href=\"{$info['url']}\" class=\"download\"><img src=\"{$url}\" {$size_line} /></a>";
-        }
-        else
-        {
-            $url = $info['url'];
-            $x = $info['size_x'];
-            $y = $info['size_y'];
-
-            // Downscale Preview image to max 75px, protect against broken images:
-            if (   $x != 0
-                && $y != 0)
-            {
-                $aspect = $x/$y;
-                if ($x > 75)
-                {
-                    $x = 75;
-                    $y = round($x / $aspect);
-                }
-                if ($y > 75)
-                {
-                    $y = 75;
-                    $x = round($y * $aspect);
-                }
-            }
-            else
-            {
-                // Final safety to prevent the editor from exploding with large images
-                $x = 75;
-                $y = 75;
-            }
-
-            $size_line = "width=\"{$x}\" height=\"{$y}\"";
-            $preview = "                <a href=\"{$url}\" class=\"download\"><img src=\"{$url}\" {$size_line} /></a>\n";
-        }
+        $preview = $this->_get_preview_html($info, $identifier);
 
         $img_title = '';
         // Some reason we're kicking out-of-sync, check explicitly for POSTed value
@@ -444,6 +401,50 @@ END;
         $html = "            </td>\n" .
                 "        </tr>\n";
         $this->_elements["s_exist_{$identifier}_file"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_file", '', $html);
+    }
+
+    private function _get_preview_html($info, $identifier)
+    {
+        // Get preview image source
+        if (array_key_exists('thumbnail', $this->_type->images[$identifier]))
+        {
+            $url = $this->_type->images[$identifier]['thumbnail']['url'];
+            $size_line = $this->_type->images[$identifier]['thumbnail']['size_line'];
+            $preview = "<a href=\"{$info['url']}\" class=\"download\"><img src=\"{$url}\" {$size_line} /></a>";
+        }
+        else
+        {
+            $url = $info['url'];
+            $x = $info['size_x'];
+            $y = $info['size_y'];
+
+            // Downscale Preview image to max 75px, protect against broken images:
+            if (   $x != 0
+                && $y != 0)
+            {
+                $aspect = $x/$y;
+                if ($x > 75)
+                {
+                    $x = 75;
+                    $y = round($x / $aspect);
+                }
+                if ($y > 75)
+                {
+                    $y = 75;
+                    $x = round($y * $aspect);
+                }
+            }
+            else
+            {
+                // Final safety to prevent the editor from exploding with large images
+                $x = 75;
+                $y = 75;
+            }
+
+            $size_line = "width=\"{$x}\" height=\"{$y}\"";
+            $preview = "                <a href=\"{$url}\" class=\"download\"><img src=\"{$url}\" {$size_line} /></a>\n";
+        }
+        return $preview;
     }
 
     private function _add_controls($info, $identifier)

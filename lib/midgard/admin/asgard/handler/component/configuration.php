@@ -495,58 +495,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $config_array = $this->_get_config_from_controller($this->_controller);
-
-                $config = $this->_draw_array($config_array, '', $data['config']->_global);
-
-                try
-                {
-                    $this->_check_config($config);
-                }
-                catch (Exception $e)
-                {
-                    $_MIDCOM->uimessages->add
-                    (
-                        $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                        sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), $e->getMessage()),
-                        'error'
-                    );
-                    break;
-                    // Get back to form
-                }
-
-                if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
-                {
-                    // Editing folder configuration
-                    $this->_save_topic($data['folder'], $config_array);
-                    $_MIDCOM->uimessages->add
-                    (
-                        $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                        $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
-                        'ok'
-                    );
-                    $_MIDCOM->relocate("__mfa/asgard/components/configuration/edit/{$data['name']}/{$data['folder']->guid}/");
-                    // This will exit
-                }
-
-                if ($this->_save_snippet($config))
-                {
-                    $_MIDCOM->uimessages->add
-                    (
-                        $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                        $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
-                        'ok'
-                    );
-                }
-                else
-                {
-                    $_MIDCOM->uimessages->add
-                    (
-                        $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                        sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), midcom_connection::get_error_string()),
-                        'error'
-                    );
-                }
+                $this->_save_configuration($data);
                 // *** FALL-THROUGH ***
 
             case 'cancel':
@@ -558,7 +507,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $_MIDCOM->relocate("__mfa/asgard/components/configuration/{$data['name']}/");
                 // This will exit.
         }
-
 
         $data['controller'] =& $this->_controller;
 
@@ -579,6 +527,61 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return true;
     }
 
+    private function _save_configuration($data)
+    {
+        $config_array = $this->_get_config_from_controller($this->_controller);
+
+        $config = $this->_draw_array($config_array, '', $data['config']->_global);
+
+        try
+        {
+            $this->_check_config($config);
+        }
+        catch (Exception $e)
+        {
+            $_MIDCOM->uimessages->add
+            (
+                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), $e->getMessage()),
+                'error'
+            );
+            return;
+            // Get back to form
+        }
+
+        if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
+        {
+            // Editing folder configuration
+            $this->_save_topic($data['folder'], $config_array);
+            $_MIDCOM->uimessages->add
+            (
+                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
+                'ok'
+            );
+            $_MIDCOM->relocate("__mfa/asgard/components/configuration/edit/{$data['name']}/{$data['folder']->guid}/");
+            // This will exit
+        }
+
+        if ($this->_save_snippet($config))
+        {
+            $_MIDCOM->uimessages->add
+            (
+                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                $_MIDCOM->i18n->get_string('configuration saved successfully', 'midgard.admin.asgard'),
+                'ok'
+            );
+        }
+        else
+        {
+            $_MIDCOM->uimessages->add
+            (
+                $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                sprintf($_MIDCOM->i18n->get_string('configuration save failed: %s', 'midgard.admin.asgard'), midcom_connection::get_error_string()),
+                'error'
+            );
+        }
+    }
 
     /**
      * Show list of the style elements for the currently edited topic component

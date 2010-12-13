@@ -792,10 +792,6 @@ class midcom_services_toolbars
                     MIDCOM_TOOLBAR_ACCESSKEY => 'm',
                 )
             );
-        }
-
-        if ($object->can_do('midgard:update'))
-        {
             $toolbar->add_item
             (
                 array
