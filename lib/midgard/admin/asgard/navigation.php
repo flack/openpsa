@@ -24,7 +24,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
      *
      * @var midgard_object
      */
-    private $_object = null;
+    protected $_object = null;
 
     /**
      * Object path to the current object.
@@ -279,7 +279,7 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         return false;
     }
 
-    private function _common_css_classes(&$object, &$ref, &$css_class)
+    protected function _common_css_classes(&$object, &$ref, &$css_class)
     {
         $css_class .= " {$ref->mgdschema_class}";
 
