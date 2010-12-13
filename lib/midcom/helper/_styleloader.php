@@ -606,6 +606,7 @@ class midcom_helper__styleloader
         if (count($this->_scope) > 0)
         {
             $src = "{$this->_scope[0]}/{$_element}";
+
             if (array_key_exists($src, $this->_styles))
             {
                 return $this->_styles[$src];
@@ -741,7 +742,7 @@ class midcom_helper__styleloader
             {
                 $_st = $this->get_style_id_from_path($GLOBALS['midcom_config']['styleengine_default_styles'][$component]);
             }
-            elseif ($GLOBALS['midcom_config']['styleengine_relative_paths'])
+            else if ($GLOBALS['midcom_config']['styleengine_relative_paths'])
             {
                 $_st = $_MIDGARD['style'];
             }

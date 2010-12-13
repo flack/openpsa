@@ -38,13 +38,13 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         {
             $this->mgdtypes[MGD_TYPE_NONE] = 'none';
         }
+        $_MIDCOM->load_library('net.nehmer.markdown');
     }
 
     public function _on_initialize()
     {
         // doing this here as this component most probably will not be called by itself.
         $_MIDCOM->style->prepend_component_styledir('midcom.admin.help');
-        $_MIDCOM->load_library('net.nehmer.markdown');
     }
 
     static function check_component($component)
