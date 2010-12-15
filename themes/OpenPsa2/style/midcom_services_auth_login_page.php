@@ -3,15 +3,15 @@ $message = $_MIDCOM->i18n->get_string('login message - please enter credentials'
 $login_warning = '';
 $title = $_MIDCOM->i18n->get_string('login', 'midcom');
 
-if (isset($GLOBALS['midcom_services_auth_access_denied_message']))
+if (isset($this->data['midcom_services_auth_access_denied_message']))
 {
-    $message = $GLOBALS['midcom_services_auth_access_denied_message'];
-    $title = $GLOBALS['midcom_services_auth_access_denied_title'];
-    $login_warning = $GLOBALS['midcom_services_auth_access_denied_login_warning'];
+    $message = $this->data['midcom_services_auth_access_denied_message'];
+    $title = $this->data['midcom_services_auth_access_denied_title'];
+    $login_warning = $this->data['midcom_services_auth_access_denied_login_warning'];
 }
 else
 {
-    $login_warning = $GLOBALS['midcom_services_auth_show_login_page_login_warning'];
+    $login_warning = $this->data['midcom_services_auth_show_login_page_login_warning'];
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
