@@ -35,15 +35,13 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
             return;
         }
 
-        $_MIDCOM->load_library('org.openpsa.relatedto');
-        if (!class_exists('org_openpsa_relatedto_dba'))
+        if (!$_MIDCOM->load_library('org.openpsa.relatedto'))
         {
             debug_add('relatedto library could not be loaded', MIDCOM_LOG_WARN);
             return;
         }
 
-        $_MIDCOM->componentloader->load_graceful('org.openpsa.projects');
-        if (!class_exists('org_openpsa_projects_task_dba'))
+        if (!$_MIDCOM->componentloader->load_graceful('org.openpsa.projects'))
         {
             debug_add('org.openpsa.projects could not be loaded', MIDCOM_LOG_WARN);
             return;
@@ -155,7 +153,6 @@ class org_openpsa_calendar_cron_reporthours extends midcom_baseclasses_component
                         $this->print_error($msg);
                         debug_add($msg, MIDCOM_LOG_WARN);
                     }
-                    continue;
                 }
             }
         }

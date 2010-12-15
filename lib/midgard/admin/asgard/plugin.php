@@ -272,142 +272,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
         if ($object->can_do('midgard:update'))
         {
-            if (   is_a($object, 'midcom_db_topic')
-                && $object->component
-                && $object->can_do('midcom:component_config'))
-            {
-                $toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
-                    )
-                );
-            }
-
-            $toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('metadata', $object->guid),
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('metadata', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'm',
-                )
-            );
-            /** COPIED from midcom_services_toolbars */
-            if ($GLOBALS['midcom_config']['metadata_approval'])
-            {
-                $metadata = midcom_helper_metadata::retrieve($object);
-                if (   $metadata
-                    && $metadata->is_approved())
-                {
-                    $icon = 'stock-icons/16x16/page-approved.png';
-                    if (   !$GLOBALS['midcom_config']['show_hidden_objects']
-                        && !$metadata->is_visible())
-                    {
-                        // Take scheduling into account
-                        $icon = 'stock-icons/16x16/page-approved-notpublished.png';
-                    }
-                    $toolbar->add_item
-                    (
-                        array
-                        (
-                            MIDCOM_TOOLBAR_URL => "__ais/folder/unapprove/",
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('unapprove', 'midcom'),
-                            MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('approved', 'midcom'),
-                            MIDCOM_TOOLBAR_ICON => $icon,
-                            MIDCOM_TOOLBAR_POST => true,
-                            MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                            (
-                                'guid' => $object->guid,
-                                'return_to' => $_SERVER['REQUEST_URI'],
-                            ),
-                            MIDCOM_TOOLBAR_ACCESSKEY => 'u',
-                            MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
-                        )
-                    );
-                }
-                else
-                {
-                    $icon = 'stock-icons/16x16/page-notapproved.png';
-                    if (   !$GLOBALS['midcom_config']['show_hidden_objects']
-                        && !$metadata->is_visible())
-                    {
-                        // Take scheduling into account
-                        $icon = 'stock-icons/16x16/page-notapproved-notpublished.png';
-                    }
-                    $toolbar->add_item
-                    (
-                        array
-                        (
-                            MIDCOM_TOOLBAR_URL => "__ais/folder/approve/",
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('approve', 'midcom'),
-                            MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('unapproved', 'midcom'),
-                            MIDCOM_TOOLBAR_ICON => $icon,
-                            MIDCOM_TOOLBAR_POST => true,
-                            MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                            (
-                                'guid' => $object->guid,
-                                'return_to' => $_SERVER['REQUEST_URI'],
-                            ),
-                            MIDCOM_TOOLBAR_ACCESSKEY => 'a',
-                            MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
-                        )
-                    );
-                }
-            }
-            /** /COPIED from midcom_services_toolbars */
-
-            $toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('attachments', $object->guid),
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('attachments', 'midgard.admin.asgard'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
-                )
-            );
-
-            $toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('parameters', $object->guid),
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('parameters', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:parameters'),
-                )
-            );
-
-            $toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => self::_generate_url('permissions', $object->guid),
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('privileges', 'midcom'),
-                    MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                    MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:privileges'),
-                )
-            );
-
-
-            if (   $_MIDCOM->componentloader->is_installed('midcom.helper.replicator')
-                && $_MIDCOM->auth->admin)
-            {
-                $toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('replication information', 'midcom.helper.replicator'),
-                        MIDCOM_TOOLBAR_ICON => 'midcom.helper.replicator/replicate-server-16.png',
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'r',
-                    )
-                );
-            }
+            $this->_add_toolbar_update_items($object, $toolbar);
         }
 
         if ($object->can_do('midgard:create'))
@@ -717,6 +582,145 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         $_MIDCOM->set_custom_context_data('midcom.helper.nav.breadcrumb', $breadcrumb);
 
         return $toolbar;
+    }
+
+    private function _add_toolbar_update_items($obejct, &$toolbar)
+    {
+        if (   is_a($object, 'midcom_db_topic')
+            && $object->component
+            && $object->can_do('midcom:component_config'))
+        {
+            $toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/components/configuration/edit/{$object->component}/{$object->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('component configuration', 'midcom'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_folder-properties.png',
+                    )
+            );
+        }
+
+        $toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => self::_generate_url('metadata', $object->guid),
+                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('metadata', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/metadata.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'm',
+                )
+        );
+        /** COPIED from midcom_services_toolbars */
+        if ($GLOBALS['midcom_config']['metadata_approval'])
+        {
+            $metadata = midcom_helper_metadata::retrieve($object);
+            if (   $metadata
+                && $metadata->is_approved())
+            {
+                $icon = 'stock-icons/16x16/page-approved.png';
+                if (   !$GLOBALS['midcom_config']['show_hidden_objects']
+                    && !$metadata->is_visible())
+                {
+                    // Take scheduling into account
+                    $icon = 'stock-icons/16x16/page-approved-notpublished.png';
+                }
+                $toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "__ais/folder/unapprove/",
+                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('unapprove', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('approved', 'midcom'),
+                        MIDCOM_TOOLBAR_ICON => $icon,
+                        MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                        (
+                            'guid' => $object->guid,
+                            'return_to' => $_SERVER['REQUEST_URI'],
+                        ),
+                        MIDCOM_TOOLBAR_ACCESSKEY => 'u',
+                        MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
+                    )
+                );
+            }
+            else
+            {
+                $icon = 'stock-icons/16x16/page-notapproved.png';
+                if (   !$GLOBALS['midcom_config']['show_hidden_objects']
+                    && !$metadata->is_visible())
+                {
+                    // Take scheduling into account
+                    $icon = 'stock-icons/16x16/page-notapproved-notpublished.png';
+                }
+                $toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "__ais/folder/approve/",
+                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('approve', 'midcom'),
+                        MIDCOM_TOOLBAR_HELPTEXT => $_MIDCOM->i18n->get_string('unapproved', 'midcom'),
+                        MIDCOM_TOOLBAR_ICON => $icon,
+                        MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                        (
+                            'guid' => $object->guid,
+                            'return_to' => $_SERVER['REQUEST_URI'],
+                        ),
+                        MIDCOM_TOOLBAR_ACCESSKEY => 'a',
+                        MIDCOM_TOOLBAR_ENABLED => $object->can_do('midcom:approve'),
+                    )
+                );
+            }
+        }
+        /** /COPIED from midcom_services_toolbars */
+
+        $toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => self::_generate_url('attachments', $object->guid),
+                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('attachments', 'midgard.admin.asgard'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/attach.png',
+                )
+            );
+
+        $toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => self::_generate_url('parameters', $object->guid),
+                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('parameters', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:parameters'),
+                )
+            );
+
+        $toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => self::_generate_url('permissions', $object->guid),
+                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('privileges', 'midcom'),
+                MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
+                MIDCOM_TOOLBAR_ENABLED => $object->can_do('midgard:privileges'),
+            )
+        );
+
+        if (   $_MIDCOM->componentloader->is_installed('midcom.helper.replicator')
+            && $_MIDCOM->auth->admin)
+        {
+            $toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.helper.replicator/object/{$object->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('replication information', 'midcom.helper.replicator'),
+                    MIDCOM_TOOLBAR_ICON => 'midcom.helper.replicator/replicate-server-16.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'r',
+                )
+            );
+        }
     }
 
     /**

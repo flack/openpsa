@@ -195,7 +195,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $this->_disable_limits();
 
         $this->_request_data['export_rows'] = array();
-        $merged =& $this->_request_data['export_rows'];
         $qb_members = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_members->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
         $qb_members->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
@@ -208,67 +207,15 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
             // Fatal QB error
             return false;
         }
+
+        $this->membership_mode = $this->_config->get('csv_export_memberships');
+
         foreach ($members as $k => $member)
         {
-            $adder = array();
-            $adder['campaign_member'] = $member;
-            $adder['person'] = org_openpsa_contacts_person_dba::get_cached($member->person);
-            if (!is_object($adder['person']))
+            if ($row = $this->_process_member($member))
             {
-                // TODO: Log error
-                continue;
+                $this->_request_data['export_rows'][] = $row;
             }
-            $qb_memberships = midcom_db_member::new_query_builder();
-            $qb_memberships->add_constraint('uid', '=', $member->person);
-            $memberships = $qb_memberships->execute_unchecked();
-            if (   !is_array($memberships)
-                || count($memberships) == 0)
-            {
-                $merged[] = $adder;
-                continue;
-            }
-            $this->membership_mode = $this->_config->get('csv_export_memberships');
-            switch ($this->membership_mode)
-            {
-                case 'all':
-                    foreach ($memberships as $k2 => $membership)
-                    {
-                        $adder['organization_member'] = $membership;
-                        $adder['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
-                        if (!is_object($adder['organization']))
-                        {
-                            debug_log("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
-                            continue;
-                        }
-                        $merged[] = $adder;
-                        unset($memberships[$k2]);
-                    }
-                    break;
-                default:
-                    // Fall-trough intentional
-                case 'first':
-                    // Fall-trough intentional
-                case 'last':
-                    foreach ($memberships as $k2 => $membership)
-                    {
-                        $adder['organization_member'] = $membership;
-                        $adder['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
-                        if (!is_object($adder['organization']))
-                        {
-                            debug_log("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
-                            continue;
-                        }
-                        // Get only first or last membership
-                        if ($this->membership_mode != 'last')
-                        {
-                            break;
-                        }
-                    }
-                    $merged[] = $adder;
-                    unset($memberships);
-                    break;
-            }
-            unset($members[$k]);
         }
 
         $this->_load_datamanagers();
@@ -276,6 +223,64 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
         return true;
+    }
+
+    private function _process_member($member)
+    {
+        $adder = array();
+        $adder['campaign_member'] = $member;
+        $adder['person'] = org_openpsa_contacts_person_dba::get_cached($member->person);
+        if (!is_object($adder['person']))
+        {
+            // TODO: Log error
+            return false;
+        }
+        $qb_memberships = midcom_db_member::new_query_builder();
+        $qb_memberships->add_constraint('uid', '=', $member->person);
+        $memberships = $qb_memberships->execute_unchecked();
+        if (   !is_array($memberships)
+            || count($memberships) == 0)
+        {
+            return $adder;
+        }
+        switch ($this->membership_mode)
+        {
+            case 'all':
+                foreach ($memberships as $k2 => $membership)
+                {
+                    $adder['organization_member'] = $membership;
+                    $adder['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
+                    if (!is_object($adder['organization']))
+                    {
+                        debug_log("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
+                        return false;
+                    }
+                    return $adder;
+                }
+                break;
+            default:
+                // Fall-trough intentional
+            case 'first':
+                // Fall-trough intentional
+            case 'last':
+                foreach ($memberships as $k2 => $membership)
+                {
+                    $adder['organization_member'] = $membership;
+                    $adder['organization'] = org_openpsa_contacts_group_dba::get_cached($membership->gid);
+                    if (!is_object($adder['organization']))
+                    {
+                        debug_log("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
+                        return false;
+                    }
+                    // Get only first or last membership
+                    if ($this->membership_mode != 'last')
+                    {
+                        break;
+                    }
+                }
+                return $adder;
+                break;
+        }
     }
 
     private function _init_csv_variables()

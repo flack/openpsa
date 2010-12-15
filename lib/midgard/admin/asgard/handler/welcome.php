@@ -199,8 +199,15 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midgard.admin.asgard/jquery.batch_process.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
 
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-        $data['asgard_toolbar']->add_item
+        $this->_populate_toolbar();
+
+        return true;
+    }
+
+    private function _populate_toolbar()
+    {
+        midgard_admin_asgard_plugin::get_common_toolbar($this->_request_data);
+        $this->_request_data['asgard_toolbar']->add_item
         (
             array
             (
@@ -212,7 +219,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
         if ($_MIDCOM->auth->admin)
         {
-            $data['asgard_toolbar']->add_item
+            $this->_request_data['asgard_toolbar']->add_item
             (
                 array
                 (
@@ -223,7 +230,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             );
         }
 
-        $data['asgard_toolbar']->add_item
+        $this->_request_data['asgard_toolbar']->add_item
         (
             array
             (
@@ -234,7 +241,7 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         );
 
         // Add link to site
-        $data['asgard_toolbar']->add_item
+        $this->_request_data['asgard_toolbar']->add_item
         (
             array
             (
@@ -244,17 +251,15 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
             )
         );
 
-        $data['asgard_toolbar']->add_item
+        $this->_request_data['asgard_toolbar']->add_item
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)."midcom-logout-",
+                MIDCOM_TOOLBAR_URL => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "midcom-logout-",
                 MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('logout','midcom'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/exit.png',
             )
         );
-
-        return true;
     }
 
     private function _mass_delete($guids)

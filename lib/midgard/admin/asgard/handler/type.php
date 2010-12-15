@@ -166,52 +166,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-
-        if ($_MIDCOM->auth->can_user_do('midgard:create', null, $this->type))
-        {
-            $data['asgard_toolbar']->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($this->type)),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . midcom_helper_reflector_tree::get_create_icon($this->type),
-                )
-            );
-        }
-
-        if ($_MIDCOM->auth->admin)
-        {
-            $qb = new midgard_query_builder($this->type);
-            $qb->include_deleted();
-            $qb->add_constraint('metadata.deleted', '=', true);
-            $deleted = $qb->count();
-            if ($deleted > 0)
-            {
-                $data['asgard_toolbar']->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('%s deleted items', 'midgard.admin.asgard'), $deleted),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
-                    )
-                );
-            }
-            else
-            {
-                $data['asgard_toolbar']->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
-                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('trash is empty', 'midgard.admin.asgard'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    )
-                );
-            }
-        }
+        $data['asgard_toolbar'] = $this->_prepare_toolbar();
 
         $this->_find_component();
         $data['documentation_component'] = $data['component'];
@@ -265,6 +220,57 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
 
         return true;
+    }
+
+    private function _prepare_toolbar()
+    {
+        $toolbar = new midcom_helper_toolbar();
+
+        if ($_MIDCOM->auth->can_user_do('midgard:create', null, $this->type))
+        {
+            $toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/object/create/{$this->type}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($this->type)),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . midcom_helper_reflector_tree::get_create_icon($this->type),
+                )
+            );
+        }
+
+        if ($_MIDCOM->auth->admin)
+        {
+            $qb = new midgard_query_builder($this->type);
+            $qb->include_deleted();
+            $qb->add_constraint('metadata.deleted', '=', true);
+            $deleted = $qb->count();
+            if ($deleted > 0)
+            {
+                $toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
+                        MIDCOM_TOOLBAR_LABEL => sprintf($_MIDCOM->i18n->get_string('%s deleted items', 'midgard.admin.asgard'), $deleted),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash-full.png',
+                    )
+                );
+            }
+            else
+            {
+                $toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "__mfa/asgard/trash/{$this->type}/",
+                        MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('trash is empty', 'midgard.admin.asgard'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                    )
+                );
+            }
+        }
+        return $toolbar;
     }
 
     /**

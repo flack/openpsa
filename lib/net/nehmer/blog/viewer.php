@@ -437,30 +437,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $mc->add_constraint('topic', '=', $data['content_topic']->id);
             $mc->add_order('metadata.published', 'DESC');
 
-            // Use sophisticated guess to limit the amount: there shouldn't be more than
-            // the required amount of links that is needed. Even if some links would fall
-            // off due to a broken link (i.e. removed article), there should be enough
-            // of content to fill the blank
-            switch ($handler_id)
-            {
-                case 'index':
-                case 'index-category':
-                    $mc->set_limit((int) $config->get('index_entries'));
-                    break;
-
-                case 'latest':
-                case 'ajax-latest':
-                    $mc->set_limit((int) $config->get('index_entries'));
-                    break;
-
-                case 'latest-category':
-                    $mc->set_limit((int) $config->get('index_entries'));
-                    break;
-
-                default:
-                    $mc->set_limit((int) $config->get('index_entries'));
-                    break;
-            }
+            $mc->set_limit((int) $config->get('index_entries'));
 
             // Get the results
             $mc->execute();

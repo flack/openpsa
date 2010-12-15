@@ -828,158 +828,14 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             return false;
         }
 
-        //We might get multiple matches for same event/person
-        $processed_events_participants = array();
-        if (!is_array($ret_ev))
-        {
-            //Safety
-            $ret_ev = array();
-        }
         foreach ($ret_ev as $member)
         {
-            //Check if we have processed this participant/event combination already
-            if (   array_key_exists($member->eid, $processed_events_participants)
-                && array_key_exists($member->uid, $processed_events_participants[$member->eid]))
-            {
-                continue;
-            }
-            if (   !array_key_exists($member->eid, $processed_events_participants)
-                || !is_array($processed_events_participants[$member->eid]))
-            {
-                $processed_events_participants[$member->eid] = array();
-            }
-            $processed_events_participants[$member->eid][$member->uid] = true;
-
-            $event = new org_openpsa_calendar_event_dba($member->eid);
-            if (   !is_object($event)
-                || !isset($event->guid)
-                || empty($event->guid))
-            {
-                debug_add("eventmember #{$member->id} links to bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
-                $member->delete();
-                continue;
-            }
-            debug_add("overlap found in event {$event->title} (#{$event->id})");
-
-            if (   $event->tentative
-                && $rob_tentative)
-            {
-                debug_add('event is tentative, robbing resources');
-                //"rob" resources from tentative event
-                $event = new org_openpsa_calendar_event_dba($event->id);
-
-                //participants
-                reset($this->participants);
-                foreach ($this->participants as $id => $bool)
-                {
-                    if (array_key_exists($id, $event->participants))
-                    {
-                        unset($event->participants[$id]);
-                    }
-                }
-                $modified_events[$event->id] = $event;
-            }
-            else
-            {
-                debug_add('event is normal, flagging busy');
-                //Non tentative event, flag busy resources
-                if (!is_array($this->busy_em))
-                {
-                    //this is false under normal circumstances
-                    $this->busy_em = array();
-                }
-                if (   !array_key_exists($member->guid, $this->busy_em)
-                    || !is_array($this->busy_em[$member->uid]))
-                {
-                    //for mapping
-                    $this->busy_em[$member->uid] = array();
-                }
-                //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-                $this->busy_em[$member->uid][] = $event->guid;
-            }
+            $this->_process_participant($member, $modified_events, $rob_tentative);
         }
 
-        //We might get multiple matches for same event/resource
-        $processed_events_resources = array();
-        if (!is_array($ret_ev2))
-        {
-            //Safety
-            $ret_ev2 = array();
-        }
         foreach ($ret_ev2 as $member)
         {
-            //Check if we have processed this resource/event combination already
-            if (   array_key_exists($member->event, $processed_events_resources)
-                && array_key_exists($member->resource, $processed_events_resources[$member->event]))
-            {
-                continue;
-            }
-            if (   !array_key_exists($member->event, $processed_events_resources)
-                || !is_array($processed_events_resources[$member->event]))
-            {
-                $processed_events_resources[$member->event] = array();
-            }
-            $processed_events_resources[$member->event][$member->resource] = true;
-
-            if (array_key_exists($member->event, $modified_events))
-            {
-                $event =& $modified_events[$member->event];
-                $set_as_modified = false;
-            }
-            else
-            {
-                $event = new org_openpsa_calendar_event_dba($member->event);
-                $set_as_modified = true;
-            }
-            if (   !is_object($event)
-                || !isset($event->guid)
-                || empty($event->guid))
-            {
-                debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
-                $member->delete();
-                continue;
-            }
-            debug_add("overlap found in event {$event->title} (#{$event->id})");
-
-            if (   $event->tentative
-                && $rob_tentative)
-            {
-                debug_add('event is tentative, robbing resources');
-                //"rob" resources from tentative event
-                $event = new org_openpsa_calendar_event_dba($event->id);
-
-                //resources
-                reset($this->resources);
-                foreach ($this->resources as $id => $bool)
-                {
-                    if (array_key_exists($id, $event->resources))
-                    {
-                        unset($event->resources[$id]);
-                    }
-                }
-                if ($set_as_modified)
-                {
-                    $modified_events[$event->id] = $event;
-                }
-            }
-            else
-            {
-                debug_add('event is normal, flagging busy');
-                //Non tentative event, flag busy resources
-                if (!is_array($this->busy_er))
-                {
-                    //this is false under normal circumstances
-                    $this->busy_er = array();
-                }
-                if (   !array_key_exists($member->guid, $this->busy_er)
-                    || !is_array($this->busy_er[$member->resource]))
-                {
-                    //for mapping
-                    $this->busy_er[$member->resource] = array();
-                }
-                //PONDER: The display end might have issues with event guid that they cannot see without sudo...
-                $this->busy_er[$member->resource][] = $event->guid;
-            }
+            $this->_process_resource($member, $modified_events, $rob_tentative);
         }
 
         if (   is_array($this->busy_em)
@@ -1025,6 +881,151 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         return false;
     }
 
+    private function _process_resource($member, &$modified_events, $rob_tentative)
+    {
+        //We might get multiple matches for same event/resource
+        static $processed_events_resources = array();
+
+        //Check if we have processed this resource/event combination already
+        if (   array_key_exists($member->event, $processed_events_resources)
+            && array_key_exists($member->resource, $processed_events_resources[$member->event]))
+        {
+            continue;
+        }
+        if (   !array_key_exists($member->event, $processed_events_resources)
+            || !is_array($processed_events_resources[$member->event]))
+        {
+            $processed_events_resources[$member->event] = array();
+        }
+        $processed_events_resources[$member->event][$member->resource] = true;
+
+        if (array_key_exists($member->event, $modified_events))
+        {
+            $event =& $modified_events[$member->event];
+            $set_as_modified = false;
+        }
+        else
+        {
+            $event = new org_openpsa_calendar_event_dba($member->event);
+            $set_as_modified = true;
+        }
+        if (   !is_object($event)
+            || !isset($event->guid)
+            || empty($event->guid))
+        {
+            debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
+            $member->delete();
+            continue;
+        }
+        debug_add("overlap found in event {$event->title} (#{$event->id})");
+
+        if (   $event->tentative
+            && $rob_tentative)
+        {
+            debug_add('event is tentative, robbing resources');
+            //"rob" resources from tentative event
+            $event = new org_openpsa_calendar_event_dba($event->id);
+
+            //resources
+            reset($this->resources);
+            foreach ($this->resources as $id => $bool)
+            {
+                if (array_key_exists($id, $event->resources))
+                {
+                    unset($event->resources[$id]);
+                }
+            }
+            if ($set_as_modified)
+            {
+                $modified_events[$event->id] = $event;
+            }
+        }
+        else
+        {
+            debug_add('event is normal, flagging busy');
+            //Non tentative event, flag busy resources
+            if (!is_array($this->busy_er))
+            {
+                //this is false under normal circumstances
+                $this->busy_er = array();
+            }
+            if (   !array_key_exists($member->guid, $this->busy_er)
+                || !is_array($this->busy_er[$member->resource]))
+            {
+                //for mapping
+                $this->busy_er[$member->resource] = array();
+            }
+            //PONDER: The display end might have issues with event guid that they cannot see without sudo...
+            $this->busy_er[$member->resource][] = $event->guid;
+        }
+    }
+
+    private function _process_participant($member, &$modified_events, $rob_tentative)
+    {
+        //We might get multiple matches for same event/person
+        static $processed_events_participants = array();
+
+        //Check if we have processed this participant/event combination already
+        if (   array_key_exists($member->eid, $processed_events_participants)
+            && array_key_exists($member->uid, $processed_events_participants[$member->eid]))
+        {
+            return;
+        }
+        if (   !array_key_exists($member->eid, $processed_events_participants)
+            || !is_array($processed_events_participants[$member->eid]))
+        {
+            $processed_events_participants[$member->eid] = array();
+        }
+        $processed_events_participants[$member->eid][$member->uid] = true;
+
+        $event = new org_openpsa_calendar_event_dba($member->eid);
+        if (   !is_object($event)
+            || !isset($event->guid)
+            || empty($event->guid))
+        {
+            debug_add("eventmember #{$member->id} links to bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
+            $member->delete();
+            return;
+        }
+        debug_add("overlap found in event {$event->title} (#{$event->id})");
+
+        if (   $event->tentative
+            && $rob_tentative)
+        {
+            debug_add('event is tentative, robbing resources');
+            //"rob" resources from tentative event
+            $event = new org_openpsa_calendar_event_dba($event->id);
+
+            //participants
+            reset($this->participants);
+            foreach ($this->participants as $id => $bool)
+            {
+                if (array_key_exists($id, $event->participants))
+                {
+                    unset($event->participants[$id]);
+                }
+            }
+            $modified_events[$event->id] = $event;
+        }
+        else
+        {
+            debug_add('event is normal, flagging busy');
+            //Non tentative event, flag busy resources
+            if (!is_array($this->busy_em))
+            {
+                //this is false under normal circumstances
+                $this->busy_em = array();
+            }
+            if (   !array_key_exists($member->guid, $this->busy_em)
+                || !is_array($this->busy_em[$member->uid]))
+            {
+                //for mapping
+                $this->busy_em[$member->uid] = array();
+            }
+            //PONDER: The display end might have issues with event guid that they cannot see without sudo...
+            $this->busy_em[$member->uid][] = $event->guid;
+        }
+    }
 
     /**
      * Fills $this->participants and $this->resources

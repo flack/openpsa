@@ -41,6 +41,8 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     private $_selected_time = null;
 
+    private $_shown_persons = array();
+
     /**
      * Initialization of the handler class
      */
@@ -330,8 +332,6 @@ function openPsaShowMonthSelector()
      */
     private function _populate_calendar_contacts($from, $to)
     {
-        $shown_persons = array();
-
         $user = $_MIDCOM->auth->user->get_storage();
 
         if (   $this->_config->get('always_show_self')
@@ -341,7 +341,7 @@ function openPsaShowMonthSelector()
             $this->_calendar->_resources[$user->guid] = $this->_populate_calendar_resource($user, $from, $to);
         }
 
-        $shown_persons[$user->id] = true;
+        $this->_shown_persons[$user->id] = true;
 
         $subscribed_contacts = $user->list_parameters('org_openpsa_calendar_show');
 
@@ -350,7 +350,7 @@ function openPsaShowMonthSelector()
         {
             $person = new midcom_db_person($guid);
             $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
-            $shown_persons[$person->id] = true;
+            $this->_shown_persons[$person->id] = true;
         }
 
         // Backwards compatibility
@@ -363,17 +363,22 @@ function openPsaShowMonthSelector()
                 $members = $additional_group->list_members();
                 foreach ($members as $person)
                 {
-                    if (array_key_exists($person->id, $shown_persons))
+                    if (array_key_exists($person->id, $this->_shown_persons))
                     {
                         continue;
                     }
                     $person_object = $person->get_storage();
                     $this->_calendar->_resources[$person_object->guid] = $this->_populate_calendar_resource($person_object, $from, $to);
-                    $shown_persons[$person->id] = true;
+                    $this->_shown_persons[$person->id] = true;
                 }
             }
         }
 
+        $this->_populate_calendar_from_filter();
+    }
+
+    private function _populate_calendar_from_filter()
+    {
         // New UI for showing resources
         foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value)
         {
@@ -394,14 +399,14 @@ function openPsaShowMonthSelector()
                     {
                         $person = new midcom_db_person($guid);
 
-                        if (   isset($shown_persons[$person->id])
-                            && $shown_persons[$person->id] === true)
+                        if (   isset($this->_shown_persons[$person->id])
+                            && $this->_shown_persons[$person->id] === true)
                         {
                             continue;
                         }
 
                         $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
-                        $shown_persons[$person->id] = true;
+                        $this->_shown_persons[$person->id] = true;
                     }
                     break;
 
@@ -429,15 +434,15 @@ function openPsaShowMonthSelector()
                         {
                             $user_id = $mc->get_subkey($membership_guid, 'uid');
 
-                            if (   isset($shown_persons[$user_id])
-                                && $shown_persons[$user_id] === true)
+                            if (   isset($this->_shown_persons[$user_id])
+                                && $this->_shown_persons[$user_id] === true)
                             {
                                 continue;
                             }
 
                             $person = new midcom_db_person($user_id);
                             $this->_calendar->_resources[$person->guid] = $this->_populate_calendar_resource($person, $from, $to);
-                            $shown_persons[$person->id] = true;
+                            $this->_shown_persons[$person->id] = true;
                         }
                     }
                     break;

@@ -705,27 +705,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             && (   count($folder_tree) == 0
                 || $force_resolve_folder_tree))
         {
-            $nap = new midcom_helper_nav();
-
-            // Traverse the NAP tree upwards until we get the root-most wiki folder
-            $folder = $nap->get_node($this->topic);
-
-            $root_folder = $folder;
-            $max = 100;
-            while (   $folder[MIDCOM_NAV_COMPONENT] == 'net.nemein.wiki'
-                   && (($parent = $nap->get_node_uplink($folder[MIDCOM_NAV_ID])) != -1)
-                   && $max > 0)
-            {
-                $root_folder = $folder;
-                if ($force_as_root)
-                {
-                    break;
-                }
-                $folder = $nap->get_node($parent);
-                $max--;
-            }
-
-            $folder_tree = $this->_list_wiki_nodes($root_folder);
+            $folder_tree = $this->_resolve_folder_tree();
         }
 
         if (strstr($path, '/'))
@@ -823,6 +803,31 @@ class net_nemein_wiki_wikipage extends midcom_db_article
 
         $matches['wikipage'] = $wikipages[0];
         return $matches;
+    }
+
+    private function _resolve_folder_tree()
+    {
+        $nap = new midcom_helper_nav();
+
+        // Traverse the NAP tree upwards until we get the root-most wiki folder
+        $folder = $nap->get_node($this->topic);
+
+        $root_folder = $folder;
+        $max = 100;
+        while (   $folder[MIDCOM_NAV_COMPONENT] == 'net.nemein.wiki'
+               && (($parent = $nap->get_node_uplink($folder[MIDCOM_NAV_ID])) != -1)
+               && $max > 0)
+        {
+            $root_folder = $folder;
+            if ($force_as_root)
+            {
+                break;
+            }
+            $folder = $nap->get_node($parent);
+            $max--;
+        }
+
+        return $this->_list_wiki_nodes($root_folder);
     }
 }
 ?>

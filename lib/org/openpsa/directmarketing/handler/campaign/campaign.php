@@ -60,7 +60,33 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $this->_request_data['campaign'] =& $this->_campaign;
         $this->_request_data['datamanager'] =& $this->_datamanager;
 
-        // Populate the toolbar
+        $this->_populate_toolbar();
+
+        $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
+        foreach ($schemadb_message as $name => $schema)
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "message/create/{$this->_campaign->guid}/{$name}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->description)),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . org_openpsa_directmarketing_viewer::get_messagetype_icon($schema->customdata['org_openpsa_directmarketing_messagetype']),
+                    MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:create'),
+                )
+            );
+        }
+
+        // Populate calendar events for the campaign
+        $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
+        $_MIDCOM->set_26_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
+        $_MIDCOM->set_pagetitle($this->_campaign->title);
+
+        return true;
+    }
+
+    private function _populate_toolbar()
+    {
         $this->_view_toolbar->add_item
         (
             array
@@ -121,27 +147,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_data-edit-table.png',
             )
         );
-        $schemadb_message = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
-        foreach ($schemadb_message as $name => $schema)
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "message/create/{$this->_campaign->guid}/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n->get('new %s'), $this->_l10n->get($schema->description)),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/' . org_openpsa_directmarketing_viewer::get_messagetype_icon($schema->customdata['org_openpsa_directmarketing_messagetype']),
-                    MIDCOM_TOOLBAR_ENABLED => $this->_campaign->can_do('midgard:create'),
-                )
-            );
-        }
-
-        // Populate calendar events for the campaign
-        $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
-        $_MIDCOM->set_26_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
-        $_MIDCOM->set_pagetitle($this->_campaign->title);
-
-        return true;
     }
 
     /**

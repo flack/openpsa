@@ -129,7 +129,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
     /**
      * statically called method to find amount (seconds) of free
      * time for person between start and end
-     *
      */
     function find_free_times($amount, $person, $start, $end)
     {

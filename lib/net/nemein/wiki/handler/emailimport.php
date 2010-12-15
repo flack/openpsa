@@ -25,11 +25,8 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('text/plain');
 
-        //Load o.o.mail
-        $_MIDCOM->load_library('org.openpsa.mail');
-
         //Make sure we have the components we use and the Mail_mimeDecode package
-        if (!class_exists('org_openpsa_mail'))
+        if (!$_MIDCOM->load_library('org.openpsa.mail'))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'library org.openpsa.mail could not be loaded.');
             // This will exit.

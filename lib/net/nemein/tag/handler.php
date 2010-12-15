@@ -68,86 +68,98 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         // Excute
         foreach ($remove_tags as $tagname => $bool)
         {
-            debug_add("Removing tag {$tagname} from object {$object->guid}");
-            $tagstring = net_nemein_tag_handler::resolve_tagname($tagname);
-            $context = net_nemein_tag_handler::resolve_context($tagname);
-            $value = net_nemein_tag_handler::resolve_value($tagname);
-            // Ponder make method in net_nemein_tag_link_dba ??
-            $qb = net_nemein_tag_link_dba::new_query_builder();
-            $qb->add_constraint('tag.tag', '=', $tagstring);
-            $qb->add_constraint('context', '=', $context);
-            $qb->add_constraint('value', '=', $value);
-            $qb->add_constraint('fromGuid', '=', $object->guid);
-            $links = $qb->execute();
-            if (!is_array($links))
-            {
-                debug_add("Failed to fetch tag link(s) for tag \"{$tagstring}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                continue;
-            }
-            foreach ($links as $link)
-            {
-                if (!$link->delete())
-                {
-                    debug_add("Failed to delete tag_link \"{$tagname}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                    continue;
-                }
-            }
+            $this->_remove_tag($tagname, $object->guid);
         }
         foreach ($update_tags as $tagname => $url)
         {
-            debug_add("Updating tag {$tagname} for object {$object->guid} to URL {$url}");
-            $tagstring = net_nemein_tag_handler::resolve_tagname($tagname);
-            $tag = net_nemein_tag_tag_dba::get_by_tag($tagstring);
-            if (!is_object($tag))
-            {
-                debug_add("Failed to update tag \"{$tagname}\" for object {$object->guid} (could not get tag object for tag {$tagstring}): " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                continue;
-            }
-            $tag->url = $url;
-            if (!$tag->update())
-            {
-                debug_add("Failed to update tag \"{$tagname}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                continue;
-            }
+            $this->_update_tag($tagname, $url, $object->guid);
         }
         foreach ($add_tags as $tagname => $url)
         {
-            debug_add("Adding tag \"{$tagname}\" for object {$object->guid}");
-            $tagstring = net_nemein_tag_handler::resolve_tagname($tagname);
-            $context = net_nemein_tag_handler::resolve_context($tagname);
-            $value = net_nemein_tag_handler::resolve_value($tagname);
-            $tag = net_nemein_tag_tag_dba::get_by_tag($tagstring);
-            if (   !is_object($tag)
-                || !$tag->guid)
-            {
-                $tag =  new net_nemein_tag_tag_dba();
-                $tag->tag = $tagstring;
-                $tag->url = $url;
-                if (!$tag->create())
-                {
-                    debug_add("Failed to create tag \"{$tagstring}\": " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                    continue;
-                }
-            }
-            $link =  new net_nemein_tag_link_dba();
-            $link->tag = $tag->id;
-            $link->context = $context;
-            $link->value = $value;
-            $link->fromGuid = $object->guid;
-            $link->fromClass = get_class($object);
-            $link->fromComponent = $component;
-
-            // Carry the original object's publication date to the tag as well
-            $link->metadata->published = $object->metadata->published;
-
-            if (!$link->create())
-            {
-                debug_add("Failed to create tag_link \"{$tagname}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-                continue;
-            }
+            $this->_create_tag($tagname, $url, $object->guid);
         }
 
         return true;
+    }
+
+    private function _create_tag($tagname, $url, $object_guid)
+    {
+        debug_add("Adding tag \"{$tagname}\" for object {$object_guid}");
+        $tagstring = self::resolve_tagname($tagname);
+        $context = self::resolve_context($tagname);
+        $value = self::resolve_value($tagname);
+        $tag = net_nemein_tag_tag_dba::get_by_tag($tagstring);
+        if (   !is_object($tag)
+            || !$tag->guid)
+        {
+            $tag =  new net_nemein_tag_tag_dba();
+            $tag->tag = $tagstring;
+            $tag->url = $url;
+            if (!$tag->create())
+            {
+                debug_add("Failed to create tag \"{$tagstring}\": " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+                return;
+            }
+        }
+        $link =  new net_nemein_tag_link_dba();
+        $link->tag = $tag->id;
+        $link->context = $context;
+        $link->value = $value;
+        $link->fromGuid = $object->guid;
+        $link->fromClass = get_class($object);
+        $link->fromComponent = $component;
+
+        // Carry the original object's publication date to the tag as well
+        $link->metadata->published = $object->metadata->published;
+
+        if (!$link->create())
+        {
+            debug_add("Failed to create tag_link \"{$tagname}\" for object {$object->guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+        }
+    }
+
+    private function _update_tag($tagname, $url, $object_guid)
+    {
+        debug_add("Updating tag {$tagname} for object {$object_guid} to URL {$url}");
+        $tagstring = self::resolve_tagname($tagname);
+        $tag = net_nemein_tag_tag_dba::get_by_tag($tagstring);
+        if (!is_object($tag))
+        {
+            debug_add("Failed to update tag \"{$tagname}\" for object {$object_guid} (could not get tag object for tag {$tagstring}): " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            return;
+        }
+        $tag->url = $url;
+        if (!$tag->update())
+        {
+            debug_add("Failed to update tag \"{$tagname}\" for object {$object_guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+        }
+    }
+
+    private function _remove_tag($tagname, $object_guid)
+    {
+        debug_add("Removing tag {$tagname} from object {$object_guid}");
+        $tagstring = self::resolve_tagname($tagname);
+        $context = self::resolve_context($tagname);
+        $value = self::resolve_value($tagname);
+        // Ponder make method in net_nemein_tag_link_dba ??
+        $qb = net_nemein_tag_link_dba::new_query_builder();
+        $qb->add_constraint('tag.tag', '=', $tagstring);
+        $qb->add_constraint('context', '=', $context);
+        $qb->add_constraint('value', '=', $value);
+        $qb->add_constraint('fromGuid', '=', $object_guid);
+        $links = $qb->execute();
+        if (!is_array($links))
+        {
+            debug_add("Failed to fetch tag link(s) for tag \"{$tagstring}\" for object {$object_guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            return;
+        }
+        foreach ($links as $link)
+        {
+            if (!$link->delete())
+            {
+                debug_add("Failed to delete tag_link \"{$tagname}\" for object {$object_guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            }
+        }
     }
 
     /**

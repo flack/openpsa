@@ -178,6 +178,38 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      */
     public function _handler_view($handler_id, $args, &$data)
     {
+        $this->_prepare_handler($handler_id, $args);
+
+        if (   !$this->_account
+            || !$this->_account->guid)
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, $this->_l10n->get('the account was not found.'));
+            // this will exit
+        }
+        $this->_user = $_MIDCOM->auth->get_user($this->_account);
+        $this->_avatar = $this->_account->get_attachment('avatar');
+        $this->_avatar_thumbnail = $this->_account->get_attachment('avatar_thumbnail');
+
+        $this->_prepare_datamanager();
+        $this->_compute_visible_fields();
+        $this->_prepare_request_data();
+        $this->_populate_toolbar();
+        $this->_populate_person_toolbar();
+        $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);
+        $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
+        $_MIDCOM->set_pagetitle($this->_user->name);
+
+        if (   $handler_id == 'other'
+            || $handler_id == 'other_quick')
+        {
+            $this->add_breadcrumb('', $this->_user->name);
+        }
+
+        return true;
+    }
+
+    private function _prepare_handler($handler_id, $args)
+    {
         switch ($handler_id)
         {
             case 'root':
@@ -201,7 +233,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
 
                 // As the last resort, show login page
                 $_MIDCOM->auth->require_valid_user();
-
                 break;
 
             case 'self':
@@ -251,37 +282,8 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                 break;
 
             default:
-                $this->errstr = "Unknown handler ID {$handler_id} encountered.";
-                $this->errcode = MIDCOM_ERRCRIT;
                 $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Unknown handler ID {$handler_id} encountered.");
         }
-
-        if (   !$this->_account
-            || !$this->_account->guid)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, $this->_l10n->get('the account was not found.'));
-            // this will exit
-        }
-        $this->_user = $_MIDCOM->auth->get_user($this->_account);
-        $this->_avatar = $this->_account->get_attachment('avatar');
-        $this->_avatar_thumbnail = $this->_account->get_attachment('avatar_thumbnail');
-
-        $this->_prepare_datamanager();
-        $this->_compute_visible_fields();
-        $this->_prepare_request_data();
-        $this->_populate_toolbar();
-        $this->_populate_person_toolbar();
-        $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);
-        $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
-        $_MIDCOM->set_pagetitle($this->_user->name);
-
-        if (   $handler_id == 'other'
-            || $handler_id == 'other_quick')
-        {
-            $this->add_breadcrumb('', $this->_user->name);
-        }
-
-        return true;
     }
 
     private function _populate_person_toolbar()
@@ -291,176 +293,183 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             return;
         }
 
-
         if (   $_MIDCOM->auth->user
             && $this->_account->guid == $_MIDCOM->auth->user->guid)
         {
-            if (   $GLOBALS['midcom_config']['toolbars_enable_centralized']
-                && $_MIDCOM->auth->can_user_do('midcom:centralized_toolbar', null, 'midcom_services_toolbars'))
-            {
-                return;
-            }
-            $this->person_toolbar = new midcom_helper_toolbar();
+            $this->_populate_own_account_toolbar();
+        }
+        else
+        {
+            $this->_populate_other_account_toolbar();
+        }
 
-            // Own profile page
+        $this->_render_person_toolbar();
+    }
 
+    private function _populate_own_account_toolbar()
+    {
+        if (   $GLOBALS['midcom_config']['toolbars_enable_centralized']
+            && $_MIDCOM->auth->can_user_do('midcom:centralized_toolbar', null, 'midcom_services_toolbars'))
+        {
+            return;
+        }
+        $this->person_toolbar = new midcom_helper_toolbar();
+
+        $this->person_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "edit/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            )
+        );
+
+        if ($this->_config->get('allow_publish'))
+        {
             $this->person_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "edit/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+                    MIDCOM_TOOLBAR_URL => "publish/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('publish account details'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                 )
             );
+        }
 
-            if ($this->_config->get('allow_publish'))
-            {
-                $this->person_toolbar->add_item
+        if ($this->_config->get('allow_invite'))
+        {
+            $this->person_toolbar->add_item
+            (
+                array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "publish/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('publish account details'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                    )
-                );
-            }
+                    MIDCOM_TOOLBAR_URL => "invite/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import contacts'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
+                )
+            );
+        }
 
-            if ($this->_config->get('allow_invite'))
-            {
-                $this->person_toolbar->add_item
+        if ($this->_config->get('allow_socialweb'))
+        {
+            $this->person_toolbar->add_item
+            (
+                array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "invite/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('import contacts'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-send.png',
-                    )
-                );
-            }
+                    MIDCOM_TOOLBAR_URL => "socialweb/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('social web settings'),
+                    MIDCOM_TOOLBAR_ICON => 'net.nehmer.account/data-import.png',
+                )
+            );
+        }
 
-            if ($this->_config->get('allow_socialweb'))
-            {
-                $this->person_toolbar->add_item
+        if ($this->_config->get('allow_change_password'))
+        {
+            $this->person_toolbar->add_item
+            (
+                array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "socialweb/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('social web settings'),
-                        MIDCOM_TOOLBAR_ICON => 'net.nehmer.account/data-import.png',
-                    )
-                );
-            }
+                    MIDCOM_TOOLBAR_URL => "password/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('change password'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                )
+            );
+        }
 
-            if ($this->_config->get('allow_change_password'))
-            {
-                $this->person_toolbar->add_item
+        if ($this->_config->get('allow_change_username'))
+        {
+            $this->person_toolbar->add_item
+            (
+                array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "password/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('change password'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    )
-                );
-            }
+                    MIDCOM_TOOLBAR_URL => "username/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_config->get('username_is_email') ?
+                    $this->_l10n->get('change email') : $this->_l10n->get('change username'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                )
+            );
+        }
 
-            if ($this->_config->get('allow_change_username'))
-            {
-                $this->person_toolbar->add_item
+        if ($this->_config->get('allow_cancel_membership'))
+        {
+            $this->person_toolbar->add_item
+            (
+                array
                 (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "username/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_config->get('username_is_email') ?
-                            $this->_l10n->get('change email') : $this->_l10n->get('change username'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    )
-                );
-            }
+                    MIDCOM_TOOLBAR_URL => "cancel_membership/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('cancel membership'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                )
+            );
+        }
+    }
 
-            if ($this->_config->get('allow_cancel_membership'))
-            {
-                $this->person_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "cancel_membership/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('cancel membership'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    )
-                );
-            }
+    private function _populate_other_account_toolbar()
+    {
+        // Someones profile page
+        if (   $GLOBALS['midcom_config']['toolbars_enable_centralized']
+            && $_MIDCOM->auth->can_user_do('midcom:centralized_toolbar', null, 'midcom_services_toolbars'))
+        {
+            $buddy_toolbar =& $this->_view_toolbar;
         }
         else
         {
-            // Someones profile page
-            if (   $GLOBALS['midcom_config']['toolbars_enable_centralized']
-                && $_MIDCOM->auth->can_user_do('midcom:centralized_toolbar', null, 'midcom_services_toolbars'))
+            $this->person_toolbar = new midcom_helper_toolbar();
+            $buddy_toolbar =& $this->person_toolbar;
+        }
+
+        if ($this->_config->get('net_nehmer_buddylist_integration'))
+        {
+            $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
+            $view_url = $this->_get_view_url();
+
+            $_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist');
+
+            $qb = net_nehmer_buddylist_entry::new_query_builder();
+            $user = $_MIDCOM->auth->user->get_storage();
+            $qb->add_constraint('account', '=', $user->guid);
+            $qb->add_constraint('buddy', '=', $this->_account->guid);
+            $qb->add_constraint('blacklisted', '=', false);
+            $buddies = $qb->execute();
+            
+            if (count($buddies) > 0)
             {
-                $buddy_toolbar =& $this->_view_toolbar;
+                // We're buddies, show remove button
+                $buddy_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "{$buddylist_path}delete",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                        MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
+                        MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                        (
+                            'net_nehmer_buddylist_delete' => '1',
+                            "account_{$this->_account->guid}" => '1',
+                            'relocate_to' => $view_url,
+                        )
+                    )
+                );
             }
             else
             {
-                $this->person_toolbar = new midcom_helper_toolbar();
-                $buddy_toolbar =& $this->person_toolbar;
-            }
-
-            if ($this->_config->get('net_nehmer_buddylist_integration'))
-            {
-                $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
-                $view_url = $this->_get_view_url();
-
-                $_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist');
-
-                $qb = net_nehmer_buddylist_entry::new_query_builder();
-                $user = $_MIDCOM->auth->user->get_storage();
-                $qb->add_constraint('account', '=', $user->guid);
-                $qb->add_constraint('buddy', '=', $this->_account->guid);
-                $qb->add_constraint('blacklisted', '=', false);
-                $buddies = $qb->execute();
-
-                if (count($buddies) > 0)
-                {
-                    // We're buddies, show remove button
-                    $buddy_toolbar->add_item
+                // We're not buddies, show add button
+                $buddy_toolbar->add_item
+                (
+                    array
                     (
-                        array
-                        (
-                            MIDCOM_TOOLBAR_URL => "{$buddylist_path}delete",
-                            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                            MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
-                            MIDCOM_TOOLBAR_POST => true,
-                            MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                            (
-                                'net_nehmer_buddylist_delete' => '1',
-                                "account_{$this->_account->guid}" => '1',
-                                'relocate_to' => $view_url,
-                            )
-                        )
-                    );
-                }
-                else
-                {
-                    // We're not buddies, show add button
-                    $buddy_toolbar->add_item
-                    (
-                        array
-                        (
-                            MIDCOM_TOOLBAR_URL => "{$buddylist_path}request/{$this->_account->guid}?relocate_to={$view_url}",
-                            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
-                            MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
-                        )
-                    );
-                }
+                        MIDCOM_TOOLBAR_URL => "{$buddylist_path}request/{$this->_account->guid}?relocate_to={$view_url}",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
+                        MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
+                    )
+                );
             }
         }
-
-        $this->_render_person_toolbar();
     }
 
     private function _render_person_toolbar()
@@ -829,153 +838,146 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
 
         if ($this->_account->guid == $_MIDCOM->auth->user->guid)
         {
-            // Own profile page
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "edit/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
-
-            if ($this->_config->get('allow_publish'))
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "publish/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('publish account details'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
-                    )
-                );
-            }
-
-            if ($this->_config->get('allow_socialweb'))
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "socialweb/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('social web settings'),
-                        MIDCOM_TOOLBAR_ICON => 'net.nehmer.account/data-import.png',
-                    )
-                );
-            }
-
-            if ($this->_config->get('allow_change_password'))
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "password/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('change password'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    )
-                );
-            }
-
-            if ($this->_config->get('allow_change_username'))
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "username/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_config->get('username_is_email') ?
-                            $this->_l10n->get('change email') : $this->_l10n->get('change username'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                    )
-                );
-            }
-
-            if ($this->_config->get('allow_cancel_membership'))
-            {
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "cancel_membership/",
-                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('cancel membership'),
-                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                    )
-                );
-            }
+            $this->_populate_own_toolbar();
         }
         else
         {
-            // Someone elses profile
-
-            if ($this->_config->get('net_nehmer_buddylist_integration'))
-            {
-                $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
-                $view_url = $this->_get_view_url();
-
-                $_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist');
-
-                $qb = net_nehmer_buddylist_entry::new_query_builder();
-                $user = $_MIDCOM->auth->user->get_storage();
-                $qb->add_constraint('account', '=', $user->guid);
-                $qb->add_constraint('buddy', '=', $this->_account->guid);
-                $qb->add_constraint('blacklisted', '=', false);
-                $buddies = $qb->execute();
-
-                if (count($buddies) > 0)
-                {
-                    // We're buddies, show remove button
-                    $this->_view_toolbar->add_item
-                    (
-                        array
-                        (
-                            MIDCOM_TOOLBAR_URL => "{$buddylist_path}delete",
-                            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
-                            MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
-                            MIDCOM_TOOLBAR_POST => true,
-                            MIDCOM_TOOLBAR_POST_HIDDENARGS => array
-                            (
-                                'net_nehmer_buddylist_delete' => '1',
-                                "account_{$this->_account->guid}" => '1',
-                                'relocate_to' => $view_url,
-                            )
-                        )
-                    );
-                }
-                else
-                {
-                    // We're not buddies, show add button
-                    $this->_view_toolbar->add_item
-                    (
-                        array
-                        (
-                            MIDCOM_TOOLBAR_URL => "{$buddylist_path}request/{$this->_account->guid}?relocate_to={$view_url}",
-                            MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
-                            MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
-                            MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
-                        )
-                    );
-                }
-            }
+            $this->_populate_other_toolbar();
         }
+    }
+    
+    private function _populate_own_toolbar()
+    {
+        // Own profile page
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "edit/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+            )
+        );
 
-        if ($_MIDCOM->auth->admin)
+        if ($this->_config->get('allow_publish'))
         {
-            // Admin viewing another profile
             $this->_view_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "admin/edit/{$this->_account->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+                    MIDCOM_TOOLBAR_URL => "publish/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('publish account details'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                 )
             );
+        }
+
+        if ($this->_config->get('allow_socialweb'))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "socialweb/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('social web settings'),
+                    MIDCOM_TOOLBAR_ICON => 'net.nehmer.account/data-import.png',
+                )
+            );
+        }
+
+        if ($this->_config->get('allow_change_password'))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "password/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('change password'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                )
+            );
+        }
+
+        if ($this->_config->get('allow_change_username'))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "username/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_config->get('username_is_email') ?
+                        $this->_l10n->get('change email') : $this->_l10n->get('change username'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                )
+            );
+        }
+
+        if ($this->_config->get('allow_cancel_membership'))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "cancel_membership/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('cancel membership'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                )
+            );
+        }
+    }
+
+    private function _populate_other_toolbar()
+    {
+        if ($this->_config->get('net_nehmer_buddylist_integration'))
+        {
+            $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
+            $view_url = $this->_get_view_url();
+            
+            $_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist');
+            
+            $qb = net_nehmer_buddylist_entry::new_query_builder();
+            $user = $_MIDCOM->auth->user->get_storage();
+            $qb->add_constraint('account', '=', $user->guid);
+            $qb->add_constraint('buddy', '=', $this->_account->guid);
+            $qb->add_constraint('blacklisted', '=', false);
+            $buddies = $qb->execute();
+            
+            if (count($buddies) > 0)
+            {
+                // We're buddies, show remove button
+                $this->_view_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "{$buddylist_path}delete",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('remove buddy'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
+                        MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:delete', $buddies[0]),
+                        MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_POST_HIDDENARGS => array
+                        (
+                            'net_nehmer_buddylist_delete' => '1',
+                            "account_{$this->_account->guid}" => '1',
+                            'relocate_to' => $view_url,
+                        )
+                    )
+                );
+            }
+            else
+            {
+                // We're not buddies, show add button
+                $this->_view_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "{$buddylist_path}request/{$this->_account->guid}?relocate_to={$view_url}",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('add buddy'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person.png',
+                        MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $user),
+                    )
+                );
+            }
         }
     }
 }

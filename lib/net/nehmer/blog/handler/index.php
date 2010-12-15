@@ -89,59 +89,10 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
             || $handler_id == 'latest-category')
         {
             $data['category'] = trim(strip_tags($args[0]));
-            if (!in_array($data['category'], $data['categories']))
-            {
-                // This is not a predefined category from configuration, check if site maintainer allows us to show it
-                if (!$this->_config->get('categories_custom_enable'))
-                {
-                    return false;
-                }
-                // TODO: Check here if there are actually items in this cat?
-            }
 
-            // TODO: check schema storage to get fieldname
-            $multiple_categories = true;
-            if (   isset($data['schemadb']['default'])
-                && isset($data['schemadb']['default']->fields['categories'])
-                && array_key_exists('allow_multiple', $data['schemadb']['default']->fields['categories']['type_config'])
-                && !$data['schemadb']['default']->fields['categories']['type_config']['allow_multiple'])
+            if (!$constraint = $this->_process_category_constraint($qb))
             {
-                $multiple_categories = false;
-            }
-            debug_add("multiple_categories={$multiple_categories}");
-            if ($multiple_categories)
-            {
-                $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
-            }
-            else
-            {
-                $qb->add_constraint('extra1', '=', (string) $data['category']);
-            }
-
-            // Add category to title
-            $data['page_title'] = sprintf($this->_l10n->get('%s category %s'), $this->_topic->extra, $data['category']);
-            $_MIDCOM->set_pagetitle($data['page_title']);
-
-            // Activate correct leaf
-            if (   $this->_config->get('show_navigation_pseudo_leaves')
-                && in_array($data['category'], $data['categories']))
-            {
-                $this->set_active_leaf($this->_topic->id . '_CAT_' . $data['category']);
-            }
-
-            // Add RSS feed to headers
-            if ($this->_config->get('rss_enable'))
-            {
-                $_MIDCOM->add_link_head
-                (
-                    array
-                    (
-                        'rel'   => 'alternate',
-                        'type'  => 'application/rss+xml',
-                        'title' => $this->_l10n->get('rss 2.0 feed') . ": {$data['category']}",
-                        'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$data['category']}/",
-                    )
-                );
+                return false;
             }
         }
 
@@ -185,6 +136,65 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         return true;
     }
 
+    private function process_category_constraint(&$qb)
+    {
+        if (!in_array($this->_request_data['category'], $this->_request_data['categories']))
+        {
+            // This is not a predefined category from configuration, check if site maintainer allows us to show it
+            if (!$this->_config->get('categories_custom_enable'))
+            {
+                return false;
+            }
+            // TODO: Check here if there are actually items in this cat?
+        }
+
+        // TODO: check schema storage to get fieldname
+        $multiple_categories = true;
+        if (   isset($this->_request_data['schemadb']['default'])
+            && isset($this->_request_data['schemadb']['default']->fields['categories'])
+            && array_key_exists('allow_multiple', $this->_request_data['schemadb']['default']->fields['categories']['type_config'])
+            && !$this->_request_data['schemadb']['default']->fields['categories']['type_config']['allow_multiple'])
+        {
+            $multiple_categories = false;
+        }
+        debug_add("multiple_categories={$multiple_categories}");
+        if ($multiple_categories)
+        {
+            $qb->add_constraint('extra1', 'LIKE', "%|{$this->_request_data['category']}|%");
+        }
+        else
+        {
+            $qb->add_constraint('extra1', '=', (string) $this->_request_data['category']);
+        }
+
+        // Add category to title
+        $this->_request_data['page_title'] = sprintf($this->_l10n->get('%s category %s'), $this->_topic->extra, $this->_request_data['category']);
+        $_MIDCOM->set_pagetitle($this->_request_data['page_title']);
+
+        // Activate correct leaf
+        if (   $this->_config->get('show_navigation_pseudo_leaves')
+            && in_array($this->_request_data['category'], $this->_request_data['categories']))
+        {
+            $this->set_active_leaf($this->_topic->id . '_CAT_' . $this->_request_data['category']);
+        }
+
+        // Add RSS feed to headers
+        if ($this->_config->get('rss_enable'))
+        {
+            $_MIDCOM->add_link_head
+            (
+                array
+                (
+                    'rel'   => 'alternate',
+                    'type'  => 'application/rss+xml',
+                    'title' => $this->_l10n->get('rss 2.0 feed') . ": {$this->_request_data['category']}",
+                    'href'  => $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "feeds/category/{$this->_request_data['category']}/",
+                )
+            );
+        }
+        return true;    
+    }
+    
     /**
      * Displays the index page
      *

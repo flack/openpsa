@@ -156,8 +156,7 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_started', time());
 
         $solver = new org_openpsa_directmarketing_campaign_ruleresolver();
-        $rret = $solver->resolve($this->rules);
-        if (!$rret)
+        if (!$solver->resolve($this->rules))
         {
             $this->parameter('org.openpsa.directmarketing_smart_campaign', 'members_update_failed', time());
             debug_add('Failed to resolve rules', MIDCOM_LOG_ERROR);

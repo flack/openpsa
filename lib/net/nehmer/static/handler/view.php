@@ -186,57 +186,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
     {
         if ($handler_id == 'index')
         {
-            $qb = midcom_db_article::new_query_builder();
-            $qb->add_constraint('name', '=', 'index');
-            $qb->set_limit(1);
-
-            // Include the article links to the indexes if enabled
-            if ($this->_config->get('enable_article_links'))
-            {
-                $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-                $mc->add_value_property('article');
-                $mc->add_constraint('topic', '=', $this->_content_topic->id);
-
-                // Get the results
-                $mc->execute();
-
-                $links = $mc->list_keys();
-                $qb->begin_group('OR');
-                    foreach ($links as $guid => $link)
-                    {
-                        $article_id = $mc->get_subkey($guid, 'article');
-                        $qb->add_constraint('id', '=', $article_id);
-                    }
-                    $qb->add_constraint('topic', '=', $this->_content_topic->id);
-                $qb->end_group();
-            }
-            else
-            {
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-            }
-
-            $result = $qb->execute();
-            if (empty($result))
-            {
-                if ($this->_content_topic->can_do('midgard:create'))
-                {
-                    // Check via non-ACLd QB that the topic really doesn't have index article before relocating
-                    $index_qb = midcom_db_article::new_query_builder();
-                    $index_qb->add_constraint('topic', '=', $this->_content_topic->id);
-                    $index_qb->add_constraint('name', '=', 'index');
-                    if ($index_qb->count_unchecked() == 0)
-                    {
-                        $schemas = array_keys($this->_request_data['schemadb']);
-                        $_MIDCOM->relocate("createindex/{$schemas[0]}/");
-                        // This will exit.
-                    }
-                }
-
-                $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Directory index forbidden');
-                // This will exit.
-            }
-
-            $this->_article = $result[0];
+            $this->_load_index_article();
         }
 
         if ($handler_id == 'view_raw')
@@ -266,7 +216,8 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         if (   $this->_config->get('enable_article_links')
             && $this->_content_topic->can_do('midgard:create'))
         {
-            $this->_view_toolbar->add_item(
+            $this->_view_toolbar->add_item
+            (
                 array
                 (
                     MIDCOM_TOOLBAR_LABEL => sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')),
@@ -297,6 +248,61 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         }
 
         return true;
+    }
+
+    private function _load_index_article()
+    {
+        $qb = midcom_db_article::new_query_builder();
+        $qb->add_constraint('name', '=', 'index');
+        $qb->set_limit(1);
+        
+        // Include the article links to the indexes if enabled
+        if ($this->_config->get('enable_article_links'))
+        {
+            $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
+            $mc->add_value_property('article');
+            $mc->add_constraint('topic', '=', $this->_content_topic->id);
+            
+            // Get the results
+            $mc->execute();
+
+            $links = $mc->list_keys();
+            $qb->begin_group('OR');
+                foreach ($links as $guid => $link)
+                {
+                    $article_id = $mc->get_subkey($guid, 'article');
+                    $qb->add_constraint('id', '=', $article_id);
+                }
+                $qb->add_constraint('topic', '=', $this->_content_topic->id);
+            $qb->end_group();
+        }
+        else
+        {
+            $qb->add_constraint('topic', '=', $this->_content_topic->id);
+        }
+
+        $result = $qb->execute();
+        if (empty($result))
+        {
+            if ($this->_content_topic->can_do('midgard:create'))
+            {
+                // Check via non-ACLd QB that the topic really doesn't have index article before relocating
+                $index_qb = midcom_db_article::new_query_builder();
+                $index_qb->add_constraint('topic', '=', $this->_content_topic->id);
+                $index_qb->add_constraint('name', '=', 'index');
+                if ($index_qb->count_unchecked() == 0)
+                {
+                    $schemas = array_keys($this->_request_data['schemadb']);
+                    $_MIDCOM->relocate("createindex/{$schemas[0]}/");
+                    // This will exit.
+                }
+            }
+
+            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Directory index forbidden');
+            // This will exit.
+        }
+
+        $this->_article = $result[0];
     }
 
     /**
