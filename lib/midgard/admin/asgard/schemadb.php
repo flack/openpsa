@@ -52,6 +52,7 @@ class midgard_admin_asgard_schemadb
     {
         $this->_object = $object;
         $this->_config = $config;
+        $this->_l10n = $_MIDCOM->i18n->get_l10n('midgard.admin.asgard');
     }
 
     /**

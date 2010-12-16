@@ -74,7 +74,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         {
             // These toolbars only work with DBA objects as they do ACL checks
             $_MIDCOM->bind_view_to_object($object);
-            $data['asgard_toolbar'] = midgard_admin_asgard_plugin::get_object_toolbar($object, $handler_id, $data);
+            $data['asgard_toolbar'] = self::_get_object_toolbar($object, $handler_id, $data);
         }
 
         midgard_admin_asgard_plugin::get_common_toolbar($data);
@@ -182,7 +182,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
      * @param String $handler_id   Initialized handler id
      * @param array $data          Local request data
      */
-    function get_object_toolbar($object, $handler_id, &$data)
+    private static function _get_object_toolbar($object, $handler_id, &$data)
     {
         $toolbar = new midcom_helper_toolbar();
 
@@ -272,7 +272,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 
         if ($object->can_do('midgard:update'))
         {
-            $this->_add_toolbar_update_items($object, $toolbar);
+            self::_add_toolbar_update_items($object, $toolbar);
         }
 
         if ($object->can_do('midgard:create'))
@@ -372,7 +372,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
                 array
                 (
                     MIDCOM_TOOLBAR_URL => self::_generate_url('rcs', $object->guid),
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show history'),
+                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('show history', 'midgard.admin.asgard'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/history.png',
                     MIDCOM_TOOLBAR_ENABLED => (substr($handler_id, 0, 25) === '____mfa-asgard-object_rcs') ? false : true,
                     MIDCOM_TOOLBAR_ACCESSKEY => 'h',
@@ -584,7 +584,7 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
         return $toolbar;
     }
 
-    private function _add_toolbar_update_items($obejct, &$toolbar)
+    private static function _add_toolbar_update_items($object, &$toolbar)
     {
         if (   is_a($object, 'midcom_db_topic')
             && $object->component
