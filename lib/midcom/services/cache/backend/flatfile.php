@@ -62,7 +62,7 @@ class midcom_services_cache_backend_flatfile extends midcom_services_cache_backe
         }
         if (! $this->exists($key))
         {
-            debug_add("flatfile cache handler: Failed to read key {$key} from the database {$this->_dirname}: File does not exist.", MIDCOM_LOG_DEBUG);
+            debug_add("flatfile cache handler: Failed to read key {$key} from the database {$this->_dirname}: File does not exist.");
             return null;
         }
         return file_get_contents("{$this->_dirname}{$key}");

@@ -347,7 +347,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
                 continue;
             }
             $subgroup =& $subgroups[$name];
-            $this->log_message("Recursing name {$name} (topic #{$subtopic->id}, group #{$subgroup->id})", false, MIDCOM_LOG_DEBUG);
+            $this->log_message("Recursing name {$name} (topic #{$subtopic->id}, group #{$subgroup->id})", false);
             $this->_full_sync_recursive($subtopic, $subgroup);
             unset($subgroup);
         }
@@ -432,7 +432,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
             $this->log_message("Could not delete #{$topic->id}, last Midgard error:" . midcom_connection::get_error_string(), false, MIDCOM_LOG_ERROR);
             return false;
         }
-        $this->log_message("Deleted #{$topic->id}", false, MIDCOM_LOG_DEBUG);
+        $this->log_message("Deleted #{$topic->id}", false);
         return true;
     }
 

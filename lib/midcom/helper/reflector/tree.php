@@ -1007,7 +1007,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 /**
                  * Noise, useful when something is going wrong in *weird* way
                  *
-                debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks", MIDCOM_LOG_DEBUG);
+                debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks");
                 */
                 continue;
             }
@@ -1036,7 +1036,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             }
             if ($results > 0)
             {
-                debug_add("Name clash in sibling class {$schema_type} for " . get_class($object) . " #{$object->id} (path '" . midcom_helper_reflector_tree::resolve_path($object, '/') . "')" , MIDCOM_LOG_DEBUG);
+                debug_add("Name clash in sibling class {$schema_type} for " . get_class($object) . " #{$object->id} (path '" . midcom_helper_reflector_tree::resolve_path($object, '/') . "')" );
                 unset($sibling_classes, $schema_type, $qb, $results);
                 return false;
             }
@@ -1074,7 +1074,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
                 /**
                  * Noise, useful when something is going wrong in *weird* way
                  *
-                debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks", MIDCOM_LOG_DEBUG);
+                debug_add("Sibling class {$schema_type} does not have 'name' property, skipping from checks");
                 */
                 continue;
             }
@@ -1106,7 +1106,7 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             }
             if ($results > 0)
             {
-                debug_add("Name clash in sibling class {$schema_type} for " . get_class($object) . " #{$object->id} (path '" . midcom_helper_reflector_tree::resolve_path($object, '/') . "')" , MIDCOM_LOG_DEBUG);
+                debug_add("Name clash in sibling class {$schema_type} for " . get_class($object) . " #{$object->id} (path '" . midcom_helper_reflector_tree::resolve_path($object, '/') . "')" );
                 unset($sibling_classes, $schema_type, $qb, $resolver);
                 return false;
             }

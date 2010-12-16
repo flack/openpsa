@@ -315,7 +315,7 @@ class midcom_helper__dbfactory
         {
             // TODO: Raise exception?
             debug_add("\$object is not string or class_exists() returned false", MIDCOM_LOG_WARN);
-            debug_print_r('$object', $object, MIDCOM_LOG_DEBUG);
+            debug_print_r('$object', $object);
             return false;
         }
 

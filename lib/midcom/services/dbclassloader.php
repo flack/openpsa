@@ -496,7 +496,7 @@ class midcom_services_dbclassloader
             return $dba_classes_by_mgdschema[$classname];
         }
 
-        debug_add("{$classname} cannot be resolved to any DBA class name", MIDCOM_LOG_DEBUG);
+        debug_add("{$classname} cannot be resolved to any DBA class name");
         $dba_classes_by_mgdschema[$classname] = false;
         return false;
     }

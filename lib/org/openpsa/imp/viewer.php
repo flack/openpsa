@@ -212,7 +212,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         $this->_check_imp_settings();
 
         //Initialize/handle DM
-        debug_add("Loading Schema Database", MIDCOM_LOG_DEBUG);
+        debug_add("Loading Schema Database");
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 

@@ -174,7 +174,7 @@ class midcom_exception_handler
             $style->show_midcom('midcom_error');
         }
 
-        debug_add("Error Page output finished, exiting now", MIDCOM_LOG_DEBUG);
+        debug_add("Error Page output finished, exiting now");
         $_MIDCOM->cache->content->no_cache();
         $_MIDCOM->finish();
         _midcom_stop_request();

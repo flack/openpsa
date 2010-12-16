@@ -40,7 +40,7 @@ class org_openpsa_products_product_link_dba extends midcom_core_dbaobject
         }
         else
         {
-            debug_add("No parent defined for this product", MIDCOM_LOG_DEBUG);
+            debug_add("No parent defined for this product");
             return null;
         }
     }

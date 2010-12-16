@@ -471,7 +471,7 @@ class midcom_application
         $oldcontext = $this->_currentcontext;
         if ($oldcontext != 0)
         {
-            debug_add("Entering Context 0 (old Context: {$this->_currentcontext})", MIDCOM_LOG_DEBUG);
+            debug_add("Entering Context 0 (old Context: {$this->_currentcontext})");
         }
         $this->_currentcontext = 0;
         $this->style->enter_context(0);
@@ -481,7 +481,7 @@ class midcom_application
         // Leave Context
         if ($oldcontext != 0)
         {
-            debug_add("Leaving Context 0 (new Context: {$oldcontext})", MIDCOM_LOG_DEBUG);
+            debug_add("Leaving Context 0 (new Context: {$oldcontext})");
         }
 
         $this->style->leave_context();
@@ -555,7 +555,7 @@ class midcom_application
      */
     public function dynamic_load($url, $config = array(), $pass_get = false)
     {
-        debug_add("Dynamic load of URL {$url}", MIDCOM_LOG_DEBUG);
+        debug_add("Dynamic load of URL {$url}");
 
         if (substr($url, -5) == '.html')
         {
@@ -622,12 +622,12 @@ class midcom_application
         ob_start();
 
         $this->style->enter_context($context);
-        debug_add("Entering Context $context (old Context: $oldcontext)", MIDCOM_LOG_DEBUG);
+        debug_add("Entering Context $context (old Context: $oldcontext)");
 
         $this->_output();
 
         $this->style->leave_context();
-        debug_add("Leaving Context $context (new Context: $oldcontext)", MIDCOM_LOG_DEBUG);
+        debug_add("Leaving Context $context (new Context: $oldcontext)");
 
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
@@ -680,7 +680,7 @@ class midcom_application
 
         // This is here to avoid trouble with end-of-processing segfaults. Will block AFAIK
         flush();
-        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
+        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
     }
 
 
@@ -726,7 +726,7 @@ class midcom_application
                 {
                     case 'substyle':
                         $substyle = $value;
-                        debug_add("Substyle '$substyle' selected", MIDCOM_LOG_DEBUG);
+                        debug_add("Substyle '$substyle' selected");
                         break;
 
                     case 'serveattachmentguid':
@@ -1579,7 +1579,7 @@ class midcom_application
         if (strlen($current_style) > 0)
             $newsub .= "/" . $current_style;
 
-        debug_add("Updating Component Context Substyle from $current_style to $newsub", MIDCOM_LOG_DEBUG);
+        debug_add("Updating Component Context Substyle from $current_style to $newsub");
 
         $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $newsub;
     }
@@ -1698,7 +1698,7 @@ class midcom_application
         }
         else
         {
-            debug_add("Setting active context to $id.", MIDCOM_LOG_DEBUG);
+            debug_add("Setting active context to $id.");
             $this->_currentcontext = $id;
             return true;
         }
@@ -1942,7 +1942,7 @@ class midcom_application
                 $this->header("ETag: {$etag}");
             }
             while(@ob_end_flush());
-            debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
+            debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
             _midcom_stop_request();
         }
 
@@ -2008,7 +2008,7 @@ class midcom_application
 
         fpassthru($f);
         $attachment->close();
-        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
+        debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
         _midcom_stop_request();
     }
 

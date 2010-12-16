@@ -510,7 +510,7 @@ class midcom_services_i18n
         if (   ! array_key_exists('language', $array)
             || ! array_key_exists('charset', $array))
         {
-            debug_add("Rejecting cookie, it seems invalid.", MIDCOM_LOG_DEBUG);
+            debug_add("Rejecting cookie, it seems invalid.");
             return;
         }
 

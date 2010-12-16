@@ -809,7 +809,7 @@ class midcom_services_auth_acl
     {
         if ($this->_internal_sudo)
         {
-            debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.', MIDCOM_LOG_DEBUG);
+            debug_add('INTERNAL SUDO mode is enabled. Generic Read-Only mode set.');
             return $this->_can_do_internal_sudo($privilege);
         }
 

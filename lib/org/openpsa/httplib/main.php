@@ -46,7 +46,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         {
             return true;
         }
-        debug_add("Got HTTP response code {$response_code}, reporting failure", MIDCOM_LOG_DEBUG);
+        debug_add("Got HTTP response code {$response_code}, reporting failure");
         return false;
     }
 
@@ -89,7 +89,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
             // Handle errors
             $this->error = $client->results;
             debug_add("Failed to fetch URL {$url}, got response: {$client->status}", MIDCOM_LOG_WARN);
-            debug_add($client->error, MIDCOM_LOG_DEBUG);
+            debug_add($client->error);
             return '';
         }
 

@@ -95,7 +95,7 @@ class midcom_core_privilege
         {
             if ($property == 'name')
             {
-                debug_add("Deprecated property name used instead of privilegename", MIDCOM_LOG_DEBUG);
+                debug_add("Deprecated property name used instead of privilegename");
                 return $this->__privilege['privilegename'];
             }
             return null;
@@ -107,7 +107,7 @@ class midcom_core_privilege
     {
         if ($property == 'name')
         {
-            debug_add("Deprecated property name used instead of privilegename", MIDCOM_LOG_DEBUG);
+            debug_add("Deprecated property name used instead of privilegename");
             return $this->__privilege['privilegename'] = $value;
         }
 
@@ -825,7 +825,7 @@ class midcom_core_privilege
             return false;
         }
 
-        debug_add("Delete privilege record {$this->__guid} ({$this->__privilege_object->objectguid} {$this->__privilege_object->privilegename} {$this->__privilege_object->assignee} {$this->__privilege_object->value}", MIDCOM_LOG_DEBUG);
+        debug_add("Delete privilege record {$this->__guid} ({$this->__privilege_object->objectguid} {$this->__privilege_object->privilegename} {$this->__privilege_object->assignee} {$this->__privilege_object->value}");
 
         $this->__privilege_object->purge();
         $this->_invalidate_cache();

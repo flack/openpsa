@@ -711,7 +711,7 @@ class midcom_helper__basicnav
             if (   !isset($leaf[MIDCOM_NAV_GUID])
                 && !isset($leaf[MIDCOM_NAV_OBJECT]))
             {
-                debug_add("Warning: The leaf {$id} of topic {$topic->id} does set neither a GUID nor an object.", MIDCOM_LOG_DEBUG);
+                debug_add("Warning: The leaf {$id} of topic {$topic->id} does set neither a GUID nor an object.");
                 $leaf[MIDCOM_NAV_GUID] = null;
                 $leaf[MIDCOM_NAV_OBJECT] = null;
 

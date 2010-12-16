@@ -197,12 +197,12 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         $topic = new midcom_db_topic($this->topic);
         $message['abstract'] = sprintf($_MIDCOM->i18n->get_string('page %s has been updated by %s in wiki %s', 'net.nemein.wiki'), $this->title, $user_string, $topic->extra);
 
-        debug_add("Processing list of Wiki subscribers", MIDCOM_LOG_DEBUG);
+        debug_add("Processing list of Wiki subscribers");
 
         // Send the message out
         foreach ($watchers as $recipient)
         {
-            debug_add("Notifying {$recipient}...", MIDCOM_LOG_DEBUG);
+            debug_add("Notifying {$recipient}...");
             org_openpsa_notifications::notify('net.nemein.wiki:page_updated', $recipient, $message);
         }
     }

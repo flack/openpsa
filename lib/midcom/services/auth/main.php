@@ -166,7 +166,7 @@ class midcom_services_auth
                 && !empty($GLOBALS['midcom_config']['auth_failure_callback'])
                 && is_callable($GLOBALS['midcom_config']['auth_failure_callback']))
             {
-                debug_print_r('Calling auth failure callback: ', $GLOBALS['midcom_config']['auth_failure_callback'], MIDCOM_LOG_DEBUG);
+                debug_print_r('Calling auth failure callback: ', $GLOBALS['midcom_config']['auth_failure_callback']);
                 // Calling the failure function with the username as a parameter. No password sended to the user function for security reasons
                 call_user_func($GLOBALS['midcom_config']['auth_failure_callback'], $credentials['username']);
             }
@@ -195,7 +195,7 @@ class midcom_services_auth
             && !empty($GLOBALS['midcom_config']['auth_success_callback'])
             && is_callable($GLOBALS['midcom_config']['auth_success_callback']))
         {
-            debug_print_r('Calling auth success callback:', $GLOBALS['midcom_config']['auth_success_callback'], MIDCOM_LOG_DEBUG);
+            debug_print_r('Calling auth success callback:', $GLOBALS['midcom_config']['auth_success_callback']);
             // Calling the success function. No parameters, because authenticated user is stored in midcom_connection
             call_user_func($GLOBALS['midcom_config']['auth_success_callback']);
         }
@@ -388,7 +388,7 @@ class midcom_services_auth
                 $classname = $class;
             }
 
-            debug_add("Querying privilege {$privilege} for user {$user->id} to class {$classname}", MIDCOM_LOG_DEBUG);
+            debug_add("Querying privilege {$privilege} for user {$user->id} to class {$classname}");
         }
 
         return $this->acl->can_do_byclass($privilege, $user, $class, $component);
@@ -1156,7 +1156,7 @@ class midcom_services_auth
             debug_add('Cannot render an access denied page, page output has already started. Aborting directly.', MIDCOM_LOG_INFO);
             echo "<br />{$title}: {$login_warning}";
             $_MIDCOM->finish();
-            debug_add("Emergency Error Message output finished, exiting now", MIDCOM_LOG_DEBUG);
+            debug_add("Emergency Error Message output finished, exiting now");
             _midcom_stop_request();
         }
 
@@ -1174,7 +1174,7 @@ class midcom_services_auth
         $_MIDCOM->style->show_midcom('midcom_services_auth_access_denied');
 
         $_MIDCOM->finish();
-        debug_add("Error Page output finished, exiting now", MIDCOM_LOG_DEBUG);
+        debug_add("Error Page output finished, exiting now");
         _midcom_stop_request();
     }
 

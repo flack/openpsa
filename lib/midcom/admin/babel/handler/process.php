@@ -168,14 +168,14 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         // update data
         if ($this->_save_update)
         {
-            debug_add('Updating strings', MIDCOM_LOG_DEBUG);
+            debug_add('Updating strings');
             $changes = $this->_update_lang();
         }
 
         // create new strings
         if ($this->_save_new)
         {
-            debug_add('Creating new string', MIDCOM_LOG_DEBUG);
+            debug_add('Creating new string');
 
             // create fallback language string
             $this->_component_l10n->update($this->_save_new['stringid'], $this->_fallback_language, $this->_save_new[$this->_fallback_language]);
@@ -228,26 +228,26 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
                 if (!$loc)
                 {
-                    debug_add("Resetting '{$id}'", MIDCOM_LOG_DEBUG);
+                    debug_add("Resetting '{$id}'");
                     $this->_component_l10n->delete($id, $this->_lang);
                     $changes = true;
                 }
                 else
                 {
-                    debug_add("Updating '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
+                    debug_add("Updating '{$id}' -> '{$loc}'");
                     $this->_component_l10n->update($id, $this->_lang, $loc);
                     $changes = true;
                 }
             }
             else if ($loc)
             {
-                debug_add("Creating '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
+                debug_add("Creating '{$id}' -> '{$loc}'");
                 $this->_component_l10n->update($id, $this->_lang, $loc);
                 $changes = true;
             }
             else
             {
-                debug_add("Ignoring '{$id}' -> '{$loc}'", MIDCOM_LOG_DEBUG);
+                debug_add("Ignoring '{$id}' -> '{$loc}'");
             }
         }
         return $changes;
@@ -356,7 +356,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         if (   $this->_component_path
             && $this->_lang)
         {
-            debug_add('Loading i10n class for '.$this->_component_path, MIDCOM_LOG_DEBUG);
+            debug_add('Loading i10n class for '.$this->_component_path);
             if (!$this->_component_l10n = $_MIDCOM->i18n->get_l10n($this->_component_path))
             {
                 return false;

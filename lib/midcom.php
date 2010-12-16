@@ -188,7 +188,7 @@ if (! defined('MIDCOM_XDEBUG'))
 // Start the Debugger
 require(MIDCOM_ROOT. '/midcom/debug.php');
 
-debug_add("Start of MidCOM run: {$_SERVER['REQUEST_URI']}", MIDCOM_LOG_DEBUG);
+debug_add("Start of MidCOM run: {$_SERVER['REQUEST_URI']}");
 
 /**
  * Automatically load missing class files

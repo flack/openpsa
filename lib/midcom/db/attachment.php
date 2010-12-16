@@ -270,7 +270,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (!$this->can_do('midgard:read', 'EVERYONE'))
         {
-            debug_add("Attachment {$this->name} ({$this->guid}) is not publicly readable, not caching.", MIDCOM_LOG_DEBUG);
+            debug_add("Attachment {$this->name} ({$this->guid}) is not publicly readable, not caching.");
             return;
         }
 
@@ -278,14 +278,14 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (!$filename)
         {
-            debug_add("Failed to generate cache path for attachment {$this->name} ({$this->guid}), not caching.", MIDCOM_LOG_DEBUG);
+            debug_add("Failed to generate cache path for attachment {$this->name} ({$this->guid}), not caching.");
             return;
         }
 
         if (   file_exists($filename)
             && is_link($filename))
         {
-            debug_add("Attachment {$this->name} ({$this->guid}) is already in cache as {$filename}, skipping.", MIDCOM_LOG_DEBUG);
+            debug_add("Attachment {$this->name} ({$this->guid}) is already in cache as {$filename}, skipping.");
             return;
         }
 
@@ -294,7 +294,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         if (@symlink($blob->get_path(), $filename))
         {
-            debug_add("Symlinked attachment {$this->name} ({$this->guid}) as {$filename}.", MIDCOM_LOG_DEBUG);
+            debug_add("Symlinked attachment {$this->name} ({$this->guid}) as {$filename}.");
             return;
         }
 
@@ -302,7 +302,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
         $fh = $this->open('r');
         if (!$fh)
         {
-            debug_add("Failed to cache attachment {$this->name} ({$this->guid}), opening failed.", MIDCOM_LOG_DEBUG);
+            debug_add("Failed to cache attachment {$this->name} ({$this->guid}), opening failed.");
             return;
         }
 
@@ -316,7 +316,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
         file_put_contents($filename, $data);
 
-        debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.", MIDCOM_LOG_DEBUG);
+        debug_add("Symlinking attachment {$this->name} ({$this->guid}) as {$filename} failed, data copied instead.");
     }
 
     /**
