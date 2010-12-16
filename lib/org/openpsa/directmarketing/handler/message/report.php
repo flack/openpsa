@@ -43,12 +43,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
     private function _analyze_message_report(&$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        $segmentation_param = false;
-        if (   isset($data['message_array']['report_segmentation'])
-            && !empty($data['message_array']['report_segmentation']))
-        {
-            $segmentation_param = $data['message_array']['report_segmentation'];
-        }
+
         $this->_request_data['report'] = array();
         $qb_receipts = org_openpsa_directmarketing_campaign_message_receipt_dba::new_query_builder();
         $qb_receipts->add_constraint('message', '=', $this->_request_data['message']->id);
@@ -78,19 +73,34 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             }
         }
 
+        $this->_get_campaign_data($receipt_data['first_send']);
+
+        $segmentation_param = false;
+        if (   isset($data['message_array']['report_segmentation'])
+            && !empty($data['message_array']['report_segmentation']))
+        {
+            $segmentation_param = $data['message_array']['report_segmentation'];
+        }
+        $this->_get_link_data($segmentation_param);
+
+        return true;
+    }
+
+    private function _get_campaign_data($first_send)
+    {
         $this->_request_data['report']['campaign_data'] = array();
         $campaign_data =& $this->_request_data['report']['campaign_data'];
         $campaign_data['unsubscribed'] = 0;
         $qb_unsub = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
         $qb_unsub->add_constraint('campaign', '=', $this->_request_data['message']->campaign);
         $qb_unsub->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
-        $qb_unsub->add_constraint('metadata.revised', '>', date('Y-m-d H:i:s', $receipt_data['first_send']));
+        $qb_unsub->add_constraint('metadata.revised', '>', date('Y-m-d H:i:s', $first_send));
         $campaign_data['next_message'] = false;
         // Find "next message" and if present use its sendStarted as constraint for this query
         $qb_messages = org_openpsa_directmarketing_campaign_message_dba::new_query_builder();
         $qb_messages->add_constraint('campaign', '=',  $this->_request_data['message']->campaign);
         $qb_messages->add_constraint('id', '<>',  $this->_request_data['message']->id);
-        $qb_messages->add_constraint('sendStarted', '>', $receipt_data['first_send']);
+        $qb_messages->add_constraint('sendStarted', '>', $first_send);
         $qb_messages->add_order('sendStarted', 'DESC');
         $qb_messages->set_limit(1);
         $messages = $qb_messages->execute_unchecked();
@@ -101,12 +111,17 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $qb_unsub->add_constraint('metadata.revised', '<', date('Y-m-d H:i:s', $messages[0]->sendStarted));
         }
         $campaign_data['unsubscribed'] = $qb_unsub->count_unchecked();
+    }
 
+    private function _get_link_data($segmentation_param)
+    {
         $this->_request_data['report']['link_data'] = array();
         $link_data =& $this->_request_data['report']['link_data'];
+
         $link_data['counts'] = array();
         $link_data['percentages'] = array('of_links' => array(), 'of_recipients' => array());
         $link_data['rules'] = array();
+        $link_data['tokens'] = array();
         if ($segmentation_param)
         {
             $link_data['segments'] = array();
@@ -115,6 +130,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $segment_prototype['counts'] = array();
         $segment_prototype['percentages'] = array('of_links' => array(), 'of_recipients' => array());
         $segment_prototype['rules'] = array();
+        $segment_prototype['tokens'] = array();
 
         $qb_links = org_openpsa_directmarketing_link_log_dba::new_query_builder();
         $qb_links->add_constraint('message', '=', $this->_request_data['message']->id);
@@ -123,16 +139,14 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
         $link_data['total'] = count($links);
 
-        $link_data['tokens'] = array();
-        $segment_data['tokens'] = array();
-        foreach($links as $link)
+        foreach ($links as $link)
         {
             $segment = '';
             $segment_notfound = false;
             if (   $segmentation_param
                 && !empty($link->person))
             {
-                $person = new midcom_db_person($link->person);
+                $person = midcom_db_person::get_cached($link->person);
                 if (   is_object($person)
                     && method_exists($person, 'get_parameter'))
                 {
@@ -154,69 +168,11 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 $segment_data = $segment_prototype;
             }
 
-            if (!isset($link_data['tokens'][$link->token]))
-            {
-                $link_data['tokens'][$link->token] = 0;
-            }
-            if (!isset($segment_data['tokens'][$link->token]))
-            {
-                $segment_data['tokens'][$link->token] = 0;
-            }
+            $this->_increment_totals($link_data, $link);
+            $this->_increment_totals($segment_data, $link);
+            $this->_calculate_percentages($link_data, $link);
+            $this->_calculate_percentages($segment_data, $link);
 
-            if (!isset($link_data['counts'][$link->target]))
-            {
-                $link_data['counts'][$link->target] = array();
-                $link_data['counts'][$link->target]['total'] = 0;
-            }
-            if (!isset($link_data['counts'][$link->target][$link->token]))
-            {
-                $link_data['counts'][$link->target][$link->token] = 0;
-            }
-            if (!isset($segment_data['counts'][$link->target]))
-            {
-                $segment_data['counts'][$link->target] = array();
-                $segment_data['counts'][$link->target]['total'] = 0;
-            }
-            if (!isset($segment_data['counts'][$link->target][$link->token]))
-            {
-                $segment_data['counts'][$link->target][$link->token] = 0;
-            }
-            if (!isset($link_data['percentages']['of_links'][$link->target]))
-            {
-                $link_data['percentages']['of_links'][$link->target] = array();
-                $link_data['percentages']['of_links'][$link->target]['total'] = 0;
-            }
-            if (!isset($link_data['percentages']['of_links'][$link->target][$link->token]))
-            {
-                $link_data['percentages']['of_links'][$link->target][$link->token] = 0;
-            }
-            if (!isset($link_data['percentages']['of_recipients'][$link->target]))
-            {
-                $link_data['percentages']['of_recipients'][$link->target] = array();
-                $link_data['percentages']['of_recipients'][$link->target]['total'] = 0;
-            }
-            if (!isset($link_data['percentages']['of_recipients'][$link->target][$link->token]))
-            {
-                $link_data['percentages']['of_recipients'][$link->target][$link->token] = 0;
-            }
-            if (!isset($segment_data['percentages']['of_links'][$link->target]))
-            {
-                $segment_data['percentages']['of_links'][$link->target] = array();
-                $segment_data['percentages']['of_links'][$link->target]['total'] = 0;
-            }
-            if (!isset($segment_data['percentages']['of_links'][$link->target][$link->token]))
-            {
-                $segment_data['percentages']['of_links'][$link->target][$link->token] = 0;
-            }
-            if (!isset($segment_data['percentages']['of_recipients'][$link->target]))
-            {
-                $segment_data['percentages']['of_recipients'][$link->target] = array();
-                $segment_data['percentages']['of_recipients'][$link->target]['total'] = 0;
-            }
-            if (!isset($segment_data['percentages']['of_recipients'][$link->target][$link->token]))
-            {
-                $segment_data['percentages']['of_recipients'][$link->target][$link->token] = 0;
-            }
             if (!isset($link_data['rules'][$link->target]))
             {
                 $link_data['rules'][$link->target] = array
@@ -276,73 +232,39 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             {
                 $segment_data['rules'][$link->target] = $link_data['rules'][$link->target];
 
-                if ($segment_notfound)
+                if (!$segment_notfound)
                 {
-                    $use_segment = '';
-                }
-                else
-                {
-                    $use_segment = $segment;
-                }
-                $segmentrule = array
-                (
-                    'comment' => $this->_l10n->get('segment limits'),
-                    'type' => 'AND',
-                    'class' => 'midcom_db_person',
-                    'rules' => array
+                    $segmentrule = array
                     (
-                        array
+                        'comment' => $this->_l10n->get('segment limits'),
+                        'type' => 'AND',
+                        'class' => 'midcom_db_person',
+                        'rules' => array
                         (
-                            'property' => 'parameter.domain',
-                            'match' => '=',
-                            'value' => 'org.openpsa.directmarketing.segments',
+                            array
+                            (
+                                'property' => 'parameter.domain',
+                                'match' => '=',
+                                'value' => 'org.openpsa.directmarketing.segments',
+                            ),
+                            array
+                            (
+                                'property' => 'parameter.name',
+                                'match' => '=',
+                                'value' => $segmentation_param,
+                            ),
+                            array
+                            (
+                                'property' => 'parameter.value',
+                                'match' => '=',
+                                'value' => $segment,
+                            ),
                         ),
-                        array
-                        (
-                            'property' => 'parameter.name',
-                            'match' => '=',
-                            'value' => $segmentation_param,
-                        ),
-                        array
-                        (
-                            'property' => 'parameter.value',
-                            'match' => '=',
-                            'value' => $use_segment,
-                        ),
-                    ),
-                );
-                if (!empty($use_segment))
-                {
+                    );
                     // On a second thought, we cannot query for empty parameter values...
                     $segment_data['rules'][$link->target]['comment'] = sprintf($this->_l10n->get('all persons in market segment "%s" who have clicked on link "%s" in message #%d and have not unsubscribed from campaign #%d'), $segment, $link->target, $link->message, $this->_request_data['message']->campaign);
-                    $segment_data['rules'][$link->target]['classes'][] = $segmentrule;
+                    $segment_data['rules'][$link->target]['classes'][] = $segment;
                 }
-            }
-            $link_data['counts'][$link->target]['total']++;
-            $link_data['counts'][$link->target][$link->token]++;
-            $segment_data['counts'][$link->target]['total']++;
-            $segment_data['counts'][$link->target][$link->token]++;
-            $link_data['percentages']['of_links'][$link->target]['total'] = ($link_data['counts'][$link->target]['total']/$link_data['total'])*100;
-            $link_data['percentages']['of_links'][$link->target][$link->token] = ($link_data['counts'][$link->target][$link->token]/$link_data['total'])*100;
-            $segment_data['percentages']['of_links'][$link->target]['total'] = ($segment_data['counts'][$link->target]['total']/$link_data['total'])*100;
-            $segment_data['percentages']['of_links'][$link->target][$link->token] = ($segment_data['counts'][$link->target][$link->token]/$link_data['total'])*100;
-
-            $link_data['tokens'][$link->token]++;
-            $segment_data['tokens'][$link->token]++;
-
-            $link_data['percentages']['of_recipients'][$link->target]['total'] = ((count($link_data['counts'][$link->target])-1)/($receipt_data['sent']-$receipt_data['bounced']))*100;
-            $link_data['percentages']['of_recipients'][$link->target][$link->token] = ($link_data['counts'][$link->target][$link->token]/($receipt_data['sent']-$receipt_data['bounced']))*100;
-            $segment_data['percentages']['of_recipients'][$link->target]['total'] = ((count($segment_data['counts'][$link->target])-1)/($receipt_data['sent']-$receipt_data['bounced']))*100;
-            $segment_data['percentages']['of_recipients'][$link->target][$link->token] = ($segment_data['counts'][$link->target][$link->token]/($receipt_data['sent']-$receipt_data['bounced']))*100;
-            if(   (!isset($link_data['percentages']['of_recipients']['total']))
-               || $link_data['percentages']['of_recipients'][$link->target]['total'] > $link_data['percentages']['of_recipients']['total'])
-            {
-                $link_data['percentages']['of_recipients']['total'] = $link_data['percentages']['of_recipients'][$link->target]['total'];
-            }
-            if(   (!isset($segment_data['percentages']['of_recipients']['total']))
-               || $segment_data['percentages']['of_recipients'][$link->target]['total'] > $segment_data['percentages']['of_recipients']['total'])
-            {
-                $segment_data['percentages']['of_recipients']['total'] = $segment_data['percentages']['of_recipients'][$link->target]['total'];
             }
         }
         arsort($link_data['counts']);
@@ -360,9 +282,55 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 arsort($segment_data['percentages']['of_recipients']);
             }
         }
-
-        return true;
     }
+
+    private function _calculate_percentages(&$array, &$link)
+    {
+        $this->_initialize_field($array['percentages']['of_links'], $link);
+        $this->_initialize_field($array['percentages']['of_recipients'], $link);
+
+        $link_data =& $this->_request_data['report']['link_data'];
+        $array['percentages']['of_links'][$link->target]['total'] = ($array['counts'][$link->target]['total']/$link_data['total'])*100;
+        $array['percentages']['of_links'][$link->target][$link->token] = ($array['counts'][$link->target][$link->token]/$link_data['total'])*100;
+
+        $receipt_data =& $this->_request_data['report']['receipt_data'];
+        $array['percentages']['of_recipients'][$link->target]['total'] = ((count($array['counts'][$link->target])-1)/($receipt_data['sent']-$receipt_data['bounced']))*100;
+        $array['percentages']['of_recipients'][$link->target][$link->token] = ($array['counts'][$link->target][$link->token]/($receipt_data['sent']-$receipt_data['bounced']))*100;
+
+        if(   (!isset($array['percentages']['of_recipients']['total']))
+           || $array['percentages']['of_recipients'][$link->target]['total'] > $array['percentages']['of_recipients']['total'])
+        {
+            $array['percentages']['of_recipients']['total'] = $array['percentages']['of_recipients'][$link->target]['total'];
+        }
+    }
+
+    private function _initialize_field(&$array, &$link)
+    {
+        if (!isset($array[$link->target]))
+        {
+            $array[$link->target] = array();
+            $array[$link->target]['total'] = 0;
+        }
+        if (!isset($array[$link->target][$link->token]))
+        {
+            $array[$link->target][$link->token] = 0;
+        }
+    }
+
+    private function _increment_totals(&$array, &$link)
+    {
+        if (!isset($array['tokens'][$link->token]))
+        {
+            $array['tokens'][$link->token] = 0;
+        }
+
+        $this->_initialize_field($array['counts'], $link);
+
+        $array['counts'][$link->target]['total']++;
+        $array['counts'][$link->target][$link->token]++;
+        $array['tokens'][$link->token]++;
+    }
+
 
     private function _create_campaign_from_link()
     {
