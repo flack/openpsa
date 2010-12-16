@@ -187,24 +187,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         foreach ($this->_config->get('search_index_order') as $ordering)
         {
-            if (preg_match('/\s*reversed?\s*/', $ordering))
-            {
-                $reversed = true;
-                $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-            }
-            else
-            {
-                $reversed = false;
-            }
-
-            if ($reversed)
-            {
-                $qb->add_order($ordering, 'DESC');
-            }
-            else
-            {
-                $qb->add_order($ordering);
-            }
+            $this->_add_ordering($qb, $ordering);
         }
 
         $products = $qb->execute();
@@ -216,6 +199,28 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         }
 
         return $return_products;
+    }
+
+    private function _add_ordering(&$qb, $ordering)
+    {
+        if (preg_match('/\s*reversed?\s*/', $ordering))
+        {
+            $reversed = true;
+            $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
+        }
+        else
+        {
+            $reversed = false;
+        }
+
+        if ($reversed)
+        {
+            $qb->add_order($ordering, 'DESC');
+        }
+        else
+        {
+            $qb->add_order($ordering);
+        }
     }
 
     /**
@@ -287,24 +292,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         foreach ($this->_config->get('search_index_order') as $ordering)
         {
-            if (preg_match('/\s*reversed?\s*/', $ordering))
-            {
-                $reversed = true;
-                $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-            }
-            else
-            {
-                $reversed = false;
-            }
-
-            if ($reversed)
-            {
-                $qb->add_order($ordering, 'DESC');
-            }
-            else
-            {
-                $qb->add_order($ordering);
-            }
+            $this->_add_ordering($qb, $ordering);
         }
 
         $ret = $qb->execute();
@@ -477,14 +465,24 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
 
         $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
 
-        // Populate toolbar
+        $this->_populate_toolbar();
+
+        $data['view_title'] = $this->_l10n->get('search') . ': ' . $this->_l10n->get($data['schemadb_product'][$data['search_schema']]->description);
+
+        $_MIDCOM->set_pagetitle($data['view_title']);
+
+        return true;
+    }
+
+    private function _populate_toolbar()
+    {
         if ($this->_topic->can_do('midgard:create'))
         {
             $this->_node_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "create/{$data['root_group']}/",
+                    MIDCOM_TOOLBAR_URL => "create/{$this->_request_data['root_group']}/",
                     MIDCOM_TOOLBAR_LABEL => sprintf
                     (
                         $this->_l10n_midcom->get('create %s'),
@@ -500,7 +498,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
                 (
                     array
                     (
-                        MIDCOM_TOOLBAR_URL => "product/create/{$data['root_group']}/{$name}/",
+                        MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['root_group']}/{$name}/",
                         MIDCOM_TOOLBAR_LABEL => sprintf
                         (
                             $this->_l10n_midcom->get('create %s'),
@@ -512,13 +510,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
             }
         }
 
-        $_MIDCOM->bind_view_to_object($this->_topic, $data['search_schema']);
-
-        $data['view_title'] = $this->_l10n->get('search') . ': ' . $this->_l10n->get($data['schemadb_product'][$data['search_schema']]->description);
-
-        $_MIDCOM->set_pagetitle($data['view_title']);
-
-        return true;
+        $_MIDCOM->bind_view_to_object($this->_topic, $this->_request_data['search_schema']);
     }
 
     /**

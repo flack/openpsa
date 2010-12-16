@@ -193,13 +193,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             else
             {
                 $data['group'] = $groups[0];
-                $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $categories_qb->add_constraint('up', '=', $groups[0]->id);
-                $categories = $categories_qb->execute();
-                for ($i = 0; $i < count($categories); $i++)
-                {
-                    $categories_in[$i] = $categories[$i]->id;
-                }
             }
         }
         else if ($handler_id == 'list')
@@ -304,24 +297,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
         foreach ($this->_config->get('groups_listing_order') as $ordering)
         {
-            if (preg_match('/\s*reversed?\s*/', $ordering))
-            {
-                $reversed = true;
-                $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-            }
-            else
-            {
-                $reversed = false;
-            }
-
-            if ($reversed)
-            {
-                $group_qb->add_order($ordering, 'DESC');
-            }
-            else
-            {
-                $group_qb->add_order($ordering);
-            }
+            $this->_add_ordering($group_qb, $ordering);
         }
 
         $linked_products = array();
@@ -344,225 +320,14 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         $data['products'] = array();
         if ($this->_config->get('group_list_products'))
         {
-            $_MIDCOM->load_library('org.openpsa.qbpager');
-            $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
-            $product_qb->results_per_page = $this->_config->get('products_per_page');
-
-            if (count($linked_products) > 0)
-            {
-                $product_qb->begin_group('OR');
-            }
-
-            if (   $data['group']
-                && $data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
-            {
-                // Smart group, query products by stored constraints
-                $constraints = $data['group']->list_parameters('org.openpsa.products:constraints');
-                if (empty($constraints))
-                {
-                    $product_qb->add_constraint('productGroup', '=', $data['parent_group']);
-                }
-
-                $reflector = new midgard_reflection_property('org_openpsa_products_product');
-
-                foreach ($constraints as $constraint_string)
-                {
-                    $constraint_members = explode(',', $constraint_string);
-                    if (count($constraint_members) != 3)
-                    {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Invalid constraint '{$constraint_string}'");
-                    }
-
-                    // Reflection is needed here for safety
-                    $field_type = $reflector->get_midgard_type($constraint_members[0]);
-                    switch ($field_type)
-                    {
-                        case 4:
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Invalid constraint: '{$constraint_members[0]}' is not a Midgard property");
-                        case MGD_TYPE_INT:
-                            $constraint_members[2] = (int) $constraint_members[2];
-                            break;
-                        case MGD_TYPE_FLOAT:
-                            $constraint_members[2] = (float) $constraint_members[2];
-                            break;
-                        case MGD_TYPE_BOOLEAN:
-                            $constraint_members[2] = (boolean) $constraint_members[2];
-                            break;
-                    }
-                    $product_qb->add_constraint($constraint_members[0], $constraint_members[1], $constraint_members[2]);
-                }
-            }
-            else if ($handler_id == 'list_intree')
-            {
-                $product_qb->add_constraint('productGroup', '=', $data['parent_category_id']);
-            }
-            else if ($handler_id == 'listall')
-            {
-                $product_qb->add_constraint('productGroup', 'IN', $categories_in);
-            }
-            else
-            {
-                $product_qb->add_constraint('productGroup', '=', $data['parent_group']);
-            }
-            if (count($linked_products) > 0)
-            {
-                $product_qb->add_constraint('id', 'IN', $linked_products);
-                $product_qb->end_group();
-            }
-
-            // This should be a helper function, same functionality, but with different config-parameter is used in /handler/product/search.php
-            foreach ($this->_config->get('products_listing_order') as $ordering)
-            {
-                if (preg_match('/\s*reversed?\s*/', $ordering))
-                {
-                    $reversed = true;
-                    $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
-                }
-                else
-                {
-                    $reversed = false;
-                }
-
-                if ($reversed)
-                {
-                    $product_qb->add_order($ordering, 'DESC');
-                }
-                else
-                {
-                    $product_qb->add_order($ordering);
-                }
-            }
-
-            if ($this->_config->get('enable_scheduling'))
-            {
-                $product_qb->add_constraint('start', '<=', time());
-                $product_qb->begin_group('OR');
-                    /*
-                     * List products that either have no defined end-of-market dates
-                     * or are still in market
-                     */
-                    $product_qb->add_constraint('end', '=', 0);
-                    $product_qb->add_constraint('end', '>=', time());
-                $product_qb->end_group();
-            }
-
-            $data['products'] = $product_qb->execute();
-
-            $data['products_qb'] =& $product_qb;
+            $this->_list_group_products();
         }
 
         // Prepare datamanager
         $data['datamanager_group'] = new midcom_helper_datamanager2_datamanager($data['schemadb_group']);
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
 
-        // Populate toolbar
-        if ($this->_request_data['group'])
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
-                    MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
-                )
-            );
-        }
-
-        if ($data['group'])
-        {
-            $allow_create_group = $data['group']->can_do('midgard:create');
-            $allow_create_product = $data['group']->can_do('midgard:create');
-
-            if ($data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
-            {
-                $allow_create_product = false;
-            }
-        }
-        else
-        {
-            $allow_create_group = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
-            $allow_create_product = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
-        }
-
-        foreach (array_keys($data['schemadb_group']) as $name)
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "create/{$data['parent_group']}/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
-                        $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($data['schemadb_group'][$name]->description)
-                    ),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
-                    MIDCOM_TOOLBAR_ENABLED => $allow_create_group,
-                )
-            );
-        }
-
-        foreach (array_keys($data['schemadb_product']) as $name)
-        {
-            if (isset($data['schemadb_product'][$name]->customdata['icon']))
-            {
-                $icon = $data['schemadb_product'][$name]->customdata['icon'];
-            }
-            else
-            {
-                $icon = 'stock-icons/16x16/new-text.png';
-            }
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "product/create/{$data['parent_group']}/{$name}/",
-                    MIDCOM_TOOLBAR_LABEL => sprintf
-                    (
-                        $this->_l10n_midcom->get('create %s'),
-                        $this->_l10n->get($data['schemadb_product'][$name]->description)
-                    ),
-                    MIDCOM_TOOLBAR_ICON => $icon,
-                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                    MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
-                )
-            );
-        }
-
-        if (   $this->_config->get('enable_productlinks')
-            && isset($data['schemadb_productlink']))
-        {
-            $data['datamanager_productlink'] = new midcom_helper_datamanager2_datamanager($data['schemadb_productlink']);
-            foreach (array_keys($data['schemadb_productlink']) as $name)
-            {
-                if (isset($data['schemadb_productlink'][$name]->customdata['icon']))
-                {
-                    $icon = $data['schemadb_productlink'][$name]->customdata['icon'];
-                }
-                else
-                {
-                    $icon = 'stock-icons/16x16/new-text.png';
-                }
-                $this->_view_toolbar->add_item
-                (
-                    array
-                    (
-                        MIDCOM_TOOLBAR_URL => "productlink/create/{$data['parent_group']}/{$name}/",
-                        MIDCOM_TOOLBAR_LABEL => sprintf
-                        (
-                            $this->_l10n_midcom->get('create %s'),
-                            $this->_l10n->get($data['schemadb_productlink'][$name]->description)
-                        ),
-                        MIDCOM_TOOLBAR_ICON => $icon,
-                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
-                        MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
-                    )
-                );
-            }
-        }
+        $this->_populate_toolbar();
 
         if ($data['group'])
         {
@@ -586,9 +351,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $_MIDCOM->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
         }
 
-        /***
-         * Set the breadcrumb text
-         */
         $this->_update_breadcrumb_line();
 
         // Set the active leaf
@@ -621,11 +383,241 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             }
         }
 
-        /**
-         * change the pagetitle. (must be supported in the style)
-         */
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
         return true;
+    }
+
+    private function _add_ordering(&$qb, $ordering)
+    {
+        if (preg_match('/\s*reversed?\s*/', $ordering))
+        {
+            $reversed = true;
+            $ordering = preg_replace('/\s*reversed?\s*/', '', $ordering);
+        }
+        else
+        {
+            $reversed = false;
+        }
+
+        if ($reversed)
+        {
+            $qb->add_order($ordering, 'DESC');
+        }
+        else
+        {
+            $qb->add_order($ordering);
+        }
+    }
+
+    private function _populate_toolbar()
+    {
+        if ($this->_request_data['group'])
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "edit/{$this->_request_data['group']->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('edit'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
+                    MIDCOM_TOOLBAR_ENABLED => $this->_request_data['group']->can_do('midgard:update'),
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'e',
+                )
+            );
+        }
+
+        if ($this->_request_data['group'])
+        {
+            $allow_create_group = $this->_request_data['group']->can_do('midgard:create');
+            $allow_create_product = $this->_request_data['group']->can_do('midgard:create');
+
+            if ($this->_request_data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            {
+                $allow_create_product = false;
+            }
+        }
+        else
+        {
+            $allow_create_group = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_group_dba');
+            $allow_create_product = $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+        }
+
+        foreach (array_keys($this->_request_data['schemadb_group']) as $name)
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "create/{$this->_request_data['parent_group']}/{$name}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf
+                    (
+                        $this->_l10n_midcom->get('create %s'),
+                        $this->_l10n->get($this->_request_data['schemadb_group'][$name]->description)
+                    ),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-dir.png',
+                    MIDCOM_TOOLBAR_ENABLED => $allow_create_group,
+                )
+            );
+        }
+
+        foreach (array_keys($this->_request_data['schemadb_product']) as $name)
+        {
+            if (isset($this->_request_data['schemadb_product'][$name]->customdata['icon']))
+            {
+                $icon = $this->_request_data['schemadb_product'][$name]->customdata['icon'];
+            }
+            else
+            {
+                $icon = 'stock-icons/16x16/new-text.png';
+            }
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "product/create/{$this->_request_data['parent_group']}/{$name}/",
+                    MIDCOM_TOOLBAR_LABEL => sprintf
+                    (
+                        $this->_l10n_midcom->get('create %s'),
+                        $this->_l10n->get($this->_request_data['schemadb_product'][$name]->description)
+                    ),
+                    MIDCOM_TOOLBAR_ICON => $icon,
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+                    MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
+                )
+            );
+        }
+
+        if (   $this->_config->get('enable_productlinks')
+            && isset($this->_request_data['schemadb_productlink']))
+        {
+            $this->_request_data['datamanager_productlink'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_productlink']);
+            foreach (array_keys($this->_request_data['schemadb_productlink']) as $name)
+            {
+                if (isset($this->_request_data['schemadb_productlink'][$name]->customdata['icon']))
+                {
+                    $icon = $this->_request_data['schemadb_productlink'][$name]->customdata['icon'];
+                }
+                else
+                {
+                    $icon = 'stock-icons/16x16/new-text.png';
+                }
+                $this->_view_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "productlink/create/{$this->_request_data['parent_group']}/{$name}/",
+                        MIDCOM_TOOLBAR_LABEL => sprintf
+                        (
+                            $this->_l10n_midcom->get('create %s'),
+                            $this->_l10n->get($this->_request_data['schemadb_productlink'][$name]->description)
+                        ),
+                        MIDCOM_TOOLBAR_ICON => $icon,
+                        MIDCOM_TOOLBAR_ACCESSKEY => 'n',
+                        MIDCOM_TOOLBAR_ENABLED => $allow_create_product,
+                    )
+                );
+            }
+        }
+    }
+
+    private function _list_group_products()
+    {
+        $_MIDCOM->load_library('org.openpsa.qbpager');
+        $product_qb = new org_openpsa_qbpager('org_openpsa_products_product_dba', 'org_openpsa_products_product_dba');
+        $product_qb->results_per_page = $this->_config->get('products_per_page');
+
+        if (count($this->_request_data['linked_products']) > 0)
+        {
+            $product_qb->begin_group('OR');
+        }
+
+        if (   $this->_request_data['group']
+            && $this->_request_data['group']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+        {
+            // Smart group, query products by stored constraints
+            $constraints = $this->_request_data['group']->list_parameters('org.openpsa.products:constraints');
+            if (empty($constraints))
+            {
+                $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_group']);
+            }
+
+            $reflector = new midgard_reflection_property('org_openpsa_products_product');
+
+            foreach ($constraints as $constraint_string)
+            {
+                $constraint_members = explode(',', $constraint_string);
+                if (count($constraint_members) != 3)
+                {
+                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Invalid constraint '{$constraint_string}'");
+                }
+
+                // Reflection is needed here for safety
+                $field_type = $reflector->get_midgard_type($constraint_members[0]);
+                switch ($field_type)
+                {
+                    case 4:
+                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Invalid constraint: '{$constraint_members[0]}' is not a Midgard property");
+                    case MGD_TYPE_INT:
+                        $constraint_members[2] = (int) $constraint_members[2];
+                        break;
+                    case MGD_TYPE_FLOAT:
+                        $constraint_members[2] = (float) $constraint_members[2];
+                        break;
+                    case MGD_TYPE_BOOLEAN:
+                        $constraint_members[2] = (boolean) $constraint_members[2];
+                        break;
+                }
+                $product_qb->add_constraint($constraint_members[0], $constraint_members[1], $constraint_members[2]);
+            }
+        }
+        else if ($this->_request_data['handler_id'] == 'list_intree')
+        {
+            $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_category_id']);
+        }
+        else if ($this->_request_data['handler_id'] == 'listall')
+        {
+            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
+            $categories_qb->add_constraint('up', '=', $this->_request_data['group']->id);
+            $categories = $categories_qb->execute();
+            for ($i = 0; $i < count($categories); $i++)
+            {
+                $categories_in[$i] = $categories[$i]->id;
+            }
+
+            $product_qb->add_constraint('productGroup', 'IN', $categories_in);
+        }
+        else
+        {
+            $product_qb->add_constraint('productGroup', '=', $this->_request_data['parent_group']);
+        }
+        if (count($this->_request_data['linked_products']) > 0)
+        {
+            $product_qb->add_constraint('id', 'IN', $this->_request_data['linked_products']);
+            $product_qb->end_group();
+        }
+
+        // This should be a helper function, same functionality, but with different config-parameter is used in /handler/product/search.php
+        foreach ($this->_config->get('products_listing_order') as $ordering)
+        {
+            $this->_add_ordering($product_qb, $ordering);
+        }
+
+        if ($this->_config->get('enable_scheduling'))
+        {
+            $product_qb->add_constraint('start', '<=', time());
+            $product_qb->begin_group('OR');
+            /*
+             * List products that either have no defined end-of-market dates
+             * or are still in market
+             */
+            $product_qb->add_constraint('end', '=', 0);
+            $product_qb->add_constraint('end', '>=', time());
+            $product_qb->end_group();
+        }
+
+        $this->_request_data['products'] = $product_qb->execute();
+
+        $this->_request_data['products_qb'] =& $product_qb;
     }
 
     /**

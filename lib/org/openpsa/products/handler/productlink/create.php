@@ -112,6 +112,56 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
      */
     public function _handler_create($handler_id, $args, &$data)
     {
+        $this->_find_parent($args);
+
+        $data['selected_schema'] = $args[1];
+        if (!array_key_exists($data['selected_schema'], $data['schemadb_productlink']))
+        {
+            return false;
+        }
+        $this->_schema =& $data['selected_schema'];
+
+        $data['controller'] = $this->get_controller('create');
+
+        switch ($data['controller']->process_form())
+        {
+            case 'save':
+                $_MIDCOM->cache->invalidate($this->_productlink->guid);
+
+                $_MIDCOM->relocate("productlink/{$this->_productlink->guid}/");
+                // This will exit.
+
+            case 'cancel':
+                if ($this->_request_data['up'] == 0)
+                {
+                    $_MIDCOM->relocate('');
+                }
+                else
+                {
+                    $_MIDCOM->relocate("{$this->_request_data['up']}/");
+                }
+                // This will exit.
+        }
+
+        $this->_prepare_request_data();
+
+        // Add toolbar items
+        org_openpsa_helpers::dm2_savecancel($this);
+
+        if ($this->_productlink)
+        {
+            $_MIDCOM->set_26_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
+        }
+        $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
+        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+
+        $this->_update_breadcrumb_line();
+
+        return true;
+    }
+
+    private function _find_parent($args)
+    {
         //Check if args[0] is a product group code.
         if ((int)$args[0] == 0
             && strlen($args[0]) > 1)
@@ -167,53 +217,8 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
                 return false;
             }
 
-            $data['parent'] = $parent;
+            $this->_request_data['parent'] = $parent;
         }
-
-        $data['selected_schema'] = $args[1];
-        if (!array_key_exists($data['selected_schema'], $data['schemadb_productlink']))
-        {
-            return false;
-        }
-        $this->_schema =& $data['selected_schema'];
-
-        $data['controller'] = $this->get_controller('create');
-
-        switch ($data['controller']->process_form())
-        {
-            case 'save':
-                $_MIDCOM->cache->invalidate($this->_productlink->guid);
-
-                $_MIDCOM->relocate("productlink/{$this->_productlink->guid}/");
-                // This will exit.
-
-            case 'cancel':
-                if ($this->_request_data['up'] == 0)
-                {
-                    $_MIDCOM->relocate('');
-                }
-                else
-                {
-                    $_MIDCOM->relocate("{$this->_request_data['up']}/");
-                }
-                // This will exit.
-        }
-
-        $this->_prepare_request_data();
-
-        // Add toolbar items
-        org_openpsa_helpers::dm2_savecancel($this);
-
-        if ($this->_productlink)
-        {
-            $_MIDCOM->set_26_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
-        }
-        $this->_request_data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
-        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
-
-        $this->_update_breadcrumb_line();
-
-        return true;
     }
 
     /**

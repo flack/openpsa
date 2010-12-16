@@ -33,7 +33,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
     //Internal, do not touch unless you know what you're doing
     private $_backend;    //The backend object
-    private $__debug;     //boolean, output debug information
     private $__mime;      //object, (Mail_mime / Mail_mimeDecode) holder
     private $__mail;      //object, (Mail) holder
     private $__mailErr;   //boolean/object, send error status
@@ -129,13 +128,8 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $mime->_build_params['head_charset'] = strtoupper($this->encoding);
         $mime->_build_params['text_encoding'] = '8bit';
 
-        //TODO: Convert to use MidCOM debugger
-        if ($this->__debug)
-        {
-            echo "DEBUG: mime, before <pre>\n";
-             print_r($mime);
-             echo "</pre>\n"; reset ($mime);
-        }
+        debug_print_r('mime, before:', $mime);
+        reset($mime);
 
         if (   isset($this->html_body)
             && strlen($this->html_body)>0)
@@ -150,87 +144,80 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         if (   is_array($this->attachments)
             && (count($this->attachments)>0))
         {
-            reset($this->attachments);
-            while (list ($k, $att) = each ($this->attachments))
-            {
-                if (!isset($att['mimetype']) || $att['mimetype'] == null)
-                {
-                    $att['mimetype'] = "application/octet-stream";
-                }
-
-                if (isset($att['file']) && strlen($att['file'])>0)
-                {
-                    $aRet = $mime->addAttachment($att['file'], $att['mimetype'], $att['name'], true);
-                }
-                else if (isset($att['content']) && strlen($att['content'])>0)
-                {
-                    $aRet = $mime->addAttachment($att['content'], $att['mimetype'], $att['name'], false);
-                }
-                 //TODO: Convert to use MidCOM debugger
-                if ($this->__debug)
-                {
-                   if ($aRet === true)
-                   {
-                         echo "DEBUG: mail->initMail_mime(): attachment " . $att['name'] . " added<br>\n";
-                   }
-                   else
-                   {
-                         echo "DEBUG: mail->initMail_mime(): failed to add attachment " . $att['name'] . " PEAR output <pre>\n";
-                         print_r($aRet);
-                         echo "</pre>\n";
-                   }
-                }
-            }
+            $this->_process_attachments();
         }
         if (   is_array($this->embeds)
             && (count($this->embeds)>0))
         {
-            reset($this->embeds);
-            while (list ($k, $att) = each ($this->embeds))
-            {
-                if (!isset($att['mimetype']) || $att['mimetype'] == null)
-                {
-                    $att['mimetype'] = "application/octet-stream";
-                }
-                if (isset($att['file']) && strlen($att['file'])>0)
-                {
-                    $aRet = $mime->addHTMLImage($att['file'], $att['mimetype'], $att['name'], true);
-                }
-                else if (isset($att['content']) && strlen($att['content'])>0)
-                {
-                    $aRet = $mime->addHTMLImage($att['content'], $att['mimetype'], $att['name'], false);
-                }
-                 //TODO: Convert to use MidCOM debugger
-                if ($this->__debug)
-                {
-                   if ($aRet === true)
-                   {
-                         echo "DEBUG: mail->initMail_mime(): attachment " . $att['name'] . " embedded<br>\n";
-                   }
-                   else
-                   {
-                         echo "DEBUG: mail->initMail_mime(): failed to embed attachment " . $att['name'] . " PEAR output <pre>\n";
-                         print_r($aRet);
-                         echo "</pre>\n";
-                   }
-                }
-            }
+            $this->_process_embeds();
         }
 
         if ($this->embed_css_url)
         {
-            $this->_fix_mime_css_embeds();
+            $this->_fix_mime_css_embeds($mime);
         }
 
-        //TODO: Convert to use MidCOM debugger
-        if ($this->__debug)
-        {
-             echo "DEBUG: mime, after <pre>\n";
-             print_r($mime);
-             echo "</pre>\n"; reset ($mime);
-        }
+        debug_print_r("mime, after:", $mime);
 
         return $this->__mime;
+    }
+
+    private function _process_attachments()
+    {
+        reset($this->attachments);
+        while (list ($k, $att) = each ($this->attachments))
+        {
+            if (!isset($att['mimetype']) || $att['mimetype'] == null)
+            {
+                $att['mimetype'] = "application/octet-stream";
+            }
+
+            if (isset($att['file']) && strlen($att['file']) > 0)
+            {
+                $aRet = $this->__mime->addAttachment($att['file'], $att['mimetype'], $att['name'], true);
+            }
+            else if (isset($att['content']) && strlen($att['content']) > 0)
+            {
+                $aRet = $this->__mime->addAttachment($att['content'], $att['mimetype'], $att['name'], false);
+            }
+
+            if ($aRet === true)
+            {
+                debug_add("Attachment " . $att['name'] . " added");
+            }
+            else
+            {
+                debug_print_r("Failed to add attachment " . $att['name'] . " PEAR output:", $aRet);
+            }
+        }
+    }
+
+    private function _process_embeds()
+    {
+        reset($this->embeds);
+        while (list ($k, $att) = each ($this->embeds))
+        {
+            if (!isset($att['mimetype']) || $att['mimetype'] == null)
+            {
+                $att['mimetype'] = "application/octet-stream";
+            }
+            if (isset($att['file']) && strlen($att['file']) > 0)
+            {
+                $aRet = $this->__mime->addHTMLImage($att['file'], $att['mimetype'], $att['name'], true);
+            }
+            else if (isset($att['content']) && strlen($att['content']) > 0)
+            {
+                $aRet = $this->__mime->addHTMLImage($att['content'], $att['mimetype'], $att['name'], false);
+            }
+            if ($aRet === true)
+            {
+                debug_add("Attachment " . $att['name'] . " embedded");
+            }
+            else
+            {
+                debug_print_r("Failed to embed attachment " . $att['name'] . " PEAR output:", $aRet);
+            }
+        }
     }
 
     private function _fix_mime_css_embeds()
@@ -742,8 +729,18 @@ EOF;
             debug_print_r("Headers after multiline fix\n===\n", $this->headers);
         }
 
-        // Encode subject (if necessary) and set Content-Type (if not set already)
+        // Encode subject (if necessary)
         $this->encode_subject();
+
+        $this->_prepare_headers();
+
+        //TODO: Encode from, cc and to if necessary
+
+        return true;
+    }
+
+    private function _prepare_headers()
+    {
         if (   !isset($this->headers['Content-Type'])
             || $this->headers['Content-Type'] == null)
         {
@@ -760,8 +757,7 @@ EOF;
             }
         }
         if (   $mime_header === false
-            || $this->headers[$mime_header] == null
-            )
+            || $this->headers[$mime_header] == null)
         {
             if ($mime_header === false)
             {
@@ -789,10 +785,6 @@ EOF;
                 $this->headers[$header] = $value_trimmed;
             }
         }
-
-        //TODO: Encode from, cc and to if necessary
-
-        return true;
     }
 
     /**

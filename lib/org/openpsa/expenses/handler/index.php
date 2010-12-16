@@ -79,10 +79,57 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $hours_mc->add_order('date');
         $hours_mc->execute();
 
+        $data['tasks'] = $this->_get_sorted_reports($hours_mc);
+
+        $this->_populate_toolbar($previous_week, $next_week);
+
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/expenses.css");
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/dropdown-check-list.0.9/css/ui.dropdownchecklist.css");
+
+        $_MIDCOM->enable_jquery();
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
+
+        $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
+
+        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
+
+        return true;
+    }
+
+    private function _populate_toolbar($previous_week, $next_week)
+    {
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "{$prefix}" . $previous_week . "/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
+            )
+        );
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "{$prefix}" . $next_week . "/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
+            )
+        );
+    }
+
+    /**
+     * Sort the reports by task and day
+     */
+    private function _get_sorted_reports($hours_mc)
+    {
+        $tasks = array();
         $hours = $hours_mc->list_keys();
 
-        // Sort the reports by task and day
-        $tasks = array();
         foreach ($hours as $guid => $empty)
         {
             $task_id = $hours_mc->get_subkey($guid, 'task');
@@ -108,7 +155,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
                 $tasks[$task_id]['persons'][$person] = array();
             }
 
-
             $date_identifier = date('Y-m-d', $date);
             if (!isset($tasks[$task_id][$date_identifier]))
             {
@@ -123,43 +169,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             $tasks[$task_id][$date_identifier] += $report_hours;
             $tasks[$task_id]['persons'][$person][$date_identifier] += $report_hours;
         }
-
-        $data['tasks'] =& $tasks;
-
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "{$prefix}" . $previous_week . "/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
-            )
-        );
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "{$prefix}" . $next_week . "/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
-            )
-        );
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/expenses.css");
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.expenses/dropdown-check-list.0.9/css/ui.dropdownchecklist.css");
-
-        $_MIDCOM->enable_jquery();
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.expenses/dropdown-check-list.0.9/js/ui.dropdownchecklist-min.js');
-
-        $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
-
-        $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
-
-        return true;
+        return $tasks;
     }
 
     /**

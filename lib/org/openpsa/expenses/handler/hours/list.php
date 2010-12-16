@@ -38,11 +38,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
         $this->_request_data['qb'] =& $qb;
         return $qb;
-
-        $qb = new org_openpsa_qbpager('org_openpsa_projects_hour_report_dba', 'org_openpsa_projects_hour_report_dba');
-        $qb->results_per_page = 30;
-        $this->_request_data['qb'] =& $qb;
-        return $qb;
     }
 
     /**
@@ -60,7 +55,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $_MIDCOM->componentloader->load('org.openpsa.contactwidget');
 
         // List hours
-        $qb =& $this->_prepare_qb();
+        $qb = $this->_prepare_qb();
 
         $mode = 'full';
 

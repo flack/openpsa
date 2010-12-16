@@ -335,12 +335,21 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
             }
         }
 
+        $this->_import_groups();
+
+        $data['time_end'] = time();
+
+        return true;
+    }
+
+    private function _import_groups()
+    {
         $secondary_groups = array();
         $tertiary_groups = array();
 
-        if (count($data['groups']) > 0)
+        if (count($this->_request_data['groups']) > 0)
         {
-            foreach ($data['groups'] as $group)
+            foreach ($this->_request_data['groups'] as $group)
             {
                 if (isset($group['org_openpsa_products_import_parent_group']))
                 {
@@ -375,10 +384,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
                 $this->_import_group($group);
             }
         }
-
-        $data['time_end'] = time();
-
-        return true;
     }
 
     /**

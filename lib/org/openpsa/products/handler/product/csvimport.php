@@ -145,12 +145,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         $product = null;
         $new = false;
 
-        // FIXME: Hardcoded client specific code, VERY BAD!
-        if (isset($productdata['unixname']))
-        {
-            $productdata['code'] = $productdata['unixname'];
-        }
-
         // GUID has precedence
         if (   isset($productdata['GUID'])
             && !empty($productdata['GUID']))
@@ -176,27 +170,6 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
                 $product = $products[0];
             }
         }
-
-        /**
-         * These should not be here
-        if (   isset($_POST['org_openpsa_products_import_new_products_product_group'])
-            && !empty($_POST['org_openpsa_products_import_new_products_product_group']))
-        {
-            $data['new_products_product_group'] = $_POST['org_openpsa_products_import_new_products_product_group'];
-        }
-        else
-        {
-            $data['new_products_product_group'] = 0;
-        }
-        if (isset($_POST['org_openpsa_products_import_schema']))
-        {
-            $data['import_schema'] = $_POST['org_openpsa_products_import_schema'];
-        }
-        else
-        {
-            $data['import_schema'] = 'default';
-        }
-         */
 
         if (!$product)
         {
