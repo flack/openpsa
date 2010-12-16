@@ -22,13 +22,11 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
 
     public function __construct($id = null)
     {
-        $stat = parent::__construct($id);
-        if (   !$this->orgOpenpsaObtype
-            && $stat)
+        parent::__construct($id);
+        if (!$this->orgOpenpsaObtype)
         {
             $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN;
         }
-        return $stat;
     }
 
     static function new_query_builder()

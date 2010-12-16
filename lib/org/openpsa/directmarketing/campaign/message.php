@@ -38,24 +38,19 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
 
     public function __construct($id = null)
     {
-        $stat = parent::__construct($id);
-        if ($stat)
-        {
-            /* To specify different values for MMS and SMS first unset the MMS
-               values to destroy the reference, then set correct value */
-            $this->mms_lib = &$this->sms_lib;
-            $this->mms_lib_api = &$this->sms_lib_api;
-            $this->mms_lib_location = &$this->sms_lib_location;
-            $this->mms_lib_client_id = &$this->sms_lib_client_id;
-            $this->mms_lib_user = &$this->sms_lib_user;
-            $this->mms_lib_password = &$this->sms_lib_password;
-        }
+        parent::__construct($id);
+        /* To specify different values for MMS and SMS first unset the MMS
+           values to destroy the reference, then set correct value */
+        $this->mms_lib = &$this->sms_lib;
+        $this->mms_lib_api = &$this->sms_lib_api;
+        $this->mms_lib_location = &$this->sms_lib_location;
+        $this->mms_lib_client_id = &$this->sms_lib_client_id;
+        $this->mms_lib_user = &$this->sms_lib_user;
+        $this->mms_lib_password = &$this->sms_lib_password;
 
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.directmarketing', 'config');
 
         $this->chunk_size = $config->get('chunk_size');
-
-        return $stat;
     }
 
     static function new_query_builder()

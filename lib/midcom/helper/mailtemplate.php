@@ -332,22 +332,11 @@ class midcom_helper_mailtemplate
             }
             else if (is_object($value))
             {
-                if (is_a($value, "midcom_helper_datamanager"))
-                {
-                    $patterns[] = "/__{$key}__/";
-                    $replacements[] = $this->_charset_convert($this->_format_dm($value));
-                    $patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
-                    $replacements[] = '$this->_charset_convert($this->_parameters["'
-                                      . $key . '"]->_datatypes["\1"]->get_csv_data())';
-                }
-                else
-                {
-                    $patterns[] = "/__{$key}__/";
-                    $replacements[] = $this->_charset_convert($this->_format_object($value));
-                    $patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
-                    $replacements[] = '$this->_charset_convert($this->_parameters["'
-                                      . $key . '"]->\1)';
-                }
+                $patterns[] = "/__{$key}__/";
+                $replacements[] = $this->_charset_convert($this->_format_object($value));
+                $patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
+                $replacements[] = '$this->_charset_convert($this->_parameters["'
+                                  . $key . '"]->\1)';
             }
             else
             {

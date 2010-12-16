@@ -20,12 +20,11 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
-        $ret = parent::__construct($id);
+        parent::__construct($id);
         if (!$this->orgOpenpsaObtype)
         {
             $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER;
         }
-        return $ret;
     }
 
     static function new_query_builder()

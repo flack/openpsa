@@ -594,20 +594,10 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
             }
             else if (is_object($value))
             {
-                if (is_a($value, "midcom_helper_datamanager"))
-                {
-                    $patterns[] = "/__{$key}__/";
-                    $replacements[] = net_nehmer_account_viewer::format_dm($value);
-                    $patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
-                    $replacements[] = '$parameters["'. $key . '"]->_datatypes["\1"]->get_csv_data()';
-                }
-                else
-                {
-                    $patterns[] = "/__{$key}__/";
-                    $replacements[] = net_nehmer_account_viewer::format_object($value);
-                    $patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
-                    $replacements[] = '$parameters["' . $key . '"]->\1';
-                }
+                $patterns[] = "/__{$key}__/";
+                $replacements[] = net_nehmer_account_viewer::format_object($value);
+                $patterns[] = "/__{$key}_([^ \.>\"-]*?)__/e";
+                $replacements[] = '$parameters["' . $key . '"]->\1';
             }
             else
             {

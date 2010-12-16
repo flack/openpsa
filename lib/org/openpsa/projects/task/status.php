@@ -19,7 +19,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     {
         $this->_use_rcs = false;
         $this->_use_activitystream = false;
-        $ret = parent::__construct($id);
+        parent::__construct($id);
         if (!$this->id)
         {
             if (is_object($this))
@@ -27,7 +27,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
                 $this->timestamp = $this->gmtime();
             }
         }
-        return $ret;
     }
 
     static function new_query_builder()

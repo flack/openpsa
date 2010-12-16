@@ -98,7 +98,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
                 $qb_intree->add_constraint('up', 'INTREE', $root_group->id);
                 $qb_intree->add_constraint('id', '=', $product_group->id);
                 $results = $qb_intree->execute();
-                
+
                 if ($qb_intree->count() > 0)
                 {
                     $intree = true;
@@ -195,7 +195,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
             return "product/{$product->guid}/";
         }
     }
-    
+
     private function _resolve_productlink($productlink, $topic)
     {
         if (!$productlink->productGroup)
@@ -279,18 +279,9 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         $dms = array();
         $schemadb_group = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
         $dms['group'] = new midcom_helper_datamanager2_datamanager($schemadb_group);
-        if (!is_a($dms['group'], 'midcom_helper_datamanager2_datamanager'))
-        {
-            debug_add("Failed to instance DM2 from schema path " . $config->get('schemadb_group') . ", aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
+
         $schemadb_product = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_product'));
         $dms['product'] = new midcom_helper_datamanager2_datamanager($schemadb_product);
-        if (!is_a($dms['product'], 'midcom_helper_datamanager2_datamanager'))
-        {
-            debug_add("Failed to instance DM2 from schema path " . $config->get('schemadb_product') . ", aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
 
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
         $topic_root_group_guid = $topic->get_parameter('org.openpsa.products','root_group');
