@@ -39,12 +39,12 @@ $customer = new midcom_db_group($project->customer);
     else if (array_key_exists(midcom_connection::get_user(), $project->contacts))
     {
         echo $data['l10n']->get('you are project subscriber');
-        echo '<form method="post" class="subscribe" action="' . $prefix . 'project/' . $project->guid . '/unsubscribe/"><input type="submit" class="unsubscribe" value="' . $data['l10n']->get('unsubscribe') . '" /></form>';
+        echo '<form method="post" class="subscribe" action="' . $prefix . 'project/unsubscribe/' . $project->guid . '/"><input type="submit" class="unsubscribe" value="' . $data['l10n']->get('unsubscribe') . '" /></form>';
     }
     else
     {
         echo $data['l10n']->get('you are not subscribed to project');
-        echo '<form method="post" class="subscribe" action="' . $prefix . 'project/' . $project->guid . '/subscribe/"><input type="submit" value="' . $data['l10n']->get('subscribe') . '" /></form>';
+        echo '<form method="post" class="subscribe" action="' . $prefix . 'project/subscribe/' . $project->guid . '/"><input type="submit" value="' . $data['l10n']->get('subscribe') . '" /></form>';
     }
   ?>
   </td>

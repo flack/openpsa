@@ -25,9 +25,6 @@
         </property>
         <property name="acceptanceType" type="integer" />
 
-        <property name="newsTopic" link="midgard_topic:id" type="unsigned integer" />
-        <property name="forumTopic" link="midgard_topic:id" type="unsigned integer" />
-
         <property name="agreement" link="org_openpsa_salesproject_deliverable:id" type="unsigned integer"/>
         <property name="customer" link="midgard_group:id" type="unsigned integer"/>
         <!-- Customer contacts are handled as members to project -->

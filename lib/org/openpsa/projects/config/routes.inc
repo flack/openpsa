@@ -19,12 +19,19 @@
     'fixed_args' => array('project', 'edit'),
     'variable_args' => 1,
 ),
-// Match /project/<GUID>/<action>
+// Match /project/subscribe/<GUID>
 'project-action' => array
 (
-    'handler' => array('org_openpsa_projects_handler_project_action', 'action'),
-    'fixed_args' => 'project',
-    'variable_args' => 2,
+    'handler' => array('org_openpsa_projects_handler_project_action', 'subscribe'),
+    'fixed_args' => array('project', 'subscribe'),
+    'variable_args' => 1,
+),
+// Match /project/unsubscribe/<GUID>
+'project-action' => array
+(
+    'handler' => array('org_openpsa_projects_handler_project_action', 'unsubscribe'),
+    'fixed_args' => array('project', 'unsubscribe'),
+    'variable_args' => 1,
 ),
 // Match /project/new
 'project-new' => array

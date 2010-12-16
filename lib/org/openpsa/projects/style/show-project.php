@@ -50,28 +50,6 @@ $node = $nap->get_node($nap->get_current_node());
             echo $contact->show();
         }
     }
-
-    if ($project->newsTopic)
-    {
-        $news_node = $nap->get_node($project->newsTopic);
-        if ($news_node)
-        {
-            echo "<div class=\"area\">\n";
-            $_MIDCOM->dynamic_load($news_node[MIDCOM_NAV_RELATIVEURL] . "latest/4");
-            echo "<p><a href=\"{$news_node[MIDCOM_NAV_RELATIVEURL]}\">" . $data['l10n']->get('news area') . "</a></p>\n";
-            echo "</div>\n";
-        }
-    }
-    if ($project->forumTopic)
-    {
-        $forum_node = $nap->get_node($project->forumTopic);
-        if ($forum_node)
-        {
-            echo "<div class=\"area\">\n";
-            $_MIDCOM->dynamic_load($forum_node[MIDCOM_NAV_RELATIVEURL] . "latest/4");
-            echo "</div>\n";
-        }
-    }
     ?>
 </div>
 

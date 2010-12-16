@@ -118,18 +118,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
                 debug_add("Synchronizing task ACLs to MidCOM");
                 $sync = new org_openpsa_core_acl_synchronizer();
                 $sync->write_acls($this, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
-
-                // Synchronize also the news topic
-                if ($this->newsTopic)
-                {
-                    $news_topic = new midcom_db_topic($this->newsTopic);
-                    $sync->write_acls($news_topic, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
-                }
-                if ($this->forumTopic)
-                {
-                    $forum_topic = new midcom_db_topic($this->forumTopic);
-                    $sync->write_acls($forum_topic, $this->orgOpenpsaOwnerWg, $this->orgOpenpsaAccesstype);
-                }
             }
 
             //Ensure manager can do stuff
