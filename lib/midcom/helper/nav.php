@@ -400,14 +400,15 @@ class midcom_helper_nav
         // this is the rest of the lot, we need to traverse everything, unfortunately.
         // First, we traverse a list of nodes to be checked on by one, avoiding a recursive
         // function call.
-
         $unprocessed_node_ids = Array ($this->get_root_node());
+
         while ( count ($unprocessed_node_ids) > 0)
         {
             $node_id = array_shift($unprocessed_node_ids);
 
             // Check leaves of this node first.
             $leaves = $this->list_leaves($node_id, true);
+
             foreach ($leaves as $leafid)
             {
                 $leaf = $this->get_leaf($leafid);

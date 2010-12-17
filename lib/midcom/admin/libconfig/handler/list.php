@@ -22,11 +22,6 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'), $this->_request_data);
     }
 
-    private function _prepare_toolbar(&$data)
-    {
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-    }
-
     /**
      * Handler method for listing style elements for the currently used component topic
      *
@@ -39,7 +34,6 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
     {
         $this->_libs = midcom_admin_libconfig_plugin::get_libraries();
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $data['view_title']);
-        $this->_prepare_toolbar($data);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         return true;

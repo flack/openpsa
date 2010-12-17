@@ -338,6 +338,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     private static $_plugin_namespace_config = Array();
 
+    /**
+     * The controlling class for the active plugin, if any
+     *
+     * @var midcom_baseclasses_components_plugin
+     */
+    private $_active_plugin;
+
     /**#@-*/
 
     /**
@@ -660,6 +667,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             //For plugins, set the component name explicitly so that L10n and config can be found
             if (isset($this->_handler['plugin']))
             {
+                $this->_active_plugin->initialize($this->_request_data);
                 $this->_handler['handler'][0]->_component = $this->_handler['plugin'];
             }
 
@@ -865,12 +873,10 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         // Load remaining configuration, and prepare the plugin,
         // errors are logged by the callers.
-        $plugin_object = new $plugin_config['class'];
-        $plugin_object->_component = preg_replace('/([a-z0-9]+)_([a-z0-9]+)_([a-z0-9]+).+/', '$1.$2.$3', $plugin_config['class']);
+        $this->_active_plugin = new $plugin_config['class']();
+        $this->_active_plugin->_component = preg_replace('/([a-z0-9]+)_([a-z0-9]+)_([a-z0-9]+).+/', '$1.$2.$3', $plugin_config['class']);
 
-        $handlers = $plugin_object->get_plugin_handlers();
-
-        return $this->_prepare_plugin($namespace, $plugin, $handlers, $plugin_object->_component);
+        return $this->_prepare_plugin($namespace, $plugin);
     }
 
     /**
@@ -939,12 +945,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
-     * @param Array $handlers The plugin specific handlers without the appropriate prefixes.
-     * @param string $component The plugin's component name.
      * @return boolean Indicating Success
      */
-    public function _prepare_plugin ($namespace, $plugin, $handlers, $component)
+    public function _prepare_plugin ($namespace, $plugin)
     {
+        $handlers = $this->_active_plugin->get_plugin_handlers();
+
         foreach ($handlers as $identifier => $handler_config)
         {
             // First, update the fixed args list (be tolerant here)
@@ -964,7 +970,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                     $handler_config['fixed_args']
                 );
             }
-            $handler_config['plugin'] = $component;
+            $handler_config['plugin'] = $this->_active_plugin->_component;
 
             $this->_request_switch["__{$namespace}-{$plugin}-{$identifier}"] = $handler_config;
         }

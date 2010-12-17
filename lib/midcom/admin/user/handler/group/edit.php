@@ -103,11 +103,8 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // This will exit.
         }
 
-        midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
-
         $data['group'] =& $this->_group;
         $data['controller'] =& $controller;
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
 
         $ref = new midcom_helper_reflector($this->_group);
         $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $ref->get_object_title($this->_group));
@@ -119,22 +116,22 @@ implements midcom_helper_datamanager2_interfaces_edit
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/folders/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('folders', 'midcom.admin.user'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder.png',
-            ),
-            $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/move/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('move group', 'midcom.admin.user'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
+            )
         );
+
         $data['asgard_toolbar']->add_item
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/move/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('move group', 'midcom.admin.user'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save-as.png',
-            ),
-            $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/group/folders/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('folders', 'midcom.admin.user'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/folder.png',
+            )
         );
+        midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
 
         return true;
     }

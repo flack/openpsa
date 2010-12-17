@@ -158,7 +158,7 @@ class midgard_admin_asgard_schemadb
                     if (   $key == 'component'
                         && is_a($this->_object, 'midcom_db_topic'))
                     {
-                        $this->_add_component_dropdown_to($key);
+                        $this->_add_component_dropdown($key);
                         break;
                     }
 

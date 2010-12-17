@@ -146,7 +146,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $data['view_title'] = $this->_l10n->get('asgard');
         $_MIDCOM->set_pagetitle($data['view_title']);
 
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
         if (isset($_POST['execute_mass_action']))
         {
             if (   isset($_POST['selections'])
@@ -206,7 +205,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
 
     private function _populate_toolbar()
     {
-        midgard_admin_asgard_plugin::get_common_toolbar($this->_request_data);
         $this->_request_data['asgard_toolbar']->add_item
         (
             array

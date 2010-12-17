@@ -18,5 +18,12 @@ abstract class midcom_baseclasses_components_plugin extends midcom_baseclasses_c
         $handlers = midcom_baseclasses_components_configuration::get($this->_component, 'routes');
         return $handlers;
     }
+
+    public function initialize(&$data)
+    {
+        $this->_on_initialize($data);
+    }
+
+    public function _on_initialize(&$data){}
 }
 ?>

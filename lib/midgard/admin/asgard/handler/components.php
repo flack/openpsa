@@ -134,9 +134,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 
         $this->_list_components();
 
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
@@ -206,9 +203,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
 
         $data['view_title'] = $data['component_data']['title'];
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         $data['asgard_toolbar']->add_item
         (

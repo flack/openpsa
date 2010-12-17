@@ -38,11 +38,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/edit/{$name}", $this->_l10n_midcom->get('edit'));
     }
 
-    private function _prepare_toolbar(&$data)
-    {
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-    }
-
     public function load_schemadb()
     {
         if (isset($this->_libconfig->_global['schemadb_config']))
@@ -165,7 +160,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $data['controller'] =& $this->_controller;
 
         $this->_update_breadcrumb();
-        $this->_prepare_toolbar($data);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         return true;

@@ -44,9 +44,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         $data['view_title'] = $this->_l10n->get('trash');
         $_MIDCOM->set_pagetitle($data['view_title']);
 
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-
         $data['types'] = array();
         foreach (midcom_connection::get_schema_types() as $type)
         {
@@ -98,10 +95,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
 
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         $dummy = new $this->type;
         $data['midcom_dba_classname'] = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);

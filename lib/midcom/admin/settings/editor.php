@@ -50,7 +50,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
     private function _prepare_request_data(&$data)
     {
         $this->_request_data['controller'] =& $this->_controller;
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
     }
 
     /**

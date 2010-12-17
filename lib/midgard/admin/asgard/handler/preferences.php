@@ -54,9 +54,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     private function _process_request_data(&$data)
     {
         $data['view_title'] = $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard');
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));

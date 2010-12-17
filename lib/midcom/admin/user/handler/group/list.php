@@ -84,10 +84,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
             }
         }
 
-        // Set the toolbar
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-
         $data['view_title'] = sprintf($this->_l10n->get('move %s'), $data['group']->official);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
@@ -133,10 +129,6 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
         $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         $data['view_title'] = $_MIDCOM->i18n->get_string('groups', 'midcom.admin.user');
-
-        // Set the toolbar
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         $_MIDCOM->set_pagetitle($data['view_title']);
 

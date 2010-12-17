@@ -166,8 +166,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $data['view_title'] = midgard_admin_asgard_plugin::get_type_label($this->type);
         $_MIDCOM->set_pagetitle($data['view_title']);
 
-        $data['asgard_toolbar'] = $this->_prepare_toolbar();
-
         $this->_find_component();
         $data['documentation_component'] = $data['component'];
         if ($data['component'] == 'midgard')
@@ -200,7 +198,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
 
         if (isset($_GET['search']))
         {
-            midgard_admin_asgard_plugin::get_default_mode($data);
             $data['search_results'] = $this->_search($_GET['search']);
 
             //If there is exactly one result, go there directly
@@ -212,8 +209,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
             $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.tablesorter.pack.js');
             $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
         }
-
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));

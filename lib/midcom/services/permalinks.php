@@ -164,7 +164,7 @@ class midcom_services_permalinks
         return null;
     }
 
-    function _resolve_permalink_in_topic($topic, $guid)
+    private function _resolve_permalink_in_topic($topic, $guid)
     {
         // get the interface class
         // if we have a next-generation-one, use it to look up the required information

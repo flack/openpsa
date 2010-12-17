@@ -42,8 +42,6 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
             )
         );
-
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
     }
 
     /**

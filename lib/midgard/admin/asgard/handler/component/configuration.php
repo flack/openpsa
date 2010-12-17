@@ -27,7 +27,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     private function _prepare_toolbar($handler_id)
     {
-        $this->_request_data['asgard_toolbar'] = new midcom_helper_toolbar();
         $this->_request_data['asgard_toolbar']->add_item
         (
             array
@@ -56,8 +55,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $this->_request_data['asgard_toolbar']->disable_item("__mfa/asgard/components/configuration/{$this->_request_data['name']}/");
                 break;
         }
-
-        midgard_admin_asgard_plugin::get_common_toolbar($this->_request_data);
     }
 
     /**
@@ -490,7 +487,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $data['config'] = $this->_load_configs($data['name']);
         }
 
-        $this->_controller = $this->_get_controller('nullstorage');
+        $this->_controller = $this->get_controller('nullstorage');
 
         switch ($this->_controller->process_form())
         {

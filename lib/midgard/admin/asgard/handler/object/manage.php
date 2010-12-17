@@ -85,9 +85,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
-        // Get the localization library for Asgard
-        $this->_request_data['l10n'] = $_MIDCOM->i18n->get_l10n('midgard.admin.asgard');
-        midgard_admin_asgard_plugin::get_default_mode($this->_request_data);
         // Accordion is needed for per-type help when available
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
@@ -163,7 +160,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         return true;
     }
@@ -380,9 +376,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $_MIDCOM->auth->require_user_do('midgard:create', null, $this->_new_type);
 
             $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('create %s', 'midcom'), midgard_admin_asgard_plugin::get_type_label($data['new_type_arg']));
-
-            $data['asgard_toolbar'] = new midcom_helper_toolbar();
-            midgard_admin_asgard_plugin::get_common_toolbar($data);
         }
         else
         {
@@ -760,7 +753,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         // Common hooks for Asgard
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
 
         // Set the page title
         switch ($handler_id)

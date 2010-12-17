@@ -1,6 +1,5 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-$default_mode = midgard_admin_asgard_plugin::get_default_mode($data);
 
 $type_choices = array();
 foreach (midcom_connection::get_schema_types() as $schema_type)

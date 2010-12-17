@@ -27,19 +27,8 @@ implements midcom_helper_datamanager2_interfaces_edit
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.user'),$this->_request_data);
     }
 
-    private function _prepare_toolbar(&$data,$handler_id)
+    private function _prepare_toolbar(&$data, $handler_id)
     {
-        $data['asgard_toolbar']->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('midcom.admin.user'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
-            ),
-            $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
-        );
-
         if (   $handler_id !== '____mfa-asgard_midcom.admin.user-user_edit_password'
             && $this->_config->get('allow_manage_accounts')
             && $this->_person)
@@ -48,23 +37,33 @@ implements midcom_helper_datamanager2_interfaces_edit
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/password/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit account', 'midcom.admin.user'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
-                ),
-                $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
+                )
             );
             $data['asgard_toolbar']->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "__mfa/asgard/preferences/{$this->_person->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('user preferences', 'midgard.admin.asgard'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/configuration.png',
-                ),
-                $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)
+                    MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/password/{$this->_person->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('edit account', 'midcom.admin.user'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/repair.png',
+                )
             );
+
         }
+        $data['asgard_toolbar']->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "__mfa/asgard_midcom.admin.user/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('midcom.admin.user'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_person-new.png',
+            )
+        );
+
+        midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
     }
 
     /**
@@ -102,8 +101,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
             $this->_schemadb_name = 'schemadb_account';
         }
-
-        midgard_admin_asgard_plugin::bind_to_object($this->_person, $handler_id, $data);
 
         $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('edit %s', 'midcom.admin.user'), $this->_person->name);
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -379,7 +376,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         // Prepare the toolbar and breadcrumb
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
         $this->_prepare_toolbar($data, $handler_id);
 
         // Populate breadcrumb

@@ -36,7 +36,6 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
         $this->_request_data['object'] =& $this->_object;
         $this->_request_data['l10n'] =& $this->_l10n;
         $this->_request_data['view_title'] = $this->_l10n->get('object deleted');
-        $this->_request_data['asgard_toolbar'] = new midcom_helper_toolbar();
     }
 
     /**

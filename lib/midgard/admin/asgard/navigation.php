@@ -46,8 +46,6 @@ class midgard_admin_asgard_navigation extends midcom_baseclasses_components_pure
         $this->_object_path = $this->get_object_path();
         $this->_request_data =& $request_data;
 
-        midgard_admin_asgard_plugin::get_default_mode($request_data);
-
         $this->root_types = midcom_helper_reflector_tree::get_root_classes();
 
         if (array_key_exists('current_type', $this->_request_data))

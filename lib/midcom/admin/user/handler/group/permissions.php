@@ -62,8 +62,6 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
             return false;
         }
 
-        $data['asgard_toolbar'] = new midcom_helper_toolbar();
-
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
 
         $qb = new midgard_query_builder('midcom_core_privilege_db');

@@ -672,7 +672,7 @@ class midcom_helper_toolbar
      * @param Array $item The item to label
      * @return string Item's label to display
      */
-    function _generate_item_label($item)
+    private function _generate_item_label($item)
     {
         $label = $item[MIDCOM_TOOLBAR_LABEL];
         $label = htmlentities($label,ENT_COMPAT,"UTF-8");
@@ -719,7 +719,7 @@ class midcom_helper_toolbar
      * @param Array $item The item to render
      * @return string The rendered item
      */
-    function _render_link_item($item)
+    private function _render_link_item($item)
     {
         $output = '';
 
@@ -795,7 +795,7 @@ class midcom_helper_toolbar
      * @param Array $item The item to render
      * @return string The rendered item
      */
-    function _render_post_item($item)
+    private function _render_post_item($item)
     {
         $output = '';
 

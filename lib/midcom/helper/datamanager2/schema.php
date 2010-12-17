@@ -580,6 +580,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             $config['validation'] = Array($config['validation']);
         }
+
         foreach ($config['validation'] as $key => $rule)
         {
             if (! is_array($rule))
@@ -590,6 +591,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     'message' => "validation failed: {$rule}",
                     'format' => ''
                 );
+                continue;
             }
 
             if (! array_key_exists('type', $rule))

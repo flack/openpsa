@@ -169,10 +169,10 @@ implements midcom_helper_datamanager2_interfaces_edit
     /**
      * Static helper
      */
-    function resolve_object_title($object)
+    public static function resolve_object_title($object)
     {
-        $this->_request_data['object_reflector'] = midcom_helper_reflector::get($object);
-        return $this->_request_data['object_reflector']->get_object_label($object);
+        $object_reflector = midcom_helper_reflector::get($object);
+        return $object_reflector->get_object_label($object);
     }
 
     /**

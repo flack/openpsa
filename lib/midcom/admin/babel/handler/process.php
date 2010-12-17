@@ -39,11 +39,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.babel'), $this->_request_data);
     }
 
-    private function _prepare_toolbar(&$data)
-    {
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
-    }
-
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
@@ -94,7 +89,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     public function _handler_select($handler_id, $args, &$data)
     {
         $this->_update_breadcrumb_line($handler_id);
-        $this->_prepare_toolbar($data);
         $_MIDCOM->set_pagetitle($data['view_title']);
         return true;
     }
@@ -285,7 +279,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         }
 
         $this->_update_breadcrumb_line($handler_id);
-        $this->_prepare_toolbar($data);
         $_MIDCOM->set_pagetitle($data['view_title']);
         return true;
     }
@@ -374,7 +367,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
                 }
 
                 $this->_update_breadcrumb_line($handler_id);
-                $this->_prepare_toolbar($data);
                 $_MIDCOM->set_pagetitle($data['view_title']);
                 return true;
             }

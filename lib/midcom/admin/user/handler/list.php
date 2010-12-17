@@ -55,8 +55,6 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_people-new.png',
             )
         );
-
-        midgard_admin_asgard_plugin::get_common_toolbar($data);
     }
 
     /**

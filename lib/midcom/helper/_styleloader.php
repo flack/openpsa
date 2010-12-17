@@ -554,7 +554,7 @@ class midcom_helper__styleloader
      * Looks for a midcom core style element matching $path and displays/evaluates it.
      * This offers a bit reduced functionality and will only look in the DB root style,
      * the theme directory and midcom's style directory, because it has to work even when
-     * midcom is not yet fully initialized 
+     * midcom is not yet fully initialized
      *
      * @param string $path    The style element to show.
      * @return boolean            True on success, false otherwise.
