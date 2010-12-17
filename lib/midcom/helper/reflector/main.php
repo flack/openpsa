@@ -474,13 +474,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             case (strpos($object_class, 'organization') !== false):
                 $icon='stock_people.png';
                 break;
-            // FIXME: Remove hardcoded class logic
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_host')):
-                $icon='stock_internet.png';
-                break;
-            case ($_MIDCOM->dbfactory->is_a($obj, 'midcom_db_snippet')):
-                $icon='script.png';
-                break;
             case (strpos($object_class, 'element') !== false):
                 $icon = 'text-x-generic-template.png';
                 break;
@@ -509,27 +502,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $icon_url;
         }
         return "<img src=\"{$icon_url}\" align=\"absmiddle\" border=\"0\" alt=\"{$object_class}\" /> ";
-    }
-
-    /**
-     * Get headers to be used with chooser
-     *
-     * @return array
-     * @todo this should not be here but part of the chooser widget
-     */
-    public function get_result_headers()
-    {
-        $headers = array();
-        $properties = $this->get_search_properties();
-        foreach ($properties as $property)
-        {
-            $headers[] = array
-            (
-                'name' => $property,
-                'title' => ucfirst($this->_l10n->get($property)),
-            );
-        }
-        return $headers;
     }
 
     /**
@@ -887,38 +859,26 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     static public function resolve_baseclass($classname)
     {
         static $cached = array();
-        if (   is_string($classname)
-            && empty($classname))
-        {
-            return null;
-        }
-
-        if (is_null($classname))
-        {
-            return null;
-        }
-
-        // Quicker cache hit check for string arguments
-        if (   is_string($classname)
-            && isset($cached[$classname]))
-        {
-            return $cached[$classname];
-        }
 
         if (is_object($classname))
         {
             $class_instance = $classname;
             $classname = get_class($classname);
         }
-        else
+
+        if (empty($classname))
         {
-            $class_instance = new $classname();
+            return null;
         }
 
-        // Check for cache hit
         if (isset($cached[$classname]))
         {
             return $cached[$classname];
+        }
+
+        if (!isset($class_instance))
+        {
+            $class_instance = new $classname();
         }
 
         // Check for decorators first
@@ -960,41 +920,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
 
         return false;
-    }
-
-    /**
-     * Copy an object. Both source and parent may be liberally filled. Source can be either
-     * MgdSchema or MidCOM db object or GUID of the object and parent can be
-     *
-     * - MgdSchema object
-     * - MidCOM db object
-     * - predefined target array (@see get_target_properties())
-     * - ID or GUID of the object
-     * - left empty to copy as a parentless object
-     *
-     * @param mixed $source        GUID or MgdSchema object that will be copied
-     * @param mixed $parent        MgdSchema or MidCOM db object or ID of the parent object
-     * @param boolean $parameters  Switch to determine if the parameters should be copied
-     * @param boolean $metadata    Switch to determine if the metadata should be copied (excluding created and published)
-     * @param boolean $attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
-     * @return mixed               False on failure, newly created MgdSchema object on success
-     */
-    static public function copy_object($source, $parent, $parameters = true, $metadata = true, $attachments = true)
-    {
-        $copy = new midcom_helper_reflector_copy();
-        $copy->source =& $source;
-        $copy->target =& $parent;
-        $copy->parameters = $parameters;
-        $copy->metadata = $metadata;
-        $copy->attachments = $attachments;
-        $copy->copy_tree = false;
-
-        if (!$copy->copy())
-        {
-            return false;
-        }
-
-        return $copy->get_object();
     }
 
     /**

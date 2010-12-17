@@ -578,7 +578,7 @@ class midgard_admin_asgard_schemadb
                             'titlefield' => $linked_type_reflector->get_label_property(),
                             'id_field' => $this->_reflector->get_link_target($key),
                             'searchfields' => $linked_type_reflector->get_search_properties(),
-                            'result_headers' => $linked_type_reflector->get_result_headers(),
+                            'result_headers' => $this->_get_result_headers($linked_type_reflector),
                             'orders' => array(),
                             'creation_mode_enabled' => true,
                             'creation_handler' => midcom_connection::get_url('self') . "__mfa/asgard/object/create/chooser/{$linked_type}/",
@@ -589,6 +589,27 @@ class midgard_admin_asgard_schemadb
                     );
                 break;
         }
+    }
+
+    /**
+     * Get headers to be used with chooser
+     *
+     * @return array
+     */
+    private function _get_result_headers($linked_type_reflector)
+    {
+        $headers = array();
+        $properties = $linked_type_reflector->get_search_properties();
+        $l10n = $linked_type_reflector->get_component_l10n();
+        foreach ($properties as $property)
+        {
+            $headers[] = array
+            (
+                'name' => $property,
+                'title' => ucfirst($l10n->get($property)),
+            );
+        }
+        return $headers;
     }
 
     private function _add_copy_fields()

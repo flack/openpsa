@@ -55,5 +55,10 @@ class midcom_db_host extends midcom_core_dbaobject
         }
         return "{$this->name}:{$this->port}{$this->prefix}";
     }
+
+    function get_icon()
+    {
+    	return 'stock_internet.png';
+    }
 }
 ?>

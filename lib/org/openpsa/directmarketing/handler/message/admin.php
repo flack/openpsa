@@ -324,6 +324,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         {
             case 'save':
                 $_MIDCOM->componentloader->load('midcom.helper.reflector');
+                $copy = new midcom_helper_reflector_copy();
                 $campaigns = $this->_controller->datamanager->types['campaign']->convert_to_storage();
                 $copy_objects = array();
 
@@ -337,7 +338,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
                         continue;
                     }
 
-                    $new_object = midcom_helper_reflector::copy_object($this->_message->guid, $campaign);
+                    $new_object = $copy->copy_object($this->_message->guid, $campaign);
                     $guid = $new_object->guid;
 
                     // Store for later use

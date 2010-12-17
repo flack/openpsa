@@ -278,7 +278,24 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     }
 
     /**
-     * Copy object tree
+     * Copy an object tree. Both source and parent may be liberally filled. Source can be either
+     * MgdSchema or MidCOM db object or GUID of the object and parent can be
+     *
+     * - MgdSchema object
+     * - MidCOM db object
+     * - predefined target array (@see get_target_properties())
+     * - ID or GUID of the object
+     * - left empty to copy as a parentless object
+     *
+     * This method is self-aware and will refuse to perform any infinite loops (e.g. to copy
+     * itself to its descendant, copying itself again and again and again).
+     *
+     * Eventually this method will return the first root object that was created, i.e. the root
+     * of the new tree.
+     *
+     * @param mixed $source        GUID or MgdSchema object that will be copied
+     * @param mixed $parent        MgdSchema or MidCOM db object, predefined array or ID of the parent object
+     * @return mixed               False on failure, newly created MgdSchema root object on success
      */
     public function copy_tree(&$source, &$parent)
     {
@@ -328,7 +345,6 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Copy an object
      *
      * @param mixed &$source     MgdSchema object for reading the parameters
-     * @param mixed $target      MgdSchema object for storing the parameters
      * @param mixed $parent      MgdSchema parent object
      * @param array $defaults
      * @return boolean Indicating success
@@ -336,7 +352,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public function copy_object(&$source, $parent = null, $defaults = array())
     {
         // Resolve the source object
-        self::resolve_object(&$source);
+        self::resolve_object($source);
 
         // Duplicate the object
         $class_name = get_class($source);
@@ -634,12 +650,54 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         return true;
     }
 
+
     /**
-     * Copy an object
+     * Copy an object tree. Both source and parent may be liberally filled. Source can be either
+     * MgdSchema or MidCOM db object or GUID of the object and parent can be
+     *
+     * - MgdSchema object
+     * - MidCOM db object
+     * - predefined target array (@see get_target_properties())
+     * - ID or GUID of the object
+     * - left empty to copy as a parentless object
+     *
+     * This method is self-aware and will refuse to perform any infinite loops (e.g. to copy
+     * itself to its descendant, copying itself again and again and again).
+     *
+     * Eventually this method will return the first root object that was created, i.e. the root
+     * of the new tree.
+     *
+     * @param mixed $source        GUID or MgdSchema object that will be copied
+     * @param mixed $parent        MgdSchema or MidCOM db object, predefined array or ID of the parent object
+     * @param array $exclude       IDs that will be excluded from the copying
+     * @param boolean $parameters  Switch to determine if the parameters should be copied
+     * @param boolean $metadata    Switch to determine if the metadata should be copied (excluding created and published)
+     * @param boolean $attachments Switch to determine if the attachments should be copied (creates only a new link, doesn't duplicate the content)
+     * @return mixed               False on failure, newly created MgdSchema root object on success
+     */
+    static public function copy_object_tree($source, $parent, $exclude = array(), $parameters = true, $metadata = true, $attachments = true)
+    {
+        $copy = new midcom_helper_reflector_copy();
+        $copy->source =& $source;
+        $copy->target =& $parent;
+        $copy->parameters = $parameters;
+        $copy->metadata = $metadata;
+        $copy->attachments = $attachments;
+
+        if (!$copy->execute())
+        {
+            return false;
+        }
+
+        return $copy->get_object();
+    }
+
+    /**
+     * Dispatches the copy command according to the attributes set
      *
      * @return boolean Indicating success
      */
-    public function copy()
+    public function execute()
     {
         if (!$this->resolve_object(&$this->source))
         {
