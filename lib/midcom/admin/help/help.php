@@ -284,7 +284,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         }
         return $files;
     }
-    
+
     private function _list_physical_files($component)
     {
         $path = midcom_admin_help_help::get_documentation_dir($component);
@@ -336,7 +336,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $directory->close();
         return $files;
     }
-    
+
 
     function read_component_handlers($component)
     {
@@ -364,22 +364,13 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             // Build the dynamic_loadable URI, starting from topic path
             $data[$request_handler_id]['route'] = str_replace(midcom_connection::get_url('prefix'), '', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX));
             // Add fixed arguments
-            $data[$request_handler_id]['route'] .= implode('/', $request_data['fixed_args']);
+            $data[$request_handler_id]['route'] .= implode('/', $request_data['fixed_args']) . '/';
             // Add variable_arguments
             $i = 0;
             while ($i < $request_data['variable_args'])
             {
-                if (substr($data[$request_handler_id]['route'], strlen($data[$request_handler_id]['route']) - 1) != '/')
-                {
-                    $data[$request_handler_id]['route'] .= '/';
-                }
-                $data[$request_handler_id]['route'] .= '{$args[' . $i . ']}';
+                $data[$request_handler_id]['route'] .= '{$args[' . $i . ']}/';
                 $i++;
-            }
-
-            if (substr($data[$request_handler_id]['route'], strlen($data[$request_handler_id]['route']) - 1) != '/')
-            {
-                $data[$request_handler_id]['route'] .= '/';
             }
 
             if (is_array($request_data['handler']))
@@ -394,9 +385,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 $data[$request_handler_id]['action'] = $request_data['handler'][1];
             }
 
-            if (midcom_admin_help_help::help_exists('handlers_' . $request_handler_id,$component))
+            if (self::help_exists('handlers_' . $request_handler_id,$component))
             {
-                $data[$request_handler_id]['info'] = midcom_admin_help_help::get_help_contents('handlers_' . $request_handler_id,$component);
+                $data[$request_handler_id]['info'] = self::get_help_contents('handlers_' . $request_handler_id,$component);
                 $data[$request_handler_id]['handler_help_url'] = 'handlers_' . $request_handler_id;
             }
         }

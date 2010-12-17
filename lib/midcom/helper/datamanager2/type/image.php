@@ -943,8 +943,8 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             case 'image/png':
             case 'image/gif':
             case 'image/jpeg':
-                $this->_target_mimetype = $this->_original_mimetype;
-                $conversion = null;
+                debug_add('No conversion necessary we already have a web mime type');
+                return true;
                 break;
 
             case 'application/postscript':
@@ -960,19 +960,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
         }
         debug_add("\$conversion={$conversion}");
 
-        if (empty($conversion))
-        {
-            return true;
-        }
-
         if (!$this->imagemagick_available())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
             // This will exit
         }
-        if (   $conversion
-            // Prevent double .jpg.jpg in case of trouble file the get_mimetype()
-            && !preg_match("/\.{$conversion}$/", $this->_filename))
+
+        // Prevent double .jpg.jpg in case of trouble file the get_mimetype()
+        if (!preg_match("/\.{$conversion}$/", $this->_filename))
         {
             $this->_filename .= ".{$conversion}";
             // Make sure there is only one extension on the file ??

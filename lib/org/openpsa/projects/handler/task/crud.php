@@ -25,8 +25,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     public function _load_object($handler_id, $args, &$data)
     {
         $this->_object = call_user_func(array($this->_dba_class, 'get_cached'), $args[0]);
-        if (   !$this->_object
-            || !$this->_object->guid)
+        if (!$this->_object->guid)
         {
             org_openpsa_core_ui::object_inaccessible($args[0]);
         }

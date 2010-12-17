@@ -134,10 +134,6 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
         if (! $this->_on_update_object())
         {
             debug_add('Failed to update the content object, last Midgard Error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            if (isset($php_errormsg))
-            {
-                debug_add("Last PHP error was: {$php_errormsg}", MIDCOM_LOG_INFO);
-            }
             return false;
         }
 

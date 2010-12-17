@@ -142,9 +142,6 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
                 switch ($task->acceptanceType)
                 {
                     case ORG_OPENPSA_TASKACCEPTANCE_ALLACCEPT:
-                        debug_add('Acceptance mode not implemented', MIDCOM_LOG_ERROR);
-                        return false;
-                        break;
                     case ORG_OPENPSA_TASKACCEPTANCE_ONEACCEPTDROP:
                         debug_add('Acceptance mode not implemented', MIDCOM_LOG_ERROR);
                         return false;

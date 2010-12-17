@@ -245,6 +245,12 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         // Create the default renderer specified in the configuration.
         $this->_create_default_renderer();
 
+        $this->_create_form();
+        return true;
+    }
+
+    private function _create_form()
+    {
         // iterate over all widgets so that they can add their piece to the form
         foreach ($this->_schema->field_order as $name)
         {
@@ -315,8 +321,6 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
             $this->_l10n->get('denotes required field') .
             '</span>'
         );
-
-        return true;
     }
 
     private function _load_field_default($name, $config)

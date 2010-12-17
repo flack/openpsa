@@ -60,11 +60,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         if (!$this->_object)
         {
-            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
-            {
-                $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, $_MIDCOM->i18n->get_string('access denied', 'midcom'));
-            }
-            return false;
+            org_openpsa_core_ui::object_inaccessible($args[0]);
         }
 
         $this->_mode = $args[1];

@@ -536,11 +536,28 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function set_image($filename, $tmpname, $title, $autodelete = true)
     {
+        if (empty($filename))
+        {
+            debug_add("filename must not be empty", MIDCOM_LOG_ERROR);
+            return false;
+        }
+
+        // Ensure that the filename is URL safe and contains only one extension
+        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
+
         return $this->_set_image($filename, $tmpname, $title, $autodelete);
     }
 
     function set_video($filename, $tmpname, $title, $autodelete = true)
     {
+        if (empty($filename))
+        {
+            debug_add("filename must not be empty", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        // Ensure that the filename is URL safe and contains only one extension
+        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
+
         return $this->_set_video($filename, $tmpname, $title, $autodelete);
     }
 
@@ -552,29 +569,10 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      * @param string $title The title of the image.
      * @param boolean $autodelete If this is true (the default), the temporary file will
      *     be deleted after postprocessing and attachment-creation.
-     * @param array $force_pending_attachments use this to override pending_attachments (when run from images type)
      * @return boolean Indicating success.
      */
-    function _set_image($filename, $tmpname, $title, $autodelete = true, $force_pending_attachments = false)
+    private function _set_image($filename, $tmpname, $title, $autodelete = true)
     {
-        if (empty($filename))
-        {
-            debug_add("filename must not be empty", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
-
-        if ($force_pending_attachments === false)
-        {
-            array_push($this->_pending_attachments, $this->attachments);
-        }
-        else
-        {
-            $this->_pending_attachments = $force_pending_attachments;
-        }
-
         // Prepare Internal Members
         $this->title = $title;
         $this->_filename = $filename;
@@ -621,26 +619,8 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
         return true;
     }
 
-    function _set_video($filename, $tmpname, $title, $autodelete = true, $force_pending_attachments = false)
+    private function _set_video($filename, $tmpname, $title, $autodelete = true)
     {
-        if (empty($filename))
-        {
-            debug_add("filename must not be empty", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        // Ensure that the filename is URL safe and contains only one extension
-        $filename = midcom_helper_datamanager2_type_blobs::safe_filename($filename, true);
-
-        if ($force_pending_attachments === false)
-        {
-            array_push($this->_pending_attachments_video, $this->attachments);
-        }
-        else
-        {
-            $this->_pending_attachments_video = $force_pending_attachments;
-        }
-
         // Prepare Internal Members
         $this->title_video = $title;
         $this->_filename_video = $filename;

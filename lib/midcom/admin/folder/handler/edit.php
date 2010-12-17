@@ -216,27 +216,13 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 // This will exit
         }
 
-        if ($this->_handler_id == 'create')
-        {
-            $data['title'] = $this->_l10n->get('create folder');
-        }
-        else if ($this->_handler_id == 'createlink')
-        {
-            $data['title'] = $this->_l10n->get('create folder link');
-        }
-        else
-        {
-            $data['title'] = sprintf($this->_l10n->get('edit folder %s'), $data['topic']->extra);
-        }
+        $this->_prepare_request_data();
 
         // Hide the button in toolbar
         $this->_node_toolbar->hide_item('__ais/folder/' . $this->_handler_id . '/');
 
         // Add the view to breadcrumb trail
         $this->add_breadcrumb('__ais/folder/edit/', $data['title']);
-
-        $data['topic'] =& $this->_topic;
-        $data['controller'] =& $this->_controller;
 
         // Set page title
         $_MIDCOM->set_pagetitle($data['title']);
@@ -251,6 +237,25 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
 
         return true;
+    }
+
+    private function _prepare_request_data()
+    {
+        if ($this->_handler_id == 'create')
+        {
+            $this->_request_data['title'] = $this->_l10n->get('create folder');
+        }
+        else if ($this->_handler_id == 'createlink')
+        {
+            $this->_request_data['title'] = $this->_l10n->get('create folder link');
+        }
+        else
+        {
+            $this->_request_data['title'] = sprintf($this->_l10n->get('edit folder %s'), $data['topic']->extra);
+        }
+
+        $this->_request_data['topic'] =& $this->_topic;
+        $this->_request_data['controller'] =& $this->_controller;
     }
 
     private function _update_topic($prefix, $old_name)
