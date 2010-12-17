@@ -16,7 +16,7 @@
  *
  * @package midcom
  */
-abstract class midcom_helper_itemlist
+abstract class midcom_helper_nav_itemlist
 {
    /**
     * A reference to the NAP instance we belong to.
@@ -24,19 +24,19 @@ abstract class midcom_helper_itemlist
     * @access protected
     * @var midcom_helper_nav
     */
-    var $_basicnav= null;
+    protected $_nap = null;
 
     var $parent_node_id = null;
 
     /** Initialize the object, used by the factory function.
      *
-     * @param midcom_helper_nav $basicnav A reference to a NAP object to use.
+     * @param midcom_helper_nav $nap A reference to a NAP object to use.
      * @param integer $parent_topic_id A ID of the topic in which we operate.
      * @access private
      */
-    function _init(&$basicnav, &$parent_topic_id)
+    function _init(&$nap, &$parent_topic_id)
     {
-        $this->_basicnav =& $basicnav;
+        $this->_nap =& $nap;
         $this->parent_node_id = $parent_topic_id;
     }
 
@@ -66,7 +66,7 @@ abstract class midcom_helper_itemlist
     /**
      * factory generate the object you want to use for getting a list of items for a certain topic.
      * Use this function to create sorted lists. Example:
-     *     $nav_object = midcom_helper_itemlist::factory( $navorder, &$this, $parent_topic);
+     *     $nav_object = midcom_helper_nav_itemlist::factory( $navorder, &$this, $parent_topic);
      *     $result = $nav_object->get_sorted_list();
      *     print_r($result);
      *     // shows:
@@ -80,17 +80,17 @@ abstract class midcom_helper_itemlist
      *
      *
      * @param string sorting sorttype (eks topicsfirst)
-     * @param object _basicnav pointer pointer to the basicnav object.
+     * @param object pointer to the NAP object.
      * @param integer parent_topic_id pointer to the topic to base the list on.
-     * @return midcom_helper_itemlist sortobject
+     * @return midcom_helper_nav_itemlist sortobject
      */
     /** @ignore */
-    static public function factory ($sorting, midcom_helper_nav &$_basicnav, &$parent_topic)
+    static public function factory ($sorting, midcom_helper_nav &$nap, &$parent_topic)
     {
         $class = basename($sorting);
-        $class = "midcom_helper_itemlist_{$class}";
+        $class = "midcom_helper_nav_itemlist_{$class}";
         $sortclass = new $class();
-        $sortclass->_init($_basicnav, $parent_topic);
+        $sortclass->_init($nap, $parent_topic);
         return $sortclass;
     }
 }

@@ -11,19 +11,19 @@
  * for the various backend databases which will be created based on the root topic of the
  * NAP trees.
  *
- * The actual handling of the various db's is done with _basicnav.php and metadata.php, this
+ * The actual handling of the various db's is done with nav/backend.php and metadata.php, this
  * class is responsible for the creation of backend instances and invalidation for both NAP
  * and Metadata cache objects. (Which implies that it is fully aware of the data structures
  * stored in the cache.)
  *
  * All entries are indexed by their Midgard Object GUID. The entries in the NAP cache
- * basically resemble the arrays within the basicnav node/leaf cache, while the metadata
+ * basically resemble the arrays within the NAP backend node/leaf cache, while the metadata
  * cache is a copy of the actual metadata property cache of the midcom_helper_metadata object.
  *
  * NAP/Metadata caches can be shared over multiple sites, as all site specific data (like
  * site prefixes) are evaluated during runtime.
  *
- * Most of the cache update work is done in midcom_helper__basicnav,
+ * Most of the cache update work is done in midcom_helper_nav_backend,
  * so you should look there for details about the caching strategy.
  *
  * <b>Implementation notes:</b>
@@ -33,7 +33,7 @@
  * all basic operations (using the $object->$domain_$name feature of Midgard in combination
  * with variable variables).
  *
- * @see midcom_helper__basicnav
+ * @see midcom_helper_nav_backend
  * @see midcom_helper_metadata
  *
  * @package midcom.services

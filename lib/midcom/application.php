@@ -1272,43 +1272,6 @@ class midcom_application
     }
 
     /**
-     * If the system is in the output phase (see above), the systemwide low-level
-     * NAP interface can be accessed through this function. A reference is returned.
-     *
-     * This function maintains one NAP Class per context. Usually this is enough,
-     * since you mostly will access it in context 0, the default. The problem is, that
-     * this is not 100% efficient: If you instantiate two different NAP Classes in
-     * different contexts both referring to the same root node, you will get two
-     * different instances.
-     *
-     * If the system has not completed the can_handle phase, this method fails and
-     * returns false.
-     *
-     * <b>Note:</b> Direct use of this function is discouraged, use the class
-     * midcom_helper_nav instead.
-     *
-     * @param int $contextid    The ID of the context for which a NAP class is requested.
-     * @return midcom_helper__basicnav&    A reference to the basicnav instance in the application cache.
-     * @see midcom_helper_nav
-     */
-    function & get_basic_nav($contextid)
-    {
-        if (is_null($this->_context[$contextid][MIDCOM_CONTEXT_NAP]))
-        {
-            $this->_context[$contextid][MIDCOM_CONTEXT_NAP] = new midcom_helper__basicnav($contextid);
-        }
-
-        if ($this->_context[$contextid][MIDCOM_CONTEXT_NAP] === false)
-        {
-            $this->generate_error(MIDCOM_ERRCRIT,
-                                  "Failed to create a NAP instance; see the debug log for details");
-            /* This will exit */
-        }
-
-        return $this->_context[$contextid][MIDCOM_CONTEXT_NAP];
-    }
-
-    /**
      * Access the MidCOM component context
      *
      * Returns Component Context Information associated to the component with the
@@ -1676,7 +1639,6 @@ class midcom_application
         $this->_context[$id][MIDCOM_CONTEXT_CONTENTTOPIC] = null;
         $this->_context[$id][MIDCOM_CONTEXT_COMPONENT] = null;
         $this->_context[$id][MIDCOM_CONTEXT_OUTPUT] = null;
-        $this->_context[$id][MIDCOM_CONTEXT_NAP] = null;
         $this->_context[$id][MIDCOM_CONTEXT_PAGETITLE] = "";
         $this->_context[$id][MIDCOM_CONTEXT_LASTMODIFIED] = null;
         $this->_context[$id][MIDCOM_CONTEXT_PERMALINKGUID] = null;

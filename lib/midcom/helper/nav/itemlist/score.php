@@ -11,7 +11,7 @@
  *
  * @package midcom
  */
-class midcom_helper_itemlist_score extends midcom_helper_itemlist
+class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
 {
     /**
      * get_sorted_list  - get a list objects ready for showing.
@@ -20,12 +20,12 @@ class midcom_helper_itemlist_score extends midcom_helper_itemlist
      */
     public function get_sorted_list()
     {
-        $nodes_list = $this->_basicnav->list_nodes($this->parent_node_id);
+        $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
         if ($nodes_list === false)
         {
             return false;
         }
-        $leaves_list = $this->_basicnav->list_leaves($this->parent_node_id);
+        $leaves_list = $this->_nap->list_leaves($this->parent_node_id);
         if ($leaves_list === false)
         {
             return false;
@@ -44,17 +44,17 @@ class midcom_helper_itemlist_score extends midcom_helper_itemlist
         {
             foreach ($nodes_list as $node_id)
             {
-                $result[] = $this->_basicnav->get_node($node_id);
+                $result[] = $this->_nap->get_node($node_id);
             }
         }
         if ($leaves_list)
         {
             foreach ($leaves_list as $leaf_id)
             {
-                $result[] = $this->_basicnav->get_leaf($leaf_id);
+                $result[] = $this->_nap->get_leaf($leaf_id);
             }
         }
-        if (!uasort($result, array ('midcom_helper_itemlist_score', 'sort_cmp')))
+        if (!uasort($result, array ('midcom_helper_nav_itemlist_score', 'sort_cmp')))
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to sort the navigation');
         }

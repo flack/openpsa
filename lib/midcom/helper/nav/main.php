@@ -9,28 +9,35 @@
 /**
  * Main Navigation interface class.
  *
- * Basically, this class proxies all requests to a midcom_helper__basicnav
+ * Basically, this class proxies all requests to a midcom_helper_nav_backend
  * class. See the interface definition of it for further details.
  *
  * Additionally this class implements a couple of helper functions to make
  * common NAP tasks easier.
  *
  * <b>Important note:</b> Whenever you add new code to this class, or extend it through
- * inheritance, never call the proxy-functions of basicnav directly, this is strictly
+ * inheritance, never call the proxy-functions of the backend directly, this is strictly
  * forbidden.
  *
- * @todo End-User documentation of node and leaf data, as the one in basicnav is incomplete too.
+ * @todo End-User documentation of node and leaf data, as the one in the backend is incomplete too.
  * @package midcom
- * @see midcom_helper__basicnav
+ * @see midcom_helper_nav_backend
  */
 class midcom_helper_nav
 {
     /**
-     * A reference to the basicnav instance in use.
+     * A reference to the backend instance in use.
      *
-     * @var midcom_helper__basicnav
+     * @var midcom_helper_nav_backend
      */
-    private $_basicnav;
+    private $_backend;
+
+    /**
+     * The cache of instantiated NAP backends
+     *
+     * @var array
+     */
+    private static $_backends = array();
 
     /**
      * The context ID we're associated with.
@@ -52,23 +59,50 @@ class midcom_helper_nav
         {
             $contextid = $_MIDCOM->get_current_context();
         }
-        $this->_basicnav = $_MIDCOM->get_basic_nav($contextid);
         $this->_contextid = $contextid;
+        $this->_backend = $this->_get_basic_nav();
     }
 
 
-    /* The following methods are just interfaces to midcom_helper__basicnav */
+    /**
+     * This function maintains one NAP Class per context. Usually this is enough,
+     * since you mostly will access it in context 0, the default. The problem is, that
+     * this is not 100% efficient: If you instantiate two different NAP Classes in
+     * different contexts both referring to the same root node, you will get two
+     * different instances.
+     *
+     * @return midcom_helper_nav_backend&    A reference to the backend instance in the cache.
+     * @see midcom_helper_nav
+     */
+    private function & get_basic_nav()
+    {
+        if (is_null(self::$_backends[$this->_contextid]))
+        {
+            self::$_backends[$this->_contextid] = new midcom_helper_nav_backend($this->_contextid);
+        }
+
+        if (self::$_backends[$this->_contextid] === false)
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                                  "Failed to create a NAP instance; see the debug log for details");
+            /* This will exit */
+        }
+
+        return self::$_backends[$this->_contextid];
+    }
+
+    /* The following methods are just interfaces to midcom_helper_nav_backend */
 
     /**
      * Retrieve the ID of the currently displayed node. Defined by the topic of
      * the component that declared able to handle the request.
      *
      * @return int    The ID of the node in question.
-     * @see midcom_helper__basicnav::get_current_node()
+     * @see midcom_helper_nav_backend::get_current_node()
      */
     function get_current_node ()
     {
-        return $this->_basicnav->get_current_node();
+        return $this->_backend->get_current_node();
     }
 
     /**
@@ -78,11 +112,11 @@ class midcom_helper_nav
      * nav::get_current_leaf() !== false to distinguish '0' and 'false'.)
      *
      * @return int    The ID of the leaf in question or false on failure.
-     * @see midcom_helper__basicnav::get_current_leaf()
+     * @see midcom_helper_nav_backend::get_current_leaf()
      */
     function get_current_leaf ()
     {
-        return $this->_basicnav->get_current_leaf();
+        return $this->_backend->get_current_leaf();
     }
 
     /**
@@ -92,11 +126,11 @@ class midcom_helper_nav
      * always be empty.
      *
      * @return int    The ID of the root node.
-     * @see midcom_helper__basicnav::get_root_node()
+     * @see midcom_helper_nav_backend::get_root_node()
      */
     function get_root_node ()
     {
-        return $this->_basicnav->get_root_node();
+        return $this->_backend->get_root_node();
     }
 
     /**
@@ -108,11 +142,11 @@ class midcom_helper_nav
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
      * @return Array            An Array of Node IDs or false on failure.
-     * @see midcom_helper__basicnav::list_nodes()
+     * @see midcom_helper_nav_backend::list_nodes()
      */
     function list_nodes($parent_node, $show_noentry = false)
     {
-        return $this->_basicnav->list_nodes($parent_node, $show_noentry);
+        return $this->_backend->list_nodes($parent_node, $show_noentry);
     }
 
     /**
@@ -124,11 +158,11 @@ class midcom_helper_nav
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
      *     This defaults to false.
      * @return Array             A list of leaves found, or false on failure.
-     * @see midcom_helper__basicnav::list_leaves()
+     * @see midcom_helper_nav_backend::list_leaves()
      */
     function list_leaves($parent_node, $show_noentry = false)
     {
-        return $this->_basicnav->list_leaves($parent_node, $show_noentry);
+        return $this->_backend->list_leaves($parent_node, $show_noentry);
     }
 
     /**
@@ -138,11 +172,11 @@ class midcom_helper_nav
      *
      * @param int $node_id    The node-id to be retrieved.
      * @return Array        The node-data as outlined in the class introduction, false on failure
-     * @see midcom_helper__basicnav::get_node()
+     * @see midcom_helper_nav_backend::get_node()
      */
     function get_node($node_id)
     {
-        return $this->_basicnav->get_node($node_id);
+        return $this->_backend->get_node($node_id);
     }
 
     /**
@@ -152,11 +186,11 @@ class midcom_helper_nav
      *
      * @param string $leaf_id    The leaf-id to be retrieved.
      * @return Array        The leaf-data as outlined in the class introduction, false on failure
-     * @see midcom_helper__basicnav::get_leaf()
+     * @see midcom_helper_nav_backend::get_leaf()
      */
     function get_leaf($leaf_id)
     {
-        return $this->_basicnav->get_leaf($leaf_id);
+        return $this->_backend->get_leaf($leaf_id);
     }
 
     /**
@@ -165,11 +199,11 @@ class midcom_helper_nav
      *
      * @param string $leaf_id    The Leaf-ID to search an uplink for.
      * @return int             The ID of the Node for which we have a match, or false on failure.
-     * @see midcom_helper__basicnav::get_leaf_uplink()
+     * @see midcom_helper_nav_backend::get_leaf_uplink()
      */
     function get_leaf_uplink ($leaf_id)
     {
-        return $this->_basicnav->get_leaf_uplink($leaf_id);
+        return $this->_backend->get_leaf_uplink($leaf_id);
     }
 
     /**
@@ -178,11 +212,11 @@ class midcom_helper_nav
      *
      * @param int $node_id    The Leaf-ID to search an uplink for.
      * @return int             The ID of the Node for which we have a match, -1 for the root node, or false on failure.
-     * @see midcom_helper__basicnav::get_node_uplink()
+     * @see midcom_helper_nav_backend::get_node_uplink()
      */
     function get_node_uplink ($node_id)
     {
-        return $this->_basicnav->get_node_uplink($node_id);
+        return $this->_backend->get_node_uplink($node_id);
     }
 
     /**
@@ -236,7 +270,7 @@ class midcom_helper_nav
         {
             $guid = $parent_node[MIDCOM_NAV_OBJECT]->guid;
         }
-        $navorder = (int) $this->_basicnav->get_parameter($guid, 'navorder');
+        $navorder = (int) $this->_backend->get_parameter($guid, 'navorder');
 
         switch ($navorder)
         {
@@ -261,7 +295,7 @@ class midcom_helper_nav
                 break;
         }
 
-        $nav_object = midcom_helper_itemlist::factory($navorder, $this, $parent_node_id);
+        $nav_object = midcom_helper_nav_itemlist::factory($navorder, $this, $parent_node_id);
         $result = $nav_object->get_sorted_list();
 
         return $result;
@@ -287,11 +321,11 @@ class midcom_helper_nav
      */
     function resolve_guid($guid, $node_is_sufficient = false)
     {
-        // First, check if the GUID is already known by basicnav:
-        $cached_result = $this->_basicnav->get_loaded_object_by_guid($guid);
+        // First, check if the GUID is already known by the backend:
+        $cached_result = $this->_backend->get_loaded_object_by_guid($guid);
         if (! is_null($cached_result))
         {
-            debug_add('The GUID was already known by the basicnav instance, returning the cached copy directly.', MIDCOM_LOG_INFO);
+            debug_add('The GUID was already known by the backend instance, returning the cached copy directly.', MIDCOM_LOG_INFO);
             return $cached_result;
         }
 
@@ -617,7 +651,7 @@ class midcom_helper_nav
      *
      * @return array The computed breadcrumb data as outlined above.
      * @todo Maybe cache this? I don't know how complex it really is, but DB accesses are
-     *     already cached by the _basicnav core. So it is not that hard.
+     *     already cached by the _backend core. So it is not that hard.
      */
     function get_breadcrumb_data ($id = null)
     {
@@ -728,7 +762,7 @@ class midcom_helper_nav
      */
     function get_node_path()
     {
-        return $this->_basicnav->get_node_path();
+        return $this->_backend->get_node_path();
     }
 
     /**
@@ -738,7 +772,7 @@ class midcom_helper_nav
      */
     function get_current_upper_node()
     {
-        return $this->_basicnav->get_current_upper_node();
+        return $this->_backend->get_current_upper_node();
     }
 }
 ?>

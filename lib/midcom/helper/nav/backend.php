@@ -59,7 +59,7 @@
  *
  * @package midcom
  */
-class midcom_helper__basicnav
+class midcom_helper_nav_backend
 {
     /**#@+
      * NAP data variable.
