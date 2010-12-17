@@ -8,7 +8,7 @@
                         $view_metadata = $_MIDCOM->metadata->get_view_metadata();
                         if ($view_metadata)
                         {
-                            $editor = new midcom_db_person($view_metadata->get('editor'));
+                            $editor = new midcom_db_person($view_metadata->get('revisor'));
                             $edited = (int) $view_metadata->get('revised');
                             $creator = new midcom_db_person($view_metadata->get('creator'));
                             $created = (int) $view_metadata->get('created');

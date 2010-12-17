@@ -24,8 +24,8 @@
  *
  * See also the schema in /midcom/config/metadata_default.inc
  *
- * - <b>timestamp schedule_start:</b> The time upon which the object should be made visible. 0 for no restriction.
- * - <b>timestamp schedule_end:</b> The time upon which the object should be made invisible. 0 for no restriction.
+ * - <b>timestamp schedulestart:</b> The time upon which the object should be made visible. 0 for no restriction.
+ * - <b>timestamp scheduleend:</b> The time upon which the object should be made invisible. 0 for no restriction.
  * - <b>boolean nav_noentry:</b> Set this to true if you do not want this object to appear in the navigation without it being completely hidden.
  * - <b>boolean hide:</b> Set this to true to hide the object on-site, overriding scheduling.
  * - <b>string keywords:</b> The keywords for this object, should be used for META HTML headers.
@@ -561,26 +561,6 @@ class midcom_helper_metadata
 
                     $value = $root_user_guid;
                 }
-                break;
-
-            // Old, renamed MidCOM metadata properties
-            case 'author':
-                $value = $this->get('authors');
-                break;
-            case 'editor':
-                $value = $this->get('revisor');
-                break;
-            case 'publisher':
-                $value = $this->get('authors');
-                break;
-            case 'hide':
-                $value = $this->get('hidden');
-                break;
-            case 'schedule_start':
-                $value = $this->get('schedulestart');
-                break;
-            case 'schedule_end':
-                $value = $this->get('scheduleend');
                 break;
 
             // Other midgard_metadata properties

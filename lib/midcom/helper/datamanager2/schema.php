@@ -521,6 +521,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             'readonly' => false,
             'hidden' => false,
             'required' => false,
+            'index_method' => 'auto',
+            'index_merge_with_content' => true,
+            'customdata' => array()
+
         );
         foreach ($simple_defaults as $property => $value)
         {
@@ -555,14 +559,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                 }
             }
         }
-        if (! array_key_exists('index_method', $config))
-        {
-            $config['index_method'] = 'auto';
-        }
-        if (! array_key_exists('index_merge_with_content', $config))
-        {
-            $config['index_merge_with_content'] = true;
-        }
 
         if (   ! array_key_exists('type_config', $config)
             || ! is_array($config['type_config']))
@@ -573,10 +569,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             || ! is_array($config['type_config']))
         {
             $config['widget_config'] = Array();
-        }
-        if (! array_key_exists('customdata', $config))
-        {
-            $config['customdata'] = Array();
         }
 
         if (   ! array_key_exists('validation', $config)
@@ -592,12 +584,6 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         {
             if (! is_array($rule))
             {
-                if ($rule['type'] == 'compare')
-                {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
-                    // This will exit.
-                }
                 $config['validation'][$key] = Array
                 (
                     'type' => $rule,
@@ -605,30 +591,28 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
                     'format' => ''
                 );
             }
-            else
+
+            if (! array_key_exists('type', $rule))
             {
-                if (! array_key_exists('type', $rule))
+                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                    "Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
+                // This will exit.
+            }
+            if (! array_key_exists('message', $rule))
+            {
+                $config['validation'][$key]['message'] = "validation failed: {$rule['type']}";
+            }
+            if (! array_key_exists('format', $rule))
+            {
+                $config['validation'][$key]['format'] = '';
+            }
+            if ($rule['type'] == 'compare')
+            {
+                if (! array_key_exists('compare_with', $rule))
                 {
                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
+                        "Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
                     // This will exit.
-                }
-                if (! array_key_exists('message', $rule))
-                {
-                    $config['validation'][$key]['message'] = "validation failed: {$rule['type']}";
-                }
-                if (! array_key_exists('format', $rule))
-                {
-                    $config['validation'][$key]['format'] = '';
-                }
-                if ($rule['type'] == 'compare')
-                {
-                    if (! array_key_exists('compare_with', $rule))
-                    {
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                            "Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
-                        // This will exit.
-                    }
                 }
             }
         }

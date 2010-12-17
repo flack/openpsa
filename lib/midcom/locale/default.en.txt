@@ -602,14 +602,6 @@ Save
 Save and close
 ---STRINGEND
 
----STRING schedule_end
-Display until (leave empty for unlimited display)
----STRINGEND
-
----STRING schedule_start
-Publish at (leave empty for immediate publication)
----STRINGEND
-
 ---STRING scheduled and shown
 Scheduled and currently shown
 ---STRINGEND

@@ -106,6 +106,7 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
         $schema = $this->storage->_schema->fields[$this->name];
         $copy = $this->_copy_object($this->storage->object);
         $property = $schema['storage']['location'];
+        $resolver = new midcom_helper_reflector_nameresolver($copy);
 
         if (empty($this->value))
         {
@@ -113,28 +114,28 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
                 && $this->_datamanager->types[$this->title_field]->value)
             {
                 $copy->{$property} = midcom_helper_misc::generate_urlname_from_string($this->_datamanager->types[$this->title_field]->value);
-                $this->value = midcom_helper_reflector_tree::generate_unique_name($copy);
+                $this->value = $resolver->generate_unique_name();
             }
         }
 
         $copy->{$property} = $this->value;
 
-        if (!midcom_helper_reflector::name_is_safe($copy, $property))
+        if (!$resolver->name_is_safe($property))
         {
             $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "URL-safe", try "%s"'), midcom_helper_misc::generate_urlname_from_string($this->value));
             return false;
         }
 
         if (   !$this->allow_unclean
-            && !midcom_helper_reflector::name_is_clean($copy, $property))
+            && !$resolver->name_is_clean($property))
         {
             $this->validation_error = sprintf($this->_l10n->get('type urlname: name is not "clean", try "%s"'), midcom_helper_misc::generate_urlname_from_string($this->value));
             return false;
         }
 
-        if (!midcom_helper_reflector_tree::name_is_unique($copy))
+        if (!$resolver->name_is_unique())
         {
-            $new_name = midcom_helper_reflector_tree::generate_unique_name($copy);
+            $new_name = $resolver->generate_unique_name();
             if ($this->allow_catenate)
             {
                 // If allowed to, silently use the generated name

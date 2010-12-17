@@ -562,14 +562,6 @@ Speichern
 Speichern und schließen
 ---STRINGEND
 
----STRING schedule_end
-Anzeigen bis (frei lassen für unbegrenzte Anzeige)
----STRINGEND
-
----STRING schedule_start
-Veröffentlichen um (frei lassen für sofortige Veröffentlichung)
----STRINGEND
-
 ---STRING scheduled and shown
 Zeitgesteuert und derzeit angezeigt
 ---STRINGEND

@@ -574,14 +574,6 @@ Tallenna
 Tallenna ja sulje
 ---STRINGEND
 
----STRING schedule_end
-Näytä päivämäärään asti (jätä tyhjäksi näyttääksesi aina)
----STRINGEND
-
----STRING schedule_start
-Julkaise päivämääränä (jätä tyhjäksi julkaistaksesi heti)
----STRINGEND
-
 ---STRING scheduled and shown
 Ajastettu ja näkyvissä
 ---STRINGEND

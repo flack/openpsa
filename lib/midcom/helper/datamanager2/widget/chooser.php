@@ -713,7 +713,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             if ($this->clever_class == 'event')
             {
-                $matching_type = 'net_nemein_calendar_event';
                 $this->creation_default_key = 'title';
             }
             else if ($this->clever_class == 'person')

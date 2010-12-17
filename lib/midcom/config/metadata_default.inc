@@ -46,7 +46,7 @@
         'do_not_index' => array
         (
             'title' => "do not index (midcom's indexer)",
-            'helptext' => "hide's object from midcom indexer'",
+            'helptext' => "hides object from midcom indexer'",
             'type' => 'boolean',
             'storage' => array
             (

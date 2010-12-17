@@ -258,60 +258,14 @@ implements midcom_helper_datamanager2_interfaces_edit
             // Recipient
             $mail->to = $person->email;
 
-            // Clean, unchanged message
-            $body = $_POST['body'];
-            $subject = $_POST['subject'];
-
             // Store the old password
             $person->set_parameter('midcom.admin.user', 'old_password', $person->password);
 
             // Get a new password
             $password = midcom_admin_user_plugin::generate_password(8);
 
-            // Replace the variables
-            foreach ($this->_request_data['variables'] as $key => $value)
-            {
-                // Replace the variables with personalized values
-                switch ($key)
-                {
-                    case '__PASSWORD__':
-                        $subject = str_replace($key, $password, $subject);
-                        $body = str_replace($key, $password, $body);
-                        break;
-
-                    case '__FROM__':
-                        $subject = str_replace($key, $this->_config->get('message_sender'), $subject);
-                        $body = str_replace($key, $this->_config->get('message_sender'), $body);
-                        break;
-
-                    case '__LONGDATE__':
-                        $subject = str_replace($key, strftime('%c'), $subject);
-                        $body = str_replace($key, strftime('%c'), $body);
-                        break;
-
-                    case '__SHORTDATE__':
-                        $subject = str_replace($key, strftime('%x'), $subject);
-                        $body = str_replace($key, strftime('%x'), $body);
-                        break;
-
-                    case '__TIME__':
-                        $subject = str_replace($key, strftime('%X'), $subject);
-                        $body = str_replace($key, strftime('%X'), $body);
-                        break;
-
-                    default:
-                        if (!isset($person->$key))
-                        {
-                            continue;
-                        }
-                        $subject = str_replace($key, $person->$key, $subject);
-                        $body = str_replace($key, $person->$key, $body);
-                }
-            }
-
-            // After the tedious replacing, strings are placed to the mailer
-            $mail->body = $body;
-            $mail->subject = $subject;
+            $mail->body = $this->_personalize_mail_string($_POST['body'], $person, $password);
+            $mail->subject = $this->_personalize_mail_string($_POST['subject'], $person, $password);;
 
             // Send the message
             if ($mail->send())
@@ -337,6 +291,44 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
         }
+    }
+
+    private function _personalize_mail_string($string, &$person, $password)
+    {
+        foreach ($this->_request_data['variables'] as $key => $value)
+        {
+            // Replace the variables with personalized values
+            switch ($key)
+            {
+                case '__PASSWORD__':
+                    $string = str_replace($key, $password, $string);
+                    break;
+
+                case '__FROM__':
+                    $string = str_replace($key, $this->_config->get('message_sender'), $string);
+                    break;
+
+                case '__LONGDATE__':
+                    $string = str_replace($key, strftime('%c'), $string);
+                    break;
+
+                case '__SHORTDATE__':
+                    $string = str_replace($key, strftime('%x'), $string);
+                    break;
+
+                case '__TIME__':
+                    $string = str_replace($key, strftime('%X'), $string);
+                    break;
+
+                default:
+                    if (!isset($person->$key))
+                    {
+                        continue;
+                    }
+                    $string = str_replace($key, $person->$key, $string);
+            }
+        }
+        return $string;
     }
 
     /**

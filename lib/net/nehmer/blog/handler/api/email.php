@@ -95,15 +95,18 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
 
         $_MIDCOM->load_library('midcom.helper.reflector');
+        $resolver = new midcom_helper_reflector_nameresolver($this->_article);
         $this->_article->topic = $this->_content_topic->id;
         $this->_article->title = $title;
         $this->_article->allow_name_catenate = true;
-        $this->_article->name = midcom_helper_reflector_tree::generate_unique_name($this->_article, 'title');
+        $this->_article->name = $resolver->generate_unique_name('title');
         if (empty($this->_article->name))
         {
             debug_add('Could not generate unique name for the new article from title, using timestamp', MIDCOM_LOG_INFO);
             $this->_article->name = time();
-            if (!midcom_helper_reflector_tree::name_is_unique($this->_article))
+            $resolver = new midcom_helper_reflector_nameresolver($this->_article);
+
+            if (!$resolver->name_is_unique())
             {
                 $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create unique name for the new article, aborting.');
                 // This will exit.

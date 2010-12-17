@@ -124,36 +124,8 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.dimensions-1.2.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.metadata.js');
 
-        $mode = 'inline';
-        $creation_mode_enabled = 'true';
+        $config = $this->_generate_editor_config();
 
-        if ($this->wide_mode)
-        {
-            $mode = 'wide';
-        }
-        elseif ($this->window_mode)
-        {
-            $mode = 'window';
-        }
-
-        if (   $this->allow_removal
-            && !$this->datamanager->storage->object->can_do('midgard:delete'))
-        {
-            $this->allow_removal = false;
-        }
-
-        if ($mode != 'inline')
-        {
-            $creation_mode_enabled = 'false';
-        }
-
-        $config = "{mode: '{$mode}'";//, allow_creation: {$creation_mode_enabled}}";
-
-        if ($this->allow_removal) {
-            $config .= ", allow_removal: true";
-        }
-
-        $config .= "}";
         $script = "jQuery.dm2.ajax_editor.init('{$this->form_identifier}', {$config});";
         $_MIDCOM->add_jquery_state_script($script);
 
@@ -234,6 +206,41 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
         // Calling component must exit instead
         return $state;
+    }
+
+    private function _generate_editor_config()
+    {
+        $mode = 'inline';
+        $creation_mode_enabled = true;
+
+        if ($this->wide_mode)
+        {
+            $mode = 'wide';
+        }
+        else if ($this->window_mode)
+        {
+            $mode = 'window';
+        }
+
+        if (   $this->allow_removal
+            && !$this->datamanager->storage->object->can_do('midgard:delete'))
+        {
+            $this->allow_removal = false;
+        }
+
+        if ($mode != 'inline')
+        {
+            $creation_mode_enabled = false;
+        }
+
+        $config = array
+        (
+            'mode' => $mode,
+            //'allow_creation' => $creation_mode_enabled,
+            'allow_removal' => $this->allow_removal
+        );
+
+        return json_encode($config);
     }
 
     /**

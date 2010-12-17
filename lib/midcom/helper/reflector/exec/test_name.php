@@ -14,11 +14,12 @@ $article->name = 'gathering-09';
 $article->allow_name_catenate = true;
 
 $reflected_name_property = midcom_helper_reflector::get_name_property($article);
-$reflected_name = midcom_helper_reflector::get_object_name($article);
+$resolver = new midcom_helper_reflector_nameresolver($article);
+$reflected_name = $resolver->get_object_name();
 
 echo "Reflector thinks name is '{$reflected_name}' (from property '{$reflected_name_property}')<br>\n";
 
-if (midcom_helper_reflector::name_is_safe($article))
+if ($resolver->name_is_safe())
 {
     echo "OK: '{$reflected_name}' is considered URL-safe<br>\n";
 }
@@ -27,7 +28,7 @@ else
     echo "ERROR: '{$reflected_name}' is NOT considered URL-safe<br>\n";
 }
 
-if (midcom_helper_reflector::name_is_clean($article))
+if ($resolver->name_is_clean())
 {
     echo "OK: '{$reflected_name}' is considered 'clean'<br>\n";
 }
@@ -36,7 +37,7 @@ else
     echo "WARN: '{$reflected_name}' is NOT considered 'clean'<br>\n";
 }
 
-if (midcom_helper_reflector_tree::name_is_unique($article))
+if ($resolver->name_is_unique())
 {
     echo "OK: '{$reflected_name}' is unique (among siblings)<br>\n";
 }
@@ -45,6 +46,6 @@ else
     echo "ERROR: '{$reflected_name}' is NOT unique (among siblings)<br>\n";
 }
 
-$new_name = midcom_helper_reflector_tree::generate_unique_name($article);
-echo "midcom_helper_reflector_tree::generate_unique_name(\$article) returned '{$new_name}'<br>\n";
+$new_name = $resolver->generate_unique_name();
+echo "midcom_helper_reflector_nameresolver::generate_unique_name(\$article) returned '{$new_name}'<br>\n";
 ?>

@@ -63,22 +63,19 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (empty($this->mgdschema_class))
         {
             debug_add("Could not determine MgdSchema baseclass for '{$this->_original_class}'", MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
+            return;
         }
 
         // Instantiate midgard reflector
         if (!class_exists($this->mgdschema_class))
         {
-            $x = false;
-            return $x;
+            return;
         }
         $this->_mgd_reflector = new midgard_reflection_property($this->mgdschema_class);
         if (!$this->_mgd_reflector)
         {
             debug_add("Could not instantiate midgard_mgd_reflection_property for {$this->mgdschema_class}", MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
+            return;
         }
 
         // Instantiate dummy object
@@ -86,12 +83,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (!$this->_dummy_object)
         {
             debug_add("Could not instantiate dummy object for {$this->mgdschema_class}", MIDCOM_LOG_ERROR);
-            $x = false;
-            return $x;
         }
     }
 
-    function &get($src)
+    public static function &get($src)
     {
         if (is_object($src))
         {
@@ -584,23 +579,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             {
                 case (strpos($property, 'name') !== false):
                     // property contains 'name'
-                    $search_properties[] = $property;
-                    break;
                 case ($property == 'title'):
-                    $search_properties[] = $property;
-                    break;
                 case ($property == 'tag'):
-                    $search_properties[] = $property;
-                    break;
                 case ($property == 'firstname'):
-                    $search_properties[] = $property;
-                    break;
                 case ($property == 'lastname'):
-                    $search_properties[] = $property;
-                    break;
                 case ($property == 'official'):
-                    $search_properties[] = $property;
-                    break;
                 case ($property == 'username'):
                     $search_properties[] = $property;
                     break;
@@ -1080,142 +1063,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Statically callable method to check for "clean" URL name
-     *
-     * @see http://trac.midgard-project.org/ticket/809
-     * @param $object reference to object to check the name for
-     * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating cleanlines (on missing property or other failure returns false)
-     */
-    function name_is_clean(&$object, $name_property = null)
-    {
-        $name_copy = midcom_helper_reflector::get_object_name($object, $name_property);
-        if ($name_copy === false)
-        {
-            //get_object_name failed
-            return false;
-        }
-        if (empty($name_copy))
-        {
-            // empty name is not "clean"
-            return false;
-        }
-        if ($name_copy !== midcom_helper_misc::generate_urlname_from_string($name_copy))
-        {
-            unset($name_copy);
-            return false;
-        }
-        unset($name_copy);
-        return true;
-    }
-
-    /**
-     * Statically callable method to check for URL-safe name
-     *
-     * @see http://trac.midgard-project.org/ticket/809
-     * @param $object reference to object to check the name for
-     * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating safety (on missing property or other failure returns false)
-     */
-    function name_is_safe(&$object, $name_property = null)
-    {
-        $name_copy = midcom_helper_reflector::get_object_name($object, $name_property);
-        if ($name_copy === false)
-        {
-            //get_object_name failed
-            return false;
-        }
-        if (empty($name_copy))
-        {
-            // empty name is not url-safe
-            return false;
-        }
-        if ($name_copy !== rawurlencode($name_copy))
-        {
-            unset($name_copy);
-            return false;
-        }
-        unset($name_copy);
-        return true;
-    }
-
-    /**
-     * Statically callable method to check for URL-safe name, this variant accepts empty name
-     *
-     * @see http://trac.midgard-project.org/ticket/809
-     * @param $object reference to object to check the name for
-     * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating safety (on missing property or other failure returns false)
-     */
-    function name_is_safe_or_empty(&$object, $name_property = null)
-    {
-        $name_copy = midcom_helper_reflector::get_object_name($object, $name_property);
-        if ($name_copy === false)
-        {
-            //get_object_name failed
-            return false;
-        }
-        if (empty($name_copy))
-        {
-            return true;
-        }
-        return midcom_helper_reflector::name_is_safe($object, $name_property);
-    }
-
-    /**
-     * Statically callable method to check for "clean" URL name, this variant accepts empty name
-     *
-     * @see http://trac.midgard-project.org/ticket/809
-     * @param $object reference to object to check the name for
-     * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return boolean indicating cleanlines (on missing property or other failure returns false)
-     */
-    function name_is_clean_or_empty(&$object, $name_property = null)
-    {
-        $name_copy = midcom_helper_reflector::get_object_name($object, $name_property);
-        if ($name_copy === false)
-        {
-            //get_object_name failed
-            return false;
-        }
-        if (empty($name_copy))
-        {
-            return true;
-        }
-        return midcom_helper_reflector::name_is_clean($object, $name_property);
-    }
-
-    /**
-     * statically callable method to resolve the "name" of given object
-     *
-     * @see midcom_helper_reflector::name_is_safe()
-     * @param $object the object to get the name property for
-     * @param $name_property property to use as "name", if left to default (null), will be reflected
-     * @return string value of name property or boolean false on failure
-     */
-    function get_object_name($object, $name_property = null)
-    {
-        if (is_null($name_property))
-        {
-            $name_property = midcom_helper_reflector::get_name_property($object);
-        }
-        if (   empty($name_property)
-            || !$_MIDCOM->dbfactory->property_exists($object, $name_property))
-        {
-            // Could not resolve valid property
-            return false;
-        }
-        // Make copy via typecast, very important or we might accidentally manipulate the given object
-        $name_copy = (string)$object->{$name_property};
-        unset($name_property);
-        return $name_copy;
-    }
-
-    /**
      * Method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property()
-     * @see midcom_helper_reflector::get_object_name()
      * @param $object the object to get the name property for
      * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
@@ -1276,11 +1126,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * statically callable method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property_nonstatic()
-     * @see midcom_helper_reflector::get_object_name()
      * @param $object the object to get the name property for
      * @return string name of property or boolean false on failure
      */
-    function get_name_property(&$object)
+    public static function get_name_property(&$object)
     {
         // Cache results per class within request
         static $cache = array();

@@ -546,14 +546,6 @@ Spara
 Spara och stäng
 ---STRINGEND
 
----STRING schedule_end
-Visa till (lämna tomt för obegränsad visning)
----STRINGEND
-
----STRING schedule_start
-Publicera på (lämna tomt för omedelbar publicering)
----STRINGEND
-
 ---STRING scheduled and shown
 Schemalagda och visade
 ---STRINGEND

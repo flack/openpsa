@@ -609,8 +609,8 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         $attachment->parentguid = $this->storage->object->guid;
 
         $_MIDCOM->componentloader->load('midcom.helper.reflector');
-        $resolver = midcom_helper_reflector_tree::get($attachment);
-        if ($resolver->name_is_unique_nonstatic($attachment))
+        $resolver = new midcom_helper_reflector_nameresolver($attachment);
+        if ($resolver->name_is_unique())
         {
             return $filename;
         }
@@ -664,7 +664,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             // and the incrementer
             ++$i;
         }
-        while (!$resolver->name_is_unique_nonstatic($attachment));
+        while (!$resolver->name_is_unique());
         unset($i, $d);
         return $attachment->name;
     }

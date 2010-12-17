@@ -603,8 +603,9 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $event->allow_name_catenate = true;
             if (empty($event->name))
             {
+                $resolver = new midcom_helper_reflector_nameresolver($event);
                 // To prevent validation errors in case the auto-catenate is not allowed in the urlname datatype
-                $event->name = midcom_helper_reflector_tree::generate_unique_name($event);
+                $event->name = $resolver->generate_unique_name();
             }
         }
         else
@@ -632,9 +633,12 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             }
             $event->allow_name_catenate = true;
             $event->title = (string)$item['title'];
-            $event->name = midcom_helper_reflector_tree::generate_unique_name($event);
             $event->_activitystream_verb = 'http://community-equity.org/schema/1.0/clone';
             $event->_rcs_message = sprintf($_MIDCOM->i18n->get_string('%s was imported from %s', 'net.nemein.rss'), $event->title, $this->_feed->title);
+
+            $resolver = new midcom_helper_reflector_nameresolver($event);
+            $event->name = $resolver->generate_unique_name();
+
             if (!$event->create())
             {
                 return false;

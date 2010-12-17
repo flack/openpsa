@@ -322,7 +322,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         foreach ($qb_article->execute_unchecked() as $article)
         {
             echo "    <li class=\"leaf article\">\n";
-            echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/new-text.png\" alt=\"\" /> {$article->title}\n";
+            echo "        <img src=\"".MIDCOM_STATIC_URL . "/stock-icons/16x16/document.png\" alt=\"\" /> {$article->title}\n";
 
             // Check for the reply articles
             $qb = midcom_db_article::new_query_builder();
@@ -369,7 +369,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             {
                 $title = midcom_helper_reflector::get($class)->get_object_label($object);
                 echo "    <li class=\"leaf $class\"$style>\n";
-                echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/new-text.png\" alt=\"\" /> {$title}\n";
+                echo "        <img src=\"".MIDCOM_STATIC_URL."/stock-icons/16x16/document.png\" alt=\"\" /> {$title}\n";
                 self::_list_leaf_children($object);
                 echo "    </li>\n";
             }

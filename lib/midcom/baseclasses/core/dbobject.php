@@ -226,9 +226,9 @@ class midcom_baseclasses_core_dbobject
      * @param object $object reference to object to check for
      * @return boolean indicating whether from our point of view everything is ok
      *
-     * @see midcom_helper_reflector::name_is_safe_or_empty()
-     * @see midcom_helper_reflector_tree::name_is_unique_or_empty()
-     * @see midcom_helper_reflector_tree::generate_unique_name()
+     * @see midcom_helper_reflector_nameresolver::name_is_safe_or_empty()
+     * @see midcom_helper_reflector_nameresolver::name_is_unique_or_empty()
+     * @see midcom_helper_reflector_nameresolver::generate_unique_name()
      */
     private static function _pre_check_name($object)
     {
@@ -241,6 +241,8 @@ class midcom_baseclasses_core_dbobject
             return true;
         }
 
+        $resolver = new midcom_helper_reflector_nameresolver($object);
+
         /**
          * If name is empty, try to generate new, unique one
          *
@@ -249,7 +251,7 @@ class midcom_baseclasses_core_dbobject
         if (empty($object->{$name_property}))
         {
             // name is empty, try to generate
-            $new_name = midcom_helper_reflector_tree::generate_unique_name($object);
+            $new_name = $resolver->generate_unique_name();
             if (!empty($new_name))
             {
                 $object->{$name_property} = $new_name;
@@ -262,7 +264,7 @@ class midcom_baseclasses_core_dbobject
          *
          * @see http://trac.midgard-project.org/ticket/809
          */
-        if (!midcom_helper_reflector::name_is_safe_or_empty($object))
+        if (!$resolver->name_is_safe_or_empty())
         {
             midcom_connection::set_error(MGD_ERR_INVALID_NAME);
             return false;
@@ -273,12 +275,12 @@ class midcom_baseclasses_core_dbobject
          *
          * @see http://trac.midgard-project.org/ticket/809
          */
-        if (!midcom_helper_reflector_tree::name_is_unique_or_empty($object))
+        if (!$resolver->name_is_unique_or_empty())
         {
             if ($object->allow_name_catenate)
             {
                 // Transparent catenation allowed, let's try again.
-                $new_name = midcom_helper_reflector_tree::generate_unique_name($object);
+                $new_name = $resolver->generate_unique_name();
                 if (!empty($new_name))
                 {
                     $object->{$name_property} = $new_name;
@@ -303,7 +305,7 @@ class midcom_baseclasses_core_dbobject
                 else
                 {
                     unset($new_name);
-                    debug_add('allow_name_catenate was set but midcom_helper_reflector_tree::generate_unique_name() returned empty value, falling through', MIDCOM_LOG_WARN);
+                    debug_add('allow_name_catenate was set but midcom_helper_reflector_nameresolver::generate_unique_name() returned empty value, falling through', MIDCOM_LOG_WARN);
                 }
             }
             midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);

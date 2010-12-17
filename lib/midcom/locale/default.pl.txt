@@ -574,14 +574,6 @@ Zapisz
 Zapisz i zamknij
 ---STRINGEND
 
----STRING schedule_end
-Wyświetlanie do dnia (puste - bez limitu)
----STRINGEND
-
----STRING schedule_start
-Wyświetlanie od dnia (puste - natychmiast)
----STRINGEND
-
 ---STRING scheduled and shown
 Wg harmonogramu, obecnie wyświetlane.
 ---STRINGEND

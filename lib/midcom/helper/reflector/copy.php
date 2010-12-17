@@ -414,9 +414,10 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         $name_property = midcom_helper_reflector::get_name_property($target);
+        $resolver = new midcom_helper_reflector_nameresolver($target);
 
         if (   !empty($name_property)
-            && !midcom_helper_reflector::name_is_safe_or_empty($target, $name_property))
+            && !$resolver->name_is_safe_or_empty($name_property))
         {
             debug_add('Source object ' . get_class($source) . " {$source->guid} has unsafe name, rewriting to safe form for the target", MIDCOM_LOG_WARN);
             $name_property = midcom_helper_reflector::get_name_property($target);
@@ -432,7 +433,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             {
                 $target->$name_property = midcom_helper_misc::generate_urlname_from_string($name_parts[0]) . ".{$name_parts[1]}";
                 // Doublecheck safety and fall back if needed
-                if (!midcom_helper_reflector::name_is_safe_or_empty($target))
+                if (!$resolver->name_is_safe_or_empty())
                 {
                     $target->$name_property = midcom_helper_misc::generate_urlname_from_string($target->$name_property);
                 }
@@ -447,7 +448,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         if (   $this->allow_name_catenate
             && $name_property)
         {
-            $name = midcom_helper_reflector_tree::generate_unique_name($target);
+            $name = $resolver->generate_unique_name();
 
             if ($name !== $target->$name_property)
             {
