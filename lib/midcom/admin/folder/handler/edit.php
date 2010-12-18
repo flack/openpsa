@@ -251,7 +251,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         }
         else
         {
-            $this->_request_data['title'] = sprintf($this->_l10n->get('edit folder %s'), $data['topic']->extra);
+            $this->_request_data['title'] = sprintf($this->_l10n->get('edit folder %s'), $this->_request_data['topic']->extra);
         }
 
         $this->_request_data['topic'] =& $this->_topic;

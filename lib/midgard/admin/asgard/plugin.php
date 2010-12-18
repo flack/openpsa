@@ -12,7 +12,7 @@
  */
 class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
 {
-    public function _on_initialize(&$data)
+    public function _on_initialize()
     {
         $_MIDCOM->load_library('midgard.admin.asgard');
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:access', null, 'midgard_admin_asgard_plugin');
@@ -25,8 +25,8 @@ class midgard_admin_asgard_plugin extends midcom_baseclasses_components_plugin
             $_MIDCOM->i18n->set_language($language);
         }
 
-        $data['asgard_toolbar'] = new midgard_admin_asgard_toolbar();
-        self::get_default_mode($data);
+        $this->_request_data['asgard_toolbar'] = new midgard_admin_asgard_toolbar();
+        self::get_default_mode($this->_request_data);
     }
 
     /**

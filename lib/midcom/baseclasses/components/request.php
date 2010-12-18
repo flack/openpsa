@@ -409,8 +409,8 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $this->_request_data['config'] =& $this->_config;
         $this->_request_data['topic'] = null;
-        $this->_request_data['l10n'] = $this->_l10n;
-        $this->_request_data['l10n_midcom'] = $this->_l10n_midcom;
+        $this->_request_data['l10n'] =& $this->_l10n;
+        $this->_request_data['l10n_midcom'] =& $this->_l10n_midcom;
 
         if (empty(self::$_plugin_namespace_config))
         {
@@ -667,7 +667,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             //For plugins, set the component name explicitly so that L10n and config can be found
             if (isset($this->_handler['plugin']))
             {
-                $this->_active_plugin->initialize($this->_request_data);
+                $this->_active_plugin->initialize($this);
                 $this->_handler['handler'][0]->_component = $this->_handler['plugin'];
             }
 

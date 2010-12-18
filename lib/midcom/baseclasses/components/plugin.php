@@ -19,9 +19,13 @@ abstract class midcom_baseclasses_components_plugin extends midcom_baseclasses_c
         return $handlers;
     }
 
-    public function initialize(&$data)
+    public function initialize(&$master)
     {
-        $this->_on_initialize($data);
+        $this->_request_data =& $master->_request_data;
+        $this->_topic =& $master->_topic;
+        $this->_request_data['l10n'] = $this->_l10n;
+
+        $this->_on_initialize();
     }
 
     public function _on_initialize(&$data){}

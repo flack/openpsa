@@ -20,5 +20,4 @@ interface midcom_helper_datamanager2_interfaces_edit extends midcom_helper_datam
      */
     public function get_schema_name();
 }
-
 ?>
