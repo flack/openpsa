@@ -60,7 +60,7 @@ class midcom_helper_nav
             $contextid = $_MIDCOM->get_current_context();
         }
         $this->_contextid = $contextid;
-        $this->_backend = $this->_get_basic_nav();
+        $this->_backend = $this->_get_backend();
     }
 
 
@@ -74,18 +74,11 @@ class midcom_helper_nav
      * @return midcom_helper_nav_backend&    A reference to the backend instance in the cache.
      * @see midcom_helper_nav
      */
-    private function & get_basic_nav()
+    private function & _get_backend()
     {
-        if (is_null(self::$_backends[$this->_contextid]))
+        if (!isset(self::$_backends[$this->_contextid]))
         {
             self::$_backends[$this->_contextid] = new midcom_helper_nav_backend($this->_contextid);
-        }
-
-        if (self::$_backends[$this->_contextid] === false)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                  "Failed to create a NAP instance; see the debug log for details");
-            /* This will exit */
         }
 
         return self::$_backends[$this->_contextid];

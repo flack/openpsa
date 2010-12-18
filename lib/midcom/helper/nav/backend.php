@@ -245,7 +245,7 @@ class midcom_helper_nav_backend
 
                 default:
                     debug_add("_loadNode failed, see above error for details.", MIDCOM_LOG_ERROR);
-                    return false;
+                    return;
             }
         }
     }
