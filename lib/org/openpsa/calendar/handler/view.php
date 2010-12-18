@@ -374,10 +374,10 @@ function openPsaShowMonthSelector()
             }
         }
 
-        $this->_populate_calendar_from_filter();
+        $this->_populate_calendar_from_filter($from, $to);
     }
 
-    private function _populate_calendar_from_filter()
+    private function _populate_calendar_from_filter($from, $to)
     {
         // New UI for showing resources
         foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value)

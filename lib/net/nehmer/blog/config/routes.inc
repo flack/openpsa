@@ -25,7 +25,7 @@
     'fixed_args' => 'category',
     'variable_args' => 1,
 ),
-// Handler for /category/latest/<category/<number>
+// Handler for /category/latest/<category>/<number>
 'latest-category' => Array
 (
     'handler' => array('net_nehmer_blog_handler_index', 'index'),

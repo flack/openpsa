@@ -705,7 +705,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             && (   count($folder_tree) == 0
                 || $force_resolve_folder_tree))
         {
-            $folder_tree = $this->_resolve_folder_tree();
+            $folder_tree = $this->_resolve_folder_tree($force_as_root);
         }
 
         if (strstr($path, '/'))
@@ -805,7 +805,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         return $matches;
     }
 
-    private function _resolve_folder_tree()
+    private function _resolve_folder_tree($force_as_root)
     {
         $nap = new midcom_helper_nav();
 

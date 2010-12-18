@@ -142,6 +142,8 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
 
     /**
      * Make sure user has correct privileges to allow to edit themselves
+     *
+     * @todo This function does nothing
      */
     private function _verify_privileges()
     {

@@ -378,6 +378,9 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         return $this->_datamanager->types[$this->_request_data['image_field']]->set_image($att['name'], $tmp_name, $att['name']);
     }
 
+    /**
+     * @todo This function does nothing (and would throw notices if it did)
+     */
     private function _add_attachment($att)
     {
         return false;

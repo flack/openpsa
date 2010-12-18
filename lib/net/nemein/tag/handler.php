@@ -76,15 +76,15 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
         foreach ($add_tags as $tagname => $url)
         {
-            $this->_create_tag($tagname, $url, $object->guid);
+            $this->_create_tag($tagname, $url, $object, $component);
         }
 
         return true;
     }
 
-    private function _create_tag($tagname, $url, $object_guid)
+    private function _create_tag($tagname, $url, $object, $component)
     {
-        debug_add("Adding tag \"{$tagname}\" for object {$object_guid}");
+        debug_add("Adding tag \"{$tagname}\" for object {$object->guid}");
         $tagstring = self::resolve_tagname($tagname);
         $context = self::resolve_context($tagname);
         $value = self::resolve_value($tagname);
