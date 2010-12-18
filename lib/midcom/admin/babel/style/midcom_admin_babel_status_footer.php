@@ -1,6 +1,3 @@
-<?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-?>
     </tbody>
     <tfoot>
         <tr>

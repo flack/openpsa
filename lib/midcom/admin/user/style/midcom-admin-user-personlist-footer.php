@@ -1,6 +1,4 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 if (count($data['persons']) > 0)
 {
     if ($data['enabled'] == 0)
@@ -54,7 +52,7 @@ if (count($data['persons']) > 0)
                             {
                                 $level_indent = $level_indent . '-';
                             }
-                            
+
                             if ($level_indent != '')
                             {
                                 $title = $level_indent . '> ' . $group['title'];
@@ -64,7 +62,7 @@ if (count($data['persons']) > 0)
                                 $title = $group['title'];
                             }
 
-                            
+
                             echo "<option value=\"" . $group['id'] . "\">" . $title . "</option>\n";
                         }
                         ?>

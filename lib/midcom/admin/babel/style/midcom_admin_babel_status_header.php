@@ -1,6 +1,3 @@
-<?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-?>
 <h1><?php echo sprintf($data['l10n']->get('translation status for language %s'), $data['l10n']->get_language_name($data['language'])); ?></h1>
 
 <table class="midcom_admin_babel_languages">
