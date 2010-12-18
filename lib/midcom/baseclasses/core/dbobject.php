@@ -284,27 +284,10 @@ class midcom_baseclasses_core_dbobject
                 if (!empty($new_name))
                 {
                     $object->{$name_property} = $new_name;
-                    unset($new_name);
-                    // TODO: Figure out a better key for this loop (mainly potential problem for new object creations)
-                    $loop_key_src = __CLASS__ . '::' . __FUNCTION__ . '_unique_name_loop_' . get_class($object) . '_' . $object->guid;
-                    $loop_key = md5($loop_key_src);
-                    if (isset($GLOBALS[$loop_key]))
-                    {
-                        debug_add("Loop caught with key '{$loop_key}' (generated from '{$loop_key_src}'), falling through", MIDCOM_LOG_ERROR);
-                        unset($loop_key_src, $loop_key);
-                    }
-                    else
-                    {
-                        $GLOBALS[$loop_key] = true;
-                        $stat = self::_pre_check_name($object);
-                        unset($GLOBALS[$loop_key]);
-                        unset($loop_key_src, $loop_key);
-                        return $stat;
-                    }
+                    return true;
                 }
                 else
                 {
-                    unset($new_name);
                     debug_add('allow_name_catenate was set but midcom_helper_reflector_nameresolver::generate_unique_name() returned empty value, falling through', MIDCOM_LOG_WARN);
                 }
             }

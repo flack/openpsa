@@ -620,29 +620,27 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return $mime;
     }
 
-    private function _code_for_sort_encode_subject()
+    private function _sort_encode_subject($a, $b)
     {
-        return <<<EOF
-        if (\$a == '=')
+        if ($a == '=')
         {
             return -1;
         }
-        if (\$b == '=')
+        if ($b == '=')
         {
             return 1;
         }
-        \$aord = ord(\$a);
-        \$bord = ord(\$b);
-        if (\$aord < \$bord)
+        $aord = ord($a);
+        $bord = ord($b);
+        if ($aord < $bord)
         {
             return -1;
         }
-        if (\$aord > \$bord)
+        if ($aord > $bord)
         {
             return 1;
         }
         return 0;
-EOF;
     }
 
     /**
@@ -656,7 +654,7 @@ EOF;
             )
         {
             // Sort the results to make sure '=' gets encoded first (otherwise there will be double-encodes...)
-            usort($matches[0], create_function('$a,$b', $this->_code_for_sort_encode_subject()));
+            usort($matches[0], array($this, '_sort_encode_subject'));
             debug_print_r("matches[0]", $matches);
             $cache = array();
             $newSubj = $this->subject;
