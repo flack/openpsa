@@ -44,65 +44,6 @@ class midcom_helper_imagefilter
      */
     var $_quality = "-quality 90";
 
-    public static function process($image, $filters)
-    {
-        if (!self::imagemagick_available())
-        {
-            debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
-            $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
-            return false;
-        }
-        $tmpfile = $this->create_tmp_copy($image);
-        if ($tmpfile === false)
-        {
-            debug_add("Could not create a working copy for '{$identifier}', aborting", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        $filter = new midcom_helper_imagefilter();
-        if (!$filter->set_file($tmpfile))
-        {
-            debug_add("\$this->_filter->set_file() failed, aborting", MIDCOM_LOG_ERROR);
-            // Clean up
-            unlink($tmpfile);
-            $filter = null;
-            return false;
-        }
-        if (!$this->_filter->process_chain($filters))
-        {
-            debug_add("Failed to process filter chain '{$filter}', aborting", MIDCOM_LOG_ERROR);
-            // Clean up
-            unlink($tmpfile);
-            $filter = null;
-            return false;
-        }
-        // Don't leave the filter object laying
-        $filter = null;
-
-        if (!is_readable($tmpfile))
-        {
-            debug_add("File '{$file}' is not readable", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $src = fopen($tmpfile, 'r');
-        if (!$src)
-        {
-            debug_add("Could not open file '{$file}' for reading", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        if (!$image->copy_from_handle($src))
-        {
-            debug_add("\$image->copy_from_handle() failed", MIDCOM_LOG_ERROR);
-            fclose($src);
-            return false;
-        }
-        fclose($src);
-
-        // Clean-up the temp file
-        unlink($tmpfile);
-        return true;
-    }
-
     public static function imagemagick_available()
     {
         static $return = -1;
