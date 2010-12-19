@@ -3,13 +3,12 @@ $_MIDCOM->auth->require_valid_user();
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Only POST requests are allowed here.');
+    throw new midcom_error_forbidden('Only POST requests are allowed here.');
 }
 
 if (!array_key_exists('guid', $_POST))
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'No document specified, aborting.');
+    throw new midcom_error('No document specified, aborting.');
 }
 
 $document = new org_openpsa_documents_document_dba($_POST['guid']);

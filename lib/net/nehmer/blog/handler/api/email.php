@@ -61,8 +61,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             debug_add("Author '{$this->_request_data['from']}' not found", MIDCOM_LOG_WARN);
             if ($this->_config->get('api_email_abort_authornotfound') !== false)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Author '{$this->_request_data['from']}' not found");
-                // This will exit()
+                throw new midcom_error("Author '{$this->_request_data['from']}' not found");
             }
             $this->_article->author = midcom_connection::get_user();
         }
@@ -72,7 +71,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             $author_user = $_MIDCOM->auth->get_user($author->guid);
             if (!$this->_content_topic->can_do('midgard:create', $author_user))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Author doesn\'t have posting privileges');
+                throw new midcom_error('Author doesn\'t have posting privileges');
             }
             $this->_article->author = $author->id;
         }
@@ -88,8 +87,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             if (empty($results))
             {
                 //No users found
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cannot set any author for the article');
-                // This will exit.
+                throw new midcom_error('Cannot set any author for the article');
             }
             $this->_article->author = $results[0]->id;
         }
@@ -108,16 +106,14 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
 
             if (!$resolver->name_is_unique())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create unique name for the new article, aborting.');
-                // This will exit.
+                throw new midcom_error('Failed to create unique name for the new article, aborting.');
             }
         }
 
         if (! $this->_article->create())
         {
             debug_print_r('Failed to create article:', $this->_article);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create a new article, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new article. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
 
         $this->_article->parameter('midcom.helper.datamanager2', 'schema_name', $this->_config->get('api_email_schema'));
@@ -136,8 +132,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             || ! $this->_datamanager->set_schema($this->_config->get('api_email_schema'))
             || ! $this->_datamanager->set_storage($this->_article))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for article {$this->_article->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
     }
 
@@ -164,8 +159,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
 
         if (!isset($this->_request_data['schemadb'][$this->_config->get('api_email_schema')]))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Schema "' . $this->_config->get('api_email_schema') . '" not found in schemadb "' . $this->_config->get('schemadb') . '"');
-            // this will exit()
+            throw new midcom_error('Schema "' . $this->_config->get('api_email_schema') . '" not found in schemadb "' . $this->_config->get('schemadb') . '"');
         }
         $schema_instance =& $this->_request_data['schemadb'][$this->_config->get('api_email_schema')];
 
@@ -252,8 +246,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             $errstr = midcom_connection::get_error_string();
             $this->_article->delete();
 
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 failed to save the article, aborting. Last Midgard error was: ' . $errstr);
-            // This will exit()
+            throw new midcom_error('DM2 failed to save the article. Last Midgard error was: ' . $errstr);
         }
 
         // Index the article
@@ -269,8 +262,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
                 $errstr = midcom_connection::get_error_string();
                 $this->_article->delete();
 
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to force approval on article, aborting. Last Midgard error was: ' . $errstr);
-                // This will exit()
+                throw new midcom_error('Failed to force approval on article. Last Midgard error was: ' . $errstr);
             }
         }
 
@@ -297,24 +289,21 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         //Make sure we have the components we use and the Mail_mimeDecode package
         if (!class_exists('org_openpsa_mail'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'library org.openpsa.mail could not be loaded.');
-            // This will exit.
+            throw new midcom_error('library org.openpsa.mail could not be loaded.');
         }
 
         $this->_decoder = new org_openpsa_mail();
 
         if (!class_exists('Mail_mimeDecode'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cannot decode attachments, aborting.');
-            // This will exit.
+            throw new midcom_error('Cannot decode attachments, aborting.');
         }
 
         //Make sure the message_source is POSTed
         if (   !array_key_exists('message_source', $_POST)
             || empty($_POST['message_source']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, '_POST[\'message_source\'] not present or empty.');
-            // This will exit.
+            throw new midcom_error('_POST[\'message_source\'] not present or empty.');
         }
 
         $this->_decoder = new org_openpsa_mail();

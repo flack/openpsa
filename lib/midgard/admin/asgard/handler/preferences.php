@@ -89,8 +89,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Bulletproofing the person
         if (!$this->_person->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the requested person');
-            // This will exit
+            throw new midcom_error('Failed to get the requested person');
         }
 
         // Load the controller instance

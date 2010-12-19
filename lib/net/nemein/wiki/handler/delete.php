@@ -37,8 +37,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         if (   ! $this->_datamanager
             || ! $this->_datamanager->autoset_storage($this->_page))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for article {$this->_page->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for article {$this->_page->id}.");
         }
     }
 
@@ -88,14 +87,14 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
             }
             else
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete wikipage, reason ".midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete wikipage, reason ".midcom_connection::get_error_string());
             }
         }
 
         $this->_load_datamanager();
 
-        $this->_view_toolbar->add_item(
+        $this->_view_toolbar->add_item
+        (
             array
             (
                 MIDCOM_TOOLBAR_URL => "{$this->_page->name}/",

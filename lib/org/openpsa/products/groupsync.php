@@ -56,14 +56,12 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         $root_topic_guid = $this->_config->get('groupsync_root_topic');
         if (empty($root_topic_guid))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'GroupSync root topic not defined');
-            // This will exit
+            throw new midcom_error('Root topic not defined');
         }
         $this->root_topic = new midcom_db_topic($root_topic_guid);
         if (empty($this->root_topic->guid))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "GroupSync could not load topic '{$root_topic_guid}'");
-            // This will exit
+            throw new midcom_error("Could not load topic '{$root_topic_guid}'");
         }
 
         // Load root-group, from topic if possible and fall back to global config
@@ -74,31 +72,27 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
         }
         if (empty($root_group_guid))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'GroupSync root group not defined');
-            // This will exit
+            throw new midcom_error('Root group not defined');
         }
         $this->root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
         if (   !$this->root_group
             || !isset($this->root_group->guid)
             || empty($this->root_group->guid))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "GroupSync could not load group '{$root_group_guid}'");
-            // This will exit
+            throw new midcom_error("Could not load group '{$root_group_guid}'");
         }
 
         // Sanity check groupsync_topic_name_from
         $this->name_from = $this->_config->get('groupsync_topic_name_from');
         if (!$_MIDCOM->dbfactory->property_exists($this->root_group, $this->name_from))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "GroupSync: product_group has no property '{$this->name_from}'");
-            // This will exit
+            throw new midcom_error("product_group has no property '{$this->name_from}'");
         }
         // Sanity check groupsync_topic_title_from
         $this->title_from = $this->_config->get('groupsync_topic_title_from');
         if (!$_MIDCOM->dbfactory->property_exists($this->root_group, $this->title_from))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "GroupSync: product_group has no property '{$this->title_from}'");
-            // This will exit
+            throw new midcom_error("product_group has no property '{$this->title_from}'");
         }
 
         $_MIDCOM->componentloader->load('midcom.helper.reflector');

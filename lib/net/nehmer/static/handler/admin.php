@@ -133,8 +133,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         if (   ! $this->_datamanager
             || ! $this->_datamanager->autoset_storage($this->_article))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for article {$this->_article->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
     }
 
@@ -150,8 +149,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
 
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
     }
 
@@ -196,10 +194,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
-        if (!$this->_article)
+        if (!$this->_article->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The article {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The article {$args[0]} was not found.");
         }
 
         // Relocate for the correct content topic, let the true content topic take care of the ACL
@@ -214,8 +211,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
                 $_MIDCOM->relocate($node[MIDCOM_NAV_FULLURL] . "edit/{$args[0]}/");
                 // This will exit
             }
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The article with GUID {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The article with GUID {$args[0]} was not found.");
         }
 
         $this->_article->require_do('midgard:update');
@@ -277,12 +273,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     {
         $this->_article = new midcom_db_article($args[0]);
 
-        if (   !$this->_article
-            || !isset($this->_article->guid)
-            || !$this->_article->guid)
+        if (!$this->_article->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The article {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The article {$args[0]} was not found.");
         }
 
         $qb = net_nehmer_static_link_dba::new_query_builder();
@@ -347,8 +340,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $this->_l10n->get('failed to delete the article link, contact the site administrator'));
-            // This will exit
+            throw new midcom_error($this->_l10n->get('failed to delete the article link, contact the site administrator'));
         }
     }
 
@@ -386,12 +378,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
-        if (   !$this->_article
-            || !isset($this->_article->guid)
-            || !$this->_article->guid)
+        if (!$this->_article->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The article {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The article {$args[0]} was not found.");
         }
 
         // Relocate to delete the link instead of the article itself
@@ -409,8 +398,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
             // Deletion confirmed.
             if (! $this->_article->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete article {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete article {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Delete all the links pointing to the article

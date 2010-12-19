@@ -31,13 +31,12 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Only POST requests are allowed here.');
+            throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
         if (!array_key_exists('task', $_POST))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'No task specified, aborting.');
+            throw new midcom_error('No task specified.');
         }
 
         // Handle "not working on anything"

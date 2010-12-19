@@ -23,12 +23,6 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for messages.");
-            // This will exit.
-        }
     }
 
     /**
@@ -39,11 +33,9 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
         $_MIDCOM->auth->require_valid_user();
         $this->_list_type = $args[0];
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[1]);
-        if (   !$this->_campaign
-            || $this->_campaign->node != $this->_topic->id)
+        if ($this->_campaign->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$args[1]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$args[1]} was not found.");
         }
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);

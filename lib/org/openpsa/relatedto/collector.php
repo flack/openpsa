@@ -106,9 +106,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'None of the arguments was passed as a string, cannot continue');
-            // This will exit.
+            throw new midcom_error('None of the arguments was passed as a string');
         }
 
         //save target classes for later use

@@ -37,15 +37,11 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
 
         if (count($this->schemadb) == 0)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'You must set a schema database before initializing midcom_helper_datamanager2_controller_ajax.');
-            // This will exit.
+            throw new midcom_error('You must set a schema database before initializing midcom_helper_datamanager2_controller_ajax.');
         }
         if ($this->datamanager === null)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'You must set the datamanager member before initializing midcom_helper_datamanager2_controller_ajax.');
-            // This will exit.
+            throw new midcom_error('You must set the datamanager member before initializing midcom_helper_datamanager2_controller_ajax.');
         }
 
         return true;
@@ -310,7 +306,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
     {
         if ($this->formmanager === null)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'You must initialize a controller class before using it.');
+            throw new midcom_error('You must initialize a controller class before using it.');
         }
 
         $result = $this->formmanager->process_form();
@@ -335,11 +331,12 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
             // Ok, we can save now. At this point we already have a content object.
             if (! $this->datamanager->validate())
             {
-                // In case that the type validation fails, we bail with generate_error, until
+                // In case that the type validation fails, we bail with an exception, until
                 // we have a better defined way-of-life here.
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors));
-                // This will exit.
+                throw new midcom_error
+                (
+                    "Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors)
+                );
             }
 
             if ($result == 'save')
@@ -355,9 +352,7 @@ class midcom_helper_datamanager2_controller_ajax extends midcom_helper_datamanag
                     else
                     {
                         // It seems to be a critical error.
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                            'Failed to save the data to disk, last midgard error code: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
-                        // This will exit.
+                        throw new midcom_error('Failed to save the data to disk, last midgard error code: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
                     }
                 }
             }

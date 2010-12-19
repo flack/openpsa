@@ -355,9 +355,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             $result = eval ("\$contents = array ( {$data}\n );");
             if ($result === false)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to parse the schema definition in '{$schemadb}', see above for PHP errors.");
-                // This will exit.
+                throw new midcom_error("Failed to parse the schema definition in '{$schemadb}', see above for PHP errors.");
             }
 
             return $contents;
@@ -369,7 +367,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         else
         {
             debug_print_r('Passed schema db was:', $schemadb);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to access the schema database: Invalid variable type while constructing.');
+            throw new midcom_error( 'Failed to access the schema database: Invalid variable type while constructing.');
             // This will exit.
         }
 
@@ -390,8 +388,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         // Setup the raw schema reference
         if (! array_key_exists($name, $this->_raw_schemadb))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "The schema {$name} was not found in the schema database.");
-            // This will exit.
+            throw new midcom_error("The schema {$name} was not found in the schema database.");
         }
         $this->_raw_schema =& $this->_raw_schemadb[$name];
 
@@ -477,8 +474,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
     {
         if (array_key_exists($name, $this->fields))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Duplicate field {$name} encountered, schema operation is invalid. Aborting.");
-            // This will exit.
+            throw new midcom_error("Duplicate field {$name} encountered, schema operation is invalid. Aborting.");
         }
 
         $this->field_order[] = $name;
@@ -498,14 +494,12 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         if (   !array_key_exists('type', $config)
             || empty($config['type']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *type* definition");
-            // this will exit
+            throw new midcom_error("Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *type* definition");
         }
         if (   !array_key_exists('widget', $config)
             || empty($config['widget']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *widget* definition");
-            // this will exit
+            throw new midcom_error("Field '{$config['name']}' in schema '{$this->name}' loaded from {$this->_schemadb_path} is missing *widget* definition");
         }
         /* Rest of the defaults */
         // Simple ones
@@ -596,9 +590,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
             if (! array_key_exists('type', $rule))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
-                // This will exit.
+                throw new midcom_error("Missing validation rule type for rule {$key} on field {$config['name']}, this is a required option.");
             }
             if (! array_key_exists('message', $rule))
             {
@@ -612,9 +604,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             {
                 if (! array_key_exists('compare_with', $rule))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
-                    // This will exit.
+                    throw new midcom_error("Missing compare_with option for compare type rule {$key} on field {$config['name']}, this is a required option.");
                 }
             }
         }
@@ -687,9 +677,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             // Bullet-proof against syntax errors
             if ($result === false)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to parse the schema database loaded from '{$raw_db}', see above for PHP errors.");
-                // This will exit.
+                throw new midcom_error("Failed to parse the schema database loaded from '{$raw_db}', see above for PHP errors.");
             }
         }
 
@@ -697,7 +685,7 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
 
         if (!is_array($raw_db))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Provided DM2 schema is not in Array format.");
+            throw new midcom_error("Provided DM2 schema is not in Array format.");
         }
 
         foreach ($raw_db as $name => $raw_schema)

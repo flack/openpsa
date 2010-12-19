@@ -14,7 +14,7 @@ elseif (!empty($_GET['person']))
 }
 else
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Specify either group or person GUID in GET params");
+    throw new midcom_error_notfound("Specify either group or person GUID in GET params");
 }
 
 $priv = new midcom_core_privilege_db();

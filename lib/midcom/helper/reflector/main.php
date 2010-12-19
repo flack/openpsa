@@ -972,7 +972,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
             if (!$up_property)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the parent property for copying');
+                throw new midcom_error('Failed to get the parent property for copying');
             }
 
             $target['parent'] = $up_property;

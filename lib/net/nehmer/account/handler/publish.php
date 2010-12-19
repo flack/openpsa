@@ -210,27 +210,23 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
             if (   ! $filter->set_file($file['tmp_name'])
                 || ! $filter->rescale($this->_config->get('avatar_x'), $this->_config->get('avatar_y')))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to scale the avatar attachment.');
-                // This will exit.
+                throw new midcom_error('Failed to scale the avatar attachment.');
             }
             $this->_avatar = $this->_update_image_attachment('avatar', 'avatar', $file['type'], $file['tmp_name']);
             if (! $this->_avatar)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to update the avatar attachment.');
-                // This will exit.
+                throw new midcom_error('Failed to update the avatar attachment.');
             }
 
             // Scale the avatar thumbnail
             if (! $filter->rescale($this->_config->get('avatar_thumbnail_x'), $this->_config->get('avatar_thumbnail_y')))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to scale the avatar thumbnail attachment.');
-                // This will exit.
+                throw new midcom_error('Failed to scale the avatar thumbnail attachment.');
             }
             $this->_avatar_thumbnail = $this->_update_image_attachment('avatar_thumbnail', 'avatar_thumbnail', $file['type'], $file['tmp_name']);
             if (! $this->_avatar_thumbnail)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to update the avatar thumbnail attachment.');
-                // This will exit.
+                throw new midcom_error('Failed to update the avatar thumbnail attachment.');
             }
 
             unlink ($file['tmp_name']);
@@ -256,9 +252,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
             $attachment = $this->_account->create_attachment($name, $title, $mimetype);
             if (! $attachment)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to create the attachment named {$name}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to create the attachment named {$name}, last Midgard error was: " . midcom_connection::get_error_string());
             }
         }
 
@@ -464,24 +458,18 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
                 $target = $this->_datamanager->schema->fields[$name]['customdata']['visible_link'];
                 if ($target == $name)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Tried to link the visibility of {$name} to itself.");
-                    // this will exit()
+                    throw new midcom_error("Tried to link the visibility of {$name} to itself.");
                 }
                 if ($this->_datamanager->schema->fields[$target]['customdata']['visible_mode'] == 'link')
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Tried to link the visibility of {$name} to the field {$target}, which is a link field too.");
-                    // this will exit()
+                    throw new midcom_error("Tried to link the visibility of {$name} to the field {$target}, which is a link field too.");
                 }
                 return $this->_is_field_visible($target);
 
             case 'user':
                 return in_array($name, $this->_visible_fields_user_selection);
         }
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-            "Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
-        // This will exit()
+        throw new midcom_error("Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
     }
 
     /**

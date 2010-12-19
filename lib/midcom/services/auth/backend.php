@@ -171,9 +171,7 @@ abstract class midcom_services_auth_backend
 
         if (! $this->auth->sessionmgr->delete_session($this->session_id))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'The system could not log you out, check the log file for details.');
-            // This will exit.
+            throw new midcom_error('The system could not log you out, check the log file for details.');
         }
 
         $this->_on_login_session_deleted();

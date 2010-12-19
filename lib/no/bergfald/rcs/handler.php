@@ -296,7 +296,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         if (   !$this->_backend->version_exists($args[1])
             || !$this->_backend->version_exists($args[2]) )
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "One of the revisions {$args[1]} or {$args[2]} does not exist.");
+            throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }
 
         if (!class_exists('Text_Diff'))
@@ -435,7 +435,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, sprintf($_MIDCOM->i18n->get_string('restore to version %s failed, reason %s', 'no.bergfald.rcs'), $args[1], $this->_backend->get_error()));
+            throw new midcom_error(sprintf($_MIDCOM->i18n->get_string('restore to version %s failed, reason %s', 'no.bergfald.rcs'), $args[1], $this->_backend->get_error()));
         }
     }
 }

@@ -143,9 +143,7 @@ class midcom_core_querybuilder
 
         if (!class_exists($classname))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Cannot create a midcom_core_querybuilder instance for the type {$classname}: Class does not exist.");
-            // This will exit.
+            throw new midcom_error("Cannot create a midcom_core_querybuilder instance for the type {$classname}: Class does not exist.");
         }
 
         static $_class_mapping_cache = Array();
@@ -160,9 +158,10 @@ class midcom_core_querybuilder
             // Validate the class, we check for a single callback representatively only
             if (!method_exists($classname, '_on_prepare_new_query_builder'))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Cannot create a midcom_core_querybuilder instance for the type {$classname}: Does not seem to be a DBA class name.");
-                // This will exit.
+                throw new midcom_error
+                (
+                    "Cannot create a midcom_core_querybuilder instance for the type {$classname}: Does not seem to be a DBA class name."
+                );
             }
 
             // Figure out the actual MgdSchema class from the decorator

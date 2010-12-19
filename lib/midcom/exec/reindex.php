@@ -20,7 +20,7 @@ if (   $ips
 {
     if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
     {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to acquire SUDO rights. Aborting.');
+        throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
     $ip_sudo = true;
 }
@@ -32,7 +32,7 @@ else
 
 if ($GLOBALS['midcom_config']['indexer_backend'] === false)
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No indexer backend has been defined. Aborting.');
+    throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
 switch($_SERVER['SERVER_PORT'])
@@ -73,7 +73,7 @@ $_MIDCOM->load_library('org.openpsa.httplib');
 if (!class_exists('org_openpsa_httplib'))
 {
     $singlep_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-midcom/reindex_singleprocess.php', $current_uri);
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "We need org.openpsa.httplib installed to use the granular reindex, use {$singlep_uri} to get the old way.");
+    throw new midcom_error("We need org.openpsa.httplib installed to use the granular reindex, use {$singlep_uri} to get the old way.");
 }
 
 
@@ -95,8 +95,7 @@ $existing_documents = $indexer->query("__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJEC
 if ($existing_documents === false)
 {
     $msg = "Query '__TOPIC_GUID:{$root_node[MIDCOM_NAV_OBJECT]->guid}' returned false, indicating problem with indexer";
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $msg);
-    // this will exit
+    throw new midcom_error($msg);
 }
 unset($existing_documents, $root_node);
 // Disable ob
@@ -165,7 +164,7 @@ while (! is_null($nodeid))
     $childs = $nap->list_nodes($nodeid);
     if ($childs === false)
     {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to list the child nodes of {$nodeid}. Aborting.");
+        throw new midcom_error("Failed to list the child nodes of {$nodeid}. Aborting.");
     }
     $nodes = array_merge($nodes, $childs);
     $nodeid = array_shift($nodes);

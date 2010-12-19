@@ -85,8 +85,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $this->_controller->callback_object =& $this;
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
     }
 
@@ -107,9 +106,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         if (! $this->_hour_report->create())
         {
             debug_print_r('We operated on this object:', $this->_hour_report);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new hour_report under hour_report group #{$this->_request_data['task']}. Error: " . midcom_connection::get_error_string());
         }
 
         return $this->_hour_report;
@@ -269,8 +266,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $this->_controller->set_storage($this->_hour_report);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for hour_report {$this->_hour_report->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for hour_report {$this->_hour_report->id}.");
         }
 
         switch ($this->_controller->process_form())
@@ -380,8 +376,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             // Deletion confirmed.
             if (! $this->_hour_report->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete hour report {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Delete ok, relocating to welcome.

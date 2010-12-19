@@ -189,23 +189,17 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
         if (!$this->child_class)
         {
             // TODO: We could have some smart defaults here
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'The configuration option child class must be defined for all composite types.');
-            // This will exit.
+            throw new midcom_error('The configuration option child class must be defined for all composite types.');
         }
 
         if (!$this->child_schemadb)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'The configuration option child schema database must be defined for all composite types.');
-            // This will exit.
+            throw new midcom_error('The configuration option child schema database must be defined for all composite types.');
         }
 
         if (! class_exists($this->child_class))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "The mapping class {$this->child_class} does not exist.");
-            // This will exit.
+            throw new midcom_error("The mapping class {$this->child_class} does not exist.");
         }
 
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->child_schemadb);
@@ -298,9 +292,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
         if (! $object->create())
         {
             debug_print_r('We operated on this object:', $object);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new child object. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new child object. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         // Notify parent of changes
@@ -437,8 +429,7 @@ class midcom_helper_datamanager2_type_composite extends midcom_helper_datamanage
                 $this->_creation_controllers[$name]->defaults = $this->defaults;
                 if (! $this->_creation_controllers[$name]->initialize())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-                    // This will exit.
+                    throw new midcom_error("Failed to initialize a DM2 create controller.");
                 }
             }
         }

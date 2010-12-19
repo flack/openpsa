@@ -60,8 +60,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_controller->set_storage($this->_salesproject, $this->_schema);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
         }
     }
 
@@ -77,8 +76,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         $this->_controller->defaults =& $this->_defaults;
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
     }
 
@@ -93,8 +91,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
         if (!$this->_datamanager)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Datamanager could not be instantiated.");
-            // This will exit.
+            throw new midcom_error("Datamanager could not be instantiated.");
         }
     }
 
@@ -144,9 +141,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
         if (! $salesproject->create())
         {
             debug_print_r('We operated on this object:', $salesproject);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_salesproject =& $salesproject;

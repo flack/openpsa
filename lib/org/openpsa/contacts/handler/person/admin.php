@@ -139,8 +139,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         if (   ! $this->_datamanager
             || ! $this->_datamanager->autoset_storage($this->_contact))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for contact {$this->_contact->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for contact {$this->_contact->id}.");
         }
     }
 
@@ -155,8 +154,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_controller->set_storage($this->_contact, $this->_schema);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for contact {$this->_contact->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for contact {$this->_contact->id}.");
         }
     }
 
@@ -197,10 +195,9 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-        if (! $this->_contact)
+        if (! $this->_contact->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The contact {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The contact {$args[0]} was not found.");
         }
         $this->_contact->require_do('midgard:update');
 
@@ -258,10 +255,9 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
 
-        if (! $this->_contact)
+        if (! $this->_contact->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The contact {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The contact {$args[0]} was not found.");
         }
         $this->_contact->require_do('midgard:delete');
 
@@ -272,8 +268,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
             // Deletion confirmed.
             if (! $this->_contact->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete contact {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete contact {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Update the index

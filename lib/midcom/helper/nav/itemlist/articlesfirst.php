@@ -21,17 +21,13 @@ class midcom_helper_nav_itemlist_articlesfirst extends midcom_helper_nav_itemlis
         $nodes_list = $this->_nap->list_nodes($this->parent_node_id);
         if ($nodes_list === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_LOG_ERROR,
-                "Could not retrieve the subnode listing, this is fatal.");
-            // This will exit.
+            throw new midcom_error("Could not retrieve the subnode listing.");
         }
 
         $leaves_list = $this->_nap->list_leaves($this->parent_node_id);
         if ($leaves_list === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_LOG_ERROR,
-                "Could not retrieve the leaf listing, this is fatal.");
-            // This will exit.
+            throw new midcom_error("Could not retrieve the leaf listing.");
         }
 
         $result = Array();

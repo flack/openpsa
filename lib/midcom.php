@@ -161,10 +161,8 @@ require(MIDCOM_ROOT . '/constants.php');
 require(MIDCOM_ROOT. '/midcom/connection.php');
 require(MIDCOM_ROOT. '/midcom/config/midcom_config.php');
 ini_set('track_errors', '1');
-if ($GLOBALS['midcom_config']['enable_error_handler'])
-{
-    require(MIDCOM_ROOT. '/errors.php');
-}
+require(MIDCOM_ROOT. '/errors.php');
+
 //////////////////////////////////////////////////////////////
 // Set the MIDCOM_XDEBUG constant accordingly, if not yet set.
 

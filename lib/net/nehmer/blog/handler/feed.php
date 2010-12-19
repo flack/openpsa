@@ -170,8 +170,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
                 break;
 
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "The feed handler {$handler_id} is unsupported");
-                // This will exit.
+                throw new midcom_error("The feed handler {$handler_id} is unsupported");
         }
     }
 

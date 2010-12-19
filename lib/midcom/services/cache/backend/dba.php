@@ -91,9 +91,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
             $handle = dba_open($this->_filename, 'c', $this->_handler);
             if ($handle === false)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "dba cache handler: Failed to open the database {$this->_filename} for creation.");
-                // This will exit.
+                throw new midcom_error("Failed to open the database {$this->_filename} for creation.");
             }
             dba_close($handle);
         }
@@ -123,9 +121,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         if ($handle === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "dba cache handler: Failed to open the database {$this->_filename} (Write-mode: {$write}): {$php_errormsg}");
-            // This will exit.
+            throw new midcom_error("Failed to open the database {$this->_filename} (Write-mode: {$write}): {$php_errormsg}");
         }
         $this->_handle = $handle;
     }
@@ -146,17 +142,13 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
     {
         if (! $this->_exists($key))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "dba cache handler: Failed to read key {$key} from the database {$this->_filename}: The key does not exist.");
-            // This will exit.
+            throw new midcom_error("Failed to read key {$key} from the database {$this->_filename}: The key does not exist.");
         }
         $result = @dba_fetch($key, $this->_handle);
         if ($result === false)
         {
             // Note: Apparently not php error here, so no php_errormsg as well.
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "dba cache handler: Failed to read key {$key} from the database {$this->_filename}: {$php_errormsg}");
-            // This will exit.
+            throw new midcom_error("Failed to read key {$key} from the database {$this->_filename}: {$php_errormsg}");
         }
         return $result;
     }
@@ -165,9 +157,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
     {
         if (! @dba_replace($key, $data, $this->_handle))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "dba cache handler: Failed to write key {$key} to the database {$this->_filename}: {$php_errormsg}");
-            // This will exit.
+            throw new midcom_error("Failed to write key {$key} to the database {$this->_filename}: {$php_errormsg}");
         }
     }
 
@@ -180,9 +170,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         }
         if (! @dba_delete($key, $this->_handle))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "dba cache handler: Failed to remove key {$key} from the database {$this->_filename}: {$php_errormsg}");
-            // This will exit.
+            throw new midcom_error("Failed to remove key {$key} from the database {$this->_filename}: {$php_errormsg}");
         }
     }
 
@@ -192,9 +180,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
         $handle = @dba_open($this->_filename, 'n', $this->_handler);
         if ($handle === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "dba cache handler: Failed to truncate the database {$this->_filename}: {$php_errormsg}");
-            // This will exit.
+            throw new midcom_error("Failed to truncate the database {$this->_filename}: {$php_errormsg}");
         }
         dba_close($handle);
     }

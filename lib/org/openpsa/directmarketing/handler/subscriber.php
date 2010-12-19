@@ -196,26 +196,21 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     {
         if (count($args) != 1)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Missing member ID.");
-            // This will exit.
+            throw new midcom_error_notfound("Missing member ID.");
         }
 
         $_MIDCOM->auth->request_sudo();
 
         $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
-        if (   !is_a($this->_request_data['membership'], 'org_openpsa_directmarketing_campaign_member_dba')
-            || !$this->_request_data['membership']->guid)
+        if (!$this->_request_data['membership']->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Membership record '{$args[0]}' not found");
-            // This will exit.
+            throw new midcom_error_notfound("Membership record '{$args[0]}' not found");
         }
 
         $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_request_data['membership']->campaign);
-        if (   !$this->_request_data['campaign']
-            || $this->_request_data['campaign']->node != $this->_topic->id)
+        if ($this->_request_data['campaign']->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Campaign for member '{$args[0]}' not found");
-            // This will exit.
+            throw new midcom_error_notfound("Campaign for member '{$args[0]}' not found");
         }
 
         $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
@@ -258,22 +253,19 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     {
         if (count($args) != 1)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Missing member ID.");
+            throw new midcom_error_notfound("Missing member ID.");
             // This will exit.
         }
         $_MIDCOM->auth->request_sudo();
         $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
-        if (!is_a($this->_request_data['membership'], 'org_openpsa_directmarketing_campaign_member_dba'))
+        if (!$this->_request_data['membership']->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Membership record '{$args[0]}' not found");
-            // This will exit.
+            throw new midcom_error_notfound("Membership record '{$args[0]}' not found");
         }
         $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_request_data['membership']->campaign);
-        if (   !$this->_request_data['campaign']
-            || $this->_request_data['campaign']->node != $this->_topic->id)
+        if ($this->_request_data['campaign']->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Campaign for member '{$args[0]}' not found");
-            // This will exit.
+            throw new midcom_error_notfound("Campaign for member '{$args[0]}' not found");
         }
 
         $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
@@ -312,17 +304,14 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
     {
         if (count($args) < 1)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Missing member ID.");
-            // This will exit.
+            throw new midcom_error_notfound("Missing member ID.");
         }
         $_MIDCOM->auth->request_sudo();
         $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
-        if (    !is_a($this->_request_data['person'], 'org_openpsa_contacts_person_dba')
-             || !$this->_request_data['person']->id)
+        if (!$this->_request_data['person']->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Membership record '{$args[0]}' not found");
-            // This will exit.
+            throw new midcom_error_notfound("Membership record '{$args[0]}' not found");
         }
         if ($handler_id === 'subscriber_unsubscribe_all_future')
         {

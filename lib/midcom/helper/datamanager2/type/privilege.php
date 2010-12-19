@@ -67,9 +67,7 @@ class midcom_helper_datamanager2_type_privilege extends midcom_helper_datamanage
         if (   ! $this->name
             || ! $this->assignee)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "The field {$this->name} had no name or assignee specified with it, cannot start up.");
-            // This will exit.
+            throw new midcom_error("The field {$this->name} had no name or assignee specified with it, cannot start up.");
         }
         return true;
     }

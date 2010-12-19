@@ -25,8 +25,7 @@ class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
             $this->_request_data['user'] = $_MIDCOM->auth->get_user('user:' . $this->_config->get('user'));
             if (!$this->_request_data['user'])
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No user found for this buddy list.');
-                // This will exit.
+                throw new midcom_error('No user found for this buddy list.');
             }
         }
         else

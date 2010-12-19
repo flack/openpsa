@@ -318,7 +318,7 @@ class midcom_url_midcom extends midcom_url_parser
                 $this->get_param_collector()->set_command('midcom_services_permalink_resolver');
                 $this->done = true;
             case "log":
-                throw new Exception('Not supported yet');
+                throw new midcom_error('Not supported yet');
             case "serveattachmentguid":
                 $this->get_param_collector()->set_command('midcom_services_attachmentserver');
                 $this->done = true;
@@ -334,7 +334,7 @@ class midcom_url_midcom extends midcom_url_parser
             case "exec":
                 break;
             default:
-                throw new Exception("Unknown MidCOM URL Property ignored: ");
+                throw new midcom_error("Unknown MidCOM URL Property ignored: ");
         }
         $this->end = true;
     }

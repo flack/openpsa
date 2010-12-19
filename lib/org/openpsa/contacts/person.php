@@ -490,9 +490,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $result = eval ("\$contents = array ( {$data_snippet}\n );");
         if ($result === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse the schema definition in '{$rules}', see above for PHP errors.");
-            // This will exit.
+            throw new midcom_error("Failed to parse the schema definition in '{$rules}', see above for PHP errors.");
         }
         if($password_length < $max)
         {
@@ -609,7 +607,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $atstat = midcom_services_at_interface::register(time() + $timeframe, 'org.openpsa.contacts', 'reopen_account', $args);
         if(!$atstat)
         {
-             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
+             throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
         $this->set_parameter("org_openpsa_contacts_blocked_account", "account_password" , $this->password);
         $this->password = "";

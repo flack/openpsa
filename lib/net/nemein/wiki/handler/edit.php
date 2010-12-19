@@ -70,8 +70,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         $this->_controller->set_storage($this->_page);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
     }
 
@@ -261,7 +260,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Only POST requests are allowed here.');
+            throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
         if (!$this->_load_page($args[0]))

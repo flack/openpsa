@@ -34,12 +34,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for messages.");
-            // This will exit.
-        }
     }
 
     /**
@@ -55,19 +49,15 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $_MIDCOM->auth->request_sudo();
         //Load message
         $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (   !$data['message']
-            || !$data['message']->guid)
+        if (!$data['message']->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The message {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The message {$args[0]} was not found.");
         }
 
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['message']->campaign);
-        if (   !$data['campaign']
-            || $data['campaign']->node != $this->_topic->id)
+        if ($data['campaign']->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$this->_message->campaign} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$this->_message->campaign} was not found.");
         }
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);

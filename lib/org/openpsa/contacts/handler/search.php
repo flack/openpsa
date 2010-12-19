@@ -239,7 +239,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         if (   !is_array($org_fields)
             || count($org_fields) == 0)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Invalid organization search configuration');
+            throw new midcom_error('Invalid organization search configuration');
         }
 
         foreach ($org_fields as $field)
@@ -277,7 +277,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         if (   !is_array($person_fields)
             || count($person_fields) == 0)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Invalid person search configuration');
+            throw new midcom_error( 'Invalid person search configuration');
         }
 
         foreach ($person_fields as $field)

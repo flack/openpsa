@@ -158,8 +158,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         if (!$controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller");
         }
         //get the needed widget-elements
         $data['widgets'] = array();

@@ -183,8 +183,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         if (   !$this->_account
             || !$this->_account->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, $this->_l10n->get('the account was not found.'));
-            // this will exit
+            throw new midcom_error_notfound($this->_l10n->get('the account was not found.'));
         }
         $this->_user = $_MIDCOM->auth->get_user($this->_account);
         $this->_avatar = $this->_account->get_attachment('avatar');
@@ -259,14 +258,14 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             case 'other':
                 if (!$this->_get_account($args[0]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
+                    throw new midcom_error_notfound("The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
                 }
                 break;
 
             case 'other_direct':
                 if (!$this->_get_account($args[0]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
+                    throw new midcom_error_notfound("The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
                 }
                 $this->_view_self = false;
                 $this->_view_quick = false;
@@ -275,14 +274,14 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             case 'other_quick':
                 if (!$this->_get_account($args[0]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
+                    throw new midcom_error_notfound("The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
                 }
                 $this->_view_self = false;
                 $this->_view_quick = true;
                 break;
 
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Unknown handler ID {$handler_id} encountered.");
+                throw new midcom_error_notfound("Unknown handler ID {$handler_id} encountered.");
         }
     }
 
@@ -433,7 +432,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             $qb->add_constraint('buddy', '=', $this->_account->guid);
             $qb->add_constraint('blacklisted', '=', false);
             $buddies = $qb->execute();
-            
+
             if (count($buddies) > 0)
             {
                 // We're buddies, show remove button
@@ -797,18 +796,14 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
                 $target = $this->_datamanager->schema->fields[$name]['customdata']['visible_link'];
                 if ($target == $name)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Tried to link the visibility of {$name} to itself.");
-                    // this will exit()
+                    throw new midcom_error("Tried to link the visibility of {$name} to itself.");
                 }
                 return $this->_is_field_visible($target);
 
             case 'user':
                 return in_array($name, $this->_visible_fields_user_selection);
         }
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-            "Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
-        // This will exit()
+        throw new midcom_error("Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
     }
 
     /**
@@ -845,7 +840,7 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
             $this->_populate_other_toolbar();
         }
     }
-    
+
     private function _populate_own_toolbar()
     {
         // Own profile page
@@ -933,16 +928,16 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         {
             $buddylist_path = $this->_config->get('net_nehmer_buddylist_integration');
             $view_url = $this->_get_view_url();
-            
+
             $_MIDCOM->componentloader->load_graceful('net.nehmer.buddylist');
-            
+
             $qb = net_nehmer_buddylist_entry::new_query_builder();
             $user = $_MIDCOM->auth->user->get_storage();
             $qb->add_constraint('account', '=', $user->guid);
             $qb->add_constraint('buddy', '=', $this->_account->guid);
             $qb->add_constraint('blacklisted', '=', false);
             $buddies = $qb->execute();
-            
+
             if (count($buddies) > 0)
             {
                 // We're buddies, show remove button

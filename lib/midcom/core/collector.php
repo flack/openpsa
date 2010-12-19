@@ -137,9 +137,10 @@ class midcom_core_collector
             // Validate the class, we check for a single callback representatively only
             if (!method_exists($classname, '_on_prepare_new_collector'))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Cannot create a midcom_core_collector instance for the type {$classname}: Does not seem to be a DBA class name.");
-                // This will exit.
+                throw new midcom_error
+                (
+                    "Cannot create a midcom_core_collector instance for the type {$classname}: Does not seem to be a DBA class name."
+                );
             }
 
             // Figure out the actual MgdSchema class from the decorator

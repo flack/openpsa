@@ -687,8 +687,7 @@ class midcom_services_js_css_merger
     {
         if (!$_MIDCOM->cache->memcache->get('jscss_merged', 'is_up'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cache is not running');
-            // this will exit()
+            throw new midcom_error('Cache is not running');
         }
         list ($cache_id, $extension) = explode('.', $name, 2);
         switch (strtolower($extension))
@@ -700,16 +699,14 @@ class midcom_services_js_css_merger
                 $mimetype = 'application/javascript';
                 break;
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Don't know what to do with extension '{$extension}'");
-                // this will exit()
+                throw new midcom_error_notfound("Don't know what to do with extension '{$extension}'");
         }
         $cache_metadata = $_MIDCOM->cache->memcache->get('jscss_merged', 'cache_metadata');
         if (!isset($cache_metadata[$cache_id]))
         {
             // We do not have metadata for this key
             $this->remove($cache_id);
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Metadata for key '{$cache_id}' not found in cache");
-            // this will exit()
+            throw new midcom_error_notfound("Metadata for key '{$cache_id}' not found in cache");
         }
         $last_modified =& $cache_metadata[$cache_id]['generated'];
         if ($_MIDCOM->cache->content->_check_not_modified($last_modified, $cache_id))
@@ -732,8 +729,7 @@ class midcom_services_js_css_merger
         $data = $this->get($cache_id);
         if (empty($data))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Key '{$cache_id}' not found in cache");
-            // this will exit()
+            throw new midcom_error_notfound("Key '{$cache_id}' not found in cache");
         }
 
         $_MIDCOM->header("ETag: {$cache_id}");

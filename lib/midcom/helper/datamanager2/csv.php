@@ -102,8 +102,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
     {
         if (! $this->datamanager)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Cannot operate on CSV files while no DM2 instance is set.");
-            // This will exit.
+            throw new midcom_error( "Cannot operate on CSV files while no DM2 instance is set.");
         }
 
         $result = '';
@@ -142,8 +141,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
     {
         if (! $this->datamanager)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Cannot operate on CSV files while no DM2 instance is set.");
-            // This will exit.
+            throw new midcom_error( "Cannot operate on CSV files while no DM2 instance is set.");
         }
 
         // Setup the DM instance accordingly

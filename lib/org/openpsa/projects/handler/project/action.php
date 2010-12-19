@@ -69,8 +69,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to subscribe, reason " . midcom_connection::get_error_string());
-            // This will exit
+            throw new midcom_error("Failed to subscribe, reason " . midcom_connection::get_error_string());
         }
     }
 

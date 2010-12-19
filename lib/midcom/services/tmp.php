@@ -57,9 +57,7 @@ class midcom_services_tmp
         if (! $tmp->create())
         {
             debug_print_r('Tried to create this object:', $tmp);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new temporary object, last Midgard error was: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new temporary object, last Midgard error was: ' . midcom_connection::get_error_string());
         }
 
         $tmp->unset_all_privileges();

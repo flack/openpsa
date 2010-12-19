@@ -61,8 +61,7 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
         $this->_controller->set_storage($this->_request_data['directory'], $this->_schema);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for task {$this->_directory->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for task {$this->_directory->id}.");
         }
     }
 

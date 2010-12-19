@@ -358,9 +358,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         if (!$invoice->create())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Invoice could not be created. Last Midgard error: " . midcom_connection::get_error_string());
-            //This will exit
+            throw new midcom_error("Invoice could not be created. Last Midgard error: " . midcom_connection::get_error_string());
         }
 
         // TODO: Create invoicing task if assignee is defined

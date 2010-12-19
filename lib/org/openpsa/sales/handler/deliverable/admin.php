@@ -123,11 +123,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
-        if (   ! $this->_datamanager
-            || ! $this->_datamanager->autoset_storage($this->_deliverable))
+        if (! $this->_datamanager->autoset_storage($this->_deliverable))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for deliverable {$this->_deliverable->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for deliverable {$this->_deliverable->id}.");
         }
     }
 
@@ -143,8 +141,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->_controller->set_storage($this->_deliverable, $this->_schema);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for deliverable {$this->_deliverable->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for deliverable {$this->_deliverable->id}.");
         }
     }
 
@@ -210,10 +207,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
-        if (! $this->_deliverable)
+        if (! $this->_deliverable->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The deliverable {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The deliverable {$args[0]} was not found.");
         }
         $this->_deliverable->require_do('midgard:update');
 
@@ -290,10 +286,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
-        if (! $this->_deliverable)
+        if (! $this->_deliverable->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The deliverable {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The deliverable {$args[0]} was not found.");
         }
         $this->_deliverable->require_do('midgard:delete');
 
@@ -304,8 +299,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             // Deletion confirmed.
             if (! $this->_deliverable->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete deliverable {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete deliverable {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Update the index

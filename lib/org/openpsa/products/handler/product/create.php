@@ -85,9 +85,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $this->_product->create())
         {
             debug_print_r('We operated on this object:', $this->_product);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new product under product group #{$this->_request_data['up']}, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new product under product group #{$this->_request_data['up']}. Error: " . midcom_connection::get_error_string());
         }
 
         return $this->_product;

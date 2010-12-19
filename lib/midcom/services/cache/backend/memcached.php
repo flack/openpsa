@@ -107,7 +107,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
                     // Abort the request
                     /**
                      * We don't have the superglobal initialized yet
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "memcache handler: Failed to connect to {$this->_host}:{$this->_port}.");
+                    throw new midcom_error("Failed to connect to {$this->_host}:{$this->_port}.");
                      */
                     _midcom_header('HTTP/1.0 503 Service Unavailable');
                     _midcom_header('Retry-After: 60');

@@ -248,14 +248,12 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
         if (!array_key_exists('org_openpsa_products_import_separator', $_POST))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No CSV separator specified.');
-            // This will exit.
+            throw new midcom_error('No CSV separator specified.');
         }
 
         if (!file_exists($_POST['org_openpsa_products_import_tmp_file']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No CSV file available.');
-            // This will exit.
+            throw new midcom_error('No CSV file available.');
         }
 
         $data['time_start'] = time();

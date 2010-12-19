@@ -145,8 +145,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         if (!$this->_config->get('allow_change_password'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Password changing is disabled');
-            // This will exit()
+            throw new midcom_error('Password changing is disabled');
         }
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -209,8 +208,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $new_password = $this->_controller->datamanager->types['newpassword']->value;
         if (! $_MIDCOM->auth->user->update_password($new_password, false))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to update the password');
-            // This will exit.
+            throw new midcom_error('Failed to update the password');
         }
     }
 
@@ -461,15 +459,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to request sudo privileges for account password reset.');
-            // This will exit.
+            throw new midcom_error('Failed to request sudo privileges for account password reset.');
         }
 
         $person = new midcom_db_person($guid);
         if (!$person->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Invalid reset link, the person record was not found.');
-            // This will exit.
+            throw new midcom_error_notfound('Invalid reset link, the person record was not found.');
         }
 
         $this->_account = $_MIDCOM->auth->get_user($person);
@@ -481,8 +477,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             if ($reset_hash)
             {
                 // wrong reset hash has been passed.
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Invalid reset link.');
-                // This will exit
+                throw new midcom_error_notfound('Invalid reset link.');
             }
             $this->_processing_msg = $this->_l10n->get('password already reset');
             $this->_processing_msg_raw = 'password already reset';
@@ -521,8 +516,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to request sudo privileges for account password reset.');
-            // This will exit.
+            throw new midcom_error('Failed to request sudo privileges for account password reset.');
         }
 
         if ($username)
@@ -714,18 +708,14 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to request sudo privileges for account creation.');
-            // This will exit.
+            throw new midcom_error('Failed to request sudo privileges for account creation.');
         }
 
         $user = $_MIDCOM->auth->get_user_by_name($username);
         if (! $user)
         {
             $_MIDCOM->auth->drop_sudo();
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "The username {$username} is unknown. For some reason the QuickForm validation failed.");
-            // This will exit.
+            throw new midcom_error("The username {$username} is unknown. For some reason the QuickForm validation failed.");
         }
 
         // Generate a random password
@@ -735,9 +725,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (! $user->update_password($password, false))
         {
             $_MIDCOM->auth->drop_sudo();
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Could not update the password of username {$username}: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Could not update the password of username {$username}: " . midcom_connection::get_error_string());
         }
 
         $person = $user->get_storage();
@@ -856,9 +844,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             if (   ! array_key_exists('confirmation_hash', $_REQUEST)
                 || $_REQUEST['confirmation_hash'] != $confirmation_hash)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Invalid confirmation hash specified, mebership will not be cancelled.');
-                // This will exit.
+                throw new midcom_error('Invalid confirmation hash specified, mebership will not be cancelled.');
             }
 
             // If a callback is set, invoke it now.
@@ -949,9 +935,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $user = $_MIDCOM->auth->get_user($this->_account);
         if (! $user->delete())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to delete the user account, last Midgard error was: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to delete the user account, last Midgard error was: ' . midcom_connection::get_error_string());
         }
     }
 

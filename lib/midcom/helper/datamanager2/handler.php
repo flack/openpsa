@@ -28,8 +28,7 @@ class midcom_helper_datamanager2_handler
         if (   ! $datamanager
             || ! $datamanager->autoset_storage($object))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for object {$object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for object {$object->guid}.");
         }
         return $datamanager->get_content_html();
     }
@@ -50,8 +49,7 @@ class midcom_helper_datamanager2_handler
         $controller->set_storage($object, $handler->get_schema_name());
         if (! $controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for object {$object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for object {$object->guid}.");
         }
         return $controller;
     }
@@ -71,8 +69,7 @@ class midcom_helper_datamanager2_handler
         $controller->defaults = $handler->get_schema_defaults();
         if (! $controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize a DM2 create controller.');
-            // This will exit.
+            throw new midcom_error('Failed to initialize a DM2 create controller.');
         }
         return $controller;
     }
@@ -93,8 +90,7 @@ class midcom_helper_datamanager2_handler
         $controller->callback_object =& $handler;
         if (! $controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize a DM2 create controller.');
-            // This will exit.
+            throw new midcom_error('Failed to initialize a DM2 create controller.');
         }
         return $controller;
     }

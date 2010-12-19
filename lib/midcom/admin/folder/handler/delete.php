@@ -182,8 +182,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                     $msg .= ' ' . $node[MIDCOM_NAV_FULLURL];
                 }
 
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $msg);
-                // This will exit
+                throw new midcom_error($msg);
             }
             $_MIDCOM->auth->drop_sudo();
         }

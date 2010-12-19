@@ -175,9 +175,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         if (!$invoice->update())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                     "The invoice for this cycle could not be saved. Last Midgard error was: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("The invoice for this cycle could not be saved. Last Midgard error was: " . midcom_connection::get_error_string());
         }
 
         // TODO: Create invoicing task if assignee is defined
@@ -483,9 +481,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                     "The task for this cycle could not be created. Last Midgard error was: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("The task for this cycle could not be created. Last Midgard error was: " . midcom_connection::get_error_string());
         }
     }
 

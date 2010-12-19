@@ -278,8 +278,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
             else
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to send the mail, SMTP returned error " . $mail->get_error_message());
-                // This will exit
+                throw new midcom_error("Failed to send the mail, SMTP returned error " . $mail->get_error_message());
             }
         }
 

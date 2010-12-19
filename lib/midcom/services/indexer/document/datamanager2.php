@@ -231,9 +231,7 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                     break;
 
                 default:
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Datamanager2 Indexer Document: Unknown indexing method {$field['index_method']} for field {$name} discovered, aborting.");
-                    // This will exit.
+                    throw new midcom_error(" Unknown indexing method {$field['index_method']} for field {$name} discovered, aborting.");
             }
         }
 

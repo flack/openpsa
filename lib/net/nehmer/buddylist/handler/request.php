@@ -71,7 +71,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
         $this->_buddy_user = $_MIDCOM->auth->get_user($args[0]);
         if (! $this->_buddy_user)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The user guid {$args[0]} is unknown.");
+            throw new midcom_error_notfound("The user guid {$args[0]} is unknown.");
         }
 
         $relocate_to = '';

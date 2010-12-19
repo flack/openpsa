@@ -21,7 +21,7 @@ if (   $ips
 {
     if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
     {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to acquire SUDO rights. Aborting.');
+        throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
     $ip_sudo = true;
 }
@@ -33,7 +33,7 @@ else
 
 if ($GLOBALS['midcom_config']['indexer_backend'] === false)
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No indexer backend has been defined. Aborting.');
+    throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 ?>
 <pre>
@@ -90,7 +90,7 @@ while (! is_null($nodeid))
     $childs = $nap->list_nodes($nodeid);
     if ($childs === false)
     {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to list the child nodes of {$nodeid}. Aborting.");
+        throw new midcom_error("Failed to list the child nodes of {$nodeid}. Aborting.");
     }
     $nodes = array_merge($nodes, $childs);
     $nodeid = array_shift($nodes);

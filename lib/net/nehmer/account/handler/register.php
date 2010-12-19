@@ -151,8 +151,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         // If there is only one type, relocate to there immediately.
         if (! $this->_request_data['types'])
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'No account types are currently open for registration.');
-            // This will exit.
+            throw new midcom_error_notfound('No account types are currently open for registration.');
         }
 
         // Save any return URL
@@ -289,9 +288,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (   $open_types
             && ! in_array($this->_account_type, $open_types))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND,
-                "The account type '{$this->_account_type} is currently not open for registration.");
-            // This will exit.
+            throw new midcom_error_notfound("The account type '{$this->_account_type} is currently not open for registration.");
         }
 
         // Determine current stage
@@ -334,8 +331,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
             default:
                 // Tried form-spoofing?
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "The stage {$this->_stage} is invalid, cannot continue. Please restart registration.");
-                // This will exit.
+                throw new midcom_error("The stage {$this->_stage} is invalid, cannot continue. Please restart registration.");
         }
 
         // Prepare output
@@ -471,8 +467,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 // Create the user account
                 if (!$this->_create_account())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create the user account, please contact the system administrator');
-                    // This will exit
+                    throw new midcom_error('Failed to create the user account, please contact the system administrator');
                 }
 
                 $this->_stage = 'success';
@@ -643,9 +638,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to request sudo privileges for account creation.');
-            // This will exit.
+            throw new midcom_error('Failed to request sudo privileges for account creation.');
         }
 
         // Create the person object
@@ -657,11 +650,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             $_MIDCOM->auth->drop_sudo();
 
-            debug_add('Failed to create a person record, last error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('Tried to create this record:', $this->_person);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a person record, last error was: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a person record, last error was: ' . midcom_connection::get_error_string());
         }
 
         // Set ownership and datamanager parameters
@@ -718,9 +708,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
                 debug_print_r('Original person record we tried to update:', $this->_person);
                 debug_print_r('Request data passed to us:', $controller->formmanager->form->getSubmitValues());
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to store the data into the newly created record, this indicates tampering with the request data");
-                // This will exit.
+                throw new midcom_error("Failed to store the data into the newly created record, this indicates tampering with the request data");
         }
 
         // Generate a random password and activation Hash
@@ -893,8 +881,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_person = new midcom_db_person($guid);
         if (!$this->_person)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Invalid activation link, the person record was not found.');
-            // This will exit.
+            throw new midcom_error_notfound('Invalid activation link, the person record was not found.');
         }
 
         // Check if the user account needs to be approved first
@@ -916,8 +903,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             if ($activation_hash)
             {
                 // wrong activation hash has been passed.
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Invalid activation link.');
-                // This will exit
+                throw new midcom_error_notfound('Invalid activation link.');
             }
             $this->_processing_msg = $this->_l10n->get('your account has already been activated.');
             $this->_processing_msg_raw = 'your account has already been activated.';
@@ -976,9 +962,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         if (! $_MIDCOM->auth->request_sudo('net.nehmer.account'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to request sudo privileges for account activation.');
-            // This will exit.
+            throw new midcom_error('Failed to request sudo privileges for account activation.');
         }
 
         $password = $this->_person->get_parameter('net.nehmer.account', 'password');
@@ -996,9 +980,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
             debug_add('Failed to update a person record, last error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
             debug_print_r('Tried to update this record:', $this->_person);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to update a person record, last error was: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to update a person record, last error was: ' . midcom_connection::get_error_string());
         }
 
         // Add corresponding group memberships, but ignore errors, as this component doesn't

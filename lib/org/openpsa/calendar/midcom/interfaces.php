@@ -29,8 +29,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
 
         if (!$event->create())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create the root event');
-            // This will exit
+            throw new midcom_error('Failed to create the root event');
         }
 
         $topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_CONTENTTOPIC);

@@ -160,18 +160,13 @@ class midcom_services_dbclassloader
             $result = eval ("\$definition_list = Array ( {$contents} \n );");
             if ($result === false)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                         "Failed to parse the class definition file '{$this->_class_definition_filename}', see above for PHP errors.");
-                // This will exit.
+                throw new midcom_error("Failed to parse the class definition file '{$this->_class_definition_filename}', see above for PHP errors.");
             }
         }
 
         if (!$this->_register_loaded_classes($definition_list, $component))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "DB Class Loader: Classes for {$component} couldn't be registered.");
-            // This will exit.
-            return false;
+            throw new midcom_error("DB Class Loader: Classes for {$component} couldn't be registered.");
         }
 
         return true;
@@ -250,9 +245,7 @@ class midcom_services_dbclassloader
     {
         if (! file_exists($this->_class_definition_filename))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "DB Class Loader: Failed to access the file {$this->_class_definition_filename}: File does not exist.");
-            // This will exit.
+            throw new midcom_error("Failed to access the file {$this->_class_definition_filename}: File does not exist.");
         }
 
         return file_get_contents($this->_class_definition_filename);

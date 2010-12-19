@@ -367,8 +367,7 @@ class midcom_application
         {
             if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
             {
-                $this->generate_error(MIDCOM_ERRFORBIDDEN,
-                    $this->i18n->get_string('access denied', 'midcom'));
+                throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
             }
             else
             {
@@ -380,10 +379,11 @@ class midcom_application
                 $topics = $qb->execute();
                 if (count($topics) == 0)
                 {
-                    $this->generate_error(MIDCOM_ERRCRIT,
+                    throw new midcom_error
+                    (
                         "Fatal error: Unable to load website root folder with GUID '{$GLOBALS['midcom_config']['midcom_root_topic_guid']}'.<br />" .
-                        'Last Midgard Error was: ' . midcom_connection::get_error_string());
-                    // This will exit.
+                        'Last Midgard Error was: ' . midcom_connection::get_error_string()
+                    );
                 }
                 $root_node = $topics[0];
             }
@@ -446,8 +446,7 @@ class midcom_application
 
         if (!$this->_parsers[$this->_currentcontext])
         {
-            debug_add('URL Parser is not instantiated, bailing out.', MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRCRIT, 'URL Parser is not instantiated');
+            throw new midcom_error('URL Parser is not instantiated');
         }
 
         $this->_process();
@@ -564,9 +563,7 @@ class midcom_application
 
         if ($this->_status < MIDCOM_STATUS_CONTENT)
         {
-            debug_add("dynamic_load content request called before content output phase. Aborting.", MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRCRIT, "dynamic_load content request called before content output phase.");
-            // This will exit
+            throw new midcom_error("dynamic_load content request called before content output phase.");
         }
 
         // Determine new Context ID and set $this->_currentcontext,
@@ -601,8 +598,7 @@ class midcom_application
 
         if (!$this->_parsers[$this->_currentcontext])
         {
-            debug_add("URL Parser could not be instantiated", MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRCRIT, "URL Parser could not be instantiated");
+            throw new midcom_error("URL Parser could not be instantiated");
         }
 
         // Processing, upon error the generate_error function will die here...
@@ -739,12 +735,12 @@ class midcom_application
                         if (   !$attachment
                             && !$attachment->guid)
                         {
-                            $this->generate_error(MIDCOM_ERRNOTFOUND, 'Failed to access attachment: ' . midcom_connection::get_error_string());
+                            throw new midcom_error_notfound('Failed to access attachment: ' . midcom_connection::get_error_string());
                         }
 
                         if (!$attachment->can_do('midgard:autoserve_attachment'))
                         {
-                            $this->generate_error(MIDCOM_ERRNOTFOUND, 'Failed to access attachment: Autoserving denied.');
+                            throw new midcom_error_notfound('Failed to access attachment: Autoserving denied.');
                         }
 
                         $this->serve_attachment($attachment);
@@ -756,8 +752,7 @@ class midcom_application
                         $destination = $this->permalinks->resolve_permalink($guid);
                         if ($destination === null)
                         {
-                            $this->generate_error(MIDCOM_ERRNOTFOUND, "This Permalink is unknown.");
-                            // This will exit
+                            throw new midcom_error_notfound("This Permalink is unknown.");
                         }
 
                         // We use "302 Found" here so that search engines and others will keep using the PermaLink instead of the temporary
@@ -785,8 +780,7 @@ class midcom_application
                         }
                         else
                         {
-                            $this->generate_error(MIDCOM_ERRNOTFOUND, "Invalid cache request URL.");
-                            // This will exit
+                            throw new midcom_error_notfound("Invalid cache request URL.");
                         }
                         break;
 
@@ -860,16 +854,14 @@ class midcom_application
                         if (   !$this->jscss
                             || !is_callable(array($this->jscss, 'serve')))
                         {
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cache is not initialized');
-                            // this will exit
+                            throw new midcom_error('Cache is not initialized');
                         }
                         $this->jscss->serve($name);
                         // this will exit()
 
                     default:
                         debug_add("Unknown MidCOM URL Property ignored: {$key} => {$value}", MIDCOM_LOG_WARN);
-                        $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "This MidCOM URL method is unknown.");
-                        // This will exit.
+                        throw new midcom_error_notfound("This MidCOM URL method is unknown.");
                 }
             }
         }
@@ -882,8 +874,7 @@ class midcom_application
             if (   !is_object($object)
                 || !$object->guid)
             {
-                debug_add('Root node missing.', MIDCOM_LOG_ERROR);
-                $this->generate_error(MIDCOM_ERRCRIT, 'Root node missing.');
+                throw new midcom_error('Root node missing.');
             }
 
             if (is_a($object, 'midcom_db_attachment'))
@@ -925,8 +916,7 @@ class midcom_application
             if (   midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED
                 && $this->get_current_context() == 0)
             {
-                $this->generate_error(MIDCOM_ERRFORBIDDEN, $this->i18n->get_string('access denied', 'midcom'));
-                // This will exit.
+                throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
             }
 
             /**
@@ -936,7 +926,7 @@ class midcom_application
 
             if ($this->get_current_context() == 0)
             {
-                $this->generate_error(MIDCOM_ERRNOTFOUND, "This page is not available on this server.");
+                throw new midcom_error_notfound("This page is not available on this server.");
             }
 
             $this->_status = MIDCOM_STATUS_ABORT;
@@ -991,9 +981,7 @@ class midcom_application
 
         if (!$handler->handle($this->_parsers[$this->_currentcontext]->get_current_object(), $this->_parsers[$this->_currentcontext]->argc, $this->_parsers[$this->_currentcontext]->argv, $this->_currentcontext))
         {
-            $this->generate_error(MIDCOM_ERRCRIT, "Component $path failed to handle the request");
-
-            // This will exit.
+            throw new midcom_error("Component $path failed to handle the request");
         }
 
         // Retrieve Metadata
@@ -1049,8 +1037,7 @@ class midcom_application
         $config = ($config_obj == false) ? array() : $config_obj->get_all();
         if (! $component_interface->configure($config, $this->_currentcontext))
         {
-            debug_add ("Component Configuration failed: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRCRIT, "Component Configuration failed: " . midcom_connection::get_error_string());
+            throw new midcom_error("Component Configuration failed: " . midcom_connection::get_error_string());
         }
 
         // Make can_handle check
@@ -1503,7 +1490,7 @@ class midcom_application
         }
         if ($this->_status < MIDCOM_STATUS_HANDLE)
         {
-            $this->generate_error(MIDCOM_ERRCRIT, "Cannot do a substyle_append before the HANDLE phase.");
+            throw new midcom_error("Cannot do a substyle_append before the HANDLE phase.");
         }
 
         $current_style = $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE];
@@ -1533,8 +1520,9 @@ class midcom_application
      */
     function substyle_prepend($newsub)
     {
-        if ($this->_status < MIDCOM_STATUS_HANDLE) {
-            $this->generate_error(MIDCOM_ERRCRIT, "Cannot do a substyle_append before the HANDLE phase.");
+        if ($this->_status < MIDCOM_STATUS_HANDLE)
+        {
+            throw new midcom_error("Cannot do a substyle_append before the HANDLE phase.");
         }
 
         $current_style = $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE];
@@ -1695,8 +1683,7 @@ class midcom_application
             return $this->$name;
         }
 
-        debug_add("Requested service '$name' is not available.", MIDCOM_LOG_ERROR);
-        $this->generate_error(MIDCOM_ERRCRIT, "Requested service '$name' is not available.");
+        throw new midcom_error("Requested service '$name' is not available.");
     }
 
     /**
@@ -1756,11 +1743,6 @@ class midcom_application
             return;
         }
 
-        if (!class_exists('midcom_exception_handler'))
-        {
-            // Here we need the error handler, enabled or not
-            require(MIDCOM_ROOT. '/errors.php');
-        }
         $error_shown = true;
         $error_handler = new midcom_exception_handler();
         $error_handler->show($httpcode, $message);
@@ -1792,10 +1774,9 @@ class midcom_application
      */
     function serve_snippet (& $snippet)
     {
-        if ($snippet->parameter("midcom", "allow_serve") != "true") {
-            debug_add("This snippet may not be served.", MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRFORBIDDEN, "This snippet may not be served.");
-            // This will exit.
+        if ($snippet->parameter("midcom", "allow_serve") != "true")
+        {
+            throw new midcom_error_forbidden("This snippet may not be served.");
         }
         $content_type = $snippet->parameter("midcom", "content-type");
         if (! $content_type || $content_type == "")
@@ -1880,8 +1861,7 @@ class midcom_application
         if (   !is_int($expires)
             || $expires < -1)
         {
-            $this->generate_error(MIDCOM_ERRCRIT, "\$expires has to be a positive integer or zero or -1, is now {$expires}.");
-            // This will exit()
+            throw new midcom_error("\$expires has to be a positive integer or zero or -1, is now {$expires}.");
         }
 
         // Doublecheck that this is registered
@@ -1911,8 +1891,7 @@ class midcom_application
         $f = $attachment->open('r');
         if (! $f)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open attachment for reading: ' . midcom_connection::get_error_string());
-            // This will exit()
+            throw new midcom_error('Failed to open attachment for reading: ' . midcom_connection::get_error_string());
         }
 
         $this->header("ETag: {$etag}");
@@ -1996,7 +1975,7 @@ class midcom_application
         // Sanity checks
         if ($this->_parsers[$this->_currentcontext]->argc < 1)
         {
-            $this->generate_error(MIDCOM_ERRNOTFOUND, "Script exec path invalid, need exactly one argument.");
+            throw new midcom_error_notfound("Script exec path invalid, need exactly one argument.");
         }
 
         // Build the path
@@ -2008,8 +1987,7 @@ class midcom_application
         {
             if (! $this->componentloader->validate_url($component))
             {
-                $this->generate_error(MIDCOM_ERRNOTFOUND, "The component path {$component} is invalid.");
-                // This will exit
+                throw new midcom_error_notfound("The component path {$component} is invalid.");
             }
             $this->componentloader->load($component);
             $this->_set_context_data($component, MIDCOM_CONTEXT_COMPONENT);
@@ -2025,12 +2003,12 @@ class midcom_application
 
         if (is_dir($path))
         {
-            $this->generate_error(MIDCOM_ERRNOTFOUND, "File is a directory.");
+            throw new midcom_error_notfound("File is a directory.");
         }
 
         if (! file_exists($path))
         {
-            $this->generate_error(MIDCOM_ERRNOTFOUND, "File not found.");
+            throw new midcom_error_notfound("File not found.");
         }
 
         // collect remaining arguments and put them to global vars.
@@ -2584,14 +2562,12 @@ class midcom_application
     {
         if ($this->_parsers[$this->_currentcontext]->argc > 1)
         {
-            debug_add("Too many arguments remaining for debuglog.", MIDCOM_LOG_ERROR);
-            $this->generate_error(MIDCOM_ERRNOTFOUND, "Failed to access debug log: Too many arguments for debuglog");
-            // This will exit
+            throw new midcom_error_notfound("Too many arguments for debuglog");
         }
 
         if ($GLOBALS['midcom_config']['log_tailurl_enable'] !== true)
         {
-            $this->generate_error(MIDCOM_ERRFORBIDDEN, "Access to the debug log is disabled.");
+            throw new midcom_error_forbidden("Access to the debug log is disabled.");
         }
 
         $filename = $GLOBALS["midcom_debugger"]->_filename;
@@ -2617,7 +2593,7 @@ class midcom_application
         }
         else
         {
-            $this->generate_error(MIDCOM_ERRNOTFOUND, "Parameter must be 'all' or an integer");
+            throw new midcom_error_notfound("Parameter must be 'all' or an integer");
         }
     }
 

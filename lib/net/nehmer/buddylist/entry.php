@@ -291,8 +291,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
         $buddy = $buddy_user->get_storage();
         if (! $buddy)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not load the person {$this->buddy} to adjust the privileges accordingly.");
-            // This will exit.
+            throw new midcom_error("Could not load the person {$this->buddy} to adjust the privileges accordingly.");
         }
 
         $_MIDCOM->auth->require_do('midgard:owner', $this);
@@ -332,9 +331,7 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
         {
             if (! $_MIDCOM->auth->request_sudo('net.nehmer.buddylist'))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Failed to optain sudo privileges for the buddylist_entry on_deleted handler');
-                // This will exit.
+                throw new midcom_error('Failed to optain sudo privileges');
             }
 
             // Get buddy person

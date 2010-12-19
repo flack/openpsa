@@ -174,9 +174,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
         if (! $project->create())
         {
             debug_print_r('We operated on this object:', $project);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new project, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new project. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_object = new org_openpsa_projects_project($project->id);

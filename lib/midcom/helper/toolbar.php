@@ -69,7 +69,7 @@
  * <code>
  * if ($_SERVER['REQUEST_METHOD'] != 'post')
  * {
- *     $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Only POST requests are allowed here.');
+ *     throw new midcom_error_forbidden('Only POST requests are allowed here.');
  * }
  * </code>
  *
@@ -452,9 +452,7 @@ class midcom_helper_toolbar
     {
         if ($index == 0)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Cannot move the top element upwards.');
-            // This will exit()
+            throw new midcom_error('Cannot move the top element upwards.');
         }
         $index = $this->_check_index($index);
 
@@ -474,9 +472,7 @@ class midcom_helper_toolbar
     {
         if ($index == (count($this->items) - 1))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Cannot move the bottom element downwards.');
-            // This will exit()
+            throw new midcom_error('Cannot move the bottom element downwards.');
         }
         $index = $this->_check_index($index);
 
@@ -904,27 +900,18 @@ class midcom_helper_toolbar
 
                 if ($raise_error)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "midcom_helper_toolbar::check_index - Invalid URL '{$url}', URL not found.");
-                    // This will exit.
+                    throw new midcom_error("Invalid URL '{$url}', URL not found.");
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
         }
         if ($index >= count($this->items))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "midcom_helper_toolbar::check_index - Invalid index {$index}, it is off-the-end.");
-            // This will exit.
+            throw new midcom_error("Invalid index {$index}, it is off-the-end.");
         }
         if ($index < 0)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "midcom_helper_toolbar::check_index - Invalid index {$index}, it is negative.");
-            // This will exit.
+            throw new midcom_error("Invalid index {$index}, it is negative.");
         }
         return $index;
     }

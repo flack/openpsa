@@ -72,17 +72,14 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
 
         if (empty($this->_productlink->guid))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Fell through to last product sanity-check and failed");
-            // This will exit
+            throw new midcom_error("Fell through to last product sanity-check and failed");
         }
 
         $data['controller'] = null;
         $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_productlink']);
-        if (   ! $data['datamanager']
-            || ! $data['datamanager']->autoset_storage($this->_productlink))
+        if (!$data['datamanager']->autoset_storage($this->_productlink))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for productlink {$this->_productlink->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for productlink {$this->_productlink->guid}.");
         }
 
         $this->_prepare_request_data();

@@ -18,7 +18,7 @@ if (   $ips
 {
     if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
     {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to acquire SUDO rights. Aborting.');
+        throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
     $ip_sudo = true;
 }
@@ -30,13 +30,13 @@ else
 
 if ($GLOBALS['midcom_config']['indexer_backend'] === false)
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No indexer backend has been defined. Aborting.');
+    throw new midcom_error('No indexer backend has been defined. Aborting.');
 }
 
 if (   !isset($_REQUEST['nodeid'])
     || empty($_REQUEST['nodeid']))
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "\$_REQUEST['nodeid'] must be set to valid node ID");
+    throw new midcom_error("\$_REQUEST['nodeid'] must be set to valid node ID");
 }
 
 //check if language is passed & set language if needed
@@ -59,7 +59,7 @@ $nodeid =& $_REQUEST['nodeid'];
 $node = $nap->get_node($nodeid);
 if (empty($node))
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not get node {$_REQUEST['nodeid']}");
+    throw new midcom_error("Could not get node {$_REQUEST['nodeid']}");
 }
 
 debug_dump_mem("Initial Memory Usage");
@@ -80,8 +80,7 @@ if (is_null($interface))
     $msg = "Failed to retrieve an interface class for the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.";
     debug_add($msg, MIDCOM_LOG_ERROR);
     debug_print_r('NAP record was:', $node);
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $msg);
-    // this will exit
+    throw new midcom_error($msg);
 }
 
 
@@ -90,8 +89,7 @@ $existing_documents = $indexer->query("__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->g
 if ($existing_documents === false)
 {
     $msg = "Query '__TOPIC_GUID:{$node[MIDCOM_NAV_OBJECT]->guid}' returned false, indicating problem with indexer";
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $msg);
-    // this will exit
+    throw new midcom_error($msg);
 }
 
 if (   is_array($existing_documents)
@@ -116,8 +114,7 @@ if (!$interface->reindex($node[MIDCOM_NAV_OBJECT]))
     $msg = "Failed to reindex the node {$nodeid} which is of {$node[MIDCOM_NAV_COMPONENT]}.";
     debug_add($msg, MIDCOM_LOG_ERROR);
     debug_print_r('NAP record was:', $node);
-    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $msg);
-    // this will exit
+    throw new midcom_error($msg);
 }
 flush();
 

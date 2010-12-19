@@ -88,7 +88,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Only POST requests are allowed here.');
+            throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
         $_MIDCOM->auth->require_valid_user();

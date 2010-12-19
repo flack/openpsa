@@ -107,8 +107,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         if (!$this->_datamanager->autoset_storage($this->_message))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for message {$this->_message->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for message {$this->_message->id}.");
         }
     }
 
@@ -123,8 +122,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_controller->set_storage($this->_message);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for message {$this->_message->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for message {$this->_message->id}.");
         }
     }
 
@@ -163,21 +161,17 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (   !$this->_message
-            || !$this->_message->guid)
+        if (!$this->_message->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The message {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The message {$args[0]} was not found.");
         }
 
         $this->_message->require_do('midgard:update');
 
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-        if (   !$data['campaign']
-            || $data['campaign']->node != $this->_topic->id)
+        if ($data['campaign']->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$this->_message->campaign} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$this->_message->campaign} was not found.");
         }
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
@@ -229,21 +223,17 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (   !$this->_message
-            || !$this->_message->guid)
+        if (!$this->_message->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The message {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The message {$args[0]} was not found.");
         }
 
         $this->_message->require_do('midgard:delete');
 
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-        if (   !$data['campaign']
-            || $data['campaign']->node != $this->_topic->id)
+        if ($data['campaign']->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$this->_message->campaign} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$this->_message->campaign} was not found.");
         }
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
@@ -255,8 +245,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
             // Deletion confirmed.
             if (! $this->_message->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete message {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete message {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Update the index
@@ -304,14 +293,12 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         $this->_topic->require_do('midgard:create');
 
         $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        $guid = $args[0];
 
-        if (   !$this->_message
-            || !$this->_message->guid)
+        if (!$this->_message->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The message {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The message {$args[0]} was not found.");
         }
+        $guid = $args[0];
 
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message_copy'));
         $this->_controller = midcom_helper_datamanager2_controller::create('nullstorage');

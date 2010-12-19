@@ -119,8 +119,7 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
             // Error message on failure
             if (empty($group))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the configured product root group');
-                // This will exit
+                throw new midcom_error('Failed to get the configured product root group');
             }
 
             $up = $group->id;

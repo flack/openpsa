@@ -255,14 +255,14 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         $qb = midcom_db_article::new_query_builder();
         $qb->add_constraint('name', '=', 'index');
         $qb->set_limit(1);
-        
+
         // Include the article links to the indexes if enabled
         if ($this->_config->get('enable_article_links'))
         {
             $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
             $mc->add_value_property('article');
             $mc->add_constraint('topic', '=', $this->_content_topic->id);
-            
+
             // Get the results
             $mc->execute();
 
@@ -298,7 +298,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
                 }
             }
 
-            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Directory index forbidden');
+            throw new midcom_error_forbidden('Directory index forbidden');
             // This will exit.
         }
 
@@ -315,8 +315,7 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         if (   ! $this->_datamanager
             || ! $this->_datamanager->autoset_storage($this->_article))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for article {$this->_article->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
     }
 

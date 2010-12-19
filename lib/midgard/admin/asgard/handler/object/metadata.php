@@ -99,8 +99,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (!$this->_object)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
         }
 
         // FIXME: We should modify the schema according to whether or not scheduling is used
@@ -117,9 +116,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (! $this->_metadata)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to retrieve Metadata for " . get_class($this->_object) . " {$this->_object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to retrieve Metadata for " . get_class($this->_object) . " {$this->_object->guid}.");
         }
 
         // Load the DM2 controller instance

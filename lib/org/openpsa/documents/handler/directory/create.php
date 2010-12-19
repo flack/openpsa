@@ -55,9 +55,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
         if (! $topic->create())
         {
             debug_print_r('We operated on this object:', $topic);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new topic, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new topic, cannot continue. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_request_data['directory'] = new org_openpsa_documents_directory($topic->id);
@@ -77,8 +75,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
         $this->_controller->callback_object =& $this;
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
     }
 

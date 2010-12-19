@@ -32,8 +32,7 @@ class net_nehmer_buddylist_handler_delete extends midcom_baseclasses_components_
         // Check for basic resultset validity
         if (! array_key_exists('net_nehmer_buddylist_delete', $_REQUEST))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Incomplete request.');
-            // This will exit.
+            throw new midcom_error('Incomplete request.');
         }
 
         $relocate_to = '';

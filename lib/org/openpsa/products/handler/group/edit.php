@@ -109,8 +109,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
         $this->_request_data['controller']->set_storage($this->_group);
         if (! $this->_request_data['controller']->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for product {$this->_group->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for product {$this->_group->id}.");
         }
 
         switch ($this->_request_data['controller']->process_form())

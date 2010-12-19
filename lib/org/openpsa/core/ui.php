@@ -26,12 +26,12 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
 
         if (!mgd_is_guid($guid))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The object with GUID {$guid} was not found.");
+            throw new midcom_error_notfound("The object with GUID {$guid} was not found.");
         }
 
         if ($last_error == MGD_ERR_ACCESS_DENIED)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, $_MIDCOM->i18n->get_string('access denied', 'midcom'));
+            throw new midcom_error_forbidden($_MIDCOM->i18n->get_string('access denied', 'midcom'));
         }
         else if ($last_error == MGD_ERR_OBJECT_DELETED)
         {
@@ -40,8 +40,7 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         }
 
         //If other options fail, go for the server error
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to load object {$guid}, cannot continue. Last error: " . $last_error_string);
+        throw new midcom_error("Failed to load object {$guid}. Last error: " . $last_error_string);
     }
 
     /**

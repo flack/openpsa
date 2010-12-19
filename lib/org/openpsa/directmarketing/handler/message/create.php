@@ -68,9 +68,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $this->_message->create())
         {
             debug_print_r('We operated on this object:', $this->_message);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new message, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new message. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
 
         return $this->_message;
@@ -87,11 +85,9 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_create($handler_id, $args, &$data)
     {
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if (   !$data['campaign']
-            || $data['campaign']->node != $this->_topic->id)
+        if ($data['campaign']->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
         }
 
         $_MIDCOM->auth->require_do('midgard:create', $data['campaign']);

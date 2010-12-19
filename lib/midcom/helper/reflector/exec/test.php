@@ -9,15 +9,13 @@
 if (   !isset($_GET['guid'])
     || empty($_GET['guid']))
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Specify $guid via GET for info');
-    // this will exit
+    throw new midcom_error_notfound('Specify $guid via GET for info');
 }
 
 $object = $_MIDCOM->dbfactory->get_object_by_guid($_GET['guid']);
 if (!is_object($object))
 {
-    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Could not find object with GUID {$_GET['guid']}");
-    // this will exit
+    throw new midcom_error_notfound("Could not find object with GUID {$_GET['guid']}");
 }
 $reflector =& midcom_helper_reflector::get($object);
 

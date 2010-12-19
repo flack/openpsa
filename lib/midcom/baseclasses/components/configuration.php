@@ -170,9 +170,7 @@ class midcom_baseclasses_components_configuration
         $result = eval("\$data = array({$data}\n);");
         if ($result === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse content loaded from file '{$filename}', see above for PHP errors.");
-            // This will exit.
+            throw new midcom_error("Failed to parse content loaded from file '{$filename}', see above for PHP errors.");
         }
         return $data;
     }
@@ -195,9 +193,7 @@ class midcom_baseclasses_components_configuration
         $result = eval("\$data = Array({$code}\n);");
         if ($result === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse content loaded from snippet '{$snippetpath}', see above for PHP errors.");
-            // This will exit.
+            throw new midcom_error("Failed to parse content loaded from snippet '{$snippetpath}', see above for PHP errors.");
         }
         return $data;
     }

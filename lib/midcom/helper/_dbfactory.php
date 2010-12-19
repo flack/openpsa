@@ -359,9 +359,7 @@ class midcom_helper__dbfactory
         }
         elseif ($the_object === null)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Tried to resolve an invalid GUID without an object being present. This cannot be done.');
-            // This will exit.
+            throw new midcom_error('Tried to resolve an invalid GUID without an object being present. This cannot be done.');
         }
         else
         {

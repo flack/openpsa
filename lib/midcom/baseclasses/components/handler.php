@@ -198,8 +198,7 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
             case 'create':
                 return midcom_helper_datamanager2_handler::get_create_controller($this);
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Unsupported controller type: {$type}");
-                // This will exit.
+                throw new midcom_error( "Unsupported controller type: {$type}");
         }
     }
 

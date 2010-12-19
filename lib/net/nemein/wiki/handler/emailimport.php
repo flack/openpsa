@@ -28,24 +28,21 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         //Make sure we have the components we use and the Mail_mimeDecode package
         if (!$_MIDCOM->load_library('org.openpsa.mail'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'library org.openpsa.mail could not be loaded.');
-            // This will exit.
+            throw new midcom_error('library org.openpsa.mail could not be loaded.');
         }
 
         $decoder = new org_openpsa_mail();
 
         if (!class_exists('Mail_mimeDecode'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cannot decode attachments, aborting.');
-            // This will exit.
+            throw new midcom_error('Cannot decode attachments, aborting.');
         }
 
         //Make sure the message_source is POSTed
         if (   !array_key_exists('message_source', $_POST)
             || empty($_POST['message_source']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, '_POST[\'message_source\'] not present or empty.');
-            // This will exit.
+            throw new midcom_error('_POST[\'message_source\'] not present or empty.');
         }
 
         $decoder = new org_openpsa_mail();
@@ -103,9 +100,8 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
                 if ($foundpage->content == $wikipage->content)
                 {
                     //Content exact duplicate, abort import
-                    debug_add("duplicate content with page '{$wikipage->title}' content: \n===\n{$wikipage->content}\n===\n");
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Duplicate content with an existing page with similar title, aborting import.');
-                    // This will exit.
+                    debug_print_r("duplicate content with page '{$wikipage->title}", $wikipage->content);
+                    throw new midcom_error('Duplicate content with an existing page with similar title.');
                 }
             }
             //In theory this should be recursive but we'll leave it at this for now
@@ -124,8 +120,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             if (empty($results))
             {
                 //No users found
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Cannot set any author for the wikipage');
-                // This will exit.
+                throw new midcom_error('Cannot set any author for the wikipage');
             }
             $wikipage->author = $results[0]->id;
         }
@@ -133,9 +128,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         $stat = $wikipage->create();
         if (!$stat)
         {
-            //Could not create article
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'wikipage->create returned failure, errstr: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('wikipage->create returned failure, errstr: ' . midcom_connection::get_error_string());
         }
         //Mark as email
         $wikipage->parameter('net.nemein.wiki:emailimport', 'is_email', time());

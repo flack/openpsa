@@ -241,8 +241,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $data['controller']->set_storage($data['feed']);
         if (! $data['controller']->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for feed {$data['feed']->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for feed {$data['feed']->id}.");
         }
     }
 
@@ -319,11 +318,9 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         if (array_key_exists('net_nemein_rss_deleteok', $_REQUEST))
         {
             // Deletion confirmed.
-
             if (!$data['feed']->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete feed {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete feed {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Delete ok, relocating to welcome.

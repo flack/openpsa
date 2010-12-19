@@ -68,20 +68,14 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
         else
         {
-            debug_add('No configuration schema defined', MIDCOM_LOG_ERROR);
-
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "No configuration schema defined");
-            // This will exit
+            throw new midcom_error("No configuration schema defined");
         }
 
         $schemadb = midcom_helper_datamanager2_schema::load_database($schemadb_path);
 
         if (empty($schemadb))
         {
-            debug_add('Failed to load the schemadb', MIDCOM_LOG_ERROR);
-
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to load configuration schemadb');
-            // This will exit
+            throw new midcom_error('Failed to load configuration schemadb');
         }
 
         return $schemadb;
@@ -186,14 +180,12 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         if (!method_exists($this, '_load_datamanagers'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, '_load_datamanagers method not available, recreation support disabled.');
-            // This will exit.
+            throw new midcom_error_notfound('_load_datamanagers method not available, recreation support disabled.');
         }
 
         if (!method_exists($this, '_load_objects'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, '_load_objects method not available, recreation support disabled.');
-            // This will exit.
+            throw new midcom_error_notfound('_load_objects method not available, recreation support disabled.');
         }
 
         // Require corresponding ACL's

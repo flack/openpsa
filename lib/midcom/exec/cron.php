@@ -7,7 +7,7 @@ if (   $ips
 {
     if (! $_MIDCOM->auth->request_sudo('midcom.services.indexer'))
     {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to acquire SUDO rights. Aborting.');
+        throw new midcom_error('Failed to acquire SUDO rights. Aborting.');
     }
     $ip_sudo = true;
 }

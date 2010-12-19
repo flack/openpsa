@@ -344,8 +344,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $data['controller'] = null;
                 if (!$data['datamanager_group']->autoset_storage($data['group']))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for product group {$data['group']->guid}.");
-                    // This will exit.
+                    throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
                 }
             }
             $_MIDCOM->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);
@@ -548,7 +547,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $constraint_members = explode(',', $constraint_string);
                 if (count($constraint_members) != 3)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Invalid constraint '{$constraint_string}'");
+                    throw new midcom_error("Invalid constraint '{$constraint_string}'");
                 }
 
                 // Reflection is needed here for safety
@@ -556,7 +555,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 switch ($field_type)
                 {
                     case 4:
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Invalid constraint: '{$constraint_members[0]}' is not a Midgard property");
+                        throw new midcom_error("Invalid constraint: '{$constraint_members[0]}' is not a Midgard property");
                     case MGD_TYPE_INT:
                         $constraint_members[2] = (int) $constraint_members[2];
                         break;

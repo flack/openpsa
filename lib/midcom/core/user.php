@@ -175,8 +175,7 @@ class midcom_core_user
     {
         if (is_null($id))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'The class midcom_user is not default constructible.');
-            // This will exit.
+            throw new midcom_error('The class midcom_user is not default constructible.');
         }
 
         if (! $this->_load($id))

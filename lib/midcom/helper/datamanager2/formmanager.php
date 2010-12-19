@@ -139,9 +139,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         if (! is_a($schema, 'midcom_helper_datamanager2_schema'))
         {
             debug_print_type('Got an object of this type:', $schema);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Invalid schema instance passed, cannot startup formmanager');
-            // This will exit.
+            throw new midcom_error('Invalid schema instance passed, cannot startup formmanager');
         }
 
         $this->_schema = $schema;
@@ -177,7 +175,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
         $this->widgets[$name] = new $classname($this->renderer);
         if (!$this->widgets[$name] instanceof midcom_helper_datamanager2_widget)
         {
-            throw new Exception("{$classname} is not a valid DM2 widget");
+            throw new midcom_error("{$classname} is not a valid DM2 widget");
         }
 
         if (! $this->widgets[$name]->initialize($name, $config['widget_config'], $this->_schema, $this->_types[$name], $this->namespace, $initialize_dependencies))
@@ -825,9 +823,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 midcom_helper_misc::include_snippet_php($src);
                 if (! class_exists($default))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "The renderer class set in the DM2 configuration does not exist.");
-                    // This will exit.
+                    throw new midcom_error("The renderer class set in the DM2 configuration does not exist.");
                 }
             }
             $this->renderer = new $default($this->namespace);

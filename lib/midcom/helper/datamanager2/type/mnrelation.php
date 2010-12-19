@@ -221,17 +221,16 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
             || ! $this->master_fieldname
             || ! $this->member_fieldname)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+            throw new midcom_error
+            (
                 'The configuration options mapping_class_name, master_filename and member_fieldname ' .
-                'must be defined for  any mnselect type.');
-            // This will exit.
+                'must be defined for  any mnselect type.'
+            );
         }
 
         if (! class_exists($this->mapping_class_name))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "The mapping class {$this->mapping_class_name} does not exist.");
-            // This will exit.
+            throw new midcom_error("The mapping class {$this->mapping_class_name} does not exist.");
         }
 
         $this->allow_other = false;

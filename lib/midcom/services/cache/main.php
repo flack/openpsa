@@ -92,15 +92,11 @@ class midcom_services_cache
             return;
         }
 
-        $filename = MIDCOM_ROOT. "/midcom/services/cache/module/{$name}.php";
         $classname = "midcom_services_cache_module_{$name}";
 
-        require_once($filename);
         if (! class_exists($classname))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Tried to load the cache module {$name}, but the class {$classname} was not found in the file {$filename}");
-            // This will exit.
+            throw new midcom_error("Tried to load the cache module {$name}, but the class {$classname} was not found");
         }
 
         $this->_modules[$name] = new $classname();

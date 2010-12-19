@@ -331,8 +331,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             case 'archive-year-category':
                 if (!$this->_config->get('archive_years_enable'))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Year archive not allowed');
-                    // This will exit
+                    throw new midcom_error_notfound('Year archive not allowed');
                 }
 
                 $data['category'] = trim(strip_tags($args[1]));
@@ -354,8 +353,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
             case 'archive-year':
                 if (!$this->_config->get('archive_years_enable'))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Year archive not allowed');
-                    // This will exit
+                    throw new midcom_error_notfound('Year archive not allowed');
                 }
 
                 $this->_set_startend_from_year($args[0]);
@@ -366,8 +364,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
                 break;
 
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "The request handler {$handler_id} is not supported.");
-                // This will exit.
+                throw new midcom_error("The request handler {$handler_id} is not supported.");
         }
 
         $qb->add_constraint('metadata.published', '>=', $this->_start->getDate());
@@ -422,15 +419,13 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         if (   ! is_numeric($year)
             || strlen($year) != 4)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The year '{$year}' is not a valid year identifier.");
-            // This will exit.
+            throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
         $now = new Date();
         if ($year > $now->getYear())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The year '{$year}' is in the future, no archive available.");
-            // This will exit.
+            throw new midcom_error_notfound("The year '{$year}' is in the future, no archive available.");
         }
 
         $endyear = $year + 1;
@@ -453,16 +448,14 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         if (   ! is_numeric($year)
             || strlen($year) != 4)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The year '{$year}' is not a valid year identifier.");
-            // This will exit.
+            throw new midcom_error_notfound("The year '{$year}' is not a valid year identifier.");
         }
 
         if (   ! is_numeric($month)
             || $month < 1
             || $month > 12)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The year {$month} is not a valid year identifier.");
-            // This will exit.
+            throw new midcom_error_notfound("The year {$month} is not a valid year identifier.");
         }
 
         $now = new Date();
@@ -473,8 +466,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $this->_start = new Date("{$year}-{$month}-01 00:00:00");
         if ($this->_start->after($now))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The month '{$year}-{$month}' is in the future, no archive available.");
-            // This will exit.
+            throw new midcom_error_notfound("The month '{$year}-{$month}' is in the future, no archive available.");
         }
 
         if ($month == 12)

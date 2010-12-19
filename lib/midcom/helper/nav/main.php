@@ -355,13 +355,11 @@ class midcom_helper_nav
             $topic = midcom_db_topic::get_cached($object->topic);
             if (! $topic)
             {
-                $_MIDCOM->generate_error
+                throw new midcom_error
                 (
-                    MIDCOM_ERRCRIT,
                     "Data inconsistency, the topic ID ({$object->topic}) of the article {$object->id} is invalid. "
                         . 'Last error was: ' . midcom_connection::get_error_string()
                 );
-                // This will exit.
             }
 
             $leaves = $this->list_leaves($object->topic, true);

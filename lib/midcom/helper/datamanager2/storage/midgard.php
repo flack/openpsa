@@ -30,9 +30,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
         if (! $_MIDCOM->dbclassloader->is_mgdschema_object($object))
         {
             debug_print_r('Object passed:', $object);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'The midgard storage backend requires a MidCOM DBA object.');
-            // This will exit.
+            throw new midcom_error('The midgard storage backend requires a MidCOM DBA object.');
         }
         $this->object = $object;
     }
@@ -73,7 +71,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 if (   !property_exists($this->object, $fieldname)
                     && !property_exists($this->object->__object, $fieldname))
                 {
-                    throw new Exception("Missing {$fieldname} field in object: " . get_class($this->object));
+                    throw new midcom_error("Missing {$fieldname} field in object: " . get_class($this->object));
                 }
                 $this->object->$fieldname = $data;
                 break;
@@ -119,7 +117,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                     || (   !property_exists($this->object->metadata, $name)
                         && !property_exists($this->object->__object->metadata, $name)))
                 {
-                    throw new Exception("Missing {$name} metadata field in object: " . get_class($this->object));
+                    throw new midcom_error("Missing {$name} metadata field in object: " . get_class($this->object));
                 }
                 return $this->object->metadata->$name;
                 break;

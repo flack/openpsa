@@ -581,9 +581,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 return explode($glue, substr($source, 1, -1));
 
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "The multiple_storagemode '{$this->multiple_storagemode}' is invalid, cannot continue.");
-                // This will exit.
+                throw new midcom_error("The multiple_storagemode '{$this->multiple_storagemode}' is invalid, cannot continue.");
         }
     }
 
@@ -631,9 +629,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 return "{$glue}{$options}{$glue}";
 
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "The multiple_storagemode '{$this->multiple_storagemode}' is invalid, cannot continue.");
-                // This will exit.
+                throw new midcom_error("The multiple_storagemode '{$this->multiple_storagemode}' is invalid, cannot continue.");
         }
     }
 

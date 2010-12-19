@@ -207,8 +207,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         if (   ! $this->_datamanager
             || ! $this->_datamanager->autoset_storage($this->_article))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for article {$this->_article->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
     }
 

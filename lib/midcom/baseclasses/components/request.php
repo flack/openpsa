@@ -651,17 +651,13 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
             $classname = $this->_handler['handler'][0];
             if (! class_exists($classname))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to create a class instance of the type {$classname}, the class is not declared.");
-                // This will exit
+                throw new midcom_error("Failed to create a class instance of the type {$classname}, the class is not declared.");
             }
 
             $this->_handler['handler'][0] = new $classname();
             if (! is_a($this->_handler['handler'][0], 'midcom_baseclasses_components_handler'))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
-                // This will exit
+                throw new midcom_error("Failed to create a class instance of the type {$classname}, it is no subclass of midcom_baseclasses_components_handler.");
             }
 
             //For plugins, set the component name explicitly so that L10n and config can be found
@@ -822,9 +818,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
     {
         if (array_key_exists($namespace, self::$_plugin_namespace_config))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Tried to register the plugin namespace {$namespace}, but it is already registered.");
-            // This will exit
+            throw new midcom_error("Tried to register the plugin namespace {$namespace}, but it is already registered.");
         }
         self::$_plugin_namespace_config[$namespace] = $config;
     }
@@ -924,16 +918,12 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                 break;
 
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "The plugin loader method {$method} is unknown, cannot continue.");
-                // This will exit().
+                throw new midcom_error("The plugin loader method {$method} is unknown, cannot continue.");
         }
 
         if (! class_exists($plugin_config['class']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to load the plugin {$namespace}/{$plugin}, implementation class not available.");
-            // This will exit.
+            throw new midcom_error("Failed to load the plugin {$namespace}/{$plugin}, implementation class not available.");
         }
 
         return true;

@@ -81,8 +81,7 @@ class midcom_core_group
     {
         if (is_null($id))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'The class midcom_core_group is not default constructible.');
-            // This will exit.
+            throw new midcom_error('The class midcom_core_group is not default constructible.');
         }
 
         if (   is_string($id)

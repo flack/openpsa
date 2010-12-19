@@ -382,20 +382,17 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
 
         if (!array_key_exists('org_openpsa_products_import_separator', $_POST))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No CSV separator specified.');
-            // This will exit.
+            throw new midcom_error('No CSV separator specified.');
         }
 
         if (!array_key_exists('org_openpsa_products_import_schema', $_POST))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No schema specified.');
-            // This will exit.
+            throw new midcom_error('No schema specified.');
         }
 
         if (!file_exists($_POST['org_openpsa_products_import_tmp_file']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'No CSV file available.');
-            // This will exit.
+            throw new midcom_error('No CSV file available.');
         }
 
 

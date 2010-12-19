@@ -102,9 +102,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
             $tmp = new midcom_db_topic($topic);
             if (! $tmp)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to load the topic referenced by {$topic} for indexing, this is fatal.");
-                // This will exit.
+                throw new midcom_error("Failed to load the topic referenced by {$topic} for indexing.");
             }
             $topic = $tmp;
         }

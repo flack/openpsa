@@ -313,7 +313,7 @@ class midcom_services_auth_sessionmgr
                 $password = md5($password);
                 break;
             default:
-                throw new Exception('Unsupported authentication type attempted', 500);
+                throw new midcom_error('Unsupported authentication type attempted', 500);
         }
         // TODO: Support other types
 

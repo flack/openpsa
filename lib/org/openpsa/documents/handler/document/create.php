@@ -67,8 +67,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         $this->_controller->defaults =& $this->_defaults;
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
     }
 
@@ -84,9 +83,7 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         if (! $document->create())
         {
             debug_print_r('We operated on this object:', $document);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new document, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new document. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_document = $document;

@@ -58,9 +58,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
         if (!$deliverable->create())
         {
             debug_print_r('We operated on this object:', $deliverable);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new deliverable, cannot continue. Last Midgard error was: ' . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new deliverable. Last Midgard error was: ' . midcom_connection::get_error_string());
         }
 
         // Set schema based on product type
@@ -88,7 +86,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Only POST requests are allowed here.');
+            throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
@@ -101,8 +99,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
 
         if (!array_key_exists('product', $_POST))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'No product specified, aborting.');
+            throw new midcom_error('No product specified, aborting.');
         }
 
         $this->_product = new org_openpsa_products_product_dba((int) $_POST['product']);

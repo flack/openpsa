@@ -55,16 +55,14 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
     {
         if (empty($this->_schema))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Export schema ($this->_schema) must be defined, hint: do it in "_load_schemadb"');
-            // This will exit
+            throw new midcom_error('Export schema ($this->_schema) must be defined, hint: do it in "_load_schemadb"');
         }
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
 
         if (   ! $this->_datamanager
             || ! $this->_datamanager->set_schema($this->_schema))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for schemadb schema '{$this->_schema}'.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for schemadb schema '{$this->_schema}'.");
         }
     }
 
@@ -160,7 +158,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         }
         if ($this->csv['s'] == $this->csv['d'])
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "CSV decimal separator (configured as '{$this->csv['d']}') may not be the same as field separator (configured as '{$this->csv['s']}')");
+            throw new midcom_error("CSV decimal separator (configured as '{$this->csv['d']}') may not be the same as field separator (configured as '{$this->csv['s']}')");
         }
     }
 

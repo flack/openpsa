@@ -44,10 +44,9 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         // if the document doesn't belong to the current topic, we don't
         // show it, because otherwise folder-based permissions would be useless
-        if (   !is_object($document)
-            || $document->topic != $this->_topic->id)
+        if ($document->topic != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The document '{$guid}' could not be found in this folder.");
+            throw new midcom_error_notfound("The document '{$guid}' could not be found in this folder.");
         }
 
         // Load the document to datamanager

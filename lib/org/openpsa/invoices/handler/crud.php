@@ -144,9 +144,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if (! $invoice->create())
         {
             debug_print_r('We operated on this object:', $invoice);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new invoice. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_object =& $invoice;
@@ -425,10 +423,8 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
         catch (Exception $e)
         {
-            debug_print_r('Tried to get invoice with following guid :', $args[0]);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Invoice with GUID: " . $args[0] . " does not exist . Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            debug_print_r('Tried to get invoice with following GUID:', $args[0]);
+            throw new midcom_error("Invoice with GUID: " . $args[0] . " does not exist . Error: " . midcom_connection::get_error_string());
         }
         //check for manual uploaded pdf-file & if user wants to replace it
         $this->update_attachment = true;
@@ -505,15 +501,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             catch (Exception $e)
             {
                 debug_print_r('Tried to require invoice_pdf_class_file :', $this->_config->get('invoice_pdf_class'));
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Could not require pdf class . Error: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Could not require pdf class . Error: " . midcom_connection::get_error_string());
             }
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "No invoice pdf class was found in config." );
+            throw new midcom_error("No invoice pdf class was found in config.");
         }
    }
 

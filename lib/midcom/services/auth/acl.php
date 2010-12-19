@@ -560,8 +560,7 @@ class midcom_services_auth_acl
 
             if (!class_exists($object_class))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "class '{$object_class}' does not exist");
-                // This will exit()
+                throw new midcom_error("class '{$object_class}' does not exist");
             }
 
             $this->_load_privileges_byguid($object_guid, $object_class, $user_id);

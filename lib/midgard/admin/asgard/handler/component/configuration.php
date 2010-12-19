@@ -214,8 +214,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $data['name'] = $args[0];
         if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Component '{$data['name']}' was not found.");
-            // This will exit
+            throw new midcom_error_notfound("Component '{$data['name']}' was not found.");
         }
 
         $data['config'] = $this->_load_configs($data['name']);
@@ -318,7 +317,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (strstr($parse_results, 'Parse error'))
         {
             $line = preg_replace('/\n.+?on line (\d+?)\n.*\n/', '\1', $parse_results);
-            throw new Exception(sprintf($_MIDCOM->i18n->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
+            throw new midcom_error(sprintf($_MIDCOM->i18n->get_string('type php: parse error in line %s', 'midcom.helper.datamanager2'), $line));
         }
     }
 
@@ -341,7 +340,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $sd->name = preg_replace("/^\//", "", $sd->name);
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_connection::get_error_string());
             }
             $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
@@ -355,7 +354,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $sd->name = $this->_request_data['name'];
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$data['name']}: " . midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/{$data['name']}: " . midcom_connection::get_error_string());
             }
             $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
         }
@@ -464,8 +463,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $data['name'] = $args[0];
         if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Component '{$data['name']}' was not found.");
-            // This will exit
+            throw new midcom_error_notfound("Component '{$data['name']}' was not found.");
         }
 
         if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
@@ -474,8 +472,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             if (   !$data['folder']->guid
                 || $data['folder']->component != $data['name'])
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Folder {$args[1]} not found for configuration.");
-                // This will exit
+                throw new midcom_error_notfound("Folder {$args[1]} not found for configuration.");
             }
 
             $data['folder']->require_do('midgard:update');

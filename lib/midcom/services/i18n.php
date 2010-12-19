@@ -447,10 +447,7 @@ class midcom_services_i18n
 
         if (! $obj)
         {
-            debug_add("Failed to load L10n database {$cacheid}, see above for possible reasons.", MIDCOM_LOG_ERR);
-            $_MIDCOM->generate_error(MIDCOM_LOG_ERROR,
-                "Failed to load L10n database {$cacheid}, see the log file for possible reasons.");
-            // This will exit.
+            throw new midcom_error("Failed to load L10n database {$cacheid}, see the log file for possible reasons.");
         }
 
         $obj->set_language($this->_current_language);

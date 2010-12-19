@@ -225,7 +225,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                  * This will totally break cron if someone made something stupid (like changed folder component)
                  * on folder that had subscriptions
                  *
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "RSS fetching for component {$this->_node->component} is unsupported");
+                throw new midcom_error("RSS fetching for component {$this->_node->component} is unsupported");
                 // This will exit.
                  */
                 debug_add("RSS fetching for component {$this->_node->component} is unsupported", MIDCOM_LOG_ERROR);

@@ -373,7 +373,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 debug_add($message, MIDCOM_LOG_ERROR);
                 $this->no_cache();
 
-                throw new Exception($message);
+                throw new midcom_error($message);
                 break;
         }
 

@@ -8,38 +8,38 @@
 
 /**
  * ActiveCalendar-like month display widget
- * 
+ *
  * # Usage
- * 
+ *
  * @see org_openpsa_calendarwidget_month
- * 
+ *
  * There are two issues one might need to know:
- * 
+ *
  * 1. Prepending the style
  * 2. Possibility to use midcom.helper.datamanager2 for the events
- * 
+ *
  * It is also possible to use midgard_events or midcom_db_events by adding
  * them with
- * 
+ *
  *     <?php
  *     $calendar->add_event($event);
  *     ?>
- * 
+ *
  * ## Style elements:
- * 
- * Remember to initialize this before MidCOM is outputting the content or to 
+ *
+ * Remember to initialize this before MidCOM is outputting the content or to
  * prepend the style directory. Otherwise this will not output anything.
- * 
+ *
  * Prepending a component styledir:
- * 
+ *
  *     <?php
  *     $_MIDCOM->style->prepend_component_styledir('org.openpsa.calendarwidget');
  *     ?>
- * 
+ *
  * ## midcom.helper.datamanager2
- * 
+ *
  * Set the midcom_helper_datamanager2_schema to the variable $schemadb. Example:
- * 
+ *
  *     <?php
  *     $schemadb = midcom_helper_datamanager2_schema::load_database('/path/to/schemadb');
  *     $calendar = new org_openpsa_calendarwidget_styled_month();
@@ -113,24 +113,24 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
      * @var integer
      */
     private $_parser = 0;
-    
+
     /**
      * Request data for storing output variables
-     * 
+     *
      * @var Array
      */
     public $_request_data;
-    
+
     /**
      * DM2 schema for the events
-     * 
+     *
      * @var midcom_helper_datamanager2_schema
      */
     public $schemadb = null;
-    
+
     /**
      * DM2 instance for the events
-     * 
+     *
      * @var midcom_helper_datamanager2
      */
     public $_datamanager = null;
@@ -141,7 +141,7 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     public function __construct()
     {
         parent::__construct();
-        
+
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('org.openpsa.calendarwidget');
     }
@@ -153,14 +153,14 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     {
         // Initialize the DM2 instance if possible
         $this->_load_datamanager();
-        
+
         $this->_request_data['first_year'] = $this->first_year;
         $this->_request_data['last_year'] = $this->last_year;
-        
+
         // Draw a month
         $this->_draw_month();
     }
-    
+
     /**
      * Load the DM2 instance for the events
      */
@@ -170,14 +170,9 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
         {
             return false;
         }
-        
+
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->schemadb);
-        
-        if (! $this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create a DM2 instance.');
-            // This will exit.
-        }
+
         $this->_request_data['datamanager'] =& $this->_datamanager;
     }
 
@@ -202,13 +197,13 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
         $this->_request_data['month'] = $this->_month;
         $this->_request_data['day'] = $this->_day;
         $this->_request_data['month_start'] = $this->_month_start;
-        
+
         $this->_request_data['previous_year'] = $this->_previous_year;
         $this->_request_data['previous_month'] = $this->_previous_month;
-        
+
         $this->_request_data['next_year'] = $this->_next_year;
         $this->_request_data['next_month'] = $this->_next_month;
-        
+
         midcom_show_style('calendarwidget-month-header');
     }
 
@@ -241,7 +236,7 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
     {
         $this->_request_data['week_start'] = $this->_parser;
         midcom_show_style('calendarwidget-week-start');
-        
+
         for ($i = 1; $i <= 7; $i++)
         {
             // Draw the day cell
@@ -264,33 +259,33 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
         $this->_request_data['outside_month'] = false;
         $this->_request_data['events'] = array();
         $this->_request_data['today'] = false;
-        
+
         // Show the events of the day
         if (array_key_exists(date('Y-m-d', $timestamp), $this->_events))
         {
             $this->_request_data['events'] = $this->_events[date('Y-m-d', $timestamp)];
         }
-        
+
         // Check if it is today
         if (strftime('%x') === strftime('%x', $timestamp))
         {
             $this->_request_data['today'] = true;
         }
-        
+
         if (   $timestamp <= $this->_month_start
             || $timestamp > $this->_month_end)
         {
             $this->_request_data['outside_month'] = true;
         }
-        
+
         midcom_show_style('calendarwidget-day-header');
-        
+
         // Show the events of the day
         if (array_key_exists(date('Y-m-d', $timestamp), $this->_events))
         {
             $this->_show_events($this->_events[date('Y-m-d', $timestamp)], $timestamp);
         }
-        
+
         midcom_show_style('calendarwidget-day-footer');
     }
 
@@ -310,13 +305,13 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
         {
             return true;
         }
-        
+
         midcom_show_style('calendarwidget-day-events-header');
-        
+
         foreach ($events as $event)
         {
             $this->_request_data['event'] = $event;
-            
+
             if ($this->_datamanager)
             {
                 $this->_datamanager->autoset_storage($event);
@@ -334,10 +329,10 @@ class org_openpsa_calendarwidget_styled_month extends org_openpsa_calendarwidget
                     'end' => $event->end,
                 );
             }
-            
+
             midcom_show_style('calendarwidget-day-event');
         }
-        
+
         midcom_show_style('calendarwidget-day-events-footer');
     }
 }

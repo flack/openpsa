@@ -44,12 +44,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     private function _load_datamanager()
     {
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_product']);
-
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance.");
-            // This will exit.
-        }
     }
 
     /**
@@ -123,17 +117,14 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     public function _handler_product_get($handler_id, $args, &$data)
     {
         $this->_product = new org_openpsa_products_product_dba($args[0]);
-        if (   !$this->_product
-            || !$this->_product->guid)
+        if (!$this->_product->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Product {$args[0]} could not be found.");
-            // This will exit
+            throw new midcom_error_notfound("Product {$args[0]} could not be found.");
         }
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Product {$args[0]} could not be loaded with Datamanager.");
-            // This will exit
+            throw new midcom_error("Product {$args[0]} could not be loaded with Datamanager.");
         }
 
         $_MIDCOM->cache->content->content_type('text/xml');
@@ -177,11 +168,9 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             else
             {
                 $product_group = new org_openpsa_products_product_group_dba($args[0]);
-                if (   !$product_group
-                    || !$product_group->guid)
+                if (!$product_group->guid)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Product group {$args[0]} could not be found.");
-                    // This will exit
+                    throw new midcom_error_notfound("Product group {$args[0]} could not be found.");
                 }
 
                 if ($handler_id == 'api_product_list_intree')
@@ -233,30 +222,26 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
          if (!isset($_POST['title']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Missing argument: string title');
-            // This will exit
+            throw new midcom_error('Missing argument: string title');
         }
 
         if (!isset($_POST['productgroup']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Missing argument: int productgroup');
-            // This will exit
+            throw new midcom_error('Missing argument: int productgroup');
         }
 
         $this->_product = $this->_create_product($_POST['title'], (int) $_POST['productgroup']);
         if (   !$this->_product
             || !$this->_product->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create product: ' . midcom_connection::get_error_string());
-            // This will exit
+            throw new midcom_error('Failed to create product: ' . midcom_connection::get_error_string());
         }
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {
             $errstr = midcom_connection::get_error_string();
             $this->_product->delete();
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize DM2 for product: {$errstr}");
-            // This will exit
+            throw new midcom_error("Failed to initialize DM2 for product: {$errstr}");
         }
 
         foreach($this->_datamanager->types as $key => $type)
@@ -271,8 +256,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         {
             $errstr = midcom_connection::get_error_string();
             $this->_product->delete();
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create product: {$errstr}");
-            // This will exit
+            throw new midcom_error("Failed to create product: {$errstr}");
         }
 
         $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product created: ' . midcom_connection::get_error_string());
@@ -290,17 +274,14 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         $_MIDCOM->auth->require_valid_user('basic');
 
         $this->_product = new org_openpsa_products_product_dba($args[0]);
-        if (   !$this->_product
-            || !$this->_product->guid)
+        if (!$this->_product->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Product {$args[0]} could not be found.");
-            // This will exit
+            throw new midcom_error_notfound("Product {$args[0]} could not be found.");
         }
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize DM2 for product: ' . midcom_connection::get_error_string());
-            // This will exit
+            throw new midcom_error( 'Failed to initialize DM2 for product: ' . midcom_connection::get_error_string());
         }
 
         foreach($this->_datamanager->types as $key => $type)
@@ -313,8 +294,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         if (!$this->_datamanager->save())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to update product: ' . midcom_connection::get_error_string());
-            // This will exit
+            throw new midcom_error('Failed to update product: ' . midcom_connection::get_error_string());
         }
 
         $_MIDCOM->generate_error(MIDCOM_ERROK, 'Product updated: ' . midcom_connection::get_error_string());
@@ -333,22 +313,18 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
 
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to delete product: POST request expected.');
-            // This will exit
+            throw new midcom_error('Failed to delete product: POST request expected.');
         }
 
         $this->_product = new org_openpsa_products_product_dba($args[0]);
-        if (   !$this->_product
-            || !$this->_product->guid)
+        if (!$this->_product->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Product {$args[0]} could not be found.");
-            // This will exit
+            throw new midcom_error_notfound("Product {$args[0]} could not be found.");
         }
 
         if (!$this->_product->delete())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to delete product: ' . midcom_connection::get_error_string());
-            // This will exit
+            throw new midcom_error('Failed to delete product: ' . midcom_connection::get_error_string());
         }
 
         // Update the index

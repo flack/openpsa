@@ -236,9 +236,7 @@ class midcom_helper_metadata
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         if (! $this->_datamanager)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create the metadata datamanager instance, see the Debug Log for details.');
-            // This will exit()
+            throw new midcom_error('Failed to create the metadata datamanager instance, see the Debug Log for details.');
         }
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
@@ -261,9 +259,7 @@ class midcom_helper_metadata
         $this->_datamanager->set_schema($object_schema);
         if (! $this->_datamanager->set_storage($this->__object))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to initialize the metadata datamanager instance, see the Debug Log for details.');
-            // This will exit()
+            throw new midcom_error('Failed to initialize the metadata datamanager instance, see the Debug Log for details.');
         }
     }
 

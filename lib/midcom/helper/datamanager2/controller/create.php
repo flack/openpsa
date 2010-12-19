@@ -126,21 +126,15 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     {
         if (count($this->schemadb) == 0)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'You must set a schema database before initializing midcom_helper_datamanager2_controller_create.');
-            // This will exit.
+            throw new midcom_error('You must set a schema database before initializing midcom_helper_datamanager2_controller_create.');
         }
         if (! is_object($this->callback_object))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'You must set a valid callback_object prior initialization: Object is undefined.');
-            // This will exit.
+            throw new midcom_error('You must set a valid callback_object prior initialization: Object is undefined.');
         }
         if (! method_exists($this->callback_object, $this->callback_method))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "You must set a valid callback_object prior initialization: Method {$this->callback_method} is undefined.");
-            // This will exit.
+            throw new midcom_error("You must set a valid callback_object prior initialization: Method {$this->callback_method} is undefined.");
         }
 
         if ($this->schemaname === null)
@@ -315,7 +309,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
     {
         if ($this->formmanager === null)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'You must initialize a controller class before using it.');
+            throw new midcom_error('You must initialize a controller class before using it.');
         }
 
         // Pre process check for validation etc, we create a new object at this point if everything
@@ -348,10 +342,6 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                     $this->datamanager->storage->object->delete();
                 }
                 return 'edit';
-                // we have a better defined way-of-life here.
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to save object, type validation failed:\n" . implode("\n", $this->datamanager->validation_errors));
-                // This will exit.
             }
 
             if (   $result == 'save'
@@ -363,12 +353,8 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 // Delete the object as saving failed
                 $this->datamanager->storage->object->delete();
 
-                debug_add('Failed to save the data to disk');
-
                 // We seem to have a critical error.
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to save the data to disk: {$midgard_error}. Check the debug level log for more information.");
-                // This will exit.
+                throw new midcom_error("Failed to save the data to disk: {$midgard_error}. Check the debug level log for more information.");
             }
         }
 
@@ -401,8 +387,7 @@ class midcom_helper_datamanager2_controller_create extends midcom_helper_dataman
                 || !isset($tmp_object->guid)
                 || !$tmp_object->guid)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the temporary object');
-                // This will exit
+                throw new midcom_error('Failed to get the temporary object');
             }
 
             $tmp_object->move_extensions_to_object($object);

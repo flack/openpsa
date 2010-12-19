@@ -159,7 +159,7 @@ class midcom_helper__componentloader
     {
         if (! $this->_load($path))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to load the component {$path}, see the debug log for more information");
+            throw new midcom_error("Failed to load the component {$path}, see the debug log for more information");
         }
     }
 

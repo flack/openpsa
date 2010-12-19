@@ -45,9 +45,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if (!$this->_tinyurl->create())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new TinyURL object, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new TinyURL object. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         return $this->_tinyurl;
@@ -167,8 +165,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (   !$this->_tinyurl
             || !$this->_tinyurl->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Item not found');
-            // This will exit
+            throw new midcom_error_notfound('Item not found');
         }
 
         $this->_tinyurl->require_do('midgard:update');

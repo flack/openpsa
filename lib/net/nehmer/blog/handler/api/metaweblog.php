@@ -38,7 +38,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
         if (!class_exists('XML_RPC_Server'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'XML-RPC Server libraries not installer, aborting.');
+            throw new midcom_error('XML-RPC Server libraries not installer, aborting.');
         }
 
         if ($GLOBALS['midcom_config']['positioning_enable'])
@@ -107,8 +107,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
 
         if (!$this->_datamanager)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance.");
         }
     }
 

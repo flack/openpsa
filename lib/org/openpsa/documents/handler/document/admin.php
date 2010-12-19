@@ -61,8 +61,7 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->_controller->set_storage($this->_document, $this->_schema);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
-            // This will exit.
+            throw new midcom_error( "Failed to initialize a DM2 controller instance for document {$this->_document->id}.");
         }
     }
 
@@ -72,10 +71,9 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
 
         // if the document doesn't belong to the current topic, we don't
         // show it, because otherwise folder-based permissions would be useless
-        if (   !is_object($document)
-            || $document->topic != $this->_topic->id)
+        if ($document->topic != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The document '{$guid}' could not be found in this folder.");
+            throw new midcom_error_notfound("The document '{$guid}' could not be found in this folder.");
         }
 
         // Load the document to datamanager

@@ -279,8 +279,7 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
         {
             if (! $_MIDCOM->load_library($library))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to load library {$library} while initializing {$this->_component}");
-                // This will exit.
+                throw new midcom_error("Failed to load library {$library} while initializing {$this->_component}");
             }
         }
 

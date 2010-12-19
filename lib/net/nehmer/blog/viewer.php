@@ -287,18 +287,13 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
 
         if (! $this->_content_topic)
         {
-            debug_add('Failed to open symlink content topic, (might also be an invalid object) last Midgard Error: '
-                . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to open symlink content topic.');
-            // This will exit.
+            throw new midcom_error('Failed to open symlink content topic. Last Midgard Error: ' . midcom_connection::get_error_string());
         }
 
         if ($this->_content_topic->component != 'net.nehmer.blog')
         {
             debug_print_r('Retrieved topic was:', $this->_content_topic);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Symlink content topic is invalid, see the debug level log for details.');
-            // This will exit.
+            throw new midcom_error('Symlink content topic is invalid, see the debug level log for details.');
         }
     }
 
@@ -326,9 +321,7 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             $tmp = new midcom_db_topic($topic);
             if (! $tmp)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to load the topic referenced by {$topic} for indexing, this is fatal.");
-                // This will exit.
+                throw new midcom_error("Failed to load the topic referenced by {$topic} for indexing.");
             }
             $topic = $tmp;
         }

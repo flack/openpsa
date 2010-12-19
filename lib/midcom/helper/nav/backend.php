@@ -693,9 +693,7 @@ class midcom_helper_nav_backend
         if (! $interface->set_object($topic))
         {
             debug_print_r('Topic object dump:', $topic);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Cannot load NAP information, aborting: Could not set the nap instance of {$node[MIDCOM_NAV_COMPONENT]} to the topic {$topic->id}.");
-            // This will exit().
+            throw new midcom_error("Cannot load NAP information, aborting: Could not set the nap instance of {$node[MIDCOM_NAV_COMPONENT]} to the topic {$topic->id}.");
         }
 
         $leafdata = $interface->get_leaves();
@@ -806,7 +804,7 @@ class midcom_helper_nav_backend
         {
             debug_print_r("Wrong type", $leaves, MIDCOM_LOG_ERROR);
 
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Wrong type passed for navigation, see error level log for details');
+            throw new midcom_error('Wrong type passed for navigation, see error level log for details');
             // This will exit
         }
 

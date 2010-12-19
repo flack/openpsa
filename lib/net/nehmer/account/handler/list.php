@@ -60,7 +60,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
 
         if (!$this->_config->get('allow_list'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Listing users not enabled.");
+            throw new midcom_error_notfound("Listing users not enabled.");
         }
 
         $data['list_categories'] = $this->_config->get('list_categories');
@@ -74,8 +74,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
                 || strlen($args[0]) != 1)
             {
                 // FIXME: strlen() may not handle multibyte chars correctly
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Invalid letter \"{$args[0]}\" for alphabetical search");
-                // This will exit
+                throw new midcom_error_notfound("Invalid letter \"{$args[0]}\" for alphabetical search");
             }
 
             $qb->add_constraint('lastname', 'LIKE', "{$args[0]}%");
@@ -138,7 +137,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
     {
         if (!$this->_config->get('allow_list'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Listing users not enabled.");
+            throw new midcom_error_notfound("Listing users not enabled.");
         }
 
         $data['handler'] = $handler_id;
@@ -147,8 +146,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
 
         if (!in_array($data['category'], $data['list_categories']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "List {$data['category']} not found");
-            // This will exit
+            throw new midcom_error_notfound("List {$data['category']} not found");
         }
 
         $person_ids = array();
@@ -226,13 +224,13 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
     {
         if (!$this->_config->get('allow_list'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Listing users not enabled.");
+            throw new midcom_error_notfound("Listing users not enabled.");
         }
 
         $random = (int) $args[0];
         if ($random > 20)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Maximum list is 20 users.");
+            throw new midcom_error_notfound("Maximum list is 20 users.");
         }
 
         $data['handler'] = $handler_id;
@@ -362,18 +360,14 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
                 $target = $this->_datamanager->schema->fields[$name]['customdata']['visible_link'];
                 if ($target == $name)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "Tried to link the visibility of {$name} to itself.");
-                    // this will exit()
+                    throw new midcom_error("Tried to link the visibility of {$name} to itself.");
                 }
                 return $this->_is_field_visible($target, $user_guid);
 
             case 'user':
                 return in_array($name, $this->_visible_fields_user_selection[$user_guid]);
         }
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-            "Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
-        // This will exit()
+        throw new midcom_error("Unknown Visibility declaration in {$name}: {$this->_datamanager->schema->fields[$name]['customdata']['visible_mode']}.");
     }
 
     /**

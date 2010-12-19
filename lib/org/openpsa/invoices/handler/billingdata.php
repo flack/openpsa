@@ -100,9 +100,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $billing_data->create())
         {
             debug_print_r('We operated on this object:', $billing_data);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new billing_data, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new billing_data. Error: " . midcom_connection::get_error_string());
         }
 
         return $billing_data;

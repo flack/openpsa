@@ -129,10 +129,7 @@ class midcom_services__i18n_l10n
     {
         if (is_null($library))
         {
-            debug_add("Default constructor for midcom_services__i18n_l10n forbidden, library path must be present.", MIDCOM_LOG_ERROR);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Default constructor for midcom_services__i18n_l10n forbidden, library path must be present.");
-            // This will exit();
+            throw new midcom_error("Default constructor forbidden, library path must be present.");
         }
 
         if (substr($library, -1) != "/")
@@ -250,9 +247,7 @@ class midcom_services__i18n_l10n
                     if (strlen($string) < 4)
                     {
                         $line++; // Array is 0-indexed
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                            "L10n DB SYNTAX ERROR: An incorrect command was detected at {$filename}:{$line}");
-                        // This will exit
+                        throw new midcom_error("L10n DB SYNTAX ERROR: An incorrect command was detected at {$filename}:{$line}");
                     }
 
                     $pos = strpos($string, ' ');
@@ -274,9 +269,7 @@ class midcom_services__i18n_l10n
                             if ($version != '')
                             {
                                 $line++; // Array is 0-indexed
-                                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                    "L10n DB SYNTAX ERROR: A second VERSION tag has been detected at {$filename}:{$line}");
-                                // This will exit
+                                throw new midcom_error("L10n DB SYNTAX ERROR: A second VERSION tag has been detected at {$filename}:{$line}");
                             }
                             $version = substr($string, 11);
                             break;
@@ -285,9 +278,7 @@ class midcom_services__i18n_l10n
                             if ($language != '')
                             {
                                 $line++; // Array is 0-indexed
-                                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                    "L10n DB SYNTAX ERROR: A second LANGUAGE tag has been detected at {$filename}:{$line}");
-                                // This will exit
+                                throw new midcom_error("L10n DB SYNTAX ERROR: A second LANGUAGE tag has been detected at {$filename}:{$line}");
                             }
                             $language = substr($string, 12);
                             break;
@@ -300,17 +291,13 @@ class midcom_services__i18n_l10n
 
                         default:
                             $line++; // Array is 0-indexed
-                            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                "L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
-                            // This will exit
+                            throw new midcom_error("L10n DB SYNTAX ERROR: Unknown command '{$command}' at {$filename}:{$line}");
                     }
                 }
                 else
                 {
                     $line++; // Array is 0-indexed
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "L10n DB SYNTAX ERROR: Invalid line at {$filename}:{$line}");
-                    // This will exit
+                    throw new midcom_error("L10n DB SYNTAX ERROR: Invalid line at {$filename}:{$line}");
                 }
             }
             else
@@ -337,21 +324,15 @@ class midcom_services__i18n_l10n
 
         if ($instring)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "L10n DB SYNTAX ERROR: String constant exceeds end of file.");
-            // This will exit
+            throw new midcom_error("L10n DB SYNTAX ERROR: String constant exceeds end of file.");
         }
         if (version_compare($version, $this->_version, "<"))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "L10n DB ERROR: File format version of {$filename} is too old, no update available at the moment.");
-            // This will exit
+            throw new midcom_error("L10n DB ERROR: File format version of {$filename} is too old, no update available at the moment.");
         }
         if ($lang != $language)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "L10n DB ERROR: The DB language version {$language} did not match the requested {$lang}.");
-            // This will exit
+            throw new midcom_error("L10n DB ERROR: The DB language version {$language} did not match the requested {$lang}.");
         }
 
         ksort($stringtable, SORT_STRING);

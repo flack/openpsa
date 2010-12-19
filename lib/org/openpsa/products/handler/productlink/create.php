@@ -89,9 +89,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         if (! $this->_productlink->create())
         {
             debug_print_r('We operated on this object:', $this->_productlink);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new productlink under product group #{$this->_request_data['up']}, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new productlink under product group #{$this->_request_data['up']}. Error: " . midcom_connection::get_error_string());
         }
 
         return $this->_productlink;

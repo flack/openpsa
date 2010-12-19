@@ -303,8 +303,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
                 )
             && !$this->imagemagick_available())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
-            // This will exit
+            throw new midcom_error( 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
 
         if (   !empty($this->_original_tmpname)
@@ -567,8 +566,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
                 )
             && !$this->imagemagick_available())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
-            // This will exit
+            throw new midcom_error( 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
 
         if (empty($filename))
@@ -929,8 +927,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
 
         if (!$this->imagemagick_available())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
-            // This will exit
+            throw new midcom_error('DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
 
         // Prevent double .jpg.jpg in case of trouble file the get_mimetype()

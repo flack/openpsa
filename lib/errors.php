@@ -25,7 +25,7 @@ class midcom_exception_handler
      */
     public static function handle_exception(Exception $e)
     {
-        if ($e instanceOf midgardmvc_exception_unauthorized)
+        if ($e instanceof midgardmvc_exception_unauthorized)
         {
             throw $e;
         }
@@ -43,10 +43,8 @@ class midcom_exception_handler
             _midcom_stop_request('Failed to initialize MidCOM: ' . $e->getMessage());
         }
 
-        $trace = $e->getTraceAsString();
-
-        debug_print_r('Exception occured, generating error, exception trace:', $trace, MIDCOM_LOG_INFO);
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, $e->getMessage() . ". See the debug log for more details");
+        debug_print_r('Exception occured, generating error, exception trace:', $e->getTraceAsString(), MIDCOM_LOG_INFO);
+        $_MIDCOM->generate_error($e->getCode(), $e->getMessage());
         // This will exit
     }
 
@@ -68,7 +66,7 @@ class midcom_exception_handler
             case E_ERROR:
             case E_USER_ERROR:
                 // PONDER: use throw new ErrorException($errstr, 0, $errno, $errfile, $errline); in stead?
-                throw new Exception($msg, $errno);
+                throw new midcom_error($msg, $errno);
                 // I don't think we reach this
                 return  true;
                 break;
@@ -306,6 +304,46 @@ class midcom_exception_handler
         return $stacktrace;
     }
 }
+
+/**
+ * Basic MidCOM exception
+ *
+ * @package midcom
+ */
+class midcom_error extends Exception
+{
+    public function __construct($message, $code = MIDCOM_ERRCRIT)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+/**
+ * MidCOM not found exception
+ *
+ * @package midcom
+ */
+class midcom_error_notfound extends midcom_error
+{
+    public function __construct($message, $code = MIDCOM_ERRNOTFOUND)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+/**
+ * MidCOM unauthorized exception
+ *
+ * @package midcom
+ */
+class midcom_error_forbidden extends midcom_error
+{
+    public function __construct($message, $code = MIDCOM_ERRFORBIDDEN)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 
 // Register the error and Exception handlers
 // 2009-01-08 rambo: Seems like the boolean expression does not work as intended, see my changes in the error handler itself

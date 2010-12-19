@@ -56,8 +56,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         if (   !$_MIDCOM->componentloader->is_installed($component)
             && $component != 'midcom')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to generate documentation path for component {$component} as it is not installed.");
-            // This will exit
+            throw new midcom_error("Failed to generate documentation path for component {$component} as it is not installed.");
         }
     }
 
@@ -664,8 +663,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         if (!$_MIDCOM->componentloader->is_installed($data['component']) && $data['component'] != 'midcom')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Component {$data['component']} is not installed.");
-            // This will exit
+            throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
         if ($data['component'] != 'midcom') $_MIDCOM->componentloader->load($data['component']);
@@ -711,8 +709,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $data['component'] = $args[0];
         if (!$_MIDCOM->componentloader->is_installed($data['component']) && $data['component'] != 'midcom')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Component {$data['component']} is not installed.");
-            // This will exit
+            throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
         if ($data['component'] != 'midcom') $_MIDCOM->componentloader->load($data['component']);

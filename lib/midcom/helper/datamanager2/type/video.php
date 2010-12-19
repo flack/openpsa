@@ -202,8 +202,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
                 || !empty($this->derived_images))
             && !midcom_helper_imagefilter::imagemagick_available())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
-            // This will exit
+            throw new midcom_error('DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
         return parent::_on_initialize();
     }
@@ -1056,8 +1055,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
 
         if (!midcom_helper_imagefilter::imagemagick_available())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
-            // This will exit
+            throw new midcom_error('DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
         }
         // PONDER: Make sure there is only one extension on the file ??
         $this->_filename .= ".{$conversion}";

@@ -120,15 +120,13 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
         if (!$this->_object)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$this->_guid}' was not found.");
-            // This will exit
+            throw new midcom_error_notfound("The GUID '{$this->_guid}' was not found.");
         }
 
         if (   !$GLOBALS['midcom_config']['midcom_services_rcs_enable']
             || !$this->_object->_use_rcs)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Revision control not supported for " . get_class($this->_object) . ".");
-            // This will exit
+            throw new midcom_error_notfound("Revision control not supported for " . get_class($this->_object) . ".");
         }
 
         // Load RCS service from core.
@@ -505,7 +503,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         if (   !$this->_backend->version_exists($args[1])
             || !$this->_backend->version_exists($args[2]) )
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "One of the revisions {$args[1]} or {$args[2]} does not exist.");
+            throw new midcom_error_notfound("One of the revisions {$args[1]} or {$args[2]} does not exist.");
         }
 
         if (!class_exists('Text_Diff'))
@@ -643,7 +641,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
+            throw new midcom_error(sprintf($this->_l10n->get('restore to version %s failed, reason %s'), $args[1], $this->_backend->get_error()));
         }
 
         // Load the toolbars

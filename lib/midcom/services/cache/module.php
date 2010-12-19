@@ -87,26 +87,18 @@ abstract class midcom_services_cache_module
 
         if (array_key_exists($name, $this->_backends))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Cannot create backend driver instance {$name}: A backend with this name does already exist.");
-            // This will exit.
+            throw new midcom_error("Cannot create backend driver instance {$name}: A backend with this name does already exist.");
         }
 
         if (! array_key_exists('driver', $config))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Cannot create backend driver instance {$name}: The driver class is not specified in the configuration.");
-            // This will exit.
+            throw new midcom_error("Cannot create backend driver instance {$name}: The driver class is not specified in the configuration.");
         }
-        $filename = MIDCOM_ROOT . "/midcom/services/cache/backend/{$config['driver']}.php";
         $classname = "midcom_services_cache_backend_{$config['driver']}";
 
-        require_once($filename);
         if (! class_exists($classname))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Cannot create backend driver instance {$name}: The class {$classname} was not found in the file {$filename}.");
-            // This will exit.
+            throw new midcom_error("Cannot create backend driver instance {$name}: The class {$classname} was not found.");
         }
         $backend = new $classname();
         $backend->initialize($name, $config);

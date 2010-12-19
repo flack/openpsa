@@ -81,8 +81,7 @@ if (   array_key_exists('msisdn', $_GET)
 
     if (!$_MIDCOM->auth->request_sudo('org.routamc.positioning'))
     {
-        debug_add('Could not get sudo rights (check debug log for details), abort', MIDCOM_LOG_ERROR);
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Could not get sudo rights (check debug log for details), abort');
+        throw new midcom_error('Could not get sudo rights (check debug log for details)');
     }
 
     // Find matching person
@@ -92,7 +91,7 @@ if (   array_key_exists('msisdn', $_GET)
 
     if (count($persons) != 1)
     {
-        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "User matching number +{$_GET['msisdn']} not found");
+        throw new midcom_error("User matching number +{$_GET['msisdn']} not found");
     }
 
     $person = $persons[0];

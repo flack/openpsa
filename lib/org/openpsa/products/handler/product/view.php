@@ -240,8 +240,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
             if (empty($groups))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Product group {$args[0]} not found" );
-                // This will exit
+                throw new midcom_error_notfound("Product group {$args[0]} not found" );
             }
 
             $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -346,8 +345,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             {
                 if (!mgd_is_guid($args[1]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Product {$args[1]} not found" );
-                    // This will exit
+                    throw new midcom_error_notfound("Product {$args[1]} not found" );
                 }
                 $this->_product = new org_openpsa_products_product_dba($args[1]);
             }
@@ -355,8 +353,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             {
                 if (!mgd_is_guid($args[0]))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Product {$args[0]} not found" );
-                    // This will exit
+                    throw new midcom_error_notfound("Product {$args[0]} not found" );
                 }
                 $this->_product = new org_openpsa_products_product_dba($args[0]);
             }
@@ -365,8 +362,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             || !isset($this->_product->guid)
             || empty($this->_product->guid))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Fell through to last product sanity-check and failed");
-            // This will exit
+            throw new midcom_error("Fell through to last product sanity-check and failed");
         }
 
         if ($GLOBALS['midcom_config']['enable_ajax_editing'])
@@ -384,8 +380,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             if (   ! $data['datamanager']
                 || ! $data['datamanager']->autoset_storage($this->_product))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for product {$this->_product->guid}.");
-                // This will exit.
+                throw new midcom_error("Failed to create a DM2 instance for product {$this->_product->guid}.");
             }
         }
 

@@ -45,9 +45,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $person->create())
         {
             debug_print_r('We operated on this object:', $person);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new invoice, cannot continue. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_person =& $person;
@@ -101,9 +99,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     if (!$member->id)
                     {
                         // TODO: Cleanup
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                            "Failed adding the person to group #{$this->_group->id}, reason {$member->errstr}");
-                        // This will exit
+                        throw new midcom_error("Failed adding the person to group #{$this->_group->id}, reason {$member->errstr}");
                     }
                 }
 

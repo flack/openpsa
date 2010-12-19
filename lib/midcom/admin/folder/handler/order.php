@@ -100,8 +100,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
         $metadata = midcom_helper_metadata::retrieve($object);
         if (!is_object($metadata))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not fetch metadata for object {$object->guid}");
-            // This will exit
+            throw new midcom_error("Could not fetch metadata for object {$object->guid}");
         }
         // Make sure this is reference to correct direction (from our point of view)
         $metadata->__object =& $object;

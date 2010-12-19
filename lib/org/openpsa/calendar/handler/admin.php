@@ -59,8 +59,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
         $this->_controller->set_storage($this->_event);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_article->id}.");
         }
 
         switch ($this->_controller->process_form())

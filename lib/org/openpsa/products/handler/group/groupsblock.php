@@ -123,8 +123,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
                 $data['controller'] = null;
                 if (!$data['datamanager_group']->autoset_storage($data['group']))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for product group {$data['group']->guid}.");
-                    // This will exit.
+                    throw new midcom_error("Failed to create a DM2 instance for product group {$data['group']->guid}.");
                 }
             }
             $_MIDCOM->bind_view_to_object($data['group'], $data['datamanager_group']->schema->name);

@@ -27,12 +27,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_campaign'));
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
-
-        if (!$this->_datamanager)
-        {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for campaigns.");
-            // This will exit.
-        }
     }
 
     /**
@@ -42,11 +36,9 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
 
-        if (   !$this->_campaign
-            || $this->_campaign->node != $this->_topic->id)
+        if ($this->_campaign->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
         }
 
         $_MIDCOM->load_library('org.openpsa.qbpager');

@@ -113,8 +113,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $this->_object = new $this->_dba_class($args[0]);
         if (!$this->_object->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The object with GUID {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The object with GUID {$args[0]} was not found.");
         }
     }
 
@@ -351,8 +350,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
     {
         if (!$this->_object)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "No object defined for DM2.");
-            // This will exit.
+            throw new midcom_error_notfound("No object defined for DM2.");
         }
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -360,8 +358,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         if (   !$this->_datamanager
             || !$this->_datamanager->autoset_storage($this->_object))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for object {$this->_object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for object {$this->_object->guid}.");
         }
     }
 
@@ -386,8 +383,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         {
             if (!$this->_object)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "No object defined for DM2.");
-                // This will exit.
+                throw new midcom_error_notfound("No object defined for DM2.");
             }
 
             $this->_controller->set_storage($this->_object);
@@ -395,8 +391,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         if (!$this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for object {$this->_object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for object {$this->_object->guid}.");
         }
     }
 
@@ -654,8 +649,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
             // Deletion confirmed, try doing it.
             if (!$this->_object->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete object {$this->_object->guid}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete object {$this->_object->guid}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Update the index

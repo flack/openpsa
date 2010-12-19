@@ -94,9 +94,7 @@ class midcom_core_temporary_object extends midcom_core_dbaobject
     {
         if (! $_MIDCOM->dbclassloader->is_midcom_db_object($object))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'The object passed is no valid for move_extensions_to_object.');
-            // This will exit.
+            throw new midcom_error('The object passed is no valid for move_extensions_to_object.');
         }
 
         // Validate Privileges

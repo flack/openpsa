@@ -75,10 +75,9 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     public function _handler_resourcing($handler_id, $args, &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($args[0]);
-        if (! $this->_task)
+        if (! $this->_task->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The task {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The task {$args[0]} was not found.");
         }
         $this->_task->require_do('midgard:create');
 
@@ -175,10 +174,9 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     public function _handler_list_prospects($handler_id, $args, &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($args[0]);
-        if (! $this->_task)
+        if (! $this->_task->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The task {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The task {$args[0]} was not found.");
         }
         $this->_task->require_do('midgard:create');
 
@@ -218,24 +216,21 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     public function _handler_prospect_slots($handler_id, $args, &$data)
     {
         $data['prospect'] = new org_openpsa_projects_task_resource_dba($args[0]);
-        if (!$data['prospect'])
+        if (!$data['prospect']->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Prospect {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("Prospect {$args[0]} was not found.");
         }
 
         $data['person'] = new org_openpsa_contacts_person_dba($data['prospect']->person);
-        if (! $data['person'])
+        if (! $data['person']->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Person #{$data['prospect']->person} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("Person #{$data['prospect']->person} was not found.");
         }
 
         $this->_task = new org_openpsa_projects_task_dba($data['prospect']->task);
-        if (! $this->_task)
+        if (! $this->_task->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Task #{$data['prospect']->task} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("Task #{$data['prospect']->task} was not found.");
         }
         $this->_task->require_do('midgard:create');
 

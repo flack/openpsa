@@ -65,7 +65,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             if (   !$this->_account
                 || !$this->_account->guid)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
+                throw new midcom_error_notfound("The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
             }
             net_nehmer_account_viewer::verify_person_privileges($this->_account);
             $return_url = "view/{$this->_account->guid}/";

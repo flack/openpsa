@@ -176,7 +176,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}".midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}" . midcom_connection::get_error_string());
             }
             $sg_snippetdir = new midcom_db_snippetdir($sd->guid);
             unset($sd);
@@ -191,7 +191,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $sd->name = $this->_component_name;
             if (!$sd->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create {$this->_component_name}".midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create {$this->_component_name}" . midcom_connection::get_error_string());
             }
             $lib_snippetdir = new midcom_db_snippetdir($sd->guid);
             unset($sd);
@@ -206,7 +206,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $sn->name = "config";
             if (!$sn->create())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Failed to create config snippet".midcom_connection::get_error_string());
+                throw new midcom_error("Failed to create config snippet" . midcom_connection::get_error_string());
             }
             $snippet = new midcom_db_snippet($sn->id);
         }
@@ -216,9 +216,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         if (   $snippet->code == ''
             || !$snippet->code)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                                     "code-init content generation failed.");
-            // This will exit.
+            throw new midcom_error("code-init content generation failed.");
         }
 
         return $snippet->update();

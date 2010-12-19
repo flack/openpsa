@@ -240,8 +240,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
         $controller->set_storage($person_record, $schema);
         if (! $controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for person {$person_record->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for person {$person_record->id}.");
         }
 
         // Process the form

@@ -382,11 +382,11 @@ class midcom_baseclasses_core_dbobject
                     MIDCOM_LOG_CRIT);
                 debug_add("We tried to load object {$object->id} and got: " . midcom_connection::get_error_string());
                 $object->delete();
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                throw new midcom_error
+                (
                     "Workaround for #72/#118/#1251: Failed to load GUID for ID {$object->id} ("
                     . midcom_connection::get_error_string()
                     . '). Object could not be created.');
-                // This will exit.
             }
             $object->guid = $tmp->guid;
         }
@@ -1208,12 +1208,10 @@ class midcom_baseclasses_core_dbobject
                 debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
             }
 
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'The query builder failed to execute, see the log file for more information.');
-            // This will exit.
+            throw new midcom_error('The query builder failed to execute, see the log file for more information.');
         }
 
-        foreach($result as $dbpriv)
+        foreach ($result as $dbpriv)
         {
             $dbpriv->delete();
         }
@@ -1631,17 +1629,13 @@ class midcom_baseclasses_core_dbobject
             $tmp = $object->create_new_privilege_object($privilege, $assignee, $value, $classname);
             if (! $tmp)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Invalid arguments for set_privilege: Failed to create the privilege. See debug level log for details.');
-                // This will exit.
+                throw new midcom_error('Failed to create the privilege. See debug level log for details.');
             }
             $result = $tmp->store();
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Invalid arguments for set_privilege: Unknown $privilege argument type. See debug level log for details.');
-            // This will exit.
+            throw new midcom_error('Unknown $privilege argument type. See debug level log for details.');
         }
 
         return $result;
@@ -1695,9 +1689,7 @@ class midcom_baseclasses_core_dbobject
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Invalid arguments for unset_privilege. See debug level log for details.');
-            // This will exit.
+            throw new midcom_error('Invalid arguments for unset_privilege. See debug level log for details.');
         }
 
         return $priv->drop();

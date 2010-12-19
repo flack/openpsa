@@ -751,7 +751,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $callback_method = "_callback_get_qb_{$callback_name}";
         if (!method_exists($this, $callback_method))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "method '{$callback_method}' does not exist");
+            throw new midcom_error("method '{$callback_method}' does not exist");
         }
         $qb = $this->$callback_method();
         $this->_qb_common_constaints($qb);

@@ -62,9 +62,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
         $this->_topic = new midcom_db_topic($guid);
         if (! $this->_topic)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Tried to load the n.n.account remote interface with an invalid topic.');
-            // This will exit.
+            throw new midcom_error('Tried to load the n.n.account remote interface with an invalid topic.');
         }
         $this->_load_topic_configuration($this->_topic);
     }
@@ -95,9 +93,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
                 $this->_type_groups[$name] =& $_MIDCOM->auth->get_midgard_group_by_name($name);
                 if (! $this->_type_groups[$name])
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        "DB inconsistency, we could not load the account group {$name}.");
-                    // This will exit.
+                    throw new midcom_error("DB inconsistency, we could not load the account group {$name}.");
                 }
             }
         }
@@ -139,9 +135,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
         }
         else if (! is_string($type))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Incorrect arguments for get_account_schema, need either null, string or mdicom_core_user.');
-            // This will exit.
+            throw new midcom_error('Incorrect arguments, need either null, string or mdicom_core_user.');
         }
         else
         {
@@ -157,9 +151,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
             else
             {
                 debug_print_r('We were working on this schema database (keys only)', array_keys($this->_schemadb));
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Key {$type} was not found in the schema database. Please correct the system configuration.");
-                // This will exit.
+                throw new midcom_error("Key {$type} was not found in the schema database. Please correct the system configuration.");
             }
         }
         return $this->_schemadb[$type];
@@ -185,9 +177,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
         $storage = $user->get_storage();
         if (! $storage)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to load the storage object for the user {$user->name}, this most probably means insufficient permissions.");
-            // This will exit.
+            throw new midcom_error("Failed to load the storage object for the user {$user->name}, this most probably means insufficient permissions.");
         }
 
         $datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
@@ -215,9 +205,7 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
         $storage = $user->get_storage();
         if (! $storage)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to load the storage object for the user {$user->name}, this most probably means insufficient permissions.");
-            // This will exit.
+            throw new midcom_error("Failed to load the storage object for the user {$user->name}, this most probably means insufficient permissions.");
         }
 
         $datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);

@@ -699,9 +699,7 @@ class midcom_helper__styleloader
         {
             // Note that src detection will be semi-reliable, as it depends on all errors being
             // found before caching kicks in.
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse style element '{$path}', content was loaded from '{$src}', see above for PHP errors.");
-            // This will exit.
+            throw new midcom_error("Failed to parse style element '{$path}', content was loaded from '{$src}', see above for PHP errors.");
         }
         if ($instance_id)
         {
@@ -807,8 +805,9 @@ class midcom_helper__styleloader
      */
     function append_styledir ($dirname)
     {
-        if (!file_exists(MIDCOM_ROOT . $dirname)) {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Style directory $dirname does not exist!");
+        if (!file_exists(MIDCOM_ROOT . $dirname))
+        {
+            throw new midcom_error("Style directory $dirname does not exist!");
         }
         $this->_styledirs_append[$_MIDCOM->get_current_context()][] = $dirname;
         return true;
@@ -853,7 +852,7 @@ class midcom_helper__styleloader
     {
         if (!file_exists(MIDCOM_ROOT . $dirname))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Style directory {$dirname} does not exist.");
+            throw new midcom_error("Style directory {$dirname} does not exist.");
         }
         $this->_styledirs_prepend[$_MIDCOM->get_current_context()][] = $dirname;
         return true;

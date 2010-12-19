@@ -86,8 +86,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
                 if (!$local_file->create())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create attachment, reason: ' . midcom_connection::get_error_string());
-                    // This will exit.
+                    throw new midcom_error('Failed to create attachment, reason: ' . midcom_connection::get_error_string());
                 }
             }
         }
@@ -144,8 +143,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
 
                 if (!$local_file->create())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to create attachment, reason: ' . midcom_connection::get_error_string());
-                    // This will exit.
+                    throw new midcom_error('Failed to create attachment, reason: ' . midcom_connection::get_error_string());
                 }
             }
         }
@@ -257,8 +255,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (!$this->_object)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
         }
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
@@ -316,8 +313,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (!$this->_object)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
         }
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
@@ -414,8 +410,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (!$this->_object)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
         }
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
@@ -425,8 +420,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
         $this->_file = $this->_get_file($data['filename']);
         if (!$this->_file)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Attachment '{$data['filename']}' of object {$this->_object->guid} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("Attachment '{$data['filename']}' of object {$this->_object->guid} was not found.");
         }
 
         // Require delete privilege

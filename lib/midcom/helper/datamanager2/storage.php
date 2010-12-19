@@ -101,14 +101,10 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
             {
                 if ($type_definition['required'] == true)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to process the type array for the schema {$this->_schema->name}: "
+                    throw new midcom_error("Failed to process the type array for the schema {$this->_schema->name}: "
                         . "The type for the required field {$name} was not found.");
-                    // This will exit.
                 }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
 
             if ($type_definition['readonly'])
@@ -169,14 +165,11 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
             {
                 if ($type_definition['required'] == true)
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to process the type array for the schema {$this->_schema->name}: "
+                    throw new midcom_error("Failed to process the type array for the schema {$this->_schema->name}: "
                         . "The type for the required field {$name} was not found.");
                     // This will exit.
                 }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
             if ($type_definition['storage']['location'] !== null)
             {

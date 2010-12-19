@@ -85,9 +85,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (!$this->_link->create())
         {
             debug_print_r('We operated on this object:', $this->_link);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new article, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new article. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         return $this->_link;
@@ -112,7 +110,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if (!$this->_config->get('enable_article_links'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, 'Article linking disabled');
+            throw new midcom_error_notfound('Article linking disabled');
         }
 
         $data['controller'] = $this->get_controller('create');

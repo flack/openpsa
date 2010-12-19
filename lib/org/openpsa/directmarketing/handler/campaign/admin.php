@@ -73,8 +73,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
         if (!$this->_datamanager->autoset_storage($this->_campaign))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for campaign {$this->_campaign->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for campaign {$this->_campaign->id}.");
         }
     }
 
@@ -89,8 +88,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $this->_controller->set_storage($this->_campaign);
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for campaign {$this->_campaign->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for campaign {$this->_campaign->id}.");
         }
     }
 
@@ -131,11 +129,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     public function _handler_edit_query($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if (   !$this->_campaign
-            || $this->_campaign->node != $this->_topic->id)
+        if ($this->_campaign->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
         }
 
         $this->_campaign->require_do('midgard:update');
@@ -260,11 +256,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     public function _handler_edit_query_advanced($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if (   !$this->_campaign
-            || $this->_campaign->node != $this->_topic->id)
+        if ($this->_campaign->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
         }
 
         $this->_campaign->require_do('midgard:update');
@@ -369,11 +363,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if (   !$this->_campaign
-            || $this->_campaign->node != $this->_topic->id)
+        if ($this->_campaign->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
         }
 
         $this->_campaign->require_do('midgard:update');
@@ -437,11 +429,9 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
     public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if (   !$this->_campaign
-            || $this->_campaign->node != $this->_topic->id)
+        if ($this->_campaign->node != $this->_topic->id)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The campaign {$args[0]} was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
         }
 
         $this->_campaign->require_do('midgard:delete');
@@ -453,8 +443,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             // Deletion confirmed.
             if (! $this->_campaign->delete())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete campaign {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete campaign {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             // Update the index

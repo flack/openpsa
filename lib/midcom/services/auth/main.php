@@ -1094,7 +1094,7 @@ class midcom_services_auth
     }
 
     /**
-     * This is called by $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, ...) if and only if
+     * This is called by throw new midcom_error_forbidden(...) if and only if
      * the headers have not yet been sent. It will display the error message and appends the
      * login form below it.
      *

@@ -81,8 +81,7 @@ class midcom_helper_misc
         $data = self::get_snippet_content_graceful($path);
         if (is_null($data))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not load the contents of the snippet {$path}: Snippet does not exist.");
-            // This will exit.
+            throw new midcom_error("Could not load the contents of the snippet {$path}: Snippet does not exist.");
         }
         return $data;
     }

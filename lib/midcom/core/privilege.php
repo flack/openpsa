@@ -484,9 +484,7 @@ class midcom_core_privilege
                 {
                     debug_add("Error message was: {$php_errormsg}", MIDCOM_LOG_ERROR);
                 }
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    'Privilege collector failed to execute: ' . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error('Privilege collector failed to execute: ' . midcom_connection::get_error_string());
             }
 
             return $result;

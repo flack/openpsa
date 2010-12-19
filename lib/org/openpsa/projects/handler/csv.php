@@ -45,8 +45,7 @@ class org_openpsa_projects_handler_csv extends midcom_baseclasses_components_han
             || !is_array($_POST['guids'])
             || empty($_POST['guids']))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "No GUIDs found, aborting.");
-            // This will exit
+            throw new midcom_error("No GUIDs found, aborting.");
         }
         $guids =& $_POST['guids'];
 

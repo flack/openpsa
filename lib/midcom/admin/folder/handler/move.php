@@ -36,16 +36,13 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         if (! $this->_object)
         {
-            debug_add("Object with GUID '{$args[0]}' was not found!", MIDCOM_LOG_ERROR);
-
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[0]}' was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
         }
 
         if (   !is_a($this->_object, 'midcom_db_topic')
             && !is_a($this->_object, 'midcom_db_article'))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Moving only topics and articles is supported.");
+            throw new midcom_error_notfound("Moving only topics and articles is supported.");
         }
 
         $this->_object->require_do('midgard:update');
@@ -97,8 +94,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
 
         if (!$move_to_topic->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the topic. Could not get the target topic');
-            // This will exit
+            throw new midcom_error( 'Failed to move the topic. Could not get the target topic');
         }
 
         $move_to_topic->require_do('midgard:create');
@@ -111,22 +107,21 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             $this->_object->up = $move_to_topic->id;
             if (!$this->_object->update())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the topic, reason ' . midcom_connection::get_error_string());
-                // This will exit
+                throw new midcom_error('Failed to move the topic, reason ' . midcom_connection::get_error_string());
             }
             if (!midcom_admin_folder_folder_management::is_child_listing_finite($this->_object))
             {
                 $this->_object->up = $up;
                 $this->_object->name = $name;
                 $this->_object->update();
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                throw new midcom_error
+                (
                     "Refusing to move this folder because the move would have created an " .
                     "infinite loop situation caused by the symlinks on this site. The " .
                     "whole site would have been completely and irrevocably broken if this " .
                     "move would have been allowed to take place. Infinite loops can not " .
                     "be allowed. Sorry, but this was for your own good."
                 );
-                // This will exit
             }
             // It was ok, so set name back now
             $this->_object->name = $name;
@@ -137,8 +132,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
             $this->_object->topic = $move_to_topic->id;
             if (!$this->_object->update())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to move the article, reason ' . midcom_connection::get_error_string());
-                // This will exit
+                throw new midcom_error('Failed to move the article, reason ' . midcom_connection::get_error_string());
             }
         }
     }

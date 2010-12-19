@@ -133,10 +133,8 @@ class midcom_services_indexer
             {
                 if (! $this->_index_cast_to_document($documents[$key]))
                 {
-                    debug_add("Encountered an unsupported argument while processing the document {$key}, aborting. See the debug messages for details.",
-                        MIDCOM_LOG_ERROR);
                     debug_print_r("The document at type {$key} is invalid:", $documents[$key]);
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Encountered an unsupported argument while processing the document {$key}");
+                    throw new midcom_error("Encountered an unsupported argument while processing the document {$key}");
                 }
             }
 

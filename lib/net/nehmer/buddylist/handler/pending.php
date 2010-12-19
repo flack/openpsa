@@ -177,15 +177,13 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
         // Validate request integrity as far as we can.
         if (! array_key_exists('guid', $_REQUEST))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Incomplete Request');
-            // This will exit.
+            throw new midcom_error('Incomplete Request');
         }
 
         $this->_entry = new net_nehmer_buddylist_entry($_REQUEST['guid']);
         if (! $this->_entry)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Request invalid: Failed to load {$_REQUEST['guid']}.");
-            // This will exit.
+            throw new midcom_error("Request invalid: Failed to load {$_REQUEST['guid']}.");
         }
 
         if (array_key_exists('net_nehmer_buddylist_reject', $_REQUEST))
@@ -202,8 +200,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
         }
         else
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Incomplete Request');
-            // This will exit.
+            throw new midcom_error('Incomplete Request');
         }
 
         $this->_prepare_request_data();

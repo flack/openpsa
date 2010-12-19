@@ -58,8 +58,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             if (   ! $this->_datamanager
                 || ! $this->_datamanager->autoset_storage($this->_page))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for wiki page {$this->_page->guid}.");
-                // This will exit.
+                throw new midcom_error("Failed to create a DM2 instance for wiki page {$this->_page->guid}.");
             }
         }
     }
@@ -537,7 +536,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRFORBIDDEN, 'Only POST requests are allowed here.');
+            throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
         $_MIDCOM->auth->require_valid_user();

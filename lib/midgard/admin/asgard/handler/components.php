@@ -194,8 +194,7 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $data['component'] = $args[0];
         if (!isset($_MIDCOM->componentloader->manifests[$data['component']]))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Component '{$args[0]}' not installed.");
-            // This will exit.
+            throw new midcom_error_notfound("Component '{$args[0]}' not installed.");
         }
 
         $data['component_data'] = $this->_load_component_data($data['component'], $_MIDCOM->componentloader->manifests[$data['component']]);

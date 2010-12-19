@@ -99,8 +99,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
         $this->_controller->set_storage($user, 'notifications');
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for task {$user->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for task {$user->id}.");
         }
     }
 

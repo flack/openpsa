@@ -31,15 +31,11 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
 
         if (count($this->schemadb) == 0)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'You must set a schema database before initializing midcom_helper_datamanager2_controller_simple.');
-            // This will exit.
+            throw new midcom_error('You must set a schema database before initializing midcom_helper_datamanager2_controller_simple.');
         }
         if ($this->datamanager === null)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'You must set the datamanager member before initializing midcom_helper_datamanager2_controller_simple.');
-            // This will exit.
+            throw new midcom_error('You must set the datamanager member before initializing midcom_helper_datamanager2_controller_simple.');
         }
 
         $this->formmanager = new midcom_helper_datamanager2_formmanager($this->datamanager->schema, $this->datamanager->types);
@@ -81,7 +77,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
     {
         if ($this->formmanager === null)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'You must initialize a controller class before using it.');
+            throw new midcom_error('You must initialize a controller class before using it.');
         }
 
         $metadata = $this->datamanager->storage->object->metadata;
@@ -191,9 +187,7 @@ class midcom_helper_datamanager2_controller_simple extends midcom_helper_dataman
                 else
                 {
                     // It seems to be a critical error.
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                        'Failed to save the data to disk, last Midgard error: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
-                    // This will exit.
+                    throw new midcom_error('Failed to save the data to disk, last Midgard error: ' . midcom_connection::get_error_string() . '. Check the debug level log for more information.');
                 }
             }
         }

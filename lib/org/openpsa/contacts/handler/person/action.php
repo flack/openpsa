@@ -157,9 +157,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $result = eval ("\$contents = array ( {$data_rules}\n );");
         if ($result === false)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to parse the schema definition in '{$rules}', see above for PHP errors.");
-            // This will exit.
+            throw new midcom_error("Failed to parse the schema definition in '{$rules}', see above for PHP errors.");
         }
         $this->_request_data['password_rules'] = $contents['rules'];
 

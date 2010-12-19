@@ -67,9 +67,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $this->_page->create())
         {
             debug_print_r('We operated on this object:', $this->_page);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new page, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new page. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         $this->_page = new net_nemein_wiki_wikipage($this->_page->id);
@@ -106,8 +104,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $topic->component = 'net.nemein.wiki';
                 if (!$topic->create())
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
-                    // This will exit()
+                    throw new midcom_error("Could not create wiki namespace '{$folder_title}', last Midgard error was: " . midcom_connection::get_error_string());
                 }
                 // refresh
                 $topic = new midcom_db_topic($topic->id);
@@ -136,8 +133,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     {
                         // Could not create index
                         $topic->delete();
-                        $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
-                        // This will exit()
+                        throw new midcom_error("Could not create index for new topic, errstr: " . midcom_connection::get_error_string());
                     }
                 }
                 // We have created a new topic, now recurse to create the rest of the path.
@@ -145,8 +141,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 break;
             case (is_object($resolved['wikipage'])):
                 // Page exists
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Wiki page with that name already exists.');
-                //This will exit()
+                throw new midcom_error('Wiki page with that name already exists.');
                 break;
             default:
                 // No more namespaces left, create the page to latest parent

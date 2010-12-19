@@ -136,9 +136,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $this->_article->create())
         {
             debug_print_r('We operated on this object:', $this->_article);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new article, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new article. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         // Callback possibility

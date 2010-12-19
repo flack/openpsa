@@ -58,8 +58,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         {
             if (!array_key_exists('default', $schemadbs))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Configuration error. No default schema for topic has been defined!');
-                // This will exit
+                throw new midcom_error('Configuration error. No default schema for topic has been defined!');
             }
 
             $schemadb = $schemadbs['default'];
@@ -109,8 +108,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
             case 'createlink':
                 if (!array_key_exists('link', $schemadbs))
                 {
-                     $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Configuration error. No link schema for topic has been defined!');
-                    // This will exit
+                     throw new midcom_error('Configuration error. No link schema for topic has been defined!');
                 }
                 $schemadb = $schemadbs['link'];
                 // Create the schema instance
@@ -124,14 +122,13 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                 break;
 
             default:
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Unable to process the request, unknown handler id');
+                throw new midcom_error('Unable to process the request, unknown handler id');
                 // This will exit
         }
 
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for article {$this->_event->id}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for article {$this->_event->id}.");
         }
     }
 
@@ -146,9 +143,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         if (! $this->_new_topic->create())
         {
             debug_print_r('We operated on this object:', $this->_new_topic);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new topic, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         return $this->_new_topic;
@@ -335,30 +330,29 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                     $topic = $this->_new_topic;
 
                     $this->_new_topic->purge();
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                    throw new midcom_error
+                    (
                         "Refusing to create this symlink because its target folder was not found: " .
                         midcom_connection::get_error_string()
                     );
-                    // This will exit
-
-                    break;
                 }
                 $name = $topic->name;
             }
             if ($this->_new_topic->up == $topic->up)
             {
                 $this->_new_topic->purge();
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                throw new midcom_error
+                (
                     "Refusing to create this symlink because it is located in the same " .
                     "folder as its target. You must have made a mistake. Sorry, but this " .
                     "was for your own good."
                 );
-                // This will exit
             }
             if ($this->_new_topic->up == $topic->id)
             {
                 $this->_new_topic->purge();
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                throw new midcom_error
+                (
                     "Refusing to create this symlink because its parent folder is the same " .
                     "folder as its target. You must have made a mistake because this would " .
                     "have created an infinite loop situation. The whole site would have " .
@@ -366,20 +360,19 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
                     "allowed to exist. Infinite loops can not be allowed. Sorry, but this " .
                     "was for your own good."
                 );
-                // This will exit
             }
             $this->_new_topic->update();
             if (!midcom_admin_folder_folder_management::is_child_listing_finite($topic))
             {
                 $this->_new_topic->purge();
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
+                throw new midcom_error
+                (
                     "Refusing to create this symlink because it would have created an " .
                     "infinite loop situation. The whole site would have been completely " .
                     "and irrevocably broken if this symlink would have been allowed to " .
                     "exist. Please redesign your usage of symlinks. Infinite loops can " .
                     "not be allowed. Sorry, but this was for your own good."
                 );
-                // This will exit
             }
             $this->_new_topic->name = $name;
             while (!$this->_new_topic->update() && midcom_connection::get_error() == MGD_ERR_DUPLICATE)

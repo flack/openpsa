@@ -128,7 +128,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($dummy);
         if (!$midcom_dba_classname)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to load DBA class for type {$this->type}.");
+            throw new midcom_error("Failed to load DBA class for type {$this->type}.");
         }
         $component = $_MIDCOM->dbclassloader->get_component_for_class($midcom_dba_classname);
         $help_component = $component;
@@ -157,8 +157,7 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         if (!$_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->type))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "MgdSchema type '{$args[0]}' not installed.");
-            // This will exit.
+            throw new midcom_error_notfound("MgdSchema type '{$args[0]}' not installed.");
         }
 
         $this->_prepare_request_data();

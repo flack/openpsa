@@ -110,9 +110,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (!$object->create())
         {
             debug_print_r('We operated on this object:', $object);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                "Failed to create a new object, cannot continue. Error: " . midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error("Failed to create a new object. Error: " . midcom_connection::get_error_string());
         }
 
         $this->_object =& $object;
@@ -132,13 +130,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_node[MIDCOM_NAV_OBJECT]);
                 break;
             default:
-                $_MIDCOM->generate_error
-                (
-                    MIDCOM_ERRCRIT,
-                    "The DBA class {$this->_dbaclass} is unsupported"
-                );
-                // This will exit.
-                break;
+                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
     }
 
@@ -156,12 +148,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if (!$this->_node)
         {
-            $_MIDCOM->generate_error
-            (
-                MIDCOM_ERRCRIT,
-                "Could not load node information for topic {$topic_guid}. Last error was: " . midcom_connection::get_error_string()
-            );
-            // This will exit.
+            throw new midcom_error("Could not load node information for topic {$topic_guid}. Last error was: " . midcom_connection::get_error_string());
         }
     }
 
@@ -180,13 +167,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $config_key .= '_person';
                 break;
             default:
-                $_MIDCOM->generate_error
-                (
-                    MIDCOM_ERRCRIT,
-                    "The DBA class {$this->_dbaclass} is unsupported"
-                );
-                // This will exit.
-                break;
+                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
 
         return $this->_node[MIDCOM_NAV_CONFIGURATION]->get($config_key);
@@ -205,13 +186,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $title = 'person';
                 break;
             default:
-                $_MIDCOM->generate_error
-                (
-                    MIDCOM_ERRCRIT,
-                    "The DBA class {$this->_dbaclass} is unsupported"
-                );
-                // This will exit.
-                break;
+                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
         $data['title'] = sprintf($this->_l10n_midcom->get('create %s'), $_MIDCOM->i18n->get_string($title, $this->_node[MIDCOM_NAV_COMPONENT]));
 
@@ -249,13 +224,7 @@ implements midcom_helper_datamanager2_interfaces_create
                 $jsdata['email'] = $this->_object->email;
                 break;
             default:
-                $_MIDCOM->generate_error
-                (
-                    MIDCOM_ERRCRIT,
-                    "The DBA class {$this->_dbaclass} is unsupported"
-                );
-                // This will exit.
-                break;
+                throw new midcom_error("The DBA class {$this->_dbaclass} is unsupported");
         }
 
         return json_encode($jsdata);

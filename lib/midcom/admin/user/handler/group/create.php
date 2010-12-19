@@ -45,9 +45,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $this->_group->create())
         {
             debug_print_r('We operated on this object:', $this->_group);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new group, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new group. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         return $this->_group;

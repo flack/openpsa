@@ -43,9 +43,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (! $this->_person->create())
         {
             debug_print_r('We operated on this object:', $this->_person);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new person, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new person. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         return $this->_person;

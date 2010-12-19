@@ -72,8 +72,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 $_MIDCOM->relocate($relocate);
             }
 
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$guid}' was not found.");
-            // This will exit.
+            throw new midcom_error_notfound("The GUID '{$guid}' was not found.");
         }
     }
 
@@ -155,8 +154,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_datamanager->set_schema('object');
         if (!$this->_datamanager->set_storage($this->_object))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for object {$this->_object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for object {$this->_object->guid}.");
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
@@ -207,8 +205,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_controller->set_storage($this->_object, 'object');
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 controller instance for object {$this->_object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 controller instance for object {$this->_object->guid}.");
         }
 
         switch ($this->_controller->process_form())
@@ -321,7 +318,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 $link_info = $this->_find_linking_property($create_type);
                 if (!is_array($link_info))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not establish link between {$create_type} and " . get_class($this->_object));
+                    throw new midcom_error("Could not establish link between {$create_type} and " . get_class($this->_object));
                 }
 
                 $child_property = $link_info[0];
@@ -333,9 +330,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if (! $this->_new_object->create())
         {
             debug_print_r('We operated on this object:', $this->_new_object);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                'Failed to create a new object, cannot continue. Last Midgard error was: '. midcom_connection::get_error_string());
-            // This will exit.
+            throw new midcom_error('Failed to create a new object. Last Midgard error was: '. midcom_connection::get_error_string());
         }
 
         return $this->_new_object;
@@ -354,16 +349,13 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_new_type = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($args[0]);
         if (!$this->_new_type)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND,
-                'Failed to find type for the new object');
-            // This will exit.
+            throw new midcom_error_notfound('Failed to find type for the new object');
         }
 
         $_MIDCOM->dbclassloader->load_mgdschema_class_handler($this->_new_type);
         if (!class_exists($this->_new_type))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "Component handling MgdSchema type '{$args[0]}' was not found.");
-            // This will exit
+            throw new midcom_error_notfound("Component handling MgdSchema type '{$args[0]}' was not found.");
         }
         $data['new_type_arg'] = $args[0];
 
@@ -382,8 +374,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
             if (!$this->_object)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRNOTFOUND, "The GUID '{$args[1]}' was not found.");
-                // This will exit
+                throw new midcom_error_notfound("The GUID '{$args[1]}' was not found.");
             }
             $this->_object->require_do('midgard:create');
             midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
@@ -401,7 +392,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 $link_info = $this->_find_linking_property($this->_new_type);
                 if (!is_array($link_info))
                 {
-                    $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Could not establish link between {$this->_new_type} and " . get_class($this->_object));
+                    throw new midcom_error("Could not establish link between {$this->_new_type} and " . get_class($this->_object));
                 }
                 $parent_property = $link_info[1];
                 $data['defaults'][$link_info[0]] = $this->_object->$parent_property;
@@ -438,8 +429,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_controller->defaults = $data['defaults'];
         if (! $this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to initialize a DM2 create controller.");
-            // This will exit.
+            throw new midcom_error("Failed to initialize a DM2 create controller.");
         }
 
         switch ($this->_controller->process_form())
@@ -598,8 +588,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         $this->_datamanager->set_schema('object');
         if (!$this->_datamanager->set_storage($this->_object))
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to create a DM2 instance for object {$this->_object->guid}.");
-            // This will exit.
+            throw new midcom_error("Failed to create a DM2 instance for object {$this->_object->guid}.");
         }
 
         if (array_key_exists('midgard_admin_asgard_deleteok', $_REQUEST))
@@ -614,8 +603,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
             if (!$this->_object->delete_tree())
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, "Failed to delete object {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
-                // This will exit.
+                throw new midcom_error("Failed to delete object {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }
 
             if (   is_a($this->_object, 'midcom_db_style')
@@ -722,8 +710,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
 
         if (!$this->_controller->initialize())
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to initialize the controller');
-            // This will exit
+            throw new midcom_error('Failed to initialize the controller');
         }
 
         $this->_prepare_request_data();
@@ -790,7 +777,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             if (   !$link_properties
                 || !isset($link_properties[$parent]))
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to construct the target class object');
+                throw new midcom_error('Failed to construct the target class object');
             }
 
             $class_name = $link_properties[$parent]['class'];
@@ -803,7 +790,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
             }
             else
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to get the target object');
+                throw new midcom_error('Failed to get the target object');
             }
         }
 
@@ -831,7 +818,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if (!$copy->execute())
         {
             debug_print_r('Copying failed with the following errors', $copy->errors, MIDCOM_LOG_ERROR);
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to successfully copy the object. Details in error level log');
+            throw new midcom_error('Failed to successfully copy the object. Details in error level log');
         }
 
         $new_object = $copy->get_object();
@@ -839,7 +826,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
         if (   !$new_object
             || !$new_object->guid)
         {
-            $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'Failed to copy the object');
+            throw new midcom_error('Failed to copy the object');
         }
 
         if ($this->_request_data['handler_id'] === '____mfa-asgard-object_copy_tree')

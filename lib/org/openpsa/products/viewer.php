@@ -96,11 +96,9 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         if (!is_object($topic))
         {
             $tmp = new midcom_db_topic($topic);
-            if (! $tmp)
+            if (! $tmp->guid)
             {
-                $_MIDCOM->generate_error(MIDCOM_ERRCRIT,
-                    "Failed to load the topic referenced by {$topic} for indexing, this is fatal.");
-                // This will exit.
+                throw new midcom_error("Failed to load the topic referenced by {$topic} for indexing.");
             }
             $topic = $tmp;
         }
