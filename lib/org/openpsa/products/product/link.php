@@ -44,20 +44,5 @@ class org_openpsa_products_product_link_dba extends midcom_core_dbaobject
             return null;
         }
     }
-
-    public function _on_creating()
-    {
-        if (!$this->validate_code($this->code))
-        {
-            midcom_connection::set_error(MGD_ERR_OBJECT_NAME_EXISTS);
-            return false;
-        }
-        return true;
-    }
-
-    public function _on_updating()
-    {
-        return true;
-    }
 }
 ?>
