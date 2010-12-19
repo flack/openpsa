@@ -163,7 +163,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 $add_url .= $this->_current_object->guid . "/html/";
                 $_MIDCOM->relocate($add_url);
                 // This will exit.
-                break;
         }
 
         $this->_prepare_breadcrumb();
@@ -237,7 +236,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 $url_prefix = $url_prefix . $this->_current_object->guid . "/html/";
                 $_MIDCOM->relocate($url_prefix);
                 // This will exit.
-                break;
         }
 
         org_openpsa_helpers::dm2_savecancel($this);

@@ -132,8 +132,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
-        if (   ! $this->_datamanager
-            || ! $this->_datamanager->autoset_storage($this->_article))
+        if (! $this->_datamanager->autoset_storage($this->_article))
         {
             throw new midcom_error("Failed to create a DM2 instance for article {$this->_article->id}.");
         }
@@ -232,7 +231,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
                 // Reindex the article
                 $indexer = $_MIDCOM->get_service('indexer');
                 net_nehmer_blog_viewer::index($this->_controller->datamanager, $indexer, $this->_content_topic);
-
                 // *** FALL-THROUGH ***
 
             case 'cancel':
@@ -244,7 +242,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
                 {
                     $_MIDCOM->relocate("{$this->_article->name}/");
                 }
-
                 // This will exit.
         }
 

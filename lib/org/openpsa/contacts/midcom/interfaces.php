@@ -48,12 +48,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         {
             $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_group'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schema);
-            if (!$datamanager)
-            {
-                debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb_group'),
-                    MIDCOM_LOG_WARN);
-                return false;
-            }
 
             foreach ($ret as $group)
             {

@@ -26,11 +26,10 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         if (count($args) == 1)
         {
             $this->_request_data['person'] = new midcom_db_person($args[0]);
-            if (!$this->_request_data['person'])
+            if (!$this->_request_data['person']->guid)
             {
                 debug_add("Person record '{$args[0]}' not found");
                 return false;
-                // This will exit
             }
 
             if (array_key_exists('add_to_campaign', $_POST))
@@ -254,7 +253,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         if (count($args) != 1)
         {
             throw new midcom_error_notfound("Missing member ID.");
-            // This will exit.
         }
         $_MIDCOM->auth->request_sudo();
         $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);

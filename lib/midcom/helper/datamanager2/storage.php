@@ -167,7 +167,6 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
                 {
                     throw new midcom_error("Failed to process the type array for the schema {$this->_schema->name}: "
                         . "The type for the required field {$name} was not found.");
-                    // This will exit.
                 }
                 continue;
             }

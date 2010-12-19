@@ -81,7 +81,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -90,9 +90,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -104,7 +103,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -113,9 +112,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -127,7 +125,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -136,9 +134,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -150,7 +147,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -159,9 +156,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -173,7 +169,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -182,9 +178,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -196,7 +191,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -205,9 +200,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -219,7 +213,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -228,9 +222,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -242,7 +235,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -251,9 +244,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 
@@ -265,7 +257,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             case 'ajax':
                 //TODO: return ajax status
-            break;
+                break;
             default:
             case 'redirect':
                 if (!$stat)
@@ -274,9 +266,8 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
                     $this->errcode = MIDCOM_ERRCRIT;
                     return false;
                 }
-                return $this->_redirect();
+                $this->_redirect();
                 //This will exit
-            break;
         }
     }
 

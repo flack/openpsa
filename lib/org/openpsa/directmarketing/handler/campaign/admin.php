@@ -212,7 +212,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
                 //Save ok, relocate
                 $_MIDCOM->relocate("campaign/{$this->_campaign->guid}/");
-                //return true;
                 // This will exit()
             }
             //set data for preview & skip page_style because of javascript call

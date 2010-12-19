@@ -123,7 +123,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
 
             default:
                 throw new midcom_error('Unable to process the request, unknown handler id');
-                // This will exit
         }
 
         if (! $this->_controller->initialize())

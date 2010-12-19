@@ -805,7 +805,6 @@ class midcom_helper_nav_backend
             debug_print_r("Wrong type", $leaves, MIDCOM_LOG_ERROR);
 
             throw new midcom_error('Wrong type passed for navigation, see error level log for details');
-            // This will exit
         }
 
         foreach ($leaves as $id => $copy)

@@ -440,7 +440,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 break;
             default:
                 throw new midcom_error("Error in type configuration: storage mode cannot be '{$this->storage_mode}'");
-                // This will exit
         }
         return $rows;
     }

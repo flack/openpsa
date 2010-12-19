@@ -108,7 +108,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
     {
         $salesproject = new org_openpsa_sales_salesproject_dba($identifier);
 
-        if (!is_object($salesproject))
+        if (!$salesproject->guid)
         {
             return false;
         }

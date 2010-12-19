@@ -355,8 +355,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
 
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
-        if (   !$this->_datamanager
-            || !$this->_datamanager->autoset_storage($this->_object))
+        if (!$this->_datamanager->autoset_storage($this->_object))
         {
             throw new midcom_error("Failed to create a DM2 instance for object {$this->_object->guid}.");
         }

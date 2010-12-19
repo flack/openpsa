@@ -335,7 +335,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         if ($eval_ret === false)
         {
             return false;
-            // this will exit
         }
         $campaign->rules = $tmp_array;
         $campaign->description = $tmp_array['comment'];
@@ -345,7 +344,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         if (!$campaign->create())
         {
             return false;
-            // this will exit
         }
         $campaign->schedule_update_smart_campaign_members();
         $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX)

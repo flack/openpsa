@@ -232,7 +232,6 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
                 // Reindex the object
                 //$indexer = $_MIDCOM->get_service('indexer');
                 //net_nemein_wiki_viewer::index($this->_request_data['controller']->datamanager, $indexer, $this->_topic);
-                // *** FALL-THROUGH ***
                 $_MIDCOM->relocate("__mfa/asgard/object/edit/{$this->_object->guid}/");
                 // This will exit.
 

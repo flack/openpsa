@@ -120,9 +120,8 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
         switch ($this->_controller->process_form())
         {
             case 'save':
-                $_MIDCOM->relocate("");
-
             case 'cancel':
+                $_MIDCOM->relocate("");
                 // This will exit.
         }
 

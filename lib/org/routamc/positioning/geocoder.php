@@ -54,7 +54,6 @@ class org_routamc_positioning_geocoder extends midcom_baseclasses_components_pur
         if (!file_exists($filename))
         {
             throw new midcom_error("Geocoder {$type} not available.");
-            // This will exit.
         }
 
         $classname = "org_routamc_positioning_geocoder_{$type}";

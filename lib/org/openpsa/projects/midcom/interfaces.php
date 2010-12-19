@@ -433,12 +433,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
 
             $datamanager = new midcom_helper_datamanager2_datamanager($schema);
-            if (!$datamanager)
-            {
-                debug_add('Warning, failed to create a datamanager instance with this schemapath:' . $this->_config->get('schemadb_project'),
-                    MIDCOM_LOG_WARN);
-                return false;
-            }
+
             foreach ($ret as $project)
             {
                 if (!$datamanager->autoset_storage($project))

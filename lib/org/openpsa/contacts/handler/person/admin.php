@@ -136,8 +136,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->_load_schemadb();
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
 
-        if (   ! $this->_datamanager
-            || ! $this->_datamanager->autoset_storage($this->_contact))
+        if (! $this->_datamanager->autoset_storage($this->_contact))
         {
             throw new midcom_error("Failed to create a DM2 instance for contact {$this->_contact->id}.");
         }

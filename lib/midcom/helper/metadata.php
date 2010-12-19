@@ -321,7 +321,6 @@ class midcom_helper_metadata
             if (!$this->_set_property($key, $value))
             {
                 return false;
-                // this will exit
             }
         }
 
