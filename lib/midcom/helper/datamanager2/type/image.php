@@ -219,46 +219,13 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
             return true;
         }
 
-        // Use single global variable for imagemagick state
-        if (!isset($GLOBALS['midcom_helper_datamanager2_type_image_ImageMagick_available']))
+        $ret = midcom_helper_imagefilter::imagemagick_available();
+        if (!$ret && $raise_uimessage)
         {
-            $GLOBALS['midcom_helper_datamanager2_type_image_ImageMagick_available'] = -1;
+            $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), 'ImageMagick is required but seems not to be available, image fields may be disabled', 'error');
         }
-        $return =& $GLOBALS['midcom_helper_datamanager2_type_image_ImageMagick_available'];
 
-        if ($return !== -1)
-        {
-            return $return;
-        }
-        $convert_cmd = escapeshellcmd("{$GLOBALS['midcom_config']['utility_imagemagick_base']}convert -version");
-        $output = array();
-        $ret = null;
-        exec($convert_cmd, $output, $ret);
-        if ($ret !== 0 && $ret !== 1)
-        {
-            debug_add("image operations require imagefilter which requires ImageMagick, {$convert_cmd} (part of ImageMagick suite) not found or executable", MIDCOM_LOG_ERROR);
-            if ($raise_uimessage)
-            {
-                $_MIDCOM->uimessages->add($this->_l10n->get('midcom.helper.datamanager2'), 'ImageMagick is required but seems not to be available, image fields may be disabled', 'error');
-            }
-            $return = false;
-            return $return;
-        }
-        $return = true;
-        return $return;
-    }
-
-    /**
-     * Internal helper function, determines the mime-type of the specified file.
-     *
-     * The call uses the "file" utility which must be present for this type to work.
-     *
-     * @param string $filename The file to scan
-     * @return string The autodetected mime-type
-     */
-    function _get_mimetype($filename)
-    {
-        return exec("{$GLOBALS['midcom_config']['utility_file']} -ib {$filename} 2>/dev/null");
+        return $ret;
     }
 
     /**

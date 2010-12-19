@@ -9,18 +9,8 @@
 /**
  * MidCOM level replacement for the Midgard Article record with framework support.
  *
- * Note, as with all MidCOM DB layer objects, you should not use the GetBy*
- * operations directly, instead, you have to use the constructor's $id parameter.
- *
- * Also, all QueryBuilder operations need to be done by the factory class
+ * All QueryBuilder operations need to be done by the factory class
  * obtainable as midcom_application::dbfactory.
- *
- * <i>Automatic updates:</i>
- *
- * - The system automatically resets invalid $author members, as they would break
- *   mgd_list_*article* style queries. The member is set to the ID of the current
- *   user or, if that one is not accessible, to 1, which is the Midgard Administrator
- *   user ID.
  *
  * @see midcom_services_dbclassloader
  * @package midcom.db
@@ -180,26 +170,6 @@ class midcom_db_article extends midcom_core_dbaobject
             return 'midcom_db_article';
         }
         return 'midcom_db_topic';
-    }
-
-    /**
-     * Pre-Creation hook, which validates the $author field for correctness.
-     *
-     * @return boolean Indicating success.
-     */
-    public function _on_creating()
-    {
-        return true;
-    }
-
-    /**
-     * Pre-Update hook, which validates the $author field for correctness.
-     *
-     * @return boolean Indicating success.
-     */
-    public function _on_updating()
-    {
-        return true;
     }
 }
 ?>

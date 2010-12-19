@@ -19,7 +19,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
      * it reads and returns their values.
      *
      * @return Array A simple associative array with the two indexes 'username' and
-     *     'password' holding the information read by the driver or NULL if no
+     *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
     function read_authentication_data()
@@ -30,7 +30,7 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
         {
             return null;
         }
-        
+
         return array
         (
             'username' => trim($_REQUEST['username']),
@@ -58,21 +58,21 @@ class midcom_services_auth_frontend_form implements midcom_services_auth_fronten
         if (count($_POST) > 0)
         {
             $data =& $_MIDCOM->get_custom_context_data('request_data');
-            
+
             $data['restored_form_data'] = array();
-            
+
             foreach ($_POST as $key => $value)
             {
                 if (preg_match('/(username|password|frontend_form_submit)/', $key))
                 {
                     continue;
                 }
-                
+
                 $data['restored_form_data'][$key] = base64_encode(serialize($value));
             }
             $_MIDCOM->style->data = array_merge($_MIDCOM->style->data, $data);
         }
-        
+
         $_MIDCOM->style->show_midcom('midcom_services_auth_frontend_form');
     }
 }

@@ -350,7 +350,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         {
             $request_data['object_cache'] = array();
         }
-        if ($key !== NULL)
+        if ($key !== null)
         {
             if (   !array_key_exists($key, $request_data['object_cache'])
                 || !is_array($request_data['object_cache'][$key]))

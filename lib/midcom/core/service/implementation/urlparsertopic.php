@@ -236,7 +236,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
      * the elements that have been parsed. $this->argv[0] will be dropped
      * and $this->argc will be reduced by one.
      *
-     * On failure it returns FALSE.
+     * On failure it returns false.
      *
      * @param string $namespace The namespace for which to search a variable
      * @return Array            The key and value pair of the URL parameter, or false on failure.

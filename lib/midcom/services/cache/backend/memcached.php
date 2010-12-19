@@ -155,7 +155,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
         }
 
         $key = "{$this->_name}-{$key}";
-        if ($timeout !== FALSE)
+        if ($timeout !== false)
         {
             @self::$memcache->set($key, $data, 0, $timeout);
             return;

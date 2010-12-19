@@ -123,7 +123,7 @@ class org_openpsa_helpers_vxparser
     /**
      * Converts DURATION to seconds or an array
      */
-    function vCal_duration($input, $toArray=FALSE)
+    function vCal_duration($input, $toArray=false)
     {
         $ret=array('d' => 0, 'h' => 0, 'm' => 0, 's' => 0);
         $regExp='/([+-])?P(([0-9]+)W)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)S)?)?/';
@@ -164,7 +164,7 @@ class org_openpsa_helpers_vxparser
         }
 
         //If we want seconds in stead of an array: sum and return.
-        if ($toArray==FALSE)
+        if ($toArray==false)
         {
             return (($ret['d']*3600*24)+($ret['h']*3600)+($ret['m']*60)+($ret['s']));
         }
@@ -273,7 +273,7 @@ class org_openpsa_helpers_vxparser
     function timezone_convert($stamp, $tzid='UTC', $dir='to')
     {
            //Some clients incorrectly specify Zulu (or whatever) -time even if they mean floating time...
-           if (isset($this->compatibility['times']['force_float']) && $this->compatibility['times']['force_float']===TRUE)
+           if (isset($this->compatibility['times']['force_float']) && $this->compatibility['times']['force_float']===true)
            {
                 $tzid='NO_CONVERSION';
            }
@@ -440,7 +440,7 @@ class org_openpsa_helpers_vxparser
 
 
       function vCal_decode($data, $param=array()) {
-                if (!(isset($this->compatibility['data']['parse_separators']) && $this->compatibility['data']['parse_separators']===FALSE)) {
+                if (!(isset($this->compatibility['data']['parse_separators']) && $this->compatibility['data']['parse_separators']===false)) {
                     $data_arr=preg_split("/([^\\\])[,;]/", $data, -1, PREG_SPLIT_DELIM_CAPTURE); //Not very nice but I can't think of a better way to explode with unescaped delimiters...
                     if (count($data_arr)>1 && is_array($data_arr)) { //We have multiple values in $data, decode them separately
                         while (list ($k, $v) = @each ($data_arr)) {
@@ -467,7 +467,7 @@ class org_openpsa_helpers_vxparser
                             while (list ($k, $hex) = each ($matches[1])) {
                                     if (isset($cache[$hex])) continue;
                                     $data=str_replace("=$hex", chr(hexdec($hex)), $data);
-                                    $cache[$hex]=TRUE;
+                                    $cache[$hex]=true;
                              }
                             unset($param['ENCODING']);
                         break;
@@ -485,7 +485,7 @@ class org_openpsa_helpers_vxparser
                    //if ($this->__iconv && isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
                    if (isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
                       $icRet=iconv($param['CHARSET'], $this->charset, $data);
-                      if ($icRet !== FALSE) { //Make sure iconv succeeded before overwriting data
+                      if ($icRet !== false) { //Make sure iconv succeeded before overwriting data
                          $data=$icRet;
                          unset($param['CHARSET']);
                       }
@@ -510,21 +510,21 @@ class org_openpsa_helpers_vxparser
                 $data=$this->_unfold($data);
 
 
-                $setMode=FALSE; $setData='';
+                $setMode=false; $setData='';
                 $rows=explode("\n", $data);
                 while (list ($k, $v) = each ($rows)) {
                         if (!$v) continue; //Skip empthy lines
                         if ($setMode) {
                             if ($v=='END:' . $setMode) {
                                 if (isset($toVars[$setMode])) {
-                                    if (!isset($seen[$setMode]) || $seen[$setMode]!=TRUE) {
+                                    if (!isset($seen[$setMode]) || $seen[$setMode]!=true) {
                                         $oldVal=$toVars[$setMode];
                                         $oldPar=$toParams[$setMode];
                                         $toVars[$setMode]=array();
                                         $toVars[$setMode][]=$oldVal;
                                         $toParams[$setMode]=array();
                                         $toParams[$setMode][]=$oldPar;
-                                        $seen[$setMode]=TRUE;
+                                        $seen[$setMode]=true;
                                     }
                                     $tmpVal=&$toVars[$setMode][];
                                     $tmpPar=&$toParams[$setMode][];
@@ -533,7 +533,7 @@ class org_openpsa_helpers_vxparser
                                     $tmpPar=&$toParams[$setMode];
                                 }
                                 $this->vx_parse_recursive($tmpVal, $tmpPar, $setData);
-                                $setMode=FALSE; $setData='';
+                                $setMode=false; $setData='';
                             } else {
                                 $setData.=$v."\n";
                             }
@@ -574,7 +574,7 @@ class org_openpsa_helpers_vxparser
                  $parameters[$key]=$keyParam;
               }
 
-        return TRUE;
+        return true;
       }
 
     /**

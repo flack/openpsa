@@ -163,7 +163,7 @@ class midcom_services__sessioning
      *
      * @param string $domain    The domain in which to search for the key.
      * @param mixed $key        The key to query.
-     * @return mixed            The session key's data value, or NULL on failure.
+     * @return mixed            The session key's data value, or null on failure.
      */
     function _get_helper ($domain, $key)
     {
@@ -180,7 +180,7 @@ class midcom_services__sessioning
      *
      * @param string $domain    The domain in which to search for the key.
      * @param mixed $key        The key to query.
-     * @return mixed            The session key's data value, or NULL on failure.
+     * @return mixed            The session key's data value, or null on failure.
      * @see midcom_services__sessioning::exists()
      */
     function get ($domain, $key)
@@ -210,7 +210,7 @@ class midcom_services__sessioning
      *
      * @param string $domain    The domain in which to search for the key.
      * @param mixed $key        The key to remove.
-     * @return mixed            The session key's data value, or NULL on failure.
+     * @return mixed            The session key's data value, or null on failure.
      * @see midcom_services__sessioning::exists()
      */
     function remove ($domain, $key)

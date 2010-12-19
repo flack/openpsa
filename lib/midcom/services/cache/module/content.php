@@ -77,7 +77,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     private $_no_cache = false;
 
     /**
-     * Page expiration in seconds. If NULL (unset), the page does
+     * Page expiration in seconds. If null (unset), the page does
      * not expire.
      *
      * @var int

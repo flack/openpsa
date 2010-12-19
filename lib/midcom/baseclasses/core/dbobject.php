@@ -1776,7 +1776,7 @@ class midcom_baseclasses_core_dbobject
         // Locate attachment
         $qb = $object->get_attachment_qb();
         $qb->add_constraint('name', '=', $name);
-        $result = $_MIDCOM->dbfactory->exec_query_builder($qb);
+        $result = $qb->execute();
 
         if (count($result) == 0)
         {
@@ -1897,7 +1897,7 @@ class midcom_baseclasses_core_dbobject
         }
 
         $qb = $object->get_attachment_qb();
-        $result = $_MIDCOM->dbfactory->exec_query_builder($qb);
+        $result = $qb->execute();
         if (   !$result
             || !is_array($result))
         {

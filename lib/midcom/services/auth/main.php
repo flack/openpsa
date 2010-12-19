@@ -480,7 +480,7 @@ class midcom_services_auth
      * Check, whether a user is member of a given group. By default, the query is run
      * against the currently authenticated user.
      *
-     * It always returns TRUE for administrative users.
+     * It always returns true for administrative users.
      *
      * @param mixed $group Group to check against, this can be either a midcom_core_group object or a group string identifier.
      * @param midcom_core_user The user which should be checked, defaults to the current user.
@@ -550,8 +550,8 @@ class midcom_services_auth
     /**
      * Validates, whether the given user have the privilege assigned to him in general.
      * Be aware, that this does not take any permissions overridden by content objects
-     * into account. Whenever possible, you should user the can_do() variant of this
-     * call therefore. can_user_do is only of interest in cases where you do not have
+     * into account. Whenever possible, you should user the require_do() variant of this
+     * call therefore. require_user_do is only of interest in cases where you do not have
      * any content object available, for example when creating root topics.
      *
      * If this is not the case, an Access Denied error is generated, the message

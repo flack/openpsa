@@ -105,7 +105,7 @@ class midcom_services_session
      * if unsure.
      *
      * @param mixed $key    The key to query.
-     * @return mixed        The session key's data value, or NULL on failure.
+     * @return mixed        The session key's data value, or null on failure.
      * @see midcom_services_session::exists()
      */
     function get ($key)
@@ -148,7 +148,7 @@ class midcom_services_session
      * system does allow null values. Use the exists function if unsure.
      *
      * @param mixed $key    The key to remove.
-     * @return mixed        The session key's data value, or NULL on failure.
+     * @return mixed        The session key's data value, or null on failure.
      * @see midcom_services_session::exists()
      */
     function remove ($key)

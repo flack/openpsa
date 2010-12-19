@@ -46,7 +46,7 @@ function utf8_to_ascii($str, $unknown = '?')
 
     while ( $i < $len )
     {
-        $ord = NULL;
+        $ord = null;
         $increment = 1;
 
         $ord0 = ord($str{$i});
@@ -93,7 +93,7 @@ function utf8_to_ascii($str, $unknown = '?')
                     {
                         ob_end_clean();
                         trigger_error("utf8_to_ascii: looks like badly formed UTF-8 at byte $i");
-                        return FALSE;
+                        return false;
                     }
                 }
             }
@@ -115,7 +115,7 @@ function utf8_to_ascii($str, $unknown = '?')
                     trigger_error("utf8_to_ascii: unable to load $bankfile");
                 }
             }
-            else 
+            else
             {
                 // Some banks are deliberately empty
                 $UTF8_TO_ASCII[$bank] = array();

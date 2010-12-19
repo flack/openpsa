@@ -63,7 +63,7 @@
  * example the ACL system) in MidCOM to find the logical parent of an object. By default this
  * method directly returns null indicating that there is no parent. You should override it
  * wherever you have a tree-like content structure so that MidCOM can correctly climb upwards.
- * If you have a parent only conditionally (e.g. there are root level objects), return NULL to
+ * If you have a parent only conditionally (e.g. there are root level objects), return null to
  * indicate no available parent.
  *
  * For example:

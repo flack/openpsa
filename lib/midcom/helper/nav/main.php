@@ -101,7 +101,7 @@ class midcom_helper_nav
     /**
      * Retrieve the ID of the currently displayed leaf. This is a leaf that is
      * displayed by the handling topic. If no leaf is active, this function
-     * returns FALSE. (Remember to make a type sensitive check, e.g.
+     * returns false. (Remember to make a type sensitive check, e.g.
      * nav::get_current_leaf() !== false to distinguish '0' and 'false'.)
      *
      * @return int    The ID of the leaf in question or false on failure.
@@ -129,7 +129,7 @@ class midcom_helper_nav
     /**
      * Lists all Sub-nodes of $parent_node. If there are no subnodes you will get
      * an empty array, if there was an error (for instance an unknown parent node
-     * ID) you will get FALSE.
+     * ID) you will get false.
      *
      * @param int $parent_node    The id of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
@@ -145,7 +145,7 @@ class midcom_helper_nav
     /**
      * Lists all leaves of $parent_node. If there are no leaves you will get an
      * empty array, if there was an error (for instance an unknown parent node ID)
-     * you will get FALSE.
+     * you will get false.
      *
      * @param int $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
@@ -242,7 +242,7 @@ class midcom_helper_nav
      * - MIDCOM_NAV_TYPE => 'node'
      *
      * If there are no child elements at all the method will return an empty array,
-     * in case of an error FALSE.  NOTE: This method should be quite slow, there's
+     * in case of an error false.  NOTE: This method should be quite slow, there's
      * room for improvement... :-)
      *
      * @param int $parent_node_id    The ID of the parent node.

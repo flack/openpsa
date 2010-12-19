@@ -13,8 +13,7 @@
  * midgard_query_builder object within the MidCOM Framework. This wrapper is
  * required for the correct operation of many MidCOM services.
  *
- * It essentially wraps the calls to {@link midcom_helper__dbfactory::new_query_builder()}
- * and {@link midcom_helper__dbfactory::exec_query_builder()}.
+ * It essentially wraps the calls to {@link midcom_helper__dbfactory::new_query_builder()}.
  *
  * Normally you should never have to create an instance of this type directly,
  * instead use the get_new_qb() method available in the MidCOM DBA API or the
@@ -747,7 +746,7 @@ class midcom_core_querybuilder
     }
 
     /**
-     * Include deleted objects (metadata.deleted is TRUE) in query results.
+     * Include deleted objects (metadata.deleted is true) in query results.
      *
      * Note: this may cause all kinds of weird behavior with the DBA helpers
      */

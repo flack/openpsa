@@ -131,7 +131,7 @@ class midcom_application
     private $_context = array();
 
     /**
-     * Contains the ID of the currently active context or FALSE is none is active.
+     * Contains the ID of the currently active context or false is none is active.
      *
      * @var int
      */
@@ -1025,7 +1025,7 @@ class midcom_application
      * to handle the request. First it will load the component associated to $object.
      * Then it will fetch the COMPONENT class associated to the MidCOM. After the
      * local configuration is retrieved from the object in question the component will
-     * be asked, if it can handle the request. TRUE or FALSE will be returned
+     * be asked, if it can handle the request. true or false will be returned
      * accordingly, both on the configure and on the can_handle run.
      *
      * @param midcom_db_topic $object    The node that is currently being tested.
@@ -1094,7 +1094,7 @@ class midcom_application
      * Execute the output callback.
      *
      * Launches the output of the currently selected component. If you set $showcontent
-     * to FALSE the output concept will not be activated, only style-init and -finish
+     * to false the output concept will not be activated, only style-init and -finish
      * will be called.
      *
      * It executes the content_handler that has been determined during the handle
@@ -1457,7 +1457,7 @@ class midcom_application
     }
 
     /**
-     * Returns the ID of the currently active context. This is FALSE if there is no
+     * Returns the ID of the currently active context. This is false if there is no
      * context running.
      *
      * @return int The context ID.
@@ -2655,7 +2655,7 @@ class midcom_application
      * which return you the set information here. Just don't worry where it is stored and use
      * the interface functions.
      *
-     * You may set either of the arguments to NULL to enforce default usage (based on NAP).
+     * You may set either of the arguments to null to enforce default usage (based on NAP).
      *
      * @param int $lastmodified The date of last modification of this request.
      * @param string $permalinkguid The GUID used to create a permalink for this request.

@@ -360,7 +360,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                         );
                     }
                 }
-                else if ($parent != NULL)
+                else if ($parent != null)
                 {
                     $tmp[] = array
                     (

@@ -77,7 +77,7 @@ class midcom_services_tmp
      * security reasons.
      *
      * @param int $id The temporary object ID to load.
-     * @return midcom_core_temporary_object The associated object or NULL in case that it
+     * @return midcom_core_temporary_object The associated object or null in case that it
      *     is unavailable.
      */
     function request_object($id)

@@ -59,7 +59,7 @@ class midcom_db_event extends midcom_core_dbaobject
      * Returns the Parent of the Event. This can either be another event if we have
      * a reply event, or a topic otherwise.
      *
-     * @return MidgardObject Parent object or NULL if there is none.
+     * @return MidgardObject Parent object or null if there is none.
      */
     function get_parent_guid_uncached()
     {

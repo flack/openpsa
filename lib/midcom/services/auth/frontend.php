@@ -27,7 +27,7 @@ interface midcom_services_auth_frontend
      * or null for anonymous access.
      *
      * @return Array A simple associative array with the two indexes 'username' and
-     *     'password' holding the information read by the driver or NULL if no
+     *     'password' holding the information read by the driver or null if no
      *     information could be read.
      */
     public function read_authentication_data();

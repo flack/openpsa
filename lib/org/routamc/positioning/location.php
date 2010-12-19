@@ -59,7 +59,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     /**
      * Returns the object GUID the location is stored for
      *
-     * @return string Parent GUID or NULL if there is none
+     * @return string Parent GUID or null if there is none
      */
     function get_parent_guid_uncached()
     {
@@ -80,7 +80,7 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
     /**
      * Returns the object GUID the location is stored for
      *
-     * @return string Parent GUID or NULL if there is none
+     * @return string Parent GUID or null if there is none
      */
     function get_parent_guid_uncached_static($guid)
     {

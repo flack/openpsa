@@ -17,7 +17,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     var $person;
     var $participant;
 
-    public function __construct($identifier = NULL)
+    public function __construct($identifier = null)
     {
         if (parent::__construct($identifier))
         {

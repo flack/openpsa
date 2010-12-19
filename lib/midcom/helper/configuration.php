@@ -267,12 +267,12 @@ class midcom_helper_configuration
      *
      * If $key exists in the configuration data, its value is returned to the caller.
      * If the value does not exist, the boolean value false will be returned. Be aware
-     * that this is not always good for error checking, since "FALSE" is a perfectly good
+     * that this is not always good for error checking, since "false" is a perfectly good
      * value in the configuration data. Do error checking with the function exists (see
      * below).
      *
      * @param mixed    $key    The configuration key to query.
-     * @return mixed        Its value or FALSE, if the key doesn't exist.
+     * @return mixed        Its value or false, if the key doesn't exist.
      * @see midcom_helper_configuration::exists()
      */
     public function get($key)

@@ -22,7 +22,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handle_ajax()
     {
         $update_succeeded = false;
-        $errstr = NULL;
+        $errstr = null;
         $user = new midcom_db_person($this->_request_data['user']->id);
         if (array_key_exists('org_openpsa_calendar_filters_add', $_POST))
         {

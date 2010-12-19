@@ -44,7 +44,66 @@ class midcom_helper_imagefilter
      */
     var $_quality = "-quality 90";
 
-    function _imagemagick_available()
+    public static function process($image, $filters)
+    {
+        if (!self::imagemagick_available())
+        {
+            debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
+            $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
+            return false;
+        }
+        $tmpfile = $this->create_tmp_copy($image);
+        if ($tmpfile === false)
+        {
+            debug_add("Could not create a working copy for '{$identifier}', aborting", MIDCOM_LOG_ERROR);
+            return false;
+        }
+
+        $filter = new midcom_helper_imagefilter();
+        if (!$filter->set_file($tmpfile))
+        {
+            debug_add("\$this->_filter->set_file() failed, aborting", MIDCOM_LOG_ERROR);
+            // Clean up
+            unlink($tmpfile);
+            $filter = null;
+            return false;
+        }
+        if (!$this->_filter->process_chain($filters))
+        {
+            debug_add("Failed to process filter chain '{$filter}', aborting", MIDCOM_LOG_ERROR);
+            // Clean up
+            unlink($tmpfile);
+            $filter = null;
+            return false;
+        }
+        // Don't leave the filter object laying
+        $filter = null;
+
+        if (!is_readable($tmpfile))
+        {
+            debug_add("File '{$file}' is not readable", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        $src = fopen($tmpfile, 'r');
+        if (!$src)
+        {
+            debug_add("Could not open file '{$file}' for reading", MIDCOM_LOG_ERROR);
+            return false;
+        }
+        if (!$image->copy_from_handle($src))
+        {
+            debug_add("\$image->copy_from_handle() failed", MIDCOM_LOG_ERROR);
+            fclose($src);
+            return false;
+        }
+        fclose($src);
+
+        // Clean-up the temp file
+        unlink($tmpfile);
+        return true;
+    }
+
+    public static function imagemagick_available()
     {
         static $return = -1;
         if ($return !== -1)
@@ -110,7 +169,7 @@ class midcom_helper_imagefilter
      */
     function set_file($filename)
     {
-        if (!$this->_imagemagick_available())
+        if (!self::imagemagick_available())
         {
             debug_add("ImageMagick is not available, can't do any operations", MIDCOM_LOG_ERROR);
             $_MIDCOM->uimessages->add('midcom.helper.imagefilter', "ImageMagick is not available, can't process commands", 'error');
@@ -170,7 +229,7 @@ class midcom_helper_imagefilter
      * Execution will relay to the corresponding filter function.
      *
      * All filters will use defaults for missing arguments (which can
-     * result in a NULL operation) and will ignore excessive arguments.
+     * result in a null operation) and will ignore excessive arguments.
      *
      * @param string cmd The command to be executed.
      * @return boolean true, if the filter executed successfully, false otherwise.
@@ -550,7 +609,7 @@ class midcom_helper_imagefilter
      * Filter Syntax: rotate($rotate)
      *
      * Where $rotate is a positive floating point number greater then 0
-     * and less then 360; if omitted, a NULL operation is done.
+     * and less then 360; if omitted, a null operation is done.
      *
      * @param float $rotate Degrees of rotation clockwise, negative amounts possible
      * @return boolean true on success.

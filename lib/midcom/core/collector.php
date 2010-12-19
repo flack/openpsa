@@ -13,8 +13,7 @@
  * midgard_collector object within the MidCOM Framework. This wrapper is
  * required for the correct operation of many MidCOM services.
  *
- * It essentially wraps the calls to {@link midcom_helper__dbfactory::new_collector()}
- * and {@link midcom_helper__dbfactory::exec_collector()}.
+ * It essentially wraps the calls to {@link midcom_helper__dbfactory::new_collector()}.
  *
  * Normally you should never have to create an instance of this type directly,
  * instead use the get_new_mc() method available in the MidCOM DBA API or the

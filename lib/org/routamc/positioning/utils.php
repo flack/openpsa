@@ -285,7 +285,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
      * @param string $class MidCOM DBA class to query
      * @param array $position Center position
      * @param integer $limit How many results to return
-     * @param integer $max_distance Maximum distance of returned objects in kilometers, or NULL if any
+     * @param integer $max_distance Maximum distance of returned objects in kilometers, or null if any
      * @param float $modifier
      * @return array array of MidCOM DBA objects sorted by proximity
      */

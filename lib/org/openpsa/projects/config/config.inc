@@ -6,7 +6,7 @@
 'currency'  => 'EUR',
 /**
  * Currency symbol for display
- * if NULL, defaults to the ISO 4217 currency code
+ * if null, defaults to the ISO 4217 currency code
  */
 'currency_symbol' => '�',
 /**

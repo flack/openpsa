@@ -134,7 +134,7 @@ class midcom_services_cache_backend_dba extends midcom_services_cache_backend
     {
         if ($this->_handle == null)
         {
-            debug_add("There was a NULL handle in the DBA backend, ignoring close request.");
+            debug_add("There was a null handle in the DBA backend, ignoring close request.");
             return;
         }
         dba_close($this->_handle);

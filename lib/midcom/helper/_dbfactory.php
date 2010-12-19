@@ -22,7 +22,7 @@ class midcom_helper__dbfactory
      * @see http://www.midgard-project.org/documentation/php_midgard_object_class/
      *
      * @param string $guid The object GUID.
-     * @return object A MidCOM DBA object if the set GUID is known, NULL on any error.
+     * @return object A MidCOM DBA object if the set GUID is known, null on any error.
      */
     function get_object_by_guid($guid)
     {
@@ -135,24 +135,9 @@ class midcom_helper__dbfactory
     }
 
     /**
-     * This function will execute the Querybuilder.
-     *
-     * @param midgard_query_builder $qb An instance of the Query builder obtained by the new_query_builder
-     *     function of this class.
-     * @return Array The result of the query builder. Note, that empty resultsets
-     *     will return an empty array.
-     * @see midcom_core_querybuilder::execute()
-     */
-    function exec_query_builder(&$qb)
-    {
-        return $qb->execute();
-    }
-
-
-    /**
      * Helper function, it takes an MgdSchema object and converts it into a MidCOM DBA object.
      *
-     * If the conversion cannot be done for some reason, the function returns NULL and logs
+     * If the conversion cannot be done for some reason, the function returns null and logs
      * an error.
      *
      * We also ensure that the corresponding component has been loaded.
@@ -212,7 +197,7 @@ class midcom_helper__dbfactory
     /**
      * Helper function, it takes a MidCOM DBA object and converts it into an MgdSchema object.
      *
-     * If the conversion cannot be done for some reason, the function returns NULL and logs
+     * If the conversion cannot be done for some reason, the function returns null and logs
      * an error.
      *
      * @param MidCOMDBAObject &$object MidCOM DBA Object

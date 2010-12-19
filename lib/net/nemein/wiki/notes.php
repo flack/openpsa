@@ -49,7 +49,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_eventmember');
         $qb->add_constraint('uid', '=', $person->id);
 
-        $memberships = $_MIDCOM->dbfactory->exec_query_builder($qb);
+        $memberships = $qb->execute();
         if ($memberships)
         {
             foreach ($memberships as $membership)
@@ -85,7 +85,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             // Include notes about members of the group
             $qb = $_MIDCOM->dbfactory->new_query_builder('midcom_db_member');
             $qb->add_constraint('gid', '=', $this->target->id);
-            $members = $_MIDCOM->dbfactory->exec_query_builder($qb);
+            $members = $qb->execute();
             foreach ($members as $member)
             {
                 $person = new midcom_db_person($member->uid);

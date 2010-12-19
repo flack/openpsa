@@ -47,7 +47,7 @@ class midcom_db_element extends midcom_core_dbaobject
     /**
      * Returns the Parent of the Element. This is the style the element is assigned to.
      *
-     * @return MidgardObject Parent object or NULL if there is none.
+     * @return MidgardObject Parent object or null if there is none.
      */
     function get_parent_guid_uncached()
     {

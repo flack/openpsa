@@ -419,12 +419,9 @@ class midcom_helper_nav_backend
      * without any dependant objects like subtopics or leaves. It does not do any visibility
      * checks, it just prepares the object for later processing.
      *
-     * This code is NAP cache aware, if the resulting information is already in the NAP
-     * cache, it is retrieved from there. (NOTE: Cache has been disabled. See #252 at Tigris.org.)
-     *
      * @param mixed $topic_id The node ID for which the NAP information is requested.
      * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
-     * @return Array NAP node data structure or NULL in case no NAP information is available for this topic.
+     * @return Array NAP node data structure or null in case no NAP information is available for this topic.
      */
     private function _get_node($topic_id, $up = null)
     {
@@ -443,7 +440,7 @@ class midcom_helper_nav_backend
 
             if (is_null($nodedata))
             {
-                debug_add('We got NULL for this node, so we do not have any NAP information, returning null directly.');
+                debug_add('We got null for this node, so we do not have any NAP information, returning null directly.');
                 return null;
             }
 
@@ -462,13 +459,13 @@ class midcom_helper_nav_backend
 
     /**
      * Reads a node data structure from the database, completes all defaults and
-     * derived properties (like ViewerGroups).
+     * derived properties.
      *
      * If the topic is missing a component, it will set the component to midcom.core.nullcomponent.
      *
      * @param mixed $topic_id The ID of the node for which the NAP information is requested.
      * @param mixed $up    The node ID of the parent node.    Optional and not normally needed.
-     * @return Array Node data structure or NULL in case no NAP information is available for this topic.
+     * @return Array Node data structure or null in case no NAP information is available for this topic.
      */
     private function _get_node_from_database($topic_id, $up = null)
     {
@@ -674,8 +671,7 @@ class midcom_helper_nav_backend
      * It will also build the base relative URLs which will later be completed by the
      * _get_leaves() interface functions.
      *
-     * Important notes:
-     * - The ViewerGroups property is copied from the parent topic, to ensure the same level of visibility.
+     * Important note:
      * - The IDs constructed for the leaves are the concatenation of the ID delivered by the component
      *   and the topics' GUID.
      *
@@ -920,7 +916,7 @@ class midcom_helper_nav_backend
     /**
      * Lists all Sub-nodes of $parent_node. If there are no subnodes you will get
      * an empty array, if there was an error (for instance an unknown parent node
-     * ID) you will get FALSE.
+     * ID) you will get false.
      *
      * @param mixed $parent_node    The ID of the node of which the subnodes are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
@@ -991,7 +987,7 @@ class midcom_helper_nav_backend
     /**
      * Lists all leaves of $parent_node. If there are no leaves you will get an
      * empty array, if there was an error (for instance an unknown parent node ID)
-     * you will get FALSE.
+     * you will get false.
      *
      * @param mixed $parent_node    The ID of the node of which the leaves are searched.
      * @param boolean $show_noentry Show all objects on-site which have the noentry flag set.
@@ -1115,7 +1111,7 @@ class midcom_helper_nav_backend
     /**
      * Retrieve the ID of the currently displayed leaf. This is a leaf that is
      * displayed by the handling topic. If no leaf is active, this function
-     * returns FALSE. (Remember to make a type sensitive check, e.g.
+     * returns false. (Remember to make a type sensitive check, e.g.
      * nav::get_current_leaf() !== false to distinguish "0" and "false".)
      *
      * @return string    The ID of the leaf in question or false on failure.
@@ -1322,7 +1318,7 @@ class midcom_helper_nav_backend
     {
          if (! $leaf_id)
          {
-            debug_add("Tried to load a suspicious leaf id, probably a FALSE from get_current_leaf.");
+            debug_add("Tried to load a suspicious leaf id, probably a false from get_current_leaf.");
             return false;
         }
 
@@ -1372,11 +1368,10 @@ class midcom_helper_nav_backend
      * This includes checks for:
      *
      * - Nonexistent NAP information (null values)
-     * - Viewergroups
      * - Scheduling/Hiding (only on-site)
      * - Approval (only on-site)
      *
-     * @param Array $napdata The NAP data structure for the object to check (supports NULL values).
+     * @param Array $napdata The NAP data structure for the object to check (supports null values).
      * @return boolean Indicating visibility.
      * @todo Integrate with midcom_helper_metadata::is_object_visible_onsite()
      */

@@ -277,7 +277,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Returns TRUE if the component identified by the MidCOM path $url
+     * Returns true if the component identified by the MidCOM path $url
      * is already loaded and available for usage.
      *
      * @param string $path    The component to be queried.
@@ -294,7 +294,7 @@ class midcom_helper__componentloader
     }
 
     /**
-     * Returns TRUE if the component identified by the MidCOM path $url
+     * Returns true if the component identified by the MidCOM path $url
      * is installed.
      *
      * @param string $path    The component to be queried.
@@ -317,7 +317,7 @@ class midcom_helper__componentloader
      * components will be dynamically loaded into memory.
      *
      * @param string $path    The component name.
-     * @return midcom_baseclasses_components_interface A reference to the concept class in question or NULL if
+     * @return midcom_baseclasses_components_interface A reference to the concept class in question or null if
      *     the class in question does not yet support the new Interface system.
      */
     function get_interface_class($path)

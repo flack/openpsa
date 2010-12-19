@@ -275,7 +275,7 @@ class midcom_url_topic extends midcom_url_parser
         $this->db = $db ? $db : new midcom_url_topicgetter();
         $topic = true;
         // continue while we got words and they mean something.
-        while (($next_word = $urlstack->get()) !== FALSE && $topic )
+        while (($next_word = $urlstack->get()) !== false && $topic )
         {
             $topic = $this->check_next_word($next_word);
             $this->topics[] = $topic;

@@ -199,51 +199,14 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
     {
         if (   (   !empty($this->auto_thumbnail)
                 || !empty($this->filter_chain)
-                || !empty($this->derived_images)
-                )
-            && !$this->_imagemagick_available())
+                || !empty($this->derived_images))
+            && !midcom_helper_imagefilter::imagemagick_available())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
             // This will exit
         }
         return parent::_on_initialize();
     }
-
-    function _imagemagick_available()
-    {
-        static $return = -1;
-        if ($return !== -1)
-        {
-            return $return;
-        }
-        $convert_cmd = escapeshellcmd("{$GLOBALS['midcom_config']['utility_imagemagick_base']}convert -version");
-        $output = array();
-        $ret = null;
-        exec($convert_cmd, $output, $ret);
-        if ($ret !== 0)
-        {
-            debug_add("image operations require imagefilter which requires ImageMagick, {$convert_cmd}
-        (part of ImageMagick suite) not found or executable", MIDCOM_LOG_ERROR);
-            $return = false;
-            return $return;
-        }
-        $return = true;
-        return $return;
-    }
-
-    /**
-     * Internal helper function, determines the mime-type of the specified file.
-     *
-     * The call uses the "file" utility which must be present for this type to work.
-     *
-     * @param string $filename The file to scan
-     * @return string The autodetected mime-type
-     */
-    function _get_mimetype($filename)
-    {
-        return exec("{$GLOBALS['midcom_config']['utility_file']} -ib {$filename} 2>/dev/null");
-    }
-
 
     /**
      * recreates main image if original is available
@@ -430,7 +393,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
      */
     function apply_filter($identifier, $filter)
     {
-        if (!$this->_imagemagick_available())
+        if (!midcom_helper_imagefilter::imagemagick_available())
         {
             return false;
         }
@@ -1091,7 +1054,7 @@ class midcom_helper_datamanager2_type_video extends midcom_helper_datamanager2_t
             return true;
         }
 
-        if (!$this->_imagemagick_available())
+        if (!midcom_helper_imagefilter::imagemagick_available())
         {
             $_MIDCOM->generate_error(MIDCOM_ERRCRIT, 'DM2 type image requires ImageMagick for manipulation operations, see debug log for details');
             // This will exit

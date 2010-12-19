@@ -102,7 +102,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             case "update_member_title":
                 // Ajax save handler
                 $update_succeeded = false;
-                $errstr = NULL;
+                $errstr = null;
                 if (   array_key_exists('member_title', $_POST)
                     && is_array($_POST['member_title']))
                 {

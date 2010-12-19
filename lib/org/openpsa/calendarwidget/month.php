@@ -688,7 +688,7 @@ class org_openpsa_calendarwidget_month
     /**
      * Draws the month view
      */
-    private function _draw_month($month = FALSE, $year = FALSE)
+    private function _draw_month($month = false, $year = false)
     {
         $this->_draw_month_header();
         $this->_draw_month_body();
@@ -1188,7 +1188,7 @@ class org_openpsa_calendarwidget_month
         if (   !is_object($object)
             || !$object->start)
         {
-            return FALSE;
+            return false;
         }
 
         $day = mktime(0, 0, 0, (int) date('m', $object->start), (int) date('d', $object->start), (int) date('Y', $object->start));

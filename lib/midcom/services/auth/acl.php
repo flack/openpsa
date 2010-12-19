@@ -187,8 +187,7 @@
  * is made.
  *
  * - <i>midgard:read</i> controls read access to the object, if denied, you cannot load the object
- *   from the database. This privilege is granted by default, and supersedes the current ViewerGroups
- *   implementation.
+ *   from the database. This privilege is granted by default.
  * - <i>midgard:update</i> controls updating of objects. Be aware, that you need to be able to read
  *   the object before updating it, it is granted by default only for owners.
  * - <i>midgard:delete</i> controls deletion of objects. Be aware, that you need to be able to read
@@ -202,7 +201,7 @@
  *   by default and covers the full set of parameter operations (create, update and delete).
  * - <i>midgard:attachments</i> is analogous to midgard:parameters but covers attachments instead
  *   and is also granted by default.
- * - <i>midgard:autoserve_attachment</i> controls, whether an attachment may be autoserved using
+ * - <i>midgard:autoserve_attachment</i> controls whether an attachment may be autoserved using
  *   the midcom-serveattachmentguid handler. This is granted by default, allowing every attachment
  *   to be served using the default URL methods. Denying this right allows component authors to
  *   build more sophisticated access control restrictions to attachments.
@@ -450,8 +449,6 @@ class midcom_services_auth_acl
         $privs = $object->get_class_magic_default_privileges();
 
         self::$_default_magic_class_privileges[$class] = $privs;
-
-        return;
     }
 
     private function _get_user_per_class_privileges($classname, $user)

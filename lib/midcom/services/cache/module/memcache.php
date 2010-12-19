@@ -28,7 +28,7 @@
  *
  * Number Three, as at least memcached does not provide key_exists check, key
  * values of false are forbidden, as they are used to check a keys existence
- * during the get cycle. You should also avoid NULL and 0 members, if possible,
+ * during the get cycle. You should also avoid null and 0 members, if possible,
  * they could naturally be error prone if you start forgetting about the typed
  * comparisons.
  *
@@ -158,7 +158,7 @@ class midcom_services_cache_module_memcache extends midcom_services_cache_module
      * @param mixed $data The data to store.
      * @param int $timeout how long the data should live in the cache.
      */
-    function put($data_group, $key, $data, $timeout = FALSE)
+    function put($data_group, $key, $data, $timeout = false)
     {
         if ($this->_cache === null)
         {

@@ -26,7 +26,7 @@ require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/recaptcha/recaptc
  * <b>Integration Guide:</b>
  *
  * Integrating Captcha support does not need any changes to your components, you just
- * have to add a new field into your DM2 schema using the recaptcha type/widget with NULL
+ * have to add a new field into your DM2 schema using the recaptcha type/widget with null
  * storage:
  *
  * <code>

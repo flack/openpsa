@@ -48,7 +48,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
      * * ['from'], int: timestamp of date from which repeating starts (1 second after midnight)
      *   ['to'], int: timestamp of date to which the repeating ends (1 second before midnight)
      *   ['num'], int: how many occurrences of repeat fit between from and to (mind the interval!)
-     *   ['days'], array: keys are weekday numbers, values TRUE/FALSE
+     *   ['days'], array: keys are weekday numbers, values true/false
      *
      * It's mandatory to have 'to' or 'num' defined, the other can be calculated from the other,
      * if both are defined 'to' has precedence.

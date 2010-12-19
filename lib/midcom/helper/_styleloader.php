@@ -209,7 +209,7 @@ class midcom_helper__styleloader
      * @todo complete documentation
      * @param string $path        The path to retrieve
      * @param int $rootstyle_id    ???
-     * @return    int ID of the matching style or FALSE
+     * @return    int ID of the matching style or false
      */
     public function get_style_id_from_path($path, $rootstyle = 0)
     {
@@ -716,7 +716,7 @@ class midcom_helper__styleloader
      * @todo Document
      *
      * @param midcom_db_topic $topic    Current topic
-     * @return int Database ID if the style to use in current view or FALSE
+     * @return int Database ID if the style to use in current view or false
      */
     private function _getComponentStyle($topic)
     {

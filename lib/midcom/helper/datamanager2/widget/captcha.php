@@ -41,7 +41,7 @@ require_once('Text/Password.php');
  * <b>Integration Guide:</b>
  *
  * Integrating Captcha support does not need any changes to your components, you just
- * have to add a new field into your DM2 schema using the captcha type/widget with NULL
+ * have to add a new field into your DM2 schema using the captcha type/widget with null
  * storage:
  *
  * <code>

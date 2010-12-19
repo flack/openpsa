@@ -864,7 +864,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
      * tries to match to persons in database.
      *
      * @param Array $item Feed item as provided by MagpieRSS
-     * @return MidgardPerson Person object matched, or NULL
+     * @return MidgardPerson Person object matched, or null
      */
     function match_item_author($item)
     {

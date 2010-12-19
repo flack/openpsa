@@ -43,7 +43,7 @@ class midcom_db_snippetdir extends midcom_core_dbaobject
     /**
      * Returns the Parent of the Snippet.
      *
-     * @return MidgardObject Parent object or NULL if there is none.
+     * @return MidgardObject Parent object or null if there is none.
      */
     function get_parent_guid_uncached()
     {

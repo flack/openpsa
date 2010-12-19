@@ -957,6 +957,20 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
     }
 
     /**
+     * Internal helper function, determines the mime-type of the specified file.
+     *
+     * The call uses the "file" utility which must be present for this type to work.
+     *
+     * @param string $filename The file to scan
+     * @return string The autodetected mime-type
+     */
+    function _get_mimetype($filename)
+    {
+        return exec("{$GLOBALS['midcom_config']['utility_file']} -ib {$filename} 2>/dev/null");
+    }
+
+
+    /**
      * Rewrite a filename to URL safe form
      *
      * @param string $filename file name to rewrite

@@ -234,7 +234,7 @@ class org_routamc_positioning_map extends midcom_baseclasses_components_purecode
      *
      * @param integer $width Width of the map in pixels
      * @param integer $height Height of the map in pixels
-     * @param integer $zoom_level Zoom level of the map. Leave to NULL for autozoom
+     * @param integer $zoom_level Zoom level of the map. Leave to null for autozoom
      * @param boolean $echo_output Whether output should be echoed or returned
      */
     function show($width = 300, $height = 200, $zoom_level = null, $echo_output = true)

@@ -32,7 +32,7 @@ class midcom_db_attachment extends midcom_core_dbaobject
     private $_open_handle = null;
 
     /**
-     * Internal tracking state variable, TRUE if the attachment has a handle opened in write mode
+     * Internal tracking state variable, true if the attachment has a handle opened in write mode
      */
     var $_open_write_mode = false;
 
