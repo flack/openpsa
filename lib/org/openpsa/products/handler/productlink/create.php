@@ -58,7 +58,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
 
     public function get_schema_name()
     {
-    	return $this->_schema;
+        return $this->_schema;
     }
 
     public function get_schema_defaults()
@@ -174,7 +174,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
                 //We just pick the first category here
                 $qb = org_openpsa_products_product_group_dba::new_query_builder();
                 $qb->add_constraint('up', '=', $up_group[0]->id);
-                $qb->add_order('code','ASC');
+                $qb->add_order('code', 'ASC');
                 $qb->set_limit(1);
                 $up_group = $qb->execute();
                 if (isset($up_group[0])

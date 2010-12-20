@@ -215,7 +215,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                     'index' => array
                     (
                         'path' => '/',
-                        'subject' => $_MIDCOM->i18n->get_string('help_index','midcom.admin.help'),
+                        'subject' => $_MIDCOM->i18n->get_string('help_index', 'midcom.admin.help'),
                         'lang' => 'en',
                     ),
                 ),
@@ -234,7 +234,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['mgdschemas'] = array
             (
                 'path' => '/mgdschemas',
-                'subject' => $_MIDCOM->i18n->get_string('help_mgdschemas','midcom.admin.help'),
+                'subject' => $_MIDCOM->i18n->get_string('help_mgdschemas', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -246,7 +246,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['urlmethods'] = array
             (
                 'path' => '/urlmethods',
-                'subject' => $_MIDCOM->i18n->get_string('help_urlmethods','midcom.admin.help'),
+                'subject' => $_MIDCOM->i18n->get_string('help_urlmethods', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -265,7 +265,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['handlers'] = array
             (
                 'path' => '/handlers',
-                'subject' => $_MIDCOM->i18n->get_string('help_handlers','midcom.admin.help'),
+                'subject' => $_MIDCOM->i18n->get_string('help_handlers', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -277,7 +277,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             $files['dependencies'] = array
             (
                 'path' => '/dependencies',
-                'subject' => $_MIDCOM->i18n->get_string('help_dependencies','midcom.admin.help'),
+                'subject' => $_MIDCOM->i18n->get_string('help_dependencies', 'midcom.admin.help'),
                 'lang' => 'en',
             );
         }
@@ -384,9 +384,9 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
                 $data[$request_handler_id]['action'] = $request_data['handler'][1];
             }
 
-            if (self::help_exists('handlers_' . $request_handler_id,$component))
+            if (self::help_exists('handlers_' . $request_handler_id, $component))
             {
-                $data[$request_handler_id]['info'] = self::get_help_contents('handlers_' . $request_handler_id,$component);
+                $data[$request_handler_id]['info'] = self::get_help_contents('handlers_' . $request_handler_id, $component);
                 $data[$request_handler_id]['handler_help_url'] = 'handlers_' . $request_handler_id;
             }
         }
@@ -666,7 +666,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
-        if ($data['component'] != 'midcom') $_MIDCOM->componentloader->load($data['component']);
+        if ($data['component'] != 'midcom')
+        {
+            $_MIDCOM->componentloader->load($data['component']);
+        }
         $_MIDCOM->skip_page_style = true;
 
         $data['view_title'] = sprintf($_MIDCOM->i18n->get_string('help for %s', 'midcom.admin.help'), $_MIDCOM->i18n->get_string($data['component'], $data['component']));
@@ -712,7 +715,10 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
 
-        if ($data['component'] != 'midcom') $_MIDCOM->componentloader->load($data['component']);
+        if ($data['component'] != 'midcom')
+        {
+            $_MIDCOM->componentloader->load($data['component']);
+        }
         $_MIDCOM->skip_page_style = true;
 
         $data['help_files'] = $this->list_files($data['component']);

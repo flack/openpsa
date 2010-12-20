@@ -30,8 +30,8 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
     {
         // TODO: With 1.8 we can query parameters more efficiently
         $qb = new midgard_query_builder('midgard_parameter');
-        $qb->add_constraint('domain', '=','org.routamc.positioning:instamapper');
-        $qb->add_constraint('name', '=','api_key');
+        $qb->add_constraint('domain', '=', 'org.routamc.positioning:instamapper');
+        $qb->add_constraint('name', '=', 'api_key');
         $accounts = $qb->execute();
         if (count($accounts) > 0)
         {

@@ -70,7 +70,7 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
 
                 if (!$this->_update_score($identifier, $score_r))
                 {
-                	$success = false;
+                    $success = false;
                 }
             }
         }

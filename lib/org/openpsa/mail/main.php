@@ -265,7 +265,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             //Convert various newlines to unix ones
             $text = preg_replace('/\x0a\x0d|\x0d\x0a|\x0d/', "\n", $html);
             //convert <br/> tags to newlines
-            $text = preg_replace("/<br\s*\\/?>/i","\n", $text);
+            $text = preg_replace("/<br\s*\\/?>/i", "\n", $text);
             //strip all STYLE and SCRIPT tags, including their content
             $text = preg_replace('/(<style[^>]*>.*?<\\/style>)/si', '', $text);
             $text = preg_replace('/(<script[^>]*>.*?<\\/script>)/si', '', $text);
@@ -521,8 +521,8 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
                 {
                     debug_add('Our fixed new_boundary already exists inside the body, making two random changes to it', MIDCOM_LOG_WARN);
                     //Replace two characters randomly in the boundary
-                    $a = chr(rand(97,122));
-                    $b = chr(rand(97,122));
+                    $a = chr(rand(97, 122));
+                    $b = chr(rand(97, 122));
                     $new_boundary  = substr_replace($new_boundary, $a, rand(0, strlen($new_boundary)), 1);
                     $new_boundary  = substr_replace($new_boundary, $b, rand(0, strlen($new_boundary)), 1);
                     debug_add("new_boundary=\"{$new_boundary}\"");
@@ -555,7 +555,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             reset ($mime->headers);
             foreach ($mime->headers as $k => $v)
             {
-                $this->headers[str_replace(" ","-",ucwords(str_replace("-"," ",$k)))] =& $mime->headers[$k];
+                $this->headers[str_replace(" ", "-", ucwords(str_replace("-", " ", $k)))] =& $mime->headers[$k];
             }
         }
         $this->subject =& $this->headers['Subject'];
@@ -682,8 +682,8 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      function prepare()
      {
         //Translate newlines
-        $this->body = preg_replace("/\n\r|\r\n|\r/","\n", $this->body);
-        $this->html_body = preg_replace("/\n\r|\r\n|\r/","\n", $this->html_body);
+        $this->body = preg_replace("/\n\r|\r\n|\r/", "\n", $this->body);
+        $this->html_body = preg_replace("/\n\r|\r\n|\r/", "\n", $this->html_body);
 
         //Try to translate HTML-only body to plaintext as well
         if (   strlen($this->body) == 0

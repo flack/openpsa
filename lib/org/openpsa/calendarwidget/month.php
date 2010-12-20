@@ -907,7 +907,7 @@ class org_openpsa_calendarwidget_month
         {
             // Draw the day cell
             $this->_draw_day($this->_parser);
-            $next_day = mktime(0, 0, 0, date('m',$this->_parser), date('d',$this->_parser) + 1, date('Y',$this->_parser));
+            $next_day = mktime(0, 0, 0, date('m', $this->_parser), date('d', $this->_parser) + 1, date('Y', $this->_parser));
             // Add one full day to parser timestamp
             $this->_parser = $next_day;
         }

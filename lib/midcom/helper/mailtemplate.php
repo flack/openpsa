@@ -399,14 +399,15 @@ class midcom_helper_mailtemplate
             debug_print_r("BCC Recipients:", $bcc);
         }
         if (! is_array($to))
+        {
             $to = explode(",", $to);
+        }
         $all = array_merge($all, $to);
         if ($to == '')
         {
             debug_add("Missing $to. Cannot sent email.");
             return false;
         }
-
 
         $this->sent = Array();
         $this->failed = Array();
@@ -430,10 +431,14 @@ class midcom_helper_mailtemplate
         $headers = Array();
         $headers["From"] = $this->_template["from"];
         if (strlen($this->_template["reply-to"]) > 0)
+        {
             $headers["Reply-To"] = $this->_template["reply-to"];
+        }
         $headers["X-Mailer"] = "PHP/" . phpversion() . " MidCOM/" . $GLOBALS["midcom_version"] . "/MailTemplate";
         if (strlen($this->_template["x-mailer"]) > 0)
+        {
             $headers["X-Mailer"] .= " (" . $this->_template["x-mailer"] . ")";
+        }
         $headers["Date"] = date("r");
         $headers["Subject"] = $this->_subject;
 
@@ -470,7 +475,9 @@ class midcom_helper_mailtemplate
         foreach (get_object_vars($obj) as $key => $value)
         {
             if (substr($key, 0, 1) == "_")
+            {
                 continue;
+            }
             $key = trim($key);
             if (is_object($value))
             {

@@ -646,7 +646,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             if ($d < 1)
             {
                 // Decrementer undeflowed
-                debug_add("Maximum number of name tries exceeded, current name was: " . $attachment->name , MIDCOM_LOG_ERROR);
+                debug_add("Maximum number of name tries exceeded, current name was: " . $attachment->name, MIDCOM_LOG_ERROR);
                 return false;
             }
             // and the incrementer
@@ -1117,7 +1117,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         {
             $index_attachment = true;
             //check if there is an index_method set
-            if (array_key_exists('index_method' , $this->_datamanager->schema->fields[$this->name]))
+            if (array_key_exists('index_method', $this->_datamanager->schema->fields[$this->name]))
             {
                 // do not index the attachment for index_method attachment & noindex
                 // for index_method=attachment the content of the attachment is stored in content of the object

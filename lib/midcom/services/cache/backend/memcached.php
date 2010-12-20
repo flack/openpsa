@@ -77,7 +77,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
     /**
      * This handler completes the configuration.
      */
-     public function _on_initialize()
+    public function _on_initialize()
     {
         if (array_key_exists('host', $this->_config))
         {

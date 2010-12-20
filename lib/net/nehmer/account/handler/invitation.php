@@ -237,11 +237,11 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
                     $this->_invite->email = $_POST["net_nehmer_accounts_invitation_invitee_email_{$i}"];
                     $this->_invite->buddy = $_MIDCOM->auth->user->guid;
 
-                    debug_print_r("Creating invite: ",$this->_invite);
+                    debug_print_r("Creating invite: ", $this->_invite);
 
                     $already_registered = $this->_is_person_registered($_POST["net_nehmer_accounts_invitation_invitee_email_{$i}"]);
 
-                    debug_print_r("persons with email ".$_POST["net_nehmer_accounts_invitation_invitee_email_{$i}"].":",$already_registered);
+                    debug_print_r("persons with email " . $_POST["net_nehmer_accounts_invitation_invitee_email_{$i}"] . ":", $already_registered);
 
                     if ($already_registered)
                     {

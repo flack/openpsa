@@ -56,7 +56,7 @@ class midcom_helper__dbfactory
         $tmp = $this->convert_midgard_to_midcom($tmp);
         if ($tmp->guid == '')
         {
-        	return null;
+            return null;
         }
         return $tmp;
     }

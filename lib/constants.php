@@ -11,11 +11,11 @@
 /**#@+
  *MidCOM Default Error Codes (-> HTTP)
  */
-define ('MIDCOM_ERROK',200);
-define ('MIDCOM_ERRNOTFOUND',404);
-define ('MIDCOM_ERRFORBIDDEN',403);
-define ('MIDCOM_ERRAUTH',401);
-define ('MIDCOM_ERRCRIT',500);
+define ('MIDCOM_ERROK', 200);
+define ('MIDCOM_ERRNOTFOUND', 404);
+define ('MIDCOM_ERRFORBIDDEN', 403);
+define ('MIDCOM_ERRAUTH', 401);
+define ('MIDCOM_ERRCRIT', 500);
 /**#@-*/
 
 // MidCOM NAP URL Information Constants
@@ -23,15 +23,15 @@ define ('MIDCOM_ERRCRIT',500);
 /**#@+
  * MidCOM Meta Data Constants
  */
-define ('MIDCOM_NAV_URL',0);
-define ('MIDCOM_NAV_NAME',1);
-define ('MIDCOM_NAV_NODEID',2);
-define ('MIDCOM_NAV_ID',5);
-define ('MIDCOM_NAV_TYPE',6);
-define ('MIDCOM_NAV_SCORE',9);
-define ('MIDCOM_NAV_GUID',10);
-define ('MIDCOM_NAV_COMPONENT',12);
-define ('MIDCOM_NAV_FULLURL',13);
+define ('MIDCOM_NAV_URL', 0);
+define ('MIDCOM_NAV_NAME', 1);
+define ('MIDCOM_NAV_NODEID', 2);
+define ('MIDCOM_NAV_ID', 5);
+define ('MIDCOM_NAV_TYPE', 6);
+define ('MIDCOM_NAV_SCORE', 9);
+define ('MIDCOM_NAV_GUID', 10);
+define ('MIDCOM_NAV_COMPONENT', 12);
+define ('MIDCOM_NAV_FULLURL', 13);
 define ('MIDCOM_NAV_PERMALINK', 14);
 define ('MIDCOM_NAV_NOENTRY', 15);
 define ('MIDCOM_NAV_OBJECT', 16);
@@ -49,13 +49,13 @@ define ('MIDCOM_NAV_SORTABLE', 26);
 /**#@+
  * MidCOM Component Context Keys
  */
-define ('MIDCOM_CONTEXT_ANCHORPREFIX',0);
-define ('MIDCOM_CONTEXT_SUBSTYLE',1);
-define ('MIDCOM_CONTEXT_ROOTTOPIC',3);
-define ('MIDCOM_CONTEXT_CONTENTTOPIC',4);
-define ('MIDCOM_CONTEXT_COMPONENT',6);
-define ('MIDCOM_CONTEXT_OUTPUT',7);
-define ('MIDCOM_CONTEXT_PAGETITLE',9);
+define ('MIDCOM_CONTEXT_ANCHORPREFIX', 0);
+define ('MIDCOM_CONTEXT_SUBSTYLE', 1);
+define ('MIDCOM_CONTEXT_ROOTTOPIC', 3);
+define ('MIDCOM_CONTEXT_CONTENTTOPIC', 4);
+define ('MIDCOM_CONTEXT_COMPONENT', 6);
+define ('MIDCOM_CONTEXT_OUTPUT', 7);
+define ('MIDCOM_CONTEXT_PAGETITLE', 9);
 define ('MIDCOM_CONTEXT_LASTMODIFIED', 10);
 define ('MIDCOM_CONTEXT_PERMALINKGUID', 11);
 define ('MIDCOM_CONTEXT_URI', 12);
@@ -83,12 +83,12 @@ define ('MIDCOM_LOG_CRIT', 0);
 /**#@+
  * MidCOM Core Status Codes
  */
-define ('MIDCOM_STATUS_PREPARE',0);
-define ('MIDCOM_STATUS_CANHANDLE',1);
-define ('MIDCOM_STATUS_HANDLE',2);
-define ('MIDCOM_STATUS_CONTENT',3);
-define ('MIDCOM_STATUS_CLEANUP',4);
-define ('MIDCOM_STATUS_ABORT',5);
+define ('MIDCOM_STATUS_PREPARE', 0);
+define ('MIDCOM_STATUS_CANHANDLE', 1);
+define ('MIDCOM_STATUS_HANDLE', 2);
+define ('MIDCOM_STATUS_CONTENT', 3);
+define ('MIDCOM_STATUS_CLEANUP', 4);
+define ('MIDCOM_STATUS_ABORT', 5);
 /**#@-*/
 
 /**#@+

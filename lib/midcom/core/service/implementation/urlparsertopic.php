@@ -60,7 +60,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
             {
                 $url = substr($url, 1);
             }
-            if (substr($url,-1) == '/')
+            if (substr($url, -1) == '/')
             {
                 $url = substr($url, 0, -1);
             }
@@ -255,8 +255,8 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
 
         $tmp = substr($this->argv[0], strlen($namespace) + 1);
 
-        $value = substr(strstr($tmp,"-"),1);
-        $key = substr($tmp,0,strpos($tmp,"-"));
+        $value = substr(strstr($tmp, "-"), 1);
+        $key = substr($tmp, 0, strpos($tmp, "-"));
 
         // Remove this component from path
         array_shift($this->argv);

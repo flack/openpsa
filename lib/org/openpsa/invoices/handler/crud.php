@@ -428,11 +428,11 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
         //check for manual uploaded pdf-file & if user wants to replace it
         $this->update_attachment = true;
-        if (array_key_exists('cancel' , $_POST))
+        if (array_key_exists('cancel', $_POST))
         {
             $_MIDCOM->relocate($this->_request_data['invoice_url']);
         }
-        if (!array_key_exists('save' , $_POST))
+        if (!array_key_exists('save', $_POST))
         {
             //load schema & datamanager to get attachment
             $this->_load_schemadb();
@@ -446,8 +446,8 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                     $parameters = $attachment->list_parameters();
                     //check if auto generated parameter is same as md5 in current-file
                     // if not the file was manually uploaded
-                    if (   array_key_exists('org.openpsa.invoices' , $parameters)
-                        && (array_key_exists('auto_generated' , $parameters['org.openpsa.invoices'])))
+                    if (   array_key_exists('org.openpsa.invoices', $parameters)
+                        && (array_key_exists('auto_generated', $parameters['org.openpsa.invoices'])))
                     {
                         $blob = new midgard_blob($attachment->__object);
                         //check if md5 sum equals the one saved in auto_generated
@@ -540,7 +540,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $document->read_metadata_from_object($dm->storage->object);
         $document->component = $node[MIDCOM_NAV_COMPONENT];
 
-        if($indexer->index($document))
+        if ($indexer->index($document))
         {
             return true;
         }

@@ -146,8 +146,10 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         {
             $url .= '&fq=__INDEX_NAME:"' . rawurlencode($this->_index_name) . '"';
         }
-        if (isset($_REQUEST['debug'])) var_dump($url);
-
+        if (isset($_REQUEST['debug']))
+        {
+            var_dump($url);
+        }
         $options = array();
         $options['method'] = HTTP_REQUEST_METHOD_GET ;
 
@@ -186,7 +188,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             {
                 $name = $str->getAttribute('name');
 
-                $doc->add_result($name,($str->tagName == 'float') ? (float) $str->nodeValue : (string) $str->nodeValue  ) ;
+                $doc->add_result($name, ($str->tagName == 'float') ? (float) $str->nodeValue : (string) $str->nodeValue);
                 if ($name == 'RI') {
                     $doc->add_result('__RI', $str->nodeValue);
                 }

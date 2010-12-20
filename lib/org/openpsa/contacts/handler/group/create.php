@@ -30,12 +30,12 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function load_schemadb()
     {
-    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
     }
 
     public function get_schema_defaults()
     {
-    	$defaults = array();
+        $defaults = array();
         if (!is_null($this->_parent_group))
         {
             // Set the default type to "department"

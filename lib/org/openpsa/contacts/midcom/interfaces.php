@@ -302,7 +302,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             if (!$person1->update())
             {
                 // Error updating person
-                debug_add("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string, MIDCOM_LOG_ERROR);
+                debug_add("Error updating person #{$person1->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 return false;
             }
         }
@@ -584,21 +584,21 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      *
      * @param array - contains the guid ,parameter & parameter names to get username&password
      */
-    function reopen_account($args , &$handler)
+    function reopen_account($args, &$handler)
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
         $person = new midcom_db_person($args['guid']);
 
         if (!$person->guid)
         {
-            $msg = 'Person with guid #'.$args['guid'].' does not exist - for reopen_account';
+            $msg = 'Person with guid #' . $args['guid'] . ' does not exist - for reopen_account';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
             return false;
         }
         if (!empty($person->password))
         {
-            $person->set_parameter($args['parameter_name'] , $args['password'] , "");
+            $person->set_parameter($args['parameter_name'], $args['password'], "");
             $msg = 'Person with id #'.$person->id.' does have a password so will not be set to the old? one -- Account unblocked';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
@@ -606,8 +606,8 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             return false;
         }
 
-        $person->password = $person->get_parameter($args['parameter_name'] , $args['password']);
-        $person->set_parameter($args['parameter_name'] , $args['password'] , "");
+        $person->password = $person->get_parameter($args['parameter_name'], $args['password']);
+        $person->set_parameter($args['parameter_name'], $args['password'], "");
         $person->update();
         $_MIDCOM->auth->drop_sudo();
         return true;

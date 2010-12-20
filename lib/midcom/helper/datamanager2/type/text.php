@@ -349,7 +349,7 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
                         $matches = array();
                         if (!preg_match($condition['pattern'], $this->value, $matches))
                         {
-                            $this->validation_error = sprintf($this->_l10n->get('type text: value is not allowed. %s') , $condition['explanation']);
+                            $this->validation_error = sprintf($this->_l10n->get('type text: value is not allowed. %s'), $condition['explanation']);
                             return false;
                         }
                         break;

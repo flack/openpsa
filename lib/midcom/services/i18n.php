@@ -496,7 +496,7 @@ class midcom_services_i18n
             return;
         }
 
-        if (!array_key_exists("midcom_services_i18n",$_COOKIE))
+        if (!array_key_exists("midcom_services_i18n", $_COOKIE))
         {
             return;
         }
@@ -530,14 +530,14 @@ class midcom_services_i18n
             $rawdata = explode(",", $accept_langs);
             foreach ($rawdata as $data)
             {
-                $params = explode(";",$data);
+                $params = explode(";", $data);
                 $lang = array_shift($params);
 
                 //Fix for Safari
                 if (   isset($_SERVER['HTTP_USER_AGENT'])
                     && strstr($_SERVER['HTTP_USER_AGENT'], 'Safari'))
                 {
-                    $lang = array_shift(explode("-",$lang));
+                    $lang = array_shift(explode("-", $lang));
                 }
 
                 $q = 1.0;
@@ -578,13 +578,13 @@ class midcom_services_i18n
             $rawdata = explode(",", $_SERVER['HTTP_ACCEPT_CHARSET']);
             foreach ($rawdata as $data)
             {
-                $params = explode(";",$data);
+                $params = explode(";", $data);
                 $lang = array_shift($params);
                 $q = 1.0;
                 $option = array_shift($params);
                 while (! is_null($option))
                 {
-                    $option_params = explode("=",$option);
+                    $option_params = explode("=", $option);
                     if (count($option_params) != 2)
                     {
                         $option = array_shift($params);

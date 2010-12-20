@@ -189,9 +189,9 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      */
     public function get_controller($type, $object = null)
     {
-    	switch ($type)
+        switch ($type)
         {
-        	case 'simple':
+            case 'simple':
                 return midcom_helper_datamanager2_handler::get_simple_controller($this, $object);
             case 'nullstorage':
                 return midcom_helper_datamanager2_handler::get_nullstorage_controller($this);

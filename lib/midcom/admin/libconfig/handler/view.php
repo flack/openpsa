@@ -53,7 +53,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
     public function _handler_view($handler_id, $args, &$data)
     {
         $data['name'] = $args[0];
-        if (!array_key_exists($data['name'],$_MIDCOM->componentloader->manifests))
+        if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
         {
             return false;
         }
@@ -107,7 +107,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
         $data['even'] = false;
         foreach($data['config']->_global as $key => $value)
         {
-            $data['key'] = $_MIDCOM->i18n->get_string($key,$data['name']);
+            $data['key'] = $_MIDCOM->i18n->get_string($key, $data['name']);
             $data['global'] = $this->_detect($data['config']->_global[$key]);
 
             if (isset($data['config']->_local[$key]))

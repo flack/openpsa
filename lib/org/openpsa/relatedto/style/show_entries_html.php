@@ -2,8 +2,8 @@
     <?php
     //add static data to jqgrid if wanted
     $start = true;
-    if( !array_key_exists('dynamic_load' , $data)
-        && array_key_exists('entries' , $data))
+    if( !array_key_exists('dynamic_load', $data)
+        && array_key_exists('entries', $data))
     {
         $rows = array();
         foreach($data['entries'] as $entry)
@@ -26,7 +26,7 @@
             }
             else
             {
-                $row['remind_date'] = date('d.m.Y' , $entry->followUp);
+                $row['remind_date'] = date('d.m.Y', $entry->followUp);
             }
             if ($entry->closed)
             {
@@ -58,7 +58,7 @@
     {
         jQuery("#journal_entry_grid").jqGrid({
             <?php
-            if( !array_key_exists('dynamic_load' , $data))
+            if (!array_key_exists('dynamic_load', $data))
             {
                 ?>
                 datatype: "local",

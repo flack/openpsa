@@ -277,7 +277,7 @@ class midgard_admin_asgard_schemadb
 
         if ($this->add_copy_fields)
         {
-        	$this->_add_copy_fields();
+            $this->_add_copy_fields();
         }
 
         return $this->_schemadb;

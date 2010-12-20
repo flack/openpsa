@@ -6,8 +6,9 @@
 */
 
 /** @ignore */
-if ( !defined('UTF8_TO_ASCII_DB') ) {
-    define('UTF8_TO_ASCII_DB',dirname(__FILE__).'/utf8_to_ascii_db');
+if ( !defined('UTF8_TO_ASCII_DB') )
+{
+    define('UTF8_TO_ASCII_DB', dirname(__FILE__).'/utf8_to_ascii_db');
 }
 
 //--------------------------------------------------------------------
@@ -104,7 +105,7 @@ function utf8_to_ascii($str, $unknown = '?')
         // If we haven't used anything from this bank before, need to load it...
         if ( !array_key_exists($bank, $UTF8_TO_ASCII) )
         {
-            $bankfile = UTF8_TO_ASCII_DB. '/'. sprintf("x%02x",$bank).'.php';
+            $bankfile = UTF8_TO_ASCII_DB . '/' . sprintf("x%02x", $bank) . '.php';
 
             if ( file_exists($bankfile) )
             {

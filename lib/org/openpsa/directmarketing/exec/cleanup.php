@@ -5,7 +5,7 @@ $_MIDCOM->auth->require_admin_user();
 <?php
 $cleanup = new org_openpsa_directmarketing_cleanup();
 
-if (midcom_baseclasses_components_configuration::get('org.openpsa.directmarketing' ,'config')->get('delete_older'))
+if (midcom_baseclasses_components_configuration::get('org.openpsa.directmarketing', 'config')->get('delete_older'))
 {
     if (isset($_POST['erase_older']))
     {

@@ -446,7 +446,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             switch ($product->orgOpenpsaObtype)
             {
                 case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE:
-                    $scheduler->create_task($this->start, $this->end , $this->title);
+                    $scheduler->create_task($this->start, $this->end, $this->title);
                     break;
                 case ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS:
                     // TODO: Warehouse management: create new order

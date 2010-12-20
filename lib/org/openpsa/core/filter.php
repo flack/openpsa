@@ -15,14 +15,14 @@
 class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
 {
     /**
-     * contains filters
+     * Contains filters
      *
      * @var Array
      */
     private $_filter = array();
 
     /**
-     * contains possible filter options
+     * Contains possible filter options
      */
     private $_filter_options = array();
 
@@ -42,7 +42,7 @@ class org_openpsa_core_filter extends midcom_baseclasses_components_purecode
             foreach ($filters as $filter)
             {
                 $this->_set_filter($filter);
-                $this->_apply_filter($filter, $query , $compare);
+                $this->_apply_filter($filter, $query, $compare);
             }
         }
         else

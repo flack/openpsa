@@ -85,7 +85,7 @@ class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_
         return $qb;
     }
  
-     private function get_person_qb($kept = false)
+    private function get_person_qb($kept = false)
     {
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
         if ($kept)

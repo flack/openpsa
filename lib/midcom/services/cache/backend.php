@@ -183,8 +183,9 @@ abstract class midcom_services_cache_backend
     public function flush_unsynced()
     {
         if (count($this->_unsynced_keys) === 0)
+        {
             return;
-
+        }
         // open
         if (!$this->_open_for_writing)
         {

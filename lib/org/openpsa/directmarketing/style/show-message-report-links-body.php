@@ -94,7 +94,7 @@ $body_class = " class='{$data['body_class']}'";
                     }
                     if (strlen($part) > 30)
                     {
-                        $part = "<span title='{$part}'>" . substr($part,0,12) . '...' . substr($part, -12) . '</span>';
+                        $part = "<span title='{$part}'>" . substr($part, 0, 12) . '...' . substr($part, -12) . '</span>';
                     }
                     $target_label_new .= $part . ' ';
                 }
@@ -119,6 +119,6 @@ $body_class = " class='{$data['body_class']}'";
                     <td class="numeric"><?php echo $total; ?></td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td class="numeric"><?php echo round($link_data['percentages']['of_recipients']['total'],2); ?></td>
+                    <td class="numeric"><?php echo round($link_data['percentages']['of_recipients']['total'], 2); ?></td>
                 </tr>
             </tbody>

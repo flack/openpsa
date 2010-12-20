@@ -218,7 +218,7 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
      */
     function invalidate_all()
     {
-        $files = glob($this->_cache_dir . "*.php",GLOB_NOSORT);
+        $files = glob($this->_cache_dir . "*.php", GLOB_NOSORT);
         foreach ($files as $file)
         {
             if (!unlink($file))

@@ -121,7 +121,7 @@ class org_openpsa_mypage_workingon
             }
 
             // Do the actual report
-            $this->_report_hours($description , $invoiceable);
+            $this->_report_hours($description, $invoiceable);
         }
         if ($task_guid == '')
         {

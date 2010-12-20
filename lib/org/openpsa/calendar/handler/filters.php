@@ -50,7 +50,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function load_schemadb()
     {
-    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_filters'));
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_filters'));
     }
 
     /**

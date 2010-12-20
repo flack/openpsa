@@ -51,7 +51,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function get_schema_name()
     {
-    	return 'metadata';
+        return 'metadata';
     }
 
     public function load_schemadb()

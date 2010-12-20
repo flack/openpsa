@@ -285,7 +285,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         //first check if the page does already exist
         $page_name = $this->_config->get('ui_page');
         $qb_page = midcom_db_page::new_query_builder();
-        $qb_page->add_constraint('name' , '=' , $page_name);
+        $qb_page->add_constraint('name', '=', $page_name);
 
         $result = $qb_page->execute();
         if (count($result) < 1)
@@ -302,7 +302,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             //now get the style & add it to the page
             $qb_style = midcom_db_style::new_query_builder();
             //name is set in templates/OpenPsa2
-            $qb_style->add_constraint('name' , '=' , 'uitab');
+            $qb_style->add_constraint('name', '=', 'uitab');
             $style = $qb_style->execute();
 
             if (count($style) != 1)

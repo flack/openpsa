@@ -36,17 +36,17 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function load_schemadb()
     {
-    	return $this->_request_data['schemadb'];
+        return $this->_request_data['schemadb'];
     }
 
     public function get_schema_name()
     {
-    	return $this->_schema;
+        return $this->_schema;
     }
 
     public function get_schema_defaults()
     {
-    	$defaults = array();
+        $defaults = array();
         $defaults['title'] = $this->_wikiword;
         return $defaults;
     }

@@ -23,7 +23,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.libconfig/style.css');
 
-        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'),$this->_request_data);
+        midgard_admin_asgard_plugin::prepare_plugin($this->_l10n->get('midcom.admin.libconfig'), $this->_request_data);
     }
 
     /**
@@ -60,7 +60,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $schemadb['default']->append_field
                 (
                     $key,
-                    $this->_detect_schema($key,$value)
+                    $this->_detect_schema($key, $value)
                 );
             }
 
@@ -76,7 +76,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_defaults()
     {
-    	$defaults = array();
+        $defaults = array();
         foreach ($this->_libconfig->_merged as $key => $value)
         {
             if (is_array($value))

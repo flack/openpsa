@@ -433,7 +433,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         else
         {
-            debug_print_r('no relocate url was passed ' , $_POST);
+            debug_print_r('no relocate url was passed ', $_POST);
         }
         //check if reports are passed
         if(isset($_POST['report']))
@@ -477,7 +477,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                         }
                         break;
                     default:
-                        debug_print_r('passed Action is unknown ' , $_POST['action']);
+                        debug_print_r('passed Action is unknown', $_POST['action']);
                         return false;
                 }
                 $hour_report->update();
@@ -485,7 +485,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         }
         else
         {
-            debug_print_r('No Reports passed to action handler' , $_POST);
+            debug_print_r('No Reports passed to action handler', $_POST);
         }
 
         $_MIDCOM->relocate($relocate);

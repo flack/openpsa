@@ -41,7 +41,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         $class = "odd";
 
-    	$position = '';
+        $position = '';
 
         foreach ($projects as $i => $project)
         {
@@ -53,10 +53,10 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             {
                 $class = "even";
             }
-	    if ($i == sizeof($projects) - 1)
-	    {
-	        $position = 'bottom';
-	    }
+            if ($i == sizeof($projects) - 1)
+            {
+                $position = 'bottom';
+            }
 
             $task_count = $project->get_task_count();
             $hours = $project->get_task_hours();

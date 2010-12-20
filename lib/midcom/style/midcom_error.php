@@ -9,7 +9,7 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title><?echo $title; ?></title>
+<title><?php echo $title; ?></title>
 <style type="text/css">
     body { color: #000000; background-color: #FFFFFF; }
     a:link { color: #0000CC; }
@@ -19,13 +19,13 @@ echo '<?'.'xml version="1.0" encoding="UTF-8"?'.">\n";
 </head>
 
 <body>
-<h1><?echo $title; ?></h1>
+<h1><?php echo $title; ?></h1>
 
 <p>
-<?echo $message; ?>
+<?php echo $message; ?>
 </p>
 
-<h2>Error <?echo $code; ?></h2>
+<h2>Error <?php echo $code; ?></h2>
 <address>
   <a href="/"><?php echo $_SERVER['SERVER_NAME']; ?></a><br />
   <?php echo date('r'); ?><br />

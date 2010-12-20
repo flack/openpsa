@@ -895,7 +895,7 @@ class midcom_helper_nav_backend
 
         $cachedata = $this->_nap_cache->get_node($parent_node);
 
-	if (false === $cachedata)
+        if (false === $cachedata)
         {
             /* It seems that the parent node is not in cache. This may happen when list_nodes is called from cache_invalidate
              * We load it again from db (which automatically puts it in the cache if it's active)

@@ -1262,16 +1262,16 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             if (empty($person->email))
             {
                 // Attendee must have email address of valid format, these must also be unique.
-                $person->email = preg_replace('/[^0-9_\x61-\x7a]/i','_', strtolower($person->name)) . '_is_not@openpsa.org';
+                $person->email = preg_replace('/[^0-9_\x61-\x7a]/i', '_', strtolower($person->name)) . '_is_not@openpsa.org';
             }
             $vcal_keys['ATTENDEE'][] = "mailto:{$person->email}";
             $vcal_key_parameters['ATTENDEE'][] = array
-                (
-                    'ROLE' => 'REQ-PARTICIPANT',
-                    'CUTYPE' => 'INDIVIDUAL',
-                    'STATUS' => 'ACCEPTED',
-                    'CN' => $encoder->escape_separators($person->rname, true),
-                );
+            (
+                'ROLE' => 'REQ-PARTICIPANT',
+                'CUTYPE' => 'INDIVIDUAL',
+                'STATUS' => 'ACCEPTED',
+                'CN' => $encoder->escape_separators($person->rname, true),
+            );
         }
         $ret = "BEGIN:VEVENT{$nl}";
         $ret .= $encoder->export_vx_variables_recursive($vcal_keys, $vcal_key_parameters, false, $nl);

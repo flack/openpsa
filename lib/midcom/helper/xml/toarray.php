@@ -1,6 +1,5 @@
 <?php
 /**
- * Created on Jan 12, 2006
  * @author tarjei huse based on comments found on php.net
  * @package midcom.helper.xml
  * @copyright The Midgard Project, http://www.midgard-project.org
@@ -201,9 +200,13 @@ class midcom_helper_xml_toarray
         if (trim($tag_data))
         {
             if (isset ($this->_stack_ref['_content']))
+            {
                 $this->_stack_ref['_content'] .= $tag_data;
+            }
             else
+            {
                 $this->_stack_ref['_content'] = $tag_data;
+            }
         }
     }
 

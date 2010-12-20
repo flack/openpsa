@@ -30,8 +30,8 @@ class org_routamc_positioning_importer_html extends org_routamc_positioning_impo
     {
         // TODO: With 1.8 we can query parameters more efficiently
         $qb = new midgard_query_builder('midgard_parameter');
-        $qb->add_constraint('domain', '=','org.routamc.positioning:html');
-        $qb->add_constraint('name', '=','icbm_url');
+        $qb->add_constraint('domain', '=', 'org.routamc.positioning:html');
+        $qb->add_constraint('name', '=', 'icbm_url');
         $accounts = $qb->execute();
         if (count($accounts) > 0)
         {

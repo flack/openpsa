@@ -533,7 +533,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 $offset = '+1 year';
                 break;
             default:
-                debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false" , MIDCOM_LOG_WARN);
+                debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
                 return false;
         }
         $date = new DateTime($offset . ' ' . date('Y-m-d', $time));

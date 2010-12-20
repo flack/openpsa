@@ -58,7 +58,7 @@ class midcom_db_host extends midcom_core_dbaobject
 
     function get_icon()
     {
-    	return 'stock_internet.png';
+        return 'stock_internet.png';
     }
 }
 ?>

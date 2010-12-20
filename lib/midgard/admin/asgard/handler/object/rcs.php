@@ -515,7 +515,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
             if (!class_exists('Text_Diff'))
             {
-                debug_add("Failed to load tet_diff libraries! These are needed for this handler. " , MIDCOM_LOG_CRIT);
+                debug_add("Failed to load text_diff libraries! These are needed for this handler.", MIDCOM_LOG_CRIT);
                 $this->_request_data['libs_ok'] = false;
                 $this->_prepare_toolbars($args[2]);
                 return true;

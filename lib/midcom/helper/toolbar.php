@@ -671,7 +671,7 @@ class midcom_helper_toolbar
     private function _generate_item_label($item)
     {
         $label = $item[MIDCOM_TOOLBAR_LABEL];
-        $label = htmlentities($label,ENT_COMPAT,"UTF-8");
+        $label = htmlentities($label, ENT_COMPAT, "UTF-8");
 
         if (!is_null($item[MIDCOM_TOOLBAR_ACCESSKEY]))
         {

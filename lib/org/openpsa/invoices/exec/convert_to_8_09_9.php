@@ -17,26 +17,26 @@ foreach ($invoices as $invoice)
 }
 
 //get all invoices with no invoice_items
-$mc = new midgard_collector('org_openpsa_invoice_item' , 'metadata.deleted' , false);
+$mc = new midgard_collector('org_openpsa_invoice_item', 'metadata.deleted', false);
 $mc->set_key_property('id');
 $mc->add_value_property('invoice');
 $mc->execute();
 $keys = $mc->list_keys();
-foreach($keys as $key => $empty)
+foreach ($keys as $key => $empty)
 {
-    $keys[$key] = $mc->get_subkey($key ,'invoice');
+    $keys[$key] = $mc->get_subkey($key, 'invoice');
 }
 $qb_invoices = org_openpsa_invoices_invoice_dba::new_query_builder();
-if(!empty($keys))
+if (!empty($keys))
 {
-    $qb_invoices->add_constraint('id' , 'NOT IN' , $keys);
+    $qb_invoices->add_constraint('id', 'NOT IN', $keys);
 }
 
 $invoices = $qb_invoices->execute();
-foreach($invoices as $invoice)
+foreach ($invoices as $invoice)
 {
     echo "Starting invoice_item-migration for invoice(" . $invoice->number .") - id: " . $invoice->id ." \n";
-    $old_invoice_sum = round($invoice->sum , 2);
+    $old_invoice_sum = round($invoice->sum, 2);
     echo "Invoice_sum_before : " . $old_invoice_sum ." \n";
     //first lets recalculate the hour_reports etc.
     //this will create the invoice items for corresponding hour_reports
@@ -55,7 +55,7 @@ foreach($invoices as $invoice)
         $migration_invoice_item->invoice = $invoice->id;
         $migration_invoice_item->units = 1;
         $migration_invoice_item->pricePerUnit = $price;
-        $migration_invoice_item->description = $_MIDCOM->i18n->get_string('Conversion to invoice items difference' , 'org.openpsa.invoices' ) ." - " . date("d.m.Y");
+        $migration_invoice_item->description = $_MIDCOM->i18n->get_string('Conversion to invoice items difference', 'org.openpsa.invoices' ) ." - " . date("d.m.Y");
         $migration_invoice_item->create();
 
         echo "Created invoice_item to cover up the difference with pricePerUnit:" . $price . " and units: 1 \n";
@@ -68,7 +68,7 @@ foreach($invoices as $invoice)
             echo "\n\n False calculated invoice_sum ! - stopping convert script \n\n";
             $migration_invoice_item->delete();
             $qb_delete = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-            $qb_delete->add_constraint('invoice' , '=' , $invoice->id);
+            $qb_delete->add_constraint('invoice', '=', $invoice->id);
             $items_delete = $qb_delete->execute();
             foreach($items_delete as $item)
             {
@@ -78,7 +78,7 @@ foreach($invoices as $invoice)
             break;
         }
     }
-    echo "Invoice_sum_after :" . round($invoice->sum , 2) . "\n\n";
+    echo "Invoice_sum_after :" . round($invoice->sum, 2) . "\n\n";
 }
 
 echo "Done.\n";

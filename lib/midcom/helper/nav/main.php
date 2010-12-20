@@ -447,7 +447,7 @@ class midcom_helper_nav
             $unprocessed_node_ids = array_merge($unprocessed_node_ids, $this->list_nodes($node_id));
         }
 
-        debug_add("We were unable to find the GUID {$guid} in the MidCOM tree even with a full scan.",MIDCOM_LOG_INFO);
+        debug_add("We were unable to find the GUID {$guid} in the MidCOM tree even with a full scan.", MIDCOM_LOG_INFO);
         return false;
     }
 

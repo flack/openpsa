@@ -95,18 +95,14 @@ class midcom_helper_datamanager2_type_parameters extends midcom_helper_datamanag
         $this->rows = array();
         foreach ($rows as $key => $row )
         {
-            if (array_key_exists(3 , $row ) && $row[3] == 1)
+            if (array_key_exists(3, $row ) && $row[3] == 1)
             {
-                $this->storage->object->delete_parameter( $row[0],$row[1]);
+                $this->storage->object->delete_parameter($row[0], $row[1]);
                 unset ($this->rows[$key]);
             } // only update parameters that do not have empty names or domains.
             else if (trim($row[0]) != '' && trim($row[1]) != '')
             {
-                if (! $this->storage->object->set_parameter(
-                    $row[0],
-                    $row[1],
-                    $row[2]
-                ))
+                if (!$this->storage->object->set_parameter($row[0], $row[1], $row[2]))
                 {
                     echo "Could not update parameter {$row[0]} {$row[1]}!";
                 }

@@ -97,7 +97,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
                 $check_same_passwords = true;
             }
             //check if the new encrypted password was already used
-            if (    $this->check_password($new_password_encrypted , $check_same_passwords)
+            if (    $this->check_password($new_password_encrypted, $check_same_passwords)
                  && $this->check_password_strength($new_password))
             {
                 $password_checked = true;
@@ -112,7 +112,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             if (   strtolower($username) != strtolower($this->username)
                 && $this->check_account_exists($username))
             {
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('username already exists' , 'org.openpsa.contacts') , 'error');
+                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('username already exists', 'org.openpsa.contacts'), 'error');
                 return false;
             }
             $this->username = $username;
@@ -315,12 +315,12 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
      * @param string password to check
      * @return bool returns if password was already used - true indicates passed password wasn't used
      */
-    function check_password($password , $check_same_password = true)
+    function check_password($password, $check_same_password = true)
     {
         //check current password
-        if(($this->password == $password) && $check_same_password)
+        if (($this->password == $password) && $check_same_password)
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password is the same as the current one' , 'org.openpsa.contacts') , 'error');
+            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password is the same as the current one', 'org.openpsa.contacts'), 'error');
             return false;
         }
 
@@ -328,9 +328,9 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $old_passwords = $this->get_old_passwords();
 
         //check last passwords
-        if(in_array($password, $old_passwords))
+        if (in_array($password, $old_passwords))
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password was already used' , 'org.openpsa.contacts') , 'error');
+            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password was already used', 'org.openpsa.contacts'), 'error');
             return false;
         }
         return true;
@@ -377,7 +377,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     function get_old_passwords()
     {
         $old_passwords_string = $this->get_parameter("org_openpsa_contacts_password", "old_passwords");
-        if($old_passwords_string != "")
+        if ($old_passwords_string != "")
         {
             $old_passwords_array = unserialize($old_passwords_string);
             $count = count($old_passwords_array);
@@ -385,7 +385,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             if($count > $max)
             {
                 //only as much passwords as given in config
-                for($i = $max;$i <= $count;$i++)
+                for ($i = $max; $i <= $count; $i++)
                 {
                     unset($old_passwords_array[$i]);
                 }
@@ -398,7 +398,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return $old_passwords_array;
     }
 
-    function encrypt_password($password , $plaintext)
+    function encrypt_password($password, $plaintext)
     {
         static $rand = false;
         if (empty($rand))
@@ -427,7 +427,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             while (    empty($crypted)
                     || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
             {
-                $salt = chr($rand(33,125)) . chr($rand(33,125));
+                $salt = chr($rand(33, 125)) . chr($rand(33, 125));
                 $crypted = crypt($password, $salt);
             }
             $password = $crypted;
@@ -478,9 +478,9 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $pattern_length = 4;
         $score_char = 4;
         $score = $password_length * $score_char;
-        for($count = 1;$count <= $pattern_length ; $count++)
+        for ($count = 1; $count <= $pattern_length; $count++)
         {
-            $score += strlen($this->check_repetition($count , $password)) - $password_length ;
+            $score += strlen($this->check_repetition($count, $password)) - $password_length;
         }
 
         $max = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('min_password_length');
@@ -494,13 +494,13 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         }
         if($password_length < $max)
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password too short' , 'org.openpsa.contacts') , 'error');
+            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password too short', 'org.openpsa.contacts'), 'error');
             return false;
         }
         //check $password with rules
-        foreach($contents['rules'] as $rule)
+        foreach ($contents['rules'] as $rule)
         {
-            $match = preg_match($rule['match'] , $password);
+            $match = preg_match($rule['match'], $password);
             if($match > 0)
             {
                 $score += $rule['score'];
@@ -508,7 +508,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         }
         if($score <= midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('min_password_score'))
         {
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password weak' , 'org.openpsa.contacts') , 'error');
+            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password weak', 'org.openpsa.contacts'), 'error');
             return false;
         }
         return true;
@@ -525,12 +525,12 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     function check_repetition($plen, $password)
     {
         $result = "";
-        for ($i=0; $i < strlen($password) ; $i++ )
+        for ($i = 0; $i < strlen($password); $i++)
         {
             $repeated=true;
-            for ($j=0; $j < $plen && ($j+$i+$plen) < strlen($password); $j++)
+            for ($j = 0; $j < $plen && ($j + $i + $plen) < strlen($password); $j++)
             {
-                if(    (substr($password , $j+$i , 1) == substr($password , $j+$i+$plen , 1))
+                if(    (substr($password, $j + $i, 1) == substr($password, $j + $i + $plen, 1))
                     && $repeated)
                 {
                     $repeated = true;
@@ -551,7 +551,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             }
             else
             {
-                $result .= substr($password , $i, 1);
+                $result .= substr($password, $i, 1);
             }
         }
         return $result;
@@ -565,19 +565,19 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     function check_password_age()
     {
         $max_age_days = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('password_max_age_days');
-        if($max_age_days == 0)
+        if ($max_age_days == 0)
         {
             return true;
         }
         $max_timeframe = time() - ($max_age_days * 24 * 60 * 60);
         $last_change = $this->get_parameter("org_openpsa_contacts_password", "last_change");
 
-        if(empty($last_change))
+        if (empty($last_change))
         {
             return false;
         }
 
-        if ( $max_timeframe < $last_change )
+        if ($max_timeframe < $last_change )
         {
             return true;
         }
@@ -592,7 +592,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     function disable_account()
     {
         $timeframe_minutes = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('password_block_timeframe_min');
-        if($timeframe_minutes == 0)
+        if ($timeframe_minutes == 0)
         {
             return false;
         }
@@ -605,11 +605,11 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         );
 
         $atstat = midcom_services_at_interface::register(time() + $timeframe, 'org.openpsa.contacts', 'reopen_account', $args);
-        if(!$atstat)
+        if (!$atstat)
         {
              throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
-        $this->set_parameter("org_openpsa_contacts_blocked_account", "account_password" , $this->password);
+        $this->set_parameter("org_openpsa_contacts_blocked_account", "account_password", $this->password);
         $this->password = "";
         $this->update();
 

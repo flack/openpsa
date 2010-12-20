@@ -222,7 +222,7 @@ class midcom_db_person extends midcom_core_dbaobject
         }
         else
         {
-        	return '#' . $this->id;
+            return '#' . $this->id;
         }
     }
 

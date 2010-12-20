@@ -47,7 +47,7 @@ switch($task->status)
       </td>
       <td>
       <?php
-          if(isset($data['priority_array']) && array_key_exists($task->priority , $data['priority_array']))
+          if(isset($data['priority_array']) && array_key_exists($task->priority, $data['priority_array']))
           {
               echo $data['l10n']->get($data['priority_array'][$task->priority]);
           }

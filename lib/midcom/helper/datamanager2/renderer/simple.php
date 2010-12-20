@@ -351,7 +351,7 @@ class midcom_helper_datamanager2_renderer_simple extends HTML_QuickForm_Renderer
             }
         }
 
-        $html = str_replace('{element_name}', $name , $html);
+        $html = str_replace('{element_name}', $name, $html);
         if (strpos($html, '{label_'))
         {
             $html = preg_replace('/\s*<!-- BEGIN label_(\S+) -->.*<!-- END label_\1 -->\s*/i', '', $html);

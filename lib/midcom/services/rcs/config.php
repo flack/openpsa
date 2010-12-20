@@ -88,7 +88,7 @@
      */
     function _get_handler_class()
     {
-        if (   array_key_exists('midcom_services_rcs_enable',$this->config)
+        if (   array_key_exists('midcom_services_rcs_enable', $this->config)
             && $this->config['midcom_services_rcs_enable'])
         {
             if ( $this->_test_rcs_config())

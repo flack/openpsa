@@ -21,8 +21,8 @@ class org_routamc_positioning_importer_fireeagle extends org_routamc_positioning
     {
         // TODO: With 1.8 we can query parameters more efficiently
         $qb = new midgard_query_builder('midgard_parameter');
-        $qb->add_constraint('domain', '=','net.yahoo.fireeagle');
-        $qb->add_constraint('name', '=','access_key');
+        $qb->add_constraint('domain', '=', 'net.yahoo.fireeagle');
+        $qb->add_constraint('name', '=', 'access_key');
         $accounts = $qb->execute();
         if (count($accounts) > 0)
         {

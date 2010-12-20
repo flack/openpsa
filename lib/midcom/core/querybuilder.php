@@ -625,7 +625,7 @@ class midcom_core_querybuilder
         // Add check against null values, Core MC is too stupid to get this right.
         if ($value === null)
         {
-            debug_add("QueryBuilder: Cannot add constraint on field '{$field}' with null value.",MIDCOM_LOG_WARN);
+            debug_add("QueryBuilder: Cannot add constraint on field '{$field}' with null value.", MIDCOM_LOG_WARN);
             return false;
         }
         if (! $this->_qb->add_constraint($field, $operator, $value))

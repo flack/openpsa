@@ -68,7 +68,7 @@ if (   PEAR::isError($args)
     }
     else if ($args->getCode() === CONSOLE_GETARGS_ERROR_USER)
     {
-        echo Console_Getargs::getHelp($opts_config, $header , $args->getMessage())."\n";
+        echo Console_Getargs::getHelp($opts_config, $header, $args->getMessage())."\n";
     }
 
     exit(1);

@@ -90,14 +90,16 @@ class midcom_debug
     /**
      * Enable the Debugger
      */
-    function enable() {
+    function enable()
+    {
         $this->_enabled = true;
     }
 
     /**
      * Disable the Debugger
      */
-    function disable() {
+    function disable()
+    {
         $this->_enabled = false;
     }
 
@@ -106,7 +108,8 @@ class midcom_debug
      *
      * @return boolean    Debugger state
      */
-    function is_enabled() {
+    function is_enabled()
+    {
         return $this->_enabled;
     }
 
@@ -115,7 +118,8 @@ class midcom_debug
      *
      * @param int $loglevel        New log level
      */
-    function setLoglevel($loglevel) {
+    function setLoglevel($loglevel)
+    {
         $this->_loglevel = $loglevel;
     }
 

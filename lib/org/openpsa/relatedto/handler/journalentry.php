@@ -67,8 +67,8 @@ implements midcom_helper_datamanager2_interfaces_create
 
          //add needed constraints etc. to the query-builder
         $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
-        $this->qb_journal_entries->add_constraint('linkGuid' , '=' , $args[0]);
-        $this->qb_journal_entries->add_order('followUp' , 'DESC');
+        $this->qb_journal_entries->add_constraint('linkGuid', '=', $args[0]);
+        $this->qb_journal_entries->add_order('followUp', 'DESC');
         $this->_prepare_journal_query();
 
         $this->_request_data['entries'] = $this->qb_journal_entries->execute();
@@ -296,7 +296,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if ($this->_output_mode != 'html')
         {
             $this->qb_journal_entries = org_openpsa_relatedto_journal_entry_dba::new_query_builder();
-            $this->qb_journal_entries->add_order('followUp' , 'DESC');
+            $this->qb_journal_entries->add_order('followUp', 'DESC');
             $this->_prepare_journal_query();
 
             //show the corresponding object of the entry
@@ -304,7 +304,7 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->_request_data['show_closed'] = false;
             $this->_request_data['page'] = 1;
 
-            if (array_key_exists('show_closed' , $_POST))
+            if (array_key_exists('show_closed', $_POST))
             {
                 $this->_request_data['show_closed'] = true;
             }
@@ -320,7 +320,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
                 foreach($this->_request_data['entries'] as $entry)
                 {
-                    if(array_key_exists($entry->linkGuid , $this->_request_data['linked_objects']))
+                    if(array_key_exists($entry->linkGuid, $this->_request_data['linked_objects']))
                     {
                         continue;
                     }
@@ -365,14 +365,14 @@ implements midcom_helper_datamanager2_interfaces_create
 
     private function _prepare_journal_query()
     {
-        if (array_key_exists('journal_entry_constraints' , $_POST))
+        if (array_key_exists('journal_entry_constraints', $_POST))
         {
             foreach ($_POST['journal_entry_constraints'] as $constraint)
             {
                 //"type-cast" for closed because it will be passed as string
-                if($constraint['property'] == 'closed')
+                if ($constraint['property'] == 'closed')
                 {
-                    if($constraint['value'] = 'false')
+                    if ($constraint['value'] = 'false')
                     {
                         $constraint['value'] = false;
                     }
@@ -381,11 +381,11 @@ implements midcom_helper_datamanager2_interfaces_create
                         $constraint['value'] = true;
                     }
                 }
-                $this->qb_journal_entries->add_constraint($constraint['property'] , $constraint['operator'] , $constraint['value']);
+                $this->qb_journal_entries->add_constraint($constraint['property'], $constraint['operator'], $constraint['value']);
             }
         }
         //check if there is a page & rows - parameter passed - if add them to qb
-        if (array_key_exists('page' , $_POST) && array_key_exists('rows' , $_POST))
+        if (array_key_exists('page', $_POST) && array_key_exists('rows', $_POST))
         {
             $this->_request_data['page'] = $_POST['page'];
             $this->qb_journal_entries->set_limit((int)$_POST['rows']);

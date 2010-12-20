@@ -40,7 +40,7 @@ if (isset($data['parent_directory']))
 {
     $icon = MIDCOM_STATIC_URL . '/stock-icons/16x16/up.png';
     $length = strlen($data['parent_directory']->name);
-    $link = substr($prefix , 0 , strlen($prefix) - (strlen($data['parent_directory']->name) + 1));
+    $link = substr($prefix, 0, strlen($prefix) - (strlen($data['parent_directory']->name) + 1));
     echo "<row>";
     echo "<cell>" . $data['parent_directory']->id . "</cell>";
     echo "<cell></cell>";
@@ -122,7 +122,7 @@ foreach ($data['documents'] as $document)
         }
     }
     echo "<row>";
-    echo "<cell>" . $document->id ."</cell>";
+    echo "<cell>" . $document->id . "</cell>";
     echo "<cell>" . $document->title ."</cell>";
 
     $link_html = "<![CDATA[";
@@ -145,7 +145,7 @@ foreach ($data['documents'] as $document)
     echo "<cell>" . $author->contact_details['lastname'] . ", " . $author->contact_details['firstname'] . "</cell>";
     echo "<cell><![CDATA[<span class='jqgrid_person'>" . $author->show_inline() . "</span>]]></cell>";
     echo "<cell> " . $document->metadata->revised . "</cell>";
-    echo "<cell><![CDATA[<span class='jqgrid_date'>" . date("d.m.Y H:m" , $document->metadata->revised ) . "</span>]]></cell>";
+    echo "<cell><![CDATA[<span class='jqgrid_date'>" . date("d.m.Y H:m", $document->metadata->revised ) . "</span>]]></cell>";
 
     //filesize-index & modified file_size
     echo "<cell>" . $file_size . "</cell>";

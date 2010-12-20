@@ -113,7 +113,7 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
             $show_products = (int) $args[0];
             $product_group = '';
         }
-        $this->_list_products($show_products,$product_group);
+        $this->_list_products($show_products, $product_group);
 
         // Prepare datamanager
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
@@ -194,7 +194,7 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
             $product_group = '';
         }
 
-        $this->_list_products($this->_config->get('show_items_in_feed'),$product_group);
+        $this->_list_products($this->_config->get('show_items_in_feed'), $product_group);
 
         // Prepare datamanager
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);

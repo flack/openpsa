@@ -131,7 +131,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         <div class="time">&(view_task['start']:h); - &(view_task['end']:h);</div>
 
         <?php
-        if(array_key_exists('priority' , $data['datamanager']->types) && array_key_exists($task->priority , $data['datamanager']->types['priority']->options))
+        if(array_key_exists('priority', $data['datamanager']->types) && array_key_exists($task->priority, $data['datamanager']->types['priority']->options))
         {
             ?>
             <div class="priority"><?php echo $data['l10n']->get('priority') . ': ' . $data['l10n']->get($data['datamanager']->types['priority']->options[$task->priority]); ?></div>

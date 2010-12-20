@@ -96,7 +96,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
             $show_products = (int) $args[0];
             $product_group = '';
         }
-        $this->_list_products($show_products,$product_group);
+        $this->_list_products($show_products, $product_group);
 
         // Prepare datamanager
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
@@ -170,7 +170,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
 
         if ($handler_id == 'updated_products_feed_intree')
         {
-            $this->_list_products($this->_config->get('show_items_in_feed'),$args[0]);
+            $this->_list_products($this->_config->get('show_items_in_feed'), $args[0]);
         }
         else
         {

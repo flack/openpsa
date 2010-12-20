@@ -61,7 +61,7 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
      */
     function set_address()
     {
-        if($this->useContactAddress && !empty($this->linkGuid))
+        if ($this->useContactAddress && !empty($this->linkGuid))
         {
             //get the contact object
             $contact = $_MIDCOM->dbfactory->get_object_by_guid($this->linkGuid);
@@ -72,10 +72,10 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
             }
             switch (true)
             {
-                case is_a($contact , 'org_openpsa_contacts_person_dba'):
+                case is_a($contact, 'org_openpsa_contacts_person_dba'):
                     $this->recipient = $contact->firstname . " " . $contact->lastname;
                     break;
-                case is_a($contact , 'org_openpsa_contacts_group_dba'):
+                case is_a($contact, 'org_openpsa_contacts_group_dba'):
                     $this->recipient = $contact->official;
                     break;
                 default:

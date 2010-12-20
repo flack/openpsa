@@ -30,8 +30,8 @@ class org_routamc_positioning_importer_plazes extends org_routamc_positioning_im
     {
         // TODO: With 1.8 we can query parameters more efficiently
         $qb = new midgard_query_builder('midgard_parameter');
-        $qb->add_constraint('domain', '=','org.routamc.positioning:plazes');
-        $qb->add_constraint('name', '=','username');
+        $qb->add_constraint('domain', '=', 'org.routamc.positioning:plazes');
+        $qb->add_constraint('name', '=', 'username');
         $accounts = $qb->execute();
         if (count($accounts) > 0)
         {

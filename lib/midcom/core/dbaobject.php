@@ -378,7 +378,8 @@ abstract class midcom_core_dbaobject
     {
         return midcom_baseclasses_core_dbobject::get_privilege($this, $privilege, $assignee, $classname);
     }
-    public function get_privileges() {
+    public function get_privileges()
+    {
         return midcom_baseclasses_core_dbobject::get_privileges($this);
     }
     public function is_in_parent_tree($root, $id)

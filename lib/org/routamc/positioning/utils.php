@@ -108,12 +108,12 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
         // be inefficient, but to avoid issues with floating
         // point math we extract the integer part and the float
         // part by using a string function.
-        $vars = explode(".",$dec);
+        $vars = explode(".", $dec);
         $deg = $vars[0];
         $tempma = "0.{$vars[1]}";
         $tempma = $tempma * 3600;
         $min = floor($tempma / 60);
-        $sec = $tempma - ($min*60);
+        $sec = $tempma - ($min * 60);
         $coordinate = array
         (
             'deg' => $deg,
@@ -413,7 +413,7 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
             }
 
             $modifier = $modifier * 1.05;
-            setlocale(LC_NUMERIC,$current_locale);
+            setlocale(LC_NUMERIC, $current_locale);
             return org_routamc_positioning_utils::get_closest($class, $center, $limit, $max_distance, $modifier);
         }
 
@@ -458,11 +458,11 @@ class org_routamc_positioning_utils extends midcom_baseclasses_components_pureco
 
         ksort($closest);
         reset($closest);
-        while(count($closest) > $limit)
+        while (count($closest) > $limit)
         {
             array_pop($closest);
         }
-        setlocale(LC_NUMERIC,$current_locale);
+        setlocale(LC_NUMERIC, $current_locale);
         return $closest;
     }
 }

@@ -106,7 +106,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function get_schema_name()
     {
-    	return $this->_schema;
+        return $this->_schema;
     }
 
     public function get_schema_defaults()

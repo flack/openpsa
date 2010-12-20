@@ -348,15 +348,15 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
     private function _process_notify_date($formdata)
     {
         //get the time of passed notify date
-        $unix_time = mktime($formdata['notify']->value->hour ,$formdata['notify']->value->minute, 1 , $formdata['notify']->value->month , $formdata['notify']->value->day , $formdata['notify']->value->year);
+        $unix_time = mktime($formdata['notify']->value->hour, $formdata['notify']->value->minute, 1, $formdata['notify']->value->month, $formdata['notify']->value->day, $formdata['notify']->value->year);
 
         //check if there is already an at_entry
-        $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid' , $this->_deliverable->guid);
+        $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_deliverable->guid);
         $mc_entry->set_key_property('guid');
         $mc_entry->add_value_property('fromGuid');
-        $mc_entry->add_constraint('fromClass' , '=' , 'midcom_services_at_entry_dba');
-        $mc_entry->add_constraint('toClass' , '=' , 'org_openpsa_sales_salesproject_deliverable_dba');
-        $mc_entry->add_constraint('toExtra' , '=' , 'notify_at_entry');
+        $mc_entry->add_constraint('fromClass', '=', 'midcom_services_at_entry_dba');
+        $mc_entry->add_constraint('toClass', '=', 'org_openpsa_sales_salesproject_deliverable_dba');
+        $mc_entry->add_constraint('toExtra', '=', 'notify_at_entry');
         $mc_entry->execute();
         $entry_keys = $mc_entry->list_keys();
         //check date
@@ -364,21 +364,21 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         {
             $notification_entry = null;
 
-            if(count($entry_keys) == 0)
+            if (count($entry_keys) == 0)
             {
                 $notification_entry = new midcom_services_at_entry_dba();
                 $notification_entry->create();
                 //relatedto from notifcation to deliverable
-                org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $this->_deliverable , 'org.openpsa.sales' , false , array('toExtra' => 'notify_at_entry'));
+                org_openpsa_relatedto_plugin::create($notification_entry, 'midcom.services.at', $this->_deliverable, 'org.openpsa.sales', false, array('toExtra' => 'notify_at_entry'));
             }
             else
             {
                 //get guid of at_entry
-                foreach($entry_keys as $key => $empty)
+                foreach ($entry_keys as $key => $empty)
                 {
-                    $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key , 'fromGuid'));
+                    $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
                     //check if related at_entry exists
-                    if(empty($notification_entry->guid))
+                    if (empty($notification_entry->guid))
                     {
                         //relatedto links to a non-existing at_entry - so create a new one an link to it
                         $notification_entry = new midcom_services_at_entry_dba();
@@ -395,12 +395,13 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             $notification_entry->component = 'org.openpsa.sales';
             $notification_entry->arguments = array('deliverable' => $this->_deliverable->guid);
             $notification_entry->update();
-        }//void date - so delete existing at_entrys for this notify_date
-        else if($formdata['notify']->value->year == '0000')
+        }
+        else if ($formdata['notify']->value->year == '0000')
         {
+            //void date - so delete existing at_entrys for this notify_date
             foreach($entry_keys as $key => $empty)
             {
-                $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key , 'fromGuid'));
+                $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
                 //check if related at_entry exists & delete it
                 if (!empty($notification_entry->guid))
                 {

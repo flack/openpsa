@@ -57,14 +57,14 @@ class org_openpsa_contacts_buddy_dba extends midcom_core_dbaobject
      */
     public function _on_created()
     {
-    	if ($user = $_MIDCOM->auth->get_user($this->buddy))
-    	{
-	        $this->set_privilege('midgard:owner', $user);
-    	}
-    	if ($user = $_MIDCOM->auth->get_user($this->account))
-    	{    	
-	        $this->set_privilege('midgard:owner', $user);
-    	}
+        if ($user = $_MIDCOM->auth->get_user($this->buddy))
+        {
+            $this->set_privilege('midgard:owner', $user);
+        }
+        if ($user = $_MIDCOM->auth->get_user($this->account))
+        {    	
+            $this->set_privilege('midgard:owner', $user);
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 echo "<h1>" . sprintf($_MIDCOM->i18n->get_string('mgdschemas in %s', 'midcom.admin.help'),
-                $_MIDCOM->i18n->get_string($data['component'],$data['component'])) . "</h1>\n";
+                $_MIDCOM->i18n->get_string($data['component'], $data['component'])) . "</h1>\n";
 
 if (count($data['mgdschemas']) > 0)
 {
@@ -28,7 +28,7 @@ if (count($data['mgdschemas']) > 0)
             if ($val['link'])
             {
                 $linked_component = '';
-                if(substr($val['link_name'],0,8) == 'midgard_')
+                if(substr($val['link_name'], 0, 8) == 'midgard_')
                 {
                     $linked_component = 'midcom';
                 }
@@ -72,7 +72,7 @@ if (count($data['mgdschemas']) > 0)
             {
                 // Generate method signature
                 $signature  = '';
-                $signature .= '<span class="method_modifiers">' . implode(' ' , Reflection::getModifierNames($reflectionmethod->getModifiers())) . '</span> ';
+                $signature .= '<span class="method_modifiers">' . implode(' ', Reflection::getModifierNames($reflectionmethod->getModifiers())) . '</span> ';
                 if ($reflectionmethod->returnsReference())
                 {
                     $signature .= ' & ';

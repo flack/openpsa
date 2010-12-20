@@ -412,7 +412,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (!$this->_is_replication_safe())
         {
-        	return false;
+            return false;
         }
 
         if (   empty($this->searchfields)
@@ -760,7 +760,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             {
                 foreach ($label_properties as $key)
                 {
-                    if (! in_array($key,array('id','guid')))
+                    if (! in_array($key, array('id', 'guid')))
                     {
                         if (! in_array($key, $labels))
                         {

@@ -150,7 +150,8 @@ class midcom_helper_datamanager2_widget_textarea extends midcom_helper_datamanag
         $this->_type->value = $results[$this->name];
     }
 
-    function _add_expand_js() {
+    function _add_expand_js()
+    {
         $expand_area = $this->_l10n->get("Expand area");
         $contract_area = $this->_l10n->get("Contract area");
 

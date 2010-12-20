@@ -22,12 +22,12 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function load_schemadb()
     {
-    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
     }
 
     public function get_schema_defaults()
     {
-    	$defaults = array();
+        $defaults = array();
         if (   $this->_person
             && $this->_person->guid)
         {

@@ -123,7 +123,7 @@ class org_openpsa_helpers_vxparser
     /**
      * Converts DURATION to seconds or an array
      */
-    function vCal_duration($input, $toArray=false)
+    function vCal_duration($input, $toArray = false)
     {
         $ret=array('d' => 0, 'h' => 0, 'm' => 0, 's' => 0);
         $regExp='/([+-])?P(([0-9]+)W)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9]+)S)?)?/';
@@ -208,20 +208,23 @@ class org_openpsa_helpers_vxparser
        //If $stamp is Midgard created/revised timestamp, convert to vCal
        if (preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $stamp, $matches))
        {
-            $stamp = mktime((int)$matches[4],(int)$matches[5],(int)$matches[6],(int)$matches[2],(int)$matches[3],(int)$matches[1]);
+            $stamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
             //If value is DATE (in stead of DATETIME) return a datestamp in stead
             if ($params['VALUE'] === 'DATE')
             {
                 return date('Ymd', $stamp);
             }
-            if ($convert) $stamp = $this->timezone_convert($stamp, &$convert, 'to');
+            if ($convert)
+            {
+                $stamp = $this->timezone_convert($stamp, $convert, 'to');
+            }
             return date('Ymd', $stamp) . 'T' . date('His', $stamp);
        }
 
         //If $stamp is vCal timestamp convert to Unix timestamp
         if (preg_match("/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)/", $stamp, $matches))
         {
-            $stamp=mktime((int)$matches[4],(int)$matches[5],(int)$matches[6],(int)$matches[2],(int)$matches[3],(int)$matches[1]);
+            $stamp = mktime((int)$matches[4], (int)$matches[5], (int)$matches[6], (int)$matches[2], (int)$matches[3], (int)$matches[1]);
             //Z modifier at the end of a vCal timestamp specifies that it's in "Zulu time"==UTC, any other TZID is disallowed
             if (   isset($matches[7])
                 && $matches[7] != null)
@@ -230,7 +233,7 @@ class org_openpsa_helpers_vxparser
             }
             if ($convert)
             {
-                $stamp=$this->timezone_convert($stamp, &$convert, 'from');
+                $stamp=$this->timezone_convert($stamp, $convert, 'from');
             }
             return $stamp;
         }
@@ -238,7 +241,7 @@ class org_openpsa_helpers_vxparser
         //If $tamp is vCal *date* stamp, convert to Unix timestamp (one second after midnight)
         if (preg_match("/(\d{4})(\d{2})(\d{2})/", $stamp, $matches) && $params['VALUE']==='DATE')
         {
-            $stamp=mktime(0,0,1,(int)$matches[2],(int)$matches[3],(int)$matches[1]);
+            $stamp = mktime(0, 0, 1, (int)$matches[2], (int)$matches[3], (int)$matches[1]);
             return $stamp;
         }
         //If value is DATE (in stead of DATETIME) return a datestamp
@@ -249,7 +252,7 @@ class org_openpsa_helpers_vxparser
         //Otherwise convert to vCal timestamp
         if ($convert)
         {
-            $stamp = $this->timezone_convert($stamp, &$convert, 'to');
+            $stamp = $this->timezone_convert($stamp, $convert, 'to');
         }
         return date('Ymd', $stamp) . 'T' . date('His', $stamp);
     }
@@ -324,12 +327,12 @@ class org_openpsa_helpers_vxparser
            switch(strtolower($dir))
            {
                  case "from":
-                    $stamp-=$use_offset;
-                    $stamp=gmmktime(date('G',$stamp),date('i',$stamp),date('s',$stamp),date('n',$stamp),date('j',$stamp),date('Y',$stamp));
+                    $stamp -= $use_offset;
+                    $stamp = gmmktime(date('G', $stamp), date('i', $stamp), date('s', $stamp), date('n', $stamp), date('j', $stamp), date('Y', $stamp));
                  break;
                  case "to":
-                    $stamp+=$use_offset;
-                    $stamp=mktime(gmdate('G',$stamp),gmdate('i',$stamp),gmdate('s',$stamp),gmdate('n',$stamp),gmdate('j',$stamp),gmdate('Y',$stamp));
+                    $stamp += $use_offset;
+                    $stamp = mktime(gmdate('G', $stamp), gmdate('i', $stamp), gmdate('s', $stamp), gmdate('n', $stamp), gmdate('j', $stamp), gmdate('Y', $stamp));
                  break;
                  default: //Direction must be to or from but for slightly nicer failure mode we return the original stamp
                     return $stamp;
@@ -439,143 +442,197 @@ class org_openpsa_helpers_vxparser
     }
 
 
-      function vCal_decode($data, $param=array()) {
-                if (!(isset($this->compatibility['data']['parse_separators']) && $this->compatibility['data']['parse_separators']===false)) {
-                    $data_arr=preg_split("/([^\\\])[,;]/", $data, -1, PREG_SPLIT_DELIM_CAPTURE); //Not very nice but I can't think of a better way to explode with unescaped delimiters...
-                    if (count($data_arr)>1 && is_array($data_arr)) { //We have multiple values in $data, decode them separately
-                        while (list ($k, $v) = @each ($data_arr)) {
-                              if ($k%2==0) continue;
-                              $data_arr[$k-1].=$v;
-                              unset($data_arr[$k]);
-                        } reset ($data_arr);
-                        $data=array(); $i=0; $oldParam=$param; $param=array();
-                        while (list ($k, $v) = each ($data_arr)) {
-                              $param[$i]=$oldParam;
-                              $data[$i]=$this->vCal_decode($v, &$param[$i]);
-                              $i++;
-                        }
-                   }
-               }
-
-               if (!is_array($data)) {
-                    if (!isset($param['ENCODING'])) $param['ENCODING']='QUOTED-PRINTABLE'; //Try quoted printable as default encoding
-                    switch (strtoupper($param['ENCODING'])) {
-                        default:
-                        case 'QUOTED-PRINTABLE':
-                            preg_match_all("/=([0-9A-F]{2})/i", $data, $matches);
-                            $cache=array();
-                            while (list ($k, $hex) = each ($matches[1])) {
-                                    if (isset($cache[$hex])) continue;
-                                    $data=str_replace("=$hex", chr(hexdec($hex)), $data);
-                                    $cache[$hex]=true;
-                             }
-                            unset($param['ENCODING']);
-                        break;
-                        case 'BASE64':
-                            $data=base64_decode($data);
-                            unset($param['ENCODING']);
-                        break;
-                    }
-
-                   $data=str_replace(array('\n','\;','\,'), array("\n",';',','), $data); //Convert escaped values back to real
-                   $data=preg_replace("/\r\n|\n\r|\r/", "\n", $data); //Convert different CR/LF sequences to newlines
-
-                   if (!isset($param['CHARSET'])) $param['CHARSET']=$this->compatibility['data']['suppose_charset'];
-                   //Convert characters if necessary
-                   //if ($this->__iconv && isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
-                   if (isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
-                      $icRet=iconv($param['CHARSET'], $this->charset, $data);
-                      if ($icRet !== false) { //Make sure iconv succeeded before overwriting data
-                         $data=$icRet;
-                         unset($param['CHARSET']);
-                      }
-                   } else if (isset($param['CHARSET']) && strtolower($param['CHARSET'])==strtolower($this->charset)) {
-                      //We already have data correct charset, let's remove the parameter as unnecessary.
-                      unset($param['CHARSET']);
-                   }
-               }
-        return $data;
-      }
-
-    private function _unfold($data)
+    function vCal_decode($data, &$param)
     {
-        $data=preg_replace("/\r\n|\n\r|\r/", "\n", $data); //Make sure we only have newlines in the
-        $data=preg_replace("/\n[\x9\x20]|=\n/", '', $data); //RFC and MIME "soft-linebreak" unfolding
+        if (!(isset($this->compatibility['data']['parse_separators']) && $this->compatibility['data']['parse_separators']===false))
+        {
+            $data_arr = preg_split("/([^\\\])[,;]/", $data, -1, PREG_SPLIT_DELIM_CAPTURE); //Not very nice but I can't think of a better way to explode with unescaped delimiters...
+            if (count($data_arr) > 1 && is_array($data_arr))
+            {
+                //We have multiple values in $data, decode them separately
+                while (list ($k, $v) = @each ($data_arr))
+                {
+                    if ($k % 2 == 0)
+                    {
+                        continue;
+                    }
+                    $data_arr[$k - 1] .= $v;
+                    unset($data_arr[$k]);
+                }
+                reset($data_arr);
+                $data = array();
+                $i = 0;
+                $oldParam = $param;
+                $param = array();
+                while (list ($k, $v) = each ($data_arr))
+                {
+                    $param[$i] = $oldParam;
+                    $data[$i] = $this->vCal_decode($v, $param[$i]);
+                    $i++;
+                }
+            }
+        }
+
+        if (!is_array($data))
+        {
+            if (!isset($param['ENCODING']))
+            {
+                $param['ENCODING']='QUOTED-PRINTABLE'; //Try quoted printable as default encoding
+            }
+            switch (strtoupper($param['ENCODING']))
+            {
+                default:
+                case 'QUOTED-PRINTABLE':
+                    preg_match_all("/=([0-9A-F]{2})/i", $data, $matches);
+                    $cache = array();
+                    while (list ($k, $hex) = each ($matches[1]))
+                    {
+                        if (isset($cache[$hex]))
+                        {
+                            continue;
+                        }
+                        $data = str_replace("=$hex", chr(hexdec($hex)), $data);
+                        $cache[$hex] = true;
+                    }
+                    unset($param['ENCODING']);
+                    break;
+                case 'BASE64':
+                    $data = base64_decode($data);
+                    unset($param['ENCODING']);
+                    break;
+            }
+
+            $data = str_replace(array('\n','\;','\,'), array("\n",';',','), $data); //Convert escaped values back to real
+            $data = preg_replace("/\r\n|\n\r|\r/", "\n", $data); //Convert different CR/LF sequences to newlines
+
+            if (!isset($param['CHARSET']))
+            {
+                $param['CHARSET'] = $this->compatibility['data']['suppose_charset'];
+            }
+            //Convert characters if necessary
+            //if ($this->__iconv && isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
+            if (isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET']) != strtolower($this->charset) && function_exists('iconv'))
+            {
+                $icRet = iconv($param['CHARSET'], $this->charset, $data);
+                if ($icRet !== false)
+                { //Make sure iconv succeeded before overwriting data
+                    $data = $icRet;
+                    unset($param['CHARSET']);
+                }
+            }
+            else if (isset($param['CHARSET']) && strtolower($param['CHARSET']) == strtolower($this->charset))
+            {
+                //We already have data correct charset, let's remove the parameter as unnecessary.
+                unset($param['CHARSET']);
+            }
+        }
         return $data;
     }
 
+    private function _unfold($data)
+    {
+        $data = preg_replace("/\r\n|\n\r|\r/", "\n", $data); //Make sure we only have newlines in the
+        $data = preg_replace("/\n[\x9\x20]|=\n/", '', $data); //RFC and MIME "soft-linebreak" unfolding
+        return $data;
+    }
 
-      function vx_parse_recursive(&$toVars, &$toParams, $data) {
-                //"Unfolding" lines (RFC says lines must be unfolded before parsing), at the same time we convert all linebreaks to newlines
-                $data=$this->_unfold($data);
+    function vx_parse_recursive(&$toVars, &$toParams, $data)
+    {
+        //"Unfolding" lines (RFC says lines must be unfolded before parsing), at the same time we convert all linebreaks to newlines
+        $data = $this->_unfold($data);
 
-
-                $setMode=false; $setData='';
-                $rows=explode("\n", $data);
-                while (list ($k, $v) = each ($rows)) {
-                        if (!$v) continue; //Skip empthy lines
-                        if ($setMode) {
-                            if ($v=='END:' . $setMode) {
-                                if (isset($toVars[$setMode])) {
-                                    if (!isset($seen[$setMode]) || $seen[$setMode]!=true) {
-                                        $oldVal=$toVars[$setMode];
-                                        $oldPar=$toParams[$setMode];
-                                        $toVars[$setMode]=array();
-                                        $toVars[$setMode][]=$oldVal;
-                                        $toParams[$setMode]=array();
-                                        $toParams[$setMode][]=$oldPar;
-                                        $seen[$setMode]=true;
-                                    }
-                                    $tmpVal=&$toVars[$setMode][];
-                                    $tmpPar=&$toParams[$setMode][];
-                                } else {
-                                    $tmpVal=&$toVars[$setMode];
-                                    $tmpPar=&$toParams[$setMode];
-                                }
-                                $this->vx_parse_recursive($tmpVal, $tmpPar, $setData);
-                                $setMode=false; $setData='';
-                            } else {
-                                $setData.=$v."\n";
-                            }
-                        } else if (preg_match('/BEGIN:(.*)/', $v, $bMatches)) {
-                            $setMode=$bMatches[1];
-                            $setData='';
-                        } else {
-                            $this->_vCal_parse_line($toVars, $toParams, $v);
+        $setMode = false;
+        $setData = '';
+        $rows = explode("\n", $data);
+        while (list ($k, $v) = each ($rows))
+        {
+            if (!$v)
+            {
+                continue; //Skip empthy lines
+            }
+            if ($setMode)
+            {
+                if ($v == 'END:' . $setMode)
+                {
+                    if (isset($toVars[$setMode]))
+                    {
+                        if (!isset($seen[$setMode]) || $seen[$setMode] != true)
+                        {
+                            $oldVal = $toVars[$setMode];
+                            $oldPar = $toParams[$setMode];
+                            $toVars[$setMode] = array();
+                            $toVars[$setMode][] = $oldVal;
+                            $toParams[$setMode] = array();
+                            $toParams[$setMode][] = $oldPar;
+                            $seen[$setMode] = true;
                         }
+                        $tmpVal =& $toVars[$setMode][];
+                        $tmpPar =& $toParams[$setMode][];
+                    }
+                    else
+                    {
+                        $tmpVal =& $toVars[$setMode];
+                        $tmpPar =& $toParams[$setMode];
+                    }
+                    $this->vx_parse_recursive($tmpVal, $tmpPar, $setData);
+                    $setMode = false;
+                    $setData = '';
                 }
+                else
+                {
+                    $setData .= $v . "\n";
+                }
+            }
+            else if (preg_match('/BEGIN:(.*)/', $v, $bMatches))
+            {
+                $setMode = $bMatches[1];
+                $setData = '';
+            }
+            else
+            {
+                $this->_vCal_parse_line($toVars, $toParams, $v);
+            }
+        }
         return true;
-      }
+    }
 
-      private function _vCal_parse_line(&$data, &$parameters, $v) {
-              $key=''; $keyData=''; $keyParam=array(); //Reset temp data
-              //Get us the key and parameters (and data)
-              list ($keyTmp, $keyData) = explode (":", $v, 2);
-              $keyTmp=explode(";", $keyTmp);
-              $key=$keyTmp[0];
-              unset($keyTmp[0]);
-              while (list ($kk, $vv) = each ($keyTmp)) {
-                    list ($kpName, $kpVal) = explode("=", $vv, 2);
-                    $kpVal=preg_replace("/^([\"']?)(.*?)(\\1?)$/", "\\2",  $kpVal); //Strip outmost quotes from value
-                    $keyParam[$kpName]=$this->vCal_decode($kpVal, array('CHARSET'=>'')); //We'll handle the charset issue later for parameters
-              }
+    private function _vCal_parse_line(&$data, &$parameters, $v)
+    {
+        $key = '';
+        $keyData = '';
+        $keyParam = array(); //Reset temp data
+        //Get us the key and parameters (and data)
+        list ($keyTmp, $keyData) = explode (":", $v, 2);
+        $keyTmp = explode(";", $keyTmp);
+        $key = $keyTmp[0];
+        unset($keyTmp[0]);
+        while (list ($kk, $vv) = each ($keyTmp))
+        {
+            list ($kpName, $kpVal) = explode("=", $vv, 2);
+            $kpVal = preg_replace("/^([\"']?)(.*?)(\\1?)$/", "\\2",  $kpVal); //Strip outmost quotes from value
+            $keyParam[$kpName] = $this->vCal_decode($kpVal, array('CHARSET'=>'')); //We'll handle the charset issue later for parameters
+        }
 
-              if (isset($data[$key])) { //Multiple instances of same key must be parsed as new values, we put them to array.
-                 if (!is_array($data[$key])) {
-                    $oldVal=$data[$key];
-                    $oldParam=$parameters[$key];
-                    $data[$key]=array(0 => $oldVal);
-                    $parameters[$key]=array(0 => $oldParam);
-                 }
-                 $data[$key][]=$this->vCal_decode($keyData, &$keyParam);
-                 $parameters[$key][]=$keyParam;
-              } else {
-                 $data[$key]=$this->vCal_decode($keyData, &$keyParam);
-                 $parameters[$key]=$keyParam;
-              }
+        if (isset($data[$key]))
+        { //Multiple instances of same key must be parsed as new values, we put them to array.
+            if (!is_array($data[$key]))
+            {
+                $oldVal = $data[$key];
+                $oldParam = $parameters[$key];
+                $data[$key] = array(0 => $oldVal);
+                $parameters[$key] = array(0 => $oldParam);
+            }
+            $data[$key][] = $this->vCal_decode($keyData, $keyParam);
+            $parameters[$key][] = $keyParam;
+        } 
+        else
+        {
+            $data[$key] = $this->vCal_decode($keyData, $keyParam);
+            $parameters[$key] = $keyParam;
+        }
 
         return true;
-      }
+    }
 
     /**
      * Whether to "fold" data or not
@@ -650,7 +707,7 @@ class org_openpsa_helpers_vxparser
             }
 
             // Encode the value properly
-            $v = $this->vx_encode($v, &$param[$k], $nl);
+            $v = $this->vx_encode($v, $param[$k], $nl);
 
             //Append extra parameters on fields
             $keyExtra='';

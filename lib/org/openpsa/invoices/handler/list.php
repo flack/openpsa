@@ -257,7 +257,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
 
             $billing_data_url = "create/" . $this->_customer->guid ."/";
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid' , '=' , $this->_customer->guid);
+            $qb_billing_data->add_constraint('linkGuid', '=', $this->_customer->guid);
             $billing_data = $qb_billing_data->execute();
             if (count($billing_data) > 0)
             {

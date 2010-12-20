@@ -127,7 +127,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function load_schemadb()
     {
-    	$schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_socialweb'));
+        $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_socialweb'));
         $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('net.nehmer.account.socialweb');
 
         foreach ($customdata as $component => $settings)
@@ -163,7 +163,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
     public function get_schema_name()
     {
-    	return 'socialweb';
+        return 'socialweb';
     }
 
     /**

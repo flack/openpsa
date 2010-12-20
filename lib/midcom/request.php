@@ -100,7 +100,10 @@ class midcom_urlparserfactory
         $last_parser = new midcom_url_nullparser;
         foreach ($this->config as $parser_class) {
             $parser = new $parser_class($urlstack, $parser);
-            if ($parser->end()) break;
+            if ($parser->end())
+            {
+                break;
+            }
             $last_parser = $parser;
         }
         return $parser->get_param_collector();
@@ -178,19 +181,23 @@ class midcom_url_paramcollector {
     /**
      * Sets the content topic fo the midcom.
      */
-    public function set_content_topic($topic) {
+    public function set_content_topic($topic)
+    {
         $this->content_topic = $topic;
     }
 
-    public function get_style() {
+    public function get_style()
+    {
         return $this->style;
     }
 
-    public function get_command() {
+    public function get_command()
+    {
         return $this->command;
     }
 
-    public function set_command($cmd) {
+    public function set_command($cmd)
+    {
         $this->command = $cmd;
     }
     /**
@@ -221,7 +228,8 @@ class midcom_url_paramcollector {
  *
  * @package midcom
  */
-abstract class midcom_url_parser {
+abstract class midcom_url_parser
+{
     /**
      * @var object midcom_url_paramcollector
      */
@@ -231,11 +239,13 @@ abstract class midcom_url_parser {
         $this->param_collector = $parser->param_collector;
     }
     protected $end = false;
-    public function end() {
+    public function end()
+    {
         return $this->end;
     }
 
-    public function get_param_collector() {
+    public function get_param_collector()
+    {
         if ($this->param_collector == null)
         {
             $this->param_collector= new midcom_url_paramcollector();
@@ -258,7 +268,8 @@ class midcom_url_nullparser  extends midcom_url_parser
  * @package midcom
  */
 class midcom_url_topicgetter {
-    public function get_topic($topic_name, $up) {
+    public function get_topic($topic_name, $up)
+    {
         // todo!
     }
 }
@@ -270,8 +281,9 @@ class midcom_url_topicgetter {
 class midcom_url_topic extends midcom_url_parser
 {
     public $topics = array();
-    public function __construct($urlstack, $parser) {
-        parent::__construct($urlstack,$parser);
+    public function __construct($urlstack, $parser)
+    {
+        parent::__construct($urlstack, $parser);
         $this->db = $db ? $db : new midcom_url_topicgetter();
         $topic = true;
         // continue while we got words and they mean something.
@@ -284,10 +296,12 @@ class midcom_url_topic extends midcom_url_parser
         $this->get_param_collector()->set_command($this->topics[-1]);
     }
 
-    public function check_next_word($word) {
+    public function check_next_word($word)
+    {
         $up = ($this->topics !== array()) ? $this->topics[-1] : 0;
         $topic = $this->db->get_topic($word, $up);
-        if (!$topic) {
+        if (!$topic)
+        {
             $this->end = true;
             return false;
         }
@@ -304,13 +318,16 @@ class midcom_url_topic extends midcom_url_parser
  */
 class midcom_url_midcom extends midcom_url_parser
 {
-    public function __construct($urlstack, $parser) {
-        if (substr($urlstack->get(), 0,7) == 'midcom-') {
+    public function __construct($urlstack, $parser) 
+    {
+        if (substr($urlstack->get(), 0, 7) == 'midcom-')
+        {
             $this->parse_variable($urlstack->get());
         }
     }
 
-    public function parse_variable($var) {
+    public function parse_variable($var)
+    {
         list ($midcom, $command, $info ) = explode('-', $var, 3);
         $this->get_param_collector()->add_config('url_info', $info);
         switch ( $command ){

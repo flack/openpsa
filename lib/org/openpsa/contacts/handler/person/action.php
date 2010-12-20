@@ -96,7 +96,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         {
             // User has tried to create account
             $plaintext = true;
-            if (array_key_exists('org_openpsa_contacts_person_account_encrypt' , $_POST))
+            if (array_key_exists('org_openpsa_contacts_person_account_encrypt', $_POST))
             {
                 $plaintext = false;
             }
@@ -260,7 +260,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         }
         else if ($_POST['org_openpsa_contacts_person_account_current_password'] != null || $_MIDCOM->auth->admin)
         {
-            $plaintext = (!array_key_exists('org_openpsa_contacts_person_account_encrypt' , $_POST));
+            $plaintext = (!array_key_exists('org_openpsa_contacts_person_account_encrypt', $_POST));
 
             $check_user = true;
             //check user auth if current user is not admin

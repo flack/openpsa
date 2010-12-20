@@ -76,7 +76,7 @@ $form_suffix =& $data['form_suffix'];
                     }
                     if (strlen($part) > 30)
                     {
-                        $part = "<span title='{$part}'>" . substr($part,0,12) . '...' . substr($part, -12) . '</span>';
+                        $part = "<span title='{$part}'>" . substr($part, 0, 12) . '...' . substr($part, -12) . '</span>';
                     }
                     $target_label_new .= $part . ' ';
                 }
@@ -99,7 +99,7 @@ $form_suffix =& $data['form_suffix'];
                 <td colspan=3>&nbsp;</td>
                 <td class="numeric"><?php echo $total; ?></td>
                 <td>&nbsp;</td>
-                <td class="numeric"><?php echo round(($total / ($report['receipt_data']['sent']-$report['receipt_data']['bounced']))*100,2); ?></td>
+                <td class="numeric"><?php echo round(($total / ($report['receipt_data']['sent'] - $report['receipt_data']['bounced'])) * 100, 2); ?></td>
             </tr>
     </table>
     <input type="submit" class="button create_campaign" value="<?php echo $l10n->get('create campaign from link'); ?>"/>

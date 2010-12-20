@@ -8,7 +8,7 @@ if (count($data['urlmethods']) > 0)
     $i = 0;
     foreach ($data['urlmethods'] as $file => $method_info)
     {
-        $id = basename($method_info['url'],".php");
+        $id = basename($method_info['url'], ".php");
         $title = $method_info['url'];
 ?>
 <fieldset id="handler_&(id);">

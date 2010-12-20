@@ -133,7 +133,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $_MIDCOM->enable_jquery();
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-        $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create' , 'midcom') . " " . $this->_l10n->get("billing data")));
+        $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create', 'midcom') . " " . $this->_l10n->get("billing data")));
 
         $this->_update_breadcrumb();
 
@@ -163,10 +163,10 @@ implements midcom_helper_datamanager2_interfaces_create
                 $relocate = $siteconfig->get_node_full_url('org.openpsa.contacts');
                 switch(true)
                 {
-                    case is_a($this->_linked_object , 'org_openpsa_contacts_person_dba'):
+                    case is_a($this->_linked_object, 'org_openpsa_contacts_person_dba'):
                         $relocate .= 'person/' . $this->_linked_object->guid . '/';
                         break;
-                    case is_a($this->_linked_object , 'org_openpsa_contacts_group_dba'):
+                    case is_a($this->_linked_object, 'org_openpsa_contacts_group_dba'):
                         $relocate .= 'group/' . $this->_linked_object->guid . '/';
                         break;
                     default:

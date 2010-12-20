@@ -68,7 +68,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
 
     public function get_schema_defaults()
     {
-    	return $this->hostconfig->config;
+        return $this->hostconfig->config;
     }
 
     /**

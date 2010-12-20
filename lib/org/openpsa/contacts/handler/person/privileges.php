@@ -48,11 +48,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         $fields =& $schemadb['default']->fields;
         $user_object = $_MIDCOM->auth->get_user($this->_person->guid);
 
-	    $person_object = $user_object->get_storage();
+        $person_object = $user_object->get_storage();
 
         // Get the calendar root event
         $root_event = org_openpsa_calendar_interface::find_root_event();
-        if ( is_object($root_event))
+        if (is_object($root_event))
         {
             $fields['calendar']['privilege_object'] = $root_event;
             $fields['calendar']['privilege_assignee'] = $user_object->id;

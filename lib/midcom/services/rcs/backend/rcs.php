@@ -194,7 +194,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     public function version_exists($version)
     {
         $history = $this->list_history();
-        return array_key_exists($version,$history);
+        return array_key_exists($version, $history);
     }
 
     /**
@@ -332,7 +332,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         // Entry metadata is in format
         // date: 2006/01/10 09:40:49;  author: www-data;  state: Exp;  lines: +2 -2
         // NOTE: Time here appears to be stored as UTC according to http://parand.com/docs/rcs.html
-        $metadata_array = explode(';',$entry[1]);
+        $metadata_array = explode(';', $entry[1]);
         foreach ($metadata_array as $metadata)
         {
             $metadata = trim($metadata);

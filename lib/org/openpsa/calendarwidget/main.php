@@ -249,7 +249,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
     {
         if ($timestamp)
         {
-            return mktime(0, 0, 0, $this->month, date('d',$timestamp) - strftime('%u', $timestamp) + 1, $this->year);
+            return mktime(0, 0, 0, $this->month, date('d', $timestamp) - strftime('%u', $timestamp) + 1, $this->year);
         }
         else if (!array_key_exists('week_start', $this->_timestamp_cache))
         {
@@ -271,7 +271,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
         }
         if (!array_key_exists('week_end', $this->_timestamp_cache))
         {
-            $this->_timestamp_cache['week_end'] = mktime(23, 59, 59, strftime('%m',$this->get_week_start()), strftime('%d',$this->get_week_start()) + 6, strftime('%Y',$this->get_week_start()));
+            $this->_timestamp_cache['week_end'] = mktime(23, 59, 59, strftime('%m', $this->get_week_start()), strftime('%d', $this->get_week_start()) + 6, strftime('%Y', $this->get_week_start()));
         }
         return $this->_timestamp_cache['week_end'];
     }
@@ -342,8 +342,8 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
             $slots[$slots_added] = 'before';
         }
 
-        $slot_start = mktime($this->start_hour, 0, 0, date('m',$current_day), date('d',$current_day), date('Y',$current_day));
-        $slot_end = mktime($this->end_hour, 59, 0, date('m',$current_day), date('d',$current_day), date('Y',$current_day));
+        $slot_start = mktime($this->start_hour, 0, 0, date('m', $current_day), date('d', $current_day), date('Y', $current_day));
+        $slot_end = mktime($this->end_hour, 59, 0, date('m', $current_day), date('d', $current_day), date('Y', $current_day));
 
         $current_time = $slot_start;
         while ($current_time <= $slot_end)
@@ -391,18 +391,18 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
         // Loop through the given time range
         while ($current_day <= $last_weekday)
         {
-            $next_day = mktime(0, 0, 0, date('m',$current_day), date('d',$current_day) + 1, date('Y',$current_day));
+            $next_day = mktime(0, 0, 0, date('m', $current_day), date('d', $current_day) + 1, date('Y', $current_day));
             if (    $current_day < $start
                  || $current_day > $end)
             {
-                if($current_day == $first_weekday)
+                if ($current_day == $first_weekday)
                 {
                     echo "<div class=\"week\" style=\"clear: left\">";
                 }
 
                 echo "<div class=\"day\" style=\"width: {$this->column_width}px; height: {$this->cell_height}px;\"></div>";
 
-                if($next_day == ($last_weekday + 1))
+                if ($next_day == ($last_weekday + 1))
                 {
                     echo "</div>";
                 }
@@ -423,7 +423,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
         // Loop through the given time range
         while ($current_day <= $end && $i)
         {
-            $next_day = mktime(0, 0, 0, date('m',$current_day), date('d',$current_day) + 1, date('Y',$current_day));
+            $next_day = mktime(0, 0, 0, date('m', $current_day), date('d', $current_day) + 1, date('Y', $current_day));
             $this->_show_day_verbose_horizontal($current_day, $next_day);
             $current_day = $next_day;
             $i--;

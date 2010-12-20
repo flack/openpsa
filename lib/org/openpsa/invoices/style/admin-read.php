@@ -66,7 +66,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     <p><strong><?php echo $data['l10n']->get('invoice date'); ?>: </strong>
     <?php echo strftime("%x", $invoice->date); ?></p>
 
-    <p><strong> <?php echo $_MIDCOM->i18n->get_string('description' , 'midcom');?>: </strong></p>
+    <p><strong><?php echo $_MIDCOM->i18n->get_string('description', 'midcom');?>: </strong></p>
     <pre class="description">
           &(view['description']);
     </pre>
@@ -79,7 +79,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         <thead>
         <tr>
         <th>
-        <?php echo $_MIDCOM->i18n->get_string('description' , 'midcom'); ?>
+        <?php echo $_MIDCOM->i18n->get_string('description', 'midcom'); ?>
         </th>
         <th class='numeric'>
         <?php echo $data['l10n']->get('price'); ?>

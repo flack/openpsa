@@ -991,8 +991,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
     {
         // non-existant context
         if (!array_key_exists($context, $this->context_guids))
+        {
             return;
-
+        }
         $this->_meta_cache->open(true);
         foreach ($this->context_guids[$context] as $guid)
         {

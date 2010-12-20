@@ -258,8 +258,8 @@ class net_nemein_wiki_moinmoin_importer
                         break;
                     // Double byte
                     case 4:
-                        $hex1 = substr($hex,0,2);
-                        $hex2 = substr($hex,2,2);
+                        $hex1 = substr($hex, 0, 2);
+                        $hex2 = substr($hex, 2, 2);
                         $title = str_replace($encoded_matches[0][$key], chr(hexdec($hex1)) . chr(hexdec($hex2)), $title);
                         break;
                 }
@@ -358,7 +358,7 @@ class net_nemein_wiki_moinmoin_importer
         // Make sure this is clean
         $this->add_object_parameters = array();
         // Make sure we have only unix newlines
-        $content = preg_replace("/\n\r|\r\n|\r/","\n", $content);
+        $content = preg_replace("/\n\r|\r\n|\r/", "\n", $content);
         // Store moinmoin ACLs
         if (preg_match('/^#acl\s+(.*)/', $content, $acl_matches))
         {

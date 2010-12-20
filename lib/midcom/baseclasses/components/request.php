@@ -600,7 +600,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         (
             'handlers', //file
             $this->_topic->component,        //component
-            $_MIDCOM->i18n->get_string('about current handler','midcom.admin.help'),  //label
+            $_MIDCOM->i18n->get_string('about current handler', 'midcom.admin.help'),  //label
             $this->_handler['id'],
             0
         );

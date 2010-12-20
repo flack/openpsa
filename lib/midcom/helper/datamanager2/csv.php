@@ -80,7 +80,7 @@ class midcom_helper_datamanager2_csv extends midcom_baseclasses_components_purec
         if (preg_match($pattern, $string) != 0)
         {
             // Quoted operation required: Escape quotes
-            return '"' . str_replace('"','""',$string) . '"';
+            return '"' . str_replace('"', '""', $string) . '"';
         }
         else
         {

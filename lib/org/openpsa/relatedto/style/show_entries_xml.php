@@ -26,8 +26,8 @@ foreach($data['entries'] as $entry)
         <cell><![CDATA[&(entry.title:h)]]></cell>
         <?php
         $link_html = "<![CDATA[";
-        $link_html .= "<a href='" . $data['url_prefix'] . "edit/" .$entry->guid ."/'>";
-        $link_html .= "<span >" .$entry->title . "</span></a>";
+        $link_html .= "<a href='" . $data['url_prefix'] . "edit/" . $entry->guid ."/'>";
+        $link_html .= "<span >" . $entry->title . "</span></a>";
         $link_html .= "]]>";
         echo "<cell>" . $link_html . "</cell>";
         ?>
@@ -40,7 +40,7 @@ foreach($data['entries'] as $entry)
         }
         else
         {
-            echo "<cell>" . date('d.m.Y' , $entry->followUp) . "</cell>";
+            echo "<cell>" . date('d.m.Y', $entry->followUp) . "</cell>";
         }
         if($data['show_object'])
         {

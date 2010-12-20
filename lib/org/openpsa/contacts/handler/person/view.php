@@ -156,11 +156,11 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         if (   $_MIDCOM->componentloader->is_installed('org.openpsa.invoices')
             && $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
-            $billing_data_url = "create/" . $this->_contact->guid ."/";
+            $billing_data_url = "create/" . $this->_contact->guid . "/";
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid' , '=' , $this->_contact->guid);
+            $qb_billing_data->add_constraint('linkGuid', '=', $this->_contact->guid);
             $billing_data = $qb_billing_data->execute();
-            if(count($billing_data) > 0)
+            if (count($billing_data) > 0)
             {
                 $billing_data_url = $billing_data[0]->guid . "/";
             }

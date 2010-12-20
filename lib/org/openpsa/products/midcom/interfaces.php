@@ -284,7 +284,7 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         $dms['product'] = new midcom_helper_datamanager2_datamanager($schemadb_product);
 
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
-        $topic_root_group_guid = $topic->get_parameter('org.openpsa.products','root_group');
+        $topic_root_group_guid = $topic->get_parameter('org.openpsa.products', 'root_group');
         if (!mgd_is_guid($topic_root_group_guid))
         {
             $qb->add_constraint('up', '=', 0);

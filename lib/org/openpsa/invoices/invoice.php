@@ -162,7 +162,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
         //delete invoice_items
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $qb->add_constraint('invoice' , '=' , $this->id);
+        $qb->add_constraint('invoice', '=', $this->id);
         $items = $qb->execute();
         foreach($items as $item)
         {
@@ -214,10 +214,10 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
         //get hour_reports for this invoice - mc ?
         $qb_hour_reports = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $qb_hour_reports->add_constraint('invoice' , '=' , $this->id);
+        $qb_hour_reports->add_constraint('invoice', '=', $this->id);
         if (!empty($tasks))
         {
-            $qb_hour_reports->add_constraint('task' , 'IN' , $tasks);
+            $qb_hour_reports->add_constraint('task', 'IN', $tasks);
             //if there is a task passed it must be calculated even
             //if it doesn't have associated hour_reports
             foreach ($tasks as $task_id)
@@ -245,7 +245,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         foreach ($result_tasks as $task_id => $hours)
         {
             //get deliverable for this task
-            $mc_task_agreement = new midgard_collector('org_openpsa_task' , 'id' , $task_id);
+            $mc_task_agreement = new midgard_collector('org_openpsa_task', 'id', $task_id);
             $mc_task_agreement->set_key_property('id');
             $mc_task_agreement->add_value_property('title');
             $mc_task_agreement->add_value_property('agreement');
@@ -302,7 +302,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     {
         $invoice_sum = 0;
         $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $qb->add_constraint('invoice' , '=' , $this->id);
+        $qb->add_constraint('invoice', '=', $this->id);
         $items = $qb->execute();
 
         foreach ($items as $item)
@@ -340,7 +340,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         {
             $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb->add_constraint('linkGuid' , '=' , $customer->guid);
+            $qb->add_constraint('linkGuid', '=', $customer->guid);
             $billing_data = $qb->execute();
             if(count($billing_data) > 0)
             {
@@ -355,7 +355,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         {
             $customerContact = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb->add_constraint('linkGuid' , '=' , $customerContact->guid);
+            $qb->add_constraint('linkGuid', '=', $customerContact->guid);
             $billing_data = $qb->execute();
             if(count($billing_data) > 0)
             {
@@ -369,7 +369,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         //set the default-values for vat&due from config
         $billing_data = new org_openpsa_invoices_billing_data_dba();
         $due = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('default_due_days');
-        $vat = explode(',' , midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
+        $vat = explode(',', midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('vat_percentages'));
 
         $billing_data->vat = $vat[0];
         $billing_data->due = $due;
@@ -378,15 +378,15 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Helper function to get invoice_item for the passed task id , if there is no item
+     * Helper function to get invoice_item for the passed task id, if there is no item
      * it will return a new created one
      */
     private function _probe_invoice_item_for_task($task_id)
     {
         //check if there is already an invoice_item for this task
         $qb_invoice_item = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $qb_invoice_item->add_constraint('invoice' , '=' , $this->id);
-        $qb_invoice_item->add_constraint('task' , '=' , $task_id);
+        $qb_invoice_item->add_constraint('invoice', '=', $this->id);
+        $qb_invoice_item->add_constraint('task', '=', $task_id);
 
         $invoice_items = $qb_invoice_item->execute();
         if (count($invoice_items) == 1)

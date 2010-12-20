@@ -640,7 +640,7 @@ class midcom_core_user
 
         if ($crypted)
         {
-            $salt = chr(rand(32,125)).chr(rand(32,125));
+            $salt = chr(rand(32, 125)) . chr(rand(32, 125));
             $password = crypt($new, $salt);
         }
         else
@@ -781,7 +781,7 @@ class midcom_core_user
         $person = $this->get_storage();
         if (! $person)
         {
-            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string, MIDCOM_LOG_INFO);
+            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
 
@@ -789,7 +789,7 @@ class midcom_core_user
 
         if (! $person->delete())
         {
-            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string, MIDCOM_LOG_INFO);
+            debug_add('Failed to delete the storage object, last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
             return false;
         }
 

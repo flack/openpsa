@@ -182,7 +182,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // FIXME: Remove hardcoded class prefixes
             $use_label = preg_replace('/(openpsa|database|positioning|notifications|statusmessage)_/', '', implode('_', $classname_parts));
 
-            $use_label = str_replace('_',' ',$use_label);
+            $use_label = str_replace('_', ' ', $use_label);
             $label = $component_l10n->get($use_label);
             if ($use_label == $label)
             {
@@ -241,7 +241,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // FIXME: Remove hardcoded class logic
         switch(true)
         {
-            case (method_exists($obj,'get_label_property')):
+            case (method_exists($obj, 'get_label_property')):
                 $property = $obj->get_label_property();
                 break;
             // TODO: Switch to use the get_name/title_property helpers below
@@ -451,7 +451,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         switch(true)
         {
             // object knows it's icon, how handy!
-            case (method_exists($obj,'get_icon')):
+            case (method_exists($obj, 'get_icon')):
                 $icon = $obj->get_icon();
                 break;
 

@@ -236,7 +236,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             debug_add("get from callback");
 
             $data = $this->_callback->get_data_for_key($key);
-            debug_print_r('got data from callback',$data);
+            debug_print_r('got data from callback', $data);
 
             return $data;
         }
@@ -311,7 +311,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 $all_tags[$name] = $name;
             }
 
-            debug_print_r('all_tags',$all_tags);
+            debug_print_r('all_tags', $all_tags);
 
             return $all_tags;
         }
@@ -334,7 +334,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
      */
     function convert_from_storage($source)
     {
-        debug_print_r("source",$source);
+        debug_print_r("source", $source);
 
         $this->selection = Array();
 
@@ -459,12 +459,12 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                     }
                 }
 
-                debug_print_r('new tags to be saved to n.n.tag',$tags);
+                debug_print_r('new tags to be saved to n.n.tag', $tags);
 
                 $status = net_nemein_tag_handler::tag_object($this->storage->object, $tags);
                 if (!$status)
                 {
-                    debug_print_r('Tried to save the tags',$tags);
+                    debug_print_r('Tried to save the tags', $tags);
                     debug_add("for field {$this->name}, but failed. Ignoring silently.", MIDCOM_LOG_WARN);
                 }
 
@@ -500,7 +500,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                     }
                 }
 
-                debug_print_r('new tags to be saved to callback',$tags);
+                debug_print_r('new tags to be saved to callback', $tags);
 
                 $this->_callback->save_values($tags);
                 return null;
@@ -546,7 +546,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
             {
                 if ($this->must_exist_also_in_callback)
                 {
-                    if ($this->key_exists($name,true))
+                    if ($this->key_exists($name, true))
                     {
                         $source[$name] = $name;
                     }
@@ -557,7 +557,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
                 }
             }
 
-            debug_print_r('source',$source);
+            debug_print_r('source', $source);
 
             return $source;
         }

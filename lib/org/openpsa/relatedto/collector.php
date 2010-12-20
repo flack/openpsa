@@ -84,11 +84,11 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
             $this->initialize();
             if (is_string($classes))
             {
-            	$this->add_constraint($this->_other_prefix . 'Class', '=', $classes);
+                $this->add_constraint($this->_other_prefix . 'Class', '=', $classes);
             }
             else
             {
-            	$this->add_constraint($this->_other_prefix . 'Class', 'IN', $classes);
+                $this->add_constraint($this->_other_prefix . 'Class', 'IN', $classes);
             }
         }
         else if (is_string($classes))
@@ -124,7 +124,7 @@ class org_openpsa_relatedto_collector extends midcom_core_collector
 
     private function _set_direction($dir)
     {
-    	$this->_direction = $dir;
+        $this->_direction = $dir;
         if ($dir == 'incoming')
         {
             $this->_object_prefix = 'to';

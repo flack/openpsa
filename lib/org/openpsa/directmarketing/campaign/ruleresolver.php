@@ -84,7 +84,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $_MIDCOM->componentloader->load_graceful('org.maemo.devcodes');
 
         // if querybuilder is used response-time will increase -> set_key_property hast to be removed
-        $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted' , false);
+        $this->_result_mc = org_openpsa_contacts_person_dba::new_collector('metadata.deleted', false);
         if ($rules)
         {
             return $this->resolve($rules);
@@ -149,10 +149,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $ret = array();
         foreach($results as $key => $value)
         {
-            $ret[$this->_result_mc->get_subkey($key , 'id')] = array(
-                'lastname' => $this->_result_mc->get_subkey($key , 'lastname'),
-                'firstname' => $this->_result_mc->get_subkey($key , 'firstname'),
-                'email' => $this->_result_mc->get_subkey($key , 'email'),
+            $ret[$this->_result_mc->get_subkey($key, 'id')] = array(
+                'lastname' => $this->_result_mc->get_subkey($key, 'lastname'),
+                'firstname' => $this->_result_mc->get_subkey($key, 'firstname'),
+                'email' => $this->_result_mc->get_subkey($key, 'email'),
                 'guid' => $key,
                 );
         }
@@ -209,7 +209,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 debug_add('group[rules] is not an array', MIDCOM_LOG_ERROR);
                 return false;
             }
-            $this->add_rules($group['rules'] , $group['class']);
+            $this->add_rules($group['rules'], $group['class']);
         }
 
         return true;
@@ -220,7 +220,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param array $rules array containing rules
      * @param string $class containing name of class for the rules
      */
-    function add_rules($rules , $class)
+    function add_rules($rules, $class)
     {
         debug_add("try to build rules for class: {$class}");
 
@@ -249,19 +249,19 @@ class org_openpsa_directmarketing_campaign_ruleresolver
 
                 case 'midgard_member':
                 case 'midgard_eventmember':
-                    $this->add_misc_rule($rule , $class , 'uid');
+                    $this->add_misc_rule($rule, $class, 'uid');
                     break;
 
                 case 'org_openpsa_campaign_member':
                 case 'org_openpsa_campaign_message_receipt':
                 case 'org_openpsa_link_log':
-                    $this->add_misc_rule($rule , $class , 'person');
+                    $this->add_misc_rule($rule, $class, 'person');
                     break;
                 case 'org_maemo_devcodes_application':
-                    $this->add_misc_rule($rule , $class , 'applicant');
+                    $this->add_misc_rule($rule, $class, 'applicant');
                     break;
                 case 'org_maemo_devcodes_code':
-                    $this->add_misc_rule($rule , $class , 'recipient');
+                    $this->add_misc_rule($rule, $class, 'recipient');
                     break;
 
                 default:
@@ -277,7 +277,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      */
     function add_person_rule($rule)
     {
-        $this->_result_mc->add_constraint($rule['property'] , $rule['match'] , $rule['value']);
+        $this->_result_mc->add_constraint($rule['property'], $rule['match'], $rule['value']);
     }
 
     /**
@@ -309,9 +309,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     break;
             }
         }
-        $mc_group = new midgard_collector('midgard_member', 'metadata.deleted' , false);
+        $mc_group = new midgard_collector('midgard_member', 'metadata.deleted', false);
         $mc_group->set_key_property('guid');
-        $mc_group->add_constraint("gid.{$rule['property']}" , $match , $rule['value']);
+        $mc_group->add_constraint("gid.{$rule['property']}", $match, $rule['value']);
         $mc_group->add_value_property('uid');
 
         $mc_group->execute();
@@ -319,10 +319,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         foreach( $keys as $key => $value)
         {
             // get user-id
-            $group_member[] = $mc_group->get_subkey($key , 'uid');
+            $group_member[] = $mc_group->get_subkey($key, 'uid');
         }
 
-        $this->_result_mc->add_constraint('id' , $constraint_match , $group_member);
+        $this->_result_mc->add_constraint('id', $constraint_match, $group_member);
     }
 
     /**
@@ -332,12 +332,12 @@ class org_openpsa_directmarketing_campaign_ruleresolver
     function add_parameter_rule($rules)
     {
         //get parents of wanted midgard_parameter
-        $mc_parameter = new midgard_collector('midgard_parameter' , 'metadata.deleted' , false);
+        $mc_parameter = new midgard_collector('midgard_parameter', 'metadata.deleted', false);
         $mc_parameter->set_key_property('id');
         $mc_parameter->add_value_property('parentguid');
         foreach($rules as $rule)
         {
-            $mc_parameter->add_constraint($rule['property'] , $rule['match'] , $rule['value']);
+            $mc_parameter->add_constraint($rule['property'], $rule['match'], $rule['value']);
         }
         $mc_parameter->execute();
         $parameter_keys = $mc_parameter->list_keys();
@@ -348,14 +348,14 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             //build constraint only if on 'LIKE' or '=' should be matched
             if($rule['match'] == 'LIKE' || $rule['match'] == '=')
             {
-                $this->_result_mc->add_constraint('id' , '=' , -1);
+                $this->_result_mc->add_constraint('id', '=', -1);
             }
             return false;
         }
         //iterate over found parameters & call needed rule-functions
         foreach($parameter_keys as $parameter_key => $value)
         {
-            $guid = $mc_parameter->get_subkey($parameter_key , 'parentguid');
+            $guid = $mc_parameter->get_subkey($parameter_key, 'parentguid');
             $parent = $_MIDCOM->dbfactory->get_object_by_guid($guid);
 
             switch (true)
@@ -363,25 +363,25 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                 case (   $_MIDCOM->dbfactory->is_a($parent, 'midgard_person')
                       || $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_contacts_person')
                       || $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_contacts_person_dba')):
-                    $person_rule = array('property' => 'id' , 'match' => '=' , 'value' => $parent->id);
+                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
                     $this->add_person_rule($person_rule);
                     break;
                 case ($_MIDCOM->dbfactory->is_a($parent, 'midgard_group')):
-                    $group_rule = array('property' => 'id' , 'match' => '=' , 'value' => $parent->id);
+                    $group_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->id);
                     $this->add_group_rule($group_rule);
                     break;
                 case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_campaign_member'):
                 case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_campaign_message_receipt'):
                 case $_MIDCOM->dbfactory->is_a($parent, 'org_openpsa_link_log'):
-                    $person_rule = array('property' => 'id' , 'match' => '=' , 'value' => $parent->person);
+                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->person);
                     $this->add_person_rule($person_rule);
                     break;
                 case $_MIDCOM->dbfactory->is_a($parent, 'org_maemo_devcodes_application'):
-                    $person_rule = array('property' => 'id' , 'match' => '=' , 'value' => $parent->applicant);
+                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->applicant);
                     $this->add_person_rule($person_rule);
                     break;
                 case $_MIDCOM->dbfactory->is_a($parent, 'org_maemo_devcodes_code'):
-                    $person_rule = array('property' => 'id' , 'match' => '=' , 'value' => $parent->recipient);
+                    $person_rule = array('property' => 'id', 'match' => '=', 'value' => $parent->recipient);
                     $this->add_person_rule($person_rule);
                     break;
 
@@ -399,7 +399,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
      * @param string $person_property contains the name of the property of the
      * passed class which links to the person
      */
-    function add_misc_rule($rule , $class , $person_property)
+    function add_misc_rule($rule, $class, $person_property)
     {
         $persons = array ( 0 => -1);
         $match = $rule['match'];
@@ -420,9 +420,9 @@ class org_openpsa_directmarketing_campaign_ruleresolver
                     break;
             }
         }
-        $mc_misc = new midgard_collector($class , 'metadata.deleted' , false);
+        $mc_misc = new midgard_collector($class, 'metadata.deleted', false);
         $mc_misc->set_key_property('id');
-        $mc_misc->add_constraint($rule['property'] , $match , $rule['value']);
+        $mc_misc->add_constraint($rule['property'], $match, $rule['value']);
         $mc_misc->add_value_property($person_property);
 
         $mc_misc->execute();
@@ -432,10 +432,10 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         foreach( $keys as $key => $value)
         {
             // get user-id
-            $persons[] = $mc_misc->get_subkey($key , $person_property);
+            $persons[] = $mc_misc->get_subkey($key, $person_property);
         }
 
-        $this->_result_mc->add_constraint('id' , $constraint_match , $persons);
+        $this->_result_mc->add_constraint('id', $constraint_match, $persons);
     }
 }
 ?>

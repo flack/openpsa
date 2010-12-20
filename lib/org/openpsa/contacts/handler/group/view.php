@@ -68,7 +68,7 @@ implements midcom_helper_datamanager2_interfaces_view
         if ($_MIDCOM->componentloader->is_installed('org.openpsa.invoices'))
         {
             $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-            $qb_billing_data->add_constraint('linkGuid' , '=' , $this->_group->guid);
+            $qb_billing_data->add_constraint('linkGuid', '=', $this->_group->guid);
             $billing_data = $qb_billing_data->execute();
             if (count($billing_data) > 0)
             {

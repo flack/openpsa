@@ -563,7 +563,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function get_schema_name()
     {
-    	return $this->_account_type;
+        return $this->_account_type;
     }
 
     /**
@@ -718,7 +718,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         // Create a random password
         for ($i = 0; $i < $length ; $i++)
         {
-            $password .= chr(rand(97,122));
+            $password .= chr(rand(97, 122));
         }
 
         // Generate activation hash by entering unique enough information
@@ -1002,7 +1002,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $auto_login = $this->_config->get('auto_login_on_activation');
         if ($auto_login)
         {
-            $password = str_replace("*","",$password);
+            $password = str_replace("*", "", $password);
             if ($_MIDCOM->auth->login("{$this->_person->username}", $password))
             {
                 $this->logged_in = true;

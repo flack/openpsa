@@ -238,7 +238,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             case $_MIDCOM->dbfactory->is_a($from_object, 'org_openpsa_calendar_event_dba'):
                 $event =& $from_object;
                 $hr->date = $event->start;
-                $hr->hours = round((($event->end - $event->start)/3600),2);
+                $hr->hours = round((($event->end - $event->start) / 3600), 2);
                 // TODO: Localize ? better indicator that this is indeed from event ??
                 $hr->description = "event: {$event->title} " . $event->format_timeframe() . ", {$event->location}\n";
                 $hr->description .= "\n{$event->description}\n";
@@ -358,17 +358,17 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         if ($tasks === false)
         {
             // Some error with QB
-            debug_add('QB Error / tasks', MIDCOM_task_ERROR);
+            debug_add('QB Error / tasks', MIDCOM_LOG_ERROR);
             return false;
         }
         foreach($tasks as $task)
         {
-            debug_add("Transferred task #{$task->id} to person #{$person1->id} (from #{$task->person})", MIDCOM_task_INFO);
+            debug_add("Transferred task #{$task->id} to person #{$person1->id} (from #{$task->person})", MIDCOM_LOG_INFO);
             $task->manager = $person1->id;
             if (!$task->update())
             {
                 // Error updating
-                debug_add("Failed to update task #{$task->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_task_ERROR);
+                debug_add("Failed to update task #{$task->id}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
                 return false;
             }
         }
@@ -447,7 +447,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
                 //get guid , topic_url of passed node
                 $nav = new midcom_helper_nav();
-                $object = $nav->resolve_guid($topic->guid , true);
+                $object = $nav->resolve_guid($topic->guid, true);
                 $index_datamanager->topic_guid = $topic->guid;
                 $index_datamanager->topic_url = $object[MIDCOM_NAV_FULLURL];
                 $index_datamanager->component = $object[MIDCOM_NAV_COMPONENT];

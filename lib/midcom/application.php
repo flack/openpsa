@@ -889,7 +889,7 @@ class midcom_application
                 debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
             }
 
-            $this->_set_context_data($path,MIDCOM_CONTEXT_COMPONENT);
+            $this->_set_context_data($path, MIDCOM_CONTEXT_COMPONENT);
 
             // Check whether the component can handle the request.
             // If so, execute it, if not, continue.
@@ -1382,9 +1382,12 @@ class midcom_application
      * @param int $contextid    The context to associated this data with (defaults to the current context)
      * @see get_custom_context_data()
      */
-    function set_custom_context_data ($key, &$value, $contextid = null) {
+    function set_custom_context_data ($key, &$value, $contextid = null)
+    {
         if (is_null($contextid))
+        {
             $contextid = $this->_currentcontext;
+        }
         $component = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
     }
@@ -1528,8 +1531,9 @@ class midcom_application
         $current_style = $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE];
 
         if (strlen($current_style) > 0)
+        {
             $newsub .= "/" . $current_style;
-
+        }
         debug_add("Updating Component Context Substyle from $current_style to $newsub");
 
         $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $newsub;
@@ -2154,9 +2158,12 @@ class midcom_application
     function add_object_head ($script, $attributes = null)
     {
         $output = "";
-        if (!is_null($attributes) ) foreach ($attributes as $key => $val)
+        if (!is_null($attributes))
         {
-            $output .= " $key=\"$val\" ";
+            foreach ($attributes as $key => $val)
+            {
+                $output .= " $key=\"$val\" ";
+            }
         }
         $this->_object_head .= '<object '. $output . ' >' . $script . "</object>\n";
     }
@@ -2171,9 +2178,12 @@ class midcom_application
     function add_meta_head($attributes = null)
     {
          $output = "";
-         if (!is_null($attributes) ) foreach ($attributes as $key => $val)
+         if (!is_null($attributes))
          {
-            $output .= " $key=\"$val\" ";
+             foreach ($attributes as $key => $val)
+             {
+                 $output .= " $key=\"$val\" ";
+             }
          }
          $this->_meta_head .= '<meta '. $output . ' />'."\n";
     }
@@ -2190,9 +2200,12 @@ class midcom_application
     function add_style_head($script, $attributes = null)
     {
         $output = "";
-        if (!is_null($attributes) ) foreach ($attributes as $key => $val)
+        if (!is_null($attributes))
         {
-            $output .= " $key=\"$val\" ";
+            foreach ($attributes as $key => $val)
+            {
+                $output .= " $key=\"$val\" ";
+            }
         }
         $this->_style_head .= '<style '. $output . ' type="text/css" ><!--' . $script . "--></style>\n";
     }
@@ -2474,7 +2487,7 @@ class midcom_application
 
         foreach ($this->_jquery_states as $status => $scripts)
         {
-            $status_parts = explode('.',$status);
+            $status_parts = explode('.', $status);
             $status_target = $status_parts[0];
             $status_method = $status_parts[1];
             echo "\njQuery({$status_target}).{$status_method}(function() {\n";

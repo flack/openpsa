@@ -93,19 +93,19 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 {
                     $root_topic = $current_topic;
                     $current_topic = $current_topic->get_parent();
-                    if($current_topic->get_parent())
+                    if ($current_topic->get_parent())
                     {
                         $this->_request_data['parent_directory'] = $current_topic;
-                        $parent_link = substr($prefix , 0 , strlen($prefix) - (strlen($root_topic->name) + 1));
+                        $parent_link = substr($prefix, 0, strlen($prefix) - (strlen($root_topic->name) + 1));
                     }
                     $this->_request_data['parent_up_link'] = $parent_link;
                 }
 
                 //show only documents of the right topic
-                $qb->add_constraint('topic' , '=' , $root_topic->id);
+                $qb->add_constraint('topic', '=', $root_topic->id);
 
                 //get needed directories
-                $this->_prepare_directories($root_topic , $current_component);
+                $this->_prepare_directories($root_topic, $current_component);
                 //set header & style for xml
                 $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
                 $_MIDCOM->skip_page_style = true;

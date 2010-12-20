@@ -183,7 +183,7 @@ class org_routamc_positioning_geocoder_geonames extends org_routamc_positioning_
             
             if (isset($simplexml->status))
             {
-                $constant_name = strtoupper(str_replace(" ", "_",$simplexml->status));
+                $constant_name = strtoupper(str_replace(" ", "_", $simplexml->status));
                 $this->error = $constant_name;
             }
             return null;

@@ -30,7 +30,7 @@ if (! isset($_REQUEST["query"]))
 }
 
 $query = $_REQUEST["query"];
-$query = str_replace("*","%", $query);
+$query = str_replace("*", "%", $query);
 $query = preg_replace('/%+/', '%', $query);
 
 $map = array
@@ -230,7 +230,7 @@ foreach ($results as $object)
             $object = new $linked_type($object->$reflector_key);
         }
 
-        debug_print_r('reflected object',$object);
+        debug_print_r('reflected object', $object);
     }
 
     $id = @$object->id;
@@ -322,7 +322,7 @@ foreach ($results as $object)
 echo "    </results>\n";
 echo "</response>\n";
 
-debug_print_r('Got results',$results);
+debug_print_r('Got results', $results);
 
 $_MIDCOM->finish();
 ?>

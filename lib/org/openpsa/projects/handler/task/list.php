@@ -321,7 +321,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             (
                 "priority"
             );
-            $priority_filter = new org_openpsa_core_filter($filters, $qb , '<=' ,$this->_request_data['priority_array']);
+            $priority_filter = new org_openpsa_core_filter($filters, $qb, '<=', $this->_request_data['priority_array']);
             $this->_request_data["filter_priority"] = $priority_filter->list_filter("priority");
         }
 
@@ -444,7 +444,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         (
             "priority"
         );
-        $priority_filter = new org_openpsa_core_filter($filters, $qb , '<=' ,$this->_request_data['priority_array']);
+        $priority_filter = new org_openpsa_core_filter($filters, $qb, '<=', $this->_request_data['priority_array']);
         $this->_request_data["filter_priority"] = $priority_filter->list_filter("priority");
 
         $this->_request_data['table-heading'] = $args[1] . ' tasks';
@@ -608,7 +608,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
     private function _get_priorities()
     {
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_task'));
-        if(array_key_exists('priority' , $schemadb['default']->fields))
+        if (array_key_exists('priority', $schemadb['default']->fields))
         {
             $this->_request_data['priority_array'] = $schemadb['default']->fields['priority']['type_config']['options'];
             $this->_request_data['priority_array'][0] = $this->_l10n->get("none");
@@ -680,8 +680,8 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                     'approved_hours' => $task->approvedHours,
                     'reported_hours' => $task->reportedHours,
                     'icon_url' => MIDCOM_STATIC_URL . "/stock-icons/16x16/" . $task->get_icon(),
-                    'start' => date("d.m.Y" , $task->start),
-                    'end' => date("d.m.Y" , $task->end),
+                    'start' => date("d.m.Y", $task->start),
+                    'end' => date("d.m.Y", $task->end),
                 );
             }
             $task_type++;

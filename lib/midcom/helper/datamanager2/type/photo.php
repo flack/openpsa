@@ -279,7 +279,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
                 break;
             default:
                 $ret = "";
-	        if (sizeof($this->attachments_info) > 0)
+                if (sizeof($this->attachments_info) > 0)
                 {
                     // Could not figure out what to do, listing all files we have...
                     $ret .= "\n" . $this->_l10n->get('could not figure out which image to show, listing files') . "\n<ul>\n";

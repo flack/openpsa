@@ -57,12 +57,12 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function load_schemadb()
     {
-    	return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_link'));
+        return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_link'));
     }
 
     public function get_schema_defaults()
     {
-    	$defaults = array();
+        $defaults = array();
         if (isset($_GET['article']))
         {
             $defaults['article'] = $_GET['article'];

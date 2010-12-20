@@ -374,7 +374,7 @@ class midcom_core_collector
         // Add check against null values, Core MC is too stupid to get this right.
         if ($value === null)
         {
-            debug_add("Collector: Cannot add constraint on field '{$field}' with null value.",MIDCOM_LOG_WARN);
+            debug_add("Collector: Cannot add constraint on field '{$field}' with null value.", MIDCOM_LOG_WARN);
             return false;
         }
 

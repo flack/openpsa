@@ -344,7 +344,8 @@ class midcom_helper_imagefilter
      * @param array $args      The arguments passed to the callback
      * @return The return code of the callback.
      */
-    function execute_user_callback($command, $args) {
+    function execute_user_callback($command, $args)
+    {
         if (! function_exists($command))
         {
             debug_add("The function {$command} could not be found, aborting", MIDCOM_LOG_ERROR);

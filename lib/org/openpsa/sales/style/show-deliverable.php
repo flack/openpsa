@@ -52,7 +52,7 @@ $status = $data['deliverable']->get_status();
                     ?>
                     <tr>
                         <th><?php echo $data['l10n']->get('notify date'); ?></th>
-                        <td><?php echo date('d.m.Y' , $data['deliverable']->notify); ?></td>
+                        <td><?php echo date('d.m.Y', $data['deliverable']->notify); ?></td>
                     </tr>
                     <?php
                 }

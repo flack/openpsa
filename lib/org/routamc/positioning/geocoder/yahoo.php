@@ -235,7 +235,7 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
             
             if (isset($simplexml->status))
             {
-                $constant_name = strtoupper(str_replace(" ", "_",$simplexml->status));
+                $constant_name = strtoupper(str_replace(" ", "_", $simplexml->status));
                 $this->error = $constant_name;
             }
             return null;

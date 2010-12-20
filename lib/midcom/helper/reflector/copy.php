@@ -300,7 +300,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
     public function copy_tree(&$source, &$parent)
     {
         // Copy the root object
-        $root = $this->copy_object(&$source, &$parent);
+        $root = $this->copy_object($source, $parent);
 
         if (   !$root
             || !$root->guid)
@@ -345,11 +345,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      * Copy an object
      *
      * @param mixed &$source     MgdSchema object for reading the parameters
-     * @param mixed $parent      MgdSchema parent object
+     * @param mixed &$parent      MgdSchema parent object
      * @param array $defaults
      * @return boolean Indicating success
      */
-    public function copy_object(&$source, $parent = null, $defaults = array())
+    public function copy_object(&$source, &$parent = null, $defaults = array())
     {
         // Resolve the source object
         self::resolve_object($source);
@@ -358,7 +358,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         $class_name = get_class($source);
         $target = new $class_name();
 
-        $properties = $this->get_object_properties(&$source);
+        $properties = $this->get_object_properties($source);
 
         // Copy the object properties
         foreach ($properties as $property)
@@ -396,7 +396,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         // Copy the link to parent
         if ($parent)
         {
-            self::resolve_object(&$parent);
+            self::resolve_object($parent);
 
             if (   !$parent
                 || !$parent->guid)
@@ -486,7 +486,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         unset($name_property);
 
         // Copy parameters
-        if (   !$this->copy_parameters(&$source, &$target)
+        if (   !$this->copy_parameters($source, $target)
             && $this->halt_on_errors)
         {
             $this->errors[] = $this->_l10n->get('failed to copy parameters');
@@ -494,7 +494,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Copy metadata
-        if (   !$this->copy_metadata(&$source, &$target)
+        if (   !$this->copy_metadata($source, $target)
             && $this->halt_on_errors)
         {
             $this->errors[] = $this->_l10n->get('failed to copy metadata');
@@ -502,7 +502,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Copy attachments
-        if (   !$this->copy_attachments(&$source, &$target)
+        if (   !$this->copy_attachments($source, $target)
             && $this->halt_on_errors)
         {
             $this->errors[] = $this->_l10n->get('failed to copy attachments');
@@ -510,7 +510,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Copy privileges
-        if (   !$this->copy_privileges(&$source, &$target)
+        if (   !$this->copy_privileges($source, $target)
             && $this->halt_on_errors)
         {
             $this->errors[] = $this->_l10n->get('failed to copy privileges');
@@ -597,7 +597,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
 
         foreach ($source->list_attachments() as $attachment)
         {
-            $this->copy_object(&$attachment, &$target, $defaults);
+            $this->copy_object($attachment, $target, $defaults);
         }
 
         return true;
@@ -699,7 +699,7 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
      */
     public function execute()
     {
-        if (!$this->resolve_object(&$this->source))
+        if (!$this->resolve_object($this->source))
         {
             $this->errors[] = $this->_l10n->get('failed to get the source object');
             return false;
@@ -711,11 +711,11 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
             ini_set('max_execution_time', -1);
             ini_set('memory_limit', -1);
 
-            $this->new_root_object = $this->copy_tree(&$this->source, &$this->target);
+            $this->new_root_object = $this->copy_tree($this->source, $this->target);
         }
         else
         {
-            $this->new_root_object = $this->copy_object(&$this->source, &$this->target);
+            $this->new_root_object = $this->copy_object($this->source, $this->target);
         }
 
         if (   !$this->new_root_object

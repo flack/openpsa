@@ -440,7 +440,7 @@ class midcom_helper_reflector_nameresolver
             if ($d < 1)
             {
                 // Decrementer undeflowed
-                debug_add("Maximum number of tries exceeded, current name was: " . $this->_object->{$name_prop} , MIDCOM_LOG_ERROR);
+                debug_add("Maximum number of tries exceeded, current name was: " . $this->_object->{$name_prop}, MIDCOM_LOG_ERROR);
                 $this->_object->{$name_prop} = $original_name;
                 unset($i, $d, $name_prop, $original_name, $base_name);
                 return false;

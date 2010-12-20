@@ -35,7 +35,7 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
     {
         $_MIDCOM->auth->request_sudo();
         $qb_billing_data = org_openpsa_invoices_billing_data_dba::new_query_builder();
-        $qb_billing_data->add_constraint('linkGuid' , '=' , $object->guid);
+        $qb_billing_data->add_constraint('linkGuid', '=', $object->guid);
         $result = $qb_billing_data->execute();
         if (count($result) > 0 )
         {
@@ -82,9 +82,9 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
                 //create index_datamanger from datamanger
                 $index_datamanager = new midcom_services_indexer_document_datamanager2($datamanager);
 
-                //get guid , topic_url of passed node
+                //get guid, topic_url of passed node
                 $nav = new midcom_helper_nav();
-                $object = $nav->resolve_guid($topic->guid , true);
+                $object = $nav->resolve_guid($topic->guid, true);
                 $index_datamanager->topic_guid = $topic->guid;
                 $index_datamanager->topic_url = $object[MIDCOM_NAV_FULLURL];
                 $index_datamanager->component = $object[MIDCOM_NAV_COMPONENT];

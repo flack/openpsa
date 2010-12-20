@@ -99,7 +99,7 @@ class midcom_helper_datamanager2_type_password extends midcom_helper_datamanager
         if ($this->crypted)
         {
             // Enforce crypt mode
-            $salt = chr(rand(64,126)) . chr(rand(64,126));
+            $salt = chr(rand(64, 126)) . chr(rand(64, 126));
             $this->_real_value = crypt($this->value, $salt);
         }
         else
