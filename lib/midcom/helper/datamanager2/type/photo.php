@@ -311,11 +311,6 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         return $return;
     }
 
-    function convert_to_storage()
-    {
-        return parent::convert_to_storage();
-    }
-
     /**
      * Applies a given filter to all (except original) images in the type
      *

@@ -23,19 +23,6 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
     var $_exitcode = null;
 
     /**
-     * Initializes the Form manager with a list of types for a given schema.
-     *
-     * @param midcom_helper_datamanager2_schema &$schema The schema to use for processing. This
-     *     variable is taken by reference.
-     * @param Array &$types A list of types matching the passed schema, used as a basis for the
-     *     form types. This variable is taken by reference.
-     */
-    public function __construct(&$schema, &$types, $state = 'edit')
-    {
-        parent::__construct($schema, $types, $state);
-    }
-
-    /**
      * This function will create all widget objects for the current schema. It will load class
      * files where necessary (using require_once), and then create a set of instances
      * based on the schema.
@@ -47,28 +34,6 @@ class midcom_helper_datamanager2_formmanager_ajax extends midcom_helper_datamana
     function _load_widget($name)
     {
         return parent::_load_widget($name, true);
-    }
-
-    /**
-     * ...
-     *
-     * @param mixed $name The name of the form. This defaults to the name of the currently active component, which should
-     *     suffice in most cases.
-     * @return boolean Indicating success.
-     */
-    function initialize($name = null)
-    {
-        /* The idea:
-         *
-         * First, we construct the regular foorm, to allow for a call to process_form.
-         * In process_form, we then process the page switch. There we will have to
-         * reconstruct the formn with the new page elements, along with all hidden
-         * values. The trick here is to rebuild the form with all unseen fields added
-         * as hidden elements in a way so that the reconstructed form can create
-         * its widgets directly from it.
-         */
-
-        return parent::initialize($name);
     }
 
     /**

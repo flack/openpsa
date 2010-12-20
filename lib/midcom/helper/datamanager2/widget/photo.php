@@ -13,11 +13,6 @@
  */
 class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2_widget_image
 {
-    public function __construct(&$renderer)
-    {
-        parent::__construct($renderer);
-    }
-
     /**
      * The on_submit event handles all file uploads immediately. They are passed through
      * the type at that point.
