@@ -14,18 +14,6 @@
 class org_openpsa_contacts_handler_group_action extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_edit
 {
-    private function _load($identifier)
-    {
-        $group = new org_openpsa_contacts_group_dba($identifier);
-
-        if (!$group)
-        {
-            return false;
-        }
-
-        return $group;
-    }
-
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_notifications'));
@@ -41,12 +29,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
-        $group = $this->_load($args[0]);
-        if (!$group)
-        {
-            return false;
-        }
-
+        $group = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
         $group->require_do('midgard:update');
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
@@ -89,11 +72,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
-        $this->_request_data['group'] = $this->_load($args[0]);
-        if (!$this->_request_data['group'])
-        {
-            return false;
-        }
+        $this->_request_data['group'] = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
 
         // Check if the action is a valid one
         $this->_request_data['action'] = $args[1];
@@ -109,7 +88,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                     foreach ($_POST['member_title'] as $id => $title)
                     {
                         $member = new midcom_db_member($id);
-                        if ($member)
+                        if ($member->guid)
                         {
                             $_MIDCOM->auth->require_do('midgard:update', $member);
                             $member->extra = $title;

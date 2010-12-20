@@ -222,6 +222,16 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
         return array();
     }
 
+    /**
+     * Helper to load objects from handlers.
+     *
+     * If loading fails for whatever reason, it tries to throw the appropriate error
+     *
+     * Be advised that this is a preliminary implementation and may be subject to change
+     *
+     * @param string $classname The object's DBA class
+     * @param mixed $identifier GUID or ID
+     */
     public function load_object($classname, $identifier)
     {
         $object = new $classname($identifier);

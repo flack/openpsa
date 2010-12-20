@@ -78,17 +78,8 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      */
     public function _handler_view($handler_id, $args, &$data)
     {
-        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
-        if (!$this->_deliverable)
-        {
-            return false;
-        }
-
-        $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
-        if (!$this->_salesproject)
-        {
-            return false;
-        }
+        $this->_deliverable = $this->load_object('org_openpsa_sales_salesproject_deliverable_dba', $args[0]);
+        $this->_salesproject = $this->load_object('org_openpsa_sales_salesproject_dba', $this->_deliverable->salesproject);
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 

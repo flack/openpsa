@@ -416,16 +416,9 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     public function _handler_pdf($handler_id, $args, &$data)
     {
         $this->_load_pdf_creator();
-        try
-        {
-            $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
-            $this->_request_data['invoice_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "/invoice/" . $this->_object->guid . "/";
-        }
-        catch (Exception $e)
-        {
-            debug_print_r('Tried to get invoice with following GUID:', $args[0]);
-            throw new midcom_error("Invoice with GUID: " . $args[0] . " does not exist . Error: " . midcom_connection::get_error_string());
-        }
+        $this->_object = $this->load_object('org_openpsa_invoices_invoice_dba', $args[0]);
+        $this->_request_data['invoice_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "/invoice/" . $this->_object->guid . "/";
+
         //check for manual uploaded pdf-file & if user wants to replace it
         $this->update_attachment = true;
         if (array_key_exists('cancel', $_POST))

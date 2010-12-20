@@ -878,11 +878,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $guid = $args[0];
         $hash = $args[1];
 
-        $this->_person = new midcom_db_person($guid);
-        if (!$this->_person)
-        {
-            throw new midcom_error_notfound('Invalid activation link, the person record was not found.');
-        }
+        $this->_person = $this->load_object('midcom_db_person', $guid);
 
         // Check if the user account needs to be approved first
         if (   $this->_config->get('require_activation')

@@ -192,11 +192,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_article = new midcom_db_article($args[0]);
-        if (!$this->_article->guid)
-        {
-            throw new midcom_error_notfound("The article {$args[0]} was not found.");
-        }
+        $this->_article = $this->load_object('midcom_db_article', $args[0]);
 
         // Relocate for the correct content topic, let the true content topic take care of the ACL
         if ($this->_article->topic !== $this->_content_topic->id)
@@ -269,12 +265,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      */
     public function _handler_deletelink($handler_id, $args, &$data)
     {
-        $this->_article = new midcom_db_article($args[0]);
-
-        if (!$this->_article->guid)
-        {
-            throw new midcom_error_notfound("The article {$args[0]} was not found.");
-        }
+        $this->_article = $this->load_object('midcom_db_article', $args[0]);
 
         $qb = net_nehmer_static_link_dba::new_query_builder();
         $qb->add_constraint('topic', '=', $this->_content_topic->id);
@@ -375,11 +366,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_article = new midcom_db_article($args[0]);
-        if (!$this->_article->guid)
-        {
-            throw new midcom_error_notfound("The article {$args[0]} was not found.");
-        }
+        $this->_article = $this->load_object('midcom_db_article', $args[0]);
 
         // Relocate to delete the link instead of the article itself
         if ($this->_article->topic !== $this->_content_topic->id)

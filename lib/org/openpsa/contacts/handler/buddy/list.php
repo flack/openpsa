@@ -24,11 +24,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         $user =& $_MIDCOM->auth->user->get_storage();
         $user->require_do('midgard:create');
 
-        $target = new org_openpsa_contacts_person_dba($args[0]);
-        if (!$target)
-        {
-            return false;
-        }
+        $target = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
 
         // Check we're not buddies already
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
@@ -65,13 +61,9 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         $user =& $_MIDCOM->auth->user->get_storage();
         $user->require_do('midgard:create');
 
-        $target = new org_openpsa_contacts_person_dba($args[0]);
-        if (!$target)
-        {
-            return false;
-        }
+        $target = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
 
-        // Check we're not buddies already
+        // Check we're buddies already
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
         $qb->add_constraint('account', '=', $user->guid);
         $qb->add_constraint('buddy', '=', $target->guid);
@@ -128,8 +120,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         foreach ($buddies as $buddy)
         {
             $person = new org_openpsa_contacts_person_dba($buddy->buddy);
-            if (   $person
-                && $person->guid)
+            if ($person->guid)
             {
                 $this->_request_data['buddylist'][] = $person;
             }

@@ -102,13 +102,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      */
     public function _handler_delete_report($handler_id, $args, &$data)
     {
-        $report = new org_openpsa_reports_query_dba($args[0]);
-        if ( !$report->guid)
-        {
-            debug_add('Report ' . $args[0] . ' could not be found, aborting');
-            return false;
-        }
-
+        $report = $this->load_object('org_openpsa_reports_query_dba', $args[0]);
         $report->delete();
         $_MIDCOM->relocate();
 

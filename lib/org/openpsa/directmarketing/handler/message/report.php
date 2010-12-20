@@ -359,13 +359,9 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     public function _handler_report($handler_id, $args, &$data)
     {
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (!$this->_message->guid)
-        {
-            throw new midcom_error_notfound("The message {$args[0]} was not found.");
-        }
-
+        $this->_message = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
         $data['message'] =& $this->_message;
+
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
         $data['message_array'] = $this->_datamanager->get_content_raw();

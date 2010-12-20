@@ -82,11 +82,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_group = new midcom_db_group($args[0]);
-        if (!$this->_group->guid)
-        {
-            return false;
-        }
+        $this->_group = $this->load_object('midcom_db_group', $args[0]);
         $this->_group->require_do('midgard:update');
 
         $controller = $this->get_controller('simple', $this->_group);

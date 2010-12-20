@@ -25,12 +25,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
         {
-            $this->_request_data['person'] = new midcom_db_person($args[0]);
-            if (!$this->_request_data['person']->guid)
-            {
-                debug_add("Person record '{$args[0]}' not found");
-                return false;
-            }
+            $this->_request_data['person'] = $this->load_object('midcom_db_person', $args[0]);
 
             if (array_key_exists('add_to_campaign', $_POST))
             {
@@ -200,13 +195,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         $_MIDCOM->auth->request_sudo();
 
-        $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
-        if (!$this->_request_data['membership']->guid)
-        {
-            throw new midcom_error_notfound("Membership record '{$args[0]}' not found");
-        }
-
-        $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_request_data['membership']->campaign);
+        $data['membership'] = $this->load_object('org_openpsa_directmarketing_campaign_member_dba', $args[0]);
+        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['membership']->campaign);
         if ($this->_request_data['campaign']->node != $this->_topic->id)
         {
             throw new midcom_error_notfound("Campaign for member '{$args[0]}' not found");
@@ -255,11 +245,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             throw new midcom_error_notfound("Missing member ID.");
         }
         $_MIDCOM->auth->request_sudo();
-        $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
-        if (!$this->_request_data['membership']->guid)
-        {
-            throw new midcom_error_notfound("Membership record '{$args[0]}' not found");
-        }
+        $this->_request_data['membership'] = $this->load_object('org_openpsa_directmarketing_campaign_member_dba', $args[0]);
         $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_request_data['membership']->campaign);
         if ($this->_request_data['campaign']->node != $this->_topic->id)
         {
@@ -305,12 +291,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             throw new midcom_error_notfound("Missing member ID.");
         }
         $_MIDCOM->auth->request_sudo();
-        $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
+        $this->_request_data['person'] = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
 
-        if (!$this->_request_data['person']->id)
-        {
-            throw new midcom_error_notfound("Membership record '{$args[0]}' not found");
-        }
         if ($handler_id === 'subscriber_unsubscribe_all_future')
         {
             $deny_type = strtolower($args[1]);

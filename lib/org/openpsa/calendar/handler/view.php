@@ -450,17 +450,6 @@ function openPsaShowMonthSelector()
         }
     }
 
-    private function _load_event($guid)
-    {
-        $event = new org_openpsa_calendar_event_dba($guid);
-        if (   !is_object($event)
-            || $event->guid == "")
-        {
-            return false;
-        }
-        return $event;
-    }
-
     /**
      * Month view
      *
@@ -785,7 +774,7 @@ function openPsaShowMonthSelector()
         $_MIDCOM->skip_page_style = true;
 
         // Get the requested event object
-        $this->_request_data['event'] = $this->_load_event($args[0]);
+        $this->_request_data['event'] = $this->load_object('org_openpsa_calendar_event_dba', $args[0]);
         if (!$this->_request_data['event'])
         {
             return false;

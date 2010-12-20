@@ -113,11 +113,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
         else
         {
-            $parent = new org_openpsa_products_product_group_dba($this->_request_data['up']);
-            if (!$parent)
-            {
-                return false;
-            }
+            $parent = $this->load_object('org_openpsa_products_product_group_dba', $data['up']);
             $parent->require_do('midgard:create');
             $data['parent'] = $parent;
         }

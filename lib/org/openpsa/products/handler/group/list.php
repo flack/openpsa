@@ -279,7 +279,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                         if (count($productlinks) != 0)
                         {
                             $product = new org_openpsa_products_product_dba($productlinks[0]->product);
-                            if ($product)
+                            if ($product->guid)
                             {
                                 $relocate_url = $prefix . "product/{$product->code}/";
                             }

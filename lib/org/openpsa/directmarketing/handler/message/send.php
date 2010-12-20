@@ -33,21 +33,13 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $_MIDCOM->auth->request_sudo();
 
         //Load message
-        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (!$data['message']->guid)
-        {
-            throw new midcom_error_notfound("The message {$args[0]} was not found.");
-        }
+        $data['message'] = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
         // TODO: Check that campaign is in this topic
 
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
         $data['message_obj'] =& $data['message'];
 
-        if (!$data['message'])
-        {
-            return false;
-        }
         //Check other paramerers
         if (   !isset($args[1])
             || !is_numeric($args[1]))
@@ -61,12 +53,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             debug_add('Job GUID missing', MIDCOM_LOG_ERROR);
             return false;
         }
-        $job = new midcom_services_at_entry_dba($args[2]);
-        if (!$_MIDCOM->dbfactory->is_a($job, 'midcom_services_at_entry_db'))
-        {
-            debug_add('Invalid job GUID', MIDCOM_LOG_ERROR);
-            return false;
-        }
+        $job = $this->load_object('midcom_services_at_entry_dba', $args[2]);
 
         $data['message_array'] = $this->_datamanager->get_content_raw();
         $data['message_array']['dm_types'] =& $this->_datamanager->types;
@@ -196,12 +183,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         $_MIDCOM->auth->require_valid_user();
         //Load message
-        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (!$data['message']->guid)
-        {
-            throw new midcom_error_notfound("The message {$args[0]} was not found.");
-        }
-
+        $data['message'] = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
         $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['message']->campaign);
         if ($data['campaign']->node != $this->_topic->id)
         {

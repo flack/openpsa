@@ -49,23 +49,9 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
-        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
-        if (!$this->_deliverable)
-        {
-            return false;
-        }
-
-        $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
-        if (!$this->_salesproject)
-        {
-            return false;
-        }
-
-        $this->_product = new org_openpsa_products_product_dba($this->_deliverable->product);
-        if (!$this->_product)
-        {
-            return false;
-        }
+        $this->_deliverable = $this->load_object('org_openpsa_sales_salesproject_deliverable_dba', $args[0]);
+        $this->_salesproject = $this->load_object('org_openpsa_sales_salesproject_dba', $this->_deliverable->salesproject);
+        $this->_product = $this->load_object('org_openpsa_products_product_dba', $this->_deliverable->product);
 
         // Check what status change user requested
         if (array_key_exists('mark_proposed', $_POST))

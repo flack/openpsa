@@ -46,7 +46,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     public function _handler_edit($handler_id, $args, &$data)
     {
         // Get the event
-        $this->_event = new org_openpsa_calendar_event_dba($args[0]);
+        $this->_event = $this->load_object('org_openpsa_calendar_event_dba', $args[0]);
 
         $this->_event->require_do('midgard:update');
 
@@ -106,7 +106,7 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
     public function _handler_delete($handler_id, $args, &$data)
     {
         // Get the event
-        $this->_event = new org_openpsa_calendar_event_dba($args[0]);
+        $this->_event = $this->load_object('org_openpsa_calendar_event_dba', $args[0]);
 
         $this->_event->require_do('midgard:delete');
         $this->_request_data['delete_succeeded'] = false;

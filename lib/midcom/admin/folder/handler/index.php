@@ -15,7 +15,7 @@
  * @see midcom_baseclasses_components_handler
  * @package midcom.admin.folder
  */
-class midcom_admin_folder_handler_index  extends midcom_baseclasses_components_handler
+class midcom_admin_folder_handler_index extends midcom_baseclasses_components_handler
 {
     /**
      * The handler for the index article.

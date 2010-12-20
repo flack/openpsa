@@ -22,7 +22,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
     public function _handler_goto($handler_id, $args, &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        if(!isset($_GET['query']))
+        if (!isset($_GET['query']))
         {
             $MessageContent = sprintf
             (

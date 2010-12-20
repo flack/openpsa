@@ -21,21 +21,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_person = null;
 
-    private function _load_person($identifier)
-    {
-        $person = new org_openpsa_contacts_person_dba($identifier);
-
-        if (!is_object($person))
-        {
-            debug_add("Person object {$identifier} is not an object");
-            return false;
-        }
-
-        $_MIDCOM->set_pagetitle("{$person->firstname} {$person->lastname}");
-
-        return $person;
-    }
-
     /**
      * Loads and prepares the schema database.
      *
@@ -112,15 +97,8 @@ implements midcom_helper_datamanager2_interfaces_edit
         $_MIDCOM->auth->require_valid_user();
 
         // Check if we get the person
-        $this->_person = $this->_load_person($args[0]);
-        if (!$this->_person)
-        {
-            debug_add("Person loading failed");
-            return false;
-        }
-
+        $this->_person = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
         $_MIDCOM->auth->require_do('midgard:privileges', $this->_person);
-
         $this->_request_data['person'] =& $this->_person;
 
         $data['acl_dm'] = $this->get_controller('simple', $this->_person);
@@ -138,6 +116,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // This will exit()
         }
 
+        $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("person/{$this->_person->guid}/", $this->_person->name);

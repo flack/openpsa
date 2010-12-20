@@ -160,20 +160,10 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (!$this->_message->guid)
-        {
-            throw new midcom_error_notfound("The message {$args[0]} was not found.");
-        }
-
+        $this->_message = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
         $this->_message->require_do('midgard:update');
 
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-        if ($data['campaign']->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$this->_message->campaign} was not found.");
-        }
-
+        $data['campaign'] = $this->load_object('org_openpsa_directmarketing_campaign_dba', $this->_message->campaign);
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_controller();
@@ -222,20 +212,10 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-        if (!$this->_message->guid)
-        {
-            throw new midcom_error_notfound("The message {$args[0]} was not found.");
-        }
-
+        $this->_message = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
         $this->_message->require_do('midgard:delete');
 
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-        if ($data['campaign']->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$this->_message->campaign} was not found.");
-        }
-
+        $data['campaign'] = $this->load_object('org_openpsa_directmarketing_campaign_dba', $this->_message->campaign);
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_load_datamanager();
@@ -292,12 +272,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
     {
         $this->_topic->require_do('midgard:create');
 
-        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
-
-        if (!$this->_message->guid)
-        {
-            throw new midcom_error_notfound("The message {$args[0]} was not found.");
-        }
+        $this->_message = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
         $guid = $args[0];
 
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_message_copy'));

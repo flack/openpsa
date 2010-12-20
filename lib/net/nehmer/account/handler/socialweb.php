@@ -61,12 +61,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         if ($handler_id == 'admin_edit')
         {
             $_MIDCOM->auth->require_admin_user();
-            $this->_account = new midcom_db_person($args[0]);
-            if (   !$this->_account
-                || !$this->_account->guid)
-            {
-                throw new midcom_error_notfound("The account '{$args[0]}' could not be loaded, reason: " . midcom_connection::get_error_string());
-            }
+            $this->_account = $this->load_object('midcom_db_person', $args[0]);
             net_nehmer_account_viewer::verify_person_privileges($this->_account);
             $return_url = "view/{$this->_account->guid}/";
         }

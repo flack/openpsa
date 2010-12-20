@@ -110,11 +110,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      */
     public function _load_object($handler_id, $args, &$data)
     {
-        $this->_object = new $this->_dba_class($args[0]);
-        if (!$this->_object->guid)
-        {
-            throw new midcom_error_notfound("The object with GUID {$args[0]} was not found.");
-        }
+        $this->_object = $this->load_object($this->_dba_class, $args[0]);
     }
 
     /**

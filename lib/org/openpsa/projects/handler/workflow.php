@@ -13,18 +13,6 @@
  */
 class org_openpsa_projects_handler_workflow extends midcom_baseclasses_components_handler
 {
-    private function _load_task($identifier)
-    {
-        $task = new org_openpsa_projects_task_dba($identifier);
-
-        if (!is_object($task))
-        {
-            return false;
-        }
-
-        return $task;
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -42,13 +30,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             $this->_request_data['reply_mode'] = 'ajax';
         }
-        $this->_request_data['task'] = $this->_load_task($args[0]);
-        if (!$this->_request_data['task'])
-        {
-            $this->errstr = "Could not fetch task";
-            $this->errcode = MIDCOM_ERRCRIT;
-            return false;
-        }
+        $this->_request_data['task'] = $this->load_object('org_openpsa_projects_task_dba', $args[0]);
 
         if (method_exists($this, '_handle_' . $data['action']))
         {

@@ -37,14 +37,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
             $data['requested_time'] = date('Y-m-d');
         }
 
-        try
-        {
-            $date = new DateTime($data['requested_time']);
-        }
-        catch (Exception $e)
-        {
-            return false;
-        }
+        $date = new DateTime($data['requested_time']);
         $offset = $date->format('N') - 1;
 
         $date->modify('-' . $offset . ' days');

@@ -193,11 +193,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-        if (! $this->_contact->guid)
-        {
-            throw new midcom_error_notfound("The contact {$args[0]} was not found.");
-        }
+        $this->_contact = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
         $this->_contact->require_do('midgard:update');
 
         $this->_load_controller();
@@ -252,12 +248,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
-
-        if (! $this->_contact->guid)
-        {
-            throw new midcom_error_notfound("The contact {$args[0]} was not found.");
-        }
+        $this->_contact = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
         $this->_contact->require_do('midgard:delete');
 
         $this->_load_datamanager();

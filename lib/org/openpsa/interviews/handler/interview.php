@@ -43,13 +43,9 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_interview($handler_id, $args, &$data)
     {
-        $this->_member = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
-        if (!$this->_member)
-        {
-            return false;
-        }
+        $this->_member = $this->load_object('org_openpsa_directmarketing_campaign_member_dba', $args[0]);
         $this->_member->require_do('midgard:update');
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($this->_member->campaign);
+        $data['campaign'] = $this->load_object('org_openpsa_directmarketing_campaign_dba', $this->_member->campaign);
 
         $data['controller'] = $this->get_controller('simple', $this->_member);
 

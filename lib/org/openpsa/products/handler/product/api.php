@@ -116,11 +116,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      */
     public function _handler_product_get($handler_id, $args, &$data)
     {
-        $this->_product = new org_openpsa_products_product_dba($args[0]);
-        if (!$this->_product->guid)
-        {
-            throw new midcom_error_notfound("Product {$args[0]} could not be found.");
-        }
+        $this->_product = $this->load_object('org_openpsa_products_product_dba', $args[0]);
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {
@@ -167,11 +163,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             }
             else
             {
-                $product_group = new org_openpsa_products_product_group_dba($args[0]);
-                if (!$product_group->guid)
-                {
-                    throw new midcom_error_notfound("Product group {$args[0]} could not be found.");
-                }
+                $product_group = $this->load_object('org_openpsa_products_product_group_dba', $args[0]);
 
                 if ($handler_id == 'api_product_list_intree')
                 {
@@ -273,11 +265,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     {
         $_MIDCOM->auth->require_valid_user('basic');
 
-        $this->_product = new org_openpsa_products_product_dba($args[0]);
-        if (!$this->_product->guid)
-        {
-            throw new midcom_error_notfound("Product {$args[0]} could not be found.");
-        }
+        $this->_product = $this->load_object('org_openpsa_products_product_dba', $args[0]);
 
         if (!$this->_datamanager->autoset_storage($this->_product))
         {
@@ -316,11 +304,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
             throw new midcom_error('Failed to delete product: POST request expected.');
         }
 
-        $this->_product = new org_openpsa_products_product_dba($args[0]);
-        if (!$this->_product->guid)
-        {
-            throw new midcom_error_notfound("Product {$args[0]} could not be found.");
-        }
+        $this->_product = $this->load_object('org_openpsa_products_product_dba', $args[0]);
 
         if (!$this->_product->delete())
         {

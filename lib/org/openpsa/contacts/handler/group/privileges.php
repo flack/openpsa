@@ -21,21 +21,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     private $_group = null;
 
-    private function _load_group($identifier)
-    {
-        $group = new org_openpsa_contacts_group_dba($identifier);
-
-        if (!is_object($group))
-        {
-            debug_add("Group object {$identifier} is not an object");
-            return false;
-        }
-
-        $_MIDCOM->set_pagetitle($group->official);
-
-        return $group;
-    }
-
     /**
      * Loads and prepares the schema database.
      *
@@ -97,13 +82,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $_MIDCOM->auth->require_valid_user();
 
         // Check if we get the group
-        $this->_group = $this->_load_group($args[0]);
-        if (!$this->_group)
-        {
-            debug_add("Group loading failed");
-            return false;
-        }
-
+        $this->_group = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
         $_MIDCOM->auth->require_do('midgard:privileges', $this->_group);
 
         $data['group'] =& $this->_group;
@@ -123,6 +102,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                 // This will exit()
         }
 
+        $_MIDCOM->set_pagetitle($this->_group->official);
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("group/{$this->_group->guid}/", $this->_group->name);

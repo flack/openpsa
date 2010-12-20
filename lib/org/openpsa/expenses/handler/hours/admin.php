@@ -137,16 +137,9 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         if (count($args) > 1)
         {
-            $parent = new org_openpsa_projects_task_dba($args[1]);
-
-            $data['task'] = $parent->id;
-
-            if (!$parent)
-            {
-                return false;
-            }
+            $parent = $this->load_object('org_openpsa_projects_task_dba', $args[1]);
             $parent->require_do('midgard:create');
-
+            $data['task'] = $parent->id;
             $this->_add_toolbar_items($parent);
         }
         else
@@ -253,12 +246,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
-        if (   !$this->_hour_report
-            || !$this->_hour_report->guid)
-        {
-            org_openpsa_core_ui::object_inaccessible($args[0]);
-        }
+        $this->_hour_report = $this->load_object('org_openpsa_projects_hour_report_dba', $args[0]);
 
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -363,12 +351,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
-        if (!$this->_hour_report)
-        {
-            return false;
-        }
-
+        $this->_hour_report = $this->load_object('org_openpsa_projects_hour_report_dba', $args[0]);
         $this->_hour_report->require_do('midgard:delete');
 
         if (array_key_exists('org_openpsa_expenses_deleteok', $_REQUEST))
@@ -436,13 +419,13 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
             debug_print_r('no relocate url was passed ', $_POST);
         }
         //check if reports are passed
-        if(isset($_POST['report']))
+        if (isset($_POST['report']))
         {
             //iterate through reports
-            foreach($_POST['report'] as $report_id => $void)
+            foreach ($_POST['report'] as $report_id => $void)
             {
                 $hour_report = new org_openpsa_projects_hour_report_dba($report_id);
-                switch($_POST['action'])
+                switch ($_POST['action'])
                 {
                     case 'mark_invoiceable':
                         $hour_report->invoiceable = true;
@@ -451,11 +434,11 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                         $hour_report->invoiceable = false;
                         break;
                     case 'change_invoice':
-                        if(is_array($_POST['org_openpsa_expenses_invoice_chooser_widget_selections']))
+                        if (is_array($_POST['org_openpsa_expenses_invoice_chooser_widget_selections']))
                         {
-                            foreach($_POST['org_openpsa_expenses_invoice_chooser_widget_selections'] as $id)
+                            foreach ($_POST['org_openpsa_expenses_invoice_chooser_widget_selections'] as $id)
                             {
-                                if($id != 0)
+                                if ($id != 0)
                                 {
                                     $hour_report->invoice = $id;
                                     break;

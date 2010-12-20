@@ -45,13 +45,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      */
     public function _handler_move($handler_id, $args, &$data)
     {
-        $data['group'] = new midcom_db_group($args[0]);
-
-        if (!$data['group']->guid)
-        {
-            return false;
-        }
-
+        $data['group'] = $this->load_object('midcom_db_group', $args[0]);
         // Get the prefix
         $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 

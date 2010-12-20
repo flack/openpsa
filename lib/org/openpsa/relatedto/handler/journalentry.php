@@ -194,7 +194,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_remove($handler_id, $args, &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        $reminder = new org_openpsa_relatedto_journal_entry_dba($args[1]);
+        $reminder = $this->load_object('org_openpsa_relatedto_journal_entry_dba', $args[1]);
 
         $reminder->delete();
 
@@ -214,15 +214,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
-
-        //passed guid does not exist
-        if (empty($this->_journal_entry->guid))
-        {
-            debug_add("Failed to load object for passed guid: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
-        }
-
+        $this->_journal_entry = $this->load_object('org_openpsa_relatedto_journal_entry_dba', $args[0]);
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
         $data['controller'] = $this->get_controller('simple', $this->_journal_entry);
@@ -267,7 +259,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
+        $this->_journal_entry = $this->load_object('org_openpsa_relatedto_journal_entry_dba', $args[0]);
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
         if(!$this->_journal_entry->delete())

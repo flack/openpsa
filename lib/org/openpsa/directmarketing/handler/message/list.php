@@ -40,13 +40,6 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
-        if (   !is_object($this->_campaign)
-            || !$this->_campaign->id)
-        {
-            // TODO: error reporting
-            return false;
-        }
-
         $_MIDCOM->load_library('org.openpsa.qbpager');
 
         $data['campaign'] =& $this->_campaign;

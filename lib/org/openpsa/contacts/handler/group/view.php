@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.contacts
  */
-class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler 
+class org_openpsa_contacts_handler_group_view extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_view
 {
     /**
@@ -22,17 +22,6 @@ implements midcom_helper_datamanager2_interfaces_view
     public function load_schemadb()
     {
         return midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_group'));
-    }
-
-    private function _load($identifier)
-    {
-        $this->_group = new org_openpsa_contacts_group_dba($identifier);
-        if (   !$this->_group
-            || !$this->_group->guid)
-        {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -46,11 +35,7 @@ implements midcom_helper_datamanager2_interfaces_view
         $_MIDCOM->auth->require_valid_user();
 
         // Get the requested group object
-        if (!$this->_load($args[0]))
-        {
-            return false;
-        }
-
+        $this->_group = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
         $data['view'] = midcom_helper_datamanager2_handler::get_view($this, $this->_group);
         $data['group'] =& $this->_group;
 

@@ -188,16 +188,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     public function _handler_review($handler_id, $args, &$data)
     {
         // Get start and end times
-        try
-        {
-            $date = new DateTime($args[0]);
-        }
-        catch (Exception $e)
-        {
-            // We couldn't generate a date
-            return false;
-        }
-
+        $date = new DateTime($args[0]);
         $data['requested_time'] = (int) $date->format('U');
 
         $offset = $date->format('N') - 1;

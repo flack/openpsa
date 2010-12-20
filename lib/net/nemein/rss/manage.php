@@ -253,11 +253,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
-        if (!$data['feed'])
-        {
-            return false;
-        }
+        $data['feed'] = $this->load_object('net_nemein_rss_feed_dba', $args[0]);
         $data['feed']->require_do('midgard:update');
 
         $this->_load_controller($data);
@@ -306,11 +302,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
-        if (!$data['feed'])
-        {
-            return false;
-        }
+        $data['feed'] = $this->load_object('net_nemein_rss_feed_dba', $args[0]);
         $data['feed']->require_do('midgard:delete');
 
         $this->_load_controller($data);
@@ -373,12 +365,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
             @ini_set('memory_limit', -1);
             @ini_set('max_execution_time', 0);
 
-            $data['feed'] = new net_nemein_rss_feed_dba($args[0]);
-            if (   !$data['feed']
-                || !$data['feed']->guid)
-            {
-                return false;
-            }
+            $data['feed'] = $this->load_object('net_nemein_rss_feed_dba', $args[0]);
 
             $fetcher = new net_nemein_rss_fetch($data['feed']);
             $data['items'] = $fetcher->import();

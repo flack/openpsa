@@ -56,12 +56,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      */
     public function _handler_folders($handler_id, $args, &$data)
     {
-        $this->_group = new midcom_db_group($args[0]);
-        if (!$this->_group->guid)
-        {
-            return false;
-        }
-
+        $this->_group = $this->load_object('midcom_db_group', $args[0]);
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
 
         $qb = new midgard_query_builder('midcom_core_privilege_db');

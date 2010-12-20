@@ -92,13 +92,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 $data['filter_persons'] = $person_filter->list_filter("person");
                 // Fallthrough
             case 'list_hours_task_all':
-                $task = new org_openpsa_projects_task_dba($args[0]);
-                if (   !$task
-                    || !$task->guid)
-                {
-                    // No such task
-                    return false;
-                }
+                $task = $this->load_object('org_openpsa_projects_task_dba', $args[0]);
                 $qb->add_constraint('task', '=', $task->id);
 
                 $mode = 'simple';

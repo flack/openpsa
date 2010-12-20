@@ -35,7 +35,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
     public function _handler_view ($handler_id, $args, &$data)
     {
         $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-
         if ($this->_campaign->node != $this->_topic->id)
         {
             throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
