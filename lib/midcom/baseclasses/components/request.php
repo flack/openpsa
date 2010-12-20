@@ -839,10 +839,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public function _load_plugin($namespace, $plugin)
     {
-        if (! $this->_load_plugin_class($namespace, $plugin))
-        {
-            return false;
-        }
+        $this->_load_plugin_class($namespace, $plugin);
 
         $plugin_config = self::$_plugin_namespace_config[$namespace][$plugin];
 
@@ -878,7 +875,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      *
      * @param string $namespace The plugin namespace to use.
      * @param string $plugin The plugin to load from the namespace.
-     * @return boolean Indicating Success
      */
     public function _load_plugin_class($namespace, $plugin)
     {
@@ -888,7 +884,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // available (dynamic_load could trigger this).
         if (class_exists($plugin_config['class']))
         {
-            return true;
+            return;
         }
 
         $i = strpos($plugin_config['src'], ':');
@@ -925,8 +921,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         {
             throw new midcom_error("Failed to load the plugin {$namespace}/{$plugin}, implementation class not available.");
         }
-
-        return true;
     }
 
     /**

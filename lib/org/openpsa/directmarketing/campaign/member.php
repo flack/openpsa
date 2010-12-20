@@ -197,6 +197,9 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
         $receipt->message = $message_id;
         $receipt->token = $token;
         $receipt->timestamp = time();
+
+        $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
+
         $stat = $receipt->create();
 
         if (!$stat)
@@ -223,6 +226,7 @@ class org_openpsa_directmarketing_campaign_member_dba extends midcom_core_dbaobj
                 $receipt->set_parameter($param_data['domain'], $param_data['name'], $param_data['value']);
             }
         }
+        $_MIDCOM->auth->drop_sudo();
     }
 }
 ?>

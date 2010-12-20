@@ -589,14 +589,14 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
         $person = new midcom_db_person($args['guid']);
 
-        if(!$person)
+        if (!$person->guid)
         {
             $msg = 'Person with guid #'.$args['guid'].' does not exist - for reopen_account';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
             return false;
         }
-        if(!empty($person->password))
+        if (!empty($person->password))
         {
             $person->set_parameter($args['parameter_name'] , $args['password'] , "");
             $msg = 'Person with id #'.$person->id.' does have a password so will not be set to the old? one -- Account unblocked';

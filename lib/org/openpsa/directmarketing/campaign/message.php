@@ -713,9 +713,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             debug_add('Mail sent to: ' . $mail->to);
             if (!$this->test_mode)
             {
-                $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
                 $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_SENT, $token);
-                $_MIDCOM->auth->drop_sudo();
             }
         }
         else
@@ -733,9 +731,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                         'value' => $message,
                     ),
                 );
-                $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
                 $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_FAILURE, $token, $params);
-                $_MIDCOM->auth->drop_sudo();
             }
             if ($this->send_output)
             {
@@ -929,9 +925,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             debug_add('SMS sent to: ' . $person->handphone);
             if (!$this->test_mode)
             {
-                $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
                 $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_SENT);
-                $_MIDCOM->auth->drop_sudo();
             }
         }
         else
@@ -949,9 +943,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                         'value' => $message,
                     ),
                 );
-                $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
                 $member->create_receipt($this->id, ORG_OPENPSA_MESSAGERECEIPT_FAILURE, $token, $params);
-                $_MIDCOM->auth->drop_sudo();
             }
             if ($this->send_output)
             {

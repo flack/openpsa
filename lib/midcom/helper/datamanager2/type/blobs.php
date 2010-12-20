@@ -172,7 +172,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
      *
      * It has to be called after each attachment operation. It uses a
      * user-defined ordering function for each of the two arrays to be sorted:
-     * _sort_attachments_callback() and _sort_attachments_info_callback().
+     * sort_attachments_cmp() and _sort_attachments_info_callback().
      *
      * @access protected
      */
@@ -181,7 +181,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         // Sortable attachments should be already sorted in the correct order
 
         uasort($this->attachments,
-            Array('midcom_helper_datamanager2_type_blobs', '_sort_attachments_callback'));
+            Array('midcom_helper_datamanager2_type_blobs', 'sort_attachments_cmp'));
         uasort($this->attachments_info,
             Array('midcom_helper_datamanager2_type_blobs', '_sort_attachments_info_callback'));
     }
@@ -207,18 +207,6 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
             return 1;
         }
         return strnatcasecmp($a->name, $b->name);
-    }
-
-    /**
-     * User-defined array sorting callback, used for sorting $attachments.
-     *
-     * NOTE: Deprecated, use the public sort_attachments_cmp() in stead.
-     *
-     * @see midcom_helper_datamanager2_type_blobs::sort_attachments_cmp()
-     */
-    static function _sort_attachments_callback($a, $b)
-    {
-        return midcom_helper_datamanager2_type_blobs::sort_attachments_cmp($a, $b);
     }
 
     /**

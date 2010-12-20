@@ -100,19 +100,19 @@ class midcom_core_group
             catch (Exception $e)
             {
                 debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return false;
+                return;
             }
             if (!$this->_storage->guid)
             {
                 debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return false;
+                return;
             }
         }
         else if (is_numeric($id))
         {
             if ($id == 0)
             {
-                return false;
+                return;
             }
 
             try
@@ -122,12 +122,12 @@ class midcom_core_group
             catch (Exception $e)
             {
                 debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return false;
+                return;
             }
             if (!$this->_storage->guid)
             {
                 debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return false;
+                return;
             }
         }
         else if (   is_object($id)
@@ -140,7 +140,7 @@ class midcom_core_group
         {
             debug_add('Tried to load a midcom_core_group, but $id was of unknown type.', MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
-            return false;
+            return;
         }
 
         if ($this->_storage->official != '')

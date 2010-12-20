@@ -118,7 +118,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
     {
         $qb = midcom_db_article::new_query_builder();
         $data =& $this->_request_data;
-        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, 'arhive_welcome');
+        net_nehmer_blog_viewer::article_qb_constraints($qb, $data, 'archive_welcome');
         $qb->add_constraint('metadata.published', '>', '1970-01-02 23:59:59');
 
         $qb->add_order('metadata.published');

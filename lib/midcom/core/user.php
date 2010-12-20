@@ -180,9 +180,7 @@ class midcom_core_user
 
         if (! $this->_load($id))
         {
-            $x =& $this;
-            $x = false;
-            return false;
+            //TODO: Throw Exception?
         }
     }
 

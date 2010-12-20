@@ -593,13 +593,10 @@ class midcom_core_privilege
         {
             case 'EVERYONE':
                 return true;
-                break;
             case 'ANONYMOUS':
                 return ($user_id == 'EVERYONE' || $user_id == 'ANONYMOUS');
-                break;
             case 'USERS':
                 return ($user_id != 'ANONYMOUS' && $user_id != 'EVERYONE');
-                break;
             default:
                 if ($this->__privilege['assignee'] == $user_id)
                 {
@@ -614,7 +611,6 @@ class midcom_core_privilege
                     }
                 }
                 return false;
-                break;
         }
     }
 
@@ -627,8 +623,8 @@ class midcom_core_privilege
             $this->__guid = $src->guid;
             $this->__privilege_object = $src;
         }
-        elseif (   is_string($src)
-            && mgd_is_guid($src))
+        else if (   is_string($src)
+                 && mgd_is_guid($src))
         {
             $this->__guid = $src;
             $this->__privilege_object = new midcom_core_privilege_db($src);

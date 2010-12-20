@@ -315,7 +315,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $ui_page->info = 'active';
 
             $_MIDCOM->auth->request_sudo();
-            if(!$ui_page->create())
+            if (!$ui_page->create())
             {
                 debug_print_r('could not create ui_page:', $ui_page);
                 return false;

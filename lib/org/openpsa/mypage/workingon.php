@@ -107,7 +107,7 @@ class org_openpsa_mypage_workingon
         $description = trim($_POST['description']);
         $_MIDCOM->auth->request_sudo();
         $invoiceable = false;
-        if(isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true')
+        if (isset($_POST['invoiceable']) && $_POST['invoiceable'] == 'true')
         {
             $invoiceable = true;
         }
