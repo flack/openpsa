@@ -61,7 +61,7 @@ class midcom_request
  *
  * @package midcom
  */
-class midcom_url_notfound_exception extends Exception {    }
+class midcom_url_notfound_exception extends Exception {}
 
 /**
  * this class is responsible for building the urlparser filters that will handle the
@@ -72,7 +72,6 @@ class midcom_url_notfound_exception extends Exception {    }
  */
 class midcom_urlparserfactory
 {
-
     /**
      * Builds the list of filters that should be applied. Note that the filters are
      * applied in sequence and that the next filter will get information from the one
@@ -144,7 +143,8 @@ class midcom_url_urlstack
  *
  * @package midcom
  */
-class midcom_url_paramcollector {
+class midcom_url_paramcollector
+{
     /**
      * The style to use for this request.
      */
@@ -267,7 +267,8 @@ class midcom_url_nullparser  extends midcom_url_parser
 /**
  * @package midcom
  */
-class midcom_url_topicgetter {
+class midcom_url_topicgetter
+{
     public function get_topic($topic_name, $up)
     {
         // todo!

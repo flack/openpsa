@@ -513,7 +513,7 @@ class org_openpsa_calendarwidget extends midcom_baseclasses_components_purecode
         }
     }
 
-    private function _hcalendar_from_reservations($resource, $reservations, $start, $after_start, $end, $before_end, $resources_shown = false, $slots)
+    private function _hcalendar_from_reservations($resource, $reservations, $start, $after_start, $end, $before_end, $resources_shown, $slots)
     {
         $previous_start = 0;
         $previous_end = 0;
