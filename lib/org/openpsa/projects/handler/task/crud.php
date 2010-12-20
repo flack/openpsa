@@ -13,24 +13,13 @@
  */
 class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_components_handler_crud
 {
-    /**
-     * Simple default constructor
-     */
-    public function __construct()
-    {
-        $this->_dba_class = 'org_openpsa_projects_task_dba';
-        $this->_prefix = 'task';
-    }
+    public $_dba_class = 'org_openpsa_projects_task_dba';
+    public $_prefix = 'task';
 
     public function _load_object($handler_id, $args, &$data)
     {
-        $this->_object = call_user_func(array($this->_dba_class, 'get_cached'), $args[0]);
-        if (!$this->_object->guid)
-        {
-            org_openpsa_core_ui::object_inaccessible($args[0]);
-        }
+        $this->_object = $this->load_object($this->_dba_class, $args[0]);
     }
-
 
     /**
      * Method for adding the supported operations into the toolbar.

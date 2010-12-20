@@ -295,11 +295,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 
     private function _handler_list_project(&$args)
     {
-        $this->_request_data['project'] = new org_openpsa_projects_project($args[1]);
-        if (!$this->_request_data['project'])
-        {
-            return false;
-        }
+        $this->_request_data['project'] = $this->load_object('org_openpsa_projects_project', $args[1]);
 
         // Query tasks of a project
         $this->_request_data['view'] = 'project_tasks';

@@ -74,11 +74,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     public function _handler_resourcing($handler_id, $args, &$data)
     {
-        $this->_task = new org_openpsa_projects_task_dba($args[0]);
-        if (! $this->_task->guid)
-        {
-            throw new midcom_error_notfound("The task {$args[0]} was not found.");
-        }
+        $this->_task = $this->load_object('org_openpsa_projects_task_dba', $args[0]);
         $this->_task->require_do('midgard:create');
 
         if (   array_key_exists('org_openpsa_projects_prospects', $_POST)
@@ -173,11 +169,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     public function _handler_list_prospects($handler_id, $args, &$data)
     {
-        $this->_task = new org_openpsa_projects_task_dba($args[0]);
-        if (! $this->_task->guid)
-        {
-            throw new midcom_error_notfound("The task {$args[0]} was not found.");
-        }
+        $this->_task = $this->load_object('org_openpsa_projects_task_dba', $args[0]);
         $this->_task->require_do('midgard:create');
 
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
@@ -215,23 +207,9 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     public function _handler_prospect_slots($handler_id, $args, &$data)
     {
-        $data['prospect'] = new org_openpsa_projects_task_resource_dba($args[0]);
-        if (!$data['prospect']->guid)
-        {
-            throw new midcom_error_notfound("Prospect {$args[0]} was not found.");
-        }
-
-        $data['person'] = new org_openpsa_contacts_person_dba($data['prospect']->person);
-        if (! $data['person']->guid)
-        {
-            throw new midcom_error_notfound("Person #{$data['prospect']->person} was not found.");
-        }
-
-        $this->_task = new org_openpsa_projects_task_dba($data['prospect']->task);
-        if (! $this->_task->guid)
-        {
-            throw new midcom_error_notfound("Task #{$data['prospect']->task} was not found.");
-        }
+        $data['prospect'] = $this->load_object('org_openpsa_projects_task_resource_dba', $args[0]);
+        $data['person'] = $this->load_object('org_openpsa_contacts_person_dba', $data['prospect']->person);
+        $this->_task = $this->load_object('org_openpsa_projects_task_dba', $data['prospect']->task);
         $this->_task->require_do('midgard:create');
 
         $projectbroker = new org_openpsa_projects_projectbroker();

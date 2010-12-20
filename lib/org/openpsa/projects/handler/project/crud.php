@@ -13,15 +13,9 @@
  */
 class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_components_handler_crud
 {
-    /**
-     * Simple default constructor.
-     */
-    public function __construct()
-    {
-        $this->_dba_class = 'org_openpsa_projects_project';
-        $this->_prefix = 'project';
-    }
-
+    public $_dba_class = 'org_openpsa_projects_project';
+    public $_prefix = 'project';
+    
     /**
      * Method for adding the supported operations into the toolbar.
      *
