@@ -396,7 +396,7 @@ class org_openpsa_products_handler_product_csvimport extends midcom_baseclasses_
         }
 
 
-        $data['fields_to_skip'] = split(',', $data['config']->get('import_skip_fields'));
+        $data['fields_to_skip'] = explode(',', $data['config']->get('import_skip_fields'));
 
         $data['time_start'] = time();
 

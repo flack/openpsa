@@ -42,7 +42,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             </thead>
             <tbody>
                 <?php
-                $fields_to_skip = split(',', $data['config']->get('import_skip_fields'));
+                $fields_to_skip = explode(',', $data['config']->get('import_skip_fields'));
                 foreach ($data['rows'][0] as $key => $cell)
                 {
                     echo "<tr>\n";

@@ -59,7 +59,7 @@ class org_openpsa_products_handler_product_csv extends midcom_baseclasses_compon
             $this->_schema = $this->_request_data['schemadb_to_use'];
         }
 
-        $this->_schema_fields_to_skip = split(',', $this->_config->get('export_skip_fields'));
+        $this->_schema_fields_to_skip = explode(',', $this->_config->get('export_skip_fields'));
 
         return $this->_request_data['schemadb_product'];
     }
