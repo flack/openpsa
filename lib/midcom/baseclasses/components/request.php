@@ -614,11 +614,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $method = "_handler_{$this->_handler['handler'][1]}";
         $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
-        if ($result == false)
-        {
-            // Default the error code to ERRCRIT (HTTP Error 500)
-            $this->errcode = MIDCOM_ERRCRIT;
-        }
 
         if (is_a($handler, 'midcom_baseclasses_components_handler'))
         {

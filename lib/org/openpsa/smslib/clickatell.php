@@ -46,9 +46,7 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
             || !$this->password
             || !$this->client_id)
         {
-            debug_add('All required fields not present', MIDCOM_LOG_ERROR);
-            $this->errcode = '400';
-            $this->errstr = 'required fields missing';
+            debug_add('Not all required fields present', MIDCOM_LOG_ERROR);
             return false;
         }
         return true;
@@ -74,8 +72,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
                 if (strlen($sender)>11)
                 {
                     debug_add('alphanumeric sender too long (max 11 ASCII characters)', MIDCOM_LOG_ERROR);
-                    $this->errstr = 'sender too long';
-                    $this->errcode = 400;
                     return false;
                 }
             }
@@ -84,8 +80,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
                 if (strlen($sender)>16)
                 {
                     debug_add('numeric sender too long (max 16 numbers)', MIDCOM_LOG_ERROR);
-                    $this->errstr = 'sender too long';
-                    $this->errcode = 400;
                     return false;
                 }
             }
@@ -206,14 +200,12 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
         preg_match('/HTTP\/[0-9.]+\s([0-9]+)\s(.*)/', $headers[0], $matches_hdr);
         $code = $matches_hdr[1];
         $string = $matches_hdr[2];
-        $this->errcode = (int)$code;
         switch ((int)$code)
         {
             case 200:
             case 202:
             case 204:
                 $this->errstr = 'no error';
-                $this->errcode = 200;
                 break;
             case 403:
                 $this->errstr = 'authentication failed';
@@ -221,7 +213,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
             case 404:
             case 500:
                 $this->errstr = 'server error (do not resubmit)';
-                $this->errcode = 500;
                 break;
             default:
             case 400:
@@ -239,7 +230,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
         if (!preg_match('/ERR:\s([0-9]{3}),\s(.+)/', $content, $matches))
         {
             $this->errstr = 'no error';
-            $this->errcode = 200;
             return false;
         }
         $code = preg_replace('/^0/', '', trim($matches[1]));
@@ -256,16 +246,13 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
             case 3:
             case 4:
             case 5:
-                $this->errcode = 403;
                 $this->errstr = $msg;
                 break;
             case 114:
                 $this->errstr = $msg;
-                $this->errcode = 500;
                 break;
             default:
             case 400:
-                $this->errcode = 400;
                 $this->errstr = $msg;
                 break;
         }

@@ -27,7 +27,6 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
             || !$this->password)
         {
             debug_add('All required fields not present', MIDCOM_LOG_ERROR);
-            $this->errcode = '400';
             $this->errstr = 'required fields missing';
             return false;
         }
@@ -89,7 +88,6 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
                 {
                     debug_add('alphanumeric sender too long (max 11 ASCII characters)', MIDCOM_LOG_ERROR);
                     $this->errstr = 'sender too long';
-                    $this->errcode = 400;
                     return false;
                 }
             }
@@ -99,7 +97,6 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
                 {
                     debug_add('numeric sender too long (max 25 numbers)', MIDCOM_LOG_ERROR);
                     $this->errstr = 'sender too long';
-                    $this->errcode = 400;
                     return false;
                 }
             }
@@ -154,14 +151,12 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
         preg_match('/HTTP\/[0-9.]+\s([0-9]+)\s(.*)/', $headers[0], $matches_hdr);
         $code = $matches_hdr[1];
         $string = $matches_hdr[2];
-        $this->errcode = (int)$code;
         switch ((int)$code)
         {
             case 200:
             case 202:
             case 204:
                 $this->errstr = 'no error';
-                $this->errcode = 200;
                 break;
             case 403:
                 $this->errstr = 'authentication failed';
@@ -169,7 +164,6 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
             case 404:
             case 500:
                 $this->errstr = 'server error (do not resubmit)';
-                $this->errcode = 500;
                 break;
             default:
             case 400:

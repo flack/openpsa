@@ -55,11 +55,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 $data['component'] = (array_key_exists('component', $_REQUEST) ? $_REQUEST['component'] : '');
                 $data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
                 break;
-
-            default:
-                $this->errstr = "Wrong handler ID {$handler_id} for searchform handler";
-                $this->errcode = MIDCOM_ERRCRIT;
-                return false;
         }
         $data['type'] = $handler_id;
         return true;
@@ -138,11 +133,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             case 'advanced':
                 $result = $this->_do_advanced_query($data);
                 break;
-
-            default:
-                $this->errstr = "Wrong handler ID {$handler_id} for searchform handler";
-                $this->errcode = MIDCOM_ERRCRIT;
-                return false;
         }
 
         if ($result === false)
@@ -246,7 +236,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         {
             $filter = null;
         }
-        
+
         if ($data['query'] != '' )
         {
             $final_query = ( $GLOBALS['midcom_config']['indexer_backend'] == 'solr' ) ? $data['query'] : "({$data['query']})";
@@ -255,7 +245,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         {
             $final_query = '';
         }
-        
+
         if ($data['request_topic'] != '')
         {
             if ($final_query != '')
@@ -264,7 +254,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             }
             $final_query .= "__TOPIC_URL:\"{$data['request_topic']}*\"";
         }
-        
+
         if ($data['component'] != '')
         {
             if ($final_query != '')
@@ -273,15 +263,15 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             }
             $final_query .= "__COMPONENT:{$data['component']}";
         }
-        
+
         // Way to add very custom terms
         if (isset($_REQUEST['append_terms']))
         {
             $this->append_terms_recursive($final_query, $_REQUEST['append_terms']);
         }
-        
+
         debug_add("Final query: {$final_query}");
-        
+
         return $indexer->query($final_query, $filter);
     }
 

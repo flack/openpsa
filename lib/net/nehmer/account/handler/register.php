@@ -277,9 +277,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account_creation'));
         if (!array_key_exists($args[0], $this->_schemadb))
         {
-            $this->errstr = "The account type {$args[0]} is unknown.";
-            $this->errcode = MIDCOM_ERRNOTFOUND;
-            return false;
+            throw new midcom_error_notfound("The account type {$args[0]} is unknown.");
         }
         $this->_account_type = $args[0];
 
