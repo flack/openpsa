@@ -61,8 +61,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         if ($this->_person->username)
         {
-            // Creating new account for existing account is not possible
-            return false;
+            throw new midcom_error('Creating new account for existing account is not possible');
         }
 
         if (array_key_exists('midcom_helper_datamanager2_save', $_POST))
@@ -178,9 +177,10 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $this->_person = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
         $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
-        if ($this->_person->id != midcom_connection::get_user() && !midcom_connection::is_admin())
+        if (   $this->_person->id != midcom_connection::get_user()
+            && !midcom_connection::is_admin())
         {
-            return false;
+            throw new midcom_error_forbidden('Only admins can edit other user\'s accounts');
         }
 
         if (!$this->_person->username)

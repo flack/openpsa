@@ -123,8 +123,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $qb->add_constraint('username', '=', $username);
         $persons = $qb->execute();
         $_MIDCOM->auth->drop_sudo();
-        if (   !is_array($persons)
-            || count($persons) == 0)
+        if (empty($persons))
         {
             // Error getting user object
             return false;

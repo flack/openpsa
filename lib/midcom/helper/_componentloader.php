@@ -304,6 +304,10 @@ class midcom_helper__componentloader
     {
         if (!isset($this->manifests[$path]))
         {
+            if ($path == 'midcom')
+            {
+                return true;
+            }
             return false;
         }
         return true;

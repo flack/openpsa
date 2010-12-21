@@ -58,12 +58,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $data['message_obj'] =& $data['message'];
         $data['message_dm'] =& $this->_datamanager;
 
-        if (   !is_object($data['message'])
-            || !$data['message']->id)
-        {
-            return false;
-        }
-
         if ($handler_id === 'compose4person')
         {
             $data['person'] = $this->load_object('org_openpsa_contacts_person_dba', $args[1]);
@@ -87,8 +81,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
         if (!array_key_exists('content', $data['message_array']))
         {
-            debug_add('"content" not defined in schema, aborting', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('"content" not defined in schema');
         }
         //Substyle handling
         @debug_add("\$data['message_array']['substyle']='{$data['message_array']['substyle']}'");
@@ -134,7 +127,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             echo $personalized;
             return;
         }
-        return $this->_real_show_compose($handler_id, $data);
+        $this->_real_show_compose($handler_id, $data);
     }
 
     private function _real_show_compose($handler_id, &$data)

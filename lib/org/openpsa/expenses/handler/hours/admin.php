@@ -131,7 +131,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['selected_schema'] = $args[0];
         if (!array_key_exists($data['selected_schema'], $this->_schemadb))
         {
-            return false;
+            throw new midcom_error_notfound('The requested schema ' . $args[0] . ' was not found in the schemadb');
         }
         $this->_schema =& $data['selected_schema'];
 

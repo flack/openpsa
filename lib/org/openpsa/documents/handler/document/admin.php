@@ -98,7 +98,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $_MIDCOM->auth->require_valid_user();
 
         $this->_document = $this->_load_document($args[0]);
-
         $this->_document->require_do('midgard:update');
 
         $this->_load_edit_controller();

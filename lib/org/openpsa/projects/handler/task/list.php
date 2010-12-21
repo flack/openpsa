@@ -98,7 +98,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                     $this->_request_data['view'] = 'json';
                     return $return;
                 default:
-                    return false;
+                    throw new midcom_error('Invalid argument ' . $args[0]);
             }
         }
         else

@@ -338,7 +338,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
             debug_add('Loading i10n class for '.$this->_component_path);
             if (!$this->_component_l10n = $_MIDCOM->i18n->get_l10n($this->_component_path))
             {
-                return false;
+                throw new midcom_error('Failed to load L10n DB for ' . $this->_component_path);
             }
             else
             {

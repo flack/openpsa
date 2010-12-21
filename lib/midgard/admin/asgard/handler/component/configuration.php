@@ -212,9 +212,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_view($handler_id, $args, &$data)
     {
         $data['name'] = $args[0];
-        if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
+        if (!$_MIDCOM->componentloader->is_installed($data['name']))
         {
-            throw new midcom_error_notfound("Component '{$data['name']}' was not found.");
+            throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
 
         $data['config'] = $this->_load_configs($data['name']);
@@ -461,16 +461,15 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, $args, &$data)
     {
         $data['name'] = $args[0];
-        if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
+        if (!$_MIDCOM->componentloader->is_installed($data['name']))
         {
-            throw new midcom_error_notfound("Component '{$data['name']}' was not found.");
+            throw new midcom_error_notfound("Component {$data['name']} was not found.");
         }
 
         if ($handler_id == '____mfa-asgard-components_configuration_edit_folder')
         {
             $data['folder'] = new midcom_db_topic($args[1]);
-            if (   !$data['folder']->guid
-                || $data['folder']->component != $data['name'])
+            if ($data['folder']->component != $data['name'])
             {
                 throw new midcom_error_notfound("Folder {$args[1]} not found for configuration.");
             }

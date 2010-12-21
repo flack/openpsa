@@ -271,10 +271,9 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
         $qb->add_constraint('topic', '=', $this->_content_topic->id);
         $qb->add_constraint('article', '=', $this->_article->id);
 
-        // No links were found
         if ($qb->count() === 0)
         {
-            return false;
+            throw new midcom_error_notfound('No links were found');
         }
 
         // Get the link

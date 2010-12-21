@@ -172,8 +172,7 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             if (!$data['session']->exists('wikiword'))
             {
-                // No wiki word given
-                return false;
+                throw new midcom_error_notfound('No wiki word given');
             }
             else
             {
@@ -199,7 +198,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if (!array_key_exists($this->_schema, $data['schemadb']))
         {
-            return false;
+            throw new midcom_error_notfound('Schema ' . $this->_schema . ' not found in schemadb');
         }
 
         $this->_check_unique_wikiword($this->_wikiword);

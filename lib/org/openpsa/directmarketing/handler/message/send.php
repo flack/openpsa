@@ -44,14 +44,12 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         if (   !isset($args[1])
             || !is_numeric($args[1]))
         {
-            debug_add('Batch number missing', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('Batch number missing');
         }
         $data['batch_number'] = $args[1];
         if (!isset($args[2]))
         {
-            debug_add('Job GUID missing', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('Job GUID missing');
         }
         $job = $this->load_object('midcom_services_at_entry_dba', $args[2]);
 
@@ -59,8 +57,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $data['message_array']['dm_types'] =& $this->_datamanager->types;
         if (!array_key_exists('content', $data['message_array']))
         {
-            debug_add('"content" not defined in schema, aborting', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('"content" not defined in schema');
         }
         ignore_user_abort();
         $_MIDCOM->skip_page_style = true;
@@ -206,9 +203,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
             if (   $data['send_start'] == -1
                 || $data['send_start'] === false)
             {
-                //TODO: We should probably fail the send in stead of defaulting to immediate send
-                debug_add("Failed to parse \"{$args[1]}\" into timestamp", MIDCOM_LOG_ERROR);
-                return false;
+                throw new midcom_error("Failed to parse \"{$args[1]}\" into timestamp");
             }
         }
         else
@@ -230,8 +225,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $data['message_array']['dm_types'] =& $this->_datamanager->types;
         if (!array_key_exists('content', $data['message_array']))
         {
-            debug_add('"content" not defined in schema, aborting', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('"content" not defined in schema');
         }
 
         ignore_user_abort();

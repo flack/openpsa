@@ -109,8 +109,7 @@ class org_openpsa_imp_viewer extends midcom_baseclasses_components_request
 
         if (!$this->_check_imp_settings())
         {
-            debug_add("Horde/Imp settings incomplete, aborting", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Horde/Imp settings incomplete");
         }
 
         //Try to get remote login form

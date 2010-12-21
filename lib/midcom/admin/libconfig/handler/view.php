@@ -53,9 +53,9 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
     public function _handler_view($handler_id, $args, &$data)
     {
         $data['name'] = $args[0];
-        if (!array_key_exists($data['name'], $_MIDCOM->componentloader->manifests))
+        if (!$_MIDCOM->componentloader->is_installed($data['name']))
         {
-            return false;
+            throw new midcom_error_notfound("Component {$data['name']} is not installed.");
         }
 
         $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($data['name']);

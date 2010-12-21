@@ -248,7 +248,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
         //Get DM schema data to array
         $this->_request_data['query_data'] = $this->_datamanagers[$this->module]->get_content_raw();
-        return true;
     }
 
     public function _handler_generator_style()

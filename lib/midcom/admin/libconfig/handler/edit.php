@@ -100,9 +100,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_component_name = $args[0];
-        if (!array_key_exists($this->_component_name, $_MIDCOM->componentloader->manifests))
+        if (!$_MIDCOM->componentloader->is_installed($this->_component_name))
         {
-            return false;
+            throw new midcom_error_notfound("Component {$this->_component_name} is not installed.");
         }
 
         $componentpath = MIDCOM_ROOT . $_MIDCOM->componentloader->path_to_snippetpath($this->_component_name);

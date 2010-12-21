@@ -20,17 +20,12 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $_MIDCOM->auth->require_valid_user();
     }
 
+    /**
+     * Get start and end times
+     */
     private function _calculate_day($time)
     {
-        // Get start and end times
-        try
-        {
-            $date = new DateTime($time);
-        }
-        catch (Exception $e)
-        {
-            return false;
-        }
+        $date = new DateTime($time);
 
         $this->_request_data['this_day'] = $date->format('Y-m-d');
         $this->_request_data['day_start'] = (int) $date->format('U');
@@ -47,7 +42,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $this->_request_data['week_start'] = (int) $date->format('U');
         $date->modify('+6 days');
         $this->_request_data['week_end'] = (int) $date->format('U');
-        return true;
     }
 
     private function _populate_toolbar()
@@ -157,10 +151,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
             $data['requested_time'] = $args[0];
         }
 
-        if (!$this->_calculate_day($data['requested_time']))
-        {
-            return false;
-        }
+        $this->_calculate_day($data['requested_time']);
 
         // List work hours this week
         $this->_list_work_hours();
@@ -237,10 +228,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     {
         $data['requested_time'] = date('Y-m-d');
 
-        if (!$this->_calculate_day($data['requested_time']))
-        {
-            return false;
-        }
+        $this->_calculate_day($data['requested_time']);
 
         // List work hours this week
         $this->_list_work_hours();

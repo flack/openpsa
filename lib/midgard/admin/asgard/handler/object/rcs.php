@@ -515,19 +515,8 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
             if (!class_exists('Text_Diff'))
             {
-                debug_add("Failed to load text_diff libraries! These are needed for this handler.", MIDCOM_LOG_CRIT);
-                $this->_request_data['libs_ok'] = false;
-                $this->_prepare_toolbars($args[2]);
-                return true;
+                throw new midcom_error("Failed to load Text_Diff library.");
             }
-            else
-            {
-                $this->_request_data['libs_ok'] = true;
-            }
-        }
-        else
-        {
-            $this->_request_data['libs_ok'] = true;
         }
 
         $this->_prepare_toolbars($args[2], true);
@@ -556,12 +545,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     public function _show_diff()
     {
         midgard_admin_asgard_plugin::asgard_header();
-        if (!$this->_request_data['libs_ok'])
-        {
-            $this->_request_data['error'] = "You are missing the PEAR library Text_Diff that is needed to show diffs.";
-            midcom_show_style('midgard_admin_asgard_rcs_error');
-            return;
-        }
         midcom_show_style('midgard_admin_asgard_rcs_diff');
         midgard_admin_asgard_plugin::asgard_footer();
     }

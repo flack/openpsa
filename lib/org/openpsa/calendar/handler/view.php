@@ -472,8 +472,7 @@ function openPsaShowMonthSelector()
             }
             else
             {
-                // We couldn't generate a date
-                return false;
+                throw new midcom_error("Couldn't generate a date");
             }
         }
 
@@ -575,8 +574,7 @@ function openPsaShowMonthSelector()
             }
             else
             {
-                // We couldn't generate a date
-                return false;
+                throw new midcom_error("Couldn't generate a date");
             }
         }
 
@@ -682,8 +680,7 @@ function openPsaShowMonthSelector()
             }
             else
             {
-                // We couldn't generate a date
-                return false;
+                throw new midcom_error("Couldn't generate a date");
             }
         }
 
@@ -775,10 +772,7 @@ function openPsaShowMonthSelector()
 
         // Get the requested event object
         $this->_request_data['event'] = $this->load_object('org_openpsa_calendar_event_dba', $args[0]);
-        if (!$this->_request_data['event'])
-        {
-            return false;
-        }
+
         // Muck schema on private events
         if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))
         {

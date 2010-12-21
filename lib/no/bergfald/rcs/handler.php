@@ -308,19 +308,8 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
             if (!class_exists('Text_Diff'))
             {
-                debug_add("Failed to load text_diff libraries! These are needed for this handler.", MIDCOM_LOG_CRIT);
-                $this->_request_data['libs_ok'] = false;
-                $this->_prepare_toolbars($args[2]);
-                return true;
+                throw new midcom_error("Failed to load Text_Diff library.");
             }
-            else
-            {
-                $this->_request_data['libs_ok'] = true;
-            }
-        }
-        else
-        {
-                $this->_request_data['libs_ok'] = true;
         }
 
         $this->_prepare_toolbars($args[2], true);
@@ -359,12 +348,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      */
     public function _show_diff()
     {
-        if (!$this->_request_data['libs_ok'])
-        {
-            $this->_request_data['error'] = "You are missing the PEAR library Text_Diff that is needed to show diffs.";
-            midcom_show_style('bergfald-rcs-error');
-            return;
-        }
         midcom_show_style('bergfald-rcs-diff');
     }
 

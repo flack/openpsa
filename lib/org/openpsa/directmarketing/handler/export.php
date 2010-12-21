@@ -175,8 +175,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $members = $qb_members->execute_unchecked();
         if (!is_array($members))
         {
-            // Fatal QB error
-            return false;
+            throw new midcom_error('Fatal QB error');
         }
 
         $this->membership_mode = $this->_config->get('csv_export_memberships');

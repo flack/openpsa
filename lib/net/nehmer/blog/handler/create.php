@@ -186,7 +186,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $this->_prepare_request_data();
-        if ( $this->_article != null )
+        if ($this->_article != null)
         {
             $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         }

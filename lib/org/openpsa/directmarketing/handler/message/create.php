@@ -99,8 +99,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if (!array_key_exists($this->_schema, $this->_schemadb))
         {
-            // This message type isn't available for our schema, return error
-            return false;
+            throw new midcom_error_notfound('The type ' . $this->_schema . ' isn\'t available in the schemadb');
         }
 
         $data['controller'] = $this->get_controller('create');

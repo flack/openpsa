@@ -79,17 +79,11 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (isset($args[0]))
         {
-            $this->_person = new midcom_db_person($args[0]);
+            $this->_person = $this->load_object('midcom_db_person', $args[0]);
         }
         else
         {
-            $this->_person = new midcom_db_person(midcom_connection::get_user());
-        }
-
-        // Bulletproofing the person
-        if (!$this->_person->guid)
-        {
-            throw new midcom_error('Failed to get the requested person');
+            $this->_person = $this->load_object('midcom_db_person', midcom_connection::get_user());
         }
 
         // Load the controller instance
@@ -180,14 +174,10 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_person = new midcom_db_person(midcom_connection::get_user());
 
         // Check for the ACL's
-        if (!$this->_person->can_do('midgard:update'))
-        {
-            return false;
-        }
+        $this->_person->require_do('midgard:update');
 
         // Patch for Midgard ACL problem of setting person's own parameters
         $_MIDCOM->auth->request_sudo('midgard.admin.asgard');
-
 
         foreach ($_POST as $key => $value)
         {

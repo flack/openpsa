@@ -95,8 +95,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 $this->_get_object_links_out($this->_links['outgoing'], $this->_object);
                 break;
             default:
-                //Mode not supported
-                return false;
+                throw new midcom_error('Mode ' . $this->_mode . ' not supported');
         }
 
         $this->_prepare_request_data();

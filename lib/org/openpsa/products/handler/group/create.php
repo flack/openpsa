@@ -121,7 +121,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['selected_schema'] = $args[1];
         if (!array_key_exists($data['selected_schema'], $data['schemadb_group']))
         {
-            return false;
+            throw new midcom_error_notfound('Schema ' . $data['selected_schema'] . ' was not found it schemadb');
         }
         $this->_schema =& $data['selected_schema'];
 

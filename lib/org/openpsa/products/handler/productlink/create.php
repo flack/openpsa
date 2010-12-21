@@ -115,7 +115,7 @@ class org_openpsa_products_handler_productlink_create extends midcom_baseclasses
         $data['selected_schema'] = $args[1];
         if (!array_key_exists($data['selected_schema'], $data['schemadb_productlink']))
         {
-            return false;
+            throw new midcom_error_notfound('Invalid schema selected');
         }
         $this->_schema =& $data['selected_schema'];
 

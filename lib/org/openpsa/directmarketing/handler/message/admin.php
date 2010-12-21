@@ -223,7 +223,7 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
         if (array_key_exists('org_openpsa_directmarketing_deleteok', $_REQUEST))
         {
             // Deletion confirmed.
-            if (! $this->_message->delete())
+            if (!$this->_message->delete())
             {
                 throw new midcom_error("Failed to delete message {$args[0]}, last Midgard error was: " . midcom_connection::get_error_string());
             }

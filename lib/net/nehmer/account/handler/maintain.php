@@ -462,12 +462,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             throw new midcom_error('Failed to request sudo privileges for account password reset.');
         }
 
-        $person = new midcom_db_person($guid);
-        if (!$person->guid)
-        {
-            throw new midcom_error_notfound('Invalid reset link, the person record was not found.');
-        }
-
+        $person = $this->load_object('midcom_db_person', $guid);
         $this->_account = $_MIDCOM->auth->get_user($person);
 
         $reset_hash = $person->get_parameter('net.nehmer.account', 'lostpassword_reset_hash');

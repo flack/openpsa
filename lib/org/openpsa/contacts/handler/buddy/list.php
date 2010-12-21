@@ -26,7 +26,6 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
 
         $target = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
 
-        // Check we're not buddies already
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
         $qb->add_constraint('account', '=', $user->guid);
         $qb->add_constraint('buddy', '=', $target->guid);
@@ -34,7 +33,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         $buddies = $qb->execute();
         if (count($buddies) > 0)
         {
-            return false;
+            throw new midcom_error('Account ' . $user->guid . ' is already on buddy list');
         }
 
         $buddy = new org_openpsa_contacts_buddy_dba();
@@ -63,14 +62,13 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
 
         $target = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
 
-        // Check we're buddies already
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
         $qb->add_constraint('account', '=', $user->guid);
         $qb->add_constraint('buddy', '=', $target->guid);
         $buddies = $qb->execute();
         if (count($buddies) == 0)
         {
-            return false;
+            throw new midcom_error_notfound('Account ' . $user->guid . ' was not found on buddy list');
         }
 
         foreach ($buddies as $buddy)

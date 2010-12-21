@@ -231,7 +231,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
 
         if (count($args) != 1)
         {
-            return false;
+            throw new midcom_error('Incomplete request data');
         }
 
         // We're creating invoice for chosen company
@@ -320,7 +320,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
 
         if (count($args) != 1)
         {
-            return false;
+            throw new midcom_error('Incomplete request data');
         }
 
         // We're displaying invoices of a specific deliverable

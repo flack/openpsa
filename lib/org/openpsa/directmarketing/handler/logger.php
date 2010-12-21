@@ -26,9 +26,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         if (   !array_key_exists('token', $_POST)
             || empty($_POST['token']))
         {
-            //Token not given
-            debug_add('Token not present in POST or empty', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('Token not present in POST or empty');
         }
         $messages = array();
         $campaigns = array();
@@ -135,16 +133,12 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         if (   !array_key_exists('token', $_POST)
             || empty($_POST['token']))
         {
-            //Token not given
-            debug_add('Token not present in POST or empty', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('Token not present in POST or empty');
         }
         if (   !array_key_exists('link', $_POST)
             || empty($_POST['link']))
         {
-            //Link not given
-            debug_add('Link not present in POST or empty', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('Link not present in POST or empty');
         }
 
         $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');
@@ -235,15 +229,11 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         }
         if (!$this->_request_data['token'])
         {
-            //Token not given
-            debug_add('Token empty', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('Token empty');
         }
         if (!$this->_request_data['target'])
         {
-            //Link not given
-            debug_add('Target not present in address or GET, or is empty', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('Target not present in address or GET, or is empty');
         }
 
         //TODO: valid target domains check
@@ -253,8 +243,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         {
             $_MIDCOM->skip_page_style = true;
             $_MIDCOM->relocate($this->_request_data['target']);
-            //This will exit unless fails
-            return true;
+            //This will exit
         }
 
         $_MIDCOM->auth->request_sudo('org.openpsa.directmarketing');

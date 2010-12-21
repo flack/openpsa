@@ -165,8 +165,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $groups = $parentgroup_qb->execute();
             if (count($groups) == 0)
             {
-                return false;
-                // No matching group
+                throw new midcom_error_notfound('No matching group');
             }
             else
             {
@@ -187,8 +186,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
             if (count($groups) == 0)
             {
-                return false;
-                // No matching group
+                throw new midcom_error_notfound('No matching group');
             }
             else
             {

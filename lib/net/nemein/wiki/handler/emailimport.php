@@ -125,8 +125,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             $wikipage->author = $results[0]->id;
         }
 
-        $stat = $wikipage->create();
-        if (!$stat)
+        if (!$wikipage->create())
         {
             throw new midcom_error('wikipage->create returned failure, errstr: ' . midcom_connection::get_error_string());
         }

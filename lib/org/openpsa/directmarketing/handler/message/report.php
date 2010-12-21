@@ -376,8 +376,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
 
         if (   isset($_POST['org_openpsa_directmarketing_campaign_userule'])
             && isset($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']])
-            && !empty($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']])
-            )
+            && !empty($_POST['org_openpsa_directmarketing_campaign_rule_' . $_POST['org_openpsa_directmarketing_campaign_userule']]))
         {
             $this->_create_campaign_from_link();
         }

@@ -78,8 +78,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
                         $person2 =& $option1;
                         break;
                     default:
-                        // Something weird happened (basically we got bogus data), abort
-                        return false;
+                        throw new midcom_error('Something weird happened (basically we got bogus data)');
                 }
                 $_MIDCOM->auth->require_do('midgard:update', $person1);
                 $_MIDCOM->auth->require_do('midgard:delete', $person2);

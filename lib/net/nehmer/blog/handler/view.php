@@ -219,9 +219,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         {
             // We have a specified photostream here
             $comments_topic = new midcom_db_topic($this->_config->get('comments_topic'));
-            if (   !is_object($comments_topic)
-                || !isset($comments_topic->guid)
-                || empty($comments_topic->guid))
+            if (empty($comments_topic->guid))
             {
                 return false;
             }

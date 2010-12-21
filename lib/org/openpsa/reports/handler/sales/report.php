@@ -29,10 +29,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
     {
         $_MIDCOM->auth->require_valid_user();
 
-        if (!$this->_generator_load_redirect($args))
-        {
-            return false;
-        }
+        $this->_generator_load_redirect($args);
         $this->set_active_leaf($this->_topic->id . ':generator_sales');
         $this->_handler_generator_style();
 

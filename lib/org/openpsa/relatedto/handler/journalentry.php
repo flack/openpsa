@@ -264,8 +264,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
         if(!$this->_journal_entry->delete())
         {
-            debug_add("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
         //build url for relocate
         $url_prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/render/";

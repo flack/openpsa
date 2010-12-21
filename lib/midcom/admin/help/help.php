@@ -661,7 +661,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $data['component'] = $args[0];
 
-        if (!$_MIDCOM->componentloader->is_installed($data['component']) && $data['component'] != 'midcom')
+        if (!$_MIDCOM->componentloader->is_installed($data['component']))
         {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }
@@ -710,7 +710,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
 
         $data['help_id'] = $args[1];
         $data['component'] = $args[0];
-        if (!$_MIDCOM->componentloader->is_installed($data['component']) && $data['component'] != 'midcom')
+        if (!$_MIDCOM->componentloader->is_installed($data['component']))
         {
             throw new midcom_error_notfound("Component {$data['component']} is not installed.");
         }

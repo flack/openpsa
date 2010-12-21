@@ -169,10 +169,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             // This will exit.
         }
 
-
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $_MIDCOM->set_pagetitle($this->_l10n->get('account registration') . ': ' . $this->_l10n->get('select account type'));
-
 
         return true;
     }
@@ -237,7 +235,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
             $invites = $qb->execute();
 
-            foreach($invites as $invite)
+            foreach ($invites as $invite)
             {
                 $invite->delete();
             }
@@ -337,7 +335,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_REGISTER);
 
-        switch($this->_stage)
+        switch ($this->_stage)
         {
             // We have to switch again as the current stage can change during
             // processing.

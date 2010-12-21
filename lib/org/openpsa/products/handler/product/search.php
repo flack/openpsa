@@ -410,8 +410,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         $data['search_schema'] = $args[0];
         if (!array_key_exists($data['search_schema'], $data['schemadb_product']))
         {
-            // Invalid schema to search for
-            return false;
+            throw new midcom_error_notfound('Invalid search schema');
         }
 
         if ($handler_id == 'view_search_raw')
