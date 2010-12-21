@@ -74,24 +74,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
         }
     }
 
-    private function _load_page($wikiword)
-    {
-        $qb = net_nemein_wiki_wikipage::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_topic->id);
-        $qb->add_constraint('name', '=', $wikiword);
-        $result = $qb->execute();
-
-        if (count($result) > 0)
-        {
-            $this->_page = $result[0];
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     /**
      * Check the edit request
      *
@@ -101,10 +83,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        if (!$this->_load_page($args[0]))
-        {
-            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');;
-        }
+        $this->_page = $this->_master->load_page($args[0]);
         $this->_page->require_do('midgard:update');
 
         $this->_load_controller();
@@ -260,10 +239,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
-        if (!$this->_load_page($args[0]))
-        {
-            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
-        }
+        $this->_page = $this->_master->load_page($args[0]);
         $this->_page->require_do('midgard:update');
 
         // Change schema to redirect

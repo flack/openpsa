@@ -32,12 +32,7 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_list_type = $args[0];
-        $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[1]);
-        if ($this->_campaign->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$args[1]} was not found.");
-        }
-
+        $this->_campaign = $this->_master->load_campaign($args[1]);
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
 
         $_MIDCOM->load_library('org.openpsa.qbpager');

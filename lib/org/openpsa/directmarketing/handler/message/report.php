@@ -362,12 +362,8 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
         $this->_load_datamanager();
         $this->_datamanager->autoset_storage($data['message']);
         $data['message_array'] = $this->_datamanager->get_content_raw();
-        $this->_campaign = new org_openpsa_directmarketing_campaign_dba($this->_message->campaign);
-        if ($this->_campaign->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$this->_message->campaign} was not found.");
-        }
 
+        $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
         $data['campaign'] =& $this->_campaign;
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 

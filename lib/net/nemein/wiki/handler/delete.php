@@ -40,21 +40,6 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         }
     }
 
-    private function _load_page($wikiword)
-    {
-        $qb = net_nemein_wiki_wikipage::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_topic->id);
-        $qb->add_constraint('name', '=', $wikiword);
-        $result = $qb->execute();
-
-        if (count($result) > 0)
-        {
-            $this->_page = $result[0];
-            return true;
-        }
-        return false;
-    }
-
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
@@ -62,12 +47,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      */
     public function _handler_delete($handler_id, $args, &$data, $delete_mode = true)
     {
-        $this->_load_page($args[0]);
-        if (!$this->_page)
-        {
-            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
-        }
-
+        $this->_page = $this->_master->load_page($args[0]);
         $this->_page->require_do('midgard:delete');
 
         if (array_key_exists('net_nemein_wiki_deleteok', $_POST))

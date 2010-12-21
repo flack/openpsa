@@ -128,11 +128,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     public function _handler_edit_query($handler_id, $args, &$data)
     {
-        $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if ($this->_campaign->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
-        }
+        $this->_campaign = org_openpsa_directmarketing_viewer::load_campaign($args[0]);
 
         $this->_campaign->require_do('midgard:update');
 
@@ -252,12 +248,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     public function _handler_edit_query_advanced($handler_id, $args, &$data)
     {
-        $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if ($this->_campaign->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
-        }
-
+        $this->_campaign = $this->_master->load_campaign($args[0]);
         $this->_campaign->require_do('midgard:update');
 
         $this->_prepare_request_data($handler_id);
@@ -356,11 +347,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if ($this->_campaign->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
-        }
+        $this->_campaign = $this->_master->load_campaign($args[0]);
 
         $this->_campaign->require_do('midgard:update');
         $this->set_active_leaf('campaign_' . $this->_campaign->id);
@@ -420,12 +407,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_campaign = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if ($this->_campaign->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
-        }
-
+        $this->_campaign = $this->_master->load_campaign($args[0]);
         $this->_campaign->require_do('midgard:delete');
 
         $this->_load_datamanager();
