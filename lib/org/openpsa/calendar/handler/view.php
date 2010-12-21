@@ -374,10 +374,10 @@ function openPsaShowMonthSelector()
             }
         }
 
-        $this->_populate_calendar_from_filter($from, $to);
+        $this->_populate_calendar_from_filter($user, $from, $to);
     }
 
-    private function _populate_calendar_from_filter($from, $to)
+    private function _populate_calendar_from_filter($user, $from, $to)
     {
         // New UI for showing resources
         foreach ($user->list_parameters('org.openpsa.calendar.filters') as $type => $value)
@@ -450,17 +450,8 @@ function openPsaShowMonthSelector()
         }
     }
 
-    /**
-     * Month view
-     *
-     * @param String $handler_id    Name of the request handler
-     * @param array $args           Variable arguments
-     * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
-     */
-    public function _handler_month($handler_id, $args, &$data)
+    private function _generate_date($args)
     {
-        $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
         {
             // Go to the chosen week instead of current one
@@ -475,6 +466,24 @@ function openPsaShowMonthSelector()
                 throw new midcom_error("Couldn't generate a date");
             }
         }
+        else
+        {
+            $this->_selected_time = time();
+        }
+    }
+
+    /**
+     * Month view
+     *
+     * @param String $handler_id    Name of the request handler
+     * @param array $args           Variable arguments
+     * @param array &$data          Public request data, passed by reference
+     * @return boolean              Indicating success
+     */
+    public function _handler_month($handler_id, $args, &$data)
+    {
+        $_MIDCOM->auth->require_valid_user();
+        $this->_generate_date($args);
 
         // Instantiate calendar widget
         $this->_calendar = new org_openpsa_calendarwidget(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
@@ -563,20 +572,7 @@ function openPsaShowMonthSelector()
     public function _handler_week($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        if (count($args) == 1)
-        {
-            // Go to the chosen week instead of current one
-            // TODO: Check format as YYYY-MM-DD via regexp
-            $requested_time = @strtotime($args[0]);
-            if ($requested_time)
-            {
-                $this->_selected_time = $requested_time;
-            }
-            else
-            {
-                throw new midcom_error("Couldn't generate a date");
-            }
-        }
+        $this->_generate_date($args);
 
         // Instantiate calendar widget
         $this->_calendar = new org_openpsa_calendarwidget(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
@@ -635,7 +631,7 @@ function openPsaShowMonthSelector()
         $this->add_breadcrumb('month/' . date('Y-m-01', $week_start) . '/', strftime('%B', $week_start));
         $this->add_breadcrumb
         (
-            "week/{$args[0]}/",
+            'week/' . date('Y-m-d', $week_start) . '/',
             sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $week_start), strftime("%Y", $week_start))
         );
 
@@ -669,20 +665,7 @@ function openPsaShowMonthSelector()
     public function _handler_day($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        if (count($args) == 1)
-        {
-            // Go to the chosen week instead of current one
-            // TODO: Check format as YYYY-MM-DD via regexp
-            $requested_time = @strtotime($args[0]);
-            if ($requested_time)
-            {
-                $this->_selected_time = $requested_time;
-            }
-            else
-            {
-                throw new midcom_error("Couldn't generate a date");
-            }
-        }
+        $this->_generate_date($args);
 
         // Instantiate calendar widget
         $this->_calendar = new org_openpsa_calendarwidget(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
@@ -738,7 +721,7 @@ function openPsaShowMonthSelector()
         // Set the breadcrumb
         $this->add_breadcrumb('year/' . date('Y-01-01', $this->_selected_time) . '/', strftime('%Y', $this->_selected_time));
         $this->add_breadcrumb('month/' . date('Y-m-01', $this->_selected_time) . '/', strftime('%B', $this->_selected_time));
-        $this->add_breadcrumb("day/{$args[0]}/", strftime('%x', $this->_selected_time));
+        $this->add_breadcrumb('day/' . date('Y-m-d', $this->_selected_time) . '/', strftime('%x', $this->_selected_time));
 
         $_MIDCOM->set_pagetitle(strftime("%x", $this->_selected_time));
 
