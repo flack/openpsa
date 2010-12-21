@@ -285,31 +285,9 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
 
         $photo = new org_routamc_photostream_photo_dba($guid);
-        if (   !$photo
-            || !$photo->guid)
+        if (!$photo->guid)
         {
-            // Fallback for the conversion script
-            // FIXME: Remove this when the conversion script is able to fix the link tags
-            $qb = org_routamc_photostream_photo_dba::new_query_builder();
-
-            $qb = midcom_db_parameter::new_query_builder();
-            $qb->add_constraint('domain', '=', 'org.routamc.photostream');
-            $qb->add_constraint('name', '=', 'net.siriux.photos:guid');
-            $qb->add_constraint('value', '=', $guid);
-            $photo_params = $qb->execute();
-            if (count($photo_params) == 0)
-            {
-                return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
-            }
-            else
-            {
-                $photo = new org_routamc_photostream_photo_dba($photo_params[0]->parentguid);
-                if (   !$photo
-                    || !$photo->guid)
-                {
-                    return "<span class=\"missing_photo_legacy\" title=\"{$guid}\">{$fulltag}</span>{$after}";
-                }
-            }
+            return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
         }
 
         // Get the correct photo NAP object based on the GUID
