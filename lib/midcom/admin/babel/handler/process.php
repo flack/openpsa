@@ -66,17 +66,16 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * Check if the language is found from the language database
      *
      * @param string $lang
-     * @return boolean      True if the language is in language database, false on failure
      */
-    function validate_language($lang)
+    private function _load_language($lang)
     {
         if (array_key_exists($lang, $this->_l10n->get_languages()))
         {
-            return true;
+             $this->_lang = $lang;
         }
         else
         {
-            return false;
+            throw new midcom_error_notfound('Language ' . $lang . ' not found in language database');
         }
     }
 
@@ -114,11 +113,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     public function _handler_save($handler_id, $args, &$data)
     {
         $this->_component_path = $args[0];
-        $this->_lang = $args[1];
-        if (!$this->validate_language($this->_lang))
-        {
-            return false;
-        }
+        $this->_load_language($args[1]);
 
         if (array_key_exists('f_cancel', $_POST))
         {
@@ -272,11 +267,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      */
     public function _handler_status($handler_id, $args, &$data)
     {
-        $this->_lang = $args[0];
-        if (!$this->validate_language($this->_lang))
-        {
-            return false;
-        }
+        $this->_load_language($args[0]);
 
         $this->_update_breadcrumb_line($handler_id);
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -340,14 +331,9 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_component_path = $args[0];
-        $this->_lang = $args[1];
-        if (!$this->validate_language($this->_lang))
-        {
-            return false;
-        }
+        $this->_load_language($args[1]);
 
-        if (   $this->_component_path
-            && $this->_lang)
+        if ($this->_component_path)
         {
             debug_add('Loading i10n class for '.$this->_component_path);
             if (!$this->_component_l10n = $_MIDCOM->i18n->get_l10n($this->_component_path))
