@@ -87,7 +87,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
      * @param array  $data          Miscellaneous output data
-     * @return boolean              Indicating success
      */
     public function _handler_config($handler_id, $args, &$data)
     {
@@ -143,8 +142,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($_MIDCOM->i18n->get_string('component %s configuration for folder %s', 'midcom'), $_MIDCOM->i18n->get_string($data['component'], $data['component']), $data['topic']->extra);
         $_MIDCOM->set_pagetitle($data['title']);
-
-        return true;
     }
 
     /**
@@ -174,7 +171,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id    Name of the handler
      * @param array  $args          Variable arguments
      * @param array  &$data          Miscellaneous output data
-     * @return boolean              Indicating success
      */
     public function _handler_recreate($handler_id, $args, &$data)
     {
@@ -212,8 +208,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $data['component'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT);
         $data['title'] = sprintf($_MIDCOM->i18n->get_string('recreate images for folder %s', 'midcom'), $data['topic']->extra);
         $_MIDCOM->set_pagetitle($data['title']);
-
-        return true;
     }
 
     /**

@@ -72,8 +72,6 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
         $_MIDCOM->set_26_request_metadata($this->_campaign->metadata->revised, $this->_campaign->guid);
         $_MIDCOM->set_pagetitle($this->_campaign->title);
-
-        return true;
     }
 
     private function _populate_toolbar()

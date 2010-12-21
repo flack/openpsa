@@ -61,7 +61,6 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_request($handler_id, $args, &$data)
     {
@@ -103,8 +102,6 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle($this->_topic->extra);
         $this->add_breadcrumb("", $this->_l10n->get('buddy request'));
-
-        return true;
     }
 
     /**

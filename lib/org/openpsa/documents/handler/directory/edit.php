@@ -69,7 +69,6 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -103,8 +102,6 @@ class org_openpsa_documents_handler_directory_edit extends midcom_baseclasses_co
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
         $_MIDCOM->bind_view_to_object($this->_request_data['directory'], $this->_controller->datamanager->schema->name);
-
-        return true;
     }
 
     /**

@@ -49,13 +49,12 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_socialweb'))
         {
-            return false;
+            throw new midcom_error('socialweb functiosn are disabled');
         }
 
         if ($handler_id == 'admin_edit')
@@ -102,8 +101,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $_MIDCOM->bind_view_to_object($this->_account, $data['datamanager']->datamanager->schema->name);
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $_MIDCOM->set_pagetitle($this->_l10n->get('social web settings'));
-
-        return true;
     }
 
     /**

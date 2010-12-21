@@ -505,7 +505,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_index($handler_id, $args, &$data)
     {
@@ -513,8 +512,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $args);
-
-        return true;
     }
 
     /**
@@ -535,7 +532,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_simpleemails($handler_id, $args, &$data)
     {
@@ -612,8 +608,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
             $this->_request_data['time_end'] = time();
         }
-
-        return true;
     }
 
     /**
@@ -641,7 +635,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_vcards($handler_id, $args, &$data)
     {
@@ -766,8 +759,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
             $this->_request_data['time_end'] = time();
         }
-
-        return true;
     }
 
     /**
@@ -795,7 +786,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_csv_select($handler_id, $args, &$data)
     {
@@ -869,8 +859,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
 
             $data['time_end'] = time();
         }
-
-        return true;
     }
 
     /**
@@ -902,7 +890,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_csv($handler_id, $args, &$data)
     {
@@ -1013,8 +1000,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
         }
 
         $data['time_end'] = time();
-
-        return true;
     }
 
     /**

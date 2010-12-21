@@ -34,7 +34,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_configuration($handler_id, $args, &$data)
     {
@@ -59,8 +58,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n_midcom->get('component configuration'));
         $this->add_breadcrumb("config/", $this->_l10n_midcom->get('component configuration', 'midcom'));
-
-        return true;
     }
 
     /**

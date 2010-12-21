@@ -215,7 +215,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data)
     {
@@ -431,8 +430,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         $title = str_replace('<TOPIC_TITLE>', $this->_topic->extra, $title);
 
         $_MIDCOM->set_pagetitle($title);
-
-        return true;
     }
 
     /**

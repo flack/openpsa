@@ -83,13 +83,11 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_select($handler_id, $args, &$data)
     {
         $this->_update_breadcrumb_line($handler_id);
         $_MIDCOM->set_pagetitle($data['view_title']);
-        return true;
     }
 
     /**
@@ -108,7 +106,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_save($handler_id, $args, &$data)
     {
@@ -271,7 +268,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
 
         $this->_update_breadcrumb_line($handler_id);
         $_MIDCOM->set_pagetitle($data['view_title']);
-        return true;
     }
 
     /**

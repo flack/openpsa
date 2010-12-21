@@ -137,14 +137,12 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view ($handler_id, $args, &$data)
     {
         if (!$this->_article)
         {
-            return false;
-            // This will 500
+            throw new midcom_error('Failed to load article');
         }
 
         if ($handler_id == 'view-raw')
@@ -193,8 +191,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
         $_MIDCOM->bind_view_to_object($this->_article, $this->_datamanager->schema->name);
         $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
-
-        return true;
     }
 
     /**

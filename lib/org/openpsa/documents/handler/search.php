@@ -27,7 +27,6 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_search($handler_id, $args, &$data)
     {
@@ -54,8 +53,6 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.documents/layout.css");
 
         $this->_populate_toolbar();
-
-        return true;
     }
 
     /**

@@ -93,7 +93,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data)
     {
@@ -127,8 +126,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $this->add_breadcrumb("person/{$this->_contact->guid}/", $this->_contact->name);
         $_MIDCOM->set_pagetitle($this->_contact->name);
-
-        return true;
     }
 
     /**

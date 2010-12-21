@@ -37,7 +37,6 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_summary($handler_id, $args, &$data)
     {
@@ -81,8 +80,6 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
         $this->_request_data['members_unsubscribed'] = $qb->execute();
-
-        return true;
     }
 
     /**
@@ -99,7 +96,6 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_next($handler_id, $args, &$data)
     {
@@ -129,8 +125,6 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
             $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "interview/{$member->guid}/");
             // This will exit.
         }
-
-        return true;
     }
 
     /**

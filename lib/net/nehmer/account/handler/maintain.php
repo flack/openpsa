@@ -139,7 +139,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_password($handler_id, $args, &$data)
     {
@@ -165,8 +164,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $_MIDCOM->bind_view_to_object($this->_account, $this->_controller->datamanager->schema->name);
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('change password'));
-
-        return true;
     }
 
     /**
@@ -280,7 +277,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_username($handler_id, $args, &$data)
     {
@@ -302,8 +298,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $_MIDCOM->bind_view_to_object($this->_account, $this->_controller->datamanager->schema->name);
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('change username'));
-
-        return true;
     }
 
     /**
@@ -416,7 +410,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_lostpassword($handler_id, $args, &$data)
     {
@@ -440,8 +433,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_LOSTPASSWORD);
         $_MIDCOM->set_pagetitle($this->_l10n->get('lost password'));
-
-        return true;
     }
 
     /**
@@ -450,7 +441,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_lostpassword_reset($handler_id, $args, &$data)
     {
@@ -493,8 +483,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $_MIDCOM->auth->drop_sudo();
 
         $this->_prepare_request_data();
-
-        return true;
     }
 
     /**
@@ -791,7 +779,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_cancel_membership($handler_id, $args, &$data)
     {
@@ -820,8 +807,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $_MIDCOM->bind_view_to_object($this->_account, $this->_datamanager->schema->name);
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('cancel membership'));
-
-        return true;
     }
 
     /**

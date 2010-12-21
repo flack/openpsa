@@ -677,15 +677,12 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_rsd($handler_id, $args, &$data)
     {
         //Content-Type
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('text/xml');
-
-        return true;
     }
 
     /**
@@ -703,13 +700,12 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_server($handler_id, $args, &$data)
     {
         if (!$this->_config->get('api_metaweblog_enable'))
         {
-            return false;
+            throw new midcom_error('Metaweblog API is disabled');
         }
 
         //Content-Type
@@ -757,8 +753,6 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
                 'function' => array($this, 'getUsersBlogs'),
             )
         );
-
-        return true;
     }
 
     /**

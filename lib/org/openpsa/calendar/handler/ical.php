@@ -68,7 +68,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_user_events($handler_id, $args, &$data)
     {
@@ -78,14 +77,12 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $this->request_data['person'] = $this->_find_person_by_name($username);
         if (!is_object($this->request_data['person']))
         {
-            return false;
+            throw new midcom_error_notfound('Could not find person with username ' . $username);
         }
 
         $this->_get_events();
 
         $this->_content_type();
-
-        return true;
     }
 
     /**
@@ -139,7 +136,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_user_busy($handler_id, $args, &$data)
     {
@@ -149,7 +145,6 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $this->_get_events();
 
         $this->_content_type();
-        return true;
     }
 
     /**

@@ -17,7 +17,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_emailimport($handler_id, $args, &$data)
     {
@@ -214,7 +213,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
         }
 
         $_MIDCOM->auth->drop_sudo();
-        return true;
     }
 
     /**

@@ -45,7 +45,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_entry($handler_id, $args, &$data)
     {
@@ -53,8 +52,7 @@ implements midcom_helper_datamanager2_interfaces_create
         //passed guid does not exist
         if (!$this->_current_object)
         {
-            debug_add("Failed to load object for passed guid: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("Failed to load object for passed guid: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
 
         if ($args[1])
@@ -102,8 +100,6 @@ implements midcom_helper_datamanager2_interfaces_create
             $this->add_breadcrumb("", $this->_l10n->get('journal entries'));
         }
         $this->_prepare_header();
-
-        return true;
     }
 
     /**
@@ -166,8 +162,6 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $this->_prepare_breadcrumb();
-
-        return true;
     }
 
     public function _show_create($handler_id, &$data)
@@ -202,8 +196,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $add_url = $add_url . $this->_current_object->guid . "/";
 
         $_MIDCOM->relocate($add_url);
-
-        return true;
     }
 
     public function load_schemadb()
@@ -248,8 +240,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->_prepare_breadcrumb();
         $_MIDCOM->bind_view_to_object($this->_journal_entry, $data['controller']->datamanager->schema->name);
-
-        return true;
     }
 
     public function _show_edit($handler_id, &$data)
@@ -262,7 +252,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_journal_entry = $this->load_object('org_openpsa_relatedto_journal_entry_dba', $args[0]);
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
 
-        if(!$this->_journal_entry->delete())
+        if (!$this->_journal_entry->delete())
         {
             throw new midcom_error("Failed to delete journal_entry: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
         }
@@ -271,8 +261,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $url_prefix = $url_prefix . $this->_current_object->guid . "/both/";
 
         $_MIDCOM->relocate($url_prefix);
-
-        return true;
     }
 
     public function _show_delete($handler_id, &$data){}
@@ -334,8 +322,6 @@ implements midcom_helper_datamanager2_interfaces_create
             org_openpsa_core_ui::enable_jqgrid();
         }
         $this->_prepare_header();
-
-        return true;
     }
 
     public function _show_list($handler_id, &$data)

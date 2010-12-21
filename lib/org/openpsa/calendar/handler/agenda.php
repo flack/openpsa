@@ -22,7 +22,6 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_day($handler_id, $args, &$data)
     {
@@ -30,7 +29,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         $requested_time = @strtotime($args[0]);
         if (!$requested_time)
         {
-            return false;
+            throw new midcom_error('could not generate time from ' . $args[0]);
         }
 
         // Use calendarwidget for time calculations
@@ -70,8 +69,6 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         {
             $this->_request_data['events'][] = new org_openpsa_calendar_event_dba($mc->get_subkey($guid, 'eid'));
         }
-
-        return true;
     }
 
     /**

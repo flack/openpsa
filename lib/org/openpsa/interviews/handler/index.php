@@ -17,7 +17,6 @@ class org_openpsa_interviews_handler_index extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_index($handler_id, $args, &$data)
     {
@@ -26,7 +25,6 @@ class org_openpsa_interviews_handler_index extends midcom_baseclasses_components
         $qb = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $qb->add_constraint('archived', '=', 0);
         $this->_request_data['campaigns'] = $qb->execute();
-        return true;
     }
 
     /**

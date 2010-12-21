@@ -89,7 +89,6 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-        return true;
     }
 
     /**
@@ -98,15 +97,12 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete_report($handler_id, $args, &$data)
     {
         $report = $this->load_object('org_openpsa_reports_query_dba', $args[0]);
         $report->delete();
         $_MIDCOM->relocate();
-
-        return true;
     }
 
 
@@ -116,7 +112,6 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_csv($handler_id, $args, &$data)
     {
@@ -128,8 +123,6 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         //We're outputting CSV
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('application/csv');
-
-        return true;
     }
 
     /**
@@ -147,15 +140,12 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
         $data['available_components'] = org_openpsa_reports_viewer::available_component_generators();
-
-        return true;
     }
 
     /**

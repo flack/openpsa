@@ -75,7 +75,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_privileges($handler_id, $args, &$data)
     {
@@ -107,8 +106,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $this->add_breadcrumb("group/{$this->_group->guid}/", $this->_group->name);
         $this->add_breadcrumb("", $this->_l10n->get('permissions'));
-
-        return true;
     }
 
     /**

@@ -48,7 +48,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data)
     {
@@ -124,8 +123,6 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
         $qb->add_constraint('nextVersion', '=', 0);
         $qb->add_order('title');
         $this->_documents = $qb->execute();
-
-        return true;
     }
 
     /**

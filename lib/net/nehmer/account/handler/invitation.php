@@ -129,13 +129,12 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_remind_invite($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
-            return false;
+            throw new midcom_error('Invite functionality is disabled');
         }
 
         $this->_request_data['hash'] = $args[0];
@@ -150,21 +149,18 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
         }
 
         $_MIDCOM->relocate('sent_invites');
-
-        return true;
     }
 
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete_invite($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
-            return false;
+            throw new midcom_error('Invite functions are disabled');
         }
 
         $qb = net_nehmer_account_invites_invite_dba::new_query_builder();
@@ -178,8 +174,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
         }
 
         $_MIDCOM->relocate('sent_invites');
-
-        return true;
     }
 
     /**
@@ -196,15 +190,13 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_invite($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
-            return false;
+            throw new midcom_error('Invite functions are disabled');
         }
-
 
         $_MIDCOM->auth->require_valid_user();
 
@@ -281,8 +273,6 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('import contacts'));
         $this->add_breadcrumb('invite/', $this->_l10n->get('import contacts'));
-
-        return true;
     }
 
     /**
@@ -299,13 +289,12 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_sent_invites($handler_id, $args, &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
-            return false;
+            throw new midcom_error('Invite functions are disabled');
         }
 
         $_MIDCOM->auth->require_valid_user();
@@ -333,9 +322,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('invited contacts'));
         $this->add_breadcrumb('invite/', $this->_l10n->get('import contacts'));
-        $$this->add_breadcrumb('sent_invites/', $this->_l10n->get('invited contacts'));
-
-        return true;
+        $this->add_breadcrumb('sent_invites/', $this->_l10n->get('invited contacts'));
     }
 
     /**

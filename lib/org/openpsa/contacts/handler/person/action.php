@@ -29,7 +29,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_group_memberships($handler_id, $args, &$data)
     {
@@ -43,15 +42,12 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         // Group person listing, always work even if there are none
         $_MIDCOM->skip_page_style = true;
-
-        return true;
     }
 
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_account_create($handler_id, $args, &$data)
     {
@@ -115,8 +111,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-
-        return true;
     }
 
     private function _prepare_request_data()
@@ -169,7 +163,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_account_edit($handler_id, $args, &$data)
     {
@@ -213,8 +206,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-
-        return true;
     }
 
     private function _update_account()

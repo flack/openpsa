@@ -306,7 +306,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_generator($handler_id, $args, &$data)
     {
@@ -315,8 +314,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         $this->_generator_load_redirect($args);
         $this->set_active_leaf($this->_topic->id . ':generator_projects');
         $this->_handler_generator_style();
-
-        return true;
     }
 
     /**

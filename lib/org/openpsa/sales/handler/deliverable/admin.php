@@ -202,7 +202,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -250,8 +249,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $this->_update_breadcrumb_line($handler_id);
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_deliverable->title));
-
-        return true;
     }
 
 
@@ -277,7 +274,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -314,8 +310,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $_MIDCOM->set_pagetitle($this->_deliverable->title);
         $_MIDCOM->bind_view_to_object($this->_deliverable, $this->_request_data['controller']->datamanager->schema->title);
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
 

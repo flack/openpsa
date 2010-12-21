@@ -15,22 +15,11 @@
  */
 class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
 {
-    /**
-     * Initialize the request switch and the content topic.
-     *
-     * @access protected
-     */
-    public function _on_initialize()
+    public function _on_handle($handler, $args)
     {
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
-    }
-
-    public function _on_handle($handler, $args)
-    {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
-
-        return true;
     }
 
     /**
@@ -60,7 +49,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_userinfo($handler_id, $args, &$data)
     {
@@ -73,8 +61,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
 
         // This handler uses Ajax, include the handler javascripts
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL."/org.openpsa.helpers/ajaxutils.js");
-
-        return true;
     }
 
     /**
@@ -94,7 +80,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_updates($handler_id, $args, &$data)
     {
@@ -111,7 +96,6 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
         $query = '__TOPIC_URL:"' . $_MIDCOM->get_host_name() . '*"';
         $filter = new midcom_services_indexer_filter_date('__EDITED', $start, $end);
         $this->_request_data['yesterday'] = $indexer->query($query, $filter);
-        return true;
     }
 
     /**

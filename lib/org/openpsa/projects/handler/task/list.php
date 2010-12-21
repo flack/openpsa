@@ -63,7 +63,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -81,31 +80,30 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 case 'all':
                     $this->_prepare_output();
                     org_openpsa_core_ui::enable_jqgrid();
-                    return $this->_handler_list_all($args);
+                    $this->_handler_list_all($args);
                     break;
                 case 'project':
                     $this->_prepare_output();
 
                     $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-                    return $this->_handler_list_project($args);
+                    $this->_handler_list_project($args);
                     break;
                 case 'json':
-                    $return = $this->_handler_list_project($args);
+                    $this->_handler_list_project($args);
                     //form of tasks has to be changed for json
                     $this->_change_tasks_for_json();
                     $_MIDCOM->skip_page_style = true;
                     $this->_request_data['view'] = 'json';
-                    return $return;
+                    break;
                 default:
                     throw new midcom_error('Invalid argument ' . $args[0]);
             }
         }
         else
         {
-            return $this->_handler_list_user();
+            $this->_handler_list_user();
         }
-        return false;
     }
 
     private function _handler_list_user()
@@ -289,8 +287,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 $this->_add_task_to_list($task->id, 'onhold');
             }
         }
-
-        return true;
     }
 
     private function _handler_list_project(&$args)
@@ -357,7 +353,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 $this->_request_data['tasks'][$list][$task->id] = $task;
             }
         }
-        return true;
     }
 
     /**
@@ -379,7 +374,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             case 'agreement':
                 if (!$args[2])
                 {
-                    return false;
+                    throw new midcom_error('Invalid arguments for agreement filter');
                 }
                 $agreement_id = (int) $args[2];
                 $this->_request_data['agreement'] = $agreement_id;
@@ -427,9 +422,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 $qb->add_order('end', 'DESC');
                 break;
             default:
-                debug_add("Filter {$args[1]} not recognized", MIDCOM_LOG_ERROR);
-                return false;
-                break;
+                throw new midcom_error("Filter {$args[1]} not recognized");
         }
         $qb->add_order('customer');
         $qb->add_order('up');
@@ -448,12 +441,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $tasks = $qb->execute();
         if ($tasks === false)
         {
-            return false;
+            throw new midcom_error('QB error');
         }
         $this->_request_data['view'] = 'grid';
         $this->_request_data['tasks'] = $tasks;
-
-        return true;
     }
 
     /**

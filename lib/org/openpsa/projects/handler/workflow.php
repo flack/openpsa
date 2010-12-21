@@ -17,7 +17,6 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_action($handler_id, $args, &$data)
     {
@@ -64,7 +63,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         }
 
         //We should not fall this far trough
-        return false;
+        throw new midom_error('Unknown error.');
     }
 
     private function _redirect()
@@ -93,7 +92,6 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_post($handler_id, $args, &$data)
     {
@@ -103,8 +101,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
             || !is_array($_POST['org_openpsa_projects_workflow_action'])
             || count($_POST['org_openpsa_projects_workflow_action']) == 0)
         {
-            //We do not have proper POST available, abort
-            return false;
+            throw new midcom_error('Incomplete request');
         }
 
         //Go trough the array, in theory it should have only one element and in any case only the last of them will be processed
@@ -123,7 +120,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             $this->_request_data['redirect_to'] = $_POST['org_openpsa_projects_workflow_action_redirect'];
         }
-        return $this->_handler_action($handler_id, $args, $data);
+        $this->_handler_action($handler_id, $args, $data);
     }
 
     /**

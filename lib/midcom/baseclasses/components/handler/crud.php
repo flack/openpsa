@@ -407,11 +407,9 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_callback($handler_id, $args, &$data)
     {
-        return true;
     }
 
     /**
@@ -420,7 +418,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -481,7 +478,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
             $this->_view_toolbar->bind_to($this->_object);
         }
 
-        return $this->_handler_callback($handler_id, $args, $data);
+        $this->_handler_callback($handler_id, $args, $data);
     }
 
     /**
@@ -502,7 +499,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_read($handler_id, $args, &$data)
     {
@@ -544,7 +540,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
         $this->_view_toolbar->bind_to($this->_object);
 
-        return $this->_handler_callback($handler_id, $args, $data);
+        $this->_handler_callback($handler_id, $args, $data);
     }
 
     /**
@@ -565,7 +561,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_update($handler_id, $args, &$data)
     {
@@ -601,7 +596,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $_MIDCOM->bind_view_to_object($this->_object, $this->_controller->datamanager->schema->name);
         $this->_view_toolbar->bind_to($this->_object);
 
-        return $this->_handler_callback($handler_id, $args, $data);
+        $this->_handler_callback($handler_id, $args, $data);
     }
 
     /**
@@ -627,7 +622,6 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -680,7 +674,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
         $_MIDCOM->bind_view_to_object($this->_object, $this->_datamanager->schema->name);
         $this->_view_toolbar->bind_to($this->_object);
 
-        return $this->_handler_callback($handler_id, $args, $data);
+        $this->_handler_callback($handler_id, $args, $data);
     }
 
     /**

@@ -29,7 +29,6 @@ class org_openpsa_interviews_handler_report extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_all($handler_id, $args, &$data)
     {
@@ -47,8 +46,6 @@ class org_openpsa_interviews_handler_report extends midcom_baseclasses_component
 
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
         $this->_request_data['datamanager'] = new midcom_helper_datamanager2_datamanager($schemadb);
-
-        return true;
     }
 
     /**

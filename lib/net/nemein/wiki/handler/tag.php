@@ -17,7 +17,6 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_tagged($handler_id, $args, &$data)
     {
@@ -61,8 +60,6 @@ class net_nemein_wiki_handler_tag extends midcom_baseclasses_components_handler
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb("tags/{$data['tag']}/", $data['view_title']);
-
-        return true;
     }
 
     /**

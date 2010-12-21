@@ -19,7 +19,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_sidebyside($handler_id, $args, &$data)
     {
@@ -161,8 +160,6 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
             $this->_request_data['person2'] = $person2;
             break;
         }
-
-        return true;
     }
 
     /**

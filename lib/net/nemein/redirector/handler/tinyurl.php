@@ -116,7 +116,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean True if the request can be handled, false otherwise.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -134,8 +133,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Set the request data
         $this->_populate_request_data($handler_id);
-
-        return true;
     }
 
     /**
@@ -155,7 +152,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean True if the request can be handled, false otherwise.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -191,8 +187,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Set the request data
         $this->_populate_request_data($handler_id);
-
-        return true;
     }
 
     /**
@@ -212,7 +206,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean True if the request can be handled, false otherwise.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -229,8 +222,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Set the request data
         $this->_populate_request_data($handler_id);
-
-        return true;
     }
 
     /**

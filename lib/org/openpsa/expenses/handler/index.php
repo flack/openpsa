@@ -22,7 +22,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_index ($handler_id, $args, &$data)
     {
@@ -87,8 +86,6 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $this->add_breadcrumb('', sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("expenses in week %s"), strftime("%V %Y", $this->_request_data['week_start'])));
-
-        return true;
     }
 
     private function _populate_toolbar($previous_week, $next_week)

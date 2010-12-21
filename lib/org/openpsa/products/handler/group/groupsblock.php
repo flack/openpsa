@@ -66,7 +66,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_groupsblock($handler_id, $args, &$data)
     {
@@ -164,7 +163,6 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
         }
 
         $_MIDCOM->set_pagetitle($data['view_title']);
-        return true;
     }
 
     private function _list_group_products()

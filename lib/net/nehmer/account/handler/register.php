@@ -128,7 +128,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_select_type($handler_id, $args, &$data)
     {
@@ -171,8 +170,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $_MIDCOM->set_pagetitle($this->_l10n->get('account registration') . ': ' . $this->_l10n->get('select account type'));
-
-        return true;
     }
 
     /**
@@ -188,7 +185,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_register_invitation($handler_id, $args, &$data)
     {
@@ -242,8 +238,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
             $_MIDCOM->relocate($prefix);
         }
-
-        return true;
     }
 
 
@@ -268,7 +262,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_register($handler_id, $args, &$data)
     {
@@ -357,8 +350,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
                 $_MIDCOM->set_pagetitle($this->_l10n->get('account registration') . ': ' . $this->_l10n->get('registration successful'));
                 break;
         }
-
-        return true;
     }
 
     /**
@@ -867,7 +858,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_activate($handler_id, $args, &$data)
     {
@@ -881,7 +871,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             && $this->_person->get_parameter('net.nehmer.account', 'require_approval') === 'require_approval')
         {
             $this->activated = false;
-            return true;
+            return;
         }
 
         $this->_account = $_MIDCOM->auth->get_user($this->_person);
@@ -912,7 +902,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $_MIDCOM->set_pagetitle($this->_l10n->get('account registration') . ': ' . $this->_l10n->get('activation successful'));
 
         $this->activated = true;
-        return true;
     }
 
     /**
@@ -934,11 +923,9 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_finish($handler_id, $args, &$data)
     {
-        return true;
     }
 
     public function _show_finish($handler_id, &$data)

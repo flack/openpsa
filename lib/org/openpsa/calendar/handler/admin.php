@@ -41,7 +41,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -73,8 +72,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-
-        return true;
     }
 
     /**
@@ -101,7 +98,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -127,7 +123,6 @@ class org_openpsa_calendar_handler_admin extends midcom_baseclasses_components_h
             $_MIDCOM->add_jsonload('window.close();');
         }
         $this->_request_data['event'] =& $this->_event;
-        return true;
     }
 
     /**

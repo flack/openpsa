@@ -79,7 +79,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -91,8 +90,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('buddy requests'));
         $this->set_active_leaf(NET_NEHMER_BUDDYLIST_LEAFID_PENDING);
-
-        return true;
     }
 
     /**
@@ -168,7 +165,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_process($handler_id, $args, &$data)
     {
@@ -203,8 +199,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('buddy requests'));
         $this->set_active_leaf(NET_NEHMER_BUDDYLIST_LEAFID_PENDING);
-
-        return true;
     }
 
     /**

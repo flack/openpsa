@@ -17,7 +17,6 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_goto($handler_id, $args, &$data)
     {
@@ -35,7 +34,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
         }
 
         $invoicenumber = $_GET['query'] ;
-        if( (int) $invoicenumber == 0)
+        if ((int) $invoicenumber == 0)
         {
             $MessageContent = sprintf
             (
@@ -66,8 +65,6 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
             default:
                 $_MIDCOM->relocate($prefix);
         }
-
-        return true;
     }
 }
 ?>

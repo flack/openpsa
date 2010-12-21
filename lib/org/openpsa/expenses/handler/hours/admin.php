@@ -120,7 +120,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -191,8 +190,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $data['view_title'] = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get($this->_schemadb[$this->_schema]->description));
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->_update_breadcrumb_line($data['view_title']);
-
-        return true;
     }
 
     /**
@@ -242,7 +239,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -300,7 +296,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $this->_update_breadcrumb_line($handler_id);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-        return true;
     }
 
 
@@ -347,7 +342,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -384,8 +378,6 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         $this->_view_toolbar->bind_to($this->_hour_report);
 
         $_MIDCOM->set_26_request_metadata($this->_hour_report->metadata->revised, $this->_hour_report->guid);
-
-        return true;
     }
 
     /**
@@ -460,8 +452,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                         }
                         break;
                     default:
-                        debug_print_r('passed Action is unknown', $_POST['action']);
-                        return false;
+                        throw new midcom_error('passed Action ' . $_POST['action'] . ' is unknown');
                 }
                 $hour_report->update();
             }

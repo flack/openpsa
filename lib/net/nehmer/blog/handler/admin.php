@@ -195,7 +195,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -245,8 +244,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**
@@ -266,7 +263,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_deletelink($handler_id, $args, &$data)
     {
@@ -293,8 +289,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         $this->_view_toolbar->bind_to($this->_article);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**
@@ -366,7 +360,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -437,8 +430,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
         $this->_view_toolbar->bind_to($this->_article);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**

@@ -152,7 +152,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -381,7 +380,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
-        return true;
     }
 
     private function _add_ordering(&$qb, $ordering)

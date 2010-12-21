@@ -59,7 +59,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -91,8 +90,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-
-        return true;
     }
 
     public function load_schemadb()

@@ -17,7 +17,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_set($handler_id, $args, &$data)
     {
@@ -61,7 +60,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_check($handler_id, $args, &$data)
     {
@@ -74,8 +72,6 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
 
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
-
-        return true;
     }
 
     /**

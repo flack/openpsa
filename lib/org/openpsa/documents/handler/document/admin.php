@@ -91,7 +91,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -145,8 +144,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
 
         $this->_update_breadcrumb_line('edit');
-
-        return true;
     }
 
     /**
@@ -201,7 +198,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -256,8 +252,6 @@ class org_openpsa_documents_handler_document_admin extends midcom_baseclasses_co
              )
          );
         $this->_update_breadcrumb_line('delete');
-
-        return true;
     }
 
     /**

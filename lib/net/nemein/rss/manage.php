@@ -25,7 +25,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_opml($handler_id, $args, &$data)
     {
@@ -40,8 +39,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $data['feeds'] = $qb->execute();
 
         $_MIDCOM->load_library('de.bitfolge.feedcreator');
-
-        return true;
     }
 
     /**
@@ -69,7 +66,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -79,8 +75,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $data['feeds'] = $qb->execute();
 
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**
@@ -162,7 +156,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_subscribe($handler_id, $args, &$data)
     {
@@ -218,8 +211,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         }
 
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**
@@ -249,7 +240,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -273,8 +263,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $_MIDCOM->bind_view_to_object($data['feed']);
 
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**
@@ -298,7 +286,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -332,8 +319,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$data['feed']->title}");
 
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
 
@@ -352,7 +337,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_fetch($handler_id, $args, &$data)
     {
@@ -393,8 +377,6 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
         }
 
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**

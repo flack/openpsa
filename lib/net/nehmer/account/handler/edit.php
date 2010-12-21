@@ -57,7 +57,6 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -115,8 +114,6 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
         $_MIDCOM->bind_view_to_object($this->_account, $this->_controller->datamanager->schema->name);
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $_MIDCOM->set_pagetitle($this->_l10n->get('edit account'));
-
-        return true;
     }
 
     /**

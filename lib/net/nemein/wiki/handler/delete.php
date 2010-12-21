@@ -59,14 +59,13 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data, $delete_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
         {
-            return false;
+            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
 
         $this->_page->require_do('midgard:delete');
@@ -107,7 +106,6 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
         $this->add_breadcrumb("delete/{$this->_page->name}/", $this->_l10n_midcom->get('delete'));
 
         $_MIDCOM->set_pagetitle($this->_page->title);
-        return true;
     }
 
     /**

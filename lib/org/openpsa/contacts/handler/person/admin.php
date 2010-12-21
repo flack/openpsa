@@ -189,7 +189,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -218,8 +217,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $_MIDCOM->set_pagetitle($this->_contact->name);
         $_MIDCOM->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**
@@ -244,7 +241,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -281,8 +277,6 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $_MIDCOM->set_pagetitle($this->_contact->name);
         $_MIDCOM->bind_view_to_object($this->_contact, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**

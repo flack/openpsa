@@ -39,7 +39,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_interview($handler_id, $args, &$data)
     {
@@ -64,8 +63,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $_MIDCOM->relocate($_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "campaign/{$data['campaign']->guid}/");
                 // This will exit.
         }
-
-        return true;
     }
 
     /**

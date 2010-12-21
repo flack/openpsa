@@ -212,8 +212,6 @@ class net_nehmer_account_viewer extends midcom_baseclasses_components_request
         $this->_handler_id = $handler;
 
         $this->_populate_toolbar();
-
-        return true;
     }
 
     /**

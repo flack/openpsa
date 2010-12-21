@@ -140,7 +140,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_callback($handler_id, $args, &$data)
     {
@@ -150,7 +149,6 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
             $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
             $_MIDCOM->load_library('org.openpsa.contactwidget');
         }
-        return true;
     }
 
     public function _load_defaults()

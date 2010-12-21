@@ -50,7 +50,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -99,8 +98,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('organization')));
-
-        return true;
     }
 
     /**

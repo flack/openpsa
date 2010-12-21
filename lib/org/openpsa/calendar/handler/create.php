@@ -64,7 +64,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -102,8 +101,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Hide the ROOT style
         $_MIDCOM->skip_page_style = true;
-
-        return true;
     }
 
     /**

@@ -17,7 +17,6 @@ class org_openpsa_projects_handler_task_action extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_action($handler_id, $args, &$data)
     {
@@ -42,7 +41,7 @@ class org_openpsa_projects_handler_task_action extends midcom_baseclasses_compon
                 $_MIDCOM->relocate("{$prefix}task/{$task->guid}/");
                 // This will exit()
             default:
-                return false;
+                throw new midcom_error('Unknown action ' . $args[1]);
         }
     }
 }

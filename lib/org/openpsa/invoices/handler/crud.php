@@ -179,7 +179,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_callback($handler_id, $args, &$data)
     {
@@ -192,8 +191,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
             $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         }
-
-        return true;
     }
 
     private function _count_invoice_hours()
@@ -411,7 +408,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_pdf($handler_id, $args, &$data)
     {
@@ -460,7 +456,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             $this->_request_data['billing_data'] = $this->_object->get_billing_data();
             $_MIDCOM->skip_page_style = true;
         }
-        return true;
     }
 
     /**

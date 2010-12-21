@@ -70,7 +70,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_resourcing($handler_id, $args, &$data)
     {
@@ -145,8 +144,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
 
         org_openpsa_projects_viewer::add_breadcrumb_path($data['task'], $this);
         $this->add_breadcrumb("task/resourcing/{$this->_task->guid}/", $this->_l10n->get('resourcing'));
-
-        return true;
     }
 
 
@@ -165,7 +162,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list_prospects($handler_id, $args, &$data)
     {
@@ -185,8 +181,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
 
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
-
-        return true;
     }
 
     /**
@@ -203,7 +197,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_prospect_slots($handler_id, $args, &$data)
     {
@@ -216,8 +209,6 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         $data['slots'] = $projectbroker->resolve_person_timeslots($data['person'], $this->_task);
 
         $_MIDCOM->skip_page_style = true;
-
-        return true;
     }
 
     /**

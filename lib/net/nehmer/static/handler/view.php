@@ -180,7 +180,6 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view ($handler_id, $args, &$data)
     {
@@ -246,8 +245,6 @@ class net_nehmer_static_handler_view extends midcom_baseclasses_components_handl
         {
             $_MIDCOM->set_pagetitle($this->_article->title);
         }
-
-        return true;
     }
 
     private function _load_index_article()

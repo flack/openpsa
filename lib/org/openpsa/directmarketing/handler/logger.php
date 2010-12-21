@@ -19,7 +19,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_bounce($handler_id, $args, &$data)
     {
@@ -38,10 +37,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         debug_print_r("_qb_token_receipts({$_POST['token']}) returned", $ret);
         if (empty($ret))
         {
-            //Token not present
-            debug_add("No receipts with token '{$_POST['token']}' found", MIDCOM_LOG_WARN);
             $_MIDCOM->auth->drop_sudo();
-            return false;
+            throw new midcom_error_notfound("No receipts with token '{$_POST['token']}' found");
         }
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt)
@@ -89,7 +86,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $_MIDCOM->auth->drop_sudo();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('text/plain');
-        return true;
     }
 
     /**
@@ -126,7 +122,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_link($handler_id, $args, &$data)
     {
@@ -147,10 +142,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         debug_print_r("_qb_token_receipts({$_POST['token']}) returned", $ret);
         if (empty($ret))
         {
-            //Token not present
-            debug_add("No receipts with token '{$_POST['token']}' found", MIDCOM_LOG_WARN);
             $_MIDCOM->auth->drop_sudo();
-            return false;
+            throw new midcom_error_notfound("No receipts with token '{$_POST['token']}' found");
         }
         //While in theory we should have only one token lets use foreach just to be sure
         foreach ($ret as $receipt)
@@ -161,7 +154,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $_MIDCOM->auth->drop_sudo();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type('text/plain');
-        return true;
     }
 
     private function _create_link_receipt(&$receipt, &$token, &$target)
@@ -206,7 +198,6 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_redirect($handler_id, $args, &$data)
     {
@@ -218,7 +209,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
             //Due to the way browsers handle the URLs this form only works for root pages
             $this->_request_data['target'] = $args[1];
         }
-        elseif (   array_key_exists('link', $_GET)
+        else if (   array_key_exists('link', $_GET)
                 && !empty($_GET['link']))
         {
             $this->_request_data['target'] = $_GET['link'];
@@ -251,10 +242,8 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $ret = $this->_qb_token_receipts($this->_request_data['token']);
         if (empty($ret))
         {
-            //Token not present
-            debug_add("No receipts with token '{$this->_request_data['token']}' found", MIDCOM_LOG_WARN);
             $_MIDCOM->auth->drop_sudo();
-            return false;
+            throw new midcom_error_notfound("No receipts with token '{$this->_request_data['token']}' found");
         }
 
         //While in theory we should have only one token lets use foreach just to be sure
@@ -266,8 +255,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
         $_MIDCOM->auth->drop_sudo();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->relocate($this->_request_data['target']);
-        //This will exit unless fails
-        return true;
+        //This will exit
     }
 
     /**

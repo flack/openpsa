@@ -59,7 +59,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -96,8 +95,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         $this->add_breadcrumb('filters/', $this->_l10n->get('choose calendars'));
-
-        return true;
     }
 
     /**

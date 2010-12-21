@@ -183,7 +183,6 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_review($handler_id, $args, &$data)
     {
@@ -234,8 +233,6 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
 
         $this->add_breadcrumb('weekreview/', $this->_l10n->get('week review'));
         $this->add_breadcrumb('', $data['title']);
-
-        return true;
     }
 
     /**

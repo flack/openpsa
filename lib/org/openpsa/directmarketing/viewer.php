@@ -15,18 +15,6 @@
  */
 class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_request
 {
-    public function _on_initialize()
-    {
-        // Always run in uncached mode
-        $_MIDCOM->cache->content->no_cache();
-
-        // This component uses Ajax, include the handler javascripts
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/messages.js");
-        // This is no longer autoloaded by core
-        $this->add_stylesheet(MIDCOM_STATIC_URL."/org.openpsa.core/ui-elements.css");
-    }
-
     /**
      * Populates the node toolbar depending on the user's rights.
      *
@@ -55,16 +43,22 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      */
     public function _on_handle($handler, $args)
     {
-        $this->_populate_node_toolbar();
+        // Always run in uncached mode
+        $_MIDCOM->cache->content->no_cache();
 
-        return true;
+        // This component uses Ajax, include the handler javascripts
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/messages.js");
+        // This is no longer autoloaded by core
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/org.openpsa.core/ui-elements.css");
+
+        $this->_populate_node_toolbar();
     }
 
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_frontpage($handler_id, $args, &$data)
     {
@@ -91,8 +85,6 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
                 );
             }
         }
-
-        return true;
     }
 
     /**
@@ -109,13 +101,11 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_debug($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['config'] =& $this->_config;
-        return true;
     }
 
     /**

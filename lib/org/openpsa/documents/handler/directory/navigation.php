@@ -84,7 +84,6 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_navigation($handler_id, $args, &$data)
     {
@@ -106,7 +105,6 @@ class org_openpsa_documents_handler_directory_navigation extends midcom_baseclas
 
         //This handler is supposed to be used with dynamic_load or AJAX, so skip page style
         $_MIDCOM->skip_page_style = true;
-        return true;
     }
 
     /**

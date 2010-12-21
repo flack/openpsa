@@ -112,8 +112,6 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         //$_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
         $_MIDCOM->cache->content->content_type('application/csv');
         _midcom_header('Content-Disposition: filename=' . $data['filename']);
-
-        return true;
     }
 
     private function _init_csv_variables()

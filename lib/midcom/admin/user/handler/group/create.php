@@ -57,7 +57,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
-     * @return boolean Indicating successful request
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -79,8 +78,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/group/create/", $data['view_title']);
-
-        return true;
     }
 
     /**

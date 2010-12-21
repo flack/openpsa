@@ -28,14 +28,12 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_applet($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // We're using a popup here
         $_MIDCOM->skip_page_style = true;
-        return true;
     }
 
     /**
@@ -52,12 +50,10 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_summary($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        return true;
     }
 
     /**
@@ -74,12 +70,10 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_frontpage($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        return true;
     }
 
     /**

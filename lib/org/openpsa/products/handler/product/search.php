@@ -403,7 +403,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_search($handler_id, $args, &$data)
     {
@@ -469,8 +468,6 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
         $data['view_title'] = $this->_l10n->get('search') . ': ' . $this->_l10n->get($data['schemadb_product'][$data['search_schema']]->description);
 
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        return true;
     }
 
     private function _populate_toolbar()

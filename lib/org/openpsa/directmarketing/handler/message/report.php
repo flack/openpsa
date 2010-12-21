@@ -76,8 +76,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             $segmentation_param = $data['message_array']['report_segmentation'];
         }
         $this->_get_link_data($segmentation_param);
-
-        return true;
     }
 
     private function _get_campaign_data($first_send)
@@ -355,7 +353,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_report($handler_id, $args, &$data)
     {
@@ -415,7 +412,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
                 MIDCOM_TOOLBAR_OPTIONS => array('target' => '_BLANK'),
             )
         );
-        return $this->_analyze_message_report($data);
+        $this->_analyze_message_report($data);
     }
 
     /**
@@ -432,7 +429,6 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_status($handler_id, $args, &$data)
     {

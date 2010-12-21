@@ -52,7 +52,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_render($handler_id, $args, &$data)
     {
@@ -99,8 +98,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         }
 
         $this->_prepare_request_data();
-
-        return true;
     }
 
     private function _prepare_request_data()
@@ -769,7 +766,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_ajax($handler_id, $args, &$data)
     {
@@ -809,7 +805,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 $ajax->simpleReply(false, "method '{$this->_mode}' not supported");
                 //this will exit()
         }
-        return true;
     }
 
     /**
@@ -825,7 +820,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
@@ -844,8 +838,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $stat = $relation->delete();
         $ajax->simpleReply($stat, 'Last message: ' . midcom_connection::get_error_string());
         //this will exit()
-
-        return true;
     }
 
     /**

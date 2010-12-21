@@ -63,7 +63,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_feed ($handler_id, $args, &$data)
     {
@@ -89,7 +88,7 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
                 // This is not a predefined category from configuration, check if site maintainer allows us to show it
                 if (!$this->_config->get('categories_custom_enable'))
                 {
-                    return false;
+                    throw new midcom_error('Custom category support is disabled');
                 }
             }
 
@@ -123,7 +122,6 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
         $this->_create_feed($handler_id);
 
         $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
-        return true;
     }
 
     /**
@@ -223,13 +221,11 @@ class net_nehmer_blog_handler_feed extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_index ($handler_id, $args, &$data)
     {
         $this->set_active_leaf(NET_NEHMER_BLOG_LEAFID_FEEDS);
         $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
-        return true;
     }
 
     /**

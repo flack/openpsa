@@ -24,7 +24,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_generator($handler_id, $args, &$data)
     {
@@ -53,8 +52,6 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         }
 
         org_openpsa_core_ui::enable_jqgrid();
-
-        return true;
     }
 
     private function _get_invoices_for_subscription($deliverable, $at_entry)

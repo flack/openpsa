@@ -18,7 +18,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -82,8 +81,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
                 }
             }
         }
-
-        return true;
     }
 
     /**
@@ -184,7 +181,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_unsubscribe($handler_id, $args, &$data)
     {
@@ -208,8 +204,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $_MIDCOM->auth->drop_sudo();
         //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
         $_MIDCOM->skip_page_style = true;
-
-        return true;
     }
 
     /**
@@ -236,7 +230,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_unsubscribe_ajax($handler_id, $args, &$data)
     {
@@ -264,8 +257,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $message = new org_openpsa_helpers_ajax();
         $message->simpleReply($this->_request_data['unsubscribe_status'], "Unsubscribe failed");
         // This will exit
-
-        return true;
     }
 
     /**
@@ -282,7 +273,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_unsubscribe_all($handler_id, $args, &$data)
     {
@@ -310,9 +300,8 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         if ($memberships === false)
         {
-            //Some error occurred with QB
             $_MIDCOM->auth->drop_sudo();
-            return false;
+            throw new midcom_error('Some error occurred with QB');
         }
         foreach ($memberships as $member)
         {
@@ -328,8 +317,6 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $_MIDCOM->auth->drop_sudo();
         //This is often called by people who should not see anything pointing to OpenPSA, also allows full styling of the unsubscribe page
         $_MIDCOM->skip_page_style = true;
-
-        return true;
     }
 
     /**

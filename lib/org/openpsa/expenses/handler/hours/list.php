@@ -46,7 +46,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -78,7 +77,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 if (   $start_time == -1
                     || $end_time == -1)
                 {
-                    return false;
+                    throw new midcom_error('Failed to generate start and end times from ' . $args[0] . ', ' . $args[1]);
                 }
                 $qb->add_constraint('date', '>=', $start_time);
                 $qb->add_constraint('date', '<=', $end_time);
@@ -167,8 +166,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
 
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->add_breadcrumb('', $data['breadcrumb_title']);
-
-        return true;
     }
 
     private function _add_filter_widget()

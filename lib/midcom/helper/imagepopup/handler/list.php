@@ -34,7 +34,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -71,7 +70,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
             if (!$data['object'])
             {
-                return false;
+                throw new midcom_error_notfound('Failed to load the object ' . $args[1]);
             }
         }
 
@@ -116,8 +115,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
 
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midcom.helper.imagepopup');
-
-        return true;
     }
 
     private function _create_controller(&$data)

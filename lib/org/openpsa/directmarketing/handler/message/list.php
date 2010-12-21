@@ -44,8 +44,6 @@ class org_openpsa_directmarketing_handler_message_list extends midcom_baseclasse
 
         $data['campaign'] =& $this->_campaign;
         $this->_load_datamanager();
-
-        return true;
     }
 
     /**

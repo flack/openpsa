@@ -30,7 +30,6 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_index ($handler_id, $args, &$data)
     {
@@ -38,7 +37,6 @@ class midcom_core_nullcomponent_handler_index  extends midcom_baseclasses_compon
         $_MIDCOM->set_pagetitle($this->_topic->extra);
         
         $_MIDCOM->set_26_request_metadata($this->_topic->metadata->revised, $this->_topic->guid);
-        return true;
     }
 
     /**

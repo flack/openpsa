@@ -67,7 +67,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_index ($handler_id, $args, &$data)
     {
@@ -92,7 +91,7 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
 
             if (!$constraint = $this->_process_category_constraint($qb))
             {
-                return false;
+                throw new midcom_error('Failed to process category constraint');
             }
         }
 
@@ -132,8 +131,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                 sprintf($_MIDCOM->i18n->get_string('page %s', 'org.openpsa.qbpager'), $qb->get_current_page())
             );
         }
-
-        return true;
     }
 
     private function process_category_constraint(&$qb)

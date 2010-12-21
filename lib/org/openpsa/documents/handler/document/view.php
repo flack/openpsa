@@ -65,7 +65,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_versions($handler_id, $args, &$data)
     {
@@ -79,8 +78,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         $qb->add_order('metadata.created', 'DESC');
 
         $data['documents'] = $qb->execute();
-
-        return true;
     }
 
     /**
@@ -102,7 +99,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data)
     {
@@ -167,8 +163,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         $_MIDCOM->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
 
         $this->add_breadcrumb('document/' . $this->_document->guid . '/', $this->_document->title);
-
-        return true;
     }
 
     /**

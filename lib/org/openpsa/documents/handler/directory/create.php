@@ -83,7 +83,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -112,8 +111,6 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
-
-        return true;
     }
 
     /**

@@ -24,7 +24,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_mark_sent($handler_id, $args, &$data)
     {
@@ -113,7 +112,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_itemedit($handler_id, $args, &$data)
     {
@@ -154,8 +152,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         }
         //get invoice_items for this invoice
         $this->_request_data['invoice_items'] = $this->_object->get_invoice_items();
-
-        return true;
     }
 
     /**
@@ -197,7 +193,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_recalculation($handler_id, $args, &$data)
     {

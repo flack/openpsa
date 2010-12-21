@@ -23,7 +23,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_notifications($handler_id, $args, &$data)
     {
@@ -58,15 +57,12 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->add_breadcrumb("", $this->_l10n->get("notification settings"));
 
         org_openpsa_helpers::dm2_savecancel($this);
-
-        return true;
     }
 
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_action($handler_id, $args, &$data)
     {
@@ -104,15 +100,15 @@ implements midcom_helper_datamanager2_interfaces_edit
             case "members":
                 // Group person listing, always work even if there are none
                 $this->_view = "area_group_members";
-                return true;
+                break;
 
             case "subgroups":
                 // Group person listing, always work even if there are none
                 $this->_view = "area_group_subgroups";
-                return true;
+                break;
 
             default:
-                return false;
+                throw new midcom_error('Unknown action ' . $args[1]);
         }
     }
 

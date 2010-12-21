@@ -147,7 +147,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_csv($handler_id, $args, &$data)
     {
@@ -192,7 +191,6 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $this->_init_csv_variables();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->cache->content->content_type($this->_config->get('csv_export_content_type'));
-        return true;
     }
 
     private function _process_member($member)

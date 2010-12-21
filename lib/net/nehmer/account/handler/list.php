@@ -52,7 +52,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -93,8 +92,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
 
         $data['view_title'] = $this->_l10n->get('user list');
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        return true;
     }
 
     /**
@@ -131,7 +128,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list_by_category($handler_id, $args, &$data)
     {
@@ -185,8 +181,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
 
         $data['view_title'] = $this->_l10n->get('user list') . ': ' . $this->_l10n->get("by {$args[0]}");
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        return true;
     }
 
     /**
@@ -218,7 +212,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list_random($handler_id, $args, &$data)
     {
@@ -283,8 +276,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
         }
         $data['view_title'] = $this->_l10n->get('user list');
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        return true;
     }
 
     /**

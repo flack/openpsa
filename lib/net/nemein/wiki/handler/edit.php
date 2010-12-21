@@ -98,13 +98,12 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
         if (!$this->_load_page($args[0]))
         {
-            return false;
+            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');;
         }
         $this->_page->require_do('midgard:update');
 
@@ -196,8 +195,6 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
         // Set the help object in the toolbar
         $this->_view_toolbar->add_help_item('markdown', 'net.nemein.wiki');
-
-        return true;
     }
 
     /**
@@ -265,7 +262,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
 
         if (!$this->_load_page($args[0]))
         {
-            return false;
+            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
         $this->_page->require_do('midgard:update');
 

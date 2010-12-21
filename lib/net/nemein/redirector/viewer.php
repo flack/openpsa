@@ -55,8 +55,6 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                 )
             );
         }
-
-        return true;
     }
 
     /**
@@ -120,7 +118,6 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_redirect($handler_id, $args, &$data)
     {
@@ -152,12 +149,12 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                     'content' => "{$data['redirection_speed']};url={$data['url']}",
                 )
             );
-
-            return true;
         }
-
-        $_MIDCOM->relocate($data['url'], $this->_config->get('redirection_code'));
-        // This will exit
+        else
+        {
+            $_MIDCOM->relocate($data['url'], $this->_config->get('redirection_code'));
+            // This will exit
+        }
     }
 
     /**

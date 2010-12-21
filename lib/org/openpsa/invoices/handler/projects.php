@@ -108,7 +108,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_uninvoiced($handler_id, $args, &$data)
     {
@@ -161,8 +160,6 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $_MIDCOM->set_pagetitle($title);
 
         $this->add_breadcrumb("", $title);
-
-        return true;
     }
 
     /**

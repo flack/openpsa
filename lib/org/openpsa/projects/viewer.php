@@ -26,8 +26,6 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.projects/projects.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-
-        return true;
     }
 
     /**

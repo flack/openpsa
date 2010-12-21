@@ -31,8 +31,6 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
         $_MIDCOM->load_library('org.openpsa.contactwidget');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-
-        return true;
     }
 
     public static function add_breadcrumb_path_for_group($group, &$handler)

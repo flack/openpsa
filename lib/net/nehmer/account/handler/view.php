@@ -174,7 +174,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data)
     {
@@ -203,8 +202,6 @@ class net_nehmer_account_handler_view extends midcom_baseclasses_components_hand
         {
             $this->add_breadcrumb('', $this->_user->name);
         }
-
-        return true;
     }
 
     private function _prepare_handler($handler_id, $args)

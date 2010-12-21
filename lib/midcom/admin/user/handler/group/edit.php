@@ -78,7 +78,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
-     * @return boolean Indicating successful request
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -128,8 +127,6 @@ implements midcom_helper_datamanager2_interfaces_edit
             )
         );
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
-
-        return true;
     }
 
     /**

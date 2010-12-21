@@ -27,8 +27,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 'href'  => $_MIDCOM->get_host_name() . $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'opensearch.xml',
             )
         );
-
-        return true;
     }
 
     /**
@@ -39,7 +37,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param mixed &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_searchform($handler_id, $args, &$data)
     {
@@ -57,7 +54,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 break;
         }
         $data['type'] = $handler_id;
-        return true;
     }
 
     /**
@@ -104,7 +100,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param mixed &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_result($handler_id, $args, &$data)
     {
@@ -183,7 +178,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
             }
             reset($data['result']);
         }
-        return true;
     }
 
     /**
@@ -299,14 +293,12 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param mixed &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_opensearchdescription($handler_id, $args, &$data)
     {
         $_MIDCOM->cache->content->content_type("application/opensearchdescription+xml");
         $_MIDCOM->header("Content-type: application/opensearchdescription+xml; charset=UTF-8");
         $_MIDCOM->skip_page_style = true;
-        return true;
     }
 
     /**

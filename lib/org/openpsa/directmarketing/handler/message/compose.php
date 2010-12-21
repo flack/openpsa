@@ -42,7 +42,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_compose($handler_id, $args, &$data)
     {
@@ -105,7 +104,6 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
             //TODO: Other content type overrides ?
         }
         $_MIDCOM->auth->drop_sudo();
-        return true;
     }
 
     /**

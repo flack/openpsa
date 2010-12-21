@@ -70,7 +70,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_search_type($handler_id, $args, &$data)
     {
@@ -81,9 +80,10 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 $_MIDCOM->skip_page_style = true;
                 $this->_view = 'foaf';
                 $this->_search_qb_persons();
-                return true;
+                break;
+            default:
+                throw new midcom_error('Unknown search type ' . $args[0]);
         }
-        return false;
     }
 
     /**
@@ -112,7 +112,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_search($handler_id, $args, &$data)
     {
@@ -166,8 +165,6 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 )
             );
         }
-
-        return true;
     }
 
     /**

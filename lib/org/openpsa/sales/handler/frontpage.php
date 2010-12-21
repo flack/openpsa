@@ -17,7 +17,6 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_frontpage($handler_id, $args, &$data)
     {
@@ -69,8 +68,6 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
                 'title' => $this->_l10n->get('lost'),
             )
         );
-
-        return true;
     }
 
     /**

@@ -33,8 +33,6 @@ class net_nehmer_buddylist_viewer extends midcom_baseclasses_components_request
             $_MIDCOM->auth->require_valid_user();
             $this->_request_data['user'] = $_MIDCOM->auth->user;
         }
-
-        return true;
     }
 }
 ?>

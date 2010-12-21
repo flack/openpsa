@@ -135,7 +135,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_today($handler_id, $args, &$data)
     {
@@ -194,8 +193,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
                         'operator' => '=',
                         'value' => false,
                         );
-
-        return true;
     }
 
     /**
@@ -222,7 +219,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_expenses($handler_id, $args, &$data)
     {
@@ -234,8 +230,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
         $this->_list_work_hours();
 
         $_MIDCOM->skip_page_style = true;
-
-        return true;
     }
 
     /**

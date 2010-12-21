@@ -42,7 +42,6 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success
      */
     public function _handler_list($handler_id, $args, &$data)
     {
@@ -61,8 +60,6 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
         $qb->add_order('firstname');
 
         $this->persons = $qb->execute_unchecked();
-
-        return true;
     }
 
     /**
@@ -111,7 +108,6 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success
      */
     public function _handler_approve($handler_id, $args, &$data)
     {
@@ -163,8 +159,6 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
         // Load the Datamanager2 instance of the person object
         $this->_load_datamanager();
         $data['datamanager'] =& $this->_datamanager;
-
-        return true;
     }
 
     /**

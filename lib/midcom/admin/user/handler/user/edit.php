@@ -80,7 +80,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
-     * @return boolean Indicating successful request
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
@@ -91,7 +90,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             if (!$this->_config->get('allow_manage_accounts'))
             {
-                return false;
+                throw new midcom_error('Account management is disabled');
             }
             $this->_schemadb_name = 'schemadb_account';
         }
@@ -150,8 +149,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 $_MIDCOM->relocate('__mfa/asgard_midcom.admin.user/');
                 // This will exit.
         }
-
-        return true;
     }
 
     /**
@@ -183,12 +180,10 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_passwords($handler_id, $args, &$data)
     {
         $_MIDCOM->skip_page_style = true;
-        return true;
     }
 
     /**
@@ -327,7 +322,6 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_batch($handler_id, $args, &$data)
     {
@@ -365,7 +359,7 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (isset($_GET['ajax']))
         {
-            return true;
+            return;
         }
 
         // Prepare the toolbar and breadcrumb
@@ -374,8 +368,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Populate breadcrumb
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.user/", $this->_l10n->get('midcom.admin.user'));
         $this->add_breadcrumb('__mfa/asgard_midcom.admin.user/password/batch/', $data['view_title']);
-
-        return true;
     }
 
     /**

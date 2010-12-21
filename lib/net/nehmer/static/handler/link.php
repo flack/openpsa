@@ -102,7 +102,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -131,7 +130,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $title = sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link'));
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$title}");
         $this->add_breadcrumb("create/link/", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('article link')));
-        return true;
     }
 
     /**

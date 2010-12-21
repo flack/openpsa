@@ -59,7 +59,6 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data)
     {
@@ -86,8 +85,6 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
         $_MIDCOM->set_26_request_metadata($this->_productlink->metadata->revised, $this->_productlink->guid);
 
 //        $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
-
-        return true;
     }
 
     /**

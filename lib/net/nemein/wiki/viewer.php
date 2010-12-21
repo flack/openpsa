@@ -81,8 +81,6 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/editcut.png',
             )
         );
-
-        return true;
     }
 
     /**

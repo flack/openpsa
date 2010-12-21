@@ -26,7 +26,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_send_bg($handler_id, $args, &$data)
     {
@@ -62,7 +61,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         ignore_user_abort();
         $_MIDCOM->skip_page_style = true;
         $_MIDCOM->auth->drop_sudo();
-        return true;
     }
 
     /**
@@ -174,7 +172,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param mixed $handler_id The ID of the handler.
      * @param array $args The argument list.
      * @param array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_send($handler_id, $args, &$data)
     {
@@ -229,7 +226,6 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         }
 
         ignore_user_abort();
-        return true;
     }
 
     /**

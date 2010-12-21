@@ -259,7 +259,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_callback($handler_id, $args, &$data)
     {
@@ -274,8 +273,6 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             $_MIDCOM->load_library('org.openpsa.contactwidget');
             $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         }
-
-        return true;
     }
 
     /**

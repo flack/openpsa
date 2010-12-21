@@ -277,13 +277,12 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data, $view_mode = true)
     {
         if (!$this->_page)
         {
-            return false;
+            throw new midcom_error_notfound('The requested page could not be found.');
         }
 
         $this->_load_datamanager();
@@ -323,7 +322,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $_MIDCOM->set_pagetitle($this->_page->title);
 
         $_MIDCOM->set_26_request_metadata($this->_page->metadata->revised, $this->_page->guid);
-        return true;
     }
 
     /**
@@ -447,19 +445,16 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_raw($handler_id, $args, &$data, $view_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
         {
-            return false;
+            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
         $_MIDCOM->skip_page_style = true;
         $this->_load_datamanager();
-
-        return true;
     }
 
     /**
@@ -490,19 +485,16 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_source($handler_id, $args, &$data, $view_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
         {
-            return false;
+            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
         $_MIDCOM->skip_page_style = true;
         $this->_load_datamanager();
-
-        return true;
     }
 
     /**
@@ -542,7 +534,7 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
 
         if (!$this->_load_page($args[0]))
         {
-            return false;
+            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
 
         $_MIDCOM->auth->request_sudo('net.nemein.wiki');
@@ -590,14 +582,13 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_whatlinks($handler_id, $args, &$data, $view_mode = true)
     {
         $this->_load_page($args[0]);
         if (!$this->_page)
         {
-            return false;
+            throw new midcom_error_notfound('The page ' . $args[0] . ' could not be found.');
         }
 
         $this->_load_datamanager();
@@ -608,8 +599,6 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
         $qb = net_nemein_wiki_link_dba::new_query_builder();
         $qb->add_constraint('topage', '=', $this->_page->title);
         $data['wikilinks'] = $qb->execute();
-
-        return true;
     }
 
     /**

@@ -55,7 +55,6 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_notinitialized($handler_id, $args, &$data)
     {
@@ -65,8 +64,6 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
         {
             $_MIDCOM->relocate('');
         }
-
-        return true;
     }
 
     /**

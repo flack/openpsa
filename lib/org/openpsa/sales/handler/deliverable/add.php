@@ -80,7 +80,6 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_add($handler_id, $args, &$data)
     {
@@ -157,8 +156,6 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
 
         $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
         $this->add_breadcrumb("deliverable/add/{$this->_salesproject->guid}/", sprintf($this->_l10n->get('add products to %s'), $this->_salesproject->title));
-
-        return true;
     }
 
     /**

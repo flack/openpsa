@@ -478,7 +478,6 @@ function openPsaShowMonthSelector()
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_month($handler_id, $args, &$data)
     {
@@ -545,8 +544,6 @@ function openPsaShowMonthSelector()
         );
 
         $_MIDCOM->set_pagetitle(strftime("%B %Y", $this->_selected_time));
-
-        return true;
     }
 
     /**
@@ -567,7 +564,6 @@ function openPsaShowMonthSelector()
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_week($handler_id, $args, &$data)
     {
@@ -636,8 +632,6 @@ function openPsaShowMonthSelector()
         );
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n->get("week #%s %s"), strftime("%W", $this->_selected_time), strftime("%Y", $this->_selected_time)));
-
-        return true;
     }
 
     /**
@@ -660,7 +654,6 @@ function openPsaShowMonthSelector()
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_day($handler_id, $args, &$data)
     {
@@ -724,8 +717,6 @@ function openPsaShowMonthSelector()
         $this->add_breadcrumb('day/' . date('Y-m-d', $this->_selected_time) . '/', strftime('%x', $this->_selected_time));
 
         $_MIDCOM->set_pagetitle(strftime("%x", $this->_selected_time));
-
-        return true;
     }
 
     /**
@@ -746,7 +737,6 @@ function openPsaShowMonthSelector()
      * @param String $handler_id    Name of the request handler
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
-     * @return boolean              Indicating success
      */
     public function _handler_event($handler_id, $args, &$data)
     {
@@ -779,7 +769,7 @@ function openPsaShowMonthSelector()
         // Load the event to datamanager
         if (!$this->_datamanager->autoset_storage($data['event']))
         {
-            return false;
+            throw new midcom_error('Failed to load the event in datamanager');
         }
 
         // Reload parent if needed
@@ -842,7 +832,6 @@ function openPsaShowMonthSelector()
             }
             org_openpsa_relatedto_plugin::common_node_toolbar_buttons($this->_view_toolbar, $this->_request_data['event'], $this->_component, $relatedto_button_settings);
         }
-        return true;
     }
 
 

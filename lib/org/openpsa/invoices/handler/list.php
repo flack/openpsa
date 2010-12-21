@@ -46,7 +46,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_dashboard($handler_id, $args, &$data)
     {
@@ -90,8 +89,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         }
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('dashboard'));
-
-        return true;
     }
 
     /**
@@ -223,7 +220,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_customer($handler_id, $args, &$data)
     {
@@ -289,8 +285,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $_MIDCOM->set_pagetitle($title);
 
         $this->add_breadcrumb("", $title);
-
-        return true;
     }
 
     /**
@@ -312,7 +306,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_deliverable($handler_id, $args, &$data)
     {
@@ -339,8 +332,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_process_invoice_list($invoices);
 
         $_MIDCOM->set_pagetitle($data['list_label']);
-
-        return true;
     }
 
     /**

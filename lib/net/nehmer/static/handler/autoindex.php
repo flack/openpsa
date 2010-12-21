@@ -43,7 +43,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_autoindex ($handler_id, $args, &$data)
     {
@@ -90,8 +89,6 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         $_MIDCOM->set_26_request_metadata(max($article_time, $topic_time), null);
 
         $this->_index_entries = $this->_load_autoindex_data();
-
-        return true;
     }
 
     /**

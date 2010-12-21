@@ -178,13 +178,13 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             {
                 //Rule could not be parsed
                 $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
-                return true;
+                return;
             }
             if (count($tmp_array) == 0)
             {
                 // Rule array is empty
                 $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
-                return true;
+                return;
             }
             $rule = $tmp_array;
             //add rule was generated with wizard
@@ -224,8 +224,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $_MIDCOM->set_pagetitle($this->_campaign->title);
         $_MIDCOM->bind_view_to_object($this->_campaign);
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
 
@@ -283,7 +281,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             {
                 //Rule code empty
                 $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('no rule given'), 'error');
-                return true;
+                return;
             }
             $eval = '$tmp_array = ' . $_POST['midcom_helper_datamanager2_dummy_field_rules'] . ';';
             $eval_ret = @eval($eval);
@@ -292,13 +290,13 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             {
                 //Rule could not be parsed
                 $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule could not be parsed'), 'error');
-                return true;
+                return;
             }
             if (count($tmp_array) == 0)
             {
                 // Rule array is empty
                 $_MIDCOM->uimessages->add('org.openpsa.directmarketing', $this->_l10n->get('given rule is empty'), 'error');
-                return true;
+                return;
             }
             if (array_key_exists('generated_from',  $tmp_array))
             {
@@ -310,7 +308,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
 
                 $this->_update_breadcrumb_line($handler_id);
                 org_openpsa_helpers::dm2_savecancel($this);
-                return true;
+                return;
             }
             $this->_request_data['campaign']->rules = $tmp_array;
             $update_ret = $this->_request_data['campaign']->update();
@@ -318,7 +316,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
             {
                 //Save failed
                 $_MIDCOM->uimessages->add('org.openpsa.directmarketing', sprintf($this->_l10n->get('error when saving rule, errstr: %s'), midcom_connection::get_error_string()), 'error');
-                return true;
+                return;
             }
 
             //Schedule background members refresh
@@ -338,10 +336,7 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $_MIDCOM->bind_view_to_object($this->_campaign);
 
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
-
 
     /**
      * Shows the loaded campaign.
@@ -404,8 +399,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $_MIDCOM->set_pagetitle($this->_campaign->title);
         $_MIDCOM->bind_view_to_object($this->_campaign, $this->_request_data['controller']->datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
 
@@ -480,8 +473,6 @@ class org_openpsa_directmarketing_handler_campaign_admin extends midcom_baseclas
         $_MIDCOM->set_pagetitle($this->_campaign->title);
         $_MIDCOM->bind_view_to_object($this->_campaign, $this->_datamanager->schema->name);
         $this->_update_breadcrumb_line($handler_id);
-
-        return true;
     }
 
     /**

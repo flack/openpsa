@@ -17,7 +17,6 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_frontpage($handler_id, $args, &$data)
     {
@@ -84,8 +83,6 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.projects/frontpage.js');
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('current projects'));
-
-        return true;
     }
 
     /**

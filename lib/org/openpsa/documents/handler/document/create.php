@@ -95,7 +95,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -141,8 +140,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         $this->add_breadcrumb("", $this->_l10n->get('create document'));
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
-
-        return true;
     }
 
     /**

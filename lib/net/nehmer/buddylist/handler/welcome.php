@@ -58,7 +58,6 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_welcome($handler_id, $args, &$data)
     {
@@ -82,8 +81,6 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
         $this->_prepare_request_data();
         $_MIDCOM->set_26_request_metadata(time(), null);
         $_MIDCOM->set_pagetitle($this->_topic->extra);
-
-        return true;
     }
 
     /**

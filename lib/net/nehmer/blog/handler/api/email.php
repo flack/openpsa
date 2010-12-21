@@ -140,13 +140,12 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_import($handler_id, $args, &$data)
     {
         if (!$this->_config->get('api_email_enable'))
         {
-            return false;
+            throw new midcom_error('Email API is disabled');
         }
         if ($handler_id === 'api-email-basicauth')
         {
@@ -267,7 +266,6 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
         }
 
         $_MIDCOM->auth->drop_sudo();
-        return true;
     }
 
     /**

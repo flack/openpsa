@@ -86,7 +86,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_welcome ($handler_id, $args, &$data)
     {
@@ -101,7 +100,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: " . $this->_l10n->get('archive'));
 
         $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
-        return true;
     }
 
     /**
@@ -317,7 +315,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_list ($handler_id, $args, &$data)
     {
@@ -402,8 +399,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
 
         $_MIDCOM->set_26_request_metadata(net_nehmer_blog_viewer::get_last_modified($this->_topic, $this->_content_topic), $this->_topic->guid);
         $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$start} - {$end}");
-
-        return true;
     }
 
     /**

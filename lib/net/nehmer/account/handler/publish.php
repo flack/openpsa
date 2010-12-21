@@ -108,7 +108,6 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_publish($handler_id, $args, &$data)
     {
@@ -135,8 +134,6 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
         $this->_view_toolbar->hide_item('publish/');
 
         $_MIDCOM->set_pagetitle($this->_l10n->get('publish account details'));
-
-        return true;
     }
 
     /**
@@ -535,7 +532,6 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_publish_ok($handler_id, $args, &$data)
     {
@@ -552,8 +548,6 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
         $_MIDCOM->set_26_request_metadata(time(), $this->_topic->guid);
         $this->set_active_leaf(NET_NEHMER_ACCOUNT_LEAFID_PUBLISH);
         $_MIDCOM->set_pagetitle($this->_l10n->get('publish account details'));
-
-        return true;
     }
 
     /**

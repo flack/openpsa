@@ -74,7 +74,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_view($handler_id, $args, &$data)
     {
@@ -100,8 +99,6 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
 
         $_MIDCOM->set_26_request_metadata($this->_deliverable->metadata->revised, $this->_deliverable->guid);
         $_MIDCOM->set_pagetitle("{$this->_salesproject->title}: {$this->_deliverable->title}");
-
-        return true;
     }
 
     /**

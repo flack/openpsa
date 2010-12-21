@@ -98,7 +98,6 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_featured($handler_id, $args, &$data)
     {
@@ -117,8 +116,6 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
 
         // Prepare datamanager
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-
-        return true;
     }
 
     /**
@@ -175,7 +172,6 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
      * @param mixed $handler_id the array key from the request array
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_feed($handler_id, $args, &$data)
     {
@@ -198,8 +194,6 @@ class org_openpsa_products_handler_product_featured extends midcom_baseclasses_c
 
         // Prepare datamanager
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
-
-        return true;
     }
 
     /**

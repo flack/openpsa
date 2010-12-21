@@ -115,7 +115,6 @@
  *  * @param mixed $handler_id The ID of the handler.
  *  * @param Array $args The argument list.
  *  * @param Array &$data The local request data.
- *  * @return boolean Indicating success.
  *  {@*}
  * function _handler_xxx ($handler_id, $args, &$data) {}
  *
@@ -607,13 +606,20 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         // Call the general handle event handler
         $result = $this->_on_handle($this->_handler['id'], $this->_handler['args']);
-        if (! $result)
+        if ($result === false)
         {
+            debug_add('_on_handle for ' . $this->_handler['id'] . ' returned false. This is deprecated, please use exceptions instead');
             return false;
         }
 
         $method = "_handler_{$this->_handler['handler'][1]}";
         $result = $handler->$method($this->_handler['id'], $this->_handler['args'], $this->_request_data);
+
+        if ($result === false)
+        {
+            debug_add($method . ' (' . $this->_handler['id'] . ') returned false. This is deprecated, please use exceptions instead');
+            return false;
+        }
 
         if (is_a($handler, 'midcom_baseclasses_components_handler'))
         {
@@ -632,7 +638,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
 
         $this->_on_handled($this->_handler['id'], $this->_handler['args']);
 
-        return $result;
+        return true;
     }
 
     /**
@@ -746,7 +752,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      */
     public function _on_handle($handler, $args)
     {
-        return true;
     }
 
     public function _on_handled($handler, $args)

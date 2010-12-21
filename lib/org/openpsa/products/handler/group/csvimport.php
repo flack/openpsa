@@ -139,7 +139,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_csv_select($handler_id, $args, &$data)
     {
@@ -210,8 +209,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
 
             $data['time_end'] = time();
         }
-
-        return true;
     }
 
     /**
@@ -238,7 +235,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_csv($handler_id, $args, &$data)
     {
@@ -336,8 +332,6 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
         $this->_import_groups();
 
         $data['time_end'] = time();
-
-        return true;
     }
 
     private function _import_groups()

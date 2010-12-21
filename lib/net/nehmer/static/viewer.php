@@ -205,8 +205,6 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         unset($config_schemadbs);
 
         $this->_populate_node_toolbar();
-
-        return true;
     }
 }
 ?>

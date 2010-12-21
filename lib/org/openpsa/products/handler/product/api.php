@@ -89,13 +89,10 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_options($handler_id, $args, &$data)
     {
         $_MIDCOM->skip_page_style = false;
-
-        return true;
     }
 
     /**
@@ -112,7 +109,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_product_get($handler_id, $args, &$data)
     {
@@ -124,8 +120,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         }
 
         $_MIDCOM->cache->content->content_type('text/xml');
-
-        return true;
     }
 
     /**
@@ -145,7 +139,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_product_list($handler_id, $args, &$data)
     {
@@ -181,8 +174,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
         $qb->add_order('title');
 
         $data['products'] = $qb->execute();
-
-        return true;
     }
 
     /**
@@ -206,7 +197,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_product_create($handler_id, $args, &$data)
     {
@@ -259,7 +249,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_product_update($handler_id, $args, &$data)
     {
@@ -293,7 +282,6 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_product_delete($handler_id, $args, &$data)
     {

@@ -24,7 +24,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_generator_get($handler_id, $args, &$data)
     {
@@ -33,8 +32,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         if (   !array_key_exists('org_openpsa_reports_query_data', $_REQUEST)
             || !is_array($_REQUEST['org_openpsa_reports_query_data']))
         {
-            debug_add('query data not present or invalid', MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error('query data not present or invalid');
         }
 
         // NOTE: This array must be a same format as we get from DM get_array() method
@@ -42,8 +40,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->_request_data['filename'] = 'get';
 
         $this->_handler_generator_style();
-
-        return true;
     }
 
     /**
@@ -146,7 +142,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_query_form($handler_id, $args, &$data)
     {
@@ -195,8 +190,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         $this->add_breadcrumb("", $breadcrumb_label);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-
-        return true;
     }
 
     /**
@@ -207,8 +200,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     public function _show_query_form($handler_id, &$data)
     {
         midcom_show_style("{$this->module}_query_form");
-
-        return true;
     }
 
     private function _set_active_leaf()

@@ -161,7 +161,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
-     * @return boolean Indicating success.
      */
     public function _handler_create($handler_id, $args, &$data)
     {
@@ -223,12 +222,12 @@ implements midcom_helper_datamanager2_interfaces_create
                 }
                 else
                 {
-                    return false;
+                    throw new midcom_error_notfound('The GUID ' . $args[1] . ' could not be found.');
                 }
             }
             else
             {
-                return false;
+                throw new midcom_error_notfound('Invalid arguments.');
             }
         }
 
@@ -261,8 +260,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         // Set the help object in the toolbar
         $this->_view_toolbar->add_help_item('markdown', 'net.nemein.wiki');
-
-        return true;
     }
 
     /**

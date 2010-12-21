@@ -52,7 +52,6 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      * @param string $handler_id Name of the used handler
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
-     * @return boolean Indicating successful request
      */
     public function _handler_folders($handler_id, $args, &$data)
     {
@@ -83,8 +82,6 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->_update_breadcrumb();
-
-        return true;
     }
 
     /**

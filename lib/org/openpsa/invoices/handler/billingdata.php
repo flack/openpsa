@@ -54,8 +54,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $_MIDCOM->bind_view_to_object($this->_billing_data);
 
         $this->_request_data['controller'] =& $this->_controller;
-
-        return true;
     }
 
     public function load_schemadb()
@@ -141,8 +139,6 @@ implements midcom_helper_datamanager2_interfaces_create
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->_request_data['controller'] =& $this->_controller;
-
-        return true;
     }
 
     public function _show_create($handler_id, &$data)
