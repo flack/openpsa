@@ -86,17 +86,6 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
         }
     }
 
-    private function _load_document($guid)
-    {
-        $document = new org_openpsa_documents_document_dba($guid);
-        if (!is_object($document))
-        {
-            return false;
-        }
-
-        return $document;
-    }
-
     /**
      *
      * @param mixed $handler_id The ID of the handler.
@@ -111,17 +100,23 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
             midcom_show_style('show-search-results-header');
             foreach ($this->_request_data['results'] as $document)
             {
-                // $obj->RI will contain either document or attachment GUID depending on match, ->source will always contain the document GUID
-                $this->_request_data['document'] = $this->_load_document($document->source);
-                if ($this->_request_data['document'])
+                try
                 {
-                    $this->_datamanagers['document']->autoset_storage($this->_request_data['document']);
-                    $this->_request_data['document_dm'] = $this->_datamanagers['document']->get_content_raw();
-                    $this->_request_data['document_attachment'] = array_shift($this->_datamanagers['document']->types['document']->attachments_info);
-                    $this->_request_data['document_search'] = $document;
-                    midcom_show_style('show-search-results-item');
-                    $displayed++;
+                    // $obj->RI will contain either document or attachment GUID depending on match,
+                    // ->source will always contain the document GUID
+                    $data['document'] = $this->load_object('org_openpsa_documents_document_dba', $document->source);
+                    $this->_datamanagers['document']->autoset_storage($data['document']);
                 }
+                catch (Exception $e)
+                {
+                    debug_log($e->getMessage());
+                    continue;
+                }
+                $data['document_dm'] = $this->_datamanagers['document']->get_content_raw();
+                $data['document_attachment'] = array_shift($this->_datamanagers['document']->types['document']->attachments_info);
+                $data['document_search'] = $document;
+                midcom_show_style('show-search-results-item');
+                $displayed++;
             }
             midcom_show_style('show-search-results-footer');
         }

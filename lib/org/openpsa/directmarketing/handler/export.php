@@ -152,10 +152,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     public function _handler_csv($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
-        if (!$this->_request_data['campaign'])
-        {
-            return false;
-        }
+
         if (   !isset($args[1])
             || empty($args[1]))
         {

@@ -52,9 +52,8 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
         // Load the document to datamanager
         if (!$this->_datamanager->autoset_storage($document))
         {
-            debug_add('Failed to initialize the datamanager, see debug level log for more information.', MIDCOM_LOG_ERROR);
             debug_print_r('Object to be used was:', $document);
-            return false;
+            throw new midcom_error('Failed to initialize the datamanager, see debug level log for more information.');
         }
 
         return $document;

@@ -72,17 +72,12 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
     private function _load_query($identifier, $dm_key)
     {
-        $query = new org_openpsa_reports_query_dba($identifier);
-
-        if (!is_object($query))
-        {
-            return false;
-        }
+        $query = $this->load_object('org_openpsa_reports_query_dba', $identifier);
 
         // Load the query object to datamanager
         if (!$this->_datamanagers[$dm_key]->autoset_storage($query))
         {
-            return false;
+            throw new midcom_error('Could not load query');
         }
         return $query;
     }
@@ -161,13 +156,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         if (isset($args[0]))
         {
             $data['query'] = $this->_load_query($args[0], $this->module);
-
-            if ($data['query'] === false)
-            {
-                debug_add('Could not load query', MIDCOM_LOG_ERROR);
-                return false;
-            }
-
             $_MIDCOM->auth->require_do('midgard:update', $data['query']);
 
             $this->_load_edit_controller();
@@ -233,12 +221,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     {
         debug_add('Loading query object ' . $args[0]);
         $this->_request_data['query'] = $this->_load_query($args[0], $this->module);
-
-        if ($this->_request_data['query'] === false)
-        {
-            debug_add('Could not load query', MIDCOM_LOG_ERROR);
-            return false;
-        }
 
         if (   !isset($args[1])
             || empty($args[1]))

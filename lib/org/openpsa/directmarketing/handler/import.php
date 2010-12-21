@@ -510,10 +510,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     public function _handler_index($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
-        if (!$this->_request_data['campaign'])
-        {
-            return false;
-        }
 
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $args);
@@ -544,10 +540,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     public function _handler_simpleemails($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
-        if (!$this->_request_data['campaign'])
-        {
-            return false;
-        }
 
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $args);
@@ -654,10 +646,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     public function _handler_vcards($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
-        if (!$this->_request_data['campaign'])
-        {
-            return false;
-        }
 
         // Update the breadcrumb line
         $this->_update_breadcrumb($handler_id, $args);
@@ -812,10 +800,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     public function _handler_csv_select($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
-        if (!$data['campaign'])
-        {
-            return false;
-        }
 
         // Update the breadcrumb
         $this->_update_breadcrumb($handler_id, $args);
@@ -923,10 +907,6 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
     public function _handler_csv($handler_id, $args, &$data)
     {
         $this->_prepare_handler($args);
-        if (!$data['campaign'])
-        {
-            return false;
-        }
 
         // Update the breadcrumb
         $this->_update_breadcrumb($handler_id, $args);
