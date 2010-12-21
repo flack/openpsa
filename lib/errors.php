@@ -18,12 +18,19 @@
 class midcom_exception_handler
 {
     /**
+     * Holds the current exception
+     *
+     * @var Exception
+     */
+    private $_exception;
+
+    /**
      * Catch an Exception and show it as a HTTP error
      *
      * @see midcom_application::generate_error()
      * @see midcom_exception_handler::show()
      */
-    public static function handle_exception(Exception $e)
+    public function handle_exception(Exception $e)
     {
         if ($e instanceof midgardmvc_exception_unauthorized)
         {
@@ -42,16 +49,16 @@ class midcom_exception_handler
 
             _midcom_stop_request('Failed to initialize MidCOM: ' . $e->getMessage());
         }
-
+        $this->_exception = $e;
         debug_print_r('Exception occured, generating error, exception trace:', $e->getTraceAsString(), MIDCOM_LOG_INFO);
-        $_MIDCOM->generate_error($e->getCode(), $e->getMessage());
+        $this->show($e->getCode(), $e->getMessage());
         // This will exit
     }
 
     /**
      * Catch a PHP error and turn it into an Exception to unify error handling
      */
-    public static function handle_error($errno, $errstr, $errfile, $errline, $errcontext)
+    public function handle_error($errno, $errstr, $errfile, $errline, $errcontext)
     {
         $msg = "PHP Error: {$errstr} \n in {$errfile} line {$errline}";
         if (MIDCOM_XDEBUG)
@@ -94,9 +101,15 @@ class midcom_exception_handler
      */
     public function show($httpcode, $message)
     {
-        debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
-        debug_print_function_stack('Stacktrace:');
-
+        if ($this->_exception)
+        {
+            debug_print_r('Exception occured: {$httpcode}, Message: {$message}, exception trace:', $this->_exception->getTraceAsString());
+        }
+        else
+        {
+            debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
+            debug_print_function_stack('Stacktrace:');
+        }
         // Send error to special log or recipient as per in configuration.
         $this->send($httpcode, $message);
 
@@ -271,6 +284,12 @@ class midcom_exception_handler
     public function get_function_stack()
     {
         $stacktrace = '';
+
+        if ($this->_exception)
+        {
+            return $this->_exception->getTraceAsString();
+        }
+
         if (MIDCOM_XDEBUG)
         {
             $stack = xdebug_get_function_stack();
@@ -347,6 +366,7 @@ class midcom_error_forbidden extends midcom_error
 
 // Register the error and Exception handlers
 // 2009-01-08 rambo: Seems like the boolean expression does not work as intended, see my changes in the error handler itself
-set_error_handler(array('midcom_exception_handler', 'handle_error'), E_ALL & ~E_NOTICE | E_WARNING);
-set_exception_handler(array('midcom_exception_handler', 'handle_exception'));
+$handler = new midcom_exception_handler();
+set_error_handler(array($handler, 'handle_error'), E_ALL & ~E_NOTICE | E_WARNING);
+set_exception_handler(array($handler, 'handle_exception'));
 ?>
