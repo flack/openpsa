@@ -222,62 +222,67 @@ class midcom_exception_handler
         // Send as email handler
         if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'email')
         {
-            if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['email'])
-                || empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['email']))
-            {
-                // No recipient specified, skip
-                return;
-            }
+            $this->_send_email($httpcode, $msg);
+        }
+        // Append to log file handler
+        else if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'log')
+        {
+            $this->_log($httpcode, $msg);
+        }
+    }
 
-            if (!$_MIDCOM->componentloader->is_installed('org.openpsa.mail'))
-            {
-                debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
-                return;
-            }
-
-            $_MIDCOM->load_library('org.openpsa.mail');
-
-            $mail = new org_openpsa_mail();
-            $mail->to = $GLOBALS['midcom_config']['error_actions'][$httpcode]['email'];
-            $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";
-            $mail->subject = "[{$_SERVER['SERVER_NAME']}] {$msg}";
-            $mail->body = "{$_SERVER['SERVER_NAME']}:\n{$msg}";
-
-            $stacktrace = $this->get_function_stack();
-
-            $mail->body .= "\n{$stacktrace}";
-
-            if (!$mail->send())
-            {
-                debug_add("failed to send error notification email to {$mail->to}, reason: " . $mail->get_error_message(), MIDCOM_LOG_WARN);
-            }
-
+    private function _log($httpcode, $msg)
+    {
+        if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
+            || empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']))
+        {
+            // No log file specified, skip
             return;
         }
 
-        // Append to log file handler
-        if ($GLOBALS['midcom_config']['error_actions'][$httpcode]['action'] == 'log')
+        if (   !is_writable($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
+            && !is_writable(dirname($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])))
         {
-            if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
-                || empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']))
-            {
-                // No log file specified, skip
-                return;
-            }
-
-            if (   !is_writable($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])
-                && !is_writable(dirname($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename'])))
-            {
-                debug_add("Error logging file {$GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']} is not writable", MIDCOM_LOG_WARN);
-                return;
-            }
-
-            // Add the line to the error-specific log
-            $logger = new midcom_debug($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']);
-            $logger->setLoglevel(MIDCOM_LOG_INFO);
-            $logger->log($msg, MIDCOM_LOG_INFO);
-
+            debug_add("Error logging file {$GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']} is not writable", MIDCOM_LOG_WARN);
             return;
+        }
+
+        // Add the line to the error-specific log
+        $logger = new midcom_debug($GLOBALS['midcom_config']['error_actions'][$httpcode]['filename']);
+        $logger->setLoglevel(MIDCOM_LOG_INFO);
+        $logger->log($msg, MIDCOM_LOG_INFO);
+    }
+
+    private function send_email($httpcode, $msg)
+    {
+        if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['email'])
+            || empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['email']))
+        {
+            // No recipient specified, skip
+            return;
+        }
+
+        if (!$_MIDCOM->componentloader->is_installed('org.openpsa.mail'))
+        {
+            debug_add("Email sending library org.openpsa.mail, used for error notifications is not installed", MIDCOM_LOG_WARN);
+            return;
+        }
+
+        $_MIDCOM->load_library('org.openpsa.mail');
+
+        $mail = new org_openpsa_mail();
+        $mail->to = $GLOBALS['midcom_config']['error_actions'][$httpcode]['email'];
+        $mail->from = "\"MidCOM error notifier\" <webmaster@{$_SERVER['SERVER_NAME']}>";
+        $mail->subject = "[{$_SERVER['SERVER_NAME']}] {$msg}";
+        $mail->body = "{$_SERVER['SERVER_NAME']}:\n{$msg}";
+
+        $stacktrace = $this->get_function_stack();
+
+        $mail->body .= "\n{$stacktrace}";
+
+        if (!$mail->send())
+        {
+            debug_add("failed to send error notification email to {$mail->to}, reason: " . $mail->get_error_message(), MIDCOM_LOG_WARN);
         }
     }
 
