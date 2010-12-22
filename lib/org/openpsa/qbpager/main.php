@@ -9,9 +9,9 @@
  */
 class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 {
-    private $_midcom_qb = false;
-    private $_midcom_qb_count = false;
-    private $_pager_id = false;
+    protected $_midcom_qb = false;
+    protected $_midcom_qb_count = false;
+    protected $_pager_id = false;
     private $_offset = 0;
     protected $_limit;
     private $_prefix = '';

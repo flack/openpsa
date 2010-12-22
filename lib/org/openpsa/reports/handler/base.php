@@ -322,7 +322,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         }
     }
 
-    function &_get_cache($type, $id, &$request_data)
+    public static function &_get_cache($type, $id, &$request_data)
     {
         self::_verify_cache($type, $request_data);
         if (!array_key_exists($id, $request_data['object_cache'][$type]))
@@ -339,8 +339,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
                 default:
                     $method = "_get_cache_obj_{$type}";
                     $classname = __CLASS__;
-                    $dummy = new $classname();
-                    if (!method_exists($dummy, $method))
+                    if (!method_exists($classname, $method))
                     {
                         // TODO: generate error
                         debug_add("Method '{$method}' not in class '{$classname}'", MIDCOM_LOG_WARN);
@@ -359,7 +358,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
         return $request_data['object_cache'][$type][$obj->id];
     }
 
-    private function _get_cache_obj_tasks($id)
+    private static function _get_cache_obj_tasks($id)
     {
         return new org_openpsa_projects_task_dba($id);
     }
