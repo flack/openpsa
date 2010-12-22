@@ -156,140 +156,26 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     public function _handler_list($handler_id, $args, &$data)
     {
         // Query for sub-objects
-        $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
         if ($handler_id == 'list_intree')
         {
-            $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $parentgroup_qb->add_constraint('code', '=', $args[0]);
-            $groups = $parentgroup_qb->execute();
-            if (count($groups) == 0)
-            {
-                throw new midcom_error_notfound('No matching group');
-            }
-            else
-            {
-                $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $categories_qb->add_constraint('up', '=', $groups[0]->id);
-                $categories_qb->add_constraint('code', '=', $args[1]);
-                $categories = $categories_qb->execute();
-
-                $data['parent_category_id'] = $categories[0]->id;
-                $data['parent_category'] = $groups[0]->code;
-            }
+            $this->_handle_list_intree($args);
         }
         else if ($handler_id == 'listall')
         {
-            $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $parentgroup_qb->add_constraint('code', '=', $args[0]);
-            $groups = $parentgroup_qb->execute();
-
-            if (count($groups) == 0)
-            {
-                throw new midcom_error_notfound('No matching group');
-            }
-            else
-            {
-                $data['group'] = $groups[0];
-            }
+            $this->_handle_listall($args);
         }
         else if ($handler_id == 'list')
         {
-            // if config set to redirection mode and not in dynamic load
-            if (   $this->_config->get('redirect_to_first_product')
-                && $_MIDCOM->get_current_context() == 0)
-            {
-                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-                $group_gb = org_openpsa_products_product_group_dba::new_query_builder();
-                $group_gb->add_constraint('code', '=', $args[0]);
-                $groups = $group_gb->execute();
-                if (count($groups) != 0)
-                {
-                    $group_id = $groups[0]->__object->id;
-                    $product_qb = org_openpsa_products_product_dba::new_query_builder();
-                    $product_qb->add_constraint('productGroup', '=', $group_id);
-                    $product_qb->set_limit(1);
-                    $product_qb->add_order($this->_config->get('redirect_order_by'));
-                    $products = $product_qb->execute();
-                    if (count($products) != 0)
-                    {
-                        $_MIDCOM->relocate($prefix."product/{$products[0]->code}/");
-                    }
-                }
-            }
-
-            $guidgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
-            $guidgroup_qb->add_constraint('guid', '=', $args[0]);
-            $groups = $guidgroup_qb->execute();
-
-            if (count($groups) > 0)
-            {
-                $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
-                $categories_qb->add_constraint('id', '=', $groups[0]->up);
-                $categories = $categories_qb->execute();
-
-                if (count($categories) > 0)
-                {
-                    $data['parent_category'] = $categories[0]->code;
-                }
-            }
-            else
-            {
-                //do not set the parent category. The category is already a top category.
-            }
+            $this->_handle_list();
         }
         else if (   $handler_id == 'index'
                  && $this->_config->get('redirect_to_first_product')
                  && $_MIDCOM->get_current_context() == 0)
         {
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
-            $group_gb = org_openpsa_products_product_group_dba::new_query_builder();
-            $group_gb->add_constraint('guid', '=', $this->_config->get('root_group'));
-            $groups = $group_gb->execute();
-            if (count($groups) != 0)
-            {
-                $relocate_url = '';
-
-                $group_id = $groups[0]->__object->id;
-                $product_qb = org_openpsa_products_product_dba::new_query_builder();
-                $product_qb->add_constraint('productGroup', '=', $group_id);
-                $product_qb->set_limit(1);
-                $product_qb->add_order($this->_config->get('redirect_order_by'));
-                $products = $product_qb->execute();
-                if (count($products) != 0)
-                {
-                    $relocate_url = $prefix . "product/{$products[0]->code}/";
-                }
-                else
-                {
-                    $linked_products = array();
-
-                    if ($this->_config->get('enable_productlinks'))
-                    {
-                        $qb_productlinks = org_openpsa_products_product_link_dba::new_query_builder();
-                        $qb_productlinks->add_constraint('productGroup', '=', $group_id);
-                        $qb_productlinks->add_constraint('product', '<>', 0);
-                        $qb_productlinks->set_limit(1);
-                        $productlinks = $qb_productlinks->execute();
-
-                        if (count($productlinks) != 0)
-                        {
-                            $product = new org_openpsa_products_product_dba($productlinks[0]->product);
-                            if ($product->guid)
-                            {
-                                $relocate_url = $prefix . "product/{$product->code}/";
-                            }
-                        }
-                    }
-                }
-                if ($relocate_url != '')
-                {
-                    $_MIDCOM->relocate($relocate_url);
-                }
-            }
+            $this->_index_redirect();
         }
 
+        $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
         $group_qb->add_constraint('up', '=', $data['parent_group']);
 
         foreach ($this->_config->get('groups_listing_order') as $ordering)
@@ -297,8 +183,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $this->_add_ordering($group_qb, $ordering);
         }
 
-        $linked_products = array();
-
+        $this->_request_data['linked_products'] = array();
         if ($this->_config->get('enable_productlinks'))
         {
             $mc_productlinks = org_openpsa_products_product_link_dba::new_collector('productGroup', $data['parent_group']);
@@ -308,9 +193,8 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
 
             foreach ($productlinks as $guid => $array)
             {
-                $linked_products[] = $mc_productlinks->get_subkey($guid, 'product');
+                $this->_request_data['linked_products'][] = $mc_productlinks->get_subkey($guid, 'product');
             }
-            $this->_request_data['linked_products'] = $linked_products;
         }
 
         $data['groups'] = $group_qb->execute();
@@ -380,6 +264,139 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
 
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
+    }
+
+    private function _handle_list_intree($args)
+    {
+        $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
+        $parentgroup_qb->add_constraint('code', '=', $args[0]);
+        $groups = $parentgroup_qb->execute();
+        if (count($groups) == 0)
+        {
+            throw new midcom_error_notfound('No matching group');
+        }
+        else
+        {
+            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
+            $categories_qb->add_constraint('up', '=', $groups[0]->id);
+            $categories_qb->add_constraint('code', '=', $args[1]);
+            $categories = $categories_qb->execute();
+
+            $this->_request_data['parent_category_id'] = $categories[0]->id;
+            $this->_request_data['parent_category'] = $groups[0]->code;
+        }
+    }
+
+    private function _handle_listall($args)
+    {
+        $parentgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
+        $parentgroup_qb->add_constraint('code', '=', $args[0]);
+        $groups = $parentgroup_qb->execute();
+
+        if (count($groups) == 0)
+        {
+            throw new midcom_error_notfound('No matching group');
+        }
+        else
+        {
+            $this->_request_data['group'] = $groups[0];
+        }
+    }
+
+    private function _handle_list()
+    {
+        // if config set to redirection mode and not in dynamic load
+        if (   $this->_config->get('redirect_to_first_product')
+            && $_MIDCOM->get_current_context() == 0)
+        {
+            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+            $group_gb = org_openpsa_products_product_group_dba::new_query_builder();
+            $group_gb->add_constraint('code', '=', $args[0]);
+            $groups = $group_gb->execute();
+            if (count($groups) != 0)
+            {
+                $group_id = $groups[0]->id;
+                $product_qb = org_openpsa_products_product_dba::new_query_builder();
+                $product_qb->add_constraint('productGroup', '=', $group_id);
+                $product_qb->set_limit(1);
+                $product_qb->add_order($this->_config->get('redirect_order_by'));
+                $products = $product_qb->execute();
+                if (count($products) != 0)
+                {
+                    $_MIDCOM->relocate($prefix."product/{$products[0]->code}/");
+                }
+            }
+        }
+
+        $guidgroup_qb = org_openpsa_products_product_group_dba::new_query_builder();
+        $guidgroup_qb->add_constraint('guid', '=', $args[0]);
+        $groups = $guidgroup_qb->execute();
+
+        if (count($groups) > 0)
+        {
+            $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
+            $categories_qb->add_constraint('id', '=', $groups[0]->up);
+            $categories = $categories_qb->execute();
+            
+            if (count($categories) > 0)
+            {
+                $this->_request_data['parent_category'] = $categories[0]->code;
+            }
+        }
+        else
+        {
+            //do not set the parent category. The category is already a top category.
+        }
+    }
+
+    private function _index_redirect()
+    {
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        
+        $group_gb = org_openpsa_products_product_group_dba::new_query_builder();
+        $group_gb->add_constraint('guid', '=', $this->_config->get('root_group'));
+        $groups = $group_gb->execute();
+        if (count($groups) != 0)
+        {
+            return;
+        }
+        $relocate_url = '';
+
+        $group_id = $groups[0]->id;
+        $product_qb = org_openpsa_products_product_dba::new_query_builder();
+        $product_qb->add_constraint('productGroup', '=', $group_id);
+        $product_qb->set_limit(1);
+        $product_qb->add_order($this->_config->get('redirect_order_by'));
+        $products = $product_qb->execute();
+        if (count($products) != 0)
+        {
+            $relocate_url = $prefix . "product/{$products[0]->code}/";
+        }
+        else
+        {
+            if ($this->_config->get('enable_productlinks'))
+            {
+                $qb_productlinks = org_openpsa_products_product_link_dba::new_query_builder();
+                $qb_productlinks->add_constraint('productGroup', '=', $group_id);
+                $qb_productlinks->add_constraint('product', '<>', 0);
+                $qb_productlinks->set_limit(1);
+                $productlinks = $qb_productlinks->execute();
+                    
+                if (count($productlinks) != 0)
+                {
+                    $product = new org_openpsa_products_product_dba($productlinks[0]->product);
+                    if ($product->guid)
+                    {
+                        $relocate_url = $prefix . "product/{$product->code}/";
+                    }
+                }
+            }
+        }
+        if ($relocate_url != '')
+        {
+            $_MIDCOM->relocate($relocate_url);
+        }
     }
 
     private function _add_ordering(&$qb, $ordering)
