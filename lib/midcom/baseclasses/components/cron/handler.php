@@ -30,17 +30,6 @@ abstract class midcom_baseclasses_components_cron_handler extends midcom_basecla
     var $_handler_config = null;
 
     /**
-     * The systemwide component configuration, obtained from the component during
-     * class initialization.
-     *
-     * Not available for midcom core cron jobs.
-     *
-     * @var midcom_helper_configuration
-     * @access protected
-     */
-    var $_config = null;
-
-    /**
      * The systemwide component data store.
      *
      * Not available for midcom core cron jobs.
