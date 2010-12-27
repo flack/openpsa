@@ -242,10 +242,6 @@ Informacje
 Ostrzeżenia
 ---STRINGEND
 
----STRING midcom_prefix
-Prefiks URL dla MidCOM'a
----STRINGEND
-
 ---STRING midcom_root_topic_guid
 Folder główny MidCOM'a
 ---STRINGEND

@@ -246,10 +246,6 @@ Info meddelanden
 Varnngar
 ---STRINGEND
 
----STRING midcom_prefix
-URL prefix för MidCOM
----STRINGEND
-
 ---STRING midcom_root_topic_guid
 Root ämne
 ---STRINGEND

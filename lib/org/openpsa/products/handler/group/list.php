@@ -166,7 +166,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
         else if ($handler_id == 'list')
         {
-            $this->_handle_list();
+            $this->_handle_list($args);
         }
         else if (   $handler_id == 'index'
                  && $this->_config->get('redirect_to_first_product')
@@ -303,7 +303,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         }
     }
 
-    private function _handle_list()
+    private function _handle_list($args)
     {
         // if config set to redirection mode and not in dynamic load
         if (   $this->_config->get('redirect_to_first_product')
@@ -338,7 +338,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $categories_qb = org_openpsa_products_product_group_dba::new_query_builder();
             $categories_qb->add_constraint('id', '=', $groups[0]->up);
             $categories = $categories_qb->execute();
-            
+
             if (count($categories) > 0)
             {
                 $this->_request_data['parent_category'] = $categories[0]->code;
@@ -353,7 +353,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
     private function _index_redirect()
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        
+
         $group_gb = org_openpsa_products_product_group_dba::new_query_builder();
         $group_gb->add_constraint('guid', '=', $this->_config->get('root_group'));
         $groups = $group_gb->execute();
@@ -382,7 +382,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
                 $qb_productlinks->add_constraint('product', '<>', 0);
                 $qb_productlinks->set_limit(1);
                 $productlinks = $qb_productlinks->execute();
-                    
+
                 if (count($productlinks) != 0)
                 {
                     $product = new org_openpsa_products_product_dba($productlinks[0]->product);

@@ -95,13 +95,6 @@
             'widget' => 'select',
 
         ),
-        'midcom_prefix' => array
-        (
-            'type' => 'text',
-            'widget' => 'text',
-            'title' => 'midcom_prefix',
-
-        ),
         'midcom_sgconfig_basedir' => array
         (
             'type' => 'text',

@@ -198,10 +198,6 @@ Info-Meldungen
 Warnungen
 ---STRINGEND
 
----STRING midcom_prefix
-URL-Präfix für MidCOM
----STRINGEND
-
 ---STRING midcom_root_topic_guid
 Root-Ordner
 ---STRINGEND

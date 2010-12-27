@@ -349,9 +349,6 @@ class midcom_application
             $this->serve_attachment($attachment);
         }
 
-        // set prefix for "new" midgard->self
-        $this->_prefix = $GLOBALS['midcom_config']['midcom_prefix'];
-
         $this->_status = MIDCOM_STATUS_PREPARE;
 
         // Start-up some of the services
@@ -1646,7 +1643,8 @@ class midcom_application
      */
     public function _set_current_context($id)
     {
-        if ($id < 0 || $id >= count ($this->_context)) {
+        if ($id < 0 || $id >= count ($this->_context))
+        {
             debug_add("Could not switch to invalid context $id.", MIDCOM_LOG_WARN);
             return false;
         }
@@ -2154,7 +2152,6 @@ class midcom_application
      * @see print_head_elements()
      *
      */
-
     function add_object_head ($script, $attributes = null)
     {
         $output = "";
@@ -2167,6 +2164,7 @@ class midcom_application
         }
         $this->_object_head .= '<object '. $output . ' >' . $script . "</object>\n";
     }
+
     /**
      *  Register a metatag  to be added to the head element.
      *  This allows MidCom components to register metatags  to be placed in the
@@ -2357,6 +2355,7 @@ class midcom_application
             echo " onload=\"$calls\" ";
         }
     }
+
     /**
      * Echo the _head elements added.
      * This function echos the elements added by the add_(style|meta|link|object)_head

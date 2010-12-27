@@ -31,10 +31,6 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
         $this->add_stylesheet(MIDCOM_STATIC_URL."/midcom.helper.datamanager2/legacy.css");
     }
 
-    private function _modify_schema()
-    {
-    }
-
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
@@ -95,8 +91,6 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_group = $this->load_object('org_openpsa_products_product_group_dba', $args[0]);
-
-        $this->_modify_schema();
 
         $this->_request_data['controller'] = midcom_helper_datamanager2_controller::create('simple');
         $this->_request_data['controller']->schemadb =& $this->_request_data['schemadb_group'];

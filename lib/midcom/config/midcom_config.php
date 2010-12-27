@@ -201,8 +201,6 @@
  *
  * <b>MidCOM Core configuration</b>
  *
- * - <b>string midcom_prefix:</b> Any prefix you might have on your site.
- *   Defaults to none.
  * - <b>GUID midcom_root_topic_guid:</b> This is the GUID of the topic we should handle.
  *   This must be set on a per-site basis, otherwise MidCOM won't start up.
  * - <b>string midcom_sgconfig_basedir:</b> The base snippetdir where the current
@@ -431,7 +429,6 @@ $GLOBALS['midcom_config_default']['enable_included_list'] = false;
 $GLOBALS['midcom_config_default']['error_actions'] = array();
 
 // Core configuration
-$GLOBALS['midcom_config_default']['midcom_prefix'] = '';
 $GLOBALS['midcom_config_default']['midcom_root_topic_guid'] = '';
 $GLOBALS['midcom_config_default']['midcom_sgconfig_basedir'] = '/sitegroup-config';
 $GLOBALS['midcom_config_default']['midcom_site_url'] = '/';

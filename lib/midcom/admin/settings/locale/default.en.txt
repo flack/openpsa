@@ -250,10 +250,6 @@ Info messages
 Warnings
 ---STRINGEND
 
----STRING midcom_prefix
-URL prefix for MidCOM
----STRINGEND
-
 ---STRING midcom_root_topic_guid
 Root topic
 ---STRINGEND
