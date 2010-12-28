@@ -180,18 +180,6 @@ class midcom_helper__dbfactory
             debug_print_r("Object dump:", $object);
             return null;
         }
-
-        if ($result)
-        {
-            return $result;
-        }
-        else
-        {
-            debug_print_type("Cannot cast the object to a MidCOM DBA type, construction of {$classname} for ID {$object->id} failed, we got this type:",
-                $object, MIDCOM_LOG_ERROR);
-            debug_print_r("Object dump:", $object);
-            return null;
-        }
     }
 
     /**

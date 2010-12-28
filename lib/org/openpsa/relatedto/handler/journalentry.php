@@ -153,7 +153,6 @@ implements midcom_helper_datamanager2_interfaces_create
         {
             case 'save':
             case 'cancel':
-                $object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
                 //relocate to relatedto-renders
                 $add_url = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "__mfa/org.openpsa.relatedto/journalentry/";
                 $add_url .= $this->_current_object->guid . "/html/";

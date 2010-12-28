@@ -247,7 +247,6 @@ else
                 if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
                 {
                     // TODO: Visualize deleted objects somehow
-                    continue;
                 }
                 continue;
             }

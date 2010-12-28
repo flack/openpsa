@@ -80,7 +80,7 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
         $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
         if (is_a($object, 'net_nehmer_buddylist_entry'))
         {
-            return "entry/view/{$object->guid}.html";
+            return "entry/view/{$object->guid}/";
         }
         return null;
     }

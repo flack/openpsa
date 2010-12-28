@@ -779,24 +779,19 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         {
             $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
         }
+        if (   !$this->_object
+            || !$_MIDCOM->dbfactory->is_a($this->_object, 'org_openpsa_relatedto_dba'))
+        {
+            $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
+        }
         switch ($this->_mode)
         {
             case 'deny':
-                if (   !$this->_object
-                    || !$_MIDCOM->dbfactory->is_a($this->_object, 'org_openpsa_relatedto_dba'))
-                {
-                    $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
-                }
                 $this->_object->status = ORG_OPENPSA_RELATEDTO_STATUS_NOTRELATED;
                 $stat = $this->_object->update();
                 $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
                 //this will exit()
             case 'confirm':
-                if (   !$this->_object
-                    || !$_MIDCOM->dbfactory->is_a($this->_object, 'org_openpsa_relatedto_dba'))
-                {
-                    $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
-                }
                 $this->_object->status = ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED;
                 $stat = $this->_object->update();
                 $ajax->simpleReply($stat, 'error:' . midcom_connection::get_error_string());
