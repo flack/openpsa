@@ -136,10 +136,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
                 $this->_open_write_mode = true;
 
                 $blob = new midgard_blob($this->__object);
-                if (!$blob)
-                {
-                    /* FIXME, throw error */
-                }
 
                 $handle = $blob->get_handler();
                 break;
@@ -150,10 +146,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
 
                 /* WARNING, read mode not supported by midgard_blob! */
                 $blob = new midgard_blob($this->__object);
-                if (!$blob)
-                {
-                    /* FIXME, throw error */
-                }
 
                 $handle = @fopen($blob->get_path(), $mode);
                 break;
@@ -334,10 +326,6 @@ class midcom_db_attachment extends midcom_core_dbaobject
         }
 
         $blob = new midgard_blob($this->__object);
-        if (!$blob)
-        {
-            return false;
-        }
 
         $path = $blob->get_path();
         if (!file_exists($path))

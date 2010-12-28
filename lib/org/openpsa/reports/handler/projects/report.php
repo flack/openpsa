@@ -34,13 +34,16 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
         //When recursing we get object, otherwise GUID
         if (!is_object($task))
         {
-            $task = new org_openpsa_projects_task_dba($task);
-        }
-        //Something went seriously wrong, abort as cleanly as possible
-        if (!is_object($task))
-        {
-            debug_add('Could not get task object, aborting', MIDCOM_LOG_ERROR);
-            return $ret;
+            try
+            {
+                $task = new org_openpsa_projects_task_dba($task);
+            }
+            catch (midcom_error $e)
+            {
+                //Something went seriously wrong, abort as cleanly as possible
+                debug_add('Could not get task object, aborting', MIDCOM_LOG_ERROR);
+                return $ret;
+            }
         }
 
         org_openpsa_reports_handler_projects_report::_verify_cache('tasks', $this->_request_data);

@@ -45,9 +45,11 @@ class net_nehmer_account_cron_cleanup extends midcom_baseclasses_components_cron
         {
             foreach ($result as $parameter)
             {
-                $person = new midcom_db_person($parameter->parentguid);
-                if (   !$person
-                    || !$person->guid)
+                try
+                {
+                    $person = new midcom_db_person($parameter->parentguid);
+                }
+                catch (midcom_error $e)
                 {
                     debug_add("Failed to open the Person record ID {$parameter->parentguid}, skipping it.", MIDCOM_LOG_WARN);
                     continue;

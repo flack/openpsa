@@ -288,10 +288,11 @@ class org_openpsa_directmarketing_handler_message_admin extends midcom_baseclass
 
                 foreach ($campaigns as $campaign_id)
                 {
-                    $campaign = new org_openpsa_directmarketing_campaign_dba($campaign_id);
-
-                    if (   !$campaign
-                        || !$campaign->guid)
+                    try
+                    {
+                        $campaign = new org_openpsa_directmarketing_campaign_dba($campaign_id);
+                    }
+                    catch (midcom_error $e)
                     {
                         continue;
                     }

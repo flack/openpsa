@@ -74,8 +74,11 @@ class org_openpsa_projects_projectbroker
                     $return[] = $obj;
                     break;
                 default:
-                    $tmpobj = new org_openpsa_contacts_person_dba($obj->id);
-                    if (!$tmpobj->guid)
+                    try
+                    {
+                        $tmpobj = new org_openpsa_contacts_person_dba($obj->id);
+                    }
+                    catch (midcom_error $e)
                     {
                         break;
                     }

@@ -74,18 +74,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         {
             return null;
         }
-        if (method_exists($this, 'new_collector'))
-        {
-            // Use collector, it's faster
-            return org_openpsa_directmarketing_campaign_message_dba::get_parent_guid_uncached_static($this->guid);
-        }
-        $campaign = new org_openpsa_directmarketing_campaign_dba($this->campaign);
-        if (   !is_object($campaign)
-            || empty($campaign->id))
-        {
-            return null;
-        }
-        return $campaign->guid;
+        return org_openpsa_directmarketing_campaign_message_dba::get_parent_guid_uncached_static($this->guid);
     }
 
     function get_parent_guid_uncached_static($guid)
@@ -152,7 +141,6 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         {
             $this->title = 'untitled';
         }
-        return true;
     }
 
     /**

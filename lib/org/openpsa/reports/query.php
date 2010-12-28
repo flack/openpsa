@@ -49,8 +49,6 @@ class org_openpsa_reports_query_dba extends midcom_core_dbaobject
         {
             $this->title = 'unnamed';
         }
-
-        return true;
     }
 
     /**

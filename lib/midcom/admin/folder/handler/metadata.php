@@ -165,9 +165,9 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
         if (   is_a($this->_object, 'midcom_db_topic')
             && !empty($this->_object->symlink))
         {
-            $topic = new midcom_db_topic($this->_object->symlink);
-            if ($topic && $topic->guid)
+            try
             {
+                $topic = new midcom_db_topic($this->_object->symlink);
                 $data['symlink'] = '';
                 $nap = new midcom_helper_nav();
                 if ($node = $nap->get_node($topic))
@@ -175,10 +175,10 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
                     $data['symlink'] = $node[MIDCOM_NAV_FULLURL];
                 }
             }
-            else
+            catch (midcom_error $e)
             {
                 debug_add("Could not get target for symlinked topic #{$this->_object->id}: " .
-                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                    $e->getMessage(), MIDCOM_LOG_ERROR);
             }
         }
 

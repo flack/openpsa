@@ -669,13 +669,15 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
                 if ($this->_config->get('assign_to_group') != null)
                 {
-                    $group_id = $this->_config->get('assign_to_group');
-                    $group = new midcom_db_group($group_id);
-
-                    if (   $group
-                        && $group->guid)
+                    try
                     {
+                        $group_id = $this->_config->get('assign_to_group');
+                        $group = new midcom_db_group($group_id);
                         $this->_person->add_to_group($group->name);
+                    }
+                    catch (midcom_error $e)
+                    {
+                        debug_add($e->getMessage());
                     }
                 }
                 break;

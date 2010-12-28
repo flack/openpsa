@@ -244,13 +244,14 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         {
             $id = $mc->get_subkey($guid, 'article');
 
-            $article = new midcom_db_article($id);
-
-            // If the article was not found, it is probably due to
-            if (   !isset($article)
-                || !isset($article->guid)
-                || !$article->guid)
+            try
             {
+                $article = new midcom_db_article($id);
+            }
+            catch (midcom_error $e)
+            {
+                // If the article was not found, it is probably due to ACL
+                debug_add($e->getMessage());
                 continue;
             }
 

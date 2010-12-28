@@ -123,7 +123,6 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         // Make sure we have correct class
         $x =& $this;
         $x = new org_openpsa_calendar_event_participant_dba($this->id);
-        return true;
     }
 
     /**
@@ -173,13 +172,16 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
         {
             if (!array_key_exists($eventmember->eid, $event_cache))
             {
-                $event_cache[$eventmember->eid] = new org_openpsa_calendar_event_dba($eventmember->eid);
+                try
+                {
+                    $event_cache[$eventmember->eid] = new org_openpsa_calendar_event_dba($eventmember->eid);
+                }
+                catch (midcom_error $e)
+                {
+                    continue;
+                }
             }
             $event =& $event_cache[$eventmember->eid];
-            if (!$event)
-            {
-                continue;
-            }
             $ymd = date('Ymd', $event->start);
             if (array_key_exists($ymd, $events_by_date))
             {

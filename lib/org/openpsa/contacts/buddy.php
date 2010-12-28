@@ -34,10 +34,14 @@ class org_openpsa_contacts_buddy_dba extends midcom_core_dbaobject
     {
         if ($this->account)
         {
-            $person = new org_openpsa_contacts_person_dba($this->account);
-            if ($person)
+            try
             {
+                $person = new org_openpsa_contacts_person_dba($this->account);
                 return $person->guid;
+            }
+            catch (midcom_error $e)
+            {
+                return null;
             }
         }
         else

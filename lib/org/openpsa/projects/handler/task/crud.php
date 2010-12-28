@@ -206,8 +206,11 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
             && $args[0] == 'project')
         {
             // This task is to be connected to a project
-            $this->_parent = new org_openpsa_projects_project($args[1]);
-            if (!$this->_parent)
+            try
+            {
+                $this->_parent = new org_openpsa_projects_project($args[1]);
+            }
+            catch (midcom_error $e)
             {
                 return false;
             }
@@ -308,8 +311,11 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         $relations = $mc->list_keys();
         foreach ($relations as $guid => $empty)
         {
-            $booking = new org_openpsa_calendar_event_dba($mc->get_subkey($guid, 'fromGuid'));
-            if (!$booking)
+            try
+            {
+                $booking = new org_openpsa_calendar_event_dba($mc->get_subkey($guid, 'fromGuid'));
+            }
+            catch (midcom_error $e)
             {
                 continue;
             }

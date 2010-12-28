@@ -353,11 +353,12 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
 
         if ($city_id)
         {
-            $city = new org_routamc_positioning_city_dba($city_id);
-            if ($city)
+            try
             {
+                $city = new org_routamc_positioning_city_dba($city_id);
                 $city_name = $city->city;
             }
+            catch (midcom_error $e){}
         }
         return $city_name;
     }
@@ -558,11 +559,14 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
 
     function get_default()
     {
-        $city_name = '';
-        $city = new org_routamc_positioning_city_dba($this->_type->location->city);
-        if ($city)
+        try
         {
+            $city = new org_routamc_positioning_city_dba($city_id);
             $city_name = $city->city;
+        }
+        catch (midcom_error $e)
+        {
+            $city_name = '';
         }
 
         $lat = $this->_type->location->latitude;

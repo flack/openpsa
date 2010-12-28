@@ -60,8 +60,6 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
         {
             $this->docStatus = ORG_OPENPSA_DOCUMENT_STATUS_DRAFT;
         }
-
-        return true;
     }
 
     public function _on_creating()
@@ -158,12 +156,14 @@ class org_openpsa_documents_document_dba extends midcom_core_dbaobject
             $identifier = $info[0];
             $guid = $info[1];
 
-            $attachment = new midcom_db_attachment($guid);
-            if (   !$attachment
-                || !$attachment->guid)
+            try
+            {
+                $attachment = new midcom_db_attachment($guid);
+            }
+            catch (midcom_error $e)
             {
                 debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
-                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
+                debug_add('Last Midgard error was: ' . $e->getMessage(), MIDCOM_LOG_INFO);
                 continue;
             }
 

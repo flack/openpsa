@@ -63,7 +63,6 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
             {
                 $node = $data['nap']->get_node($wikipage->topic);
             }
-            $author = new midcom_db_person($wikipage->metadata->revisor);
             $item = new FeedItem();
             $item->title = $wikipage->title;
             if ($wikipage->name == 'index')
@@ -75,7 +74,16 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
                 $item->link = "{$node[MIDCOM_NAV_FULLURL]}{$wikipage->name}/";
             }
             $item->date = $wikipage->metadata->revised;
-            $item->author = $author->name;
+            try
+            {
+                $author = new midcom_db_person($wikipage->metadata->revisor);
+                $item->author = $author->name;
+            }
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
+            }
+
             $item->description = Markdown(preg_replace_callback($this->_config->get('wikilink_regexp'), array($wikipage, 'replace_wikiwords'), $wikipage->content));
             $data['rss_creator']->addItem($item);
         }

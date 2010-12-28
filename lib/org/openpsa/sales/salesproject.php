@@ -254,8 +254,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         {
             $this->title = "salesproject #{$this->id}";
         }
-
-        return true;
     }
 
     private function _pid_to_obj($pid)

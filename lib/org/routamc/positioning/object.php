@@ -119,8 +119,11 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
             $time = $this->_object->metadata->published;
         }
 
-        $person = new midcom_db_person($person_guid);
-        if (!$person->id)
+        try
+        {
+            $person = new midcom_db_person($person_guid);
+        }
+        catch (midcom_error $e)
         {
             return null;
         }

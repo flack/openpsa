@@ -90,9 +90,11 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         }
 
         $_MIDCOM->auth->request_sudo();
-        $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
-        if (   !is_object($campaign)
-            || !$campaign->id)
+        try
+        {
+            $campaign = new org_openpsa_directmarketing_campaign_dba($args['campaign_guid']);
+        }
+        catch (midcom_error $e)
         {
             $msg = "{$args['campaign_guid']} is not a valid campaign GUID";
             debug_add($msg, MIDCOM_LOG_ERROR);
@@ -114,35 +116,27 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
     }
 
     /**
-     * The permalink servie resolver
+     * The permalink resolver
      */
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $campaign = false;
-        $message = false;
-
-        $campaign = new org_openpsa_directmarketing_campaign_dba($guid);
-        if (   !$campaign
-            || !isset($campaign->guid)
-            || $campaign->guid !== $guid)
+        try
         {
-            $message = new org_openpsa_directmarketing_campaign_message_dba($guid);
+            $campaign = new org_openpsa_directmarketing_campaign_dba($guid);
+            return "campaign/{$campaign->guid}/";
         }
-
-        switch (true)
+        catch (midcom_error $e)
         {
-            case (   is_object($campaign)
-                  && isset($campaign->guid)
-                  && !empty($campaign->guid)):
-                return "campaign/{$campaign->guid}/";
-                break;
-            case (   is_object($message)
-                  && isset($message->guid)
-                  && !empty($message->guid)):
+            try
+            {
+                $message = new org_openpsa_directmarketing_campaign_message_dba($guid);
                 return "message/{$message->guid}/";
-                break;
+            }
+            catch (midcom_error $e)
+            {
+                return null;
+            }
         }
-        return null;
     }
 
     public function _on_watched_dba_create($post)
@@ -154,8 +148,11 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
 
         // Figure out which topic the post is in
         $thread = new net_nemein_discussion_thread_dba($post->thread);
-        $node = new midcom_db_topic($thread->node);
-        if (!$node)
+        try
+        {
+            $node = new midcom_db_topic($thread->node);
+        }
+        catch (midcom_error $e)
         {
             return false;
         }
@@ -172,8 +169,11 @@ class org_openpsa_directmarketing_interface extends midcom_baseclasses_component
         {
             foreach ($campaign_params as $parameter)
             {
-                $campaign = new org_openpsa_directmarketing_campaign_dba($parameter->parentguid);
-                if (!$campaign->guid)
+                try
+                {
+                    $campaign = new org_openpsa_directmarketing_campaign_dba($parameter->parentguid);
+                }
+                catch (midcom_error $e)
                 {
                     continue;
                 }

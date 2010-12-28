@@ -38,12 +38,14 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             {
                 continue;
             }
-
-            $article = new midcom_db_article($related);
-            if (   $article
-                && $article->guid)
+            try
             {
+                $article = new midcom_db_article($related);
                 echo "<li><a href=\"" . $_MIDCOM->permalinks->create_permalink($article->guid) . "\">{$article->title}</a></li>\n";
+            }
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
             }
         }
         echo "</ul>\n";

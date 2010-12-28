@@ -790,13 +790,6 @@ class midcom_helper_metadata
 
         // $object is now populated too
         $meta = new midcom_helper_metadata($guid, $object, $GLOBALS['midcom_config']['metadata_schema']);
-        if (! $meta)
-        {
-            debug_add("Failed to create a metadata object for {$guid}, last error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            debug_print_r('Object used was:', $object);
-
-            return false;
-        }
 
         if (count($_object_cache) >= $GLOBALS['midcom_config']['cache_module_nap_metadata_cachesize'])
         {

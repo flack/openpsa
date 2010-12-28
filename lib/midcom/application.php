@@ -718,12 +718,6 @@ class midcom_application
                         }
 
                         $attachment = new midcom_db_attachment($value);
-                        if (   !$attachment
-                            && !$attachment->guid)
-                        {
-                            throw new midcom_error_notfound('Failed to access attachment: ' . midcom_connection::get_error_string());
-                        }
-
                         if (!$attachment->can_do('midgard:autoserve_attachment'))
                         {
                             throw new midcom_error_notfound('Failed to access attachment: Autoserving denied.');

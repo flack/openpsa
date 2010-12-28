@@ -496,8 +496,7 @@ class midcom_core_privilege
             $privilege['objectguid'] = $guid;
             $privilege['guid'] = $privilege_guid;
             $privilege_object = new midcom_core_privilege($privilege);
-            if (   !is_object($privilege_object)
-                || !isset($privilege_object->assignee))
+            if (!isset($privilege_object->assignee))
             {
                 // Invalid privilege, skip
                 continue;

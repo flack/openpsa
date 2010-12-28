@@ -88,7 +88,7 @@ function hideElement(element)
                 $bounce_string = sprintf($data['l10n']->get('%s has bounced'), $member->email);
                 $contact->prefix_html .= '<img style="float: right;" src="' . MIDCOM_STATIC_URL . '/stock-icons/16x16/repair.png" class="delete" id="org_openpsa_directmarketing_bounced-' . $member->guid . '" title="' . $bounce_string . '" alt="' . $bounce_string . '" />';
             }
-            if(isset($contact->contact_details['id']) && $contact->contact_details['id'] > 0)
+            if (isset($contact->contact_details['id']) && $contact->contact_details['id'] > 0)
             {
                 $contact->show();
             }

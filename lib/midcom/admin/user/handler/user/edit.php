@@ -221,10 +221,11 @@ implements midcom_helper_datamanager2_interfaces_edit
         // Change every user or continue to next on failure - failures will show UI messages
         foreach ($_POST['midcom_admin_user'] as $id)
         {
-            $person = new midcom_db_person($id);
-
-            // Check integrity
-            if (!$person->guid)
+            try
+            {
+                $person = new midcom_db_person($id);
+            }
+            catch (midcom_error $e)
             {
                 $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), sprintf($this->_l10n->get('failed to get the user with id %s'), $id), 'error');
                 $success = false;

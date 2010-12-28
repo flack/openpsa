@@ -59,8 +59,11 @@ class midcom_db_element extends midcom_core_dbaobject
             return null;
         }
 
-        $parent = new midcom_db_style($this->style);
-        if (! $parent)
+        try
+        {
+            $parent = new midcom_db_style($this->style);
+        }
+        catch (midcom_error $e)
         {
             debug_add("Could not load Style ID {$this->up} from the database, aborting.",
                 MIDCOM_LOG_INFO);

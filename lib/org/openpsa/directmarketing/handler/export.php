@@ -44,11 +44,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         $_MIDCOM->auth->require_valid_user();
 
         // Try to load the correct campaign
-        $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if ($this->_request_data['campaign']->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
-        }
+        $this->_request_data['campaign'] = $this->_master->load_campaign($args[0]);
 
         $this->_view_toolbar->add_item
         (

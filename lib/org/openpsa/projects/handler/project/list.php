@@ -15,14 +15,15 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
 {
     private function _load_project($identifier)
     {
-        $project = new org_openpsa_projects_project($identifier);
-
-        if (!is_object($project))
+        try
+        {
+            $project = new org_openpsa_projects_project($identifier);
+            $project->get_members();
+        }
+        catch (midcom_error $e)
         {
             return false;
         }
-        $project->get_members();
-
         return $project;
     }
 

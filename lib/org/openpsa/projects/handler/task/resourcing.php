@@ -81,10 +81,12 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
         {
             foreach ($_POST['org_openpsa_projects_prospects'] as $prospect_guid => $slots)
             {
-                $prospect = new org_openpsa_projects_task_resource_dba($prospect_guid);
-                if (!$prospect)
+                try
                 {
-                    // Could not fetch  prospect object
+                    $prospect = new org_openpsa_projects_task_resource_dba($prospect_guid);
+                }
+                catch (midcom_error $e)
+                {
                     continue;
                 }
                 $update_prospect = false;

@@ -145,31 +145,23 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $group = false;
-        $person = false;
-
-        $group = new org_openpsa_contacts_group_dba($guid);
-        if (   !$group
-            || !$group->guid)
+        try
         {
-            $group = null;
-            $person = new org_openpsa_contacts_person_dba($guid);
-            if (   !$person
-                || !$person->guid)
+            $group = new org_openpsa_contacts_group_dba($guid);
+            return "group/{$group->guid}/";
+        }
+        catch (midcom_error $e)
+        {
+            try
             {
-                $person = null;
+                $person = new org_openpsa_contacts_person_dba($guid);
+                return "person/{$person->guid}/";
+            }
+            catch (midcom_error $e)
+            {
+                return null;
             }
         }
-        switch (true)
-        {
-            case is_object($group):
-                return "group/{$group->guid}/";
-                break;
-            case is_object($person):
-                return "person/{$person->guid}/";
-                break;
-        }
-        return null;
     }
 
     /**
@@ -386,11 +378,13 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         if (array_key_exists('person', $args))
         {
             // Handling for persons
-
-            $person = new org_openpsa_contacts_person_dba($args['person']);
-            if (!$person)
+            try
             {
-                $msg = "Person {$args['person']} not found, error " . midcom_connection::get_error_string();
+                $person = new org_openpsa_contacts_person_dba($args['person']);
+            }
+            catch (midcom_error $e)
+            {
+                $msg = "Person {$args['person']} not found, error " . $e->getMessage();
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
                 return false;
@@ -473,11 +467,13 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         else if (array_key_exists('group', $args))
         {
             // Handling for persons
-
-            $group = new org_openpsa_contacts_group_dba($args['group']);
-            if (!$group)
+            try
             {
-                $msg = "Group {$args['group']} not found, error " . midcom_connection::get_error_string();
+                $group = new org_openpsa_contacts_group_dba($args['group']);
+            }
+            catch (midcom_error $e)
+            {
+                $msg = "Group {$args['group']} not found, error " . $e->getMessage();
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
                 return false;
@@ -587,9 +583,11 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
     function reopen_account($args, &$handler)
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
-        $person = new midcom_db_person($args['guid']);
-
-        if (!$person->guid)
+        try
+        {
+            $person = new midcom_db_person($args['guid']);
+        }
+        catch (midcom_error $e)
         {
             $msg = 'Person with guid #' . $args['guid'] . ' does not exist - for reopen_account';
             debug_add($msg, MIDCOM_LOG_ERROR);

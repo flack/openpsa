@@ -97,12 +97,13 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
                 $customer_id = $mc->get_subkey($array['task'], 'customer');
                 if ($customer_id)
                 {
-                    $customer = new org_openpsa_contacts_group_dba($customer_id);
-                    if ($customer->guid != "")
+                    try
                     {
+                        $customer = new org_openpsa_contacts_group_dba($customer_id);
                         $customer_label = $customer->official;
                         $customer = $customer_id;
                     }
+                    catch (midcom_error $e){}
                }
             }
             $customer_cache[$array['task']] = $customer;

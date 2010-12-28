@@ -295,8 +295,11 @@ class midcom_services_indexer
             if (   isset($document->topic_guid)
                 && !empty($document->topic_guid))
             {
-                $topic = new midcom_db_topic($document->topic_guid);
-                if (! $topic)
+                try
+                {
+                    $topic = new midcom_db_topic($document->topic_guid);
+                }
+                catch (midcom_error $e)
                 {
                     // Skip document, the object is hidden.
                     debug_add("Skipping the generic document {$document->title}, its topic seems to be invisible, we cannot proceed.");

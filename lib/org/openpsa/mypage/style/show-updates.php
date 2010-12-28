@@ -17,15 +17,6 @@ foreach ($view_types as $type)
             $class = explode('.', $document->_fields['__COMPONENT']['content']);
             $class = $class[count($class)-1];
 
-            if ($document->_fields['__EDITOR']['content'])
-            {
-                $editor = new midcom_db_person($document->_fields['__EDITOR']['content']);
-            }
-            else
-            {
-                $editor = new midcom_db_person($document->_fields['__CREATOR']['content']);
-            }
-
             $onclick = '';
             switch ($class)
             {
@@ -38,11 +29,20 @@ foreach ($view_types as $type)
                     break;
             }
 
-            if ($editor)
+            try
             {
+                if ($document->_fields['__EDITOR']['content'])
+                {
+                    $editor = new midcom_db_person($document->_fields['__EDITOR']['content']);
+                }
+                else
+                {
+                    $editor = new midcom_db_person($document->_fields['__CREATOR']['content']);
+                }
                 $contact = new org_openpsa_contactwidget($editor);
                 echo "<li class=\"updated-{$class}\"><a href=\"{$url}\"{$onclick}>{$document->title}</a> <div class=\"metadata\">" . strftime("%x %X", $document->_fields['__EDITED_TS']['content']) . " (" . $contact->show_inline() . ")</div></li>\n";
             }
+            catch (midcom_error $e){}
         }
         echo "</ul></div>\n";
     }

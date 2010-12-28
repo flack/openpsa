@@ -40,14 +40,17 @@ class org_routamc_positioning_log_dba extends midcom_core_dbaobject
     {
         if ($this->person)
         {
-            $parent = new midcom_db_person($this->person);
-            if (!$parent->guid)
+            try
+            {
+                $parent = new midcom_db_person($this->person);
+                return $parent->guid;
+            }
+            catch (midcom_error $e)
             {
                 debug_add("Could not load Person ID {$this->person} from the database, aborting.",
                     MIDCOM_LOG_INFO);
                 return null;
             }
-            return $parent->guid;
         }
 
         return null;

@@ -178,11 +178,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $_MIDCOM->auth->require_valid_user();
         //Load message
         $data['message'] = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['message']->campaign);
-        if ($data['campaign']->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$data['message']->campaign} was not found.");
-        }
+        $data['campaign'] = new $this->_master->load_campaign($data['message']->campaign);
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 

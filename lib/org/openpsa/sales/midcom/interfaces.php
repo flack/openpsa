@@ -53,18 +53,23 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
 
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $salesproject = new org_openpsa_sales_salesproject_dba($guid);
-        if ($salesproject->guid == $guid)
+        try
         {
+            $salesproject = new org_openpsa_sales_salesproject_dba($guid);
             return "salesproject/{$salesproject->guid}/";
         }
-
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
-        if ($deliverable->guid == $guid)
+        catch (midcom_error $e)
         {
-            return "deliverable/{$deliverable->guid}/";
+            try
+            {
+                $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($guid);
+                return "deliverable/{$deliverable->guid}/";
+            }
+            catch (midcom_error $e)
+            {
+                return null;
+            }
         }
-        return null;
     }
 
     /**
@@ -250,8 +255,11 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             return false;
         }
 
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
-        if ($deliverable->guid == "")
+        try
+        {
+            $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
+        }
+        catch (midcom_error $e)
         {
             $msg = "Deliverable {$args['deliverable']} not found, error " . midcom_connection::get_error_string();
             $handler->print_error($msg);
@@ -275,8 +283,11 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             $handler->print_error($msg);
             return false;
         }
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
-        if (empty($deliverable->guid))
+        try
+        {
+            $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args['deliverable']);
+        }
+        catch (midcom_error $e)
         {
             $msg = 'no deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
@@ -286,8 +297,11 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
 
         $notify_msg = $deliverable->title;
         //get the owner of the sales-project the deliverable belongs to
-        $project = new org_openpsa_sales_salesproject_dba($deliverable->salesproject);
-        if(empty($project->guid))
+        try
+        {
+            $project = new org_openpsa_sales_salesproject_dba($deliverable->salesproject);
+        }
+        catch (midcom_error $e)
         {
             $msg = 'no project(id:' . $deliverable->salesproject . ') found for deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);

@@ -242,9 +242,9 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
     {
         if (!empty($this->_topic->symlink))
         {
-            $topic = new midcom_db_topic($this->_topic->symlink);
-            if ($topic && $topic->guid)
+            try
             {
+                $topic = new midcom_db_topic($this->_topic->symlink);
                 $data['symlink'] = '';
                 $nap = new midcom_helper_nav();
                 if ($node = $nap->get_node($topic))
@@ -252,10 +252,10 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                     $data['symlink'] = $node[MIDCOM_NAV_FULLURL];
                 }
             }
-            else
+            catch (midcom_error $e)
             {
                 debug_add("Could not get target for symlinked topic #{$this->_topic->id}: " .
-                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                    $e->getMessage(), MIDCOM_LOG_ERROR);
             }
         }
 
@@ -275,14 +275,18 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      */
     public static function list_children($id)
     {
-        $children = array();
-        if ($topic = new midcom_db_topic($id))
+        try
         {
+            $topic = new midcom_db_topic($id);
             $children = self::_get_child_objects($topic);
             if ($children === false)
             {
                 $children = array();
             }
+        }
+        catch (midcom_error $e)
+        {
+            $children = array();
         }
 
         $qb_topic = midcom_db_topic::new_query_builder();

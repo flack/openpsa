@@ -30,7 +30,6 @@ if (midcom_connection::get_user() == $task->manager)
 else if ($task->manager)
 {
     $contact = org_openpsa_contactwidget::get($task->manager);
-
     echo sprintf($data['l10n']->get("pending approval by %s"), $contact->show_inline());
 }
 ?>

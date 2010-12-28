@@ -65,8 +65,11 @@ class midcom_db_eventmember extends midcom_core_dbaobject
             return null;
         }
 
-        $parent = new midcom_db_event($this->eid);
-        if (! $parent)
+        try
+        {
+            $parent = new midcom_db_event($this->eid);
+        }
+        catch (midcom_error $e)
         {
             debug_add("Could not load Event ID {$this->eid} from the database, aborting.",
                 MIDCOM_LOG_INFO);

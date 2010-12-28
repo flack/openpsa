@@ -37,12 +37,15 @@ class org_routamc_positioning_importer_instamapper extends org_routamc_positioni
         {
             foreach ($accounts as $account_param)
             {
-                $user = new midcom_db_person($account_param->parentguid);
-                if (!$user->guid)
+                try
+                {
+                    $user = new midcom_db_person($account_param->parentguid);
+                    $this->get_instamapper_location($user, true);
+                }
+                catch (midcom_error $e)
                 {
                     continue;
                 }
-                $this->get_instamapper_location($user, true);
             }
         }
     }

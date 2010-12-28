@@ -36,6 +36,9 @@ class midcom_exception_handler
         {
             throw $e;
         }
+        else if ($e instanceof midgard_error_exception)
+        {
+        }
         if (   !isset($_MIDCOM)
             || !$_MIDCOM)
         {
@@ -253,7 +256,7 @@ class midcom_exception_handler
         $logger->log($msg, MIDCOM_LOG_INFO);
     }
 
-    private function send_email($httpcode, $msg)
+    private function _send_email($httpcode, $msg)
     {
         if (   !isset($GLOBALS['midcom_config']['error_actions'][$httpcode]['email'])
             || empty($GLOBALS['midcom_config']['error_actions'][$httpcode]['email']))
@@ -362,12 +365,56 @@ class midcom_error_notfound extends midcom_error
  */
 class midcom_error_forbidden extends midcom_error
 {
-    public function __construct($message, $code = MIDCOM_ERRFORBIDDEN)
+    public function __construct($message = null, $code = MIDCOM_ERRFORBIDDEN)
     {
+        if (is_null($message))
+        {
+            $message = $_MIDCOM->i18n->get_string('access denied', 'midcom');
+        }
         parent::__construct($message, $code);
     }
 }
 
+/**
+ * MidCOM wrapped Midgard exception
+ *
+ * @package midcom
+ */
+class midcom_error_midgard extends midcom_error
+{
+    public function __construct(midgard_error_exception $e, $id = null)
+    {
+        //catch last error which might be from dbaobject
+        $last_error = midcom_connection::get_error();
+
+        if (!is_null($id))
+        {
+            if ($last_error === MGD_ERR_NOT_EXISTS)
+            {
+                $code = MIDCOM_ERRNOTFOUND;
+                $message = "The object with identifier {$id} was not found.";
+            }
+
+            else if ($last_error == MGD_ERR_ACCESS_DENIED)
+            {
+                $code = MIDCOM_ERRFORBIDDEN;
+                $message = $_MIDCOM->i18n->get_string('access denied', 'midcom');
+            }
+            else if ($last_error == MGD_ERR_OBJECT_DELETED)
+            {
+                //@todo: due to #1900, this error will not be encountered, but in theory,
+                //we should redirect to a nice error page here
+            }
+        }
+        //If other options fail, go for the server error
+        if (!isset($code))
+        {
+            $code = MIDCOM_ERRCRIT;
+            $message = $e->getMessage();
+        }
+        parent::__construct($message, $code);
+    }
+}
 
 // Register the error and Exception handlers
 // 2009-01-08 rambo: Seems like the boolean expression does not work as intended, see my changes in the error handler itself

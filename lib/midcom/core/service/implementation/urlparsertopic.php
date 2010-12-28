@@ -164,8 +164,7 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         if ($qb->count() == 0)
         {
             //last load returned ACCESS DENIED, no sense to dig deeper
-            if (   midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED
-                || $qb->denied > 0)
+            if ($qb->denied > 0)
             {
                 midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
                 return false;

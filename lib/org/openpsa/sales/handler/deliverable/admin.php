@@ -387,11 +387,15 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             //void date - so delete existing at_entrys for this notify_date
             foreach($entry_keys as $key => $empty)
             {
-                $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
-                //check if related at_entry exists & delete it
-                if (!empty($notification_entry->guid))
+                try
                 {
+                    $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
+                    //check if related at_entry exists & delete it
                     $notification_entry->delete();
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
                 }
             }
         }

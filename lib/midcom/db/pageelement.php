@@ -58,8 +58,11 @@ class midcom_db_pageelement extends midcom_core_dbaobject
             return null;
         }
 
-        $parent = new midcom_db_page($this->page);
-        if (! $parent)
+        try
+        {
+            $parent = new midcom_db_page($this->page);
+        }
+        catch (midcom_error $e)
         {
             debug_add("Could not load Page ID {$this->page} from the database, aborting.",
                 MIDCOM_LOG_INFO);

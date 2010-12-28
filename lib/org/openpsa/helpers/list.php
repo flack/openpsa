@@ -70,11 +70,16 @@ class org_openpsa_helpers_list
             {
                 continue;
             }
-            $company = new org_openpsa_contacts_group_dba($gid);
-            if (   !is_object($company)
-                || !$company->id
+            try
+            {
+                $company = new org_openpsa_contacts_group_dba($gid);
                 /* Skip magic groups */
-                || preg_match('/^__/', $company->name))
+                if (preg_match('/^__/', $company->name))
+                {
+                    continue;
+                }
+            }
+            catch (midcom_error $e)
             {
                 continue;
             }

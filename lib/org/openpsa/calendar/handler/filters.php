@@ -26,22 +26,29 @@ implements midcom_helper_datamanager2_interfaces_edit
         $user = new midcom_db_person($this->_request_data['user']->id);
         if (array_key_exists('org_openpsa_calendar_filters_add', $_POST))
         {
-            $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_add']);
-            if ($target)
+            try
             {
+                $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_add']);
                 $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_add'], 1);
             }
-            $errstr = midcom_connection::get_error_string();
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
+            }
         }
         else if (array_key_exists('org_openpsa_calendar_filters_remove', $_POST))
         {
-            $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_remove']);
-            if ($target)
+            try
             {
+                $target = new midcom_db_person($_POST['org_openpsa_calendar_filters_remove']);
                 $update_succeeded = $user->parameter('org_openpsa_calendar_show', $_POST['org_openpsa_calendar_filters_remove'], '');
             }
-            $errstr = midcom_connection::get_error_string();
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
+            }
         }
+        $errstr = midcom_connection::get_error_string();
 
         $ajax = new org_openpsa_helpers_ajax();
         //This will exit.

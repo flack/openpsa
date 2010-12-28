@@ -40,8 +40,15 @@ $node = $nap->get_node($nap->get_current_node());
                 echo "    <dt>" . sprintf($data['l10n']->get('%s for %s'), ucfirst($context), $data['wikipage']->title) . "</dt>\n";
                 $contexts_shown[$context] = true;
             }
-            $linked_page = new net_nemein_wiki_wikipage($link->fromGuid);
-            echo "        <dd><a href=\"{$node[MIDCOM_NAV_FULLURL]}{$linked_page->name}/\">{$linked_page->title}</a></dd>\n";
+            try
+            {
+                $linked_page = new net_nemein_wiki_wikipage($link->fromGuid);
+                echo "        <dd><a href=\"{$node[MIDCOM_NAV_FULLURL]}{$linked_page->name}/\">{$linked_page->title}</a></dd>\n";
+            }
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
+            }
         }
         echo "</dl>\n";
     }

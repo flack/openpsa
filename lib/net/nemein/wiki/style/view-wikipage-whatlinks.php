@@ -12,7 +12,16 @@ if (count($data['wikilinks']) > 0)
     <?php
     foreach ($data['wikilinks'] as $link)
     {
-        $page = new net_nemein_wiki_wikipage($link->frompage);
+        try
+        {
+            $page = new net_nemein_wiki_wikipage($link->frompage);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add($e->getMessage());
+            continue;
+        }
+
         $page_link = $_MIDCOM->permalinks->create_permalink($page->guid);
         ?>
         <li><a href="&(page_link);">&(page.title);</a></li>

@@ -78,8 +78,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             // Figure out if user is from own organization or other org
             $this->_person_user = new midcom_core_user($this->_contact->id);
 
-            if (   is_object($this->_person_user)
-                && method_exists($this->_person_user, 'is_in_group')
+            if (method_exists($this->_person_user, 'is_in_group')
                 && $this->_person_user->is_in_group("group:{$owner_guid}"))
             {
                 $this->_schema = 'employee';

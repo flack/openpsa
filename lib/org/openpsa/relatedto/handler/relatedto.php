@@ -534,9 +534,12 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         echo "                    <li class=\"members\">" . $_MIDCOM->i18n->get_string('recipients', 'net.nemein.wiki') . ": ";
         foreach ($recipients as $recipient_link)
         {
-            $recipient = new midcom_db_person($recipient_link->toGuid);
-            $seen_emails[$recipient->email] = true;
-            if (!$_MIDCOM->dbfactory->is_a($recipient, 'midcom_db_person'))
+            try
+            {
+                $recipient = new midcom_db_person($recipient_link->toGuid);
+                $seen_emails[$recipient->email] = true;
+            }
+            catch (midcom_error $e)
             {
                 continue;
             }
@@ -823,10 +826,13 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
 
         $ajax = new org_openpsa_helpers_ajax();
 
-        $relation = new org_openpsa_relatedto_dba($args[0]);
-        if (!$relation->guid)
+        try
         {
-            $ajax->simpleReply(false, "Object '{$args[0]}' could not be loaded, error:" . midcom_connection::get_error_string());
+            $relation = new org_openpsa_relatedto_dba($args[0]);
+        }
+        catch (midcom_error $e)
+        {
+            $ajax->simpleReply(false, "Object '{$args[0]}' could not be loaded, error:" . $e->getMessage());
             //this will exit()
         }
 

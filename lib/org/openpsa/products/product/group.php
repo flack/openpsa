@@ -115,13 +115,6 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         if (mgd_is_guid($up))
         {
             $group = new org_openpsa_products_product_group_dba($up);
-
-            // Error message on failure
-            if (empty($group))
-            {
-                throw new midcom_error('Failed to get the configured product root group');
-            }
-
             $up = $group->id;
         }
 

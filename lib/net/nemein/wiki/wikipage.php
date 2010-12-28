@@ -32,7 +32,6 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             $this->name = midcom_helper_misc::generate_urlname_from_string($this->title);
             $this->update();
         }
-        return true;
     }
 
     public function _on_creating()
@@ -284,17 +283,20 @@ class net_nemein_wiki_wikipage extends midcom_db_article
             return $fulltag;
         }
 
-        $photo = new org_routamc_photostream_photo_dba($guid);
-        if (!$photo->guid)
+        try
         {
-            return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
+            $photo = new org_routamc_photostream_photo_dba($guid);
+            // Get the correct photo NAP object based on the GUID
+            $nap = new midcom_helper_nav();
+            $node = $nap->get_node($photo->node);
+            if ($node[MIDCOM_NAV_COMPONENT] != 'org.routamc.photostream')
+            {
+                return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
+            }
         }
-
-        // Get the correct photo NAP object based on the GUID
-        $nap = new midcom_helper_nav();
-        $node = $nap->get_node($photo->node);
-        if ($node[MIDCOM_NAV_COMPONENT] != 'org.routamc.photostream')
+        catch (midcom_error $e)
         {
+            debug_add($e->getMessage());
             return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
         }
 

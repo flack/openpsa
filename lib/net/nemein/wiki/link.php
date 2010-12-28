@@ -36,8 +36,16 @@ class net_nemein_wiki_link_dba extends midcom_core_dbaobject
         // FIXME: Midgard Core should do this
         if ($this->frompage != 0)
         {
-            $parent = new net_nemein_wiki_wikipage($this->frompage);
-            return $parent->guid;
+            try
+            {
+                $parent = new net_nemein_wiki_wikipage($this->frompage);
+                return $parent->guid;
+            }
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
+                return null;
+            }
         }
         else
         {

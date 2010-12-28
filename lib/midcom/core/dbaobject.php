@@ -93,7 +93,7 @@ abstract class midcom_core_dbaobject
             catch (midgard_error_exception $e)
             {
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_INFO);
-                return;
+                throw new midcom_error_midgard($e, $id);
             }
 
             //Some useful information for performance tuning
@@ -782,7 +782,7 @@ abstract class midcom_core_dbaobject
     public function _on_creating() { return true; }
     public function _on_deleted() {}
     public function _on_deleting() { return true; }
-    public function _on_loaded() { return true; }
+    public function _on_loaded() {}
     public function _on_prepare_exec_query_builder(&$qb) { return true; }
     public function _on_prepare_new_query_builder(&$qb) {}
     public function _on_process_query_result(&$result) {}

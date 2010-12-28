@@ -131,12 +131,14 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
             // Loop through all the persons requested on the previous page
             foreach ($_POST['persons'] as $guid)
             {
-                $this->persons[$guid] = new midcom_db_person($guid);
-
-                // Simple error handling check
-                if (empty($this->persons[$guid]))
+                try
                 {
-                    unset($this->persons[$guid]);
+                    $person = new midcom_db_person($guid);
+                    $this->persons[$guid] = $person;
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
                 }
             }
         }

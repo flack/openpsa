@@ -186,15 +186,16 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
 
                 if (is_string($id))
                 {
-                    $topic = new midcom_db_topic($id);
-
-                    if (   !$topic
-                        || !$topic->guid)
+                    try
                     {
+                        $topic = new midcom_db_topic($id);
+                        $id = $topic->id;
+                    }
+                    catch (midcom_error $e)
+                    {
+                        debug_add($e->getMessage());
                         break;
                     }
-
-                    $id = $topic->id;
                 }
 
                 $node = $nap->get_node($id);

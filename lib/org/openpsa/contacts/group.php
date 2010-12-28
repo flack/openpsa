@@ -120,7 +120,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
                 $this->official = "Group #{$this->id}";
             }
         }
-        return true;
     }
 
     public function _on_creating()

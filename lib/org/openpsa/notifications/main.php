@@ -95,11 +95,11 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
     {
         // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
         $preference = 'none';
-        $recipient = new midcom_db_person($recipient);
-
-        if (   !$recipient
-            || !isset($recipient->guid)
-            || empty($recipient->guid))
+        try
+        {
+            $recipient = new midcom_db_person($recipient);
+        }
+        catch (midcom_error $e)
         {
             return $preference;
         }

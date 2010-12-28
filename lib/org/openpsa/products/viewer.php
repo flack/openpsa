@@ -95,12 +95,7 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         $object =& $dm->storage->object;
         if (!is_object($topic))
         {
-            $tmp = new midcom_db_topic($topic);
-            if (! $tmp->guid)
-            {
-                throw new midcom_error("Failed to load the topic referenced by {$topic} for indexing.");
-            }
-            $topic = $tmp;
+            $topic = new midcom_db_topic($topic);
         }
 
         // Don't index directly, that would loose a reference due to limitations
@@ -284,15 +279,19 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         {
             if ($object->product != 0)
             {
-                $product = new org_openpsa_products_product_dba($object->product);
-            }
-            if (isset($product))
-            {
-                $tmp[] = array
-                (
-                    MIDCOM_NAV_URL => "{$object->guid}/",
-                    MIDCOM_NAV_NAME => $product->title,
-                );
+                try
+                {
+                    $product = new org_openpsa_products_product_dba($object->product);
+                    $tmp[] = array
+                    (
+                        MIDCOM_NAV_URL => "{$object->guid}/",
+                        MIDCOM_NAV_NAME => $product->title,
+                    );
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
+                }
             }
         }
         else if (get_class($object) != 'org_openpsa_products_product_dba')

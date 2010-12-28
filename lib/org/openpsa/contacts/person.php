@@ -65,8 +65,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         }
 
         $this->_verify_privileges();
-
-        return true;
     }
 
     /**

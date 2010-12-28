@@ -69,8 +69,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     {
         $_MIDCOM->load_library('org.openpsa.mail');
 
-        if (   !$this->recipient
-            || empty($this->recipient->email))
+        if (empty($this->recipient->email))
         {
             return false;
         }

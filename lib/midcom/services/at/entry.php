@@ -49,13 +49,10 @@ class midcom_services_at_entry_dba extends midcom_core_dbaobject
 
     /**
      * Makes sure $arguments is properly set
-     *
-     * @return boolean Always true
      */
     public function _on_loaded()
     {
         $this->_unserialize_arguments();
-        return true;
     }
 
     /**

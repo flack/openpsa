@@ -168,29 +168,28 @@ class midcom_helper__styleloader
             $path_parts = array();
             $original_id = $id;
 
-            while (($style = new midcom_db_style($id)))
+            try
             {
-                if (!$style->guid)
+                while (($style = new midcom_db_style($id)))
                 {
-                    break;
-                }
+                    $path_parts[] = $style->name;
+                    $id = $style->up;
 
-                $path_parts[] = $style->name;
-                $id = $style->up;
+                    if ($style->up == 0)
+                    {
+                        // Toplevel style
+                        break;
+                    }
 
-                if ($style->up == 0)
-                {
-                    // Toplevel style
-                    break;
-                }
-
-                if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
-                    && $style->up == $_MIDGARD['style'])
-                {
-                    // Relative path, stop before going to main Midgard style
-                    break;
+                    if (   $GLOBALS['midcom_config']['styleengine_relative_paths']
+                        && $style->up == $_MIDGARD['style'])
+                    {
+                        // Relative path, stop before going to main Midgard style
+                        break;
+                    }
                 }
             }
+            catch (midcom_error $e){}
 
             $path_parts = array_reverse($path_parts);
 

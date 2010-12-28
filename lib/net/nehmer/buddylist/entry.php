@@ -37,8 +37,15 @@ class net_nehmer_buddylist_entry extends midcom_core_dbaobject
     {
         if ($this->account)
         {
-            $parent = new midcom_db_person($this->account);
-            return $parent->guid;
+            try
+            {
+                $parent = new midcom_db_person($this->account);
+                return $parent->guid;
+            }
+            catch (midcom_error $e)
+            {
+                return null;
+            }
         }
         return null;
     }

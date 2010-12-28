@@ -83,14 +83,19 @@ implements midcom_helper_datamanager2_interfaces_edit
                 {
                     foreach ($_POST['member_title'] as $id => $title)
                     {
-                        $member = new midcom_db_member($id);
-                        if ($member->guid)
+                        $update_succeeded = false;
+                        try
                         {
+                            $member = new midcom_db_member($id);
                             $_MIDCOM->auth->require_do('midgard:update', $member);
                             $member->extra = $title;
                             $update_succeeded = $member->update();
-                            $errstr = midcom_connection::get_error_string();
                         }
+                        catch (midcom_error $e)
+                        {
+                            debug_add($e->getMessage());
+                        }
+                        $errstr = midcom_connection::get_error_string();
                     }
                 }
                 $ajax = new org_openpsa_helpers_ajax();

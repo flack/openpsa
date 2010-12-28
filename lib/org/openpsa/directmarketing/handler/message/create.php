@@ -84,12 +84,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     public function _handler_create($handler_id, $args, &$data)
     {
-        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
-        if ($data['campaign']->node != $this->_topic->id)
-        {
-            throw new midcom_error_notfound("The campaign {$args[0]} was not found.");
-        }
-
+        $data['campaign'] = $this->_master->load_campaign($args[0]);
         $_MIDCOM->auth->require_do('midgard:create', $data['campaign']);
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);

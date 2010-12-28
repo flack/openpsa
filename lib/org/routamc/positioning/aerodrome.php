@@ -42,7 +42,7 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     /**
      * @return org_routamc_positioning_city_dba City the airport caters for
      */
@@ -50,8 +50,11 @@ class org_routamc_positioning_aerodrome_dba extends midcom_core_dbaobject
     {
         if ($this->city)
         {
-            $parent = new org_routamc_positioning_city_dba($this->city);
-            if (! $parent)
+            try
+            {
+                $parent = new org_routamc_positioning_city_dba($this->city);
+            }
+            catch (midcom_error $e)
             {
                 debug_add("Could not load City ID {$this->city} from the database, aborting.",
                     MIDCOM_LOG_INFO);

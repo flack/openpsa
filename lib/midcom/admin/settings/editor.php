@@ -87,13 +87,13 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
         if (   isset($args[0])
             && $args[0])
         {
-            $host = new midcom_db_host($args[0]);
-            if ($host->root)
+            try
             {
+                $host = new midcom_db_host($args[0]);
                 $data['hostname'] = $host->name . $host->prefix;
                 $this->_config_storage = new midcom_db_page($host->root);
             }
-            else
+            catch (midcom_error $e)
             {
                 $this->_prepare_request_data($data);
                 $this->_config_storage = null;

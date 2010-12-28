@@ -60,10 +60,6 @@ class net_nehmer_account_remote extends midcom_baseclasses_components_purecode
         parent::__construct();
 
         $this->_topic = new midcom_db_topic($guid);
-        if (! $this->_topic)
-        {
-            throw new midcom_error('Tried to load the n.n.account remote interface with an invalid topic.');
-        }
         $this->_load_topic_configuration($this->_topic);
     }
 

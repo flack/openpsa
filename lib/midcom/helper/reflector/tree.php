@@ -298,11 +298,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
         $resolver = new midcom_helper_reflector_tree($object);
-        if (!$resolver)
-        {
-            debug_add("Could not instantiate midcom_helper_reflector_tree from \$object", MIDCOM_LOG_ERROR);
-            return false;
-        }
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {
@@ -483,11 +478,6 @@ class midcom_helper_reflector_tree extends midcom_helper_reflector
             return false;
         }
         $resolver = new midcom_helper_reflector_tree($object);
-        if (!$resolver)
-        {
-            debug_add("Could not instantiate midcom_helper_reflector_tree from \$object", MIDCOM_LOG_ERROR);
-            return false;
-        }
         $child_classes = $resolver->get_child_classes();
         if (!$child_classes)
         {

@@ -58,9 +58,11 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
             debug_add("Resource is set to empty value returning true");
             return true;
         }
-        $resource = new org_openpsa_calendar_resource_dba($this->resource);
-        if (   !is_object($resource)
-            || empty($resource->id))
+        try
+        {
+            $resource = new org_openpsa_calendar_resource_dba($this->resource);
+        }
+        catch (midcom_error $e)
         {
             debug_add("Cannot fetch resource #{$this->resource} returning false", MIDCOM_LOG_INFO);
             return false;
@@ -97,8 +99,15 @@ class org_openpsa_calendar_event_resource_dba extends midcom_core_dbaobject
     {
         if ($this->event != 0)
         {
-            $parent = new org_openpsa_calendar_event_dba($this->event);
-            return $parent->guid;
+            try
+            {
+                $parent = new org_openpsa_calendar_event_dba($this->event);
+                return $parent->guid;
+            }
+            catch (midcom_error $e)
+            {
+                return null;
+            }
         }
         else
         {

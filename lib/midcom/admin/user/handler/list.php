@@ -158,16 +158,18 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
     {
         foreach ($_POST['midcom_admin_user'] as $person_id)
         {
-            if (is_numeric($person_id))
+            try
             {
-                $person = new midcom_db_person((int) $person_id);
+                if (is_numeric($person_id))
+                {
+                    $person = new midcom_db_person((int) $person_id);
+                }
+                else
+                {
+                    $person = new midcom_db_person($person_id);
+                }
             }
-            else
-            {
-                $person = new midcom_db_person($person_id);
-            }
-
-            if (!$person->guid)
+            catch (midcom_error $e)
             {
                 continue;
             }

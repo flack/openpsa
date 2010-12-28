@@ -15,15 +15,15 @@ class org_openpsa_invoices_interface extends midcom_baseclasses_components_inter
 {
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $invoice = new org_openpsa_invoices_invoice_dba($guid);
-
-        if (   !$invoice
-            || !$invoice->guid)
+        try
+        {
+            $invoice = new org_openpsa_invoices_invoice_dba($guid);
+            return "invoice/{$invoice->guid}/";
+        }
+        catch (midcom_error $e)
         {
             return null;
         }
-
-        return "invoice/{$invoice->guid}/";
     }
 
     /**

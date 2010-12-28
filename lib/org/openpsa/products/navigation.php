@@ -98,25 +98,25 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         $levels = array();
 
         // Trial and error: try first if the ID is of a product
-        $product = new org_openpsa_products_product_dba($id);
-
-        // If the request was for a product, change the request ID
-        if (   !empty($product)
-            && $product->guid)
+        try
         {
+            $product = new org_openpsa_products_product_dba($id);
+            // If the request was for a product, change the request ID
             $id = $product->productGroup;
         }
-
-        $group = new org_openpsa_products_product_group_dba($id);
-
-        // Return an empty array if not able to get the product group
-        if (!$group->guid)
+        catch (midcom_error $e){}
+        try
         {
+            $group = new org_openpsa_products_product_group_dba($id);
+        }
+        catch (midcom_error $e)
+        {
+            // Return an empty array if not able to get the product group
             return $levels;
         }
 
         // Get level at a time
-        while($group->guid)
+        while ($group->guid)
         {
             $levels[] = org_openpsa_products_navigation::get_product_group_navigation($group->id);
 

@@ -112,19 +112,20 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
             return $cache[$src];
         }
 
-        if (class_exists('org_openpsa_contacts_person_dba'))
+        try
         {
-            $person = org_openpsa_contacts_person_dba::get_cached($src);
+            if (class_exists('org_openpsa_contacts_person_dba'))
+            {
+                $person = org_openpsa_contacts_person_dba::get_cached($src);
+            }
+            else
+            {
+                $person = new midcom_db_person($src);
+            }
         }
-        else
+        catch (midcom_error $e)
         {
-            $person = new midcom_db_person($src);
-        }
-
-        if (   !$person
-            && empty($person->guid))
-        {
-            $widget = new org_openpsa_contactwidget($person);
+            $widget = new org_openpsa_contactwidget();
             $cache[$src] = $widget;
             return $widget;
         }

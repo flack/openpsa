@@ -64,17 +64,19 @@ class net_nemein_wiki_interface extends midcom_baseclasses_components_interface
 
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $article = new midcom_db_article($guid);
-        if (   ! $article
-            || $article->topic != $topic->id)
+        try
+        {
+            $article = new midcom_db_article($guid);
+            if ($article->name == 'index')
+            {
+                return '';
+            }
+            return "{$article->name}/";
+        }
+        catch (midcom_error $e)
         {
             return null;
         }
-        if ($article->name == 'index')
-        {
-            return '';
-        }
-        return "{$article->name}/";
     }
 
     /**

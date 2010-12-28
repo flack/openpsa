@@ -58,25 +58,31 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
 
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $productlink = new org_openpsa_products_product_link_dba($guid);
-        if ($productlink->guid)
+        try
         {
+            $productlink = new org_openpsa_products_product_link_dba($guid);
             return $this->_resolve_productlink($productlink, $topic);
         }
-
-        $product = new org_openpsa_products_product_dba($guid);
-        if ($product->guid)
+        catch (midcom_error $e)
         {
-            return $this->_resolve_product($product, $topic);
+            try
+            {
+                $product = new org_openpsa_products_product_dba($guid);
+                return $this->_resolve_product($product, $topic);
+            }
+            catch (midcom_error $e)
+            {
+                try
+                {
+                    $product_group = new org_openpsa_products_product_group_dba($guid);
+                    return $this->_resolve_productgroup($product_group, $topic);
+                }
+                catch (midcom_error $e)
+                {
+                    return null;
+                }
+            }
         }
-
-        $product_group = new org_openpsa_products_product_group_dba($guid);
-        if ($product_group->guid)
-        {
-            return $this->_resolve_productgroup($product_group, $topic);
-        }
-
-        return null;
     }
 
     private function _resolve_productgroup($product_group, $topic)

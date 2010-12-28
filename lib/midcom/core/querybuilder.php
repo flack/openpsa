@@ -82,7 +82,6 @@ class midcom_core_querybuilder
      * @var int
      */
     var $count = -1;
-
     /**
      * The number of objects for which access was denied.
      *
@@ -227,21 +226,17 @@ class midcom_core_querybuilder
         foreach ($result as $object)
         {
             $classname = $this->_real_class;
-            $object = new $classname($object);
-
-
-            // Check read privileges
-            if (midcom_connection::get_error() === MGD_ERR_ACCESS_DENIED)
+            try
             {
-                $this->denied++;
-                midcom_connection::set_error(MGD_ERR_OK); // reset error-code
-                continue;
+                $object = new $classname($object);
             }
-
-            if (!$object->guid)
+            catch (midcom_error $e)
             {
-                debug_add("Could not create a MidCOM DBA instance of the {$this->_real_class} ID {$object->id}. See debug level log for details.",
-                    MIDCOM_LOG_INFO);
+                if ($e->getCode() == MIDCOM_ERRFORBIDDEN)
+                {
+                    $this->denied++;
+                }
+                debug_add($e->getMessage());
                 continue;
             }
 
@@ -440,80 +435,6 @@ class midcom_core_querybuilder
         $this->_check_groups();
 
         return $this->execute_windowed();
-        //return $this->execute_notwindowed();
-    }
-
-    /**
-     * This function will execute the Querybuilder and call the appropriate callbacks from the
-     * class it is associated to. This way, class authors have full control over what is actually
-     * returned to the application.
-     *
-     * The calling sequence of all event handlers of the associated class is like this:
-     *
-     * 1. boolean _on_prepare_exec_query_builder(&$this) is called before the actual query execution. Return false to
-     *    abort the operation.
-     * 2. The query is executed.
-     * 3. void _on_process_query_result(&$result) is called after the successful execution of the query. You
-     *    may remove any unwanted entries from the resultset at this point.
-     *
-     * @return Array The result of the query builder or null on any error. Note, that empty resultsets
-     *     will return an empty array.
-     */
-    function execute_notwindowed()
-    {
-        $this->_reset();
-        if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_query_builder'), array(&$this)))
-        {
-            debug_add('The _on_prepare_exec_query_builder callback returned false, so we abort now.');
-            return null;
-        }
-
-        if ($this->_constraint_count == 0)
-        {
-            debug_add('This Query Builder instance has no constraints, see debug log for stacktrace', MIDCOM_LOG_WARN);
-            debug_print_function_stack('We were called from here:');
-        }
-
-        $result = $this->_execute_and_check_privileges();
-        if (!is_array($result))
-        {
-            return $result;
-        }
-
-        $newresult = Array();
-        $limit = $this->_limit;
-        $offset = $this->_offset;
-        $this->denied = 0;
-
-        foreach ($result as $object)
-        {
-            if (   $this->_limit > 0
-                && $limit == 0)
-            {
-                break;
-            }
-
-            // We need to skip this one, because we are outside the offset.
-            if (   $this->_offset > 0
-                && $offset > 0)
-            {
-                $offset--;
-                continue;
-            }
-
-            $newresult[] = $object;
-
-            if ($this->_limit > 0)
-            {
-                $limit--;
-            }
-        }
-
-        call_user_func_array(array($this->_real_class, '_on_process_query_result'), array(&$newresult));
-
-        $this->count = count($newresult);
-
-        return $newresult;
     }
 
     /**
@@ -591,11 +512,6 @@ class midcom_core_querybuilder
             case 'unchecked':
                 $results = $this->execute_unchecked();
                 break;
-
-            case 'notwindowed':
-                $results = $this->execute_notwindowed();
-                break;
-
             default:
                 $results = $this->execute();
         }

@@ -65,7 +65,6 @@ class midcom_db_group extends midcom_core_dbaobject
         {
             $this->official = "Group #{$this->id}";
         }
-        return true;
     }
 
     /**
@@ -82,8 +81,11 @@ class midcom_db_group extends midcom_core_dbaobject
             return null;
         }
 
-        $parent = new midcom_db_group($this->owner);
-        if (! $parent)
+        try
+        {
+            $parent = new midcom_db_group($this->owner);
+        }
+        catch (midcom_error $e)
         {
             debug_add("Could not load Group ID {$this->owner} from the database, aborting.",
                 MIDCOM_LOG_INFO);

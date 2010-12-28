@@ -904,23 +904,24 @@ class midcom_services_auth
 
             return false;
         }
-
         if (! array_key_exists($id, $this->_user_cache))
         {
-            if (is_null($object))
+            try
             {
-                $this->_user_cache[$id] = new midcom_core_user($id);
+                if (is_null($object))
+                {
+                    $this->_user_cache[$id] = new midcom_core_user($id);
+                }
+                else
+                {
+                    $this->_user_cache[$id] = new midcom_core_user($object);
+                }
             }
-            else
+            catch (midcom_error $e)
             {
-                $this->_user_cache[$id] = new midcom_core_user($object);
+                // Keep it silent while missing user object can mess here
+                $this->_user_cache[$id] = false;
             }
-        }
-
-        // Keep it silent while missing user object can mess here
-        if (@empty($this->_user_cache[$id]->guid))
-        {
-            $this->_user_cache[$id] = false;
         }
 
         return $this->_user_cache[$id];
@@ -975,16 +976,16 @@ class midcom_services_auth
                 {
                     // This must be a group ID, lets hope that the group constructor
                     // can take it.
-                    $tmp = new midcom_core_group($id);
-                    if (! $tmp)
+                    try
+                    {
+                        $tmp = new midcom_core_group($id);
+                        $id = $tmp->id;
+                        $this->_group_cache[$id] = $tmp;
+                    }
+                    catch (midcom_error $e)
                     {
                         $this->_group_cache[$id] = false;
                         debug_add("The group type identifier {$id} is of an invalid type, no group was loaded.", MIDCOM_LOG_WARN);
-                    }
-                    else
-                    {
-                        $id = $tmp->id;
-                        $this->_group_cache[$id] = $tmp;
                     }
                 }
             }
@@ -992,16 +993,16 @@ class midcom_services_auth
         else if (is_int($id))
         {
             // Looks like an object ID, again we try the group constructor.
-            $tmp = new midcom_core_group($id);
-            if (! $tmp)
+            try
+            {
+                $tmp = new midcom_core_group($id);
+                $id = $tmp->id;
+                $this->_group_cache[$id] = $tmp;
+            }
+            catch (midcom_error $e)
             {
                 $this->_group_cache[$id] = false;
                 debug_add("The group type identifier {$id} is of an invalid type, no group was loaded.", MIDCOM_LOG_WARN);
-            }
-            else
-            {
-                $id = $tmp->id;
-                $this->_group_cache[$id] = $tmp;
             }
         }
         else

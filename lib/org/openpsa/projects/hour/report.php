@@ -88,12 +88,13 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
     {
         $this->_locale_restore();
         //Try to mark the parent task as started
-        $parent = new org_openpsa_projects_task_dba($this->task);
-        if ($parent->guid)
+        try
         {
+            $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
             org_openpsa_projects_workflow::start($parent, $this->person);
         }
+        catch (midcom_error $e){}
     }
 
     public function _on_updating()
@@ -110,20 +111,22 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
         {
             return;
         }
-        $parent = new org_openpsa_projects_task_dba($this->task);
-        if ($parent->guid)
+        try
         {
+            $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
         }
+        catch (midcom_error $e){}
     }
 
     public function _on_deleted()
     {
-        $parent = new org_openpsa_projects_task_dba($this->task);
-        if ($parent->guid)
+        try
         {
+            $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
         }
+        catch (midcom_error $e){}
     }
 
     /**

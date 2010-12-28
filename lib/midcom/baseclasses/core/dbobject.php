@@ -911,8 +911,7 @@ class midcom_baseclasses_core_dbobject
      *
      * 1. void $object->get_by_id($id) <i>or</i> $object->get_by_guid($guid) <i>or</i> copy constructor run.
      * 2. Validate privileges using can_do. The user needs midgard:read privilege on the content object.
-     * 3. bool $object->_on_loaded() is executed to notify the class from a successful operation, which might
-     *    abort the class construction again by returning false.
+     * 3. $object->_on_loaded() is executed to notify the class from a successful operation (and might abort by throwing an exception)
      *
      * This method is usually only called from the constructor of the class.
      *
@@ -924,7 +923,7 @@ class midcom_baseclasses_core_dbobject
      * @see post_db_load_checks()
      * @see cast_object()
      */
-    public static function load($object, $id)
+    public static function load(&$object, $id)
     {
         $object->id = 0;
 
@@ -989,20 +988,12 @@ class midcom_baseclasses_core_dbobject
     {
         if (! $_MIDCOM->auth->can_do('midgard:read', $object))
         {
-            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
-
-            debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
-                MIDCOM_LOG_INFO);
+            debug_add("Failed to load object, read privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.");
             self::_clear_object($object);
-            return false;
+            throw new midcom_error_forbidden();
         }
 
-        $result = $object->_on_loaded();
-        if (! $result)
-        {
-            debug_add("The _on_loaded event handler returned false for " . get_class($object) . " {$object->guid}.", MIDCOM_LOG_INFO);
-            self::_clear_object($object);
-        }
+        $object->_on_loaded();
 
         // Register the GUID as loaded in this request
         if (isset($_MIDCOM->cache->content))
@@ -1010,7 +1001,7 @@ class midcom_baseclasses_core_dbobject
             $_MIDCOM->cache->content->register($object->guid);
         }
 
-        return $result;
+        return true;
     }
 
     /**
@@ -1051,7 +1042,7 @@ class midcom_baseclasses_core_dbobject
      * @param int $id The id of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_id($object, $id)
+    public static function get_by_id(&$object, $id)
     {
         if (!$id)
         {
@@ -1080,12 +1071,8 @@ class midcom_baseclasses_core_dbobject
                 return false;
             }
 
-            $result = $object->_on_loaded();
-            if (! $result)
-            {
-                self::_clear_object($object);
-            }
-            return $result;
+            $object->_on_loaded();
+            return true;
         }
         else
         {
@@ -1102,7 +1089,7 @@ class midcom_baseclasses_core_dbobject
      * @param string $guid The guid of the object to load from the database.
      * @return bool Indicating Success
      */
-    public static function get_by_guid($object, $guid)
+    public static function get_by_guid(&$object, $guid)
     {
         $object->__exec_get_by_guid((string) $guid);
 
@@ -1117,12 +1104,8 @@ class midcom_baseclasses_core_dbobject
                 return false;
             }
 
-            $result = $object->_on_loaded();
-            if (! $result)
-            {
-                self::_clear_object($object);
-            }
-            return $result;
+            $object->_on_loaded();
+            return true;
         }
         else
         {
@@ -1152,12 +1135,8 @@ class midcom_baseclasses_core_dbobject
                 return false;
             }
 
-            $result = $object->_on_loaded();
-            if (! $result)
-            {
-                self::_clear_object($object);
-            }
-            return $result;
+            $object->_on_loaded();
+            return true;
         }
         else
         {

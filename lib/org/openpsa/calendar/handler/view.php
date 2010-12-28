@@ -414,11 +414,13 @@ function openPsaShowMonthSelector()
                     foreach ($selected as $guid)
                     {
                         // Get the group
-                        $group = new midcom_db_group($guid);
-
-                        if (   !$group
-                            || !$group->guid)
+                        try
                         {
+                            $group = new midcom_db_group($guid);
+                        }
+                        catch (midcom_error $e)
+                        {
+                            debug_add($e->getMessage());
                             continue;
                         }
 

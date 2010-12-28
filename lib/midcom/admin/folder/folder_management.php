@@ -229,15 +229,14 @@ class midcom_admin_folder_folder_management extends midcom_baseclasses_component
         if (!empty($topic->symlink))
         {
             $_MIDCOM->auth->request_sudo('midcom.admin.folder');
-            $target_topic = new midcom_db_topic($topic->symlink);
-            if ($target_topic && $target_topic->guid)
+            try
             {
-                $topic = $target_topic;
+                $topic = new midcom_db_topic($topic->symlink);
             }
-            else
+            catch (midcom_error $e)
             {
                 debug_add("Could not get target for symlinked topic #{$topic->id}: " .
-                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                          $e->getMessage(), MIDCOM_LOG_ERROR);
             }
             $_MIDCOM->auth->drop_sudo();
         }

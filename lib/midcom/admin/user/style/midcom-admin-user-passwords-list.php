@@ -13,9 +13,11 @@ if (isset($_REQUEST['midcom_admin_user']))
 {
     foreach ($_REQUEST['midcom_admin_user'] as $id)
     {
-        $person = new midcom_db_person($id);
-
-        if (!$person->guid)
+        try
+        {
+            $person = new midcom_db_person($id);
+        }
+        catch (midcom_error $e)
         {
             continue;
         }

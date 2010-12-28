@@ -282,12 +282,13 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $mc->execute();
 
         $resources = $mc->list_keys();
-        $i = 0;
         foreach ($resources as $resource => $task_id)
         {
-            $task = new org_openpsa_projects_task_dba($mc->get_subkey($resource, 'task'));
-            $i++;
-            if (!$task)
+            try
+            {
+                $task = new org_openpsa_projects_task_dba($mc->get_subkey($resource, 'task'));
+            }
+            catch (midcom_error $e)
             {
                 continue;
             }

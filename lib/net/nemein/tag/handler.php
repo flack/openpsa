@@ -485,11 +485,18 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
         foreach ($links as $link)
         {
-            $tag = new net_nemein_tag_tag_dba($link->tag);
-            $key = $tag->tag;
-            $value = $link->value;
+            try
+            {
+                $tag = new net_nemein_tag_tag_dba($link->tag);
+                $key = $tag->tag;
+                $value = $link->value;
 
-            $tags[$key] = $value;
+                $tags[$key] = $value;
+            }
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
+            }
         }
         return $tags;
     }
@@ -584,7 +591,15 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
 
             if (!array_key_exists($link->tag, $tag_cache))
             {
-                $tag_cache[$link->tag] = new net_nemein_tag_tag_dba($link->tag);
+                try
+                {
+                    $tag_cache[$link->tag] = new net_nemein_tag_tag_dba($link->tag);
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
+                    continue;
+                }
             }
             $tag =& $tag_cache[$link->tag];
             // PHP5-TODO: must be copy by value

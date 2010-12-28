@@ -257,10 +257,13 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
         $_MIDCOM->auth->initialize();
 
-        $article = new midcom_db_article($args[0]);
-        if (!$article)
+        try
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Article not found: ' . midgard_connection::get_error_string());
+            $article = new midcom_db_article($args[0]);
+        }
+        catch (midcom_error $e)
+        {
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Article not found: ' . $e->getMessage());
         }
 
         if (!$this->_datamanager->autoset_storage($article))
@@ -330,10 +333,13 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
         $_MIDCOM->auth->initialize();
 
-        $article = new midcom_db_article($args[0]);
-        if (!$article)
+        try
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Article not found: ' . midgard_connection::get_error_string());
+            $article = new midcom_db_article($args[0]);
+        }
+        catch (midcom_error $e)
+        {
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Article not found: ' . $e->getMessage());
         }
 
         if (!$this->_datamanager->autoset_storage($article))
@@ -610,10 +616,13 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
         }
         $_MIDCOM->auth->initialize();
 
-        $article = new midcom_db_article($args[1]);
-        if (!$article)
+        try
         {
-            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Article not found: ' . midgard_connection::get_error_string());
+            $article = new midcom_db_article($args[1]);
+        }
+        catch (midcom_error $e)
+        {
+            return new XML_RPC_Response(0, midcom_connection::get_error(), 'Article not found: ' . $e->getMessage());
         }
 
         if (!$article->delete())

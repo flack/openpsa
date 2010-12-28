@@ -41,8 +41,11 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         // Cache the information that the hour report has been invoiced to the report itself
-        $hour_report = new org_openpsa_projects_hour_report_dba($this->hourReport);
-        if (!$hour_report)
+        try
+        {
+            $hour_report = new org_openpsa_projects_hour_report_dba($this->hourReport);
+        }
+        catch (midcom_error $e)
         {
             return;
         }
@@ -62,9 +65,11 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
             debug_add('Failed to get SUDO privileges, skipping invoice hour deletion silently.', MIDCOM_LOG_ERROR);
             return;
         }
-
-        $hour_report = new org_openpsa_projects_hour_report_dba($this->hourReport);
-        if (!$hour_report)
+        try
+        {
+            $hour_report = new org_openpsa_projects_hour_report_dba($this->hourReport);
+        }
+        catch (midcom_error $e)
         {
             return;
         }

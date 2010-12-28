@@ -59,10 +59,6 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
             throw new midcom_error('Root topic not defined');
         }
         $this->root_topic = new midcom_db_topic($root_topic_guid);
-        if (empty($this->root_topic->guid))
-        {
-            throw new midcom_error("Could not load topic '{$root_topic_guid}'");
-        }
 
         // Load root-group, from topic if possible and fall back to global config
         $root_group_guid = $this->root_topic->get_parameter('org.openpsa.products', 'root_group');

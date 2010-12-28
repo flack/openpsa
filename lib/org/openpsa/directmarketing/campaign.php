@@ -51,7 +51,6 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         {
             $this->rules = array();
         }
-        return true;
     }
 
     public function _on_creating()

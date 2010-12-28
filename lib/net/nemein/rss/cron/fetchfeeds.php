@@ -37,13 +37,16 @@ class net_nemein_rss_cron_fetchfeeds extends midcom_baseclasses_components_cron_
         $feeds = $qb->execute();
         foreach ($feeds as $feed)
         {
-            $node = new midcom_db_topic($feed->node);
-            if (   !$node
-                || !$node->guid)
+            try
+            {
+                $node = new midcom_db_topic($feed->node);
+            }
+            catch (midcom_error $e)
             {
                 debug_add("Node #{$feed->node} does not exist, skipping feed #{$feed->id}", MIDCOM_LOG_ERROR);
                 continue;
             }
+
             debug_add("Fetching {$feed->url}...", MIDCOM_LOG_INFO);
             $fetcher = new net_nemein_rss_fetch($feed);
             $items = $fetcher->import();

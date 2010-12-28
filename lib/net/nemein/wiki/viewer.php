@@ -111,12 +111,7 @@ class net_nemein_wiki_viewer extends midcom_baseclasses_components_request
     {
         if (!is_object($topic))
         {
-            $tmp = new midcom_db_topic($topic);
-            if (! $tmp)
-            {
-                throw new midcom_error("Failed to load the topic referenced by {$topic} for indexing.");
-            }
-            $topic = $tmp;
+            $topic = new midcom_db_topic($topic);
         }
 
         // Don't index directly, that would loose a reference due to limitations

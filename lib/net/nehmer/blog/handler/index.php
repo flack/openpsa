@@ -292,10 +292,11 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         if ($this->_config->get('comments_topic'))
         {
             // We have a specified photostream here
-            $comments_topic = new midcom_db_topic($this->_config->get('comments_topic'));
-            if (   !is_object($comments_topic)
-                || !isset($comments_topic->guid)
-                || empty($comments_topic->guid))
+            try
+            {
+                $comments_topic = new midcom_db_topic($this->_config->get('comments_topic'));
+            }
+            catch (midcom_error $e)
             {
                 return false;
             }

@@ -471,10 +471,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $node_lang_code = $node->get_parameter('net.nehmer.blog', 'language');
             if ($node->get_parameter('net.nehmer.blog', 'symlink_topic') != '')
             {
-                $symlink_topic = new midcom_db_topic($node->get_parameter('net.nehmer.blog', 'symlink_topic'));
-                if ($symlink_topic)
+                try
                 {
+                    $symlink_topic = new midcom_db_topic($node->get_parameter('net.nehmer.blog', 'symlink_topic'));
                     $article->topic = $symlink_topic->id;
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
                 }
             }
             if ($node_lang_code != '')
@@ -619,10 +623,14 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
             $event->node = $this->_feed->node;
             if ($node->get_parameter('net.nemein.calendar', 'symlink_topic') != '')
             {
-                $symlink_topic = new midcom_db_topic($node->get_parameter('net.nemein.calendar', 'symlink_topic'));
-                if ($symlink_topic)
+                try
                 {
+                    $symlink_topic = new midcom_db_topic($node->get_parameter('net.nemein.calendar', 'symlink_topic'));
                     $event->node = $symlink_topic->id;
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
                 }
             }
             if ($node_lang_code != '')

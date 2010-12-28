@@ -60,8 +60,11 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $task = new org_openpsa_projects_task_dba($guid);
-        if (!$task->guid)
+        try
+        {
+            $task = new org_openpsa_projects_task_dba($guid);
+        }
+        catch (midcom_error $e)
         {
             return null;
         }
@@ -405,10 +408,13 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
 
     function background_search_resources($args, &$handler)
     {
-        $task = new org_openpsa_projects_task_dba($args['task']);
-        if (!is_object($task))
+        try
         {
-            // TODO: error reporting
+            $task = new org_openpsa_projects_task_dba($args['task']);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add($e->getMessage());
             return false;
         }
         $broker = new org_openpsa_projects_projectbroker();

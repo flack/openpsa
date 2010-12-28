@@ -54,7 +54,6 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         {
             $this->status = ORG_OPENPSA_RELATEDTO_STATUS_SUSPECTED;
         }
-        return true;
     }
 
     public function _on_updating()

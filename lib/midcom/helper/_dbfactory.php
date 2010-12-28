@@ -54,10 +54,6 @@ class midcom_helper__dbfactory
         }
 
         $tmp = $this->convert_midgard_to_midcom($tmp);
-        if ($tmp->guid == '')
-        {
-            return null;
-        }
         return $tmp;
     }
 
@@ -180,6 +176,7 @@ class midcom_helper__dbfactory
             debug_print_r("Object dump:", $object);
             return null;
         }
+        return $result;
     }
 
     /**

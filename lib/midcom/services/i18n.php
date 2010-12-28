@@ -258,10 +258,14 @@ class midcom_services_i18n
         if (!isset($cache[$id]))
         {
             $cache[$id] = null;
-            $lang = new midgard_language($id);
-            if ($lang->guid)
+            try
             {
+                $lang = new midgard_language($id);
                 $cache[$id] = $lang->code;
+            }
+            catch (midcom_error $e)
+            {
+                return '';
             }
         }
         return $cache[$id];

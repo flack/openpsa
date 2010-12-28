@@ -78,16 +78,22 @@
  *     {
  *         if ($this->up != 0)
  *         {
- *             $parent = new midcom_db_article($this->up);
- *             if (! $parent)
+ *             try
+ *             {
+ *                 $parent = new midcom_db_article($this->up);
+ *             }
+ *             catch (midcom_error $e)
  *             {
  *                 // Handle Error
  *             }
  *         }
  *         else
  *         {
- *             $parent = new midcom_db_topic($this->topic);
- *             if (! $parent)
+ *             try
+ *             {
+ *                 $parent = new midcom_db_topic($this->up);
+ *             }
+ *             catch (midcom_error $e)
  *             {
  *                 // Handle Error
  *             }

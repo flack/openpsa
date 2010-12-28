@@ -212,8 +212,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
                 }
             }
         }
-
-        return true;
     }
 
 
@@ -906,16 +904,17 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
         else
         {
-            $event = new org_openpsa_calendar_event_dba($member->event);
-            $set_as_modified = true;
-        }
-        if (   !is_object($event)
-            || !isset($event->guid)
-            || empty($event->guid))
-        {
-            debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
-            $member->delete();
-            continue;
+            try
+            {
+                $event = new org_openpsa_calendar_event_dba($member->event);
+                $set_as_modified = true;
+            }
+            catch (midcom_error $e)
+            {
+                debug_add("event_resource #{$member->id} links ot bogus event #{$member->event}, skipping and removing", MIDCOM_LOG_WARN);
+                $member->delete();
+                continue;
+            }
         }
         debug_add("overlap found in event {$event->title} (#{$event->id})");
 
@@ -978,10 +977,11 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
         $processed_events_participants[$member->eid][$member->uid] = true;
 
-        $event = new org_openpsa_calendar_event_dba($member->eid);
-        if (   !is_object($event)
-            || !isset($event->guid)
-            || empty($event->guid))
+        try
+        {
+            $event = new org_openpsa_calendar_event_dba($member->eid);
+        }
+        catch (midcom_error $e)
         {
             debug_add("eventmember #{$member->id} links to bogus event #{$member->eid}, skipping and removing", MIDCOM_LOG_WARN);
             $member->delete();

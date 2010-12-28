@@ -207,7 +207,7 @@ class midcom_helper_datamanager2_callback_select_personlister
      *
      * @param mixed $key The key to look up.
      */
-    private function _load_person($key, $return=false)
+    private function _load_person($key, $return = false)
     {
         if ($this->_list_all_done)
         {
@@ -219,11 +219,25 @@ class midcom_helper_datamanager2_callback_select_personlister
         {
             case 'id':
             case 'guid':
-                $person = new midcom_db_person($key);
+                try
+                {
+                    $person = new midcom_db_person($key);
+                }
+                catch (midcom_error $e)
+                {
+                    return false;
+                }
                 break;
 
             case 'midcomid':
-                $person = new midcom_db_person(substr($key, 6));
+                try
+                {
+                    $person = new midcom_db_person(substr($key, 6));
+                }
+                catch (midcom_error $e)
+                {
+                    return false;
+                }
                 break;
 
             case 'name':
@@ -232,23 +246,21 @@ class midcom_helper_datamanager2_callback_select_personlister
                 $qb->add_order('firstname');
                 $qb->add_constraint('name', '=', $key);
                 $result = $qb->execute();
-                if ($result)
+                if (count($result) < 1)
                 {
-                    $person = $result[0];
+                    return false;
                 }
+                $person = $result[0];
                 break;
         }
 
-        if ($person)
-        {
-            $key = $this->_get_key($person);
-            $value = $person->{$this->_value_field};
-            $this->_loaded_persons[$key] = $value;
+        $key = $this->_get_key($person);
+        $value = $person->{$this->_value_field};
+        $this->_loaded_persons[$key] = $value;
 
-            if ($return)
-            {
-                return $person;
-            }
+        if ($return)
+        {
+            return $person;
         }
     }
 

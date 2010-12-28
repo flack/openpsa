@@ -64,9 +64,15 @@ class org_openpsa_documents_interface extends midcom_baseclasses_components_inte
 
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $document = new org_openpsa_documents_document_dba($guid);
-        if (   ! $document
-            || $document->topic != $topic->id)
+        try
+        {
+            $document = new org_openpsa_documents_document_dba($guid);
+            if ($document->topic != $topic->id)
+            {
+                return null;
+            }
+        }
+        catch (midcom_error $e)
         {
             return null;
         }

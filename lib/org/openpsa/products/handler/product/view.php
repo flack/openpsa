@@ -99,9 +99,9 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         if ($this->_config->get('redirect_to_first_product'))
         {
-            $product_group = new org_openpsa_products_product_group_dba($this->_product->__object->productGroup);
-            if (isset($product_group->guid))
+            try
             {
+                $product_group = new org_openpsa_products_product_group_dba($this->_product->__object->productGroup);
                 $this->_view_toolbar->add_item
                 (
                     array
@@ -112,6 +112,10 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                         MIDCOM_TOOLBAR_ENABLED => $product_group->can_do('midgard:update'),
                     )
                 );
+            }
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
             }
 
             if ($product_group)
@@ -342,26 +346,12 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
         {
             if (preg_match('/^view_product_intree/', $handler_id))
             {
-                if (!mgd_is_guid($args[1]))
-                {
-                    throw new midcom_error_notfound("Product {$args[1]} not found" );
-                }
                 $this->_product = new org_openpsa_products_product_dba($args[1]);
             }
             else
             {
-                if (!mgd_is_guid($args[0]))
-                {
-                    throw new midcom_error_notfound("Product {$args[0]} not found" );
-                }
                 $this->_product = new org_openpsa_products_product_dba($args[0]);
             }
-        }
-        if (   !$this->_product
-            || !isset($this->_product->guid)
-            || empty($this->_product->guid))
-        {
-            throw new midcom_error("Fell through to last product sanity-check and failed");
         }
 
         if ($GLOBALS['midcom_config']['enable_ajax_editing'])
@@ -412,13 +402,13 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
 
         if (strstr($title, '<PRODUCTGROUP'))
         {
-            $productgroup = new org_openpsa_products_product_group_dba($this->_product->productGroup);
-            if ($productgroup)
+            try
             {
+                $productgroup = new org_openpsa_products_product_group_dba($this->_product->productGroup);
                 $title = str_replace('<PRODUCTGROUP_TITLE>', $productgroup->title, $title);
                 $title = str_replace('<PRODUCTGROUP_CODE>', $productgroup->code, $title);
             }
-            else
+            catch (midcom_error $e)
             {
                 $title = str_replace('<PRODUCTGROUP_TITLE>', '', $title);
                 $title = str_replace('<PRODUCTGROUP_CODE>', '', $title);

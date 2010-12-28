@@ -78,20 +78,22 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
         if (   !empty($topic_guid)
             && mgd_is_guid($topic_guid))
         {
-            $new_topic = new midcom_db_topic($topic_guid);
-            // Validate topic.
-
-            if (   is_object($new_topic)
-                && isset($new_topic->guid)
-                && !empty($new_topic->guid))
+            try
             {
+                $new_topic = new midcom_db_topic($topic_guid);
                 $topic = $new_topic;
+            }
+            catch (midcom_error $e)
+            {
+                debug_add($e->getMessage());
             }
         }
 
-        $article = new midcom_db_article($guid);
-        if (   ! $article
-            || $article->topic != $topic->id)
+        try
+        {
+            $article = new midcom_db_article($guid);
+        }
+        catch (midcom_error $e)
         {
             return null;
         }

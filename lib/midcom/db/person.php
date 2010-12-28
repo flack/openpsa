@@ -103,7 +103,6 @@ class midcom_db_person extends midcom_core_dbaobject
     public function _on_loaded()
     {
         $this->_update_computed_members();
-        return true;
     }
 
     /**

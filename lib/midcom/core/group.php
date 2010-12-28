@@ -93,20 +93,7 @@ class midcom_core_group
 
         if (mgd_is_guid($id))
         {
-            try
-            {
-                $this->_storage = new midgard_group($id);
-            }
-            catch (Exception $e)
-            {
-                debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return;
-            }
-            if (!$this->_storage->guid)
-            {
-                debug_add("Failed to retrieve the group GUID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return;
-            }
+            $this->_storage = new midgard_group($id);
         }
         else if (is_numeric($id))
         {
@@ -115,20 +102,7 @@ class midcom_core_group
                 return;
             }
 
-            try
-            {
-                $this->_storage = new midgard_group($id);
-            }
-            catch (Exception $e)
-            {
-                debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return;
-            }
-            if (!$this->_storage->guid)
-            {
-                debug_add("Failed to retrieve the group ID {$id}: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                return;
-            }
+            $this->_storage = new midgard_group($id);
         }
         else if (   is_object($id)
                  && (   is_a($id, 'midcom_db_group')
@@ -253,13 +227,6 @@ class midcom_core_group
             catch (Exception $e)
             {
                 debug_add("The group {$gid} is unknown, skipping the membership record.", MIDCOM_LOG_ERROR);
-                debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
-                continue;
-            }
-            if (   !$group
-                || !$group->id)
-            {
-                debug_add("The membership record is invalid, the group {$gid} is unknown, skipping it.", MIDCOM_LOG_ERROR);
                 debug_add('Last Midgard error was: ' . midcom_connection::get_error_string());
                 continue;
             }

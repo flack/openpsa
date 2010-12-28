@@ -36,14 +36,11 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
 
         if (count($results) == 0)
         {
-            if (!mgd_is_guid($args[0]))
+            try
             {
-                return false;
+                $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
             }
-
-            $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
-            if (   !$data['group']
-                || !$data['group']->guid)
+            catch (midcom_error $e)
             {
                 return false;
             }

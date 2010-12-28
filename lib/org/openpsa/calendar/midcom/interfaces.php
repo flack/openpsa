@@ -247,15 +247,15 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
 
     public function _on_resolve_permalink($topic, $config, $guid)
     {
-        $event = new org_openpsa_calendar_event_dba($guid);
-
-        if (   is_object($event)
-            && $event->id)
+        try
         {
+            $event = new org_openpsa_calendar_event_dba($guid);
             return "event/{$guid}/";
-            break;
         }
-        return null;
+        catch (midcom_error $e)
+        {
+            return null;
+        }
     }
 
     /**

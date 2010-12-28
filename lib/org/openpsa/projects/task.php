@@ -73,8 +73,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             //Default to proposed if no status is set
             $this->status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
         }
-
-        return true;
     }
 
     public function __get($property)
@@ -359,12 +357,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $this->invoicedHours = $hours['invoiced'];
         $this->invoiceableHours = $hours['invoiceable'];
 
-        $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
-
-        if ($agreement->guid != "")
+        try
         {
+            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
             $agreement->update_units($this->id, $hours);
         }
+        catch (midcom_error $e){}
 
         if ($update)
         {
@@ -393,15 +391,16 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $invoice_enable = false;
         if ($this->agreement)
         {
-            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
-            if ($agreement)
+            try
             {
+                $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
                 $invoice_enable = true;
                 if ($agreement->invoiceApprovedOnly)
                 {
                     $invoice_approved = true;
                 }
             }
+            catch (midcom_error $e){}
         }
 
         $report_mc = org_openpsa_projects_hour_report_dba::new_collector('task', $this->id);

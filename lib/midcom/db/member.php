@@ -61,8 +61,11 @@ class midcom_db_member extends midcom_core_dbaobject
     {
         if ($this->gid)
         {
-            $parent = new midcom_db_group($this->gid);
-            if (! $parent)
+            try
+            {
+                $parent = new midcom_db_group($this->gid);
+            }
+            catch (midcom_error $e)
             {
                 debug_add("Could not load Group ID {$this->gid} from the database, aborting.",
                     MIDCOM_LOG_INFO);
@@ -85,8 +88,11 @@ class midcom_db_member extends midcom_core_dbaobject
         {
             return;
         }
-        $person = new midcom_db_person($this->uid);
-        if (!$person->guid)
+        try
+        {
+            $person = new midcom_db_person($this->uid);
+        }
+        catch (midcom_error $e)
         {
             return;
         }

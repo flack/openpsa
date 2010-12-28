@@ -124,8 +124,6 @@ implements midcom_helper_datamanager2_interfaces_create
             case 'cancel':
                 if (isset($_GET['article']))
                 {
-                    $article = new midcom_db_article($_GET['article']);
-
                     if ($this->_config->get('view_in_url'))
                     {
                         $prefix = 'view/';
@@ -134,11 +132,14 @@ implements midcom_helper_datamanager2_interfaces_create
                     {
                         $prefix = '';
                     }
-
-                    if (   $article
-                        && $article->guid)
+                    try
                     {
+                        $article = new midcom_db_article($_GET['article']);
                         $_MIDCOM->relocate("{$prefix}{$article->name}/");
+                    }
+                    catch (midcom_error $e)
+                    {
+                        debug_add($e->getMessage());
                     }
                 }
 

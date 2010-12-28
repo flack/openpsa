@@ -53,10 +53,14 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         {
             foreach ($memberships as $membership)
             {
-                // FIXME: This is slow way to do it, use a single QB instance for all instead
-                $event = new midcom_db_event($membership->eid);
-                if (!$event->guid)
+                try
                 {
+                    // FIXME: This is slow way to do it, use a single QB instance for all instead
+                    $event = new midcom_db_event($membership->eid);
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
                     continue;
                 }
                 $this->_related_guids[$event->guid] = true;
@@ -87,8 +91,15 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             $members = $qb->execute();
             foreach ($members as $member)
             {
-                $person = new midcom_db_person($member->uid);
-                $this->_list_related_guids_of_a_person($person);
+                try
+                {
+                    $person = new midcom_db_person($member->uid);
+                    $this->_list_related_guids_of_a_person($person);
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
+                }
             }
 
             // And the group itself
@@ -126,12 +137,15 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
             {
                 foreach ($ret as $related_to)
                 {
-                    $wikipage = new net_nemein_wiki_wikipage($related_to->parentguid);
-                    if (!$wikipage->guid)
+                    try
                     {
-                        continue;
+                        $wikipage = new net_nemein_wiki_wikipage($related_to->parentguid);
+                        $this->related[$wikipage->guid] = $wikipage;
                     }
-                    $this->related[$wikipage->guid] = $wikipage;
+                    catch (midcom_error $e)
+                    {
+                        debug_add($e->getMessage());
+                    }
                 }
             }
         }
