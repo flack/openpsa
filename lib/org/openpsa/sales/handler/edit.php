@@ -106,7 +106,7 @@ class org_openpsa_sales_handler_edit extends midcom_baseclasses_components_handl
 
     private function _load_salesproject($identifier)
     {
-        $salesproject = $this->load_object('org_openpsa_sales_salesproject_dba', $identifier);
+        $salesproject = new org_openpsa_sales_salesproject_dba($identifier);
 
         $this->_salesproject =& $salesproject;
 

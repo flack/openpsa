@@ -28,7 +28,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
-        $group = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
+        $group = new org_openpsa_contacts_group_dba($args[0]);
         $group->require_do('midgard:update');
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
@@ -68,7 +68,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
-        $this->_request_data['group'] = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
+        $this->_request_data['group'] = new org_openpsa_contacts_group_dba($args[0]);
 
         // Check if the action is a valid one
         $this->_request_data['action'] = $args[1];

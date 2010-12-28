@@ -47,8 +47,8 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
     {
         $_MIDCOM->auth->request_sudo();
         //Load message
-        $data['message'] = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
-        $data['campaign'] = $this->load_object('org_openpsa_directmarketing_campaign_dba', $data['message']->campaign);
+        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
+        $data['campaign'] = new org_openpsa_directmarketing_campaign_dba($data['message']->campaign);
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
@@ -59,7 +59,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
 
         if ($handler_id === 'compose4person')
         {
-            $data['person'] = $this->load_object('org_openpsa_contacts_person_dba', $args[1]);
+            $data['person'] = new org_openpsa_contacts_person_dba($args[1]);
             $qb = org_openpsa_directmarketing_campaign_member_dba::new_query_builder();
             $qb->add_constraint('person', '=', $this->_request_data['person']->id);
             $memberships = $qb->execute();

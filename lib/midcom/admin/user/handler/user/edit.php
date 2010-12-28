@@ -83,7 +83,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_person = $this->load_object('midcom_db_person', $args[0]);
+        $this->_person = new midcom_db_person($args[0]);
         $this->_person->require_do('midgard:update');
 
         if ($handler_id == '____mfa-asgard_midcom.admin.user-user_edit_password')

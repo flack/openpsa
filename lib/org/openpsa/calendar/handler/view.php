@@ -746,7 +746,7 @@ function openPsaShowMonthSelector()
         $_MIDCOM->skip_page_style = true;
 
         // Get the requested event object
-        $this->_request_data['event'] = $this->load_object('org_openpsa_calendar_event_dba', $args[0]);
+        $this->_request_data['event'] = new org_openpsa_calendar_event_dba($args[0]);
 
         // Muck schema on private events
         if (!$this->_request_data['event']->can_do('org.openpsa.calendar:read'))

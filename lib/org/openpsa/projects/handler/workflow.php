@@ -29,7 +29,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
         {
             $this->_request_data['reply_mode'] = 'ajax';
         }
-        $this->_request_data['task'] = $this->load_object('org_openpsa_projects_task_dba', $args[0]);
+        $this->_request_data['task'] = new org_openpsa_projects_task_dba($args[0]);
 
         if (method_exists('org_openpsa_projects_workflow', $data['action']))
         {

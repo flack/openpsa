@@ -96,7 +96,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         $_MIDCOM->auth->require_valid_user();
 
         // Check if we get the person
-        $this->_person = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
+        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
         $_MIDCOM->auth->require_do('midgard:privileges', $this->_person);
         $this->_request_data['person'] =& $this->_person;
 

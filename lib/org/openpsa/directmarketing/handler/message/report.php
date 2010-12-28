@@ -356,7 +356,7 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
      */
     public function _handler_report($handler_id, $args, &$data)
     {
-        $this->_message = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['message'] =& $this->_message;
 
         $this->_load_datamanager();

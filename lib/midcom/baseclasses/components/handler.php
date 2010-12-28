@@ -221,46 +221,5 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     {
         return array();
     }
-
-    /**
-     * Helper to load objects from handlers.
-     *
-     * If loading fails for whatever reason, it tries to throw the appropriate error
-     *
-     * Be advised that this is a preliminary implementation and may be subject to change
-     *
-     * @param string $classname The object's DBA class
-     * @param mixed $identifier GUID or ID
-     */
-    public function load_object($classname, $identifier)
-    {
-        $object = new $classname($identifier);
-        if (!empty($object->guid))
-        {
-            return $object;
-        }
-        //catch last error which might be from dbaobject
-        $last_error = midcom_connection::get_error();
-        $last_error_string = midcom_connection::get_error_string();
-
-        if (   is_string($identifier)
-            && !mgd_is_guid($identifier))
-        {
-            throw new midcom_error_notfound("The object with GUID {$identifier} was not found.");
-        }
-
-        if ($last_error == MGD_ERR_ACCESS_DENIED)
-        {
-            throw new midcom_error_forbidden($_MIDCOM->i18n->get_string('access denied', 'midcom'));
-        }
-        else if ($last_error == MGD_ERR_OBJECT_DELETED)
-        {
-            //@todo: due to #1900, this error will not be encountered, but in theory,
-            //we should redirect to a nice error page here
-        }
-
-        //If other options fail, go for the server error
-        throw new midcom_error("Failed to load object {$identifier}. Last error: " . $last_error_string);
-    }
 }
 ?>

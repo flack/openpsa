@@ -24,7 +24,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
         {
-            $this->_request_data['person'] = $this->load_object('midcom_db_person', $args[0]);
+            $this->_request_data['person'] = new midcom_db_person($args[0]);
 
             if (array_key_exists('add_to_campaign', $_POST))
             {
@@ -189,7 +189,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
 
         $_MIDCOM->auth->request_sudo();
 
-        $data['membership'] = $this->load_object('org_openpsa_directmarketing_campaign_member_dba', $args[0]);
+        $data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $data['campaign'] = $this->_master->load_campaign($data['membership']->campaign);
 
         $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
@@ -232,7 +232,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             throw new midcom_error_notfound("Missing member ID.");
         }
         $_MIDCOM->auth->request_sudo();
-        $this->_request_data['membership'] = $this->load_object('org_openpsa_directmarketing_campaign_member_dba', $args[0]);
+        $this->_request_data['membership'] = new org_openpsa_directmarketing_campaign_member_dba($args[0]);
         $this->_request_data['campaign'] = $this->_master->load_campaign($this->_request_data['membership']->campaign);
 
         $this->_request_data['membership']->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED;
@@ -271,7 +271,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
             throw new midcom_error_notfound("Missing member ID.");
         }
         $_MIDCOM->auth->request_sudo();
-        $this->_request_data['person'] = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
+        $this->_request_data['person'] = new org_openpsa_contacts_person_dba($args[0]);
 
         if ($handler_id === 'subscriber_unsubscribe_all_future')
         {

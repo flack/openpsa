@@ -67,7 +67,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
             $_MIDCOM->skip_page_style = true;
         }
 
-        $this->_productlink = $this->load_object('org_openpsa_products_product_link_dba', $args[0]);
+        $this->_productlink = new org_openpsa_products_product_link_dba($args[0]);
 
         $data['controller'] = null;
         $data['datamanager'] = new midcom_helper_datamanager2_datamanager($data['schemadb_productlink']);

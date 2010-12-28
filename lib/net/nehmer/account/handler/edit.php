@@ -63,7 +63,7 @@ class net_nehmer_account_handler_edit extends midcom_baseclasses_components_hand
         if ($handler_id == 'admin_edit')
         {
             $_MIDCOM->auth->require_admin_user();
-            $this->_account = $this->load_object('midcom_db_person', $args[0]);
+            $this->_account = new midcom_db_person($args[0]);
             net_nehmer_account_viewer::verify_person_privileges($this->_account);
             $return_url = "view/{$this->_account->guid}/";
         }

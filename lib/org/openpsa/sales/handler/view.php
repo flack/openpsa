@@ -92,7 +92,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
      */
     public function _handler_view($handler_id, $args, &$data)
     {
-        $this->_salesproject = $this->load_object('org_openpsa_sales_salesproject_dba', $args[0]);
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
 
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 

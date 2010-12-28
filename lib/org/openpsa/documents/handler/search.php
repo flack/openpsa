@@ -101,7 +101,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
                 {
                     // $obj->RI will contain either document or attachment GUID depending on match,
                     // ->source will always contain the document GUID
-                    $data['document'] = $this->load_object('org_openpsa_documents_document_dba', $document->source);
+                    $data['document'] = new org_openpsa_documents_document_dba($document->source);
                     $this->_datamanagers['document']->autoset_storage($data['document']);
                 }
                 catch (Exception $e)

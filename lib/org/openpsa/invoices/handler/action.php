@@ -86,7 +86,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         $_MIDCOM->auth->require_valid_user();
 
-        $this->_object = $this->load_object('org_openpsa_invoices_invoice_dba', $args[0]);
+        $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_object->require_do('midgard:update');
     }
 
@@ -115,7 +115,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     public function _handler_itemedit($handler_id, $args, &$data)
     {
-        $this->_object = $this->load_object('org_openpsa_invoices_invoice_dba', $args[0]);
+        $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_prepare_output();
 
         $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "invoice/" . $this->_object->guid . "/";
@@ -196,7 +196,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     public function _handler_recalculation($handler_id, $args, &$data)
     {
-        $this->_object = $this->load_object('org_openpsa_invoices_invoice_dba', $args[0]);
+        $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "invoice/itemedit/" . $this->_object->guid . "/";
 
         $this->_object->_recalculate_invoice_items();

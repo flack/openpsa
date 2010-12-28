@@ -35,7 +35,7 @@ class org_openpsa_directmarketing_handler_message_message extends midcom_basecla
     public function _handler_view ($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        $this->_message = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
+        $this->_message = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $this->_campaign = $this->_master->load_campaign($this->_message->campaign);
 
         $this->set_active_leaf('campaign_' . $this->_campaign->id);

@@ -32,7 +32,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         $_MIDCOM->auth->request_sudo();
 
         //Load message
-        $data['message'] = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
+        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         // TODO: Check that campaign is in this topic
 
         $this->_load_datamanager();
@@ -50,7 +50,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
         {
             throw new midcom_error('Job GUID missing');
         }
-        $job = $this->load_object('midcom_services_at_entry_dba', $args[2]);
+        $job = new midcom_services_at_entry_dba($args[2]);
 
         $data['message_array'] = $this->_datamanager->get_content_raw();
         $data['message_array']['dm_types'] =& $this->_datamanager->types;
@@ -177,7 +177,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         $_MIDCOM->auth->require_valid_user();
         //Load message
-        $data['message'] = $this->load_object('org_openpsa_directmarketing_campaign_message_dba', $args[0]);
+        $data['message'] = new org_openpsa_directmarketing_campaign_message_dba($args[0]);
         $data['campaign'] = new $this->_master->load_campaign($data['message']->campaign);
 
         $this->set_active_leaf('campaign_' . $data['campaign']->id);

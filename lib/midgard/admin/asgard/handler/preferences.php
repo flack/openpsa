@@ -79,11 +79,11 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         if (isset($args[0]))
         {
-            $this->_person = $this->load_object('midcom_db_person', $args[0]);
+            $this->_person = new midcom_db_person($args[0]);
         }
         else
         {
-            $this->_person = $this->load_object('midcom_db_person', midcom_connection::get_user());
+            $this->_person = new midcom_db_person(midcom_connection::get_user());
         }
 
         // Load the controller instance

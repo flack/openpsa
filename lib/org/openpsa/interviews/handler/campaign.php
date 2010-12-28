@@ -40,7 +40,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      */
     public function _handler_summary($handler_id, $args, &$data)
     {
-        $this->_request_data['campaign'] = $this->load_object('org_openpsa_directmarketing_campaign_dba', $args[0]);
+        $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
         $this->_prepare_toolbar();
 
         $this->_request_data['members_waiting'] = Array();
@@ -99,7 +99,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      */
     public function _handler_next($handler_id, $args, &$data)
     {
-        $this->_request_data['campaign'] = $this->load_object('org_openpsa_directmarketing_campaign_dba', $args[0]);
+        $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
         $this->_prepare_toolbar();
 
         // Figure out next person to call

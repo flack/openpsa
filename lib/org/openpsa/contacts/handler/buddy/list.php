@@ -23,7 +23,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         $user =& $_MIDCOM->auth->user->get_storage();
         $user->require_do('midgard:create');
 
-        $target = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
+        $target = new org_openpsa_contacts_person_dba($args[0]);
 
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
         $qb->add_constraint('account', '=', $user->guid);
@@ -58,7 +58,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         $user =& $_MIDCOM->auth->user->get_storage();
         $user->require_do('midgard:create');
 
-        $target = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
+        $target = new org_openpsa_contacts_person_dba($args[0]);
 
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
         $qb->add_constraint('account', '=', $user->guid);

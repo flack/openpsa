@@ -866,7 +866,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $guid = $args[0];
         $hash = $args[1];
 
-        $this->_person = $this->load_object('midcom_db_person', $guid);
+        $this->_person = new midcom_db_person($guid);
 
         // Check if the user account needs to be approved first
         if (   $this->_config->get('require_activation')

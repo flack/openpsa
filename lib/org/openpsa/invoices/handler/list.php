@@ -231,7 +231,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         }
 
         // We're creating invoice for chosen company
-        $this->_customer = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
+        $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
         $data['customer'] =& $this->_customer;
 
         if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
@@ -317,7 +317,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         }
 
         // We're displaying invoices of a specific deliverable
-        $data['deliverable'] = $this->load_object('org_openpsa_sales_salesproject_deliverable_dba', $args[0]);
+        $data['deliverable'] = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
 
         $data['list_label'] = $this->_l10n->get('invoices');
 

@@ -33,7 +33,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
     public function _handler_group_memberships($handler_id, $args, &$data)
     {
         // Check if we get the person
-        $this->_person = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
+        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
         $this->_request_data['person'] =& $this->_person;
 
         $qb = midcom_db_member::new_query_builder();
@@ -52,7 +52,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
     public function _handler_account_create($handler_id, $args, &$data)
     {
         // Check if we get the person
-        $this->_person = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
+        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
         $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
         if ($this->_person->username)
@@ -167,7 +167,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
     public function _handler_account_edit($handler_id, $args, &$data)
     {
         // Check if we get the person
-        $this->_person = $this->load_object('org_openpsa_contacts_person_dba', $args[0]);
+        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
         $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
         if (   $this->_person->id != midcom_connection::get_user()

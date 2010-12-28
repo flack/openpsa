@@ -73,7 +73,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     public function _handler_resourcing($handler_id, $args, &$data)
     {
-        $this->_task = $this->load_object('org_openpsa_projects_task_dba', $args[0]);
+        $this->_task = new org_openpsa_projects_task_dba($args[0]);
         $this->_task->require_do('midgard:create');
 
         if (   array_key_exists('org_openpsa_projects_prospects', $_POST)
@@ -167,7 +167,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     public function _handler_list_prospects($handler_id, $args, &$data)
     {
-        $this->_task = $this->load_object('org_openpsa_projects_task_dba', $args[0]);
+        $this->_task = new org_openpsa_projects_task_dba($args[0]);
         $this->_task->require_do('midgard:create');
 
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
@@ -202,9 +202,9 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      */
     public function _handler_prospect_slots($handler_id, $args, &$data)
     {
-        $data['prospect'] = $this->load_object('org_openpsa_projects_task_resource_dba', $args[0]);
-        $data['person'] = $this->load_object('org_openpsa_contacts_person_dba', $data['prospect']->person);
-        $this->_task = $this->load_object('org_openpsa_projects_task_dba', $data['prospect']->task);
+        $data['prospect'] = new org_openpsa_projects_task_resource_dba($args[0]);
+        $data['person'] = new org_openpsa_contacts_person_dba($data['prospect']->person);
+        $this->_task = new org_openpsa_projects_task_dba($data['prospect']->task);
         $this->_task->require_do('midgard:create');
 
         $projectbroker = new org_openpsa_projects_projectbroker();

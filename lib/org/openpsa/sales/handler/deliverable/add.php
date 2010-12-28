@@ -88,7 +88,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
             throw new midcom_error_forbidden('Only POST requests are allowed here.');
         }
 
-        $this->_salesproject = $this->load_object('org_openpsa_sales_salesproject_dba', $args[0]);
+        $this->_salesproject = new org_openpsa_sales_salesproject_dba($args[0]);
         $this->_salesproject->require_do('midgard:create');
 
         if (!array_key_exists('product', $_POST))
@@ -96,7 +96,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
             throw new midcom_error('No product specified, aborting.');
         }
 
-        $this->_product = $this->load_object('org_openpsa_products_product_dba', (int) $_POST['product']);
+        $this->_product = new org_openpsa_products_product_dba((int) $_POST['product']);
 
         // Check if the product has components
         $component_qb = org_openpsa_products_product_member_dba::new_query_builder();

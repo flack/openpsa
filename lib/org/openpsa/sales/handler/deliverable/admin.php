@@ -205,7 +205,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_deliverable = $this->load_object('org_openpsa_sales_salesproject_deliverable_dba', $args[0]);
+        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_deliverable->require_do('midgard:update');
 
         $this->_load_controller();
@@ -277,7 +277,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_deliverable = $this->load_object('org_openpsa_sales_salesproject_deliverable_dba', $args[0]);
+        $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_deliverable->require_do('midgard:delete');
 
         $this->_load_datamanager();

@@ -66,7 +66,7 @@ implements midcom_helper_datamanager2_interfaces_create
         if (count($args) > 0)
         {
             // Get the organization
-            $this->_group = $this->load_object('org_openpsa_contacts_group_dba', $args[0]);
+            $this->_group = new org_openpsa_contacts_group_dba($args[0]);
             $_MIDCOM->auth->require_do('midgard:create', $this->_group);
             $_MIDCOM->set_pagetitle($this->_group->official);
         }

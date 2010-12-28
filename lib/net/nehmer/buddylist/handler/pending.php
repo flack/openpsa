@@ -176,7 +176,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
             throw new midcom_error('Incomplete Request');
         }
 
-        $this->_entry = $this->load_object('net_nehmer_buddylist_entry', $_REQUEST['guid']);
+        $this->_entry = new net_nehmer_buddylist_entry($_REQUEST['guid']);
 
         if (array_key_exists('net_nehmer_buddylist_reject', $_REQUEST))
         {

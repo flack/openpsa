@@ -16,8 +16,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
     public function _handler_subscribe($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-
-        $this->_request_data['project'] = $this->load_object('org_openpsa_projects_project', $args[0]);
+        $this->_request_data['project'] = new org_openpsa_projects_project($args[0]);
 
         // Check if the action is a valid one
         $this->_request_data['project_action'] = $args[1];
@@ -60,8 +59,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
     public function _handler_unsubscribe($handler_id, $args, &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-
-        $this->_request_data['project'] = $this->load_object('org_openpsa_projects_project', $args[0]);
+        $this->_request_data['project'] = new org_openpsa_projects_project($args[0]);
 
         // Check if the action is a valid one
         $this->_request_data['project_action'] = $args[1];

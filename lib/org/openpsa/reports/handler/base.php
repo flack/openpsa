@@ -68,7 +68,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
 
     private function _load_query($identifier, $dm_key)
     {
-        $query = $this->load_object('org_openpsa_reports_query_dba', $identifier);
+        $query = new org_openpsa_reports_query_dba($identifier);
 
         // Load the query object to datamanager
         if (!$this->_datamanagers[$dm_key]->autoset_storage($query))

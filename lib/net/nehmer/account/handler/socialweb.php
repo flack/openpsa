@@ -60,7 +60,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         if ($handler_id == 'admin_edit')
         {
             $_MIDCOM->auth->require_admin_user();
-            $this->_account = $this->load_object('midcom_db_person', $args[0]);
+            $this->_account = new midcom_db_person($args[0]);
             net_nehmer_account_viewer::verify_person_privileges($this->_account);
             $return_url = "view/{$this->_account->guid}/";
         }

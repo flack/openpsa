@@ -32,7 +32,7 @@ class org_openpsa_interviews_handler_report extends midcom_baseclasses_component
      */
     public function _handler_all($handler_id, $args, &$data)
     {
-        $this->_request_data['campaign'] = $this->load_object('org_openpsa_directmarketing_campaign_dba', $args[0]);
+        $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
         $this->_prepare_toolbar();
 
         // List members who have been interviewed

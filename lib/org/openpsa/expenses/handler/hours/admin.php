@@ -136,7 +136,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
 
         if (count($args) > 1)
         {
-            $parent = $this->load_object('org_openpsa_projects_task_dba', $args[1]);
+            $parent = new org_openpsa_projects_task_dba($args[1]);
             $parent->require_do('midgard:create');
             $data['task'] = $parent->id;
             $this->_add_toolbar_items($parent);
@@ -242,7 +242,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_edit($handler_id, $args, &$data)
     {
-        $this->_hour_report = $this->load_object('org_openpsa_projects_hour_report_dba', $args[0]);
+        $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
 
         $this->_load_schemadb();
         $this->_controller = midcom_helper_datamanager2_controller::create('simple');
@@ -345,7 +345,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      */
     public function _handler_delete($handler_id, $args, &$data)
     {
-        $this->_hour_report = $this->load_object('org_openpsa_projects_hour_report_dba', $args[0]);
+        $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
         $this->_hour_report->require_do('midgard:delete');
 
         if (array_key_exists('org_openpsa_expenses_deleteok', $_REQUEST))

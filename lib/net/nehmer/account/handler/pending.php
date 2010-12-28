@@ -144,7 +144,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
         }
         else
         {
-            $person = $this->load_object('midcom_db_person', $args[0]);
+            $person = new midcom_db_person($args[0]);
             $this->persons[$person->guid] =& $person;
 
             $_MIDCOM->bind_view_to_object($person);

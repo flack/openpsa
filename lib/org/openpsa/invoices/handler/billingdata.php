@@ -36,7 +36,7 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_billingdata($handler_id, $args, &$data)
     {
         //get billing_data
-        $this->_billing_data = $this->load_object('org_openpsa_invoices_billing_data_dba', $args[0]);
+        $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
         $this->_linked_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_billing_data->linkGuid);
 
         $_MIDCOM->set_pagetitle($_MIDCOM->i18n->get_string('edit', 'midcom') . " " . $this->_l10n->get("billing data"));
