@@ -212,8 +212,6 @@ class midgard_admin_asgard_handler_type extends midcom_baseclasses_components_ha
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb("__mfa/asgard/{$this->type}/", $data['view_title']);
-
-        return true;
     }
 
     private function _prepare_toolbar()

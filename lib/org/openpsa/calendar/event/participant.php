@@ -19,18 +19,14 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
 
     public function __construct($identifier = null)
     {
-        if (parent::__construct($identifier))
+        parent::__construct($identifier);
+        $this->event =& $this->eid;
+        $this->participant =& $this->uid;
+        $this->person =& $this->uid;
+        if (!$this->orgOpenpsaObtype)
         {
-            $this->event =& $this->eid;
-            $this->participant =& $this->uid;
-            $this->person =& $this->uid;
-            if (!$this->orgOpenpsaObtype)
-            {
-                $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_EVENTPARTICIPANT;
-            }
-            return true;
+            $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_EVENTPARTICIPANT;
         }
-        return false;
     }
 
     //TODO: Rewrite

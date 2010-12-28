@@ -20,11 +20,9 @@ class org_openpsa_qbpager_direct extends org_openpsa_qbpager
         $this->_midcom_qb_count = new midgard_query_builder($classname);
         if (!$this->_sanity_check())
         {
-            return false;
+            //TODO: Throw error?
         }
         $this->_prefix = 'org_openpsa_qbpager_' . $this->_pager_id . '_';
-
-        return true;
     }
 
     function execute()

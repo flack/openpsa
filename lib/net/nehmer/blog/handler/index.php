@@ -189,9 +189,9 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
                 )
             );
         }
-        return true;    
+        return true;
     }
-    
+
     /**
      * Displays the index page
      *
@@ -281,7 +281,6 @@ class net_nehmer_blog_handler_index extends midcom_baseclasses_components_handle
         }
 
         midcom_show_style('index-end');
-        return true;
     }
 
     // helpers follow

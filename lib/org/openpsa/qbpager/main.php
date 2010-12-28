@@ -58,12 +58,9 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
         $this->_midcom_qb_count = $_MIDCOM->dbfactory->new_query_builder($classname);
         if (!$this->_sanity_check())
         {
-            return false;
+            //TODO: throw error?
         }
         $this->_prefix = 'org_openpsa_qbpager_' . $this->_pager_id . '_';
-
-
-        return true;
     }
 
     function listen_parameter($name, $value = false)

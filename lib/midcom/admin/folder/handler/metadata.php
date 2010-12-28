@@ -148,8 +148,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
 
         // Ensure we get the correct styles
         $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
-
-        return true;
     }
 
     /**

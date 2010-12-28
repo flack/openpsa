@@ -17,7 +17,6 @@ class org_openpsa_smslib_tambur extends org_openpsa_smslib
     {
         parent::__construct();
         $this->location = &$this->uri;
-        return true;
     }
 
     private function _sanity_check()

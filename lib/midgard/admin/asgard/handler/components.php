@@ -137,8 +137,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
-
-        return true;
     }
 
     /**
@@ -230,8 +228,6 @@ class midgard_admin_asgard_handler_components extends midcom_baseclasses_compone
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/components/', $this->_l10n->get('components'));
         $this->add_breadcrumb("__mfa/asgard/components/{$data['component']}", $data['component_data']['title']);
-
-        return true;
     }
 
     /**

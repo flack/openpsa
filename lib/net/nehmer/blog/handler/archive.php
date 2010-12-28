@@ -559,7 +559,6 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
         }
 
         midcom_show_style('archive-list-end');
-        return true;
     }
 }
 ?>

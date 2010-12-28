@@ -329,32 +329,30 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         $this->_component_path = $args[0];
         $this->_load_language($args[1]);
 
-        if ($this->_component_path)
+        if (!$this->_component_path)
         {
-            debug_add('Loading i10n class for '.$this->_component_path);
-            if (!$this->_component_l10n = $_MIDCOM->i18n->get_l10n($this->_component_path))
+            throw new midcom_error('Missing component path');
+        }
+        debug_add('Loading i10n class for '.$this->_component_path);
+        if (!$this->_component_l10n = $_MIDCOM->i18n->get_l10n($this->_component_path))
+        {
+            throw new midcom_error('Failed to load L10n DB for ' . $this->_component_path);
+        }
+        else
+        {
+            if ($this->_component_path == 'midcom')
             {
-                throw new midcom_error('Failed to load L10n DB for ' . $this->_component_path);
+                $data['component_translated'] = 'MidCOM Core';
             }
             else
             {
-                if ($this->_component_path == 'midcom')
-                {
-                    $data['component_translated'] = 'MidCOM Core';
-                }
-                else
-                {
-                    $_MIDCOM->componentloader->manifests[$this->_component_path]->get_name_translated();
-                    $data['component_translated'] = $_MIDCOM->componentloader->manifests[$this->_component_path]->name_translated;
-                }
-
-                $this->_update_breadcrumb_line($handler_id);
-                $_MIDCOM->set_pagetitle($data['view_title']);
-                return true;
+                $_MIDCOM->componentloader->manifests[$this->_component_path]->get_name_translated();
+                $data['component_translated'] = $_MIDCOM->componentloader->manifests[$this->_component_path]->name_translated;
             }
-        }
 
-        return false;
+            $this->_update_breadcrumb_line($handler_id);
+            $_MIDCOM->set_pagetitle($data['view_title']);
+        }
     }
 
     /**
@@ -396,8 +394,6 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
         $this->_show_permission_check($handler_id, $data);
         midcom_show_style('midcom_admin_babel_edit');
         midgard_admin_asgard_plugin::asgard_footer();
-
-        return true;
     }
 
     /**

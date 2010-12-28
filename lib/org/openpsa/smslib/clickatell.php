@@ -19,7 +19,6 @@ class org_openpsa_smslib_clickatell extends org_openpsa_smslib
         parent::__construct();
         $this->location = &$this->uri;
         $this->client_id = &$this->api_id;
-        return true;
     }
 
     /**

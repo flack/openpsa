@@ -223,8 +223,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_prepare_toolbar($handler_id);
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumbs($handler_id);
-
-        return true;
     }
 
 
@@ -516,8 +514,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         }
 
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        return true;
     }
 
     private function _save_configuration($data)

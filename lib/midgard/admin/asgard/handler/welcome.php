@@ -199,8 +199,6 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midgard.admin.asgard/tablewidget.css');
 
         $this->_populate_toolbar();
-
-        return true;
     }
 
     private function _populate_toolbar()

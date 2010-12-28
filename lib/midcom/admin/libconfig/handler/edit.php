@@ -161,8 +161,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         $this->_update_breadcrumb();
         $_MIDCOM->set_pagetitle($data['view_title']);
-
-        return true;
     }
 
     private function _save_configuration()

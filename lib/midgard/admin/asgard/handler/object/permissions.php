@@ -436,7 +436,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return true;
     }
 
     /**

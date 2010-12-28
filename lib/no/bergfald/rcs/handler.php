@@ -249,8 +249,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
 
         $data['view_title'] = sprintf($this->_l10n->get('revision history of %s'), $this->_resolve_object_title());
         $_MIDCOM->set_pagetitle($this->_request_data['view_title']);
-
-        return true;
     }
 
     public function _show_history()
@@ -339,8 +337,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
             "__ais/rcs/diff/{$this->_guid}/{$data['previous_revision']}/{$data['latest_revision']}/",
             sprintf($this->_l10n->get('changes from version %s'), $data['previous_revision'])
         );
-
-        return true;
     }
 
     /**
@@ -385,7 +381,6 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
         $data['latest_revision'] = $args[1];
         $data['next_revision']  = $this->_backend->get_next_version($args[1]);
         $data['guid'] = $args[0];
-        return true;
     }
 
     public function _show_preview()

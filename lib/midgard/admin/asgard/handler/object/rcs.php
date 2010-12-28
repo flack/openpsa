@@ -452,8 +452,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
             });
         });
         ");
-
-        return true;
     }
 
     public function _show_history()
@@ -536,7 +534,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         // Load the toolbars
         $this->_rcs_toolbar();
-        return true;
     }
 
     /**
@@ -582,8 +579,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
 
         // Load the toolbars
         $this->_rcs_toolbar();
-
-        return true;
     }
 
     public function _show_preview()

@@ -229,8 +229,6 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         $_MIDCOM->style->prepend_component_styledir('midcom.admin.folder');
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.admin.folder/folder.css');
-
-        return true;
     }
 
     private function _prepare_request_data()

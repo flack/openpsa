@@ -60,8 +60,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
         // Set the breadcrumb data
         $this->add_breadcrumb('__mfa/asgard/', $this->_l10n->get('midgard.admin.asgard'));
         $this->add_breadcrumb('__mfa/asgard/trash/', $this->_l10n->get('trash'));
-
-        return true;
     }
 
     /**
@@ -133,8 +131,6 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
             "__mfa/asgard/trash/{$this->type}/",
             sprintf($this->_l10n->get('%s trash'), midgard_admin_asgard_plugin::get_type_label($data['type']))
         );
-
-        return true;
     }
 
     private function _purge()

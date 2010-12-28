@@ -619,8 +619,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $this->_list_components();
 
         $this->_prepare_breadcrumb($handler_id);
-
-        return true;
     }
 
     /**
@@ -678,8 +676,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         $data['help_files'] = $this->list_files($data['component']);
         $data['html'] = $this->get_help_contents('index', $data['component']);
         $this->_prepare_breadcrumb($handler_id);
-
-        return true;
     }
 
     /**
@@ -741,8 +737,6 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
         );
         $_MIDCOM->set_pagetitle($data['view_title']);
         $this->_prepare_breadcrumb($handler_id);
-
-        return true;
     }
 
     /**

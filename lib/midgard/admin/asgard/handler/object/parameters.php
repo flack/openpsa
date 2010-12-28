@@ -66,7 +66,6 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
 
         $this->_prepare_request_data();
         midgard_admin_asgard_plugin::bind_to_object($this->_object, $handler_id, $data);
-        return true;
     }
 
     /**

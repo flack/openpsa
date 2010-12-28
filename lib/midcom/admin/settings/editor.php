@@ -98,7 +98,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
                 $this->_prepare_request_data($data);
                 $this->_config_storage = null;
                 $data['hostname'] = $args[0];
-                return true;
+                return;
             }
         }
 
@@ -141,8 +141,6 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
 
         // Set page title
         $_MIDCOM->set_pagetitle($this->_l10n->get('host configuration')." : ". $data['hostname']);
-
-        return true;
     }
 
     private function _save_code_init()

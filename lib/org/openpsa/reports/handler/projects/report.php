@@ -383,7 +383,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             || count($this->_request_data['raw_results']['hr']) == 0)
         {
             midcom_show_style("projects_report{$bpr}-noresults");
-            return true;
+            return;
         }
 
         //Start actual display
@@ -395,8 +395,6 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
             midcom_show_style("projects_report{$bpr}-totals");
             midcom_show_style("projects_report{$bpr}-footer");
         midcom_show_style("projects_report{$bpr}-end");
-
-        return true;
     }
 
     public function _show_generator_group(&$data, $bpr, $level = 0)

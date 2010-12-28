@@ -28,36 +28,36 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      */
     public function _can_handle_groupsblock($handler_id, $args, &$data)
     {
-      // We're in some level of groups
-      $qb = org_openpsa_products_product_group_dba::new_query_builder();
-      $qb->add_constraint('code', '=', $args[0]);
-      $qb->set_limit(1);
-      $results = $qb->execute();
+        // We're in some level of groups
+        $qb = org_openpsa_products_product_group_dba::new_query_builder();
+        $qb->add_constraint('code', '=', $args[0]);
+        $qb->set_limit(1);
+        $results = $qb->execute();
 
-      if (count($results) == 0)
-      {
-          if (!mgd_is_guid($args[0]))
-          {
-              return false;
-          }
+        if (count($results) == 0)
+        {
+            if (!mgd_is_guid($args[0]))
+            {
+                return false;
+            }
 
-          $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
-          if (   !$data['group']
-              || !$data['group']->guid)
-          {
-              return false;
-          }
-      }
-      else
-      {
-          $data['group'] = $results[0];
-      }
+            $data['group'] = new org_openpsa_products_product_group_dba($args[0]);
+            if (   !$data['group']
+                || !$data['group']->guid)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            $data['group'] = $results[0];
+        }
 
-      $data['parent_group'] = $data['group']->id;
-      $data['view_title'] = "{$data['group']->code} {$data['group']->title}";
-      $data['acl_object'] = $data['group'];
+        $data['parent_group'] = $data['group']->id;
+        $data['view_title'] = "{$data['group']->code} {$data['group']->title}";
+        $data['acl_object'] = $data['group'];
 
-      return true;
+        return true;
     }
 
     /**

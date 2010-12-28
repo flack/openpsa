@@ -109,11 +109,8 @@ implements midcom_helper_datamanager2_interfaces_edit
                 break;
         }
 
-
         // Load the common data
         $this->_process_request_data($data);
-
-        return true;
     }
 
     /**
@@ -127,7 +124,7 @@ implements midcom_helper_datamanager2_interfaces_edit
         if (isset($_GET['ajax']))
         {
             midcom_show_style('midgard_admin_asgard_preferences');
-            return true;
+            return;
         }
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
@@ -196,8 +193,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         }
 
         $_MIDCOM->auth->drop_sudo();
-
-        return true;
     }
 
     /**

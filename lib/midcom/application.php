@@ -145,17 +145,6 @@ class midcom_application
     private $_client = array();
 
     /**
-     * The prefix which is appended to midcom_connection::get_url('self') (i.e. the
-     * Midgard Page URL).
-     *
-     * This may be needed when MidCOM is run by wrapper.
-     * see constructor.
-     *
-     * @var string
-     */
-    private $_prefix = '';
-
-    /**
      * Integer constant resembling the current MidCOM state.
      *
      * See the MIDCOM_STATUS_... constants
