@@ -102,7 +102,7 @@ implements midcom_helper_datamanager2_interfaces_create
             case 'save':
                 // Index the organization
                 $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_group($data['controller']->datamanager, $indexer, $this->_content_topic);
+                org_openpsa_contacts_viewer::index_group($data['controller']->datamanager, $indexer, $this->_topic);
 
                 // Relocate to group view
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);

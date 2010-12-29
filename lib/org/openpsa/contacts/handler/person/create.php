@@ -79,7 +79,7 @@ implements midcom_helper_datamanager2_interfaces_create
 
                 // Index the person
                 $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_person($data['controller']->datamanager, $indexer, $this->_content_topic);
+                org_openpsa_contacts_viewer::index_person($data['controller']->datamanager, $indexer, $this->_topic);
 
                 // Add person to group if requested
                 if ($this->_group)

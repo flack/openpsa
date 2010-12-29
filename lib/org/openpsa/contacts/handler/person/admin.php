@@ -202,7 +202,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
             case 'save':
                 // Reindex the contact
                 $indexer = $_MIDCOM->get_service('indexer');
-                org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_content_topic);
+                org_openpsa_contacts_viewer::index_person($this->_controller->datamanager, $indexer, $this->_topic);
 
                 // *** FALL-THROUGH ***
 
