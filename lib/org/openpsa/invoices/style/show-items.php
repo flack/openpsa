@@ -11,6 +11,7 @@
     echo "<th></th>";
 ?>
 </tr>
+</thead>
 <tbody>
 <?php
     $invoice_sum = 0;
@@ -38,7 +39,8 @@ echo $data['l10n']->get('invoice sum');
     echo round($invoice_sum, 2);
 ?>
 </th>
-<th></th>
+<th>&nbsp;</th>
+</tr>
 </tbody>
 </table>
 <div style='padding-top:15px;'>
