@@ -328,76 +328,51 @@ class midcom_helper_nav
         try
         {
             $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            if (is_a($object, 'midcom_db_topic'))
+            {
+                // Ok. This topic should be within the content tree,
+                // we check this and return the node if everything is ok.
+                if (! $this->is_node_in_tree($object->id, $this->get_root_node()))
+                {
+                    debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
+                    return false;
+                }
+                return $this->get_node($object->id);
+            }
+
+            if (is_a($object, 'midcom_db_article'))
+            {
+                // Ok, let's try to find the article using the topic in the tree.
+                if (! $this->is_node_in_tree($object->topic, $this->get_root_node()))
+                {
+                    debug_add("The GUID {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
+                    return false;
+                }
+
+                $topic = midcom_db_topic::get_cached($object->topic);
+
+                $leaves = $this->list_leaves($object->topic, true);
+                foreach ($leaves as $leafid)
+                {
+                    $leaf = $this->get_leaf($leafid);
+                    if ($leaf[MIDCOM_NAV_GUID] == $guid)
+                    {
+                        return $leaf;
+                    }
+                }
+
+                debug_add("The Article GUID {$guid} is somehow hidden from the NAP data in its topic, no results shown.", MIDCOM_LOG_INFO);
+                return false;
+            }
         }
         catch (midcom_error $e)
         {
             debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
 
-        if (is_a($object, 'midcom_db_topic'))
-        {
-            // Ok. This topic should be within the content tree,
-            // we check this and return the node if everything is ok.
-            if (! $this->is_node_in_tree($object->id, $this->get_root_node()))
-            {
-                debug_add("NAP::resolve_guid: The Guid {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
-                return false;
-            }
-            return $this->get_node($object->id);
-        }
-
-        if (is_a($object, 'midcom_db_article'))
-        {
-            // Ok, let's try to find the article using the topic in the tree.
-            if (! $this->is_node_in_tree($object->topic, $this->get_root_node()))
-            {
-                debug_add("NAP::resolve_guid: The Guid {$guid} leads to an unknown topic not in our tree.", MIDCOM_LOG_WARN);
-                return false;
-            }
-
-            $topic = midcom_db_topic::get_cached($object->topic);
-
-            $leaves = $this->list_leaves($object->topic, true);
-            foreach ($leaves as $leafid)
-            {
-                $leaf = $this->get_leaf($leafid);
-                if ($leaf[MIDCOM_NAV_GUID] == $guid)
-                {
-                    return $leaf;
-                }
-            }
-
-            debug_add("The Article GUID {$guid} is somehow hidden from the NAP data in its topic, no results shown.", MIDCOM_LOG_INFO);
-            return false;
-        }
-
         // Ok, unfortunately, this is not an immediate topic. We try to traverse
         // upwards in the object chain to find a topic.
-        debug_add('Looking for a topic to use via get_parent()');
-        $topic = null;
-        $parent = null;
-
-        if (is_object($object))
-        {
-            $parent = $object->get_parent();
-        }
-
-        while ($parent)
-        {
-            if (is_a($parent, 'midcom_db_topic'))
-            {
-                // Verify that this topic is within the current sites tree, if it is not,
-                // we ignore it. This might happen on symlink topics with taviewer & co
-                // which point to the outside f.x.
-                if ($this->is_node_in_tree($parent->id, $this->get_root_node()))
-                {
-                    $topic = $parent;
-                    break;
-                }
-            }
-            $parent = $parent->get_parent();
-        }
-
+        $topic = $this->_find_closest_topic($object);
         if ($topic !== null)
         {
             debug_add("Found topic #{$topic->id}, searching the leaves");
@@ -444,6 +419,34 @@ class midcom_helper_nav
 
         debug_add("We were unable to find the GUID {$guid} in the MidCOM tree even with a full scan.", MIDCOM_LOG_INFO);
         return false;
+    }
+
+    private function _find_closest_topic(&$object)
+    {
+        if (!is_object($object))
+        {
+            return null;
+        }
+        debug_add('Looking for a topic to use via get_parent()');
+        $topic = null;
+        $parent = $object->get_parent();
+
+        while ($parent)
+        {
+            if (is_a($parent, 'midcom_db_topic'))
+            {
+                // Verify that this topic is within the current sites tree, if it is not,
+                // we ignore it. This might happen on symlink topics with taviewer & co
+                // which point to the outside f.x.
+                if ($this->is_node_in_tree($parent->id, $this->get_root_node()))
+                {
+                    $topic = $parent;
+                    break;
+                }
+            }
+            $parent = $parent->get_parent();
+        }
+        return $topic;
     }
 
 
