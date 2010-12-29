@@ -456,19 +456,21 @@ class org_openpsa_contacts_duplicates
                 continue;
             }
 
-            if ($params['mode'] == 'person')
+            if ($params['mode'] != 'person'
+                && $params['mode'] != '')
             {
-                $obj1 = org_openpsa_contacts_person_dba::get_cached($arr1['guid']);
-                $obj2 = org_openpsa_contacts_person_dba::get_cached($arr2['guid']);
+                //TODO: error reporting
+                continue;
             }
-            else if ($params['mode'] == '')
+
+            try
             {
                 $obj1 = org_openpsa_contacts_group_dba::get_cached($arr1['guid']);
                 $obj2 = org_openpsa_contacts_group_dba::get_cached($arr2['guid']);
             }
-            else
+            catch (midcom_error $e)
             {
-                //TODO: error reporting
+                debug_log($e->getMessage());
                 continue;
             }
 

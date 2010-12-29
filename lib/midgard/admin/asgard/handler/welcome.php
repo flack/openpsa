@@ -262,9 +262,16 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     {
         foreach ($guids as $guid)
         {
-            $object =& $_MIDCOM->dbfactory->get_object_by_guid($guid);
-            if (   $object
-                && $object->can_do('midgard:delete'))
+            try
+            {
+                $object =& $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            }
+            catch (midcom_error $e)
+            {
+                continue;
+            }
+
+            if ($object->can_do('midgard:delete'))
             {
                 $label = $object->guid;
                 if ($object->delete())
@@ -279,9 +286,16 @@ class midgard_admin_asgard_handler_welcome extends midcom_baseclasses_components
     {
         foreach ($guids as $guid)
         {
-            $object =& $_MIDCOM->dbfactory->get_object_by_guid($guid);
-            if (   $object
-                && $object->can_do('midgard:update')
+            try
+            {
+                $object =& $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            }
+            catch (midcom_error $e)
+            {
+                continue;
+            }
+
+            if (   $object->can_do('midgard:update')
                 && $object->can_do('midcom:approve'))
             {
                 //$label = $object->get_label();

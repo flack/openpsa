@@ -60,8 +60,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 $memberships = $member_mc->list_keys();
                 foreach ($memberships as $guid => $member)
                 {
-                    $organization = org_openpsa_contacts_group_dba::get_cached($member_mc->get_subkey($guid, 'gid'));
-                    $organizations[$organization->id] = $organization->official;
+                    try
+                    {
+                        $organization = org_openpsa_contacts_group_dba::get_cached($member_mc->get_subkey($guid, 'gid'));
+                        $organizations[$organization->id] = $organization->official;
+                    }
+                    catch (midcom_error $e){}
                 }
                 //Fill the customer field to DM
                 $fields['customer']['type_config']['options'] = $organizations;
@@ -88,7 +92,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             {
                 $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
             }
-            else if ($this->_object
+            else if (   $this->_object
                      && $this->_object->customer)
             {
                 $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
@@ -119,8 +123,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         $members = $member_mc->list_keys();
         foreach ($members as $guid => $member)
         {
-            $person = org_openpsa_contacts_person_dba::get_cached($member_mc->get_subkey($guid, 'uid'));
-            $persons_array[$person->id] = $person->rname;
+            try
+            {
+                $person = org_openpsa_contacts_person_dba::get_cached($member_mc->get_subkey($guid, 'uid'));
+                $persons_array[$person->id] = $person->rname;
+            }
+            catch (midcom_error $e){}
         }
         asort($persons_array);
         $fields['customerContact']['widget'] = 'select';

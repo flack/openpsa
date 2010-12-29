@@ -64,10 +64,13 @@ class org_openpsa_invoices_billing_data_dba extends midcom_core_dbaobject
         if ($this->useContactAddress && !empty($this->linkGuid))
         {
             //get the contact object
-            $contact = $_MIDCOM->dbfactory->get_object_by_guid($this->linkGuid);
-            if (!$contact)
+            try
             {
-                debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                $contact = $_MIDCOM->dbfactory->get_object_by_guid($this->linkGuid);
+            }
+            catch (midcom_error $e)
+            {
+                debug_add("Failed to load contact with GUID: " .$this->linkGuid . " - last error:" . $e->getMessage(), MIDCOM_LOG_ERROR);
                 return false;
             }
             switch (true)

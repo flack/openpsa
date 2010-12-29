@@ -574,11 +574,15 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 $row_cache['index_agreement'][$task->agreement] = $html;
                 if ($task->agreement)
                 {
-                    $agreement = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
-                    $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
-                    $agreement_url = "{$data['sales_url']}salesproject/{$salesproject->guid}/";
-                    $html = "<a href='{$agreement_url}'>{$agreement->title}</a>";
-                    $row_cache['index_agreement'][$task->agreement] = $agreement->title;
+                    try
+                    {
+                        $agreement = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
+                        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
+                        $agreement_url = "{$data['sales_url']}salesproject/{$salesproject->guid}/";
+                        $html = "<a href='{$agreement_url}'>{$agreement->title}</a>";
+                        $row_cache['index_agreement'][$task->agreement] = $agreement->title;
+                    }
+                    catch (midcom_error $e){}
                 }
                 $row_cache['agreement'][$task->agreement] = $html;
             }

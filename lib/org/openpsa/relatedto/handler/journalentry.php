@@ -49,11 +49,6 @@ implements midcom_helper_datamanager2_interfaces_create
     public function _handler_entry($handler_id, $args, &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        //passed guid does not exist
-        if (!$this->_current_object)
-        {
-            throw new midcom_error("Failed to load object for passed guid: " . $args[0] . " Last Error was :" . midcom_connection::get_error_string());
-        }
 
         if ($args[1])
         {
@@ -290,20 +285,30 @@ implements midcom_helper_datamanager2_interfaces_create
 
 
             //get the corresponding objects
-            if($this->_request_data['show_object'] == true && !empty($this->_request_data['entries']))
+            if (   $this->_request_data['show_object'] == true
+                && !empty($this->_request_data['entries']))
             {
                 $this->_request_data['linked_objects'] = array();
                 $this->_request_data['linked_raw_objects'] = array();
                 $_MIDCOM->componentloader->load('midcom.helper.reflector');
 
-                foreach($this->_request_data['entries'] as $entry)
+                foreach ($this->_request_data['entries'] as $entry)
                 {
-                    if(array_key_exists($entry->linkGuid, $this->_request_data['linked_objects']))
+                    if (array_key_exists($entry->linkGuid, $this->_request_data['linked_objects']))
                     {
                         continue;
                     }
                     //create reflector with linked object to get the right label
-                    $linked_object = $_MIDCOM->dbfactory->get_object_by_guid($entry->linkGuid);
+                    try
+                    {
+                        $linked_object = $_MIDCOM->dbfactory->get_object_by_guid($entry->linkGuid);
+                    }
+                    catch (midcom_error $e)
+                    {
+                        debug_log($e->getMessage());
+                        continue;
+                    }
+
                     $reflector = new midcom_helper_reflector($linked_object);
                     $link_html = "<a href='" . $_MIDCOM->permalinks->create_permalink($linked_object->guid) . "'>" . $reflector->get_object_label($linked_object) ."</a>";
                     $this->_request_data['linked_objects'][$entry->linkGuid] = $link_html;

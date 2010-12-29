@@ -8,9 +8,9 @@ $node = $nap->get_node($nap->get_current_node());
 ?>
 <div class="sidebar">
     <?php
-    $customer = org_openpsa_contacts_group_dba::get_cached($project->customer);
-    if ($customer)
+    try
     {
+        $customer = org_openpsa_contacts_group_dba::get_cached($project->customer);
         echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
 
         $customer_html = $customer->official;
@@ -18,12 +18,13 @@ $node = $nap->get_node($nap->get_current_node());
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
 
-        if($contacts_url)
+        if ($contacts_url)
         {
             $customer_html = '<a href="' . $contacts_url . '/group/' . $customer->guid . '/">' . $customer_html . "</a>\n";
         }
         echo $customer_html;
     }
+    catch (midcom_error $e){}
 
     if ($project->manager)
     {

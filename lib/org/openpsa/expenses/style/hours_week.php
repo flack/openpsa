@@ -75,7 +75,6 @@ foreach ($data['tasks'] as $task => $days)
 
     foreach ($days['persons'] as $person => $person_hours)
     {
-        $person = org_openpsa_contacts_person_dba::get_cached($person);
         $time = $data['week_start'];
 
         if ($class == "even")
@@ -88,14 +87,14 @@ foreach ($data['tasks'] as $task => $days)
         }
         echo "    <tr class='{$class}'>\n";
 
-        if (   !$person
-            || !$person->guid)
+        try
+        {
+            $person = org_openpsa_contacts_person_dba::get_cached($person);
+            echo "        <td class='person'>" . $person->name . "</td>";
+        }
+        catch (midcom_error $e)
         {
             echo "        <td class='person'>" . $data['l10n']->get('no person') . "</td>";
-        }
-        else
-        {
-            echo "        <td class='person'>" . $person->name . "</td>";
         }
         while ($time < $data['week_end'])
         {

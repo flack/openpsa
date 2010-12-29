@@ -44,8 +44,16 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
     {
         if ($this->person)
         {
-            $person = org_openpsa_contacts_person_dba::get_cached($this->person);
-            return $person->name;
+            try
+            {
+                $person = org_openpsa_contacts_person_dba::get_cached($this->person);
+                return $person->name;
+            }
+            catch (midcom_error $e)
+            {
+                return "member #{$this->id}";
+            }
+
         }
         return "member #{$this->id}";
     }

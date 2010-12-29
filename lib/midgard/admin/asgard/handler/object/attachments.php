@@ -253,10 +253,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     public function _handler_create($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (!$this->_object)
-        {
-            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
-        }
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -309,10 +305,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (!$this->_object)
-        {
-            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
-        }
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -404,10 +396,6 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
     public function _handler_delete($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (!$this->_object)
-        {
-            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
-        }
         $this->_object->require_do('midgard:update');
         $this->_object->require_do('midgard:attachments');
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');

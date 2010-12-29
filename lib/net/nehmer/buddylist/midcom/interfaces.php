@@ -77,12 +77,18 @@ class net_nehmer_buddylist_interface extends midcom_baseclasses_components_inter
             // "second-level views" of other topics.
             return null;
         }
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-        if (is_a($object, 'net_nehmer_buddylist_entry'))
+        try
         {
-            return "entry/view/{$object->guid}/";
+            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            if (is_a($object, 'net_nehmer_buddylist_entry'))
+            {
+                return "entry/view/{$object->guid}/";
+            }
         }
-        return null;
+        catch (midcom_error $e)
+        {
+            return null;
+        }
     }
 
     /**

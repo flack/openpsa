@@ -17,8 +17,15 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         foreach ($data['objects'] as $guid => $privs)
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-            if (!is_a($object, 'midcom_db_topic'))
+            try
+            {
+                $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+                if (!is_a($object, 'midcom_db_topic'))
+                {
+                    continue;
+                }
+            }
+            catch (midcom_error $e)
             {
                 continue;
             }

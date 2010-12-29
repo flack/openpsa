@@ -523,12 +523,20 @@ class midcom_services_indexer_document
         $this->creator = $this->get_field('__CREATOR');
         if ($this->creator != '')
         {
-            $this->creator = $_MIDCOM->dbfactory->get_object_by_guid($this->creator);
+            try
+            {
+                $this->creator = $_MIDCOM->dbfactory->get_object_by_guid($this->creator);
+            }
+            catch (midcom_error $e){}
         }
         $this->editor = $this->get_field('__EDITOR');
         if ($this->editor != '')
         {
-            $this->editor = $_MIDCOM->dbfactory->get_object_by_guid($this->editor);
+            try
+            {
+                $this->editor = $_MIDCOM->dbfactory->get_object_by_guid($this->editor);
+            }
+            catch (midcom_error $e){}
         }
         $this->author = $this->get_field('author');
         $this->abstract = $this->get_field('abstract');

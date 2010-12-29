@@ -189,10 +189,11 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
         foreach ($components as $component => $loc)
         {
             $node_guid = $siteconfig->get_node_guid($component);
-            $topic = midcom_db_topic::get_cached($node_guid);
-
-            if (   empty($topic)
-                || !$topic->can_do('midgard:read'))
+            try
+            {
+                $topic = midcom_db_topic::get_cached($node_guid);
+            }
+            catch (midcom_error $e)
             {
                 debug_add("topic for component '{$component}' not found or accessible");
                 unset ($components[$component]);

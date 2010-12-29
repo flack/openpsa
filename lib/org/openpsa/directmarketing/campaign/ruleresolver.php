@@ -342,7 +342,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         $mc_parameter->execute();
         $parameter_keys = $mc_parameter->list_keys();
 
-        if(count($parameter_keys) < 1)
+        if (count($parameter_keys) < 1)
         {
             //TODO: better solution for constraints leading to zero results
             //build constraint only if on 'LIKE' or '=' should be matched
@@ -356,8 +356,15 @@ class org_openpsa_directmarketing_campaign_ruleresolver
         foreach($parameter_keys as $parameter_key => $value)
         {
             $guid = $mc_parameter->get_subkey($parameter_key, 'parentguid');
-            $parent = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-
+            try
+            {
+                $parent = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            }
+            catch (midcom_error $e)
+            {
+                debug_log($e->getMessage());
+                continue;
+            }
             switch (true)
             {
                 case (   $_MIDCOM->dbfactory->is_a($parent, 'midgard_person')

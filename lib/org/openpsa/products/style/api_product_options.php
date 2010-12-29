@@ -17,18 +17,20 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 <?php
                 // FIXME: this schema counting is *really* inefficient
                 $root_group_guid = $data['config']->get('root_group');
-                $root_group = null;
                 if (!empty($root_group_guid))
                 {
-                    $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
-                }
-                if (   is_object($root_group)
-                    && isset($root_group->guid)
-                    && !empty($root_group->guid))
-                {
-                    $qb_groups = org_openpsa_products_product_group_dba::new_query_builder();
-                    $qb_groups->add_constraint('up', 'INTREE', $root_group->id);
-                    $groups = $qb_groups->execute();
+                    try
+                    {
+                        $root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
+                        $qb_groups = org_openpsa_products_product_group_dba::new_query_builder();
+                        $qb_groups->add_constraint('up', 'INTREE', $root_group->id);
+                        $groups = $qb_groups->execute();
+                    }
+                    catch (midcom_error $e)
+                    {
+                        $root_group = null;
+                    }
+
                 }
 
                 foreach (array_keys($data['schemadb_product']) as $name)

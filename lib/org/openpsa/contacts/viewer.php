@@ -76,12 +76,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     {
         if (!is_object($topic))
         {
-            $tmp = midcom_db_topic::get_cached($topic);
-            if (! $tmp->guid)
-            {
-                throw new midcom_error("Failed to load the topic referenced by {$topic} for indexing.");
-            }
-            $topic = $tmp;
+            $topic = midcom_db_topic::get_cached($topic);
         }
 
         $nav = new midcom_helper_nav();
@@ -110,12 +105,7 @@ class org_openpsa_contacts_viewer extends midcom_baseclasses_components_request
     {
         if (!is_object($topic))
         {
-            $tmp = midcom_db_topic::get_cached($topic);
-            if (! $tmp->guid)
-            {
-                throw new midcom_error("Failed to load the topic referenced by {$topic} for indexing.");
-            }
-            $topic = $tmp;
+            $topic = midcom_db_topic::get_cached($topic);
         }
 
         $nav = new midcom_helper_nav();

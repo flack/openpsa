@@ -72,12 +72,14 @@ class midcom_services_permalinks
             return $napobj[MIDCOM_NAV_FULLURL];
         }
 
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-
-        if (!$object)
+        try
+        {
+            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+        }
+        catch (midcom_error $e)
         {
             debug_add("Failed to resolve the GUID {$guid}, this is most probably an access denied error.", MIDCOM_LOG_ERROR);
-            debug_add('Last MidCOM error string: ' . midcom_connection::get_error_string());
+            debug_add('Last MidCOM error string: ' . $e->getMessage());
             return null;
         }
 

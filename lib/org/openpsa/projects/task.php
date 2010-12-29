@@ -305,14 +305,17 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         if ($this->agreement)
         {
             // Get customer company into cache from agreement's sales project
-            $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->agreement);
-            if (    $agreement
-                 && !$this->customer)
+            try
             {
-                $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
-                $this->customer = $salesproject->customer;
+                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($this->agreement);
+                $this->hoursInvoiceableDefault = true;
+                if (!$this->customer)
+                {
+                    $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
+                    $this->customer = $salesproject->customer;
+                }
             }
-            $this->hoursInvoiceableDefault = true;
+            catch (midcom_error $e){}
         }
         else
         {
@@ -566,8 +569,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         foreach ($resources as $resource => $task_id)
         {
-            $person = org_openpsa_contacts_person_dba::get_cached($mc->get_subkey($resource, 'person'));
-            $resource_array[$person->id] = $person->rname;
+            try
+            {
+                $person = org_openpsa_contacts_person_dba::get_cached($mc->get_subkey($resource, 'person'));
+                $resource_array[$person->id] = $person->rname;
+            }
+            catch (midcom_error $e){}
         }
         return $resource_array;
     }

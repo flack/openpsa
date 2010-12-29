@@ -118,10 +118,6 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
     private function _load_object()
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
-        if (!$this->_object)
-        {
-            throw new midcom_error_notfound("The GUID '{$this->_guid}' was not found.");
-        }
 
         if (   !$GLOBALS['midcom_config']['midcom_services_rcs_enable']
             || !$this->_object->_use_rcs)

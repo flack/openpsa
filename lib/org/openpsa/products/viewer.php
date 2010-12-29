@@ -190,10 +190,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         else
         {
             $root_group = org_openpsa_products_product_group_dba::get_cached($this->_config->get('root_group'));
-            if (!$root_group)
-            {
-                return false;
-            }
             $this->_request_data['root_group'] = $root_group->id;
         }
 

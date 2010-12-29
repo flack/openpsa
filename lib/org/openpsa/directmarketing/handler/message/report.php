@@ -138,12 +138,12 @@ class org_openpsa_directmarketing_handler_message_report extends midcom_baseclas
             if (   $segmentation_param
                 && !empty($link->person))
             {
-                $person = midcom_db_person::get_cached($link->person);
-                if (   is_object($person)
-                    && method_exists($person, 'get_parameter'))
+                try
                 {
+                    $person = midcom_db_person::get_cached($link->person);
                     $segment = $person->parameter('org.openpsa.directmarketing.segments', $segmentation_param);
                 }
+                catch (midcom_error $e){}
                 if (empty($segment))
                 {
                     $segment = $this->_l10n->get('no segment');

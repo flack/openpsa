@@ -22,39 +22,27 @@ class midcom_helper__dbfactory
      * @see http://www.midgard-project.org/documentation/php_midgard_object_class/
      *
      * @param string $guid The object GUID.
-     * @return object A MidCOM DBA object if the set GUID is known, null on any error.
+     * @return object A MidCOM DBA object if the set GUID is known
      */
     function get_object_by_guid($guid)
     {
-        if (empty($guid))
-        {
-            debug_add("The given GUID is empty.", MIDCOM_LOG_WARN);
-            return null;
-        }
-
-        if (!mgd_is_guid($guid))
-        {
-            debug_add("The given GUID ({$guid}) is not valid.", MIDCOM_LOG_WARN);
-            return null;
-        }
-
         try
         {
             $tmp = midgard_object_class::get_object_by_guid($guid);
-            if (   get_class($tmp) == 'midgard_person'
-                && $GLOBALS['midcom_config']['person_class'] != 'midgard_person')
-            {
-                $tmp = new $GLOBALS['midcom_config']['person_class']($guid);
-            }
         }
-        catch(midgard_error_exception $e)
+        catch (midgard_error_exception $e)
         {
-            debug_add("The Midgard core failed to resolve the GUID {$guid}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-            return null;
+            debug_add('Looding object by GUID ' . $guid . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_INFO);
+
+            throw new midcom_error_midgard($e, $guid);
+        }
+        if (   get_class($tmp) == 'midgard_person'
+            && $GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+        {
+            $tmp = new $GLOBALS['midcom_config']['person_class']($guid);
         }
 
-        $tmp = $this->convert_midgard_to_midcom($tmp);
-        return $tmp;
+        return $this->convert_midgard_to_midcom($tmp);
     }
 
     /**
@@ -145,10 +133,8 @@ class midcom_helper__dbfactory
     {
         if (! is_object($object))
         {
-            debug_print_type("Cannot cast the object to a MidCOM DBA type, it is not an object, we got this type:",
-                $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            return null;
+            throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not an object.");
         }
 
         if ($_MIDCOM->dbclassloader->is_mgdschema_object($object))
@@ -157,24 +143,20 @@ class midcom_helper__dbfactory
 
             if (! $_MIDCOM->dbclassloader->load_mgdschema_class_handler($classname))
             {
-                debug_add("Failed to load the handling component for {$classname}, cannot convert.", MIDCOM_LOG_ERROR);
-                return null;
+                throw new midcom_error("Failed to load the handling component for {$classname}, cannot convert.");
             }
 
             if (!class_exists($classname))
             {
-                debug_add("Got non-existing DBA class {$classname} for object of type " . get_class($object) . ", cannot convert.", MIDCOM_LOG_ERROR);
-                return null;
+                throw new midcom_error("Got non-existing DBA class {$classname} for object of type " . get_class($object) . ", cannot convert.");
             }
 
             $result = new $classname($object);
         }
         else
         {
-            debug_print_type("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object, we got this type:",
-                $object, MIDCOM_LOG_ERROR);
             debug_print_r("Object dump:", $object);
-            return null;
+            throw new midcom_error("Cannot cast the object to a MidCOM DBA type, it is not a regular MgdSchema object, we got this type:");
         }
         return $result;
     }
@@ -364,8 +346,11 @@ class midcom_helper__dbfactory
                 // class not defined, retrieve the full object by guid
                 if ($the_object === null)
                 {
-                    $the_object = $this->get_object_by_guid($object_guid);
-                    if (! is_object($the_object))
+                    try
+                    {
+                        $the_object = $this->get_object_by_guid($object_guid);
+                    }
+                    catch (midcom_error $e)
                     {
                         return null;
                     }
@@ -648,9 +633,11 @@ class midcom_helper__dbfactory
             $_MIDCOM->componentloader->load('midcom.helper.replicator');
         }
 
-        $acl_object = $_MIDCOM->dbfactory->get_object_by_guid($unserialized_object->parentguid);
-        if (   empty($acl_object)
-            || !is_object($acl_object))
+        try
+        {
+            $acl_object = $_MIDCOM->dbfactory->get_object_by_guid($unserialized_object->parentguid);
+        }
+        catch (midcom_error $e)
         {
             debug_add("Could not get parent object (GUID: {$unserialized_object->parentguid}), aborting", MIDCOM_LOG_ERROR);
             return false;

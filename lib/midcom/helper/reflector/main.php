@@ -38,16 +38,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             if (!isset($src->__mgdschema_class_name__))
             {
                 $converted = $_MIDCOM->dbfactory->convert_midgard_to_midcom($src);
-                if (is_object($converted))
-                {
-                    $src = $converted;
-                    $this->mgdschema_class = $src->__mgdschema_class_name__;
-                }
-                else
-                {
-                    debug_add("Failed to convert '{$this->_original_class}' to midcom", MIDCOM_LOG_ERROR);
-                    debug_print_r('$src', $src);
-                }
+                $src = $converted;
+                $this->mgdschema_class = $src->__mgdschema_class_name__;
                 unset($converted);
             }
         }
@@ -290,8 +282,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (!isset($object->__mgdschema_class_name__))
         {
             // Not a MidCOM DBA object
-            $obj = $_MIDCOM->dbfactory->convert_midgard_to_midcom($object);
-            if ($obj === null)
+            try
+            {
+                $obj = $_MIDCOM->dbfactory->convert_midgard_to_midcom($object);
+            }
+            catch (midcom_error $e)
             {
                 return false;
             }

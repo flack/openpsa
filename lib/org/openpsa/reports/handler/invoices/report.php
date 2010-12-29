@@ -112,14 +112,17 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
         $at_entries = $at_qb->execute();
         foreach ($at_entries as $at_entry)
         {
-            $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);
-            if (   $deliverable
-                && (   $deliverable->continuous
-                    || (   $deliverable->start < $this->_request_data['end']
-                        && $deliverable->end > $this->_request_data['start'])))
+            try
             {
-                $invoices = array_merge($invoices, $this->_get_invoices_for_subscription($deliverable, $at_entry));
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($at_entry->arguments['deliverable']);
+                if (   $deliverable->continuous
+                    || (   $deliverable->start < $this->_request_data['end']
+                        && $deliverable->end > $this->_request_data['start']))
+                {
+                    $invoices = array_merge($invoices, $this->_get_invoices_for_subscription($deliverable, $at_entry));
+                }
             }
+            catch (midcom_error $e){}
         }
 
         $invoices = array_filter($invoices, array($this, '_filter_by_date'));

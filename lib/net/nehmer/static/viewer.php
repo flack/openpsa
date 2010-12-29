@@ -74,14 +74,7 @@ class net_nehmer_static_viewer extends midcom_baseclasses_components_request
         }
 
         $this->_content_topic = midcom_db_topic::get_cached($guid);
-
         // Validate topic.
-
-        if (! $this->_content_topic)
-        {
-            throw new midcom_error('Failed to open symlink content topic. Last Midgard Error: ' . midcom_connection::get_error_string());
-        }
-
         if ($this->_content_topic->component != 'net.nehmer.static')
         {
             debug_print_r('Retrieved topic was:', $this->_content_topic);

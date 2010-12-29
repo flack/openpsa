@@ -992,7 +992,6 @@ class midcom_baseclasses_core_dbobject
             self::_clear_object($object);
             throw new midcom_error_forbidden();
         }
-
         $object->_on_loaded();
 
         // Register the GUID as loaded in this request
@@ -1998,7 +1997,11 @@ class midcom_baseclasses_core_dbobject
             {
                 if (!isset($parents[$parent_guid]))
                 {
-                    $parents[$parent_guid] = $_MIDCOM->dbfactory->get_object_by_guid($parent_guid);
+                    try
+                    {
+                        $parents[$parent_guid] = $_MIDCOM->dbfactory->get_object_by_guid($parent_guid);
+                    }
+                    catch (midcom_error $e){}
                 }
                 $parent =& $parents[$parent_guid];
                 if (!empty($object->guid))

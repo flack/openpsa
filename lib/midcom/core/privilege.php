@@ -158,8 +158,11 @@ class midcom_core_privilege
     {
         if (is_null($this->__cached_object))
         {
-            $this->__cached_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
-            if (!is_object($this->__cached_object))
+            try
+            {
+                $this->__cached_object = $_MIDCOM->dbfactory->get_object_by_guid($this->objectguid);
+            }
+            catch (midcom_error $e)
             {
                 return false;
             }

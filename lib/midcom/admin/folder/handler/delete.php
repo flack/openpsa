@@ -140,9 +140,9 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
         {
             set_time_limit(60);
 
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-            if ($object)
+            try
             {
+                $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
                 $atts = $object->list_attachments();
                 if ($atts)
                 {
@@ -152,6 +152,10 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
                         $indexer->delete($attachment->guid);
                     }
                 }
+            }
+            catch (midcom_error $e)
+            {
+                debug_log($e->getMessage());
             }
 
             debug_add("Deleting guid {$guid} from the index.");

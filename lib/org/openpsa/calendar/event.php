@@ -1164,7 +1164,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         reset($array);
         $cnt = count($array) - 1;
         $i = 0;
-        foreach($array as $pid => $bool)
+        foreach ($array as $pid => $bool)
         {
             $person = org_openpsa_contacts_person_dba::get_cached($pid);
             debug_add('pid: ' . $pid . ', person->id: ' . $person->id . ', person->firstname: ' . $person->firstname . ', person->lastname: ' . $person->lastname . ', person->name: ' . $person->name . ', person->rname: ' . $person->rname);

@@ -123,8 +123,11 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         foreach ($hours as $guid => $empty)
         {
             $task_id = $hours_mc->get_subkey($guid, 'task');
-            $task = org_openpsa_projects_task_dba::get_cached($task_id);
-            if (!$task->guid)
+            try
+            {
+                $task = org_openpsa_projects_task_dba::get_cached($task_id);
+            }
+            catch (midcom_error $e)
             {
                 // Task couldn't be loaded, probably because of ACL
                 continue;

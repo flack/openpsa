@@ -358,9 +358,9 @@ class org_openpsa_projects_workflow
         $agreement = false;
         if ($task->agreement)
         {
-            $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
-            if ($agreement)
+            try
             {
+                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
                 //Register relation between the invoice and this agreement
                 org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $agreement, 'org.openpsa.sales');
 
@@ -369,6 +369,10 @@ class org_openpsa_projects_workflow
                     // The agreement allows invoicing only approved hours, therefore don't mark unapproved
                     $qb->add_constraint('metadata.isapproved', '=', true);
                 }
+            }
+            catch (midcom_error $e)
+            {
+                debug_log($e->getMessage());
             }
         }
 

@@ -331,10 +331,6 @@ implements midcom_helper_datamanager2_interfaces_edit
     public function _handler_edit($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (!$this->_object)
-        {
-            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
-        }
         $this->_object->require_do('midgard:privileges');
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
 

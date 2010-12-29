@@ -27,13 +27,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
         parent::__construct();
 
         $this->target_node = $target_node;
-
         $this->target = $_MIDCOM->dbfactory->get_object_by_guid($target_object);
-        if (!$this->target)
-        {
-            throw new midcom_error('Could not instantiate object for wiki note lookup.');
-        }
-
         $this->wiki = midcom_helper_misc::find_node_by_component('net.nemein.wiki');
 
         if ($new_wikipage)

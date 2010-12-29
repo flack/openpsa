@@ -65,15 +65,17 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         if (   !$target
             && $activity->target)
         {
-            $target = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
-        }
-
-        $target_label = $activity->target;
-        if ($target)
-        {
-            $reflector = new midcom_helper_reflector($target);
-            $class_label = $reflector->get_class_label();
-            $target_label = "{$class_label} " . $reflector->get_object_label($target);
+            try
+            {
+                $target = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
+                $reflector = new midcom_helper_reflector($target);
+                $class_label = $reflector->get_class_label();
+                $target_label = "{$class_label} " . $reflector->get_object_label($target);
+            }
+            catch (midcom_error $e)
+            {
+                $target_label = $activity->target;
+            }
         }
 
         switch ($activity->verb)

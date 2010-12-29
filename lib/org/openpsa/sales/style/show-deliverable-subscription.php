@@ -198,15 +198,17 @@ $status = $data['deliverable']->get_status();
             if (   $data['projects_url']
                 && $data['deliverable']->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED)
             {
-                $product = org_openpsa_products_product_dba::get_cached($data['deliverable']->product);
-                if (   $product
-                    && $product->guid
-                    && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
+                try
                 {
-                    $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}");
-                    // FIXME: This is a rather ugly hack
-                    $_MIDCOM->style->enter_context(0);
+                    $product = org_openpsa_products_product_dba::get_cached($data['deliverable']->product);
+                    if ($product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
+                    {
+                        $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}");
+                        // FIXME: This is a rather ugly hack
+                        $_MIDCOM->style->enter_context(0);
+                    }
                 }
+                catch (midcom_error $e){}
             }
             ?>
         </div>

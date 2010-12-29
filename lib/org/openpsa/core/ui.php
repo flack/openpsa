@@ -14,36 +14,6 @@
 class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
 {
     /**
-     * Helper function that tries to determine the correct behavior when a GUID could not be loaded
-     *
-     * @param string $guid The GUID that failed to load
-     */
-    public static function object_inaccessible($guid)
-    {
-        //catch last error which might be from dbaobject
-        $last_error = midcom_connection::get_error();
-        $last_error_string = midcom_connection::get_error_string();
-
-        if (!mgd_is_guid($guid))
-        {
-            throw new midcom_error_notfound("The object with GUID {$guid} was not found.");
-        }
-
-        if ($last_error == MGD_ERR_ACCESS_DENIED)
-        {
-            throw new midcom_error_forbidden($_MIDCOM->i18n->get_string('access denied', 'midcom'));
-        }
-        else if ($last_error == MGD_ERR_OBJECT_DELETED)
-        {
-            //@todo: due to #1900, this error will not be encountered, but in theory,
-            //we should redirect to a nice error page here
-        }
-
-        //If other options fail, go for the server error
-        throw new midcom_error("Failed to load object {$guid}. Last error: " . $last_error_string);
-    }
-
-    /**
      * function that loads the necessary javascript & css files for jqgrid
      */
     public static function enable_jqgrid()

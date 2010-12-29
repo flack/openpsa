@@ -49,11 +49,13 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
 
         if (mgd_is_guid($id))
         {
-            $group = org_openpsa_products_product_group_dba::get_cached($id);
-
-            // Stop silently
-            if (!$group->guid)
+            try
             {
+                $group = org_openpsa_products_product_group_dba::get_cached($id);
+            }
+            catch (midcom_error $e)
+            {
+                // Stop silently
                 return $leaves;
             }
 

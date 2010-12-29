@@ -56,12 +56,6 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     public function _handler_render($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-
-        if (!$this->_object)
-        {
-            org_openpsa_core_ui::object_inaccessible($args[0]);
-        }
-
         $this->_mode = $args[1];
         $this->_sort = 'default';
         if (isset($args[2]))
@@ -185,9 +179,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 'class' => $mc->get_subkey($guid, 'fromClass'),
                 'status' => $mc->get_subkey($guid, 'status')
             );
-            $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'fromGuid'));
-
-            if (!$to_arr['other_obj'])
+            try
+            {
+                $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'fromGuid'));
+            }
+            catch (midcom_error $e)
             {
                 continue;
             }
@@ -236,8 +232,11 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
                 'class' => $mc->get_subkey($guid, 'toClass'),
                 'status' => $mc->get_subkey($guid, 'status')
             );
-            $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'toGuid'));
-            if (!$to_arr['other_obj'])
+            try
+            {
+                $to_arr['other_obj'] = $_MIDCOM->dbfactory->get_object_by_guid($mc->get_subkey($guid, 'toGuid'));
+            }
+            catch (midcom_error $e)
             {
                 continue;
             }
@@ -780,12 +779,19 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         $this->_object = false;
         if (isset($args[1]))
         {
-            $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
-        }
-        if (   !$this->_object
-            || !$_MIDCOM->dbfactory->is_a($this->_object, 'org_openpsa_relatedto_dba'))
-        {
-            $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
+            try
+            {
+                $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
+                if (!($this->_object instanceof org_openpsa_relatedto_dba))
+                {
+                    $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
+                }
+
+            }
+            catch (midcom_error $e)
+            {
+                $ajax->simpleReply(false, "method '{$this->_mode}' requires guid of a link object as an argument");
+            }
         }
         switch ($this->_mode)
         {

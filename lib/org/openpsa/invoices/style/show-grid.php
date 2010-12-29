@@ -49,10 +49,9 @@ foreach ($data['invoices'] as $invoice)
 
     if ($data['show_customer'])
     {
-        $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-
-        if ($customer)
+        try
         {
+            $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
             if ($data['invoices_url'])
             {
                 $entry['customer'] = "<a href=\"{$data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
@@ -62,6 +61,7 @@ foreach ($data['invoices'] as $invoice)
                 $entry['customer'] = $customer->official;
             }
         }
+        catch (midcom_error $e){}
     }
 
     $entry['contact'] = $customer_card->show_inline();

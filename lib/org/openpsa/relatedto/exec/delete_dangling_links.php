@@ -28,8 +28,12 @@ $i = 0;
 foreach ($results as $result)
 {
     $i++;
-    if (   !$_MIDCOM->dbfactory->get_object_by_guid($result->fromGuid)
-        || !$_MIDCOM->dbfactory->get_object_by_guid($result->toGuid))
+    try
+    {
+        $_MIDCOM->dbfactory->get_object_by_guid($result->fromGuid);
+        $_MIDCOM->dbfactory->get_object_by_guid($result->toGuid);
+    }
+    catch (midcom_error $e)
     {
         echo $i . "/" . $total . ": Deleting relatedto #" . $result->id . "\n";
         flush();

@@ -14,17 +14,21 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         <?php
         if ($task->agreement)
         {
-            $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
-            $output = $agreement->deliverable_html;
-
-            if ($sales_url)
+            try
             {
-                $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
-                $output = "<a href=\"{$sales_url}salesproject/{$salesproject->guid}/#{$agreement->guid}/\">{$output}</a>\n";
-            }
+                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
+                $output = $agreement->deliverable_html;
 
-            echo "<h2>" . $data['l10n']->get('agreement') . "</h2>\n";
-            echo $output;
+                if ($sales_url)
+                {
+                    $salesproject = org_openpsa_sales_salesproject_dba::get_cached($agreement->salesproject);
+                    $output = "<a href=\"{$sales_url}salesproject/{$salesproject->guid}/#{$agreement->guid}/\">{$output}</a>\n";
+                }
+
+                echo "<h2>" . $data['l10n']->get('agreement') . "</h2>\n";
+                echo $output;
+            }
+            catch (midcom_error $e){}
         }
 
         if ($task->manager)

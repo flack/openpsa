@@ -177,14 +177,13 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         foreach ($this->_customers as $customer_id => $tasks)
         {
             $data['customer'] = $customer_id;
-            $customer = org_openpsa_contacts_group_dba::get_cached($customer_id);
-
-            if (!$customer)
+            try
             {
+                $customer = org_openpsa_contacts_group_dba::get_cached($customer_id);
                 $data['customer_label'] = $this->_l10n->get('no customer');
                 $data['disabled'] = ' disabled="disabled"';
             }
-            else
+            catch (midcom_error $e)
             {
                 $data['customer_label'] = $customer->official;
                 $data['disabled'] = '';

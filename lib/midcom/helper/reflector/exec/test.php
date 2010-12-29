@@ -13,10 +13,6 @@ if (   !isset($_GET['guid'])
 }
 
 $object = $_MIDCOM->dbfactory->get_object_by_guid($_GET['guid']);
-if (!is_object($object))
-{
-    throw new midcom_error_notfound("Could not find object with GUID {$_GET['guid']}");
-}
 $reflector =& midcom_helper_reflector::get($object);
 
 echo "Got " . $reflector->get_class_label() . ' "' . $reflector->get_object_label($object) . "\", dump<pre>\n";

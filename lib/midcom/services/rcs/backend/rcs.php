@@ -675,8 +675,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         $new = $this->get_revision($revision);
 
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
-        if (!$object)
+        try
+        {
+            $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
+        }
+        catch (midcom_error $e)
         {
             debug_add("{$this->_guid} could not be resolved to object", MIDCOM_LOG_ERROR);
             return false;

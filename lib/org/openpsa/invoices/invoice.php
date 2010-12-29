@@ -348,7 +348,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
             $qb->add_constraint('linkGuid', '=', $customer->guid);
             $billing_data = $qb->execute();
-            if(count($billing_data) > 0)
+            if (count($billing_data) > 0)
             {
                 // call set_address so the billing_data contains address of the linked contact
                 // if the property useContactAddress is set
@@ -363,7 +363,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
             $qb->add_constraint('linkGuid', '=', $customerContact->guid);
             $billing_data = $qb->execute();
-            if(count($billing_data) > 0)
+            if (count($billing_data) > 0)
             {
                 // call set_address so the billing_data contains address of the linked contact
                 // if the property useContactAddress is set

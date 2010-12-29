@@ -241,8 +241,11 @@ else
         echo "    <tbody>\n";
         foreach ($activities as $activity)
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
-            if (!$object)
+            try
+            {
+                $object = $_MIDCOM->dbfactory->get_object_by_guid($activity->target);
+            }
+            catch (midcom_error $e)
             {
                 if (midcom_connection::get_error() == MGD_ERR_OBJECT_DELETED)
                 {

@@ -44,13 +44,13 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
         try
         {
             $hour_report = new org_openpsa_projects_hour_report_dba($this->hourReport);
+            $invoicer = org_openpsa_contacts_person_dba::get_cached($this->metadata->creator);
         }
         catch (midcom_error $e)
         {
-            return;
+            debug_log($e->getMessage());
         }
         $hour_report->invoiced = date('Y-m-d H:i:s', $this->metadata->created);
-        $invoicer = org_openpsa_contacts_person_dba::get_cached($this->metadata->creator);
         $hour_report->invoicer = $invoicer->id;
         $hour_report->update();
     }

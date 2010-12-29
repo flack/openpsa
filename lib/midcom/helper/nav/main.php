@@ -325,10 +325,13 @@ class midcom_helper_nav
         // Fetch the object in question for a start, so that we know what to do (tm)
         // Note, that objects that cannot be resolved will still be processed using a full-scan of
         // the tree. This is, for example, used by the on-delete cache invalidation.
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-        if (!$object)
+        try
         {
-            debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add("Could not load GUID {$guid}, trying to continue anyway. Last error was: " . $e->getMessage(), MIDCOM_LOG_WARN);
         }
 
         if (is_a($object, 'midcom_db_topic'))
@@ -353,14 +356,6 @@ class midcom_helper_nav
             }
 
             $topic = midcom_db_topic::get_cached($object->topic);
-            if (! $topic)
-            {
-                throw new midcom_error
-                (
-                    "Data inconsistency, the topic ID ({$object->topic}) of the article {$object->id} is invalid. "
-                        . 'Last error was: ' . midcom_connection::get_error_string()
-                );
-            }
 
             $leaves = $this->list_leaves($object->topic, true);
             foreach ($leaves as $leafid)

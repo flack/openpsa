@@ -178,10 +178,7 @@ class midcom_core_user
             throw new midcom_error('The class midcom_user is not default constructible.');
         }
 
-        if (! $this->_load($id))
-        {
-            //TODO: Throw Exception?
-        }
+        $this->_load($id);
     }
 
     /**
@@ -197,10 +194,7 @@ class midcom_core_user
 
         if (is_string($id))
         {
-            if (!$this->_load_from_string($id, $person_class))
-            {
-                return false;
-            }
+            $this->_load_from_string($id, $person_class);
         }
         else if (is_numeric($id))
         {
@@ -212,7 +206,7 @@ class midcom_core_user
             catch (midgard_error_exception $e)
             {
                 debug_add("Failed to retrieve the person ID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                return false;
+                throw new midcom_error_midgard($e, $id);
             }
         }
         else if (   is_object($id)
@@ -224,18 +218,16 @@ class midcom_core_user
         }
         else
         {
-            debug_add('Tried to load a midcom_core_user, but $id was of unknown type.', MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
-            return false;
+            throw new midcom_error('Tried to load a midcom_core_user, but $id was of unknown type.');
         }
 
         if (   !is_object($this->_storage)
             || !isset($this->_storage->guid))
         {
-            debug_add('Tried to load a midcom_core_user, _storage is not an object (has no username property)', MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
             debug_print_r('_storage is:', $this->_storage);
-            return false;
+            throw new midcom_error('Tried to load a midcom_core_user, _storage is not an object (has no username property)');
         }
 
         $this->username = $this->_storage->username;
@@ -253,8 +245,6 @@ class midcom_core_user
         }
         $this->id = "user:{$this->_storage->guid}";
         $this->guid = $this->_storage->guid;
-
-        return true;
     }
 
     private function _load_from_string($id, $person_class)
@@ -266,7 +256,7 @@ class midcom_core_user
             || 'OWNER' === $id
             || 'SELF' === $id)
         {
-            return false;
+            throw new midcom_error('Cannot instantiate magic assignees');
         }
 
         if (substr($id, 0, 5) == 'user:')
@@ -284,17 +274,14 @@ class midcom_core_user
             catch (midgard_error_exception $e)
             {
                 debug_add("Failed to retrieve the person GUID {$id}: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                return false;
+                throw new midcom_error_midgard($e, $id);
             }
         }
         else
         {
-            debug_add('Tried to load a midcom_core_user, but $id was of unknown type.', MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
-            return false;
+            throw new midcom_error('Tried to load a midcom_core_user, but $id was of unknown type.');
         }
-
-        return true;
     }
 
     /**

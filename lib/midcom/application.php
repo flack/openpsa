@@ -347,9 +347,11 @@ class midcom_application
         $this->componentloader->load_all_manifests();
 
         // Initialize Root Topic
-        $root_node = midcom_db_topic::get_cached($GLOBALS['midcom_config']['midcom_root_topic_guid']);
-
-        if (!$root_node->guid)
+        try
+        {
+            $root_node = midcom_db_topic::get_cached($GLOBALS['midcom_config']['midcom_root_topic_guid']);
+        }
+        catch (midcom_error $e)
         {
             if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
             {

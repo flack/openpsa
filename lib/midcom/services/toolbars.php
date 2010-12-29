@@ -482,12 +482,15 @@ class midcom_services_toolbars
                 $style_id = $_MIDCOM->style->get_style_id_from_path($topic->style);
                 if ($style_id)
                 {
-                    $style = midcom_db_style::get_cached($style_id);
-                    if (   $style
-                        && $style->guid)
+                    try
                     {
+                        $style = midcom_db_style::get_cached($style_id);
                         $styleeditor_url = midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$style->guid}/";
                         $enabled = true;
+                    }
+                    catch (midcom_error $e)
+                    {
+                        debug_log($e->getMessage());
                     }
                 }
             }

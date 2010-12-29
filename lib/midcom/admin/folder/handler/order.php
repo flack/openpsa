@@ -86,11 +86,13 @@ class midcom_admin_folder_handler_order extends midcom_baseclasses_components_ha
     private function _update_score($identifier, $score)
     {
         // Use the DB Factory to resolve the class and to get the object
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($identifier);
-
-        // This is probably a pseudo leaf, store the score to the current node
-        if (!$object)
+        try
         {
+            $object = $_MIDCOM->dbfactory->get_object_by_guid($identifier);
+        }
+        catch (midcom_error $e)
+        {
+            // This is probably a pseudo leaf, store the score to the current node
             $this->_topic->set_parameter('midcom.helper.nav.score', $identifier, $score);
             return true;
             // This will skip the rest of the handling

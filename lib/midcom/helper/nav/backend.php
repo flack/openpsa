@@ -721,7 +721,11 @@ class midcom_helper_nav_backend
             }
             else if (!isset($leaf[MIDCOM_NAV_OBJECT]))
             {
-                $leaf[MIDCOM_NAV_OBJECT] = $_MIDCOM->dbfactory->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
+                try
+                {
+                    $leaf[MIDCOM_NAV_OBJECT] = $_MIDCOM->dbfactory->get_object_by_guid($leaf[MIDCOM_NAV_GUID]);
+                }
+                catch (midcom_error $e){}
             }
 
             if (!isset($leaf[MIDCOM_NAV_SORTABLE]))

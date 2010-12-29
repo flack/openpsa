@@ -34,10 +34,6 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
     public function _handler_move($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (! $this->_object)
-        {
-            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
-        }
 
         if (   !is_a($this->_object, 'midcom_db_topic')
             && !is_a($this->_object, 'midcom_db_article'))

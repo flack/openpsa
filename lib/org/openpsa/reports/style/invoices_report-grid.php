@@ -53,10 +53,9 @@ foreach ($data['invoices'] as $invoice)
     $entry['index_date'] = $invoice->{$data['date_field']};
     $entry['date'] = strftime('%x', $invoice->{$data['date_field']});
 
-    $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-
-    if ($customer)
+    try
     {
+        $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
         $entry['index_customer'] = $customer->official;
         if ($data['invoices_url'])
         {
@@ -67,7 +66,7 @@ foreach ($data['invoices'] as $invoice)
             $entry['customer'] = $customer->official;
         }
     }
-    else
+    catch (midcom_error $e)
     {
         $entry['customer'] = $data['l10n']->get('no customer');
         $entry['index_customer'] = $data['l10n']->get('no customer');
@@ -76,12 +75,14 @@ foreach ($data['invoices'] as $invoice)
     $entry['index_contact'] = '';
     $entry['contact'] = '';
 
-    if ($contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact))
+    try
     {
+        $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
         $entry['index_contact'] = $contact->rname;
         $contact_card = org_openpsa_contactwidget::get($invoice->customerContact);
         $entry['contact'] = $contact_card->show_inline();
     }
+    catch (midcom_error $e){}
 
     $entry['sum'] = $invoice->sum;
 

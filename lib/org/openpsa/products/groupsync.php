@@ -71,12 +71,6 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
             throw new midcom_error('Root group not defined');
         }
         $this->root_group = org_openpsa_products_product_group_dba::get_cached($root_group_guid);
-        if (   !$this->root_group
-            || !isset($this->root_group->guid)
-            || empty($this->root_group->guid))
-        {
-            throw new midcom_error("Could not load group '{$root_group_guid}'");
-        }
 
         // Sanity check groupsync_topic_name_from
         $this->name_from = $this->_config->get('groupsync_topic_name_from');

@@ -87,10 +87,6 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
     public function _handler_metadata($handler_id, $args, &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
-        if (! $this->_object)
-        {
-            throw new midcom_error_notfound("The GUID '{$args[0]}' was not found.");
-        }
 
         // FIXME: We should modify the schema according to whether or not scheduling is used
         $this->_object->require_do('midgard:update');

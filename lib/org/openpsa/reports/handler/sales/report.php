@@ -125,11 +125,17 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
                 continue;
             }
 
-            $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($deliverable_guid);
-            $product = org_openpsa_products_product_dba::get_cached($deliverable->product);
-            $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
-            $customer = midcom_db_group::get_cached($salesproject->customer);
-
+            try
+            {
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($deliverable_guid);
+                $product = org_openpsa_products_product_dba::get_cached($deliverable->product);
+                $salesproject = org_openpsa_sales_salesproject_dba::get_cached($deliverable->salesproject);
+                $customer = midcom_db_group::get_cached($salesproject->customer);
+            }
+            catch (midcom_error $e)
+            {
+                continue;
+            }
             if (!array_key_exists($salesproject->owner, $sums_per_person))
             {
                 $sums_per_person[$salesproject->owner] = Array

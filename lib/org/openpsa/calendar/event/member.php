@@ -96,12 +96,20 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
      */
     function &get_person_obj()
     {
-        $person = org_openpsa_contacts_person_dba::get_cached($this->uid);
-
-        //We need to have an email which to send to so if no email no point
-        if (empty($person->email))
+        try
         {
-            debug_add('person #' . $person->id . 'has no email address, aborting');
+            $person = org_openpsa_contacts_person_dba::get_cached($this->uid);
+
+            //We need to have an email which to send to so if no email no point
+            if (empty($person->email))
+            {
+                debug_add('person #' . $person->id . 'has no email address, aborting');
+                $x = false;
+                return $x;
+            }
+        }
+        catch (midcom_error $e)
+        {
             $x = false;
             return $x;
         }
@@ -168,7 +176,7 @@ class org_openpsa_calendar_event_member_dba extends midcom_core_dbaobject
             continue;
         }
         $events_by_date = array();
-        foreach($eventmembers as $eventmember)
+        foreach ($eventmembers as $eventmember)
         {
             if (!array_key_exists($eventmember->eid, $event_cache))
             {

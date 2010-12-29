@@ -67,11 +67,6 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
             && isset($args[1]))
         {
             $data['object'] = $_MIDCOM->dbfactory->get_object_by_guid($args[1]);
-
-            if (!$data['object'])
-            {
-                throw new midcom_error_notfound('Failed to load the object ' . $args[1]);
-            }
         }
 
         switch ($handler_id)

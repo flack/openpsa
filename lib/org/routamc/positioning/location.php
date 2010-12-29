@@ -68,13 +68,15 @@ class org_routamc_positioning_location_dba extends midcom_core_dbaobject
             return null;
         }
 
-        $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->parent);
-        if ($parent)
+        try
         {
+            $parent = $_MIDCOM->dbfactory->get_object_by_guid($this->parent);
             return $parent->guid;
         }
-
-        return null;
+        catch (midcom_error $e)
+        {
+            return null;
+        }
     }
 
     /**

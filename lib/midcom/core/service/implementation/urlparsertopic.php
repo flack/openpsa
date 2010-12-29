@@ -200,15 +200,15 @@ class midcom_core_service_implementation_urlparsertopic implements midcom_core_s
         if (   $GLOBALS['midcom_config']['symlinks']
             && !empty($this->current_object->symlink))
         {
-            $topic = midcom_db_topic::get_cached($this->current_object->symlink);
-            if ($topic && $topic->guid)
+            try
             {
+                $topic = midcom_db_topic::get_cached($this->current_object->symlink);
                 $this->current_object = $topic;
             }
-            else
+            catch (midcom_error $e)
             {
                 debug_add("Could not get target for symlinked topic #{$this->current_object->id}: " .
-                    midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+                    $e->getMessage(), MIDCOM_LOG_ERROR);
             }
         }
 

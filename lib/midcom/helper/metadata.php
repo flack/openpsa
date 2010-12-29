@@ -778,10 +778,13 @@ class midcom_helper_metadata
         if (   is_null($object)
             && mgd_is_guid($guid))
         {
-            $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-            if (! $object)
+            try
             {
-                debug_add("Failed to create a metadata instance for the GUID {$guid}: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
+                $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
+            }
+            catch (midcom_error $e)
+            {
+                debug_add("Failed to create a metadata instance for the GUID {$guid}: " . $e->getMessage(), MIDCOM_LOG_WARN);
                 debug_print_r("Source was:", $source);
 
                 return false;

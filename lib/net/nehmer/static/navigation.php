@@ -151,11 +151,6 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
         }
 
         $this->_content_topic = midcom_db_topic::get_cached($guid);
-
-        if (! $this->_content_topic->guid)
-        {
-            throw new midcom_error_notfound("Failed to open symlink content topic {$guid}.last Midgard Error: " . midcom_connection::get_error_string());
-        }
     }
 }
 ?>

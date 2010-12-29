@@ -33,11 +33,6 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             if ($data['root_group'])
             {
                 $data['group'] = org_openpsa_products_product_group_dba::get_cached($data['root_group']);
-                if (   !$data['group']
-                    || !$data['group']->guid)
-                {
-                    return false;
-                }
                 $data['view_title'] = $data['group']->title;
             }
             else

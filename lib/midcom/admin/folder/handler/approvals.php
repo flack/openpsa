@@ -30,10 +30,6 @@ class midcom_admin_folder_handler_approvals extends midcom_baseclasses_component
         }
 
         $object = $_MIDCOM->dbfactory->get_object_by_guid($_REQUEST['guid']);
-        if (! $object)
-        {
-            throw new midcom_error_notfound("The GUID '{$_REQUEST['guid']}' was not found.");
-        }
         $object->require_do('midcom:approve');
 
         $metadata = midcom_helper_metadata::retrieve($object);

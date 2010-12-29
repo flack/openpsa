@@ -36,8 +36,11 @@ class org_openpsa_contacts_cron_duplicates_clean extends midcom_baseclasses_comp
         $results = @$qb->execute();
         foreach($results as $param)
         {
-            $obj = $_MIDCOM->dbfactory->get_object_by_guid($param->name);
-            if (!$obj)
+            try
+            {
+                $obj = $_MIDCOM->dbfactory->get_object_by_guid($param->name);
+            }
+            catch (midcom_error $e)
             {
                 debug_add("GUID {$param->name} points to nonexistent person, removing possible duplicate mark", MIDCOM_LOG_INFO);
                 $stat = $param->delete();

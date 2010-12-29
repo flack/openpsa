@@ -1,7 +1,14 @@
 <?php
 $view = $data['object_view'];
 $invoice = $data['object'];
-$customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
+try
+{
+    $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
+}
+catch (midcom_error $e)
+{
+    $customer = false;
+}
 
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $projects_url = $siteconfig->get_node_full_url('org.openpsa.projects');
@@ -153,8 +160,16 @@ if (    isset($data['sorted_reports'])
 
         $guids[] = $report->guid;
 
-        $task = org_openpsa_projects_task_dba::get_cached($report->task);
-        $reporter = org_openpsa_contacts_person_dba::get_cached($report->person);
+        try
+        {
+            $task = org_openpsa_projects_task_dba::get_cached($report->task);
+            $reporter = org_openpsa_contacts_person_dba::get_cached($report->person);
+        }
+        catch (midcom_error $e)
+        {
+            continue;
+        }
+
         $reporter_card = org_openpsa_contactwidget::get($report->person);
 
         $approved_img_src = MIDCOM_STATIC_URL . '/stock-icons/16x16/';
