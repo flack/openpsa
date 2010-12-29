@@ -416,6 +416,7 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
 
     private function _get_new_membership_objects($existing_members)
     {
+        $new_membership_objects = array();
         // Cache the total quantity of items and get the order if the field is supposed to store the member order
         if (   $this->sortable
             && isset($this->sorted_order))
