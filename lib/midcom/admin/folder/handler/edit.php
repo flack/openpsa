@@ -309,7 +309,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
         return $url;
     }
 
-    private function create_topic($prefix)
+    private function _create_topic($prefix)
     {
         if (!empty($this->_new_topic->symlink))
         {
