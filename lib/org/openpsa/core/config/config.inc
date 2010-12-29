@@ -6,7 +6,7 @@
 // it will be created in siteconfig - the style is passed in templates/OpenPsa2
 'ui_page' => 'uitab',
 
-'jqgrid_version' => '3.8.1',
+'jqgrid_version' => '3.8.2',
 
 // These values are automatically set when org_openpsa_core structure is first called
 // To trigger another auto-detection, simply set auto_int to true in the config snippet

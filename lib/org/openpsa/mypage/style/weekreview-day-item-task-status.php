@@ -1,13 +1,5 @@
 <?php
 $task_status = $data['object'];
-$task = org_openpsa_projects_task_dba::get_cached($task_status->task);
-
-$task_label = $task->get_label();
-if ($data['projects_url'])
-{
-    $task_label = "<a href=\"{$data['projects_url']}task/{$task->guid}/\">{$task_label}</a>";
-}
-
 $status_changer_label = $_MIDCOM->i18n->get_string('system', 'org.openpsa.projects');
 $target_person_label = $_MIDCOM->i18n->get_string('system', 'org.openpsa.projects');
 
@@ -35,7 +27,18 @@ $message = sprintf($_MIDCOM->i18n->get_string($task_status->get_status_message()
     </td>
     <td>
         <?php
-        echo "{$task_label}";
+try
+{
+    $task = org_openpsa_projects_task_dba::get_cached($task_status->task);
+
+    $task_label = $task->get_label();
+    if ($data['projects_url'])
+    {
+        $task_label = "<a href=\"{$data['projects_url']}task/{$task->guid}/\">{$task_label}</a>";
+    }
+    echo $task_label;
+}
+catch (midcom_error $e){}
         ?>
     </td>
     <td class="multivalue">
