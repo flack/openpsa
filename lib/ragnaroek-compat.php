@@ -174,6 +174,7 @@ function openpsa_prepare_topics()
         'Invoices' => 'org.openpsa.invoices',
         'Products' => 'org.openpsa.products',
         'Projects' => 'org.openpsa.projects',
+        'Reports' => 'org.openpsa.reports',
         'Sales' => 'org.openpsa.sales',
         'Wiki' => 'net.nemein.wiki',
     );
