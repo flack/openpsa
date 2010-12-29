@@ -106,7 +106,7 @@ class midcom_exception_handler
     {
         if ($this->_exception)
         {
-            debug_print_r('Exception occured: {$httpcode}, Message: {$message}, exception trace:', $this->_exception->getTraceAsString());
+            debug_print_r("Exception occured: {$httpcode}, Message: {$message}, exception trace:", $this->_exception->getTraceAsString());
         }
         else
         {
