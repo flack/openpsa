@@ -3,7 +3,7 @@
 'version' => '8.09.9',
 'class_definitions' => array
 (
-    'midcomdba.inc',
+    'net_nehmer_buddylist_entry_db' => 'net_nehmer_buddylist_entry'
 ),
 'watches' => array
 (
