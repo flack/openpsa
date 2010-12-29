@@ -32,7 +32,7 @@ class midcom_helper__dbfactory
         }
         catch (midgard_error_exception $e)
         {
-            debug_add('Looding object by GUID ' . $guid . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_INFO);
+            debug_add('Loading object by GUID ' . $guid . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_INFO);
 
             throw new midcom_error_midgard($e, $guid);
         }

@@ -36,9 +36,6 @@ class midcom_exception_handler
         {
             throw $e;
         }
-        else if ($e instanceof midgard_error_exception)
-        {
-        }
         if (   !isset($_MIDCOM)
             || !$_MIDCOM)
         {
@@ -53,7 +50,8 @@ class midcom_exception_handler
             _midcom_stop_request('Failed to initialize MidCOM: ' . $e->getMessage());
         }
         $this->_exception = $e;
-        debug_print_r('Exception occured, generating error, exception trace:', $e->getTraceAsString(), MIDCOM_LOG_INFO);
+
+        debug_print_r('Exception occured: ' . $e->getCode() . ', Message: ' . $e->getMessage() . ', exception trace:', $e->getTraceAsString());
         $this->show($e->getCode(), $e->getMessage());
         // This will exit
     }
@@ -104,11 +102,7 @@ class midcom_exception_handler
      */
     public function show($httpcode, $message)
     {
-        if ($this->_exception)
-        {
-            debug_print_r("Exception occured: {$httpcode}, Message: {$message}, exception trace:", $this->_exception->getTraceAsString());
-        }
-        else
+        if (!$this->_exception)
         {
             debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
             debug_print_function_stack('Stacktrace:');
