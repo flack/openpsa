@@ -29,25 +29,20 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         $this->_guid = $object->guid;
     }
 
-    public function _generate_rcs_filename($object)
+    private function _generate_rcs_filename($guid)
     {
-        if (!isset($object->guid))
-        {
-            return null;
-        }
-
         // Keep files organized to subfolders to keep filesystem sane
-        $dirpath = $this->_config->get_rcs_root() . "/{$object->guid[0]}/{$object->guid[1]}";
+        $dirpath = $this->_config->get_rcs_root() . "/{$guid[0]}/{$guid[1]}";
         if (!file_exists($dirpath))
         {
             debug_add("Directory {$dirpath} does not exist, attempting to create", MIDCOM_LOG_WARN);
-            if (!file_exists($this->_config->get_rcs_root() . "/{$object->guid[0]}"))
+            if (!file_exists($this->_config->get_rcs_root() . "/{$guid[0]}"))
             {
-                mkdir($this->_config->get_rcs_root() . "/{$object->guid[0]}");
+                mkdir($this->_config->get_rcs_root() . "/{$guid[0]}");
             }
             mkdir($dirpath);
         }
-        $filename = "{$dirpath}/{$object->guid}";
+        $filename = "{$dirpath}/{$guid}";
 
         return $filename;
     }
@@ -111,20 +106,13 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         $status = null;
 
-        $guid = $object->guid;
-
-        if (!($guid <> ""))
+        if (empty($pbject->guid))
         {
             debug_add("Missing GUID, returning error");
             return 3;
         }
 
-        $filename = $this->_generate_rcs_filename($object);
-        if (is_null($filename))
-        {
-            return 0;
-        }
-
+        $filename = $this->_generate_rcs_filename($object->guid);
         $rcsfilename =  "{$filename},v";
 
         if (!file_exists($rcsfilename))
@@ -138,7 +126,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
 
         $data = $this->rcs_object2data($object);
 
-        $this->rcs_writefile($guid, $data);
+        $this->rcs_writefile($object->guid, $data);
         $command = 'ci -q -m' . escapeshellarg($message) . " {$filename}";
         $status = $this->exec($command);
 
@@ -153,17 +141,13 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     * @param string revision identifier of revision wanted
     * @return array array representation of the object
     */
-    public function get_revision( $revision)
+    public function get_revision($revision)
     {
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
-
-        $filepath = $this->_generate_rcs_filename($object);
-        $return = array();
-        if (is_null($filepath))
+        if (empty($this->_guid))
         {
-            return $return;
+        	return array();
         }
-
+        $filepath = $this->_generate_rcs_filename($this->_guid);
 
         // , must become . to work. Therefore this:
         str_replace(',', '.', $revision );
@@ -300,12 +284,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     public function list_history()
     {
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($this->_guid);
-        $filepath = $this->_generate_rcs_filename($object);
-        if (is_null($filepath))
+        if (empty($this->_guid))
         {
             return array();
         }
+        $filepath = $this->_generate_rcs_filename($this->_guid);
 
         return $this->rcs_gethistory($filepath);
     }
@@ -432,12 +415,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
         {
             return false;
         }
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-        $filename = $this->_generate_rcs_filename($object);
-        if (is_null($filename))
+        if (empty($guid))
         {
-            return false;
+        	return false;
         }
+        $filename = $this->_generate_rcs_filename($guid);
         $fp = fopen ($filename, "w");
         fwrite ($fp, $data);
         fclose ($fp);
@@ -451,12 +433,11 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
      */
     private function rcs_readfile ($guid)
     {
-        $object = $_MIDCOM->dbfactory->get_object_by_guid($guid);
-        $filename = $this->_generate_rcs_filename($object);
-        if (is_null($filename))
+        if (empty($guid))
         {
             return '';
         }
+        $filename = $this->_generate_rcs_filename($guid);
 
         if (!file_exists($filename))
         {
@@ -508,18 +489,17 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         $output = null;
         $status = null;
-        $guid = $object->guid;
 
         $type = get_class($object);
 
         $data = $this->rcs_object2data($object, $type);
 
-        $this->rcs_writefile($guid, $data);
-        $filepath = $this->_generate_rcs_filename($object);
-        if (is_null($filepath))
+        if (empty($object->guid))
         {
             return 3;
         }
+        $this->rcs_writefile($object->guid, $data);
+        $filepath = $this->_generate_rcs_filename($object->guid);
 
         $command = 'ci -q -i -t-' . escapeshellarg($description) . " {$filepath}";
         $status = $this->exec($command);
