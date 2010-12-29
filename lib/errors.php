@@ -402,8 +402,8 @@ class midcom_error_midgard extends midcom_error
             }
             else if ($last_error == MGD_ERR_OBJECT_DELETED)
             {
-                //@todo: due to #1900, this error will not be encountered, but in theory,
-                //we should redirect to a nice error page here
+                $code = MIDCOM_ERRNOTFOUND;
+                $message = "The object with identifier {$id} was deleted.";
             }
         }
         //If other options fail, go for the server error
