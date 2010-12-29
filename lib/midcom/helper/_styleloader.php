@@ -628,7 +628,6 @@ class midcom_helper__styleloader
     private function _get_element_from_snippet($_element)
     {
         $src = "{$this->_snippetdir}/{$_element}";
-
         if (array_key_exists($src, $this->_snippets))
         {
             return $this->_snippets[$src];

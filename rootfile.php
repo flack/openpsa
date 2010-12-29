@@ -33,6 +33,7 @@ midgard_connection::get_instance()->set_loglevel('warn');
 
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
+$GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
 if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
 {
