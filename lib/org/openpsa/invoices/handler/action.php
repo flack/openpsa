@@ -206,7 +206,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     private function _prepare_output()
     {
-        $this->add_stylesheet('/org.openpsa.core/list.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/list.css');
 
         $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
         $this->add_breadcrumb
