@@ -291,9 +291,9 @@ class midcom_services_auth_sessionmgr
         return $return;
     }
 
-    private function prepare_midgard2_password($auth_type, $password)
+    private function prepare_midgard2_password($password)
     {
-        switch ($auth_type)
+        switch ($GLOBALS['midcom_config']['auth_type'])
         {
             case 'Plaintext':
                 // Compare plaintext to plaintext
@@ -338,18 +338,13 @@ class midcom_services_auth_sessionmgr
         if (method_exists('midgard_user', 'login'))
         {
             // Ratatoskr
-
-            //TODO: This has to be smarter!
-            $auth_type = 'Plaintext';
-
             $login_tokens = array
             (
                 'login' => $username,
-                'authtype' => $auth_type,
+                'authtype' => $GLOBALS['midcom_config']['auth_type']
             );
 
             $user = midgard_user::get($login_tokens);
-
             if (is_null($user))
             {
                 //the account apparently has not yet been migrated. Do this now
@@ -359,7 +354,7 @@ class midcom_services_auth_sessionmgr
                 }
             }
 
-            $login_tokens['password'] = $this->prepare_midgard2_password($login_tokens['authtype'], $password);
+            $login_tokens['password'] = $this->prepare_midgard2_password($password);
 
             try
             {
@@ -416,14 +411,16 @@ class midcom_services_auth_sessionmgr
 
         if (substr($person->password, 0, 2) == '**')
         {
-            $user->authtype = 'Plaintext';
             $db_password = substr($db_password, 2);
         }
         else
         {
-            $user->authtype = 'Legacy';
+            debug_add('Legacy password detected for person ' . $person->id . '. Resetting to "password", please change ASAP ', MIDCOM_LOG_ERROR);
+            $db_password = 'password';
         }
-        $user->password = $db_password;
+        $user->authtype = $GLOBALS['midcom_config']['auth_type'];
+
+        $user->password = $this->prepare_midgard2_password($db_password);
         $user->login = $person->username;
 
         if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')

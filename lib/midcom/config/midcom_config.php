@@ -332,6 +332,7 @@ else
 }
 
 // Authentication configuration
+$GLOBALS['midcom_config_default']['auth_type'] = 'Plaintext';
 $GLOBALS['midcom_config_default']['auth_backend'] = 'simple';
 $GLOBALS['midcom_config_default']['auth_login_session_timeout'] = 3600;
 $GLOBALS['midcom_config_default']['auth_login_session_update_interval'] = 300;
