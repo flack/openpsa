@@ -111,7 +111,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      *
      * @var boolean
      */
-    private $_initialize_dependencies = false;
+    protected $_initialize_dependencies = false;
 
     /**
      * State of the form manager

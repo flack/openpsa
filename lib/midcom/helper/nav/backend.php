@@ -598,8 +598,6 @@ class midcom_helper_nav_backend
 
         $this->_loaded_leaves[$node[MIDCOM_NAV_ID]] = array();
 
-        debug_add("Loading leaves for node {$node[MIDCOM_NAV_ID]}");
-
         $leaves = $this->_get_leaves($node);
         foreach ($leaves as $id => $leaf)
         {

@@ -313,7 +313,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                             MIDCOM_TOOLBAR_OPTIONS  => array
                             (
                                 'rel' => 'directlink',
-                                'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($data['node'], false, $related_to->toGuid, '?' . self::relatedto2get(array($related_to))),
+                                'onclick' => org_openpsa_calendar_interface::calendar_newevent_js($data['node'], false, false, '?' . self::relatedto2get(array($related_to))),
                             ),
                         )
                     );
