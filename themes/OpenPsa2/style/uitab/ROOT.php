@@ -49,10 +49,7 @@ parse_css(scripts["head_css"]);
 <div class="org_openpsa_toolbar">
      <(toolbar-bottom)>
   </div>
-<?php
-$_MIDCOM->content();
-?>
-
+  <(content)>
 </div>
 <script type="text/javascript">
 modify_content();
