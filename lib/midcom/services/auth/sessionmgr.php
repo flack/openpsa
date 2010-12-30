@@ -305,7 +305,7 @@ class midcom_services_auth_sessionmgr
             debug_add("Failed to authenticate: Username or password is empty.", MIDCOM_LOG_ERROR);
             return false;
         }
-        $this->_user = midcom_connection::login($username, $password);
+        $this->user = midcom_connection::login($username, $password);
 
         if (!$this->user)
         {
