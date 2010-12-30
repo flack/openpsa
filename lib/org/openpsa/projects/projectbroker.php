@@ -70,7 +70,7 @@ class org_openpsa_projects_projectbroker
         {
             switch (true)
             {
-                case ($_MIDCOM->dbfactory->is_a($obj, 'org_openpsa_contacts_person_dba')):
+                case (is_a($obj, 'org_openpsa_contacts_person_dba')):
                     $return[] = $obj;
                     break;
                 default:

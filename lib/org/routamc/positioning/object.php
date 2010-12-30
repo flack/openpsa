@@ -156,8 +156,7 @@ class org_routamc_positioning_object extends midcom_baseclasses_components_purec
             'altitude'  => null,
         );
 
-        if (   is_a($this->_object, 'midcom_db_person')
-            || is_a($this->_object, 'org_openpsa_contacts_person_dba'))
+        if (is_a($this->_object, 'midcom_db_person'))
         {
             // This is a person record. Seek log
             $user_position = new org_routamc_positioning_person($this->_object);

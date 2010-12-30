@@ -89,8 +89,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         switch(true)
         {
             case $_MIDCOM->dbfactory->is_a($object, 'midcom_db_person'):
-                //Fall-trough intentional
-            case $_MIDCOM->dbfactory->is_a($object, 'org_openpsa_contacts_person_dba'):
                 //List all projects and tasks given person is involved with
                 $this->_org_openpsa_relatedto_find_suspects_person($object, $defaults, $links_array);
                 break;

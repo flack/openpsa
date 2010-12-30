@@ -211,7 +211,6 @@ class midcom_core_user
         }
         else if (   is_object($id)
                  && (   is_a($id, 'midcom_db_person')
-                     || is_a($id, 'org_openpsa_contacts_person')
                      || is_a($id, $person_class)))
         {
             $this->_storage = $id;
