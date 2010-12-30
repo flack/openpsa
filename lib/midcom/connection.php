@@ -90,7 +90,7 @@ class midcom_connection
      *
      * @return string Midgard error message
      */
-    static function get_error_string()
+    public static function get_error_string()
     {
         if (method_exists('midgard_connection', 'get_instance'))
         {
@@ -99,6 +99,151 @@ class midcom_connection
         }
         // Midgard 8.09 or 9.03
         return midgard_connection::get_error_string();
+    }
+
+    /**
+     * Perform a login against the midgard backend
+     *
+     * @param string $username The username as entered
+     * @param string $password The password as entered
+     * @param boolean $trusted Use trusted auth (mgd1 only, ATM)
+     * @return mixed The appropriate object or false
+     */
+    public static function login($username, $password, $trusted = false)
+    {
+        if (method_exists('midgard_user', 'login'))
+        {
+            // Ratatoskr
+            $login_tokens = array
+            (
+                'login' => $username,
+                'authtype' => $GLOBALS['midcom_config']['auth_type']
+            );
+
+            $user = midgard_user::get($login_tokens);
+            if (is_null($user))
+            {
+                //the account apparently has not yet been migrated. Do this now
+                if (!self::_migrate_account($username))
+                {
+                    return false;
+                }
+            }
+
+            $login_tokens['password'] = self::_prepare_midgard2_password($password);
+
+            try
+            {
+                $user = new midgard_user($login_tokens);
+            }
+            catch (midgard_error_exception $e)
+            {
+                return false;
+            }
+
+            if (!$user->login())
+            {
+                return false;
+            }
+            return $user;
+        }
+        else
+        {
+            // Ragnaroek
+            $sg_name = '';
+            $mode = $GLOBALS['midcom_config']['auth_sitegroup_mode'];
+
+            if ($mode == 'auto')
+            {
+                $mode = ($_MIDGARD['sitegroup'] == 0) ? 'not-sitegrouped' : 'sitegrouped';
+            }
+
+            if ($mode == 'sitegrouped')
+            {
+                $sitegroup = new midgard_sitegroup($_MIDGARD['sitegroup']);
+                $sg_name = $sitegroup->name;
+            }
+            return midgard_user::auth($username, $password, $sg_name, $trusted);
+        }
+    }
+
+    private static function _prepare_midgard2_password($password)
+    {
+        switch ($GLOBALS['midcom_config']['auth_type'])
+        {
+            case 'Plaintext':
+                // Compare plaintext to plaintext
+                break;
+            case 'Legacy':
+                // Midgard1 legacy auth
+                $salt = ''; //TODO: How to determine the correct one?
+                $password = crypt($password, $salt);
+                break;
+            case 'SHA1':
+                $password = sha1($password);
+                break;
+            case 'SHA256':
+                $password = hash('sha256', $password);
+                break;
+            case 'MD5':
+                $password = md5($password);
+                break;
+            default:
+                throw new midcom_error('Unsupported authentication type attempted', 500);
+        }
+        // TODO: Support other types
+
+        return $password;
+    }
+
+    private static function _migrate_account($username)
+    {
+        $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
+        $qb->add_constraint('username', '=', $username);
+        $results = $qb->execute();
+        if (sizeof($results) != 1)
+        {
+            return false;
+        }
+
+        $person = $results[0];
+        $user = new midgard_user();
+        $db_password = $person->password;
+
+        if (substr($person->password, 0, 2) == '**')
+        {
+            $db_password = substr($db_password, 2);
+        }
+        else
+        {
+            debug_add('Legacy password detected for person ' . $person->id . '. Resetting to "password", please change ASAP ', MIDCOM_LOG_ERROR);
+            $db_password = 'password';
+        }
+        $user->authtype = $GLOBALS['midcom_config']['auth_type'];
+
+        $user->password = self::_prepare_midgard2_password($db_password);
+        $user->login = $person->username;
+
+        if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
+        {
+            $mgd_person = new midgard_person($person->guid);
+        }
+        else
+        {
+            $mgd_person = $person;
+        }
+
+        $user->set_person($mgd_person);
+
+        try
+        {
+            $user->create();
+        }
+        catch (midgard_error_exception $e)
+        {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -123,7 +268,7 @@ class midcom_connection
         {
             return 0;
         }
-        
+
         $person = $user->get_person();
         return $person->id;
     }
@@ -194,10 +339,10 @@ class midcom_connection
     }
 
     /**
-     * Get various pieces of information extracted from the URL 
+     * Get various pieces of information extracted from the URL
      *
      * @return mixed The data for the requested key or false if it doesn't exist
-     * @todo this should mabe check the key for validity 
+     * @todo this should mabe check the key for validity
      */
     static function get_url($key)
     {
@@ -225,15 +370,15 @@ class midcom_connection
 
     /**
      * Helper function that emulates Midgard1 URL parsing. It is pretty basic at this point,
-     * f.x. it doesn't know about host prefixes and pages. 
+     * f.x. it doesn't know about host prefixes and pages.
      */
     private static function _parse_url()
     {
         $url_components = parse_url("http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}");
-        
+
         $path = '/';
         $path_parts = explode('/', $url_components['path']);
-        
+
         self::$_data['argv'] = array();
 
         $args_started = false;
@@ -262,7 +407,7 @@ class midcom_connection
         // @todo This should be smarter
         self::$_data['self'] = '/';
         self::$_data['prefix'] = substr(self::$_data['self'], 0, -1);
-        
+
         self::$_data['argc'] = count(self::$_data['argv']);
     }
 }

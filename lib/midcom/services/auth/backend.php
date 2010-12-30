@@ -62,7 +62,7 @@ abstract class midcom_services_auth_backend
     /**
      * This function checks the given username / password pair is valid and sets
      * the $user member accordingly. The default implementation checks against
-     * midgard_user::auth and retrieves the user using $_MIDGARD.
+     * midcom_connection::login and retrieves the user using $_MIDGARD.
      *
      * Normally you should not need to override this function.
      *

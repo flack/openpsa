@@ -225,7 +225,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             if (!$_MIDCOM->auth->admin)
             {
                 //user auth
-                $check_user = midgard_user::auth($this->_person->username, $_POST['org_openpsa_contacts_person_account_current_password']);
+                $check_user = midcom_connection::login($this->_person->username, $_POST['org_openpsa_contacts_person_account_current_password']);
             }
 
             if (!$check_user)
