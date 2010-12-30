@@ -105,7 +105,6 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
     {
         $this->_prepare_query_data();
 
-        $indexer = $_MIDCOM->get_service('indexer');
         $data['type'] = $_REQUEST['type'];
         $data['query'] = trim($_REQUEST['query']);
 
@@ -120,6 +119,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         switch ($data['type'])
         {
             case 'basic':
+                $indexer = $_MIDCOM->get_service('indexer');
                 $final_query = $data['query'];
                 debug_add("Final query: {$final_query}");
                 $result = $indexer->query($final_query);
@@ -265,6 +265,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
         }
 
         debug_add("Final query: {$final_query}");
+        $indexer = $_MIDCOM->get_service('indexer');
 
         return $indexer->query($final_query, $filter);
     }
