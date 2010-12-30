@@ -178,7 +178,7 @@ var org_openpsa_layout =
 
         jQuery('#org_openpsa_search_form').attr('action', current_provider.url);
         
-        var search = location.search.replace(/[\?|&]query=([^&]*).*/, '$1');
+        var search = location.search.replace(/^.*?[\?|&]query=([^&]*).*/, '$1');
         if (search != '')
         {
             field.val(decodeURI(search));
