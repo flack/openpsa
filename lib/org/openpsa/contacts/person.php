@@ -63,8 +63,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
             $this->name = 'person #' . $this->id;
             $this->rname = 'person #' . $this->id;
         }
-
-        $this->_verify_privileges();
     }
 
     /**
@@ -138,105 +136,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return $this->update();
     }
 
-    /**
-     * Make sure user has correct privileges to allow to edit themselves
-     *
-     * @todo This function does nothing
-     */
-    private function _verify_privileges()
-    {
-        return false;
-        if (!$this->id)
-        {
-            return false;
-        }
-        $this_user = $_MIDCOM->auth->get_user($this->id);
-        if (!is_object($this_user))
-        {
-            return false;
-        }
-
-        if (!isset($GLOBALS['org_openpsa_contacts_person__verify_privileges']))
-        {
-            $GLOBALS['org_openpsa_contacts_person__verify_privileges'] = array();
-        }
-        if (   isset($GLOBALS['org_openpsa_contacts_person__verify_privileges'][$this->id])
-            && !empty($GLOBALS['org_openpsa_contacts_person__verify_privileges'][$this->id]))
-        {
-            debug_add("loop detected for person #{$this->id}, aborting this check silently");
-            return true;
-        }
-        $GLOBALS['org_openpsa_contacts_person__verify_privileges'][$this->id] = true;
-
-        // PONDER: Can't we just use midgard:owner ???
-        debug_add("Checking privilege midgard:update for person #{$this->id}");
-        if (!$_MIDCOM->auth->can_do('midgard:update', $this, $this_user))
-        {
-            debug_add("Person #{$this->id} lacks privilege midgard:update, adding");
-            $_MIDCOM->auth->request_sudo();
-            if (!$this->set_privilege('midgard:update', $this_user, MIDCOM_PRIVILEGE_ALLOW))
-            {
-                debug_add("\$this->set_privilege('midgard:update', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            }
-            else
-            {
-                debug_add("Added privilege 'midgard:update' for person #{$this->id}", MIDCOM_LOG_INFO);
-            }
-            $_MIDCOM->auth->drop_sudo();
-        }
-        //Could be useful, I'm not certain if absolutely needed.
-        debug_add("Checking privilege midgard:parameters for person #{$this->id}");
-        if (!$_MIDCOM->auth->can_do('midgard:parameters', $this, $this_user))
-        {
-            debug_add("Person #{$this->id} lacks privilege midgard:parameters, adding");
-            $_MIDCOM->auth->request_sudo();
-            if (!$this->set_privilege('midgard:parameters', $this_user, MIDCOM_PRIVILEGE_ALLOW))
-            {
-                debug_add("\$this->set_privilege('midgard:parameters', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            }
-            else
-            {
-                debug_add("Added privilege 'midgard:parameters' for person #{$this->id}", MIDCOM_LOG_INFO);
-            }
-            $_MIDCOM->auth->drop_sudo();
-        }
-        //Adding attachments requires both midgard:create and midgard:attachments
-        debug_add("Checking privilege midgard:create for person #{$this->id}");
-        if (!$_MIDCOM->auth->can_do('midgard:create', $this, $this_user))
-        {
-            debug_add("Person #{$this->id} lacks privilege midgard:create, adding");
-            $_MIDCOM->auth->request_sudo();
-            if (!$this->set_privilege('midgard:create', $this_user, MIDCOM_PRIVILEGE_ALLOW))
-            {
-                debug_add("\$this->set_privilege('midgard:create', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            }
-            else
-            {
-                debug_add("Added privilege 'midgard:create' for person #{$this->id}", MIDCOM_LOG_INFO);
-            }
-            $_MIDCOM->auth->drop_sudo();
-        }
-        debug_add("Checking privilege midgard:attachments for person #{$this->id}");
-        if (!$_MIDCOM->auth->can_do('midgard:attachments', $this, $this_user))
-        {
-            debug_add("Person #{$this->id} lacks privilege midgard:attachments, adding");
-            $_MIDCOM->auth->request_sudo();
-            if (!$this->set_privilege('midgard:attachments', $this_user, MIDCOM_PRIVILEGE_ALLOW))
-            {
-                debug_add("\$this->set_privilege('midgard:attachments', {$this_user->guid}, MIDCOM_PRIVILEGE_ALLOW) failed, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            }
-            else
-            {
-                debug_add("Added privilege 'midgard:attachments' for person #{$this->id}", MIDCOM_LOG_INFO);
-            }
-            $_MIDCOM->auth->drop_sudo();
-        }
-
-        $GLOBALS['org_openpsa_contacts_person__verify_privileges'][$this->id] = false;
-
-        return true;
-    }
-
     public function _on_creating()
     {
         //Make sure we have objType
@@ -261,16 +160,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         }
 
         return true;
-    }
-
-    public function _on_updated()
-    {
-        $this->_verify_privileges();
-    }
-
-    public function _on_created()
-    {
-        $this->_verify_privileges();
     }
 
     public function _on_deleting()
