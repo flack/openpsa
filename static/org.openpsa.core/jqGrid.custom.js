@@ -55,10 +55,10 @@ var org_openpsa_export_csv = {
         $('#' + config.id + '_export input[type="submit"]').bind('click', function()
         {
             var id = $(this).parent().attr('id').replace(/_export$/, '');
-            org_openpsa_export_csv.export(id);
+            org_openpsa_export_csv.prepare_data(id);
         });
     },
-    export: function(id)
+    prepare_data: function(id)
     {
         var config = this.configs[id];
         var rows = jQuery('#' + config.id).jqGrid('getRowData');
