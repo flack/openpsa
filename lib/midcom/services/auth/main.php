@@ -737,15 +737,29 @@ class midcom_services_auth
      */
     function get_user_by_name($name)
     {
-        $qb = new midgard_query_builder($GLOBALS['midcom_config']['person_class']);
-        $qb->add_constraint('username', '=', $name);
-        $result = @$qb->execute();
-        if (   !$result
-            || count($result) == 0)
+        if (method_exists('midgard_user', 'login'))
+        {
+            //Midgard2
+            $mc = new midgard_collector('midgard_user', 'login', $name);
+            $mc->set_key_property('person');
+            $mc->add_constraint('authtype', '=', $GLOBALS['midcom_config']['auth_type']);
+        }
+        else
+        {
+            //Midgard1
+            $mc = new midgard_collector($GLOBALS['midcom_config']['person_class'], 'username', $name);
+            $mc->set_key_property('guid');
+        }
+        $mc->execute();
+        $keys = $mc->list_keys();
+        if (empty($keys))
         {
             return false;
         }
-        return $this->get_user($result[0]);
+
+        $person = new $GLOBALS['midcom_config']['person_class'](array_pop($keys));
+
+        return $this->get_user($person);
     }
 
     /**

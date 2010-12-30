@@ -102,7 +102,6 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
         }
 
         $user = $_MIDCOM->auth->user->get_storage();
-
         $this->_request_data['buddylist'] = array();
 
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();

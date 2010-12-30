@@ -18,7 +18,14 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      *
      * @var org_openpsa_contacts_person_dba
      */
-    private $_person = null;
+    private $_person;
+
+    /**
+     * The account we're working with, if any
+     *
+     * @var midcom_core_account
+     */
+    private $_account;
 
     public function _on_initialize()
     {
@@ -55,7 +62,8 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $this->_person = new org_openpsa_contacts_person_dba($args[0]);
         $_MIDCOM->auth->require_do('midgard:update', $this->_person);
 
-        if ($this->_person->username)
+        $this->_account = new midcom_core_account($this->_person);
+        if ($this->_account->get_username())
         {
             throw new midcom_error('Creating new account for existing account is not possible');
         }
@@ -63,12 +71,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         if (array_key_exists('midcom_helper_datamanager2_save', $_POST))
         {
             // User has tried to create account
-            $plaintext = true;
-            if (array_key_exists('org_openpsa_contacts_person_account_encrypt', $_POST))
-            {
-                $plaintext = false;
-            }
-            $stat = $this->_person->set_account($_POST['org_openpsa_contacts_person_account_username'], $_POST['org_openpsa_contacts_person_account_password'], $plaintext);
+            $stat = $this->_person->set_account($_POST['org_openpsa_contacts_person_account_username'], $_POST['org_openpsa_contacts_person_account_password']);
 
             if ($stat)
             {
@@ -116,6 +119,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
     private function _prepare_request_data()
     {
         $this->_request_data['person'] =& $this->_person;
+        $this->_request_data['account'] =& $this->_account;
 
         //get rules for js in style
         $rules = $this->_config->get('password_match_score');
@@ -175,8 +179,8 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         {
             throw new midcom_error_forbidden('Only admins can edit other user\'s accounts');
         }
-
-        if (!$this->_person->username)
+        $this->_account = new midcom_core_account($this->_person);
+        if (!$this->_account->get_username())
         {
             // Account needs to be created first, relocate
             $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -218,14 +222,12 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         }
         else if ($_POST['org_openpsa_contacts_person_account_current_password'] != null || $_MIDCOM->auth->admin)
         {
-            $plaintext = (!array_key_exists('org_openpsa_contacts_person_account_encrypt', $_POST));
-
             $check_user = true;
             //check user auth if current user is not admin
             if (!$_MIDCOM->auth->admin)
             {
                 //user auth
-                $check_user = midcom_connection::login($this->_person->username, $_POST['org_openpsa_contacts_person_account_current_password']);
+                $check_user = midcom_connection::login($this->_account->get_username(), $_POST['org_openpsa_contacts_person_account_current_password']);
             }
 
             if (!$check_user)
@@ -235,7 +237,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             else
             {
                 // Update account
-                $stat = $this->_person->set_account($_POST['org_openpsa_contacts_person_account_username'], $_POST['org_openpsa_contacts_person_account_newpassword'], $plaintext );
+                $stat = $this->_person->set_account($_POST['org_openpsa_contacts_person_account_username'], $_POST['org_openpsa_contacts_person_account_newpassword']);
                 if (!$stat)
                 {
                     // Failure, give a message

@@ -294,10 +294,6 @@ New organization
 New password
 ---STRINGEND
 
----STRING new password encrypt
-Encrypt new password
----STRINGEND
-
 ---STRING new password repeat
 Repeat new password
 ---STRINGEND

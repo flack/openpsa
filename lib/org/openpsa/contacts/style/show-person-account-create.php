@@ -9,11 +9,6 @@
             <span class="field_text" style="display:block;"><?php echo $data['l10n_midcom']->get("password"); ?></span>
             <input type="text" name="org_openpsa_contacts_person_account_password" id="org_openpsa_contacts_person_account_password" class="shorttext" style="display:inline;" maxlength="<?php echo $data['max_length'];?>" />
         </label>
-        <label for="org_openpsa_contacts_person_account_encrypt">
-            <span>
-            <input id="org_openpsa_contacts_person_account_encrypt" type="checkbox" name="org_openpsa_contacts_person_account_encrypt" value="true"/> <?php echo $data['l10n']->get("new password encrypt"); ?>
-            </span>
-        </label>
         <div class="form_toolbar">
             <input type="submit" value="<?php echo $data['l10n_midcom']->get('save'); ?>" name="midcom_helper_datamanager2_save" accesskey="s" class="save" />
             <input type="submit" value="<?php echo $data['l10n_midcom']->get('cancel'); ?>" name="midcom_helper_datamanager2_cancel" accesskey="c" class="cancel" />

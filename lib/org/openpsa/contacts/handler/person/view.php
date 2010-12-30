@@ -170,7 +170,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             );
         }
 
-        if ($this->_contact->username)
+        if (midcom_connection::is_user($this->_contact))
         {
             $this->_view_toolbar->add_item
             (

@@ -182,23 +182,29 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     private function _update_computed_members()
     {
-        @$this->name = trim("{$this->firstname} {$this->lastname}");
+        $this->name = trim("{$this->firstname} {$this->lastname}");
 
-        @$this->rname = trim($this->lastname);
+        $this->rname = trim($this->lastname);
         if ($this->rname == '')
         {
-            @$this->rname = $this->firstname;
+            $this->rname = $this->firstname;
         }
         else
         {
-            @$this->rname .= ", {$this->firstname}";
+            $this->rname .= ", {$this->firstname}";
+        }
+
+        if ($this->name == '')
+        {
+            $this->name = 'person #' . $this->id;
+            $this->rname = 'person #' . $this->id;
         }
 
         if ($this->homepage != '')
         {
             $title = htmlspecialchars($this->name);
             $url = htmlspecialchars($this->homepage);
-            @$this->homepagelink = "<a href=\"{$url}\" title=\"{$title}\">{$url}</a>";
+            $this->homepagelink = "<a href=\"{$url}\" title=\"{$title}\">{$url}</a>";
         }
 
         if ($this->email != '')

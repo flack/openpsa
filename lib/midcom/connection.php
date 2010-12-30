@@ -130,7 +130,7 @@ class midcom_connection
                 }
             }
 
-            $login_tokens['password'] = self::_prepare_midgard2_password($password);
+            $login_tokens['password'] = self::prepare_password($password);
 
             try
             {
@@ -167,31 +167,61 @@ class midcom_connection
         }
     }
 
-    private static function _prepare_midgard2_password($password)
+    public static function prepare_password($password)
     {
-        switch ($GLOBALS['midcom_config']['auth_type'])
+        if (method_exists('midgard_user', 'login'))
         {
-            case 'Plaintext':
-                // Compare plaintext to plaintext
-                break;
-            case 'Legacy':
-                // Midgard1 legacy auth
-                $salt = ''; //TODO: How to determine the correct one?
-                $password = crypt($password, $salt);
-                break;
-            case 'SHA1':
-                $password = sha1($password);
-                break;
-            case 'SHA256':
-                $password = hash('sha256', $password);
-                break;
-            case 'MD5':
-                $password = md5($password);
-                break;
-            default:
-                throw new midcom_error('Unsupported authentication type attempted', 500);
+            switch ($GLOBALS['midcom_config']['auth_type'])
+            {
+                case 'Plaintext':
+                    // Compare plaintext to plaintext
+                    break;
+                case 'Legacy':
+                    // Midgard1 legacy auth
+                    $salt = ''; //TODO: How to determine the correct one?
+                    $password = crypt($password, $salt);
+                    break;
+                case 'SHA1':
+                    $password = sha1($password);
+                    break;
+                case 'SHA256':
+                    $password = hash('sha256', $password);
+                    break;
+                case 'MD5':
+                    $password = md5($password);
+                    break;
+                default:
+                    throw new midcom_error('Unsupported authentication type attempted', 500);
+            }
+            // TODO: Support other types
         }
-        // TODO: Support other types
+        else
+        {
+            switch ($GLOBALS['midcom_config']['auth_type'])
+            {
+                case 'Plaintext':
+                    $password = '**' . $password;
+                    break;
+                case 'Legacy':
+                    /*
+                      It seems having nonprintable characters in the password breaks replication
+                      Here we recreate salt and hash until we have a combination where only
+                      printable characters exist
+                    */
+                    $crypted = false;
+                    while (   empty($crypted)
+                           || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
+                    {
+                        $salt = chr($rand(33, 125)) . chr($rand(33, 125));
+                        $crypted = crypt($password, $salt);
+                    }
+                    $password = $crypted;
+                    unset($crypted);
+                    break;
+                default:
+                    throw new midcom_error('Unsupported authentication type attempted', 500);
+            }
+        }
 
         return $password;
     }
@@ -221,7 +251,7 @@ class midcom_connection
         }
         $user->authtype = $GLOBALS['midcom_config']['auth_type'];
 
-        $user->password = self::_prepare_midgard2_password($db_password);
+        $user->password = self::prepare_password($db_password);
         $user->login = $person->username;
 
         if ($GLOBALS['midcom_config']['person_class'] != 'midgard_person')
@@ -246,12 +276,32 @@ class midcom_connection
         return true;
     }
 
+    public static function is_user($person)
+    {
+        if (empty($person->guid))
+        {
+            return false;
+        }
+        if (method_exists('midgard_user', 'login'))
+        {
+            // Ratatoskr
+            $qb = new midgard_query_builder('midgard_user');
+            $qb->add_constraint('person', '=', $person->guid);
+            return ($qb->count() > 0);
+        }
+        else
+        {
+            // Ragnaroek
+            return ($person->username != '');
+        }
+    }
+
     /**
      * Get current Midgard user
      *
      * @return int The current user ID
      */
-    static function get_user()
+    public static function get_user()
     {
         if (method_exists('midgard_connection', 'get_instance'))
         {

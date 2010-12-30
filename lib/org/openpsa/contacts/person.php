@@ -10,13 +10,17 @@
  * MidCOM wrapped access to org_openpsa_person plus some utility methods
  * @package org.openpsa.contacts
  */
-class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
+class org_openpsa_contacts_person_dba extends midcom_db_person
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_person';
 
-    var $name; //Compound of firstname, lastname and username
-    var $rname; //Another compound of firstname, lastname and username
+    /**
+     * Helper class for handling accounts
+     *
+     * @param midcom_core_account
+     */
+    private $_account;
 
     static function new_query_builder()
     {
@@ -39,83 +43,43 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    public function _on_loaded()
-    {
-        //Fill name and rname
-        if (   !empty($this->firstname)
-            && !empty($this->lastname))
-        {
-            $this->name = $this->firstname . ' ' . $this->lastname;
-            $this->rname = $this->lastname . ', ' . $this->firstname;
-        }
-        else if (!empty($this->firstname))
-        {
-            $this->name = $this->firstname;
-            $this->rname = $this->firstname;
-        }
-        else if (!empty($this->username))
-        {
-            $this->name = $this->username;
-            $this->rname = $this->username;
-        }
-        else
-        {
-            $this->name = 'person #' . $this->id;
-            $this->rname = 'person #' . $this->id;
-        }
-    }
-
     /**
      * Sets username and password for person
      *
      * @param string - contains username
      * @param string - contains the new - to set - password
-     * @param bool - if password should be encrypted or not
      */
-    function set_account($username, $new_password, $plaintext = false )
+    function set_account($username, $new_password)
     {
-        $password_checked = false;
+        $this->_account = midcom_core_account::get($this);
         if (!empty($new_password))
         {
-            $new_password_encrypted = $this->encrypt_password($new_password, $plaintext);
+            $new_password_encrypted = midcom_connection::prepare_password($new_password);
 
             $current_password_plaintext = false;
             //check if password in person is plaintext or not
-            if (preg_match('/^\*{2}/', $this->password))
+            if (preg_match('/^\*{2}/', $this->_account->get_password()))
             {
                 $current_password_plaintext = true;
             }
-            $check_same_passwords = false;
-            //check if new password and current password are both encrypted or both are not encrypted -  if true they can be compared
-            if (   ($current_password_plaintext && $plaintext)
-                || (!$current_password_plaintext && !$plaintext))
-            {
-                $check_same_passwords = true;
-            }
             //check if the new encrypted password was already used
-            if (    $this->check_password($new_password_encrypted, $check_same_passwords)
+            if (    $this->check_password($new_password_encrypted)
                  && $this->check_password_strength($new_password))
             {
-                $password_checked = true;
+                $this->_account->set_password($new_password);
+                $this->save_password();
             }
             else
             {
                 return false;
             }
         }
-        if ($username != $this->username)
+
+        $this->_account->set_username($username);
+
+        if (!$this->_account->save())
         {
-            if (   strtolower($username) != strtolower($this->username)
-                && $this->check_account_exists($username))
-            {
-                $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('username already exists', 'org.openpsa.contacts'), 'error');
-                return false;
-            }
-            $this->username = $username;
-        }
-        if ($password_checked == true)
-        {
-            $this->set_password($new_password_encrypted);
+            return false;
         }
 
         //sets privilege
@@ -123,17 +87,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $this->set_privilege('midgard:owner', "user:" . $this->guid);
         $_MIDCOM->auth->drop_sudo();
 
-        return $this->update();
-    }
-
-    /**
-     * Removes persons account
-     */
-    function unset_account()
-    {
-        $this->username = '';
-        $this->password = '';
-        return $this->update();
+        return true;
     }
 
     public function _on_creating()
@@ -168,20 +122,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function get_label()
-    {
-        if ($this->rname)
-        {
-            $label = $this->rname;
-        }
-        else
-        {
-            $label = $this->username;
-        }
-
-        return $label;
-    }
-
     function get_label_property()
     {
         if ($this->rname)
@@ -202,10 +142,10 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
      * @param string password to check
      * @return bool returns if password was already used - true indicates passed password wasn't used
      */
-    function check_password($password, $check_same_password = true)
+    function check_password($password)
     {
         //check current password
-        if (($this->password == $password) && $check_same_password)
+        if (($this->_account->get_password() == $password))
         {
             $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.contacts', 'org.openpsa.contacts'), $_MIDCOM->i18n->get_string('password is the same as the current one', 'org.openpsa.contacts'), 'error');
             return false;
@@ -224,17 +164,17 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Function to set new password & adds old password to parameter old passwords - does not update()
+     * Function to add current password to parameter old passwords - does not update()
      *
      * @param string password to set
      */
-    function set_password($password)
+    function save_password($password)
     {
         $old_passwords_array = $this->get_old_passwords();
         $new_passwords_string = "";
-        if(is_array($old_passwords_array))
+        if (is_array($old_passwords_array))
         {
-            array_unshift($old_passwords_array, $this->password);
+            array_unshift($old_passwords_array, $this->_account->get_password());
         }
         $count = count($old_passwords_array);
         $max = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('max_old_passwords');
@@ -252,7 +192,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $this->set_parameter("org_openpsa_contacts_password", "last_change", $timestamp);
 
         $this->set_parameter("org_openpsa_contacts_password", "old_passwords", $new_passwords_string);
-        $this->password = $password;
         return true;
     }
 
@@ -285,72 +224,6 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         return $old_passwords_array;
     }
 
-    function encrypt_password($password, $plaintext)
-    {
-        static $rand = false;
-        if (empty($rand))
-        {
-            if (function_exists('mt_rand'))
-            {
-                $rand = 'mt_rand';
-            }
-            else
-            {
-                $rand = 'rand';
-            }
-        }
-        if ($plaintext)
-        {
-            $password = "**{$password}";
-        }
-        else
-        {
-            /*
-              It seems having nonprintable characters in the password breaks replication
-              Here we recreate salt and hash until we have a combination where only
-              printable characters exist
-            */
-            $crypted = false;
-            while (    empty($crypted)
-                    || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
-            {
-                $salt = chr($rand(33, 125)) . chr($rand(33, 125));
-                $crypted = crypt($password, $salt);
-            }
-            $password = $crypted;
-            unset($crypted);
-        }
-        return $password;
-    }
-
-    /**
-     * Function to check if account with passed name already exists
-     *
-     * @param string contains name of the account to check
-     */
-    function check_account_exists($name)
-    {
-        if (method_exists('midgard_user', 'login'))
-        {
-            //Midgard2
-            $mc = new midgard_collector('midgard_user', 'login', $name);
-            $mc->set_key_property('login');
-        }
-        else
-        {
-            //Midgard1
-            $mc = new midgard_collector($GLOBALS['midcom_config']['person_class'], 'username', $name);
-            $mc->set_key_property('username');
-        }
-        $mc->execute();
-        $keys = $mc->list_keys();
-        if (empty($keys))
-        {
-            return false;
-        }
-        return true;
-    }
-
     /**
      * Function to check strength of passed password
      *
@@ -361,7 +234,7 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         $password_length = strlen($password);
         $score = 0;
 
-        // score for length & repition
+        // score for length & repetition
         $pattern_length = 4;
         $score_char = 4;
         $score = $password_length * $score_char;
@@ -478,6 +351,8 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
      */
     function disable_account()
     {
+        $this->_account = midcom_core_account::get($this);
+
         $timeframe_minutes = midcom_baseclasses_components_configuration::get('org.openpsa.contacts', 'config')->get('password_block_timeframe_min');
         if ($timeframe_minutes == 0)
         {
@@ -496,11 +371,9 @@ class org_openpsa_contacts_person_dba extends midcom_core_dbaobject
         {
              throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
-        $this->set_parameter("org_openpsa_contacts_blocked_account", "account_password", $this->password);
-        $this->password = "";
-        $this->update();
-
-        return true;
+        $this->set_parameter("org_openpsa_contacts_blocked_account", "account_password", $this->_account->get_password());
+        $this->_account->set_password('');
+        return $this->_account->save();
     }
 }
 ?>

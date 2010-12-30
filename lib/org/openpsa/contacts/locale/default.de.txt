@@ -290,10 +290,6 @@ Neue Organisation
 Neues Passwort
 ---STRINGEND
 
----STRING new password encrypt
-Neues Passwort verschlüsseln
----STRINGEND
-
 ---STRING new password repeat
 Neues Passwort wiederholen
 ---STRINGEND

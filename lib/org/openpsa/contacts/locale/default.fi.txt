@@ -414,10 +414,6 @@ Nykyinen salasana väärin
 Uusi salasana
 ---STRINGEND
 
----STRING new password encrypt
-Kryptaa uusi salasana
----STRINGEND
-
 ---STRING new password repeat
 Uusi salasana (uudestaan)
 ---STRINGEND
