@@ -32,9 +32,10 @@ body
 
 #content-text
 {
-  background-color: #ffffff;
-  padding: 1em 0.5em 1em 1em;
-  overflow: auto
+    background-color: #ffffff;
+    padding: 1em 0.5em 1em 1em;
+    overflow: auto;
+    position: relative
 }
 
 #content-text h1

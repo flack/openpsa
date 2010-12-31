@@ -238,11 +238,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     {
         $data['reporters'] =& $this->reporters;
 
-        // is there any array with persons which could be filtered
-        if (array_key_exists ("filter_persons", $data))
-        {
-            midcom_show_style('person_filter');
-        }
         midcom_show_style('hours_list_top');
         $data['show_widget'] = true;
         foreach ($data['sorted_reports'] as $status => $reports)

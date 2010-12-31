@@ -48,7 +48,7 @@ $footer_data = array
     'hours' => $reports['hours']
 );
 ?>
-<div class="org_openpsa_expenses <?php echo $data['status']; ?> full-width" style="margin-bottom: 1em">
+<div class="org_openpsa_expenses <?php echo $data['status']; ?> full-width fill-height" style="margin-bottom: 1em">
 
 <form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
 <input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />

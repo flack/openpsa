@@ -584,8 +584,6 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     height: 1.3em;
 }
 
-#gbox_treegrid { float: left;}
-
 .tree-leaf
 {
     visibility: hidden

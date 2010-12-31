@@ -73,7 +73,7 @@ echo '<script type="text/javascript">//<![CDATA[';
 echo "\nvar " . $grid_id . '_entries = ' . json_encode($rows);
 echo "\n//]]></script>";
 ?>
-<div class="org_openpsa_projects <?php echo $data['view_identifier']; ?>">
+<div class="org_openpsa_projects <?php echo $data['view_identifier']; ?> full-width fill-height">
 
 <table id="&(grid_id);"></table>
 <div id="p_&(grid_id);"></div>
@@ -81,21 +81,6 @@ echo "\n//]]></script>";
 </div>
 
 <script type="text/javascript">
-function jqgrid_&(grid_id);_resize()
-{
-    var new_width = jQuery("#gbox_&(grid_id);").parent().attr('clientWidth') - 5;
-    jQuery("#&(grid_id);").jqGrid().setGridWidth(new_width);
-
-    <?php if ($data['view_identifier'] != 'agreement')
-    { ?>
-        var new_height = jQuery("#content").attr('clientHeight') - 240;
- 
-        jQuery("#&(grid_id);").jqGrid().setGridHeight(new_height);
-    <?php } ?>
-}
-
-var start_height = <?php echo ($data['view_identifier'] == 'agreement') ? '"auto"' : 'jQuery("#content").attr("clientHeight") - 240'; ?>;
-var start_width = jQuery("#p_&(grid_id);").parent().attr('clientWidth') - 20;
 
 jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
@@ -139,8 +124,6 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'index_reported', index: 'index_reported', sorttype: 'float', hidden:true},
           {name:'reported', index: 'index_reported', width: 50, align: 'right', summaryType:'sum'}
       ],
-      height: start_height,
-      width: start_width,
       loadonce: true,
       footerrow: true,
       rowNum: <?php echo sizeof($rows); ?>,
@@ -162,13 +145,6 @@ jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($foote
 { ?>
     jQuery("#&(grid_id);").jqGrid('setCaption', '<?php echo $data['l10n']->get($data['table-heading']); ?>');
 <?php } ?>
-
-org_openpsa_jsqueue.add(jqgrid_&(grid_id);_resize);
-
-jQuery(window).resize(function()
-{
-    jqgrid_&(grid_id);_resize();
-});
 
 var &(grid_id);_grouping = <?php echo ($data['view_identifier'] == 'agreement') ? '""' : '"project"'; ?>;
 
