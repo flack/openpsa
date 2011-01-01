@@ -31,6 +31,9 @@
         <property name="city"     type="string">
             <description>City of the person</description>
         </property>
+        <property name="extra"    type="text">
+            <description>Additional information about the person</description>
+        </property>
     </type>
 
     <type name="midgard_host" table="host">
