@@ -192,6 +192,7 @@ var org_openpsa_layout =
 
         if (providers.length > 1)
         {
+            selector.insertBefore(field);
             jQuery('<div id="org_openpsa_search_trigger"></div>')
                 .click(function()
                 {
@@ -199,8 +200,6 @@ var org_openpsa_layout =
                     jQuery(this).toggleClass('focused');
                 })
                 .insertBefore(field);
-
-            selector.insertBefore(field);
         }
 
         field.show()

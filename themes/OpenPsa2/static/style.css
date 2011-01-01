@@ -323,6 +323,8 @@ select
 {
     position: relative;
     margin-top: 0.5em;
+    width: 14.3em;
+    float: right
 }
 
 ul#org_openpsa_search_providers
@@ -367,6 +369,7 @@ ul#org_openpsa_search_providers li.current
     border: 1px solid #BABDB6;
     -moz-border-radius: .8em 0 0 .8em;
     position: absolute;
+    right: 12.3em;
     background-image:url('../stock-icons/16x16/search.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -375,6 +378,8 @@ ul#org_openpsa_search_providers li.current
 
 input#org_openpsa_search_query
 {
+    position: absolute;
+    right: .5em;
     display: none;
     background-color: #eeeeec;
     border: 1px solid #babdb6;
