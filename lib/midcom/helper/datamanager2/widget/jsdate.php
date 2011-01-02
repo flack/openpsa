@@ -186,6 +186,7 @@ EOT;
         (
             'class' => 'date',
             'id'    => "{$this->_namespace}{$this->name}",
+            'size'  => 10
         );
         $elements[] = HTML_QuickForm::createElement('text', $this->name, '', $attributes);
 
@@ -195,12 +196,14 @@ EOT;
             (
                 'class' => 'jsdate_hours',
                 'id'    => "{$this->_namespace}{$this->name}_hours",
+                'size'  => 2
             );
             $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_hours", '', $attributes);
             $attributes = Array
             (
                 'class' => 'jsdate_minutes',
                 'id'    => "{$this->_namespace}{$this->name}_minutes",
+                'size'  => 2
             );
             $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_minutes", '', $attributes);
 
@@ -210,8 +213,9 @@ EOT;
                 (
                     'class' => 'jsdate_minutes',
                     'id'    => "{$this->_namespace}{$this->name}_seconds",
+                    'size'  => 2
                 );
-                $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_secondss", '', $attributes);
+                $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_seconds", '', $attributes);
             }
         }
 
@@ -268,23 +272,27 @@ EOT;
         {
             $this->_type->value->year = '0000';
         }
+
+        $this->format = '%Y-%m-%d';
+        $defaults = array
+        (
+            $this->name => $this->_type->value->format($this->format)
+        );
+
         if ($this->show_time)
         {
-            if ($this->hide_seconds)
-            {
-                $this->format = '%Y-%m-%d %H:%M';
-            }
-            else
+            $this->format = '%Y-%m-%d %H:%M';
+            $defaults[$this->name . '_hours'] = $this->_type->value->format('%H');
+            $defaults[$this->name . '_minutes'] = $this->_type->value->format('%M');
+
+            if (!$this->hide_seconds)
             {
                 $this->format = '%Y-%m-%d %H:%M:%S';
+                $defaults[$this->name . '_seconds'] = $this->_type->value->format('%S');
             }
         }
-        else
-        {
-            $this->format = '%Y-%m-%d';
-        }
 
-        return $this->_type->value->format($this->format);
+        return $defaults;
     }
 
     /**
@@ -295,14 +303,23 @@ EOT;
      * @param mixed $input  User input
      * @return String       Formatted date
      */
-    public function check_user_input($input)
+    public function check_user_input($results)
     {
-        $input = trim($input);
+        $input = trim($results[$this->name]);
 
-        // If we have hidden seconds, we need to change format to save those seconds
-        if ($this->format == '%Y-%m-%d %H:%M')
+        if ($this->show_time)
         {
+            $input .= ' ' . trim($results[$this->name . '_hours']) . ':' . trim($results[$this->name . '_minutes']) . ':';
+            // If we have hidden seconds, we need to change format to save those seconds
             $this->format = '%Y-%m-%d %H:%M:%S';
+            if ($this->hide_seconds)
+            {
+                $input .= '00';
+            }
+            else
+            {
+                $input .= trim($results[$this->name . '_seconds']);
+            }
         }
 
         static $valid_date_format = '/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/';
@@ -374,7 +391,7 @@ EOT;
     function sync_type_with_widget($results)
     {
         // Try to fix the incorrect input
-        $date = $this->check_user_input($results[$this->name]);
+        $date = $this->check_user_input($results);
 
         $this->_type->value = new Date($date);
     }
