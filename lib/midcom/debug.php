@@ -164,15 +164,9 @@ class midcom_debug
             $prefix .= '[' . $this->_loglevels[$loglevel] . '] ';
         }
 
+        //find the proper caller
         $bt = debug_backtrace(false);
-        //first two are always log and add (or print_r etc.), skip those
-        $caller = $bt[2];
-        unset($bt);
-        if (array_key_exists('class', $caller))
-        {
-            $prefix .= $caller['class'] . '::' . $caller['function'] . ': ';
-        }
-
+        $prefix .= $this->_get_caller($bt);
         fputs($file, $prefix . trim($message) . "\n");
         fclose($file);
 
@@ -197,6 +191,45 @@ class midcom_debug
                 // Ignore FirePHP errors for now
             }
         }
+    }
+
+    private function _get_caller($bt)
+    {
+        $return = '';
+
+        while ($bt)
+        {
+            $caller = array_shift($bt);
+            if (   array_key_exists('class', $caller)
+                && $caller['class'] == 'midcom_debug')
+            {
+                continue;
+            }
+
+            if (   !array_key_exists('function', $bt[0])
+                || $bt[0]['function'] != 'require')
+            {
+                $caller = array_shift($bt);
+            }
+
+            break;
+        }
+        unset($bt);
+
+        if (array_key_exists('class', $caller))
+        {
+            $return .= $caller['class'] . '::';
+        }
+        if (   array_key_exists('function', $caller)
+            && substr($caller['function'], 0, 6) != 'debug_')
+        {
+            $return .= $caller['function'] . ': ';
+        }
+        else
+        {
+            $return .= $caller['file'] . ' (' . $caller['line']. '): ';
+        }
+        return $return;
     }
 
     /**
@@ -245,15 +278,15 @@ class midcom_debug
 
         if (MIDCOM_XDEBUG)
         {
-            $stack = xdebug_get_function_stack();
+            $stack = array_reverse(xdebug_get_function_stack());
         }
         else
         {
-            $stack = array_reverse(debug_backtrace(false));
+            $stack = debug_backtrace(false);
         }
         //the last two levels are already inside the debugging system, so skip those
-        array_pop($stack);
-        array_pop($stack);
+        array_shift($stack);
+        array_shift($stack);
 
         $stacktrace = "";
         foreach ($stack as $number => $frame)
