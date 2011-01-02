@@ -70,7 +70,10 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     public function __construct($id = null)
     {
-        $this->__mgdschema_class_name__ = $GLOBALS['midcom_config']['person_class'];
+        if ($this->__mgdschema_class_name__ == 'midgard_person')
+        {
+            $this->__mgdschema_class_name__ = $GLOBALS['midcom_config']['person_class'];
+        }
         parent::__construct($id);
     }
 
