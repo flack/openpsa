@@ -56,7 +56,7 @@
                     {
                         echo " Midgard ";
                     }
-                    echo substr(mgd_version(), 0, 4);
+                    echo preg_replace('/\.[0-9]+$/', '', mgd_version());
                 ?></strong>.
                 Copyright &copy; 1998 - <?php echo date('Y'); ?> <a href="http://www.midgard-project.org/" rel="powered">The Midgard Project</a>.
                 Midgard is a <a href="http://en.wikipedia.org/wiki/Free_software">free software</a> available under
