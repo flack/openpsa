@@ -136,14 +136,8 @@ while (! is_null($nodeid))
         // returned with failure
         echo "failure.\n   Background processing failed, error: {$http_client->error}\n";
         echo "Url: " . $reindex_topic_uri . "?" . join("=", $post_variables) . "\n";
-        $body = $http_client->_client->getResponseBody();
-        if (!empty($body))
-        {
-            echo "   Background response body:\n---\n{$body}\n---\n\n";
-        }
-        unset($body);
     }
-    if (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response))
+    else if (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response))
     {
         // Does not end with 'Reindex complete for node...'
         echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response}\n---\n\n";
@@ -155,8 +149,6 @@ while (! is_null($nodeid))
         echo "OK.\n";
     }
     flush();
-    // Overwrite this so that we don't have funky dangling references
-    $http_client->_client = null;
 
     debug_dump_mem("Mem usage after {$node[MIDCOM_NAV_RELATIVEURL]}; {$node[MIDCOM_NAV_COMPONENT]}");
 

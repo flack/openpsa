@@ -280,20 +280,19 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 // This is probably universal chooser
                 // FIXME: This is not exactly an elegant way to do this
                 if (    $this->storage->_schema->fields[$this->name]['widget'] != 'chooser'
-                    || !isset($this->storage->_schema->fields[$this->name]['widget_config']['class']))
+                    || !isset($this->storage->_schema->fields[$this->name]['widget_config']['class'])
+                    || !isset($this->storage->_schema->fields[$this->name]['widget_config']['titlefield']))
                 {
                     return null;
                 }
-                if (isset($this->storage->_schema->fields[$this->name]['widget_config']['class']))
-                {
-                    $class = $this->storage->_schema->fields[$this->name]['widget_config']['class'];
-                }
-                if (isset($this->storage->_schema->fields[$this->name]['widget_config']['titlefield']))
-                {
-                    $titlefield = $this->storage->_schema->fields[$this->name]['widget_config']['titlefield'];
-                }
 
-                if (!$key)
+                $class = $this->storage->_schema->fields[$this->name]['widget_config']['class'];
+                $titlefield = $this->storage->_schema->fields[$this->name]['widget_config']['titlefield'];
+
+                if (   !$key
+                    || !$titlefield
+                    || !$class)
+
                 {
                     return null;
                 }
@@ -307,29 +306,16 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                 if (   isset($this->storage->_schema->fields[$this->name]['widget_config']['id_field'])
                     && $this->storage->_schema->fields[$this->name]['widget_config']['id_field'] == 'id')
                 {
-                    // Chooser
-                    $key = (int) $key;
-                }
-                elseif (   isset($this->storage->_schema->fields[$this->name]['widget_config']['idfield'])
-                    && $this->storage->_schema->fields[$this->name]['widget_config']['idfield'] == 'id')
-                {
-                    // Universalchooser
                     $key = (int) $key;
                 }
 
-                if (!isset($class))
+                try
                 {
-                    return null;
+                    $object = new $class($key);
                 }
-                $object = new $class($key);
-
-                if (!$object)
+                catch (midcom_error $e)
                 {
-                    return null;
-                }
-
-                if (!isset($titlefield))
-                {
+                    debug_add('Failed to load ' . $class . ' ' . $key . ': ' . $e->getMessage());
                     return null;
                 }
 
