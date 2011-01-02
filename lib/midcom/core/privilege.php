@@ -84,7 +84,10 @@ class midcom_core_privilege
         else
         {
             $this->_load($src);
-            $this->_sync_from_db_object();
+            if (!is_null($src))
+            {
+                $this->_sync_from_db_object();
+            }
         }
     }
 
