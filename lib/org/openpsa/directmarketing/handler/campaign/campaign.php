@@ -150,7 +150,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         // Set the order
         $qb->add_order('person.lastname', 'ASC');
         $qb->add_order('person.firstname', 'ASC');
-        $qb->add_order('person.username', 'ASC');
+        $qb->add_order('person.email', 'ASC');
         $qb->add_order('person.id', 'ASC');
 
         $data['campaign_members_qb'] =& $qb;
