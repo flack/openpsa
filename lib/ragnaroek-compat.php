@@ -140,7 +140,7 @@ function openpsa_prepare_superglobal()
         'page' => 0,
         'debug' => false,
 
-        'host' => null,
+        'host' => 0,
         'style' => 0,
         'author' => 0,
         'config' => array

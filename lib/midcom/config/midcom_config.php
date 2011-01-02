@@ -316,7 +316,6 @@ $GLOBALS['midcom_config_default'] = Array();
  */
 $GLOBALS['midcom_version'] = '8.09.9';
 // Initialize Helpers
-$phpversion = phpversion();
 
 if (   isset($_MIDGARD['config']['unique_host_name'])
     && isset($_MIDGARD['config']['auth_cookie_id']))

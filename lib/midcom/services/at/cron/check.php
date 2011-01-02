@@ -21,7 +21,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
      */
     public function _on_execute()
     {
-        debug_add('_on_execute called');
+        debug_add('called');
 
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('start', '<=', time());
@@ -31,7 +31,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
         $qb->end_group();
         $qb->add_constraint('status', '=', MIDCOM_SERVICES_AT_STATUS_SCHEDULED);
         $qb->set_limit((int) $this->_config->get('limit_per_run'));
-        debug_add('Executing QB');
+
         $_MIDCOM->auth->request_sudo('midcom.services.at');
         $qbret = $qb->execute();
         $_MIDCOM->auth->drop_sudo();
