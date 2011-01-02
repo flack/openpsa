@@ -251,6 +251,9 @@ class midcom_debug
         {
             $stack = array_reverse(debug_backtrace(false));
         }
+        //the last two levels are already inside the debugging system, so skip those
+        array_pop($stack);
+        array_pop($stack);
 
         $stacktrace = "";
         foreach ($stack as $number => $frame)
