@@ -106,7 +106,7 @@ class midcom_services_rcs_backend_rcs implements midcom_services_rcs_backend
     {
         $status = null;
 
-        if (empty($pbject->guid))
+        if (empty($object->guid))
         {
             debug_add("Missing GUID, returning error");
             return 3;
