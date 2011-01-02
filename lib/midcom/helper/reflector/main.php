@@ -1058,8 +1058,16 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             return $cache[$key];
         }
-        $resolver =& midcom_helper_reflector::get($object);
-        $cache[$key] = $resolver->get_name_property_nonstatic($object);
+        try
+        {
+            $resolver =& midcom_helper_reflector::get($object);
+            $cache[$key] = $resolver->get_name_property_nonstatic($object);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add('Could not get reflector instance for class ' . $key . ': ' . $e->getMessage(), MIDCOM_LOG_ERROR);
+            $cache[$key] = null;
+        }
         return $cache[$key];
     }
 
