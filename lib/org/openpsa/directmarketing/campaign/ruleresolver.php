@@ -138,7 +138,6 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             debug_add('this->_rules is not an array', MIDCOM_LOG_ERROR);
             return false;
         }
-        $this->_result_mc->set_key_property('guid');
         $this->_result_mc->add_value_property('lastname');
         $this->_result_mc->add_value_property('firstname');
         $this->_result_mc->add_value_property('email');

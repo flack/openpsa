@@ -90,10 +90,10 @@ class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_pureco
         //Filter out existing links
         foreach ($ret as $k => $linkdata)
         {
-            if ($id = $linkdata['link']->check_db(false))
+            if ($guid = $linkdata['link']->check_db(false))
             {
                 //Essentially same link already exists in db, remove from returned values
-                debug_print_r("found matching link with #{$id} (skipping), our data:", $linkdata['link']);
+                debug_print_r("found matching link with {$guid} (skipping), our data:", $linkdata['link']);
                 unset($ret[$k]);
             }
         }

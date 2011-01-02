@@ -338,7 +338,6 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         //check if there is already an at_entry
         $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_deliverable->guid);
-        $mc_entry->set_key_property('guid');
         $mc_entry->add_value_property('fromGuid');
         $mc_entry->add_constraint('fromClass', '=', 'midcom_services_at_entry_dba');
         $mc_entry->add_constraint('toClass', '=', 'org_openpsa_sales_salesproject_deliverable_dba');

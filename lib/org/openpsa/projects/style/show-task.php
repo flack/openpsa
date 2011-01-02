@@ -2,11 +2,12 @@
 $view_task =& $data['object_view'];
 $task =& $data['object'];
 $task->get_members();
+
+$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+
 $siteconfig = org_openpsa_core_siteconfig::get_instance();
 $sales_url = $siteconfig->get_node_full_url('org.openpsa.sales');
 $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
-
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 ?>
 <div class="org_openpsa_projects_task">
     <div class="sidebar">

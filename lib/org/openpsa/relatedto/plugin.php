@@ -53,9 +53,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $rel->toComponent = $to_component;
         $rel->status = $status;
 
-        if ($id = $rel->check_db())
+        if ($guid = $rel->check_db())
         {
-            $rel = new org_openpsa_relatedto_dba($id);
+            $rel = new org_openpsa_relatedto_dba($guid);
             debug_add("A relation from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid} already exists, returning this one instead");
             return $rel;
         }
@@ -95,9 +95,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             {
                 $rel->$k = $v;
             }
-            if ($id = $rel->check_db())
+            if ($guid = $rel->check_db())
             {
-                $rel = new org_openpsa_relatedto_dba($id);
+                $rel = new org_openpsa_relatedto_dba($guid);
             }
             $ret[]  = $rel;
         }
