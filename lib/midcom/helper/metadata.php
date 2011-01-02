@@ -461,7 +461,7 @@ class midcom_helper_metadata
         // TODO: Add Caching Code here, and do invalidation of the nap part manually.
         // so that we don't loose the cache of the metadata already in place.
         // Just be intelligent here :)
-        if ($this->guid)
+        if (!empty($this->guid))
         {
             $_MIDCOM->cache->invalidate($this->guid);
         }
