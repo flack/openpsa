@@ -379,7 +379,7 @@ $GLOBALS['midcom_config_default']['cache_module_memcache_data_groups'] = Array('
 
 // Defaults:
 // $GLOBALS['midcom_config_default']['cache_module_content_backend'] = Array ('directory' => 'content/', 'driver' => 'dba');
-$GLOBALS['midcom_config_default']['cache_module_content_uncached'] = false;
+$GLOBALS['midcom_config_default']['cache_module_content_uncached'] = true;
 $GLOBALS['midcom_config_default']['cache_module_content_headers_strategy'] = 'revalidate';
 $GLOBALS['midcom_config_default']['cache_module_content_headers_strategy_authenticated'] = 'private';
 $GLOBALS['midcom_config_default']['cache_module_content_default_lifetime'] = 900; // Seconds, added to gmdate() for expiry timestamp (in case no other expiry is set), also used as default expiry for content-cache entries that have no expiry set

@@ -35,11 +35,11 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     var $show_time = true;
 
     /**
-     * Indicates whether the timestamp should show seconds or not.
+     * Indicates whether the timestamp should include seconds or not.
      *
      * @var boolean
      */
-    var $hide_seconds = false;
+    var $hide_seconds = true;
 
     /**
      * Minimum Year available for selection.
@@ -60,7 +60,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      *
      * @var String
      */
-    var $format = '%Y-%m-%d %H:%M:%S';
+    var $format = '%Y-%m-%d %H:%M';
 
     /**
      * Adapts the min/maxyear defaults if the base date is set to UNIXDATE storage.

@@ -221,11 +221,17 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     {
         $format = $this->_l10n_midcom->get($base);
         // FIXME: This is not exactly an elegant way to do this
-        if ($this->storage_type != 'ISO_DATE'
-            && ( !array_key_exists('show_time', $this->storage->_schema->fields[$this->name]['widget_config'])
-                || $this->storage->_schema->fields[$this->name]['widget_config']['show_time']))
+        $widget_conf = $this->storage->_schema->fields[$this->name]['widget_config'];
+        if (    $this->storage_type != 'ISO_DATE'
+            && (   !array_key_exists('show_time', $widget_conf)
+                || $widget_conf['show_time']))
         {
-            $format = $this->_l10n_midcom->get($base) . ' %T';
+            $format .= ' %H:%M';
+            if (   array_key_exists('hide_seconds', $widget_conf)
+                && !$widget_conf['hide_seconds'])
+            {
+                $format .= ':%S';
+            }
         }
         return $format;
     }

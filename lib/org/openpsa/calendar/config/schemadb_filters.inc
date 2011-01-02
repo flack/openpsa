@@ -25,6 +25,17 @@
             'widget_config' => array
             (
                 'clever_class' => 'contact',
+                'constraints' => array
+                (
+                    //FIXME: This only works with mgd1 accounts!
+                    /*
+                    array
+                    (
+                        'field' => 'username',
+                        'op'    => '<>',
+                        'value' => '',
+                    ),*/
+                ),
                 'id_field' => 'guid',
             ),
         ),
