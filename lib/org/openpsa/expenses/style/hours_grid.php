@@ -13,7 +13,6 @@ foreach ($reports['reports'] as $report)
     $entry = array();
 
     $description = "<em>" . $data['l10n']->get('no description given') . "</em>";
-    
     if (! preg_match("/^[\W]*?$/", $report->description))
     {
         $description = $report->description;
@@ -114,7 +113,7 @@ jQuery("#&(grid_id);").jqGrid({
     });
 
 jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
-        
+
 jQuery("#form_&(grid_id);").submit(function()
 {
     var s, i;

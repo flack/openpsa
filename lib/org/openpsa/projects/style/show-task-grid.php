@@ -86,10 +86,10 @@ jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', <?php
-                 echo '"index_priority", "' . $data['l10n']->get('priority') . '",'; 
-                 
-                 echo '"index_task", "' . $data['l10n']->get('task') . '",'; 
-                 echo '"index_project", "' . $data['l10n']->get('project') . '",'; 
+                 echo '"index_priority", "' . $data['l10n']->get('priority') . '",';
+
+                 echo '"index_task", "' . $data['l10n']->get('task') . '",';
+                 echo '"index_project", "' . $data['l10n']->get('project') . '",';
                  if ($data['view_identifier'] != 'agreement')
                  {
                      echo '"index_customer", "' . $data['l10n']->get('customer') . '",';
@@ -129,12 +129,12 @@ jQuery("#&(grid_id);").jqGrid({
       rowNum: <?php echo sizeof($rows); ?>,
       scroll: 1,
       grouping: <?php echo ($data['view_identifier'] == 'agreement') ? 'false' : 'true'; ?>,
-      groupingView: { 
+      groupingView: {
           groupField: ['index_project'],
           groupColumnShow: [false],
           groupText : ['<strong>{0}</strong> ({1})'],
           groupOrder: ['asc'],
-          groupSummary : [true], 
+          groupSummary : [true],
           showSummaryOnHide: true
        }
     });

@@ -157,6 +157,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'action', index: 'action', width: 80, align: 'center'}
       ],
       loadonce: true,
+      rowNum: <?php echo sizeof($entries); ?>,
       caption: "&(data['list_label']);",
       footerrow: true
 });
