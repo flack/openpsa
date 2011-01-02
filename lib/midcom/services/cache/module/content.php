@@ -722,12 +722,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function invalidate($guid)
     {
-        if (empty($guid))
-        {
-            debug_add("Called for empty GUID, ignoring invalidation request.");
-            return;
-        }
-
         $this->_meta_cache->open();
 
         if (!$this->_meta_cache->exists($guid))

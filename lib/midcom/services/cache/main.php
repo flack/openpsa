@@ -139,6 +139,12 @@ class midcom_services_cache
             debug_add_type ("Got an object, trying to auto-detect the GUID. Passed type was:", $guid);
             $guid = $guid->guid;
         }
+        if (empty($guid))
+        {
+            debug_add("Called for empty GUID, ignoring invalidation request.");
+            return;
+        }
+
         foreach ($this->_unload_queue as $name)
         {
             if ($name == $skip_module)
