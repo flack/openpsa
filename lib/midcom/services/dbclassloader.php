@@ -337,10 +337,8 @@ class midcom_services_dbclassloader
     {
         $class_parts = explode('_', $classname);
         $component = '';
-        $parts = 0;
         foreach ($class_parts as $part)
         {
-            $parts++;
             if (empty($component))
             {
                 $component = $part;
@@ -394,6 +392,7 @@ class midcom_services_dbclassloader
             }
 
             if (   !empty($component)
+                && $component != 'midcom'
                 && $_MIDCOM->componentloader->is_installed($component))
             {
                 return $component;
