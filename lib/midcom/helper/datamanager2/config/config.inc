@@ -1,13 +1,13 @@
 'default_renderer' => 'simple',
 'default_renderer_src' => null,
 /**
- * Whether to verify that ImageMagick is in fact available (in type_image(s)) every time 
+ * Whether to verify that ImageMagick is in fact available (in type_image(s)) every time
  * it's needed or not. This can be adjusted in type_config as well.
- * 
+ *
  * Setting this to false will win some performance but in case ImageMagick is/goes missing
  * You will also gain really weird and hard-to-debug problems with images handling
  */
-'verify_imagemagick' => true, 
+'verify_imagemagick' => true,
 
 // TinyMCE Defaults
 // The Theme is only used if the config snippet is not set (an invalid snippet name
@@ -25,12 +25,12 @@
     'HTML' => array
     (
         /**
-         * These two must be changed to something unique to your situation 
+         * These two must be changed to something unique to your situation
          * if you change any of the html_purify_xx configs
          *
          * DEVELOPERS: If you change these defaults remember to bump DefinitionRev
-         */ 
-        'DefinitionID' => 'DM2 Default definition set', 
+         */
+        'DefinitionID' => 'DM2 Default definition set',
         'DefinitionRev' => 3,
         /* NOTE: You must use transitional doctype if you want to use <a name> (see html_purify_HTMLDefinition below) */
         'Doctype' => 'XHTML 1.0 Transitional',
@@ -149,15 +149,7 @@
             'name',
             'email',
         ),
-        'constraints' => array
-        (
-            array
-            (
-                'field' => 'username',
-                'op'    => '<>',
-                'value' => '',
-            ),
-        ),
+        'constraints' => array(),
         'searchfields' => array
         (
             'firstname',
