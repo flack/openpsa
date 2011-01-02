@@ -24,7 +24,6 @@ if (array_key_exists('deliverable', $data))
 foreach ($data['invoices'] as $invoice)
 {
     $entry = array();
-    $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
     $number = $invoice->get_label();
     $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
     $next_marker = false;
@@ -61,8 +60,12 @@ foreach ($data['invoices'] as $invoice)
                 $entry['customer'] = $customer->official;
             }
         }
-        catch (midcom_error $e){}
+        catch (midcom_error $e)
+        {
+            $entry['customer'] = '';
+        }
     }
+    $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
 
     $entry['contact'] = $customer_card->show_inline();
     $entry['index_sum'] = $invoice->sum;

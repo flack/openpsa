@@ -249,7 +249,7 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
     {
         if (!$this->_data_read_ok)
         {
-            return false;
+            return '';
         }
         $inline_string = '';
 

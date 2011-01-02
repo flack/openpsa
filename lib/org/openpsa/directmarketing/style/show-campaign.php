@@ -53,10 +53,9 @@ function hideElement(element)
         foreach($data['campaign']->testers as $id => $bool)
         {
             $person = org_openpsa_contactwidget::get($id);
-
             echo $person->show_inline();
 
-            if(($counter++) < count($data['campaign']->testers))
+            if (($counter++) < count($data['campaign']->testers))
             {
                 echo ", ";
             }
