@@ -395,13 +395,14 @@ class midcom_services_indexer_solrRequest
         if (   $this->request->getResponseCode() != 200
             || PEAR::isError($err))
         {
-            $errstr = '';
+            $errstr = $this->request->getResponseCode();
             if (is_a($err, 'PEAR_Error'))
             {
-                $errstr = $err->getMessage();
+                $errstr .= ' ' . $err->getMessage();
             }
             debug_add("Failed to execute commit request {$url}: {$errstr}", MIDCOM_LOG_WARN);
             debug_add("Request content: \n$xml", MIDCOM_LOG_INFO);
+
             return false;
         }
 
