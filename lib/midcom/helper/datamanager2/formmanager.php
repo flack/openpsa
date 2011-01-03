@@ -325,7 +325,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
     {
         $field_default = $this->widgets[$name]->get_default();
 
-        if (   is_null($field_default)
+        if (   empty($field_default)
             && !is_null($config['default']))
         {
             $empty = false;
