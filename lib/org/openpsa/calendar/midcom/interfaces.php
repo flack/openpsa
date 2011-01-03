@@ -67,7 +67,7 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
 
         if (mgd_is_guid($root_guid))
         {
-            $root_event = new org_openpsa_calendar_event_dba($root_guid);
+            $root_event = org_openpsa_calendar_event_dba::get_cached($root_guid);
         }
         else
         {

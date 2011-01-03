@@ -311,7 +311,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
                 try
                 {
-                    $object = new $class($key);
+                    $object = $class::get_cached($key);
                 }
                 catch (midcom_error $e)
                 {

@@ -168,10 +168,10 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
                 $msg = $err->getMessage();
             }
             debug_add("Failed to execute Request {$url}:{$this->code} {$msg}", MIDCOM_LOG_WARN);
+            debug_print_r('Got response:', $body);
             return false;
         }
         $body = $request->getResponseBody();
-        debug_add("Got response\n===\n{$body}\n===\n");
         $response = DomDocument::loadXML($body);
         $xquery = new DomXPath($response);
         $result = array();
@@ -356,7 +356,7 @@ class midcom_services_indexer_solrRequest
 
 
     /**
-     * posts the xml to the suggested url using HTTP_Request.
+     * Posts the xml to the suggested url using HTTP_Request.
      */
     function do_post($xml, $optimize = false)
     {
@@ -369,11 +369,9 @@ class midcom_services_indexer_solrRequest
         $this->request->addRawPostData($xml);
         $this->request->addHeader('Accept-Charset', 'UTF-8');
         $this->request->addHeader('Content-type', 'text/xml; charset=utf-8');
-        debug_add("POSTing XML to {$url}\n===\n{$xml}\n===\n");
         $err = $this->request->sendRequest(true);
 
         $this->code = $this->request->getResponseCode();
-        debug_add("Got response code {$this->code}, body\n===\n" . $this->request->getResponseBody() . "\n===\n");
 
         if (   $this->code != 200
             || PEAR :: isError($err))
@@ -384,7 +382,8 @@ class midcom_services_indexer_solrRequest
                 $errstr = $err->getMessage();
             }
             debug_add("Failed to execute request {$url}:{$this->code} {$errstr}", MIDCOM_LOG_WARN);
-            debug_add("Request content: \n$xml");
+            debug_print_r("Got response code {$this->code}, body:", $this->request->getResponseBody());
+            debug_print_r('Request content:', $xml);
             return false;
         }
         $this->request->addRawPostData('<commit/>');

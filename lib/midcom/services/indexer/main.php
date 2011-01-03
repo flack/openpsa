@@ -297,7 +297,7 @@ class midcom_services_indexer
             {
                 try
                 {
-                    $topic = new midcom_db_topic($document->topic_guid);
+                    $topic = midcom_db_topic::get_cached($document->topic_guid);
                 }
                 catch (midcom_error $e)
                 {
@@ -355,8 +355,6 @@ class midcom_services_indexer
      */
     function new_document(&$object)
     {
-        debug_print_type('Searching an instance for this object type:', $object);
-
         // Scan for datamanager instances.
         if (is_a($object, 'midcom_helper_datamanager2_datamanager'))
         {
@@ -381,7 +379,7 @@ class midcom_services_indexer
         }
 
         // No specific match found.
-        debug_add('No match found for this type.');
+        debug_print_r('No match found for this type:', $object);
         return false;
     }
 }

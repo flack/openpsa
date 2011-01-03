@@ -713,21 +713,12 @@ class midcom_services_indexer_document
                 $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->created);
                 debug_add("Set \$this->created to {$this->created} from \$object->metadata->created ({$object->metadata->created})");
                 break;
-            case (isset($object->created)):
-                $this->created = $this->_read_metadata_from_object_to_unixtime($object->created);
-                debug_add("Set \$this->created to {$this->created} from \$object->created ({$object->created})");
-                break;
         }
         // Revised
         if (isset($object->metadata->revised))
         {
             $this->edited = $this->_read_metadata_from_object_to_unixtime($object->metadata->revised);
             debug_add("Set \$this->edited to {$this->edited} from \$object->metadata->revised ({$object->metadata->revised})");
-        }
-        else if (isset($object->revised))
-        {
-            $this->edited = $this->_read_metadata_from_object_to_unixtime($object->revised);
-            debug_add("Set \$this->edited to {$this->edited} from \$object->revised ({$object->revised})");
         }
         // Heuristics to determine author
         switch (true)
@@ -737,20 +728,10 @@ class midcom_services_indexer_document
                 $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->authors);
                 debug_add("Set \$this->author to '{$this->author}' from \$object->metadata->authors ({$object->metadata->authors})");
                 break;
-            case (   isset($object->author)
-                  && !empty($object->author)):
-                $this->author = $this->_read_metadata_from_object_to_authorname($object->author);
-                debug_add("Set \$this->author to '{$this->author}' from \$object->author ({$object->author})");
-                break;
             case (   isset($object->metadata->creator)
                   && !empty($object->metadata->creator)):
                 $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->creator);
                 debug_add("Set \$this->author to '{$this->author}' from \$object->metadata->creator ({$object->metadata->creator})");
-                break;
-            case (   isset($object->creator)
-                  && !empty($object->creator)):
-                $this->author = $this->_read_metadata_from_object_to_authorname($object->creator);
-                debug_add("Set \$this->author to '{$this->author}' from \$object->creator ({$object->creator})");
                 break;
         }
         // Creator
@@ -759,27 +740,11 @@ class midcom_services_indexer_document
             $this->creator = $this->_read_metadata_from_object_get_person_cached($object->metadata->creator);
             debug_add("Set \$this->creator from \$object->metadata->creator ({$object->metadata->creator})");
         }
-        else if (isset($object->creator))
-        {
-            $this->creator = $this->_read_metadata_from_object_get_person_cached($object->creator);
-            debug_add("Set \$this->creator from \$object->creator ({$object->creator})");
-        }
         // Editor
         if (isset($object->metadata->revisor))
         {
             $this->editor = $this->_read_metadata_from_object_get_person_cached($object->metadata->revisor);
             debug_add("Set \$this->editor from \$object->metadata->revisor ({$object->metadata->revisor})");
-        }
-        else if (isset($object->revisor))
-        {
-            $this->editor = $this->_read_metadata_from_object_get_person_cached($object->revisor);
-            debug_add("Set \$this->editor from \$object->revisor ({$object->revisor})");
-        }
-
-        // Using legacy API just to be safe
-        if ($object->parameter('midcom.services.indexer', 'do_not_index'))
-        {
-            $this->actually_index = false;
         }
     }
 
@@ -810,21 +775,15 @@ class midcom_services_indexer_document
      */
     function _read_metadata_from_object_get_person_cached($id)
     {
-        static $cache = array();
-        if (isset($cache[$id]))
+        try
         {
-            return $cache[$id];
+            $person = midcom_db_person::get_cached($id);
         }
-        $person =  new midcom_db_person($id);
-        if (!$person)
+        catch (midcom_error $e)
         {
             return false;
         }
-        $cache[$person->guid] = $person;
-        $cache[$person->id] =& $cache[$person->guid];
-        // In case the given $id is not id or GUID but something else than can be resolved
-        $cache[$id] =& $cache[$person->guid];
-        return $cache[$id];
+        return $person;
     }
 
     /**
