@@ -131,7 +131,8 @@ if ($ip_sudo)
     $_MIDCOM->auth->drop_sudo();
 }
 
+echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";
+flush();
 // re-enable ob
 ob_start();
-echo "Reindex complete for node {$node[MIDCOM_NAV_FULLURL]}\n</pre>";
 ?>

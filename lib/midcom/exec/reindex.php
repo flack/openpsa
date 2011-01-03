@@ -130,18 +130,19 @@ while (! is_null($nodeid))
     flush();
     //pass the node-id & the language
     $post_variables = array('nodeid' => $nodeid , 'language' => $language);
+    $post_string = 'nodeid=' . $nodeid . '&language=' . $language;
     $response = $http_client->post($reindex_topic_uri, $post_variables, array('User-Agent' => 'midcom-exec-midcom/reindex.php'));
     if ($response === false)
     {
         // returned with failure
         echo "failure.\n   Background processing failed, error: {$http_client->error}\n";
-        echo "Url: " . $reindex_topic_uri . "?" . join("=", $post_variables) . "\n";
+        echo "Url: " . $reindex_topic_uri . "?" . $post_string . "\n";
     }
     else if (!preg_match("#(\n|\r\n)Reindex complete for node http.*\s*</pre>\s*$#", $response))
     {
         // Does not end with 'Reindex complete for node...'
-        echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response}\n---\n\n";
-        echo "Url: " . $reindex_topic_uri . "?" . join("=", $post_variables) . "\n";
+        echo "failure.\n   Background reindex returned unexpected data:\n---\n{$response}\n---\n";
+        echo "Url: " . $reindex_topic_uri . "?" . $post_string . "\n\n";
     }
     else
     {
