@@ -6,7 +6,7 @@ $(document).ready(function()
         id = "sum_"+$(this).attr('id');
         invoice_value = $("#"+ id).html();
         sum_value = $("#new_invoice_sum").attr('value');
-        if($(this).is(':checked'))
+        if ($(this).is(':checked'))
         {
             sum_value = Number(sum_value) + Number(invoice_value);
         }
@@ -42,7 +42,7 @@ function parse_input(string)
     search_string = ',';
     replace_string = '.';
 
-    return string.replace(search_string , replace_string);
+    return Number(string.replace(search_string , replace_string));
 }
 
 function calculate_row(id)
@@ -53,7 +53,7 @@ function calculate_row(id)
     price_unit = parse_input($("#price_per_unit_" + id).val());
     units = parse_input($("#units_" + id).val());
     //check if they are numbers
-    if(isNaN(price_unit)
+    if (isNaN(price_unit)
         && isNaN(units))
     {
         sum = 0;
@@ -69,10 +69,10 @@ function calculate_row(id)
 //function to calculate the total sum with the row for the passed id
 function recalculate_invoice_sum(id , remove)
 {
-    invoice_sum = Number($("#invoice_sum").html());
-    row_sum = Number($('#row_sum_' + id).html());
+    invoice_sum = parse_input($("#invoice_sum").html());
+    row_sum = parse_input($('#row_sum_' + id).html());
 
-    if(remove == true)
+    if (remove == true)
     {
         row_sum = row_sum * -1;
     }
