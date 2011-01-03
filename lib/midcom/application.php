@@ -353,7 +353,7 @@ class midcom_application
         }
         catch (midcom_error $e)
         {
-            if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
+            if ($e instanceof midcom_error_forbidden)
             {
                 throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
             }
