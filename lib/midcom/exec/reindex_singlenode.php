@@ -97,13 +97,16 @@ if (   is_array($existing_documents)
 {
     echo "Dropping existing documents in node... ";
     flush();
-    foreach($existing_documents as $document)
+    foreach ($existing_documents as $document)
     {
         if (!$indexer->delete($document->RI))
         {
             debug_add("Failed to remove document {$document->RI} from index", MIDCOM_LOG_WARN);
         }
-        debug_add("Removed document {$document->RI} from index", MIDCOM_LOG_INFO);
+        else
+        {
+            debug_add("Removed document {$document->RI} from index", MIDCOM_LOG_INFO);
+        }
     }
     echo "Done\n";
     flush();
