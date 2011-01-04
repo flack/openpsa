@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.directmarketing',
 'icon' => 'stock-icons/16x16/stock_mail.png',
 'purecode' => false,
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_campaign' => 'org_openpsa_directmarketing_campaign_dba',
     'org_openpsa_campaign_member' => 'org_openpsa_directmarketing_campaign_member_dba',

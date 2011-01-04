@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/stock_person.png',
 'version' => '8.09.9',
 'state' => 'stable',
-'class_definitions' => array
+'class_mapping' => array
 (
     'net_nehmer_accounts_invites_invite' => 'net_nehmer_account_invites_invite_dba',
     'net_nehmer_account_karma' => 'net_nehmer_account_karma_dba',

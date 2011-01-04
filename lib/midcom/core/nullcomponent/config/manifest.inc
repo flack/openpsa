@@ -4,7 +4,7 @@
 'version' => '0.0.1',
 'state' => 'devel',
 'privileges' => array(),
-'class_definitions' => array(),
+'class_mapping' => array(),
 /**
  * This is used by the PEAR packaging.
  */

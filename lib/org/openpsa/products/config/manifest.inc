@@ -4,7 +4,7 @@
 'version' => '8.09.9',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_products_product' => 'org_openpsa_products_product_dba',
     'org_openpsa_products_product_group' => 'org_openpsa_products_product_group_dba',

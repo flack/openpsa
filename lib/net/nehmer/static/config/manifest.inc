@@ -2,7 +2,7 @@
 'version' => '8.09.9',
 'icon' => 'stock-icons/16x16/document.png',
 'state' => 'stable',
-'class_definitions' => array
+'class_mapping' => array
 (
     'net_nehmer_static_link' => 'net_nehmer_static_link_dba',
 ),

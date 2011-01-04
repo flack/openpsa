@@ -3,7 +3,7 @@
 'purecode' => true,
 'version' => '8.09.9',
 'privileges' => array(),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'license' => 'GPL',

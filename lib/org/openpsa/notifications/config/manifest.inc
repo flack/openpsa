@@ -4,7 +4,7 @@
 'privileges' => array(),
 'version' => '8.09.9',
 'state' => 'stable',
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_notifications_notification' => 'org_openpsa_notifications_notification_dba',
 ),

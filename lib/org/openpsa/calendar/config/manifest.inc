@@ -5,7 +5,7 @@
     'read' => MIDCOM_PRIVILEGE_ALLOW,
     'reserve' => MIDCOM_PRIVILEGE_ALLOW,
 ),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_event' => 'org_openpsa_calendar_event_dba',
     'org_openpsa_eventmember' => 'org_openpsa_calendar_event_member_dba',

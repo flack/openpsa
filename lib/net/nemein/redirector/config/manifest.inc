@@ -6,7 +6,7 @@
 (
     'noredirect' => MIDCOM_PRIVILEGE_DENY,
 ),
-'class_definitions' => array
+'class_mapping' => array
 (
     'net_nemein_redirector_tinyurl' => 'net_nemein_redirector_tinyurl_dba',
 ),

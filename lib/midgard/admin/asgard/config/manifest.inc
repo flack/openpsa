@@ -8,7 +8,7 @@
     'access' => MIDCOM_PRIVILEGE_DENY,
     'manage_objects' => MIDCOM_PRIVILEGE_ALLOW,
 ),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'summary' => 'Next generation admin interface',

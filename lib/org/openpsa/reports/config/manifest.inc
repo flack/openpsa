@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.reports',
 'purecode' => false,
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_query' => 'org_openpsa_reports_query_dba',
 ),

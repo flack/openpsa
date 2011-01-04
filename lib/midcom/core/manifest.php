@@ -31,7 +31,7 @@
  *     'read' => MIDCOM_PRIVILEGE_ALLOW,
  *     'write' => Array (MIDCOM_PRIVILEGE_DENY, MIDCOM_PRIVILEGE_ALLOW)
  * ),
- * 'class_definitions' => array('mgdschema_classname' => 'midcom_classname'),
+ * 'class_mapping' => array('mgdschema_classname' => 'midcom_classname'),
  * 'watches' => Array
  * (
  *     Array
@@ -134,7 +134,7 @@
  * Note, that INHERIT does not INHERIT from the system default privilege but
  * from the <i>immediate parent</i>.
  *
- * <i>Array class_definitions</i> contains a map of mgdschema => midcom definitions of
+ * <i>Array class_mapping</i> contains a map of mgdschema => midcom definitions of
  * the classes the component makes available to the framework. The component is loaded
  * dynamically whenever the final DBA implementation is needed.
  *
@@ -260,7 +260,7 @@ class midcom_core_manifest
      *
      * @var array
      */
-    public $class_definitions = Array();
+    public $class_mapping = Array();
 
     /**
      * A list of all watches defined by the component.
@@ -331,9 +331,9 @@ class midcom_core_manifest
         {
             $this->_process_privileges();
         }
-        if (array_key_exists('class_definitions', $this->_raw_data))
+        if (array_key_exists('class_mapping', $this->_raw_data))
         {
-            $this->class_definitions = $this->_raw_data['class_definitions'];
+            $this->class_mapping = $this->_raw_data['class_mapping'];
         }
         if (array_key_exists('watches', $this->_raw_data))
         {

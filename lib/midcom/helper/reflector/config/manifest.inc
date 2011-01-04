@@ -4,7 +4,7 @@
 'icon' => 'stock-icons/16x16/stock_folder-properties.png',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'summary' => 'MidCOM reflection helper',

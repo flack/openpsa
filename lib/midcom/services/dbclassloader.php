@@ -617,7 +617,7 @@ class midcom_services_dbclassloader
             return $classes;
         }
 
-        $classes = $_MIDCOM->componentloader->manifests[$component]->class_definitions;
+        $classes = $_MIDCOM->componentloader->manifests[$component]->class_mapping;
 
         return $classes;
     }

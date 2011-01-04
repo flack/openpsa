@@ -2,7 +2,7 @@
 'icon' => 'net.nehmer.blog/news-listing.png',
 'version' => '8.09.9.1',
 'state' => 'stable',
-'class_definitions' => array
+'class_mapping' => array
 (
     'net_nehmer_blog_link' => 'net_nehmer_blog_link_dba',
 ),

@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/folder.png',
 'purecode' => false,
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_document' => 'org_openpsa_documents_document_dba',
 ),

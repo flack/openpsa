@@ -4,7 +4,7 @@
 'version' => '8.09.9',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'summary' => 'News feed generator',

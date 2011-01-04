@@ -8,7 +8,7 @@
 (
     'access' => MIDCOM_PRIVILEGE_DENY,
 ),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'license' => 'LGPL',

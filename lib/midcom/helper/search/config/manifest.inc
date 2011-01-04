@@ -4,7 +4,7 @@
 'state' => 'stable',
 'purecode' => false,
 'privileges' => array(),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'summary' => 'Search tool',

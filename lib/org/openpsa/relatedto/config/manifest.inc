@@ -4,7 +4,7 @@
 'version' => '8.09.9',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_relatedto' => 'org_openpsa_relatedto_dba',
     'org_openpsa_relatedto_journal_entry' => 'org_openpsa_relatedto_journal_entry_dba',

@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/stock_new-event.png',
 'purecode' => true,
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'midcom_services_at_entry_db' => 'midcom_services_at_entry_dba',
 ),

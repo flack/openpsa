@@ -3,7 +3,7 @@
 'purecode' => false,
 'version' => '8.09.9',
 'state' => 'stable',
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_salesproject' => 'org_openpsa_sales_salesproject_dba',
     'org_openpsa_salesproject_member' => 'org_openpsa_sales_salesproject_member_dba',

@@ -7,7 +7,7 @@
 (
     'access' => MIDCOM_PRIVILEGE_ALLOW,
 ),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'package.xml' => array
 (
     'license' => 'GPL',

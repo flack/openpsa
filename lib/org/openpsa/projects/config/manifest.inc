@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.projects',
 'purecode' => false,
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_task' => 'org_openpsa_projects_task_dba',
     'org_openpsa_task_resource' => 'org_openpsa_projects_task_resource_dba',

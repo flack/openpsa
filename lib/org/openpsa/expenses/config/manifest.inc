@@ -3,7 +3,7 @@
 'version' => '8.09.9',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_expense' => 'org_openpsa_expenses_expense',
 ),

@@ -4,7 +4,7 @@
 'version' => '8.09.9',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'net_nemein_wiki_link' => 'net_nemein_wiki_link_dba',
 ),

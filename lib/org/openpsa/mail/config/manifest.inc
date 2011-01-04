@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/stock_mail-open.png',
 'purecode' => true,
 'privileges' => array(),
-'class_definitions' => array(),
+'class_mapping' => array(),
 'version' => '8.09.9',
 'state' => 'stable',
 'package.xml' => array

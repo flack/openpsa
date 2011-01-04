@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/geoclue.png',
 'purecode' => true,
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_routamc_positioning_country' => 'org_routamc_positioning_country_dba',
     'org_routamc_positioning_city' => 'org_routamc_positioning_city_dba',

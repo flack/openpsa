@@ -2,7 +2,7 @@
 'icon' => 'midcom.helper.activitystream/activitystream-16.png',
 'purecode' => true,
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
  'midcom_helper_activitystream_activity' => 'midcom_helper_activitystream_activity_dba',
 ),

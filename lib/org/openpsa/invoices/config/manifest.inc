@@ -4,7 +4,7 @@
 'version' => '8.09.9',
 'state' => 'stable',
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_invoice' => 'org_openpsa_invoices_invoice_dba',
     'org_openpsa_invoice_hour' => 'org_openpsa_invoices_invoice_hour_dba',

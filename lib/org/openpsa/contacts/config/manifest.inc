@@ -1,7 +1,7 @@
 'name' => 'org.openpsa.contacts',
 'purecode' => false,
 'privileges' => array(),
-'class_definitions' => array
+'class_mapping' => array
 (
     'org_openpsa_organization' => 'org_openpsa_contacts_group_dba',
     'org_openpsa_person' => 'org_openpsa_contacts_person_dba',
