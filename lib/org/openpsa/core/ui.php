@@ -117,7 +117,7 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.tabs.min.js');
 
         //functions needed for ui-tab to work here
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jquery.history.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.history.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/tab_functions.js');
 
         //add the needed css-files
