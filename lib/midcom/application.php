@@ -2436,7 +2436,7 @@ class midcom_application
 
         if (!defined('MIDCOM_JQUERY_UI_URL'))
         {
-            define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery.ui-{$GLOBALS['midcom_config']['jquery_ui_version']}");
+            define('MIDCOM_JQUERY_UI_URL', MIDCOM_STATIC_URL . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}");
         }
 
         $script  = "var MIDCOM_STATIC_URL = '" . MIDCOM_STATIC_URL . "';\n";
