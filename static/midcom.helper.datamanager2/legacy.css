@@ -96,7 +96,6 @@ form.datamanager2 fieldset.account legend,
     form.datamanager2 fieldset.image legend,
     form.datamanager2 fieldset.collection legend,
     form.datamanager2 fieldset.radiobox legend,
-    form.datamanager2 fieldset.date legend,
     form.datamanager2 fieldset.mailtemplate legend
 {
     font-weight: normal;
@@ -116,32 +115,8 @@ form.datamanager2 fieldset.radiobox input
     vertical-align: baseline; /* This one is for IE */
 }
 
-form.datamanager2 fieldset.date
-{
-    border: none;
-    padding: 3px 0 3px 0;
-    margin: 0;
-    display: inline !important;
-}
-
-form.datamanager2 fieldset.date input.date
-{
-    display: inline !important;
-    width: 10em !important;
-}
-
-form.datamanager2 fieldset.date button.date
-{
-    display: inline;
-    margin: 0px 0px 0px 5px;
-    width: 24px;
-    height: 20px;
-    background-image: url('../stock-icons/16x16/web-calendar.png');
-    background-repeat: no-repeat;
-}
-
 form.datamanager2 div.blob_preview,
-    form.datamanager2 div.image_preview
+form.datamanager2 div.image_preview
 {
     float: right;
     width: 180px;
@@ -394,3 +369,7 @@ form.datamanager2 table.jquery-enabled thead .deleted img.delete
   display: inline !important;
 }
 
+form.datamanager2 input.jsdate
+{
+    margin-right: 1em
+}

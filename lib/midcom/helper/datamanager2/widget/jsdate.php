@@ -148,6 +148,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
           maxDate: new Date({$this->maxyear}, 1, 1),
           minDate: new Date({$this->minyear}, 1, 1),
           dateFormat: 'yy-mm-dd',
+                prevText: '',
+                nextText: '',
                 //altFormat: 'yyyy-mm-dd',
                 //altField: '#ID',
                 });
@@ -163,10 +165,9 @@ EOT;
     {
         $this->_add_external_html_elements();
 
-        $elements = Array();
-        $this->_create_unfrozen_elements($elements);
+        $elements = $this->_create_unfrozen_elements();
 
-        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), '', false);
+        $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);
 
         if($this->_field['required'])
         {
@@ -180,11 +181,12 @@ EOT;
     /**
      * Create the unfrozen element listing.
      */
-    function _create_unfrozen_elements(&$elements)
+    function _create_unfrozen_elements()
     {
+        $elements = array();
         $attributes = Array
         (
-            'class' => 'date',
+            'class' => 'jsdate',
             'id'    => "{$this->_namespace}{$this->name}",
             'size'  => 10
         );
@@ -199,6 +201,7 @@ EOT;
                 'size'  => 2
             );
             $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_hours", '', $attributes);
+            $elements[] = HTML_QuickForm::createElement('static', "{$this->_name}_hours_separator", '', ':');
             $attributes = Array
             (
                 'class' => 'jsdate_minutes',
@@ -209,9 +212,10 @@ EOT;
 
             if (!$this->hide_seconds)
             {
+                $elements[] = HTML_QuickForm::createElement('static', "{$this->_name}_minutes_separator", '', ':');
                 $attributes = Array
                 (
-                    'class' => 'jsdate_minutes',
+                    'class' => 'jsdate_seconds',
                     'id'    => "{$this->_namespace}{$this->name}_seconds",
                     'size'  => 2
                 );
@@ -220,12 +224,13 @@ EOT;
         }
 
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_initscript", '', $this->_create_initscript());
+        return $elements;
     }
 
     /**
      * Create the frozen element listing.
      */
-    function _create_frozen_elements(&$elements)
+    function _create_frozen_elements()
     {
         $attributes = Array
         (
@@ -234,7 +239,7 @@ EOT;
         );
         $element = HTML_QuickForm::createElement('text', $this->name, '', $attributes);
         $element->freeze();
-        $elements[] = $element;
+        return array($element);
     }
 
     /**
@@ -243,8 +248,7 @@ EOT;
      */
     function freeze()
     {
-        $new_elements = Array();
-        $this->_create_frozen_elements($new_elements);
+        $new_elements = $this->_create_frozen_elements();
 
         $group = $this->_form->getElement($this->name);
         $group->setElements($new_elements);
@@ -256,8 +260,7 @@ EOT;
      */
     function unfreeze()
     {
-        $new_elements = Array();
-        $this->_create_unfrozen_elements($new_elements);
+        $new_elements = $this->_create_unfrozen_elements();
 
         $group = $this->_form->getElement($this->name);
         $group->setElements($new_elements);

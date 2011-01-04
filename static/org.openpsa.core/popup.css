@@ -2,6 +2,7 @@ body
 {
   margin: 0px;
   padding: 0px;
+  font-size: 12px;
 }
 #container,
 #container select,
@@ -9,7 +10,6 @@ body
 #container input
 {
   font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 12px;
 }
 #content
 {
