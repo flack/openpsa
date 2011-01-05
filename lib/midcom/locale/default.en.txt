@@ -410,11 +410,11 @@ Move up
 Name
 ---STRINGEND
 
----STRING nav_noentry
+---STRING navnoentry
 Hide from navigation
 ---STRINGEND
 
----STRING nav_noentry_helptext
+---STRING navnoentry_helptext
 Objects with no navigation entry are still accessible on-site if the URL is known.
 ---STRINGEND
 

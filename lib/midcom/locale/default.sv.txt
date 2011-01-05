@@ -382,11 +382,11 @@ Flytta upp
 Namn
 ---STRINGEND
 
----STRING nav_noentry
+---STRING navnoentry
 Dölj från navigering
 ---STRINGEND
 
----STRING nav_noentry_helptext
+---STRING navnoentry_helptext
 Objekt som inte finns i menyn kan ändå kommas åt om url är kännd.
 ---STRINGEND
 

@@ -406,11 +406,11 @@ W górę
 Nazwa
 ---STRINGEND
 
----STRING nav_noentry
+---STRING navnoentry
 Ukryj w menu
 ---STRINGEND
 
----STRING nav_noentry_helptext
+---STRING navnoentry_helptext
 Obiekty ukryte w menu są nadal dostępne poprzez bezpośredni URL
 ---STRINGEND
 

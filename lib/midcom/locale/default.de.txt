@@ -394,11 +394,11 @@ Nach oben
 Name
 ---STRINGEND
 
----STRING nav_noentry
+---STRING navnoentry
 Nicht in der Navigation anzeigen
 ---STRINGEND
 
----STRING nav_noentry_helptext
+---STRING navnoentry_helptext
 Objekte ohne Eintrag in der Navigation können weiterhin aufgerufen werden, solange die URL bekannt ist.
 ---STRINGEND
 

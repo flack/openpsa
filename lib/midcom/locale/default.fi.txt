@@ -398,11 +398,11 @@ Siirrä ylös
 Nimi
 ---STRINGEND
 
----STRING nav_noentry
+---STRING navnoentry
 Piilota navigaatiosta
 ---STRINGEND
 
----STRING nav_noentry_helptext
+---STRING navnoentry_helptext
 Tietueet jotka eivät näy navigaatiossa ovat silti saatavilla suoran URL-osoitteen kautta
 ---STRINGEND
 

@@ -16,17 +16,13 @@
  * metadata key during its lifetime. (Invalidating this cache will be possible
  * though.)
  *
- * All metadata is identified by their string-based keys, the original MIDCOM_META_*
- * constants are mapped to these new keys. This has been done to allow for easier
- * extension.
- *
  * <b>Metadata Key Reference</b>
  *
  * See also the schema in /midcom/config/metadata_default.inc
  *
  * - <b>timestamp schedulestart:</b> The time upon which the object should be made visible. 0 for no restriction.
  * - <b>timestamp scheduleend:</b> The time upon which the object should be made invisible. 0 for no restriction.
- * - <b>boolean nav_noentry:</b> Set this to true if you do not want this object to appear in the navigation without it being completely hidden.
+ * - <b>boolean navnoentry:</b> Set this to true if you do not want this object to appear in the navigation without it being completely hidden.
  * - <b>boolean hide:</b> Set this to true to hide the object on-site, overriding scheduling.
  * - <b>string keywords:</b> The keywords for this object, should be used for META HTML headers.
  * - <b>string description:</b> A short description for this object, should be used for META HTML headers.
@@ -36,8 +32,8 @@
  * - <b>MidgardPerson publisher:</b> The person that published the object (i.e. author), read-only except on articles and pages.
  * - <b>timestamp created:</b> The creation time of the object, read-only unless an article is edited.
  * - <b>MidgardPerson creator:</b> The person that created the object, read-only.
- * - <b>timestamp edited:</b> The last-modified time of the object, read-only.
- * - <b>MidgardPerson editor:</b> The person that modified the object, read-only.
+ * - <b>timestamp revised:</b> The last-modified time of the object, read-only.
+ * - <b>MidgardPerson revisor:</b> The person that modified the object, read-only.
  * - <b>timestamp approved:</b> The time of approval of the object, or 0 if not approved. Set automatically through approve/unapprove.
  * - <b>MidgardPerson approver:</b> The person that approved/unapproved the object. Set automatically through approve/unapprove.
  *
@@ -232,12 +228,7 @@ class midcom_helper_metadata
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_schemadb_path);
-
         $this->_datamanager = new midcom_helper_datamanager2_datamanager($this->_schemadb);
-        if (! $this->_datamanager)
-        {
-            throw new midcom_error('Failed to create the metadata datamanager instance, see the Debug Log for details.');
-        }
 
         // Check if we have metadata schema defined in the schemadb specific for the object's schema or component
         $object_schema = $this->__object->get_parameter('midcom.helper.datamanager2', 'schema_name');
@@ -459,7 +450,7 @@ class midcom_helper_metadata
         }
 
         // TODO: Add Caching Code here, and do invalidation of the nap part manually.
-        // so that we don't loose the cache of the metadata already in place.
+        // so that we don't lose the cache of the metadata already in place.
         // Just be intelligent here :)
         if (!empty($this->guid))
         {
@@ -519,14 +510,6 @@ class midcom_helper_metadata
                 }
                 break;
 
-            case 'nav_noentry':
-                $value = $this->__metadata->navnoentry;
-                break;
-
-            case 'edited':
-                $value = $this->__metadata->revised;
-                break;
-
             // Person properties
             case 'creator':
             case 'revisor':
@@ -577,7 +560,7 @@ class midcom_helper_metadata
                 $dm = $this->get_datamanager();
                 if (!isset($dm->types[$key]))
                 {
-                    // Fall back to the parameter reader to get legacy MidCOM metadata params
+                    // Fall back to the parameter reader for non-core MidCOM metadata params
                     $value = $this->__object->get_parameter('midcom.helper.metadata', $key);
                 }
                 else
@@ -610,7 +593,7 @@ class midcom_helper_metadata
      * This does not check approval, use is_approved for that.
      *
      * @see midcom_helper_metadata::is_approved()
-     * @return boolean Indicatinv visibility state.
+     * @return boolean Indicating visibility state.
      */
     function is_visible()
     {

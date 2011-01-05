@@ -240,7 +240,7 @@ class midcom_services_metadata
 
         // Update MidCOM 2.6 request metadata if appropriate
         $request_metadata = $_MIDCOM->get_26_request_metadata($context_id);
-        $edited = $this->_metadata[$context_id][$metadata_type]->get('edited');
+        $edited = $this->_metadata[$context_id][$metadata_type]->get('revised');
         if ($edited > $request_metadata['lastmodified'])
         {
             $_MIDCOM->set_26_request_metadata($edited, $request_metadata['permalinkguid']);
@@ -343,8 +343,10 @@ class midcom_services_metadata
     {
         $opengraph_type = $view_metadata->object->get_parameter('midcom.helper.metadata', 'opengraph_type');
         if (   $opengraph_type
-               && $opengraph_type != 'none')
+            && $opengraph_type != 'none')
         {
+            $request_metadata = $_MIDCOM->get_26_request_metadata();
+
             $_MIDCOM->add_meta_head
             (
                 array
