@@ -1062,24 +1062,13 @@ class midcom_application
     /**
      * Execute the output callback.
      *
-     * Launches the output of the currently selected component. If you set $showcontent
-     * to false the output concept will not be activated, only style-init and -finish
-     * will be called.
+     * Launches the output of the currently selected component.
      *
      * It executes the content_handler that has been determined during the handle
      * phase. It fetches the content_handler from the Component Loader class cache.
-     *
-     * This method always captures the output of the current run (except for context
-     * 0) and stores it into the component context as MIDCOM_CONTEXT_OUTPUT. If
-     * the current request is a content output request, it will automatically flush
-     * the buffer to stdout, in all other cases you have to do this by yourself.
-     *
-     * @param boolean $showcontent    If set and false, the output will not be automatically flushed.
      */
     private function _output()
     {
-        ob_start();
-
         if (!$this->skip_page_style)
         {
             midcom_show_style('style-init');
@@ -1092,14 +1081,6 @@ class midcom_application
         {
             midcom_show_style('style-finish');
         }
-
-        if ($this->_currentcontext != 0)
-        {
-            $output = ob_get_contents();
-            $this->_set_context_data($output, MIDCOM_CONTEXT_OUTPUT);
-        }
-
-        ob_end_flush();
     }
 
     /* *************************************************************************
@@ -1612,7 +1593,6 @@ class midcom_application
         }
         $this->_context[$id][MIDCOM_CONTEXT_CONTENTTOPIC] = null;
         $this->_context[$id][MIDCOM_CONTEXT_COMPONENT] = null;
-        $this->_context[$id][MIDCOM_CONTEXT_OUTPUT] = null;
         $this->_context[$id][MIDCOM_CONTEXT_PAGETITLE] = "";
         $this->_context[$id][MIDCOM_CONTEXT_LASTMODIFIED] = null;
         $this->_context[$id][MIDCOM_CONTEXT_PERMALINKGUID] = null;
