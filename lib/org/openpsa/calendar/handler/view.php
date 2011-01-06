@@ -252,6 +252,7 @@ function openPsaShowMonthSelector()
         $resource_array = array
         (
             'name' => $resource->firstname . ' ' . $resource->lastname,
+            'reservations' => array()
         );
         if ($resource->id == midcom_connection::get_user())
         {
