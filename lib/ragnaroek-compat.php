@@ -69,7 +69,7 @@ function mgd_element($name)
     switch ($element)
     {
         case 'title':
-            return 'OpenPSA';
+            return $GLOBALS['midcom_config']['midcom_site_title'];
         case 'content':
             return '<(content)>';
         default:

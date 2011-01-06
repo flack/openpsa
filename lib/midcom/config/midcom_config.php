@@ -432,6 +432,7 @@ $GLOBALS['midcom_config_default']['error_actions'] = array();
 $GLOBALS['midcom_config_default']['midcom_root_topic_guid'] = '';
 $GLOBALS['midcom_config_default']['midcom_sgconfig_basedir'] = '/sitegroup-config';
 $GLOBALS['midcom_config_default']['midcom_site_url'] = '/';
+$GLOBALS['midcom_config_default']['midcom_site_title'] = $_SERVER['SERVER_NAME'];
 $GLOBALS['midcom_config_default']['midcom_tempdir'] = '/tmp';
 $GLOBALS['midcom_config_default']['midcom_temporary_resource_timeout'] = 86400;
 
