@@ -59,45 +59,29 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
     {
         $providers = array();
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $configured_providers = self::get_config_value('search_providers');
+        $user_id = false;
 
-        if ($search_url = $siteconfig->get_node_full_url('midcom.helper.search'))
+        if (!$_MIDCOM->auth->admin)
         {
-            $providers[] = array
-            (
-                'helptext' => $_MIDCOM->i18n->get_string('search', 'midcom.helper.search'),
-                'url' => $search_url . 'result/',
-                'identifier' => 'midcom.helper.search'
-            );
-        }
-        if ($contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts'))
-        {
-            $providers[] = array
-            (
-                'helptext' => $_MIDCOM->i18n->get_string('contact search', 'org.openpsa.contacts'),
-                'url' => $contacts_url . 'search/',
-                'identifier' => 'org.openpsa.contacts'
-            );
-        }
-        if ($documents_url = $siteconfig->get_node_full_url('org.openpsa.documents'))
-        {
-            $providers[] = array
-            (
-                'helptext' => $_MIDCOM->i18n->get_string('document search', 'org.openpsa.documents'),
-                'url' => $documents_url . 'search/',
-                'identifier' => 'org.openpsa.documents'
-            );
-        }
-        if ($invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices'))
-        {
-            $providers[] = array
-            (
-                'helptext' => $_MIDCOM->i18n->get_string('go to invoice number', 'org.openpsa.invoices'),
-                'url' => $invoices_url . 'goto/',
-                'identifier' => 'org.openpsa.invoices'
-            );
+            $user_id = $_MIDCOM->auth->acl->get_user_id();
         }
 
-
+        foreach ($configured_providers as $component => $route)
+        {
+            $node_url = $siteconfig->get_node_full_url($component);
+            if (   $node_url
+                && (   !$user_id
+                    || $_MIDCOM->auth->acl->can_do_byguid('midgard:read', $siteconfig->get_node_guid($component), 'midcom_db_topic', $user_id)))
+            {
+                $providers[] = array
+                (
+                    'helptext' => $_MIDCOM->i18n->get_string('search title', $component),
+                    'url' => $node_url . $route,
+                    'identifier' => $component
+                );
+            }
+        }
 
         return $providers;
     }

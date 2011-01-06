@@ -94,7 +94,7 @@ Files
 Go to customer
 ---STRINGEND
 
----STRING go to invoice number
+---STRING search title
 Go to invoice number
 ---STRINGEND
 

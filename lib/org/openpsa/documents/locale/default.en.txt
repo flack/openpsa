@@ -54,7 +54,7 @@ Directory
 Document
 ---STRINGEND
 
----STRING document search
+---STRING search title
 Document search
 ---STRINGEND
 

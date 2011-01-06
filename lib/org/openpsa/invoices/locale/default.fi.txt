@@ -62,7 +62,7 @@ Tiedostot
 Siirry asiakkaaseen
 ---STRINGEND
 
----STRING go to invoice number
+---STRING search title
 Siirry laskuun numero
 ---STRINGEND
 

@@ -14,7 +14,7 @@ Powerpoint
 Dokumentum létrehozása
 ---STRINGEND
 
----STRING document search
+---STRING search title
 Dokumentum keresése
 ---STRINGEND
 

@@ -302,7 +302,7 @@ Es gibt keine Rechnung mit der Nummer %s
 Die Rechnung wurde nicht gefunden
 ---STRINGEND
 
----STRING go to invoice number
+---STRING search title
 Zeige Rechnung Nummer
 ---STRINGEND
 

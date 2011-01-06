@@ -62,7 +62,7 @@ Kompetenzgebiete
 Kontaktdaten
 ---STRINGEND
 
----STRING contact search
+---STRING search title
 Kontakt-Suche
 ---STRINGEND
 

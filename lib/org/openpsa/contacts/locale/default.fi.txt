@@ -50,7 +50,7 @@ Osaamisalueet
 Yhteystiedot
 ---STRINGEND
 
----STRING contact search
+---STRING search title
 Yhteystietojen haku
 ---STRINGEND
 

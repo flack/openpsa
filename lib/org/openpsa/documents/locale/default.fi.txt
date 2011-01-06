@@ -30,7 +30,7 @@ Kansio
 Dokumentti
 ---STRINGEND
 
----STRING document search
+---STRING search title
 Hae dokumenteista
 ---STRINGEND
 

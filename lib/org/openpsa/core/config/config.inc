@@ -8,6 +8,13 @@
 
 'jqgrid_version' => '3.8.2',
 
+'search_providers' => array
+(
+    'midcom.helper.search' => 'result/',
+    'org.openpsa.contacts' => 'search/',
+    'org.openpsa.documents' => 'search/',
+    'org.openpsa.invoices' => 'goto/',
+),
 // These values are automatically set when org_openpsa_core structure is first called
 // To trigger another auto-detection, simply set auto_int to true in the config snippet
     'calendar_guid'         => false,

@@ -54,7 +54,7 @@ Verzeichnis
 Dokument
 ---STRINGEND
 
----STRING document search
+---STRING search title
 Dokumenten-Suche
 ---STRINGEND
 

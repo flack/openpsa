@@ -131,9 +131,9 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      */
     private function set_config_value($key, $value)
     {
-        if (strpos($this->snippet->code, $key) != false)
+        if (strpos($this->snippet->code, $key) !== false)
         {
-          $this->snippet->code = preg_replace("/^.+?" . $key . ".+?$/m", " '" . $key . "' => " . $value . ",", $this->snippet->code);
+            $this->snippet->code = preg_replace("/^.+?" . $key . ".+?$/m", " '" . $key . "' => " . $value . ",", $this->snippet->code);
         }
         else
         {
