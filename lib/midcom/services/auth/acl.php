@@ -870,7 +870,6 @@ class midcom_services_auth_acl
                 );
             }
         }
-
         // Remember to synchronize this merging chain with the one in get_privileges();
         $full_privileges = array_merge
         (

@@ -71,7 +71,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
 
         // ACL handling: require create privileges
-        $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_calendar_event_dba');
+        $_MIDCOM->auth->require_do('midgard:create', $this->_root_event);
 
         if (isset($args[0]))
         {
