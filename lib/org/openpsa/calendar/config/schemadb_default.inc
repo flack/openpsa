@@ -78,7 +78,7 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'midcom_db_eventmember',
+                'mapping_class_name' => 'org_openpsa_calendar_event_participant_dba',
                 'master_fieldname' => 'eid',
                 'member_fieldname' => 'uid',
                 'master_is_id' => true,

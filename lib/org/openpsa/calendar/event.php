@@ -642,7 +642,6 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         $qb->add_constraint('eid', '=', $this->id);
         $qb->add_constraint('uid', '=', $id);
         $results = $qb->execute_unchecked();
-
         if (empty($results))
         {
             return false;

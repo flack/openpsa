@@ -17,6 +17,21 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     var $person;
     var $participant;
 
+    static function new_query_builder()
+    {
+        return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
+    }
+
+    static function new_collector($domain, $value)
+    {
+        return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
+    }
+
+    static function &get_cached($src)
+    {
+        return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
+
     public function __construct($identifier = null)
     {
         parent::__construct($identifier);
@@ -37,7 +52,6 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     //TODO: Rewrite
     function notify($type = 'update', $event = false, $nl = "\n")
     {
-        debug_add("called with options: '{$type}', '{$event->guid}', '{$nl}'");
         $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
         $recipient =& $this->get_person_obj();
         if (!$recipient)

@@ -201,7 +201,7 @@ EOT;
                 'size'  => 2
             );
             $elements[] = HTML_QuickForm::createElement('text', "{$this->name}_hours", '', $attributes);
-            $elements[] = HTML_QuickForm::createElement('static', "{$this->_name}_hours_separator", '', ':');
+            $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_hours_separator", '', ':');
             $attributes = Array
             (
                 'class' => 'jsdate_minutes',
@@ -212,7 +212,7 @@ EOT;
 
             if (!$this->hide_seconds)
             {
-                $elements[] = HTML_QuickForm::createElement('static', "{$this->_name}_minutes_separator", '', ':');
+                $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_minutes_separator", '', ':');
                 $attributes = Array
                 (
                     'class' => 'jsdate_seconds',
