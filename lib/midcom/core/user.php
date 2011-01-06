@@ -499,12 +499,8 @@ class midcom_core_user
      */
     private function _merge_privileges($privileges)
     {
-        debug_print_r("Got these Privileges:", $privileges);
-
         foreach ($privileges as $privilege)
         {
-            debug_print_r("Checking this privilege:", $privilege);
-
             if ($privilege->classname != '')
             {
                 switch ($privilege->value)
