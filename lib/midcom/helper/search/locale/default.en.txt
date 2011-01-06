@@ -58,6 +58,10 @@ Score
 Search
 ---STRINGEND
 
+---STRING search title
+Fulltext search
+---STRINGEND
+
 ---STRING search all content types
 Search all content types
 ---STRINGEND

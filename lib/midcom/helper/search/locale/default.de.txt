@@ -58,6 +58,10 @@ Relevanz
 Suche
 ---STRINGEND
 
+---STRING search title
+Volltext-Suche
+---STRINGEND
+
 ---STRING search all content types
 Alle Arten von Inhalten anzeigen
 ---STRINGEND
