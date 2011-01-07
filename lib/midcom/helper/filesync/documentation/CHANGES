@@ -1,0 +1,14 @@
+midcom.helper.filesync ChangeLog
+-------------------
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2007-12-18 flack
+    configurable support for trusted ips (f.x. for importing from command-line)
+
+2007-Dec-Sun tarjei
+  + initial version
