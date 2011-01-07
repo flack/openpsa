@@ -1062,13 +1062,15 @@ class midcom_application
     /**
      * Execute the output callback.
      *
-     * Launches the output of the currently selected component.
+     * Launches the output of the currently selected component. It is collected in an output buffer
+     * to allow for relocates from style elements.
      *
      * It executes the content_handler that has been determined during the handle
      * phase. It fetches the content_handler from the Component Loader class cache.
      */
     private function _output()
     {
+        ob_start();
         if (!$this->skip_page_style)
         {
             midcom_show_style('style-init');
@@ -1081,6 +1083,7 @@ class midcom_application
         {
             midcom_show_style('style-finish');
         }
+        ob_end_flush();
     }
 
     /* *************************************************************************
