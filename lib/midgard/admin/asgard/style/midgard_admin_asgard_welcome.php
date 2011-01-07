@@ -260,7 +260,14 @@ else
             }
             if (!isset($actors[$activity->actor]))
             {
-                $actors[$activity->actor] = new midcom_db_person($activity->actor);
+                try
+                {
+                    $actors[$activity->actor] = new midcom_db_person($activity->actor);
+                }
+                catch (midcom_error $e)
+                {
+                    $actors[$activity->actor] = new midcom_db_person();
+                }
             }
 
             $class = get_class($object);
