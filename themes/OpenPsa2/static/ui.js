@@ -219,6 +219,40 @@ var org_openpsa_layout =
                 field.val(field.data('helptext'));
             }
         });
+    },
+    bind_admin_toolbar_loader: function()
+    {
+    	jQuery('#org_openpsa_toolbar_trigger').bind('click', function(e)
+		{
+    	    if (jQuery('#org_openpsa_toolbar_trigger').hasClass('active'))
+    	    {
+    	        jQuery('body div.midcom_services_toolbars_fancy').hide();
+    	        jQuery('#org_openpsa_toolbar_trigger').removeClass('active');
+    	        jQuery('#org_openpsa_toolbar_trigger').addClass('inactive');
+    	    }
+    	    else if (jQuery('#org_openpsa_toolbar_trigger').hasClass('inactive'))
+    	    {
+    	        jQuery('body div.midcom_services_toolbars_fancy').show();
+    	        jQuery('#org_openpsa_toolbar_trigger').removeClass('inactive');
+    	        jQuery('#org_openpsa_toolbar_trigger').addClass('active');
+    	    }
+    	    else
+    	    {
+    	        var head = document.getElementsByTagName('head')[0];
+    	        jQuery(document.createElement('link')).attr({
+    	            type: 'text/css',
+    	            href: MIDCOM_STATIC_URL + '/midcom.services.toolbars/fancy.css',
+    	            rel: 'stylesheet',
+    	            media: 'screen, projection'
+    	            }).appendTo(head);
+    	        jQuery.getScript(MIDCOM_STATIC_URL + '/midcom.services.toolbars/jquery.midcom_services_toolbars.js', function(){
+    	            jQuery.getScript(MIDCOM_STATIC_URL + '/jQuery/jquery.easydrag-1.4.js', function(){
+    	                jQuery('body div.midcom_services_toolbars_fancy').midcom_services_toolbar({});
+    	            })
+    	        });
+    	        jQuery('#org_openpsa_toolbar_trigger').addClass('active');
+    	    }
+    	});	
     }
 };
 
@@ -226,6 +260,7 @@ jQuery(document).ready(function()
 {
     org_openpsa_layout.add_splitter();
     org_openpsa_layout.clip_toolbar();
+    org_openpsa_layout.bind_admin_toolbar_loader();
 });
 
 //This has to be timed with the jqgrid resizers
