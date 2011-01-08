@@ -199,7 +199,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         }
         catch (midcom_error $e)
         {
-            debug_log($e->getMessage());
+            debug_add($e->getMessage());
             return false;
         }
         $qb_memberships = midcom_db_member::new_query_builder();
@@ -222,7 +222,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
                     }
                     catch (midcom_error $e)
                     {
-                        debug_log("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
+                        debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
                         return false;
                     }
                     return $adder;
@@ -242,7 +242,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
                     }
                     catch (midcom_error $e)
                     {
-                        debug_log("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
+                        debug_add("Error fetching org_openpsa_contacts_group_dba #{$membership->gid}, skipping", MIDCOM_LOG_WARN);
                         return false;
                     }
                     // Get only first or last membership

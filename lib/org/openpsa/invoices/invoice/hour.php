@@ -48,7 +48,7 @@ class org_openpsa_invoices_invoice_hour_dba extends midcom_core_dbaobject
         }
         catch (midcom_error $e)
         {
-            debug_log($e->getMessage());
+            debug_add($e->getMessage());
         }
         $hour_report->invoiced = date('Y-m-d H:i:s', $this->metadata->created);
         $hour_report->invoicer = $invoicer->id;

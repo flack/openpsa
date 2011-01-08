@@ -470,7 +470,7 @@ class org_openpsa_contacts_duplicates
             }
             catch (midcom_error $e)
             {
-                debug_log($e->getMessage());
+                debug_add($e->getMessage());
                 continue;
             }
 

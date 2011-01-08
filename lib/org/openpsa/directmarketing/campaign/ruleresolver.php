@@ -361,7 +361,7 @@ class org_openpsa_directmarketing_campaign_ruleresolver
             }
             catch (midcom_error $e)
             {
-                debug_log($e->getMessage());
+                debug_add($e->getMessage());
                 continue;
             }
             switch (true)

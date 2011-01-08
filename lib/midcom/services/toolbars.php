@@ -490,7 +490,7 @@ class midcom_services_toolbars
                     }
                     catch (midcom_error $e)
                     {
-                        debug_log($e->getMessage());
+                        debug_add($e->getMessage());
                     }
                 }
             }

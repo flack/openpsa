@@ -186,7 +186,7 @@ class midcom_services_cache_module_phpscripts extends midcom_services_cache_modu
     {
         if($namespace == '')
         {
-            debug_log('The identifier must not be empty.', MIDCOM_LOG_INFO);
+            debug_add('The identifier must not be empty.', MIDCOM_LOG_INFO);
             return false;
         }
         $identifier = "{$namespace}-{$local_identifier}";
