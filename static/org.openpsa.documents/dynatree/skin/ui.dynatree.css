@@ -4,13 +4,10 @@
 ul.dynatree-container
 {
 	font-family: tahoma, arial, helvetica;
-	font-size: 10pt; /* font size should not be too big */
+	font-size: 12px;
 	white-space: nowrap;
 	padding: 3px;
-
 	background-color: white;
-	border: 1px dotted gray;
-
 	overflow: auto;
 }
 
@@ -292,7 +289,6 @@ span.dynatree-node a
 }
 span.dynatree-folder a
 {
-	font-weight: bold;
 }
 
 ul.dynatree-container a:focus,
