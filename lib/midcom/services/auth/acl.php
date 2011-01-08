@@ -885,7 +885,7 @@ class midcom_services_auth_acl
             $full_privileges = array_merge
             (
                 $full_privileges,
-                $_MIDCOM->auth->get_owner_default_privileges()
+                $_MIDCOM->auth->acl->get_owner_default_privileges()
             );
         }
 
