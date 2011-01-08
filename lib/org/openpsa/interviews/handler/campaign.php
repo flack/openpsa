@@ -15,20 +15,20 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
 {
     private function _prepare_toolbar()
     {
-        $this->_node_toolbar->add_item(
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "next/{$this->_request_data['campaign']->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next interview'),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_landline-phone.png',
-            )
-        );
         $this->_view_toolbar->add_item(
             array
             (
                 MIDCOM_TOOLBAR_URL => "report/all/{$this->_request_data['campaign']->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('show interviews'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+            )
+        );
+        $this->_view_toolbar->add_item(
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "next/{$this->_request_data['campaign']->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next interview'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_landline-phone.png',
             )
         );
     }
@@ -80,6 +80,8 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
         $qb->add_constraint('campaign', '=', $this->_request_data['campaign']->id);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
         $this->_request_data['members_unsubscribed'] = $qb->execute();
+
+        $this->add_breadcrumb('', $data['campaign']->title);
     }
 
     /**
