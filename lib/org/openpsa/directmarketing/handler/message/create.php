@@ -90,7 +90,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->set_active_leaf('campaign_' . $data['campaign']->id);
 
         $this->_schema = $args[1];
-        $this->_load_schemadb();
+        $this->load_schemadb();
 
         if (!array_key_exists($this->_schema, $this->_schemadb))
         {
