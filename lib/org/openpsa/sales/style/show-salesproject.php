@@ -6,9 +6,12 @@ $salesproject = $data['salesproject'];
 <h1>&(view['title']:h);</h1>
     <div class="contacts">
         <?php
-        $customer = new midcom_db_group($data['salesproject']->customer);
-        echo "<h2>{$customer->official}</h2>\n";
-
+        try
+        {
+            $customer = new midcom_db_group($data['salesproject']->customer);
+            echo "<h2>{$customer->official}</h2>\n";
+        }
+        catch (midcom_error $e){}
         $contacts = $data['salesproject']->contacts;
         foreach ($contacts as $contact_id => $active)
         {
