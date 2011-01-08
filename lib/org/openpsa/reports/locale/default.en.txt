@@ -15,7 +15,7 @@ Basic report
 ---STRINGEND
 
 ---STRING basic report for %s - %s
-Basic report for %s - %s'
+Basic report for %s - %s
 ---STRINGEND
 
 ---STRING both
