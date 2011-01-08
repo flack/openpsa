@@ -94,41 +94,18 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
 
     private function _load_datamanagers()
     {
-        $this->_datamanagers['campaign_member'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['campaign_member']);
-        if (array_key_exists('export', $this->_datamanagers['campaign_member']->_schemadb))
+        foreach ($this->_schemadbs as $identifier => $schemadb)
         {
-            $this->_datamanagers['campaign_member']->set_schema('export');
-        }
-        else
-        {
-            $this->_datamanagers['campaign_member']->set_schema('default');
-        }
-        $this->_datamanagers['person'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['person']);
-        if (array_key_exists('export', $this->_datamanagers['person']->_schemadb))
-        {
-            $this->_datamanagers['person']->set_schema('export');
-        }
-        else
-        {
-            $this->_datamanagers['person']->set_schema('default');
-        }
-        $this->_datamanagers['organization_member'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['organization_member']);
-        if (array_key_exists('export', $this->_datamanagers['organization_member']->_schemadb))
-        {
-            $this->_datamanagers['organization_member']->set_schema('export');
-        }
-        else
-        {
-            $this->_datamanagers['organization_member']->set_schema('default');
-        }
-        $this->_datamanagers['organization'] = new midcom_helper_datamanager2_datamanager($this->_schemadbs['organization']);
-        if (array_key_exists('export', $this->_datamanagers['organization']->_schemadb))
-        {
-            $this->_datamanagers['organization']->set_schema('export');
-        }
-        else
-        {
-            $this->_datamanagers['organization']->set_schema('default');
+        	$this->_datamanagers[$identifier] = new midcom_helper_datamanager2_datamanager($schemadb);
+            if (array_key_exists('export', $schemadb))
+            {
+                $this->_datamanagers[$identifier]->set_schema('export');
+            }
+            else
+            {
+                $this->_datamanagers[$identifier]->set_schema('default');
+            }
+
         }
     }
 
