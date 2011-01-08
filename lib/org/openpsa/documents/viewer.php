@@ -26,8 +26,8 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
 
         org_openpsa_core_ui::enable_jqgrid();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.documents/dynatree_0.4/jquery.dynatree.min.js');
-        $this->add_stylesheet(MIDCOM_STATIC_URL."/org.openpsa.documents/dynatree_0.4/skin/ui.dynatree.css");
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.documents/dynatree/jquery.dynatree.min.js');
+        $this->add_stylesheet(MIDCOM_STATIC_URL."/org.openpsa.documents/dynatree/skin/ui.dynatree.css");
     }
 }
 ?>
