@@ -115,7 +115,6 @@
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'openpsa',
              ),
-             'default'     => $_MIDCOM->auth->user->id,
         ),
         //Hidden field for orgOpenpsaObtype
         'object_type'  => array

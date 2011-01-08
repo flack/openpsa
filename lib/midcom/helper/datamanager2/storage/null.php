@@ -33,7 +33,7 @@ class midcom_helper_datamanager2_storage_null extends midcom_helper_datamanager2
      *
      * @var Array
      */
-    private $_defaults = Array();
+    protected $_defaults = Array();
 
     /**
      * TODO

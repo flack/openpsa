@@ -193,7 +193,6 @@ abstract class midcom_helper_datamanager2_storage extends midcom_baseclasses_com
                     $data = $this->_defaults[$name];
                 }
             }
-
             // Convert_from_storage is called always, the event handler can be used to manage
             // non-storage-backend driven storage operations as well (mainly for the blob type)
             $types[$name]->convert_from_storage($data);

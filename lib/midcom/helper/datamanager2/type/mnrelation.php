@@ -314,12 +314,10 @@ class midcom_helper_datamanager2_type_mnrelation extends midcom_helper_datamanag
     function convert_from_storage ($source)
     {
         $this->selection = Array();
-
         // Check for the defaults section first
-        if (   isset($this->storage->_defaults)
-            && isset($this->storage->_defaults[$this->name]))
+        if (is_array($source))
         {
-            foreach ($this->storage->_defaults[$this->name] as $id)
+            foreach ($source as $id)
             {
                 if (is_object($id))
                 {
