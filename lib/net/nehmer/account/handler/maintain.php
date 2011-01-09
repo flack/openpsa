@@ -108,7 +108,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             case 'username':
                 return ($this->_config->get('username_is_email') ? 'emailusernamechange' : 'usernamechange');
             default:
-                $schemaname = 'lostapssword';
+                $schemaname = 'lostpassword';
                 if ($this->_config->get('lostpassword_email_reset'))
                 {
                     $schemaname = 'lostpassword_by_email';
