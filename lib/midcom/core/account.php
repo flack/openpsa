@@ -93,7 +93,7 @@ class midcom_core_account
         {
             $this->_person->password = '';
             $this->_person->username = '';
-            $this->_person->update();
+            return $this->_person->update();
         }
     }
 
