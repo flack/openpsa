@@ -83,11 +83,11 @@ class midcom_core_account
         if ($this->_midgard2)
         {
             // Ratatoskr
-            if (!$user = $this->_get_account())
+            if (!$this->_user)
             {
                 return false;
             }
-            return $user->delete();
+            return $this->_user->delete();
         }
         else
         {
