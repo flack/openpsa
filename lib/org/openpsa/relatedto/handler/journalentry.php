@@ -155,6 +155,9 @@ implements midcom_helper_datamanager2_interfaces_create
                 // This will exit.
         }
 
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
+
+        org_openpsa_helpers::dm2_savecancel($this);
         $this->_prepare_breadcrumb();
     }
 
