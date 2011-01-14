@@ -1,5 +1,3 @@
-//<?php//hack for syntax highlighting
-
 'config' => array
 (
     'description' => 'Default Configuration Schema', /* This is a topic */
