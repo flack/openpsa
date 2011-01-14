@@ -29,7 +29,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * @param array $extra Array with the possible extra-properties
      * @return mixed The newly-created relatedto object or false on failure
      */
-    static function create(&$from_obj, $from_component, &$to_obj, $to_component, $status = false , $extra = false)
+    public static function create(&$from_obj, $from_component, &$to_obj, $to_component, $status = false , $extra = false)
     {
         if (   !is_object($from_obj)
             || !is_object($to_obj))
@@ -68,11 +68,10 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             }
         }
 
-        $stat = $rel->create();
-        if (!$stat)
+        if (!$rel->create())
         {
             debug_add("failed to create link from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
-            return $stat;
+            return false;
         }
         return $rel;
     }
@@ -81,14 +80,14 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
      * Parses relatedto information from request, returning either
      * existing matching relatedtos or prefilled new ones for creation
      */
-    static function get2relatedto()
+    public static function get2relatedto()
     {
         $ret = array();
         if (!array_key_exists('org_openpsa_relatedto', $_REQUEST))
         {
             return $ret;
         }
-        foreach($_REQUEST['org_openpsa_relatedto'] as $rel_array)
+        foreach ($_REQUEST['org_openpsa_relatedto'] as $rel_array)
         {
             $rel = new org_openpsa_relatedto_dba();
             foreach($rel_array as $k => $v)
@@ -223,8 +222,17 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         if (   !array_key_exists('node', $data)
             || empty($data['node']))
         {
-            debug_add("data['node'] not given, trying with midcom_helper_misc::find_node_by_component({$button_component})", MIDCOM_LOG_INFO);
-            $data['node'] = midcom_helper_misc::find_node_by_component($button_component);
+            debug_add("data['node'] not given, trying with siteconfig", MIDCOM_LOG_DEBUG);
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            $node_guid = $siteconfig->get_node_guid($button_component);
+            if (!$node_guid)
+            {
+                debug_add("data['node'] not given, and {$button_component} could not be found in siteconfig", MIDCOM_LOG_ERROR);
+                return false;
+            }
+
+            $nap = new midcom_helper_nav();
+            $data['node'] = $nap->resolve_guid($node_guid);
         }
         if (empty($data['node']))
         {
@@ -247,22 +255,26 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
     {
         $buttons = array
         (
-            'event'  => array
+            'event' => array
             (
-                'node'  => false,
+                'node' => false,
+                'component' => 'org.openpsa.calendar'
             ),
             'task'  => array
             (
-                'node'  => false,
+                'node' => false,
+                'component' => 'org.openpsa.projects'
             ),
-            'wikinote'      => array
+            'wikinote' => array
             (
-                'node'  => false,
+                'node' => false,
+                'component' => 'net.nemein.wiki',
                 'wikiword'  => false, //Calling component MUST define this key to get a wikinote button
             ),
-            'document'      => array
+            'document' => array
             (
-                'node'  => false,
+                'node' => false,
+                'component' => 'org.openpsa.documents'
             ),
         );
         return $buttons;
@@ -290,24 +302,23 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                 debug_add('data marked as false, skipping (the correct way is to unset() the key)',  MIDCOM_LOG_WARN);
                 continue;
             }
+
+            $related_to = self::common_node_toolbar_buttons_sanitycheck($data, $data['component'], $bind_object, $calling_component);
+            if (!$related_to)
+            {
+                debug_add("sanitycheck returned false, skipping", MIDCOM_LOG_WARN);
+                continue;
+            }
             //Remember that switch is also a for statement in PHPs mind, use "continue 2"
             switch ($mode)
             {
                 case 'event':
-                    $button_component = 'org.openpsa.calendar';
-                    $related_to = self::common_node_toolbar_buttons_sanitycheck($data, $button_component, $bind_object, $calling_component);
-                    if (   !is_object($related_to)
-                        || !$_MIDCOM->dbfactory->is_a($related_to, 'org_openpsa_relatedto_dba'))
-                    {
-                        debug_add("sanitycheck returned '{$related_to}' (relatedto object expected), skipping", MIDCOM_LOG_WARN);
-                        continue 2;
-                    }
                     $toolbar->add_item
                     (
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "#",
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create event', $button_component),
+                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create event', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_new-event.png',
                             //TODO: Check for privileges somehow
                             MIDCOM_TOOLBAR_OPTIONS  => array
@@ -319,20 +330,12 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     );
                     break;
                 case 'task':
-                    $button_component = 'org.openpsa.projects';
-                    $related_to = self::common_node_toolbar_buttons_sanitycheck($data, $button_component, $bind_object, $calling_component);
-                    if (   !is_object($related_to)
-                        || !$_MIDCOM->dbfactory->is_a($related_to, 'org_openpsa_relatedto_dba'))
-                    {
-                        debug_add("sanitycheck returned '{$related_to}' (relatedto object expected), skipping", MIDCOM_LOG_WARN);
-                        continue 2;
-                    }
                     $toolbar->add_item
                     (
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}task/new/?" . self::relatedto2get(array($related_to)),
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create task', $button_component),
+                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create task', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new_task.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_projects_task_dba'),
                             MIDCOM_TOOLBAR_OPTIONS  => array
@@ -344,19 +347,11 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     );
                     break;
                 case 'wikinote':
-                    $button_component = 'net.nemein.wiki';
                     if (   !array_key_exists('wikiword', $data)
                         || empty($data['wikiword']))
                     {
                         //Wikiword to use not given
                         debug_add("data['wikiword'] not given, skipping", MIDCOM_LOG_WARN);
-                        continue 2;
-                    }
-                    $related_to = self::common_node_toolbar_buttons_sanitycheck($data, $button_component, $bind_object, $calling_component);
-                    if (   !is_object($related_to)
-                        || !$_MIDCOM->dbfactory->is_a($related_to, 'org_openpsa_relatedto_dba'))
-                    {
-                        debug_add("sanitycheck returned '{$related_to}' (relatedto object expected), skipping", MIDCOM_LOG_WARN);
                         continue 2;
                     }
 
@@ -374,10 +369,9 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}create/?wikiword={$data['wikiword_encoded']}&amp;" . self::relatedto2get(array($related_to)),
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create note', $button_component),
+                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create note', $data['component']),
                             //TODO: Different icon from new document ?
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
-                            //TODO: Check privileges somehow ($_MIDCOM->auth->can_do('midgard:create', $data['node'][MIDCOM_NAV_OBJECT] ?)
                             MIDCOM_TOOLBAR_ENABLED => $data['node'][MIDCOM_NAV_OBJECT]->can_do('midgard:create'),
                             MIDCOM_TOOLBAR_OPTIONS  => array
                             (
@@ -388,20 +382,12 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
                     );
                     break;
                 case 'document':
-                    $button_component = 'org.openpsa.documents';
-                    $related_to = self::common_node_toolbar_buttons_sanitycheck($data, $button_component, $bind_object, $calling_component);
-                    if (   !is_object($related_to)
-                        || !$_MIDCOM->dbfactory->is_a($related_to, 'org_openpsa_relatedto_dba'))
-                    {
-                        debug_add("sanitycheck returned '{$related_to}' (relatedto object expected), skipping", MIDCOM_LOG_WARN);
-                        continue 2;
-                    }
                     $toolbar->add_item
                     (
                         array
                         (
                             MIDCOM_TOOLBAR_URL => "{$data['node'][MIDCOM_NAV_FULLURL]}document/create/choosefolder/?" . self::relatedto2get(array($related_to)),
-                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create document', $button_component),
+                            MIDCOM_TOOLBAR_LABEL => $_MIDCOM->i18n->get_string('create document', $data['component']),
                             MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/new-text.png',
                             MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:create', $data['node'][MIDCOM_NAV_OBJECT]),
                             MIDCOM_TOOLBAR_OPTIONS  => array
