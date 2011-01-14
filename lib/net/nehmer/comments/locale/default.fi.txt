@@ -1,0 +1,139 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE fi
+
+---STRING allow_anonymous
+Salli kommentointi tunnistamattomille käyttäjille
+---STRINGEND
+
+---STRING author
+Nimi
+---STRINGEND
+
+---STRING comments
+Kommentit
+---STRINGEND
+
+---STRING content
+Kommentti
+---STRINGEND
+
+---STRING creator: %s, created %s, source ip %s.
+Kirjoittaja: %x. Kirjoitettu: %s, IP-osoite: %s.
+---STRINGEND
+
+---STRING net.nehmer.comments
+Kommentointi
+---STRINGEND
+
+---STRING no comments found
+Ei kommentteja toistaiseksi.
+---STRINGEND
+
+---STRING permission-denied message
+Sinun täytyy kirjautua sisään kommentoidaksesi.
+---STRINGEND
+
+---STRING post a comment
+Kommentoi
+---STRINGEND
+
+---STRING published by %s on %s.
+Kirjoittanut %s %s
+---STRINGEND
+
+---STRING rated %s
+arvio: %s
+---STRINGEND
+
+---STRING rating
+Arvio
+---STRINGEND
+
+---STRING ratings
+Arviot
+---STRINGEND
+
+---STRING ratings_cache_to_object
+Tallenna arvioiden pisteet kommentoitavaan tietueeseen
+---STRINGEND
+
+---STRING ratings_cache_to_object_property
+Tallenna arvio olion kenttään
+---STRINGEND
+
+---STRING ratings_cache_total
+Tallenna summa tietueeseen keskiarvon sijaan
+---STRINGEND
+
+---STRING ratings_enable
+Salli arviointi
+---STRINGEND
+
+---STRING comment_count_cache_to_object
+Tallenna kommenttien määrä tietueeseen jota kommentoidaan
+---STRINGEND
+
+---STRING comment_count_cache_to_object_property
+Tietueen kenttä johon kommenttien määrä tallennetaan
+---STRINGEND
+
+---STRING subscribe
+Ilmoita uusista kommenteista
+---STRINGEND
+
+---STRING from below you can choose what kind of comments you like to administrate
+Valitse alhaalta mitä kommentteja haluat moderoida
+---STRINGEND
+
+---STRING reported abuses
+Raportoidut väärinkäytökset
+---STRINGEND
+
+---STRING abuses
+Väärinkäytökset
+---STRINGEND
+
+---STRING junks
+Roskapostit
+---STRINGEND
+
+---STRING latest comments
+Viimeisimmät kommentit
+---STRINGEND
+
+---STRING only new
+Vain uudet
+---STRINGEND
+
+---STRING only approved
+Vain hyväksytyt
+---STRINGEND
+
+---STRING go to parent object
+Kommentoituun objektiin
+---STRINGEND
+
+---STRING latest comments, only new
+Viimeisimmät kommentit, vain uudet
+---STRINGEND
+
+---STRING latest comments, only approved
+Viimeisimmät kommentit, vain hyväksytyt
+---STRINGEND
+
+---STRING delete
+Poista
+---STRINGEND
+
+---STRING not abuse
+Ei väärinkäytös
+---STRINGEND
+
+---STRING confirm abuse
+Vahvista väärinkäytös
+---STRINGEND
+
+---STRING confirm junk
+Vahvista roskaposti
+---STRINGEND

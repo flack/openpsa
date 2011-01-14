@@ -1,0 +1,31 @@
+                   net.nehmer.comments Changelog
+                   -----------------------------
+CVS Id: $Id: CHANGES 15987 2008-04-07 15:23:21Z xfade $
+
+Legend:
+- All items marked with "!" represent a major API-Change that is
+  not guaranteed to be backwards compatible to previous versions
+  which might even break existing functionality.
+- All items marked with "+" represent completely new features.
+
+2008-04-07 xfade
+  + Add config options to disable RCS updates when caching ratings on object
+
+2007-10-30 xfade
+  + Added comment count caching on object
+  + Added support for rating without comment
+  + Added filter to show only non-empty comments (rating without comment creates those)
+
+2007-04-05 bergie
+  + Added notifications support (sends notification to author of entry being commented)
+
+2007-03-30 bergie
+  + Added ratings support
+  + Fixed some Midgard 1.8 issues
+
+2006-06-23 bergie
+
+  + Midgard 1.7 support
+
+2006-05-05 torben
+  - Initial version

@@ -1,0 +1,80 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE de
+
+---STRING author
+Name
+---STRINGEND
+
+---STRING comments
+Kommentare
+---STRINGEND
+
+---STRING content
+Kommentar
+---STRINGEND
+
+---STRING creator: %s, created %s, source ip %s.
+Angelegt von: %s, Erstellungsdatum: %s, Quell-IP: %s.
+---STRINGEND
+
+---STRING net.nehmer.comments
+Kommentare
+---STRINGEND
+
+---STRING no comments found
+Bisher wurden keine Kommentare abgegeben.
+---STRINGEND
+
+---STRING permission-denied message
+Sie müssen sich anmelden, um Kommentare veröffentlichen zu dürfen.
+---STRINGEND
+
+---STRING post a comment
+Einen Kommentar schreiben
+---STRINGEND
+
+---STRING published by %s on %s.
+Veröffentlicht von %s am %s.
+---STRINGEND
+
+---STRING allow_anonymous
+Kommentare von anonymen Benutzern zulassen
+---STRINGEND
+
+---STRING comment_count_cache_to_object
+Anzahl der Kommentare am kommentierten Objekt zwischenspeichern
+---STRINGEND
+
+---STRING comment_count_cache_to_object_property
+Anzahl der Kommentare in Objekt-Property zwischenspeichern
+---STRINGEND
+
+---STRING rated %s
+mit %s bewertert
+---STRINGEND
+
+---STRING rating
+Bewertung
+---STRINGEND
+
+---STRING ratings
+Bewertungen
+---STRINGEND
+
+---STRING ratings_cache_to_object
+Bewertungen am kommentierten Objekt zwischenspeichern
+---STRINGEND
+
+---STRING ratings_cache_to_object_property
+Bewertungen in Objekt-Property zwischenspeichern
+---STRINGEND
+
+---STRING ratings_cache_total
+Gesamtsumme anstelle des Durchschnitts am Objekt speichern.
+---STRINGEND
+
+---STRING ratings_enable
+Bewertungen zulassen
+---STRINGEND
+

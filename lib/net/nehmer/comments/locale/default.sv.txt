@@ -1,0 +1,80 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE sv
+
+---STRING allow_anonymous
+Tillåt anonyma kommentarer
+---STRINGEND
+
+---STRING author
+Namn
+---STRINGEND
+
+---STRING comment_count_cache_to_object
+Spara räknade kommentarer till objektet som kommenteras
+---STRINGEND
+
+---STRING comment_count_cache_to_object_property
+Spara kommentar i objektet
+---STRINGEND
+
+---STRING comments
+Kommentarer
+---STRINGEND
+
+---STRING content
+Kommentar
+---STRINGEND
+
+---STRING creator: %s, created %s, source ip %s.
+Upphovsmakare: %s, Skapad: %s, Käll IP: %s.
+---STRINGEND
+
+---STRING net.nehmer.comments
+Kommentarer
+---STRINGEND
+
+---STRING no comments found
+Inga kommentarer än.
+---STRINGEND
+
+---STRING permission-denied message
+Du måste vara inloggad för att publicera kommetarer.
+---STRINGEND
+
+---STRING post a comment
+Posta en kommentar
+---STRINGEND
+
+---STRING published by %s on %s.
+Publicerad av %s på %s.
+---STRINGEND
+
+---STRING rated %s
+poängsatt %s
+---STRINGEND
+
+---STRING rating
+Poäng
+---STRINGEND
+
+---STRING ratings
+Poäng
+---STRINGEND
+
+---STRING ratings_cache_to_object
+Cachea poäng till objektet som kommenteras
+---STRINGEND
+
+---STRING ratings_cache_to_object_property
+Cachea poäng i objectet
+---STRINGEND
+
+---STRING ratings_cache_total
+Spara total istället för medel till objekt
+---STRINGEND
+
+---STRING ratings_enable
+Slå på poäng stöd
+---STRINGEND
+

@@ -1,0 +1,80 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE pl
+
+---STRING allow_anonymous
+Zezwalaj na komentarze anonimowe
+---STRINGEND
+
+---STRING author
+Nazwa
+---STRINGEND
+
+---STRING comment_count_cache_to_object
+Cache'uj ilość komentarzy
+---STRINGEND
+
+---STRING comment_count_cache_to_object_property
+Cache'uj ilość komentarzy w parametrze obiektu
+---STRINGEND
+
+---STRING comments
+Komentarze
+---STRINGEND
+
+---STRING content
+Komentarz
+---STRINGEND
+
+---STRING creator: %s, created %s, source ip %s.
+Autor: %s, Data: %s, IP: %s
+---STRINGEND
+
+---STRING net.nehmer.comments
+Komentarze
+---STRINGEND
+
+---STRING no comments found
+Brak komentarzy
+---STRINGEND
+
+---STRING permission-denied message
+Komentarze dozwolone tylko zalogowanym użytkownikom
+---STRINGEND
+
+---STRING post a comment
+Wyślij komentarz
+---STRINGEND
+
+---STRING published by %s on %s.
+Opublikowane przez %s, %s
+---STRINGEND
+
+---STRING rated %s
+ocena %s
+---STRINGEND
+
+---STRING rating
+Ocena
+---STRINGEND
+
+---STRING ratings
+Oceny
+---STRINGEND
+
+---STRING ratings_cache_to_object
+Cache'uj oceny
+---STRINGEND
+
+---STRING ratings_cache_to_object_property
+Cache'uj oceny w parametach obiektu
+---STRINGEND
+
+---STRING ratings_cache_total
+Przechowuj wartość całkowitą zamiast średniej
+---STRINGEND
+
+---STRING ratings_enable
+Włącz oceny
+---STRINGEND
+

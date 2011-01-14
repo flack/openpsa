@@ -1,0 +1,44 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE ru
+
+---STRING allow_anonymous
+Разрешить анонимные комментарии
+---STRINGEND
+
+---STRING author
+Автор
+---STRINGEND
+
+---STRING comments
+Комментарии
+---STRINGEND
+
+---STRING content
+Комментарий
+---STRINGEND
+
+---STRING creator: %s, created %s, source ip %s.
+Создано %s %s с адреса %s
+---STRINGEND
+
+---STRING net.nehmer.comments
+Комментарии
+---STRINGEND
+
+---STRING no comments found
+Нет комментариев
+---STRINGEND
+
+---STRING permission-denied message
+Комментарии разрешены только зарегистрированным пользователям
+---STRINGEND
+
+---STRING post a comment
+Комментировать
+---STRINGEND
+
+---STRING published by %s on %s.
+Опубликовано %s %s.
+---STRINGEND
+

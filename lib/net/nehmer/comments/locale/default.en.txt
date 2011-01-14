@@ -1,0 +1,143 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE en
+
+---STRING allow_anonymous
+Allow commenting by anonymous users
+---STRINGEND
+
+---STRING author
+Name
+---STRINGEND
+
+---STRING comment_count_cache_to_object
+Cache comment count to object being commented
+---STRINGEND
+
+---STRING comment_count_cache_to_object_property
+Cache comment count in object property
+---STRINGEND
+
+---STRING comments
+Comments
+---STRINGEND
+
+---STRING content
+Comment
+---STRINGEND
+
+---STRING creator: %s, created %s, source ip %s.
+Creator: %s, Created: %s, Source IP: %s.
+---STRINGEND
+
+---STRING net.nehmer.comments
+Comments
+---STRINGEND
+
+---STRING no comments found
+There have been no comments so far.
+---STRINGEND
+
+---STRING permission-denied message
+You need to be logged in to publish comments.
+---STRINGEND
+
+---STRING post a comment
+Post a comment
+---STRINGEND
+
+---STRING published by %s on %s.
+Published by %s on %s.
+---STRINGEND
+
+---STRING rated %s
+rated %s
+---STRINGEND
+
+---STRING rating
+Rating
+---STRINGEND
+
+---STRING ratings
+Ratings
+---STRINGEND
+
+---STRING ratings_cache_to_object
+Cache ratings score to object being commented
+---STRINGEND
+
+---STRING ratings_cache_to_object_property
+Cache ratings in object property
+---STRINGEND
+
+---STRING ratings_cache_total
+Save total instead of average to object
+---STRINGEND
+
+---STRING ratings_enable
+Enable ratings support
+---STRINGEND
+
+---STRING subscribe
+Notify about new comments
+---STRINGEND
+
+---STRING from below you can choose what kind of comments you like to administrate
+From below you can choose what kind of comments you like to administrate
+---STRINGEND
+
+---STRING reported abuses
+Abuses reported
+---STRINGEND
+
+---STRING abuses
+Abuses
+---STRINGEND
+
+---STRING junks
+Junks
+---STRINGEND
+
+---STRING latest comments
+Latest comments
+---STRINGEND
+
+---STRING only new
+Only new
+---STRINGEND
+
+---STRING only approved
+Only approved
+---STRINGEND
+
+---STRING to object
+To object
+---STRINGEND
+
+---STRING go to parent object
+Commented object
+---STRINGEND
+
+---STRING latest comments, only new
+Latest comments, only new
+---STRINGEND
+
+---STRING latest comments, only approved
+Latest comments, only approved
+---STRINGEND
+
+---STRING delete
+Delete
+---STRINGEND
+
+---STRING not abuse
+Not abuse
+---STRINGEND
+
+---STRING confirm abuse
+Confirm abuse
+---STRINGEND
+
+---STRING confirm junk
+Confirm junk
+---STRINGEND
