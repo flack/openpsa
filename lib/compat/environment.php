@@ -45,7 +45,7 @@ abstract class midcom_compat_environment
 
     public abstract function headers_sent();
 
-    public abstract function setcookie();
+    public abstract function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false);
 }
 
 /**
