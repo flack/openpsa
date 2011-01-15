@@ -6,7 +6,7 @@ $base = dirname(__FILE__);
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'PEAR.php';
-require_once $base . '/../request.php';
+require_once $base . '/../../lib/midcom/request.php';
 
 class UrlFactoryTest extends PHPUnit_Framework_TestCase
 {
