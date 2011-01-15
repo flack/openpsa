@@ -51,9 +51,41 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
                 $data['request_topic'] = (array_key_exists('topic', $_REQUEST) ? $_REQUEST['topic'] : '');
                 $data['component'] = (array_key_exists('component', $_REQUEST) ? $_REQUEST['component'] : '');
                 $data['lastmodified'] = (array_key_exists('lastmodified', $_REQUEST) ? ((integer) $_REQUEST['lastmodified']) : 0);
+
+                $data['topics'] = array('' => $this->_l10n->get('search anywhere'));
+                $data['components'] = array('' => $this->_l10n->get('search all content types'));
+
+                $nap = new midcom_helper_nav();
+                $this->_search_nodes($nap->get_root_node(), $nap, '');
                 break;
         }
         $data['type'] = $handler_id;
+    }
+
+    /**
+     * Prepare the topic and component listings, this is a bit work intensive though,
+     * we need to traverse everything.
+     */
+    private function _search_nodes($node_id, &$nap, $prefix)
+    {
+        $node = $nap->get_node($node_id);
+
+        if (   ! array_key_exists($node[MIDCOM_NAV_COMPONENT], $this->_request_data['components'])
+            && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search')
+        {
+            $i18n = $_MIDCOM->get_service('i18n');
+            $l10n = $i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);
+            $this->_request_data['components'][$node[MIDCOM_NAV_COMPONENT]] = $l10n->get($node[MIDCOM_NAV_COMPONENT]);
+        }
+        $this->_request_data['topics'][$node[MIDCOM_NAV_FULLURL]] = "{$prefix}{$node[MIDCOM_NAV_NAME]}";
+
+        // Recurse
+        $prefix .= "{$node[MIDCOM_NAV_NAME]} &rsaquo; ";
+        $subnodes = $nap->list_nodes($node_id);
+        foreach ($subnodes as $sub_id)
+        {
+            $this->_search_nodes($sub_id, $nap, $prefix);
+        }
     }
 
     /**

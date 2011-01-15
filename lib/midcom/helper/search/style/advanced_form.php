@@ -1,7 +1,7 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
-// Map, stimestamps => text
+// Map, timestamps => text
 // default is 1, 3, 6 and a year
 $lastmod_content = array
 (
@@ -12,38 +12,6 @@ $lastmod_content = array
     strtotime('-1 year') => $data['l10n']->get('since 1 year')
 );
 
-// Prepare the topic and component listings, this is a bit work intensive though,
-// we need to traverse everything.
-function midcom_helper_search_process_node ($node_id, &$nap, &$topics, &$components, $prefix, &$data)
-{
-    $node = $nap->get_node($node_id);
-
-    if (   ! array_key_exists($node[MIDCOM_NAV_COMPONENT], $components)
-        && $node[MIDCOM_NAV_COMPONENT] != 'midcom.helper.search')
-    {
-        $i18n = $_MIDCOM->get_service('i18n');
-        $l10n = $i18n->get_l10n($node[MIDCOM_NAV_COMPONENT]);
-        $components[$node[MIDCOM_NAV_COMPONENT]] = $l10n->get($node[MIDCOM_NAV_COMPONENT]);
-    }
-    $topics[$node[MIDCOM_NAV_FULLURL]] = "{$prefix}{$node[MIDCOM_NAV_NAME]}";
-
-    // Recurse
-    $prefix .= "{$node[MIDCOM_NAV_NAME]} &rsaquo; ";
-    $subnodes = $nap->list_nodes($node_id);
-    foreach ($subnodes as $sub_id)
-    {
-        midcom_helper_search_process_node($sub_id, $nap, $topics, $components, $prefix, $data);
-    }
-}
-
-$nap = new midcom_helper_nav();
-$topics = Array();
-$components = Array();
-
-$topics[''] = $data['l10n']->get('search anywhere');
-$components[''] = $data['l10n']->get('search all content types');
-
-midcom_helper_search_process_node($nap->get_root_node(), $nap, $topics, $components, '', $data);
 $_MIDCOM->load_library('midcom.helper.xsspreventer');
 $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
 ?>
@@ -61,7 +29,7 @@ $query = midcom_helper_xsspreventer::escape_attribute($data['query']);
         <td>
             <select name="topic" size="1" style="width: 20em;">
 <?php
-foreach ($topics as $url => $name)
+foreach ($data['topics'] as $url => $name)
 {
     $selected = ($data['request_topic'] == $url) ? ' selected' : '';
 ?>
@@ -77,7 +45,7 @@ foreach ($topics as $url => $name)
         <td>
             <select name="component" size="1" style="width: 20em;">
 <?php
-foreach ($components as $id => $name)
+foreach ($data['components'] as $id => $name)
 {
     $selected = ($data['component'] == $id) ? ' selected' : '';
 ?>
