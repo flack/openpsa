@@ -6,113 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-// ================================
-// = MidgardMVC Ragnaland support =
-// ================================
-if (class_exists('midgardmvc_core')) {
-    function _midcom_header($string, $replace = true, $http_response_code = null)
-    {
-        if ($http_response_code === null) {
-            midgardmvc_core::get_instance()->dispatcher->header($string, $replace);
-        } else {
-            midgardmvc_core::get_instance()->dispatcher->header($string, $replace, $http_response_code);
-        }
-    }
-
-    function _midcom_stop_request($message = '')
-    {
-        midgardmvc_core::get_instance()->dispatcher->end_request();
-    }
-
-    function _midcom_headers_sent()
-    {
-        return midgardmvc_core::get_instance()->dispatcher->headers_sent();
-    }
-
-    function _midcom_setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
-    {
-        return midgardmvc_core::get_instance()->dispatcher->setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-    }
-} else {
-    function _midcom_header($string, $replace = true, $http_response_code = null)
-    {
-        if ($http_response_code === null) {
-            header($string, $replace);
-        } else {
-            header($string, $replace, $http_response_code);
-        }
-    }
-
-    function _midcom_stop_request($message = '')
-    {
-        exit($message);
-    }
-
-    function _midcom_headers_sent()
-    {
-        return headers_sent();
-    }
-
-    function _midcom_setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false)
-    {
-        if (version_compare(PHP_VERSION, '5.2.0', '<'))
-        {
-            return setcookie($name, $value, $expire, $path, $domain, $secure);
-        }
-        else
-        {
-            return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-        }
-    }
-}
-
-////////////////////////////////////////////////////////
-// First, block all Link prefetching requests as long as
-// MidCOM isn't bulletproofed against this "feature".
-// Ultimately, this is also a matter of performance...
-if (   array_key_exists('HTTP_X_MOZ', $_SERVER)
-    && $_SERVER['HTTP_X_MOZ'] == 'prefetch')
-{
-    _midcom_header('Cache-Control: no-cache');
-    _midcom_header('Pragma: no-cache');
-    _midcom_header('HTTP/1.0 403 Forbidden');
-    echo '403: Forbidden<br><br>Prefetching not allowed.';
-    _midcom_stop_request();
-}
-
-/**
- * Second, make sure the URLs not having query string (or midcom-xxx- -method signature)
- * have trailing slash or some extension in the "filename".
- *
- * This makes life much, much better when making static copies for whatever reason
- *
- * 2008-09-26: Now also rewrites urls ending in .html to end with trailing slash.
- */
-$redirect_test_uri = (string)$_SERVER['REQUEST_URI'];
-if (   !isset($_SERVER['MIDCOM_COMPAT_REDIR'])
-    || (bool)$_SERVER['MIDCOM_COMPAT_REDIR'] !== false)
-{
-    $redirect_test_uri = preg_replace('/\.html$/', '', $redirect_test_uri);
-}
-if (   !preg_match('%\?|/$|midcom-.+-|/.*\.[^/]+$%', $redirect_test_uri)
-    && (   !isset($_POST)
-        || empty($_POST))
-    )
-{
-    _midcom_header('HTTP/1.0 301 Moved Permanently');
-    _midcom_header("Location: {$redirect_test_uri}/");
-    $redirect_test_uri_clean = htmlentities($redirect_test_uri);
-    echo "301: new location <a href='{$redirect_test_uri_clean}/'>{$redirect_test_uri_clean}/</a>";
-    _midcom_stop_request();
-}
-unset($redirect_test_uri);
-
-/** */
-
-// Advertise the fact that this is a Midgard server
-_midcom_header('X-Powered-By: Midgard/' . mgd_version());
-//mgd_debug_start();
-
 ///////////////////////////////////////////////////////////
 // Ease debugging and make sure the code actually works(tm)
 if (version_compare(PHP_VERSION, '5.3.0', '<'))
@@ -132,6 +25,10 @@ if (! defined('MIDCOM_ROOT'))
 {
     define('MIDCOM_ROOT', dirname(__FILE__));
 }
+
+require(MIDCOM_ROOT . '/compat/environment.php');
+midcom_compat_environment::initialize();
+
 if (! defined('MIDCOM_STATIC_ROOT'))
 {
     $pos = strrpos(MIDCOM_ROOT, '/');
