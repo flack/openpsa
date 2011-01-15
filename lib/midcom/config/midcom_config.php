@@ -544,14 +544,10 @@ $GLOBALS['midcom_config_default']['page_class_include_component'] = true;
 $GLOBALS['midcom_config_default']['wrap_style_show_with_name'] = false;
 
 // Related to JavaScript libraries
-$GLOBALS['midcom_config_default']['jquery_no_conflict'] = true;
 $GLOBALS['midcom_config_default']['jquery_version'] = '1.4.4.min';
 $GLOBALS['midcom_config_default']['jquery_ui_version'] = '1.8.7';
 $GLOBALS['midcom_config_default']['jquery_load_from_google'] = false;
 $GLOBALS['midcom_config_default']['enable_ajax_editing'] = false;
-
-$GLOBALS['midcom_config_default']['pear_channel'] = 'ragnaroek.pear.midgard-project.org';
-$GLOBALS['midcom_config_default']['generation'] = 'ragnaroek';
 
 /**
  * Sessioning service, disabling the service will help with external caches.
@@ -563,7 +559,7 @@ $GLOBALS['midcom_config_default']['sessioning_service_always_enable_for_users'] 
 /**
  * Trash cleanup, purge deleted objects after X days
  */
-$GLOBALS['midcom_config_default']['cron_pure_deleted_after'] = 25;
+$GLOBALS['midcom_config_default']['cron_purge_deleted_after'] = 25;
 
 /**
  * MidCOM core level symlink support

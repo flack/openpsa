@@ -730,10 +730,9 @@ class midcom_helper__componentloader
 
         foreach ($this->manifests[$component]->_raw_data['package.xml']['dependencies'] as $dependency => $dependency_data)
         {
-            if (   isset($dependency_data['channel'])
-                && $dependency_data['channel'] != $GLOBALS['midcom_config']['pear_channel'])
+            if (isset($dependency_data['channel']))
             {
-                // We can ignore non-component dependencies
+                //TODO: Should we really ignore external dependencies?
                 continue;
             }
 

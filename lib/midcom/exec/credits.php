@@ -192,8 +192,6 @@ reset($developers);
                 </tbody>
             </table>
 
-            <p><?php echo sprintf($_MIDCOM->i18n->get_string('get more components from <a href="http://pear.php.net/manual/en/guide.users.commandline.cli.php">PEAR</a> channel <a href="http://%s/">%s</a>', 'midcom'), $GLOBALS['midcom_config']['pear_channel'], $GLOBALS['midcom_config']['pear_channel']); ?>.</p>
-
             </div>
             <div id="bottom">
                 <div id="version">Midgard <?php echo substr(mgd_version(), 0, 4); ?></div>
