@@ -43,7 +43,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => 'moderate/reported_abuse',
+                    MIDCOM_TOOLBAR_URL => 'moderate/reported_abuse/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('reported abuse'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('reported abuse helptext'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
@@ -53,7 +53,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => 'moderate/abuse',
+                    MIDCOM_TOOLBAR_URL => 'moderate/abuse/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('abuse'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('abuse helptext'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
@@ -63,7 +63,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => 'moderate/junk',
+                    MIDCOM_TOOLBAR_URL => 'moderate/junk/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('junk'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('junk helptext'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
@@ -73,7 +73,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => 'moderate/latest',
+                    MIDCOM_TOOLBAR_URL => 'moderate/latest/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('latest comments'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('latest helptext'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
@@ -83,7 +83,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => 'moderate/latest_new',
+                    MIDCOM_TOOLBAR_URL => 'moderate/latest_new/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('only new'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('only new helptext'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
@@ -93,7 +93,7 @@ class net_nehmer_comments_viewer extends midcom_baseclasses_components_request
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => 'moderate/latest_approved',
+                    MIDCOM_TOOLBAR_URL => 'moderate/latest_approved/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('only approved'),
                     MIDCOM_TOOLBAR_HELPTEXT => $this->_l10n_midcom->get('only approved helptext'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_news.png',
