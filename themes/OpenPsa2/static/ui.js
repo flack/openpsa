@@ -35,7 +35,7 @@ var org_openpsa_layout =
                         self.removeData('timeout');
                         return;
                     }
-                    jQuery(this).addClass('expanded');
+                    self.addClass('expanded');
                 })
                 .mouseout(function()
                 {

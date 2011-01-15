@@ -533,6 +533,7 @@ input#org_openpsa_search_query
   position: absolute;
   min-width: 200px;
   height: auto;
+  z-index: 10;
 }
 
 .org_openpsa_toolbar #toolbar_dropdown ul
