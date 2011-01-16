@@ -51,6 +51,7 @@ if (isset($data['parent_directory']))
     $link_html .= "<span >..</span></a>";
     $link_html .= "]]>";
     echo "<cell>" . $link_html ."</cell>";
+    echo "<cell></cell>";
 
     //no creator_index/creator, last mod & file_size_index ,file_size for parent_directory
     echo "<cell></cell>";
@@ -87,6 +88,7 @@ foreach ($data['directories'] as $directory)
     $link_html .= "<span>" . $directory->extra . "</span></a>";
     $link_html .= "]]>";
     echo "<cell>" . $link_html ."</cell>";
+    echo "<cell></cell>";
 
     //creator_index/creator , last modified , filesize
     $creator = org_openpsa_contactwidget::get($directory->metadata->creator);
@@ -108,6 +110,7 @@ $icon = MIDCOM_STATIC_URL . '/stock-icons/mime/gnome-text-blank.png';
 foreach ($data['documents'] as $document)
 {
     $file_size = 0;
+    $download_url = '';
     if ($data['datamanager']->autoset_storage($document))
     {
         $attach = array_shift($data['datamanager']->types['document']->attachments_info);
@@ -119,19 +122,21 @@ foreach ($data['documents'] as $document)
             {
                 $file_size = 0;
             }
+            $download_url = $attach['url'];
         }
     }
     echo "<row>";
     echo "<cell>" . $document->id . "</cell>";
     echo "<cell>" . $document->title ."</cell>";
 
+    $class = 'document ' . $document->get_class();
     $link_html = "<![CDATA[";
-    $link_html .= "<a href='" . $prefix . $path . "document/" . $document->guid ."/'>";
+    $link_html .= "<a href='" . $prefix . $path . "document/" . $document->guid ."/' class='" . $class . "'>";
     $link_html .= "<img class='document_icon' src='" . $icon . "' />";
     $link_html .= "<span>" . $document->title . "</span></a>";
     $link_html .= "]]>";
     echo "<cell>" . $link_html ."</cell>";
-
+    echo "<cell> " . $download_url . "</cell>";
     //set contact-widget
     if (empty($document->author))
     {
