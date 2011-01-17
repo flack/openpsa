@@ -10,15 +10,15 @@ $(document).ready(function()
 });
 
 //submit form + add hidden_field for reset if needed
-function send_form(form_id , set)
+function send_form(form_id, set)
 {
-    if(set == 'void' || set == undefined)
+    if (set == 'void' || set == undefined)
     {
-        $("#"+form_id).submit();
+        $("#" + form_id).submit();
         return true;
     }
-    $("#"+form_id).append("<input type='hidden' name='" + set + "' value = 'true' />");
-    $("#"+form_id).submit();
+    $("#" + form_id).append("<input type='hidden' name='" + set + "' value = 'true' />");
+    $("#" + form_id).submit();
     return true;
 }
 </script>
@@ -44,7 +44,7 @@ function send_form(form_id , set)
             }
             ?>
         </select>
-        <img src ="<?php echo MIDCOM_STATIC_URL ;?>/stock-icons/16x16/ok.png" onclick="send_form('person_for, 'void')" title="<?php echo $data['l10n']->get("apply"); ?>" />
+        <img src ="<?php echo MIDCOM_STATIC_URL ;?>/stock-icons/16x16/ok.png" onclick="send_form('person_form', 'void')" title="<?php echo $data['l10n']->get("apply"); ?>" />
         <img src ="<?php echo MIDCOM_STATIC_URL ;?>/stock-icons/16x16/cancel.png" onclick="send_form('person_form' , 'unset_filter')" title="<?php echo $data['l10n']->get("unset"); ?>" />
     </form>
 </div>
