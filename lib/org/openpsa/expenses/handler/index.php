@@ -42,7 +42,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
         $date->modify('-' . $offset . ' days');
         $data['week_start'] = (int) $date->format('U');
 
-        $date->modify('+6 days');
+        $date->modify('+7 days');
         $data['week_end'] = (int) $date->format('U');
 
         $date->modify('+1 day');
