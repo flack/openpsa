@@ -690,7 +690,7 @@ class midcom_helper__styleloader
             $_style .= "\n<!-- End of style '{$path}' -->\n";
         }
 
-        $preparsed = mgd_preparse($_style);
+        $preparsed = midcom_helper_misc::preparse($_style);
         $result = eval('?>' . $preparsed);
 
         if ($result === false)

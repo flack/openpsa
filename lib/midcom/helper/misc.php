@@ -92,7 +92,7 @@ class midcom_helper_misc
      * slower.
      *
      * This function is there as a backup in case you are not running within the
-     * Midgard Parser; it will run the snippet code through mgd_preparse manually.
+     * Midgard Parser; it will run the snippet code through preparse manually.
      *
      * @param string $path    The path of the snippet that should be included.
      * @return boolean Returns false if the snippet could not be loaded or true, if it was evaluated successfully.
@@ -106,8 +106,62 @@ class midcom_helper_misc
             return false;
         }
         debug_add("Evaluating snippet {$path}.");
-        eval ('?>' . mgd_preparse($code));
+        eval ('?>' . self::preparse($code));
         return true;
+    }
+
+    /**
+     * Preparse a string to handle element inclusion and variable
+     *
+     * @see mgd_preparse
+     */
+    public static function preparse($code)
+    {
+        // Get style elements
+        $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", array('midcom_helper_misc', 'include_element'), $code);
+        // Echo variables
+        $code = preg_replace_callback("%&\(([^)]*)\);%i", 'mgd_variable', $code);
+        return $code;
+    }
+
+    /**
+     * Include a theme element
+     */
+    public static function include_element($name)
+    {
+	    static $style = null;
+
+        if (is_array($name))
+        {
+            $element = $name[1];
+        }
+        else
+        {
+            $element = $name;
+        }
+        // Sensible fallback if we don't have a style or ROOT element
+        $root_fallback = '<html><head><?php $_MIDCOM->print_head_elements(); ?><title><?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title></head><body class="<?php echo $_MIDCOM->metadata->get_page_class(); ?>"><(content)><?php $_MIDCOM->uimessages->show(); $_MIDCOM->toolbars->show(); $_MIDCOM->finish(); ?></body></html>';
+
+        switch ($element)
+        {
+            case 'title':
+                return $GLOBALS['midcom_config']['midcom_site_title'];
+            case 'content':
+                return '<(content)>';
+            default:
+                $element_file = OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/style' . $_MIDGARD['page_style'] . "/{$element}.php";
+
+                if (!file_exists($element_file))
+                {
+                    if ($element == 'ROOT')
+                    {
+                        return $root_fallback;
+                    }
+                    return '';
+                }
+                $value = file_get_contents($element_file);
+                return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", array('midcom_helper_misc', 'include_element'), $value);
+        }
     }
 
     /**
@@ -314,11 +368,6 @@ class midcom_helper_misc
         $cache[$cache_node][$component] = $node;
 
         return $node;
-    }
-
-    public static function show_element($name)
-    {
-        eval('?>' . mgd_preparse(mgd_template($name)));
     }
 }
 ?>

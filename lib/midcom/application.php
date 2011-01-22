@@ -463,7 +463,16 @@ class midcom_application
         $this->_currentcontext = 0;
         $this->style->enter_context(0);
 
+        $template = midcom_helper_misc::preparse('<(ROOT)>');
+        $template_parts = explode('<(content)>', $template);
+        eval('?>' . $template_parts[0]);
+
         $this->_output();
+
+        if (isset($template_parts[1]))
+        {
+            eval('?>' . $template_parts[1]);
+        }
 
         // Leave Context
         if ($oldcontext != 0)

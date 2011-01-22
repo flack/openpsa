@@ -40,7 +40,7 @@ function mgd_format($content, $name)
 /**
  * Invalidate Midgard's element cache
  *
- * @todo Caching the elements found by mgd_element() might be a good idea
+ * @todo Caching the elements found by midcom_helper_misc::include_element() might be a good idea
  */
 function mgd_cache_invalidate()
 {
@@ -48,7 +48,7 @@ function mgd_cache_invalidate()
 
 function mgd_template($var)
 {
-    return mgd_element($var);
+    return midcom_helper_misc::include_element($var);
 }
 
 /**
@@ -56,39 +56,7 @@ function mgd_template($var)
  */
 function mgd_element($name)
 {
-    static $style = null;
-
-    if (is_array($name))
-    {
-        $element = $name[1];
-    }
-    else
-    {
-        $element = $name;
-    }
-    // Sensible fallback if we don't have a style or ROOT element
-    $root_fallback = '<html><head><?php $_MIDCOM->print_head_elements(); ?><title><?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title></head><body class="<?php echo $_MIDCOM->metadata->get_page_class(); ?>"><(content)><?php $_MIDCOM->uimessages->show(); $_MIDCOM->toolbars->show(); $_MIDCOM->finish(); ?></body></html>';
-
-    switch ($element)
-    {
-        case 'title':
-            return $GLOBALS['midcom_config']['midcom_site_title'];
-        case 'content':
-            return '<(content)>';
-        default:
-            $element_file = OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/style' . $_MIDGARD['page_style'] . "/{$element}.php";
-
-            if (!file_exists($element_file))
-            {
-                if ($element == 'ROOT')
-                {
-                    return $root_fallback;
-                }
-                return '';
-            }
-            $value = file_get_contents($element_file);
-            return preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", 'mgd_element', $value);
-    }
+    return midcom_helper_misc::include_element($name);
 }
 
 /**
@@ -141,10 +109,6 @@ function mgd_variable($variable)
  */
 function mgd_preparse($code)
 {
-    // Get style elements
-    $code = preg_replace_callback("/<\\(([a-zA-Z0-9 _-]+)\\)>/", 'mgd_element', $code);
-    // Echo variables
-    $code = preg_replace_callback("%&\(([^)]*)\);%i", 'mgd_variable', $code);
-    return $code;
+    return midcom_helper_misc::preparse($code);
 }
 ?>
