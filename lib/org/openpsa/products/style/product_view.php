@@ -40,7 +40,8 @@ $view = $data['view_product'];
 &(view['description']:h);
 
 <?php
-if (   $data['enable_components']
+if (   isset($data['enable_components'])
+    && $data['enable_components']
     && array_key_exists('components', $view))
 {
     ?>
