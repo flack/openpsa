@@ -67,8 +67,8 @@ function send_working_on()
        success: function(msg){
          get_working_on(msg , task);
        },
-       error: function(msg){
-         location.href = location.href;
+        error: function(msg, a, b){
+           location.href = location.href;
        },
        beforeSend: function(msg){
            show_loading(true);

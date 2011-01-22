@@ -404,7 +404,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
             {
                 $current_tag_level = $tag_level;
             }
-            if ($tag_level > $current_tag_level)
+            else if ($current_tag_level == $tag_level)
+            {
+                $toc .= "</li>\n";
+            } 
+            else if ($tag_level > $current_tag_level)
             {
                 for ($i = $current_tag_level; $i < $tag_level; $i++)
                 {
@@ -412,12 +416,17 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     $current_list_level++;
                     $toc .= $prefix . "<ol class=\"level_{$current_list_level}\">\n";
                     $prefix .= '    ';
+                    if ($tag_level > $i + 1)
+                    {
+                        $toc .= $prefix . "<li>\n";
+                    }
                 }
             }
-            if ($tag_level < $current_tag_level)
+            else
             {
                 for ($i = $current_tag_level; $i > $tag_level; $i--)
                 {
+                    $toc .= $prefix . "</li>\n";
                     $current_tag_level = $tag_level;
                     if ($current_list_level > 1)
                     {
@@ -427,10 +436,11 @@ class net_nemein_wiki_handler_view extends midcom_baseclasses_components_handler
                     }
                 }
             }
-            $toc .= $prefix . "<li class='{$heading_tag}'><a href='#{$anchor}'>" . strip_tags($heading) .  "</a></li>\n";
+            $toc .= $prefix . "<li class='{$heading_tag}'><a href='#{$anchor}'>" . strip_tags($heading) .  "</a>";
         }
         for ($i = $current_list_level; $i > 0; $i--)
         {
+            $toc .= $prefix . "</li>\n";
             $prefix = $this->_toc_prefix($i - 1);
             $toc .= $prefix . "</ol>\n";
         }
