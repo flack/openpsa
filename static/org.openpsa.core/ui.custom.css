@@ -66,7 +66,7 @@
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #babdb6; background: #dadfd2 url(images/ui-bg_glass_85_dadfd2_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #24436e; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #babdb6; background: #dadfd2 url(images/ui-bg_glass_85_dadfd2_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #455; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #24436e; text-decoration: none; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #79b7e7; background: #d0e5f5 url(images/ui-bg_glass_75_d0e5f5_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #24436e; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #24436e; text-decoration: none; }
@@ -573,6 +573,10 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 
 /* Manually added styles */
+ .ui-state-default
+{
+    text-shadow: 1px 1px #eee
+}
 
 .ui-widget-content
 {
@@ -607,6 +611,11 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 {
     border-bottom-color: transparent;
     height: 20px;
+}
+
+.ui-jqgrid .ui-jqgrid-hdiv
+{
+    overflow: hidden
 }
 
 .ui-jqgrid-hbox .ui-jqgrid-htable
