@@ -1,5 +1,5 @@
 <?php
-$grid_id = $data['view_identifier'] . '_tasks_grid';
+$grid_id = $data['view_identifier'] . '_tasks_grid_' . $data['agreement'];
 
 $footer_data = array('task' => $data['l10n']->get('totals'));
 
@@ -36,11 +36,6 @@ foreach ($data['tasks'] as $task)
         $row['priority'] = '<span title="' . $data['l10n']->get($data['priority_array'][$task->priority]) . '">' . $task->priority . '</span>';
     }
 
-    $row['index_customer'] = $celldata['index_customer'];
-    $row['customer'] = $celldata['customer'];
-    $row['index_agreement'] = $celldata['index_agreement'];
-    $row['agreement'] = $celldata['agreement'];
-
     $row['manager'] = $manager_card->show_inline();
     $row['index_manager'] = preg_replace('/<span.*?class="uid".*?>.*?<\/span>/', '', $row['manager']);
     $row['index_manager'] = strip_tags($row['index_manager']);
@@ -64,7 +59,7 @@ echo '<script type="text/javascript">//<![CDATA[';
 echo "\nvar " . $grid_id . '_entries = ' . json_encode($rows);
 echo "\n//]]></script>";
 ?>
-<div class="org_openpsa_projects <?php echo $data['view_identifier']; ?> full-width fill-height">
+<div class="org_openpsa_projects <?php echo $data['view_identifier']; ?> full-width">
 
 <table id="&(grid_id);"></table>
 <div id="p_&(grid_id);"></div>
@@ -80,8 +75,6 @@ jQuery("#&(grid_id);").jqGrid({
                  echo '"index_priority", "' . $data['l10n']->get('priority') . '",';
                  echo '"index_task", "' . $data['l10n']->get('task') . '",';
                  echo '"index_project", "' . $data['l10n']->get('project') . '",';
-                 echo '"index_customer", "' . $data['l10n']->get('customer') . '",';
-                 echo '"index_agreement", "' . $data['l10n']->get('agreement') . '",';
                  echo '"index_manager", "' . $data['l10n']->get('manager') . '",';
                  echo '"index_start", "' . $data['l10n']->get('start') . '",';
                  echo '"index_end", "' . $data['l10n']->get('end') . '",';
@@ -95,10 +88,6 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'task', index: 'index_task', width: 100, classes: 'a-ellipsis'},
           {name:'index_project',index:'index_project', hidden: true},
           {name:'project', index: 'index_project', width: 80, classes: 'a-ellipsis', hidden: true},
-          {name:'index_customer', index: 'index_customer', hidden:true},
-          {name:'customer', index: 'index_customer', width: 55, classes: 'a-ellipsis'},
-          {name:'index_agreement', index: 'index_agreement', hidden:true},
-          {name:'agreement', index: 'index_agreement', width: 80, classes: 'a-ellipsis'},
           {name:'index_manager', index: 'index_manager', hidden: true },
           {name:'manager', index: 'index_manager', width: 70},
           {name:'index_start', index: 'index_start', sorttype: "integer", hidden: true },
@@ -111,50 +100,11 @@ jQuery("#&(grid_id);").jqGrid({
       loadonce: true,
       footerrow: true,
       rowNum: <?php echo sizeof($rows); ?>,
-      scroll: 1,
-      grouping: true,
-      groupingView: {
-          groupField: ['index_project'],
-          groupColumnShow: [false],
-          groupText : ['<strong>{0}</strong> ({1})'],
-          groupOrder: ['asc'],
-          groupSummary : [true],
-          showSummaryOnHide: true
-       }
+      scroll: 1
     });
 
 jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
 
-var &(grid_id);_grouping = "project";
-
-jQuery("#chgrouping_&(grid_id);").change(function()
-{
-    var selection = $(this).val();
-    if (selection)
-    {
-        var old_grouping = &(grid_id);_grouping;
-        if (selection == "clear")
-        {
-            jQuery("#&(grid_id);").jqGrid('groupingRemove', true);
-            &(grid_id);_grouping = '';
-        }
-        else
-        {
-            &(grid_id);_grouping = selection.replace(/^index_/, '');
-            jQuery("#&(grid_id);").jqGrid('groupingGroupBy', selection);
-            jQuery("#&(grid_id);").hideCol(&(grid_id);_grouping);
-        }
-        if (old_grouping)
-        {
-            jQuery("#&(grid_id);").showCol(old_grouping);
-            jQuery("#&(grid_id);").hideCol('index_' + old_grouping);
-        }
-        else
-        {
-            //workaround for some weird jqgrid behavior that hopefully disappears with newer (>3.8) versions..
-            jQuery("#&(grid_id);").hideCol('index_project');
-        }
-    }
-});
+jQuery("#&(grid_id);").jqGrid('setCaption', '<?php echo $data['l10n']->get($data['table-heading']); ?>');
 
 </script>

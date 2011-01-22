@@ -460,13 +460,17 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 midcom_show_style('show-json-tasks');
                 break;
             case 'grid':
+                $data['handler'] = $this;
                 if ($data['view_identifier'] != 'agreement')
                 {
                     midcom_show_style("show-priority-filter");
+                    midcom_show_style("show-task-grid");
                 }
-                $data['handler'] = $this;
+                else
+                {
+                    midcom_show_style("show-task-grid-agreement");
+                }
 
-                midcom_show_style("show-task-grid");
                 break;
             default:
                 midcom_show_style("show-priority-filter");
