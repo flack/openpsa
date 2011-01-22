@@ -79,11 +79,13 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             if ($this->_object->sent)
             {
                 $fields['sent']['hidden'] = false;
+                $fields['sent']['readonly'] = false;
             }
 
             if ($this->_object->paid)
             {
                 $fields['paid']['hidden'] = false;
+                $fields['paid']['readonly'] = false;
             }
         }
         else
@@ -109,7 +111,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $fields['pdf_file']['hidden'] = false;
         }
-        $fields['date']['default'] = strftime('%Y-%m-%d');
     }
 
     private function _populate_schema_contacts_for_customer(&$customer)
