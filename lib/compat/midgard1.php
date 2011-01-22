@@ -4,9 +4,12 @@
  */
 $GLOBALS['midgard_filters'] = array
 (
-    'h' => 'htmlentities',
+    'h' => 'html',
+    'H' => 'html',
+    'p' => 'php',
     'u' => 'rawurlencode',
     'f' => 'nl2br',
+    's' => 'unmodified',
 );
 
 /**
@@ -94,16 +97,41 @@ function mgd_element($name)
 function mgd_variable($variable)
 {
     $variable_parts = explode(':', $variable[1]);
-
-    $variable = $variable_parts[0];
-    // TODO: Formatter support
+    $variable = '$' . $variable_parts[0];
 
     if (strpos($variable, '.') !== false)
     {
         $parts = explode('.', $variable);
-        return "<?php echo \${$parts[0]}->{$parts[1]}; ?>";
+        $variable = $parts[0] . '->' . $parts[1];
     }
-    return "<?php echo \${$variable_parts[0]}; ?>";
+
+    if (    isset($variable_parts[1])
+         && array_key_exists($variable_parts[1], $GLOBALS['midgard_filters']))
+    {
+        switch ($variable_parts[1])
+        {
+           case 's':
+               //display as-is
+           case 'h':
+           case 'H':
+               //According to documentation, these two should do something, but actually they don't...
+               $command = 'echo ' . $variable;
+               break;
+           case 'p':
+               $command = 'eval(\'?>\' . ' . $variable . ')';
+               break;
+           default:
+               $function = $GLOBALS['midgard_filters'][$variable_parts[1]];
+               $command = $function . '(' . $variable . ')';
+               break;
+        }
+    }
+    else
+    {
+        $command = 'echo htmlentities(' . $variable . ')';
+    }
+
+    return "<?php $command; ?>";
 }
 
 /**
