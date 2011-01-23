@@ -213,7 +213,7 @@ class midcom_helper_misc
         }
         else
         {
-            $command = 'echo htmlentities(' . $variable . ')';
+            $command = 'echo htmlentities(' . $variable . ', ENT_COMPAT, $_MIDCOM->i18n->get_current_charset())';
         }
 
         return "<?php $command; ?>";
