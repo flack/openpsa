@@ -18,7 +18,6 @@ ini_set('memory_limit', '68M');
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/lib');
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
-define('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
 
 header('Content-Type: text/html; charset=utf-8');
 
@@ -53,9 +52,6 @@ $_MIDGARD = array
     (
         'types' => array(),
     ),
-
-    'theme' => 'OpenPsa2',
-    'page_style' => '',
 );
 
 $_MIDGARD_CONNECTION =& midgard_connection::get_instance();

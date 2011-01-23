@@ -574,6 +574,11 @@ $GLOBALS['midcom_config_default']['cron_purge_deleted_after'] = 25;
  */
 $GLOBALS['midcom_config_default']['symlinks'] = false;
 
+/**
+ * Theme support
+ */
+$GLOBALS['midcom_config_default']['theme'] = '';
+
 /* ----- Include the site config ----- */
 /* This should be replaced by $_MIDGARD constructs */
 if (file_exists(MIDCOM_CONFIG_FILE_BEFORE))

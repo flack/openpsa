@@ -379,11 +379,11 @@ class midcom_connection
             }
 
             // @todo Port the theme part to midgard1
-            if (    isset($_MIDGARD['theme'])
+            if (    isset($GLOBALS['midcom_config']['theme'])
                  && !$args_started
-                 && is_dir(OPENPSA2_THEME_ROOT . $_MIDGARD['theme'] . '/style/' . $part))
+                 && is_dir(OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style/' . $part))
             {
-                $_MIDGARD['page_style'] .= '/' . $part;
+                $GLOBALS['midgard_page_style'] .= '/' . $part;
             }
             else
             {
