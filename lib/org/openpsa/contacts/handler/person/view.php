@@ -145,7 +145,11 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 MIDCOM_TOOLBAR_ACCESSKEY => 'e',
             )
         );
-        if (   $_MIDCOM->componentloader->is_installed('org.openpsa.invoices')
+
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');
+
+        if (   $invoices_url
             && $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
             $billing_data_url = "create/" . $this->_contact->guid . "/";
@@ -156,8 +160,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             {
                 $billing_data_url = $billing_data[0]->guid . "/";
             }
-            $siteconfig = org_openpsa_core_siteconfig::get_instance();
-            $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');
             $this->_view_toolbar->add_item
             (
                 array
