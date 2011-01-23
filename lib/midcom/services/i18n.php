@@ -199,7 +199,7 @@ class midcom_services_i18n
             $this->_current_content_language = $lang;
         }
 
-        $this->_current_charset = $this->_language_db[$lang]['encoding'];
+        $this->_current_charset = strtolower($this->_language_db[$lang]['encoding']);
 
         /**
          * NOTE: setlocale can take an array of locales as value, it will use
