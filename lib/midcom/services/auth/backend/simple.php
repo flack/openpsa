@@ -28,7 +28,12 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      * The auto-generated cookie ID for which this login session is valid. This consists
      * of a static string with the host GUID concatenated to it.
      */
-    var $_cookie_id = 'midcom_services_auth_backend_simple-';
+    private $_cookie_id = 'midcom_services_auth_backend_simple-';
+
+    /**
+     * The path for which the cookie should be set
+     */
+    private $_cookie_path;
 
     /**
      * Read the configuration
@@ -36,6 +41,12 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
     public function __construct($auth)
     {
         $this->_cookie_id .= $GLOBALS['midcom_config']['auth_backend_simple_cookie_id'];
+
+        $this->_cookie_path = $GLOBALS['midcom_config']['auth_backend_simple_cookie_path'];
+        if ($this->_cookie_path == 'auto')
+        {
+            $this->_cookie_path = midcom_connection::get_url('self');
+        }
 
         parent::__construct($auth);
     }
@@ -108,7 +119,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      * Sets the cookie according to the session configuration as outlined in the
      * class introduction.
      */
-    function _set_cookie()
+    private function _set_cookie()
     {
         $secure_cookie = false;
         if (   isset($_SERVER['HTTPS'])
@@ -122,7 +133,7 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
             $this->_cookie_id,
             "{$this->session_id}-{$this->user->id}",
             0,
-            $GLOBALS['midcom_config']['auth_backend_simple_cookie_path'],
+            $this->_cookie_path,
             $GLOBALS['midcom_config']['auth_backend_simple_cookie_domain'],
             $secure_cookie
         );
@@ -132,14 +143,14 @@ class midcom_services_auth_backend_simple extends midcom_services_auth_backend
      * Deletes the cookie according to the session configuration as outlined in the
      * class introduction.
      */
-    function _delete_cookie()
+    private function _delete_cookie()
     {
         _midcom_setcookie
         (
             $this->_cookie_id,
             false,
             0,
-            $GLOBALS['midcom_config']['auth_backend_simple_cookie_path'],
+            $this->_cookie_path,
             $GLOBALS['midcom_config']['auth_backend_simple_cookie_domain']
         );
     }

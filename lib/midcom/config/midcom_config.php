@@ -345,12 +345,9 @@ $GLOBALS['midcom_config_default']['auth_allow_trusted'] = false;
 $GLOBALS['midcom_config_default']['person_class'] = 'midgard_person';
 
 $GLOBALS['midcom_config_default']['auth_backend_simple_cookie_id'] = $auth_cookie_id;
-$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_path'] = midcom_connection::get_url('self');
+$GLOBALS['midcom_config_default']['auth_backend_simple_cookie_path'] = 'auto';
 $GLOBALS['midcom_config_default']['auth_backend_simple_cookie_domain'] = null;
 $GLOBALS['midcom_config_default']['auth_backend_simple_cookie_secure'] = true; // set secure flag on cookie (applies only when using SSL)
-
-// Where to redirect the user after a successful login
-$GLOBALS['midcom_config_default']['login_redirect_url'] = midcom_connection::get_url('self');
 
 // Cache configuration
 $GLOBALS['midcom_config_default']['cache_base_directory'] = '/tmp/';
