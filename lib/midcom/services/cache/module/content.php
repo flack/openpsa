@@ -206,7 +206,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     function generate_request_identifier($context, $customdata = null)
     {
-        $identifier_source = 'CACHE:' . $GLOBALS['midcom_config']['cache_module_content_name'];
+        $module_name = $GLOBALS['midcom_config']['cache_module_content_name'];
+        if ($module_name == 'auto')
+        {
+            $module_name = midcom_connection::get_unique_host_name();
+        }
+        $identifier_source = 'CACHE:' . $module_name;
 
         // Cache the request identifier so that it doesn't change between start and end of request
         static $identifier_cache = array();

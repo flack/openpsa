@@ -48,6 +48,10 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
         if (is_null($index_name))
         {
             $this->_index_name = $GLOBALS['midcom_config']['indexer_index_name'];
+            if ($this->_index_name == 'auto')
+            {
+                $this->_index_name = midcom_connection::get_unique_host_name();
+            }
         }
         else
         {
@@ -233,6 +237,10 @@ class midcom_services_indexer_solrDocumentFactory
         if (is_null($index_name))
         {
             $this->_index_name = $GLOBALS['midcom_config']['indexer_index_name'];
+            if ($this->_index_name == 'auto')
+            {
+                $this->_index_name = midcom_connection::get_unique_host_name();
+            }
         }
         else
         {

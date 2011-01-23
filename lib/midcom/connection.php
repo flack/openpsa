@@ -400,5 +400,22 @@ class midcom_connection
 
         self::$_data['argc'] = count(self::$_data['argv']);
     }
+
+    public static function get_unique_host_name()
+    {
+        if (!isset(self::$_data['unique_host_name']))
+        {
+            if (isset($_MIDGARD['config']['unique_host_name']))
+            {
+                self::$_data['unique_host_name'] = $_MIDGARD['config']['unique_host_name'];
+            }
+            else
+            {
+                self::$_data['unique_host_name'] = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
+            }
+        }
+
+        return self::$_data['unique_host_name'];
+    }
 }
 ?>

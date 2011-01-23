@@ -317,16 +317,13 @@ $GLOBALS['midcom_config_default'] = Array();
 $GLOBALS['midcom_version'] = '8.09.9';
 // Initialize Helpers
 
-if (   isset($_MIDGARD['config']['unique_host_name'])
-    && isset($_MIDGARD['config']['auth_cookie_id']))
+if (isset($_MIDGARD['config']['auth_cookie_id']))
 {
-    $unique_host_name = $_MIDGARD['config']['unique_host_name'];
     $auth_cookie_id = $_MIDGARD['config']['auth_cookie_id'];
 }
 else
 {
     // Generate host identifier from Midgard host
-    $unique_host_name = str_replace(':', '_', $_SERVER['SERVER_NAME']) . '_' . str_replace('/', '_', midcom_connection::get_url('prefix'));
     $auth_cookie_id = "host{$_MIDGARD['host']}";
 }
 
@@ -360,7 +357,7 @@ $GLOBALS['midcom_config_default']['cache_base_directory'] = '/tmp/';
 $GLOBALS['midcom_config_default']['cache_autoload_queue'] = Array('content', 'nap', 'phpscripts', 'memcache');
 
 // Content Cache
-$GLOBALS['midcom_config_default']['cache_module_content_name'] = $unique_host_name;
+$GLOBALS['midcom_config_default']['cache_module_content_name'] = 'auto';
 
 if (class_exists('Memcache'))
 {
@@ -407,7 +404,7 @@ $GLOBALS['midcom_config_default']['i18n_fallback_language'] = 'en';
 
 // Indexer Configuration
 $GLOBALS['midcom_config_default']['indexer_backend'] = false;
-$GLOBALS['midcom_config_default']['indexer_index_name'] = $unique_host_name;
+$GLOBALS['midcom_config_default']['indexer_index_name'] = 'auto';
 $GLOBALS['midcom_config_default']['indexer_reindex_memorylimit'] = 250;
 $GLOBALS['midcom_config_default']['indexer_reindex_allowed_ips'] = Array('127.0.0.1');
 
