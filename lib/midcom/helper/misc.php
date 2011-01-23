@@ -234,8 +234,6 @@ class midcom_helper_misc
         {
             $element = $name;
         }
-        // Sensible fallback if we don't have a style or ROOT element
-        $root_fallback = '<html><head><?php $_MIDCOM->print_head_elements(); ?><title><?php echo $_MIDCOM->get_context_data(MIDCOM_CONTEXT_PAGETITLE); ?></title></head><body class="<?php echo $_MIDCOM->metadata->get_page_class(); ?>"><(content)><?php $_MIDCOM->uimessages->show(); $_MIDCOM->toolbars->show(); $_MIDCOM->finish(); ?></body></html>';
 
         switch ($element)
         {
@@ -250,7 +248,11 @@ class midcom_helper_misc
                 {
                     if ($element == 'ROOT')
                     {
-                        return $root_fallback;
+                        /* If we don't have a ROOT element, go to content directly. style-init or style-finish
+                         * can load the page style (under mgd1, this might also be done with the
+                         * midgard style engine as well)
+                         */
+                        return '<(content)>';
                     }
                     return '';
                 }
