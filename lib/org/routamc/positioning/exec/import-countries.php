@@ -4,7 +4,7 @@ $_MIDCOM->auth->require_admin_user();
 $_MIDCOM->load_library('org.openpsa.httplib');
 $http_request = new org_openpsa_httplib();
 
-$xml = $http_request->get('http://ws.geonames.org/countryInfo?');
+$xml = $http_request->get('http://ws.geonames.org/countryInfo?lang=' . $_MIDCOM->i18n->get_current_language());
 $simplexml = simplexml_load_string($xml);
 
 foreach ($simplexml->country as $id => $countryinfo)
@@ -17,7 +17,7 @@ foreach ($simplexml->country as $id => $countryinfo)
     $country->code3 = (string) $countryinfo->isoAlpha3;
     $country->fips = (string) $countryinfo->fipsCode;
     $country->continent = (string) $countryinfo->continent;
-    $country->area = (float) $countryinfo->areaInSqKm;    
+    $country->area = (float) $countryinfo->areaInSqKm;
     $country->population = (int) $countryinfo->population;
     $country->currency = (string) $countryinfo->currencyCode;
     $country->bboxwest = (float) $countryinfo->bBoxWest;
@@ -30,7 +30,7 @@ foreach ($simplexml->country as $id => $countryinfo)
     {
         $country->capital = $capital->id;
     }
-    
+
     $country->create();
     echo midcom_connection::get_error_string();
 }
