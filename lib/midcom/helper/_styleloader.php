@@ -564,8 +564,15 @@ class midcom_helper__styleloader
         $_style = false;
 
         $this->_snippetdir = '/midcom/style';
-        $this->_styledirs_count[$_MIDCOM->get_current_context()] = 1;
-        $this->_styledirs[$_MIDCOM->get_current_context()][0] = $this->_snippetdir;
+        $current_context = $_MIDCOM->get_current_context();
+        if (isset($this->_styledirs_count[$current_context]))
+        {
+            $styledirs_count_backup = $this->_styledirs_count;
+            $styledirs_backup = $this->_styledirs;
+        }
+
+        $this->_styledirs_count[$current_context] = 1;
+        $this->_styledirs[$current_context][0] = $this->_snippetdir;
 
         $root_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
 
@@ -582,6 +589,12 @@ class midcom_helper__styleloader
         if ($_style === false)
         {
             $_style = $this->_get_element_from_snippet($_element);
+        }
+
+        if (isset($styledirs_count_backup))
+        {
+            $this->_styledirs_count = $styledirs_count_backup;
+            $this->_styledirs = $styledirs_backup;
         }
 
         if ($_style !== false)
