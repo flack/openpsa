@@ -564,8 +564,8 @@ class midcom_helper__styleloader
         $_style = false;
 
         $this->_snippetdir = '/midcom/style';
-        $this->_styledirs_count[0] = 1;
-        $this->_styledirs[0][0] = $this->_snippetdir;
+        $this->_styledirs_count[$_MIDCOM->get_current_context()] = 1;
+        $this->_styledirs[$_MIDCOM->get_current_context()][0] = $this->_snippetdir;
 
         $root_topic = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC);
 
