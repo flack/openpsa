@@ -123,6 +123,10 @@ Nach links drehen
 Nach rechts drehen
 ---STRINGEND
 
+---STRING select your country
+Bitte wählen
+---STRINGEND
+
 ---STRING this object was locked by %s
 Dieses Objekt wurde von %s gesperrt
 ---STRINGEND
