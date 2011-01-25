@@ -49,6 +49,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             catch (midcom_error $e)
             {
             	debug_add($e->getMessage());
+                return false;
             }
         }
 
