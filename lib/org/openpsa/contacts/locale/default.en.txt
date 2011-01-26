@@ -114,6 +114,18 @@ Daughter organization
 Decide later
 ---STRINGEND
 
+---STRING delete account
+Delete account
+---STRINGEND
+
+---STRING delete account %s %s
+Delete account for %s %s
+---STRINGEND
+
+---STRING decide later
+Decide later
+---STRINGEND
+
 ---STRING department
 Department
 ---STRINGEND
