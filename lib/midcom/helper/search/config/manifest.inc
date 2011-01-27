@@ -1,6 +1,6 @@
 'name' => 'midcom.helper.search',
 'icon' => 'stock-icons/16x16/search.png',
-'version' => '8.09.9',
+'version' => '9.0pre',
 'state' => 'stable',
 'purecode' => false,
 'privileges' => array(),

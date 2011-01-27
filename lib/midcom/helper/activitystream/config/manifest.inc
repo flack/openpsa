@@ -16,7 +16,7 @@
                 | MIDCOM_OPERATION_DBA_DELETE,
     ),
 ),
-'version' => '8.09.9',
+'version' => '9.0pre',
 'state' => 'stable',
 'package.xml' => array
 (

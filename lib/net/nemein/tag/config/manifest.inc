@@ -1,7 +1,7 @@
 'name' => 'net.nemein.tag',
 'icon' => 'net.nemein.tag/tag-16.png',
 'purecode' => true,
-'version' => '8.09.9',
+'version' => '9.0pre',
 'state' => 'stable',
 'privileges' => array(),
 'class_mapping' => array

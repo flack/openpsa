@@ -5,7 +5,7 @@
 (
     'org_openpsa_query' => 'org_openpsa_reports_query_dba',
 ),
-'version' => '8.09.9',
+'version' => '9.0pre',
 'package.xml' => array
 (
     'summary' => 'OpenPSA reporting module',

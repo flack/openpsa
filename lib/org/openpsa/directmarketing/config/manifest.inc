@@ -9,7 +9,7 @@
     'org_openpsa_campaign_message_receipt' => 'org_openpsa_directmarketing_campaign_message_receipt_dba',
     'org_openpsa_link_log' => 'org_openpsa_directmarketing_link_log_dba',
 ),
-'version' => '8.09.9',
+'version' => '9.0pre',
 'state' => 'stable',
 'package.xml' => array
 (

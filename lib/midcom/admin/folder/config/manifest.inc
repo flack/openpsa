@@ -1,7 +1,7 @@
 'name' => 'midcom.admin.folder',
 'icon' => 'stock-icons/16x16/folder.png',
 'purecode' => true,
-'version' => '8.09.9',
+'version' => '9.0pre',
 'state' => 'stable',
 'privileges' => array
 (
