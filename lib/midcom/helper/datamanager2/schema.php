@@ -644,19 +644,19 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
         return $string;
     }
 
+
     /**
      * Helper function which transforms a raw schema database (either already parsed or
      * based on a URL to a schemadb) into a list of schema class instances.
-     *
-     * This function may (and usually will) be called statically.
      *
      * @param mixed $raw_db Either an already created raw schema array, or a midcom_helper_misc::get_snippet_content
      *     compatible URL to a snippet / file from which the db should be loaded or schemadb contents as a string.
      * @return Array An array of midcom_helper_datamanager2_schema class instances.
      * @see midcom_helper_misc::get_snippet_content()
      */
-    function load_database($raw_db)
+    public static function load_database($raw_db)
     {
+        static $loaded_dbs = array();
         $path = null;
         if (is_string($raw_db))
         {
@@ -669,6 +669,10 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             else
             {
                 $path = $raw_db;
+                if (array_key_exists($path, $loaded_dbs))
+                {
+                    return $loaded_dbs[$path];
+                }
                 $data = midcom_helper_misc::get_snippet_content($raw_db);
                 $result = eval ("\$raw_db = array ( {$data}\n );");
             }
@@ -680,17 +684,23 @@ class midcom_helper_datamanager2_schema extends midcom_baseclasses_components_pu
             }
         }
 
-        $schemadb = array();
-
         if (!is_array($raw_db))
         {
             throw new midcom_error("Provided DM2 schema is not in Array format.");
         }
 
+        $schemadb = array();
+
         foreach ($raw_db as $name => $raw_schema)
         {
             $schemadb[$name] = new midcom_helper_datamanager2_schema($raw_db, $name, $path);
         }
+
+        if (!is_null($path))
+        {
+            $loaded_dbs[$path] = $schemadb;
+        }
+
         return $schemadb;
     }
 
