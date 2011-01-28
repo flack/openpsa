@@ -210,6 +210,17 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
+
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "account/delete/{$this->_person->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete account'),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_person),
+            )
+        );
     }
 
     private function _update_account()
@@ -250,6 +261,55 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("no current password given"), 'error');
         }
         return $stat;
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_account_delete($handler_id, $args, &$data)
+    {
+        // Check if we get the person
+        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
+        $_MIDCOM->auth->require_do('midgard:update', $this->_person);
+
+        if (   $this->_person->id != midcom_connection::get_user()
+            && !midcom_connection::is_admin())
+        {
+            throw new midcom_error_forbidden('Only admins can delete other user\'s accounts');
+        }
+        $this->_account = new midcom_core_account($this->_person);
+        if (!$this->_account->get_username())
+        {
+            // Account needs to be created first, relocate
+            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+            $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
+        }
+
+        $this->_request_data['person_action'] = 'delete account';
+
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        if (   array_key_exists('midcom_helper_datamanager2_save', $_POST)
+            && $this->_account->delete())
+        {
+            // Account updated, redirect to person card
+            $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
+        }
+        else if (array_key_exists('midcom_helper_datamanager2_cancel', $_POST))
+        {
+            $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
+        }
+
+        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
+        $_MIDCOM->enable_jquery();
+        $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
+        $this->_prepare_request_data();
+
+        $this->_update_breadcrumb_line();
+
+        // Add toolbar items
+        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     /**
@@ -311,6 +371,16 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
     public function _show_account_edit($handler_id, &$data)
     {
         midcom_show_style("show-person-account-edit");
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param mixed &$data The local request data.
+     */
+    public function _show_account_delete($handler_id, &$data)
+    {
+        midcom_show_style("show-person-account-delete");
     }
 }
 ?>

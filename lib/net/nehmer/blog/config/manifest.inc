@@ -1,6 +1,6 @@
 'name' => 'net.nehmer.blog',
 'icon' => 'net.nehmer.blog/news-listing.png',
-'version' => '8.09.9.1',
+'version' => '9.0pre.1',
 'state' => 'stable',
 'class_mapping' => array
 (

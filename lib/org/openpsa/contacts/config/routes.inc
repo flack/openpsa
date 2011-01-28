@@ -174,6 +174,13 @@
     'fixed_args' => array('account', 'edit'),
     'variable_args' => 1,
 ),
+// Match /account/delete/GUID/
+'account_delete' => array
+(
+    'handler' => array('org_openpsa_contacts_handler_person_action', 'account_delete'),
+    'fixed_args' => array('account', 'delete'),
+    'variable_args' => 1,
+),
 // Match /person/memberships/GUID/
 'group_memberships' => array
 (

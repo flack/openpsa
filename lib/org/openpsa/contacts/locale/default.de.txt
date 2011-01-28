@@ -110,6 +110,14 @@ Unterorganisation
 Später entscheiden
 ---STRINGEND
 
+---STRING delete account
+Benutzerkonto löschen
+---STRINGEND
+
+---STRING delete account %s %s
+Benutzerkonto von %s %s löschen
+---STRINGEND
+
 ---STRING department
 Abteilung
 ---STRINGEND

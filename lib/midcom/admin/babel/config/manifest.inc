@@ -2,7 +2,7 @@
 'icon' => 'stock-icons/16x16/locale.png',
 'description' => 'MidCOM localization utility',
 'purecode' => true,
-'version' => '8.09.9',
+'version' => '9.0pre',
 'privileges' => array
 (
     'access' => MIDCOM_PRIVILEGE_ALLOW,

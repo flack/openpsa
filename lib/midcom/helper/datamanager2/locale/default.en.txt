@@ -127,6 +127,10 @@ Rotate left
 Rotate right
 ---STRINGEND
 
+---STRING select your country
+select your country
+---STRINGEND
+
 ---STRING this object was locked by %s
 This object was locked by %s
 ---STRINGEND

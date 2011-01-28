@@ -6,7 +6,7 @@
 (
     'midcom_services_at_entry_db' => 'midcom_services_at_entry_dba',
 ),
-'version' => '8.09.9',
+'version' => '9.0pre',
 'state' => 'stable',
 'package.xml' => array
 (

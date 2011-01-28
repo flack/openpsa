@@ -42,7 +42,15 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         // Instantiate each task only once
         if (!array_key_exists($task_id, $this->_task_cache))
         {
-            $this->_task_cache[$task_id] = new org_openpsa_projects_task_dba($task_id);
+            try
+            {
+                $this->_task_cache[$task_id] = new org_openpsa_projects_task_dba($task_id);
+            }
+            catch (midcom_error $e)
+            {
+            	debug_add($e->getMessage());
+                return false;
+            }
         }
 
         // Only accept tasks to this list, projects need not apply

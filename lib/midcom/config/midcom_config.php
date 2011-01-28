@@ -314,7 +314,7 @@ $GLOBALS['midcom_config_default'] = Array();
  * MidCOM version
  * @global string
  */
-$GLOBALS['midcom_version'] = '8.09.9';
+$GLOBALS['midcom_version'] = '9.0pre';
 // Initialize Helpers
 
 if (isset($_MIDGARD['config']['auth_cookie_id']))
