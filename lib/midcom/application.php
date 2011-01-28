@@ -22,8 +22,6 @@
  *   run.
  * - Provide a specialized mechanism to dynamically invoke a component's
  *   Administration Interface.
- * - Provide a basic context mechanism that allows each independent component
- *   invocation to access its own context information.
  *
  * <b>URL METHODS TO THE MIDCOM ROOT PAGE</b>
  *
@@ -120,31 +118,6 @@
  */
 class midcom_application
 {
-    /**
-     * Holds the component context information.
-     *
-     * This is an array of arrays, the outer one indexed by context IDs, the
-     * inner one indexed by context keys. Only valid of the system has left
-     * the code-init phase.
-     *
-     * @var Array
-     */
-    private $_context = array();
-
-    /**
-     * Contains the ID of the currently active context or false is none is active.
-     *
-     * @var int
-     */
-    private $_currentcontext = 0;
-
-    /**
-     * The client status array.
-     *
-     * @var Array
-     */
-    private $_client = array();
-
     /**
      * Integer constant resembling the current MidCOM state.
      *
@@ -250,7 +223,7 @@ class midcom_application
             && substr($argv[0], 0, 27) == 'midcom-serveattachmentguid-')
         {
             $guid = substr($argv[0], 27);
-            $this->_create_context(0);
+            new midcom_core_context(0);
             $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc', null, true);
             $attachment = new midcom_db_attachment($guid);
             $this->serve_attachment($attachment);
@@ -263,6 +236,10 @@ class midcom_application
         $this->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
 
         $this->componentloader->load_all_manifests();
+
+        // Initialize Context Storage
+        $context = new midcom_core_context(0);
+        $context->set_current();
 
         // Initialize Root Topic
         try
@@ -294,8 +271,9 @@ class midcom_application
                 $root_node = $topics[0];
             }
         }
-        // Initialize Context Storage
-        $this->_currentcontext = $this->_create_context(0, $root_node);
+
+        $context->set_key(MIDCOM_CONTEXT_ROOTTOPIC, $root_node);
+        $context->set_key(MIDCOM_CONTEXT_ROOTTOPICID, $root_node->id);
 
         // Check the midcom_config site prefix for absolute local urls
         if ($GLOBALS['midcom_config']['midcom_site_url'][0] == '/')
@@ -340,24 +318,25 @@ class midcom_application
      */
     public function codeinit()
     {
-        if ($this->get_current_context() == 0)
+        $context = midcom_core_context::get();
+        if ($context->id == 0)
         {
             // Initialize the UI message stack from session
             $this->uimessages->initialize();
         }
 
         // Parse the URL
-        $this->_parsers[$this->_currentcontext] = $this->serviceloader->load('midcom_core_service_urlparser');
-        $this->_parsers[$this->_currentcontext]->parse(midcom_connection::get_url('argv'));
+        $this->_parsers[$context->id] = $this->serviceloader->load('midcom_core_service_urlparser');
+        $this->_parsers[$context->id]->parse(midcom_connection::get_url('argv'));
 
-        if (!$this->_parsers[$this->_currentcontext])
+        if (!$this->_parsers[$context->id])
         {
             throw new midcom_error('URL Parser is not instantiated');
         }
 
         $this->_process();
 
-        if ($this->get_current_context() == 0)
+        if ($context->id == 0)
         {
             // Let metadata service add its meta tags
             $this->metadata->populate_meta_head();
@@ -373,10 +352,10 @@ class midcom_application
     public function content()
     {
         // Enter Context
-        $oldcontext = $this->_currentcontext;
-        if ($oldcontext != 0)
+        $oldcontext = midcom_core_context::get();
+        if ($oldcontext->id != 0)
         {
-            debug_add("Entering Context 0 (old Context: {$this->_currentcontext})");
+            debug_add("Entering Context 0 (old Context: {$oldcontext->id})");
         }
         $this->_currentcontext = 0;
         $this->style->enter_context(0);
@@ -393,13 +372,13 @@ class midcom_application
         }
 
         // Leave Context
-        if ($oldcontext != 0)
+        if ($oldcontext->id != 0)
         {
-            debug_add("Leaving Context 0 (new Context: {$oldcontext})");
+            debug_add("Leaving Context 0 (new Context: {$oldcontext->id})");
         }
 
         $this->style->leave_context();
-        $this->_currentcontext = $oldcontext;
+        $oldcontext->set_current();
     }
 
     /**
@@ -481,37 +460,37 @@ class midcom_application
             throw new midcom_error("dynamic_load content request called before content output phase.");
         }
 
-        // Determine new Context ID and set $this->_currentcontext,
+        // Determine new Context ID and set currentcontext,
         // enter that context and prepare its data structure.
-        $context = $this->_create_context(null, $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC));
+        $context = new midcom_core_context(null, $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ROOTTOPIC));
 
         if ($pass_get)
         {
             // Include GET parameters into cache URL
-            $this->_set_context_data(midcom_connection::get_url('self') . $url . '?GET=' . serialize($_GET), $context, MIDCOM_CONTEXT_URI);
+            $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $url . '?GET=' . serialize($_GET));
         }
         else
         {
-            $this->_set_context_data(midcom_connection::get_url('self') . $url, $context, MIDCOM_CONTEXT_URI);
+            $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $url);
         }
 
-        $oldcontext = $this->_currentcontext;
-        $this->_currentcontext = $context;
+        $oldcontext = midcom_core_context::get();
+        $context->set_current();
 
         /* "content-cache" for DLs, check_hit */
-        if ($this->cache->content->check_dl_hit($context, $config))
+        if ($this->cache->content->check_dl_hit($context->id, $config))
         {
             // The check_hit method serves cached content on hit
-            $this->_currentcontext = $oldcontext;
-            return $context;
+            $oldcontext->set_current();
+            return $context->id;
         }
 
         // Parser Init: Generate arguments and instantiate it.
-        $this->_parsers[$this->_currentcontext] = $this->serviceloader->load('midcom_core_service_urlparser');
-        $argv = $this->_parsers[$this->_currentcontext]->tokenize($url);
-        $this->_parsers[$this->_currentcontext]->parse($argv);
+        $this->_parsers[$context->id] = $this->serviceloader->load('midcom_core_service_urlparser');
+        $argv = $this->_parsers[$context->id]->tokenize($url);
+        $this->_parsers[$context->id]->parse($argv);
 
-        if (!$this->_parsers[$this->_currentcontext])
+        if (!$this->_parsers[$context->id])
         {
             throw new midcom_error("URL Parser could not be instantiated");
         }
@@ -524,7 +503,7 @@ class midcom_application
             debug_add("Dynamic load _process() phase ended up with 404 Error. Aborting...", MIDCOM_LOG_ERROR);
 
             // Leave Context
-            $this->_currentcontext = $oldcontext;
+            $oldcontext->set_current();
 
             return;
         }
@@ -532,24 +511,24 @@ class midcom_application
         // Start another buffer for caching DL results
         ob_start();
 
-        $this->style->enter_context($context);
-        debug_add("Entering Context $context (old Context: $oldcontext)");
+        $this->style->enter_context($context->id);
+        debug_add("Entering Context $context->id (old Context: $oldcontext->id)");
 
         $this->_output();
 
         $this->style->leave_context();
-        debug_add("Leaving Context $context (new Context: $oldcontext)");
+        debug_add("Leaving Context $context->id (new Context: $oldcontext->id)");
 
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
         /* Cache DL the content */
-        $this->cache->content->store_dl_content($context, $config, $dl_cache_data);
+        $this->cache->content->store_dl_content($context->id, $config, $dl_cache_data);
         unset($dl_cache_data);
 
         // Leave Context
-        $this->_currentcontext = $oldcontext;
+        $oldcontext->set_current();
 
-        return $context;
+        return $context->id;
     }
 
     /**
@@ -629,7 +608,9 @@ class midcom_application
         $success = false;
         $substyle = "";
 
-        while (($tmp = $this->_parsers[$this->_currentcontext]->get_variable('midcom')) !== false)
+        $context = midcom_core_context::get();
+
+        while (($tmp = $this->_parsers[$context->id]->get_variable('midcom')) !== false)
         {
             foreach ($tmp as $key => $value)
             {
@@ -641,7 +622,7 @@ class midcom_application
                         break;
 
                     case 'serveattachmentguid':
-                        if ($this->_parsers[$this->_currentcontext]->argc > 1)
+                        if ($this->_parsers[$context->id]->argc > 1)
                         {
                             debug_add('Too many arguments remaining for serve_attachment.', MIDCOM_LOG_ERROR);
                         }
@@ -697,10 +678,10 @@ class midcom_application
                         // rest of URL used as redirect
                         $remaining_url = false;
                         if (   !empty($tmp['logout'])
-                            || !empty($this->_parsers[$this->_currentcontext]->argv))
+                            || !empty($this->_parsers[$context->id]->argv))
                         {
                             $remaining_url = $tmp['logout'] . '/' ;
-                            $remaining_url .= implode($this->_parsers[$this->_currentcontext]->argv, '/');
+                            $remaining_url .= implode($this->_parsers[$context->id]->argv, '/');
                             $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
                         }
                         if (is_string($remaining_url))
@@ -724,9 +705,9 @@ class midcom_application
                         // rest of URL used as redirect
                         $remaining_url = false;
                         if (   !empty($tmp['login'])
-                            || !empty($this->_parsers[$this->_currentcontext]->argv))
+                            || !empty($this->_parsers[$context->id]->argv))
                         {
-                            $remaining_url = "{$tmp['login']}/" . implode($this->_parsers[$this->_currentcontext]->argv, '/');
+                            $remaining_url = "{$tmp['login']}/" . implode($this->_parsers[$context->id]->argv, '/');
                             $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
                         }
                         if (is_string($remaining_url))
@@ -759,7 +740,7 @@ class midcom_application
                         break;
 
                     case 'servejscsscache':
-                        $name = $this->_parsers[$this->_currentcontext]->argv[0];
+                        $name = $this->_parsers[$context->id]->argv[0];
                         if (   !$this->head->jscss
                             || !is_callable(array($this->head->jscss, 'serve')))
                         {
@@ -779,7 +760,7 @@ class midcom_application
 
         do
         {
-            $object = $this->_parsers[$this->_currentcontext]->get_current_object();
+            $object = $this->_parsers[$context->id]->get_current_object();
             if (   !is_object($object)
                 || !$object->guid)
             {
@@ -798,7 +779,7 @@ class midcom_application
                 debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
             }
 
-            $this->_set_context_data($path, MIDCOM_CONTEXT_COMPONENT);
+            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
 
             // Check whether the component can handle the request.
             // If so, execute it, if not, continue.
@@ -806,24 +787,24 @@ class midcom_application
             {
                 $this->_status = MIDCOM_STATUS_HANDLE;
 
-                $prefix = $this->_parsers[$this->_currentcontext]->get_url();
+                $prefix = $this->_parsers[$context->id]->get_url();
 
                 // Initialize context
-                $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_ANCHORPREFIX] = $prefix;
-                $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $substyle;
+                $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
+                $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $substyle);
 
-                $this->_handle( $this->get_context_data( MIDCOM_CONTEXT_COMPONENT ) );
+                $this->_handle($context->get_key(MIDCOM_CONTEXT_COMPONENT));
 
                 $success = true;
                 break;
             }
-        } while ($this->_parsers[$this->_currentcontext]->get_object() !== false);
+        } while ($this->_parsers[$context->id]->get_object() !== false);
 
         if (! $success)
         {
             // We couldn't fetch a node due to access restrictions. Fall only for real pages. Ignore dynamic loads.
             if (   midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED
-                && $this->get_current_context() == 0)
+                && $context->id == 0)
             {
                 throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
             }
@@ -832,8 +813,7 @@ class midcom_application
              * Simple: if current context is not '0' we were called from another context.
              * If so we should not break application now - just gracefully continue.
              */
-
-            if ($this->get_current_context() == 0)
+            if ($context->id == 0)
             {
                 throw new midcom_error_notfound("This page is not available on this server.");
             }
@@ -842,13 +822,14 @@ class midcom_application
             return false;// This will exit.
         }
 
-        if (   $this->_currentcontext == 0
+        if (   $context->id == 0
             && $this->skip_page_style == true)
         {
             $this->_status = MIDCOM_STATUS_CONTENT;
 
             // Enter Context
-            $oldcontext = $this->_currentcontext;
+            $oldcontext = $context;
+            midcom_core_context::get(0)->set_current();
             $this->_currentcontext = 0;
             $this->style->enter_context(0);
 
@@ -856,7 +837,7 @@ class midcom_application
 
             // Leave Context
             $this->style->leave_context();
-            $this->_currentcontext = $oldcontext;
+            $oldcontext->set_current();
 
             $this->finish();
             _midcom_stop_request();
@@ -881,14 +862,15 @@ class midcom_application
      */
     private function _handle()
     {
-        $path = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        $context = midcom_core_context::get();
+        $path = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
 
         $handler = $this->componentloader->get_interface_class($path);
 
-        $this->_set_context_data($this->_parsers[$this->_currentcontext]->get_current_object(), MIDCOM_CONTEXT_CONTENTTOPIC);
-        $this->_set_context_data($this->_parsers[$this->_currentcontext]->get_objects(), MIDCOM_CONTEXT_URLTOPICS);
+        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->_parsers[$context->id]->get_current_object());
+        $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->_parsers[$context->id]->get_objects());
 
-        if (!$handler->handle($this->_parsers[$this->_currentcontext]->get_current_object(), $this->_parsers[$this->_currentcontext]->argc, $this->_parsers[$this->_currentcontext]->argv, $this->_currentcontext))
+        if (!$handler->handle($this->_parsers[$context->id]->get_current_object(), $this->_parsers[$context->id]->argc, $this->_parsers[$context->id]->argv, $context->id))
         {
             throw new midcom_error("Component $path failed to handle the request");
         }
@@ -904,14 +886,14 @@ class midcom_application
             $meta = $nav->get_leaf($nav->get_current_leaf());
         }
 
-        if ($this->_context[$this->_currentcontext][MIDCOM_CONTEXT_PERMALINKGUID] === null)
+        if ($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID) === null)
         {
-            $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_PERMALINKGUID] = $meta[MIDCOM_NAV_GUID];
+            $context->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $meta[MIDCOM_NAV_GUID]);
         }
 
-        if ($this->_context[$this->_currentcontext][MIDCOM_CONTEXT_PAGETITLE] == '')
+        if ($context->get_key(MIDCOM_CONTEXT_PAGETITLE) == '')
         {
-            $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_PAGETITLE] = $meta[MIDCOM_NAV_NAME];
+            $context->set_key(MIDCOM_CONTEXT_PAGETITLE, $meta[MIDCOM_NAV_NAME]);
         }
     }
 
@@ -930,27 +912,28 @@ class midcom_application
      */
     private function _can_handle($object)
     {
-        $path = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        $context = midcom_core_context::get();
+        $path = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
 
         // Get component interface class
         $component_interface = $this->componentloader->get_interface_class($path);
         if ($component_interface === null)
         {
             $path = 'midcom.core.nullcomponent';
-            $this->_set_context_data($path, MIDCOM_CONTEXT_COMPONENT);
+            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
             $component_interface = $this->componentloader->get_interface_class($path);
         }
 
         // Load configuration
-        $config_obj = $this->_loadconfig($this->_currentcontext, $object);
+        $config_obj = $this->_loadconfig($context->id, $object);
         $config = ($config_obj == false) ? array() : $config_obj->get_all();
-        if (! $component_interface->configure($config, $this->_currentcontext))
+        if (! $component_interface->configure($config, $context->id))
         {
             throw new midcom_error("Component Configuration failed: " . midcom_connection::get_error_string());
         }
 
         // Make can_handle check
-        if (!$component_interface->can_handle($object, $this->_parsers[$this->_currentcontext]->argc, $this->_parsers[$this->_currentcontext]->argv, $this->_currentcontext))
+        if (!$component_interface->can_handle($object, $this->_parsers[$context->id]->argc, $this->_parsers[$context->id]->argv, $context->id))
         {
             debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
             return false;
@@ -1002,9 +985,10 @@ class midcom_application
         {
             midcom_show_style('style-init');
         }
+        $context = midcom_core_context::get();
 
-        $component = $this->componentloader->get_interface_class($this->get_context_data(MIDCOM_CONTEXT_COMPONENT));
-        $component->show_content($this->_currentcontext);
+        $component = $this->componentloader->get_interface_class($context->get_key(MIDCOM_CONTEXT_COMPONENT));
+        $component->show_content($context->id);
 
         if (!$this->skip_page_style)
         {
@@ -1154,13 +1138,6 @@ class midcom_application
     /**
      * Access the MidCOM component context
      *
-     * Returns Component Context Information associated to the component with the
-     * context ID $contextid identified by $key. Omitting $contextid will yield
-     * the variable from the current context.
-     *
-     * If the context ID is invalid, false is returned. Be sure to compare the data
-     * type with it, since a "0" will evaluate to false if compared with "==" instead of "===".
-     *
      * @param int param1    Either the ID of the context (two parameters) or the key requested (one parameter).
      * @param int param2    Either the key requested (two parameters) or null (one parameter, the default).
      * @return mixed    The content of the key being requested.
@@ -1169,40 +1146,25 @@ class midcom_application
     {
         if (is_null($param2))
         {
-            $contextid = $this->_currentcontext;
+            $context = midcom_core_context::get();
             $key = $param1;
         }
         else
         {
-            $contextid = $param1;
+            $context = midcom_core_context::get($param1);
             $key = $param2;
         }
 
-        if (!is_array($this->_context))
+        if (!$context)
         {
-            debug_add ("Corrupted context data (should be array).", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (!array_key_exists($contextid, $this->_context))
-        {
-            debug_add ("Requested Context ID $contextid invalid.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        if (!array_key_exists($key, $this->_context[$contextid]) || $key >= 1000)
-        {
-            debug_add("Requested Key ID $key invalid.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-
-        return $this->_context[$contextid][$key];
+        return $context->get_key($key);
     }
 
     /**
      * Update the component context
-     *
-     * This function sets a variable of the current or the given component context.
      *
      * @param mixed $value    The value to be stored
      * @param int $param1    See get_context_data()
@@ -1213,130 +1175,71 @@ class midcom_application
     {
         if (is_null($param2))
         {
-            $contextid = $this->_currentcontext;
+            $context = midcom_core_context::get();
             $key = $param1;
-        } else {
-            $contextid = $param1;
+        }
+        else
+        {
+            $context = midcom_core_context::get($param1);
             $key = $param2;
         }
 
-        $this->_context[$contextid][$key] = $value;
+        if (!$context)
+        {
+            return false;
+        }
+
+        $context->set_key($key, $value);
     }
 
     /**
      * Store arbitrary, component-specific information in the component context
      *
-     * This method allows you to get custom data to a given context.
-     * The system will automatically associate this data with the component from the
-     * currently active context. You cannot access the custom data of any other
-     * component this way, it is private to the context. You may attach information
-     * to other contexts, which will be associated with the current component, so
-     * you have a clean namespace independently from which component or context you
-     * are operating of. All calls honor references of passed data, so you can use
-     * this for central controlling objects.
-     *
-     * Note, that if you are working from a library like the datamanager is, you
-     * cannot override the component association done by the system. Instead you
-     * should add your libraries name (like midcom.helper.datamanager) as a prefix,
-     * separated by a dot. I know, that this is not really an elegant solution and
-     * that it actually breaks with the encapsulation I want, but I don't have a
-     * better solution yet.
-     *
-     * Be aware, that this function works by-reference instead of by-value.
-     *
-     * A complete example could look like this:
-     *
-     * <code>
-     * class my_component_class_one {
-     *     function init () {
-     *         $_MIDCOM->set_custom_context_data('classone', $this);
-     *     }
-     * }
-     *
-     * class my_component_class_two {
-     *        var one;
-     *     function my_component_class_two () {
-     *         $this->one =& $_MIDCOM->get_custom_context_data('classone');
-     *     }
-     * }
-     * </code>
-     *
-     * A very important caveat of PHP references can be seen here: You must never give
-     * a reference to $this outside of a class within a constructor. class_one uses an
-     * init function therefore. See the PHP documentation for a few more details on
-     * all this. Component authors can usually safely set this up at the beginning of the
-     * can_handle() and/or handle() calls.
-     *
-     * Also, be careful with the references you use here, things like this can easily
-     * get quite confusing.
-     *
      * @param mixed $key        The key associated to the value.
      * @param mixed $value    The value to store. (This is stored by-reference!)
      * @param int $contextid    The context to associated this data with (defaults to the current context)
-     * @see get_custom_context_data()
      */
     function set_custom_context_data ($key, &$value, $contextid = null)
     {
-        if (is_null($contextid))
+        $context = midcom_core_context::get($contextid);
+        if (!$context)
         {
-            $contextid = $this->_currentcontext;
+            return;
         }
         $component = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
-        $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA][$component][$key] =& $value;
+
+        $context->set_custom_key($component, $key, $value);
     }
 
     /**
      * Retrieve arbitrary, component-specific information in the component context
      *
-     * The set call defaults to the current context, the get call's semantics are as
-     * with get_context_data.
-     *
-     * Note, that if you are working from a library like the datamanager is, you
-     * cannot override the component association done by the system. Instead you
-     * should add your libraries name (like midcom.helper.datamanager) as a prefix,
-     * separated by a dot. I know, that this is not really an elegant solution and
-     * that it actually breaks with the encapsulation I want, but I don't have a
-     * better solution yet.
-     *
-     * A complete example can be found with set_custom_context_data.
-     *
      * @param int $param1    See get_context_data()
      * @param int $param2    See get_context_data()
      * @return mixed        The requested value, which is returned by Reference!
-     * @see get_context_data()
-     * @see set_custom_context_data()
      */
     function & get_custom_context_data($param1, $param2 = null)
     {
         if (is_null($param2))
         {
-            $contextid = $this->_currentcontext;
+            $context = midcom_core_context::get();
             $key = $param1;
         }
         else
         {
-            $contextid = $param1;
+            $context = midcom_core_context::get($param1);
             $key = $param2;
+        }
+
+        if (!$context)
+        {
+            $result = false;
+            return $result;
         }
 
         $component = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
 
-        if (!array_key_exists($contextid, $this->_context))
-        {
-            debug_add("Requested Context ID $contextid invalid.", MIDCOM_LOG_ERROR);
-            $result = false;
-            return $result;
-        }
-
-        if (   !array_key_exists($component, $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA])
-            || !array_key_exists($key, $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA][$component]))
-        {
-            debug_add("Requested Key ID {$key} for the component {$component} is invalid.", MIDCOM_LOG_ERROR);
-            $result = false;
-            return $result;
-        }
-
-        return $this->_context[$contextid][MIDCOM_CONTEXT_CUSTOMDATA][$component][$key];
+        return $context->get_custom_key($component, $key);
     }
 
     /**
@@ -1347,9 +1250,8 @@ class midcom_application
      */
     function get_current_context ()
     {
-        return $this->_currentcontext;
+        return midcom_core_context::get()->id;
     }
-
 
     /**
      * Returns the complete context data array
@@ -1358,7 +1260,7 @@ class midcom_application
      */
     function get_all_contexts ()
     {
-        return $this->_context;
+        return midcom_core_context::get_all();
     }
 
     /**
@@ -1389,14 +1291,15 @@ class midcom_application
             throw new midcom_error("Cannot do a substyle_append before the HANDLE phase.");
         }
 
-        $current_style = $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE];
+        $context = midcom_core_context::get();
+        $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
         if (strlen($current_style) > 0)
         {
             $newsub = $current_style . '/' . $newsub;
         }
 
-        $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $newsub;
+        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $newsub);
     }
 
     /**
@@ -1421,7 +1324,8 @@ class midcom_application
             throw new midcom_error("Cannot do a substyle_append before the HANDLE phase.");
         }
 
-        $current_style = $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE];
+        $context = midcom_core_context::get();
+        $current_style = $context->get_key(MIDCOM_CONTEXT_SUBSTYLE);
 
         if (strlen($current_style) > 0)
         {
@@ -1429,7 +1333,7 @@ class midcom_application
         }
         debug_add("Updating Component Context Substyle from $current_style to $newsub");
 
-        $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_SUBSTYLE] = $newsub;
+        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $newsub);
     }
 
     /**
@@ -1504,31 +1408,8 @@ class midcom_application
      */
     private function _create_context($id = null, $node = null)
     {
-        if (is_null($id))
-        {
-            $id = count($this->_context);
-        }
-        $this->_context[$id] = Array();
-        $this->_context[$id][MIDCOM_CONTEXT_ANCHORPREFIX] = '';
-        $this->_context[$id][MIDCOM_CONTEXT_URI] = $_SERVER['REQUEST_URI'];
-        if (is_object($node))
-        {
-            $this->_context[$id][MIDCOM_CONTEXT_ROOTTOPIC] = $node;
-            $this->_context[$id][MIDCOM_CONTEXT_ROOTTOPICID] = $node->id;
-        }
-        else
-        {
-            $this->_context[$id][MIDCOM_CONTEXT_ROOTTOPIC] = null;
-            $this->_context[$id][MIDCOM_CONTEXT_ROOTTOPICID] = null;
-        }
-        $this->_context[$id][MIDCOM_CONTEXT_CONTENTTOPIC] = null;
-        $this->_context[$id][MIDCOM_CONTEXT_COMPONENT] = null;
-        $this->_context[$id][MIDCOM_CONTEXT_PAGETITLE] = "";
-        $this->_context[$id][MIDCOM_CONTEXT_LASTMODIFIED] = null;
-        $this->_context[$id][MIDCOM_CONTEXT_PERMALINKGUID] = null;
-        $this->_context[$id][MIDCOM_CONTEXT_CUSTOMDATA] = Array();
-        $this->_context[$id][MIDCOM_CONTEXT_URLTOPICS] = Array();
-        return $id;
+        $context = new midcom_core_context($id, $node);
+        return $context->id;
     }
 
     /**
@@ -1538,17 +1419,7 @@ class midcom_application
      */
     public function _set_current_context($id)
     {
-        if ($id < 0 || $id >= count ($this->_context))
-        {
-            debug_add("Could not switch to invalid context $id.", MIDCOM_LOG_WARN);
-            return false;
-        }
-        else
-        {
-            debug_add("Setting active context to $id.");
-            $this->_currentcontext = $id;
-            return true;
-        }
+        return midcom_core_context::set_current($id);
     }
 
     /**
@@ -1869,8 +1740,9 @@ class midcom_application
      */
     private function _exec_file($component)
     {
+        $context = midcom_core_context::get();
         // Sanity checks
-        if ($this->_parsers[$this->_currentcontext]->argc < 1)
+        if ($this->_parsers[$context->id]->argc < 1)
         {
             throw new midcom_error_notfound("Script exec path invalid, need exactly one argument.");
         }
@@ -1887,15 +1759,15 @@ class midcom_application
                 throw new midcom_error_notfound("The component path {$component} is invalid.");
             }
             $this->componentloader->load($component);
-            $this->_set_context_data($component, MIDCOM_CONTEXT_COMPONENT);
+            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
             $path = MIDCOM_ROOT . $this->componentloader->path_to_snippetpath($component) . '/exec/';
         }
-        $path .= $this->_parsers[$this->_currentcontext]->argv[0];
+        $path .= $this->_parsers[$context->id]->argv[0];
 
         if (   is_dir($path)
-            && isset($this->_parsers[$this->_currentcontext]->argv[1]))
+            && isset($this->_parsers[$context->id]->argv[1]))
         {
-            $path .= '/' . $this->_parsers[$this->_currentcontext]->argv[1];
+            $path .= '/' . $this->_parsers[$context->id]->argv[1];
         }
 
         if (is_dir($path))
@@ -1909,8 +1781,8 @@ class midcom_application
         }
 
         // collect remaining arguments and put them to global vars.
-        $GLOBALS['argc'] = $this->_parsers[$this->_currentcontext]->argc--;
-        $GLOBALS['argv'] = $this->_parsers[$this->_currentcontext]->argv;
+        $GLOBALS['argc'] = $this->_parsers[$context->id]->argc--;
+        $GLOBALS['argv'] = $this->_parsers[$context->id]->argv;
         array_shift($GLOBALS['argv']);
 
         $this->cache->content->enable_live_mode();
@@ -2083,7 +1955,7 @@ class midcom_application
             if (   $url == ''
                 || substr($url, 0, 1) != "/")
             {
-                $prefix = $this->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $prefix = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_ANCHORPREFIX);
                 if ($prefix == '')
                 {
                     $prefix = $this->get_page_prefix();
@@ -2128,7 +2000,8 @@ class midcom_application
      */
     private function _showdebuglog($count)
     {
-        if ($this->_parsers[$this->_currentcontext]->argc > 1)
+        $context = midcom_core_context::get();
+        if ($this->_parsers[$context->id]->argc > 1)
         {
             throw new midcom_error_notfound("Too many arguments for debuglog");
         }
@@ -2174,16 +2047,18 @@ class midcom_application
      */
     function bind_view_to_object(&$object, $page_class = 'default')
     {
+        $context = midcom_core_context::get();
+
         // Bind the object into the view toolbar
-        $view_toolbar = $this->toolbars->get_view_toolbar($this->_currentcontext);
+        $view_toolbar = $this->toolbars->get_view_toolbar($context->id);
         $view_toolbar->bind_to($object);
 
         // Bind the object to the metadata service
-        $this->metadata->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $this->_currentcontext);
+        $this->metadata->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
 
         // Push the object's CSS classes to metadata service
         $page_class = $_MIDCOM->metadata->get_object_classes($object, $page_class);
-        $this->metadata->set_page_class($page_class, $this->_currentcontext);
+        $this->metadata->set_page_class($page_class, $context->id);
 
         $this->substyle_append($page_class);
     }
@@ -2213,8 +2088,10 @@ class midcom_application
             // Midgard2 compatibility
             $lastmodified = $lastmodified->format('U');
         }
-        $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_LASTMODIFIED] = $lastmodified;
-        $this->_context[$this->_currentcontext][MIDCOM_CONTEXT_PERMALINKGUID] = $permalinkguid;
+        $context = midcom_core_context::get();
+
+        $context->set_key(MIDCOM_CONTEXT_LASTMODIFIED, $lastmodified);
+        $context->set_key(MIDCOM_CONTEXT_PERMALINKGUID, $permalinkguid);
     }
 
     /**
@@ -2228,24 +2105,25 @@ class midcom_application
      * which set the information returned here. Just don't worry where it is stored and use
      * the interface functions.
      *
-     * @param int $context The context from which the request metadata should be retrieved. Omit
+     * @param int $context_id The context from which the request metadata should be retrieved. Omit
      *     to use the current context.
      * @return Array An array with the two keys 'lastmodified' and 'permalinkguid' containing the
      *     values set with the setter pendant. For ease of use, there is also a key 'permalink'
      *     which contains a ready-made permalink.
      * @see set_26_request_metadata()
      */
-    function get_26_request_metadata($context = null)
+    function get_26_request_metadata($context_id = null)
     {
-        if ($context === null)
+        $context = midcom_core_context::get($context_id);
+        if ($context === false)
         {
-            $context = $this->_currentcontext;
+            return array();
         }
         $meta = array
         (
-            'lastmodified' => $this->_context[$context][MIDCOM_CONTEXT_LASTMODIFIED],
-            'permalinkguid' => $this->_context[$context][MIDCOM_CONTEXT_PERMALINKGUID],
-            'permalink' => $this->permalinks->create_permalink($this->_context[$context][MIDCOM_CONTEXT_PERMALINKGUID]),
+            'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
+            'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
+            'permalink' => $this->permalinks->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
         );
 
         if (   is_object($meta['lastmodified'])
