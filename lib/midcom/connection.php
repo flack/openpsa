@@ -394,8 +394,7 @@ class midcom_connection
         }
 
         self::$_data['uri'] = $path;
-        // @todo This should be smarter
-        self::$_data['self'] = '/';
+        self::$_data['self'] = OPENPSA2_PREFIX;
         self::$_data['prefix'] = substr(self::$_data['self'], 0, -1);
 
         self::$_data['argc'] = count(self::$_data['argv']);
