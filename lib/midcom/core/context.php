@@ -49,6 +49,13 @@ class midcom_core_context
     public $id;
 
     /**
+     * The context's URL parser instance
+     *
+     * @var midcom_core_service_urlparser
+     */
+    public $parser;
+
+    /**
      * Create and prepare a new component context.
      *
      * @param int $id Explicitly specify the ID for context creation (used during construction), this parameter is usually omitted.

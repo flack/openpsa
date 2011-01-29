@@ -20,8 +20,6 @@
  * - Evaluate the URL and activate the required components.
  * - Provide a mechanism to dynamically load a second component during a page
  *   run.
- * - Provide a specialized mechanism to dynamically invoke a component's
- *   Administration Interface.
  *
  * <b>URL METHODS TO THE MIDCOM ROOT PAGE</b>
  *
@@ -158,13 +156,6 @@ class midcom_application
         'session' => 'midcom_services__sessioning',
         'indexer' => 'midcom_services_indexer',
     );
-
-    /**
-     * Array of URL parsers by context.
-     *
-     * @var midcom_core_service_urlparser
-     */
-    private $_parsers = array();
 
     /**
      * Host prefix cache to avoid computing it each time.
@@ -326,13 +317,8 @@ class midcom_application
         }
 
         // Parse the URL
-        $this->_parsers[$context->id] = $this->serviceloader->load('midcom_core_service_urlparser');
-        $this->_parsers[$context->id]->parse(midcom_connection::get_url('argv'));
-
-        if (!$this->_parsers[$context->id])
-        {
-            throw new midcom_error('URL Parser is not instantiated');
-        }
+        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
+        $context->parser->parse(midcom_connection::get_url('argv'));
 
         $this->_process();
 
@@ -486,14 +472,9 @@ class midcom_application
         }
 
         // Parser Init: Generate arguments and instantiate it.
-        $this->_parsers[$context->id] = $this->serviceloader->load('midcom_core_service_urlparser');
-        $argv = $this->_parsers[$context->id]->tokenize($url);
-        $this->_parsers[$context->id]->parse($argv);
-
-        if (!$this->_parsers[$context->id])
-        {
-            throw new midcom_error("URL Parser could not be instantiated");
-        }
+        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
+        $argv = $context->parser->tokenize($url);
+        $context->parse($argv);
 
         // Processing, upon error the generate_error function will die here...
         $this->_process();
@@ -610,7 +591,7 @@ class midcom_application
 
         $context = midcom_core_context::get();
 
-        while (($tmp = $this->_parsers[$context->id]->get_variable('midcom')) !== false)
+        while (($tmp = $context->parser->get_variable('midcom')) !== false)
         {
             foreach ($tmp as $key => $value)
             {
@@ -622,7 +603,7 @@ class midcom_application
                         break;
 
                     case 'serveattachmentguid':
-                        if ($this->_parsers[$context->id]->argc > 1)
+                        if ($context->parser->argc > 1)
                         {
                             debug_add('Too many arguments remaining for serve_attachment.', MIDCOM_LOG_ERROR);
                         }
@@ -678,10 +659,10 @@ class midcom_application
                         // rest of URL used as redirect
                         $remaining_url = false;
                         if (   !empty($tmp['logout'])
-                            || !empty($this->_parsers[$context->id]->argv))
+                            || !empty($context->parser->argv))
                         {
                             $remaining_url = $tmp['logout'] . '/' ;
-                            $remaining_url .= implode($this->_parsers[$context->id]->argv, '/');
+                            $remaining_url .= implode($context->parser->argv, '/');
                             $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
                         }
                         if (is_string($remaining_url))
@@ -705,9 +686,9 @@ class midcom_application
                         // rest of URL used as redirect
                         $remaining_url = false;
                         if (   !empty($tmp['login'])
-                            || !empty($this->_parsers[$context->id]->argv))
+                            || !empty($context->parser->argv))
                         {
-                            $remaining_url = "{$tmp['login']}/" . implode($this->_parsers[$context->id]->argv, '/');
+                            $remaining_url = "{$tmp['login']}/" . implode($context->parser->argv, '/');
                             $remaining_url = preg_replace('%^(.*?):/([^/])%', '\\1://\\2', $remaining_url);
                         }
                         if (is_string($remaining_url))
@@ -740,12 +721,12 @@ class midcom_application
                         break;
 
                     case 'servejscsscache':
-                        $name = $this->_parsers[$context->id]->argv[0];
                         if (   !$this->head->jscss
                             || !is_callable(array($this->head->jscss, 'serve')))
                         {
                             throw new midcom_error('Cache is not initialized');
                         }
+                        $name = $context->parser->argv[0];
                         $this->head->jscss->serve($name);
                         // this will exit()
 
@@ -760,7 +741,7 @@ class midcom_application
 
         do
         {
-            $object = $this->_parsers[$context->id]->get_current_object();
+            $object = $context->parser->get_current_object();
             if (   !is_object($object)
                 || !$object->guid)
             {
@@ -787,7 +768,7 @@ class midcom_application
             {
                 $this->_status = MIDCOM_STATUS_HANDLE;
 
-                $prefix = $this->_parsers[$context->id]->get_url();
+                $prefix = $context->parser->get_url();
 
                 // Initialize context
                 $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
@@ -798,24 +779,25 @@ class midcom_application
                 $success = true;
                 break;
             }
-        } while ($this->_parsers[$context->id]->get_object() !== false);
+        } while ($context->parser->get_object() !== false);
 
         if (! $success)
         {
-            // We couldn't fetch a node due to access restrictions. Fall only for real pages. Ignore dynamic loads.
-            if (   midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED
-                && $context->id == 0)
-            {
-                throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
-            }
-
             /**
              * Simple: if current context is not '0' we were called from another context.
              * If so we should not break application now - just gracefully continue.
              */
             if ($context->id == 0)
             {
-                throw new midcom_error_notfound("This page is not available on this server.");
+                // We couldn't fetch a node due to access restrictions
+                if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
+                {
+                    throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
+                }
+                else
+                {
+                    throw new midcom_error_notfound("This page is not available on this server.");
+                }
             }
 
             $this->_status = MIDCOM_STATUS_ABORT;
@@ -830,7 +812,6 @@ class midcom_application
             // Enter Context
             $oldcontext = $context;
             midcom_core_context::get(0)->set_current();
-            $this->_currentcontext = 0;
             $this->style->enter_context(0);
 
             $this->_output();
@@ -867,10 +848,10 @@ class midcom_application
 
         $handler = $this->componentloader->get_interface_class($path);
 
-        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $this->_parsers[$context->id]->get_current_object());
-        $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $this->_parsers[$context->id]->get_objects());
+        $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $context->parser->get_current_object());
+        $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $context->parser->get_objects());
 
-        if (!$handler->handle($this->_parsers[$context->id]->get_current_object(), $this->_parsers[$context->id]->argc, $this->_parsers[$context->id]->argv, $context->id))
+        if (!$handler->handle($context->parser->get_current_object(), $context->parser->argc, $context->parser->argv, $context->id))
         {
             throw new midcom_error("Component $path failed to handle the request");
         }
@@ -933,7 +914,7 @@ class midcom_application
         }
 
         // Make can_handle check
-        if (!$component_interface->can_handle($object, $this->_parsers[$context->id]->argc, $this->_parsers[$context->id]->argv, $context->id))
+        if (!$component_interface->can_handle($object, $context->parser->argc, $context->parser->argv, $context->id))
         {
             debug_add("Component {$path} in {$object->name} declared unable to handle request.", MIDCOM_LOG_INFO);
             return false;
@@ -1742,7 +1723,7 @@ class midcom_application
     {
         $context = midcom_core_context::get();
         // Sanity checks
-        if ($this->_parsers[$context->id]->argc < 1)
+        if ($context->parser->argc < 1)
         {
             throw new midcom_error_notfound("Script exec path invalid, need exactly one argument.");
         }
@@ -1762,12 +1743,12 @@ class midcom_application
             $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
             $path = MIDCOM_ROOT . $this->componentloader->path_to_snippetpath($component) . '/exec/';
         }
-        $path .= $this->_parsers[$context->id]->argv[0];
+        $path .= $context->parser->argv[0];
 
         if (   is_dir($path)
-            && isset($this->_parsers[$context->id]->argv[1]))
+            && isset($context->parser->argv[1]))
         {
-            $path .= '/' . $this->_parsers[$context->id]->argv[1];
+            $path .= '/' . $context->parser->argv[1];
         }
 
         if (is_dir($path))
@@ -1781,8 +1762,8 @@ class midcom_application
         }
 
         // collect remaining arguments and put them to global vars.
-        $GLOBALS['argc'] = $this->_parsers[$context->id]->argc--;
-        $GLOBALS['argv'] = $this->_parsers[$context->id]->argv;
+        $GLOBALS['argc'] = $context->parser->argc--;
+        $GLOBALS['argv'] = $context->parser->argv;
         array_shift($GLOBALS['argv']);
 
         $this->cache->content->enable_live_mode();
@@ -2001,7 +1982,7 @@ class midcom_application
     private function _showdebuglog($count)
     {
         $context = midcom_core_context::get();
-        if ($this->_parsers[$context->id]->argc > 1)
+        if ($context->parser->argc > 1)
         {
             throw new midcom_error_notfound("Too many arguments for debuglog");
         }
