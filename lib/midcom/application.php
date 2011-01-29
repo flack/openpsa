@@ -320,7 +320,7 @@ class midcom_application
         $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
         $context->parser->parse(midcom_connection::get_url('argv'));
 
-        $this->_process();
+        $this->_process($context);
 
         if ($context->id == 0)
         {
@@ -477,7 +477,7 @@ class midcom_application
         $context->parse($argv);
 
         // Processing, upon error the generate_error function will die here...
-        $this->_process();
+        $this->_process($context);
 
         if ($this->_status == MIDCOM_STATUS_ABORT)
         {
@@ -584,13 +584,105 @@ class midcom_application
      * If the parsing process doesn't find any component that declares to be able to
      * handle the request, an HTTP 404 - Not Found error is triggered.
      */
-    private function _process()
+    private function _process(midcom_core_context $context)
     {
         $success = false;
-        $substyle = "";
 
-        $context = midcom_core_context::get();
+        $this->_process_variables($context);
 
+        $this->_status = MIDCOM_STATUS_CANHANDLE;
+
+        do
+        {
+            $object = $context->parser->get_current_object();
+            if (   !is_object($object)
+                || !$object->guid)
+            {
+                throw new midcom_error('Root node missing.');
+            }
+
+            if (is_a($object, 'midcom_db_attachment'))
+            {
+                $this->serve_attachment($object);
+            }
+
+            $path = $object->component;
+            if (!$path)
+            {
+                $path = 'midcom.core.nullcomponent';
+                debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
+            }
+
+            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
+
+            // Check whether the component can handle the request.
+            // If so, execute it, if not, continue.
+            if ($this->_can_handle($object))
+            {
+                $this->_status = MIDCOM_STATUS_HANDLE;
+
+                $prefix = $context->parser->get_url();
+
+                // Initialize context
+                $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
+
+                $this->_handle($context->get_key(MIDCOM_CONTEXT_COMPONENT));
+
+                $success = true;
+                break;
+            }
+        } while ($context->parser->get_object() !== false);
+
+        if (! $success)
+        {
+            /**
+             * Simple: if current context is not '0' we were called from another context.
+             * If so we should not break application now - just gracefully continue.
+             */
+            if ($context->id == 0)
+            {
+                // We couldn't fetch a node due to access restrictions
+                if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
+                {
+                    throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
+                }
+                else
+                {
+                    throw new midcom_error_notfound("This page is not available on this server.");
+                }
+            }
+
+            $this->_status = MIDCOM_STATUS_ABORT;
+            return false;// This will exit.
+        }
+
+        if (   $context->id == 0
+            && $this->skip_page_style == true)
+        {
+            $this->_status = MIDCOM_STATUS_CONTENT;
+
+            // Enter Context
+            $oldcontext = $context;
+            midcom_core_context::get(0)->set_current();
+            $this->style->enter_context(0);
+
+            $this->_output();
+
+            // Leave Context
+            $this->style->leave_context();
+            $oldcontext->set_current();
+
+            $this->finish();
+            _midcom_stop_request();
+        }
+        else
+        {
+            $this->_status = MIDCOM_STATUS_CONTENT;
+        }
+    }
+
+    private function _process_variables(midcom_core_context $context)
+    {
         while (($tmp = $context->parser->get_variable('midcom')) !== false)
         {
             foreach ($tmp as $key => $value)
@@ -598,7 +690,7 @@ class midcom_application
                 switch ($key)
                 {
                     case 'substyle':
-                        $substyle = $value;
+                        $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
                         debug_add("Substyle '$substyle' selected");
                         break;
 
@@ -735,97 +827,6 @@ class midcom_application
                         throw new midcom_error_notfound("This MidCOM URL method is unknown.");
                 }
             }
-        }
-
-        $this->_status = MIDCOM_STATUS_CANHANDLE;
-
-        do
-        {
-            $object = $context->parser->get_current_object();
-            if (   !is_object($object)
-                || !$object->guid)
-            {
-                throw new midcom_error('Root node missing.');
-            }
-
-            if (is_a($object, 'midcom_db_attachment'))
-            {
-                $this->serve_attachment($object);
-            }
-
-            $path = $object->component;
-            if (!$path)
-            {
-                $path = 'midcom.core.nullcomponent';
-                debug_add("No component defined for this node, using 'midcom.core.nullcomponent' instead.", MIDCOM_LOG_INFO);
-            }
-
-            $context->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
-
-            // Check whether the component can handle the request.
-            // If so, execute it, if not, continue.
-            if ($this->_can_handle($object))
-            {
-                $this->_status = MIDCOM_STATUS_HANDLE;
-
-                $prefix = $context->parser->get_url();
-
-                // Initialize context
-                $context->set_key(MIDCOM_CONTEXT_ANCHORPREFIX, $prefix);
-                $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $substyle);
-
-                $this->_handle($context->get_key(MIDCOM_CONTEXT_COMPONENT));
-
-                $success = true;
-                break;
-            }
-        } while ($context->parser->get_object() !== false);
-
-        if (! $success)
-        {
-            /**
-             * Simple: if current context is not '0' we were called from another context.
-             * If so we should not break application now - just gracefully continue.
-             */
-            if ($context->id == 0)
-            {
-                // We couldn't fetch a node due to access restrictions
-                if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
-                {
-                    throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
-                }
-                else
-                {
-                    throw new midcom_error_notfound("This page is not available on this server.");
-                }
-            }
-
-            $this->_status = MIDCOM_STATUS_ABORT;
-            return false;// This will exit.
-        }
-
-        if (   $context->id == 0
-            && $this->skip_page_style == true)
-        {
-            $this->_status = MIDCOM_STATUS_CONTENT;
-
-            // Enter Context
-            $oldcontext = $context;
-            midcom_core_context::get(0)->set_current();
-            $this->style->enter_context(0);
-
-            $this->_output();
-
-            // Leave Context
-            $this->style->leave_context();
-            $oldcontext->set_current();
-
-            $this->finish();
-            _midcom_stop_request();
-        }
-        else
-        {
-            $this->_status = MIDCOM_STATUS_CONTENT;
         }
     }
 
@@ -1381,19 +1382,6 @@ class midcom_application
     }
 
     /**
-     * Create and prepare a new component context.
-     *
-     * @param int $id Explicitly specify the ID for context creation (used during construction), this parameter is usually omitted.
-     * @param MidgardObject $node Root node of the context
-     * @return int The ID of the newly created component.
-     */
-    private function _create_context($id = null, $node = null)
-    {
-        $context = new midcom_core_context($id, $node);
-        return $context->id;
-    }
-
-    /**
      * Sets a new context, doing some minor sanity checking.
      *
      * @return boolean    Indicating if the switch was successful.
@@ -1753,7 +1741,7 @@ class midcom_application
 
         if (is_dir($path))
         {
-            throw new midcom_error_notfound("File is a directory.");
+            throw new midcom_error_notfound("Path is a directory.");
         }
 
         if (! file_exists($path))
