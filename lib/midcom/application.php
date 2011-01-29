@@ -474,7 +474,7 @@ class midcom_application
         // Parser Init: Generate arguments and instantiate it.
         $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
         $argv = $context->parser->tokenize($url);
-        $context->parse($argv);
+        $context->parser->parse($argv);
 
         // Processing, upon error the generate_error function will die here...
         $this->_process($context);
