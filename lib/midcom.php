@@ -171,18 +171,9 @@ require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
 
 /////////////////////////////////////
 // Instantiate the MidCOM main class
+require_once(MIDCOM_ROOT . '/midcom/compat/superglobal.php');
 
-/**
- * Doublecheck before requiring, in certain corner cases autoloader might have been faster then us
- *
- * @see http://trac.midgard-project.org/ticket/1324
- */
-if (!class_exists('midcom_application'))
-{
-    require_once(MIDCOM_ROOT . '/midcom/application.php');
-}
-
-$_MIDCOM = new midcom_application();
+$_MIDCOM = new midcom_compat_superglobal();
 
 $_MIDCOM->auth = $auth;
 $_MIDCOM->cache = $GLOBALS['midcom_cache'];

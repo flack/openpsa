@@ -2034,8 +2034,7 @@ class midcom_baseclasses_core_dbobject
         {
             debug_add("Failed to delete object, delete privilege on the " . get_class($object) . " {$object->guid} not granted for the current user.",
                 MIDCOM_LOG_ERROR);
-            // debug_print_r('Object was:', $object);
-            midcom_application::set_error(MGD_ERR_ACCESS_DENIED);
+            midcom_connection::set_error(MGD_ERR_ACCESS_DENIED);
             return false;
         }
         if (! $object->_on_deleting())
