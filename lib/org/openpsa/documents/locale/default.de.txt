@@ -94,12 +94,20 @@ Neues Verzeichnis
 Neues Dokument
 ---STRINGEND
 
+---STRING next version
+Nächste Version
+---STRINGEND
+
 ---STRING older versions
 Ältere Versionen
 ---STRINGEND
 
 ---STRING org.openpsa.documents
 Dokumenten-Verwaltung
+---STRINGEND
+
+---STRING previous version
+Vorherige Version
 ---STRINGEND
 
 ---STRING review
@@ -120,6 +128,10 @@ Einfacher Text
 
 ---STRING use the buttons below or in toolbar
 Benutzen sie die nachfolgenden Buttons oder die in der Toolbar
+---STRINGEND
+
+---STRING version %s (%s)
+Version %s (%s) 
 ---STRINGEND
 
 ---STRING no results

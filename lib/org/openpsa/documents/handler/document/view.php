@@ -72,7 +72,15 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         // Get list of older versions
         $qb = org_openpsa_documents_document_dba::new_query_builder();
-        $qb->add_constraint('nextVersion', '=', $this->_document->id);
+        if ($this->_document->nextVersion == 0)
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->id);
+        }
+        else
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
+            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+        }
         $qb->add_constraint('topic', '=', $data['directory']->id);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
         $qb->add_order('metadata.created', 'DESC');
@@ -112,7 +120,47 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
             $person->set_parameter('org.openpsa.documents_visited', $this->_document->guid, time());
         }
 
-        // Add toolbar items
+        // Get number of older versions
+        $this->_request_data['document_versions'] = 0;
+        $qb = org_openpsa_documents_document_dba::new_query_builder();
+        $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
+        if ($this->_document->nextVersion == 0)
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->id);
+        }
+        else
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
+            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+        }
+        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
+        $this->_request_data['document_versions'] = $qb->count();
+
+        $this->set_active_leaf($this->_document->id);
+
+        $this->add_stylesheet("/org.openpsa.core/ui-elements.css");
+
+        org_openpsa_core_ui::enable_ui_tab();
+
+        $_MIDCOM->componentloader->load('org.openpsa.contactwidget');
+
+        $this->_request_data['document_dm'] =& $this->_datamanager;
+        $this->_request_data['document'] =& $this->_document;
+
+        $_MIDCOM->set_pagetitle($this->_document->title);
+
+        if ($this->_document->nextVersion == 0)
+        {
+            $this->_populate_toolbar();
+        }
+
+        $this->_add_version_navigation();
+
+        $_MIDCOM->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
+    }
+
+    private function _populate_toolbar()
+    {
         if ( $_MIDCOM->auth->can_do('midgard:update', $this->_document))
         {
             $this->_view_toolbar->add_item
@@ -138,31 +186,81 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
                 )
             );
         }
+    }
 
-        // Get number of older versions
-        $this->_request_data['document_versions'] = 0;
+    private function _add_version_navigation()
+    {
+        $previous_version = false;
+        $next_version = false;
+
         $qb = org_openpsa_documents_document_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_request_data['directory']->id);
-        $qb->add_constraint('nextVersion', '=', $this->_document->id);
-        $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_DOCUMENT);
-        $this->_request_data['document_versions'] = $qb->count();
+        if ($this->_document->nextVersion)
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
+            $qb->add_constraint('metadata.created', '<', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+        }
+        else
+        {
+            $qb->add_constraint('nextVersion', '=', $this->_document->id);
+        }
+        $version = $qb->count() + 1;
 
-        $this->set_active_leaf($this->_document->id);
+        if ($version > 1)
+        {
+            $qb->add_order('metadata.created', 'DESC');
+            $qb->set_limit(1);
+            $results = $qb->execute();
+            $previous_version = $results[0];
+        }
 
-        $this->add_stylesheet("/org.openpsa.core/ui-elements.css");
+        if ($this->_document->nextVersion != 0)
+        {
+            $qb = org_openpsa_documents_document_dba::new_query_builder();
+            $qb->begin_group('OR');
+            $qb->add_constraint('nextVersion', '=', $this->_document->nextVersion);
+            $qb->add_constraint('id', '=', $this->_document->nextVersion);
+            $qb->end_group();
+            $qb->add_constraint('metadata.revised', '>', gmstrftime('%Y-%m-%d %T', $this->_document->metadata->created));
+            $qb->add_order('nextVersion', 'DESC');
+            $qb->add_order('metadata.created', 'ASC');
+            $qb->set_limit(1);
+            $results = $qb->execute();
+            $next_version = $results[0];
 
-        org_openpsa_core_ui::enable_ui_tab();
+            $current_version = org_openpsa_documents_document_dba::get_cached($this->_document->nextVersion);
 
-        $_MIDCOM->componentloader->load('org.openpsa.contactwidget');
+            $this->add_breadcrumb('document/' . $current_version->guid . '/', $current_version->title);
+            $this->add_breadcrumb('', sprintf($this->_l10n->get('version %s (%s)'), $version, strftime('%x %X', $this->_document->metadata->revised)));
+        }
+        else
+        {
+            $this->add_breadcrumb('document/' . $this->_document->guid . '/', $this->_document->title);
+        }
 
-        $this->_request_data['document_dm'] =& $this->_datamanager;
-        $this->_request_data['document'] =& $this->_document;
-
-        $_MIDCOM->set_pagetitle($this->_document->title);
-
-        $_MIDCOM->bind_view_to_object($this->_document, $this->_datamanager->schema->name);
-
-        $this->add_breadcrumb('document/' . $this->_document->guid . '/', $this->_document->title);
+        if ($next_version)
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "document/{$next_version->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('next version'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/up.png',
+                )
+             );
+        }
+        if ($previous_version)
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "document/{$previous_version->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('previous version'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/down.png',
+                )
+            );
+        }
     }
 
     /**

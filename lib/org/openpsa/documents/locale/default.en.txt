@@ -94,6 +94,10 @@ New directory
 New document
 ---STRINGEND
 
+---STRING next version
+Next version
+---STRINGEND
+
 ---STRING no results
 No results
 ---STRINGEND
@@ -104,6 +108,10 @@ Older versions
 
 ---STRING org.openpsa.documents
 Document management
+---STRINGEND
+
+---STRING previous version
+Previous version
 ---STRINGEND
 
 ---STRING review
@@ -124,6 +132,10 @@ Plain text
 
 ---STRING use the buttons below or in toolbar
 Use the buttons below or in the toolbar
+---STRINGEND
+
+---STRING version %s (%s)
+Version %s (%s) 
 ---STRINGEND
 
 ---STRING file size
