@@ -196,6 +196,21 @@ class midcom_application
      */
     public $skip_page_style = false;
 
+    public function __construct()
+    {
+        $this->auth = new midcom_services_auth();
+        $this->auth->initialize();
+
+        /* Load and start up the cache system, this might already end the request
+         * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
+         */
+        $GLOBALS['midcom_cache'] = new midcom_services_cache();
+        $GLOBALS['midcom_cache']->initialize();
+        $this->cache = $GLOBALS['midcom_cache'];
+
+        require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
+    }
+
     /**
      * Main MidCOM initialization.
      *
