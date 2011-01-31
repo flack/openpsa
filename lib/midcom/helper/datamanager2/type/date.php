@@ -50,7 +50,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
      *
      * @var string
      */
-    var $earlier_field = '';
+    var $later_than = '';
 
     /**
      * Initialize the value with an empty Date class.
@@ -62,20 +62,23 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
 
     public function _on_validate()
     {
-        if (empty($this->earlier_field))
+        if (empty($this->later_than))
         {
             return true;
         }
 
-        if (   !isset($this->_datamanager->types[$this->earlier_field])
-            || !is_a($this->_datamanager->types[$this->earlier_field], 'midcom_helper_datamanager2_type_date')
-            || !$this->_datamanager->types[$this->earlier_field]->value)
+        if (   !isset($this->_datamanager->types[$this->later_than])
+            || !is_a($this->_datamanager->types[$this->later_than], 'midcom_helper_datamanager2_type_date')
+            || !$this->_datamanager->types[$this->later_than]->value)
         {
-            debug_add("Failed to validate date field {$this->name} with {$this->earlier_field}, as such date field wasn't found.",
+            debug_add("Failed to validate date field {$this->name} with {$this->later_than}, as such date field wasn't found.",
                 MIDCOM_LOG_INFO);
-            $this->validation_error = sprintf($this->_l10n->get('type date: failed to compare date with field %s'), $this->earlier_field);
+            $this->validation_error = sprintf($this->_l10n->get('type date: failed to compare date with field %s'), $this->later_than);
             return false;
         }
+
+        //And the award for most horrible API call goes to...
+        $earlier_field_label = $this->_datamanager->schema->translate_schema_string($this->_datamanager->schema->fields[$this->later_than]['title']);
 
         // There is a bug in Date::compare() which converts the given values to UTC and changes timezone also to UTC
         // We need to change our values back because of that bug
@@ -83,18 +86,18 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         // (The only situation when this could be removed is if Date is fixed and we mark dependency for >= that version)
         $tz = date_default_timezone_get();
         $value = clone $this->value;
-        $earlier_value = clone $this->_datamanager->types[$this->earlier_field]->value;
-        if (Date::compare($this->value, $this->_datamanager->types[$this->earlier_field]->value) < 0)
+        $earlier_value = clone $this->_datamanager->types[$this->later_than]->value;
+        if (Date::compare($this->value, $this->_datamanager->types[$this->later_than]->value) <= 0)
         {
             date_default_timezone_set($tz);
             $this->value = $value;
-            $this->_datamanager->types[$this->earlier_field]->value = $earlier_value;
-            $this->validation_error = sprintf($this->_l10n->get('type date: this date cannot be earlier than %s'), $this->earlier_field);
+            $this->_datamanager->types[$this->later_than]->value = $earlier_value;
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be later than %s'), $earlier_field_label);
             return false;
         }
         date_default_timezone_set($tz);
         $this->value = $value;
-        $this->_datamanager->types[$this->earlier_field]->value = $earlier_value;
+        $this->_datamanager->types[$this->later_than]->value = $earlier_value;
 
         return true;
     }

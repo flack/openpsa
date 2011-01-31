@@ -139,6 +139,10 @@ This object was locked by %s
 File size
 ---STRINGEND
 
+---STRING type date: this date must be later than %s
+This date must be later than %s
+---STRINGEND
+
 ---STRING type image: actions
 Image actions
 ---STRINGEND

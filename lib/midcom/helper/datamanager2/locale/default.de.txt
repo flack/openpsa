@@ -135,6 +135,10 @@ Dieses Objekt wurde von %s gesperrt
 Dateigröße
 ---STRINGEND
 
+---STRING type date: this date must be later than %s
+Dieses Datum muss größer als %s sein
+---STRINGEND
+
 ---STRING type image: actions
 Bild-Aktionen
 ---STRINGEND

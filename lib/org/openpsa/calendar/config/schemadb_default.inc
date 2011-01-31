@@ -54,7 +54,7 @@
             'type_config' => array
             (
                 'storage_type' => 'UNIXTIME',
-                'earlier_field' => 'start',
+                'later_than' => 'start',
             ),
             'widget' => 'jsdate',
             'required' => true,

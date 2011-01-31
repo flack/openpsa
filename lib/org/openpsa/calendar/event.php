@@ -355,7 +355,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
         }
 
         /*
-         * Force start end end seconds to 1 and 0 respectively
+         * Force start and end seconds to 1 and 0 respectively
          * (to avoid stupid one second overlaps)
          */
         $this->start = mktime(  date('G', $this->start),
