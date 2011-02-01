@@ -220,6 +220,10 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 if ($entry != 0)
                 {
                     $entry = new midcom_services_at_entry_dba($entry);
+                    //@todo If next_cycle is changed to be in the past, should we check if this would lead 
+                    //to multiple runs immediately? i.e. if you set a monthly subscriptions next cycle to 
+                    //one year in the past, this would trigger twelve consecutive runs and maybe 
+                    //the user needs to be warned about that...
                     if ($next_cycle != $entry->start)
                     {
                         $entry->start = $next_cycle;
