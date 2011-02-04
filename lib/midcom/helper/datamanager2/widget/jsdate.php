@@ -153,7 +153,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
           minDate: new Date({$this->minyear}, 1, 1),
           dateFormat: 'yy-mm-dd',
                 prevText: '',
-                nextText: '',
+                nextText: ''
                 //altFormat: 'yyyy-mm-dd',
                 //altField: '#ID',
                 });
