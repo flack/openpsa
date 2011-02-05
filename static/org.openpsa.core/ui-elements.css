@@ -84,7 +84,7 @@ div.area .metadata input {
     background-image: url('../stock-icons/16x16/ok.png');
     background-repeat: no-repeat;
 }
-.area ul.task_tools li a.no, 
+.area ul.task_tools li a.no,
 .area ul.task_tools li input.no
 {
     padding-left: 22px;
@@ -202,7 +202,7 @@ div.area ul.comments li div.mobile {
 
 
 /* Datamanager-generated view handling*/
-div.midcom_helper_datamanager2_view, 
+div.midcom_helper_datamanager2_view,
 div.fieldset {
     margin-bottom: 1em;
     display: table;
@@ -542,4 +542,26 @@ table.link_statistics td.bargraph div.link_count_visualization
 .grid-filters
 {
     margin-bottom: .6em
+}
+
+.ui-datepicker-trigger
+{
+    background-image: url(../stock-icons/16x16/stock_event.png);
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    width: 16px;
+    height: 16px;
+    margin-left: .3em;
+    vertical-align: middle;
+    opacity: .75;
+    cursor: pointer;
+    color: transparent
+}
+
+
+.ui-datepicker-trigger:hover,
+.ui-datepicker-trigger:active
+{
+    opacity: 1;
 }

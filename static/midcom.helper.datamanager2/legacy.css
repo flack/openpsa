@@ -88,7 +88,7 @@ form.datamanager2 label span.field_text
 
 form.datamanager2 label.missing
 {
-    color: red;   
+    color: red;
 }
 
 form.datamanager2 fieldset.account legend,
@@ -367,9 +367,4 @@ form.datamanager2 table.jquery-enabled thead img.hover
 form.datamanager2 table.jquery-enabled thead .deleted img.delete
 {
   display: inline !important;
-}
-
-form.datamanager2 input.jsdate
-{
-    margin-right: 1em
 }

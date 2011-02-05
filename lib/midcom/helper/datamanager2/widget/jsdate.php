@@ -63,6 +63,13 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     var $format = '%Y-%m-%d %H:%M';
 
     /**
+     * When should the calendar be shown (possible values: button, focus, both)
+     *
+     * @var String
+     */
+    var $showOn = 'both';
+
+    /**
      * Adapts the min/maxyear defaults if the base date is set to UNIXDATE storage.
      */
     public function _on_configuring()
@@ -152,8 +159,9 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
           maxDate: new Date({$this->maxyear}, 1, 1),
           minDate: new Date({$this->minyear}, 1, 1),
           dateFormat: 'yy-mm-dd',
-                prevText: '',
-                nextText: ''
+          prevText: '',
+          nextText: '',
+          showOn: '{$this->showOn}'
                 //altFormat: 'yyyy-mm-dd',
                 //altField: '#ID',
                 });
