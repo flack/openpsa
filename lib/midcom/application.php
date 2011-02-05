@@ -706,7 +706,7 @@ class midcom_application
                 {
                     case 'substyle':
                         $context->set_key(MIDCOM_CONTEXT_SUBSTYLE, $value);
-                        debug_add("Substyle '$substyle' selected");
+                        debug_add("Substyle '$value' selected");
                         break;
 
                     case 'serveattachmentguid':
