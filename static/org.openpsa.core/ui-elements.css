@@ -357,6 +357,13 @@ form.datamanager2 input, form.datamanager2 textarea, form.datamanager2 select {
     -webkit-border-radius: 3px;
     padding: 1px
 }
+
+form.datamanager2 input.checkbox,
+form.datamanager2 input.radiobutton
+{
+    border: none;
+}
+
 form.datamanager2 select
 {
     background-color: white
