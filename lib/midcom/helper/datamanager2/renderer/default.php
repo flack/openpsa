@@ -241,7 +241,11 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
             $nameLabel = $label;
         }
 
-        if (!isset($this->_templates[$name]))
+        if (isset($this->_templates[$name]))
+        {
+            $template = $this->_templates[$name];
+        }
+        else
         {
             switch ($type)
             {
