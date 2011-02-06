@@ -281,37 +281,53 @@ p
 
 #content div.backtosite
 {
-  width: auto;
-  float: right;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;        
+    width: auto;
+    float: right;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 #content .object_view .field,
-#content .object_edit form > div > label,
-#content .object_edit form > div > div
+#content .object_edit .element
 {
-  clear: left;
-  background-color: #EEEEEC;
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
-  padding: 2px 6px;
-  margin-left: 0 !important;
-  margin-bottom: 0.5em
+    clear: left;
+    background-color: #EEEEEC;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    padding: 2px 6px;
+    margin-bottom: 0.5em
 }
 
-
-* html #content .object_view .field,
-* html #content .object_edit form div label,
-* html #content .object_edit form div div
+#content .object_edit .element
 {
-  background-color: #EEEEEC;
-  padding: 2px 6px;
-  margin-left: 0;
-  margin-bottom: 0.5em;
-  height: 2em;
-  padding-right: .5em
+    padding-bottom: 0.4em
+}
+
+#content .object_view .title,
+#content .object_edit label
+{
+    float: left;
+    width: 150px;
+    overflow: hidden;
+    font-size: 100%;
+    padding: 0.3em 0.1em;
+    display: block;
+}
+
+#content .object_edit label
+{
+    padding: .5em .1em 0 .1em
+}
+
+#content .object_edit .element_textarea label
+{
+    float: none;
+}
+
+#content .object_edit .input
+{
+    margin-top: 0.4em
 }
 
 #content div.object_edit .form_toolbar,
@@ -320,64 +336,18 @@ p
     background-color: transparent;
 }
 
-* html #content div.object_edit div div div
-{
-    border: 0;
-    background-color: transparent;
-    margin-bottom: 0;
-}
-
-* html #content div.object_edit div div label,
-* html #content div.object_edit div div label label
-{
-    display: inline;
-    border: 0;
-}
-
-#content .object_view .title,
-#content .object_edit .field_text
-{
-  float: left;
-  width: 150px;
-  overflow: hidden;
-  font-size: 100%;
-  padding: 0.3em 0.1em;
-  display: block;
-}
-
-
-* html #content .object_view .title,
-* html #content .object_edit .field_text
-{
-  display: inline-block;
-}
-
-
 #content .object_view .value
 {
     margin: 0.3em 0;
     background-color: white;
     margin-left: 170px !important;
-    display:block;
+    display: block;
     padding: 3px 10px;
-}
-
-* html #content .object_view .value
-{
-    height: 1.6em;
-    display: inline-block;
-}
-
-
-#content .object_view textarea,
-#content .object_edit label textarea
-{
-    width: 600px;
 }
 
 #content .object_edit .shorttext,
 #content .object_view textarea,
-#content .object_edit label textarea
+#content .object_edit textarea
 {
     font-family: monospace;
 }
@@ -402,22 +372,6 @@ p
     border: 1px solid Highlight;
 }
 
-
-#content .object_edit label > iframe,
-#content .object_edit form > div > label > input.shorttext,
-#content .object_edit form > div > label > input.longtext,
-#content .object_edit label > textarea,
-#content .object_edit label > select.dropdown
-{
-    margin-bottom: 0.4em
-}
-
-#content .object_edit label .mceEditor iframe
-{
-    margin-left: 0
-}
-
-
 #content .object_edit fieldset
 {
     margin-top: 0;
@@ -434,21 +388,17 @@ p
     -webkit-border-radius: 8px;
     padding: 4px;
 }
+
+#content .object_edit fieldset.rcs .element
+{
+    background-color: white;
+    padding: 0;
+    margin: 0
+}
+
 #content .object_edit fieldset.rcs legend
 {
     display: none;
-}
-
-* html #content .object_edit fieldset input,
-* html #content .object_edit fieldset input.shorttext,
-* html #content .object_edit .form_toolbar input
-{
-    margin-left: 0px;
-}
-
-#content .object_edit div div span.field_text
-{
-    display: block
 }
 
 #content select.language_chooser option.exists
@@ -478,12 +428,12 @@ p
 {
     background-color: #eeeeec;
     color: #000000;
-    border-top: 3px solid #ffffff;
-    border-left: 3px solid #ffffff;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
     border-right: 3px solid #babdb6;
     border-bottom: 3px solid #babdb6;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
 }
 
 #container a:link,
@@ -673,7 +623,7 @@ p
 }
 
 #latest_objects table.results
-{   
+{
 }
 
 #latest_objects table.results th,
@@ -928,11 +878,11 @@ table.midgard_admin_asgard_object_parameters li span.toolbar_label
 
 #content div.midgard_admin_asgard_objecthelper_help div ul li.component
 {
-    font-weight: bold;   
+    font-weight: bold;
     margin-bottom: 1em;
 }
 #content div.midgard_admin_asgard_objecthelper_help div ul li.component:last-child
-{  
+{
     margin-bottom: 0px;
 }
 

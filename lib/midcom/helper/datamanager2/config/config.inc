@@ -1,4 +1,4 @@
-'default_renderer' => 'simple',
+'default_renderer' => 'default',
 'default_renderer_src' => null,
 /**
  * Whether to verify that ImageMagick is in fact available (in type_image(s)) every time

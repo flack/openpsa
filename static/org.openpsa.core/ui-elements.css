@@ -235,119 +235,80 @@ select.ajax_editable option {
 /* Editing */
 form.datamanager2
 {
-    margin-bottom: 5em
-}
-
-form.datamanager2 > div
-{
+    margin-bottom: 5em;
     display: table;
 }
 
-form.datamanager2 > div,
-form.datamanager2 > div > fieldset
+form.datamanager2 .form
 {
     display: table-row-group;
 }
 
-form.datamanager2 > div > label,
-form.datamanager2 > div > div,
-form.datamanager2 > div > fieldset > label,
-form.datamanager2 > div > fieldset > div
+form.datamanager2 .form fieldset.fieldset
+{
+    border-color: #999;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+form.datamanager2 .form fieldset.fieldset legend
+{
+    font-size: 1.1em
+}
+
+form.datamanager2 .element
 {
     display: table-row;
 }
 
-form.datamanager2 > div > * > label,
-form.datamanager2 > div > * > fieldset,
-form.datamanager2 > div > * > *,
-form.datamanager2 > div > fieldset > * > label,
-form.datamanager2 > div > fieldset > * > fieldset,
-form.datamanager2 > div > fieldset > * > *
+form.datamanager2 .form label
 {
     vertical-align: top;
-    display: table-cell;
-    margin: 0.5ex 0 0;
-    padding: 1px;
-}
-
-form.datamanager2 > div > label > textarea.longtext,
-form.datamanager2 > div > fieldset > label > textarea.longtext,
-form.datamanager2 > div > label > textarea.tinymce,
-form.datamanager2 > div > fieldset > label > textarea.tinymce
-
-{
-    display: table-cell;
-}
-
-form.datamanager2 > div > * > span,
-form.datamanager2 > div > * > label,
-form.datamanager2 > div > fieldset > * > span,
-form.datamanager2 > div > fieldset > * > label
-{
-    padding-top: .5em;
-    padding-right: .75em;
-}
-
-form.datamanager2 > div > label > span.field_text,
-form.datamanager2 > div > fieldset > label > span.field_text,
-form.datamanager2 > div > fieldset > div > label,
-form.datamanager2 > div > div > label
-{
+    padding-right: .5em;
     text-align: right;
+    min-width: 9em;
 }
 
-form.datamanager2 > div > fieldset > div > label > span.field_text,
-form.datamanager2 > div > div > label > span.field_text
+form.datamanager2 .form label,
+form.datamanager2 .form .element_checkbox label,
+form.datamanager2 .input,
+form.datamanager2 .form .element_checkbox .input
+{
+    display: table-cell;
+    padding-bottom: .75em
+}
+
+form.datamanager2 .element .field_text
 {
     margin-right: 0;
 }
 
-
-form.datamanager2 > div > fieldset > legend
-{
-    display: table-caption
-}
-
-form.datamanager2 > div > div.form_toolbar
+form.datamanager2 .form_toolbar
 {
     display: block;
     white-space: nowrap;
     position: absolute;
-    padding-top: 2em;
-    padding-left: 8em
+    padding-top: 1.5em;
+    padding-left: 9.5em;
+    margin-bottom: 1.5em;
 }
 
-form.datamanager2 > div > div.required_note
-{
-    display: block;
-    white-space: nowrap;
-    position: absolute;
-}
-
-form.datamanager2 > div > * > input[type="hidden"]
-{
-    display: none
-}
-
-form.datamanager2 > div > * ul.chooser_widget_headers
-{
-    margin: 0
-}
-
-form.datamanager2 > div > * div.chooser_widget_results_holder
-{
-    margin-bottom: 5px
-}
-
-form.datamanager2 > div > div.form_toolbar input
+form.datamanager2 .form_toolbar input
 {
     display: inline;
     margin-right: 1.5em
 }
 
-form.datamanager2 > div > div.form_toolbar input:hover
+form.datamanager2 .form_toolbar input:hover
 {
     cursor: pointer;
+}
+
+form.datamanager2 .required_note
+{
+    display: block;
+    white-space: nowrap;
+    position: absolute;
 }
 
 input.ajax_editable:hover, form.datamanager input, form.datamanager textarea, form.datamanager select,
@@ -380,7 +341,8 @@ form.datamanager2 fieldset.checkbox label,
 form.datamanager2 fieldset.radiobox label {
     display: inline;
     padding-right: 10px;
-    font-weight: normal
+    font-weight: normal;
+    vertical-align: middle
 }
 
 form.datamanager2 fieldset.checkbox br,

@@ -17,7 +17,14 @@ form.datamanager2 fieldset
 
 form.datamanager2 fieldset.fieldset
 {
-    border: solid 1px black;
+    border: solid 1px #333;
+    padding: .5em 1em;
+    margin-bottom: .75em
+}
+
+form.datamanager2 .element
+{
+    padding-bottom: .75em;
 }
 
 form.datamanager2 fieldset.radio label
@@ -28,28 +35,16 @@ form.datamanager2 fieldset.radio label
 form.datamanager2 fieldset.radio label span
 {
     font-weight: bold;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     height: 1em;
     font-size: 1em;
     width: 100px;
     margin-right: 6px;
     display: inline-block;
-    display: -moz-inline-box;
 }
 
-form.datamanager2 label input.shorttext,
-    form.datamanager2 label textarea.longtext,
-    form.datamanager2 label textarea.tinymce,
-    form.datamanager2 label select.list,
-    form.datamanager2 label select.dropdown,
-    form.datamanager2 label iframe
-{
-    margin: 0.5ex 0 0 0;
-    display: block;
-}
-
-form.datamanager2 label select.selectcomponent option
+form.datamanager2 select.selectcomponent option
 {
     height: 20px;
     padding-left: 22px;
@@ -59,15 +54,15 @@ form.datamanager2 label select.selectcomponent option
     background-repeat: no-repeat;
 }
 
-form.datamanager2 label input.radiobutton
+form.datamanager2 input.radiobutton
 {
     display: inline;
 }
 
 form.datamanager2 fieldset
 {
-    margin: 1ex 0 1ex 0;
-    padding: 3px 10px;
+    margin: 0;
+    padding: 0;
 }
 
 form.datamanager2 fieldset legend
@@ -86,33 +81,38 @@ form.datamanager2 label span.field_text
     margin-right: 1em;
 }
 
-form.datamanager2 label.missing
+form.datamanager2 .error
 {
     color: red;
 }
 
+form.datamanager2 .error input
+{
+    border-color: red;
+}
+
 form.datamanager2 fieldset.account legend,
-    form.datamanager2 fieldset.blob legend,
-    form.datamanager2 fieldset.image legend,
-    form.datamanager2 fieldset.collection legend,
-    form.datamanager2 fieldset.radiobox legend,
-    form.datamanager2 fieldset.mailtemplate legend
+form.datamanager2 fieldset.blob legend,
+form.datamanager2 fieldset.image legend,
+form.datamanager2 fieldset.radiobox legend,
+form.datamanager2 fieldset.mailtemplate legend
 {
     font-weight: normal;
 }
 
-form.datamanager2 fieldset.radiobox label
+form.datamanager2 fieldset.radiobox label,
+form.datamanager2 fieldset.checkbox label
 {
     display: inline;
-    margin: 0px 10px 0px 0px;
+    margin: 0 10px 0 0;
     white-space: nowrap;
 }
 
-form.datamanager2 fieldset.radiobox input
+form.datamanager2 fieldset.radiobox input,
+form.datamanager2 fieldset.checkbox input
 {
     display: inline;
-    vertical-align: top !important;
-    vertical-align: baseline; /* This one is for IE */
+    vertical-align: bottom;
 }
 
 form.datamanager2 div.blob_preview,
@@ -136,29 +136,12 @@ form.datamanager2 div.image_frame
     overflow: scroll;
 }
 
-form.datamanager2 fieldset.collection fieldset legend
-{
-    /* Hide the captions of all directly contained blobs, would look weird. */
-    display: none;
-}
-
-form.datamanager2 label.communityhtml select
-{
-    display: inline;
-}
-
-form.datamanager2 textarea.communityhtml
-{
-    width: 500px;
-    height: 250px;
-}
-
-form.datamanager2 span.communityhtml_toolbar img
-{
-    border: none;
-}
-
 /* Save and cancel buttons */
+form.datamanager2 div.form_toolbar
+{
+    margin-top: 1.5em
+}
+
 form.datamanager2 div.form_toolbar input
 {
     background-image: url('');
@@ -192,13 +175,9 @@ form.datamanager2 div.form_toolbar input.next
 
 
 /* Checkbox display */
-form.datamanager2 input.checkbox {
-    display: inline;
-}
-form.datamanager2 label.checkbox {
-    display: inline;
-}
-form.datamanager2 label.checkbox div {
+form.datamanager2 .element_checkbox label,
+form.datamanager2 .element_checkbox .input
+{
     display: inline;
 }
 

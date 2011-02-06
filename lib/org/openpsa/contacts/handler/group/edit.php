@@ -94,8 +94,6 @@ implements midcom_helper_datamanager2_interfaces_edit
 
         $_MIDCOM->set_pagetitle(sprintf($this->_l10n_midcom->get('edit %s'), $this->_group->official));
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('organization')));
     }
