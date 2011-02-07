@@ -276,6 +276,7 @@ class midcom_helper_metadata
             if ($this->__object->guid)
             {
                 $return = $this->__object->update();
+
             }
             else
             {
@@ -500,7 +501,7 @@ class midcom_helper_metadata
                 {
                     $value = $this->__metadata->$key->format('U');
                 }
-                elseif (empty($this->__metadata->$key))
+                else if (empty($this->__metadata->$key))
                 {
                     $value = 0;
                 }
