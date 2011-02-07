@@ -1322,8 +1322,6 @@ class midcom_application
      */
     function relocate($url, $response_code = 302)
     {
-        debug_add("Relocating to {$url}");
-
         if (! preg_match('|^https?://|', $url))
         {
             if (   $url == ''
@@ -1351,11 +1349,13 @@ class midcom_application
             $location = "Location: {$url}";
         }
 
+        $this->componentloader->process_pending_notifies();
+        // Store any unshown messages
+        $this->uimessages->store();
+
         $this->cache->content->no_cache();
-        $this->header($location, $response_code);
         debug_add("Relocating to {$location}");
-        $this->finish();
-        _midcom_stop_request();
+        $this->header($location, $response_code);
     }
 
     /**

@@ -112,6 +112,7 @@ class midcom_helper_activitystream_activity_dba extends midcom_core_dbaobject
         $qb->set_offset($offset);
 
         $objects = $qb->execute();
+
         if (   !$unique
             || count($objects) < $limit)
         {

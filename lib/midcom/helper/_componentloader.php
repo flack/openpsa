@@ -599,21 +599,33 @@ class midcom_helper__componentloader
         }
 
         $components = array_unique($components);
+
         $object_key = get_class($object) . $object->guid;
         debug_add("Adding notification for operation {$operation} on {$object_key}");
         if (! array_key_exists($object_key, $this->_watch_notifications[$operation]))
         {
             $this->_watch_notifications[$operation][$object_key] = Array(clone $object);
         }
+        /*
+         * Workaround for AS-related problem: If watch is triggered by set_parameter,
+         * and later in the same request, the object itself is updated (f.x. DM with at least one
+         * field set to parameter storage), no activitystream entry will be created
+         * unless we manually merge the flags
+         *
+         * @todo find a cleaner and more generic way to implement this
+         */
+        else if (   !$this->_watch_notifications[$operation][$object_key][0]->_use_activitystream
+                 && $object->_use_activitystream)
+        {
+            $this->_watch_notifications[$operation][$object_key][0]->_use_activitystream = true;
+        }
+
         foreach ($components as $component)
         {
-            // FIXME: This causes a PHP notice
-            error_reporting(E_WARNING);
             if (! in_array($component, $this->_watch_notifications[$operation][$object_key]))
             {
                 $this->_watch_notifications[$operation][$object_key][] = $component;
             }
-            error_reporting(E_ALL);
         }
     }
 
@@ -640,6 +652,7 @@ class midcom_helper__componentloader
             {
                 debug_add("Processing operation {$operation} for {$object_key}");
                 $object = array_shift($data);
+
                 if (   $operation != MIDCOM_OPERATION_DBA_DELETE
                     && $operation != MIDCOM_OPERATION_DBA_IMPORT)
                 {
