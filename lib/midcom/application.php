@@ -223,18 +223,6 @@ class midcom_application
      */
     public function initialize()
     {
-        // Quick-and-dirty handler for catching attachment serve requests to reduce overhead
-        $argv = midcom_connection::get_url('argv');
-        if (   midcom_connection::get_url('argc') > 0
-            && substr($argv[0], 0, 27) == 'midcom-serveattachmentguid-')
-        {
-            $guid = substr($argv[0], 27);
-            new midcom_core_context(0);
-            $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc', null, true);
-            $attachment = new midcom_db_attachment($guid);
-            $this->serve_attachment($attachment);
-        }
-
         $this->_status = MIDCOM_STATUS_PREPARE;
 
         // Start-up some of the services
