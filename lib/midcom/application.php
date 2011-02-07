@@ -564,8 +564,6 @@ class midcom_application
         // Shutdown rest of the caches
         $this->cache->shutdown();
 
-        // This is here to avoid trouble with end-of-processing segfaults. Will block AFAIK
-        flush();
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
     }
 
@@ -1349,13 +1347,12 @@ class midcom_application
             $location = "Location: {$url}";
         }
 
-        $this->componentloader->process_pending_notifies();
-        // Store any unshown messages
-        $this->uimessages->store();
-
         $this->cache->content->no_cache();
+
+        $this->finish();
         debug_add("Relocating to {$location}");
         $this->header($location, $response_code);
+        _midcom_stop_request();
     }
 
     /**

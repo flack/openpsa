@@ -30,7 +30,6 @@
  * @package midcom.services
  * @see http://www.php.net/manual/en/ref.memcache.php
  */
-
 class midcom_services_cache_backend_memcached extends midcom_services_cache_backend
 {
     /**
@@ -171,7 +170,7 @@ class midcom_services_cache_backend_memcached extends midcom_services_cache_back
         }
 
         $key = "{$this->_name}-{$key}";
-        @self::$memcache->delete($key);
+        @self::$memcache->delete($key, 0);
     }
 
     function _remove_all()

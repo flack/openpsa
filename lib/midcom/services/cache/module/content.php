@@ -885,7 +885,14 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             if ($this->_obrunning)
             {
-                ob_end_flush();
+                if (ob_get_contents())
+                {
+                    ob_end_flush();
+                }
+                else
+                {
+                    ob_end_clean();
+                }
             }
             return;
         }
