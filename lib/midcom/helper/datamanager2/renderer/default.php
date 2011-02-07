@@ -243,7 +243,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
         if (isset($this->_templates[$name]))
         {
-            $html = str_replace('{label}', $nameLabel, $this->_templates[$name]);
+            $template = $this->_templates[$name];
         }
         else
         {
@@ -256,11 +256,12 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
                     $template = $this->_element_template;
                     break;
             }
-            $html = str_replace('{label}', $nameLabel, $template);
-            $html = str_replace('{type}', 'element_' . $type, $html);
-            $html = str_replace('{namespace}', $this->namespace, $html);
         }
-
+        
+        $html = str_replace('{label}', $nameLabel, $template);
+        $html = str_replace('{type}', 'element_' . $type, $html);
+        $html = str_replace('{namespace}', $this->namespace, $html);
+            
         if ($required)
         {
             $html = str_replace('<!-- BEGIN required -->', '', $html);
