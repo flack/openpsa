@@ -264,6 +264,7 @@ EOT;
 
         $group = $this->_form->getElement($this->name);
         $group->setElements($new_elements);
+        $group->freeze();
     }
 
     /**
@@ -322,6 +323,10 @@ EOT;
     {
         $input = trim($results[$this->name]);
 
+        if ($this->is_frozen())
+        {
+            return $input;
+        }
         if ($this->show_time)
         {
             $input .= ' ' . trim($results[$this->name . '_hours']) . ':' . trim($results[$this->name . '_minutes']) . ':';
