@@ -271,16 +271,9 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
 
         // TODO: Add browser capability data (mobile, desktop browser etc) from WURFL here
 
-        /**
-         * This can leak data useful for attacker, OTOH it's very handy for debugging
-         *
-         * if ($context === 0)
-         * {
-         *     _midcom_header("X-MidCOM-request-id-source: {$identifier_source}");
-         * }
-         * debug_add("Generating context {$context} request-identifier from: {$identifier_source}");
-         * debug_print_r('$customdata was: ', $customdata);
-         **/
+        debug_add("Generating context {$context} request-identifier from: {$identifier_source}");
+        debug_print_r('$customdata was: ', $customdata);
+
         $identifier_cache[$context] = 'R-' . md5($identifier_source);
         return $identifier_cache[$context];
     }
@@ -422,7 +415,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
                 case "midcom-cache-nocache":
                 case "midcom-cache-stats":
                     // Don't cache these.
-                    _midcom_header("X-MidCOM-cache: midcom-xxx uncached");
+                    debug_add("X-MidCOM-cache: " . $arg . " uncached");
                     return;
             }
         }
@@ -430,7 +423,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Check for POST variables, if any is found, go for no_cache.
         if (count($_POST) > 0)
         {
-            _midcom_header("X-MidCOM-cache: POST uncached");
             debug_add('POST variables have been found, setting no_cache and not checking for a hit.');
             $this->no_cache();
             return;
@@ -439,7 +431,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         // Check for uncached operation
         if ($this->_uncached)
         {
-            _midcom_header("X-MidCOM-cache: uncached mode");
+            debug_add("Uncached mode");
             return;
         }
 
@@ -449,20 +441,20 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         $request_id = $this->generate_request_identifier(0);
         if (!$this->_meta_cache->exists($request_id))
         {
-            _midcom_header("X-MidCOM-meta-cache: MISS {$request_id}");
+            debug_add("MISS {$request_id}");
             // We have no information about content cached for this request
             $this->_meta_cache->close();
 
             return;
         }
-        _midcom_header("X-MidCOM-meta-cache: HIT {$request_id}");
+        debug_add("HIT {$request_id}");
 
         // Load metadata for the content identifier connected to current request
         $content_id = $this->_meta_cache->get($request_id);
 
         if (!$this->_meta_cache->exists($content_id))
         {
-            _midcom_header("X-MidCOM-meta-cache: MISS {$content_id}", false);
+            debug_add("MISS meta_cache {$content_id}");
             // Content cache data is missing
             $this->_meta_cache->close();
             return;
@@ -475,7 +467,6 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
         {
             if ($data['expires'] < time())
             {
-                _midcom_header("X-MidCOM-meta-cache: EXPIRED {$content_id}", false);
                 $this->_meta_cache->close();
                 debug_add('Current page is in cache, but has expired on ' . gmdate('c', $data['expires']), MIDCOM_LOG_INFO);
                 return;
@@ -490,7 +481,7 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             return;
         }
 
-        _midcom_header("X-MidCOM-meta-cache: HIT {$content_id}", false);
+        debug_add("X-MidCOM-meta-cache: HIT {$content_id}");
 
         // Check If-Modified-Since and If-None-Match, do content output only if
         // we have a not modified match.
@@ -499,13 +490,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
             $this->_data_cache->open();
             if (! $this->_data_cache->exists($content_id))
             {
-                _midcom_header("X-MidCOM-data-cache: MISS {$content_id}");
                 $this->_data_cache->close();
                 debug_add("Current page is in not in the data cache, possible ghost read.", MIDCOM_LOG_WARN);
                 return;
             }
 
-            _midcom_header("X-MidCOM-data-cache: HIT {$content_id}");
+            debug_add("HIT {$content_id}");
             $content = $this->_data_cache->get($content_id);
             $this->_data_cache->close();
 
