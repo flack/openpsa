@@ -50,7 +50,7 @@ class org_openpsa_documents_directory extends midcom_db_topic
 
             $parent = new org_openpsa_documents_directory($parent);
             $parent->_use_rcs = false;
-            $parent->_use_activtystream = false;
+            $parent->_use_activitystream = false;
             $parent->update();
 
             $_MIDCOM->auth->drop_sudo();
