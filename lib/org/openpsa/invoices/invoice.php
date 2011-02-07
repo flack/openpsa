@@ -131,12 +131,12 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     /**
      * Deletes all invoice_hours related to the invoice
      */
-    public function _on_deleted()
+    public function _on_deleting()
     {
         if (! $_MIDCOM->auth->request_sudo('org.openpsa.invoices'))
         {
             debug_add('Failed to get SUDO privileges, skipping invoice hour deletion silently.', MIDCOM_LOG_ERROR);
-            return;
+            return false;
         }
 
         // Delete invoice_hours
@@ -176,6 +176,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         }
 
         $_MIDCOM->auth->drop_sudo();
+        return true;
     }
 
     /**
