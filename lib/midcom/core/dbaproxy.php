@@ -64,12 +64,15 @@ class midcom_core_dbaproxy
 
         $this->__tried_to_load = true;
 
-        $object = call_user_func(array($this->__midcom_class_name__, 'get_cached'), $this->__identifier);
-        if (   is_object($object)
-            && mgd_is_guid($object->guid))
+        try
         {
+            $object = call_user_func(array($this->__midcom_class_name__, 'get_cached'), $this->__identifier);
             $this->__object = $object;
             return true;
+        }
+        catch (midcom_error $e)
+        {
+            debug_add($e->getMessage());
         }
         return false;
     }
