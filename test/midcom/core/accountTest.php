@@ -18,7 +18,7 @@ class accountTest extends PHPUnit_Framework_TestCase
         $_MIDCOM->auth->request_sudo('midcom.core');
 
         $account = midcom_core_account::get(self::$_person);
-        $this->assertInstanceOf('midcom_core_account', $account);
+        $this->assertTrue($account instanceOf midcom_core_account);
 
         $password = 'password_' . time();
         $account->set_password($password);
