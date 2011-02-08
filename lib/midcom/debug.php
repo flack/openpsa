@@ -299,7 +299,10 @@ class midcom_debug
         foreach ($stack as $number => $frame)
         {
             $stacktrace .= $number + 1;
-            $stacktrace .= ": {$frame['file']}:{$frame['line']} ";
+            if (isset($frame['file']))
+            {
+                $stacktrace .= ": {$frame['file']}:{$frame['line']} ";
+            }
             if (array_key_exists('class', $frame))
             {
                 $stacktrace .= "{$frame['class']}::{$frame['function']}";

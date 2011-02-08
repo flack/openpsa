@@ -1,7 +1,7 @@
 <?php
 /**
  * Setup file for running unit tests
- * 
+ *
  * Usage: phpunit --no-globals-backup ./
  */
 
@@ -80,7 +80,10 @@ if (! defined('MIDCOM_STATIC_URL'))
 
 $_SERVER = Array();
 $_SERVER['HTTP_HOST'] = 'localhost';
-$_SERVER['REQUEST_URI'] = 'midcom-test-init';
+$_SERVER['SERVER_NAME'] = 'localhost';
+$_SERVER['SERVER_PORT'] = '80';
+$_SERVER['REMOTE_ADDR'] = 'unittest dummy connection';
+$_SERVER['REQUEST_URI'] = '/midcom-test-init';
 
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
