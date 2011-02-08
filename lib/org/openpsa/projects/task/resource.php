@@ -67,8 +67,15 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         {
             return false;
         }
-        $account = new midcom_db_person($account);
-
+        try
+        {
+            $account = new midcom_db_person($account);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add($e->getMessage());
+            return false;
+        }
         $mc = org_openpsa_contacts_buddy_dba::new_collector('account', (string) $account->guid);
         $mc->add_constraint('buddy', '=', (string) $this->_personobject->guid);
         $mc->add_constraint('blacklisted', '=', false);
