@@ -185,19 +185,21 @@ class midcom_db_person extends midcom_core_dbaobject
      */
     private function _update_computed_members()
     {
-        $this->name = trim("{$this->firstname} {$this->lastname}");
+        $firstname = trim($this->firstname);
+        $lastname = trim($this->lastname);
+        $this->name = "{$firstname} {$lastname}";
 
-        $this->rname = trim($this->lastname);
+        $this->rname = $lastname;
         if ($this->rname == '')
         {
-            $this->rname = $this->firstname;
+            $this->rname = $firstname;
         }
         else
         {
-            $this->rname .= ", {$this->firstname}";
+            $this->rname .= ", {$firstname}";
         }
 
-        if ($this->name == '')
+        if (trim($this->name) == '')
         {
             $this->name = 'person #' . $this->id;
             $this->rname = 'person #' . $this->id;
