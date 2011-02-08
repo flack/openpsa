@@ -772,7 +772,8 @@ class midcom_application
                             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
                         }
                         $this->cache->content->no_cache();
-                        $this->auth->logout($redirect_to);
+                        $this->auth->logout();
+                        $this->relocate($redirect_to);
                         // This will exit
 
                     case "login":

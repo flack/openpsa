@@ -123,7 +123,7 @@ class midcom_services_auth_sessionmgr
         );
 
         $this->current_session_id = $session->guid;
-
+        $this->_loaded_sessions[$session->guid] = $session;
         return $result;
     }
 

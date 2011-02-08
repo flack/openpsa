@@ -1048,24 +1048,18 @@ class midcom_services_auth
     }
 
     /**
-     * This call tells the backend to clear any authentication state, then relocates the
-     * user to the sites' root URL, so that a new, unauthenticated request is started there.
-     * If there was no user authenticated, the relocate is done nevertheless.
-     *
-     * It is optionally possible to override the destination set.
-     *
-     * @param string $destination The destination to relocate to after logging out.
+     * This call clears any authentication state
      */
-    function logout($destination = '')
+    function logout()
     {
         $this->drop_login_session();
-        $_MIDCOM->relocate($destination);
+        $this->admin = false;
+        $this->user = null;
     }
 
     /**
      * This is a limited version of logout: It will just drop the current login session, but keep
-     * the request running. This means, that the current request will stay authenticated, but
-     * any subsequent requests not.
+     * the current request authenticated.
      *
      * Note, that this call will also drop any information in the PHP Session (if exists). This will
      * leave the request in a clean state after calling this function.
