@@ -33,6 +33,10 @@ abstract class midcom_compat_environment
         {
             self::$_implementation = new midcom_compat_ragnaland();
         }
+        else if ($_SERVER['REQUEST_URI'] == '/midcom-test-init')
+        {
+            self::$_implementation = new midcom_compat_unittest();
+        }
         else
         {
             self::$_implementation = new midcom_compat_default();
@@ -143,6 +147,24 @@ class midcom_compat_default extends midcom_compat_environment
             return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
         }
     }
+}
+
+/**
+ * Support for running under PHPunit
+ *
+ * @package midcom
+ */
+class midcom_compat_unittest extends midcom_compat_environment
+{
+    public function __construct() {}
+
+    public function header($string, $replace = true, $http_response_code = null) {}
+
+    public function stop_request($message = '') {}
+
+    public function headers_sent() {}
+
+    public function setcookie($name, $value = '', $expire = 0, $path = '/', $domain = null, $secure = false, $httponly = false) {}
 }
 
 /**
