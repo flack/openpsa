@@ -752,12 +752,12 @@ class midcom_services_auth
         }
         $mc->execute();
         $keys = $mc->list_keys();
-        if (empty($keys))
+        if (count($keys) != 1)
         {
             return false;
         }
 
-        $person = new $GLOBALS['midcom_config']['person_class'](array_pop($keys));
+        $person = new $GLOBALS['midcom_config']['person_class'](key($keys));
 
         return $this->get_user($person);
     }
