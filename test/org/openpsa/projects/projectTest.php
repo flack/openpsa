@@ -17,7 +17,7 @@ class projectTest extends PHPUnit_Framework_TestCase
 
         $project = new org_openpsa_projects_project($project->guid);
         $this->assertEquals('Task #' . $project->id, $project->title);
-	$project->title = 'Test Project';
+        $project->title = 'Test Project';
         $stat = $project->update();
         $this->assertTrue($stat);
         $this->assertEquals('Test Project', $project->title);

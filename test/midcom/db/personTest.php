@@ -17,8 +17,8 @@ class personTest extends PHPUnit_Framework_TestCase
         $person = new midcom_db_person($person->guid);
         $this->assertEquals('person #' . $person->id, $person->name);
         $this->assertEquals('person #' . $person->id, $person->rname);
-	$person->firstname = ' Firstname ';
-	$person->lastname = ' Lastname ';
+        $person->firstname = ' Firstname ';
+        $person->lastname = ' Lastname ';
         $stat = $person->update();
         $this->assertTrue($stat);
         $this->assertEquals('Firstname Lastname', $person->name);

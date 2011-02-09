@@ -18,7 +18,7 @@ class taskTest extends PHPUnit_Framework_TestCase
         $task = new org_openpsa_projects_task_dba($task->guid);
         $this->assertEquals('Task #' . $task->id, $task->title);
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_PROPOSED, $task->status);
-	$task->title = 'Test Task';
+        $task->title = 'Test Task';
         $stat = $task->update();
         $this->assertTrue($stat);
         $this->assertEquals('Test Task', $task->title);
