@@ -154,13 +154,6 @@ class workflowTest extends PHPUnit_Framework_TestCase
     public static function TearDownAfterClass()
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-        $qb = org_openpsa_projects_task_status_dba::new_query_builder();
-        $qb->add_constraint('task', '=', self::$_task->id);
-        $results = $qb->execute();
-        foreach ($results as $result)
-        {
-            $result->delete();
-        }
         self::$_task->delete();
         self::$_project->delete();
         self::$_other_user->delete();

@@ -9,9 +9,7 @@ class invoiceTest extends PHPUnit_Framework_TestCase
     public function testNumbering()
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
-
         $invoice = new org_openpsa_invoices_invoice_dba();
-
         $next_number = $invoice->generate_invoice_number();
         $this->assertTrue(is_int($next_number));
         $invoice->number = $next_number;
@@ -24,6 +22,6 @@ class invoiceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($next_number, $invoice->generate_invoice_number());
 
         $_MIDCOM->auth->drop_sudo();
-     }
+    }
 }
 ?>
