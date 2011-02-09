@@ -87,4 +87,29 @@ $_SERVER['REQUEST_URI'] = '/midcom-test-init';
 
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
+
+class test_helper
+{
+    public static function create_user($login = false)
+    {
+        $_MIDCOM->auth->request_sudo('midcom.core');
+        $person = new midcom_db_person();
+        $password = 'password_' . time();
+        $username = __CLASS__ . ' user ' . time();
+
+        $_MIDCOM->auth->request_sudo('midcom.core');
+        $person->create();
+
+        $account = midcom_core_account::get($person);
+        $account->set_password($password);
+        $account->set_username($username);
+        $account->save();
+        $_MIDCOM->auth->drop_sudo();
+        if ($login)
+        {
+            $_MIDCOM->auth->login($username, $password);
+        }
+        return $person;
+    }
+}
 ?>

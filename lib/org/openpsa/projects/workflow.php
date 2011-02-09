@@ -127,12 +127,18 @@ class org_openpsa_projects_workflow
      * Accept the proposal
      *
      * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param integer $pid The person ID
+     * @param string $comment Status comment, if any
      */
-    static function accept(&$task, $comment = '')
+    static function accept(&$task, $pid = -1, $comment = '')
     {
-        debug_add("task->accept() called with user #" . midcom_connection::get_user());
+        if ($pid < 0)
+        {
+            $pid = midcom_connection::get_user();
+        }
+        debug_add("task->accept() called with user #" . $pid);
 
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_ACCEPTED, 0, $comment);
+        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_ACCEPTED, $pid, $comment);
     }
 
     /**
