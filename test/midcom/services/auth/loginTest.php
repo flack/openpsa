@@ -33,6 +33,7 @@ class loginTest extends PHPUnit_Framework_TestCase
         $user = $_MIDCOM->auth->user;
         $this->assertTrue($user instanceof midcom_core_user);
         $this->assertEquals(self::$_person->guid, $user->guid);
+        $this->assertEquals(self::$_person->id, midcom_connection::get_user());
 
         $_MIDCOM->auth->logout();
         $this->assertTrue(is_null($_MIDCOM->auth->user));

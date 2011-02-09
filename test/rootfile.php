@@ -108,6 +108,7 @@ class test_helper
         if ($login)
         {
             $_MIDCOM->auth->login($username, $password);
+            $_MIDCOM->auth->_sync_user_with_backend();
         }
         return $person;
     }
