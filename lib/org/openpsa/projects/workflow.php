@@ -190,7 +190,7 @@ class org_openpsa_projects_workflow
         {
             //Manager marking task completed also approves it at the same time
             debug_add('We\'re the manager of this task, approving straight away');
-            return self::approve($task);
+            return self::approve($task, $comment);
         }
 
         return true;
@@ -249,7 +249,7 @@ class org_openpsa_projects_workflow
             return false;
         }
         debug_add('approved tasks get closed at the same time, calling this->close()');
-        return self::close($task);
+        return self::close($task, $comment);
     }
 
     static function reject(&$task, $comment = '')
