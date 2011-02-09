@@ -84,6 +84,7 @@ $_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['SERVER_PORT'] = '80';
 $_SERVER['REMOTE_ADDR'] = 'unittest dummy connection';
 $_SERVER['REQUEST_URI'] = '/midcom-test-init';
+$_SERVER['REQUEST_TIME'] = time();
 
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
