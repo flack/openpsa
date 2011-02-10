@@ -91,6 +91,9 @@ require(MIDCOM_ROOT . '/midcom.php');
 
 class openpsa_testcase extends PHPUnit_Framework_TestCase
 {
+    private static $_class_objects = array();
+    private $_testcase_objects = array();
+
     public static function create_user($login = false)
     {
         $_MIDCOM->auth->request_sudo('midcom.core');
@@ -112,6 +115,70 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
             $_MIDCOM->auth->_sync_user_with_backend();
         }
         return $person;
+    }
+
+    public function create_object($classname, $data = array())
+    {
+        $object = self::_create_object($classname, $data);
+        $this->_testcase_objects[$object->guid] = $object;
+        return $object;
+    }
+
+    private static function _create_object($classname, $data)
+    {
+        $object = new $classname();
+        foreach ($data as $field => $value)
+        {
+            $object->$field = $value;
+        }
+
+        $_MIDCOM->auth->request_sudo('midcom.core');
+        $object->create();
+        $_MIDCOM->auth->drop_sudo();
+        return $object;
+    }
+
+    public static function create_class_object($classname, $data = array())
+    {
+        $object = self::_create_object($classname, $data);
+        self::$_class_objects[$object->guid] = $object;
+        return $object;
+    }
+
+    public function tearDown()
+    {
+        $_MIDCOM->auth->request_sudo('midcom.core');
+
+        while (!empty($this->_testcase_objects))
+        {
+            $object = array_pop($this->_testcase_objects);
+            if (!$object->delete())
+            {
+                if (midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS)
+                {
+                    array_unshift($this->_testcase_objects, $object);
+                }
+                else
+                {
+                    throw new midcom_error('Cleanup test object ' . $object->guid . 'failed, reason: ' . midcom_connection::get_error_string());
+                }
+            }
+        }
+
+        $_MIDCOM->auth->drop_sudo();
+    }
+
+    public static function TearDownAfterClass()
+    {
+        $_MIDCOM->auth->request_sudo('midcom.core');
+
+        foreach (self::$_class_objects as $object)
+        {
+            $object->delete();
+        }
+
+        $_MIDCOM->auth->drop_sudo();
+        self::$_class_objects = array();
     }
 }
 ?>

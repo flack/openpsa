@@ -7,11 +7,7 @@ class accountTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_person = new midcom_db_person();
-
-        $_MIDCOM->auth->request_sudo('midcom.core');
-        self::$_person->create();
-        $_MIDCOM->auth->drop_sudo();
+        self::$_person = self::create_class_object('midcom_db_person');
     }
 
     public function testCRUD()
@@ -54,8 +50,7 @@ class accountTest extends openpsa_testcase
         $account1->save();
         $this->assertEquals($username, $account1->get_username());
 
-        $person = new midcom_db_person();
-        $person->create();
+        $person = $this->create_object('midcom_db_person');
         $account2 = midcom_core_account::get($person);
 
         $password = 'password_' . time();
@@ -65,17 +60,6 @@ class accountTest extends openpsa_testcase
         $stat = $account2->save();
         $this->assertFalse($stat);
 
-        $account2->delete();
-        $person->delete();
-
-        $_MIDCOM->auth->drop_sudo();
-    }
-
-
-    public static function tearDownAfterClass()
-    {
-        $_MIDCOM->auth->request_sudo('midcom.core');
-        self::$_person->delete();
         $_MIDCOM->auth->drop_sudo();
     }
 }

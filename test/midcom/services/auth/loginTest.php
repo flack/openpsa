@@ -9,13 +9,11 @@ class loginTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_person = new midcom_db_person();
+        self::$_person = self::create_class_object('midcom_db_person');
         self::$_password = 'password_' . time();
         self::$_username = __CLASS__ . ' user ' . time();
 
         $_MIDCOM->auth->request_sudo('midcom.core');
-        self::$_person->create();
-
         $account = midcom_core_account::get(self::$_person);
         $account->set_password(self::$_password);
         $account->set_username(self::$_username);
@@ -39,13 +37,6 @@ class loginTest extends openpsa_testcase
         $_MIDCOM->auth->logout();
         $this->assertTrue(is_null($_MIDCOM->auth->user));
         $this->assertFalse($_MIDCOM->auth->is_valid_user());
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $_MIDCOM->auth->request_sudo('midcom.core');
-        self::$_person->delete();
-        $_MIDCOM->auth->drop_sudo();
     }
 }
 ?>

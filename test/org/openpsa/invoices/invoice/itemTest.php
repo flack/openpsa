@@ -7,10 +7,7 @@ class itemTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
-        self::$_invoice = new org_openpsa_invoices_invoice_dba();
-        self::$_invoice->create();
-        $_MIDCOM->auth->drop_sudo();
+        self::$_invoice = self::create_class_object('org_openpsa_invoices_invoice_dba');
     }
 
     public function testCRUD()
@@ -47,13 +44,6 @@ class itemTest extends openpsa_testcase
         {
             $result->delete();
         }
-        $_MIDCOM->auth->drop_sudo();
-    }
-
-    public static function TearDownAfterClass()
-    {
-        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
-        self::$_invoice->delete();
         $_MIDCOM->auth->drop_sudo();
     }
 }

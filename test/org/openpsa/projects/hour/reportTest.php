@@ -8,15 +8,8 @@ class reportTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-        self::$_project = new org_openpsa_projects_project();
-        self::$_project->create();
-
-        self::$_task = new org_openpsa_projects_task_dba();
-        self::$_task->up = self::$_project->id;
-        self::$_task->create();
-
-        $_MIDCOM->auth->drop_sudo();
+        self::$_project = self::create_class_object('org_openpsa_projects_project');
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('up' => self::$_project->id));
     }
 
     public function testCRUD()
@@ -58,14 +51,6 @@ class reportTest extends openpsa_testcase
         {
             $result->delete();
         }
-        $_MIDCOM->auth->drop_sudo();
-    }
-
-    public static function TearDownAfterClass()
-    {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-        self::$_task->delete();
-        self::$_project->delete();
         $_MIDCOM->auth->drop_sudo();
     }
 }

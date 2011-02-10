@@ -28,25 +28,14 @@ class taskTest extends openpsa_testcase
 
     public function testHierarchy()
     {
+        $project = $this->create_object('org_openpsa_projects_project');
+        $task = $this->create_object('org_openpsa_projects_task_dba', array('up' => $project->id));
+
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-
-        $project = new org_openpsa_projects_project();
-        $project->create();
-
-        $task = new org_openpsa_projects_task_dba();
-
-        $task->up = $project->id;
-        $task->create();
-
         $parent = $task->get_parent();
+        $_MIDCOM->auth->drop_sudo();
 
         $this->assertEquals($parent->guid, $project->guid);
-
-        $task->delete();
-        $project->delete();
-
-        $_MIDCOM->auth->drop_sudo();
     }
-
 }
 ?>

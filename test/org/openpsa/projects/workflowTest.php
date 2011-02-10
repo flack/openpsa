@@ -13,11 +13,8 @@ class workflowTest extends openpsa_testcase
         self::$_user = self::create_user(true);
         self::$_other_user = self::create_user();
 
-        self::$_project = new org_openpsa_projects_project();
-        self::$_project->create();
-        self::$_task = new org_openpsa_projects_task_dba();
-        self::$_task->up = self::$_project->id;
-        self::$_task->create();
+        self::$_project = self::create_class_object('org_openpsa_projects_project');
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('up' => self::$_project->id));
     }
 
     public function testProposeToOther()
@@ -128,7 +125,7 @@ class workflowTest extends openpsa_testcase
         $this->assertFalse($stat);
     }
 
-    protected function tearDown()
+    public function tearDown()
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
         $qb = org_openpsa_projects_task_status_dba::new_query_builder();
@@ -153,9 +150,9 @@ class workflowTest extends openpsa_testcase
 
     public static function TearDownAfterClass()
     {
+        parent::TearDownAfterClass();
+
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-        self::$_task->delete();
-        self::$_project->delete();
         self::$_other_user->delete();
         $_MIDCOM->auth->drop_sudo();
 
