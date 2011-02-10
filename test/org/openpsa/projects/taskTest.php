@@ -12,7 +12,7 @@ class taskTest extends openpsa_testcase
         $this->assertTrue($stat);
         $this->assertEquals(ORG_OPENPSA_OBTYPE_TASK, $task->orgOpenpsaObtype);
 
-        $task = new org_openpsa_projects_task_dba($task->guid);
+        $task->refresh();
         $this->assertEquals('Task #' . $task->id, $task->title);
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_PROPOSED, $task->status);
         $task->title = 'Test Task';

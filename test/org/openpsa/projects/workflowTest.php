@@ -15,7 +15,6 @@ class workflowTest extends openpsa_testcase
 
         self::$_project = new org_openpsa_projects_project();
         self::$_project->create();
-
         self::$_task = new org_openpsa_projects_task_dba();
         self::$_task->up = self::$_project->id;
         self::$_task->create();
@@ -25,7 +24,7 @@ class workflowTest extends openpsa_testcase
     {
         $stat = org_openpsa_projects_workflow::propose(self::$_task, self::$_other_user->id, 'test comment');
         $this->assertTrue($stat);
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->id);
+        self::$_task->refresh();
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_PROPOSED, self::$_task->status);
         $this->assertEquals('not_started', self::$_task->status_type);
         $this->assertEquals('test comment', self::$_task->status_comment);
@@ -42,7 +41,7 @@ class workflowTest extends openpsa_testcase
     {
         $stat = org_openpsa_projects_workflow::propose(self::$_task, self::$_user->id, 'test comment');
         $this->assertTrue($stat);
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->id);
+        self::$_task->refresh();
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_ACCEPTED, self::$_task->status);
         $this->assertEquals('not_started', self::$_task->status_type);
         $this->assertEquals('test comment', self::$_task->status_comment);
@@ -59,7 +58,7 @@ class workflowTest extends openpsa_testcase
         $result = $qb->execute();
         $this->assertEquals(sizeof($result), 1);
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_ACCEPTED, $result[0]->type);
-        self::$_project = new org_openpsa_projects_project(self::$_project->id);
+        self::$_project->refresh();
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_ACCEPTED, self::$_project->status);
     }
 
@@ -67,7 +66,7 @@ class workflowTest extends openpsa_testcase
     {
         $stat = org_openpsa_projects_workflow::complete(self::$_task, 'test comment');
         $this->assertTrue($stat);
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->id);
+        self::$_task->refresh();
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_CLOSED, self::$_task->status);
         $this->assertEquals('closed', self::$_task->status_type);
         $this->assertEquals('test comment', self::$_task->status_comment);
@@ -84,12 +83,12 @@ class workflowTest extends openpsa_testcase
     {
         self::$_task->manager = self::$_other_user->id;
         self::$_task->update();
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->id);
+        self::$_task->refresh();
 
         $stat = org_openpsa_projects_workflow::complete(self::$_task, 'test comment');
         $this->assertTrue($stat);
 
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->id);
+        self::$_task->refresh();
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_COMPLETED, self::$_task->status);
         $this->assertEquals('closed', self::$_task->status_type);
         $this->assertEquals('test comment', self::$_task->status_comment);
@@ -106,7 +105,7 @@ class workflowTest extends openpsa_testcase
     {
         $stat = org_openpsa_projects_workflow::approve(self::$_task, 'test comment');
         $this->assertTrue($stat);
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->id);
+        self::$_task->refresh();
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_CLOSED, self::$_task->status);
         $this->assertEquals('closed', self::$_task->status_type);
         $this->assertEquals('test comment', self::$_task->status_comment);
@@ -123,7 +122,7 @@ class workflowTest extends openpsa_testcase
     {
         self::$_task->manager = self::$_other_user->id;
         self::$_task->update();
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->id);
+        self::$_task->refresh();
 
         $stat = org_openpsa_projects_workflow::approve(self::$_task, 'test comment');
         $this->assertFalse($stat);

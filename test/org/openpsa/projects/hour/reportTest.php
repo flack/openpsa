@@ -31,7 +31,7 @@ class reportTest extends openpsa_testcase
         $parent = $report->get_parent();
         $this->assertEquals($parent->guid, self::$_task->guid);
 
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->guid);
+        self::$_task->refresh();
         $this->assertEquals(self::$_task->reportedHours, 2.5);
         $task_hours = self::$_project->get_task_hours();
         $this->assertEquals($task_hours['reportedHours'], 2.5);
@@ -40,7 +40,7 @@ class reportTest extends openpsa_testcase
         $stat = $report->delete();
         $this->assertTrue($stat);
 
-        self::$_task = new org_openpsa_projects_task_dba(self::$_task->guid);
+        self::$_task->refresh();
         $this->assertEquals(self::$_task->reportedHours, 0);
         $task_hours = self::$_project->get_task_hours();
         $this->assertEquals($task_hours['reportedHours'], 0);

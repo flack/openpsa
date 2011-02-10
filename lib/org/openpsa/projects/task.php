@@ -75,6 +75,14 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         }
     }
 
+    public function refresh()
+    {
+        $this->contacts = null;
+        $this->resources = null;
+        $this->_status = null;
+        parent::refresh();
+    }
+
     public function __get($property)
     {
         if ($property == 'status_type')
