@@ -1,5 +1,7 @@
 <?php
-class loginTest extends PHPUnit_Framework_TestCase
+require_once('rootfile.php');
+
+class loginTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_password;
@@ -7,7 +9,6 @@ class loginTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        require_once('rootfile.php');
         self::$_person = new midcom_db_person();
         self::$_password = 'password_' . time();
         self::$_username = __CLASS__ . ' user ' . time();

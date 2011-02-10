@@ -89,7 +89,7 @@ $_SERVER['REQUEST_TIME'] = time();
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
 
-class test_helper
+class openpsa_testcase extends PHPUnit_Framework_TestCase
 {
     public static function create_user($login = false)
     {

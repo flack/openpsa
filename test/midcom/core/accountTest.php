@@ -1,11 +1,12 @@
 <?php
-class accountTest extends PHPUnit_Framework_TestCase
+require_once('rootfile.php');
+
+class accountTest extends openpsa_testcase
 {
     protected static $_person;
 
     public static function setUpBeforeClass()
     {
-        require_once('rootfile.php');
         self::$_person = new midcom_db_person();
 
         $_MIDCOM->auth->request_sudo('midcom.core');

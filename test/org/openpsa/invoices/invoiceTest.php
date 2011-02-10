@@ -1,11 +1,8 @@
 <?php
-class invoiceTest extends PHPUnit_Framework_TestCase
-{
-    public static function setUpBeforeClass()
-    {
-        require_once('rootfile.php');
-    }
+require_once('rootfile.php');
 
+class invoiceTest extends openpsa_testcase
+{
     public function testNumbering()
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.invoices');

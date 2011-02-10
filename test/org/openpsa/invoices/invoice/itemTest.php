@@ -1,11 +1,12 @@
 <?php
-class itemTest extends PHPUnit_Framework_TestCase
+require_once('rootfile.php');
+
+class itemTest extends openpsa_testcase
 {
     protected static $_invoice;
 
     public static function setUpBeforeClass()
     {
-        require_once('rootfile.php');
         $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
         self::$_invoice = new org_openpsa_invoices_invoice_dba();
         self::$_invoice->create();

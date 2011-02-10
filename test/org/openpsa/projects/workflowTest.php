@@ -1,5 +1,7 @@
 <?php
-class workflowTest extends PHPUnit_Framework_TestCase
+require_once('rootfile.php');
+
+class workflowTest extends openpsa_testcase
 {
     protected static $_user;
     protected static $_other_user;
@@ -8,9 +10,8 @@ class workflowTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        require_once('rootfile.php');
-        self::$_user = test_helper::create_user(true);
-        self::$_other_user = test_helper::create_user();
+        self::$_user = self::create_user(true);
+        self::$_other_user = self::create_user();
 
         self::$_project = new org_openpsa_projects_project();
         self::$_project->create();

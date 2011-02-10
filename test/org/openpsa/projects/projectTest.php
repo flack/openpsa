@@ -1,11 +1,8 @@
 <?php
-class projectTest extends PHPUnit_Framework_TestCase
-{
-    public static function setUpBeforeClass()
-    {
-        require_once('rootfile.php');
-    }
+require_once('rootfile.php');
 
+class projectTest extends openpsa_testcase
+{
     public function testCRUD()
     {
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
