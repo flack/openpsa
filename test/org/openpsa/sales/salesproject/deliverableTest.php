@@ -25,7 +25,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $parent = $deliverable->get_parent();
         $this->assertEquals($parent->guid, self::$_salesproject->guid);
 
-        self::$_salesproject->calculate_price();
+        self::$_salesproject->refresh();
         $this->assertEquals(self::$_salesproject->value, 250);
         $this->assertEquals(self::$_salesproject->profit, 250);
 
@@ -33,7 +33,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $stat = $deliverable->update();
         $this->assertTrue($stat);
 
-        self::$_salesproject->calculate_price();
+        self::$_salesproject->refresh();
         $this->assertEquals(self::$_salesproject->value, 200);
         $this->assertEquals(self::$_salesproject->profit, 200);
 

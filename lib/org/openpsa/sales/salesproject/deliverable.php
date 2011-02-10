@@ -23,6 +23,14 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      */
     private $_deliverable_html = null;
 
+    /**
+     * Flag that controls if parent' price and cost need re-caculated if the current
+     * object is saved.
+     *
+     * @var boolean
+     */
+    private $_update_parent_on_save = false;
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -62,6 +70,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
+    public function _on_created()
+    {
+        $this->_update_parent();
+    }
+
     public function _on_updating()
     {
         $this->calculate_price(false);
@@ -78,7 +91,20 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         return true;
     }
 
+    public function _on_updated()
+    {
+        if ($this->_update_parent_on_save)
+        {
+            $this->_update_parent();
+        }
+    }
+
     public function _on_deleted()
+    {
+        $this->_update_parent();
+    }
+
+    private function _update_parent()
     {
         $parent = $this->get_parent();
         if (is_object($parent))
@@ -222,6 +248,10 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
                 {
                     $parent->calculate_price();
                 }
+            }
+            else
+            {
+                $this->_update_parent_on_save = true;
             }
         }
     }
