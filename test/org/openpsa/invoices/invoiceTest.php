@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class invoiceTest extends openpsa_testcase
+class org_openpsa_invoices_invoiceTest extends openpsa_testcase
 {
     public function testNumbering()
     {

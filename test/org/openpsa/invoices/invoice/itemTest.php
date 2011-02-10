@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class itemTest extends openpsa_testcase
+class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
 {
     protected static $_invoice;
 

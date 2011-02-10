@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class personTest extends openpsa_testcase
+class midcom_db_personTest extends openpsa_testcase
 {
     public function testCRUD()
     {

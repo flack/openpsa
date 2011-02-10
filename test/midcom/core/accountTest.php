@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class accountTest extends openpsa_testcase
+class midcom_core_accountTest extends openpsa_testcase
 {
     protected static $_person;
 

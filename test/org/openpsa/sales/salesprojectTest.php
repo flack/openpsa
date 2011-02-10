@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class salesprojectTest extends openpsa_testcase
+class org_openpsa_sales_salesprojectTest extends openpsa_testcase
 {
     public function testCRUD()
     {

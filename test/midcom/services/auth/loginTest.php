@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class loginTest extends openpsa_testcase
+class midcom_services_auth_loginTest extends openpsa_testcase
 {
     protected static $_person;
     protected static $_password;

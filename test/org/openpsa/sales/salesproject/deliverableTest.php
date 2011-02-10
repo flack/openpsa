@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class deliverableTest extends openpsa_testcase
+class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 {
     protected static $_salesproject;
 

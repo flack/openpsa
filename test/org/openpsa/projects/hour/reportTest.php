@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class reportTest extends openpsa_testcase
+class org_openpsa_projects_hour_reportTest extends openpsa_testcase
 {
     protected static $_task;
     protected static $_project;

@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class workflowTest extends openpsa_testcase
+class org_openpsa_projects_workflowTest extends openpsa_testcase
 {
     protected static $_user;
     protected static $_other_user;

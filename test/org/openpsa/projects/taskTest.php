@@ -1,7 +1,7 @@
 <?php
 require_once('rootfile.php');
 
-class taskTest extends openpsa_testcase
+class org_openpsa_projects_taskTest extends openpsa_testcase
 {
     public function testCRUD()
     {
