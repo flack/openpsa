@@ -22,13 +22,21 @@ class itemTest extends openpsa_testcase
 
         $parent = $item->get_parent();
         $this->assertEquals($parent->guid, self::$_invoice->guid);
-        self::$_invoice = new org_openpsa_invoices_invoice_dba(self::$_invoice->guid);
 
+        self::$_invoice->refresh();
         $this->assertEquals(self::$_invoice->sum, 250);
+
+        $item->units = 3.5;
+        $stat = $item->update();
+        $this->assertTrue($stat);
+
+        self::$_invoice->refresh();
+        $this->assertEquals(self::$_invoice->sum, 350);
 
         $stat = $item->delete();
         $this->assertTrue($stat);
-        self::$_invoice = new org_openpsa_invoices_invoice_dba(self::$_invoice->guid);
+
+        self::$_invoice->refresh();
         $this->assertEquals(self::$_invoice->sum, 0);
 
         $_MIDCOM->auth->drop_sudo();
@@ -36,15 +44,7 @@ class itemTest extends openpsa_testcase
 
     public function tearDown()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
-        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', self::$_invoice->id);
-        $results = $qb->execute();
-        foreach ($results as $result)
-        {
-            $result->delete();
-        }
-        $_MIDCOM->auth->drop_sudo();
+        self::delete_linked_objects('org_openpsa_invoices_invoice_item_dba', 'invoice', self::$_invoice->id);
     }
 }
 ?>

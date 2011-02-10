@@ -43,15 +43,7 @@ class reportTest extends openpsa_testcase
 
     public function tearDown()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-        $qb = org_openpsa_projects_hour_report_dba::new_query_builder();
-        $qb->add_constraint('task', '=', self::$_task->id);
-        $results = $qb->execute();
-        foreach ($results as $result)
-        {
-            $result->delete();
-        }
-        $_MIDCOM->auth->drop_sudo();
+        self::delete_linked_objects('org_openpsa_projects_hour_report_dba', 'task', self::$_task->id);
     }
 }
 ?>

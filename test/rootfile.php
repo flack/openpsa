@@ -145,6 +145,19 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $object;
     }
 
+    public static function delete_linked_objects($classname, $link_field, $id)
+    {
+        $_MIDCOM->auth->request_sudo('midcom.core');
+        $qb = call_user_func(array($classname, 'new_query_builder'));
+        $qb->add_constraint($link_field, '=', $id);
+        $results = $qb->execute();
+        foreach ($results as $result)
+        {
+            $result->delete();
+        }
+        $_MIDCOM->auth->drop_sudo();
+    }
+
     public function tearDown()
     {
         $_MIDCOM->auth->request_sudo('midcom.core');

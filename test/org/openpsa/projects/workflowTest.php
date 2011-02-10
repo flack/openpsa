@@ -127,17 +127,8 @@ class workflowTest extends openpsa_testcase
 
     public function tearDown()
     {
-        $_MIDCOM->auth->request_sudo('org.openpsa.projects');
-        $qb = org_openpsa_projects_task_status_dba::new_query_builder();
-        $qb->begin_group('OR');
-        $qb->add_constraint('task', '=', self::$_task->id);
-        $qb->add_constraint('task', '=', self::$_project->id);
-        $qb->end_group();
-        $results = $qb->execute();
-        foreach ($results as $result)
-        {
-            $result->delete();
-        };
+        self::delete_linked_objects('org_openpsa_projects_task_status_dba', 'task', self::$_task->id);
+        self::delete_linked_objects('org_openpsa_projects_task_status_dba', 'task', self::$_project->id);
 
         self::$_task->status = 0;
         self::$_task->manager = self::$_user->id;
