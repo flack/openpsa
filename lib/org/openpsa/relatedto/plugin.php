@@ -53,11 +53,16 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
         $rel->toComponent = $to_component;
         $rel->status = $status;
 
-        if ($guid = $rel->check_db())
+        if ($guid = $rel->check_db(false))
         {
-            $rel = new org_openpsa_relatedto_dba($guid);
+            $db_rel = new org_openpsa_relatedto_dba($guid);
             debug_add("A relation from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid} already exists, returning this one instead");
-            return $rel;
+            if ($db_rel->status < $rel->status)
+            {
+                $db_rel->status = $rel->status;
+                $db_rel->update();
+            }
+            return $db_rel;
         }
 
         if (!empty($extra))
