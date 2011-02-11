@@ -1,6 +1,18 @@
 <?php
+/**
+ * @package openpsa.test
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+
 require_once('rootfile.php');
 
+/**
+ * OpenPSA testcase
+ *
+ * @package openpsa.test
+ */
 class midcom_services_auth_loginTest extends openpsa_testcase
 {
     protected static $_person;
