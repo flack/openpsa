@@ -1,0 +1,39 @@
+<?php
+require_once('rootfile.php');
+
+class org_openpsa_products_productTest extends openpsa_testcase
+{
+    protected static $_group;
+
+    public static function setUpBeforeClass()
+    {
+        self::$_group = self::create_class_object('org_openpsa_products_product_group_dba', array('code' => 'TEST-' . __CLASS__));
+    }
+
+    public function testCRUD()
+    {
+        $code = 'PRODUCT-TEST-' . __CLASS__;
+        $product = new org_openpsa_products_product_dba();
+        $product->code = $code;
+        $product->productGroup = self::$_group->id;
+
+        $_MIDCOM->auth->request_sudo('org.openpsa.products');
+        $stat = $product->create();
+        $this->assertTrue($stat);
+
+        $parent = $product->get_parent();
+        $this->assertEquals($parent->guid, self::$_group->guid);
+
+        $product->title = 'TEST TITLE';
+        $stat = $product->update();
+        $this->assertTrue($stat);
+
+        $this->assertEquals($product->title, 'TEST TITLE');
+
+        $stat = $product->delete();
+        $this->assertTrue($stat);
+
+        $_MIDCOM->auth->drop_sudo();
+    }
+}
+?>
