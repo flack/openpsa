@@ -52,7 +52,10 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     {
         $this->_locale_set();
         $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_TASK;
-        $this->manager = midcom_connection::get_user();
+        if (!$this->manager)
+        {
+            $this->manager = midcom_connection::get_user();
+        }
         return $this->_prepare_save();
     }
 
