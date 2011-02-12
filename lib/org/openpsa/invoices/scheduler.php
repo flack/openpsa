@@ -434,7 +434,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     /**
      * @todo Check if we already have an open task for this delivery?
      */
-    function create_task($start, $end, $title , $source_task = null)
+    function create_task($start, $end, $title, $source_task = null)
     {
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
         $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
@@ -463,6 +463,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         if (!empty($source_task))
         {
             $task->priority = $source_task->priority;
+            $task->manager = $source_task->manager;
         }
 
         // TODO: Figure out if we really want to keep this
@@ -470,6 +471,10 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         if ($task->create())
         {
             $task->add_members('contacts', array_keys($salesproject->contacts));
+            if (!empty($source_task))
+            {
+                $task->add_members('resources', array_keys($source_task->resources));
+            }
             org_openpsa_relatedto_plugin::create($task, 'org.openpsa.projects', $product, 'org.openpsa.products');
 
             // Copy tags from deliverable so we can seek resources
