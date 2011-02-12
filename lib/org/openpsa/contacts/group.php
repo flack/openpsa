@@ -127,12 +127,14 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         //Make sure we have accessType
         if (!$this->orgOpenpsaAccesstype)
         {
+            //Make sure the constant is defined
+            $_MIDCOM->load_library('org.openpsa.core');
             $this->orgOpenpsaAccesstype = ORG_OPENPSA_ACCESSTYPE_PUBLIC;
         }
         return true;
     }
 
-    public function _on_updating()
+    public function _on_updated()
     {
         if ($this->homepage)
         {
@@ -144,8 +146,6 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
             $_MIDCOM->load_library('midcom.services.at');
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
-
-        return true;
     }
 
     private function _get_members_array()
