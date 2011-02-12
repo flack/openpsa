@@ -127,6 +127,9 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
     private static function _create_object($classname, $data)
     {
         $object = new $classname();
+        $object->_use_rcs = false;
+        $object->_use_activitystream = false;
+
         foreach ($data as $field => $value)
         {
             $object->$field = $value;
