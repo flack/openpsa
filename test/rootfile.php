@@ -165,6 +165,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         while (!empty($this->_testcase_objects))
         {
             $object = array_pop($this->_testcase_objects);
+            if (array_key_exists($object->guid, self::$_class_objects))
+            {
+                continue;
+            }
             if (!$object->delete())
             {
                 if (midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS)
