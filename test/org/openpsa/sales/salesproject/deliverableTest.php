@@ -19,7 +19,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
 
     public static function setUpBeforeClass()
     {
-        self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
+        self::_initialize_parent();
     }
 
     public function testCRUD()
@@ -59,8 +59,93 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $_MIDCOM->auth->drop_sudo();
     }
 
+    /**
+     * @dataProvider providerCalculate_price
+     * @depends testCRUD
+     */
+    public function testCalculate_price($attributes, $results)
+    {
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
+        foreach ($results as $key => $value)
+        {
+            $this->assertEquals($value, $deliverable->$key, $key . ' test failed');
+        }
+    }
+
+    public function providerCalculate_price()
+    {
+        self::_initialize_parent();
+
+        return array
+        (
+            array
+            (
+                array
+                (
+                    'invoiceByActualUnits' => true,
+                    'plannedUnits' => 1,
+                    'units' => 1,
+                    'pricePerUnit' => 100,
+                    'costPerUnit' => 10,
+                    'costType' => 'm',
+                    'salesproject' => self::$_salesproject->id,
+                ),
+                array
+                (
+                    'price' => 100,
+                    'cost' => 10,
+                ),
+            ),
+            array
+            (
+                array
+                (
+                    'invoiceByActualUnits' => false,
+                    'plannedUnits' => 2,
+                    'units' => 1,
+                    'pricePerUnit' => 100,
+                    'costPerUnit' => 10,
+                    'costType' => 'm',
+                    'salesproject' => self::$_salesproject->id,
+                ),
+                array
+                (
+                    'price' => 200,
+                    'cost' => 10,
+                ),
+            ),
+            array
+            (
+                array
+                (
+                    'invoiceByActualUnits' => true,
+                    'plannedUnits' => 0,
+                    'units' => 2,
+                    'pricePerUnit' => 100,
+                    'costPerUnit' => 10,
+                    'costType' => '%',
+                    'salesproject' => self::$_salesproject->id,
+                ),
+                array
+                (
+                    'price' => 200,
+                    'cost' => 20,
+                ),
+            ),
+        );
+    }
+
+    private function _initialize_parent()
+    {
+        if (is_null(self::$_salesproject))
+        {
+            self::$_salesproject = self::create_class_object('org_openpsa_sales_salesproject_dba');
+        }
+    }
+
     public function tearDown()
     {
+        parent::tearDown();
         self::delete_linked_objects('org_openpsa_sales_salesproject_deliverable_dba', 'salesproject', self::$_salesproject->id);
     }
 }
