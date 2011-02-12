@@ -157,6 +157,8 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $results = $qb->execute();
         foreach ($results as $result)
         {
+            $result->_use_rcs = false;
+            $result->_use_activitystream = false;
             $result->delete();
         }
         $_MIDCOM->auth->drop_sudo();
