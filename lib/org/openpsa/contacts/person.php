@@ -100,8 +100,9 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
         return true;
     }
 
-    public function _on_updating()
+    public function _on_updated()
     {
+        parent::_on_updated();
         if ($this->homepage)
         {
             // This group has a homepage, register a prober
@@ -112,8 +113,6 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
             $_MIDCOM->load_library('midcom.services.at');
             midcom_services_at_interface::register(time() + 60, 'org.openpsa.contacts', 'check_url', $args);
         }
-
-        return true;
     }
 
     public function _on_deleting()
