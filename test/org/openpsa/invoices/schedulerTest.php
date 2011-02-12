@@ -136,5 +136,85 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             ),
         );
     }
+
+    public function testCreate_task()
+    {
+        $organization = $this->create_object('org_openpsa_contacts_group_dba');
+        $manager = $this->create_object('midcom_db_person');
+        $member = $this->create_object('midcom_db_person');
+
+        $group = $this->create_object('org_openpsa_products_product_group_dba');
+
+        $product_attributes = array
+        (
+            'productGroup' => $group->id,
+            'code' => 'TEST-' . __CLASS__ . time(),
+        );
+        $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
+        
+        $salesproject_attributes = array
+        (
+            'owner' => $manager->id,
+            'customer' => $customer->id,
+        );
+        $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', $salesproject_attributes);
+
+        $member_attributes = array
+        (
+            'person' => $member->id,
+            'salesproject' => $salesproject->id,
+        );
+        $this->create_object('org_openpsa_sales_salesproject_member_dba', $member_attributes);
+        //remember to remove buddylist entry later on
+
+        $deliverable_attributes = array
+        (
+           'salesproject' => $salesproject->id,
+           'product' => $product->id,
+           'description' => 'TEST DESCRIPTION',
+           'plannedUnits' => 15,
+        );
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_dba', $deliverable_attributes);
+
+        $start = time();
+        $end = $start + (30 *24 * 60 * 60);
+        $title = 'TEST TITLE';
+
+        $start_cmp = mktime(0, 0, 0, date('n', $start), date('j', $start), date('Y', $start));
+        $end_cmp = mktime(23, 59, 59, date('n', $end), date('j', $end), date('Y', $end));
+
+        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
+        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
+        $task = $scheduler->create_task($start, $end, $title);
+        $this->assertTrue(is_a($task, 'org_openpsa_projects_task_dba'));
+        $this->assertEquals($deliverable->id, $task->agreement);
+        $this->assertEquals($salesproject->customer, $task->customer);
+        $this->assertEquals($title, $task->title);
+        $this->assertEquals($deliverable->description, $task->description);
+        $this->assertEquals($start_cmp, $task->start);
+        $this->assertEquals($end_cmp, $task->end);
+        $this->assertEquals($deliverable->plannedUnits, $task->plannedHours);
+        $this->assertEquals($salesproject->owner, $task->manager);
+        $this->assertTrue($task->hoursInvoiceableDefault);
+
+        $project = new org_openpsa_projects_project($task->up);
+        $this->assertTrue(!empty($project->guid));
+
+        $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $task->guid);
+        $mc->add_value_property('toGuid');
+        $mc->execute();
+        $keys = $mc->list_keys();
+        $this->assertEquals(1, sizeof($keys));
+        $product_guid = $mc->get_subkey(key($keys), 'toGuid');
+        $this->assertEquals($product->guid, $product_guid);
+
+        $salesproject->get_members();
+        $task->get_members();
+        $this->assertEquals($salesproject->contacts, $task->contacts);
+        $this->delete_linked_objects('org_openpsa_contacts_buddy_dba', 'account', $manager->guid);
+        $task->delete();
+        $project->delete();
+        $_MIDCOM->auth->drop_sudo();
+    }
 }
 ?>
