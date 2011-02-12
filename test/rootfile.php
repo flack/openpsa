@@ -22,7 +22,8 @@ if (!class_exists('midgard_topic'))
 ini_set('memory_limit', '68M');
 
 // Path to the MidCOM environment
-define('MIDCOM_ROOT', realpath(dirname(__FILE__)) . '/../lib');
+define('OPENPSA_TEST_ROOT', realpath(dirname(__FILE__)));
+define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
 
 // Initialize the $_MIDGARD superglobal
@@ -64,9 +65,9 @@ $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
-if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
+if (file_exists(OPENPSA_TEST_ROOT . '/config.inc.php'))
 {
-    include(MIDCOM_ROOT . '/../config.inc.php');
+    include(OPENPSA_TEST_ROOT . '/config.inc.php');
 }
 else
 {
