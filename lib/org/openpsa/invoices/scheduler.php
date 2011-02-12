@@ -536,7 +536,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
                 return false;
         }
-        $date = new DateTime($offset . ' ' . date('Y-m-d', $time));
+        $date = new DateTime($offset . ' ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
         $next_cycle = (int) $date->format('U');
 
         return $next_cycle;
