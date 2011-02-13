@@ -251,6 +251,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
         foreach ($result_tasks as $task_id => $hours)
         {
+            $invoice_item = $this->_probe_invoice_item_for_task($task_id);
+
             //get deliverable for this task
             $mc_task_agreement = new midgard_collector('org_openpsa_task', 'id', $task_id);
             $mc_task_agreement->set_key_property('id');
@@ -263,30 +265,29 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             $deliverable = null;
             foreach ($mc_task_key as $key => $empty)
             {
-                $deliverable = new org_openpsa_salesproject_deliverable((int)$mc_task_agreement->get_subkey($key, 'agreement'));
-            }
-
-            $invoice_item = $this->_probe_invoice_item_for_task($task_id);
-            $invoice_item->description = $mc_task_agreement->get_subkey($task_id, 'title');
-
-            if ($deliverable)
-            {
-                $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
-                //calculate price
-                if (   $deliverable->invoiceByActualUnits
-                    || $deliverable->plannedUnits == 0)
+                try 
                 {
+                    $deliverable = new org_openpsa_sales_salesproject_deliverable_dba((int)$mc_task_agreement->get_subkey($key, 'agreement'));
+                    $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
+                    //calculate price
+                    if (   $deliverable->invoiceByActualUnits
+                        || $deliverable->plannedUnits == 0)
+                    {
+                        $invoice_item->units = $hours;
+                    }
+                    else
+                    {
+                        $invoice_item->units = $deliverable->plannedUnits;
+                    }
+                }
+                catch (midcom_error $e)
+                {
+                    debug_add($e->getMessage());
                     $invoice_item->units = $hours;
                 }
-                else
-                {
-                    $invoice_item->units = $deliverable->plannedUnits;
-                }
             }
-            else // hour_reports attached to task without agreement - so what to do ?
-            {
-                $invoice_item->units = $hours;
-            }
+
+            $invoice_item->description = $mc_task_agreement->get_subkey($task_id, 'title');
 
             $invoice_item->skip_invoice_update = $skip_invoice_update;
 
