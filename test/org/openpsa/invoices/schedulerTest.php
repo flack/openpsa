@@ -74,11 +74,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
      */
     public function testCalculate_cycles($attributes, $months, $result)
     {
-        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba();
-        foreach ($attributes as $field => $value)
-        {
-            $deliverable->$field = $value;
-        }
+        $deliverable = self::prepare_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
 
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
         $cycles = $scheduler->calculate_cycles($months);

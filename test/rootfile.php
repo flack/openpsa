@@ -133,7 +133,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
             '_use_activitystream' => false,
         );
         $data = array_merge($presets, $data);
-        $object = $this->prepare_object($classname, $data);
+        $object = self::prepare_object($classname, $data);
 
         $_MIDCOM->auth->request_sudo('midcom.core');
         $object->create();

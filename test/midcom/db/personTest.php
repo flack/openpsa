@@ -44,10 +44,10 @@ class midcom_db_personTest extends openpsa_testcase
      */
     public function testUpdate_computed_members($attributes, $results)
     {
-        $person = $this->prepare_object('midcom_db_person', $attributes);
+        $person = self::prepare_object('midcom_db_person', $attributes);
         foreach ($results as $field => $value)
         {
-          $this->assertEquals($value, $person->$field, 'Mismatch on field ' . $field);
+            $this->assertEquals($value, $person->$field, 'Mismatch on field ' . $field);
         }
     }
 
