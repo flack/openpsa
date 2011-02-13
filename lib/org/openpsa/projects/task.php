@@ -154,6 +154,14 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return false;
         }
 
+        $qb = org_openpsa_projects_task_status_dba::new_query_builder();
+        $qb->add_constraint('task', '=', $this->id);
+        $results = $qb->execute();
+        foreach ($results as $result)
+        {
+            $result->delete();
+        }
+
         return true;
     }
 
