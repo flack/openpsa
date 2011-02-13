@@ -98,6 +98,19 @@ class midcom_db_person extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function __set($property, $value)
+    {
+        parent::__set($property, $value);
+
+        if (   $property == 'firstname'
+            || $property == 'lastname'
+            || $property == 'homepage'
+            || $property == 'email')
+        {
+            $this->_update_computed_members();
+        }
+    }
+
     /**
      * Updates all computed members.
      *
@@ -168,16 +181,6 @@ class midcom_db_person extends midcom_core_dbaobject
     }
 
     /**
-     * Updates all computed members.
-     *
-     * @access protected
-     */
-    public function _on_updated()
-    {
-        $this->_update_computed_members();
-    }
-
-    /**
      * Synchronizes the $name, $rname, $emaillink and $homepagelink members
      * with the members they are based on.
      *
@@ -187,19 +190,21 @@ class midcom_db_person extends midcom_core_dbaobject
     {
         $firstname = trim($this->firstname);
         $lastname = trim($this->lastname);
-        $this->name = "{$firstname} {$lastname}";
+        $this->name = trim("{$firstname} {$lastname}");
+        $this->homepagelink = '';
+        $this->emaillink = '';
 
         $this->rname = $lastname;
         if ($this->rname == '')
         {
             $this->rname = $firstname;
         }
-        else
+        else if ($firstname != '')
         {
             $this->rname .= ", {$firstname}";
         }
 
-        if (trim($this->name) == '')
+        if ($this->name == '')
         {
             $this->name = 'person #' . $this->id;
             $this->rname = 'person #' . $this->id;

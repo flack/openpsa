@@ -127,18 +127,28 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     private static function _create_object($classname, $data)
     {
+        $presets = array
+        (
+            '_use_rcs' => false,
+            '_use_activitystream' => false,
+        );
+        $data = array_merge($presets, $data);
+        $object = $this->prepare_object($classname, $data);
+
+        $_MIDCOM->auth->request_sudo('midcom.core');
+        $object->create();
+        $_MIDCOM->auth->drop_sudo();
+        return $object;
+    }
+
+    public function prepare_object($classname, $data)
+    {
         $object = new $classname();
-        $object->_use_rcs = false;
-        $object->_use_activitystream = false;
 
         foreach ($data as $field => $value)
         {
             $object->$field = $value;
         }
-
-        $_MIDCOM->auth->request_sudo('midcom.core');
-        $object->create();
-        $_MIDCOM->auth->drop_sudo();
         return $object;
     }
 
