@@ -193,7 +193,8 @@ class midcom_db_member extends midcom_core_dbaobject
         $activity->target = $target->guid;
         $activity->actor = $actor->id;
         $activity->verb = 'http://community-equity.org/schema/1.0/leave';
-        if ($actor->guid == $_MIDCOM->auth->user->guid)
+        if (    $_MIDCOM->auth->is_valid_user()
+             && $actor->guid == $_MIDCOM->auth->user->guid)
         {
             $activity->summary = sprintf($_MIDCOM->i18n->get_string('%s left group %s', 'midcom'), $actor->name, $target->official);
         }

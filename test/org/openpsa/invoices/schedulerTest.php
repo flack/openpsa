@@ -147,11 +147,11 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             'code' => 'TEST-' . __CLASS__ . time(),
         );
         $product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
-        
+
         $salesproject_attributes = array
         (
             'owner' => $manager->id,
-            'customer' => $customer->id,
+            'customer' => $organization->id,
         );
         $salesproject = $this->create_object('org_openpsa_sales_salesproject_dba', $salesproject_attributes);
 
