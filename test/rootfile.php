@@ -177,7 +177,8 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $_MIDCOM->auth->request_sudo('midcom.core');
-
+        $limit = sizeof($this->_testcase_objects) * 5;
+        $iteration = 0;
         while (!empty($this->_testcase_objects))
         {
             $object = array_pop($this->_testcase_objects);
@@ -195,6 +196,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
                 {
                     throw new midcom_error('Cleanup test object ' . $object->guid . 'failed, reason: ' . midcom_connection::get_error_string());
                 }
+            }
+            if ($iteration++ > $limit)
+            {
+                throw new midcom_error('Maximum retry count for cleanup reached');
             }
         }
 
