@@ -256,16 +256,14 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             $mc_task_agreement->set_key_property('id');
             $mc_task_agreement->add_value_property('title');
             $mc_task_agreement->add_value_property('agreement');
+            $mc_task_agreement->add_constraint('agreement', '<>', 0);
             $mc_task_agreement->execute();
 
             $mc_task_key = $mc_task_agreement->list_keys();
             $deliverable = null;
             foreach ($mc_task_key as $key => $empty)
             {
-                if ($mc_task_agreement->get_subkey($key, 'agreement') != 0)
-                {
-                    $deliverable = new org_openpsa_salesproject_deliverable((int)$mc_task_agreement->get_subkey($key, 'agreement'));
-                }
+                $deliverable = new org_openpsa_salesproject_deliverable((int)$mc_task_agreement->get_subkey($key, 'agreement'));
             }
 
             $invoice_item = $this->_probe_invoice_item_for_task($task_id);
@@ -273,23 +271,21 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
 
             if ($deliverable)
             {
+                $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
                 //calculate price
                 if (   $deliverable->invoiceByActualUnits
                     || $deliverable->plannedUnits == 0)
                 {
                     $invoice_item->units = $hours;
-                    $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
                 }
                 else
                 {
                     $invoice_item->units = $deliverable->plannedUnits;
-                    $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
                 }
             }
             else // hour_reports attached to task without agreement - so what to do ?
             {
                 $invoice_item->units = $hours;
-                $invoice_item->pricePerUnit = 0;
             }
 
             $invoice_item->skip_invoice_update = $skip_invoice_update;
@@ -398,6 +394,11 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         $invoice_items = $qb_invoice_item->execute();
         if (count($invoice_items) == 1)
         {
+            $invoice_item = $invoice_items[0];
+        }
+        else if (count($invoice_items) > 1)
+        {
+            debug_add('More than one item found for task #' . $task_id . ', only returning the first', MIDCOM_LOG_INFO);
             $invoice_item = $invoice_items[0];
         }
         else
