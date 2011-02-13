@@ -70,7 +70,7 @@ class midcom_db_groupTest extends openpsa_testcase
         $_MIDCOM->auth->drop_sudo();
     }
 
-    private function _count_membership_objects($gid, $pic)
+    private function _count_membership_objects($gid, $pid)
     {
         $qb = midcom_db_member::new_query_builder();
         $qb->add_constraint('gid', '=', $gid);
