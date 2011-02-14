@@ -280,10 +280,9 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
                 if (is_array($titlefield))
                 {
-                    foreach($titlefield as $field)
+                    foreach ($titlefield as $field)
                     {
-                        if (   property_exists($object, $field)
-                            && !empty($object->$field))
+                        if (!empty($object->$field))
                         {
                             $titlefield = $field;
                             break;
@@ -291,7 +290,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
                     }
                 }
 
-                if (!property_exists($object, $titlefield))
+                if (!isset($object->$titlefield))
                 {
                     return null;
                 }
