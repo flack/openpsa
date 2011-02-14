@@ -398,7 +398,14 @@ class midcom_helper_metadata
 
                 if (extension_loaded('midgard2'))
                 {
-                    $this->__metadata->$key = new midgard_datetime($this->__metadata->$key);
+                    if ($this->__metadata->$key == '0000-00-00 00:00:00')
+                    {
+                        $this->__metadata->$key = null;
+                    }
+                    else
+                    {
+                        $this->__metadata->$key = new midgard_datetime($this->__metadata->$key);
+                    }
                 }
                 $value = true;
                 break;
@@ -499,7 +506,15 @@ class midcom_helper_metadata
                 if (   extension_loaded('midgard2')
                     && isset($this->__metadata->$key))
                 {
-                    $value = $this->__metadata->$key->format('U');
+                    //This is ugly, but seems the only possible way...
+                    if ((string) $this->__metadata->$key === "0001-01-01T00:00:00+00:00")
+                    {
+                        $value = 0;
+                    }
+                    else
+                    {
+                        $value = $this->__metadata->$key->format('U');
+                    }
                 }
                 else if (empty($this->__metadata->$key))
                 {
