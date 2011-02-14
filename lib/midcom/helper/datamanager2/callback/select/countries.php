@@ -20,6 +20,7 @@ $_MIDCOM->load_library('org.routamc.positioning');
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_callback_select_countries extends midcom_baseclasses_components_purecode
+ implements midcom_helper_datamanager2_callback_interface
 {
     /**
      * The array with the data we're working on.
@@ -32,14 +33,14 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
     {
         $this->_component = 'net.nehmer.account';
         parent::__construct();
-        
+
         $this->_data = array();
-        
+
         if (isset($args['start_message']))
         {
         	if (is_bool($args['start_message'])
         		&& $args['start_message'])
-			{        	
+			{
 	   			$this->_data[''] = $this->_l10n->get('select your country');
 			}
 			else if (is_string($args['start_message']))
@@ -47,7 +48,7 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
 	   			$this->_data[''] = $args['start_message'];
 			}
         }
-        
+
         $qb = org_routamc_positioning_country_dba::new_query_builder();
         $qb->add_constraint('code', '<>', '');
         $qb->add_order('name', 'ASC');

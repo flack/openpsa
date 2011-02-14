@@ -50,7 +50,7 @@
  * see the path there.)
  * @package midcom.helper.datamanager2
  */
-class midcom_helper_datamanager2_callback_select_grouplister
+class midcom_helper_datamanager2_callback_select_grouplister implements midcom_helper_datamanager2_callback_interface
 {
     /**
      * The key field used for referencing.

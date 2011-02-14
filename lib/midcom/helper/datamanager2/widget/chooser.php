@@ -556,7 +556,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (!empty($this->_callback_class))
         {
-            return $this->_check_callback();
+            return $this->_type->initialize_option_callback();
         }
 
         if (class_exists($this->class))
@@ -570,35 +570,6 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
 
         return class_exists($this->class);
-    }
-
-    function _check_callback()
-    {
-        if (! class_exists($this->_callback_class))
-        {
-            // Try auto-load.
-            $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $this->_callback_class) . '.php';
-            if (! file_exists($path))
-            {
-                debug_add("Auto-loading of the callback class {$this->_callback_class} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-            require_once($path);
-        }
-
-        if (! class_exists($this->_callback_class))
-        {
-            debug_add("The callback class {$this->_callback_class} was defined as option for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-            return false;
-        }
-        $this->_callback = new $this->_callback_class($this->_callback_args);
-
-        if (is_callable(array($this->_callback, 'initialize')))
-        {
-            return $this->_callback->initialize();
-        }
-
-        return $this->_callback;
     }
 
     function _check_clever_class()

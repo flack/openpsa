@@ -121,6 +121,36 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
     }
 
     /**
+     * Prepares the option callback
+     *
+     * @return midcom_helper_datamanager2_callback_interface The prepared callback object
+     */
+    public function initialize_option_callback()
+    {
+        $classname = $this->option_callback;
+
+        if (! class_exists($classname))
+        {
+            throw new midcom_error("Auto-loading of the class {$classname} failed: File does not exist.");
+        }
+
+        $callback = new $classname($this->option_callback_arg);
+        if (!($callback instanceof midcom_helper_datamanager2_callback_interface))
+        {
+            throw new midcom_error($classname . ' must implement interface midcom_helper_datamanager2_callbacks_interface');
+        }
+
+        $callback->set_type($this);
+
+        if (is_callable(array($callback, 'initialize')))
+        {
+            $callback->initialize();
+        }
+
+        return $callback;
+    }
+
+    /**
      * This function, is called  before the configuration keys are merged into the types
      * configuration.
      *

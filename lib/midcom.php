@@ -135,7 +135,7 @@ class midcom
             $path = dirname($path) . '.php';
         }
 
-        if (   basename($path) == 'interface.php'
+        if (   preg_match('/^[^_]+?_[^_]+?_[^_]+?_interface$/', $class_name)
             && $class_name != 'midcom_baseclasses_components_interface')
         {
             // MidCOM component interfaces are named midcom/interface.php

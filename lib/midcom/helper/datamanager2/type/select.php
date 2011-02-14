@@ -60,27 +60,7 @@
  *
  * <b>Option Callback class</b>
  *
- * These classes must follow a simple interface:
- *
- * <code>
- * class callback
- * {
- *     function callback($arg) {}
- *     function set_type(&$type) {}
- *     function get_name_for_key($key) { return $name; }
- *     function key_exists($key) { return $bool; }
- *     function list_all() { return $options; }
- * }
- * </code>
- *
- * Upon type startup, the set_type call is executed giving you a reference to the type
- * you are supplying with information. You may ignore this call (but it has to be defined
- * to satisfy PHP).
- *
- * The list_all option must use the same return format as the options array would normally
- * have. One instance of this class is created per type.
- *
- * You can safely assume that get_name_for_key receives only valid keys.
+ * These classes must implement midcom_helper_datamanager2_interface
  *
  * The class is loaded using require_once by translating it to a path relative to midcom_root
  * prior to instantiation. If the class cannot be loaded from the filesystem but from a
@@ -88,7 +68,6 @@
  * yet possible.
  *
  * @package midcom.helper.datamanager2
- *
  */
 class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_type
 {
@@ -222,27 +201,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
 
         if ($this->option_callback !== null)
         {
-            $classname = $this->option_callback;
-
-            if (! class_exists($classname))
-            {
-                // Try auto-load.
-                $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $classname) . '.php';
-                if (! file_exists($path))
-                {
-                    debug_add("Auto-loading of the class {$classname} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                    return false;
-                }
-                require_once($path);
-            }
-
-            if (! class_exists($classname))
-            {
-                debug_add("The class {$classname} was defined as option callback for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-            $this->_callback = new $classname($this->option_callback_arg);
-            $this->_callback->set_type($this);
+            $this->_callback = $this->initialize_option_callback();
         }
 
         // Activate serialized storage format if we are in multiselect-mode.
@@ -277,7 +236,7 @@ class midcom_helper_datamanager2_type_select extends midcom_helper_datamanager2_
             }
             else
             {
-                // This is probably universal chooser
+                // This is probably universalchooser
                 // FIXME: This is not exactly an elegant way to do this
                 if (    $this->storage->_schema->fields[$this->name]['widget'] != 'chooser'
                     || !isset($this->storage->_schema->fields[$this->name]['widget_config']['class'])

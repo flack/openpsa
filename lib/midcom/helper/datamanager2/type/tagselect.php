@@ -101,30 +101,7 @@ class midcom_helper_datamanager2_type_tagselect extends midcom_helper_datamanage
 
         if ($this->option_callback !== null)
         {
-            $classname = $this->option_callback;
-
-            if (! class_exists($classname))
-            {
-                // Try auto-load.
-                $path = MIDCOM_ROOT . '/' . str_replace('_', '/', $classname) . '.php';
-                if (! file_exists($path))
-                {
-                    debug_add("Auto-loading of the class {$classname} from {$path} failed: File does not exist.", MIDCOM_LOG_ERROR);
-                    return false;
-                }
-                require_once($path);
-            }
-
-            if (! class_exists($classname))
-            {
-                debug_add("The class {$classname} was defined as option callback for the field {$this->name} but did not exist.", MIDCOM_LOG_ERROR);
-                return false;
-            }
-
-            $this->_callback = new $classname($this->option_callback_args);
-            $this->_callback->set_type($this);
-
-            debug_add("classname: {$classname}");
+            $this->_callback = $this->initialize_option_callback();
 
             $this->use_tag_library = false;
         }

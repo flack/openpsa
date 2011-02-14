@@ -47,7 +47,7 @@
  *
  * @package midcom.helper.datamanager2
  */
-class midcom_helper_datamanager2_callback_select_personlister
+class midcom_helper_datamanager2_callback_select_personlister implements midcom_helper_datamanager2_callback_interface
 {
     /**
      * The key field used for referencing.

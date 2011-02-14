@@ -7,14 +7,14 @@
  */
 
 /**
- * Marketplace Schema callback, post-processes the available categories and makes them
- * accessible. This callback can only be used from within the marketplace component, since
+ * Buddylist Schema callback, post-processes the available categories and makes them
+ * accessible. This callback can only be used from within the buddylist component, since
  * it relies on its component context to be correctly initialized.
  *
  * @package net.nehmer.buddylist
  */
-
 class net_nehmer_buddylist_callbacks_categorylister extends midcom_baseclasses_components_purecode
+ implements midcom_helper_datamanager2_callback_interface
 {
     /**
      * The array with the data we're working on.
@@ -28,7 +28,7 @@ class net_nehmer_buddylist_callbacks_categorylister extends midcom_baseclasses_c
      * Initializes the class to the category listing in the configuration. It does the necessary
      * postprocessing to move the configuration syntax to the rendering one.
      */
-    public function __construct()
+    public function __construct($args)
     {
         $this->_component = 'net.nehmer.buddylist';
 
