@@ -1000,5 +1000,15 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
         return $output;
     }
+    
+    function convert_from_csv ($source)
+    {
+        throw new midcom_error('Not implemented yet.');
+    }
+
+    function convert_to_csv()
+    {
+        throw new midcom_error('Not implemented yet.');
+    }
 }
 ?>

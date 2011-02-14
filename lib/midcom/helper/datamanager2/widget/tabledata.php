@@ -21,7 +21,9 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
      * Separate widgets for each column
      */
     public $column_widget = array();
-
+    
+    private $_elements = array();
+    
     /**
      * Initialization script placeholder. Not yet needed.
      *
@@ -32,7 +34,6 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         // Enable jQuery. This will not work without
         $_MIDCOM->enable_jquery();
 
-        // Add the JavaScript file to aid in sorting and other features
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/datamanager2.tablesorter.js');
 
         // Default values
@@ -66,7 +67,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             jQuery(document).ready(function()
             {
                 jQuery('#midcom_helper_datamanager2_{$this->_type->name}_widget_tabledata')
-                    .create_sortable({
+                    .create_tablesorter({
                         table_id: '#midcom_helper_datamanager2_{$this->_type->name}_widget_tabledata',
                         field_name: '{$this->_type->name}',
                         max_row_count: {$this->_type->row_limit},
