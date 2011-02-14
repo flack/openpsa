@@ -220,8 +220,23 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $this->assertEquals($salesproject->contacts, $project->contacts);
         $this->assertEquals(array($salesproject->owner => true), $project->resources);
 
+        $task->priority = 4;
+        $task->manager = $member->id;
+        $task->update();
+        $task->add_members('resources', array($member->id));
+        $task->refresh();
+        $task2 = $scheduler->create_task($start, $end, $title, $task);
+        $task2->get_members();
+        $task->get_members();
+
+        $this->assertEquals(4, $task2->priority);
+        $this->assertEquals($member->id, $task2->manager);
+        $this->assertEquals($task->resources, $task2->resources);
+
+
         $this->delete_linked_objects('org_openpsa_contacts_buddy_dba', 'account', $manager->guid);
         $task->delete();
+        $task2->delete();
         $project->delete();
         $_MIDCOM->auth->drop_sudo();
     }

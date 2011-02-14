@@ -473,6 +473,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             $task->add_members('contacts', array_keys($salesproject->contacts));
             if (!empty($source_task))
             {
+                $source_task->get_members();
                 $task->add_members('resources', array_keys($source_task->resources));
             }
             org_openpsa_relatedto_plugin::create($task, 'org.openpsa.projects', $product, 'org.openpsa.products');
