@@ -542,9 +542,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         {
             $html = "&nbsp;";
             $ret['index_parent'] = $html;
-            if ($task->up)
+            $parent = $task->get_parent();
+
+            if ($parent)
             {
-                $parent = $task->get_parent();
                 if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
                 {
                     $parent_url = $data['prefix'] . "project/{$parent->guid}/";
@@ -566,14 +567,17 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         {
             if (!array_key_exists($task->customer, $row_cache['customer']))
             {
-                $html = '';
-                $row_cache['index_customer'][$task->customer] = $html;
-                if ($task->customer)
+                try
                 {
                     $customer = new org_openpsa_contacts_group_dba($task->customer);
                     $customer_url = "{$data['contacts_url']}group/{$customer->guid}/";
                     $html = "<a href='{$customer_url}' title='{$customer->official}'>{$customer->name}</a>";
                     $row_cache['index_customer'][$task->customer] = $customer->name;
+                }
+                catch (midcom_error $e)
+                {
+                    $html = '';
+                    $row_cache['index_customer'][$task->customer] = $html;
                 }
                 $row_cache['customer'][$task->customer] = $html;
             }
