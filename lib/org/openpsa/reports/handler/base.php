@@ -188,8 +188,6 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
             $breadcrumb_label =  $this->_l10n->get('define custom report');
         }
         $this->add_breadcrumb("", $breadcrumb_label);
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
     }
 
     /**

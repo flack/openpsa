@@ -84,8 +84,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $data['controller'] =& $this->_controller;
         $data['action'] =& $this->_action;
 
-        $this->add_stylesheet("/org.openpsa.core/ui-elements.css");
-
         $_MIDCOM->skip_page_style = true;
 
         // Add toolbar items

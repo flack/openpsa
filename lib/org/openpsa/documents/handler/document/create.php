@@ -138,8 +138,6 @@ class org_openpsa_documents_handler_document_create extends midcom_baseclasses_c
         org_openpsa_helpers::dm2_savecancel($this);
 
         $this->add_breadcrumb("", $this->_l10n->get('create document'));
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
     }
 
     /**

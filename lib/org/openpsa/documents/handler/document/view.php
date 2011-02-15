@@ -138,8 +138,6 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
 
         $this->set_active_leaf($this->_document->id);
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-
         org_openpsa_core_ui::enable_ui_tab();
 
         $_MIDCOM->componentloader->load('org.openpsa.contactwidget');

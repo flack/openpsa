@@ -45,7 +45,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_process_billing_form();
 
         $_MIDCOM->enable_jquery();
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         $this->_update_breadcrumb();
 
@@ -133,7 +132,6 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_process_billing_form();
 
         $_MIDCOM->enable_jquery();
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
         $_MIDCOM->set_pagetitle(($_MIDCOM->i18n->get_string('create', 'midcom') . " " . $this->_l10n->get("billing data")));
 
         $this->_update_breadcrumb();

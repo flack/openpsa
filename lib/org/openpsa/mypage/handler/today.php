@@ -169,7 +169,6 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.mypage/mypage.css");
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
 
         //needed js/css-files for jqgrid
         org_openpsa_core_ui::enable_jqgrid();

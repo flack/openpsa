@@ -29,6 +29,7 @@ echo "<?xml version=\"1.0\"?>\n";
         $_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/style.css', 'media' => 'screen,projection'));
         $_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/content.css', 'media' => 'all'));
         $_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/print.css', 'media' => 'print'));
+        $_MIDCOM->add_link_head(array('rel' => 'stylesheet',  'type' => 'text/css', 'href' => MIDCOM_STATIC_URL . '/OpenPsa2/ui-elements.css', 'media' => 'all'));
 
         $_MIDCOM->enable_jquery();
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');

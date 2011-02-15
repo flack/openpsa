@@ -191,8 +191,6 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     public function _handler_callback($handler_id, $args, &$data)
     {
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
-
         if ($this->_mode == 'read')
         {
             $this->_count_invoice_hours();

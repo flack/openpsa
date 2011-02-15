@@ -64,7 +64,6 @@ implements midcom_helper_datamanager2_interfaces_view
         $this->_populate_toolbar();
         $_MIDCOM->bind_view_to_object($this->_group);
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/ui-elements.css");
         // This handler uses Ajax, include the handler javascripts
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
         org_openpsa_core_ui::enable_ui_tab();

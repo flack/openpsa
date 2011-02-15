@@ -155,8 +155,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 // This will exit.
         }
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
-
         org_openpsa_helpers::dm2_savecancel($this);
         $this->_prepare_breadcrumb();
     }
@@ -232,8 +230,6 @@ implements midcom_helper_datamanager2_interfaces_create
                 MIDCOM_TOOLBAR_ACCESSKEY => 'd',
             )
         );
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui-elements.css');
 
         $this->_prepare_breadcrumb();
         $_MIDCOM->bind_view_to_object($this->_journal_entry, $data['controller']->datamanager->schema->name);
