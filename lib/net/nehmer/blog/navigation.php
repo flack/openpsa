@@ -251,7 +251,7 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
             catch (midcom_error $e)
             {
                 // If the article was not found, it is probably due to ACL
-                debug_add($e->getMessage());
+                $e->log();
                 continue;
             }
 

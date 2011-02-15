@@ -45,7 +45,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
         echo "</ul>\n";

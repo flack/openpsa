@@ -478,7 +478,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                 }
             }
             if ($node_lang_code != '')
@@ -630,7 +630,7 @@ class net_nemein_rss_fetch extends midcom_baseclasses_components_purecode
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                 }
             }
             if ($node_lang_code != '')

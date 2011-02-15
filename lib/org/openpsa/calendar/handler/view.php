@@ -421,7 +421,7 @@ function openPsaShowMonthSelector()
                         }
                         catch (midcom_error $e)
                         {
-                            debug_add($e->getMessage());
+                            $e->log();
                             continue;
                         }
 

@@ -495,7 +495,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
         return $tags;
@@ -597,7 +597,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                     continue;
                 }
             }

@@ -296,7 +296,7 @@ class net_nemein_wiki_wikipage extends midcom_db_article
         }
         catch (midcom_error $e)
         {
-            debug_add($e->getMessage());
+            $e->log();
             return "<span class=\"missing_photo\" title=\"{$guid}\">{$fulltag}</span>{$after}";
         }
 

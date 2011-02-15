@@ -381,7 +381,7 @@ class org_openpsa_projects_workflow
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
 

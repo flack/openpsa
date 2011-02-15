@@ -337,6 +337,11 @@ class midcom_error extends Exception
     {
         parent::__construct($message, $code);
     }
+
+    public function log($loglevel = MIDCOM_LOG_ERROR)
+    {
+        debug_add($this->getMessage(), $loglevel);
+    }
 }
 
 /**
@@ -349,6 +354,11 @@ class midcom_error_notfound extends midcom_error
     public function __construct($message, $code = MIDCOM_ERRNOTFOUND)
     {
         parent::__construct($message, $code);
+    }
+
+    public function log($loglevel = MIDCOM_LOG_INFO)
+    {
+        parent::log($loglevel);
     }
 }
 
@@ -366,6 +376,11 @@ class midcom_error_forbidden extends midcom_error
             $message = $_MIDCOM->i18n->get_string('access denied', 'midcom');
         }
         parent::__construct($message, $code);
+    }
+
+    public function log($loglevel = MIDCOM_LOG_DEBUG)
+    {
+        parent::log($loglevel);
     }
 }
 
@@ -407,6 +422,11 @@ class midcom_error_midgard extends midcom_error
             $message = $e->getMessage();
         }
         parent::__construct($message, $code);
+    }
+
+    public function log($loglevel = MIDCOM_LOG_WARN)
+    {
+        parent::log($loglevel);
     }
 }
 

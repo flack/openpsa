@@ -106,7 +106,7 @@ class org_openpsa_documents_handler_search extends midcom_baseclasses_components
                 }
                 catch (Exception $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                     continue;
                 }
                 $data['document_dm'] = $this->_datamanagers['document']->get_content_raw();

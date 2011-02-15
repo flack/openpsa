@@ -308,7 +308,7 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                     catch (midcom_error $e)
                     {
-                        debug_add($e->getMessage());
+                        $e->log();
                         continue;
                     }
 

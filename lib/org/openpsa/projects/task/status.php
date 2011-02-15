@@ -127,7 +127,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
 

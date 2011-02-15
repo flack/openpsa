@@ -240,7 +240,7 @@ class midcom_helper_datamanager2_type_blobs extends midcom_helper_datamanager2_t
         catch (midcom_error $e)
         {
             debug_add("Failed to load the attachment {$guid} from disk, aborting.", MIDCOM_LOG_INFO);
-            debug_add('Last Midgard error was: ' . $e->getMessage(), MIDCOM_LOG_INFO);
+            $e->log();
             return;
         }
 

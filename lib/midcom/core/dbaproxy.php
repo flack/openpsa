@@ -72,7 +72,7 @@ class midcom_core_dbaproxy
         }
         catch (midcom_error $e)
         {
-            debug_add($e->getMessage());
+            $e->log();
         }
         return false;
     }

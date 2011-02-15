@@ -47,7 +47,7 @@ $node = $nap->get_node($nap->get_current_node());
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
         echo "</dl>\n";

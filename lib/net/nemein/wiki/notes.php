@@ -54,7 +54,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                     continue;
                 }
                 $this->_related_guids[$event->guid] = true;
@@ -92,7 +92,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                 }
             }
 
@@ -138,7 +138,7 @@ class net_nemein_wiki_notes extends midcom_baseclasses_components_purecode
                     }
                     catch (midcom_error $e)
                     {
-                        debug_add($e->getMessage());
+                        $e->log();
                     }
                 }
             }

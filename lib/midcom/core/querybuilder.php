@@ -236,7 +236,7 @@ class midcom_core_querybuilder
                 {
                     $this->denied++;
                 }
-                debug_add($e->getMessage());
+                $e->log();
                 continue;
             }
 

@@ -15,7 +15,7 @@ class net_nemein_wiki_link_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'net_nemein_wiki_link';
-        
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -43,7 +43,7 @@ class net_nemein_wiki_link_dba extends midcom_core_dbaobject
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
                 return null;
             }
         }

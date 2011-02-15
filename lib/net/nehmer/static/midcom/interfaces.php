@@ -85,7 +85,7 @@ class net_nehmer_static_interface extends midcom_baseclasses_components_interfac
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
 

@@ -278,7 +278,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                     $invoice_item->units = $hours;
                 }
             }

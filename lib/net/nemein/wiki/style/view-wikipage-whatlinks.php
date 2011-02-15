@@ -18,7 +18,7 @@ if (count($data['wikilinks']) > 0)
         }
         catch (midcom_error $e)
         {
-            debug_add($e->getMessage());
+            $e->log();
             continue;
         }
 

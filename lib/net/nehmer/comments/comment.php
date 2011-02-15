@@ -62,7 +62,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Returns a list of comments applicable to a given object, ordered by creation
      * date.
-     * 
+     *
      * May be called statically.
      *
      * @param guid $guid The GUID of the object to bind to.
@@ -88,13 +88,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         $qb->add_constraint('status', 'IN', $status);
 
         $qb->add_constraint('objectguid', '=', $guid);
-        
+
         if (   $limit
             && !$paging)
         {
             $qb->set_limit($limit);
         }
-        
+
         $qb->add_order('metadata.published', $order);
 
         if ($paging !== false)
@@ -109,7 +109,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
      * Returns a list of comments applicable to a given object
      * not diplaying empty comments or anonymous posts,
      * ordered by creation date.
-     * 
+     *
      * May be called statically.
      *
      * @param guid $guid The GUID of the object to bind to.
@@ -124,7 +124,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
         else
         {
-            $qb = net_nehmer_comments_comment::new_query_builder();            
+            $qb = net_nehmer_comments_comment::new_query_builder();
         }
 
         if (!is_array($status))
@@ -157,10 +157,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Returns the number of comments associated with a given object. This is intended for
      * outside usage to render stuff like "15 comments". The count is executed unchecked.
-     * 
+     *
      * May be called statically.
      *
-     * @return int Number of comments matching a given result. 
+     * @return int Number of comments matching a given result.
      */
     function count_by_objectguid($guid, $status = false)
     {
@@ -174,18 +174,18 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
         $qb->add_constraint('status', 'IN', $status);
 
-        $qb->add_constraint('objectguid', '=', $guid);        
+        $qb->add_constraint('objectguid', '=', $guid);
         return $qb->count_unchecked();
     }
 
     /**
-     * Returns the number of comments associated with a given object by actual registered users. 
-     * This is intended for outside usage to render stuff like "15 comments". The count is 
+     * Returns the number of comments associated with a given object by actual registered users.
+     * This is intended for outside usage to render stuff like "15 comments". The count is
      * executed unchecked.
-     * 
+     *
      * May be called statically.
      *
-     * @return int Number of comments matching a given result. 
+     * @return int Number of comments matching a given result.
      */
     function count_by_objectguid_filter_anonymous($guid, $status = false)
     {
@@ -201,7 +201,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
 
         $qb->add_constraint('objectguid', '=', $guid);
         $qb->add_constraint('author', '<>', '');
-        $qb->add_constraint('content', '<>', '');        
+        $qb->add_constraint('content', '<>', '');
         return $qb->count_unchecked();
     }
 
@@ -232,7 +232,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
             debug_add('be.crsolutions.mollom initialization failed, aborting check', MIDCOM_LOG_INFO);
             return;
         }
-        
+
         $ret = $mollom->check_content(null, $this->title, $this->content, $this->author);
         if (!isset($ret['spam']))
         {
@@ -425,13 +425,13 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
         $browser = str_replace(':', '_', $_SERVER['HTTP_USER_AGENT']);
         $date_string = gmdate('Ymd\This');
-        
+
         $log_action = array
         (
             0 => $action,
             1 => $date_string
         );
-        
+
         $log_details = array
         (
             0 => $reporter,
@@ -443,16 +443,16 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         {
             $log_details[] = $extra;
         }
-        
+
         $this->set_parameter('net.nehmer.comments:moderation_log', implode(':', $log_action), implode(':', $log_details));
     }
-    
+
     function get_default_status()
     {
         $view_status = array
         (
-            NET_NEHMER_COMMENTS_NEW, 
-            NET_NEHMER_COMMENTS_NEW_ANONYMOUS, 
+            NET_NEHMER_COMMENTS_NEW,
+            NET_NEHMER_COMMENTS_NEW_ANONYMOUS,
             NET_NEHMER_COMMENTS_NEW_USER,
             NET_NEHMER_COMMENTS_MODERATED,
         );
@@ -561,7 +561,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
         catch (midcom_error $e)
         {
-            debug_add($e->getMessage());
+            $e->log();
             return false;
         }
 

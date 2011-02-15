@@ -93,7 +93,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                         }
                         catch (midcom_error $e)
                         {
-                            debug_add($e->getMessage());
+                            $e->log();
                         }
                         $errstr = midcom_connection::get_error_string();
                     }

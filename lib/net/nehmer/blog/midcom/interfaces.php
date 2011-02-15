@@ -104,7 +104,7 @@ class net_nehmer_blog_interface extends midcom_baseclasses_components_interface
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
 

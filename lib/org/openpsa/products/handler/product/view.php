@@ -115,7 +115,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
 
             if ($product_group)

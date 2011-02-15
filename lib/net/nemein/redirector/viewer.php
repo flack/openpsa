@@ -193,7 +193,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
                     }
                     catch (midcom_error $e)
                     {
-                        debug_add($e->getMessage());
+                        $e->log();
                         break;
                     }
                 }

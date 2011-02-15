@@ -155,7 +155,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
 
             debug_add("Deleting guid {$guid} from the index.");

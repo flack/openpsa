@@ -138,7 +138,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                 }
             }
         }

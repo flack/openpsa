@@ -120,7 +120,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
     }

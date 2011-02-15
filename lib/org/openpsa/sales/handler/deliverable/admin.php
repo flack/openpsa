@@ -397,7 +397,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
                 }
                 catch (midcom_error $e)
                 {
-                    debug_add($e->getMessage());
+                    $e->log();
                 }
             }
         }

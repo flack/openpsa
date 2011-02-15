@@ -33,7 +33,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
         else if (array_key_exists('org_openpsa_calendar_filters_remove', $_POST))
@@ -45,7 +45,7 @@ implements midcom_helper_datamanager2_interfaces_edit
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
         }
         $errstr = midcom_connection::get_error_string();

@@ -45,7 +45,7 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
     public function _show_rss($handler_id, &$data)
     {
         $_MIDCOM->load_library('net.nehmer.markdown');
-        
+
         $qb = net_nemein_wiki_wikipage::new_query_builder();
         $qb->add_constraint('topic.component', '=', $_MIDCOM->get_context_data(MIDCOM_CONTEXT_COMPONENT));
         $qb->add_constraint('topic', 'INTREE', $this->_topic->id);
@@ -81,7 +81,7 @@ class net_nemein_wiki_handler_feed extends midcom_baseclasses_components_handler
             }
             catch (midcom_error $e)
             {
-                debug_add($e->getMessage());
+                $e->log();
             }
 
             $item->description = Markdown(preg_replace_callback($this->_config->get('wikilink_regexp'), array($wikipage, 'replace_wikiwords'), $wikipage->content));

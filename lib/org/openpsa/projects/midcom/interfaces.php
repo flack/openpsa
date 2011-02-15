@@ -413,7 +413,7 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         }
         catch (midcom_error $e)
         {
-            debug_add($e->getMessage());
+            $e->log();
             return false;
         }
         $broker = new org_openpsa_projects_projectbroker();

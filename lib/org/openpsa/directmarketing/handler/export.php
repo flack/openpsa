@@ -176,7 +176,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         }
         catch (midcom_error $e)
         {
-            debug_add($e->getMessage());
+            $e->log();
             return false;
         }
         $qb_memberships = midcom_db_member::new_query_builder();

@@ -106,7 +106,7 @@ abstract class midcom_core_dbaobject
             }
             catch (midgard_error_exception $e)
             {
-                debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_INFO);
+                debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' failed, reason: ' . $e->getMessage(), MIDCOM_LOG_WARN);
                 throw new midcom_error_midgard($e, $id);
             }
 
