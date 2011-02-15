@@ -297,7 +297,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
         (
             'class' => "shorttext",
             'id'    => $this->_input_element_id,
-        );
+        ));
 
         $this->widget_elements[] = HTML_QuickForm::createElement
         (

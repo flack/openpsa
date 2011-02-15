@@ -162,7 +162,7 @@
 // Match /account/create/GUID/
 'account_create' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_person_action', 'account_create'),
+    'handler' => array('org_openpsa_contacts_handler_person_account', 'account_create'),
     'fixed_args' => array('account', 'create'),
     'variable_args' => 1,
 ),
@@ -170,21 +170,21 @@
 // Match /account/edit/GUID/
 'account_edit' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_person_action', 'account_edit'),
+    'handler' => array('org_openpsa_contacts_handler_person_account', 'account_edit'),
     'fixed_args' => array('account', 'edit'),
     'variable_args' => 1,
 ),
 // Match /account/delete/GUID/
 'account_delete' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_person_action', 'account_delete'),
+    'handler' => array('org_openpsa_contacts_handler_person_account', 'account_delete'),
     'fixed_args' => array('account', 'delete'),
     'variable_args' => 1,
 ),
 // Match /person/memberships/GUID/
 'group_memberships' => array
 (
-    'handler' => array('org_openpsa_contacts_handler_person_action', 'group_memberships'),
+    'handler' => array('org_openpsa_contacts_handler_person_view', 'group_memberships'),
     'fixed_args' => array('person', 'memberships'),
     'variable_args' => 1,
 ),

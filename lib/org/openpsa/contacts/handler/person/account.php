@@ -7,11 +7,11 @@
  */
 
 /**
- * org.openpsa.contacts person handler and viewer class.
+ * org.openpsa.contacts account handler and viewer class.
  *
  * @package org.openpsa.contacts
  */
-class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_components_handler
+class org_openpsa_contacts_handler_person_account extends midcom_baseclasses_components_handler
 {
     /**
      * The person we're working with, if any
@@ -30,25 +30,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
     public function _on_initialize()
     {
         $_MIDCOM->auth->require_valid_user();
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
-    public function _handler_group_memberships($handler_id, $args, &$data)
-    {
-        // Check if we get the person
-        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
-        $this->_request_data['person'] =& $this->_person;
-
-        $qb = midcom_db_member::new_query_builder();
-        $qb->add_constraint('uid', '=', $this->_person->id);
-        $this->_request_data['memberships'] = $qb->execute();
-
-        // Group person listing, always work even if there are none
-        $_MIDCOM->skip_page_style = true;
     }
 
     /**
@@ -91,8 +72,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
         }
 
-        $this->_request_data['person_action'] = 'create account';
-
         if ($this->_person->email)
         {
             // Email address (first part) is the default username
@@ -110,7 +89,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
-        $this->_update_breadcrumb_line();
+        $this->_update_breadcrumb_line('create account');
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
@@ -187,8 +166,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $_MIDCOM->relocate($prefix . "account/create/" . $this->_person->guid . "/");
         }
 
-        $this->_request_data['person_action'] = 'edit account';
-
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (   array_key_exists('midcom_helper_datamanager2_save', $_POST)
             && $this->_update_account())
@@ -206,7 +183,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
-        $this->_update_breadcrumb_line();
+        $this->_update_breadcrumb_line('edit account');
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
@@ -287,8 +264,6 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
             $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
         }
 
-        $this->_request_data['person_action'] = 'delete account';
-
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (   array_key_exists('midcom_helper_datamanager2_save', $_POST)
             && $this->_account->delete())
@@ -306,7 +281,7 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
         $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
-        $this->_update_breadcrumb_line();
+        $this->_update_breadcrumb_line('delete account');
 
         // Add toolbar items
         org_openpsa_helpers::dm2_savecancel($this);
@@ -316,41 +291,10 @@ class org_openpsa_contacts_handler_person_action extends midcom_baseclasses_comp
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.
      */
-    private function _update_breadcrumb_line()
+    private function _update_breadcrumb_line($action)
     {
         $this->add_breadcrumb("person/{$this->_person->guid}/", $this->_person->name);
-        $this->add_breadcrumb("", $this->_l10n->get($this->_request_data['person_action']));
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
-     */
-    public function _show_group_memberships($handler_id, &$data)
-    {
-        // This is most likely a dynamic_load
-        if (count($data['memberships']) > 0)
-        {
-            midcom_show_style("show-person-groups-header");
-            foreach ($data['memberships'] as $member)
-            {
-                $this->_request_data['member'] = $member;
-
-                if ($member->extra == "")
-                {
-                    $member->extra = $this->_l10n->get('<title>');
-                }
-                $data['member_title'] = $member->extra;
-                $data['group'] = new org_openpsa_contacts_group_dba($member->gid);
-                midcom_show_style("show-person-groups-item");
-            }
-            midcom_show_style("show-person-groups-footer");
-        }
-        else
-        {
-            midcom_show_style("show-person-groups-empty");
-        }
+        $this->add_breadcrumb("", $this->_l10n->get($action));
     }
 
     /**
