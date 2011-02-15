@@ -69,6 +69,14 @@ abstract class midcom_core_dbaobject
     public $allow_name_catenate = false;
 
     /**
+     * May contain a list of dbaclass => field entries. When deleting an object,
+     * these dependent objects are automatically deleted beforehand
+     *
+     * @var array
+     */
+    public $autodelete_dependents = array();
+
+    /**
      * Constructor. Creates an abstraction layer for an MgdSchema object.
      */
     public function __construct($id = null)
@@ -783,11 +791,33 @@ abstract class midcom_core_dbaobject
         return null;
     }
 
+    private function _delete_dependents()
+    {
+        foreach ($this->autodelete_dependents as $classname => $link_property)
+        {
+            $qb = $_MIDCOM->dbfactory->new_query_builder($classname);
+            $qb->add_constraint($link_property, '=', $this->id);
+            $results = $qb->execute();
+            foreach ($results as $result)
+            {
+                if (!$result->delete())
+                {
+                    debug_add('Could not delete dependent ' . $classname . ' #' . $result->id . ', aborting', MIDCOM_LOG_WARN);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     // Event handlers
     public function _on_created() {}
     public function _on_creating() { return true; }
     public function _on_deleted() {}
-    public function _on_deleting() { return true; }
+    public function _on_deleting()
+    {
+        return $this->_delete_dependents();
+    }
     public function _on_loaded() {}
     public function _on_prepare_exec_query_builder(&$qb) { return true; }
     public function _on_prepare_new_query_builder(&$qb) {}

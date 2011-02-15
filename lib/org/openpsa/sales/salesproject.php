@@ -16,6 +16,11 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_salesproject';
 
+    public $autodelete_dependents = array
+    (
+        'org_openpsa_sales_salesproject_member_dba' => 'salesproject'
+    );
+
     /**
      * Shorthand access for contact members
      */
@@ -243,19 +248,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         {
             //Returned to active status, clear the end marker.
             $this->end = 0;
-        }
-
-        return true;
-    }
-
-    public function _on_deleting()
-    {
-        $qb = org_openpsa_sales_salesproject_member_dba::new_query_builder();
-        $qb->add_constraint('salesproject', '=', $this->id);
-        $results = $qb->execute();
-        foreach ($results as $result)
-        {
-            $result->delete();
         }
 
         return true;

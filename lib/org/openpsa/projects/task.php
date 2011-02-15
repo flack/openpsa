@@ -16,6 +16,12 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task';
 
+    public $autodelete_dependents = array
+    (
+        'org_openpsa_projects_task_status_dba' => 'task',
+        'org_openpsa_projects_task_resource_dba' => 'task',
+    );
+
     var $contacts = null; //Shorthand access for contact members
     var $resources = null; // --''--
     private $_locale_backup = '';
@@ -154,15 +160,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return false;
         }
 
-        $qb = org_openpsa_projects_task_status_dba::new_query_builder();
-        $qb->add_constraint('task', '=', $this->id);
-        $results = $qb->execute();
-        foreach ($results as $result)
-        {
-            $result->delete();
-        }
-
-        return true;
+        return parent::_on_deleting();
     }
 
     /**

@@ -16,6 +16,11 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_invoice';
 
+    public $autodelete_dependents = array
+    (
+        'org_openpsa_invoices_invoice_item_dba' => 'invoice'
+    );
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -166,17 +171,8 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             catch (midcom_error $e){}
         }
 
-        //delete invoice_items
-        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', $this->id);
-        $items = $qb->execute();
-        foreach($items as $item)
-        {
-            $item->delete();
-        }
-
         $_MIDCOM->auth->drop_sudo();
-        return true;
+        return parent::_on_deleting();
     }
 
     /**
@@ -265,7 +261,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
             $deliverable = null;
             foreach ($mc_task_key as $key => $empty)
             {
-                try 
+                try
                 {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba((int)$mc_task_agreement->get_subkey($key, 'agreement'));
                     $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
