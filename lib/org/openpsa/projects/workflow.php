@@ -181,15 +181,16 @@ class org_openpsa_projects_workflow
     {
         debug_add("task->complete() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables
-        if(!self::create_status($task, ORG_OPENPSA_TASKSTATUS_COMPLETED, 0, $comment))
+        if (!self::create_status($task, ORG_OPENPSA_TASKSTATUS_COMPLETED, 0, $comment))
         {
             return false;
         }
         //PONDER: Check ACL instead ?
-        if (midcom_connection::get_user() == $task->manager)
+        if (   $task->manager == 0
+            || midcom_connection::get_user() == $task->manager)
         {
             //Manager marking task completed also approves it at the same time
-            debug_add('We\'re the manager of this task, approving straight away');
+            debug_add('We\'re the manager of this task (or it is orphaned), approving straight away');
             return self::approve($task, $comment);
         }
 
@@ -238,7 +239,8 @@ class org_openpsa_projects_workflow
         debug_add("task->approve() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / Require to be completed first
         //PONDER: Check ACL instead ?
-        if (midcom_connection::get_user() != $task->manager)
+        if (   $task->manager != 0
+            && midcom_connection::get_user() != $task->manager)
         {
             debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot approve", MIDCOM_LOG_ERROR);
             return false;
@@ -291,7 +293,8 @@ class org_openpsa_projects_workflow
         debug_add("task->close() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables / require to be approved first
         //PONDER: Check ACL instead?
-        if (midcom_connection::get_user() != $task->manager)
+        if (   $task->manager != 0
+            && midcom_connection::get_user() != $task->manager)
         {
             debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot close", MIDCOM_LOG_ERROR);
             return false;

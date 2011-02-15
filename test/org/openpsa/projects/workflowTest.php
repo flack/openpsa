@@ -110,6 +110,28 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $this->assertEquals($status->targetPerson, 0);
     }
 
+    public function testCompleteUnmanagedTask()
+    {
+        self::$_task->manager = 0;
+        self::$_task->update();
+        self::$_task->refresh();
+
+        $stat = org_openpsa_projects_workflow::complete(self::$_task, 'test comment');
+
+        $this->assertTrue($stat);
+        self::$_task->refresh();
+        $this->assertEquals(ORG_OPENPSA_TASKSTATUS_CLOSED, self::$_task->status);
+        $this->assertEquals('closed', self::$_task->status_type);
+        $this->assertEquals('test comment', self::$_task->status_comment);
+
+        $qb = org_openpsa_projects_task_status_dba::new_query_builder();
+        $qb->add_constraint('task', '=', self::$_task->id);
+        $result = $qb->execute();
+        $this->assertEquals(sizeof($result), 3);
+        $status = $result[0];
+        $this->assertEquals($status->targetPerson, 0);
+    }
+
     public function testApproveOwnTask()
     {
         $stat = org_openpsa_projects_workflow::approve(self::$_task, 'test comment');
