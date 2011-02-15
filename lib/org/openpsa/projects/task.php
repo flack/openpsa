@@ -483,7 +483,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return true;
         }
         $project = $this->get_parent();
-        if (isset($project->orgOpenpsaObtype)
+        if (   $project
             && $project->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
         {
             //Make sure the parent is initialized in correct class

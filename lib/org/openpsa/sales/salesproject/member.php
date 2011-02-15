@@ -71,9 +71,17 @@ class org_openpsa_sales_salesproject_member_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         // Check if the salesman and the contact are buddies already
-        $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-        $owner = new midcom_db_person($salesproject->owner);
-        $person = new midcom_db_person($this->person);
+        try
+        {
+            $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
+            $owner = new midcom_db_person($salesproject->owner);
+            $person = new midcom_db_person($this->person);
+        }
+        catch (midcom_error $e)
+        {
+            debug_add($e->getMessage());
+            return;
+        }
 
         $qb = org_openpsa_contacts_buddy_dba::new_query_builder();
         $qb->add_constraint('account', '=', (string)$owner->guid);

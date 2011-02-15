@@ -24,12 +24,12 @@ class org_openpsa_contacts_buddy_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_parent_guid_uncached()
     {
         if ($this->account)
@@ -66,7 +66,7 @@ class org_openpsa_contacts_buddy_dba extends midcom_core_dbaobject
             $this->set_privilege('midgard:owner', $user);
         }
         if ($user = $_MIDCOM->auth->get_user($this->account))
-        {    	
+        {
             $this->set_privilege('midgard:owner', $user);
         }
     }
