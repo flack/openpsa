@@ -201,7 +201,7 @@ class midcom_connection
                     while (   empty($crypted)
                            || preg_match('/[\x00-\x20\x7f-\xff]/', $crypted))
                     {
-                        $salt = chr($rand(33, 125)) . chr($rand(33, 125));
+                        $salt = chr(rand(33, 125)) . chr(rand(33, 125));
                         $crypted = crypt($password, $salt);
                     }
                     $password = $crypted;
