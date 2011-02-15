@@ -88,14 +88,14 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
-        $attributes = Array
+        $attributes = array_merge($attributes, array
         (
             'size' => $this->size,
             'class' => 'shorttext',
             'id'    => "{$this->_namespace}{$this->name}",
-        );
+        ));
         if ($this->maxlength > 0)
         {
             $attributes['maxlength'] = $this->maxlength;

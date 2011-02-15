@@ -64,7 +64,7 @@ class midcom_helper_datamanager2_widget_sortable extends midcom_helper_datamanag
     /**
      * Adds a (multi)select widget to the form, depending on the base type config.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         if ($this->_field['readonly'])
         {

@@ -24,7 +24,7 @@ class midcom_helper_datamanager2_widget_selectcomponent extends  midcom_helper_d
     /**
      * Adds a (multi)select widget to the form, depending on the base type config.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         // Let us try to be a bit smarter here, avoiding an all-out load for read-only
         // fields.
@@ -43,11 +43,11 @@ class midcom_helper_datamanager2_widget_selectcomponent extends  midcom_helper_d
             $this->_all_elements = $this->_type->list_all();
         }
 
-        $select_attributes = Array
+        $select_attributes = array_merge($attributes, array
         (
             'class' => ($this->_type->allow_multiple) ? 'list' : 'dropdown',
             'id'    => "{$this->_namespace}{$this->name}",
-        );
+        ));
         $select_attributes['class'] .= ' selectcomponent';
 
         $select_element = HTML_QuickForm::createElement('select', $this->name, $this->_translate($this->_field['title']),

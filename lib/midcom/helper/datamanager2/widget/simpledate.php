@@ -79,7 +79,7 @@ class midcom_helper_datamanager2_widget_simpledate extends midcom_helper_dataman
     /**
      * Adds a PEAR Date widget to the form
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         for($i = 0; $i < strlen($this->format); $i++)
         {

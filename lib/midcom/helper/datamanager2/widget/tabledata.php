@@ -88,7 +88,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
     /**
      * Add elements to form
      */
-    public function add_elements_to_form()
+    public function add_elements_to_form($attributes)
     {
         // Get the correct column order
         $this->_type->get_existing_columns();

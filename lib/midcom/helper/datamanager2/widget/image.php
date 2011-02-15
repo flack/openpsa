@@ -62,13 +62,13 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
-        $attributes = Array
+        $attributes = array_merge($attributes, array
         (
             'class' => 'fileselector',
             'id'    => "{$this->_namespace}{$this->name}",
-        );
+        ));
         $this->_upload_element = HTML_QuickForm::createElement('file', "{$this->name}_file", '', $attributes);
         $elements = Array();
 

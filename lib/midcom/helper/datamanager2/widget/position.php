@@ -176,7 +176,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
      * Creates the tab view for all enabled positioning methods
      * Also adds static options to results.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         // Get url to geocode handler
         $nav = new midcom_helper_nav();

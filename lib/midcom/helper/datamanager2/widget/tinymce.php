@@ -392,7 +392,7 @@ EOT;
      * Note, that this is a copy of the base class function, as we need another CSS rule here
      * besides the additional initialization code.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         if (!$this->_initialize_dependencies)
         {
@@ -400,13 +400,13 @@ EOT;
             $this->_add_initscript();
         }
 
-        $attributes = Array
+        $attributes = array_merge($attributes, array
         (
             'rows' => $this->height,
             'cols' => $this->width,
             'class' => 'tinymce',
             'id'    => "{$this->_namespace}{$this->name}",
-        );
+        ));
         if ($this->wrap != '')
         {
             $attributes['wrap'] = $this->wrap;

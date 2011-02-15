@@ -291,9 +291,9 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
     /**
      * Adds a simple single-line text form element and place holder for tags.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
-        $attributes = Array
+        $attributes = array_merge($attributes, array
         (
             'class' => "shorttext",
             'id'    => $this->_input_element_id,

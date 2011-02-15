@@ -500,7 +500,7 @@ END;
     /**
      * Constructs the upload list.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         $frozen = false;
         if (   $this->_type->storage->object

@@ -130,7 +130,7 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         $elements = Array();
 
@@ -145,11 +145,11 @@ class midcom_helper_datamanager2_widget_captcha extends midcom_helper_datamanage
         $static_html = $this->_l10n->get('captcha message');
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_message", '', $static_html);
 
-        $attributes = Array
+        $attributes = array_merge($attributes, array
         (
             'class' => 'captcha',
             'id'    => "{$this->_namespace}{$this->name}",
-        );
+        ));
         $this->_element = HTML_QuickForm::createElement('text', $this->name, '', $attributes);
         $elements[] = $this->_element;
         $this->_form->applyFilter($this->name, 'trim');

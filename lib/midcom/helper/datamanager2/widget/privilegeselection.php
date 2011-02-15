@@ -78,7 +78,7 @@ class midcom_helper_datamanager2_widget_privilegeselection extends midcom_helper
     /**
      * Adds the elements to the form if we have the permissions.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         if (   $this->_type->storage->object
             && ! $this->_type->storage->object->can_do('midgard:privileges'))

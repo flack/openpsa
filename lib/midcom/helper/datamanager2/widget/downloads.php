@@ -409,7 +409,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
     /**
      * Constructs the upload list.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         $frozen = false;
         if (   $this->_type->storage->object

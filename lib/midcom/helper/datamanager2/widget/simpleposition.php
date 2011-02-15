@@ -36,7 +36,7 @@ class midcom_helper_datamanager2_widget_simpleposition extends midcom_helper_dat
     /**
      * Adds a pair of password input fields as a group to the form.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         $title = $this->_translate($this->_field['title']);
         $this->_form->addElement('text', "{$this->name}_latitude", $_MIDCOM->i18n->get_string('latitude', 'org.routamc.positioning'), Array('class' => 'shorttext'));

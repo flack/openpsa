@@ -41,7 +41,7 @@ class midcom_helper_datamanager2_widget_composite extends midcom_helper_datamana
     /**
      * Constructs the child object listing.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         foreach ($this->_type->objects as $identifier => $object)
         {

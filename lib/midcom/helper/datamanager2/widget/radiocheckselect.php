@@ -57,7 +57,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
     /**
      * Adds checkboxes / radioboxes to the form.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         $elements = Array();
         $all_elements = $this->_type->list_all();
@@ -91,11 +91,13 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         $group = $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), "<br />");
         if ($this->_type->allow_multiple)
         {
-            $group->setAttributes(Array('class' => 'checkbox'));
+        	$attributes['class'] = 'checkbox';
+            $group->setAttributes($attributes);
         }
         else
         {
-            $group->setAttributes(Array('class' => 'radiobox'));
+        	$attributes['class'] = 'radiobox';
+            $group->setAttributes($attributes);
         }
     }
 

@@ -48,7 +48,7 @@ class midcom_helper_datamanager2_widget_privilege extends midcom_helper_datamana
     /**
      * Adds the radibox triplet to the form if and only if we have the permissions.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         if (   $this->_type->storage->object
             && ! $this->_type->storage->object->can_do('midgard:privileges'))

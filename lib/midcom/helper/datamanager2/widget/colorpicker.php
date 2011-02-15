@@ -55,14 +55,14 @@ class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datama
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
-        $attributes = Array
+        $attributes = array_merge($attributes, array
         (
             'size' => $this->size,
             'class' => "midcom_helper_datamanager2_colorpicker {$this->color_scheme}",
             'id'    => "{$this->_namespace}{$this->name}",
-        );
+        ));
 
         $this->_form->addElement('text', $this->name, $this->_translate($this->_field['title']), $attributes);
     }

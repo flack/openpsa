@@ -173,7 +173,7 @@ EOT;
     /**
      * Adds a simple single-line text form element at this time.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         $this->_add_external_html_elements();
 
@@ -181,7 +181,7 @@ EOT;
 
         $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), ' ', false);
 
-        if($this->_field['required'])
+        if ($this->_field['required'])
         {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_field['title']);
 

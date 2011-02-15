@@ -283,7 +283,11 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
             //Load custom QF rules, so that they can be used in widgets' add_element_to_form calls
             $this->_load_type_qfrules($name);
-            $this->widgets[$name]->add_elements_to_form();
+            $attributes = array 
+            ( 
+                'helptext' => $this->_translate($config['helptext']), 
+            ); 
+            $this->widgets[$name]->add_elements_to_form($attributes);
             $this->_add_rules_and_filters($name, $config);
 
             $this->_load_field_default($name, $config);

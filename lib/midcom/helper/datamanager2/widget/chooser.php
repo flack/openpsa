@@ -907,7 +907,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
      * Adds a simple search form and place holder for results.
      * Also adds static options to results.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         // Get url to search handler
         $nav = new midcom_helper_nav();
@@ -936,12 +936,12 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
             'text',
             "{$this->_element_id}_search_input",
             $this->_translate($this->_field['title']),
-            array
+            array_merge($attributes, array
             (
                 'class'         => 'shorttext chooser_widget_search_input',
                 'id'            => "{$this->_element_id}_search_input",
                 'style'         => "display: none;",
-            )
+            ))
         );
 
         if ($this->default_search)

@@ -239,7 +239,7 @@ abstract class midcom_helper_datamanager2_widget extends midcom_baseclasses_comp
      * This call, which must be overridden by subclasses, adds the necessary form elements
      * to the form passed by reference.
      */
-    abstract function add_elements_to_form();
+    abstract function add_elements_to_form($attributes);
 
     /**
      * Returns the default value for this field as required by HTML_Quickform.

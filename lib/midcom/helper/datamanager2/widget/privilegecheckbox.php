@@ -38,12 +38,12 @@ class midcom_helper_datamanager2_widget_privilegecheckbox extends midcom_helper_
      * Adds the checkbox if and only if either the base object is yet null (new object being created)
      * or the user has privileges permissions on the base object.
      */
-    function add_elements_to_form()
+    function add_elements_to_form($attributes)
     {
         if (   ! $this->_type->storage->object
             || $this->_type->storage->object->can_do('midgard:privileges'))
         {
-            parent::add_elements_to_form();
+            parent::add_elements_to_form($attributes);
         }
     }
 
