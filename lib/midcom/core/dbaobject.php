@@ -85,6 +85,12 @@ abstract class midcom_core_dbaobject
                 debug_add('Constructing ' . $this->__mgdschema_class_name__ . ' object ' . $id . ' with ID typecast to string. Changing typecast.', MIDCOM_LOG_INFO);
                 $id = (int) $id;
             }
+            if (   is_int($id)
+                && $id < 1)
+            {
+                throw new midcom_error($id . ' is not a valid database ID');
+            }
+
             try
             {
                 $mgdschemaclass = $this->__mgdschema_class_name__;
