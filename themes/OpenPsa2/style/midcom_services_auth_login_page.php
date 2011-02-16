@@ -39,6 +39,16 @@ $_MIDCOM->print_head_elements();
     <?php echo $message ?>
   </p>
 
+  <p class="login_warning" id="cookie_warning" style="display:none">
+  <?php echo $_MIDCOM->i18n->get_string('cookies must be enabled to log in', 'midcom'); ?>
+  </p>
+
+  <noscript>
+  <p class="login_warning" id="js_warning">
+  <?php echo $_MIDCOM->i18n->get_string('javascript must be enabled to use this site', 'midcom'); ?>
+  </p>
+  </noscript>
+
   <?php
   if ($login_warning)
   {
@@ -57,5 +67,14 @@ $_MIDCOM->print_head_elements();
       ?></a>,
       <a href="http://www.midgard-project.org/">Midgard <?php echo mgd_version(); ?></a>
   </div>
+
+<script type="text/javascript">
+document.cookie = "cookietest=success;";
+if (document.cookie.indexOf("cookietest=") == -1)
+{
+    document.getElementById('cookie_warning').style.display = 'block';
+}
+</script>
+
 </body>
 </html>

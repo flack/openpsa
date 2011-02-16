@@ -174,6 +174,10 @@ Component depends on
 Confirm
 ---STRINGEND
 
+---STRING cookies must be enabled to log in
+Cookies must be enabled to log in
+---STRINGEND
+
 ---STRING copy
 Copy
 ---STRINGEND
@@ -336,6 +340,10 @@ Internal Metadata
 
 ---STRING invalidate cache
 Invalidate Midgard's cache
+---STRINGEND
+
+---STRING javascript must be enabled to use this site
+Javascript must be enabled to use this site
 ---STRINGEND
 
 ---STRING keywords

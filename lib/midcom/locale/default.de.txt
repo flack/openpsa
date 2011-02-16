@@ -166,6 +166,10 @@ Mit Hilfe dieses Menüs können Sie die komponenten-spezifischen Einstellungen f
 Die Komponente hängt ab von
 ---STRINGEND
 
+---STRING cookies must be enabled to log in
+Cookies müssen aktiviert sein, um den Login zu benutzen
+---STRINGEND
+
 ---STRING copy
 Kopieren
 ---STRINGEND
@@ -324,6 +328,10 @@ Interne Metadaten
 
 ---STRING invalidate cache
 MidCOM-Cache leeren
+---STRINGEND
+
+---STRING javascript must be enabled to use this site
+Javascript muss aktiviert sein, um diese Site benutzen zu können
 ---STRINGEND
 
 ---STRING keywords
