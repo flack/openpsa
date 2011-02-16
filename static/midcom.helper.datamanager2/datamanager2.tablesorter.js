@@ -37,7 +37,11 @@ jQuery.fn.create_tablesorter = function(options)
     // Create the sortable rows
     jQuery(this).create_tablesorter_rows(options);
     
-    jQuery('tbody td.midcom_helper_datamanager2_helper_sortable').css({display: 'table-cell'});
+    if (options.sortable_rows)
+    {
+        jQuery('tbody td.midcom_helper_datamanager2_helper_sortable').css({display: 'table-cell'});
+    }
+        
     jQuery(this).find('th.index').css({display: 'table-cell'});
     
     // IE6 compliant hovering
@@ -216,7 +220,7 @@ jQuery.fn.create_tablesorter_rows = function(options)
         });
     
     // Less than two, no point in initializing the sortable
-    if (   !options.sortable_rows
+    if (!options.sortable_rows
         || jQuery(this).find('tbody td.midcom_helper_datamanager2_helper_sortable').size() < 2)
     {
         jQuery('tbody td.midcom_helper_datamanager2_helper_sortable').css({display: 'none'});

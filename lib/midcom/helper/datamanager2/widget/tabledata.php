@@ -21,9 +21,9 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
      * Separate widgets for each column
      */
     public $column_widget = array();
-    
+
     private $_elements = array();
-    
+
     /**
      * Initialization script placeholder. Not yet needed.
      *
@@ -133,14 +133,14 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             }
             else
             {
-                $html .= "                <span class=\"field_name\">" . $this->_l10n->get($column) . "</span>\n";
+                $html .= "                <span class=\"field_name\">" . $this->_translate($column) . "</span>\n";
             }
 
             $html .= "            </th>\n";
         }
 
-        if (   $this->_type->allow_new_columns
-            && (   !$this->_type->column_limit
+        if ($this->_type->allow_new_columns
+            && (!$this->_type->column_limit
                 || count($this->_type->columns) < $this->_type->column_limit))
         {
             $html .= "            <th class=\"tabledata_header add_column\"></th>\n";
@@ -194,9 +194,10 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
                 $html .= "                <input type=\"text\" class=\"downloads_sortable\" name=\"midcom_helper_datamanager2_sortable[{$this->name}][]\" value=\"{$key}\" />\n";
                 $html .= "            </td>\n";
             }
+
             if ($this->_type->print_row_names)
             {
-                if (   is_array($this->_type->rows)
+                if (is_array($this->_type->rows)
                     && array_key_exists($key, $this->_type->rows))
                 {
                     $title = $this->_type->rows[$key];
@@ -213,7 +214,6 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
 
             // Add columns for the row
             $html .= $this->_add_columns($key);
-
             $html .= "        </tr>\n";
         }
 
@@ -233,15 +233,12 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         {
             $cell_value = $this->_type->get_value($row, $column);
 
-            if (   isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'])
-                && isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name])
-                && isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name][$row])
-                && isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name][$row][$column]))
+            if (isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name][$row][$column]))
             {
                 $cell_value = $_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name][$row][$column];
             }
 
-            if (   !isset($this->column_widget[$column])
+            if (!isset($this->column_widget[$column])
                 || !isset($this->column_widget[$column]['type']))
             {
                 $this->column_widget[$column]['type'] = 'text';
@@ -265,8 +262,11 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             case 'text':
                 return "                <input id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_text\" type=\"text\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" value=\"{$cell_value}\" />\n";
 
+            case 'checkbox':
+                return "                <input id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_checkbox\" type=\"checkbox\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" " . (($cell_value) ? "checked" : "") . " />\n";
+
             case 'select':
-                $html  = "               <select id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_text\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" value=\"{$cell_value}\">\n";
+                $html = "               <select id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_select\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" current=\"0\">\n";
 
                 $options = array();
 
@@ -287,7 +287,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
                         $selected = '';
                     }
 
-                    $html .= "                   <option value=\"{$key}\"{$selected}>" . $this->_l10n->get($option) . "</option>\n";
+                    $html .= "                   <option value=\"{$key}\" {$selected}>" . $this->_l10n->get($option) . "</option>\n";
                 }
 
                 $html .= "               </select>\n";
@@ -315,11 +315,18 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         // Get the existing rows from the type
         $rows = $this->_type->get_existing_rows();
         // Check if there should be a new row
-        if (   $this->_type->allow_new_rows
-            && (   !$this->_type->row_limit
+        if ($this->_type->allow_new_rows
+            && (!$this->_type->row_limit
                 || count($rows) < $this->_type->row_limit))
         {
-            $rows[] = time() . microtime();
+            $rows[] = time();
+        }
+        else
+        {
+            for ($i = 0; $i < $this->_type->rows; $i++)
+            {
+                $rows[] = time();
+            }
         }
 
         return $rows;
@@ -330,14 +337,14 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
      */
     function sync_type_with_widget($results)
     {
-        if (   isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'])
+        if (isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'])
             && isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name]))
         {
             $this->_type->_storage_data = $_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name];
         }
 
         // Deleted rows
-        if (   isset($_REQUEST['___midcom_helper_datamanager2_type_tabledata'])
+        if (isset($_REQUEST['___midcom_helper_datamanager2_type_tabledata'])
             && isset($_REQUEST['___midcom_helper_datamanager2_type_tabledata'][$this->name])
             && is_array($_REQUEST['___midcom_helper_datamanager2_type_tabledata'][$this->name]))
         {
@@ -350,7 +357,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             }
         }
 
-        if (   $this->_type->sortable_rows
+        if ($this->_type->sortable_rows
             && isset($_REQUEST['midcom_helper_datamanager2_sortable'])
             && isset($_REQUEST['midcom_helper_datamanager2_sortable'][$this->name]))
         {
@@ -360,7 +367,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             }
         }
 
-        if (   $this->_type->sortable_columns
+        if ($this->_type->sortable_columns
             && isset($_REQUEST['midcom_helper_datamanager2_sortable_column'])
             && isset($_REQUEST['midcom_helper_datamanager2_sortable_column'][$this->name]))
         {
@@ -370,11 +377,12 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             }
         }
 
-        if (   isset($_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'])
+        if (isset($_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'])
             && isset($_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'][$this->name]))
         {
             $this->_type->_remove_columns = $_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'][$this->name];
         }
     }
 }
+
 ?>

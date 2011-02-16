@@ -262,7 +262,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
     public function _on_initialize()
     {
         $this->_original_columns = $this->columns;
-
         return true;
     }
 
@@ -276,12 +275,12 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         $rows = $this->_load_rows();
 
         // Sort the rows
-        if (   $this->sortable_rows
+        if ($this->sortable_rows
             && $this->storage->object)
         {
             $order = $this->storage->object->get_parameter("{$this->parameter_domain}.type.tabledata.order", "{$this->name}:rows");
 
-            if (   $order
+            if ($order
                 && ($array = unserialize($order))
                 && is_array($array))
             {
@@ -312,12 +311,11 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 }
                 return $new_order;
             }
-
             return $rows;
         }
 
         // Force ascending or descending direction of the rows
-        if (   $this->row_sort_order
+        if ($this->row_sort_order
             && $this->storage_mode != 'link'
             && preg_match('/^(asc|desc)/i', $this->row_sort_order, $regs))
         {
@@ -331,7 +329,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     break;
             }
         }
-
         return $rows;
     }
 
@@ -350,8 +347,9 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     }
                 }
                 break;
+
             case 'parameter':
-                if (   !$this->storage->object
+                if (!$this->storage->object
                     || !$this->storage->object->guid)
                 {
                     break;
@@ -397,22 +395,23 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     $rows[] = $row;
                 }
                 break;
+
             case 'link':
-                if (   !$this->storage->object
+                if (!$this->storage->object
                     || !$this->storage->object->guid)
                 {
                     break;
                 }
 
                 // Get the row parameters with collector
-                $mc = new midgard_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
-                $mc->set_key_property('guid');
+                $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
                 $mc->add_value_property($this->link_row_property);
 
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
 
                 // Add orders
+                $mc->add_order($this->link_row_property . '.' . $this->link_row_title_field);
                 $mc->add_order('metadata.revised', 'DESC');
                 $mc->add_order('metadata.created', 'DESC');
 
@@ -424,9 +423,18 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 foreach ($keys as $guid => $array)
                 {
                     $row_object_id = $mc->get_subkey($guid, $this->link_row_property);
-                    $row_object = new $this->link_row_class($row_object_id);
-                    $name = $row_object->{$this->link_row_title_field};
 
+                    try
+                    {
+                        $row_object = new $this->link_row_class($row_object_id);
+                    }
+                    catch (midcom_error $e)
+                    {
+                        $e->log();
+                        continue;
+                    }
+
+                    $name = $row_object->{$this->link_row_title_field};
 
                     // Already exists, skip
                     if (in_array($name, $rows))
@@ -438,6 +446,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     $rows[$row_object_id] = $row_object_id;
                 }
                 break;
+
             default:
                 throw new midcom_error("Error in type configuration: storage mode cannot be '{$this->storage_mode}'");
         }
@@ -451,7 +460,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
      */
     public function get_existing_columns()
     {
-        if (   !$this->storage
+        if (!$this->storage
             || !$this->storage->object
            )
         {
@@ -492,7 +501,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         foreach ($this->columns as $key => $name)
         {
             // Key exists, skip
-            if (   array_key_exists($key, $columns)
+            if (array_key_exists($key, $columns)
                 || in_array($key, $columns))
             {
                 continue;
@@ -500,7 +509,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
             $columns[$key] = $this->_l10n->get($name);
         }
-
 
         $this->columns = $columns;
         return $this->columns;
@@ -591,7 +599,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                     $name = $mc->get_subkey($guid, 'name');
                     $value = $mc->get_subkey($guid, 'value');
 
-                    if (   !$name
+                    if (!$name
                         || !$value)
                     {
                         continue;
@@ -694,6 +702,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
                 $value = $this->storage->object->get_parameter($this->parameter_domain, "{$this->name}{$this->storage_mode_parameter_limiter}{$row}{$this->storage_mode_parameter_limiter}{$column}");
                 return $value;
+
             case 'link':
                 $value = '';
                 if (!$this->storage->object || $row == 'index')
@@ -702,8 +711,8 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 }
 
                 // Get the row parameters with collector
-                $mc = new midgard_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
-                $mc->set_key_property($column);
+                $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
+                $mc->add_value_property($column);
 
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
@@ -714,7 +723,8 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
                 if (sizeof($keys) == 1)
                 {
-                    $value = key($keys);
+                    $guid = key($keys);
+                    $value = $mc->get_subkey($guid, $column);
                 }
 
                 return $value;
@@ -865,7 +875,8 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
     private function _store_links()
     {
-        $ref = new midgard_reflection_property($this->link_class);
+        $mgdschema_classname = $_MIDCOM->dbclassloader->get_mgdschema_class_name_for_midcom_class($this->link_class);
+        $ref = new midgard_reflection_property($mgdschema_classname);
 
         $type_map = Array();
 
@@ -873,34 +884,57 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
         {
             $type_map[$column] = $ref->get_midgard_type($column);
         }
+        $current_selection = array();
 
-        foreach($this->_storage_data as $link_row_id => $values)
+        unset($this->_storage_data['index']);
+        foreach ($this->_storage_data as $link_row_id => $values)
         {
+            if (array_key_exists($this->link_row_property, $values))
+            {
+                $link_row_id = $values[$this->link_row_property];
+            }
+            $current_selection[] = $link_row_id;
+
             $link_object = null;
             $needs_update = false;
 
-            $qb = call_user_func( Array($this->link_class, 'new_query_builder'));
+            $qb = $_MIDCOM->dbfactory->new_query_builder($this->link_class);
             $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
             $qb->add_constraint($this->link_row_property, '=', $link_row_id);
             $results = $qb->execute();
 
-            if (sizeof($results) == 1)
+            if (sizeof($results) > 0)
             {
                 $link_object = $results[0];
             }
-
-            foreach ($values as $key => $value)
+            else
             {
-                switch ($type_map[$key])
+                $link_object = new $this->link_class;
+                $link_object->{$this->link_parent_field} = $this->storage->object->{$this->link_parent_type};
+                $link_object->{$this->link_row_property} = $link_row_id;
+                $link_object->create();
+            }
+
+            foreach ($type_map as $key => $type)
+            {
+                if ($key == $this->link_row_property)
+                {
+                    continue;
+                }
+
+                $value = (isset($values[$key])) ? $values[$key] : false;
+                switch ($type)
                 {
                     case MGD_TYPE_INT:
-                        $value = (int) $value;
+                        $value = (int)$value;
                         break;
                     case MGD_TYPE_FLOAT:
-                        $value = (float) $value;
+                        $value = (float)$value;
                         break;
                 }
-                if ($link_object->$key != $value)
+                // added isset check to fix an undefined-object-error
+                if ((isset($link_object))
+                    && ($link_object->$key != $value))
                 {
                     $needs_update = true;
                     $link_object->$key = $value;
@@ -910,6 +944,15 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
             {
                 $link_object->update();
             }
+        }
+
+        $qb = $_MIDCOM->dbfactory->new_query_builder($this->link_class);
+        $qb->add_constraint($this->link_parent_field, '=', $this->storage->object->{$this->link_parent_type});
+        $qb->add_constraint($this->link_row_property, 'NOT IN', $current_selection);
+        $links_todelete = $qb->execute();
+        foreach ($links_todelete as $link_object)
+        {
+            $link_object->delete();
         }
     }
 
@@ -1000,7 +1043,7 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
         return $output;
     }
-    
+
     function convert_from_csv ($source)
     {
         throw new midcom_error('Not implemented yet.');
