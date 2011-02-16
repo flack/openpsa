@@ -103,7 +103,7 @@ Land
 ---STRINGEND
 
 ---STRING xep_postalcode
-Postleitzahö
+Postleitzahl
 ---STRINGEND
 
 ---STRING xep_region
