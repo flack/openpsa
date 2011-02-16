@@ -556,7 +556,8 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
 
         if (!empty($this->_callback_class))
         {
-            return $this->_type->initialize_option_callback();
+            $this->_callback = $this->_type->initialize_option_callback();
+            return $this->_callback;
         }
 
         if (class_exists($this->class))
@@ -570,7 +571,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
 
         return class_exists($this->class);
-    }
+    } 
 
     function _check_clever_class()
     {
