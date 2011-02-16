@@ -561,7 +561,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
     {
         try
         {
-            $city = new org_routamc_positioning_city_dba($city_id);
+            $city = new org_routamc_positioning_city_dba($this->_type->location->city);
             $city_name = $city->city;
         }
         catch (midcom_error $e)
