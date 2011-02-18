@@ -8,8 +8,7 @@ table.calendarwidget {
     border-spacing: 0px;
     border-collapse: collapse;
     padding: 0px;
-    margin: 0px;
-    margin-right: 6px;
+    margin: 0 1.5em 2em 0;
 }
 table.calendarwidget caption {
     text-align: left;
@@ -89,7 +88,6 @@ table.calendarwidget tbody div.vevent {
     margin: 0px;
     margin-top: 2px;
     height: 16px;
-    font-size: 13px;
     line-height: 16px;
     z-index: 10;
     font-weight: normal;
@@ -140,7 +138,7 @@ table.calendarwidget tbody span.assignee {
     white-space: nowrap;
     margin: 0px;
     padding: 0px;
-    font-size: smaller;
+    font-size: 90%;
 }
 
 
