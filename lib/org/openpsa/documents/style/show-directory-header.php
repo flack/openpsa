@@ -16,12 +16,14 @@
         $('#treegrid tr:odd:visible').addClass('odd');
         $('#treegrid tr:even:visible').addClass('even');
     }
+
     jQuery("#treegrid").jqGrid({
         treeGrid: true,
         treeGridModel: 'adjacency',
         url: '<?php echo $data['prefix'] ;?>directory/xml/<?php echo $data['current_guid']; ?>/',
         treedatatype: "xml",
         mtype: "POST",
+        rowNum: 100, //TODO: this should be set by JS in the loadComplete event (which isn't working ATM)
         colNames:["id",
         <?php
             //index is needed for sorting
@@ -50,7 +52,6 @@
         gridview: false,
         ExpandColumn : 'name',
         afterInsertRow: setCellTitle
-        //loadComplete: zebraStriping
      });
 
 $('#treegrid .document').live('contextmenu', function(e)
