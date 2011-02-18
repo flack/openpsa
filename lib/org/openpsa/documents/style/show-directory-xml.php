@@ -9,12 +9,14 @@ else
     $parent = "null";
     $level = 0;
 }
+
+$records = sizeof($data['directories']) + sizeof($data['documents']);
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 echo "<rows>";
 echo "<page>1</page>";
 echo "<total>1</total>";
-echo "<records>1</records>";
+echo "<records>" . $records . "</records>";
 
 //jqgrid need nodes in special form like following:
 /*
