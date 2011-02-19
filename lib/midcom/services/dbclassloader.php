@@ -438,7 +438,7 @@ class midcom_services_dbclassloader
             // In some cases we get a class name instead
             $classname = $object;
         }
-        elseif (is_object($object))
+        else if (is_object($object))
         {
             $classname = get_class($object);
         }
