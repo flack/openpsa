@@ -360,7 +360,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         if (array_key_exists('org_openpsa_expenses_deletecancel', $_REQUEST))
         {
             // Redirect to view page.
-            $_MIDCOM->relocate();
+            $_MIDCOM->relocate('');
             // This will exit()
         }
 
