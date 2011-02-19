@@ -30,9 +30,9 @@ switch($task->status)
         {
             echo strftime('%x', $task->start) . ' - ' . strftime('%x', $task->end) . "\n";
         }
-        else if ($task->up)
+        else if (   $task->up
+                 && $parent = $task->get_parent())
         {
-            $parent = $task->get_parent();
             if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
             {
                 $parent_url = "{$prefix}project/{$parent->guid}/";
