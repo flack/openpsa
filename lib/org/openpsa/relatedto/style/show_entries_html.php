@@ -5,8 +5,8 @@
     <?php
     //add static data to jqgrid if wanted
     $start = true;
-    if( !array_key_exists('dynamic_load', $data)
-        && array_key_exists('entries', $data))
+    if ( !array_key_exists('dynamic_load', $data)
+         && array_key_exists('entries', $data))
     {
         $rows = array();
         foreach($data['entries'] as $entry)
@@ -31,6 +31,20 @@
             {
                 $row['remind_date'] = date('d.m.Y', $entry->followUp);
             }
+
+            try
+            {
+                $creator = org_openpsa_contacts_person_dba::get_cached($entry->metadata->creator);
+                $row['creator_index'] = $creator->rname;
+                $creator_card = org_openpsa_contactwidget::get($entry->metadata->creator);
+                $row['creator'] = $creator_card->show_inline();
+            }
+            catch (midcom_error $e)
+            {
+                $row['creator_index'] = '';
+                $row['creator'] = '';
+            }
+
             if ($entry->closed)
             {
                 $row['closed'] = $_MIDCOM->i18n->get_string('finished', 'org.openpsa.relatedto');
@@ -78,6 +92,7 @@
                   echo "'" . $_MIDCOM->i18n->get_string('entry text', 'org.openpsa.relatedto') . "',";
                   echo "'index_date',";
                   echo "'" . $_MIDCOM->i18n->get_string('followUp', 'org.openpsa.relatedto') . "',";
+                  echo "'index_creator', '" . $_MIDCOM->i18n->get_string('creator', 'midcom') . "',";
                   echo "'" . $_MIDCOM->i18n->get_string('status', 'org.openpsa.relatedto') . "'";
                   ?>
         ],
@@ -86,8 +101,10 @@
                   {name:'index_name',index:'index_name', hidden:true},
                   {name:'name', index: 'index_name' , width: 100 },
                   {name:'description',index: 'description' },
-                  {name:'index_date' , index: 'index_date' , sorttype: "integer" , hidden:true },
-                  {name:'remind_date', index:'index_date', width: 140, fixed: true},
+                  {name:'index_date', index: 'index_date', sorttype: "integer", hidden:true },
+                  {name:'remind_date', index:'index_date', align: 'center', width: 110, fixed: true},
+                  {name:'index_creator', index: 'index_creator', hidden:true},
+                  {name:'creator', index: 'index_creator' , width: 150, fixed: true},
                   {name:'closed',index:'closed', width: 60, fixed: true }
         ],
         gridComplete: function()
