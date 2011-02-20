@@ -154,7 +154,7 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     {
         $script = <<<EOT
 <script type="text/javascript">
-        jQuery("#{$this->_namespace}{$this->name}").datepicker(
+        jQuery("#{$this->_namespace}{$this->name}_date").datepicker(
         {
           maxDate: new Date({$this->maxyear}, 1, 1),
           minDate: new Date({$this->minyear}, 1, 1),
@@ -185,7 +185,7 @@ EOT;
         {
             $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_field['title']);
 
-            $this->_form->addRule($this->name, $errmsg, 'regex', '/^[^0]/');
+            $this->_form->addRule($this->name . '_date', $errmsg, 'regex', '/^[^0]/');
         }
         $this->_form->addRule($this->name, $this->_translate('validation failed: date'), 'checkjsdate');
     }
@@ -199,10 +199,10 @@ EOT;
         $attributes = Array
         (
             'class' => 'jsdate',
-            'id'    => "{$this->_namespace}{$this->name}",
+            'id'    => "{$this->_namespace}{$this->name}_date",
             'size'  => 10
         );
-        $elements[] = HTML_QuickForm::createElement('text', $this->name, '', $attributes);
+        $elements[] = HTML_QuickForm::createElement('text', $this->name . '_date', '', $attributes);
 
         if ($this->show_time)
         {
@@ -321,7 +321,7 @@ EOT;
      */
     public function check_user_input($results)
     {
-        $input = trim($results[$this->name]);
+        $input = trim($results[$this->name . '_date']);
 
         if ($this->is_frozen())
         {
