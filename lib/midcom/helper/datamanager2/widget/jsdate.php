@@ -183,9 +183,15 @@ EOT;
 
         if ($this->_field['required'])
         {
-            $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_field['title']);
-
-            $this->_form->addRule($this->name . '_date', $errmsg, 'regex', '/^[^0]/');
+            $errmsg = sprintf($this->_l10n->get('field %s is required'), $this->_translate($this->_field['title']));
+            $this->_form->addGroupRule($this->name, array
+            (
+                $this->name . '_date' => array
+                (
+                    array($errmsg, 'required'),
+                    array($errmsg, 'regex', '/^[^0]/')
+                )
+            ));
         }
         $this->_form->addRule($this->name, $this->_translate('validation failed: date'), 'checkjsdate');
     }
