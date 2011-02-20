@@ -42,6 +42,10 @@ There have been no comments so far.
 You need to be logged in to publish comments.
 ---STRINGEND
 
+---STRING post
+Post
+---STRINGEND
+
 ---STRING post a comment
 Post a comment
 ---STRINGEND

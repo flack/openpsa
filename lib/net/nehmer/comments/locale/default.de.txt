@@ -10,6 +10,14 @@ Name
 Kommentare
 ---STRINGEND
 
+---STRING confirm abuse
+Als mißbräuchlich markieren 
+---STRINGEND
+
+---STRING confirm junk
+Als Spam markieren
+---STRINGEND
+
 ---STRING content
 Kommentar
 ---STRINGEND
@@ -30,6 +38,10 @@ Bisher wurden keine Kommentare abgegeben.
 Sie müssen sich anmelden, um Kommentare veröffentlichen zu dürfen.
 ---STRINGEND
 
+---STRING post
+Abschicken
+---STRINGEND
+
 ---STRING post a comment
 Einen Kommentar schreiben
 ---STRINGEND
@@ -48,6 +60,14 @@ Anzahl der Kommentare am kommentierten Objekt zwischenspeichern
 
 ---STRING comment_count_cache_to_object_property
 Anzahl der Kommentare in Objekt-Property zwischenspeichern
+---STRINGEND
+
+---STRING delete
+Löschen
+---STRINGEND
+
+---STRING not abuse
+Zulässiger Kommentar
 ---STRINGEND
 
 ---STRING rated %s
@@ -78,3 +98,6 @@ Gesamtsumme anstelle des Durchschnitts am Objekt speichern.
 Bewertungen zulassen
 ---STRINGEND
 
+---STRING subscribe
+Benachrichtigen bei neuen Kommentaren
+---STRINGEND
