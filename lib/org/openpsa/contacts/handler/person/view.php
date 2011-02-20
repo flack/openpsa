@@ -311,8 +311,15 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                     $member->extra = $this->_l10n->get('<title>');
                 }
                 $data['member_title'] = $member->extra;
-                $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
-                midcom_show_style("show-person-groups-item");
+                try
+                {
+                    $data['group'] = org_openpsa_contacts_group_dba::get_cached($member->gid);
+                    midcom_show_style("show-person-groups-item");
+                }
+                catch (midcom_error $e)
+                {
+                	$e->log();
+                }
             }
             midcom_show_style("show-person-groups-footer");
         }
