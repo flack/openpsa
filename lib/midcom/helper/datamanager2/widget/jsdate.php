@@ -298,7 +298,7 @@ EOT;
         $this->format = '%Y-%m-%d';
         $defaults = array
         (
-            $this->name => $this->_type->value->format($this->format)
+            $this->name . '_date' => $this->_type->value->format($this->format)
         );
 
         if ($this->show_time)
