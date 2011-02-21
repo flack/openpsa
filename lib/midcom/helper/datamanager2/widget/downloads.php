@@ -266,8 +266,8 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             // Controls Column
             $html = "</td>\n" .
                     "<td class=\"new upload\">";
-            $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"".
-                    "value=\"".$this->progress_id."\">";
+            $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"" .
+                    "value=\"" . $this->progress_id . "\" />";
             $this->_elements['s_new_upload'] = HTML_QuickForm::createElement('static', 's_new_upload', '', $html);
             $attributes = array
             (
@@ -347,8 +347,8 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             {
                 $html = "</td>\n" .
                         "<td class=\"exist upload\">";
-                $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"".
-                    "value=\"".$this->progress_id."\">";
+                $html .= "<input type=\"hidden\" name=\"APC_UPLOAD_PROGRESS\" id=\"{$this->progress_id}_progress_key\"" .
+                    "value=\"" . $this->progress_id . "\" />";
                 $this->_elements["s_exist_{$identifier}_upload"] = HTML_QuickForm::createElement('static', "s_exist_{$identifier}_upload", '', $html);
                 $attributes = Array
                 (
