@@ -45,11 +45,11 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      *
      * @var string
      */
-    private $_default_group_template = "<div class=\"element\" id='{element_name}_container'<!-- BEGIN required --> class='required'<!-- END required -->>\n\t\t
+    private $_default_group_template = "<div class=\"element\" id='{element_name}_container'>\n\t\t
         <label><span class=\"field_text\">
                 {label}<!-- BEGIN required --> <span class=\"field_required_start\">*</span><!-- END required --></span></label>\n\t\t
         <div class=\"input\">
-        <!-- BEGIN error --><span class='field_error' style=\"color: #ff0000\">{error}</span><br /><!-- END error -->\n\t\t
+        <!-- BEGIN error --><span class='field_error'>{error}</span><br /><!-- END error -->\n\t\t
             <fieldset id='{element_name}_fieldset' {attributes}>
                 {element}\n\t\t
             </fieldset>
@@ -257,11 +257,11 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
                     break;
             }
         }
-        
+
         $html = str_replace('{label}', $nameLabel, $template);
         $html = str_replace('{type}', 'element_' . $type, $html);
         $html = str_replace('{namespace}', $this->namespace, $html);
-            
+
         if ($required)
         {
             $html = str_replace('<!-- BEGIN required -->', '', $html);
