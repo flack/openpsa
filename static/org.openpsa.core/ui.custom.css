@@ -573,6 +573,17 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 
 /* Manually added styles */
+
+.ui-tabs
+{
+    padding: 0
+}
+
+.ui-tabs .ui-widget-header
+{
+    border: none;
+}
+
  .ui-state-default
 {
     text-shadow: 1px 1px #eee
