@@ -166,7 +166,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
                             "30: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_orange.gif',".
                             "70: '".MIDCOM_STATIC_URL."/midcom.helper.datamanager2/jquery.progressbar/js/images/progressbg_green.gif'".
                             "},".
-                        "showText: true,".
+                        "showText: true".
                     "}".
                     ");".
                 "});"

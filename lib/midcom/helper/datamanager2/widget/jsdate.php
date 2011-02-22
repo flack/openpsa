@@ -154,17 +154,21 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
     {
         $script = <<<EOT
 <script type="text/javascript">
-        jQuery("#{$this->_namespace}{$this->name}_date").datepicker(
+        jQuery(document).ready(
+        function()
         {
-          maxDate: new Date({$this->maxyear}, 1, 1),
-          minDate: new Date({$this->minyear}, 1, 1),
-          dateFormat: 'yy-mm-dd',
-          prevText: '',
-          nextText: '',
-          showOn: '{$this->showOn}'
-                //altFormat: 'yyyy-mm-dd',
-                //altField: '#ID',
-                });
+            jQuery("#{$this->_namespace}{$this->name}").datepicker(
+            {
+              maxDate: new Date({$this->maxyear}, 1, 1),
+              minDate: new Date({$this->minyear}, 1, 1),
+              dateFormat: 'yy-mm-dd',
+              prevText: '',
+              nextText: '',
+              showOn: '{$this->showOn}'
+                    //altFormat: 'yyyy-mm-dd',
+                    //altField: '#ID',
+                    });
+        });
 </script>
 EOT;
         return $script;
