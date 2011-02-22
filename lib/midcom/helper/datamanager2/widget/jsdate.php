@@ -159,8 +159,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
         {
             jQuery("#{$this->_namespace}{$this->name}_date").datepicker(
             {
-              maxDate: new Date({$this->maxyear}, 1, 1),
-              minDate: new Date({$this->minyear}, 1, 1),
+              maxDate: new Date({$this->maxyear}, 11, 31),
+              minDate: new Date({$this->minyear}, 0, 1),
               dateFormat: 'yy-mm-dd',
               prevText: '',
               nextText: '',
