@@ -15,6 +15,8 @@
     'org.openpsa.documents' => 'search/',
     'org.openpsa.invoices' => 'goto/',
 ),
+
+/*
 // These values are automatically set when org_openpsa_core structure is first called
 // To trigger another auto-detection, simply set auto_int to true in the config snippet
     'calendar_guid'         => false,
@@ -47,3 +49,4 @@
     'wiki_guid'             => false,
     'wiki_full_url'         => false,
     'wiki_relative_url'     => false,
+*/
