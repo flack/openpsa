@@ -35,6 +35,8 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         'midcom.helper.search' => 'midcom.helper.search',
     );
 
+    private $sitegroup_config = null;
+
     /**
      * The snippet we're working with
      *
@@ -59,10 +61,19 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
 
         parent::__construct();
+
+        // this reads the snippet from database..
+        $qb = midcom_db_snippet::new_query_builder();
+        $qb->add_constraint('id', '=', 2); // this is it
+        $res = $qb->execute();
+        // ..and store the configuration in object-property sitegroup_config
+        $this->sitegroup_config = $res[0]->__object;
+
         if ($this->_config->get('auto_init'))
         {
             $this->initialize_site_structure();
         }
+        // this will exit
     }
 
    public static function get_instance()
@@ -71,6 +82,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
        {
            self::$instance = new self;
        }
+
        return self::$instance;
    }
 
@@ -149,9 +161,14 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      */
     private function get_snippet()
     {
+        // new config data
+        $this->_config->store_from_object($this->sitegroup_config, 'midcom_db_snippet');
+
+        /*
         $_MIDCOM->auth->request_sudo('org.openpsa.core');
         $sg_snippetdir = new midcom_db_snippetdir();
         $sg_snippetdir->get_by_path($GLOBALS['midcom_config']['midcom_sgconfig_basedir']);
+
         if (!$sg_snippetdir->guid)
         {
             // Create SG config snippetdir
@@ -160,6 +177,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $sd->name = $GLOBALS['midcom_config']['midcom_sgconfig_basedir'];
             // remove leading slash from name
             $sd->name = preg_replace("/^\//", "", $sd->name);
+
             if (!$sd->create())
             {
                 throw new midcom_error("Failed to create snippetdir {$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}: " . midcom_connection::get_error_string());
@@ -183,7 +201,8 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
         $snippet = new midcom_db_snippet();
         $snippet->get_by_path("{$GLOBALS['midcom_config']['midcom_sgconfig_basedir']}/org.openpsa.core/config");
-        if ($snippet->id == false )
+
+        if ($snippet->id == false)
         {
             $sn = new midcom_db_snippet();
             $sn->up = $lib_snippetdir->id;
@@ -193,6 +212,11 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $snippet = new midcom_db_snippet($sn->guid);
         }
         $_MIDCOM->auth->drop_sudo();
+        */
+
+        // new version, direct from class property
+        $snippet = $this->sitegroup_config;
+
         return $snippet;
     }
 
