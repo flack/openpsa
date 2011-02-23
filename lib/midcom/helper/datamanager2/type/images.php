@@ -136,14 +136,6 @@ class midcom_helper_datamanager2_type_images extends midcom_helper_datamanager2_
      */
     var $_attachment_map = array();
 
-
-    /**
-     * The current image identifier to use when operating on images.
-     *
-     * @var string
-     */
-    private $_identifier = null;
-
     /**
      * The current image title to use when operating on images.
      *

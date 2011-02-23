@@ -131,6 +131,14 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      */
     private $_filename = null;
 
+
+    /**
+     * The current image identifier to use when operating on images.
+     *
+     * @var string
+     */
+    protected $_identifier = null;
+
     /**
      * The name of the original temporary uploaded file (which will already be converted
      * to a Web-Aware format).

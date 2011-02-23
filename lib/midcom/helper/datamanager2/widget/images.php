@@ -582,7 +582,6 @@ END;
             return;
         }
 
-
         if (   array_key_exists('e_new_title', $values)
             && !empty($values['e_new_title']))
         {
