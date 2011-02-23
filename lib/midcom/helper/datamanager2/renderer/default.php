@@ -223,15 +223,18 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      * Helper method for renderElement
      *
      * @param string $name Element name
-     * @param mixed $label Element label (if using an array of labels, you should set the appropriate template)
+     * @param HTML_Quickform_element $element The element we're working on
      * @param boolean $required Whether an element is required
      * @param string $error Error message associated with the element
      * @param string $type Element type
      * @see renderElement()
      * @return string HTML for the element
      */
-    private function _prepare_template($name, $label, $required, $error, $type)
+    private function _prepare_template($name, $element, $required, $error, $type)
     {
+        $helptext = $this->_extract_helptext($element);
+        $label = $element->getLabel();
+
         if (is_array($label))
         {
             $nameLabel = array_shift($label);
@@ -262,26 +265,9 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         $html = str_replace('{type}', 'element_' . $type, $html);
         $html = str_replace('{namespace}', $this->namespace, $html);
 
-        if ($required)
-        {
-            $html = str_replace('<!-- BEGIN required -->', '', $html);
-            $html = str_replace('<!-- END required -->', '', $html);
-        }
-        else
-        {
-            $html = preg_replace("/([ \t\n\r]*)?<!-- BEGIN required -->.*?<!-- END required -->([ \t\n\r]*)?/is", '', $html);
-        }
-
-        if (isset($error))
-        {
-            $html = str_replace('{error}', $error, $html);
-            $html = str_replace('<!-- BEGIN error -->', '', $html);
-            $html = str_replace('<!-- END error -->', '', $html);
-        }
-        else
-        {
-            $html = preg_replace("/([ \t\n\r]*)?<!-- BEGIN error -->.*?<!-- END error -->([ \t\n\r]*)?/is", '', $html);
-        }
+        $this->_process_placeholder($html, 'required', $required);
+        $this->_process_placeholder($html, 'error', $error);
+        $this->_process_placeholder($html, 'helptext', $helptext);
 
         if (is_array($label))
         {
@@ -303,6 +289,37 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
         return $html;
     }
 
+    private function _process_placeholder(&$html, $identifier, $value)
+    {
+        if ($value)
+        {
+            if (is_string($value))
+            {
+                $html = str_replace('{' . $identifier . '}', $value, $html);
+            }
+            $html = str_replace('<!-- BEGIN ' . $identifier . ' -->', '', $html);
+            $html = str_replace('<!-- END ' . $identifier . ' -->', '', $html);
+        }
+        else
+        {
+            $html = preg_replace("/([ \t\n\r]*)?<!-- BEGIN " . $identifier . " -->.*?<!-- END " . $identifier . " -->([ \t\n\r]*)?/is", '', $html);
+        }
+    }
+
+    private function _extract_helptext(&$element)
+    {
+        $helptext = '';
+        $attributes = $element->getAttributes();
+        if (!empty($attributes['helptext']))
+        {
+            $helptext = $element->getLabel() . "|" . $attributes['helptext'];
+        }
+
+        unset($attributes['helptext']);
+        $element->setAttributes($attributes);
+        return $helptext;
+    }
+
     /**
      * Renders an element as HTML
      *
@@ -314,21 +331,17 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
     {
         if (!$this->_in_group)
         {
-            $html = $this->_prepare_template($element->getName(), $element->getLabel(), $required, $error, $element->getType());
+            $html = $this->_prepare_template($element->getName(), $element, $required, $error, $element->getType());
             $this->_html .= str_replace('{element}', $element->toHtml(), $html);
         }
         else if (!empty($this->_group_element_template))
         {
             $html = str_replace('{label}', $element->getLabel(), $this->_group_element_template);
-            if ($required)
-            {
-                $html = str_replace('<!-- BEGIN required -->', '', $html);
-                $html = str_replace('<!-- END required -->', '', $html);
-            }
-            else
-            {
-                $html = preg_replace("/([ \t\n\r]*)?<!-- BEGIN required -->(\s|\S)*<!-- END required -->([ \t\n\r]*)?/i", '', $html);
-            }
+            $helptext = $this->_extract_helptext($element);
+            $this->_process_placeholder($html, 'required', $required);
+            $this->_process_placeholder($html, 'error', $error);
+            $this->_process_placeholder($html, 'helptext', $helptext);
+
             $this->_group_elements[] = str_replace('{element}', $element->toHtml(), $html);
         }
         else
@@ -395,7 +408,7 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
 
         $this->_current_group_templates[$name] = array
         (
-            'group_template' => $this->_prepare_template($name, $group->getLabel(), $required, $error, 'group'),
+            'group_template' => $this->_prepare_template($name, $group, $required, $error, 'group'),
             'group_element_template' => empty($this->_group_element_templates[$name]) ? '' : $this->_group_element_templates[$name],
             'group_wrap' => empty($this->_group_wraps[$name]) ? '' : $this->_group_wraps[$name],
             'group_elements' => array(),
