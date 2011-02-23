@@ -162,7 +162,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
 
         $this->snippet = new midcom_db_snippet();
-        $this->snippet->get_by_path("/org.openpsa.core/siteconfig");
+        $this->snippet->get_by_path("/org.openpsa.cache/siteconfig");
 
         if ($this->snippet->id == false)
         {
@@ -174,7 +174,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->snippet->create();
         }
         $_MIDCOM->auth->drop_sudo();
-        eval ("\$array = array ( {$data}\n );");
+        eval ("\$array = array ( {$this->snippet->code}\n );");
         $this->data = $array;
     }
 
