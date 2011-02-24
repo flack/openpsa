@@ -198,9 +198,17 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         {
             if (!array_key_exists($report->person, $this->reporters))
             {
-                $reporter = new midcom_db_person($report->person);
-                $reporter_card = new org_openpsa_contactwidget($reporter);
-                $this->reporters[$report->person] = $reporter_card->show_inline();
+                try
+                {
+                    $reporter = new midcom_db_person($report->person);
+                    $reporter_card = new org_openpsa_contactwidget($reporter);
+                    $this->reporters[$report->person] = $reporter_card->show_inline();
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
+                    $this->reporters[$report->person] = '';
+                }
             }
 
             if (!array_key_exists($report->task, $this->tasks))
