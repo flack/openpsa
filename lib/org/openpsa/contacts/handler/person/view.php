@@ -87,9 +87,9 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         //hide account relevant field in account_person schema
         $fields =& $this->_controller->schemadb["default"]->fields;
 
-	    $fields["username"]["hidden"] = true;
-	    $fields["send_welcome_mail"]["hidden"] = true;
-		$fields["password_dummy"]["hidden"] = true;
+        $fields["username"]["hidden"] = true;
+        $fields["send_welcome_mail"]["hidden"] = true;
+        $fields["password_dummy"]["hidden"] = true;
     }
 
     /**
@@ -324,7 +324,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 }
                 catch (midcom_error $e)
                 {
-                	$e->log();
+                    $e->log();
                 }
             }
             midcom_show_style("show-person-groups-footer");

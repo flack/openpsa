@@ -104,14 +104,14 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
     }
 
-	private function _modify_schema(){
-	    $fields =& $this->_schemadb['default']->fields;
+    private function _modify_schema(){
+        $fields =& $this->_schemadb['default']->fields;
 
-	    //hide the account relevant fields
-	    $fields["username"]["hidden"] = true;
-	    $fields["send_welcome_mail"]["hidden"] = true;
-	    $fields["password_dummy"]["hidden"] = true;
-	}
+        //hide the account relevant fields
+        $fields["username"]["hidden"] = true;
+        $fields["send_welcome_mail"]["hidden"] = true;
+        $fields["password_dummy"]["hidden"] = true;
+    }
 
     /**
      * Loads and prepares the schema database.

@@ -36,22 +36,22 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
     public function load_schemadb()
     {
-    	$handler = $this->_request_data["handler_id"];
+        $handler = $this->_request_data["handler_id"];
 
-		//account edit
-    	if($handler == "account_edit"){
-    	    $schemadb_config_string = "schemadb_account_edit";
+        //account edit
+        if($handler == "account_edit"){
+            $schemadb_config_string = "schemadb_account_edit";
 
-			$db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb_config_string));
+            $db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb_config_string));
 
-			//set defaults
-    	    $db["default"]->fields["username"]["default"] = $this->_account->get_username();
+            //set defaults
+            $db["default"]->fields["username"]["default"] = $this->_account->get_username();
 
-    	//account create
-    	}else{
-    	    $schemadb_config_string = "schemadb_account";
-    	    $db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb_config_string));
-    	}
+        //account create
+        }else{
+            $schemadb_config_string = "schemadb_account";
+            $db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb_config_string));
+        }
 
         return $db;
     }
@@ -64,8 +64,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_account_create($handler_id, $args, &$data)
     {
-    	$data['controller'] = $this->get_controller('nullstorage');
-    	$formmanager = $data["controller"]->formmanager;
+        $data['controller'] = $this->get_controller('nullstorage');
+        $formmanager = $data["controller"]->formmanager;
 
         // Check if we get the person
         $this->_person = new org_openpsa_contacts_person_dba($args[0]);
@@ -80,25 +80,25 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         switch ($data['controller']->process_form())
         {
             case 'save':
-	        	$account_helper = new org_openpsa_contacts_accounthelper();
+                $account_helper = new org_openpsa_contacts_accounthelper();
 
-				$password = "";
-				//take user password?
-				if(intval($_POST['org_openpsa_contacts_person_account_password_switch']) > 0){
-				    $password = $_POST['org_openpsa_contacts_person_account_password'];
-				}
+                $password = "";
+                //take user password?
+                if(intval($_POST['org_openpsa_contacts_person_account_password_switch']) > 0){
+                    $password = $_POST['org_openpsa_contacts_person_account_password'];
+                }
 
-				$account_helper->create_account(
-					$args[0], //guid
-					$formmanager->_types["username"]->value, //username
-					$this->_person->email, //usermail
-					$password, //password
-					$formmanager->_types["send_welcome_mail"]->value //send welcome mail
-				);
+                $account_helper->create_account(
+                    $args[0], //guid
+                    $formmanager->_types["username"]->value, //username
+                    $this->_person->email, //usermail
+                    $password, //password
+                    $formmanager->_types["send_welcome_mail"]->value //send welcome mail
+                );
 
-        	case 'cancel':
-	            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-	            $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
+            case 'cancel':
+                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
         }
 
         if ($this->_person->email)
@@ -145,11 +145,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $this->_request_data['max_length'] = $this->_config->get('max_password_length');
     }
 
-	/**
-	 * returns an auto generated password of variable length
-	 * @param int length: the number of chars the password will contain
-	 * @return string password: the generated password
-	 */
+    /**
+     * returns an auto generated password of variable length
+     * @param int length: the number of chars the password will contain
+     * @return string password: the generated password
+     */
     public static function generate_password($length=0){
         // We should do this by listing to /dev/urandom
         // Safety
@@ -175,20 +175,20 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         return $password;
     }
 
-	/**
-	 * returns an auto generated password which will pass the persons check_password_strength test
-	 * @param org_openpsa_contacts_person_dba person: the person the password should be generated for
-	 * @param int length: the number of chars the password will contain
-	 * @return string password: the generated password
-	 */
+    /**
+     * returns an auto generated password which will pass the persons check_password_strength test
+     * @param org_openpsa_contacts_person_dba person: the person the password should be generated for
+     * @param int length: the number of chars the password will contain
+     * @return string password: the generated password
+     */
     public static function generate_safe_password($person,$length=0){
-    	if(!$person){
-    	    return false;
-    	}
-    	do{
-    		$password = self::generate_password($length);
-    	}while(!$person->check_password_strength($password));
-		return $password;
+        if(!$person){
+            return false;
+        }
+        do{
+            $password = self::generate_password($length);
+        }while(!$person->check_password_strength($password));
+        return $password;
     }
 
     private function _generate_password()
@@ -203,7 +203,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_account_edit($handler_id, $args, &$data)
     {
-    	$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         // Check if we get the person
         $this->_person = new org_openpsa_contacts_person_dba($args[0]);
@@ -224,18 +224,18 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $_MIDCOM->relocate($prefix . "account/create/" . $this->_person->guid . "/");
         }
 
-    	$data['controller'] = $this->get_controller('nullstorage');
-    	$formmanager = $data["controller"]->formmanager;
+        $data['controller'] = $this->get_controller('nullstorage');
+        $formmanager = $data["controller"]->formmanager;
 
         switch ($data['controller']->process_form())
         {
             case 'save':
-	        	$this->_update_account($formmanager->_types);
-	            // Account updated, redirect to person card
-	            $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
+                $this->_update_account($formmanager->_types);
+                // Account updated, redirect to person card
+                $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
 
-        	case 'cancel':
-            	$_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
+            case 'cancel':
+                $_MIDCOM->relocate($prefix . "person/" . $this->_person->guid . "/");
         }
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
@@ -267,7 +267,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         //check user auth if current user is not admin
         if (!$_MIDCOM->auth->admin)
         {
-        	//user auth
+            //user auth
             $check_user = midcom_connection::login($this->_account->get_username(), $fields["old_password"]->value);
         }
         else
@@ -277,17 +277,17 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if (!$check_user)
         {
-        	$_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("wrong current password"), 'error');
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("wrong current password"), 'error');
         }
         //auth ok
         else
         {
-        	//new password?
-        	if(!empty($fields["new_password"]->value)){
-        	    $password = $fields["new_password"]->value;
-        	}else{
-        	    $password = $this->_account->get_password();
-        	}
+            //new password?
+            if(!empty($fields["new_password"]->value)){
+                $password = $fields["new_password"]->value;
+            }else{
+                $password = $this->_account->get_password();
+            }
             // Update account
             $stat = $this->_person->set_account($fields["username"]->value, $password);
             if (!$stat)

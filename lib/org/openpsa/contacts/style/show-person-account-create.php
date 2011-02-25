@@ -5,40 +5,40 @@
     <form method="post" action="<?php echo midcom_connection::get_url('uri'); ?>" class="datamanager2">
 
         <div class="element element_text">
-	        <label for="org_openpsa_contacts_person_account_username">
-	            <span class="field_text"><?php echo $data['l10n_midcom']->get("username"); ?></span>
-	        </label>
-	        <div class="input">
-	            <input type="text" name="org_openpsa_contacts_person_account_username" id="org_openpsa_contacts_person_account_username" class="shorttext" value="&(data["default_username"]);" />
-			</div>
-	    </div>
+            <label for="org_openpsa_contacts_person_account_username">
+                <span class="field_text"><?php echo $data['l10n_midcom']->get("username"); ?></span>
+            </label>
+            <div class="input">
+                <input type="text" name="org_openpsa_contacts_person_account_username" id="org_openpsa_contacts_person_account_username" class="shorttext" value="&(data["default_username"]);" />
+            </div>
+        </div>
 
         <div class="element element_text">
-	        <div class="input">
-	        	<input type="radio" name="org_openpsa_contacts_person_account_password_switch" value="0" onclick="setPasswordRowDisplay('none')" checked="checked"/> <?php echo $data["l10n"]->get("generate_password"); ?>
-	        </div>
-        	<div class="input">
-            	<input type="radio" name="org_openpsa_contacts_person_account_password_switch" value="1" onclick="setPasswordRowDisplay('table-row')"/> <?php echo $data["l10n"]->get("own_password"); ?>
-        	</div>
+            <div class="input">
+                <input type="radio" name="org_openpsa_contacts_person_account_password_switch" value="0" onclick="setPasswordRowDisplay('none')" checked="checked"/> <?php echo $data["l10n"]->get("generate_password"); ?>
+            </div>
+            <div class="input">
+                <input type="radio" name="org_openpsa_contacts_person_account_password_switch" value="1" onclick="setPasswordRowDisplay('table-row')"/> <?php echo $data["l10n"]->get("own_password"); ?>
+            </div>
         </div>
 
 
         <div class="element element_text" id="password_row" style="display:none">
-	        <label for="org_openpsa_contacts_person_account_password">
-	            <span class="field_text"><?php echo $data['l10n_midcom']->get("password"); ?></span>
-	        </label>
-        	<div class="input">
-            	<input type="text" name="org_openpsa_contacts_person_account_password" id="org_openpsa_contacts_person_account_password" class="shorttext" style="display:inline" maxlength="<?php echo $data['max_length'];?>" />
-        	</div>
+            <label for="org_openpsa_contacts_person_account_password">
+                <span class="field_text"><?php echo $data['l10n_midcom']->get("password"); ?></span>
+            </label>
+            <div class="input">
+                <input type="text" name="org_openpsa_contacts_person_account_password" id="org_openpsa_contacts_person_account_password" class="shorttext" style="display:inline" maxlength="<?php echo $data['max_length'];?>" />
+            </div>
         </div>
 
         <div class="element element_text">
-	        <label for="org_openpsa_contacts_person_account_send_welcome_mail">
-	            <span class="field_text" style="display:block;"><?php echo $data['l10n']->get("send_welcome_mail"); ?></span>
-	        </label>
-        	<div class="input">
-            	<input type="checkbox" name="org_openpsa_contacts_person_account_send_welcome_mail" id="org_openpsa_contacts_person_account_send_welcome_mail" />
-        	</div>
+            <label for="org_openpsa_contacts_person_account_send_welcome_mail">
+                <span class="field_text" style="display:block;"><?php echo $data['l10n']->get("send_welcome_mail"); ?></span>
+            </label>
+            <div class="input">
+                <input type="checkbox" name="org_openpsa_contacts_person_account_send_welcome_mail" id="org_openpsa_contacts_person_account_send_welcome_mail" />
+            </div>
         </div>
 
 

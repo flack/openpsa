@@ -24,12 +24,12 @@ function check_password_strength($fields){
     $result = array();
     $password_field = "org_openpsa_contacts_person_account_password";
     if(intval($fields[$password_field."_switch"])>0){
-    	$password = $fields[$password_field];
-    	$dummy = new org_openpsa_contacts_person_dba();
-    	if(!$dummy->check_password_strength($password)){
-    		$err = $_MIDCOM->i18n->get_string("password_too_weak","org.openpsa.contacts");
-    	    $result[$password_field] = $err;
-    	}
+        $password = $fields[$password_field];
+        $dummy = new org_openpsa_contacts_person_dba();
+        if(!$dummy->check_password_strength($password)){
+            $err = $_MIDCOM->i18n->get_string("password_too_weak","org.openpsa.contacts");
+            $result[$password_field] = $err;
+        }
     }
 
     if($result){

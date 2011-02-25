@@ -17,6 +17,6 @@ midcom_show_style('show-person-account-js');
         $("#password_row").css("display",display);
     }
 
-	</script>
+    </script>
 
 </div>

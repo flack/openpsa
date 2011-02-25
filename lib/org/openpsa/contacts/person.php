@@ -73,17 +73,17 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
             }
             else
             {
-            	$this->errstr = "password strength too low";
+                $this->errstr = "password strength too low";
                 return false;
             }
         }
 
         $this->_account->set_username($username);
 
-		//probably username not unique
+        //probably username not unique
         if (!$this->_account->save())
         {
-        	//$this->errstr = "couldnt save account: username not unique";
+            //$this->errstr = "couldnt save account: username not unique";
             //return false;
         }
 

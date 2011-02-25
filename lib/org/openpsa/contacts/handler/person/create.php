@@ -72,7 +72,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $data['controller'] = $this->get_controller('create');
-		$this->_prepare_request_data();
+        $this->_prepare_request_data();
 
         switch ($data['controller']->process_form())
         {
@@ -97,31 +97,31 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                 }
 
-				$formmanager = $this->_request_data["controller"]->formmanager;
-				//create account too?
-				if(!empty($formmanager->_types["username"]->value)){
+                $formmanager = $this->_request_data["controller"]->formmanager;
+                //create account too?
+                if(!empty($formmanager->_types["username"]->value)){
 
-	                // Create account
-	                $account_helper = new org_openpsa_contacts_accounthelper();
+                    // Create account
+                    $account_helper = new org_openpsa_contacts_accounthelper();
 
-					$password = "";
-					//take user password?
-					if(intval($_POST['org_openpsa_contacts_person_account_password_switch']) > 0){
-					    $password = $_POST['org_openpsa_contacts_person_account_password'];
-					}
+                    $password = "";
+                    //take user password?
+                    if(intval($_POST['org_openpsa_contacts_person_account_password_switch']) > 0){
+                        $password = $_POST['org_openpsa_contacts_person_account_password'];
+                    }
 
-	                $success = $account_helper->create_account(
-	                	$this->_person->guid, //guid
-	                	$formmanager->_types["username"]->value, //username
-	                	$formmanager->_types["email"]->value, //usermail
-	                	$password, //password
-	                	$formmanager->_types["send_welcome_mail"]->value //send_welcome mail
-	                );
+                    $success = $account_helper->create_account(
+                        $this->_person->guid, //guid
+                        $formmanager->_types["username"]->value, //username
+                        $formmanager->_types["email"]->value, //usermail
+                        $password, //password
+                        $formmanager->_types["send_welcome_mail"]->value //send_welcome mail
+                    );
 
-	                if(!$success){
-	                    throw new midcom_error("Failed creating account, reason: ".$account_helper->errstr);
-	                }
-				}
+                    if(!$success){
+                        throw new midcom_error("Failed creating account, reason: ".$account_helper->errstr);
+                    }
+                }
 
                 // Relocate to group view
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
