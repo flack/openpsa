@@ -15,8 +15,6 @@
  * method on midcom_application using the service name 'indexer' to obtain
  * a running instance. You <i>must</i> honor the reference of that call.
  *
- *
- *
  * @package midcom.services
  * @see midcom_services_indexer_document
  * @see midcom_services_indexer_backend
@@ -102,8 +100,6 @@ class midcom_services_indexer
      * Support of batch-indexing using an Array of documents instead of a single
      * document is possible (and strongly advised for performance reasons).
      *
-     *
-     *
      * @param mixed $documents One or more documents to be indexed, so this is either a
      *           midcom_services_indexer_document or an Array of these objects.
      * @return boolean Indicating success.
@@ -131,11 +127,7 @@ class midcom_services_indexer
             // arg to _cast_to_document is passed by-reference.
             if (! is_a($documents[$key], 'midcom_services_indexer_document'))
             {
-                if (! $this->_index_cast_to_document($documents[$key]))
-                {
-                    debug_print_r("The document at type {$key} is invalid:", $documents[$key]);
-                    throw new midcom_error("Encountered an unsupported argument while processing the document {$key}");
-                }
+                $this->_index_cast_to_document($documents[$key]);
             }
 
             $documents[$key]->members_to_fields();
@@ -165,20 +157,13 @@ class midcom_services_indexer
      * already trigger indexing of dependant objects: A datamanager instance for example will
      * automatically reindex all BLOBs defined in the schema.
      *
-     * @param object &$object A reference to the supported object types which allow for automatic
+     * @param midcom_helper_datamanager2_datamanager &$object A reference to the supported object types which allow for automatic
      *     casting (see above).
-     * @return boolean Indicating success.
      * @access protected
      */
-    function _index_cast_to_document(&$object)
+    function _index_cast_to_document(midcom_helper_datamanager2_datamanager &$object)
     {
-        if (is_a($object, 'midcom_helper_datamanager2_datamanager'))
-        {
-            $object = $this->new_document($object);
-            return true;
-        }
-
-        return false;
+        $object = $this->new_document($object);
     }
 
 

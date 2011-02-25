@@ -131,16 +131,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
      * @param Array &$types A list of types matching the passed schema, used as a basis for the
      *     form types. This variable is taken by reference.
      */
-    public function __construct($schema, &$types, $state = 'edit')
+    public function __construct(midcom_helper_datamanager2_schema $schema, &$types, $state = 'edit')
     {
         $this->_component = 'midcom.helper.datamanager2';
         parent::__construct();
-
-        if (! is_a($schema, 'midcom_helper_datamanager2_schema'))
-        {
-            debug_print_type('Got an object of this type:', $schema);
-            throw new midcom_error('Invalid schema instance passed, cannot startup formmanager');
-        }
 
         $this->_schema = $schema;
         $this->_types =& $types;
@@ -283,10 +277,10 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
 
             //Load custom QF rules, so that they can be used in widgets' add_element_to_form calls
             $this->_load_type_qfrules($name);
-            $attributes = array 
-            ( 
-                'helptext' => $this->_translate($config['helptext']), 
-            ); 
+            $attributes = array
+            (
+                'helptext' => $this->_translate($config['helptext']),
+            );
             $this->widgets[$name]->add_elements_to_form($attributes);
             $this->_add_rules_and_filters($name, $config);
 
