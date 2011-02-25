@@ -61,12 +61,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     {
         $schemadb_person = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_person'));
 
-        $this->_modify_schema();
-
         $this->_controller = midcom_helper_datamanager2_controller::create('ajax');
         $this->_controller->schemadb =& $schemadb_person;
         $this->_controller->set_storage($this->_contact, $this->_schema);
         $this->_controller->process_ajax();
+
+        $this->_modify_schema();
     }
 
     private function _modify_schema()
@@ -84,6 +84,12 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 $this->_schema = 'employee';
             }
         }
+        //hide account relevant field in account_person schema
+        $fields =& $this->_controller->schemadb["default"]->fields;
+
+	    $fields["username"]["hidden"] = true;
+	    $fields["send_welcome_mail"]["hidden"] = true;
+		$fields["password_dummy"]["hidden"] = true;
     }
 
     /**

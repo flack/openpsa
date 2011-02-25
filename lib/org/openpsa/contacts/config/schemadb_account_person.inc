@@ -2,6 +2,15 @@
 (
     'description'   => 'person',
     'l10n_db' => 'org.openpsa.contacts',
+    'validation' => Array
+    (
+        Array
+        (
+            'callback' => 'check_username',
+            'autoload_snippet' => 'file:/org/openpsa/contacts/config/validation_callbacks.inc',
+        ),
+    ),
+
     'fields'  => array
     (
         'firstname' => array
@@ -10,6 +19,12 @@
             'storage'  => 'firstname',
             'type'     => 'text',
             'widget'   => 'text',
+
+            'start_fieldset' => array
+            (
+                'title' => 'person_fieldset',
+                'css_group' => 'area meta',
+            ),
         ),
         'lastname' => array
         (
@@ -56,6 +71,9 @@
         ),
         'email' => array
         (
+            //REQUIRED COMPONENT
+            'required' => true,
+
             'title'    => 'email',
             'storage'  => 'email',
             'type'     => 'text',
@@ -191,108 +209,43 @@
             ),
             'widget' => 'photo',
             'index_method' => 'noindex',
+
+            'end_fieldset' => '',
         ),
-    )
-),
 
 
-'employee' => array
-(
-    'description'   => 'employee',
-    'l10n_db' => 'org.openpsa.contacts',
-    'fields'  => array
-    (
-        'firstname' => array
+        'username' => array
         (
-            'title'    => 'firstname',
-            'storage'  => 'firstname',
+            'title'    => 'username',
+            'storage'  => 'username',
             'type'     => 'text',
             'widget'   => 'text',
-            'required' => true,
-        ),
-        'lastname' => array
-        (
-            'title'    => 'lastname',
-            'storage'  => 'lastname',
-            'type'     => 'text',
-            'widget'   => 'text',
-        ),
-        'homepage' => array
-        (
-            'title'    => 'homepage',
-            'storage'  => 'homepage',
-            'type'     => 'text',
-            'widget'   => 'text',
-        ),
-        'email' => array
-        (
-            'title'    => 'email',
-            'storage'  => 'email',
-            'type'     => 'text',
-            'widget'   => 'text',
-            'validation' => 'email',
-        ),
-        'handphone' => array
-        (
-            'title'    => 'mobile phone',
-            'storage'  => 'handphone',
-            'type'     => 'text',
-            'widget'   => 'text',
-        ),
-        'skype' => array
-        (
-            'title'    => 'skype name',
-            'storage' => array
+
+            'start_fieldset' => array
             (
-                'location' => 'configuration',
-                'domain'   => 'org.openpsa.skype',
-                'name'     => 'name',
+                'title' => 'account_fieldset',
+                'css_group' => 'area meta',
             ),
-            'type'     => 'text',
-            'widget'   => 'text',
         ),
-        'jid' => array
+
+        'password_dummy' => array
         (
-            'title'    => 'jabber id',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain'   => 'org.openpsa.jabber',
-                'name'     => 'jid',
-            ),
-            'type'     => 'text',
-            'widget'   => 'text',
-            'validation' => 'email',
-        ),
-        'weekly_workhours' => array
-        (
-            'title'    => 'weekly workhours',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain'   => 'org.openpsa.reports.projects',
-                'name'     => 'weekly_workhours',
-            ),
-            'type'     => 'number',
-            'widget'   => 'text',
-        ),
-        'competence' => Array
-        (
-            'title' => 'competence areas',
-            'storage' => null,
-            'type' => 'tags',
-            'widget' => 'text',
-        ),
-        'notes' => array
-        (
-            'title' => 'notes',
-            'storage' => 'extra',
+            'title' => 'password_dummy',
             'type' => 'text',
-            'type_config' => array
-            (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
+            'widget' => 'text',
+            'storage' => null,
         ),
+
+        'send_welcome_mail' => array
+        (
+            'title' => 'send_welcome_mail',
+            'storage' => null,
+            'type' => 'boolean',
+            'widget' => 'checkbox',
+
+            'end_fieldset' => '',
+        ),
+
+
     )
 ),

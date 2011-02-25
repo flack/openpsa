@@ -2,6 +2,42 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
+---# Schema Account Person
+---STRING person_fieldset
+Person
+---STRINGEND
+
+---STRING account_fieldset
+Benutzerkonto
+---STRINGEND
+
+---STRING generate_password
+Passwort generieren
+---STRINGEND
+
+---STRING own_password
+Eigenes Passwort
+---STRINGEND
+
+---STRING send_welcome_mail
+Willkommen-Mail schicken?
+---STRINGEND
+
+---STRING username_already_exists
+Der Benutzername ist bereits vergeben.
+---STRINGEND
+
+---STRING password_too_weak
+Passwort ist zu schwach.
+---STRINGEND
+
+---# @Var: username,password
+---STRING account_creation_success
+Das Benutzerkonto wurde erfolgreich angelegt!
+Benutzername: %s
+Passwort: %s
+---STRINGEND
+
 ---STRING %s of
 %s von
 ---STRINGEND
@@ -292,6 +328,10 @@ Meine Kontakte
 
 ---STRING new organization
 Neue Organisation
+---STRINGEND
+
+---STRING old password
+Altes Passwort
 ---STRINGEND
 
 ---STRING new password

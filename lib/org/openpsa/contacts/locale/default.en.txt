@@ -2,6 +2,43 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---# Schema Account Person
+---STRING person_fieldset
+Person
+---STRINGEND
+
+---STRING account_fieldset
+Account
+---STRINGEND
+
+---STRING generate_password
+Generate Password
+---STRINGEND
+
+---STRING own_password
+Own Password
+---STRINGEND
+
+---STRING send_welcome_mail
+Send welcome mail?
+---STRINGEND
+
+---STRING username_already_exists
+This username is already taken.
+---STRINGEND
+
+---STRING password_too_weak
+Password too weak.
+---STRINGEND
+
+---# @Var: username,password
+---STRING account_creation_success
+The account has been created successfully!
+Username: %s
+Password: %s
+---STRINGEND
+
+
 ---STRING %s of
 %s of
 ---STRINGEND

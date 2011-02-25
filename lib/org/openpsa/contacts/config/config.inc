@@ -1,5 +1,9 @@
 'schemadb_group' => 'file:/org/openpsa/contacts/config/schemadb_default_organization.inc',
-'schemadb_person'    => 'file:/org/openpsa/contacts/config/schemadb_default_person.inc',
+'schemadb_person' => 'file:/org/openpsa/contacts/config/schemadb_account_person.inc',
+
+'schemadb_account' => 'file:/org/openpsa/contacts/config/schemadb_account.inc',
+'schemadb_account_edit' => 'file:/org/openpsa/contacts/config/schemadb_account_edit.inc',
+
 'schemadb_acl' => 'file:/org/openpsa/contacts/config/schemadb_default_acl.inc',
 'schemadb_notifications' => 'file:/org/openpsa/contacts/config/schemadb_default_notifications.inc',
 
@@ -16,10 +20,19 @@
 'max_old_passwords' => 0,
 'min_password_length' => 8,
 'max_password_length' => 20,
-'min_password_score' => 50,
+'min_password_score' => 35,
 'password_block_timeframe_min' => 5,
 'max_password_attempts' => 5,
 
+'welcome_mail_title' => 'Welcome!',
+//username, password
+'welcome_mail_body' =>
+'Hello,
 
+your account has been created successfully.
 
+You can now log in to your account using the following credentials:
+Username: __USERNAME__
+Password: __PASSWORD__',
 
+'welcome_mail_from_address' => '',

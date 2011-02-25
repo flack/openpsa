@@ -10,5 +10,7 @@ $node = $nap->get_node($nap->get_current_node());
 </div>
 
 <div class="main">
-    <?php $data['controller']->display_form(); ?>
+    <?php
+    	$data['controller']->display_form();
+    ?>
 </div>

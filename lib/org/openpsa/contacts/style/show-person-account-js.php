@@ -46,7 +46,9 @@
                 //FUNCTIONS
                 $.fn.teststrength = function(password,username,option){
                         var score = 0;
+
                         $("#submit_account").attr("disabled" , "disabled");
+
                         //password <
                         if (password.length < <?php echo $data['min_length'];?> ) { this.resultStyle =  option.shortPass;return $(this).shortPass; }
 
@@ -82,11 +84,13 @@
                         }
 
                        this.resultStyle= option.strongPass;
+
                        return $(this).strongPass;
                 };
           });
      };
 })(jQuery);
+
 
 $.fn.checkRepetition = function(pLen,str) {
     var res = "";

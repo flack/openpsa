@@ -22,6 +22,8 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
      */
     private $_account;
 
+    public $errstr;
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -67,19 +69,22 @@ class org_openpsa_contacts_person_dba extends midcom_db_person
                  && $this->check_password_strength($new_password))
             {
                 $this->_account->set_password($new_password);
-                $this->save_password();
+                $this->save_password($new_password);
             }
             else
             {
+            	$this->errstr = "password strength too low";
                 return false;
             }
         }
 
         $this->_account->set_username($username);
 
+		//probably username not unique
         if (!$this->_account->save())
         {
-            return false;
+        	//$this->errstr = "couldnt save account: username not unique";
+            //return false;
         }
 
         //sets privilege
