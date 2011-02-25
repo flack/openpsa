@@ -30,7 +30,7 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         $this->_libs = midcom_admin_libconfig_plugin::get_libraries();
         $this->add_breadcrumb("__mfa/asgard_midcom.admin.libconfig/", $data['view_title']);
@@ -43,7 +43,7 @@ class midcom_admin_libconfig_handler_list extends midcom_baseclasses_components_
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['config'] =& $this->_config;

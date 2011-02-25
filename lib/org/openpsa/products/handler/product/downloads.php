@@ -88,7 +88,7 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_downloads($handler_id, $args, &$data)
+    public function _handler_downloads($handler_id, array $args, array &$data)
     {
         if ($handler_id == 'downloads_products_intree')
         {
@@ -112,7 +112,7 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_downloads($handler_id, &$data)
+    public function _show_downloads($handler_id, array &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -157,7 +157,7 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
         midcom_show_style('group_footer');
     }
 
-    public function _handler_downloads_by_score($handler_id, $args, &$data)
+    public function _handler_downloads_by_score($handler_id, array $args, array &$data)
     {
         if ($handler_id == 'downloads_by_score_products_intree')
         {
@@ -175,7 +175,7 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
         $data['datamanager_product'] = new midcom_helper_datamanager2_datamanager($data['schemadb_product']);
     }
 
-    public function _show_downloads_by_score($handler_id, &$data)
+    public function _show_downloads_by_score($handler_id, array &$data)
     {
         $this->_show_downloads($handler_id, $data);
     }
@@ -187,7 +187,7 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_feed($handler_id, $args, &$data)
+    public function _handler_feed($handler_id, array $args, array &$data)
     {
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
@@ -205,7 +205,7 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_feed($handler_id, &$data)
+    public function _show_feed($handler_id, array &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 

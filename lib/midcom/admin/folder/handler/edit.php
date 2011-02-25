@@ -157,7 +157,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midcom.admin.folder:topic_management');
 
@@ -437,7 +437,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         // Show the style element
         if ($this->_handler_id === 'create')

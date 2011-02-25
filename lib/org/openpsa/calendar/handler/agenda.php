@@ -23,7 +23,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_day($handler_id, $args, &$data)
+    public function _handler_day($handler_id, array $args, array &$data)
     {
         // Generate start/end timestamps for the day
         $requested_time = @strtotime($args[0]);
@@ -76,7 +76,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_day($handler_id, &$data)
+    public function _show_day($handler_id, array &$data)
     {
         midcom_show_style('show-day-header');
 

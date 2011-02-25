@@ -109,7 +109,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_publish($handler_id, $args, &$data)
+    public function _handler_publish($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -487,7 +487,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_publish($handler_id, &$data)
+    public function _show_publish($handler_id, array &$data)
     {
         midcom_show_style('show-publish-start');
         foreach($this->_fields as $name => $field)
@@ -533,7 +533,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_publish_ok($handler_id, $args, &$data)
+    public function _handler_publish_ok($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -558,7 +558,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_publish_ok($handler_id, &$data)
+    public function _show_publish_ok($handler_id, array &$data)
     {
         midcom_show_style('show-publish-ok');
     }

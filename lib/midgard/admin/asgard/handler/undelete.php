@@ -36,7 +36,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_trash($handler_id, $args, &$data)
+    public function _handler_trash($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_admin_user();
         $_MIDCOM->cache->content->no_cache();
@@ -68,7 +68,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_trash($handler_id, &$data)
+    public function _show_trash($handler_id, array &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');
@@ -84,7 +84,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_trash_type($handler_id, $args, &$data)
+    public function _handler_trash_type($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_admin_user();
         $_MIDCOM->cache->content->no_cache();
@@ -204,7 +204,7 @@ class midgard_admin_asgard_handler_undelete extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_trash_type($handler_id, &$data)
+    public function _show_trash_type($handler_id, array &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         $data['current_type'] = $this->type;

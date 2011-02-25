@@ -60,7 +60,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         if (preg_match('/_raw$/', $handler_id))
         {
@@ -93,7 +93,7 @@ class org_openpsa_products_handler_productlink_view extends midcom_baseclasses_c
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         $data['view_productlink'] = $data['datamanager']->get_content_html();
         midcom_show_style('productlink_view');

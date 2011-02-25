@@ -110,7 +110,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -131,7 +131,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         echo "<h1>" . $this->_l10n->get('notification preferences') . "</h1>\n";
         $this->_controller->display_form();

@@ -46,7 +46,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    public function _handler_deleted($handler_id, $args, &$data)
+    public function _handler_deleted($handler_id, array $args, array &$data)
     {
         $data['guid'] = $args[0];
         /*
@@ -79,7 +79,7 @@ class midgard_admin_asgard_handler_object_deleted extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_deleted($handler_id, &$data)
+    public function _show_deleted($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_object_deleted');

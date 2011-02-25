@@ -16,16 +16,16 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     private $_datamanagers = array();
     var $module = false;
 
-    abstract function _handler_generator($handler_id, $args, &$data);
+    abstract function _handler_generator($handler_id, array $args, array &$data);
 
-    abstract function _show_generator($handler_id, &$data);
+    abstract function _show_generator($handler_id, array &$data);
 
     /**
      * @param mixed $handler_id The ID of the handler.
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_generator_get($handler_id, $args, &$data)
+    public function _handler_generator_get($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
         $_MIDCOM->auth->require_valid_user();
@@ -47,7 +47,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_generator_get($handler_id, &$data)
+    public function _show_generator_get($handler_id, array &$data)
     {
         $this->_show_generator($handler_id, $data);
 
@@ -143,7 +143,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_query_form($handler_id, $args, &$data)
+    public function _handler_query_form($handler_id, array $args, array &$data)
     {
         $this->_set_active_leaf();
         $_MIDCOM->auth->require_valid_user();
@@ -195,7 +195,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_query_form($handler_id, &$data)
+    public function _show_query_form($handler_id, array &$data)
     {
         midcom_show_style("{$this->module}_query_form");
     }

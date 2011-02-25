@@ -121,7 +121,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         //load component here to be able to access its constants
         $_MIDCOM->componentloader->load('org.openpsa.projects');
@@ -226,7 +226,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         midcom_show_style('hours_create');
     }
@@ -238,7 +238,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
 
@@ -327,7 +327,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midcom_show_style('hours_edit');
     }
@@ -339,7 +339,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_hour_report = new org_openpsa_projects_hour_report_dba($args[0]);
         $this->_hour_report->require_do('midgard:delete');
@@ -382,7 +382,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, array &$data)
     {
         midcom_show_style('hours_delete');
     }
@@ -394,7 +394,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_batch($handler_id, $args, &$data)
+    public function _handler_batch($handler_id, array $args, array &$data)
     {
         //get url to relocate
         $relocate = "/";

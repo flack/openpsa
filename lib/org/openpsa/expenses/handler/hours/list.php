@@ -47,7 +47,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -242,7 +242,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         $data['reporters'] =& $this->reporters;
 

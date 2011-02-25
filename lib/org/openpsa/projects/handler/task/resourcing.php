@@ -71,7 +71,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_resourcing($handler_id, $args, &$data)
+    public function _handler_resourcing($handler_id, array $args, array &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($args[0]);
         $this->_task->require_do('midgard:create');
@@ -155,7 +155,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_resourcing($handler_id, &$data)
+    public function _show_resourcing($handler_id, array &$data)
     {
         midcom_show_style('show-task-resourcing');
     }
@@ -165,7 +165,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list_prospects($handler_id, $args, &$data)
+    public function _handler_list_prospects($handler_id, array $args, array &$data)
     {
         $this->_task = new org_openpsa_projects_task_dba($args[0]);
         $this->_task->require_do('midgard:create');
@@ -190,7 +190,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list_prospects($handler_id, &$data)
+    public function _show_list_prospects($handler_id, array &$data)
     {
         midcom_show_style('show-prospects-xml');
     }
@@ -200,7 +200,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_prospect_slots($handler_id, $args, &$data)
+    public function _handler_prospect_slots($handler_id, array $args, array &$data)
     {
         $data['prospect'] = new org_openpsa_projects_task_resource_dba($args[0]);
         $data['person'] = new org_openpsa_contacts_person_dba($data['prospect']->person);
@@ -218,7 +218,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_prospect_slots($handler_id, &$data)
+    public function _show_prospect_slots($handler_id, array &$data)
     {
         midcom_show_style('show-prospect');
     }

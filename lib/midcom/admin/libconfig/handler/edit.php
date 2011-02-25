@@ -97,7 +97,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_component_name = $args[0];
         if (!$_MIDCOM->componentloader->is_installed($this->_component_name))
@@ -226,7 +226,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

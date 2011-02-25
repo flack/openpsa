@@ -122,7 +122,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_welcome($handler_id, $args, &$data)
+    function _handler_welcome($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -138,7 +138,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    function _show_welcome($handler_id, &$data)
+    function _show_welcome($handler_id, array &$data)
     {
         midcom_show_style('admin-start');
         midcom_show_style('admin-welcome');
@@ -190,7 +190,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    function _handler_moderate($handler_id, $args, &$data)
+    function _handler_moderate($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -267,7 +267,7 @@ class net_nehmer_comments_handler_admin extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    function _show_moderate($handler_id, &$data)
+    function _show_moderate($handler_id, array &$data)
     {
         midcom_show_style('admin-start');
         if ($this->_comments)

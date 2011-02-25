@@ -26,7 +26,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    public function _can_handle_groupsblock($handler_id, $args, &$data)
+    public function _can_handle_groupsblock($handler_id, array $args, array &$data)
     {
         // We're in some level of groups
         $qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -64,7 +64,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_groupsblock($handler_id, $args, &$data)
+    public function _handler_groupsblock($handler_id, array $args, array &$data)
     {
         // Query for sub-objects
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
@@ -289,7 +289,7 @@ class org_openpsa_products_handler_group_groupsblock  extends midcom_baseclasses
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_groupsblock($handler_id, &$data)
+    public function _show_groupsblock($handler_id, array &$data)
     {
         if ($data['group'])
         {

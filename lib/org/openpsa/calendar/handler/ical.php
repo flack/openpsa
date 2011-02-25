@@ -69,7 +69,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_user_events($handler_id, $args, &$data)
+    public function _handler_user_events($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
 
@@ -90,7 +90,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_user_events($handler_id, &$data)
+    public function _show_user_events($handler_id, array &$data)
     {
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();
@@ -137,7 +137,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_user_busy($handler_id, $args, &$data)
+    public function _handler_user_busy($handler_id, array $args, array &$data)
     {
         $username = $this->_strip_extension($args[0]);
         $this->request_data['person'] = $this->_find_person_by_name($username);
@@ -152,7 +152,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_user_busy($handler_id, &$data)
+    public function _show_user_busy($handler_id, array &$data)
     {
         $event = new org_openpsa_calendar_event_dba();
         echo $event->vcal_headers();

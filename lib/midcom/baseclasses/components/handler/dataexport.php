@@ -72,7 +72,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
 
     abstract function _load_data($handler_id, &$args, &$data);
 
-    public function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -217,7 +217,7 @@ abstract class midcom_baseclasses_components_handler_dataexport extends midcom_b
         return $this->_datamanager->set_storage($object);
     }
 
-    public function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, array &$data)
     {
         // Make real sure we're dumping data live
         $_MIDCOM->cache->content->enable_live_mode();

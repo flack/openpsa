@@ -87,7 +87,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_latest($handler_id, $args, &$data)
+    public function _handler_latest($handler_id, array $args, array &$data)
     {
         $this->_request_data['latest_pages'] = Array();
 
@@ -119,7 +119,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_latest($handler_id, &$data)
+    public function _show_latest($handler_id, array &$data)
     {
         $_MIDCOM->load_library('org.openpsa.contactwidget');
         $data['wikiname'] = $this->_topic->extra;

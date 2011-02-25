@@ -16,7 +16,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     public $_dba_class = 'org_openpsa_projects_task_dba';
     public $_prefix = 'task';
 
-    public function _load_object($handler_id, $args, &$data)
+    public function _load_object($handler_id, array $args, array &$data)
     {
         $this->_object = new $this->_dba_class($args[0]);
     }
@@ -199,7 +199,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _load_parent($handler_id, $args, &$data)
+    public function _load_parent($handler_id, array $args, array &$data)
     {
         if (   $this->_mode == 'create'
             && count($args) > 0
@@ -263,7 +263,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_callback($handler_id, $args, &$data)
+    public function _handler_callback($handler_id, array $args, array &$data)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
 
@@ -283,7 +283,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_read($handler_id, &$data)
+    public function _show_read($handler_id, array &$data)
     {
         $data['datamanager'] =& $this->_datamanager;
 

@@ -31,7 +31,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    public function _handler_move($handler_id, $args, &$data)
+    public function _handler_move($handler_id, array $args, array &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
@@ -137,7 +137,7 @@ class midcom_admin_folder_handler_move extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_move($handler_id, &$data)
+    public function _show_move($handler_id, array &$data)
     {
         // Bind object details to the request data
         $data['object'] =& $this->_object;

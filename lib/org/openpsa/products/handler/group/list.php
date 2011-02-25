@@ -25,7 +25,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * @param Array &$data The local request data.
      * @return boolean True if the request can be handled, false otherwise.
      */
-    public function _can_handle_list($handler_id, $args, &$data)
+    public function _can_handle_list($handler_id, array $args, array &$data)
     {
         if ($handler_id == 'index')
         {
@@ -146,7 +146,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         // Query for sub-objects
         if ($handler_id == 'list_intree')
@@ -632,7 +632,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         if ($data['group'])
         {

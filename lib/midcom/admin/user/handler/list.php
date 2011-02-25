@@ -64,7 +64,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         // See what fields we want to use in the search
         $data['search_fields'] = $this->_config->get('search_fields');
@@ -271,7 +271,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['config'] =& $this->_config;

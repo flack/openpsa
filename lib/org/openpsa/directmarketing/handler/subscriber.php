@@ -19,7 +19,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (count($args) == 1)
@@ -87,7 +87,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         $qb_all = org_openpsa_directmarketing_campaign_dba::new_query_builder();
         $campaigns = array();
@@ -187,7 +187,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_unsubscribe($handler_id, $args, &$data)
+    public function _handler_unsubscribe($handler_id, array $args, array &$data)
     {
         if (count($args) != 1)
         {
@@ -213,7 +213,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_unsubscribe($handler_id, &$data)
+    public function _show_unsubscribe($handler_id, array &$data)
     {
         if ($this->_request_data['unsubscribe_status'] == false)
         {
@@ -232,7 +232,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_unsubscribe_ajax($handler_id, $args, &$data)
+    public function _handler_unsubscribe_ajax($handler_id, array $args, array &$data)
     {
         if (count($args) != 1)
         {
@@ -262,7 +262,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_unsubscribe_ajax($handler_id, &$data)  { }
+    public function _show_unsubscribe_ajax($handler_id, array &$data)  { }
 
     /**
      * Handle the request for unsubscribing all subscribers from a campaign
@@ -271,7 +271,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_unsubscribe_all($handler_id, $args, &$data)
+    public function _handler_unsubscribe_all($handler_id, array $args, array &$data)
     {
         if (count($args) < 1)
         {
@@ -322,7 +322,7 @@ class org_openpsa_directmarketing_handler_subscriber extends midcom_baseclasses_
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_unsubscribe_all($handler_id, &$data)
+    public function _show_unsubscribe_all($handler_id, array &$data)
     {
         if ($data['unsubscribe_status'] == false)
         {

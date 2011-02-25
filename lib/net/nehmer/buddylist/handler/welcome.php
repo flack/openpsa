@@ -59,7 +59,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_welcome($handler_id, $args, &$data)
+    public function _handler_welcome($handler_id, array $args, array &$data)
     {
         $_MIDCOM->load_library('org.openpsa.qbpager');
         $qb = new org_openpsa_qbpager('net_nehmer_buddylist_entry', 'net_nehmer_buddylist');
@@ -149,7 +149,7 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_welcome($handler_id, &$data)
+    public function _show_welcome($handler_id, array &$data)
     {
         midcom_show_style('welcome');
     }

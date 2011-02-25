@@ -502,7 +502,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_index($handler_id, $args, &$data)
+    public function _handler_index($handler_id, array $args, array &$data)
     {
         $this->_prepare_handler($args);
 
@@ -517,7 +517,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    public function _show_index($handler_id, &$data)
+    public function _show_index($handler_id, array &$data)
     {
         midcom_show_style('show-import-index');
     }
@@ -529,7 +529,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_simpleemails($handler_id, $args, &$data)
+    public function _handler_simpleemails($handler_id, array $args, array &$data)
     {
         $this->_prepare_handler($args);
 
@@ -612,7 +612,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_simpleemails($handler_id, &$data)
+    public function _show_simpleemails($handler_id, array &$data)
     {
         if (   $this->_request_data['import_status']['subscribed_new'] == 0
             && $this->_request_data['import_status']['subscribed_existing'] == 0)
@@ -632,7 +632,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_vcards($handler_id, $args, &$data)
+    public function _handler_vcards($handler_id, array $args, array &$data)
     {
         $this->_prepare_handler($args);
 
@@ -763,7 +763,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_vcards($handler_id, &$data)
+    public function _show_vcards($handler_id, array &$data)
     {
         if (   $this->_request_data['import_status']['subscribed_new'] == 0
             && $this->_request_data['import_status']['subscribed_existing'] == 0)
@@ -783,7 +783,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_csv_select($handler_id, $args, &$data)
+    public function _handler_csv_select($handler_id, array $args, array &$data)
     {
         $this->_prepare_handler($args);
 
@@ -865,7 +865,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    public function _show_csv_select($handler_id, &$data)
+    public function _show_csv_select($handler_id, array &$data)
     {
         if (array_key_exists('rows', $data))
         {
@@ -887,7 +887,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, array $args, array &$data)
     {
         $this->_prepare_handler($args);
 
@@ -1004,7 +1004,7 @@ class org_openpsa_directmarketing_handler_import extends midcom_baseclasses_comp
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, array &$data)
     {
         midcom_show_style('show-import-status');
     }

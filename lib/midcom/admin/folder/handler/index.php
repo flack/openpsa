@@ -25,7 +25,7 @@ class midcom_admin_folder_handler_index extends midcom_baseclasses_components_ha
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_index ($handler_id, $args, &$data)
+    public function _handler_index ($handler_id, array $args, array &$data)
     {
         $data['name']  = "midcom.admin.folder";
 

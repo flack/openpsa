@@ -109,7 +109,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_uninvoiced($handler_id, $args, &$data)
+    public function _handler_uninvoiced($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba');
@@ -167,7 +167,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_uninvoiced($handler_id, &$data)
+    public function _show_uninvoiced($handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
 

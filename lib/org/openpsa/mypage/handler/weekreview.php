@@ -23,7 +23,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_redirect($handler_id, $args, &$data)
+    public function _handler_redirect($handler_id, array $args, array &$data)
     {
         $date = date('Y-m-d');
         $_MIDCOM->relocate("weekreview/{$date}/");
@@ -184,7 +184,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_review($handler_id, $args, &$data)
+    public function _handler_review($handler_id, array $args, array &$data)
     {
         // Get start and end times
         $date = new DateTime($args[0]);
@@ -240,7 +240,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_review($handler_id, &$data)
+    public function _show_review($handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_node'] = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');

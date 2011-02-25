@@ -140,7 +140,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_csv_select($handler_id, $args, &$data)
+    public function _handler_csv_select($handler_id, array $args, array &$data)
     {
         $this->_prepare_handler($args);
 
@@ -216,7 +216,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_csv_select($handler_id, &$data)
+    public function _show_csv_select($handler_id, array &$data)
     {
         if (array_key_exists('rows', $data))
         {
@@ -236,7 +236,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, array $args, array &$data)
     {
         $this->_prepare_handler($args);
 
@@ -383,7 +383,7 @@ class org_openpsa_products_handler_group_csvimport extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, array &$data)
     {
         midcom_show_style('show-import-status');
     }

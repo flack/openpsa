@@ -65,7 +65,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         // Get the root event
         $this->_root_event = org_openpsa_calendar_interface::find_root_event();
@@ -109,7 +109,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         if (   array_key_exists('view', $this->_request_data)
             && $this->_request_data['view'] === 'conflict_handler')

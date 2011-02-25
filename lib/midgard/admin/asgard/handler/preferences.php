@@ -73,7 +73,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_preferences($handler_id, $args, &$data)
+    public function _handler_preferences($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -119,7 +119,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_preferences($handler_id, &$data)
+    public function _show_preferences($handler_id, array &$data)
     {
         if (isset($_GET['ajax']))
         {
@@ -166,7 +166,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_ajax($handler_id, $args, &$data)
+    public function _handler_ajax($handler_id, array $args, array &$data)
     {
         $this->_person = new midcom_db_person(midcom_connection::get_user());
 
@@ -201,7 +201,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_ajax($handler_id, &$data)
+    public function _show_ajax($handler_id, array &$data)
     {
         // Do nothing at the moment
     }

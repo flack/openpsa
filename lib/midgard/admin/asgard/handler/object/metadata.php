@@ -94,7 +94,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         // FIXME: We should modify the schema according to whether or not scheduling is used
@@ -142,7 +142,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_object_metadata');

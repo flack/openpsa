@@ -53,7 +53,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _handler_folders($handler_id, $args, &$data)
+    public function _handler_folders($handler_id, array $args, array &$data)
     {
         $this->_group = new midcom_db_group($args[0]);
         midgard_admin_asgard_plugin::bind_to_object($this->_group, $handler_id, $data);
@@ -90,7 +90,7 @@ class midcom_admin_user_handler_group_permissions extends midcom_baseclasses_com
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_folders($handler_id, &$data)
+    public function _show_folders($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

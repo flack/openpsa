@@ -65,7 +65,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_account_create($handler_id, $args, &$data)
+    public function _handler_account_create($handler_id, array $args, array &$data)
     {
         $data['controller'] = $this->get_controller('nullstorage');
         $formmanager = $data["controller"]->formmanager;
@@ -208,7 +208,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_account_edit($handler_id, $args, &$data)
+    public function _handler_account_edit($handler_id, array $args, array &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -315,7 +315,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_account_delete($handler_id, $args, &$data)
+    public function _handler_account_delete($handler_id, array $args, array &$data)
     {
         // Check if we get the person
         $this->_person = new org_openpsa_contacts_person_dba($args[0]);
@@ -372,7 +372,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_account_create($handler_id, &$data)
+    public function _show_account_create($handler_id, array &$data)
     {
         midcom_show_style("show-person-account-create");
     }
@@ -382,7 +382,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_account_edit($handler_id, &$data)
+    public function _show_account_edit($handler_id, array &$data)
     {
         midcom_show_style("show-person-account-edit");
     }
@@ -392,7 +392,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_account_delete($handler_id, &$data)
+    public function _show_account_delete($handler_id, array &$data)
     {
         midcom_show_style("show-person-account-delete");
     }

@@ -33,7 +33,7 @@ implements midcom_helper_datamanager2_interfaces_create
      */
     private $_controller = null;
 
-    public function _handler_billingdata($handler_id, $args, &$data)
+    public function _handler_billingdata($handler_id, array $args, array &$data)
     {
         //get billing_data
         $this->_billing_data = new org_openpsa_invoices_billing_data_dba($args[0]);
@@ -82,7 +82,7 @@ implements midcom_helper_datamanager2_interfaces_create
         return $schemadb;
     }
 
-    public function _show_billingdata($handler_id, &$data)
+    public function _show_billingdata($handler_id, array &$data)
     {
         midcom_show_style('show-billingdata');
     }
@@ -115,7 +115,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->add_breadcrumb('', $this->_l10n->get('billing data') . " : " . $object_label);
     }
 
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -142,7 +142,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_request_data['controller'] =& $this->_controller;
     }
 
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         midcom_show_style('show-billingdata');
     }

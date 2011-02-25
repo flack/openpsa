@@ -137,7 +137,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_today($handler_id, $args, &$data)
+    public function _handler_today($handler_id, array $args, array &$data)
     {
         $this->user = $_MIDCOM->auth->user->get_storage();
 
@@ -200,7 +200,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_today($handler_id, &$data)
+    public function _show_today($handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['calendar_url'] = $siteconfig->get_node_relative_url('org.openpsa.calendar');
@@ -220,7 +220,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_expenses($handler_id, $args, &$data)
+    public function _handler_expenses($handler_id, array $args, array &$data)
     {
         $data['requested_time'] = date('Y-m-d');
 
@@ -237,7 +237,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_expenses($handler_id, &$data)
+    public function _show_expenses($handler_id, array &$data)
     {
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');

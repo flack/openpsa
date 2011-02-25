@@ -80,7 +80,7 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * If create privileges apply, we relocate to the index creation campaign,
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_directmarketing_campaign_dba');
 
@@ -122,7 +122,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * Shows the loaded campaign.
      */
-    public function _show_create ($handler_id, &$data)
+    public function _show_create ($handler_id, array &$data)
     {
         midcom_show_style('show-campaign-new');
     }

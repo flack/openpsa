@@ -29,7 +29,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_applet($handler_id, $args, &$data)
+    public function _handler_applet($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // We're using a popup here
@@ -41,7 +41,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_applet($handler_id, &$data)
+    public function _show_applet($handler_id, array &$data)
     {
         midcom_show_style("jabber-applet");
     }
@@ -51,7 +51,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_summary($handler_id, $args, &$data)
+    public function _handler_summary($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
     }
@@ -61,7 +61,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_summary($handler_id, &$data)
+    public function _show_summary($handler_id, array &$data)
     {
         midcom_show_style("show-summary");
     }
@@ -71,7 +71,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
     }
@@ -81,7 +81,7 @@ class org_openpsa_jabber_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, array &$data)
     {
         midcom_show_style("show-frontpage");
     }

@@ -129,7 +129,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_select_type($handler_id, $args, &$data)
+    public function _handler_select_type($handler_id, array $args, array &$data)
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account_creation'));
 
@@ -175,7 +175,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      * Lists the available account types.
      */
-    public function _show_select_type($handler_id, &$data)
+    public function _show_select_type($handler_id, array &$data)
     {
         midcom_show_style('registration-account-type-list');
     }
@@ -186,7 +186,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_register_invitation($handler_id, $args, &$data)
+    public function _handler_register_invitation($handler_id, array $args, array &$data)
     {
         $hash = $args[0];
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -244,7 +244,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      * @todo Please comment *at least* on a method scope what these are doing!
      */
-    public function _show_register_invitation($handler_id, &$data)
+    public function _show_register_invitation($handler_id, array &$data)
     {
         if (count($this->_sent_invites) > 0)
         {
@@ -263,7 +263,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_register($handler_id, $args, &$data)
+    public function _handler_register($handler_id, array $args, array &$data)
     {
         $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_account_creation'));
         if (!array_key_exists($args[0], $this->_schemadb))
@@ -477,7 +477,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      * Lists the available account types.
      */
-    public function _show_register($handler_id, &$data)
+    public function _show_register($handler_id, array &$data)
     {
         switch ($this->_stage)
         {
@@ -861,7 +861,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_activate($handler_id, $args, &$data)
+    public function _handler_activate($handler_id, array $args, array &$data)
     {
         $guid = $args[0];
         $hash = $args[1];
@@ -909,7 +909,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      * Lists the available account types.
      */
-    public function _show_activate($handler_id, &$data)
+    public function _show_activate($handler_id, array &$data)
     {
         if ($this->activated)
         {
@@ -926,11 +926,11 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_finish($handler_id, $args, &$data)
+    public function _handler_finish($handler_id, array $args, array &$data)
     {
     }
 
-    public function _show_finish($handler_id, &$data)
+    public function _show_finish($handler_id, array &$data)
     {
         midcom_show_style('registration-finished');
     }

@@ -46,7 +46,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_entry($handler_id, $args, &$data)
+    public function _handler_entry($handler_id, array $args, array &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
@@ -138,7 +138,7 @@ implements midcom_helper_datamanager2_interfaces_create
         }
     }
 
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
@@ -159,7 +159,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_prepare_breadcrumb();
     }
 
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         midcom_show_style('journal_entry_edit');
     }
@@ -180,7 +180,7 @@ implements midcom_helper_datamanager2_interfaces_create
         return $reminder;
     }
 
-    public function _handler_remove($handler_id, $args, &$data)
+    public function _handler_remove($handler_id, array $args, array &$data)
     {
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $reminder = new org_openpsa_relatedto_journal_entry_dba($args[1]);
@@ -199,7 +199,7 @@ implements midcom_helper_datamanager2_interfaces_create
         return midcom_helper_datamanager2_schema::load_database($schemadb_name);
     }
 
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
@@ -235,12 +235,12 @@ implements midcom_helper_datamanager2_interfaces_create
         $_MIDCOM->bind_view_to_object($this->_journal_entry, $data['controller']->datamanager->schema->name);
     }
 
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midcom_show_style('journal_entry_edit');
     }
 
-    public function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_journal_entry = new org_openpsa_relatedto_journal_entry_dba($args[0]);
         $this->_current_object = $_MIDCOM->dbfactory->get_object_by_guid($this->_journal_entry->linkGuid);
@@ -256,7 +256,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $_MIDCOM->relocate($url_prefix);
     }
 
-    public function _show_delete($handler_id, &$data){}
+    public function _show_delete($handler_id, array &$data){}
 
     public function _handler_list($handler_id , $args , &$data)
     {
@@ -327,7 +327,7 @@ implements midcom_helper_datamanager2_interfaces_create
         $this->_prepare_header();
     }
 
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         midcom_show_style('show_entries_' . $this->_output_mode);
     }

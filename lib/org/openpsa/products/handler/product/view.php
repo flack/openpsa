@@ -220,7 +220,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         if (preg_match('/_raw$/', $handler_id))
         {
@@ -428,7 +428,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         if ($data['controller'])
         {

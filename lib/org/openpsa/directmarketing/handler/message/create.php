@@ -82,7 +82,7 @@ implements midcom_helper_datamanager2_interfaces_create
      *
      * If create privileges apply, we relocate to the index creation message,
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $data['campaign'] = $this->_master->load_campaign($args[0]);
         $_MIDCOM->auth->require_do('midgard:create', $data['campaign']);
@@ -127,7 +127,7 @@ implements midcom_helper_datamanager2_interfaces_create
     /**
      * Shows the loaded message.
      */
-    public function _show_create ($handler_id, &$data)
+    public function _show_create ($handler_id, array &$data)
     {
         midcom_show_style('show-message-new');
     }

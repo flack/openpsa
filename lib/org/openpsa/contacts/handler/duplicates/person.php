@@ -20,7 +20,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_sidebyside($handler_id, $args, &$data)
+    public function _handler_sidebyside($handler_id, array $args, array &$data)
     {
         $this->set_active_leaf('persons_merge');
         $_MIDCOM->auth->require_valid_user();
@@ -170,7 +170,7 @@ class org_openpsa_contacts_handler_duplicates_person extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_sidebyside($handler_id, &$data)
+    public function _show_sidebyside($handler_id, array &$data)
     {
         if (!$this->_request_data['notfound'])
         {

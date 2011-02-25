@@ -58,7 +58,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -90,7 +90,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, array &$data)
     {
         midcom_show_style("show-frontpage");
     }
@@ -100,7 +100,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_debug($handler_id, $args, &$data)
+    public function _handler_debug($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['config'] =& $this->_config;
@@ -111,7 +111,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_debug($handler_id, &$data)
+    public function _show_debug($handler_id, array &$data)
     {
         midcom_show_style("show-debug");
     }

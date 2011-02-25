@@ -29,7 +29,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    public function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
         // Symlink support requires that we use actual URL topic object here
         if ($urltopic = end($_MIDCOM->get_context_data(MIDCOM_CONTEXT_URLTOPICS)))
@@ -242,7 +242,7 @@ class midcom_admin_folder_handler_delete extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, array &$data)
     {
         if (!empty($this->_topic->symlink))
         {

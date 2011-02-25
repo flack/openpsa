@@ -55,7 +55,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_notinitialized($handler_id, $args, &$data)
+    public function _handler_notinitialized($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_admin_user();
 
@@ -70,12 +70,12 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_notinitialized($handler_id, &$data)
+    public function _show_notinitialized($handler_id, array &$data)
     {
         midcom_show_style('show-not-initialized');
     }
 
-    public function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $selected_time = time();

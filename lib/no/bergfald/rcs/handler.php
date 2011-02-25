@@ -233,7 +233,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_history($handler_id, $args, &$data)
+    public function _handler_history($handler_id, array $args, array &$data)
     {
         $this->_guid = $args[0];
         $this->_load_object();
@@ -283,7 +283,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     /**
      * Show a diff between two versions
      */
-    public function _handler_diff($handler_id, $args, &$data)
+    public function _handler_diff($handler_id, array $args, array &$data)
     {
         $this->_guid = $args[0];
         $this->_load_object();
@@ -350,7 +350,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     /**
      * View previews
      */
-    public function _handler_preview($handler_id, $args, &$data)
+    public function _handler_preview($handler_id, array $args, array &$data)
     {
         $this->_guid = $args[0];
         $this->_args = $args;
@@ -391,7 +391,7 @@ class no_bergfald_rcs_handler extends midcom_baseclasses_components_plugin
     /**
      * Restore to diff
      */
-    public function _handler_restore($handler_id, $args, &$data)
+    public function _handler_restore($handler_id, array $args, array &$data)
     {
         $this->_guid = $args[0];
         $this->_args = $args;

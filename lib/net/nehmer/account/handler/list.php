@@ -53,7 +53,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->load_library('org.openpsa.qbpager');
 
@@ -100,7 +100,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         $this->_prepare_datamanager();
         midcom_show_style('show-list-header');
@@ -129,7 +129,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list_by_category($handler_id, $args, &$data)
+    public function _handler_list_by_category($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_list'))
         {
@@ -189,7 +189,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list_by_category($handler_id, &$data)
+    public function _show_list_by_category($handler_id, array &$data)
     {
         $this->_prepare_datamanager();
         midcom_show_style('show-list-header');
@@ -213,7 +213,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list_random($handler_id, $args, &$data)
+    public function _handler_list_random($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_list'))
         {
@@ -284,7 +284,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list_random($handler_id, &$data)
+    public function _show_list_random($handler_id, array &$data)
     {
         $this->_prepare_datamanager();
         midcom_show_style('show-list-header');

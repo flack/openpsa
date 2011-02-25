@@ -93,7 +93,7 @@ class net_nemein_wiki_handler_delete extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, array &$data)
     {
         $this->_request_data['wikipage_view'] = $this->_datamanager->get_content_html();
 

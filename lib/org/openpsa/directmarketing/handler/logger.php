@@ -20,7 +20,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_bounce($handler_id, $args, &$data)
+    public function _handler_bounce($handler_id, array $args, array &$data)
     {
         if (   !array_key_exists('token', $_POST)
             || empty($_POST['token']))
@@ -93,7 +93,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_bounce($handler_id, &$data)
+    public function _show_bounce($handler_id, array &$data)
     {
         echo "OK\n";
         //PONDER: check  $this->_request_data['update_status'] and display something else in case all is not ok ?
@@ -123,7 +123,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_link($handler_id, $args, &$data)
+    public function _handler_link($handler_id, array $args, array &$data)
     {
         if (   !array_key_exists('token', $_POST)
             || empty($_POST['token']))
@@ -185,7 +185,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_link($handler_id, &$data)
+    public function _show_link($handler_id, array &$data)
     {
         echo "OK\n";
         //PONDER: check $this->_request_data['create_status'] and display something else in case all is not ok ?
@@ -199,7 +199,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_redirect($handler_id, $args, &$data)
+    public function _handler_redirect($handler_id, array $args, array &$data)
     {
         $this->_request_data['target'] = false;
         $this->_request_data['token'] = false;
@@ -263,7 +263,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_redirect($handler_id, &$data)
+    public function _show_redirect($handler_id, array &$data)
     {
         //TODO: make an element to display in case our relocate fails (with link to the intended target...)
     }

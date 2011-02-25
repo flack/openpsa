@@ -18,7 +18,7 @@ class org_openpsa_invoices_handler_goto extends midcom_baseclasses_components_ha
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_goto($handler_id, $args, &$data)
+    public function _handler_goto($handler_id, array $args, array &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (!isset($_GET['query']))

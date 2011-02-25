@@ -209,7 +209,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
         if (!$_MIDCOM->componentloader->is_installed($data['name']))
@@ -232,7 +232,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -456,7 +456,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
         if (!$_MIDCOM->componentloader->is_installed($data['name']))
@@ -578,7 +578,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midgard_admin_asgard_component_configuration_edit');

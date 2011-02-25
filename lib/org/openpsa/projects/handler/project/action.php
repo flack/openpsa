@@ -13,7 +13,7 @@
  */
 class org_openpsa_projects_handler_project_action extends midcom_baseclasses_components_handler
 {
-    public function _handler_subscribe($handler_id, $args, &$data)
+    public function _handler_subscribe($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['project'] = new org_openpsa_projects_project($args[0]);
@@ -56,7 +56,7 @@ class org_openpsa_projects_handler_project_action extends midcom_baseclasses_com
         }
     }
 
-    public function _handler_unsubscribe($handler_id, $args, &$data)
+    public function _handler_unsubscribe($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['project'] = new org_openpsa_projects_project($args[0]);

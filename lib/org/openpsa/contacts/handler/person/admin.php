@@ -201,7 +201,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         $this->_contact->require_do('midgard:update');
@@ -236,7 +236,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, array &$data)
     {
         midcom_show_style('show-person-edit');
     }
@@ -253,7 +253,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
         $this->_contact->require_do('midgard:delete');
@@ -296,7 +296,7 @@ class org_openpsa_contacts_handler_person_admin extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, array &$data)
     {
         $data['contact_view'] = $this->_datamanager->get_content_html();
 

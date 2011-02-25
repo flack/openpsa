@@ -140,7 +140,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_password($handler_id, $args, &$data)
+    public function _handler_password($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_change_password'))
         {
@@ -258,7 +258,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_password($handler_id, &$data)
+    public function _show_password($handler_id, array &$data)
     {
         if ($this->_success)
         {
@@ -278,7 +278,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_username($handler_id, $args, &$data)
+    public function _handler_username($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -388,7 +388,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_username($handler_id, &$data)
+    public function _show_username($handler_id, array &$data)
     {
         if ($this->_success)
         {
@@ -411,7 +411,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_lostpassword($handler_id, $args, &$data)
+    public function _handler_lostpassword($handler_id, array $args, array &$data)
     {
         if (   isset($_POST['email'])
             && $this->_config->get('lostpassword_email_reset'))
@@ -442,7 +442,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_lostpassword_reset($handler_id, $args, &$data)
+    public function _handler_lostpassword_reset($handler_id, array $args, array &$data)
     {
         $guid = $args[0];
         $hash = $args[1];
@@ -490,7 +490,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_lostpassword_reset($handler_id, &$data)
+    public function _show_lostpassword_reset($handler_id, array &$data)
     {
         midcom_show_style('show-lostpassword-ok');
     }
@@ -760,7 +760,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_lostpassword($handler_id, &$data)
+    public function _show_lostpassword($handler_id, array &$data)
     {
         if ($this->_success)
         {
@@ -780,7 +780,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_cancel_membership($handler_id, $args, &$data)
+    public function _handler_cancel_membership($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_account = $_MIDCOM->auth->user->get_storage();
@@ -925,7 +925,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_cancel_membership($handler_id, &$data)
+    public function _show_cancel_membership($handler_id, array &$data)
     {
         if ($this->_success)
         {

@@ -41,7 +41,7 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_process($handler_id, $args, &$data)
+    public function _handler_process($handler_id, array $args, array &$data)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {

@@ -18,7 +18,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_set($handler_id, $args, &$data)
+    public function _handler_set($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
 
@@ -61,7 +61,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_check($handler_id, $args, &$data)
+    public function _handler_check($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
 
@@ -79,7 +79,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_check($handler_id, &$data)
+    public function _show_check($handler_id, array &$data)
     {
         midcom_show_style('show-workingon-xml');
     }

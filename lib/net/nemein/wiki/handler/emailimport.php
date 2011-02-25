@@ -18,7 +18,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_emailimport($handler_id, $args, &$data)
+    public function _handler_emailimport($handler_id, array $args, array &$data)
     {
         //Content-Type
         $_MIDCOM->skip_page_style = true;
@@ -220,7 +220,7 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_emailimport($handler_id, &$data)
+    public function _show_emailimport($handler_id, array &$data)
     {
         //All done
         echo "OK\n";

@@ -482,7 +482,7 @@ function openPsaShowMonthSelector()
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_month($handler_id, $args, &$data)
+    public function _handler_month($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_generate_date($args);
@@ -555,7 +555,7 @@ function openPsaShowMonthSelector()
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_month($handler_id, &$data)
+    public function _show_month($handler_id, array &$data)
     {
         $this->_request_data['selected_time'] = $this->_selected_time;
         midcom_show_style('show-month');
@@ -568,7 +568,7 @@ function openPsaShowMonthSelector()
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_week($handler_id, $args, &$data)
+    public function _handler_week($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_generate_date($args);
@@ -645,7 +645,7 @@ function openPsaShowMonthSelector()
      * @param array &$data          Public request data, passed by reference
      * @return boolean              Indicating success
      */
-    public function _show_week($handler_id, &$data)
+    public function _show_week($handler_id, array &$data)
     {
         $this->_request_data['selected_time'] = $this->_selected_time;
         midcom_show_style('show-week');
@@ -658,7 +658,7 @@ function openPsaShowMonthSelector()
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_day($handler_id, $args, &$data)
+    public function _handler_day($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_generate_date($args);
@@ -728,7 +728,7 @@ function openPsaShowMonthSelector()
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_day($handler_id, &$data)
+    public function _show_day($handler_id, array &$data)
     {
         $this->_request_data['selected_time'] = $this->_selected_time;
         midcom_show_style('show-day');
@@ -741,7 +741,7 @@ function openPsaShowMonthSelector()
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_event($handler_id, $args, &$data)
+    public function _handler_event($handler_id, array $args, array &$data)
     {
         // We're using a popup here
         $_MIDCOM->skip_page_style = true;
@@ -844,7 +844,7 @@ function openPsaShowMonthSelector()
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_event($handler_id, &$data)
+    public function _show_event($handler_id, array &$data)
     {
         if ($handler_id == 'event_view')
         {

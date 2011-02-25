@@ -35,7 +35,7 @@ class midcom_helper_imagepopup_handler_list extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->cache->content->no_cache();
         $_MIDCOM->auth->require_valid_user();

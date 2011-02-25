@@ -75,7 +75,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
@@ -107,7 +107,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         // For AJAX handling it is the controller that renders everything
         $this->_request_data['view_deliverable'] = $this->_request_data['controller']->get_content_html();

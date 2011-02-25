@@ -18,7 +18,7 @@ class org_openpsa_projects_handler_task_action extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_action($handler_id, $args, &$data)
+    public function _handler_action($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 

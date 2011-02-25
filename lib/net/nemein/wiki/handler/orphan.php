@@ -18,7 +18,7 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_orphan($handler_id, $args, &$data)
+    public function _handler_orphan($handler_id, array $args, array &$data)
     {
         $data['wiki_name'] = $this->_topic->extra;
 
@@ -53,7 +53,7 @@ class net_nemein_wiki_handler_orphan extends midcom_baseclasses_components_handl
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_orphan($handler_id, &$data)
+    public function _show_orphan($handler_id, array &$data)
     {
         midcom_show_style('view-orphans');
     }

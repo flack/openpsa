@@ -23,7 +23,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_index ($handler_id, $args, &$data)
+    public function _handler_index ($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -171,7 +171,7 @@ class org_openpsa_expenses_handler_index  extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_index($handler_id, &$data)
+    public function _show_index($handler_id, array &$data)
     {
         midcom_show_style('expenses_index_header');
         midcom_show_style('hours_week');

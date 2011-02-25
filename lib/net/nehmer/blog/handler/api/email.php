@@ -141,7 +141,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_import($handler_id, $args, &$data)
+    public function _handler_import($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('api_email_enable'))
         {
@@ -273,7 +273,7 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_import($handler_id, &$data)
+    public function _show_import($handler_id, array &$data)
     {
         //All done
         echo "OK\n";

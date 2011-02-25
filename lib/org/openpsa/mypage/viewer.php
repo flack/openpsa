@@ -27,7 +27,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_savefilter($handler_id, $args, &$data)
+    public function _handler_savefilter($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (array_key_exists('org_openpsa_workgroup_filter', $_POST))
@@ -50,7 +50,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_userinfo($handler_id, $args, &$data)
+    public function _handler_userinfo($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if ($_MIDCOM->auth->user)
@@ -68,7 +68,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_userinfo($handler_id, &$data)
+    public function _show_userinfo($handler_id, array &$data)
     {
         if ($_MIDCOM->auth->user)
         {
@@ -81,7 +81,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_updates($handler_id, $args, &$data)
+    public function _handler_updates($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // Instantiate indexer
@@ -103,7 +103,7 @@ class org_openpsa_mypage_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_updates($handler_id, &$data)
+    public function _show_updates($handler_id, array &$data)
     {
         midcom_show_style("show-updates");
     }

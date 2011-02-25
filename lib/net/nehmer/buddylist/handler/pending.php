@@ -80,7 +80,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -145,7 +145,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         midcom_show_style('pending-start');
 
@@ -166,7 +166,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_process($handler_id, $args, &$data)
+    public function _handler_process($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -260,7 +260,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_process($handler_id, &$data)
+    public function _show_process($handler_id, array &$data)
     {
         if (net_nehmer_buddylist_entry::get_unapproved_count() > 0)
         {

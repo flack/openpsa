@@ -62,7 +62,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_request($handler_id, $args, &$data)
+    public function _handler_request($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -113,7 +113,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_request($handler_id, &$data)
+    public function _show_request($handler_id, array &$data)
     {
         midcom_show_style('request-sent');
     }

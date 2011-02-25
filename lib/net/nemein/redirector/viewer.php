@@ -65,7 +65,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _can_handle_redirect($handler_id, $args, &$data)
+    public function _can_handle_redirect($handler_id, array $args, array &$data)
     {
         // Process the request immediately
         if (isset($args[0]))
@@ -119,7 +119,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_redirect($handler_id, $args, &$data)
+    public function _handler_redirect($handler_id, array $args, array &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -163,7 +163,7 @@ class net_nemein_redirector_viewer extends midcom_baseclasses_components_request
      * @param string $handler_id    Handler ID
      * @param array &$data          Pass-by-reference of request data
      */
-    public function _show_redirect($handler_id, &$data)
+    public function _show_redirect($handler_id, array &$data)
     {
         midcom_show_style('redirection-page');
     }

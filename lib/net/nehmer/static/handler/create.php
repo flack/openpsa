@@ -172,7 +172,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_content_topic->require_do('midgard:create');
 
@@ -226,7 +226,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_create ($handler_id, &$data)
+    public function _show_create ($handler_id, array &$data)
     {
         midcom_show_style('admin-create');
     }

@@ -130,7 +130,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_remind_invite($handler_id, $args, &$data)
+    public function _handler_remind_invite($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -156,7 +156,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_delete_invite($handler_id, $args, &$data)
+    public function _handler_delete_invite($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -182,7 +182,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_delete_invite($handler_id, &$data)
+    public function _show_delete_invite($handler_id, array &$data)
     {
     }
 
@@ -191,7 +191,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_invite($handler_id, $args, &$data)
+    public function _handler_invite($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -280,7 +280,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_invite($handler_id, &$data)
+    public function _show_invite($handler_id, array &$data)
     {
         midcom_show_style('show-invite-emails');
     }
@@ -290,7 +290,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_sent_invites($handler_id, $args, &$data)
+    public function _handler_sent_invites($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_invite'))
         {
@@ -330,7 +330,7 @@ class net_nehmer_account_handler_invitation extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_sent_invites($handler_id, &$data)
+    public function _show_sent_invites($handler_id, array &$data)
     {
         midcom_show_style('invites-list-header');
 

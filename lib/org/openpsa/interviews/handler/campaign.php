@@ -38,7 +38,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_summary($handler_id, $args, &$data)
+    public function _handler_summary($handler_id, array $args, array &$data)
     {
         $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
         $this->_prepare_toolbar();
@@ -89,7 +89,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_summary($handler_id, &$data)
+    public function _show_summary($handler_id, array &$data)
     {
         midcom_show_style('show-summary');
     }
@@ -99,7 +99,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_next($handler_id, $args, &$data)
+    public function _handler_next($handler_id, array $args, array &$data)
     {
         $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
         $this->_prepare_toolbar();
@@ -134,7 +134,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_next($handler_id, &$data)
+    public function _show_next($handler_id, array &$data)
     {
         midcom_show_style('show-no-next');
     }

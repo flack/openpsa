@@ -687,7 +687,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_rsd($handler_id, $args, &$data)
+    public function _handler_rsd($handler_id, array $args, array &$data)
     {
         //Content-Type
         $_MIDCOM->skip_page_style = true;
@@ -699,7 +699,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_rsd($handler_id, &$data)
+    public function _show_rsd($handler_id, array &$data)
     {
         $data['content_topic'] = $this->_content_topic;
         midcom_show_style('rsd');
@@ -710,7 +710,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_server($handler_id, $args, &$data)
+    public function _handler_server($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('api_metaweblog_enable'))
         {
@@ -769,7 +769,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_server($handler_id, &$data)
+    public function _show_server($handler_id, array &$data)
     {
         // Serve the RPC request
         new XML_RPC_Server($data['dispatchmap']);

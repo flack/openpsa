@@ -43,7 +43,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_compose($handler_id, $args, &$data)
+    public function _handler_compose($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->request_sudo();
         //Load message
@@ -113,7 +113,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
      * @param array &$data          Public request data, passed by reference
      * @return String               Composed message
      */
-    public function _show_compose($handler_id, &$data)
+    public function _show_compose($handler_id, array &$data)
     {
         if ($handler_id === 'compose4person')
         {
@@ -128,7 +128,7 @@ class org_openpsa_directmarketing_handler_message_compose extends midcom_basecla
         $this->_real_show_compose($handler_id, $data);
     }
 
-    private function _real_show_compose($handler_id, &$data)
+    private function _real_show_compose($handler_id, array &$data)
     {
         $prefix='';
         if (   array_key_exists('substyle', $data['message_array'])

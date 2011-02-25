@@ -46,7 +46,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
@@ -70,7 +70,7 @@ class midgard_admin_asgard_handler_object_parameters extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midcom_show_style('midgard_admin_asgard_header');
         midcom_show_style('midgard_admin_asgard_middle');

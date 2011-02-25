@@ -79,7 +79,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_group = new midcom_db_group($args[0]);
         $this->_group->require_do('midgard:update');
@@ -135,7 +135,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-edit');

@@ -66,7 +66,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_versions($handler_id, $args, &$data)
+    public function _handler_versions($handler_id, array $args, array &$data)
     {
         $this->_document = $this->_load_document($args[0]);
 
@@ -93,7 +93,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_versions($handler_id, &$data)
+    public function _show_versions($handler_id, array &$data)
     {
         if (sizeof($data['documents']) == 0)
         {
@@ -108,7 +108,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         // Get the requested document object
         $this->_document = $this->_load_document($args[0]);
@@ -266,7 +266,7 @@ class org_openpsa_documents_handler_document_view extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         midcom_show_style("show-document");
     }

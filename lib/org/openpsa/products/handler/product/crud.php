@@ -116,7 +116,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
     /**
      * Show method is overridden so that we can keep the style element naming consistent
      */
-    public function _show_update($handler_id, &$data)
+    public function _show_update($handler_id, array &$data)
     {
         $this->_request_data['view_product'] = $this->_request_data['controller']->datamanager->get_content_html();
         midcom_show_style('product_edit');
@@ -125,7 +125,7 @@ class org_openpsa_products_handler_product_crud extends midcom_baseclasses_compo
     /**
      * Show method is overridden so that we can keep the style element naming consistent
      */
-    public function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, array &$data)
     {
         midcom_show_style('product_delete');
     }

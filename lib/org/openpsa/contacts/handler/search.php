@@ -71,7 +71,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_search_type($handler_id, $args, &$data)
+    public function _handler_search_type($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         switch ($args[0])
@@ -91,7 +91,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_search_type($handler_id, &$data)
+    public function _show_search_type($handler_id, array &$data)
     {
         if ($this->_view == 'foaf')
         {
@@ -113,7 +113,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_search($handler_id, $args, &$data)
+    public function _handler_search($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -176,7 +176,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_search($handler_id, &$data)
+    public function _show_search($handler_id, array &$data)
     {
         midcom_show_style('search-header');
 

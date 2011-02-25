@@ -49,7 +49,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -173,7 +173,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         switch($this->_output_mode)
         {

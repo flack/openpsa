@@ -18,7 +18,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_add($handler_id, $args, &$data)
+    public function _handler_add($handler_id, array $args, array &$data)
     {
         $user =& $_MIDCOM->auth->user->get_storage();
         $user->require_do('midgard:create');
@@ -53,7 +53,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_remove($handler_id, $args, &$data)
+    public function _handler_remove($handler_id, array $args, array &$data)
     {
         $user =& $_MIDCOM->auth->user->get_storage();
         $user->require_do('midgard:create');
@@ -86,7 +86,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->skip_page_style = true;
 
@@ -130,7 +130,7 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         if (count($this->_request_data['buddylist']) > 0)
         {

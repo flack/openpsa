@@ -129,7 +129,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_read($handler_id, &$data)
+    public function _show_read($handler_id, array &$data)
     {
         midcom_show_style('show-project');
     }
@@ -141,7 +141,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_callback($handler_id, $args, &$data)
+    public function _handler_callback($handler_id, array $args, array &$data)
     {
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         if ($handler_id == 'project')

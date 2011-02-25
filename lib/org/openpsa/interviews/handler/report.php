@@ -30,7 +30,7 @@ class org_openpsa_interviews_handler_report extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_all($handler_id, $args, &$data)
+    public function _handler_all($handler_id, array $args, array &$data)
     {
         $this->_request_data['campaign'] = new org_openpsa_directmarketing_campaign_dba($args[0]);
         $this->_prepare_toolbar();
@@ -53,7 +53,7 @@ class org_openpsa_interviews_handler_report extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_all($handler_id, &$data)
+    public function _show_all($handler_id, array &$data)
     {
         midcom_show_style('show-all-header');
 

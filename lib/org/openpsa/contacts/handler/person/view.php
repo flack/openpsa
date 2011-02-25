@@ -99,7 +99,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         $this->_contact = new org_openpsa_contacts_person_dba($args[0]);
 
@@ -269,7 +269,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         // For AJAX handling it is the controller that renders everything
         $data['contact_view'] =& $this->_controller->get_content_html();
@@ -284,7 +284,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_group_memberships($handler_id, $args, &$data)
+    public function _handler_group_memberships($handler_id, array $args, array &$data)
     {
         // Check if we get the person
         $data['person'] = new org_openpsa_contacts_person_dba($args[0]);
@@ -302,7 +302,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_group_memberships($handler_id, &$data)
+    public function _show_group_memberships($handler_id, array &$data)
     {
         // This is most likely a dynamic_load
         if (count($data['memberships']) > 0)

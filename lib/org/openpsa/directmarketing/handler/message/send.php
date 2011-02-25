@@ -27,7 +27,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_send_bg($handler_id, $args, &$data)
+    public function _handler_send_bg($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->request_sudo();
 
@@ -68,7 +68,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_send_bg($handler_id, &$data)
+    public function _show_send_bg($handler_id, array &$data)
     {
         $_MIDCOM->auth->request_sudo();
         debug_add('Forcing content type: text/plain');
@@ -173,7 +173,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_send($handler_id, $args, &$data)
+    public function _handler_send($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         //Load message
@@ -229,7 +229,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_send($handler_id, &$data)
+    public function _show_send($handler_id, array &$data)
     {
         $composed = $this->_prepare_send($data);
         // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...

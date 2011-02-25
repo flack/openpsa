@@ -18,7 +18,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_action($handler_id, $args, &$data)
+    public function _handler_action($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         if (!isset($this->_request_data['action']))
@@ -82,7 +82,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_action($handler_id, &$data)
+    public function _show_action($handler_id, array &$data)
     {
         //We actually should not ever get this far
         return;
@@ -93,7 +93,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_post($handler_id, $args, &$data)
+    public function _handler_post($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         //Look for action among POST variables, then load main handler...
@@ -128,7 +128,7 @@ class org_openpsa_projects_handler_workflow extends midcom_baseclasses_component
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_post($handler_id, &$data)
+    public function _show_post($handler_id, array &$data)
     {
         //We actually should not ever get this far
     }

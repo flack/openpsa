@@ -43,7 +43,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         // Require administrator privileges
         $_MIDCOM->auth->require_admin_user();
@@ -68,7 +68,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         if (count($this->persons) === 0)
         {
@@ -109,7 +109,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_approve($handler_id, $args, &$data)
+    public function _handler_approve($handler_id, array $args, array &$data)
     {
         // Require administrator privileges
         $_MIDCOM->auth->require_admin_user();
@@ -170,7 +170,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_approve($handler_id, &$data)
+    public function _show_approve($handler_id, array &$data)
     {
         midcom_show_style('pending-approval-header');
 

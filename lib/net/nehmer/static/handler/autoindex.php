@@ -44,7 +44,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_autoindex ($handler_id, $args, &$data)
+    public function _handler_autoindex ($handler_id, array $args, array &$data)
     {
         // Get last modified timestamp
         $qb = midcom_db_article::new_query_builder();
@@ -98,7 +98,7 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_autoindex($handler_id, &$data)
+    public function _show_autoindex($handler_id, array &$data)
     {
         midcom_show_style('autoindex-start');
 

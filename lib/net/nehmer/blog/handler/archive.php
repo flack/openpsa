@@ -87,7 +87,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_welcome ($handler_id, $args, &$data)
+    public function _handler_welcome ($handler_id, array $args, array &$data)
     {
         $this->_compute_welcome_data();
         $this->_prepare_request_data();
@@ -292,7 +292,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_welcome($handler_id, &$data)
+    public function _show_welcome($handler_id, array &$data)
     {
         midcom_show_style('archive-welcome-start');
 
@@ -316,7 +316,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list ($handler_id, $args, &$data)
+    public function _handler_list ($handler_id, array $args, array &$data)
     {
         // Get Articles, distinguish by handler.
         $qb = midcom_db_article::new_query_builder();
@@ -487,7 +487,7 @@ class net_nehmer_blog_handler_archive extends midcom_baseclasses_components_hand
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         // FIXME: For some reason the config topic is lost between _handle and _show phases
         $this->_config->store_from_object($this->_topic, $this->_component);

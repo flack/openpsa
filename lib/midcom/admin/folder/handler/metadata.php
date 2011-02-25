@@ -84,7 +84,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      * @param Array &$data The local request data.
      * @return boolean Indicating success
      */
-    public function _handler_metadata($handler_id, $args, &$data)
+    public function _handler_metadata($handler_id, array $args, array &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
 
@@ -152,7 +152,7 @@ class midcom_admin_folder_handler_metadata extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_metadata($handler_id, &$data)
+    public function _show_metadata($handler_id, array &$data)
     {
         // Bind object details to the request data
         $data['controller'] =& $this->_controller;

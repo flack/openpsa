@@ -84,7 +84,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_select($handler_id, $args, &$data)
+    public function _handler_select($handler_id, array $args, array &$data)
     {
         $this->_update_breadcrumb_line($handler_id);
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -95,7 +95,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_select($handler_id, &$data)
+    public function _show_select($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom_admin_babel_select');
@@ -107,7 +107,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_save($handler_id, $args, &$data)
+    public function _handler_save($handler_id, array $args, array &$data)
     {
         $this->_component_path = $args[0];
         $this->_load_language($args[1]);
@@ -244,7 +244,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_save($handler_id, &$data)
+    public function _show_save($handler_id, array &$data)
     {
         if ($this->_lang && $this->_component_path)
         {
@@ -262,7 +262,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_status($handler_id, $args, &$data)
+    public function _handler_status($handler_id, array $args, array &$data)
     {
         $this->_load_language($args[0]);
 
@@ -275,7 +275,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_status($handler_id, &$data)
+    public function _show_status($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -324,7 +324,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_component_path = $args[0];
         $this->_load_language($args[1]);
@@ -360,7 +360,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         $this->_request_data['view_component'] = $this->_component_path;
         $this->_request_data['view_lang'] = $this->_lang;
@@ -401,7 +401,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_permission_check($handler_id, &$data)
+    public function _show_permission_check($handler_id, array &$data)
     {
         if ($this->_component_path == 'midcom')
         {

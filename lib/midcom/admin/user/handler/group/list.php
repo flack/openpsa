@@ -42,7 +42,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_move($handler_id, $args, &$data)
+    public function _handler_move($handler_id, array $args, array &$data)
     {
         $data['group'] = new midcom_db_group($args[0]);
         // Get the prefix
@@ -88,7 +88,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_move($handler_id, &$data)
+    public function _show_move($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-list-start');
@@ -113,7 +113,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         // Get the prefix
         $data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
@@ -131,7 +131,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         midcom_show_style('midcom-admin-user-group-list-start');

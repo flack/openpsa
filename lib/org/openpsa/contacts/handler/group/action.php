@@ -24,7 +24,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_notifications($handler_id, $args, &$data)
+    public function _handler_notifications($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
@@ -64,7 +64,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_action($handler_id, $args, &$data)
+    public function _handler_action($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
         // Check if we get the group
@@ -122,7 +122,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_notifications($handler_id, &$data)
+    public function _show_notifications($handler_id, array &$data)
     {
         midcom_show_style("show-notifications");
     }
@@ -132,7 +132,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_action($handler_id, &$data)
+    public function _show_action($handler_id, array &$data)
     {
         switch ($this->_view)
         {

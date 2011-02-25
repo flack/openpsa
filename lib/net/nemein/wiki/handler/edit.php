@@ -81,7 +81,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_page = $this->_master->load_page($args[0]);
         $this->_page->require_do('midgard:update');
@@ -181,7 +181,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         $data['controller'] =& $this->_controller;
         $data['preview_mode'] = $this->_preview;
@@ -232,7 +232,7 @@ class net_nemein_wiki_handler_edit extends midcom_baseclasses_components_handler
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_change($handler_id, $args, &$data)
+    public function _handler_change($handler_id, array $args, array &$data)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST')
         {

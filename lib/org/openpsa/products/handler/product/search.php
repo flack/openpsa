@@ -25,7 +25,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_search_redirect($handler_id, $args, &$data)
+    public function _handler_search_redirect($handler_id, array $args, array &$data)
     {
         foreach ($data['schemadb_product'] as $name => $schema)
         {
@@ -404,7 +404,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_search($handler_id, $args, &$data)
+    public function _handler_search($handler_id, array $args, array &$data)
     {
         $data['search_schema'] = $args[0];
         if (!array_key_exists($data['search_schema'], $data['schemadb_product']))
@@ -515,7 +515,7 @@ class org_openpsa_products_handler_product_search extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_search($handler_id, &$data)
+    public function _show_search($handler_id, array &$data)
     {
         midcom_show_style('product_search_header');
         midcom_show_style('product_search_form');

@@ -58,7 +58,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $args Array containing the variable arguments passed to the handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $data['controller'] = $this->get_controller('create');
         switch ($data['controller']->process_form())
@@ -86,7 +86,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         $data['group'] =& $this->_group;

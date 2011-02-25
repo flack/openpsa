@@ -79,7 +79,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
      * @param array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_admin_user();
         $data['hostname'] = $_SERVER['SERVER_NAME'] . midcom_connection::get_url('prefix');
@@ -196,7 +196,7 @@ class midcom_admin_settings_editor extends midcom_baseclasses_components_plugin
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
         if(is_null($this->_config_storage))

@@ -67,7 +67,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param array $args           Variable arguments
      * @param array &$data          Public request data, passed by reference
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -110,7 +110,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param String $handler_id    Name of the request handler
      * @param array &$data          Public request data, passed by reference
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         $data['person'] =& $this->_person;
 

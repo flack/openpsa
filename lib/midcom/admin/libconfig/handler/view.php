@@ -50,7 +50,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_view($handler_id, $args, &$data)
+    public function _handler_view($handler_id, array $args, array &$data)
     {
         $data['name'] = $args[0];
         if (!$_MIDCOM->componentloader->is_installed($data['name']))
@@ -97,7 +97,7 @@ class midcom_admin_libconfig_handler_view extends midcom_baseclasses_components_
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_view($handler_id, &$data)
+    public function _show_view($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

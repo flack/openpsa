@@ -88,7 +88,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_group = new org_openpsa_products_product_group_dba($args[0]);
 
@@ -132,7 +132,7 @@ class org_openpsa_products_handler_group_edit extends midcom_baseclasses_compone
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         $this->_request_data['view_group'] = $this->_request_data['controller']->datamanager->get_content_html();
         midcom_show_style('product_group_edit');

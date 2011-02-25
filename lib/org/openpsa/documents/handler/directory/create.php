@@ -84,7 +84,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_do('midgard:create', $this->_request_data['directory']);
 
@@ -118,7 +118,7 @@ class org_openpsa_documents_handler_directory_create extends midcom_baseclasses_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         midcom_show_style("show-directory-create");
     }

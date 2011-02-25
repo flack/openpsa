@@ -38,7 +38,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_searchform($handler_id, $args, &$data)
+    public function _handler_searchform($handler_id, array $args, array &$data)
     {
         switch ($handler_id)
         {
@@ -95,7 +95,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_searchform($handler_id, &$data)
+    public function _show_searchform($handler_id, array &$data)
     {
         midcom_show_style('search_form');
     }
@@ -133,7 +133,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_result($handler_id, $args, &$data)
+    public function _handler_result($handler_id, array $args, array &$data)
     {
         $this->_prepare_query_data();
 
@@ -308,7 +308,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_result($handler_id, &$data)
+    public function _show_result($handler_id, array &$data)
     {
         if ($data['document_count'] > 0)
         {
@@ -327,7 +327,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_opensearchdescription($handler_id, $args, &$data)
+    public function _handler_opensearchdescription($handler_id, array $args, array &$data)
     {
         $_MIDCOM->cache->content->content_type("application/opensearchdescription+xml");
         $_MIDCOM->header("Content-type: application/opensearchdescription+xml; charset=UTF-8");
@@ -340,7 +340,7 @@ class midcom_helper_search_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_opensearchdescription($handler_id, &$data)
+    public function _show_opensearchdescription($handler_id, array &$data)
     {
         $data['node'] = $this->_topic;
         midcom_show_style('opensearch_description');

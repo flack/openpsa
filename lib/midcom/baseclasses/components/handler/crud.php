@@ -108,7 +108,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _load_object($handler_id, $args, &$data)
+    public function _load_object($handler_id, array $args, array &$data)
     {
         $this->_object = new $this->_dba_class($args[0]);
     }
@@ -123,7 +123,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _load_parent($handler_id, $args, &$data)
+    public function _load_parent($handler_id, array $args, array &$data)
     {
         return;
     }
@@ -408,7 +408,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_callback($handler_id, $args, &$data)
+    public function _handler_callback($handler_id, array $args, array &$data)
     {
     }
 
@@ -419,7 +419,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_mode = 'create';
         $this->_load_parent($handler_id, $args, $data);
@@ -487,7 +487,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         $prefix = $this->_get_style_prefix();
         midcom_show_style($prefix . 'admin-create');
@@ -500,7 +500,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_read($handler_id, $args, &$data)
+    public function _handler_read($handler_id, array $args, array &$data)
     {
         $this->_mode = 'read';
         $this->_load_object($handler_id, $args, $data);
@@ -549,7 +549,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_read($handler_id, &$data)
+    public function _show_read($handler_id, array &$data)
     {
         $prefix = $this->_get_style_prefix();
         midcom_show_style($prefix . 'admin-read');
@@ -562,7 +562,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_update($handler_id, $args, &$data)
+    public function _handler_update($handler_id, array $args, array &$data)
     {
         $this->_mode = 'update';
         $this->_load_object($handler_id, $args, $data);
@@ -605,7 +605,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_update($handler_id, &$data)
+    public function _show_update($handler_id, array &$data)
     {
         $prefix = $this->_get_style_prefix();
         midcom_show_style($prefix . 'admin-update');
@@ -623,7 +623,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param array $args The argument list.
      * @param array &$data The local request data.
      */
-    public function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_mode = 'delete';
         $this->_load_object($handler_id, $args, $data);
@@ -683,7 +683,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, array &$data)
     {
         $prefix = $this->_get_style_prefix();
         $data['object_view'] = $this->_datamanager->get_content_html();

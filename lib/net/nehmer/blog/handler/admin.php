@@ -196,7 +196,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
 
@@ -252,7 +252,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit ($handler_id, &$data)
+    public function _show_edit ($handler_id, array &$data)
     {
         midcom_show_style('admin-edit');
     }
@@ -264,7 +264,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_deletelink($handler_id, $args, &$data)
+    public function _handler_deletelink($handler_id, array $args, array &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
 
@@ -336,7 +336,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_deletelink($handler_id, &$data)
+    public function _show_deletelink($handler_id, array &$data)
     {
         $data['article'] =& $this->_article;
         $nap = new midcom_helper_nav();
@@ -361,7 +361,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_article = new midcom_db_article($args[0]);
 
@@ -438,7 +438,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_delete ($handler_id, &$data)
+    public function _show_delete ($handler_id, array &$data)
     {
         midcom_show_style('admin-delete');
     }

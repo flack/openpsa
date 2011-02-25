@@ -117,7 +117,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_topic->require_do('midgard:create');
 
@@ -141,7 +141,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array &$data The local request data.
      */
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         midcom_show_style('tinyurl-create');
     }
@@ -153,7 +153,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_tinyurl = $this->_get_item($args[0]);
 
@@ -195,7 +195,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midcom_show_style('tinyurl-edit');
     }
@@ -207,7 +207,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_list($handler_id, $args, &$data)
+    public function _handler_list($handler_id, array $args, array &$data)
     {
         // Get the topic link and relocate accordingly
         $data['url'] = net_nemein_redirector_viewer::topic_links_to($data);
@@ -230,7 +230,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * @param mixed $handler_id The ID of the handler.
      * @param Array &$data The local request data.
      */
-    public function _show_list($handler_id, &$data)
+    public function _show_list($handler_id, array &$data)
     {
         midcom_show_style('tinyurl-list-start');
 

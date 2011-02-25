@@ -108,7 +108,7 @@
  *  * @param Array &$data The local request data.
  *  * @return boolean True if the request can be handled, false otherwise.
  *  {@*}
- * function _can_handle_xxx ($handler_id, $args, &$data) {}
+ * function _can_handle_xxx ($handler_id, array $args, array &$data) {}
  *
  * /**
  *  * Exec handler example, with Docblock:
@@ -116,14 +116,14 @@
  *  * @param Array $args The argument list.
  *  * @param Array &$data The local request data.
  *  {@*}
- * function _handler_xxx ($handler_id, $args, &$data) {}
+ * function _handler_xxx ($handler_id, array $args, array &$data) {}
  *
  * /**
  *  * Show handler example, with Docblock:
  *  * @param mixed $handler_id The ID of the handler.
  *  * @param Array &$data The local request data.
  *  {@*}
- * function _show_xxx ($handler_id, &$data) {}
+ * function _show_xxx ($handler_id, array &$data) {}
  * </code>
  *
  * The three callbacks match the regular processing sequence of MidCOM.

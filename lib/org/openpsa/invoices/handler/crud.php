@@ -189,7 +189,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_callback($handler_id, $args, &$data)
+    public function _handler_callback($handler_id, array $args, array &$data)
     {
         if ($this->_mode == 'read')
         {
@@ -416,7 +416,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_pdf($handler_id, $args, &$data)
+    public function _handler_pdf($handler_id, array $args, array &$data)
     {
         $this->_load_pdf_creator();
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
@@ -470,7 +470,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_pdf($handler_id, &$data)
+    public function _show_pdf($handler_id, array &$data)
     {
         //if attachment was manually uploaded show confirm if file should be replaced
         if($this->update_attachment)

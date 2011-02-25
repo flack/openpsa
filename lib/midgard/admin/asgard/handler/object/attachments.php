@@ -250,7 +250,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    public function _handler_create($handler_id, $args, &$data)
+    public function _handler_create($handler_id, array $args, array &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
@@ -279,7 +279,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_create($handler_id, &$data)
+    public function _show_create($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -302,7 +302,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
@@ -367,7 +367,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 
@@ -393,7 +393,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param mixed &$data Data passed to the show method
      * @return boolean Indicating successful request
      */
-    public function _handler_delete($handler_id, $args, &$data)
+    public function _handler_delete($handler_id, array $args, array &$data)
     {
         $this->_object = $_MIDCOM->dbfactory->get_object_by_guid($args[0]);
         $this->_object->require_do('midgard:update');
@@ -436,7 +436,7 @@ class midgard_admin_asgard_handler_object_attachments extends midcom_baseclasses
      * @param string $handler_id Name of the used handler
      * @param mixed &$data Data passed to the show method
      */
-    public function _show_delete($handler_id, &$data)
+    public function _show_delete($handler_id, array &$data)
     {
         midgard_admin_asgard_plugin::asgard_header();
 

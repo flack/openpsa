@@ -88,7 +88,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param array  $args          Variable arguments
      * @param array  $data          Miscellaneous output data
      */
-    public function _handler_config($handler_id, $args, &$data)
+    public function _handler_config($handler_id, array $args, array &$data)
     {
         // Require corresponding ACL's
         $this->_topic->require_do('midgard:update');
@@ -150,7 +150,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id    Name of the handler
      * @param array  &$data          Miscellaneous output data
      */
-    public function _show_config($handler_id, &$data)
+    public function _show_config($handler_id, array &$data)
     {
         $_MIDCOM->style->data['controller'] =& $this->_controller;
         $_MIDCOM->style->data['title'] = $data['title'];
@@ -172,7 +172,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param array  $args          Variable arguments
      * @param array  &$data          Miscellaneous output data
      */
-    public function _handler_recreate($handler_id, $args, &$data)
+    public function _handler_recreate($handler_id, array $args, array &$data)
     {
         if (!method_exists($this, '_load_datamanagers'))
         {
@@ -216,7 +216,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param string $handler_id    Name of the handler
      * @param array  $data          Miscellaneous output data
      */
-    public function _show_recreate($handler_id, &$data)
+    public function _show_recreate($handler_id, array &$data)
     {
         //Disable limits
         // TODO: Could this be done more safely somehow

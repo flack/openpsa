@@ -50,7 +50,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_edit($handler_id, $args, &$data)
+    public function _handler_edit($handler_id, array $args, array &$data)
     {
         if (!$this->_config->get('allow_socialweb'))
         {
@@ -164,7 +164,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_edit($handler_id, &$data)
+    public function _show_edit($handler_id, array &$data)
     {
         midcom_show_style('show-edit-socialweb');
     }

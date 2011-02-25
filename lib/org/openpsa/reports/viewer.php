@@ -98,7 +98,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_delete_report($handler_id, $args, &$data)
+    public function _handler_delete_report($handler_id, array $args, array &$data)
     {
         $report = new org_openpsa_reports_query_dba($args[0]);
         $report->delete();
@@ -113,7 +113,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_csv($handler_id, $args, &$data)
+    public function _handler_csv($handler_id, array $args, array &$data)
     {
         if ( !isset($_POST['org_openpsa_reports_csv']) )
         {
@@ -130,7 +130,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_csv($handler_id, &$data)
+    public function _show_csv($handler_id, array &$data)
     {
         echo $_POST['org_openpsa_reports_csv'];
         return true;
@@ -141,7 +141,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_frontpage($handler_id, $args, &$data)
+    public function _handler_frontpage($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
 
@@ -153,7 +153,7 @@ class org_openpsa_reports_viewer extends midcom_baseclasses_components_request
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_frontpage($handler_id, &$data)
+    public function _show_frontpage($handler_id, array &$data)
     {
         midcom_show_style('show-frontpage');
 

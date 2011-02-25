@@ -388,7 +388,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_history($handler_id, $args, &$data)
+    public function _handler_history($handler_id, array $args, array &$data)
     {
         $data['args'] = $args;
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
@@ -485,7 +485,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_diff($handler_id, $args, &$data)
+    public function _handler_diff($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
@@ -550,7 +550,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_preview($handler_id, $args, &$data)
+    public function _handler_preview($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];
@@ -592,7 +592,7 @@ class midgard_admin_asgard_handler_object_rcs extends midcom_baseclasses_compone
      * @param Array &$data The local request data.
      * @return boolean Indicating success.
      */
-    public function _handler_restore($handler_id, $args, &$data)
+    public function _handler_restore($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_user_do('midgard.admin.asgard:manage_objects', null, 'midgard_admin_asgard_plugin');
         $this->_guid = $args[0];

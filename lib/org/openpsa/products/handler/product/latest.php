@@ -83,7 +83,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_updated($handler_id, $args, &$data)
+    public function _handler_updated($handler_id, array $args, array &$data)
     {
         if ($handler_id == 'updated_products_intree')
         {
@@ -107,7 +107,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_updated($handler_id, &$data)
+    public function _show_updated($handler_id, array &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
@@ -158,7 +158,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      * @param array $args the arguments given to the handler
      * @param Array &$data The local request data.
      */
-    public function _handler_feed($handler_id, $args, &$data)
+    public function _handler_feed($handler_id, array $args, array &$data)
     {
         $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
         $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
@@ -183,7 +183,7 @@ class org_openpsa_products_handler_product_latest extends midcom_baseclasses_com
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_feed($handler_id, &$data)
+    public function _show_feed($handler_id, array &$data)
     {
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 

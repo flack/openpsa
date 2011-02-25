@@ -25,7 +25,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_mark_sent($handler_id, $args, &$data)
+    public function _handler_mark_sent($handler_id, array $args, array &$data)
     {
         $this->_prepare_action($args);
 
@@ -57,7 +57,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_mark_paid($handler_id, $args, &$data)
+    public function _handler_mark_paid($handler_id, array $args, array &$data)
     {
         $this->_prepare_action($args);
 
@@ -113,7 +113,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_itemedit($handler_id, $args, &$data)
+    public function _handler_itemedit($handler_id, array $args, array &$data)
     {
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $this->_prepare_output();
@@ -184,7 +184,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param mixed $handler_id The ID of the handler.
      * @param array &$data The local request data.
      */
-    public function _show_itemedit($handler_id, &$data)
+    public function _show_itemedit($handler_id, array &$data)
     {
         midcom_show_style('show-items');
     }
@@ -194,7 +194,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
-    public function _handler_recalculation($handler_id, $args, &$data)
+    public function _handler_recalculation($handler_id, array $args, array &$data)
     {
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
         $relocate = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "invoice/itemedit/" . $this->_object->guid . "/";
