@@ -152,7 +152,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         if (!$lib_snippetdir->guid)
         {
             $sd = new midcom_db_snippetdir();
-            $sd->up = $sg_snippetdir->id;
+            $sd->up = $lib_snippetdir->id;
             $sd->name = 'org.openpsa.cache';
             if (!$sd->create())
             {
