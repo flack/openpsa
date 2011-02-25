@@ -39,16 +39,19 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         $handler = $this->_request_data["handler_id"];
 
         //account edit
-        if($handler == "account_edit"){
+        if ($handler == "account_edit")
+        {
             $schemadb_config_string = "schemadb_account_edit";
 
             $db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb_config_string));
 
             //set defaults
             $db["default"]->fields["username"]["default"] = $this->_account->get_username();
-
+            $db["default"]->fields["person"]["default"] = $this->_person->guid;
+        }
         //account create
-        }else{
+        else
+        {
             $schemadb_config_string = "schemadb_account";
             $db = midcom_helper_datamanager2_schema::load_database($this->_config->get($schemadb_config_string));
         }

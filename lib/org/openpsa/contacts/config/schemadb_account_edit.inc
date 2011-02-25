@@ -14,7 +14,6 @@
 
     'fields'  => array
     (
-
         'username' => array
         (
             'title'    => 'username',
@@ -28,6 +27,13 @@
                 'title' => 'account_fieldset',
                 'css_group' => 'area meta',
             ),
+        ),
+        'person' => array
+        (
+            'title'    => 'person',
+            'storage'  => null,
+            'type'     => 'text',
+            'widget'   => 'hidden',
         ),
 
         'old_password' => array
@@ -44,12 +50,13 @@
             'title' => 'new password',
             'type' => 'text',
             'widget' => 'password',
+            'widget_config' => array
+            (
+                'require_password' => false
+            ),
 
             'required' => false,
-
             'storage' => null,
-
-            'widget_config' => array('require_password'=>false),
         ),
 
     )
