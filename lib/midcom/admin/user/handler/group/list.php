@@ -86,7 +86,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * Show the moving of a group phase
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_move($handler_id, &$data)
     {
@@ -129,7 +129,7 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
      * Show the group listing
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list($handler_id, &$data)
     {

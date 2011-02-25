@@ -281,7 +281,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_read($handler_id, &$data)
     {

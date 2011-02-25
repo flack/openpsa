@@ -87,7 +87,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_summary($handler_id, &$data)
     {
@@ -132,7 +132,7 @@ class org_openpsa_interviews_handler_campaign extends midcom_baseclasses_compone
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_next($handler_id, &$data)
     {

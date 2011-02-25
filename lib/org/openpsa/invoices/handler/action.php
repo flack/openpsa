@@ -182,7 +182,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     /**
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_itemedit($handler_id, &$data)
     {

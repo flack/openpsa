@@ -259,7 +259,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * Shows the loaded deliverable.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit ($handler_id, &$data)
     {
@@ -320,7 +320,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * Shows the loaded deliverable.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_delete ($handler_id, &$data)
     {

@@ -485,7 +485,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * Shows the object creation form.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_create($handler_id, &$data)
     {
@@ -547,7 +547,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * Shows the loaded object.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_read($handler_id, &$data)
     {
@@ -603,7 +603,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * Shows the loaded object in editor.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_update($handler_id, &$data)
     {
@@ -681,7 +681,7 @@ abstract class midcom_baseclasses_components_handler_crud extends midcom_basecla
      * Shows a delete dialog with an object preview.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_delete($handler_id, &$data)
     {

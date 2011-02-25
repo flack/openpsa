@@ -153,7 +153,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
      * Shows the loaded task.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_resourcing($handler_id, &$data)
     {
@@ -188,7 +188,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list_prospects($handler_id, &$data)
     {
@@ -216,7 +216,7 @@ class org_openpsa_projects_handler_task_resourcing extends midcom_baseclasses_co
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_prospect_slots($handler_id, &$data)
     {

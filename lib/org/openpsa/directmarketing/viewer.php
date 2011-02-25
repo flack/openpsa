@@ -88,7 +88,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_frontpage($handler_id, &$data)
     {
@@ -109,7 +109,7 @@ class org_openpsa_directmarketing_viewer extends midcom_baseclasses_components_r
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_debug($handler_id, &$data)
     {

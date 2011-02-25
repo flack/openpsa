@@ -435,7 +435,7 @@ class midcom_admin_folder_handler_edit extends midcom_baseclasses_components_han
      * Shows the _Edit folder_ page.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit($handler_id, &$data)
     {

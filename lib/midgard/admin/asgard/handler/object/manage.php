@@ -164,7 +164,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Shows the loaded object.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_view($handler_id, &$data)
     {
@@ -262,7 +262,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Shows the loaded object in editor.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit($handler_id, &$data)
     {
@@ -478,7 +478,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Shows the loaded object in editor.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_create($handler_id, &$data)
     {
@@ -642,7 +642,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Shows the object to delete.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_delete($handler_id, &$data)
     {
@@ -834,7 +834,7 @@ class midgard_admin_asgard_handler_object_manage extends midcom_baseclasses_comp
      * Show copy style
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_copy($handler_id, &$data)
     {

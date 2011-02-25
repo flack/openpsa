@@ -485,7 +485,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * - show-publish-end
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_publish($handler_id, &$data)
     {
@@ -556,7 +556,7 @@ class net_nehmer_account_handler_publish extends midcom_baseclasses_components_h
      * element, containing a simple "your details have been submitted message".
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_publish_ok($handler_id, &$data)
     {

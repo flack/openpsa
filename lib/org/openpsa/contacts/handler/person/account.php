@@ -370,7 +370,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_account_create($handler_id, &$data)
     {
@@ -380,7 +380,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_account_edit($handler_id, &$data)
     {
@@ -390,7 +390,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_account_delete($handler_id, &$data)
     {

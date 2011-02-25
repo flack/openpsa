@@ -143,7 +143,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * Shows the pending list page.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list($handler_id, &$data)
     {
@@ -258,7 +258,7 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
      * Shows the processing result page.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_process($handler_id, &$data)
     {

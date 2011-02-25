@@ -45,7 +45,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_generator_get($handler_id, &$data)
     {
@@ -193,7 +193,7 @@ abstract class org_openpsa_reports_handler_base extends midcom_baseclasses_compo
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_query_form($handler_id, &$data)
     {

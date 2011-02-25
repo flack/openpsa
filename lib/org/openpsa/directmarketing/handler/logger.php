@@ -91,7 +91,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_bounce($handler_id, &$data)
     {
@@ -183,7 +183,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_link($handler_id, &$data)
     {
@@ -261,7 +261,7 @@ class org_openpsa_directmarketing_handler_logger extends midcom_baseclasses_comp
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_redirect($handler_id, &$data)
     {

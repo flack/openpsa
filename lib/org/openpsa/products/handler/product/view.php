@@ -426,7 +426,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
      * Shows the loaded product.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_view($handler_id, &$data)
     {

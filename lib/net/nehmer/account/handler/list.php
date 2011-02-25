@@ -98,7 +98,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * The rendering code consists of a standard init/loop/end construct.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list($handler_id, &$data)
     {
@@ -187,7 +187,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * The rendering code consists of a standard init/loop/end construct.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list_by_category($handler_id, &$data)
     {
@@ -282,7 +282,7 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * The rendering code consists of a standard init/loop/end construct.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list_random($handler_id, &$data)
     {

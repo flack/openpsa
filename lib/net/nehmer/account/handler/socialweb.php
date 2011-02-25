@@ -162,7 +162,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * The rendering code consists of a standard init/loop/end construct.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit($handler_id, &$data)
     {

@@ -113,7 +113,7 @@ class org_openpsa_products_handler_product_bestrated extends midcom_baseclasses_
      * This function does the output.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_bestrated($handler_id, &$data)
     {
@@ -182,7 +182,7 @@ class org_openpsa_products_handler_product_bestrated extends midcom_baseclasses_
      * This function does the output.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_feed($handler_id, &$data)
     {

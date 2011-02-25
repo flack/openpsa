@@ -275,7 +275,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
      * own context.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_render($handler_id, &$data)
     {
@@ -814,7 +814,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_ajax($handler_id, &$data)
     {
@@ -850,7 +850,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_delete($handler_id, &$data){}
 }

@@ -256,7 +256,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * Shows the the password changing dialog.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_password($handler_id, &$data)
     {
@@ -386,7 +386,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * Shows either the username change dialog or a succcess message.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_username($handler_id, &$data)
     {
@@ -488,7 +488,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_lostpassword_reset($handler_id, &$data)
     {
@@ -758,7 +758,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * Shows either the username change dialog or a success message.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_lostpassword($handler_id, &$data)
     {
@@ -923,7 +923,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      * Shows either the mebership cancel confirmation dialog or a succcess message.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_cancel_membership($handler_id, &$data)
     {

@@ -94,7 +94,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_dashboard($handler_id, &$data)
     {
@@ -290,7 +290,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_customer($handler_id, &$data)
     {
@@ -337,7 +337,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_deliverable($handler_id, &$data)
     {

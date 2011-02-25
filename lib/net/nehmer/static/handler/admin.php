@@ -244,7 +244,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * Shows the loaded article.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit ($handler_id, &$data)
     {
@@ -329,7 +329,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_deletelink($handler_id, &$data)
     {
@@ -420,7 +420,7 @@ class net_nehmer_static_handler_admin extends midcom_baseclasses_components_hand
      * Shows the loaded article.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_delete ($handler_id, &$data)
     {

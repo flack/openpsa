@@ -625,7 +625,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * Shows the help system main screen
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_welcome($handler_id, &$data)
     {
@@ -682,7 +682,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * Shows the component help ToC.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_component($handler_id, &$data)
     {
@@ -743,7 +743,7 @@ class midcom_admin_help_help extends midcom_baseclasses_components_plugin
      * Shows the help page.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_help($handler_id, &$data)
     {

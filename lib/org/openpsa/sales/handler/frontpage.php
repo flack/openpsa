@@ -73,7 +73,7 @@ class org_openpsa_sales_handler_frontpage extends midcom_baseclasses_components_
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_frontpage($handler_id, &$data)
     {

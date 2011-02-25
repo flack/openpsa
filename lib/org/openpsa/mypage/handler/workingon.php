@@ -77,7 +77,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_check($handler_id, &$data)
     {

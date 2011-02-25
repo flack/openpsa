@@ -64,7 +64,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Shows the loaded photo.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_configuration($handler_id, &$data)
     {

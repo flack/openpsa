@@ -44,7 +44,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_opml($handler_id, &$data)
     {
@@ -80,7 +80,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list($handler_id, &$data)
     {
@@ -216,7 +216,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_subscribe($handler_id, &$data)
     {
@@ -268,7 +268,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit($handler_id, &$data)
     {
@@ -326,7 +326,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
      * Shows the loaded downloadpage.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_delete ($handler_id, &$data)
     {
@@ -382,7 +382,7 @@ class net_nemein_rss_manage extends midcom_baseclasses_components_plugin
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_fetch($handler_id, &$data)
     {

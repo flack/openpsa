@@ -198,7 +198,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_today($handler_id, &$data)
     {
@@ -235,7 +235,7 @@ class org_openpsa_mypage_handler_today extends midcom_baseclasses_components_han
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_expenses($handler_id, &$data)
     {

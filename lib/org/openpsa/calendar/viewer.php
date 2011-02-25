@@ -68,7 +68,7 @@ class org_openpsa_calendar_viewer extends midcom_baseclasses_components_request
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_notinitialized($handler_id, &$data)
     {

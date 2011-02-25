@@ -247,7 +247,7 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      * Shows the loaded article.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_view ($handler_id, &$data)
     {

@@ -322,7 +322,7 @@ class org_openpsa_reports_handler_projects_report extends org_openpsa_reports_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_generator($handler_id, &$data)
     {

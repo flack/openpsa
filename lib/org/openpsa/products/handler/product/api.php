@@ -98,7 +98,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_options($handler_id, &$data)
     {
@@ -125,7 +125,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_product_get($handler_id, &$data)
     {
@@ -179,7 +179,7 @@ class org_openpsa_products_handler_product_api extends midcom_baseclasses_compon
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_product_list($handler_id, &$data)
     {

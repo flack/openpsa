@@ -267,7 +267,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
      * Shows the loaded contact.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_view($handler_id, &$data)
     {
@@ -300,7 +300,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_group_memberships($handler_id, &$data)
     {

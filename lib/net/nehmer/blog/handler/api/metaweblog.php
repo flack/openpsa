@@ -697,7 +697,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_rsd($handler_id, &$data)
     {
@@ -767,7 +767,7 @@ class net_nehmer_blog_handler_api_metaweblog extends midcom_baseclasses_componen
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_server($handler_id, &$data)
     {

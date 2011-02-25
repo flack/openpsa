@@ -238,7 +238,7 @@ class org_openpsa_mypage_handler_weekreview extends midcom_baseclasses_component
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_review($handler_id, &$data)
     {

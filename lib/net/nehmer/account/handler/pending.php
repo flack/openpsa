@@ -66,7 +66,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * Show list of pending approvals
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_list($handler_id, &$data)
     {
@@ -168,7 +168,7 @@ class net_nehmer_account_handler_pending extends midcom_baseclasses_components_h
      * not accepted
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_approve($handler_id, &$data)
     {

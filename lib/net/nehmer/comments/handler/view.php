@@ -410,7 +410,7 @@ class net_nehmer_comments_handler_view extends midcom_baseclasses_components_han
      * Display the comment list and the submit-comment form.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     function _show_comments($handler_id, &$data)
     {

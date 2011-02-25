@@ -224,7 +224,7 @@ implements midcom_helper_datamanager2_interfaces_create
      * Shows the loaded article.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_create ($handler_id, &$data)
     {

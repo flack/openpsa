@@ -120,7 +120,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_notifications($handler_id, &$data)
     {
@@ -130,7 +130,7 @@ implements midcom_helper_datamanager2_interfaces_edit
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_action($handler_id, &$data)
     {

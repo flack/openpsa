@@ -117,7 +117,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Show the preferences page
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_preferences($handler_id, &$data)
     {
@@ -199,7 +199,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Possible user output besides the UI message that was set
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_ajax($handler_id, &$data)
     {

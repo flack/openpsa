@@ -93,7 +93,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_select($handler_id, &$data)
     {
@@ -242,7 +242,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_save($handler_id, &$data)
     {
@@ -273,7 +273,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_status($handler_id, &$data)
     {
@@ -358,7 +358,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_edit($handler_id, &$data)
     {
@@ -399,7 +399,7 @@ class midcom_admin_babel_handler_process extends midcom_baseclasses_components_h
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_permission_check($handler_id, &$data)
     {

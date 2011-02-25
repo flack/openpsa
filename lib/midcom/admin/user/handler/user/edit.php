@@ -190,7 +190,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Auto-generate passwords on the fly
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_passwords($handler_id, &$data)
     {
@@ -375,7 +375,7 @@ implements midcom_helper_datamanager2_interfaces_edit
      * Show the batch password change form
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_batch($handler_id, &$data)
     {

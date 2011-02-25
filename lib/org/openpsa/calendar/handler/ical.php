@@ -88,7 +88,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_user_events($handler_id, &$data)
     {
@@ -150,7 +150,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     /**
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_user_busy($handler_id, &$data)
     {

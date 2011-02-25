@@ -111,7 +111,7 @@ class net_nehmer_buddylist_handler_request extends midcom_baseclasses_components
      * default styles are rather primitive at this time.
      *
      * @param mixed $handler_id The ID of the handler.
-     * @param mixed &$data The local request data.
+     * @param array &$data The local request data.
      */
     public function _show_request($handler_id, &$data)
     {
