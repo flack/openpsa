@@ -87,7 +87,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
                 $password = "";
                 //take user password?
-                if(intval($_POST['org_openpsa_contacts_person_account_password_switch']) > 0){
+                if (intval($_POST['org_openpsa_contacts_person_account_password_switch']) > 0)
+                {
                     $password = $_POST['org_openpsa_contacts_person_account_password'];
                 }
 
@@ -115,9 +116,6 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             $this->_request_data['default_username'] = midcom_helper_misc::generate_urlname_from_string($this->_person->firstname) . '.' . midcom_helper_misc::generate_urlname_from_string($this->_person->lastname);
         }
 
-        //$this->_generate_password();
-
-        $this->add_stylesheet(MIDCOM_STATIC_URL . "/midcom.helper.datamanager2/legacy.css");
         $_MIDCOM->set_pagetitle("{$this->_person->firstname} {$this->_person->lastname}");
         $this->_prepare_request_data();
 
@@ -149,11 +147,13 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * returns an auto generated password of variable length
-     * @param int length: the number of chars the password will contain
-     * @return string password: the generated password
+     * Returns an auto generated password of variable length
+     *
+     * @param int $length The number of chars the password will contain
+     * @return string The generated password
      */
-    public static function generate_password($length=0){
+    public static function generate_password($length = 0)
+    {
         // We should do this by listing to /dev/urandom
         // Safety
         if ($length == 0)
@@ -179,18 +179,22 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     }
 
     /**
-     * returns an auto generated password which will pass the persons check_password_strength test
-     * @param org_openpsa_contacts_person_dba person: the person the password should be generated for
-     * @param int length: the number of chars the password will contain
-     * @return string password: the generated password
+     * Returns an auto generated password which will pass the persons check_password_strength test
+     *
+     * @param org_openpsa_contacts_person_dba $person The person the password should be generated for
+     * @param int $length The number of chars the password will contain
+     * @return string The generated password
      */
-    public static function generate_safe_password($person,$length=0){
-        if(!$person){
+    public static function generate_safe_password($person, $length=0)
+    {
+        if (!$person)
+        {
             return false;
         }
-        do{
+        do
+        {
             $password = self::generate_password($length);
-        }while(!$person->check_password_strength($password));
+        } while(!$person->check_password_strength($password));
         return $password;
     }
 
@@ -286,9 +290,12 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         else
         {
             //new password?
-            if(!empty($fields["new_password"]->value)){
+            if (!empty($fields["new_password"]->value))
+            {
                 $password = $fields["new_password"]->value;
-            }else{
+            }
+            else
+            {
                 $password = $this->_account->get_password();
             }
             // Update account
