@@ -754,6 +754,10 @@ Wiederherstellen
 Unter %s
 ---STRINGEND
 
+---STRING unknown person
+Unbekannte Person
+---STRINGEND
+
 ---STRING upload file
 Datei hochladen
 ---STRINGEND

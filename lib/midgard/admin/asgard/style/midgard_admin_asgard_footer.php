@@ -8,16 +8,34 @@
                         $view_metadata = $_MIDCOM->metadata->get_view_metadata();
                         if ($view_metadata)
                         {
-                            $editor = new midcom_db_person($view_metadata->get('revisor'));
-                            $edited = (int) $view_metadata->get('revised');
-                            $creator = new midcom_db_person($view_metadata->get('creator'));
-                            $created = (int) $view_metadata->get('created');
-
-                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$creator->guid}/\">$creator->name</a>", strftime('%c', $created)) . "\n";
-                            if ($edited != $created)
+                            try
                             {
-                                $revision = $view_metadata->get('revision');
-                                echo sprintf($_MIDCOM->i18n->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$editor->guid}/\">$editor->name</a>", strftime('%c', $edited), $revision) . "\n";
+                                $creator = new midcom_db_person($view_metadata->get('creator'));
+                                $creator_string = "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$creator->guid}/\">$creator->name</a>";
+                            }
+                            catch (midcom_error $e)
+                            {
+                                $creator_string = $data['l10n']->get('unknown person');
+                            }
+                            $created = (int) $view_metadata->get('created');
+                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), $creator_string, strftime('%c', $created), $revision) . "\n";
+
+                            $edited = (int) $view_metadata->get('revised');
+                            $revision = $view_metadata->get('revision');
+                            if (   $revision > 1
+                                && $edited != $created)
+                            {
+                                try
+                                {
+                                    $editor = new midcom_db_person($view_metadata->get('revisor'));
+                                    $editor_string = "<a href=\"" . midcom_connection::get_url('self') . "__mfa/asgard/object/view/{$editor->guid}/\">$editor->name</a>";
+                                }
+                                catch (midcom_error $e)
+                                {
+                                    $editor_string = $data['l10n']->get('unknown person');
+                                }
+
+                                echo sprintf($_MIDCOM->i18n->get_string('last edited by %s on %s (revision %s)', 'midgard.admin.asgard'), $editor_string, strftime('%c', $edited), $revision) . "\n";
                             }
                         }
                         ?>

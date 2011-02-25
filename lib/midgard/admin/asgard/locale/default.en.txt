@@ -798,6 +798,10 @@ Undelete
 Under %s
 ---STRINGEND
 
+---STRING unknown person
+Unknown person
+---STRINGEND
+
 ---STRING upload file
 Upload file
 ---STRINGEND
