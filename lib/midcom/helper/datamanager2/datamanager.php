@@ -90,7 +90,7 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      *     indexed by their schema name. This member is taken by reference.
      * @see midcom_helper_datamanager2_schema::load_database()
      */
-    public function __construct(&$schemadb)
+    public function __construct(array &$schemadb)
     {
          parent::__construct();
          $this->_schemadb =& $schemadb;
@@ -110,11 +110,6 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
      */
     function set_schema($name = null)
     {
-        if (!is_array($this->_schemadb))
-        {
-            debug_add("The active schema database is invalid.", MIDCOM_LOG_ERROR);
-            return false;
-        }
         if (   $name !== null
             && ! array_key_exists($name, $this->_schemadb))
         {

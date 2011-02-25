@@ -299,17 +299,11 @@ class midcom_helper_head
      * $_MIDCOM->head->add_link_head($attributes);
      * </code>
      *
-     *  @param  array  $attributes Array of attribute=> value pairs to be placed in the tag.
+     *  @param  array $attributes Array of attribute=> value pairs to be placed in the tag.
      *  @see print_head_elements()
      */
-    public function add_link_head( $attributes = null )
+    public function add_link_head(array $attributes)
     {
-        if (   is_null($attributes)
-            || !is_array($attributes))
-        {
-            return false;
-        }
-
         if (!array_key_exists('href', $attributes))
         {
             return false;

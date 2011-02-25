@@ -797,17 +797,10 @@ class midcom_helper_nav_backend
      *
      * @param Array $leaves A reference to the list of leaves which has to be processed.
      */
-    private function _update_leaflist_urls(&$leaves)
+    private function _update_leaflist_urls(array &$leaves)
     {
         $fullprefix = "{$GLOBALS['midcom_config']['midcom_site_url']}";
         $absoluteprefix = substr($GLOBALS['midcom_config']['midcom_site_url'], strlen($_MIDCOM->get_host_name()));
-
-        if (! is_array($leaves))
-        {
-            debug_print_r("Wrong type", $leaves, MIDCOM_LOG_ERROR);
-
-            throw new midcom_error('Wrong type passed for navigation, see error level log for details');
-        }
 
         foreach ($leaves as $id => $copy)
         {

@@ -206,17 +206,12 @@ class midcom_helper_configuration
      * @return boolean                Indicating success.
      * @see midcom_helper_configuration::reset_local()
      */
-    public function store($params, $reset = true)
+    public function store(array $params, $reset = true)
     {
         if (   !$this->_object_stored
             && $this->_object)
         {
             $this->_store_from_object();
-        }
-
-        if (!is_array($params))
-        {
-            return false;
         }
 
         $this->_check_local_array($params);

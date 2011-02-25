@@ -188,14 +188,8 @@ class midcom_services_dbclassloader
      * @param Array $definition_list A reference to the definition list to verify.
      * @return boolean Indicating success
      */
-    function _validate_class_definition_list(&$definition_list)
+    function _validate_class_definition_list(array &$definition_list)
     {
-        if (! is_array ($definition_list))
-        {
-            debug_add('Validation failed: It was no Array.', MIDCOM_LOG_INFO);
-            return false;
-        }
-
         foreach ($definition_list as $mgdschema_class => $midcom_class)
         {
             if (! class_exists($mgdschema_class))

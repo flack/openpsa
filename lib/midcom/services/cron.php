@@ -199,16 +199,8 @@ class midcom_services_cron
      * @param Array $job The job to register.
      * @return boolean Indicating validity.
      */
-    function _validate_job($component, $job)
+    function _validate_job($component, array $job)
     {
-        if (! is_array($job))
-        {
-            $msg = "Failed to register a job for {$component}: Invalid job specification format, not an array.";
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            debug_print_r('Got this job declaration:', $job);
-            echo "ERROR: {$msg}\n";
-            return false;
-        }
         if (! array_key_exists('handler', $job))
         {
             $msg = "Failed to register a job for {$component}: No handler declaration.";

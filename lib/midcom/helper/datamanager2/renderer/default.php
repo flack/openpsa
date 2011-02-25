@@ -232,18 +232,6 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
      */
     private function _prepare_template($name, $element, $required, $error, $type)
     {
-        $helptext = $this->_extract_helptext($element);
-        $label = $element->getLabel();
-
-        if (is_array($label))
-        {
-            $nameLabel = array_shift($label);
-        }
-        else
-        {
-            $nameLabel = $label;
-        }
-
         if (isset($this->_templates[$name]))
         {
             $template = $this->_templates[$name];
@@ -259,6 +247,18 @@ class midcom_helper_datamanager2_renderer_default extends HTML_QuickForm_Rendere
                     $template = $this->_element_template;
                     break;
             }
+        }
+
+        $helptext = $this->_extract_helptext($element);
+        $label = $element->getLabel();
+
+        if (is_array($label))
+        {
+            $nameLabel = array_shift($label);
+        }
+        else
+        {
+            $nameLabel = $label;
         }
 
         $html = str_replace('{label}', $nameLabel, $template);
