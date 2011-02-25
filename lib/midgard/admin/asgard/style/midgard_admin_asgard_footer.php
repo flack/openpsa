@@ -18,7 +18,7 @@
                                 $creator_string = $data['l10n']->get('unknown person');
                             }
                             $created = (int) $view_metadata->get('created');
-                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), $creator_string, strftime('%c', $created), $revision) . "\n";
+                            echo sprintf($_MIDCOM->i18n->get_string('created by %s on %s', 'midgard.admin.asgard'), $creator_string, strftime('%c', $created)) . "\n";
 
                             $edited = (int) $view_metadata->get('revised');
                             $revision = $view_metadata->get('revision');
