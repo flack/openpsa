@@ -123,10 +123,6 @@ class midcom_core_account
 
     public function get_password()
     {
-        if (!$this->_midgard2)
-        {
-            return (preg_replace('/^\*\*/', '', $this->_user->password));
-        }
         return $this->_user->password;
     }
 
