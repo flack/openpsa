@@ -1,13 +1,7 @@
 <?php
 /**
- * @package org.openpsa.contacts
- * @author Nemein Oy http://www.nemein.com/
- * @copyright Nemein Oy http://www.nemein.com/
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
- */
-
-/**
- * MidCOM wrapped access to org_openpsa_person plus some utility methods
+ * helper class to create a new account for an existing person
+ *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_accounthelper extends midcom_baseclasses_components_purecode
