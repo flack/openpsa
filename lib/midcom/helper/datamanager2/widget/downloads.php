@@ -278,10 +278,10 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
             $attributes = array
             (
-                'class' => 'new upload',
+                'class' => 'submit new upload',
                 'id'    => "{$this->_namespace}{$this->name}_e_new_upload",
             );
-            if($this->show_progressbar)
+            if ($this->show_progressbar)
             {
                 $url = $GLOBALS['midcom_config']['midcom_site_url'] .
                     'midcom-exec-midcom.helper.datamanager2/get_progress.php';
@@ -359,7 +359,7 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
 
                 $attributes = Array
                     (
-                        'class' => 'exist upload',
+                        'class' => 'submit exist upload',
                         'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_upload",
                     );
                 if($this->show_progressbar)
@@ -376,13 +376,13 @@ class midcom_helper_datamanager2_widget_downloads extends midcom_helper_datamana
             {
                 $attributes = Array
                 (
-                    'class' => 'exist delete',
+                    'class' => 'submit exist delete',
                     'id'    => "{$this->_namespace}{$this->name}_e_exist_{$identifier}_delete",
                 );
                 $this->_elements["e_exist_{$identifier}_delete"] = HTML_QuickForm::createElement('submit', "{$this->name}_e_exist_{$identifier}_delete", $this->_l10n->get('delete file'), $attributes);
             }
 
-            if($this->show_progressbar)
+            if ($this->show_progressbar)
             {
                 $html = "<span style=\"visibility:hidden;\" class=\"progressbar\"></span>";
                 $this->_elements['new_progress'] = & HTML_QuickForm::createElement('static', "new_progress", '', $html);

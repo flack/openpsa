@@ -4,35 +4,12 @@ var MIDCOM_SERVICES_UIMESSAGES_TYPE_WARNING = 'warning';
 var MIDCOM_SERVICES_UIMESSAGES_TYPE_ERROR = 'error';
 var MIDCOM_SERVICES_UIMESSAGES_TYPE_DEBUG = 'ok';
 
-var MIDCOM_SERVICES_UIMESSAGES_POSITION = 'top right';
 var MIDCOM_SERVICES_UIMESSAGES_REMOVE = true;
 var MIDCOM_SERVICES_UIMESSAGES_ERROR_HIGHLIGHT = true;
 var MIDCOM_SERVICES_UIMESSAGES_SLIDE_SPEED = 1000;
 var MIDCOM_SERVICES_UIMESSAGES_SLIDE_DELAY = 3000;
 
 var MIDCOM_SERVICES_UIMESSAGES_INDEX = 0;
-
-jQuery(document).ready(function()
-{
-    if (MIDCOM_SERVICES_UIMESSAGES_POSITION.match('bottom'))
-    {
-        jQuery('#midcom_services_uimessages_wrapper')
-            .css({
-                position: 'fixed',
-                top: 'auto',
-                bottom: 0
-            });
-    }
-    
-    if (MIDCOM_SERVICES_UIMESSAGES_POSITION.match('left'))
-    {
-        jQuery('#midcom_services_uimessages_wrapper')
-            .css({
-                right: 'auto',
-                left: 0
-            });
-    }
-});
 
 jQuery.midcom_services_uimessage_add = function(options) {
     jQuery('#midcom_services_uimessages_wrapper').midcom_services_uimessage(options);

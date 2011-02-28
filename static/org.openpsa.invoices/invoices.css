@@ -3,6 +3,13 @@ div.org_openpsa_invoices
     padding: .75em 0
 }
 
+.org_openpsa_invoices .ui-jqgrid .ui-jqgrid-view
+{
+    -moz-box-shadow: 1px 3px 5px #aaa;
+    -webkit-box-shadow: 1px 3px 5px #aaa;
+    box-shadow: 1px 3px 5px #aaa;
+}
+
 div.org_openpsa_invoices.unsent table button.yes
 {
     background-image: url('../stock-icons/16x16/stock_mail-reply.png');
