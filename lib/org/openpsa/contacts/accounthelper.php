@@ -38,9 +38,21 @@ class org_openpsa_contacts_accounthelper extends midcom_baseclasses_components_p
     public function create_account($person_guid,$username,$usermail,$password="",$send_welcome_mail){
 
         //quick validation
-        if (empty($person_guid) || empty($username) || empty($usermail))
+        if (empty($person_guid))
         {
-            $this->errstr = "Missing information";
+            $this->errstr = "cannot identify user: no guid given";
+            return false;
+        }
+
+        if (empty($username))
+        {
+            $this->errstr = "cannot create account: no username given";
+            return false;
+        }
+
+        if ($send_welcome_mail && empty($usermail))
+        {
+            $this->errstr = "cannot deliver welcome mail: no usermail adress given";
             return false;
         }
 
