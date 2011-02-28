@@ -78,6 +78,7 @@ class midcom_core_context
         }
         $this->_data[MIDCOM_CONTEXT_CONTENTTOPIC] = null;
         $this->_data[MIDCOM_CONTEXT_COMPONENT] = null;
+        $this->_data[MIDCOM_CONTEXT_SUBSTYLE] = null;
         $this->_data[MIDCOM_CONTEXT_PAGETITLE] = "";
         $this->_data[MIDCOM_CONTEXT_LASTMODIFIED] = null;
         $this->_data[MIDCOM_CONTEXT_PERMALINKGUID] = null;
@@ -146,6 +147,8 @@ class midcom_core_context
         if (!array_key_exists($key, $this->_data) || $key >= 1000)
         {
             debug_add("Requested Key ID $key invalid.", MIDCOM_LOG_ERROR);
+            debug_print_function_stack('Called from here');
+
             return false;
         }
 
