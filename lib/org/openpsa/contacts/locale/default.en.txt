@@ -33,9 +33,7 @@ Password too weak.
 
 ---# @Var: username,password
 ---STRING account_creation_success
-The account has been created successfully!
-Username: %s
-Password: %s
+The account has been created successfully! <br />Username: %s <br />Password: %s
 ---STRINGEND
 
 
