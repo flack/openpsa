@@ -137,7 +137,7 @@ abstract class midcom_helper_datamanager2_type extends midcom_baseclasses_compon
         $callback = new $classname($this->option_callback_arg);
         if (!($callback instanceof midcom_helper_datamanager2_callback_interface))
         {
-            throw new midcom_error($classname . ' must implement interface midcom_helper_datamanager2_callbacks_interface');
+            throw new midcom_error($classname . ' must implement interface midcom_helper_datamanager2_callback_interface');
         }
 
         $callback->set_type($this);
