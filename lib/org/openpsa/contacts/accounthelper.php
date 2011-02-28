@@ -1,6 +1,14 @@
 <?php
 /**
- * helper class to create a new account for an existing person
+ * @package org.openpsa.contacts
+ *
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+
+/**
+ * helper class for creating a new account for an existing person
  *
  * @package org.openpsa.contacts
  */
