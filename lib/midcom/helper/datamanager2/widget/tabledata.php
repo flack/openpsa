@@ -231,13 +231,11 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
 
         foreach ($this->_type->columns as $column => $value)
         {
+            $cell_value = $this->_type->get_value($row, $column);
+
             if (isset($_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name][$row][$column]))
             {
                 $cell_value = $_REQUEST['midcom_helper_datamanager2_type_tabledata'][$this->name][$row][$column];
-            }
-            else
-            {
-                $cell_value = $this->_type->get_value($row, $column);
             }
 
             if (!isset($this->column_widget[$column])
