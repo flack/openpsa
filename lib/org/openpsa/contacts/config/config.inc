@@ -1,5 +1,5 @@
 'schemadb_group' => 'file:/org/openpsa/contacts/config/schemadb_default_organization.inc',
-'schemadb_person' => 'file:/org/openpsa/contacts/config/schemadb_account_person.inc',
+'schemadb_person' => 'file:/org/openpsa/contacts/config/schemadb_default_person.inc',
 
 'schemadb_account' => 'file:/org/openpsa/contacts/config/schemadb_account.inc',
 'schemadb_account_edit' => 'file:/org/openpsa/contacts/config/schemadb_account_edit.inc',

@@ -139,12 +139,7 @@ div.area ul.midcom_toolbar {
     padding: 0px;
     z-index: 256;
 }
-div.area ul.midcom_toolbar {
-    /*float: left;
-    margin-top: -8px;*/
-}
 div.area ul.midcom_toolbar li {
-    /*float: left;*/
     margin: 0px;
     padding: 0px;
     margin-left: 5px;
@@ -249,6 +244,17 @@ form.datamanager2 .form fieldset.fieldset
     border-color: #999;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    background: #FFFFFF;
+    background: -moz-linear-gradient(top, #FFFFFF 0%, #F9F9F9 32%, #F9F9F8 96%, #FCFCFC 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(32%,#F9F9F9), color-stop(96%,#F9F9F8), color-stop(100%,#FCFCFC));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 ); /* ie */
+}
+
+form.datamanager2 .form fieldset.fieldset:hover
+{
+    -moz-box-shadow: 1px 5px 7px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 1px 5px 7px #ccc;
+    box-shadow: 1px 5px 7px #ccc;
 }
 
 form.datamanager2 .form fieldset.fieldset legend
@@ -313,7 +319,7 @@ form.datamanager2 .required_note
 
 input.ajax_editable:hover, form.datamanager input, form.datamanager textarea, form.datamanager select,
 form.datamanager2 input, form.datamanager2 textarea, form.datamanager2 select {
-    border: 1px #B39169 solid;
+    border: 1px #B39169 inset;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     padding: 1px
@@ -332,9 +338,58 @@ form.datamanager2 select
 
 input.ajax_focused, form.datamanager input:focus, form.datamanager textarea:focus, form.datamanager select:focus,
 form.datamanager2 input:focus, form.datamanager2 textarea:focus, form.datamanager2 select:focus {
-    border: 1px #B39169 solid;
     background-color: #EFE0CD;
     color: #000000;
+}
+
+form.datamanager2 input,
+form.datamanager2 textarea
+{
+    -webkit-box-shadow: inset 0 1px 5px #e9e5e1;
+    -moz-box-shadow: inset 0 1px 5px #e9e5e1;
+    box-shadow: inset 0 1px 5px #e9e5e1;
+    padding: .15em .2em;
+    background-color: white;
+}
+
+form.datamanager2 input.button,
+form.datamanager2 div.form_toolbar input.button
+{
+    background-color: #dfdfdf;
+    -webkit-box-shadow: inset 2px 2px 10px #fefefe, 1px 2px 3px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 2px 2px 10px #fefefe, 1px 2px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 2px 2px 10px #fefefe, 1px 2px 3px rgba(0, 0, 0, 0.2); 
+    border-color: #999 #777 #777 #aaa;
+    border-style: solid;
+    cursor: pointer;
+    margin-top: .2em;
+    text-shadow: 1px 1px 2px white;
+    color: #222;
+}
+
+form.datamanager2 input.button:hover,
+form.datamanager2 div.form_toolbar input.button:hover
+{
+    background-color: #f3f2f1;
+    -webkit-box-shadow: inset 2px 2px 10px #efefef, 1px 1px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 2px 2px 10px #efefef, 1px 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 2px 2px 10px #efefef, 1px 1px 2px rgba(0, 0, 0, 0.2); 
+    border-color: #aaa #999 #888 #aaa;
+    color: black
+}
+
+form.datamanager2 div.form_toolbar input.button
+{
+    background-position: 3px center;
+    padding-left: 21px
+}
+
+form.datamanager2 textarea.markItUpEditor
+{
+    padding: 5px 5px 5px 35px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 form.datamanager2 fieldset.checkbox label,
@@ -430,7 +485,13 @@ div.area div.news-item
     border: 1px solid #807D74;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
-    background-color: #ffffff;
+    background: #FFFFFF;
+    background: -moz-linear-gradient(top, #ffffff 0%, #fbfbfb 72%, #f7f7f7 73%, #fcfcfc 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(72%, #fbfbfb), color-stop(73%, #f7f7f7), color-stop(100%, #fcfcfc));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FCFCFC',GradientType=0 );
+    -moz-box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.7);
+    -webkit-box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.7);
+    box-shadow: inset -1px -1px 3px rgba(255, 255, 255, 0.7);
     padding: 4px;
     margin: 4px;
     float: left;
@@ -494,10 +555,6 @@ a.sort img
 }
 
 /* Message report table */
-table.link_statistics
-{
-}
-
 table.link_statistics td.numeric
 {
     text-align: center;
@@ -527,7 +584,6 @@ table.link_statistics td.bargraph div.link_count_visualization
     cursor: pointer;
     color: transparent
 }
-
 
 .ui-datepicker-trigger:hover,
 .ui-datepicker-trigger:active

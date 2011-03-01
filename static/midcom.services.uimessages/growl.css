@@ -4,8 +4,6 @@
 
 #midcom_services_uimessages_wrapper
 {
-    margin: 15px;
-    padding: 5px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     color: #000000;
     font-size: 12px;
@@ -13,37 +11,50 @@
     text-align: left;
     position: absolute;
     top: 0;
-    right: 0;
-    opacity: 0.85;
+    right: 30%;
 }
 
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages
 {
-    background-color: #000000;
+    background-color: rgba(255, 255, 255, .85);
     border-style: solid;
     border-width: 2px;
     border-color: #ffffff;
-    color: #ffffff;
+    color: #333;
+    padding: 5px 16px 5px 5px;
+    margin-bottom: 10px;
     width: 312px;
-    padding: 16px;
-    margin: 10px 0 10px 0;
+    -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, .25);
+}
+
+#midcom_services_uimessages_wrapper div.error
+{
+    background-color: rgba(255, 220, 220, .85);
+    border-color: #E6C8C8;
 }
 
 #midcom_services_uimessages_wrapper img.close
 {
-  position: absolute;
-  margin-left: 310px;
-  margin-top: -14px;
+    float: right;
+    position: relative;
+    right: -12px
 }
 
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages h3
 {
   font-size: 100%;
   margin: 0 0 6px;
-  color: #ff0000;
+  color: #333;
+}
+
+#midcom_services_uimessages_wrapper div.error h3
+{
+  font-size: 100%;
+  margin: 0 0 6px;
+  color: #ff3333;
 }
 
 #midcom_services_uimessages_wrapper div.midcom_services_uimessages a
 {
-  color: #ffffff;
+    color: #333;
 }

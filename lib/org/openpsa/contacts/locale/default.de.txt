@@ -33,9 +33,7 @@ Passwort ist zu schwach.
 
 ---# @Var: username,password
 ---STRING account_creation_success
-Das Benutzerkonto wurde erfolgreich angelegt!
-Benutzername: %s
-Passwort: %s
+Das Benutzerkonto wurde erfolgreich angelegt! <br />Benutzername: %s <br />Passwort: %s
 ---STRINGEND
 
 ---STRING %s of

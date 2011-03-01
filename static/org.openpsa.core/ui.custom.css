@@ -634,6 +634,11 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     font-size: .9em
 }
 
+.ui-jqgrid-ftable tr
+{
+    background-color: transparent
+}
+
 .ui-jqgrid .ui-jqgrid-htable th
 {
     height: 15px;

@@ -9,12 +9,6 @@
             'callback' => 'check_username',
             'autoload_snippet' => 'file:/org/openpsa/contacts/config/validation_callbacks.inc',
         ),
-
-        Array
-        (
-            'callback' => 'check_password_strength',
-            'autoload_snippet' => 'file:/org/openpsa/contacts/config/validation_callbacks.inc',
-        ),
     ),
 
     'fields'  => array

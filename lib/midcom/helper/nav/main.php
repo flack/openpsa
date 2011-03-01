@@ -173,7 +173,7 @@ class midcom_helper_nav
     }
 
     /**
-     * This will give you a key-value pair describeing the leaf with the ID
+     * This will give you a key-value pair describing the leaf with the ID
      * $node_id. The defined keys are described above in leaf data interchange
      * format. You will get false if the leaf ID is invalid.
      *
@@ -316,6 +316,7 @@ class midcom_helper_nav
     {
         // First, check if the GUID is already known by the backend:
         $cached_result = $this->_backend->get_loaded_object_by_guid($guid);
+
         if (! is_null($cached_result))
         {
             debug_add('The GUID was already known by the backend instance, returning the cached copy directly.', MIDCOM_LOG_INFO);
@@ -352,6 +353,7 @@ class midcom_helper_nav
                 $topic = midcom_db_topic::get_cached($object->topic);
 
                 $leaves = $this->list_leaves($object->topic, true);
+
                 foreach ($leaves as $leafid)
                 {
                     $leaf = $this->get_leaf($leafid);
