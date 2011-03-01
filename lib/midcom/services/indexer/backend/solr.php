@@ -9,7 +9,7 @@
 /**
  * @ignore
  */
-require_once 'HTTP/Request.php';
+require_once 'HTTP/Request2.php';
 
 /**
  * Solr implementation of the indexer backend.
@@ -143,45 +143,58 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             }
         }
 
+        $url = "http://{$GLOBALS['midcom_config']['indexer_xmltcp_host']}:{$GLOBALS['midcom_config']['indexer_xmltcp_port']}/solr/select";
+
+        $request = new HTTP_Request2($url, HTTP_Request2::METHOD_GET);
+        $url = $request->getUrl();
+
         // FIXME: Make this configurable, even better: adapt the whole indexer system to fetching enable querying for counts and slices
         $maxrows = 1000;
-        $url = "http://{$GLOBALS['midcom_config']['indexer_xmltcp_host']}:{$GLOBALS['midcom_config']['indexer_xmltcp_port']}/solr/select?q=" . urlencode($query) . "&fl=*,score&rows={$maxrows}";
+        $url->setQueryVariables(array
+        (
+            'q' => $query,
+            'fl' => '*,score',
+            'rows' => $maxrows
+        ));
+
         if (!empty($this->_index_name))
         {
-            $url .= '&fq=__INDEX_NAME:"' . rawurlencode($this->_index_name) . '"';
+            $url->setQueryVariable('fq', '__INDEX_NAME:"' . rawurlencode($this->_index_name) . '"');
         }
         if (isset($_REQUEST['debug']))
         {
             var_dump($url);
         }
-        $options = array();
-        $options['method'] = HTTP_REQUEST_METHOD_GET ;
 
-        $request = new HTTP_Request($url, $options);
-        $request->addHeader('Accept-Charset', 'UTF-8');
-        $request->addHeader('Content-type', 'text/xml; charset=utf-8');
+        $request->setHeader('Accept-Charset', 'UTF-8');
+        $request->setHeader('Content-type', 'text/xml; charset=utf-8');
 
-        $err = $request->sendRequest(true);
-        $this->code = $request->getResponseCode();
-        if (   $this->code != 200
-            || PEAR::isError($err))
+        try
         {
-            $msg = '';
-            if (is_object($err))
-            {
-                $msg = $err->getMessage();
-            }
-            debug_add("Failed to execute Request {$url}:{$this->code} {$msg}", MIDCOM_LOG_WARN);
-            debug_print_r('Got response:', $body);
+            $response = $request->send();
+        }
+        catch (Exception $e)
+        {
+            debug_add("Failed to execute request " . $url . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
             return false;
         }
-        $body = $request->getResponseBody();
+        $this->code = $response->getStatus();
+
+        if ($this->code != 200)
+        {
+            debug_print_r($url . " returned response code {$this->code}, body:", $response->getBody());
+            return false;
+        }
+
+        $body = $response->getBody();
+
         $response = DomDocument::loadXML($body);
         $xquery = new DomXPath($response);
         $result = array();
 
         $num = $xquery->query('/response/result')->item(0);
-        if ($num->getAttribute('numFound') == 0) {
+        if ($num->getAttribute('numFound') == 0)
+        {
             return array();
         }
 
@@ -209,6 +222,7 @@ class midcom_services_indexer_backend_solr implements midcom_services_indexer_ba
             */
             $result[] = $doc;
         }
+
         debug_add(sprintf('Returning %d results', count($result)), MIDCOM_LOG_INFO);
         return $result;
     }
@@ -336,14 +350,14 @@ class midcom_services_indexer_solrDocumentFactory
 
 /**
  * This class handles the posting to the server.
- * It's a simple wrapper around the HTTP_request library.
+ * It's a simple wrapper around the HTTP_request2 library.
  *
  * @package midcom.services
  */
 class midcom_services_indexer_solrRequest
 {
     /**
-     * the HTTP_Request object
+     * the HTTP_Request2 object
      */
     var $request = null;
 
@@ -364,72 +378,35 @@ class midcom_services_indexer_solrRequest
 
 
     /**
-     * Posts the xml to the suggested url using HTTP_Request.
+     * Posts the xml to the suggested url using HTTP_Request2.
      */
     function do_post($xml, $optimize = false)
     {
-        $options = array();
-        $options['method'] = HTTP_REQUEST_METHOD_POST ;
         $url = "http://" . $GLOBALS['midcom_config']['indexer_xmltcp_host'] .
             ":" . $GLOBALS['midcom_config']['indexer_xmltcp_port'] . "/solr/update";
-        $this->request = new HTTP_Request($url, $options);
+        $this->request = new HTTP_Request2($url, HTTP_Request2::METHOD_POST);
 
-        $this->request->addRawPostData($xml);
-        $this->request->addHeader('Accept-Charset', 'UTF-8');
-        $this->request->addHeader('Content-type', 'text/xml; charset=utf-8');
-        $err = $this->request->sendRequest(true);
+        $this->request->setBody($xml);
+        $this->request->setHeader('Accept-Charset', 'UTF-8');
+        $this->request->setHeader('Content-type', 'text/xml; charset=utf-8');
 
-        $this->code = $this->request->getResponseCode();
-
-        if (   $this->code != 200
-            || PEAR :: isError($err))
+        if (!$this->_send_request())
         {
-            $errstr = '';
-            if (is_a($err, 'PEAR_Error'))
-            {
-                $errstr = $err->getMessage();
-            }
-            debug_add("Failed to execute request {$url}:{$this->code} {$errstr}", MIDCOM_LOG_WARN);
-            debug_print_r("Got response code {$this->code}, body:", $this->request->getResponseBody());
-            debug_print_r('Request content:', $xml);
             return false;
         }
-        $this->request->addRawPostData('<commit/>');
-        $this->request->addHeader('Accept-Charset', 'UTF-8');
-        $this->request->addHeader('Content-type', 'text/xml; charset=utf-8');
-        $err = $this->request->sendRequest(true);
 
-        if (   $this->request->getResponseCode() != 200
-            || PEAR::isError($err))
+        $this->request->setBody('<commit/>');
+
+        if (!$this->_send_request())
         {
-            $errstr = $this->request->getResponseCode();
-            if (is_a($err, 'PEAR_Error'))
-            {
-                $errstr .= ' ' . $err->getMessage();
-            }
-            debug_add("Failed to execute commit request {$url}: {$errstr}", MIDCOM_LOG_WARN);
-            debug_add("Request content: \n$xml", MIDCOM_LOG_INFO);
-
             return false;
         }
 
         if ($optimize)
         {
-            $this->request->addRawPostData('<optimize/>');
-            $this->request->addHeader('Accept-Charset', 'UTF-8');
-            $this->request->addHeader('Content-type', 'text/xml; charset=utf-8');
-            $err = $this->request->sendRequest(true);
-
-            if (   $this->request->getResponseCode() != 200
-                || PEAR::isError($err))
+            $this->request->setBody('<optimize/>');
+            if (!$this->_send_request())
             {
-                $errstr = '';
-                if (is_a($err, 'PEAR_Error'))
-                {
-                    $errstr = $err->getMessage();
-                }
-                debug_add("Failed to execute optimize request {$url}: {$errstr}", MIDCOM_LOG_WARN);
-                debug_add("Request content: \n$xml", MIDCOM_LOG_INFO);
                 return false;
             }
         }
@@ -437,5 +414,28 @@ class midcom_services_indexer_solrRequest
         debug_add('POST ok');
         return true;
     }
+
+    private function _send_request()
+    {
+        try
+        {
+            $response = $this->request->send();
+        }
+        catch (Exception $e)
+        {
+            debug_add("Failed to execute request " . $this->request->getUrl() . ": " . $e->getMessage(), MIDCOM_LOG_WARN);
+            return false;
+        }
+        $this->code = $response->getStatus();
+
+        if ($this->code != 200)
+        {
+            debug_print_r($this->request->getUrl() . " returned response code {$this->code}, body:", $response->getBody());
+            debug_print_r('Request content:', $this->request->getBody());
+            return false;
+        }
+        return true;
+    }
+
 }
 ?>
