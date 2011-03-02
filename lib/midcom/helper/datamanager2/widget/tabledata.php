@@ -263,10 +263,10 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
                 return "                <input id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_text\" type=\"text\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" value=\"{$cell_value}\" />\n";
 
             case 'checkbox':
-                return "                <input id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_checkbox\" type=\"checkbox\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" " . (($cell_value) ? "checked" : "") . " />\n";
+                return "                <input id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_checkbox\" type=\"checkbox\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" " . (($cell_value === 'on') ? "checked" : "") . " />\n";
 
             case 'select':
-                $html = "               <select id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_select\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" current=\"0\">\n";
+                $html = "               <select id=\"midcom_helper_datamanager2_widget_tabledata_{$this->name}_{$row}_{$column}\" class=\"column_field tabledata_widget_select\" name=\"midcom_helper_datamanager2_type_tabledata[{$this->name}][{$row}][{$column}]\" current=\"{$cell_value}\">\n";
 
                 $options = array();
 
@@ -278,7 +278,7 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
                 // Get each select option
                 foreach ($options as $key => $option)
                 {
-                    if ($key === $cell_value)
+                    if ($key == $cell_value)
                     {
                         $selected = ' selected="selected"';
                     }
@@ -319,13 +319,15 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             && (!$this->_type->row_limit
                 || count($rows) < $this->_type->row_limit))
         {
-            $rows[] = time();
+            //$rows[] = time();
+            $rows[] = 'new_row_' . count($rows) + 1;
         }
         else
         {
             for ($i = 0; $i < $this->_type->rows; $i++)
             {
-                $rows[] = time();
+                //$rows[] = time();
+                $rows[] = 'new_row_' . $i;
             }
         }
 

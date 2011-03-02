@@ -118,6 +118,8 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
     function invalidate($guid)
     {
         $nav = new midcom_helper_nav();
+        $this->_initialize_cache($nav->get_root_node());
+
         $napobject = $nav->resolve_guid($guid);
 
         if ($napobject === false)
@@ -130,15 +132,26 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
 
         if ($napobject[MIDCOM_NAV_TYPE] == 'leaf')
         {
-            $node_id = $napobject[MIDCOM_NAV_NODEID];
+            $cached_node_id = $napobject[MIDCOM_NAV_NODEID];
+            // Get parent from DB and compare to catch moves
+            if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent())
+            {
+                $parent_entry_from_object = $nav->resolve_guid($parent->guid);
+                if (    $parent_entry_from_object
+                     && $parent_entry_from_object[MIDCOM_NAV_ID] != $cached_node_id)
+                {
+                    $this->_cache->remove($this->_prefix . '-' . $parent_entry_from_object[MIDCOM_NAV_ID] . '-leaves');
+                }
+            }
         }
         else
         {
-            $node_id = $napobject[MIDCOM_NAV_ID];
+            $cached_node_id = $napobject[MIDCOM_NAV_ID];
 
             //Invalidate subnode cache for the (cached) parent
             $parent_id = $napobject[MIDCOM_NAV_NODEID];
             $parent_entry = $this->_cache->get("{$this->_prefix}-{$parent_id}");
+
             if (   $parent_entry
                 && array_key_exists(MIDCOM_NAV_SUBNODES, $parent_entry))
             {
@@ -147,18 +160,38 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
             }
 
             //Cross-check parent value from object to detect topic moves
-            $parent_entry_from_object = $this->_cache->get("{$this->_prefix}-{$napobject[MIDCOM_NAV_OBJECT]->up}");
-            if (    $parent_entry_from_object
-                 && $parent_entry_from_object[MIDCOM_NAV_ID] != $parent_entry[MIDCOM_NAV_ID])
+            if ($parent = $napobject[MIDCOM_NAV_OBJECT]->get_parent())
             {
-                unset($parent_entry_from_object[MIDCOM_NAV_SUBNODES]);
-                $this->_cache->put("{$this->_prefix}-{$parent_entry_from_object[MIDCOM_NAV_ID]}", $parent_entry_from_object);
+                $parent_entry_from_object = $nav->resolve_guid($parent->guid);
+
+                if (    $parent_entry_from_object
+                     && $parent_entry_from_object[MIDCOM_NAV_ID] != $parent_entry[MIDCOM_NAV_ID])
+                {
+                    unset($parent_entry_from_object[MIDCOM_NAV_SUBNODES]);
+                    $this->_cache->put("{$this->_prefix}-{$parent_entry_from_object[MIDCOM_NAV_ID]}", $parent_entry_from_object);
+                }
             }
         }
-        $leaves_key = "{$node_id}-leaves";
+        $leaves_key = "{$cached_node_id}-leaves";
 
-        $this->_cache->remove("{$this->_prefix}-{$node_id}");
+        $this->_cache->remove("{$this->_prefix}-{$cached_node_id}");
         $this->_cache->remove("{$this->_prefix}-{$leaves_key}");
+    }
+
+    /**
+     * Helper function that pre-warms the in-request NAP cache.
+     * This might not be the most performance-friendly implementation, but it's necesary to
+     * catch node and leave moves
+     */
+    private function _initialize_cache($node_id)
+    {
+        $nav = new midcom_helper_nav();
+        $nav->list_leaves($node_id);
+        $subnodes = $nav->list_nodes($node_id, true);
+        foreach ($subnodes as $subnode_id)
+        {
+            $this->_initialize_cache($subnode_id);
+        }
     }
 
     /**

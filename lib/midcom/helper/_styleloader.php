@@ -761,8 +761,7 @@ class midcom_helper__styleloader
         {
             $substyle = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_SUBSTYLE);
 
-            if (   isset($substyle)
-                && is_string($substyle))
+            if (is_string($substyle))
             {
                 $chain = explode('/', $substyle);
                 foreach ($chain as $stylename)

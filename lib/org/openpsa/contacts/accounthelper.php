@@ -1,13 +1,15 @@
 <?php
 /**
  * @package org.openpsa.contacts
- * @author Nemein Oy http://www.nemein.com/
- * @copyright Nemein Oy http://www.nemein.com/
+ *
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
 /**
- * MidCOM wrapped access to org_openpsa_person plus some utility methods
+ * helper class for creating a new account for an existing person
+ *
  * @package org.openpsa.contacts
  */
 class org_openpsa_contacts_accounthelper extends midcom_baseclasses_components_purecode
@@ -36,9 +38,21 @@ class org_openpsa_contacts_accounthelper extends midcom_baseclasses_components_p
     public function create_account($person_guid,$username,$usermail,$password="",$send_welcome_mail){
 
         //quick validation
-        if (empty($person_guid) || empty($username) || empty($usermail))
+        if (empty($person_guid))
         {
-            $this->errstr = "Missing information";
+            $this->errstr = "cannot identify user: no guid given";
+            return false;
+        }
+
+        if (empty($username))
+        {
+            $this->errstr = "cannot create account: no username given";
+            return false;
+        }
+
+        if ($send_welcome_mail && empty($usermail))
+        {
+            $this->errstr = "cannot deliver welcome mail: no usermail adress given";
             return false;
         }
 
