@@ -13,6 +13,8 @@
  */
 class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2_widget_image
 {
+    public $show_action_elements = false;
+
     /**
      * The on_submit event handles all file uploads immediately. They are passed through
      * the type at that point.
@@ -42,7 +44,7 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         {
             debug_add("Failed to process image {$this->name}.", MIDCOM_LOG_INFO);
             // This (in parent) calls the _create_upload_elements which we have overridden here to our liking.
-            $this->_cast_formgroup_to_upload();
+            //$this->_cast_formgroup_to_upload();
         }
         else
         {
@@ -122,7 +124,10 @@ class midcom_helper_datamanager2_widget_photo extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
 
         // Add action buttons
-        $this->add_action_elements($elements);
+        if ($this->show_action_elements)
+        {
+            $this->add_action_elements($elements);
+        }
 
         // Add the upload widget
         $static_html = "</td>\n</tr>\n" .
