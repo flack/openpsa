@@ -26,7 +26,7 @@
     ),
     'dependencies' => array
     (
-        'HTTP_request' => array
+        'HTTP_Request2' => array
         (
             'channel' => 'pear.php.net',
         ),
