@@ -83,7 +83,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 {
                     $identifier = '';
                 }
-                echo "<li><a href=\"{$prefix}__ais/help/{$data['component']}/{$identifier}/\" target=\"_blank\">{$filedata['subject']}</a></li>\n";
+                echo "<li><a href=\"{$prefix}__ais/help/{$data['component']}/{$identifier}/\" class='target_blank'>{$filedata['subject']}</a></li>\n";
             }
             echo "</ul>\n";
         }

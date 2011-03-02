@@ -35,7 +35,7 @@ if (   !$access_key
         $session->set('request_token', $request_token['oauth_token']);
         $session->set('request_secret', $request_token['oauth_token_secret']);
         ?>
-        <p><a href="<?php echo $fireeagle->getAuthorizeURL($request_token['oauth_token']); ?>" target="_blank">Authorize this application</a></p>
+        <p><a href="<?php echo $fireeagle->getAuthorizeURL($request_token['oauth_token']); ?>" class="target_blank">Authorize this application</a></p>
         <p><a href="?f=callback">And then click here</a></p>
         <?php
         $_MIDCOM->finish();

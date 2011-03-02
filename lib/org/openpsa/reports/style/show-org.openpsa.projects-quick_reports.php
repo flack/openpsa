@@ -20,7 +20,7 @@ $prev_month = $date->format('U');
         $report_params .= '&org_openpsa_reports_query_data[resource]=all';
         $report_params .= '&org_openpsa_reports_query_data[task]=all';
         ?>
-        <a href="&(data['report_prefix']);get/&(report_params);" target="_blank">
+        <a href="&(data['report_prefix']);get/&(report_params);" class="target_blank">
             <?php echo $data['l10n']->get('invoiceable hours this month'); ?>
         </a>
     </li>
@@ -35,7 +35,7 @@ $prev_month = $date->format('U');
         $report_params .= '&org_openpsa_reports_query_data[resource]=all';
         $report_params .= '&org_openpsa_reports_query_data[task]=all';
         ?>
-        <a href="&(data['report_prefix']);get/&(report_params);" target="_blank">
+        <a href="&(data['report_prefix']);get/&(report_params);" class="target_blank">
             <?php echo $data['l10n']->get('invoiceable hours last month'); ?>
         </a>
     </li>
