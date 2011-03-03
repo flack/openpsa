@@ -49,6 +49,12 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             ),
             array
             (
+                'm',
+                1296518400,
+                1298937600,
+            ),
+            array
+            (
                'q',
                 1297468800,
                 1305158400,
