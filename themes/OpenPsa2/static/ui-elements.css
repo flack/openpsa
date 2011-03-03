@@ -390,6 +390,7 @@ form.datamanager2 textarea.markItUpEditor
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+    background-color: white
 }
 
 form.datamanager2 fieldset.checkbox label,
