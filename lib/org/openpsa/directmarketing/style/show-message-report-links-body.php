@@ -104,7 +104,7 @@ $body_class = " class='{$data['body_class']}'";
                     <textarea name="org_openpsa_directmarketing_campaign_rule_<?php echo md5($target . $form_suffix); ?>" style="display: none;"><?php echo $rule_ser; ?></textarea>
                     <input type="hidden" name="org_openpsa_directmarketing_campaign_label_<?php echo md5($target . $form_suffix); ?>" value="<?php echo $target_label; ?>" />
                     <td><input type="radio" name="org_openpsa_directmarketing_campaign_userule" value="<?php echo md5($target . $form_suffix); ?>" /></td>
-                    <td><a href="<?php echo trim(urldecode($target)); ?>" class="target_blank" title="<?php echo $target; ?>"><?php echo $target_label; ?></a></td>
+                    <td><a href="<?php echo trim(urldecode($target)); ?>" target="_blank" title="<?php echo $target; ?>"><?php echo $target_label; ?></a></td>
                     <td class="bargraph"><div style="width: <?php echo $visual_width; ?>px;" class="link_count_visualization">&nbsp;</div></td>
                     <td class="numeric"><?php echo $count['total']; ?></td>
                     <td class="numeric"><?php echo round($of_clicks, 2); ?></td>

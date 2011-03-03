@@ -8,10 +8,10 @@ $saved_reports = org_openpsa_reports_query_dba::get_saved('org.openpsa.invoices'
         </a>
     </li>
     <?php
-    foreach ($saved_reports as $report) 
+    foreach ($saved_reports as $report)
     { ?>
       <li>
-        <a href="&(data['report_prefix']);&(report.guid);/" class="target_blank">
+        <a href="&(data['report_prefix']);&(report.guid);/" target="_blank">
           &(report.title);
         </a>
         <a class="actions" href="delete/&(report.guid);/"><img style="border:0px" src="<?php echo MIDCOM_STATIC_URL . '/stock-icons/16x16/trash.png'?>" title="<?php echo $data['l10n_midcom']->get('delete'); ?>" alt="<?php echo $data['l10n_midcom']->get('delete'); ?>"/></a>

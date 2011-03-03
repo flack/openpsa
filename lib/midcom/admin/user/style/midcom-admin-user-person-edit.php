@@ -7,7 +7,7 @@ if ($data['handler_id'] === '____mfa-asgard_midcom.admin.user-user_edit_password
 {
 ?>
 <div id="midcom_admin_user_passwords">
-    <a href="&(prefix);__mfa/asgard_midcom.admin.user/password/" class="target_blank"><?php echo $data['l10n']->get('generate passwords'); ?></a>
+    <a href="&(prefix);__mfa/asgard_midcom.admin.user/password/" target="_blank"><?php echo $data['l10n']->get('generate passwords'); ?></a>
 </div>
 <script type="text/javascript">
     // <![CDATA[
