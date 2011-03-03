@@ -40,7 +40,7 @@ echo "\nvar " . $grid_id . '_entries = ' . json_encode($entries);
 echo "\n//]]></script>";
 ?>
 
-<div class="org_openpsa_products <?php echo $classes ?> full-width">
+<div class="org_openpsa_products full-width">
 
 <table id="&(grid_id);"></table>
 <div id="p_&(grid_id);"></div>
