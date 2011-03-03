@@ -42,6 +42,8 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      */
     var $show_title = true;
 
+    public $show_action_elements = false;
+
     /**
      * The initialization event handler post-processes the maxlength setting.
      *
@@ -245,7 +247,10 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
         $elements[] = HTML_QuickForm::createElement('static', "{$this->name}_start", '', $static_html);
 
         // Add action buttons
-        $this->add_action_elements($elements);
+        if ($this->show_action_elements)
+        {
+            $this->add_action_elements($elements);
+        }
 
         // Add the upload widget
         $static_html = "</td>\n</tr>\n" .
