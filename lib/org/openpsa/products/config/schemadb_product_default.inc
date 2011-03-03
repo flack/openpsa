@@ -21,6 +21,17 @@
             'type' => 'text',
             'widget'  => 'text',
         ),
+        'description' => Array
+        (
+            'title' => 'description',
+            'storage' => 'description',
+            'type' => 'text',
+            'type_config' => Array 
+            (
+                'output_mode' => 'markdown'
+            ),
+            'widget' => 'textarea',
+        ),
         'tags' => Array
         (
             'title' => 'tags',
@@ -59,6 +70,68 @@
                 'generate_path_for' => 'title',
             ),
         ),
+        'orgOpenpsaObtype' => Array
+        (
+            // COMPONENT-REQUIRED
+            'title' => 'type',
+            'storage' => 'orgOpenpsaObtype',
+            'type' => 'select',
+            'required' => true,
+            'type_config' => Array
+            (
+                'options' => Array
+                (
+                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE   => 'service',
+                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS     => 'material goods',
+                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION  => 'solution',
+                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT => 'component',
+                ),
+            ),
+            'widget' => 'select',
+        ),
+        'delivery' => Array
+        (
+            // COMPONENT-REQUIRED
+            'title' => 'delivery type',
+            'storage' => 'delivery',
+            'type' => 'select',
+            'required' => true,
+            'type_config' => Array
+            (
+                'options' => Array
+                (
+                    ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE       => 'single delivery',
+                    ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION => 'subscription',
+                ),
+            ),
+            'widget' => 'select',
+        ),
+        'price' => Array
+        (
+            'title' => 'price',
+            'storage' => 'price',
+            'type' => 'number',
+            'widget'  => 'text',
+        ),
+        'unit' => Array
+        (
+            'title' => 'unit',
+            'storage' => 'unit',
+            'type' => 'select',
+            'type_config' => Array
+            (
+                'options' => Array
+                (
+                    'p' => 'piece',   // per piece
+                    'h' => 'hour',    // per hour
+                    'd' => 'day',     // per day
+                    'm' => 'month',   // per month
+                    'q' => 'quarter', // per quarter
+                    'y' => 'year',    // per annum
+                ),
+            ),
+            'widget' => 'select',
+        ),
         'supplier' => array
         (
             'title'   => 'supplier',
@@ -95,32 +168,6 @@
                 ),
             ),
         ),
-        'price' => Array
-        (
-            'title' => 'price',
-            'storage' => 'price',
-            'type' => 'number',
-            'widget'  => 'text',
-        ),
-        'unit' => Array
-        (
-            'title' => 'unit',
-            'storage' => 'unit',
-            'type' => 'select',
-            'type_config' => Array
-            (
-                'options' => Array
-                (
-                    'p' => 'piece',   // per piece
-                    'h' => 'hour',    // per hour
-                    'd' => 'day',     // per day
-                    'm' => 'month',   // per month
-                    'q' => 'quarter', // per quarter
-                    'y' => 'year',    // per annum
-                ),
-            ),
-            'widget' => 'select',
-        ),
         'cost' => Array
         (
             'title' => 'cost',
@@ -139,52 +186,6 @@
                 (
                     'm' => 'per unit',
                     '%' => '%',
-                ),
-            ),
-            'widget' => 'select',
-        ),
-        'description' => Array
-        (
-            'title' => 'description',
-            'storage' => 'description',
-            'type' => 'text',
-            'type_config' => Array (
-                'output_mode' => 'markdown'
-            ),
-            'widget' => 'textarea',
-        ),
-        'delivery' => Array
-        (
-            // COMPONENT-REQUIRED
-            'title' => 'delivery type',
-            'storage' => 'delivery',
-            'type' => 'select',
-            'required' => true,
-            'type_config' => Array
-            (
-                'options' => Array
-                (
-                    ORG_OPENPSA_PRODUCTS_DELIVERY_SINGLE       => 'single delivery',
-                    ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION => 'subscription',
-                ),
-            ),
-            'widget' => 'select',
-        ),
-        'orgOpenpsaObtype' => Array
-        (
-            // COMPONENT-REQUIRED
-            'title' => 'type',
-            'storage' => 'orgOpenpsaObtype',
-            'type' => 'select',
-            'required' => true,
-            'type_config' => Array
-            (
-                'options' => Array
-                (
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE   => 'service',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS     => 'material goods',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION  => 'solution',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT => 'component',
                 ),
             ),
             'widget' => 'select',

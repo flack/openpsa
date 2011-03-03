@@ -1,21 +1,18 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
 if (array_key_exists('view_group', $data))
 {
     $view = $data['view_group'];
     ?>
     <h1>&(view['code']:h); &(view['title']:h);</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <td><?php echo $data['l10n']->get('parent group'); ?></td>
-                <td>&(view['up']:h);</td>
-            </tr>
-        </tbody>
-    </table>
-
+    <?php if ($view['up'] != '')
+    { ?>
+    <div class="parent_group">
+        <span class="label"><?php echo $data['l10n']->get('parent group'); ?>: </span>
+        <span class="parent">&(view['up']:h);</span>
+    </div>
+    <?php } ?>
     &(view['description']:h);
     <?php
 }

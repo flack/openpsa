@@ -30,6 +30,25 @@ class org_openpsa_products_product_group_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function get_path()
+    {
+        $path = $this->guid;
+        if ($this->code)
+        {
+            $path = $this->code;
+            try
+            {
+                $parent = org_openpsa_products_product_group_dba::get_cached($this->up);
+                $path = $parent->get_path() . '/' . $path;
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
+        }
+        return $path;
+    }
+
     public function _on_creating()
     {
         if ($this->_check_duplicates($this->code))
