@@ -115,7 +115,7 @@ class midcom_helper_datamanager2_widget_image extends midcom_helper_datamanager2
      * Switches the Element Group from a simple upload form to a
      * replace/delete constellation.
      */
-    private function _cast_formgroup_to_replacedelete()
+    protected function _cast_formgroup_to_replacedelete()
     {
         $new_elements = Array();
         $this->_create_replace_elements($new_elements);
