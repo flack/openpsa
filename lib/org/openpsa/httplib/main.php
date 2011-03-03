@@ -111,6 +111,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         (
             'connect_timeout' => $this->http_timeout,
             'timeout' => $this->http_read_timeout,
+            'ssl_verify_peer' => false
         );
 
         $this->_client = new HTTP_Request2($uri, HTTP_Request2::METHOD_POST, $params);
