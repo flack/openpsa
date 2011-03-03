@@ -129,7 +129,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var string
      */
-    private $_filename = null;
+    protected $_filename = null;
 
     /**
      * The current image identifier to use when operating on images.
@@ -144,7 +144,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var string
      */
-    private $_original_tmpname = null;
+    protected $_original_tmpname = null;
 
     /**
      * The current working file.
@@ -158,7 +158,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var midcom_helper_imagefilter
      */
-    private $_filter = null;
+    protected $_filter = null;
 
     /**
      * The target mimetype used after automatic conversion for all
@@ -173,7 +173,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var string
      */
-    private $_original_mimetype = null;
+    protected $_original_mimetype = null;
 
     /**
      * This list is used when updating an existing attachment. It keeps track
@@ -184,7 +184,7 @@ class midcom_helper_datamanager2_type_image extends midcom_helper_datamanager2_t
      *
      * @var Array
      */
-    private $_pending_attachments = null;
+    protected $_pending_attachments = null;
 
     /**
      * This option taken from data schema controls the way data is output.
