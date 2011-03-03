@@ -74,10 +74,8 @@ jQuery("#&(grid_id);").jqGrid({
       loadonce: true,
       rowNum: <?php echo sizeof($entries); ?>,
 });
-
-jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
-
 </script>
+
 <?php
 if (method_exists($data['products_qb'], 'show_pages'))
 {
