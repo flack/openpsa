@@ -320,14 +320,12 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
                 || count($rows) < $this->_type->row_limit))
         {
             $rows[] = time();
-            //$rows[] = 'new_row_' . count($rows) + 1;
         }
         else
         {
             for ($i = 0; $i < $this->_type->rows; $i++)
             {
                 $rows[] = time();
-                //$rows[] = 'new_row_' . $i;
             }
         }
 
