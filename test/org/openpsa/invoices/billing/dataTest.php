@@ -38,6 +38,7 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
         $data->useContactAddress = true;
         $stat = $data->create();
         $this->assertTrue($stat);
+        $this->register_object($data);
 
         $parent = $data->get_parent();
         $this->assertEquals($parent->guid, self::$_contact->guid);

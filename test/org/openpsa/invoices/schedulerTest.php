@@ -193,6 +193,8 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
         $task = $scheduler->create_task($start, $end, $title);
         $this->assertTrue(is_a($task, 'org_openpsa_projects_task_dba'));
+        $this->register_object($task);
+
         $this->assertEquals($deliverable->id, $task->agreement);
         $this->assertEquals($salesproject->customer, $task->customer);
         $this->assertEquals($title, $task->title);
@@ -217,6 +219,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
         $project = new org_openpsa_projects_project($task->up);
         $this->assertTrue(!empty($project->guid));
+        $this->register_object($project);
 
         $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $project->guid);
         $mc->add_value_property('toGuid');
@@ -236,6 +239,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $task->add_members('resources', array($member->id));
         $task->refresh();
         $task2 = $scheduler->create_task($start, $end, $title, $task);
+        $this->register_object($task2);
         $task2->get_members();
         $task->get_members();
 
@@ -245,9 +249,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
 
         $this->delete_linked_objects('org_openpsa_contacts_buddy_dba', 'account', $manager->guid);
-        $task->delete();
-        $task2->delete();
-        $project->delete();
         $_MIDCOM->auth->drop_sudo();
     }
 }

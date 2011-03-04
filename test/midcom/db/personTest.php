@@ -26,6 +26,7 @@ class midcom_db_personTest extends openpsa_testcase
         $person = new midcom_db_person();
         $stat = $person->create();
         $this->assertTrue($stat);
+        $this->register_object($person);
 
         $person = new midcom_db_person($person->guid);
         $this->assertEquals('person #' . $person->id, $person->name);

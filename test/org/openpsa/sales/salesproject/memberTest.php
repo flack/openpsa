@@ -32,6 +32,7 @@ class org_openpsa_sales_salesproject_memberTest extends openpsa_testcase
         $member1->person = $person1->id;
         $stat = $member1->create();
         $this->assertTrue($stat);
+        $this->register_object($member1);
         $this->assertEquals(ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER, $member1->orgOpenpsaObtype);
         $this->assertEquals(array($person1->id => true), $salesproject->contacts);
 

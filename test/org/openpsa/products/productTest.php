@@ -36,6 +36,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $_MIDCOM->auth->request_sudo('org.openpsa.products');
         $stat = $product->create();
         $this->assertTrue($stat);
+        $this->register_object($product);
 
         $parent = $product->get_parent();
         $this->assertEquals($parent->guid, self::$_group->guid);

@@ -35,7 +35,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $deliverable->pricePerUnit = 100;
         $stat = $deliverable->create();
         $this->assertTrue($stat, midcom_connection::get_error_string());
-
+        $this->register_object($deliverable);
         $this->assertEquals($deliverable->price, 250);
 
         $parent = $deliverable->get_parent();

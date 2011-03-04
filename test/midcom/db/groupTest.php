@@ -26,6 +26,7 @@ class midcom_db_groupTest extends openpsa_testcase
         $group = new midcom_db_group();
         $stat = $group->create();
         $this->assertTrue($stat);
+        $this->register_object($group);
 
         $group->refresh();
         $this->assertEquals('Group #' . $group->id, $group->official);

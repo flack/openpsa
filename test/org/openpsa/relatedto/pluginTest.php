@@ -27,6 +27,7 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
         $relatedto = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
 
         $this->assertTrue(is_a($relatedto, 'org_openpsa_relatedto_dba'));
+        $this->register_object($relatedto);
         $this->assertEquals($relatedto->status, ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
         $this->assertEquals($relatedto->fromGuid, $invoice->guid);
         $this->assertEquals($relatedto->fromComponent, 'org.openpsa.invoices');

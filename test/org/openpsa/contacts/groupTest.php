@@ -31,6 +31,7 @@ class org_openpsa_contacts_groupTest extends openpsa_testcase
         $group->name = 'TEST-NAME';
         $stat = $group->create();
         $this->assertTrue($stat);
+        $this->register_object($group);
         $this->assertEquals('TEST-NAME', $group->get_label());
         $this->assertEquals(ORG_OPENPSA_ACCESSTYPE_PUBLIC, $group->orgOpenpsaAccesstype);
 

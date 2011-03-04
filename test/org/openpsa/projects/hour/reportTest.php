@@ -36,6 +36,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         $report->hours = 2.5;
         $stat = $report->create();
         $this->assertTrue($stat);
+        $this->register_object($report);
 
         $parent = $report->get_parent();
         $this->assertEquals($parent->guid, self::$_task->guid);

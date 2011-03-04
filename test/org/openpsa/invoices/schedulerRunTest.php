@@ -21,6 +21,9 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 {
     protected $_product;
     protected $_group;
+    protected $_project;
+    protected $_task;
+    protected $_hour_report;
     protected $_salesproject;
     protected $_deliverable;
     protected $_organization;
@@ -39,6 +42,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         (
             'productGroup' => $this->_group->id,
             'code' => 'TEST-' . __CLASS__ . time(),
+            'delivery' => ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION
         );
         $this->_product = $this->create_object('org_openpsa_products_product_dba', $product_attributes);
 
@@ -65,6 +69,18 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'plannedUnits' => 15,
         );
         $this->_deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+
+        $this->_project = $this->create_object('org_openpsa_projects_project');
+
+        $task_attributes = array
+        (
+           'up' => $this->_project->id,
+           'agreement' => $this->_deliverable->id,
+           'title' => 'TEST TITLE',
+        );
+        $this->_task = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
+
+        $this->_hour_report = $this->create_object('org_openpsa_projects_hour_report_dba', array('task' => $this->_task->id));
     }
 
     private function _apply_input($input)
@@ -96,40 +112,15 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         {
             if ($type == 'at_entry')
             {
-                $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
-                $at_entries = $mc->get_related_objects('midcom.services.at');
-
-                $this->assertEquals(1, sizeof($at_entries));
-                $at_entry = $at_entries[0];
-                foreach ($values as $field => $value)
-                {
-                    $this->assertEquals($value, $at_entry->$field, 'Difference in ' . $type . ' field ' . $field);
-                }
-                $at_entry->delete();
+                $this->_verify_at_entry($values);
             }
             else if ($type == 'invoice')
             {
-                $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'org_openpsa_invoices_invoice_dba');
-                $invoices = $mc->get_related_objects('org.openpsa.invoices');
-
-                if ($values == false)
-                {
-                    $this->assertEquals(0, sizeof($invoices), 'Invoice was created, which shouldn\'t have happened');
-                }
-                else
-                {
-                    $this->assertEquals(1, sizeof($invoices), 'Invoice was created, which shouldn\'t have happened');
-                    $invoice = $invoices[0];
-                    foreach ($values as $field => $value)
-                    {
-                        $this->assertEquals($value, $invoice->$field, 'Difference in ' . $type . ' field ' . $field);
-                    }
-
-                    $invoice->delete();
-                }
+                $this->_verify_invoice($values);
             }
             else
             {
+                $this->$type->refresh();
                 foreach ($values as $field => $value)
                 {
                     $this->assertEquals($value, $this->$type->$field, 'Difference in ' . $type . ' field ' . $field);
@@ -138,6 +129,42 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         }
 
         $_MIDCOM->auth->drop_sudo();
+    }
+
+    private function _verify_at_entry($values)
+    {
+        $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'midcom_services_at_entry_dba');
+        $at_entries = $mc->get_related_objects('midcom.services.at');
+
+        $this->assertEquals(1, sizeof($at_entries));
+        $at_entry = $at_entries[0];
+        $this->register_object($at_entry);
+        foreach ($values as $field => $value)
+        {
+            $this->assertEquals($value, $at_entry->$field, 'Difference in at_entry field ' . $field);
+        }
+    }
+
+    private function _verify_invoice($values)
+    {
+        $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'org_openpsa_invoices_invoice_dba');
+        $invoices = $mc->get_related_objects('org.openpsa.invoices');
+
+        if ($values == false)
+        {
+            $this->assertEquals(0, sizeof($invoices), 'Invoice was created, which shouldn\'t have happened');
+        }
+        else
+        {
+            $this->assertEquals(1, sizeof($invoices), 'Invoice was not created');
+            $invoice = $invoices[0];
+            $this->register_object($invoice);
+
+            foreach ($values as $field => $value)
+            {
+                $this->assertEquals($value, $invoice->$field, 'Difference in invoice field ' . $field);
+            }
+        }
     }
 
     public function providerRun_cycle()
@@ -251,6 +278,52 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     (
                         'invoiced' => 170,
                         'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    )
+                )
+            ),
+            array
+            (
+                array
+                (
+                    'cycle_number' => 2,
+                    'send_invoice' => true,
+                ),
+                array
+                (
+                    '_deliverable' => array
+                    (
+                        'start' => $past_8_weeks,
+                        'end' => $future_8_weeks,
+                        'invoiceByActualUnits' => true,
+                        'units' => 17,
+                        'pricePerUnit' => 10,
+                        'unit' => 'm',
+                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    ),
+                    '_task' => array
+                    (
+                        'reportedHours' => 17
+                    ),
+                    '_hour_report' => array
+                    (
+                        'hours' => 17,
+                        'invoiceable' => true
+                    )
+                ),
+                array
+                (
+                    '_deliverable' => array
+                    (
+                        'invoiced' => 170,
+                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    ),
+                    '_task' => array
+                    (
+                        'invoicedHours' => 17
+                    ),
+                    'invoice' => array
+                    (
+                        'sum' => 170
                     )
                 )
             ),

@@ -28,6 +28,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $invoice->number = $next_number;
         $stat = $invoice->create();
         $this->assertTrue($stat);
+        $this->register_object($invoice);
         $this->assertEquals($next_number + 1, $invoice->generate_invoice_number());
 
         $stat = $invoice->delete();

@@ -27,6 +27,7 @@ class org_openpsa_contacts_personTest extends openpsa_testcase
         $person->lastname = 'TEST PERSON ' . __CLASS__;
         $stat = $person->create();
         $this->assertTrue($stat);
+        $this->register_object($person);
         $this->assertEquals(ORG_OPENPSA_OBTYPE_PERSON, $person->orgOpenpsaObtype);
         $this->assertEquals('rname', $person->get_label_property());
 

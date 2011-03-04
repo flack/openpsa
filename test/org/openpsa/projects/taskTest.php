@@ -26,6 +26,7 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $task = new org_openpsa_projects_task_dba();
         $stat = $task->create();
         $this->assertTrue($stat);
+        $this->register_object($task);
         $this->assertEquals(ORG_OPENPSA_OBTYPE_TASK, $task->orgOpenpsaObtype);
 
         $task->refresh();
