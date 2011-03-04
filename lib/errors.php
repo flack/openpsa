@@ -33,10 +33,15 @@ class midcom_exception_handler
     public function handle_exception(Exception $e)
     {
         //For unit tests or MidgardMVC we just pass exceptions on and let the frameworks do the work
-        if (   $e instanceof midgardmvc_exception_unauthorized
-            || defined('OPENPSA2_UNITTEST_RUN'))
+        if (   $e instanceof midgardmvc_exception_unauthorized)
         {
             throw $e;
+        }
+        else if (defined('OPENPSA2_UNITTEST_RUN'))
+        {
+            echo "\n\n UNCAUGHT EXCEPTION: " . $e->getMessage() . "\n";
+            echo "\n" . $e->getTraceAsString() . "\n";
+            exit;
         }
 
         if (   !isset($_MIDCOM)
