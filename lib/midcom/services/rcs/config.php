@@ -91,15 +91,8 @@
         if (   array_key_exists('midcom_services_rcs_enable', $this->config)
             && $this->config['midcom_services_rcs_enable'])
         {
-            if ( $this->_test_rcs_config())
-            {
-                return 'midcom_services_rcs_backend_rcs';
-            }
-            else
-            {
-                throw new midcom_error('Tried to use RCS as wanted but failed. Please read the errorlog for more information.');
-                return false;
-            }
+            $this->_test_rcs_config();
+            return 'midcom_services_rcs_backend_rcs';
         }
         else
         {
@@ -110,31 +103,27 @@
     /**
      * Checks if the basic rcs service is usable.
      */
-    function _test_rcs_config()
+    private function _test_rcs_config()
     {
         if (!array_key_exists('midcom_services_rcs_root', $this->config))
         {
-            debug_add("midcom_services_rcs_root configuration not defined.\n", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("midcom_services_rcs_root not found in configuration.");
         }
 
         if (!is_writable($this->config['midcom_services_rcs_root']))
         {
-            debug_add("The root RCS directory {$this->config['midcom_services_rcs_root']} is not writable!.\n", MIDCOM_LOG_ERROR);
-            return false;
+            throw new midcom_error("The root RCS directory {$this->config['midcom_services_rcs_root']} is not writable!");
         }
 
-        if (!array_key_exists('midcom_services_rcs_bin_dir', $this->config)) {
-            debug_add("midcom_services_rcs_bin_dir configuration not defined. This must be defined before RCS will work.\n", MIDCOM_LOG_ERROR);
-            return false;
+        if (!array_key_exists('midcom_services_rcs_bin_dir', $this->config))
+        {
+            throw new midcom_error("midcom_services_rcs_bin_dir not found in configuration. This must be defined before RCS will work.");
         }
 
-        if (!is_executable($this->config['midcom_services_rcs_bin_dir'] . "/ci")) {
-            debug_add("Cannot execute {$this->config['midcom_services_rcs_bin_dir']}/ci.\n" .
-                    " This must be changed before RCS will work.\n", MIDCOM_LOG_ERROR);
-            return false;
+        if (!is_executable($this->config['midcom_services_rcs_bin_dir'] . "/ci"))
+        {
+            throw new midcom_error("Cannot execute {$this->config['midcom_services_rcs_bin_dir']}/ci.");
         }
-        return true;
     }
  }
 ?>
