@@ -71,7 +71,7 @@ if (file_exists(OPENPSA_TEST_ROOT . 'config.inc.php'))
 }
 else
 {
-    include(MIDCOM_ROOT . '../config-default.inc.php');
+    include(OPENPSA_TEST_ROOT . '../config-default.inc.php');
 }
 
 if (! defined('MIDCOM_STATIC_URL'))
