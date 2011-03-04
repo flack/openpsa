@@ -37,12 +37,6 @@ class midcom_exception_handler
         {
             throw $e;
         }
-        else if (defined('OPENPSA2_UNITTEST_RUN'))
-        {
-            echo "\n\n UNCAUGHT EXCEPTION: " . $e->getMessage() . "\n";
-            echo "\n" . $e->getTraceAsString() . "\n";
-            exit;
-        }
 
         if (   !isset($_MIDCOM)
             || !$_MIDCOM)
@@ -442,7 +436,11 @@ class midcom_error_midgard extends midcom_error
 
 // Register the error and Exception handlers
 // 2009-01-08 rambo: Seems like the boolean expression does not work as intended, see my changes in the error handler itself
-$handler = new midcom_exception_handler();
-set_error_handler(array($handler, 'handle_error'), E_ALL & ~E_NOTICE | E_WARNING);
-set_exception_handler(array($handler, 'handle_exception'));
+if (!defined('OPENPSA2_UNITTEST_RUN'))
+{
+    $handler = new midcom_exception_handler();
+    set_error_handler(array($handler, 'handle_error'), E_ALL & ~E_NOTICE | E_WARNING);
+    set_exception_handler(array($handler, 'handle_exception'));
+}
+
 ?>
