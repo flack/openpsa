@@ -22,7 +22,6 @@ if (!class_exists('midgard_topic'))
 ini_set('memory_limit', '68M');
 
 // Path to the MidCOM environment
-define('OPENPSA_TEST_ROOT', realpath(dirname(__FILE__)));
 define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
 
