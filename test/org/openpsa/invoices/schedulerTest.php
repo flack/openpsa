@@ -74,7 +74,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
                 'x',
                 1297468800,
                 false,
-            ),
+            )
         );
     }
 
@@ -180,7 +180,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
            'description' => 'TEST DESCRIPTION',
            'plannedUnits' => 15,
         );
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_dba', $deliverable_attributes);
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
         $start = time();
         $end = $start + (30 *24 * 60 * 60);
