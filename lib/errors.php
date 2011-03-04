@@ -32,10 +32,13 @@ class midcom_exception_handler
      */
     public function handle_exception(Exception $e)
     {
-        if ($e instanceof midgardmvc_exception_unauthorized)
+        //For unit tests or MidgardMVC we just pass exceptions on and let the frameworks do the work
+        if (   $e instanceof midgardmvc_exception_unauthorized
+            || defined('OPENPSA2_UNITTEST_RUN'))
         {
             throw $e;
         }
+
         if (   !isset($_MIDCOM)
             || !$_MIDCOM)
         {
@@ -52,6 +55,7 @@ class midcom_exception_handler
         $this->_exception = $e;
 
         debug_print_r('Exception occured: ' . $e->getCode() . ', Message: ' . $e->getMessage() . ', exception trace:', $e->getTraceAsString());
+
         $this->show($e->getCode(), $e->getMessage());
         // This will exit
     }
@@ -107,6 +111,7 @@ class midcom_exception_handler
             debug_add("An error has been generated: Code: {$httpcode}, Message: {$message}");
             debug_print_function_stack('Stacktrace:');
         }
+
         // Send error to special log or recipient as per in configuration.
         $this->send($httpcode, $message);
 

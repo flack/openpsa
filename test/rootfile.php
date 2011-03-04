@@ -24,6 +24,7 @@ ini_set('memory_limit', '68M');
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
+define('OPENPSA2_UNITTEST_RUN', true);
 
 // Initialize the $_MIDGARD superglobal
 $_MIDGARD = array
@@ -64,13 +65,13 @@ $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
-if (file_exists(OPENPSA_TEST_ROOT . '/config.inc.php'))
+if (file_exists(OPENPSA_TEST_ROOT . 'config.inc.php'))
 {
-    include(OPENPSA_TEST_ROOT . '/config.inc.php');
+    include(OPENPSA_TEST_ROOT . 'config.inc.php');
 }
 else
 {
-    include(MIDCOM_ROOT . '/../config-default.inc.php');
+    include(MIDCOM_ROOT . '../config-default.inc.php');
 }
 
 if (! defined('MIDCOM_STATIC_URL'))
@@ -81,6 +82,7 @@ if (! defined('MIDCOM_STATIC_URL'))
 $_SERVER = Array();
 $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['SERVER_NAME'] = 'localhost';
+$_SERVER['SERVER_SOFTWARE'] = 'PHPUnit';
 $_SERVER['SERVER_PORT'] = '80';
 $_SERVER['REMOTE_ADDR'] = 'unittest dummy connection';
 $_SERVER['REQUEST_URI'] = '/midcom-test-init';
