@@ -380,6 +380,46 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     )
                 )
             ),
+            array
+            (
+                array
+                (
+                    'cycle_number' => 2,
+                    'send_invoice' => true,
+                ),
+                array
+                (
+                    '_deliverable' => array
+                    (
+                        'start' => $past_8_weeks,
+                        'end' => $future_8_weeks,
+                        'invoiceByActualUnits' => true,
+                        'units' => 0,
+                        'pricePerUnit' => 10,
+                        'unit' => 'm',
+                        'invoiced' => 170,
+                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    ),
+                    '_hour_report' => array
+                    (
+                        'hours' => 17,
+                        'invoiceable' => false
+                    )
+                ),
+                array
+                (
+                    '_deliverable' => array
+                    (
+                        'invoiced' => 170,
+                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    ),
+                    '_task' => array
+                    (
+                        'invoicedHours' => 0
+                    ),
+                    'invoice' => false
+                )
+            ),
         );
     }
 }
