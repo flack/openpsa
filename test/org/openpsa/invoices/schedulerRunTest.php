@@ -162,7 +162,52 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
             foreach ($values as $field => $value)
             {
+                if ($field == 'invoice_items')
+                {
+                    $this->_verify_invoice_item($invoice, $value);
+                    continue;
+                }
                 $this->assertEquals($value, $invoice->$field, 'Difference in invoice field ' . $field);
+            }
+        }
+    }
+
+    private function _verify_invoice_item($invoice, $items_to_verify)
+    {
+        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+        $qb->add_constraint('invoice', '=', $invoice->id);
+        $items = $qb->execute();
+        $this->register_objects($items);
+
+        if ($items_to_verify == false)
+        {
+            $this->assertEquals(0, sizeof($items), 'Invoice item was created, which shouldn\'t have happened');
+        }
+        else
+        {
+            $this->assertEquals(sizeof($items_to_verify), sizeof($items), 'Wrong number of invoice items');
+
+            foreach ($items_to_verify as $values)
+            {
+                $key = key($values);
+                $value = array_shift($values);
+
+                $current_item = null;
+                foreach ($items as $i => $item)
+                {
+                    if ($item->$key == $value)
+                    {
+                        $current_item = $item;
+                        unset($items[$i]);
+                        break;
+                    }
+                }
+                $this->assertTrue(is_object($current_item), 'Could not find item with ' . $key . ' == ' . $value);
+
+                foreach ($values as $field => $value)
+                {                    
+                    $this->assertEquals($value, $current_item->$field, 'Difference in invoice item field ' . $field);
+                }
             }
         }
     }
@@ -323,7 +368,15 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     'invoice' => array
                     (
-                        'sum' => 170
+                        'sum' => 170,
+                        'invoice_items' => array
+                        (
+                            array
+                            (
+                                'units' => 17,
+                                'pricePerUnit' => 10
+                            )
+                        )
                     )
                 )
             ),

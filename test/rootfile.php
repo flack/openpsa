@@ -135,6 +135,18 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $this->_testcase_objects[$object->guid] = $object;
     }
 
+    /**
+     * Register multiple objects created in a testcase. That way, they'll get properly deleted
+     * if the test aborts
+     */
+    public function register_objects($array)
+    {
+        foreach ($array as $object)
+        {
+            $this->_testcase_objects[$object->guid] = $object;
+        }
+    }
+
     private static function _create_object($classname, $data)
     {
         $presets = array
