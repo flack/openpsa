@@ -49,37 +49,14 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
     public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
-
-        $data['list_title'] = $args[0];
-
-        $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-
-        switch ($args[0])
+        $statuscode = 'ORG_OPENPSA_SALESPROJECTSTATUS_' . strtoupper($args[0]);
+        if (!defined($statuscode))
         {
-            case 'active':
-                $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE);
-                break;
-            case 'won':
-                $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_WON);
-                break;
-            case 'canceled':
-                $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_CANCELED);
-                break;
-            case 'lost':
-                $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_LOST);
-                break;
-            case 'delivered':
-                $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED);
-                break;
-            case 'invoiced':
-                $qb->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED);
-                break;
-            default:
-                throw new midcom_error('Unknown list type ' . $args[0]);
+            throw new midcom_error('Unknown list type ' . $args[0]);
         }
 
+        $qb = org_openpsa_sales_salesproject_dba::new_query_builder();
+        $qb->add_constraint('status', '=', constant($statuscode));
         $salesprojects = $qb->execute();
 
         foreach ($salesprojects as $key => $salesproject)
@@ -110,47 +87,33 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         // Sorting
         if (isset($_REQUEST['org_openpsa_sales_sort_by']))
         {
-            switch($_REQUEST['org_openpsa_sales_sort_by'])
+            $sort_method = 'by_' . $_REQUEST['org_openpsa_sales_sort_by'];
+            if (method_exists('org_openpsa_sales_sort', $sort_method))
             {
-                case 'title':
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_title'));
-                    break;
-                case 'value':
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_value'));
-                    break;
-                case 'profit':
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_profit'));
-                    break;
-                case 'weighted_value':
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_weighted_value'));
-                    break;
-                case 'close_est':
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_close_est'));
-                    break;
-                case 'probability':
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_probability'));
-                    break;
-                case 'prev_action':
-                    $GLOBALS['org_openpsa_sales_project_map'] =& $this->_salesprojects_map_id_key;
-                    $GLOBALS['org_openpsa_sales_project_cache'] =& $this->_salesprojects;
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_prev_action'));
-                    break;
-                case 'next_action':
-                    $GLOBALS['org_openpsa_sales_project_map'] =& $this->_salesprojects_map_id_key;
-                    $GLOBALS['org_openpsa_sales_project_cache'] =& $this->_salesprojects;
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_next_action'));
-                    break;
-                case 'customer':
-                    $GLOBALS['org_openpsa_sales_customer_cache'] =& $this->_customers;
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_customer'));
-                    break;
-                case 'owner':
-                    $GLOBALS['org_openpsa_sales_owner_cache'] =& $this->_owners;
-                    uasort($this->_salesprojects, array ('org_openpsa_sales_sort', 'by_owner'));
-                    break;
-                default:
-                    debug_add("Sort {$_REQUEST['org_openpsa_sales_sort_by']} is not supported", MIDCOM_LOG_WARN);
-                    break;
+                switch ($sort_method)
+                {
+                    case 'by_prev_action':
+                        $GLOBALS['org_openpsa_sales_project_map'] =& $this->_salesprojects_map_id_key;
+                        $GLOBALS['org_openpsa_sales_project_cache'] =& $this->_salesprojects;
+                        break;
+                    case 'by_next_action':
+                        $GLOBALS['org_openpsa_sales_project_map'] =& $this->_salesprojects_map_id_key;
+                        $GLOBALS['org_openpsa_sales_project_cache'] =& $this->_salesprojects;
+                        break;
+                    case 'customer':
+                        $GLOBALS['org_openpsa_sales_customer_cache'] =& $this->_customers;
+                        break;
+                    case 'owner':
+                        $GLOBALS['org_openpsa_sales_owner_cache'] =& $this->_owners;
+                        break;
+                    default:
+                        break;
+                }
+                uasort($this->_salesprojects, array ('org_openpsa_sales_sort', $sort_method));
+            }
+            else
+            {
+                debug_add("Sort {$_REQUEST['org_openpsa_sales_sort_by']} is not supported", MIDCOM_LOG_WARN);
             }
         }
         if (   isset($_REQUEST['org_openpsa_sales_sort_order'])
@@ -159,8 +122,10 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
             $this->_salesprojects = array_reverse($this->_salesprojects, true);
         }
 
-        org_openpsa_core_ui::enable_jqgrid();
+        $data['list_title'] = $args[0];
 
+        org_openpsa_core_ui::enable_jqgrid();
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/table2csv.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
         $this->add_breadcrumb("", $this->_l10n->get('salesprojects ' . $data['list_title']));
