@@ -74,7 +74,7 @@ foreach ($data['salesprojects'] as $salesproject)
         case 'noaction':
             break;
         case 'event':
-            $datelabel = strftime('%x %X', $action['time']);
+            $datelabel = strftime('%x %H:%M', $action['time']);
             $row['prev_action'] = "<a href=\"{$salesproject_url}#{$action['obj']->guid}\" class=\"event\">{$datelabel}: {$action['obj']->title}</a>";
             break;
         case 'task':

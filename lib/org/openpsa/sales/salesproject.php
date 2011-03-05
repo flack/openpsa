@@ -144,7 +144,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $sort_prev = array();
         $sort_next = array();
 
-        foreach($related_objects as $object)
+        foreach ($related_objects as $object)
         {
             $to_sort = $default;
             $to_sort['obj'] = $object;
