@@ -205,7 +205,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 $this->assertTrue(is_object($current_item), 'Could not find item with ' . $key . ' == ' . $value);
 
                 foreach ($values as $field => $value)
-                {                    
+                {
                     $this->assertEquals($value, $current_item->$field, 'Difference in invoice item field ' . $field);
                 }
             }
@@ -228,6 +228,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
         return array
         (
+
+            //SET 1: Deliverable not yet started
             array
             (
                 array
@@ -256,6 +258,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     )
                 )
             ),
+
+            //SET 2: First deliverable cycle, no invoice yet
             array
             (
                 array
@@ -285,6 +289,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     )
                 )
             ),
+
+            //SET 3: First deliverable cycle, invoice by planned units
             array
             (
                 array
@@ -326,6 +332,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     )
                 )
             ),
+
+            //SET 4: second deliverable cycle, invoice by actual units
             array
             (
                 array
@@ -344,6 +352,10 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'pricePerUnit' => 10,
                         'unit' => 'm',
                         'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    ),
+                    '_product' => array
+                    (
+                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
                     ),
                     '_task' => array
                     (
@@ -380,17 +392,20 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     )
                 )
             ),
+
+            //SET 5: Invoice service by actual units with no invoiceable reports
             array
             (
-                array
+                'params' => array
                 (
                     'cycle_number' => 2,
                     'send_invoice' => true,
                 ),
-                array
+                'input' => array
                 (
                     '_deliverable' => array
                     (
+                        'title' => 'SET 5',
                         'start' => $past_8_weeks,
                         'end' => $future_8_weeks,
                         'invoiceByActualUnits' => true,
@@ -400,13 +415,17 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'invoiced' => 170,
                         'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
                     ),
+                    '_product' => array
+                    (
+                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
+                    ),
                     '_hour_report' => array
                     (
                         'hours' => 17,
                         'invoiceable' => false
                     )
                 ),
-                array
+                'output' => array
                 (
                     '_deliverable' => array
                     (
@@ -418,6 +437,51 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'invoicedHours' => 0
                     ),
                     'invoice' => false
+                )
+            ),
+
+            //SET 6: Invoice goods by actual units
+            array
+            (
+                'params' => array
+                (
+                    'cycle_number' => 2,
+                    'send_invoice' => true,
+                ),
+                'input' => array
+                (
+                    '_deliverable' => array
+                    (
+                        'title' => 'SET 6',
+                        'start' => $past_8_weeks,
+                        'end' => $future_8_weeks,
+                        'invoiceByActualUnits' => true,
+                        'units' => 10,
+                        'pricePerUnit' => 10,
+                        'unit' => 'm',
+                        'invoiced' => 170,
+                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    ),
+                    '_task' => array
+                    (
+                        'agreement' => 0,
+                    ),
+                    '_product' => array
+                    (
+                        'orgOpenpsaObtype' => ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS
+                    )
+                ),
+                'output' => array
+                (
+                    '_deliverable' => array
+                    (
+                        'invoiced' => 270,
+                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                    ),
+                    'invoice' => array
+                    (
+                        'sum' => 170,
+                    )
                 )
             ),
         );
