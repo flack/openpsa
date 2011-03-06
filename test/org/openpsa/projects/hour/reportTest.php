@@ -46,6 +46,15 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         $task_hours = self::$_project->get_task_hours();
         $this->assertEquals($task_hours['reportedHours'], 2.5);
 
+        $report->invoiceable = true;
+        $report->hours = 3.5;
+        $stat = $report->update();
+
+        $this->assertTrue($stat);
+        self::$_task->refresh();
+        $this->assertEquals(self::$_task->invoiceableHours, 3.5);
+        $task_hours = self::$_project->get_task_hours();
+        $this->assertEquals($task_hours['reportedHours'], 3.5);
 
         $stat = $report->delete();
         $this->assertTrue($stat);

@@ -107,6 +107,7 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
     public function _on_updated()
     {
         $this->_locale_restore();
+
         if ($this->_skip_parent_refresh)
         {
             return;

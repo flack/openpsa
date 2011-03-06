@@ -375,7 +375,6 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         debug_add("updating hour caches");
 
         $hours = $this->list_hours();
-
         $stat = true;
 
         $this->reportedHours = $hours['reported'];
@@ -414,20 +413,17 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         // Check agreement for invoiceability rules
         $invoice_approved = false;
-        $invoice_enable = false;
-        if ($this->agreement)
+
+        try
         {
-            try
+            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
+
+            if ($agreement->invoiceApprovedOnly)
             {
-                $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
-                $invoice_enable = true;
-                if ($agreement->invoiceApprovedOnly)
-                {
-                    $invoice_approved = true;
-                }
+                $invoice_approved = true;
             }
-            catch (midcom_error $e){}
         }
+        catch (midcom_error $e){}
 
         $report_mc = org_openpsa_projects_hour_report_dba::new_collector('task', $this->id);
         $report_mc->add_value_property('hours');
@@ -458,21 +454,18 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             else if ($report_data['invoiceable'])
             {
                 // Check agreement for invoiceability rules
-                if ($invoice_enable)
+                if ($invoice_approved)
                 {
-                    if ($invoice_approved)
+                    // Count only uninvoiced approved hours as invoiceable
+                    if ($is_approved)
                     {
-                        // Count only uninvoiced approved hours as invoiceable
-                        if ($is_approved)
-                        {
-                            $hours['invoiceable'] += $report_hours;
-                        }
-                    }
-                    else
-                    {
-                        // Count all uninvoiced invoiceable hours as invoiceable regardless of approval status
                         $hours['invoiceable'] += $report_hours;
                     }
+                }
+                else
+                {
+                    // Count all uninvoiced invoiceable hours as invoiceable regardless of approval status
+                    $hours['invoiceable'] += $report_hours;
                 }
             }
         }
