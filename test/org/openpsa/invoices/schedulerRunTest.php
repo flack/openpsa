@@ -480,7 +480,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     ),
                     'invoice' => array
                     (
-                        'sum' => 170,
+                        'sum' => 100,
                     )
                 )
             ),
