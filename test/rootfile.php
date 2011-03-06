@@ -19,8 +19,6 @@ if (!class_exists('midgard_topic'))
     throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
 }
 
-ini_set('memory_limit', '68M');
-
 // Path to the MidCOM environment
 define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
