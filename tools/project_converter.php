@@ -138,6 +138,7 @@ class project_converter
         {
             $task->project = $this->_new_object->id;
             $task->up = 0;
+            $this->_commit('update', $task);
         }
     }
 
