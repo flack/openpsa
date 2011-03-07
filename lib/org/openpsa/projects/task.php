@@ -493,7 +493,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $project = $this->get_parent();
         if ($project)
         {
-            $project->_refresh_from_tasks();
+            $project->refresh_from_tasks();
         }
         return true;
     }

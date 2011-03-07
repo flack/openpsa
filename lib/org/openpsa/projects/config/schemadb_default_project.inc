@@ -101,12 +101,11 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'org_openpsa_projects_task_resource_dba',
-                'master_fieldname' => 'task',
+                'mapping_class_name' => 'org_openpsa_contacts_role_dba',
+                'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'master_is_id' => true,
                 'allow_multiple' => true,
-                'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTCONTACT)
+                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_PROJECTCONTACT)
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -207,12 +206,11 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'org_openpsa_projects_task_resource_dba',
-                'master_fieldname' => 'task',
+                'mapping_class_name' => 'org_openpsa_contacts_role_dba',
+                'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'master_is_id' => true,
                 'allow_multiple' => true,
-                'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTRESOURCE)
+                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_PROJECTRESOURCE)
             ),
             'widget' => 'chooser',
             'widget_config' => array

@@ -229,10 +229,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         {
             $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE;
         }
-        if (!$this->orgOpenpsaObtype)
-        {
-            $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_SALESPROJECT;
-        }
         if (!$this->owner)
         {
             $this->owner = midcom_connection::get_user();
