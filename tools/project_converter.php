@@ -178,9 +178,10 @@ class project_converter
         $qb = new midgard_query_builder('org_openpsa_salesproject_deliverable');
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $deliverables = $qb->execute();
-        foreach ($deliverables as $task)
+        foreach ($deliverables as $deliverable)
         {
-            $task->salesproject = $this->_new_object->id;
+            $deliverable->salesproject = $this->_new_object->id;
+            $this->_commit('update', $deliverable);
         }
     }
 

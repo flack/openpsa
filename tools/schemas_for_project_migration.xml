@@ -129,4 +129,21 @@
         <!-- /Common OpenPSA properties -->
     </type>
 
+    <type name="org_openpsa_salesproject_member" table="org_openpsa_salesproject_member" parent="org_openpsa_salesproject">
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="person" link="midgard_person:id" type="unsigned integer"/>
+        <property name="salesproject" link="org_openpsa_salesproject:id" type="unsigned integer" parentfield="salesproject"/>
+        <property name="extra" type="text" />
+
+        <!-- Common OpenPSA properties -->
+        <property name="orgOpenpsaObtype" type="integer">
+          <description>
+	    Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
+          </description>
+        </property>
+        <!-- /Common OpenPSA properties -->
+    </type>
+
 </Schema>
