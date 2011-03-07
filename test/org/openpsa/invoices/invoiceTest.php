@@ -55,7 +55,8 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
 
         $task_attributes = array
         (
-            'agreement' => $deliverable->id
+            'agreement' => $deliverable->id,
+            'project' => $salesproject->id
         );
         $task1 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
         $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);

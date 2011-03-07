@@ -42,6 +42,20 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         return parent::__get($property);
     }
 
+    public function _on_loaded()
+    {
+        if ($this->title == "")
+        {
+            $this->title = "Project #{$this->id}";
+        }
+
+        if (!$this->status)
+        {
+            //Default to proposed if no status is set
+            $this->status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
+        }
+    }
+
     function get_icon()
     {
         return org_openpsa_projects_workflow::get_status_type_icon($this->status_type);
