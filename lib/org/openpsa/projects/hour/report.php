@@ -150,12 +150,12 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
             $time_slot_amount = $this->hours / $time_slot;
             $time_slot_amount_int = intval($time_slot_amount);
             $difference =  $time_slot_amount - (float)$time_slot_amount_int;
-            if($difference > 0.5 || $time_slot_amount_int == 0)
+            if ($difference > 0.5 || $time_slot_amount_int == 0)
             {
                 $time_slot_amount_int++;
             }
             $this->hours = $time_slot_amount_int * $time_slot;
-            if($update)
+            if ($update)
             {
                 $this->update();
             }

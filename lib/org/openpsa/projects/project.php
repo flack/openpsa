@@ -44,6 +44,11 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         }
     }
 
+    public function get_salesproject()
+    {
+        return new org_openpsa_sales_salesproject_dba($this->id);
+    }
+
     /**
      * Helper functions that gets the number of tasks for the different status types
      *
