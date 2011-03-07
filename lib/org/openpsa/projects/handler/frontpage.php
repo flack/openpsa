@@ -48,7 +48,6 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         $data['customers'] = array();
         $project_qb = org_openpsa_projects_project::new_query_builder();
         $project_qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_CLOSED);
-        $project_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
         $project_qb->add_order('customer.official');
         $project_qb->add_order('end');
         $projects = $project_qb->execute();
@@ -65,7 +64,6 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
         // Projects without customer have to be queried separately, see #97
         $nocustomer_qb = org_openpsa_projects_project::new_query_builder();
         $nocustomer_qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_CLOSED);
-        $nocustomer_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
         $nocustomer_qb->add_constraint('customer', '=', 0);
         $nocustomer_qb->add_order('end');
         if ($nocustomer_qb->count() > 0)
@@ -75,7 +73,6 @@ class org_openpsa_projects_handler_frontpage extends midcom_baseclasses_componen
 
         $closed_qb = org_openpsa_projects_project::new_query_builder();
         $closed_qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_CLOSED);
-        $closed_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
         $data['closed_count'] = $closed_qb->count();
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");

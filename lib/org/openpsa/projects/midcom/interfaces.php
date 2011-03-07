@@ -62,20 +62,20 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
     {
         try
         {
-            $task = new org_openpsa_projects_task_dba($guid);
+            $project = new org_openpsa_projects_project($guid);
+            return "project/{$project->guid}/";
         }
         catch (midcom_error $e)
         {
-            return null;
-        }
-
-        if ($task->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
-        {
-            return "project/{$task->guid}/";
-        }
-        else
-        {
-            return "task/{$task->guid}/";
+            try
+            {
+                $task = new org_openpsa_projects_task_dba($guid);
+                return "task/{$task->guid}/";
+            }
+            catch (midcom_error $e)
+            {
+                return null;
+            }
         }
     }
 

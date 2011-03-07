@@ -378,6 +378,7 @@ class midcom_services_dbclassloader
                     $component = 'org.openpsa.reports';
                     break;
                 case 'org.openpsa.task':
+                case 'org.openpsa.project':
                 case 'org.openpsa.expense':
                 case 'org.openpsa.hour':
                 case 'org.openpsa.deliverable':

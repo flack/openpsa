@@ -43,19 +43,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
     function get_parent_guid_uncached()
     {
-        if ($this->task != 0)
+        try
         {
             $parent = new org_openpsa_projects_task_dba($this->task);
-
-            if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
-            {
-                // The parent is a project instead
-                $parent = new org_openpsa_projects_project($this->task);
-            }
-
             return $parent->guid;
         }
-        else
+        catch (midcom_error $e)
         {
             return null;
         }
@@ -167,7 +160,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
         $mc = self::new_collector('person', $this->person);
         $mc->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
-        $mc->add_constraint('task.up', 'INTREE', $parent->id);
+        $mc->add_constraint('task.project', 'INTREE', $parent->id);
         $mc->execute();
         if ($mc->count() > 0)
         {
@@ -282,7 +275,6 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
         $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
-        $mc->add_constraint('task.orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_PROJECT);
         $mc->add_constraint('task.start', '<=', time());
 
         if (!$list_finished)

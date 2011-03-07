@@ -39,7 +39,7 @@ class org_openpsa_projects_viewer extends midcom_baseclasses_components_request
         $tmp = array();
         while ($task)
         {
-            if ($task->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+            if (is_a($task, 'org_openpsa_projects_project'))
             {
                 $tmp["project/{$task->guid}/"] = $task->title;
             }

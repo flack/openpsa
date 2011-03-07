@@ -6,7 +6,6 @@
 'class_mapping' => array
 (
     'org_openpsa_salesproject' => 'org_openpsa_sales_salesproject_dba',
-    'org_openpsa_salesproject_member' => 'org_openpsa_sales_salesproject_member_dba',
     'org_openpsa_salesproject_deliverable' => 'org_openpsa_sales_salesproject_deliverable_dba',
 ),
 'privileges' => array(),

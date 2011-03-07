@@ -2,10 +2,9 @@
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 $task =& $data['task'];
 echo "<dt><a href=\"{$prefix}task/{$task->guid}/\">{$task->title}</a>";
-if ($task->up)
+if ($parent = $task->get_parent())
 {
-    $parent = $task->get_parent();
-    if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+    if (is_a($parent, 'org_openpsa_projects_project'))
     {
         $parent_url = "{$prefix}project/{$parent->guid}/";
     }

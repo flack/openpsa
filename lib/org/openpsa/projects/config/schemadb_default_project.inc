@@ -260,27 +260,19 @@
             'widget' => 'text',
         ),
 
-        'invoiceable_default' => array 
-        (
-            'title' => 'hours are invoiceable by default',
-            'type' => 'boolean',
-            'storage' => 'hoursInvoiceableDefault',
-            'widget' => 'checkbox',
-            'end_fieldset' => '',
-        ),
-        'orgOpenpsaWgtype' => array 
+        'orgOpenpsaWgtype' => array
         (
             'title' => 'create workgroups for this project',
             'storage' => 'orgOpenpsaWgtype',
             'type' => 'boolean',
             'widget' => 'checkbox',
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'access control',
                 'css_group' => 'area acl',
             ),
         ),
-        'orgOpenpsaAccesstype' => array 
+        'orgOpenpsaAccesstype' => array
         (
             'title' => 'access type',
             'storage' => 'orgOpenpsaAccesstype',
@@ -291,7 +283,7 @@
             ),
             'widget' => 'select',
         ),
-        'orgOpenpsaOwnerWg' => array 
+        'orgOpenpsaOwnerWg' => array
         (
             'title' => 'workgroup',
             'storage' => 'orgOpenpsaOwnerWg',

@@ -168,6 +168,20 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return parent::_on_deleting();
     }
 
+    public function get_parent()
+    {
+        try
+        {
+            $project = new org_openpsa_projects_project($this->project);
+            return $project;
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return null;
+        }
+    }
+
     /**
      * Generate a user-readable label for the task using the task/project hierarchy
      */
@@ -179,9 +193,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         while (   !is_null($task)
                && $task = $task->get_parent())
         {
-            if (   $task
-                && $task->guid
-                && isset($task->title))
+            if (isset($task->title))
             {
                 $label_elements[] = $task->title;
             }
@@ -479,14 +491,8 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return true;
         }
         $project = $this->get_parent();
-        if (   $project
-            && $project->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+        if ($project)
         {
-            //Make sure the parent is initialized in correct class
-            if (!$_MIDCOM->dbfactory->is_a($project, 'org_openpsa_projects_project'))
-            {
-                $project = new org_openpsa_projects_project($project->id);
-            }
             $project->_refresh_from_tasks();
         }
         return true;

@@ -13,7 +13,7 @@
 class org_openpsa_projects_project extends org_openpsa_projects_task_dba
 {
     public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_task';
+    public $__mgdschema_class_name__ = 'org_openpsa_project';
 
     static function new_query_builder()
     {
@@ -30,11 +30,18 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    public function _on_creating()
+    public function get_parent()
     {
-        $stat = parent::_on_creating();
-        $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECT;
-        return $stat;
+        try
+        {
+            $project = new org_openpsa_projects_project($this->up);
+            return $project;
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return null;
+        }
     }
 
     /**
@@ -52,7 +59,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
             'closed' => 0,
             'rejected' => 0
         );
-        $task_mc = org_openpsa_projects_project::new_collector('up', $this->id);
+        $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $task_mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $task_mc->add_value_property('status');
         $task_mc->execute();
@@ -77,7 +84,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
             'plannedHours' => 0,
             'reportedHours' => 0
         );
-        $task_mc = org_openpsa_projects_project::new_collector('up', $this->id);
+        $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $task_mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $task_mc->add_value_property('plannedHours');
         $task_mc->add_value_property('reportedHours');
@@ -106,7 +113,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         $status_types = array();
 
         $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-        $task_qb->add_constraint('up', '=', $this->id);
+        $task_qb->add_constraint('project', '=', $this->id);
         $ret = $task_qb->execute();
 
         if (sizeof($ret) == 0)
