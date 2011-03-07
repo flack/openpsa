@@ -6,10 +6,10 @@
             <description>Local non-replication-safe database identifier</description>
         </property>
         <property name="up" upfield="up" link="org_openpsa_salesproject:id" type="unsigned integer">
-        	<description>
-        		In practice all salesprojects will have up of 0 but in case we someday wish to divide 
-        		a huge salesproject to subprojects this is here
-        	</description>
+          <description>
+            In practice all salesprojects will have up of 0 but in case we someday wish to divide
+            a huge salesproject to subprojects this is here
+          </description>
         </property>
 
         <property name="start" type="integer" index="yes"/>
@@ -17,25 +17,21 @@
         <property name="code" type="string"/>
         <property name="title" type="string"/>
         <property name="description" type="text"/>
-        <property name="status" type="integer" index="yes"/>
+        <property name="status" field="salesprojectStatus" type="integer"/>
 
         <property name="customer" link="org_openpsa_organization:id" type="unsigned integer"/>
-        <!-- Customer contacts are handled as members to project -->
+        <property name="customerContact" link="midgard_person:id" type="unsigned integer"/>
 
-        <property name="owner" link="midgard_person:id" type="unsigned integer"/>
+        <!-- Additional contacts are handled as members to project -->
+
+        <property name="owner" field="manager" link="midgard_person:id" type="unsigned integer"/>
 
         <property name="probability" type="integer"/>
         <property name="value" type="float"/>
         <property name="profit" type="float"/>
+        <property name="price" type="float"/>
+        <property name="cost" type="float"/>
         <property name="closeEst" type="integer"/>
-
-        <!-- Common OpenPSA properties -->
-        <property name="orgOpenpsaObtype" type="integer">
-        	<description>
-	        	Used to a) distinguish OpenPSA objects in QB b) store object "subtype" (project vs task etc)
-        	</description>
-        </property>
-        <!-- /Common OpenPSA properties -->
     </type>
 
     <type name="org_openpsa_salesproject_member" table="org_openpsa_salesproject_member" parent="org_openpsa_salesproject">
@@ -81,7 +77,7 @@
 
         <property name="cost" type="float">
         	<description>
-        		Actual cost of the delivery 
+        		Actual cost of the delivery
         	</description>
         </property>
         <property name="plannedCost" type="float">
@@ -98,16 +94,16 @@
 
         <property name="start" type="integer">
         	<description>
-        		Start can have two different meanings: 
-        		
+        		Start can have two different meanings:
+
         		- for single deliveries, it's the time when delivery can start
         		- for subscriptions it's the subscription start
         	</description>
         </property>
         <property name="end" type="integer">
         	<description>
-        		End can have two different meanings: 
-        		
+        		End can have two different meanings:
+
         		- for single deliveries, it's the delivery deadline
         		- for subscriptions it's the subscription end
         	</description>
