@@ -154,19 +154,19 @@ class project_converter
             try
             {
                 $this->_salesproject = new org_openpsa_salesproject_old($relation->toGuid);
+                $this->_copy_from_salesproject();
+                $this->_update_deliverables();
+                $this->_update_salesproject_members();
+                $this->_move_parameters($this->_salesproject, $this->_new_object);
+                $this->_move_attachments($this->_salesproject, $this->_new_object);
+                $this->_move_privileges($this->_salesproject, $this->_new_object);
+                $this->_update_relations($this->_salesproject->guid);
+                $this->_commit('delete', $this->_salesproject);
             }
             catch (Exception $e)
             {
                 $this->_output('Failed to load salesproject ' . $relation->toGuid . ' reason: ' . $e->getMessage());
             }
-            $this->_copy_from_salesproject();
-            $this->_update_deliverables();
-            $this->_update_salesproject_members();
-            $this->_move_parameters($this->_salesproject, $this->_new_object);
-            $this->_move_attachments($this->_salesproject, $this->_new_object);
-            $this->_move_privileges($this->_salesproject, $this->_new_object);
-            $this->_update_relations($this->_salesproject->guid);
-            $this->_commit('delete', $this->_salesproject);
             $this->_commit('delete', $relation);
         }
 
