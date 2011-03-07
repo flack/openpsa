@@ -46,7 +46,7 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
     public function testHierarchy()
     {
         $project = $this->create_object('org_openpsa_projects_project');
-        $task = $this->create_object('org_openpsa_projects_task_dba', array('up' => $project->id));
+        $task = $this->create_object('org_openpsa_projects_task_dba', array('project' => $project->id));
 
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
         $parent = $task->get_parent();

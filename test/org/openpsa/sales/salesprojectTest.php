@@ -27,7 +27,6 @@ class org_openpsa_sales_salesprojectTest extends openpsa_testcase
         $stat = $salesproject->create();
         $this->assertTrue($stat);
         $this->register_object($salesproject);
-        $this->assertEquals(ORG_OPENPSA_OBTYPE_SALESPROJECT, $salesproject->orgOpenpsaObtype);
         $this->assertEquals(ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE, $salesproject->status);
 
         $salesproject->refresh();

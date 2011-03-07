@@ -28,8 +28,6 @@ class org_openpsa_projects_projectTest extends openpsa_testcase
         $this->assertTrue($stat);
         $this->register_object($project);
 
-        $this->assertEquals(ORG_OPENPSA_OBTYPE_PROJECT, $project->orgOpenpsaObtype);
-
         $project->refresh();
         $this->assertEquals('Task #' . $project->id, $project->title);
         $project->title = 'Test Project';

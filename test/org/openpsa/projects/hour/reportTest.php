@@ -25,7 +25,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('up' => self::$_project->id));
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('project' => self::$_project->id));
     }
 
     public function testCRUD()

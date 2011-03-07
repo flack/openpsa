@@ -30,7 +30,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         self::$_other_user = self::create_user();
 
         self::$_project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('up' => self::$_project->id));
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('project' => self::$_project->id));
     }
 
     public function testProposeToOther()

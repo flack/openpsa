@@ -74,7 +74,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
         $task_attributes = array
         (
-           'up' => $this->_project->id,
+           'project' => $this->_project->id,
            'agreement' => $this->_deliverable->id,
            'title' => 'TEST TITLE',
         );
