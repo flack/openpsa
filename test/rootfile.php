@@ -23,6 +23,43 @@ if (!class_exists('midgard_topic'))
 define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
 define('OPENPSA2_UNITTEST_RUN', true);
+define('OPENPSA2_UNITTEST_OUTPUT_DIR', dirname($_SERVER['SCRIPT_NAME']) . '/__output');
+
+function remove_output_dir($dir)
+{
+    if (is_dir($dir))
+    {
+        $objects = scandir($dir);
+        foreach ($objects as $object)
+        {
+            if (   $object != "."
+                && $object != "..")
+            {
+                if (filetype($dir . "/" . $object) == "dir")
+                {
+                    remove_output_dir($dir . "/" . $object);
+                }
+                else
+                {
+                    unlink($dir . "/" . $object);
+                }
+            }
+        }
+        rmdir($dir);
+    }
+}
+
+remove_output_dir(OPENPSA2_UNITTEST_OUTPUT_DIR);
+
+if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR))
+{
+    throw new Exception('could not create output directory');
+}
+if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs'))
+{
+    throw new Exception('could not create output RCS directory');
+}
+
 
 // Initialize the $_MIDGARD superglobal
 $_MIDGARD = array
@@ -62,6 +99,9 @@ $_MIDGARD_CONNECTION =& midgard_connection::get_instance();
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
+$GLOBALS['midcom_config_local']['midcom_services_rcs_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs';
+$GLOBALS['midcom_config_local']['log_filename'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/midcom.log';
+
 
 if (file_exists(OPENPSA_TEST_ROOT . 'config.inc.php'))
 {
@@ -102,7 +142,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $username = __CLASS__ . ' user ' . time();
 
         $_MIDCOM->auth->request_sudo('midcom.core');
-        $person->create();
+        if (!$person->create())
+        {
+            throw new Exception('Person could not be created. Reason: ' . midcom_connection::get_error_string());
+        }
 
         $account = midcom_core_account::get($person);
         $account->set_password($password);
@@ -156,7 +199,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $object = self::prepare_object($classname, $data);
 
         $_MIDCOM->auth->request_sudo('midcom.core');
-        $object->create();
+        if (!$object->create())
+        {
+            throw new Exception('Object of type ' . $classname . ' could not be created. Reason: ' . midcom_connection::get_error_string());
+        }
         $_MIDCOM->auth->drop_sudo();
         return $object;
     }
