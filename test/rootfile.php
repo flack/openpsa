@@ -102,7 +102,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $username = __CLASS__ . ' user ' . time();
 
         $_MIDCOM->auth->request_sudo('midcom.core');
-        if (!$object->create())
+        if (!$person->create())
         {
             throw new Exception('Person could not be created. Reason: ' . midcom_connection::get_error_string());
         }
