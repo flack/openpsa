@@ -128,6 +128,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
             return;
         }
 
+        if (is_a($parent, 'org_openpsa_projects_project'))
+        {
+            org_openpsa_contacts_role_dba::add($parent->guid, $this->person, $this->orgOpenpsaObtype);
+            return;
+        }
+
         $mc = self::new_collector('task', $parent->id);
         $mc->add_constraint('orgOpenpsaObtype', '=', $this->orgOpenpsaObtype);
         $mc->add_constraint('person', '=', $this->person);

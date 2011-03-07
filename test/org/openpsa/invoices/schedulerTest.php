@@ -217,21 +217,13 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $task->get_members();
         $this->assertEquals($salesproject->contacts, $task->contacts);
 
-        $project = new org_openpsa_projects_project($task->up);
+        $project = new org_openpsa_projects_project($task->project);
         $this->assertTrue(!empty($project->guid));
         $this->register_object($project);
 
-        $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $project->guid);
-        $mc->add_value_property('toGuid');
-        $mc->execute();
-        $keys = $mc->list_keys();
-        $this->assertEquals(1, sizeof($keys));
-        $salesproject_guid = $mc->get_subkey(key($keys), 'toGuid');
-        $this->assertEquals($salesproject->guid, $salesproject_guid);
-
         $project->get_members();
         $this->assertEquals($salesproject->contacts, $project->contacts);
-        $this->assertEquals(array($salesproject->owner => true), $project->resources);
+        $this->assertEquals($salesproject->owner, $project->manager);
 
         $task->priority = 4;
         $task->manager = $member->id;
