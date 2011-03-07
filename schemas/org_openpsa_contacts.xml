@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-<!-- Break up to component specific files with this as
-     Master include point when Piotras has solid support for it -->
 
-    <!-- org.openpsa.contacts Objects-->
     <type name="org_openpsa_organization" table="grp">
         <!-- Clean extending not supported yet
              NewMidgardGrp properties -->
@@ -99,6 +96,17 @@
 
         <!-- /Common OpenPSA properties -->
     </type>
-    <!-- /org.openpsa.contacts Objects-->
+
+    <type name="org_openpsa_role" table="org_openpsa_role" >
+        <property name="id" type="unsigned integer" primaryfield="id">
+            <description>Local non-replication-safe database identifier</description>
+        </property>
+        <property name="fromComponent" type="string" index="yes"/>
+        <property name="objectGuid" type="guid" index="yes"/>
+        <property name="role" type="integer" index="yes"/>
+        <property name="description" type="string"/>
+        <property name="person" link="midgard_person:id" type="unsigned integer" />
+        <property name="status" type="integer"/>
+    </type>
 
  </Schema>
