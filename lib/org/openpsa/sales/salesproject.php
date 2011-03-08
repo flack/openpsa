@@ -124,7 +124,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
         catch (midcom_error $e)
         {
-            $customer = new org_openpsa_contacts_contact_dba($this->customerContact);
+            $customer = new org_openpsa_contacts_person_dba($this->customerContact);
         }
         return $customer;
     }
