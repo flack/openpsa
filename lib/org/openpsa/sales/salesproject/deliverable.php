@@ -104,6 +104,20 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_update_parent();
     }
 
+    public function get_parent()
+    {
+        try
+        {
+            $project = new org_openpsa_sales_salesproject_dba($this->salesproject);
+            return $project;
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return null;
+        }
+    }
+
     private function _update_parent()
     {
         $parent = $this->get_parent();
