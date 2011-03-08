@@ -21,19 +21,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    private $components = array
-    (
-        'org.openpsa.calendar' => 'org.openpsa.calendar',
-        'org.openpsa.contacts' => 'org.openpsa.contacts',
-        'org.openpsa.documents' => 'org.openpsa.documents',
-        'org.openpsa.expenses' => 'org.openpsa.expenses',
-        'org.openpsa.invoices' => 'org.openpsa.invoices',
-        'org.openpsa.projects' => 'org.openpsa.projects',
-        'org.openpsa.reports' => 'org.openpsa.reports',
-        'org.openpsa.sales' => 'org.openpsa.sales',
-        'net.nemein.wiki' => 'net.nemein.wiki',
-        'midcom.helper.search' => 'midcom.helper.search',
-    );
+    private $components = array();
 
     private $data = null;
 
@@ -62,6 +50,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
         parent::__construct();
 
+        $this->components = $this->_config->get('siteconfig_components');
         $this->load_snippet();
     }
 
