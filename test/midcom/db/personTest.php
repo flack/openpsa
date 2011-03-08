@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -22,6 +26,7 @@ class midcom_db_personTest extends openpsa_testcase
         $person = new midcom_db_person();
         $stat = $person->create();
         $this->assertTrue($stat);
+        $this->register_object($person);
 
         $person = new midcom_db_person($person->guid);
         $this->assertEquals('person #' . $person->id, $person->name);
@@ -69,7 +74,7 @@ class midcom_db_personTest extends openpsa_testcase
                     'rname' => 'LASTNAME, FIRSTNAME',
                     'emaillink' => '<a href="mailto:test@test.com" title="FIRSTNAME LASTNAME">test@test.com</a>',
                     'homepagelink' => '',
-                ), 
+                ),
             ),
             array
             (
@@ -85,7 +90,7 @@ class midcom_db_personTest extends openpsa_testcase
                     'rname' => 'LASTNAME',
                     'emaillink' => '',
                     'homepagelink' => '<a href="http://openpsa2.org" title="LASTNAME">http://openpsa2.org</a>',
-                ), 
+                ),
             ),
         );
     }

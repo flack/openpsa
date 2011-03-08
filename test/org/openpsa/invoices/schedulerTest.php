@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -49,6 +53,12 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
             ),
             array
             (
+                'm',
+                1296518400,
+                1298937600,
+            ),
+            array
+            (
                'q',
                 1297468800,
                 1305158400,
@@ -64,7 +74,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
                 'x',
                 1297468800,
                 false,
-            ),
+            )
         );
     }
 
@@ -170,7 +180,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
            'description' => 'TEST DESCRIPTION',
            'plannedUnits' => 15,
         );
-        $deliverable = $this->create_object('org_openpsa_sales_salesproject_dba', $deliverable_attributes);
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
 
         $start = time();
         $end = $start + (30 *24 * 60 * 60);
@@ -183,6 +193,8 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
         $task = $scheduler->create_task($start, $end, $title);
         $this->assertTrue(is_a($task, 'org_openpsa_projects_task_dba'));
+        $this->register_object($task);
+
         $this->assertEquals($deliverable->id, $task->agreement);
         $this->assertEquals($salesproject->customer, $task->customer);
         $this->assertEquals($title, $task->title);
@@ -205,20 +217,13 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $task->get_members();
         $this->assertEquals($salesproject->contacts, $task->contacts);
 
-        $project = new org_openpsa_projects_project($task->up);
+        $project = new org_openpsa_projects_project($task->project);
         $this->assertTrue(!empty($project->guid));
-
-        $mc = org_openpsa_relatedto_dba::new_collector('fromGuid', $project->guid);
-        $mc->add_value_property('toGuid');
-        $mc->execute();
-        $keys = $mc->list_keys();
-        $this->assertEquals(1, sizeof($keys));
-        $salesproject_guid = $mc->get_subkey(key($keys), 'toGuid');
-        $this->assertEquals($salesproject->guid, $salesproject_guid);
+        $this->register_object($project);
 
         $project->get_members();
         $this->assertEquals($salesproject->contacts, $project->contacts);
-        $this->assertEquals(array($salesproject->owner => true), $project->resources);
+        $this->assertEquals($salesproject->owner, $project->manager);
 
         $task->priority = 4;
         $task->manager = $member->id;
@@ -226,6 +231,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $task->add_members('resources', array($member->id));
         $task->refresh();
         $task2 = $scheduler->create_task($start, $end, $title, $task);
+        $this->register_object($task2);
         $task2->get_members();
         $task->get_members();
 
@@ -235,9 +241,6 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
 
 
         $this->delete_linked_objects('org_openpsa_contacts_buddy_dba', 'account', $manager->guid);
-        $task->delete();
-        $task2->delete();
-        $project->delete();
         $_MIDCOM->auth->drop_sudo();
     }
 }

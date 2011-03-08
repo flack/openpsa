@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -26,7 +30,7 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         self::$_other_user = self::create_user();
 
         self::$_project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('up' => self::$_project->id));
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('project' => self::$_project->id));
     }
 
     public function testProposeToOther()
@@ -62,11 +66,6 @@ class org_openpsa_projects_workflowTest extends openpsa_testcase
         $this->assertEquals($result[0]->targetPerson, self::$_user->id);
         $this->assertEquals($result[1]->targetPerson, 0);
 
-        $qb = org_openpsa_projects_task_status_dba::new_query_builder();
-        $qb->add_constraint('task', '=', self::$_project->id);
-        $result = $qb->execute();
-        $this->assertEquals(sizeof($result), 1);
-        $this->assertEquals(ORG_OPENPSA_TASKSTATUS_ACCEPTED, $result[0]->type);
         self::$_project->refresh();
         $this->assertEquals(ORG_OPENPSA_TASKSTATUS_ACCEPTED, self::$_project->status);
     }

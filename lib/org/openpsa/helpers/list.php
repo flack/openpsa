@@ -124,24 +124,20 @@ class org_openpsa_helpers_list
     /**
      * Helper function for listing tasks user can see
      */
-    static function projects($add_all = false, $display_tasks = false, $require_privileges = false)
+    static function projects($add_all = false)
     {
-        //Make sure the class we need exists
-        if (!class_exists('org_openpsa_projects_task_dba'))
+        //Only query once per request
+        static $cache = null;
+        if (is_null($cache))
         {
-            $_MIDCOM->componentloader->load('org.openpsa.projects');
-        }
-        //Only query once pper request
-        if (!array_key_exists('org_openpsa_helpers_tasks', $GLOBALS))
-        {
-            $GLOBALS['org_openpsa_helpers_tasks'] = array();
+            $cache = array();
             if ($add_all)
             {
                 //TODO: Localization
-                $GLOBALS['org_openpsa_helpers_tasks']['all'] = 'all';
+                $cache['all'] = 'all';
             }
 
-            $qb = org_openpsa_projects_task_dba::new_query_builder();
+            $qb = org_openpsa_projects_project::new_query_builder();
 
             // Workgroup filtering
             if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
@@ -149,34 +145,20 @@ class org_openpsa_helpers_list
                 $qb->add_constraint('orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
             }
 
-            //Object type filtering
-            $qb->begin_group('OR');
-                $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECT);
-                $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROCESS);
-                if ($display_tasks)
-                {
-                    $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-                }
-            $qb->end_group();
-
             $qb->add_order('title');
 
             //Execute
             $ret = $qb->execute();
             if (   is_array($ret)
-                && count($ret)>0)
+                && count($ret) > 0)
             {
                 foreach ($ret as $task)
                 {
-                    if ($require_privileges)
-                    {
-                        //TODO: check via ACL.
-                    }
-                    $GLOBALS['org_openpsa_helpers_tasks'][$task->guid] = $task->title;
+                    $cache[$task->guid] = $task->title;
                 }
             }
         }
-        return $GLOBALS['org_openpsa_helpers_tasks'];
+        return $cache;
     }
 
     /**

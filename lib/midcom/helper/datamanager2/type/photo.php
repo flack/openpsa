@@ -296,7 +296,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         $img_tag = "<img src='{$img['url']}' {$img['size_line']} class='photo {$img['identifier']}' />";
         if ($linkto)
         {
-            $return .= "    <a href='{$linkto['url']}' target='_BLANK' class='{$linkto['identifier']} {$linkto['mimetype']}'>\n        {$img_tag}\n    </a>\n";
+            $return .= "    <a href='{$linkto['url']}' class='target_blank {$linkto['identifier']} {$linkto['mimetype']}'>\n        {$img_tag}\n    </a>\n";
         }
         else
         {
@@ -305,7 +305,7 @@ class midcom_helper_datamanager2_type_photo extends midcom_helper_datamanager2_t
         if (array_key_exists('archival', $this->attachments_info))
         {
             $arch = $this->attachments_info['archival'];
-            $return .= "    <br/>\n    <a href='{$arch['url']}' class='archival {$arch['mimetype']}' target='_BLANK' >" . $this->_l10n->get('archived image') . "</a>\n";
+            $return .= "    <br/>\n    <a href='{$arch['url']}' class='archival {$arch['mimetype']} target_blank'>" . $this->_l10n->get('archived image') . "</a>\n";
         }
         $return .= "</div>\n";
         return $return;

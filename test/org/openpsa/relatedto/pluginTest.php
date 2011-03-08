@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -23,6 +27,7 @@ class org_openpsa_relatedto_pluginTest extends openpsa_testcase
         $relatedto = org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $salesproject, 'org.openpsa.sales');
 
         $this->assertTrue(is_a($relatedto, 'org_openpsa_relatedto_dba'));
+        $this->register_object($relatedto);
         $this->assertEquals($relatedto->status, ORG_OPENPSA_RELATEDTO_STATUS_CONFIRMED);
         $this->assertEquals($relatedto->fromGuid, $invoice->guid);
         $this->assertEquals($relatedto->fromComponent, 'org.openpsa.invoices');

@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -28,6 +32,8 @@ class midcom_services_at_entryTest extends openpsa_testcase
         $entry->arguments = $args;
         $stat = $entry->create();
         $this->assertTrue($stat);
+        //@todo For some reason, this throws a "Critical internal error". Needs to be investigated
+        //$this->register_object($entry);
 
         $this->assertEquals($args, $entry->arguments);
         $this->assertEquals(MIDCOM_SERVICES_AT_STATUS_SCHEDULED, $entry->status);

@@ -8,7 +8,7 @@ $saved_reports = org_openpsa_reports_query_dba::get_saved('org.openpsa.invoices'
         </a>
     </li>
     <?php
-    foreach ($saved_reports as $report) 
+    foreach ($saved_reports as $report)
     { ?>
       <li>
         <a href="&(data['report_prefix']);&(report.guid);/" target="_blank">

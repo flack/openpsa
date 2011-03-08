@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -31,6 +35,7 @@ class org_openpsa_invoices_invoice_itemTest extends openpsa_testcase
         $item->units = 2.5;
         $stat = $item->create();
         $this->assertTrue($stat);
+        $this->register_object($item);
 
         $parent = $item->get_parent();
         $this->assertEquals($parent->guid, self::$_invoice->guid);

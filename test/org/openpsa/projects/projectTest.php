@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -22,10 +26,10 @@ class org_openpsa_projects_projectTest extends openpsa_testcase
         $project = new org_openpsa_projects_project();
         $stat = $project->create();
         $this->assertTrue($stat);
-        $this->assertEquals(ORG_OPENPSA_OBTYPE_PROJECT, $project->orgOpenpsaObtype);
+        $this->register_object($project);
 
         $project->refresh();
-        $this->assertEquals('Task #' . $project->id, $project->title);
+        $this->assertEquals('Project #' . $project->id, $project->title);
         $project->title = 'Test Project';
         $stat = $project->update();
         $this->assertTrue($stat);

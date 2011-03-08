@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -21,7 +25,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
     public static function setUpBeforeClass()
     {
         self::$_project = self::create_class_object('org_openpsa_projects_project');
-        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('up' => self::$_project->id));
+        self::$_task = self::create_class_object('org_openpsa_projects_task_dba', array('project' => self::$_project->id));
     }
 
     public function testCRUD()
@@ -32,6 +36,7 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         $report->hours = 2.5;
         $stat = $report->create();
         $this->assertTrue($stat);
+        $this->register_object($report);
 
         $parent = $report->get_parent();
         $this->assertEquals($parent->guid, self::$_task->guid);
@@ -41,6 +46,15 @@ class org_openpsa_projects_hour_reportTest extends openpsa_testcase
         $task_hours = self::$_project->get_task_hours();
         $this->assertEquals($task_hours['reportedHours'], 2.5);
 
+        $report->invoiceable = true;
+        $report->hours = 3.5;
+        $stat = $report->update();
+
+        $this->assertTrue($stat);
+        self::$_task->refresh();
+        $this->assertEquals(self::$_task->invoiceableHours, 3.5);
+        $task_hours = self::$_project->get_task_hours();
+        $this->assertEquals($task_hours['reportedHours'], 3.5);
 
         $stat = $report->delete();
         $this->assertTrue($stat);

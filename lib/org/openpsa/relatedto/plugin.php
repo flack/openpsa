@@ -78,6 +78,7 @@ class org_openpsa_relatedto_plugin extends midcom_baseclasses_components_plugin
             debug_add("failed to create link from {$rel->fromClass} #{$rel->fromGuid} to {$rel->toClass} #{$rel->toGuid}, errstr: " . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
         }
+
         return $rel;
     }
 

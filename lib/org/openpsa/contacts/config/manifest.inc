@@ -5,6 +5,7 @@
 (
     'org_openpsa_organization' => 'org_openpsa_contacts_group_dba',
     'org_openpsa_person' => 'org_openpsa_contacts_person_dba',
+    'org_openpsa_role' => 'org_openpsa_contacts_role_dba',
     'net_nehmer_buddylist_entry_db' => 'org_openpsa_contacts_buddy_dba',
 ),
 'version' => '9.0pre',

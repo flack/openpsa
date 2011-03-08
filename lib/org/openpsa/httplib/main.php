@@ -106,16 +106,18 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      */
     function post($uri, &$variables, $headers = null)
     {
-        require_once('HTTP/Request.php');
+        require_once('HTTP/Request2.php');
         $params = array
         (
-            'timeout' => $this->http_timeout,
-            'readTimeout' => array($this->http_read_timeout, 0),
+            'connect_timeout' => $this->http_timeout,
+            'timeout' => $this->http_read_timeout,
+            'ssl_verify_peer' => false
         );
-        $this->_client = new HTTP_Request($uri, $params);
+
+        $this->_client = new HTTP_Request2($uri, HTTP_Request2::METHOD_POST, $params);
         $c =& $this->_client;
-        $c->setMethod(HTTP_REQUEST_METHOD_POST);
-        $c->addHeader('User-Agent', $this->_user_agent());
+
+        $c->setHeader('User-Agent', $this->_user_agent());
 
         // Handle basic auth
         if (   isset($this->basicauth['user'])
@@ -124,7 +126,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
             && $this->basicauth['password'] !== false)
         {
             // Set basic auth
-            $c->setBasicAuth($this->basicauth['user'], $this->basicauth['password']);
+            $c->setAuth($this->basicauth['user'], $this->basicauth['password']);
         }
 
         // Handle the variables to POST
@@ -137,33 +139,35 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
         }
         foreach ($variables as $name => $value)
         {
-            $c->addPostData($name, $value);
+            $c->addPostParameter($name, $value);
         }
         // add custom headers
         if (!empty($headers))
         {
             foreach ($headers as $key => $value)
             {
-                $c->addHeader($key, $value);
+                $c->setHeader($key, $value);
             }
         }
 
-        $response = $c->sendRequest();
-        if (PEAR::isError($response))
+        try
         {
-            $this->error = $response->getMessage();
+            $response = $c->send();
+        }
+        catch (Exception $e)
+        {
+            $this->error = $e->getMessage();
             debug_add("Got error '{$this->error}' from HTTP_Request", MIDCOM_LOG_INFO);
             return false;
         }
-        $code = $c->getResponseCode();
-        $headers = $c->getResponseHeader();
+        $code = $response->getStatus();
         if (!$this->_is_success((int)$code))
         {
             $this->error = $this->_http_code2error($code);
             debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
             return false;
         }
-        return $c->getResponseBody();
+        return $response->getBody();
     }
 
     private function _http_code2error($code)

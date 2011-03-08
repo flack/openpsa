@@ -7,13 +7,16 @@
  */
 
 /**
- * special case 'project' of class org_openpsa_projects_task_dba
  * @package org.openpsa.projects
  */
-class org_openpsa_projects_project extends org_openpsa_projects_task_dba
+class org_openpsa_projects_project extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
-    public $__mgdschema_class_name__ = 'org_openpsa_task';
+    public $__mgdschema_class_name__ = 'org_openpsa_project';
+
+    public $contacts = null; //Shorthand access for contact members
+    public $resources = null; // --''--
+
 
     static function new_query_builder()
     {
@@ -30,11 +33,126 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
-    public function _on_creating()
+    public function __get($property)
     {
-        $stat = parent::_on_creating();
-        $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_PROJECT;
-        return $stat;
+        if ($property == 'status_type')
+        {
+            return org_openpsa_projects_workflow::get_status_type($this->status);
+        }
+        return parent::__get($property);
+    }
+
+    public function _on_loaded()
+    {
+        if ($this->title == "")
+        {
+            $this->title = "Project #{$this->id}";
+        }
+
+        if (!$this->status)
+        {
+            //Default to proposed if no status is set
+            $this->status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
+        }
+    }
+
+    function get_icon()
+    {
+        return org_openpsa_projects_workflow::get_status_type_icon($this->status_type);
+    }
+
+    /**
+     * Generate a user-readable label for the task using the task/project hierarchy
+     */
+    function get_label()
+    {
+        $label = '';
+        $label_elements = array();
+        $task = $this;
+        while (   !is_null($task)
+               && $task = $task->get_parent())
+        {
+            if (isset($task->title))
+            {
+                $label_elements[] = $task->title;
+            }
+        }
+
+        $label_elements = array_reverse($label_elements);
+        foreach ($label_elements as $element)
+        {
+            $label .= "{$element} / ";
+        }
+        $label .= $this->title;
+
+        return trim($label);
+    }
+
+    public function get_parent()
+    {
+        try
+        {
+            $project = new org_openpsa_projects_project($this->up);
+            return $project;
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return null;
+        }
+    }
+
+    public function get_salesproject()
+    {
+        return new org_openpsa_sales_salesproject_dba($this->id);
+    }
+
+    /**
+     * Populates contacts as resources lists
+     */
+    function get_members()
+    {
+        if (!$this->guid)
+        {
+            return false;
+        }
+
+        if (!is_array($this->contacts))
+        {
+            $this->contacts = array();
+        }
+        if (!is_array($this->resources))
+        {
+            $this->resources = array();
+        }
+
+        $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
+        $mc->add_value_property('role');
+        $mc->add_value_property('person');
+        $mc->add_constraint('role', '<>', ORG_OPENPSA_OBTYPE_PROJECTPROSPECT);
+        $mc->execute();
+        $ret = $mc->list_keys();
+
+        if (   is_array($ret)
+            && count($ret) > 0)
+        {
+            foreach ($ret as $guid => $empty)
+            {
+                switch ($mc->get_subkey($guid, 'role'))
+                {
+                    case ORG_OPENPSA_OBTYPE_PROJECTCONTACT:
+                        $varName = 'contacts';
+                        break;
+                    default:
+                        //fall-trough intentional
+                    case ORG_OPENPSA_OBTYPE_PROJECTRESOURCE:
+                        $varName = 'resources';
+                        break;
+                }
+                $this->{$varName}[$mc->get_subkey($guid, 'person')] = true;
+            }
+        }
+        return true;
     }
 
     /**
@@ -52,7 +170,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
             'closed' => 0,
             'rejected' => 0
         );
-        $task_mc = org_openpsa_projects_project::new_collector('up', $this->id);
+        $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $task_mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $task_mc->add_value_property('status');
         $task_mc->execute();
@@ -77,7 +195,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
             'plannedHours' => 0,
             'reportedHours' => 0
         );
-        $task_mc = org_openpsa_projects_project::new_collector('up', $this->id);
+        $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $task_mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $task_mc->add_value_property('plannedHours');
         $task_mc->add_value_property('reportedHours');
@@ -98,7 +216,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
      * This adjusts the timeframe if necessary and tries to determine the project's
      * status according to the current task situation
      */
-    protected function _refresh_from_tasks()
+    public function refresh_from_tasks()
     {
         $update_required = false;
 
@@ -106,7 +224,7 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         $status_types = array();
 
         $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-        $task_qb->add_constraint('up', '=', $this->id);
+        $task_qb->add_constraint('project', '=', $this->id);
         $ret = $task_qb->execute();
 
         if (sizeof($ret) == 0)
@@ -265,7 +383,8 @@ class org_openpsa_projects_project extends org_openpsa_projects_task_dba
         if (!is_null($new_status)
             && $this->status != $new_status)
         {
-            org_openpsa_projects_workflow::create_status($this, $new_status);
+            $this->status = $new_status;
+            $update_required = true;
         }
 
         if ($update_required)

@@ -239,6 +239,16 @@
                 'creation_default_key' => 'openpsa',
             ),
         ),
+
+        'invoiceable_default' => array
+        (
+            'title' => 'hours are invoiceable by default',
+            'type' => 'boolean',
+            'storage' => 'hoursInvoiceableDefault',
+            'widget' => 'checkbox',
+            'end_fieldset' => '',
+        ),
+
         'contacts' => array
         (
             'title' => 'contacts',

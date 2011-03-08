@@ -101,12 +101,11 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'org_openpsa_projects_task_resource_dba',
-                'master_fieldname' => 'task',
+                'mapping_class_name' => 'org_openpsa_contacts_role_dba',
+                'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'master_is_id' => true,
                 'allow_multiple' => true,
-                'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTCONTACT)
+                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_PROJECTCONTACT)
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -207,12 +206,11 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'org_openpsa_projects_task_resource_dba',
-                'master_fieldname' => 'task',
+                'mapping_class_name' => 'org_openpsa_contacts_role_dba',
+                'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'master_is_id' => true,
                 'allow_multiple' => true,
-                'additional_fields' => array('orgOpenpsaObtype' => ORG_OPENPSA_OBTYPE_PROJECTRESOURCE)
+                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_PROJECTRESOURCE)
             ),
             'widget' => 'chooser',
             'widget_config' => array
@@ -260,27 +258,19 @@
             'widget' => 'text',
         ),
 
-        'invoiceable_default' => array 
-        (
-            'title' => 'hours are invoiceable by default',
-            'type' => 'boolean',
-            'storage' => 'hoursInvoiceableDefault',
-            'widget' => 'checkbox',
-            'end_fieldset' => '',
-        ),
-        'orgOpenpsaWgtype' => array 
+        'orgOpenpsaWgtype' => array
         (
             'title' => 'create workgroups for this project',
             'storage' => 'orgOpenpsaWgtype',
             'type' => 'boolean',
             'widget' => 'checkbox',
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'access control',
                 'css_group' => 'area acl',
             ),
         ),
-        'orgOpenpsaAccesstype' => array 
+        'orgOpenpsaAccesstype' => array
         (
             'title' => 'access type',
             'storage' => 'orgOpenpsaAccesstype',
@@ -291,7 +281,7 @@
             ),
             'widget' => 'select',
         ),
-        'orgOpenpsaOwnerWg' => array 
+        'orgOpenpsaOwnerWg' => array
         (
             'title' => 'workgroup',
             'storage' => 'orgOpenpsaOwnerWg',

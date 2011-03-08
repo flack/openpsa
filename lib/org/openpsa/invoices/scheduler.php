@@ -380,58 +380,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
     }
 
     /**
-     * Find out if there already is a project for this sales project. If not, create one.
-     *
-     * @return org_openpsa_projects_project $project
-     */
-    private function _probe_project()
-    {
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
-
-        $mc = new org_openpsa_relatedto_collector($salesproject->guid, 'org_openpsa_projects_project');
-        $mc->set_limit(1);
-
-        $projects = $mc->get_related_objects();
-
-        if (count($projects) > 0)
-        {
-            // Just pick the first
-            return $projects[0];
-        }
-
-        // No project yet, try to create
-        $project = new org_openpsa_projects_project();
-        $project->customer = $salesproject->customer;
-        $project->title = $salesproject->title;
-
-        $schedule_object = $this;
-        if ($this->_deliverable->up != 0)
-        {
-            $schedule_object = $this->_deliverable->get_parent();
-        }
-        $project->start = $schedule_object->start;
-        $project->end = $schedule_object->end;
-
-        $project->manager = $salesproject->owner;
-
-        // TODO: If deliverable has a supplier specified, add the supplier
-        // organization members as potential resources here
-
-        // TODO: Figure out if we really want to keep this
-        $project->invoiceable_default = true;
-        if ($project->create())
-        {
-            $project->add_members('resources', array($salesproject->owner));
-            $project->add_members('contacts', array_keys($salesproject->contacts));
-
-            org_openpsa_relatedto_plugin::create($project, 'org.openpsa.projects', $salesproject, 'org.openpsa.sales');
-            $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'), sprintf($_MIDCOM->i18n->get_string('created project "%s"', 'org.openpsa.sales'), $project->title), 'ok');
-            return $project;
-        }
-        return false;
-    }
-
-    /**
      * @todo Check if we already have an open task for this delivery?
      */
     function create_task($start, $end, $title, $source_task = null)
@@ -440,7 +388,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
 
         // Check if we already have a project for the sales project
-        $project = $this->_probe_project();
+        $project = $salesproject->get_project();
 
         // Create the task
         $task = new org_openpsa_projects_task_dba();
@@ -455,7 +403,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $task->manager = $salesproject->owner;
         if ($project)
         {
-            $task->up = $project->id;
+            $task->project = $project->id;
             $task->orgOpenpsaAccesstype = $project->orgOpenpsaAccesstype;
             $task->orgOpenpsaOwnerWg = $project->orgOpenpsaOwnerWg;
         }

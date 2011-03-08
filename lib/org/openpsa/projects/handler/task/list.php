@@ -305,7 +305,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $this->_request_data['view'] = 'project_tasks';
 
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('up', '=', $this->_request_data['project']->id);
+        $qb->add_constraint('project', '=', $this->_request_data['project']->id);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         //When we have the read-only link to object status etc use those to narrow this down
         $qb->add_order('priority', 'ASC');
@@ -433,7 +433,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 throw new midcom_error("Filter {$args[1]} not recognized");
         }
         $qb->add_order('customer');
-        $qb->add_order('up');
+        $qb->add_order('project');
         $qb->add_order('title');
 
         //array with filter options
@@ -538,15 +538,14 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         );
 
         // Get parent object
-        if (!array_key_exists($task->up, $row_cache['parent']))
+        if (!array_key_exists($task->project, $row_cache['parent']))
         {
             $html = "&nbsp;";
             $ret['index_parent'] = $html;
-            $parent = $task->get_parent();
 
-            if ($parent)
+            if ($parent = $task->get_parent())
             {
-                if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+                if (is_a($parent, 'org_openpsa_projects_project'))
                 {
                     $parent_url = $data['prefix'] . "project/{$parent->guid}/";
                 }
@@ -554,13 +553,13 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 {
                     $parent_url = $data['prefix'] . "task/{$parent->guid}/";
                 }
-                $row_cache['index_parent'][$task->up] = $parent->title;
+                $row_cache['index_parent'][$task->project] = $parent->title;
                 $html = "<a href=\"{$parent_url}\">{$parent->title}</a>";
             }
-            $row_cache['parent'][$task->up] = $html;
+            $row_cache['parent'][$task->project] = $html;
         }
-        $ret['parent'] =& $row_cache['parent'][$task->up];
-        $ret['index_parent'] =& $row_cache['index_parent'][$task->up];
+        $ret['parent'] =& $row_cache['parent'][$task->project];
+        $ret['index_parent'] =& $row_cache['index_parent'][$task->project];
 
         // Get agreement and customer (if applicable)
         if ($data['view_identifier'] != 'agreement')

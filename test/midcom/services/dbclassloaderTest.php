@@ -6,14 +6,18 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
  *
  * @package openpsa.test
  */
-class midcom_services_at_dbclassloaderTest extends openpsa_testcase
+class midcom_services_dbclassloaderTest extends openpsa_testcase
 {
     /**
      * @dataProvider providerGet_component_classes
@@ -34,6 +38,7 @@ class midcom_services_at_dbclassloaderTest extends openpsa_testcase
                 array
                 (
                     'org_openpsa_hour_report' => 'org_openpsa_projects_hour_report_dba',
+                    'org_openpsa_project' => 'org_openpsa_projects_project',
                     'org_openpsa_task' => 'org_openpsa_projects_task_dba',
                     'org_openpsa_task_resource' => 'org_openpsa_projects_task_resource_dba',
                     'org_openpsa_task_status' => 'org_openpsa_projects_task_status_dba'

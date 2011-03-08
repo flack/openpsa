@@ -932,9 +932,8 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                         $value = (float)$value;
                         break;
                 }
-                // added isset check to fix an undefined-object-error
-                if ((isset($link_object))
-                    && ($link_object->$key != $value))
+
+                if ($link_object->$key != $value)
                 {
                     $needs_update = true;
                     $link_object->$key = $value;

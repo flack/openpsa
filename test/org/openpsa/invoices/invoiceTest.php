@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -24,6 +28,7 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
         $invoice->number = $next_number;
         $stat = $invoice->create();
         $this->assertTrue($stat);
+        $this->register_object($invoice);
         $this->assertEquals($next_number + 1, $invoice->generate_invoice_number());
 
         $stat = $invoice->delete();
@@ -50,7 +55,8 @@ class org_openpsa_invoices_invoiceTest extends openpsa_testcase
 
         $task_attributes = array
         (
-            'agreement' => $deliverable->id
+            'agreement' => $deliverable->id,
+            'project' => $salesproject->id
         );
         $task1 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
         $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);

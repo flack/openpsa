@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -23,6 +27,7 @@ class org_openpsa_contacts_personTest extends openpsa_testcase
         $person->lastname = 'TEST PERSON ' . __CLASS__;
         $stat = $person->create();
         $this->assertTrue($stat);
+        $this->register_object($person);
         $this->assertEquals(ORG_OPENPSA_OBTYPE_PERSON, $person->orgOpenpsaObtype);
         $this->assertEquals('rname', $person->get_label_property());
 

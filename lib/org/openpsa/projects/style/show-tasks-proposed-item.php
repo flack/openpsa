@@ -28,10 +28,9 @@ if ($data['view'] == 'project_tasks')
 {
     echo ' ' . strftime('%x', $task->start) . ' - ' . strftime('%x', $task->end) . "\n";
 }
-else if (   $task->up
-         && $parent = $task->get_parent())
+else if ($parent = $task->get_parent())
 {
-    if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+    if (is_a($parent, 'org_openpsa_projects_project'))
     {
         $parent_url = "{$prefix}project/{$parent->guid}/";
     }

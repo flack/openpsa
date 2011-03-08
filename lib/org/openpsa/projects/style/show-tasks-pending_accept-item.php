@@ -21,10 +21,9 @@ if ($task->manager)
 
 echo "</td>\n<td>\n";
 
-if (   $task->up
-    && $parent = $task->get_parent())
+if ($parent = $task->get_parent())
 {
-    if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+    if (is_a($parent, 'org_openpsa_projects_project'))
     {
         $parent_url = "{$prefix}project/{$parent->guid}/";
     }

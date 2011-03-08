@@ -321,6 +321,16 @@ EOT;
         return $defaults;
     }
 
+    private function _normalize_time_input($string)
+    {
+        $output = trim($string);
+        if (strlen($output) == 1)
+        {
+            $output = '0' . $output;
+        }
+        return $output;
+    }
+
     /**
      * Check against partially missing user input
      *
@@ -339,7 +349,10 @@ EOT;
         }
         if ($this->show_time)
         {
-            $input .= ' ' . trim($results[$this->name . '_hours']) . ':' . trim($results[$this->name . '_minutes']) . ':';
+            $minutes = $this->_normalize_time_input($results[$this->name . '_minutes']);
+            $hours = $this->_normalize_time_input($results[$this->name . '_hours']);
+
+            $input .= ' ' . $hours . ':' . $minutes . ':';
             // If we have hidden seconds, we need to change format to save those seconds
             $this->format = '%Y-%m-%d %H:%M:%S';
             if ($this->hide_seconds)
@@ -348,7 +361,7 @@ EOT;
             }
             else
             {
-                $input .= trim($results[$this->name . '_seconds']);
+                $input .= $this->_normalize_time_input($results[$this->name . '_seconds']);
             }
         }
 

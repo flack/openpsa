@@ -27,7 +27,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                                 if ($help_file)
                                 {
                                     echo "                                <li>\n";
-                                    echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" target=\"_blank\" title=\"" . $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/stock_help-agent.png\" alt=\"" . $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\" /></a>\n";
+                                    echo "                                    <a href=\"{$prefix}__ais/help/midgard.admin.asgard/{$data['handler_id']}/\" class='target_blank' title=\"" . $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\"><img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/stock_help-agent.png\" alt=\"" . $_MIDCOM->i18n->get_string('midcom.admin.help', 'midcom.admin.help') . "\" /></a>\n";
                                     echo "                                </li>\n";
                                 }
                                 ?>

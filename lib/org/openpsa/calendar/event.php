@@ -1108,8 +1108,8 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
     {
         $startday = strftime('%a %x', $this->start);
         $endday = strftime('%a %x', $this->end);
-        $starttime = strftime('%H:%m', $this->start);
-        $endtime = strftime('%H:%m %Z', $this->end);
+        $starttime = strftime('%H:%M', $this->start);
+        $endtime = strftime('%H:%M %Z', $this->end);
 
         $ret = $startday;
         if ($startday == $endday)

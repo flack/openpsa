@@ -15,7 +15,7 @@ class org_openpsa_projects_handler_project_crud extends midcom_baseclasses_compo
 {
     public $_dba_class = 'org_openpsa_projects_project';
     public $_prefix = 'project';
-    
+
     /**
      * Method for adding the supported operations into the toolbar.
      *

@@ -36,10 +36,9 @@ else if ($task->manager)
 </td>
 <td>
 <?php
-if ($task->up)
+if ($parent = $task->get_parent())
 {
-    $parent = $task->get_parent();
-    if ($parent->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+    if (is_a($parent, 'org_openpsa_projects_project'))
     {
         $parent_url = "{$prefix}project/{$parent->guid}/";
     }

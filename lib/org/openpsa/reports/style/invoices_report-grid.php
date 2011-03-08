@@ -35,7 +35,7 @@ foreach ($data['invoices'] as $invoice)
 
     if ($data['invoices_url'] && $invoice->id)
     {
-        $entry['number'] = "<a target=\"_blank\" href=\"{$data['invoices_url']}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
+        $entry['number'] = "<a class='target_blank' href=\"{$data['invoices_url']}invoice/{$invoice->guid}/\">" . $invoice->get_label() . "</a>";
     }
     else if ($invoice->id)
     {

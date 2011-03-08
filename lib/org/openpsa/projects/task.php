@@ -110,6 +110,11 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return parent::__get($property);
     }
 
+    public function __set($name, $val)
+    {
+        parent::__set($name, $val);
+    }
+
     public function _on_updating()
     {
         $this->_locale_set();
@@ -163,6 +168,20 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         return parent::_on_deleting();
     }
 
+    public function get_parent()
+    {
+        try
+        {
+            $project = new org_openpsa_projects_project($this->project);
+            return $project;
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+            return null;
+        }
+    }
+
     /**
      * Generate a user-readable label for the task using the task/project hierarchy
      */
@@ -174,9 +193,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         while (   !is_null($task)
                && $task = $task->get_parent())
         {
-            if (   $task
-                && $task->guid
-                && isset($task->title))
+            if (isset($task->title))
             {
                 $label_elements[] = $task->title;
             }
@@ -408,20 +425,17 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
 
         // Check agreement for invoiceability rules
         $invoice_approved = false;
-        $invoice_enable = false;
-        if ($this->agreement)
+
+        try
         {
-            try
+            $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
+
+            if ($agreement->invoiceApprovedOnly)
             {
-                $agreement = new org_openpsa_sales_salesproject_deliverable_dba($this->agreement);
-                $invoice_enable = true;
-                if ($agreement->invoiceApprovedOnly)
-                {
-                    $invoice_approved = true;
-                }
+                $invoice_approved = true;
             }
-            catch (midcom_error $e){}
         }
+        catch (midcom_error $e){}
 
         $report_mc = org_openpsa_projects_hour_report_dba::new_collector('task', $this->id);
         $report_mc->add_value_property('hours');
@@ -452,25 +466,21 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             else if ($report_data['invoiceable'])
             {
                 // Check agreement for invoiceability rules
-                if ($invoice_enable)
+                if ($invoice_approved)
                 {
-                    if ($invoice_approved)
+                    // Count only uninvoiced approved hours as invoiceable
+                    if ($is_approved)
                     {
-                        // Count only uninvoiced approved hours as invoiceable
-                        if ($is_approved)
-                        {
-                            $hours['invoiceable'] += $report_hours;
-                        }
-                    }
-                    else
-                    {
-                        // Count all uninvoiced invoiceable hours as invoiceable regardless of approval status
                         $hours['invoiceable'] += $report_hours;
                     }
                 }
+                else
+                {
+                    // Count all uninvoiced invoiceable hours as invoiceable regardless of approval status
+                    $hours['invoiceable'] += $report_hours;
+                }
             }
         }
-
         return $hours;
     }
 
@@ -481,15 +491,9 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
             return true;
         }
         $project = $this->get_parent();
-        if (   $project
-            && $project->orgOpenpsaObtype == ORG_OPENPSA_OBTYPE_PROJECT)
+        if ($project)
         {
-            //Make sure the parent is initialized in correct class
-            if (!$_MIDCOM->dbfactory->is_a($project, 'org_openpsa_projects_project'))
-            {
-                $project = new org_openpsa_projects_project($project->id);
-            }
-            $project->_refresh_from_tasks();
+            $project->refresh_from_tasks();
         }
         return true;
     }

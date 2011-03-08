@@ -109,6 +109,7 @@ $reindex_topic_uri = str_replace('midcom-exec-midcom/reindex.php', 'midcom-exec-
 
 
 $http_client = new org_openpsa_httplib();
+$http_client->http_read_timeout = 300;
 if (   isset($_SERVER['PHP_AUTH_USER'])
     && !empty($_SERVER['PHP_AUTH_USER'])
     && isset($_SERVER['PHP_AUTH_PW'])

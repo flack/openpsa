@@ -128,7 +128,7 @@ class midcom_helper_datamanager2_widget_tags extends midcom_helper_datamanager2_
      */
     public function _on_initialize()
     {
-        if (is_a('midcom_helper_datamanager2_type_tagselect', $this->_type))
+        if (!is_a($this->_type, 'midcom_helper_datamanager2_type_tagselect'))
         {
             debug_add("Warning, the field {$this->name} is not a tagselect type or subclass thereof, you cannot use the tags widget with it.",
                 MIDCOM_LOG_WARN);

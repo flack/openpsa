@@ -291,7 +291,7 @@ class midcom_helper__dbfactory
     {
         if (is_object($object))
         {
-            if (!property_exists($object, 'guid'))
+            if (!isset($object->guid))
             {
                 $object_guid = null;
             }

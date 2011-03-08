@@ -111,6 +111,11 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return sprintf('%d-%04d', $year, $previous + 1);
     }
 
+    public function get_project()
+    {
+        return new org_openpsa_projects_project($this->id);
+    }
+
     /**
      * Fills the next and previous action properties
      * based on the confirmed relatedto links
@@ -144,7 +149,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $sort_prev = array();
         $sort_next = array();
 
-        foreach($related_objects as $object)
+        foreach ($related_objects as $object)
         {
             $to_sort = $default;
             $to_sort['obj'] = $object;
@@ -223,10 +228,6 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         if (!$this->status)
         {
             $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE;
-        }
-        if (!$this->orgOpenpsaObtype)
-        {
-            $this->orgOpenpsaObtype = ORG_OPENPSA_OBTYPE_SALESPROJECT;
         }
         if (!$this->owner)
         {

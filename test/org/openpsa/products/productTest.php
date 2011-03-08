@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -32,6 +36,7 @@ class org_openpsa_products_productTest extends openpsa_testcase
         $_MIDCOM->auth->request_sudo('org.openpsa.products');
         $stat = $product->create();
         $this->assertTrue($stat);
+        $this->register_object($product);
 
         $parent = $product->get_parent();
         $this->assertEquals($parent->guid, self::$_group->guid);

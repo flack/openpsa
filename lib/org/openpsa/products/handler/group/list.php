@@ -341,6 +341,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             //do not set the parent category. The category is already a top category.
         }
+        org_openpsa_core_ui::enable_jqgrid();
     }
 
     private function _index_redirect()
@@ -707,49 +708,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
             $products_counter = 0;
             $data['products_count'] = count($data['products']);
 
-            midcom_show_style('group_products_header');
-
-            foreach ($data['products'] as $product)
-            {
-                $products_counter++;
-                $data['products_counter'] = $products_counter;
-
-                $data['product'] = $product;
-                if (! $data['datamanager_product']->autoset_storage($product))
-                {
-                    debug_add("The datamanager for product #{$product->id} could not be initialized, skipping it.");
-                    debug_print_r('Object was:', $product);
-                    continue;
-                }
-                $data['view_product'] = $data['datamanager_product']->get_content_html();
-
-                if ($product->code)
-                {
-                    if (isset($data["parent_category"]))
-                    {
-                        $data['view_product_url'] = "{$prefix}product/" . $data["parent_category"] . "/{$product->code}/";
-                    }
-                    else
-                    {
-                        $data['view_product_url'] = "{$prefix}product/{$product->code}/";
-                    }
-                }
-                else
-                {
-                    $data['view_product_url'] = "{$prefix}product/{$product->guid}/";
-                }
-
-                $show_style = 'group_products_item';
-                if (   $this->_config->get('enable_productlinks')
-                    && is_array($data['linked_products'])
-                    && count($data['linked_products']) > 0
-                    && in_array($product->id, $data['linked_products']))
-                {
-                    $show_style = 'group_products_item_link';
-                }
-                midcom_show_style($show_style);
-            }
-
+            midcom_show_style('group_products_grid');
             midcom_show_style('group_products_footer');
             midcom_show_style('group_footer');
         }

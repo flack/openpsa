@@ -149,7 +149,7 @@ class midgard_admin_asgard_copytree extends midgard_admin_asgard_navigation
                     // Show the link to the object
                     if ($this->edit_link)
                     {
-                        echo "{$prefix}            <a href=\"{$this->page_prefix}__mfa/asgard/object/edit/{$child->guid}/\" target=\"_blank\" title=\"" . sprintf($_MIDCOM->i18n->get_string('%s (%s)', 'midgard.admin.asgard'), $label, $ref->get_class_label()) . "\">\n";
+                        echo "{$prefix}            <a href=\"{$this->page_prefix}__mfa/asgard/object/edit/{$child->guid}/\" class='target_blank' title=\"" . sprintf($_MIDCOM->i18n->get_string('%s (%s)', 'midgard.admin.asgard'), $label, $ref->get_class_label()) . "\">\n";
                         echo "{$prefix}                <img src=\"" . MIDCOM_STATIC_URL . "/stock-icons/16x16/edit.png\" alt=\"" . $_MIDCOM->i18n->get_string('edit object', 'midgard.admin.asgard') . "\" />\n";
                         echo "{$prefix}            </a>\n";
                     }

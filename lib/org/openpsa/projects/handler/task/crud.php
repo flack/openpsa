@@ -382,7 +382,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if ($this->_parent)
         {
             // Add the task to the project
-            $task->up = (int) $this->_parent->id;
+            $task->project = (int) $this->_parent->id;
 
             // Populate some default data from parent as needed
             $task->orgOpenpsaAccesstype = $this->_parent->orgOpenpsaAccesstype;

@@ -6,7 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
  */
 
-require_once('rootfile.php');
+if (!defined('OPENPSA_TEST_ROOT'))
+{
+    define('OPENPSA_TEST_ROOT', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR);
+    require_once(OPENPSA_TEST_ROOT . 'rootfile.php');
+}
 
 /**
  * OpenPSA testcase
@@ -28,6 +32,7 @@ class org_openpsa_products_product_groupTest extends openpsa_testcase
         $group->code = 'TEST-101';
         $stat = $group->update();
         $this->assertTrue($stat);
+        $this->register_object($group);
         $this->assertEquals($group->code, 'TEST-101');
 
         $group2 = new org_openpsa_products_product_group_dba();
