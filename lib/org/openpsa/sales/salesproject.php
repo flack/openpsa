@@ -18,7 +18,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public $autodelete_dependents = array
     (
-        'org_openpsa_sales_salesproject_member_dba' => 'salesproject'
+        'org_openpsa_contacts_role_dba' => 'objectGuid'
     );
 
     /**
