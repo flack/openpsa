@@ -1,6 +1,5 @@
 'default_workgroup_filter' => 'all',
 'owner_organization' => null, // Set to GUID of org_openpsa_organization
-'auto_init' => true,
 
 //the name of page used for jquery ui-tab - if the page doesn't exist
 // it will be created in siteconfig - the style is passed in templates/OpenPsa2

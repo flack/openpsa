@@ -95,8 +95,6 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->set_config_value($last . '_full_url', $node_full_url);
             $this->set_config_value($last . '_relative_url', $node_relative_url);
         }
-        //set auto_init to true to write only once
-        $this->set_config_value('auto_init', 'false');
 
         $owner_guid = $this->get_my_company_guid();
         if ($owner_guid)
