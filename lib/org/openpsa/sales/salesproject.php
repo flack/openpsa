@@ -116,6 +116,19 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return new org_openpsa_projects_project($this->id);
     }
 
+    public function get_customer()
+    {
+        try
+        {
+            $customer = new org_openpsa_contacts_group_dba($this->customer);
+        }
+        catch (midcom_erorr $e)
+        {
+            $customer = new org_openpsa_contacts_contact_dba($this->customerContact);
+        }
+        return $customer;
+    }
+
     /**
      * Fills the next and previous action properties
      * based on the confirmed relatedto links
