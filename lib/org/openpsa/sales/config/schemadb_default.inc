@@ -158,10 +158,10 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'org_openpsa_sales_salesproject_member_dba',
-                'master_fieldname' => 'salesproject',
+                'mapping_class_name' => 'org_openpsa_contacts_role_dba',
+                'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'master_is_id' => true,
+                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER),
                 'allow_multiple' => true,
             ),
             'widget' => 'chooser',
@@ -202,7 +202,7 @@
                 'creation_default_key' => 'openpsa',
             ),
         ),
-        'customer' => array 
+        'customer' => array
         (
             'title' => 'customer',
             'storage' => 'customer',

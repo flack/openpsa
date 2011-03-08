@@ -292,7 +292,8 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
         $this->_contacts = array();
 
-        $mc = org_openpsa_sales_salesproject_member_dba::new_collector('salesproject', $this->id);
+        $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
+        $mc->add_constraint('role', '=', ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
         $mc->add_value_property('person');
         $mc->execute();
 
