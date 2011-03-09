@@ -977,7 +977,15 @@ class midcom_services_auth
                     switch ($id_parts[0])
                     {
                         case 'group':
-                            $this->_group_cache[$id] = new midcom_core_group($id_parts[1]);
+                            try
+                            {
+                                $this->_group_cache[$id] = new midcom_core_group($id_parts[1]);
+                            }
+                            catch (midcom_error $e)
+                            {
+                                $e->log();
+                                $this->_group_cache[$id] = false;
+                            }
                             break;
 
                         default:
