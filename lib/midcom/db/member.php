@@ -187,8 +187,16 @@ class midcom_db_member extends midcom_core_dbaobject
         }
 
         // Create an Activity Log entry for the membership addition
-        $actor = midcom_db_person::get_cached($this->uid);
-        $target = midcom_db_group::get_cached($this->gid);
+        try
+        {
+            $actor = midcom_db_person::get_cached($this->uid);
+            $target = midcom_db_group::get_cached($this->gid);
+        }
+        catch (midcom_error $e)
+        {
+        	$e->log();
+            return;
+        }
         $activity = new midcom_helper_activitystream_activity_dba();
         $activity->target = $target->guid;
         $activity->actor = $actor->id;
