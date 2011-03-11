@@ -18,6 +18,25 @@ foreach ($data['salesprojects'] as $salesproject)
 
     $row['index_customer'] = '';
     $row['customer'] = '';
+    if ($customer = $salesproject->get_customer())
+    {
+        $label = $customer->get_label();
+        $row['index_customer'] = $label;
+        if ($data['contacts_url'])
+        {
+            $type = 'group';
+            if (is_a($customer, 'org_openpsa_contacts_person_dba'))
+            {
+                $type = 'person';
+            }
+            $row['customer'] = "<a href=\"{$data['contacts_url']}{$type}/{$customer->guid}/\">{$label}</a>";
+        }
+        else
+        {
+            $row['customer'] = $label;
+        }
+    }
+
     if (array_key_exists($salesproject->customer, $data['customers']))
     {
         $customer = $data['customers'][$salesproject->customer];
@@ -119,7 +138,7 @@ function jqgrid_&(grid_id);_resize()
     var new_width = jQuery("#gbox_&(grid_id);").parent().attr('clientWidth') - 5;
     var new_height = jQuery("#content").attr('clientHeight') - 220;
 
-    try 
+    try
     {
         jQuery("#&(grid_id);").jqGrid().setGridWidth(new_width);
         jQuery("#&(grid_id);").jqGrid().setGridHeight(new_height);
@@ -131,19 +150,19 @@ jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', <?php
-                 echo '"index_title", "' . $data['l10n']->get('title') . '",'; 
-                 echo '"index_customer", "' . $data['l10n']->get('customer') . '",'; 
-                 echo '"index_owner", "' . $data['l10n']->get('owner') . '",'; 
-                 echo '"index_closeest", "' . $data['l10n']->get('estimated closing date') . '",'; 
-                 echo '"index_value", "' . $data['l10n']->get('value') . '",'; 
+                 echo '"index_title", "' . $data['l10n']->get('title') . '",';
+                 echo '"index_customer", "' . $data['l10n']->get('customer') . '",';
+                 echo '"index_owner", "' . $data['l10n']->get('owner') . '",';
+                 echo '"index_closeest", "' . $data['l10n']->get('estimated closing date') . '",';
+                 echo '"index_value", "' . $data['l10n']->get('value') . '",';
                  if ($data['list_title'] == 'active')
                  {
                      echo '"' . $data['l10n']->get('probability') . '",';
                      echo '"index_weightedvalue", "' . $data['l10n']->get('weighted value') . '",';
                  }
-                 echo '"index_profit", "' . $data['l10n']->get('profit') . '",'; 
-                 echo '"' . $data['l10n']->get('previous action') . '",'; 
-                 echo '"' . $data['l10n']->get('next action') . '"'; 
+                 echo '"index_profit", "' . $data['l10n']->get('profit') . '",';
+                 echo '"' . $data['l10n']->get('previous action') . '",';
+                 echo '"' . $data['l10n']->get('next action') . '"';
                 ?>],
       colModel:[
           {name:'id', index:'id', hidden:true, key:true},
@@ -157,7 +176,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'closeest', index: 'index_closeest', width: 65, align: 'center', fixed: true},
           {name:'index_value', index: 'index_value', sorttype: "float", hidden: true },
           {name:'value', index: 'index_value', width: 55, align: 'right', fixed: true},
-          <?php if ($data['list_title'] == 'active') 
+          <?php if ($data['list_title'] == 'active')
           { ?>
               {name:'probability', index: 'probability', width: 55, align: 'right'},
               {name:'index_weightedvalue', index: 'index_weightedvalue', sorttype: 'float', hidden: true},

@@ -63,15 +63,6 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
         {
             $this->_salesprojects_map_id_key[$salesproject->id] = $key;
 
-            if ($salesproject->customer)
-            {
-                // Cache the customer, we need it later too
-                if (!isset($this->_customers[$salesproject->customer]))
-                {
-                    $this->_customers[$salesproject->customer] = new org_openpsa_contacts_group_dba($salesproject->customer);
-                }
-            }
-
             if (!isset($this->_owners[$salesproject->owner]))
             {
                 $this->_owners[$salesproject->owner] = new org_openpsa_contacts_person_dba($salesproject->owner);
