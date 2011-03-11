@@ -51,6 +51,12 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
 
+    public function refresh()
+    {
+        $this->_contacts = null;
+        parent::refresh();
+    }
+
     /**
      * Calculates the prices of deliverables
      *
