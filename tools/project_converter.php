@@ -75,7 +75,7 @@ class project_converter
         $privileges = $qb->execute();
         foreach ($privileges as $privilege)
         {
-            $privilege->objectguid = $privilege->guid;
+            $privilege->objectguid = $target->guid;
             $this->_commit('update', $privilege);
         }
     }
