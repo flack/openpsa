@@ -168,9 +168,10 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $member_attributes = array
         (
             'person' => $member->id,
-            'salesproject' => $salesproject->id,
+            'objectGuid' => $salesproject->guid,
+            'role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER
         );
-        $this->create_object('org_openpsa_sales_salesproject_member_dba', $member_attributes);
+        $this->create_object('org_openpsa_contacts_role_dba', $member_attributes);
         //remember to remove buddylist entry later on
 
         $deliverable_attributes = array

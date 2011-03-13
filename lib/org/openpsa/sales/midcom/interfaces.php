@@ -106,6 +106,8 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
      *
      * Current rule: all participants of event must be either manager,contact or resource in task
      * that overlaps in time with the event.
+     *
+     * @todo This is currently broken, because the new role table uses GUID links
      */
     private function _org_openpsa_relatedto_find_suspects_event(&$object, &$defaults, &$links_array)
     {
@@ -180,6 +182,8 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
 
     /**
      * Used by org_openpsa_relatedto_find_suspects to in case the given object is a person
+     *
+     * @todo This needs to be ported to o.o.contacts_role
      */
     private function _org_openpsa_relatedto_find_suspects_person(&$object, &$defaults, &$links_array)
     {
