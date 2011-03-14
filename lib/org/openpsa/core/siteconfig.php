@@ -21,19 +21,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
      *
      * @var array
      */
-    private $components = array
-    (
-        'org.openpsa.calendar' => 'org.openpsa.calendar',
-        'org.openpsa.contacts' => 'org.openpsa.contacts',
-        'org.openpsa.documents' => 'org.openpsa.documents',
-        'org.openpsa.expenses' => 'org.openpsa.expenses',
-        'org.openpsa.invoices' => 'org.openpsa.invoices',
-        'org.openpsa.projects' => 'org.openpsa.projects',
-        'org.openpsa.reports' => 'org.openpsa.reports',
-        'org.openpsa.sales' => 'org.openpsa.sales',
-        'net.nemein.wiki' => 'net.nemein.wiki',
-        'midcom.helper.search' => 'midcom.helper.search',
-    );
+    private $components = array();
 
     private $data = null;
 
@@ -62,6 +50,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
 
         parent::__construct();
 
+        $this->components = $this->_config->get('siteconfig_components');
         $this->load_snippet();
     }
 
@@ -106,8 +95,6 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->set_config_value($last . '_full_url', $node_full_url);
             $this->set_config_value($last . '_relative_url', $node_relative_url);
         }
-        //set auto_init to true to write only once
-        $this->set_config_value('auto_init', 'false');
 
         $owner_guid = $this->get_my_company_guid();
         if ($owner_guid)

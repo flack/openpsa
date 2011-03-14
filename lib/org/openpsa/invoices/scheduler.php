@@ -323,7 +323,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $message = array();
         $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
         $owner = midcom_db_person::get_cached($salesproject->owner);
-        $customer = midcom_db_group::get_cached($salesproject->customer);
+        $customer = $salesproject->get_customer();
 
         if (is_null($next_run))
         {
@@ -335,7 +335,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
 
         // Title for long notifications
-        $message['title'] = sprintf($_MIDCOM->i18n->get_string('subscription cycle %d closed for agreement %s (%s)', 'org.openpsa.sales'), $cycle_number, $this->_deliverable->title, $customer->official);
+        $message['title'] = sprintf($_MIDCOM->i18n->get_string('subscription cycle %d closed for agreement %s (%s)', 'org.openpsa.sales'), $cycle_number, $this->_deliverable->title, $customer->get_label());
 
         // Content for long notifications
         $message['content'] = "{$message['title']}\n\n";
@@ -372,7 +372,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         $message['content'] .= $_MIDCOM->permalinks->create_permalink($salesproject->guid);
 
         // Content for short notifications
-        $message['abstract'] = sprintf($_MIDCOM->i18n->get_string('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s', 'org.openpsa.sales'), $customer->official, $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
+        $message['abstract'] = sprintf($_MIDCOM->i18n->get_string('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s', 'org.openpsa.sales'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
 
         // Send the message out
         $_MIDCOM->load_library('org.openpsa.notifications');

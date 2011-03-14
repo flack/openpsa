@@ -43,7 +43,7 @@ Project code
 ---STRINGEND
 
 ---STRING contacts
-Contacts
+Additional Contacts
 ---STRINGEND
 
 ---STRING continuous subscription
@@ -96,6 +96,10 @@ Created task "%s"
 
 ---STRING customer
 Customer
+---STRINGEND
+
+---STRING customer contact
+Customer contact
 ---STRINGEND
 
 ---STRING deliverables

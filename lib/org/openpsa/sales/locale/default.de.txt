@@ -1,3 +1,4 @@
+
 ---# MidCOM String Database
 ---VERSION 2.1.0
 ---LANGUAGE de
@@ -43,7 +44,7 @@ Projekt-Code
 ---STRINGEND
 
 ---STRING contacts
-Kontakte
+Weitere Kontakte
 ---STRINGEND
 
 ---STRING continuous subscription
@@ -96,6 +97,10 @@ Aufgabe "%s" wurde angelegt
 
 ---STRING customer
 Kunde
+---STRINGEND
+
+---STRING customer contact
+Kundenkontakt
 ---STRINGEND
 
 ---STRING deliverables

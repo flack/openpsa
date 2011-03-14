@@ -302,6 +302,7 @@
             (
                 'show_time' => false,
             ),
+            'required' => true
         ),
         'end' => Array
         (

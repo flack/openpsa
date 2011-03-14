@@ -18,7 +18,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public $autodelete_dependents = array
     (
-        'org_openpsa_sales_salesproject_member_dba' => 'salesproject'
+        'org_openpsa_contacts_role_dba' => 'objectGuid'
     );
 
     /**
@@ -49,6 +49,12 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
+    }
+
+    public function refresh()
+    {
+        $this->_contacts = null;
+        parent::refresh();
     }
 
     /**
@@ -114,6 +120,19 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     public function get_project()
     {
         return new org_openpsa_projects_project($this->id);
+    }
+
+    public function get_customer()
+    {
+        try
+        {
+            $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
+        }
+        catch (midcom_error $e)
+        {
+            $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+        }
+        return $customer;
     }
 
     /**
@@ -292,7 +311,8 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
         $this->_contacts = array();
 
-        $mc = org_openpsa_sales_salesproject_member_dba::new_collector('salesproject', $this->id);
+        $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
+        $mc->add_constraint('role', '=', ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
         $mc->add_value_property('person');
         $mc->execute();
 

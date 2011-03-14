@@ -17,7 +17,7 @@ if (!defined('OPENPSA_TEST_ROOT'))
  *
  * @package openpsa.test
  */
-class org_openpsa_sales_salesproject_memberTest extends openpsa_testcase
+class org_openpsa_contacts_roleTest extends openpsa_testcase
 {
     public function testCRUD()
     {
@@ -25,32 +25,38 @@ class org_openpsa_sales_salesproject_memberTest extends openpsa_testcase
         $person1 = $this->create_object('midcom_db_person');
         $person2 = $this->create_object('midcom_db_person');
 
-        $_MIDCOM->auth->request_sudo('org.openpsa.sales');
+        $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
 
-        $member1 = new org_openpsa_sales_salesproject_member_dba();
-        $member1->salesproject = $salesproject->id;
+        $member1 = new org_openpsa_contacts_role_dba();
+        $member1->objectGuid = $salesproject->guid;
         $member1->person = $person1->id;
+        $member1->role = ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER;
         $stat = $member1->create();
         $this->assertTrue($stat);
         $this->register_object($member1);
-        $this->assertEquals(ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER, $member1->orgOpenpsaObtype);
+        $this->assertEquals(ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER, $member1->role);
         $this->assertEquals(array($person1->id => true), $salesproject->contacts);
 
         $stat = $member1->delete();
         $this->assertTrue($stat);
 
-        $member2 = new org_openpsa_sales_salesproject_member_dba();
-        $member2->salesproject = $salesproject->id;
-        $member2->person = $person2->id;
-        $stat = $member2->create();
+        $stat = org_openpsa_contacts_role_dba::add($salesproject->guid, $person2->id, ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
         $this->assertTrue($stat);
 
-        $stat = $salesproject->delete();
-        $this->assertTrue($stat);
+        $qb = org_openpsa_contacts_role_dba::new_query_builder();
+        $qb->add_constraint('objectGuid', '=', $salesproject->guid);
+        $this->assertEquals(1, $qb->count());
 
-        $qb = org_openpsa_sales_salesproject_member_dba::new_query_builder();
-        $qb->add_constraint('salesproject', '=', $salesproject->id);
-        $this->assertEquals(0, $qb->count());
+        $members = $qb->execute();
+        $member2 = $members[0];
+        $this->assertEquals(ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER, $member2->role);
+        $this->assertEquals($person2->id, $member2->person);
+
+        $salesproject->refresh();
+        $this->assertEquals(array($person2->id => true), $salesproject->contacts);
+
+        $stat = $member2->delete();
+        $this->assertTrue($stat);
 
         $_MIDCOM->auth->drop_sudo();
      }

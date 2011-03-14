@@ -6,8 +6,8 @@ $status = $data['deliverable']->get_status();
     <div class="sidebar">
         <div class="contacts area">
             <?php
-            $customer = new midcom_db_group($data['salesproject']->customer);
-            echo "<h2>" . $data['l10n']->get('customer') . ": {$customer->official}</h2>\n";
+            $customer = $data['salesproject']->get_customer();
+            echo "<h2>" . $data['l10n']->get('customer') . ": {$customer->get_label()}</h2>\n";
             $contacts = $data['salesproject']->contacts;
             foreach ($contacts as $contact_id => $active)
             {

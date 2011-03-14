@@ -151,6 +151,63 @@
                 ),
             ),
         ),
+        'customerContact' => array
+        (
+            'title'   => 'customer contact',
+            'storage' => 'customerContact',
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'require_corresponding_option' => false,
+                 'options' => array(),
+            ),
+            'widget' => 'chooser',
+            'widget_config' => array
+            (
+                'class'       => 'org_openpsa_contacts_person_dba',
+                'component'   => 'org.openpsa.contacts',
+                'titlefield'  => 'name',
+                'id_field'     => 'id',
+                'searchfields'  => array
+                (
+                    'firstname',
+                    'lastname',
+                    'username',
+                ),
+                'result_headers' => array
+                (
+                    array
+                    (
+                        'title' => 'name',
+                        'name' => 'name',
+                    ),
+                    array
+                    (
+                        'title' => 'email',
+                        'name' => 'email',
+                    ),
+                ),
+                'orders'        => array
+                (
+                    array('lastname'    => 'ASC'),
+                    array('firstname'    => 'ASC'),
+                ),
+                'creation_mode_enabled' => true,
+                'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
+                'creation_default_key' => 'openpsa',
+            ),
+        ),
+        'customer' => array
+        (
+            'title' => 'customer',
+            'storage' => 'customer',
+            'type' => 'select',
+            'type_config' => array
+            (
+                'options' => array(),
+            ),
+            'widget' => 'select',
+        ),
         'contacts' => array
         (
             'title' => 'contacts',
@@ -158,10 +215,10 @@
             'type' => 'mnrelation',
             'type_config' => array
             (
-                'mapping_class_name' => 'org_openpsa_sales_salesproject_member_dba',
-                'master_fieldname' => 'salesproject',
+                'mapping_class_name' => 'org_openpsa_contacts_role_dba',
+                'master_fieldname' => 'objectGuid',
                 'member_fieldname' => 'person',
-                'master_is_id' => true,
+                'additional_fields' => array('role' => ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER),
                 'allow_multiple' => true,
             ),
             'widget' => 'chooser',
@@ -201,17 +258,6 @@
                 'creation_handler' => midcom_connection::get_url('self') . "__mfa/org.openpsa.helpers/chooser/create/org_openpsa_contacts_person_dba/",
                 'creation_default_key' => 'openpsa',
             ),
-        ),
-        'customer' => array 
-        (
-            'title' => 'customer',
-            'storage' => 'customer',
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array(),
-            ),
-            'widget' => 'select',
         ),
     )
 ),

@@ -129,6 +129,9 @@ $_SERVER['REQUEST_TIME'] = time();
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
 
+//Clean up residue cache entries from previous runs
+$_MIDCOM->cache->invalidate_all();
+
 class openpsa_testcase extends PHPUnit_Framework_TestCase
 {
     private static $_class_objects = array();
