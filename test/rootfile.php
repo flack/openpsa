@@ -6,13 +6,61 @@
  */
 
 // Check that the environment is a working one
-if (!extension_loaded('midgard2'))
+if (extension_loaded('midgard2'))
 {
-    throw new Exception("OpenPSA requires Midgard2 PHP extension to run");
+    if (!ini_get('midgard.superglobals_compat'))
+    {
+        throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
+    }
+    $_MIDGARD_CONNECTION =& midgard_connection::get_instance();
+
+    // Initialize the $_MIDGARD superglobal
+    $_MIDGARD = array
+    (
+        'argv' => array(),
+
+        'user' => 0,
+        'admin' => false,
+        'root' => false,
+
+        'auth' => false,
+        'cookieauth' => false,
+
+        // General host setup
+        'page' => 0,
+        'debug' => false,
+
+        'host' => 0,
+        'style' => 0,
+        'author' => 0,
+        'config' => array
+        (
+            'prefix' => '',
+            'quota' => false,
+            'unique_host_name' => 'openpsa',
+            'auth_cookie_id' => 1,
+        ),
+
+        'schema' => array
+        (
+            'types' => array(),
+        ),
+    );
 }
-if (!ini_get('midgard.superglobals_compat'))
+else if (extension_loaded('midgard'))
 {
-    throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
+    if (file_exists(OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php'))
+    {
+        include(OPENPSA_TEST_ROOT . 'mgd1-connection.inc.php');
+    }
+    else
+    {
+        include(OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php');
+    }
+}
+else
+{
+    throw new Exception("OpenPSA requires Midgard PHP extension to run");
 }
 if (!class_exists('midgard_topic'))
 {
@@ -60,42 +108,6 @@ if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs'))
     throw new Exception('could not create output RCS directory');
 }
 
-
-// Initialize the $_MIDGARD superglobal
-$_MIDGARD = array
-(
-    'argv' => array(),
-
-    'user' => 0,
-    'admin' => false,
-    'root' => false,
-
-    'auth' => false,
-    'cookieauth' => false,
-
-    // General host setup
-    'page' => 0,
-    'debug' => false,
-
-    'host' => 0,
-    'style' => 0,
-    'author' => 0,
-    'config' => array
-    (
-        'prefix' => '',
-        'quota' => false,
-        'unique_host_name' => 'openpsa',
-        'auth_cookie_id' => 1,
-    ),
-
-    'schema' => array
-    (
-        'types' => array(),
-    ),
-);
-
-$_MIDGARD_CONNECTION =& midgard_connection::get_instance();
-
 $GLOBALS['midcom_config_local'] = array();
 $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
@@ -141,7 +153,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
     {
         $_MIDCOM->auth->request_sudo('midcom.core');
         $person = new midcom_db_person();
-        $password = 'password_' . time();
+        $password = substr('p_' . time(), 0, 11);
         $username = __CLASS__ . ' user ' . time();
 
         $_MIDCOM->auth->request_sudo('midcom.core');
@@ -157,7 +169,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $_MIDCOM->auth->drop_sudo();
         if ($login)
         {
-            $_MIDCOM->auth->login($username, $password);
+            if (!$_MIDCOM->auth->login($username, $password))
+            {
+                throw new Exception('Login for user ' . $username . ' failed');
+            }
             $_MIDCOM->auth->_sync_user_with_backend();
         }
         return $person;
