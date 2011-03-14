@@ -19,8 +19,8 @@ if (!defined('OPENPSA_TEST_ROOT'))
  */
 class midcom_core_privilegeTest extends openpsa_testcase
 {
-    protected static $_person;
-    protected static $_project;
+    protected $_person;
+    protected $_project;
 
     /**
      * @dataProvider providerStoreArray
@@ -32,7 +32,7 @@ class midcom_core_privilegeTest extends openpsa_testcase
         $privilege = new midcom_core_privilege($input);
         $stat = $privilege->store();
 
-        $this->assertEquals($output['stat'], $stat);
+        $this->assertEquals($output['stat'], $stat, midcom_connection::get_error_string());
 
         foreach ($output as $field => $value)
         {
@@ -51,8 +51,8 @@ class midcom_core_privilegeTest extends openpsa_testcase
 
     public function providerStoreArray()
     {
-        self::$_person = self::create_class_object('midcom_db_person');
-        self::$_project = self::create_class_object('org_openpsa_projects_project');
+        $this->_person = $this->create_object('midcom_db_person');
+        $this->_project = $this->create_object('org_openpsa_projects_project');
 
         return array
         (
@@ -60,9 +60,9 @@ class midcom_core_privilegeTest extends openpsa_testcase
             (
                 'input' => array
                 (
-                    'assignee' => 'user:' . self::$_person->guid,
+                    'assignee' => 'user:' . $this->_person->guid,
                     'privilegename' => 'midgard:read',
-                    'objectguid' => self::$_project->guid,
+                    'objectguid' => $this->_project->guid,
                     'value' => MIDCOM_PRIVILEGE_ALLOW,
                 ),
                 'output' => array
