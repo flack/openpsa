@@ -23,7 +23,7 @@ if (!class_exists('midgard_topic'))
 define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
 define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
 define('OPENPSA2_UNITTEST_RUN', true);
-define('OPENPSA2_UNITTEST_OUTPUT_DIR', dirname($_SERVER['SCRIPT_NAME']) . '/__output');
+define('OPENPSA2_UNITTEST_OUTPUT_DIR', dirname(__FILE__) . '/__output');
 
 function remove_output_dir($dir)
 {
