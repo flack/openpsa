@@ -59,7 +59,6 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
             }
             else
             {
-                $object_qb->toggle_read_only(false);
                 $topics = $object_qb->execute();
                 $topic = $topics[0];
             }
@@ -133,7 +132,7 @@ class midcom_helper_filesync_importer_structure extends midcom_helper_filesync_i
 
         if ($this->delete_missing)
         {
-            // Then delete files and folders that are in DB but not in the importing folder 
+            // Then delete files and folders that are in DB but not in the importing folder
             $this->delete_missing_folders($foldernames, $topic->id);
         }
     }

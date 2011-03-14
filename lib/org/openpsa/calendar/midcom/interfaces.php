@@ -128,7 +128,6 @@ class org_openpsa_calendar_interface extends midcom_baseclasses_components_inter
         $root_event = self::find_root_event();
 
         $qb = org_openpsa_calendar_event_dba::new_query_builder();
-        $qb->toggle_read_only(false);
 
         $qb->add_constraint('up', '=',  $root_event->id);
         $ret = $qb->execute();

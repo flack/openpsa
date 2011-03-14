@@ -170,11 +170,6 @@ class midcom_core_querybuilder
         }
 
         $this->_qb = new midgard_query_builder($mgdschemaclass);
-        /* Force read only mode when in anonymous mode */
-        if (!$_MIDCOM->auth->is_valid_user())
-        {
-            $this->toggle_read_only(true);
-        }
     }
 
     /**
