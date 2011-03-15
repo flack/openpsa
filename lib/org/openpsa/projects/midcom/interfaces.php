@@ -430,7 +430,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         $_MIDCOM->load_library('midcom.helper.datamanager2');
 
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->toggle_read_only(false);
         $ret = $qb->execute();
         if (   is_array($ret)
             && count($ret) > 0)

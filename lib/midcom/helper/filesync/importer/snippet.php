@@ -86,7 +86,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
             {
                 continue;
             }
-            
+
             $filenames[] = $snippet_name;
 
             // Deal with element
@@ -110,8 +110,6 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
                 $snippet->create();
                 continue;
             }
-
-            $qb->toggle_read_only(false);
 
             $snippets = $qb->execute();
             $snippet = $snippets[0];
@@ -156,7 +154,7 @@ class midcom_helper_filesync_importer_snippet extends midcom_helper_filesync_imp
 
         if ($this->delete_missing)
         {
-            // Then delete files and folders that are in DB but not in the importing folder 
+            // Then delete files and folders that are in DB but not in the importing folder
             $this->delete_missing_folders($foldernames, 0);
         }
     }

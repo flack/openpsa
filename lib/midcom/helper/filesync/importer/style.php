@@ -108,8 +108,6 @@ class midcom_helper_filesync_importer_style extends midcom_helper_filesync_impor
                 continue;
             }
 
-            $qb->toggle_read_only(false);
-
             $elements = $qb->execute();
             $element = $elements[0];
 
