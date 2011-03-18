@@ -15,7 +15,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_products_product';
-    
+
     static function new_query_builder()
     {
         return $_MIDCOM->dbfactory->new_query_builder(__CLASS__);
@@ -25,12 +25,12 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->dbfactory->new_collector(__CLASS__, $domain, $value);
     }
-    
+
     static function &get_cached($src)
     {
         return $_MIDCOM->dbfactory->get_cached(__CLASS__, $src);
     }
-    
+
     function get_parent_guid_uncached()
     {
         if ($this->productGroup != 0)
@@ -62,6 +62,22 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
             }
         }
         return $path;
+    }
+
+
+    public function render_link()
+    {
+        $siteconfig = new org_openpsa_core_siteconfig();
+
+        $products_url = $siteconfig->get_node_full_url('org.openpsa.products');
+        if ($products_url)
+        {
+            return '<a href="' . $products_url . 'product/' . $this->guid . '/">' . $this->title . "</a>\n";
+        }
+        else
+        {
+            return $this->title;
+        }
     }
 
     public function _on_creating()

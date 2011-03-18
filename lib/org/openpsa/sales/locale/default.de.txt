@@ -211,8 +211,12 @@ Verkaufsprojekte
 Besitzer
 ---STRINGEND
 
+---STRING per %s
+pro %s
+---STRINGEND
+
 ---STRING per unit
-pro Stück
+pro Einheit
 ---STRINGEND
 
 ---STRING previous action
@@ -352,7 +356,7 @@ Stück
 ---STRINGEND
 
 ---STRING units
-Stück
+Stückzahl
 ---STRINGEND
 
 ---STRING value

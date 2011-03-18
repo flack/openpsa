@@ -45,7 +45,15 @@ class org_openpsa_sales_viewer extends midcom_baseclasses_components_request
         {
             if ($_MIDCOM->dbfactory->is_a($object, 'org_openpsa_sales_salesproject_deliverable_dba'))
             {
-                $tmp["deliverable/{$object->guid}/"] = $object->title;
+                if ($object->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION)
+                {
+                    $prefix = $handler->_l10n->get('subscription');
+                }
+                else
+                {
+                    $prefix = $handler->_l10n->get('single delivery');
+                }
+                $tmp["deliverable/{$object->guid}/"] = $prefix . ': ' . $object->title;
             }
             else
             {

@@ -24,6 +24,7 @@
     'org.openpsa.expenses' => 'org.openpsa.expenses',
     'org.openpsa.invoices' => 'org.openpsa.invoices',
     'org.openpsa.projects' => 'org.openpsa.projects',
+    'org.openpsa.products' => 'org.openpsa.products',
     'org.openpsa.reports' => 'org.openpsa.reports',
     'org.openpsa.sales' => 'org.openpsa.sales',
     'net.nemein.wiki' => 'net.nemein.wiki',
