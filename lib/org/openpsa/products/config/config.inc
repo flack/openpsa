@@ -8,6 +8,16 @@
 'schemadb_productlink' => 'file:/org/openpsa/products/config/schemadb_productlink_default.inc',
 'schemadb_config' => 'file:/org/openpsa/products/config/config_schemadb.inc',
 
+'unit_options' => Array
+(
+    'p' => 'piece',   // per piece
+    'h' => 'hour',    // per hour
+    'd' => 'day',     // per day
+    'm' => 'month',   // per month
+    'q' => 'quarter', // per quarter
+    'y' => 'year',    // per annum
+),
+
 // Whether to enable adding subcomponents to products
 'enable_components' => true,
 
