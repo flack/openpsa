@@ -87,34 +87,30 @@ class midcom_core_group
         if (   is_string($id)
             && substr($id, 0, 6) == 'group:')
         {
-            $this->_storage = new midgard_group();
             $id = substr($id, 6);
         }
 
-        if (mgd_is_guid($id))
-        {
-            $this->_storage = new midgard_group($id);
-        }
-        else if (is_numeric($id))
-        {
-            if ($id == 0)
-            {
-                return;
-            }
-
-            $this->_storage = new midgard_group($id);
-        }
-        else if (   is_object($id)
-                 && (   is_a($id, 'midcom_db_group')
-                     || is_a($id, 'midgard_group')))
+        if (   is_object($id)
+             && (   is_a($id, 'midcom_db_group')
+                 || is_a($id, 'midgard_group')))
         {
             $this->_storage = $id;
         }
-        else
+        else if (   is_numeric($id)
+                 && $id == 0)
         {
-            debug_add('Tried to load a midcom_core_group, but $id was of unknown type.', MIDCOM_LOG_ERROR);
+            throw new midcom_error('0 is not a valid DB identifier');
+        }
+
+        try
+        {
+            $this->_storage = new midgard_group($id);
+        }
+        catch (Exception $e)
+        {
+            debug_add('Tried to load a midcom_core_group, but got error ' . $e->getMessage(), MIDCOM_LOG_ERROR);
             debug_print_r('Passed argument was:', $id);
-            return;
+            throw new midcom_error($e->getMessage());
         }
 
         if ($this->_storage->official != '')
