@@ -516,7 +516,8 @@ class midcom_helper_metadata
                         $value = $this->__metadata->$key->format('U');
                     }
                 }
-                else if (empty($this->__metadata->$key))
+                else if (   empty($this->__metadata->$key)
+                         || $this->__metadata->$key == '0000-00-00 00:00:00')
                 {
                     $value = 0;
                 }
@@ -586,7 +587,6 @@ class midcom_helper_metadata
 
                 break;
         }
-
         $this->_cache[$key] = $value;
     }
 

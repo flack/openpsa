@@ -736,7 +736,8 @@ class midcom_application
                             $this->cache->content->enable_live_mode();
                             $this->cache->invalidate_all();
                             $this->uimessages->add($_MIDCOM->i18n->get_string('MidCOM', 'midcom'), "Cache invalidation successful.", 'info');
-                            $_MIDCOM->relocate('');
+
+                            $_MIDCOM->relocate($_SERVER['HTTP_REFERER']);
                         }
                         else if ($value == 'nocache')
                         {

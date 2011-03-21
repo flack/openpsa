@@ -76,6 +76,21 @@ class org_openpsa_contacts_group_dba extends midcom_core_dbaobject
         }
     }
 
+    public function render_link()
+    {
+        $siteconfig = new org_openpsa_core_siteconfig();
+
+        $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
+        if ($contacts_url)
+        {
+            return '<a href="' . $contacts_url . 'group/' . $this->guid . '/">' . $this->get_label() . "</a>\n";
+        }
+        else
+        {
+            return $this->get_label();
+        }
+    }
+
     private function _get_address_extra($property)
     {
         $return = $this->get_parameter('midcom.helper.datamanager2', $property);

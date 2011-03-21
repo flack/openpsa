@@ -16,7 +16,7 @@ $query_data =& $data['query_data'];
                         <th><?php echo $data['l10n']->get('person'); ?></th>
 <?php           break;
             case 'person': ?>
-                        <th><?php echo $data['l10n']->get('date'); ?></th>
+                        <th><?php echo $data['l10n_midcom']->get('date'); ?></th>
 <?php           break;
         } ?>
                         <th><?php echo $_MIDCOM->i18n->get_string('task', 'org.openpsa.projects'); ?></th>

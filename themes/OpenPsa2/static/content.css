@@ -45,7 +45,8 @@ body
 
 #content-text h2
 {
-  font-size: 120%;
+    font-size: 120%;
+    margin: 1em 0 .5em 0
 }
 
 #content-text h3

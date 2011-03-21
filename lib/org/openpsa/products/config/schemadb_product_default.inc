@@ -26,7 +26,7 @@
             'title' => 'description',
             'storage' => 'description',
             'type' => 'text',
-            'type_config' => Array 
+            'type_config' => Array
             (
                 'output_mode' => 'markdown'
             ),
@@ -120,15 +120,7 @@
             'type' => 'select',
             'type_config' => Array
             (
-                'options' => Array
-                (
-                    'p' => 'piece',   // per piece
-                    'h' => 'hour',    // per hour
-                    'd' => 'day',     // per day
-                    'm' => 'month',   // per month
-                    'q' => 'quarter', // per quarter
-                    'y' => 'year',    // per annum
-                ),
+                'options' => midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options')
             ),
             'widget' => 'select',
         ),
