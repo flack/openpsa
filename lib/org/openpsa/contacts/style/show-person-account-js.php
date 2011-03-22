@@ -11,10 +11,10 @@
     $.fn.passStrength = function(options)
     {
          var defaults = {
-                shortPass:      		"shortPass",    //optional
-                badPass:        		"badPass",      //optional
-                goodPass:       		"goodPass",     //optional
-                strongPass:     		"strongPass",   //optional
+                shortPass:      		"org_openpsa_contacts_shortPass",    //optional
+                badPass:        		"org_openpsa_contacts_badPass",      //optional
+                goodPass:       		"org_openpsa_contacts_goodPass",     //optional
+                strongPass:     		"org_openpsa_contacts_strongPass",   //optional
                 baseStyle:      		"testresult",   //optional
                 userid:         		"",             //required override
                 userid_required: 		false,			//optional (true for create/edit account)
@@ -58,13 +58,13 @@
                     if(opts.messageloc === 1)
                     {
                         $(this).next("." + opts.baseStyle).remove();
-                        $(this).after("<span class=\""+opts.baseStyle+"\" style=\"padding-left:10px;color:red;\"><span></span></span>");
+                        $(this).after("<span class=\""+opts.baseStyle+"\" style=\"padding-left:10px;\"><span></span></span>");
                         $(this).next("." + opts.baseStyle).addClass($(this).resultStyle).find("span").text(results);
                     }
                     else
                     {
                         $(this).prev("." + opts.baseStyle).remove();
-                        $(this).before("<span class=\""+opts.baseStyle+"\" style=\"padding-left:10px;color:red;\"><span></span></span>");
+                        $(this).before("<span class=\""+opts.baseStyle+"\" style=\"padding-left:10px;\"><span></span></span>");
                         $(this).prev("." + opts.baseStyle).addClass($(this).resultStyle).find("span").text(results);
                     }
                 });

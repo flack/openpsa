@@ -130,3 +130,11 @@ body
   font-size: larger;
   margin-bottom: 4px;
 }
+.org_openpsa_contacts_badPass , .org_openpsa_contacts_shortPass
+{
+    color: red;
+}
+.org_openpsa_contacts_goodPass , .org_openpsa_contacts_strongPass
+{
+    color:green;
+}

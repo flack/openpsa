@@ -40,7 +40,7 @@
         (
             'title' => 'old password',
             'type' => 'text',
-            'widget' => 'text',
+            'widget' => 'password',
             'storage' => null,
             'hidden' => ($_MIDCOM->auth->admin),
         ),
