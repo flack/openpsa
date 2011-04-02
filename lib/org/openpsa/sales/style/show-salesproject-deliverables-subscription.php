@@ -74,6 +74,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     <div class="tasks">
         <?php
         if (   $data['projects_url']
+            && $data['deliverable_object']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
             && $data['deliverable_object']->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED)
         {
             $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}");
