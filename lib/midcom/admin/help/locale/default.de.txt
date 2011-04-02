@@ -126,10 +126,6 @@ URL-Methoden
 User-Forum
 ---STRINGEND
 
----STRING about current handler
-Über den aktuellen Handler
----STRINGEND
-
 ---STRING handlers
 URL-Handler
 ---STRINGEND
