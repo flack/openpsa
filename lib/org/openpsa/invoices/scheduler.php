@@ -369,7 +369,10 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         $message['content'] .= "\n" . $_MIDCOM->i18n->get_string('next run', 'org.openpsa.sales') . ": {$next_run_label}\n\n";
         $message['content'] .= $_MIDCOM->i18n->get_string('salesproject', 'org.openpsa.sales') . ":\n";
-        $message['content'] .= $_MIDCOM->permalinks->create_permalink($salesproject->guid);
+
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $url = $siteconfig->get_node_full_url('org.openpsa.sales');
+        $message['content'] .= $url . 'salesproject/' . $salesproject->guid . '/';
 
         // Content for short notifications
         $message['abstract'] = sprintf($_MIDCOM->i18n->get_string('%s: closed subscription cycle %d for agreement %s. invoiced %d. next cycle %s', 'org.openpsa.sales'), $customer->get_label(), $cycle_number, $this->_deliverable->title, $invoiced_sum, $next_run_label);
