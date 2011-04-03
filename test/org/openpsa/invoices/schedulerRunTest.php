@@ -117,7 +117,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             }
             else if ($type == 'invoice')
             {
-                $this->_verify_invoice($values);
+                $this->_verify_invoice($values, $params['cycle_number']);
             }
             else
             {
@@ -146,7 +146,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         }
     }
 
-    private function _verify_invoice($values)
+    private function _verify_invoice($values, $cycle_number)
     {
         $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'org_openpsa_invoices_invoice_dba');
         $invoices = $mc->get_related_objects('org.openpsa.invoices');
@@ -170,6 +170,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 }
                 $this->assertEquals($value, $invoice->$field, 'Difference in invoice field ' . $field);
             }
+            $this->assertEquals($cycle_number, (int) $invoice->parameter('org.openpsa.sales', 'cycle_number'), 'Incorrect cycle number');
         }
     }
 

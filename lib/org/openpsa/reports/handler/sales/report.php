@@ -29,7 +29,6 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
         $_MIDCOM->auth->require_valid_user();
 
         $this->_generator_load_redirect($args);
-        $this->set_active_leaf($this->_topic->id . ':generator_sales');
         $this->_handler_generator_style();
 
         $data['invoices'] = Array();
@@ -80,7 +79,6 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
 
         // Get invoices our deliverables are related to
         $data['invoices'] = $mc->get_related_objects_grouped_by('toGuid');
-
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
     }
 
