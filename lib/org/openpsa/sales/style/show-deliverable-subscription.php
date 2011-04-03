@@ -2,16 +2,13 @@
 $view =& $data['view_deliverable'];
 $status = $data['deliverable']->get_status();
 
-$costType = $view['costType'];
+$per_unit = $data['l10n']->get('per unit');
 try
 {
     $product = org_openpsa_products_product_dba::get_cached($data['deliverable']->product);
     $unit_options = midcom_baseclasses_components_configuration::get('org.openpsa.products', 'config')->get('unit_options');
     $unit = $_MIDCOM->i18n->get_string($unit_options[$product->unit], 'org.openpsa.products');
-    if ($data['deliverable']->costType == 'm')
-    {
-        $costType = sprintf($data['l10n']->get('per %s'), $unit);
-    }
+    $per_unit = sprintf($data['l10n']->get('per %s'), $unit);
 }
 catch (midcom_error $e)
 {
@@ -129,13 +126,7 @@ catch (midcom_error $e)
                     </tr>
                     <?php
                 }
-                ?>
-                <tr>
-                    <th><?php echo $data['l10n']->get('invoicing period'); ?></th>
-                    <td>&(view['unit']:h);</td>
-                </tr>
-                <?php
-                if($data['deliverable']->notify)
+                if ($data['deliverable']->notify)
                 {
                     ?>
                     <tr>
@@ -155,26 +146,8 @@ catch (midcom_error $e)
                 }
                 ?>
                 <tr>
-                    <th colspan="2" class="area"><?php echo $data['l10n']->get('pricing information'); ?></th>
-                </tr>
-                <tr>
-                    <th><?php echo $data['l10n']->get('pricing'); ?></th>
-                    <td><?php
-                        echo org_openpsa_helpers::format_number($view['pricePerUnit']) . ' ';
-                        echo sprintf($data['l10n']->get('per %s'), $unit); ?></td>
-                </tr>
-                <tr>
-                    <th><?php echo $data['l10n']->get('cost structure'); ?></th>
-                    <td><?php echo org_openpsa_helpers::format_number($view['costPerUnit']); ?> &(costType);</td>
-                </tr>
-                <tr>
-                    <th><?php echo $data['l10n']->get('units'); ?></th>
-                    <td>&(view['units']:h);<?php
-                        if ($data['deliverable']->plannedUnits)
-                        {
-                            echo ' (' . sprintf($data['l10n']->get('%s planned'), $view['plannedUnits']) . ')';
-                        }
-                        ?></td>
+                    <th><?php echo $data['l10n']->get('invoicing period'); ?></th>
+                    <td>&(view['unit']:h);</td>
                 </tr>
                 <?php
                 if ($data['deliverable']->invoiceByActualUnits)
@@ -195,19 +168,6 @@ catch (midcom_error $e)
                     </tr>
                     <?php
                 }
-                ?>
-                <tr>
-                    <th colspan="2" class="area"><?php echo $data['l10n']->get('invoicing information'); ?></th>
-                </tr>
-                <tr>
-                    <th><?php echo $data['l10n']->get('price'); ?></th>
-                    <td><?php echo org_openpsa_helpers::format_number($view['price']);?></td>
-                </tr>
-                <tr>
-                    <th><?php echo $data['l10n']->get('cost'); ?></th>
-                    <td><?php echo org_openpsa_helpers::format_number($view['cost']);?></td>
-                </tr>
-                <?php
                 if ($data['deliverable']->invoiced > 0)
                 {
                     ?>
@@ -218,38 +178,84 @@ catch (midcom_error $e)
                     <?php
                 }
                 ?>
-            <tbody>
+                <tr>
+                    <th colspan="2" class="area"><?php echo $data['l10n']->get('pricing'); ?></th>
+                </tr>
+                <tr>
+                    <td colspan="2" class="area">
+                    <table class="list">
+                      <thead>
+                        <tr>
+                          <th>&nbsp;</th>
+                          <th><?php echo $per_unit ?></th>
+                          <th><?php echo $data['l10n']->get('plan'); ?></th>
+                          <th><?php echo $data['l10n']->get('is'); ?></th>
+                          <th><?php echo $_MIDCOM->i18n->get_string('sum', 'org.openpsa.invoices'); ?></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="title"><?php echo $data['l10n']->get('price'); ?></td>
+                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['pricePerUnit']); ?></td>
+                          <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
+                          <td class="numeric"><?php echo $view['units']; ?></td>
+                          <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['price']); ?></td>
+                        </tr>
+                        <tr>
+                          <td class="title"><?php echo $data['l10n']->get('cost'); ?></td>
+                          <?php
+                          if ($data['deliverable']->costType == 'm')
+                          { ?>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['costPerUnit']); ?></td>
+                              <td class="numeric"><?php echo $view['plannedUnits']; ?></td>
+                              <td class="numeric"><?php echo $view['units']; ?></td>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['cost']); ?></td>
+                          <?php }
+                          else
+                          { ?>
+                              <td class="numeric"><?php echo $view['costPerUnit']; ?> %</td>
+                              <td class="numeric">&nbsp;</td>
+                              <td class="numeric">&nbsp;</td>
+                              <td class="numeric"><?php echo org_openpsa_helpers::format_number($view['cost']); ?></td>
+                          <?php } ?>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 
     <div class="wide">
         &(view['components']:h);
 
-        <div class="tasks">
-            <?php
-            if (   $data['projects_url']
-                && $data['deliverable']->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED)
-            {
-                    if (   $product
-                        && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
-                    {
-                        $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}");
-                        // FIXME: This is a rather ugly hack
-                        $_MIDCOM->style->enter_context(0);
-                    }
-            }
-            ?>
-        </div>
-        <div class="invoices">
-            <?php
-            if (   $data['invoices_url']
-                && $data['deliverable']->invoiced > 0)
-            {
-                $_MIDCOM->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}");
-                // FIXME: This is a rather ugly hack
-                $_MIDCOM->style->enter_context(0);
-            }
-            ?>
-        </div>
+    <?php
+    $tabs = array();
+    if (   $data['invoices_url']
+        && $data['deliverable']->invoiced > 0)
+    {
+        $tabs[] = array
+        (
+            'url' => $data['invoices_url'] . "list/deliverable/{$data['deliverable']->guid}/",
+            'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
+        );
+    }
+
+    if (   $data['projects_url']
+        && $data['deliverable']->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED)
+    {
+        if (   $product
+            && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE)
+        {
+            $tabs[] = array
+            (
+                'url' => $data['projects_url'] . "task/list/all/agreement/{$data['deliverable']->id}/",
+                'title' => $_MIDCOM->i18n->get_string('tasks', 'org.openpsa.projects'),
+            );
+        }
+    }
+    org_openpsa_core_ui::render_tabs($data['deliverable']->guid, $tabs);
+    ?>
     </div>
 </div>

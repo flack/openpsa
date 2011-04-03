@@ -161,7 +161,11 @@ jQuery("#&(grid_id);").jqGrid({
       ],
       loadonce: true,
       rowNum: <?php echo sizeof($entries); ?>,
-      caption: "&(data['list_label']);",
+      <?php
+      if (!array_key_exists('deliverable', $data))
+      { ?>
+          caption: "&(data['list_label']);",
+      <?php } ?>
       footerrow: true
 });
 

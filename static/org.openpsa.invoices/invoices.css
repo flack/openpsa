@@ -3,7 +3,7 @@ div.org_openpsa_invoices
     padding: .75em 0
 }
 
-.org_openpsa_invoices .ui-jqgrid .ui-jqgrid-view
+.org_openpsa_invoices.ui-jqgrid-view
 {
     -moz-box-shadow: 1px 3px 5px #aaa;
     -webkit-box-shadow: 1px 3px 5px #aaa;

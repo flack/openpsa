@@ -155,6 +155,10 @@ Rechnungsdaten
 Rechnungszeitraum
 ---STRINGEND
 
+---STRING is
+Ist
+---STRINGEND
+
 ---STRING lost
 Abgelehnt
 ---STRINGEND
@@ -217,6 +221,10 @@ pro %s
 
 ---STRING per unit
 pro Einheit
+---STRINGEND
+
+---STRING plan
+Plan
 ---STRINGEND
 
 ---STRING previous action
