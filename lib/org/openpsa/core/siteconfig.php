@@ -96,12 +96,6 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
             $this->set_config_value($last . '_relative_url', $node_relative_url);
         }
 
-        $owner_guid = $this->get_my_company_guid();
-        if ($owner_guid)
-        {
-            $this->set_config_value('owner_organization', "'" . $owner_guid . "'");
-        }
-
         $_MIDCOM->auth->request_sudo('org.openpsa.core');
         $this->snippet->update();
         $_MIDCOM->auth->drop_sudo();
