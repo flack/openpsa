@@ -12,7 +12,7 @@ body
   color: #222;
 }
 
-body, 
+body,
 input,
 button,
 select
@@ -367,6 +367,8 @@ ul#org_openpsa_search_providers li.current
     background-color: #eeeeec;
     border: 1px solid #BABDB6;
     -moz-border-radius: .8em 0 0 .8em;
+    -webkit-border-radius: .8em 0 0 .8em;
+    border-radius: .8em 0 0 .8em;
     position: absolute;
     right: 12.3em;
     background-image:url('../stock-icons/16x16/search.png');
@@ -383,6 +385,8 @@ input#org_openpsa_search_query
     background-color: #eaeae9;
     border: 1px solid #babdb6;
     -moz-border-radius: 0 .8em .8em 0;
+    -webkit-border-radius: 0 .8em .8em 0;
+    border-radius: 0 .8em .8em 0;
     padding: 0;
     text-align: left;
     height: 18px;
