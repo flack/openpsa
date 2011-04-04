@@ -155,7 +155,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      *
      * @return Array
      */
-    private function _get_components()
+    public function get_components()
     {
         $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
         $deliverable_qb->add_constraint('salesproject', '=', $this->salesproject);
@@ -197,57 +197,11 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
     function calculate_price($update = true)
     {
-        if ($this->id)
-        {
-            // Check if we have subcomponents
-            $deliverables = $this->_get_components();
-            if (count($deliverables) > 0)
-            {
-                // If subcomponents exist, the price and cost per unit default to the
-                // sum of price and cost of all subcomponents
-                $pricePerUnit = 0;
-                $costPerUnit = 0;
-
-                foreach ($deliverables as $deliverable)
-                {
-                    $pricePerUnit = $pricePerUnit + $deliverable->price;
-                    $costPerUnit = $costPerUnit + $deliverable->cost;
-                }
-
-                $this->pricePerUnit = $pricePerUnit;
-                $this->costPerUnit = $costPerUnit;
-
-                // We can't have percentage-based cost type if the agreement
-                // has subcomponents
-                $this->costType = 'm';
-            }
-        }
-
-        if (   $this->invoiceByActualUnits
-            || $this->plannedUnits == 0)
-        {
-            // In most cases we calculate the price based on the actual units entered
-            $price = $this->units * $this->pricePerUnit;
-        }
-        else
-        {
-            // But in some deals we use the planned units instead
-            $price = $this->plannedUnits * $this->pricePerUnit;
-        }
-
-        // Count cost based on the cost type
-        switch ($this->costType)
-        {
-            case '%':
-                // The cost is a percentage of the price
-                $cost = $price / 100 * $this->costPerUnit;
-                break;
-            default:
-            case 'm':
-                // The cost is a fixed sum per unit
-                $cost = $this->units * $this->costPerUnit;
-                break;
-        }
+        $calculator_class = midcom_baseclasses_components_configuration::get('org.openpsa.sales', 'config')->get('calculator');
+        $calculator = new $calculator_class($this);
+        $calculator->run();
+        $cost = $calculator->get_cost();
+        $price = $calculator->get_price();
         if (   $price != $this->price
             || $cost != $this->cost)
         {
@@ -430,7 +384,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         if ($this->update())
         {
             // Mark subcomponents as declined also
-            $deliverables = $this->_get_components();
+            $deliverables = $this->get_components();
             if (count($deliverables) > 0)
             {
                 foreach ($deliverables as $deliverable)
@@ -504,7 +458,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         if ($this->update())
         {
             // Mark subcomponents as ordered also
-            $deliverables = $this->_get_components();
+            $deliverables = $this->get_components();
             if (count($deliverables) > 0)
             {
                 foreach ($deliverables as $deliverable)
@@ -569,7 +523,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         if ($this->update())
         {
             // Mark subcomponents as delivered also
-            $deliverables = $this->_get_components();
+            $deliverables = $this->get_components();
             if (count($deliverables) > 0)
             {
                 foreach ($deliverables as $deliverable)
