@@ -82,7 +82,7 @@ foreach ($data['invoices'] as $invoice)
         {
             $next_marker_url = $prefix . "invoice/mark_" . $next_marker . "/" . $invoice->guid . "/";
             $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
-            $entry['action'] .= '<form method="post" action="' . $next_marker_url . '"';
+            $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
             $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
             $entry['action'] .= $data['l10n']->get('mark ' . $next_marker);
             $entry['action'] .= '</button></form>';
