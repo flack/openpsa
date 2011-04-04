@@ -593,17 +593,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
         // Add the handler ID to request data
         $this->_request_data['handler_id'] = $this->_handler['id'];
 
-        // Add handler help link
-        $help_toolbar = $_MIDCOM->toolbars->get_help_toolbar();
-        $help_toolbar->add_help_item
-        (
-            'handlers', //file
-            $this->_topic->component,        //component
-            $_MIDCOM->i18n->get_string('about current handler', 'midcom.admin.help'),  //label
-            $this->_handler['id'],
-            0
-        );
-
         // Call the general handle event handler
         $result = $this->_on_handle($this->_handler['id'], $this->_handler['args']);
         if ($result === false)

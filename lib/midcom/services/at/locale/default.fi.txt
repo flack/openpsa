@@ -14,7 +14,7 @@ Käynnissä
 Ajastettu
 ---STRINGEND
 
----STRING scheduled operations
+---STRING next billing run
 Ajastetut toiminnot
 ---STRINGEND
 

@@ -77,6 +77,14 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['tasks'] = Array();
 
+        if (isset($args[1]))
+        {
+            $this->_request_data['view_identifier'] = $args[1];
+        }
+        else
+        {
+            $this->_request_data['view_identifier'] = $handler_id;
+        }
         //get possible priorities from schema
         $this->_get_priorities();
 
@@ -445,7 +453,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $this->_request_data["filter_priority"] = $priority_filter->list_filter("priority");
 
         $this->_request_data['table-heading'] = $args[1] . ' tasks';
-        $this->_request_data['view_identifier'] = $args[1];
         $tasks = $qb->execute();
         if ($tasks === false)
         {
@@ -639,6 +646,11 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['sales_url'] = $siteconfig->get_node_full_url('org.openpsa.sales');
         $this->_request_data['prefix'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+        if ($this->_request_data['view_identifier'] == 'agreement')
+        {
+            return;
+        }
 
         $this->_view_toolbar->add_item
         (

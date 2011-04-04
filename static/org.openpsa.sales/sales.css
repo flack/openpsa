@@ -58,7 +58,7 @@ div.salesproject div.deliverables ol.deliverable_list li
     -webkit-border-radius: 8px;
 }
 
-div.salesproject div.deliverables ol.deliverable_list .icon 
+div.salesproject div.deliverables ol.deliverable_list .icon
 {
     float: left;
     display: block;
@@ -142,6 +142,10 @@ div.org_openpsa_sales_salesproject_deliverable div.tags
     color: #c0c0c0;
 }
 
+div.org_openpsa_sales_salesproject_deliverable table.agreement
+{
+    margin-bottom: 1em
+}
 div.org_openpsa_sales_salesproject_deliverable table.agreement tbody th
 {
     text-align: right;
@@ -160,4 +164,16 @@ div.org_openpsa_sales_salesproject_deliverable table.agreement tbody td ul
 div.org_openpsa_sales_salesproject_deliverable div.at table th
 {
     text-align: left;
+}
+
+div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices
+{
+    padding: 0;
+}
+
+div.org_openpsa_sales_salesproject_deliverable .tab_div .org_openpsa_invoices .ui-jqgrid-view
+{
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }

@@ -154,6 +154,10 @@ Invoicing information
 Invoicing period
 ---STRINGEND
 
+---STRING is
+Is
+---STRINGEND
+
 ---STRING lost
 Lost
 ---STRINGEND
@@ -220,6 +224,10 @@ per unit
 
 ---STRING planned units
 Planned units
+---STRINGEND
+
+---STRING plan
+Plan
 ---STRINGEND
 
 ---STRING previous action

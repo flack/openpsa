@@ -105,6 +105,4 @@ jQuery("#&(grid_id);").jqGrid({
 
 jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
 
-jQuery("#&(grid_id);").jqGrid('setCaption', '<?php echo $data['l10n']->get($data['table-heading']); ?>');
-
 </script>

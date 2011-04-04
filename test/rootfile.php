@@ -67,9 +67,6 @@ if (!class_exists('midgard_topic'))
     throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
 }
 
-// Path to the MidCOM environment
-define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
-define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
 define('OPENPSA2_UNITTEST_RUN', true);
 define('OPENPSA2_UNITTEST_OUTPUT_DIR', dirname(__FILE__) . '/__output');
 
@@ -124,6 +121,15 @@ else
     include(OPENPSA_TEST_ROOT . '../config-default.inc.php');
 }
 
+// Path to the MidCOM environment
+if (!defined('MIDCOM_ROOT'))
+{
+    define('MIDCOM_ROOT', realpath(OPENPSA_TEST_ROOT . '/../lib'));
+}
+if (!defined('OPENPSA2_PREFIX'))
+{
+    define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']) . '/..');
+}
 if (! defined('MIDCOM_STATIC_URL'))
 {
     define('MIDCOM_STATIC_URL', '/openpsa2-static');

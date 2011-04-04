@@ -1,6 +1,15 @@
 <?php
 $deliverable = $data['deliverable'];
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+try
+{
+    $product = org_openpsa_products_product_dba::get_cached($data['deliverable_object']->product);
+}
+catch (midcom_error $e)
+{
+    $product = false;
+}
 ?>
 <li class="deliverable subscription collapsed" id="deliverable_<?php echo $data['deliverable_object']->guid; ?>">
     <span class="icon">
@@ -74,6 +83,8 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
     <div class="tasks">
         <?php
         if (   $data['projects_url']
+            && $product
+            && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
             && $data['deliverable_object']->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED)
         {
             $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}");

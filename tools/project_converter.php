@@ -27,9 +27,24 @@ class project_converter
         $this->_move_attachments($this->_project, $this->_new_object);
         $this->_move_privileges($this->_project, $this->_new_object);
 
-        $this->_process_project_relations();
+        if (empty($this->_salesproject))
+        {
+            $this->_find_salesproject();
+        }
+        if (!empty($this->_salesproject))
+        {
+            $this->_process_salesproject();
+        }
+
+        $this->_update_relations($this->_project->guid);
+
         $this->_commit('delete', $this->_project);
         $this->_output('Done.');
+    }
+
+    public function set_salesproject($salesproject)
+    {
+        $this->_salesproject = $salesproject;
     }
 
     private function _commit($action, &$object)
@@ -142,7 +157,19 @@ class project_converter
         }
     }
 
-    private function _process_project_relations()
+    private function _process_salesproject()
+    {
+        $this->_copy_from_salesproject();
+        $this->_update_deliverables();
+        $this->_update_salesproject_members();
+        $this->_move_parameters($this->_salesproject, $this->_new_object);
+        $this->_move_attachments($this->_salesproject, $this->_new_object);
+        $this->_move_privileges($this->_salesproject, $this->_new_object);
+        $this->_update_relations($this->_salesproject->guid);
+        $this->_commit('delete', $this->_salesproject);
+    }
+
+    private function _find_salesproject()
     {
         $qb = new midgard_query_builder('org_openpsa_relatedto');
         $qb->add_constraint('toClass', '=', 'org_openpsa_sales_salesproject_dba');
@@ -154,14 +181,6 @@ class project_converter
             try
             {
                 $this->_salesproject = new org_openpsa_salesproject_old($relation->toGuid);
-                $this->_copy_from_salesproject();
-                $this->_update_deliverables();
-                $this->_update_salesproject_members();
-                $this->_move_parameters($this->_salesproject, $this->_new_object);
-                $this->_move_attachments($this->_salesproject, $this->_new_object);
-                $this->_move_privileges($this->_salesproject, $this->_new_object);
-                $this->_update_relations($this->_salesproject->guid);
-                $this->_commit('delete', $this->_salesproject);
             }
             catch (Exception $e)
             {
@@ -169,8 +188,6 @@ class project_converter
             }
             $this->_commit('delete', $relation);
         }
-
-        $this->_update_relations($this->_project->guid);
     }
 
     private function _update_deliverables()

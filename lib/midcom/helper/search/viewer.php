@@ -9,8 +9,6 @@
 /**
  * MidCOM Indexer Front-End, Viewer Class
  *
- * ...
- *
  * @package midcom.helper.search
  */
 class midcom_helper_search_viewer extends midcom_baseclasses_components_request
