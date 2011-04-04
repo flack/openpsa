@@ -76,8 +76,15 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
     {
         $_MIDCOM->auth->require_valid_user();
         $this->_request_data['tasks'] = Array();
-        $this->_request_data['view_identifier'] = $args[1];
 
+        if (isset($args[1]))
+        {
+            $this->_request_data['view_identifier'] = $args[1];
+        }
+        else
+        {
+            $this->_request_data['view_identifier'] = $handler_id;
+        }
         //get possible priorities from schema
         $this->_get_priorities();
 
