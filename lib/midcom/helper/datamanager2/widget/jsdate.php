@@ -343,13 +343,12 @@ EOT;
     {
     	$empty_date = "0000-00-00 00:00:00";
 
-		// Could not find any input
+        // Could not find any input
     	if(!isset($results[$this->name . '_date'])){
     	    return $empty_date;
     	}
 
         $input = trim($results[$this->name . '_date']);
-
 
         if ($this->is_frozen())
         {
