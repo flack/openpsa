@@ -53,6 +53,18 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     var $later_than = '';
 
     /**
+     * Maximum date which the $value should not exceed , can be passed
+     * in schema
+     */
+    var $max_date = null;
+
+    /**
+     * Minimum date which the $value should not exceed , can be passed
+     * in schema
+     */
+    var $min_date = null;
+
+    /**
      * Initialize the value with an empty Date class.
      */
     public function _on_configuring($config)
@@ -62,11 +74,14 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
 
     public function _on_validate()
     {
+        if (!$this->_validate_date_range())
+        {
+            return false;
+        }
         if (empty($this->later_than))
         {
             return true;
         }
-
         if (   !isset($this->_datamanager->types[$this->later_than])
             || !is_a($this->_datamanager->types[$this->later_than], 'midcom_helper_datamanager2_type_date')
             || !$this->_datamanager->types[$this->later_than]->value)
@@ -117,6 +132,10 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             $this->value = new Date('00-00-0000 00:00:00');
             $this->value->day = 0;
             $this->value->month = 0;
+            if (!empty($this->default_date))
+            {
+                $this->value = new Date($this->default_date);
+            }
         }
         else
         {
@@ -257,6 +276,49 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             && $this->value->minute == 0
             && $this->value->second == 0
         );
+    }
+
+
+    private function _validate_date_range()
+    {
+        $format = $this->_get_format();
+        if (!empty($this->min_date) && !$this->_validate_date($this->value , new Date($this->min_date)))
+        {
+            $min_date = new Date($this->min_date);
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be later than %s'), htmlspecialchars($min_date->format($format)));
+            return false;
+        }
+        if (!empty($this->max_date) && !$this->_validate_date(new Date($this->max_date) , $this->value))
+        {
+            $max_date = new Date($this->max_date);
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be earlier than %s'), htmlspecialchars($max_date->format($format)));
+            return false;
+        }
+
+        return true;
+    }
+    /**
+     * Helper function to compare two date objects
+     * if first parameter happens to be before/smaller than the second it will return false
+     *
+     * @param object - date object to compare
+     */
+    private function _validate_date($compare_date_1st , $compare_date_2nd)
+    {
+        $tz = date_default_timezone_get();
+        $value = clone $compare_date_1st;
+        $earlier_value = clone $compare_date_2nd;
+        $check = true;
+
+        if (Date::compare($compare_date_1st, $compare_date_2nd) <= 0)
+        {
+            $check = false;
+        }
+        date_default_timezone_set($tz);
+        $compare_date_1st = $value;
+        $compare_date_2nd = $earlier_value;
+
+        return $check;
     }
 }
 ?>

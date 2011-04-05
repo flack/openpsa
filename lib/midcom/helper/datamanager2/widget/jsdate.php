@@ -152,6 +152,19 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
      */
     function _create_initscript()
     {
+        $init_max = new Date($this->maxyear . '-12-31');
+        $init_min = new Date($this->minyear . '-01-01');
+        if (!empty($this->_type->max_date))
+        {
+            $init_max = new Date($this->_type->max_date);
+        }
+        if (!empty($this->_type->min_date))
+        {
+            $init_min = new Date($this->_type->min_date);
+        }
+        //need this due to js Date begins to count the months with 0 instead of 1
+        $init_max->month--;
+        $init_min->month--;
         $script = <<<EOT
 <script type="text/javascript">
         jQuery(document).ready(
@@ -159,8 +172,8 @@ class midcom_helper_datamanager2_widget_jsdate extends midcom_helper_datamanager
         {
             jQuery("#{$this->_namespace}{$this->name}_date").datepicker(
             {
-              maxDate: new Date({$this->maxyear}, 11, 31),
-              minDate: new Date({$this->minyear}, 0, 1),
+              maxDate: new Date({$init_max->year} , {$init_max->month} , {$init_max->day}),
+              minDate: new Date({$init_min->year} , {$init_min->month} , {$init_min->day}),
               dateFormat: 'yy-mm-dd',
               prevText: '',
               nextText: '',
@@ -341,6 +354,13 @@ EOT;
      */
     public function check_user_input($results)
     {
+        $empty_date = "0000-00-00 00:00:00";
+
+        // Could not find any input
+        if(!isset($results[$this->name . '_date'])){
+            return $empty_date;
+        }
+
         $input = trim($results[$this->name . '_date']);
 
         if ($this->is_frozen())
@@ -425,7 +445,7 @@ EOT;
         }
 
         // Could not determine the datetime, give an empty date
-        return '0000-00-00 00:00:00';
+        return $empty_date;
     }
 
     /**
