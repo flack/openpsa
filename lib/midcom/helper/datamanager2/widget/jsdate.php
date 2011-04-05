@@ -341,7 +341,15 @@ EOT;
      */
     public function check_user_input($results)
     {
+    	$empty_date = "0000-00-00 00:00:00";
+
+		// Could not find any input
+    	if(!isset($results[$this->name . '_date'])){
+    	    return $empty_date;
+    	}
+
         $input = trim($results[$this->name . '_date']);
+
 
         if ($this->is_frozen())
         {
@@ -425,7 +433,7 @@ EOT;
         }
 
         // Could not determine the datetime, give an empty date
-        return '0000-00-00 00:00:00';
+        return $empty_date;
     }
 
     /**
