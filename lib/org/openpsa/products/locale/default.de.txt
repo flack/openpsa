@@ -163,7 +163,7 @@ Produktkomponenten
 ---STRINGEND
 
 ---STRING product database
-Podukt-Datenbank
+Produkt-Datenbank
 ---STRINGEND
 
 ---STRING product group
