@@ -110,7 +110,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         }
         else
         {
-            $mail->from = '"OpenPSA Notifier" <noreply@openpsa.org>';
+            $mail->from = '"OpenPSA Notifier" <noreply@' . $_SERVER['SERVER_NAME'] . '>';
         }
 
         if (array_key_exists('title', $message))
