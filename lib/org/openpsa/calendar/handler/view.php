@@ -126,68 +126,41 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
         }
 
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-        $static_prefix = MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/jscript-calendar';
+
+        $_MIDCOM->enable_jquery();
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.core.min.js");
+        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/jquery.ui.datepicker.min.js");
+
         $lang = $_MIDCOM->i18n->get_current_language();
+        /*
+         * The calendar doesn't have all lang files and some are named differently
+         * Since a missing lang file causes the calendar to break, let's make extra sure
+         * that this won't happen
+         */
+        if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
+        {
+            $lang = $_MIDCOM->i18n->get_fallback_language();
+            if (!file_exists(MIDCOM_STATIC_ROOT . "/jQuery/jquery-ui-{$GLOBALS['midcom_config']['jquery_ui_version']}/ui/i18n/jquery.ui.datepicker-{$lang}.min.js"))
+            {
+                $lang = false;
+            }
+        }
 
-        $_MIDCOM->add_jsfile("{$static_prefix}/calendar_stripped.js");
-        $_MIDCOM->add_jsfile("{$static_prefix}/lang/calendar-{$lang}.js");
-        $_MIDCOM->add_jsfile("{$static_prefix}/calendar-setup.js");
+        if ($lang)
+        {
+            $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . "/ui/i18n/jquery.ui.datepicker-{$lang}.min.js");
+        }
 
-        $dateopts = date('Y', $this->_selected_time).', ';
-        $dateopts .= date('n', $this->_selected_time) - 1;
-        $dateopts .= ', ' . date('j', $this->_selected_time);
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.calendar/navigation.js");
+
+        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.css');
+        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.datepicker.css');
+
+        $default_date = date('Y-m-d', $this->_selected_time);
 
         $_MIDCOM->add_jscript('
-var openPsaShowMonthSelectorCalendarShown = false;
-var openPsaShowMonthSelectorCalendarInitialized = false;
-function openPsaShowMonthSelectorHandler(calendar)
-{
-    if (calendar.dateClicked)
-    {
-        var y = calendar.date.getFullYear();
-        var m = new String(calendar.date.getMonth() + 1);
-        if (m.length == 1)
-        {
-            m = \'0\' + m;
-        }
-        var d = calendar.date.getDate();
-        // Relocate to correct view
-        window.location = "' . $prefix . $path . '/" + y + "-" + m + "-" + d + "/";
-    }
-}
-
-function openPsaShowMonthSelectorCalendar()
-{
-    Calendar.setup
-    (
-        {
-            flat        : "org_openpsa_calendar_calendarwidget",
-            flatCallback: openPsaShowMonthSelectorHandler,
-            firstDay    : 1,
-            date        : new Date(' . $dateopts . ')
-        }
-    );
-}
-
-function openPsaShowMonthSelector()
-{
-    calendarArea = document.getElementById("org_openpsa_calendar_calendarwidget");
-    if (openPsaShowMonthSelectorCalendarShown)
-    {
-        calendarArea.style.display = "none";
-        openPsaShowMonthSelectorCalendarShown = false;
-    }
-    else
-    {
-        calendarArea.style.display = "block";
-        if (!openPsaShowMonthSelectorCalendarInitialized)
-        {
-            openPsaShowMonthSelectorCalendar();
-            openPsaShowMonthSelectorCalendarInitialized = true;
-        }
-        openPsaShowMonthSelectorCalendarShown = true;
-    }
-}
+var org_openpsa_calendar_default_date = "' . $default_date . '",
+org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         ');
 
         $this->_view_toolbar->add_item
@@ -200,7 +173,7 @@ function openPsaShowMonthSelector()
                 MIDCOM_TOOLBAR_OPTIONS  => array
                 (
                     'rel' => 'directlink',
-                    'onclick' => 'javascript:openPsaShowMonthSelector();',
+                    'id' => 'date-navigation',
                 ),
             )
         );

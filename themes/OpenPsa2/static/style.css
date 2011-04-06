@@ -451,14 +451,14 @@ input#org_openpsa_search_query
   overflow: hidden;
 }
 
-#container .org_openpsa_toolbar ul.midcom_toolbar a
+#container .org_openpsa_toolbar ul.midcom_toolbar li > a
 {
   display: inline-block;
   color: #000000;
   text-decoration: none !important;
 }
 
-.org_openpsa_toolbar ul.midcom_toolbar a img,
+.org_openpsa_toolbar ul.midcom_toolbar li > a img,
 .org_openpsa_toolbar ul.midcom_toolbar button img
 {
   border: none;
@@ -491,8 +491,8 @@ input#org_openpsa_search_query
   font-size: 10px
 }
 
-.org_openpsa_toolbar ul.midcom_toolbar li a,
-.org_openpsa_toolbar ul.midcom_toolbar li button
+.org_openpsa_toolbar ul.midcom_toolbar li > a,
+.org_openpsa_toolbar ul.midcom_toolbar li > button
 {
   padding: .3em .5em;
   white-space: nowrap;
@@ -503,8 +503,8 @@ input#org_openpsa_search_query
 }
 
 
-.org_openpsa_toolbar ul.midcom_toolbar a:hover,
-.org_openpsa_toolbar ul.midcom_toolbar button:hover
+.org_openpsa_toolbar ul.midcom_toolbar li > a:hover,
+.org_openpsa_toolbar ul.midcom_toolbar li > button:hover
 {
     background: #fcfcfc;
     background: -moz-linear-gradient(top, #fcfcfc 0%, #efefef 14%, #ededed 30%, #ffffff 100%);
@@ -512,14 +512,14 @@ input#org_openpsa_search_query
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FCFCFC', endColorstr='#FFFFFF',GradientType=0 ); /* ie */
 }
 
-.org_openpsa_toolbar ul.view_toolbar li a,
-.org_openpsa_toolbar ul.view_toolbar li button
+.org_openpsa_toolbar ul.view_toolbar li > a,
+.org_openpsa_toolbar ul.view_toolbar li > button
 {
   border-left: 1px solid #777
 }
 
-.org_openpsa_toolbar ul.view_toolbar a:hover,
-.org_openpsa_toolbar ul.view_toolbar button:hover
+.org_openpsa_toolbar ul.view_toolbar > a:hover,
+.org_openpsa_toolbar ul.view_toolbar > button:hover
 {
   border-left: 1px solid #cccec9;
 }
