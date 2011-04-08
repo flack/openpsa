@@ -170,6 +170,7 @@ org_openpsa_export_csv.add({
       id: '&(grid_id);',
       fields: {
           index_number: '<?php echo $_MIDCOM->i18n->get_string('invoice number', 'org.openpsa.invoices'); ?>',
+          date: '<?php echo $data['l10n_midcom']->get('date'); ?>',
           owner: '<?php echo $data['l10n_midcom']->get('owner'); ?>',
           index_customer: '<?php echo $_MIDCOM->i18n->get_string('customer', 'org.openpsa.invoices'); ?>',
           index_contact: '<?php echo $_MIDCOM->i18n->get_string('customer contact', 'org.openpsa.invoices'); ?>',
