@@ -92,7 +92,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             {
                 $this->$object->$field = $value;
             }
-            $this->$object->update();
+            $this->assertTrue($this->$object->update());
         }
     }
 
@@ -221,17 +221,55 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $_MIDCOM->componentloader->load('org.openpsa.products');
 
         $now = time();
-        $future_4_weeks = $now + (60 * 60 * 24 * 7 * 4);
-        $future_8_weeks = $now + (60 * 60 * 24 * 7 * 4);
-        $past_4_weeks = $now - (60 * 60 * 24 * 7 * 4);
-        $past_8_weeks = $now - (60 * 60 * 24 * 7 * 4);
+        $this_month = gmdate('n', $now);
+        $this_day = gmdate('j', $now);
+        $this_year = gmdate('Y', $now);
+        $midnight_today = gmmktime(0, 0, 0, $this_month, $this_day, $this_year);
+
+        $one_month_future = gmdate('n', $now) + 1;
+        $one_month_future_year = gmdate('Y', $now);
+        if ($one_month_future > 12)
+        {
+            $one_month_future = 1;
+            $one_month_future_year++;
+        }
+
+        $two_month_future = $one_month_future + 1;
+        $two_month_future_year = $one_month_future_year;
+        if ($two_month_future > 12)
+        {
+            $two_month_future = 1;
+            $two_month_future_year++;
+        }
+
+        $one_month_past = gmdate('n', $now) - 1;
+        $one_month_past_year = gmdate('Y', $now);
+        if ($one_month_past < 1)
+        {
+            $one_month_past = 12;
+            $one_month_past_year--;
+        }
+
+        $two_month_past = $one_month_past - 1;
+        $two_month_past_year = $one_month_past_year;
+        if ($two_month_past < 1)
+        {
+            $two_month_past = 12;
+            $two_month_past_year--;
+        }
+
+        $future_one_month = gmmktime(0, 0, 0, $one_month_future, $this_day, $one_month_future_year);
+        $future_two_month = gmmktime(0, 0, 0, $two_month_future, $this_day, $two_month_future_year);
+        $past_one_month = gmmktime(0, 0, 0, $one_month_past, $this_day, $one_month_past_year);
+        $past_two_month = gmmktime(0, 0, 0, $two_month_past, $this_day, $two_month_past_year);
+
         $beginning_feb = gmmktime(0, 0, 0, 2, 1, 2011);
         $beginning_mar = gmmktime(0, 0, 0, 3, 1, 2011);
 
         return array
         (
 
-            //SET 1: Deliverable not yet started
+            //SET 0: Deliverable not yet started
             array
             (
                 array
@@ -243,15 +281,15 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 (
                     '_deliverable' => array
                     (
-                        'start' => $future_4_weeks,
-                        'end' => $future_8_weeks,
+                        'start' => $future_one_month,
+                        'end' => $future_two_month,
                     )
                 ),
                 array
                 (
                     'at_entry' => array
                     (
-                        'start' => $future_4_weeks
+                        'start' => $future_one_month
                     ),
                     'invoice' => false,
                     '_deliverable' => array
@@ -261,7 +299,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 2: First deliverable cycle, no invoice yet
+            //SET 1: First deliverable cycle, no invoice yet
             array
             (
                 array
@@ -273,8 +311,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 (
                     '_deliverable' => array
                     (
-                        'start' => $past_4_weeks,
-                        'end' => $future_8_weeks,
+                        'start' => $past_one_month,
+                        'end' => $future_two_month,
                         'unit' => 'm',
                     ),
                 ),
@@ -282,7 +320,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 (
                     'at_entry' => array
                     (
-                        'start' => gmmktime(0, 0, 0, gmdate('n', $now), gmdate('j', $now), gmdate('Y', $now))
+                        'start' => $midnight_today
                     ),
                     'invoice' => false,
                     '_deliverable' => array
@@ -292,7 +330,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 3: First deliverable cycle, invoice by planned units
+            //SET 2: First deliverable cycle, invoice by planned units
             array
             (
                 array
@@ -305,7 +343,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     '_deliverable' => array
                     (
                         'start' => $beginning_feb,
-                        'end' => $future_8_weeks,
+                        'end' => $future_two_month,
                         'invoiceByActualUnits' => false,
                         'plannedUnits' => 17,
                         'pricePerUnit' => 10,
@@ -335,7 +373,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 4: second deliverable cycle, invoice by actual units
+            //SET 3: second deliverable cycle, invoice by actual units
             array
             (
                 array
@@ -347,8 +385,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 (
                     '_deliverable' => array
                     (
-                        'start' => $past_8_weeks,
-                        'end' => $future_8_weeks,
+                        'start' => $past_two_month,
+                        'end' => $future_two_month,
                         'invoiceByActualUnits' => true,
                         'units' => 17,
                         'pricePerUnit' => 10,
@@ -395,7 +433,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 5: Invoice service by actual units with no invoiceable reports
+            //SET 4: Invoice service by actual units with no invoiceable reports
             array
             (
                 'params' => array
@@ -408,8 +446,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     '_deliverable' => array
                     (
                         'title' => 'SET 5',
-                        'start' => $past_8_weeks,
-                        'end' => $future_8_weeks,
+                        'start' => $past_two_month,
+                        'end' => $future_two_month,
                         'invoiceByActualUnits' => true,
                         'units' => 0,
                         'pricePerUnit' => 10,
@@ -442,7 +480,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                 )
             ),
 
-            //SET 6: Invoice goods by actual units
+            //SET 5: Invoice goods by actual units
             array
             (
                 'params' => array
@@ -455,8 +493,8 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     '_deliverable' => array
                     (
                         'title' => 'SET 6',
-                        'start' => $past_8_weeks,
-                        'end' => $future_8_weeks,
+                        'start' => $past_two_month,
+                        'end' => $future_two_month,
                         'invoiceByActualUnits' => true,
                         'units' => 10,
                         'pricePerUnit' => 10,
