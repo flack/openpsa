@@ -329,6 +329,14 @@ Merge duplicate persons
 Mobile phone
 ---STRINGEND
 
+---STRING mr
+Mr
+---STRINGEND
+
+---STRING ms
+Ms
+---STRINGEND
+
 ---STRING my contacts
 My contacts
 ---STRINGEND
@@ -477,6 +485,10 @@ Related notes
 Remove from my contacts
 ---STRINGEND
 
+---STRING salutation
+Salutation
+---STRINGEND
+
 ---STRING save
 Save
 ---STRINGEND
@@ -499,6 +511,10 @@ Street address
 
 ---STRING sub organizations
 Suborganizations
+---STRINGEND
+
+---STRING title
+Title
 ---STRINGEND
 
 ---STRING tel %s

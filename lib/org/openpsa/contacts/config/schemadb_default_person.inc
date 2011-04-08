@@ -13,6 +13,33 @@
 
     'fields'  => array
     (
+        'salutation' => array
+        (
+            'title' => 'salutation',
+            'storage' => 'salutation',
+            'required' => true,
+            'type' => 'select',
+            'type_config' => array
+            (
+                 'options' => array
+                 (
+                    0 => 'mr',
+                    1 => 'ms'
+                 ),
+            ),
+            'widget' => 'select',
+        ),
+        'title' => array
+        (
+            'title' => 'title',
+            'storage' => 'title',
+            'type'  => 'text',
+            'type_config' => array
+            (
+                'maxlength' => 255,
+            ),
+            'widget' => 'text',
+        ),
         'firstname' => array
         (
             'title'    => 'firstname',

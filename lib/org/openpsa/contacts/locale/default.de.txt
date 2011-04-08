@@ -320,6 +320,14 @@ Doppelte Personen zusammenführen
 Mobiltelefon
 ---STRINGEND
 
+---STRING mr
+Herr
+---STRINGEND
+
+---STRING ms
+Frau
+---STRINGEND
+
 ---STRING my contacts
 Meine Kontakte
 ---STRINGEND
@@ -472,6 +480,10 @@ Verbundene Notizen
 Aus meinen Kontakten entfernen
 ---STRINGEND
 
+---STRING salutation
+Anrede
+---STRINGEND
+
 ---STRING save
 Speichern
 ---STRINGEND
@@ -494,6 +506,10 @@ Straße
 
 ---STRING sub organizations
 Unterorganisationen
+---STRINGEND
+
+---STRING title
+Titel
 ---STRINGEND
 
 ---STRING tel %s

@@ -61,6 +61,8 @@
         </property>
         <property name="username" type="string" index="yes" />
         <property name="password" type="string" dbtype="varchar(13) binary" />
+        <property name="salutation" type="integer" />
+        <property name="title" type="string" />
         <property name="firstname" type="string" index="yes" />
         <property name="lastname" type="string" index="yes" />
         <property name="birthdate" type="datetime" />
