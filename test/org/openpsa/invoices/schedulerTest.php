@@ -32,7 +32,7 @@ class org_openpsa_invoices_schedulerTest extends openpsa_testcase
         $scheduler = new org_openpsa_invoices_scheduler($deliverable);
         $next_cycle = $scheduler->calculate_cycle_next($start);
 
-        $this->assertEquals($result, $next_cycle, 'Wrong value for unit ' . $unit);
+        $this->assertEquals(gmstrftime('%Y-%m-%d %H:%M:%S', $result), gmstrftime('%Y-%m-%d %H:%M:%S', $next_cycle), 'Wrong value for unit ' . $unit . ', start value: ' . gmstrftime('%Y-%m-%d %H:%M:%S', $start));
     }
 
     public function providerCalculate_cycle_next()
