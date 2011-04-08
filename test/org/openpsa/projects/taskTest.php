@@ -24,9 +24,13 @@ class org_openpsa_projects_taskTest extends openpsa_testcase
         $_MIDCOM->auth->request_sudo('org.openpsa.projects');
 
         $task = new org_openpsa_projects_task_dba();
-        $stat = $task->create();
 
-        $this->assertFalse($stat);
+        if (extension_loaded('midgard2'))
+        {
+            $stat = $task->create();
+
+            $this->assertFalse($stat);
+        }
 
         $project = $this->create_object('org_openpsa_projects_project');
         $task->project = $project->id;
