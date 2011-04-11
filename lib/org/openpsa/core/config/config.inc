@@ -5,7 +5,7 @@
 // it will be created in siteconfig - the style is passed in templates/OpenPsa2
 'ui_page' => 'uitab',
 
-'jqgrid_version' => '3.8.2',
+'jqgrid_version' => '4.0.0',
 
 'search_providers' => array
 (
