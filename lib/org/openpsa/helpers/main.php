@@ -119,7 +119,7 @@ class org_openpsa_helpers
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_save")[0].click();',
+                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_save[0]")[0].click();',
                 MIDCOM_TOOLBAR_LABEL => $handler->_l10n_midcom->get("save"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/save.png',
                 MIDCOM_TOOLBAR_OPTIONS  => array
@@ -132,7 +132,7 @@ class org_openpsa_helpers
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_cancel")[0].click();',
+                MIDCOM_TOOLBAR_URL => 'javascript:document.getElementsByName("midcom_helper_datamanager2_cancel[0]")[0].click();',
                 MIDCOM_TOOLBAR_LABEL => $handler->_l10n_midcom->get("cancel"),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/cancel.png',
                 MIDCOM_TOOLBAR_OPTIONS  => array
