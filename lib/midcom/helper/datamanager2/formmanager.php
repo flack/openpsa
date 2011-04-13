@@ -382,7 +382,7 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                     $accesskey = '';
                 }
 
-                $buttons[] = &HTML_QuickForm::createElement('submit', $buttonname, $buttonlabel, Array('class' => $operation, 'accesskey' => $accesskey));
+                $buttons[] = &HTML_QuickForm::createElement('submit', $buttonname, $buttonlabel, Array('class' => 'submit ' . $operation, 'accesskey' => $accesskey));
             }
         }
 
