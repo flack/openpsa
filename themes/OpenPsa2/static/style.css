@@ -492,7 +492,7 @@ input#org_openpsa_search_query
 }
 
 .org_openpsa_toolbar ul.midcom_toolbar li > a,
-.org_openpsa_toolbar ul.midcom_toolbar li > button
+.org_openpsa_toolbar ul.midcom_toolbar li button
 {
   padding: .3em .5em;
   white-space: nowrap;
@@ -504,7 +504,7 @@ input#org_openpsa_search_query
 
 
 .org_openpsa_toolbar ul.midcom_toolbar li > a:hover,
-.org_openpsa_toolbar ul.midcom_toolbar li > button:hover
+.org_openpsa_toolbar ul.midcom_toolbar li button:hover
 {
     background: #fcfcfc;
     background: -moz-linear-gradient(top, #fcfcfc 0%, #efefef 14%, #ededed 30%, #ffffff 100%);
@@ -513,13 +513,13 @@ input#org_openpsa_search_query
 }
 
 .org_openpsa_toolbar ul.view_toolbar li > a,
-.org_openpsa_toolbar ul.view_toolbar li > button
+.org_openpsa_toolbar ul.view_toolbar li button
 {
   border-left: 1px solid #777
 }
 
 .org_openpsa_toolbar ul.view_toolbar > a:hover,
-.org_openpsa_toolbar ul.view_toolbar > button:hover
+.org_openpsa_toolbar ul.view_toolbar button:hover
 {
   border-left: 1px solid #cccec9;
 }
