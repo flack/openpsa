@@ -326,6 +326,11 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
             }
         }
 
+        if ($this->customerContact)
+        {
+            $this->_contacts[$this->customerContact] = true;
+        }
+
         return true;
     }
 
