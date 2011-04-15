@@ -28,6 +28,12 @@
                  ),
             ),
             'widget' => 'select',
+
+            'start_fieldset' => array
+            (
+                'title' => 'person_fieldset',
+                'css_group' => 'area meta',
+            ),
         ),
         'title' => array
         (
@@ -46,12 +52,6 @@
             'storage'  => 'firstname',
             'type'     => 'text',
             'widget'   => 'text',
-
-            'start_fieldset' => array
-            (
-                'title' => 'person_fieldset',
-                'css_group' => 'area meta',
-            ),
         ),
         'lastname' => array
         (
