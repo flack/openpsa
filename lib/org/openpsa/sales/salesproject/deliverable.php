@@ -369,6 +369,8 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         foreach ($tasks as $task)
         {
             org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
+            //calculate the invoice_items by actual units if set in agreement
+            $invoice->_recalculate_invoice_items(array( 0 => $task->id));
         }
     }
 

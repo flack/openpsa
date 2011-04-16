@@ -148,17 +148,20 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
 
     private function _verify_invoice($values, $cycle_number)
     {
-        $mc = new org_openpsa_relatedto_collector($this->_deliverable->guid, 'org_openpsa_invoices_invoice_dba');
-        $invoices = $mc->get_related_objects('org.openpsa.invoices');
+        $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
+        $mc->add_value_property('invoice');
+        $mc->set_limit(1);
+        $mc->execute();
+        $result =  $mc->list_keys();
 
         if ($values == false)
         {
-            $this->assertEquals(0, sizeof($invoices), 'Invoice was created, which shouldn\'t have happened');
+            $this->assertEquals(0, sizeof($result), 'Invoice was created, which shouldn\'t have happened');
         }
         else
         {
-            $this->assertEquals(1, sizeof($invoices), 'Invoice was not created');
-            $invoice = $invoices[0];
+            $this->assertEquals(1, sizeof($result), 'Invoice was not created');
+            $invoice = new org_openpsa_invoices_invoice_dba($mc->get_subkey(key($result), 'invoice'));
             $this->register_object($invoice);
 
             foreach ($values as $field => $value)

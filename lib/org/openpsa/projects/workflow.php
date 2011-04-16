@@ -346,15 +346,23 @@ class org_openpsa_projects_workflow
     }
 
     /**
-     * Connect the task to an invoice
+     * Connect the task hour reports to an invoice
      *
      * @param org_openpsa_projects_task_dba &$task The task we're working on
+     * @param org_openpsa_invoices_invoice_dba &$invoice The invoice we're working on
      */
     static function mark_invoiced(&$task, &$invoice)
     {
         debug_add("task->mark_invoiced() called with user #" . midcom_connection::get_user());
-        // Register a relation between the invoice and the task
-        org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $task, 'org.openpsa.projects');
+
+        try
+        {
+            $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
 
         // Mark the hour reports invoiced
         $hours_marked = 0;
@@ -364,25 +372,11 @@ class org_openpsa_projects_workflow
         $qb->add_constraint('invoiceable', '=', true);
 
         // Check how the agreement deals with hour reports
-        $agreement = false;
-        if ($task->agreement)
+        if (   $deliverable
+            && $deliverable->invoiceApprovedOnly)
         {
-            try
-            {
-                $agreement = org_openpsa_sales_salesproject_deliverable_dba::get_cached($task->agreement);
-                //Register relation between the invoice and this agreement
-                org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $agreement, 'org.openpsa.sales');
-
-                if ($agreement->invoiceApprovedOnly)
-                {
-                    // The agreement allows invoicing only approved hours, therefore don't mark unapproved
-                    $qb->add_constraint('metadata.isapproved', '=', true);
-                }
-            }
-            catch (midcom_error $e)
-            {
-                $e->log();
-            }
+            // The agreement allows invoicing only approved hours, therefore don't mark unapproved
+            $qb->add_constraint('metadata.isapproved', '=', true);
         }
 
         $reports = $qb->execute();
@@ -397,12 +391,6 @@ class org_openpsa_projects_workflow
             }
         }
 
-        //calculate the invoice_items by actual units if set in agreement
-        if ($agreement)
-        {
-            $invoice->_recalculate_invoice_items(array( 0 => $task->id));
-        }
-
         // Update hour caches to agreement
         if (!$task->update_cache())
         {
@@ -411,6 +399,7 @@ class org_openpsa_projects_workflow
 
         // Notify user
         $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf($_MIDCOM->i18n->get_string('marked %s hours as invoiced in task "%s"', 'org.openpsa.projects'), $hours_marked, $task->title), 'ok');
+        return $hours_marked;
     }
 }
 ?>

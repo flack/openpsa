@@ -54,28 +54,16 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
         $product = org_openpsa_products_product_dba::get_cached($this->_deliverable->product);
 
-        // Recalculate price to catch possible unit changes
-        $this->_deliverable->calculate_price();
-        $this_cycle_amount = $this->_deliverable->price;
-
         if ($this->_deliverable->state < ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED)
         {
             $this->_deliverable->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED;
+            $this->_deliverable->update();
         }
-
-        $this->_deliverable->invoiced = $this->_deliverable->invoiced + $this_cycle_amount;
-        $this->_deliverable->update();
 
         if ($send_invoice)
         {
-            if ($this_cycle_amount > 0)
-            {
-                $this->_invoice($this_cycle_amount, sprintf('%s %s', $this->_deliverable->title, $cycle_number), $cycle_number);
-            }
-            else
-            {
-                debug_add('Invoice sum 0, skipping invoice creation');
-            }
+            $calculator = new org_openpsa_invoices_calculator();
+            $this_cycle_amount = $calculator->process_deliverable($this->_deliverable, $cycle_number);
         }
 
         $tasks_completed = array();
@@ -111,17 +99,16 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         }
 
         // TODO: Warehouse management: create new order
-
         if (   $this->_deliverable->end < $next_cycle_start
             && $this->_deliverable->end != 0)
         {
             debug_add('Do not register next cycle, the contract ends before');
+            $this->_notify_owner($cycle_number, null, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
             return true;
         }
 
         if ($this->_create_at_entry($cycle_number + 1, $next_cycle_start))
         {
-            $this->_notify_owner($cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
             return true;
         }
         else
@@ -156,165 +143,6 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
             debug_add('AT registration failed, last midgard error was: ' . midcom_connection::get_error_string(), MIDCOM_LOG_WARN);
             return false;
         }
-    }
-
-    /**
-     * Generate an invoice from the deliverable.
-     *
-     * Creates a new, unsent org.openpsa.invoices item
-     * and adds a relation between it and the deliverable.
-     */
-    private function _invoice($sum, $description, $cycle_number = null)
-    {
-        $invoice = $this->_probe_invoice($cycle_number);
-
-        $invoice->due = ($invoice->get_default_due() * 3600 * 24) + time();
-
-        $invoice->description = $invoice->description . "\n\n" . $description;
-        $invoice->sum = $invoice->sum + $sum;
-
-        if (!$invoice->update())
-        {
-            throw new midcom_error("The invoice for this cycle could not be saved. Last Midgard error was: " . midcom_connection::get_error_string());
-        }
-
-        // TODO: Create invoicing task if assignee is defined
-
-        // Mark the tasks (and hour reports) related to this agreement as invoiced
-        $tasks = array();
-
-        $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('agreement', '=', $this->_deliverable->id);
-
-        if ($this->_deliverable->invoiceByActualUnits)
-        {
-            $qb->add_constraint('invoiceableHours', '>', 0);
-            $tasks = $qb->execute();
-        }
-        else
-        {
-            /* This is where it gets ugly: Since there is no direct way to find out if a task has already
-             * been invoiced, we have to deduce this by looking at existing relatedtos. This is of course quite
-             * inefficient, but necessary to avoid creating ever-growing numbers of relatedtos (see #1893)
-             */
-            $guids = array();
-            $task_mc = org_openpsa_projects_task_dba::new_collector('agreement', $this->_deliverable->id);
-            $task_mc->execute();
-
-            foreach ($task_mc->list_keys() as $guid => $empty)
-            {
-                $related_mc = new org_openpsa_relatedto_collector($guid, 'org_openpsa_invoices_invoice_dba');
-                $result = $related_mc->get_related_guids();
-                if (sizeof($result) > 0)
-                {
-                    continue;
-                }
-                $guids[] = $guid;
-            }
-            if (sizeof($guids) > 0)
-            {
-                $qb->add_constraint('guid', 'IN', $guids);
-                $tasks = $qb->execute();
-            }
-            else
-            {
-                $tasks = array();
-            }
-        }
-
-        foreach ($tasks as $task)
-        {
-            org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
-        }
-
-        if (sizeof($tasks) == 0)
-        {
-            /*
-             * Normally, the actions below would happen via mark_invoiced, but when there are no tasks,
-             * we have to do this manually
-             */
-            org_openpsa_relatedto_plugin::create($invoice, 'org.openpsa.invoices', $this->_deliverable, 'org.openpsa.sales');
-
-            $item = new org_openpsa_invoices_invoice_item_dba();
-            $item->invoice = $invoice->id;
-            $item->description = $description;
-
-            if (   $this->_deliverable->invoiceByActualUnits
-                || $this->_deliverable->plannedUnits == 0)
-            {
-                $item->units = $this->_deliverable->units;
-                $item->pricePerUnit = $this->_deliverable->pricePerUnit;
-            }
-            else
-            {
-                $item->units = $this->_deliverable->plannedUnits;
-                $item->pricePerUnit = $this->_deliverable->pricePerUnit;
-            }
-            $item->create();
-        }
-    }
-
-    /**
-     * Helper function that tries to locate unsent invoices for deliverables in the same salesproject
-     *
-     * Example use case: A support contract with multiple hourly rates (defined
-     * as deliverables) for different types of work. Instead of sending the customer
-     * one invoice per hourly rate per month, one composite invoice for all fees is generated
-     */
-    private function _probe_invoice($cycle_number)
-    {
-        if (is_null($cycle_number))
-        {
-            //we're not working with a subscription, so better create a new invoice right away
-            return $this->_create_invoice();
-        }
-
-        $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->_deliverable->salesproject);
-        $deliverable_mc->add_constraint('state', '>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
-        $deliverable_mc->add_constraint('product.delivery', '=', ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION);
-        $deliverable_mc->execute();
-        $deliverables = $deliverable_mc->list_keys();
-
-        $mc = new org_openpsa_relatedto_collector(array_keys($deliverables), 'org_openpsa_invoices_invoice_dba');
-
-        $suspects = $mc->get_related_guids();
-        if (sizeof($suspects) > 0)
-        {
-            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-            $qb->add_constraint('guid', 'IN', $suspects);
-            $qb->add_constraint('parameter.value', '=', $cycle_number);
-            $qb->add_constraint('sent', '=', 0);
-            $results = $qb->execute();
-            if (sizeof($results) == 1)
-            {
-                return $results[0];
-            }
-        }
-        //Nothing or ambiguous results found, create a new invoice
-        return $this->_create_invoice($cycle_number);
-    }
-
-    private function _create_invoice($cycle_number = null)
-    {
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->_deliverable->salesproject);
-        $invoice = new org_openpsa_invoices_invoice_dba();
-        $invoice->customer = $salesproject->customer;
-        $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
-        $invoice->owner = $salesproject->owner;
-
-        $invoice->vat = $invoice->get_default_vat();
-        $invoice->due = ($invoice->get_default_due() * 3600 * 24) + time();
-
-        if ($invoice->create())
-        {
-            // Register the cycle number for reporting purposes
-            if (!is_null($cycle_number))
-            {
-                $invoice->parameter('org.openpsa.sales', 'cycle_number', $cycle_number);
-            }
-            return $invoice;
-        }
-        return false;
     }
 
     private function _notify_owner($cycle_number, $next_run, $invoiced_sum, $tasks_completed, $tasks_not_completed, $new_task = null)
