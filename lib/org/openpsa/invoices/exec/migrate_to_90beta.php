@@ -145,9 +145,16 @@ foreach ($deliverables as $deliverable)
             }
             if (!$found)
             {
+                $cycle_number = (int) $invoice->get_parameter('org.openpsa.sales', 'cycle_number');
+                $description = $deliverable->title;
+                if ($cycle_number)
+                {
+                    $description .= ' ' . $cycle_number;
+                }
+
                 foreach ($items as $item)
                 {
-                    if (   $item->description == $deliverable->title
+                    if (   $item->description == $description
                         && $item->deliverable == 0)
                     {
                         echo "Found invoice item for deliverable " . $deliverable->title . " by description\n";
