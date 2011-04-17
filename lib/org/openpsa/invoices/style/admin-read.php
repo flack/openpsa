@@ -106,7 +106,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         {
             echo "<tr class='invoice_item_row'>";
             echo "<td>";
-            echo nl2br($item->description);
+            echo $item->render_link();
             echo "</td>";
             echo "<td class='numeric'>" . org_openpsa_helpers::format_number($item->pricePerUnit) . "</td>";
             echo "<td class='numeric'>" . $item->units . "</td>";
