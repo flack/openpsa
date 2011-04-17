@@ -326,10 +326,26 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $data['totals']['totals'] = 0;
         $data['list_type'] = 'all';
 
-        $mc = new org_openpsa_relatedto_collector($data['deliverable']->guid, 'org_openpsa_invoices_invoice_dba');
-        $invoices = $mc->get_related_objects();
+        $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $data['deliverable']->id);
+        $mc->add_value_property('invoice');
+        $mc->execute();
+        $items = $mc->list_keys();
 
-        $this->_process_invoice_list($invoices);
+        if (!empty($items))
+        {
+            $invoice_ids = array();
+            foreach ($items as $guid => $item)
+            {
+                $invoice_ids[] = $mc->get_subkey($guid, 'invoice');
+            }
+
+            $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+            $qb->add_constraint('id', 'IN', $invoice_ids);
+            $qb->add_order('number', 'DESC');
+            $invoices = $qb->execute();
+
+            $this->_process_invoice_list($invoices);
+        }
 
         $_MIDCOM->set_pagetitle($data['list_label']);
     }
