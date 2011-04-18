@@ -18,7 +18,7 @@
             (
                 'show_time' => false
             ),
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'basic information',
                 'css_group' => 'area meta',
@@ -134,7 +134,7 @@
                 'creation_default_key' => 'openpsa',
              ),
         ),
-        'customer' => array 
+        'customer' => array
         (
             'title' => 'customer',
             'storage'    => 'customer',
@@ -161,7 +161,7 @@
             'type'  => 'number',
             'widget'    => 'text',
             'default'   => 0,
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'invoicing information',
                 'css_group' => 'area meta',
@@ -241,7 +241,7 @@
             'hidden' => true,
             'index_method' => 'attachment',
         ),
-        'files' => array 
+        'files' => array
         (
             'title' => 'Files',
             'type'    => 'blobs',

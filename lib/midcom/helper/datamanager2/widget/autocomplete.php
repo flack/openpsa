@@ -144,6 +144,11 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
      */
     public $auto_wildcards = 'end';
 
+    public $creation_mode_enabled = false;
+    public $creation_handler = null;
+    public $creation_default_key = null;
+
+
     /**
      * the element's ID
      *
@@ -177,6 +182,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
 
         $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.css');
         $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.autocomplete.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
@@ -234,12 +240,12 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         $this->_widget_elements[] = HTML_QuickForm::createElement
         (
             'text',
-            "{$this->_element_id}_input",
+            "{$this->_element_id}_search_input",
             $this->_translate($this->_field['title']),
             array_merge($attributes, array
             (
                 'class' => 'shorttext autocomplete_input',
-                'id' => "{$this->_element_id}_input",
+                'id' => "{$this->_element_id}_search_input",
                 'value' => $preset,
             ))
         );
@@ -258,20 +264,31 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
         ));
 
         $script = <<<EOT
-<script type="text/javascript">
             var {$this->_element_id}_handler_options = {$handler_options}
         jQuery(document).ready(
         function()
         {
-            jQuery('#{$this->_element_id}_input').autocomplete(
+            jQuery('#{$this->_element_id}_search_input').autocomplete(
             {
                 minLength: {$this->min_chars},
-                source: midcom_helper_datamanager2_autocomplete_query,
-                select: midcom_helper_datamanager2_autocomplete_select
+                source: midcom_helper_datamanager2_autocomplete.query,
+                select: midcom_helper_datamanager2_autocomplete.select
             })
         });
-</script>
 EOT;
+
+        if ($this->creation_mode_enabled)
+        {
+            $script .= <<<EOT
+            jQuery(document).ready(
+                function()
+                {
+                    midcom_helper_datamanager2_autocomplete.enable_creation_mode('{$this->_element_id}', '{$this->creation_handler}');
+                });
+EOT;
+        }
+
+        $script = '<script type="text/javascript">' . $script . '</script>';
 
         $this->_widget_elements[] = HTML_QuickForm::createElement
         (
@@ -311,7 +328,7 @@ EOT;
         {
             return $selection;
         }
-        if (empty($data[$this->name]["{$this->_element_id}_input"]))
+        if (empty($data[$this->name]["{$this->_element_id}_search_input"]))
         {
             //if the input is empty, we suppose that the user tries to remove their previous selection
             return $selection;

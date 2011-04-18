@@ -2,7 +2,7 @@
 
     'name'        => 'default',
     'description' => 'Document',
-    'fields'      => array 
+    'fields'      => array
     (
         'title' => array
         (
@@ -10,14 +10,14 @@
             'type'    => 'text',
             'widget' => 'text',
             'storage'    => 'title',
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'Document',
                 'css_group' => 'area',
             ),
             'required'    => true,
         ),
-        'abstract' => array 
+        'abstract' => array
         (
             'title' => 'Abstract',
             'type'    => 'text',
@@ -25,7 +25,7 @@
             'storage'    => 'abstract',
             'widget_text_inputstyle' => 'longtext',
         ),
-        'document' => array 
+        'document' => array
         (
             'title' => 'Document',
             'type'    => 'blobs',
@@ -54,21 +54,21 @@
             ),
             'widget'       => 'radiocheckselect',
             'index_merge_with_content' => false,
-            'start_fieldset' => array 
+            'start_fieldset' => array
             (
                 'title' => 'Metadata',
                 'css_group' => 'area meta',
             ),
             'default' => ORG_OPENPSA_DOCUMENT_STATUS_DRAFT
         ),
-        'keywords' => array 
+        'keywords' => array
         (
             'title' => 'Keywords',
             'type'    => 'text',
             'widget' => 'text',
             'storage'    => 'keywords',
         ),
-        'author' => array 
+        'author' => array
         (
             'title' => 'author',
             'storage'    => 'author',
@@ -127,7 +127,7 @@
             'type' => 'number',
             'widget' => 'text',
         ),
-        'topic' => array 
+        'topic' => array
         (
             'title' => 'directory',
             'storage'    => 'topic',
@@ -177,7 +177,7 @@
             'index_merge_with_content' => false,
             'end_fieldset' => '',
         ),
-        'orgOpenpsaAccesstype' => array 
+        'orgOpenpsaAccesstype' => array
         (
             'title' => 'Access type',
             'storage'    => 'orgOpenpsaAccesstype',

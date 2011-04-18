@@ -4,11 +4,21 @@
     * frame breaks when multiple choosers with creation support exist
     */
    var widget_id = window.parent.jQuery('iframe[src^="' + window.location.pathname + '"]').attr("id");
-   widget_id = widget_id.replace('chooser_widget_creation_dialog_content','');
+   widget_id = widget_id.replace(/_creation_dialog_content/,'');
 
 
    function close_dialog(){window.parent.jQuery('#' + widget_id + '_creation_dialog').hide();};
-   function add_item(data){window.parent.jQuery('#' + widget_id + '_search_input').midcom_helper_datamanager2_widget_chooser_add_result_item(data);};
+   function add_item(data)
+   {
+       if (widget_id.match(/_chooser_widget$/))
+       {
+           window.parent.jQuery('#' + widget_id + '_search_input').midcom_helper_datamanager2_widget_chooser_add_result_item(data);
+       }
+       else
+       {
+           window.parent.midcom_helper_datamanager2_autocomplete.add_result_item(widget_id, data);
+       }
+   };
     <?php
     if ($data['action'] == 'save')
     {
