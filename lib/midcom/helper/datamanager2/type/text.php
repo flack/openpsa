@@ -199,9 +199,9 @@ class midcom_helper_datamanager2_type_text extends midcom_helper_datamanager2_ty
         // Load custom element/attribute definitions
         $config_defs = $this->_config->get('html_purify_HTMLDefinition');
         if (   is_array($config_defs)
-            && !empty($config_defs))
+            && !empty($config_defs)
+            && $def = $purifier_config_object->maybeGetRawHTMLDefinition(true))
         {
-            $def = $purifier_config_object->getHTMLDefinition(true);
             if (   isset($config_defs['addAttribute'])
                 && is_array($config_defs['addAttribute'])
                 && !empty($config_defs['addAttribute']))
