@@ -398,7 +398,7 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
     {
         //get url to relocate
         $relocate = "/";
-        if(isset($_POST['relocate_url']))
+        if (isset($_POST['relocate_url']))
         {
             $relocate = $_POST['relocate_url'];
         }
@@ -406,11 +406,12 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
         {
             debug_print_r('no relocate url was passed ', $_POST);
         }
+
         //check if reports are passed
-        if (isset($_POST['report']))
+        if (isset($_POST['entries']))
         {
             //iterate through reports
-            foreach ($_POST['report'] as $report_id => $void)
+            foreach ($_POST['entries'] as $report_id => $void)
             {
                 $hour_report = new org_openpsa_projects_hour_report_dba($report_id);
                 switch ($_POST['action'])
@@ -422,43 +423,42 @@ class org_openpsa_expenses_handler_hours_admin extends midcom_baseclasses_compon
                         $hour_report->invoiceable = false;
                         break;
                     case 'change_invoice':
-                        if (is_array($_POST['org_openpsa_expenses_invoice_chooser_widget_selections']))
+                        $id = $this->_get_autocomplete_selection();
+                        if ($id != 0)
                         {
-                            foreach ($_POST['org_openpsa_expenses_invoice_chooser_widget_selections'] as $id)
-                            {
-                                if ($id != 0)
-                                {
-                                    $hour_report->invoice = $id;
-                                    break;
-                                }
-                            }
+                            $hour_report->invoice = $id;
                         }
                         break;
                     case 'change_task':
-                        if (is_array($_POST['org_openpsa_expenses_task_chooser_widget_selections']))
+                        $id = $this->_get_autocomplete_selection();
+                        if ($id != 0)
                         {
-                            foreach ($_POST['org_openpsa_expenses_task_chooser_widget_selections'] as $id)
-                            {
-                                if ($id != 0)
-                                {
-                                    $hour_report->task = $id;
-                                    break;
-                                }
-                            }
+                            $hour_report->task = $id;
                         }
                         break;
                     default:
-                        throw new midcom_error('passed Action ' . $_POST['action'] . ' is unknown');
+                        throw new midcom_error('passed action ' . $_POST['action'] . ' is unknown');
                 }
                 $hour_report->update();
             }
         }
         else
         {
-            debug_print_r('No Reports passed to action handler', $_POST);
+            debug_print_r('No reports passed to action handler', $_POST);
         }
 
         $_MIDCOM->relocate($relocate);
+    }
+
+    private function _get_autocomplete_selection()
+    {
+        $selection = $_POST['batch_grid_id'] . '__' . $_POST['action'] . '_selection';
+        if (empty($_POST[$selection]))
+        {
+            return 0;
+        }
+        $selection = json_decode($_POST[$selection]);
+        return (int) array_pop($selection);
     }
 }
 ?>

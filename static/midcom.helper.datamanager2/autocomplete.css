@@ -26,3 +26,8 @@
     border: 1px solid black;
     padding: 12px;
 }
+
+.ui-autocomplete-loading
+{
+    background: url('ajax-loading-small.gif') right center no-repeat;
+}

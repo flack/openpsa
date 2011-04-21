@@ -47,10 +47,7 @@ $footer_data = array
     'hours' => $reports['hours']
 );
 ?>
-<div class="org_openpsa_expenses <?php echo $data['status']; ?> full-width fill-height" style="margin-bottom: 1em">
-
-<form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
-<input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
+<div class="org_openpsa_expenses <?php echo $data['status']; ?> batch-processing full-width fill-height" style="margin-bottom: 1em">
 
 <table id="&(grid_id);"></table>
 <div id="p_&(grid_id);"></div>
@@ -60,7 +57,7 @@ jQuery("#&(grid_id);").jqGrid({
       datatype: "local",
       data: &(grid_id);_entries,
       colNames: ['id', 'index_date', <?php
-                 echo '"' . $data['l10n']->get('date') . '",'; 
+                 echo '"' . $data['l10n']->get('date') . '",';
                  if ($data['mode'] != 'simple')
                  {
                      echo '"' . $data['l10n']->get('task') . '",';
@@ -73,7 +70,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'id', index:'id', hidden: true, key: true},
           {name:'index_date',index:'index_date', sorttype: "integer", hidden: true},
           {name:'date', index: 'index_date', width: 80, align: 'center', fixed: true},
-          <?php if ($data['mode'] != 'simple') 
+          <?php if ($data['mode'] != 'simple')
           { ?>
               {name:'task', index: 'task'},
           <?php } ?>
@@ -87,131 +84,23 @@ jQuery("#&(grid_id);").jqGrid({
        loadonce: true,
        caption: "&(data['subheading']:h);",
        footerrow: true,
-       multiselect: true,
-       onSelectRow: function(id)
-       {
-           if (jQuery("#&(grid_id);").jqGrid('getGridParam', 'selarrrow').length == 0)
-           {
-               jQuery('#action_select_&(grid_id);').hide();
-           }
-           else
-           {
-               jQuery('#action_select_&(grid_id);').show();
-           }
-       },
-       onSelectAll: function(rowids, status)
-       {
-           if (!status)
-           {
-               jQuery('#action_select_&(grid_id);').hide();
-           }
-           else
-           {
-               jQuery('#action_select_&(grid_id);').show();
-           }
-       }
+       multiselect: true
     });
 
 jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
-
-jQuery("#form_&(grid_id);").submit(function()
-{
-    var s, i;
-    s = jQuery("#&(grid_id);").jqGrid('getGridParam', 'selarrrow');
-    for (i = 0; i < s.length; i++)
-    {
-        jQuery('<input type="checkbox" name="report[' + s[i] + ']" checked="checked" />').hide().appendTo('#form_&(grid_id);');
-    }
-});
-
 </script>
 
-<div class="action_select_div" id="action_select_&(grid_id);" style="display: none;">
-<select id='<?php echo $data['status'];?>_hours_list_action_select' class='action_select' name='action' size='1'>
-<?php
-    echo "<option>" . $_MIDCOM->i18n->get_string("choose action", "midcom.admin.user") . "</option>";
-    foreach ($data['action_options'] as $action_id => $option)
-    {
-        echo "<option value ='" . $action_id . "' >" . $data['l10n']->get($action_id) . "</option>";
-    }
-?>
-</select>
-<?php
-//create the html for choosers
-if ($data['show_widget'])
-{
-    ?>
-    <div id='choosers' style='display:inline;'>
-    <?php
-    //iterate through choosers
-    foreach ($data['widgets'] as $widget)
-    {
-        echo "<div style='display:none;' class='chooser_widget' id='chooser_" . $widget->_name . "'>";
-        foreach($widget->_elements as $element)
-        {
-            echo $element->toHtml();
-        }
-        echo "</div>";
-    }
-    ?>
-    </div>
-    <script type="text/javascript">
-    var action_options_object = new Object();
-    var option = null ;
-
-    <?php
-        //create array for showing the choosers for specific actions
-        foreach($data['action_options'] as $action_id => $option)
-        {
-            echo "option = null;";
-            if (!empty($option))
-            {
-                echo "option = '" . $option . "';";
-                echo '$("#' . $option .'").hide();';
-            }
-            echo "action_options_object['" . $action_id . "'] = option ; \n";
-        }
-    ?>
-    //set the onchange function
-    jQuery(document).ready(function()
-    {
-        //bind onchange function so select
-        jQuery('.action_select').change(function()
-        {
-            chosen = $(this).val();
-            $(".chooser_widget").hide();
-            $("#choosers").children().hide();
-
-            //check if chooser must be shown
-            if (action_options_object[chosen] != null)
-            {
-                $(".chooser_widget").hide();
-                $("#chooser_" + action_options_object[chosen]).children().filter("script").remove();
-                $(this).after($("#chooser_" + action_options_object[chosen]));//.children().filter(":not(script)"));
-                $("#chooser_" + action_options_object[chosen]).show().css('display' , 'inline');
-            }
-        });
-    });
-    //function to make checkboxes & select visible for current table
-    function start_edit(status, object)
-    {
-        if ($('#action_select_' + status).is(':visible'))
-        {
-            $('.action_select_div').css('display', 'none');
-        }
-        else
-        {
-            $('.action_select_div').css('display', 'none');
-            $('#action_select_' + status).css('display', 'inline');
-        }
-    }
-    </script>
-    <?php
-    $data['show_widget'] = false;
-}
-?>
-<input type="submit" name="send" />
-</div>
+<form id="form_&(grid_id);" method="post" action="<?php echo $data['action_target_url']; ?>">
+<input type="hidden" name="relocate_url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 </form>
+
+<script type="text/javascript">
+org_openpsa_batch_processing.initialize(
+{
+    id: '&(grid_id);',
+    options: <?php echo json_encode($data['action_options']); ?>
+});
+</script>
+
 </div>
 

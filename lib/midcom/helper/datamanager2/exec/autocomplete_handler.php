@@ -43,6 +43,11 @@ if ($error != '')
     _midcom_stop_request();
 }
 
+if (!isset($_REQUEST['get_label_for']))
+{
+    $_REQUEST['get_label_for'] = null;
+}
+
 $query = $_REQUEST["term"];
 if (   isset($_REQUEST['auto_wildcards'])
     && strpos($query, '%') === false)
@@ -128,7 +133,7 @@ $results = $qb->execute();
 if (   $results === false
     || !is_array($results))
 {
-    _midcom_header("HTTP/1.0 400 Bad Request");
+    _midcom_header("HTTP/1.0 500 Server Error");
     echo "Error when executing QB\n";
     $_MIDCOM->finish();
     _midcom_stop_request();
@@ -136,8 +141,8 @@ if (   $results === false
 
 
 // Common headers
-$_MIDCOM->cache->content->content_type('text/html');
-$_MIDCOM->header('Content-type: text/html; charset=UFT-8');
+$_MIDCOM->cache->content->content_type('application/json');
+$_MIDCOM->header('Content-type: application/json; charset=UFT-8');
 
 $items = array();
 
@@ -146,7 +151,7 @@ foreach ($results as $object)
     $item = array
     (
         'id' => $object->{$_REQUEST['id_field']},
-        'label' => midcom_helper_datamanager2_widget_autocomplete::create_item_label($object, $_REQUEST['result_headers']),
+        'label' => midcom_helper_datamanager2_widget_autocomplete::create_item_label($object, $_REQUEST['result_headers'], $_REQUEST['get_label_for']),
     );
     $item['value'] = $item['label'];
 

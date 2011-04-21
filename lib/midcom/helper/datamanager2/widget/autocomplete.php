@@ -84,6 +84,18 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
     public $result_headers = array();
 
     /**
+     * In search results replaces given field with the object's label
+     *
+     * Example:
+     * <code>
+     *      'get_label_for' => 'title',
+     * </code>
+     *
+     * @var string
+     */
+    public $get_label_for;
+
+    /**
      * Fields/properties to search the keyword for, always OR and specified after the constraints above
      *
      * Example:
@@ -178,22 +190,26 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             return false;
         }
 
+        self::add_head_elements();
+
+        $this->_element_id = "{$this->_namespace}{$this->name}_autocomplete_widget";
+
+        return true;
+    }
+
+    public static function add_head_elements()
+    {
         $_MIDCOM->enable_jquery();
 
-        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.css');
-        $this->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.autocomplete.css');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
+        $_MIDCOM->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.css');
+        $_MIDCOM->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.autocomplete.css');
+        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');
         $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.autocomplete.min.js');
-
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
-
-        $this->_element_id = "{$this->_namespace}{$this->name}_autocomplete_widget";
-
-        return true;
     }
 
     /**
@@ -233,7 +249,7 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
                 $identifier = (int) $identifier;
             }
             $object = new $this->class($identifier);
-            $preset = self::create_item_label($object, $this->result_headers);
+            $preset = self::create_item_label($object, $this->result_headers, $this->get_label_for);
         }
 
         // Text input for the search box
@@ -456,7 +472,7 @@ EOT;
         }
     }
 
-    public static function create_item_label($object, $result_headers)
+    public static function create_item_label($object, $result_headers, $get_label_for)
     {
         $label = array();
         foreach ($result_headers as $header_item)
@@ -495,6 +511,10 @@ EOT;
                         }
                         break;
                 }
+            }
+            else if ($get_label_for == $item_name)
+            {
+                $value = $object->get_label();
             }
             else
             {

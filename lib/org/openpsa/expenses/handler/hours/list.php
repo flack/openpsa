@@ -144,24 +144,8 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['mode'] =& $mode;
         $data['tasks'] =& $this->tasks;
 
-        //initialize controller to get the wanted widgets
-        $this->widget_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb_widgets_batch'));
-        $controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $controller->schemadb =& $this->widget_schemadb;
-
-        if (!$controller->initialize())
-        {
-            throw new midcom_error("Failed to initialize a DM2 controller");
-        }
-        //get the needed widget-elements
-        $data['widgets'] = array();
-        foreach($this->widget_schemadb['default']->fields as $key => $field)
-        {
-            $data['widgets'][$key] = $controller->formmanager->form->getElement($key);
-        }
-
+        midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
         org_openpsa_core_ui::enable_jqgrid();
-
         $this->_add_filter_widget();
 
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -247,7 +231,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['reporters'] =& $this->reporters;
 
         midcom_show_style('hours_list_top');
-        $data['show_widget'] = true;
+
         foreach ($data['sorted_reports'] as $status => $reports)
         {
             if (sizeof($reports['reports']) == 0)
@@ -256,30 +240,115 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             }
             $data['subheading'] = $this->_l10n->get($status . ' reports');
             $data['status'] = $status;
-            //set options-array for js , to show the right choosers
-            $data['action_options'] = array();
-            //set the possible options
-            foreach ($this->widget_schemadb['default']->fields as $fieldname => $field)
-            {
-                $data['action_options']['change_' . $fieldname] = $fieldname;
-            }
+            $data['action_options'] = $this->_prepare_batch_options();
 
-            //add different options for different stati
+            //add different options for different statuses
             switch ($status)
             {
                 case 'invoiceable':
-                    $data['action_options']['mark_uninvoiceable'] = null;
+                    $data['action_options']['mark_uninvoiceable'] = array('label' => $this->_l10n->get('mark_uninvoiceable'));
                     break;
                 case 'uninvoiceable':
-                    $data['action_options']['mark_invoiceable'] = null;
+                    $data['action_options']['mark_invoiceable'] =  array('label' => $this->_l10n->get('mark_invoiceable'));;
                     break;
             }
             $data['reports'] = $reports;
 
             midcom_show_style('hours_grid');
-            $data['show_widget'] = false;
         }
         midcom_show_style('hours_list_bottom');
+    }
+
+    /**
+     * Set options array for JS, to show the right choosers
+     */
+    private function _prepare_batch_options()
+    {
+        // Get url to search handler
+        $nav = new midcom_helper_nav();
+        $root_node = $nav->get_node($nav->get_root_node());
+        if (   !$root_node
+            || empty($root_node))
+        {
+            array();
+        }
+        $handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+
+        $options = array
+        (
+            'none' => array('label' => $_MIDCOM->i18n->get_string("choose action", "midcom.admin.user")),
+            'change_task' => array
+            (
+                'label' => $this->_l10n->get('change_task'),
+                'widget_config' => array
+                (
+                    'class'       => 'org_openpsa_projects_task_dba',
+                    'component'   => 'org.openpsa.projects',
+                    'titlefield'  => 'title',
+                    'id_field'     => 'id',
+                    'constraints' => array
+                    (
+                        array
+                        (
+                            'field' => 'orgOpenpsaObtype',
+                            'op'    => '=',
+                            'value' => ORG_OPENPSA_OBTYPE_TASK,
+                        ),
+                    ),
+                    'result_headers' => array
+                    (
+                        array
+                        (
+                            'title' => 'title',
+                            'name' => 'title',
+                        ),
+                    ),
+                    'searchfields'  => array
+                    (
+                        'title'
+                    ),
+                    'orders'        => array
+                    (
+                        array('title'    => 'ASC')
+                    ),
+                    'get_label_for' => 'title',
+                    'handler_url' => $handler_url
+                )
+            ),
+            'change_invoice' => array
+            (
+                'label' => $this->_l10n->get('change_invoice'),
+                'widget_config' => array
+                (
+                    'class' => 'org_openpsa_invoices_invoice_dba',
+                    'component' => 'org.openpsa.invoices',
+                    'titlefield' => 'number',
+                    'id_field' => 'id',
+
+                    'result_headers' => array
+                    (
+                        array
+                        (
+                            'title' => 'number',
+                            'name' => 'number',
+                        ),
+                    ),
+                    'get_label_for' => 'number',
+                    'searchfields' => array
+                    (
+                        'number',
+                        'invoiceNumber',
+                        'description',
+                    ),
+                    'orders' => array
+                    (
+                        array('number' => 'ASC'),
+                    ),
+                    'handler_url' => $handler_url
+                ),
+            )
+        );
+        return $options;
     }
 }
 ?>

@@ -95,5 +95,25 @@ var midcom_helper_datamanager2_autocomplete =
             }
         });
         jQuery('#' + identifier + '_search_input').val(input_value.replace(/, $/, ''));
+    },
+
+    /**
+     * Generate and attach HTML for autocomplete widget (for use outside of DM2)
+     */
+    create_widget: function(config)
+    {
+        var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input"style="display: none" class="batch_widget"/>';
+        widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection"/>';
+        window[config.id + '_handler_options'] = config.widget_config;
+        console.log(config);
+        $(widget_html).insertAfter($(config.insertAfter));
+        $('#' + config.id + '_search_input').autocomplete(
+        {
+            minLength: 2,
+            source: midcom_helper_datamanager2_autocomplete.query,
+            select: midcom_helper_datamanager2_autocomplete.select,
+            position: {collision: 'flip'}
+        });
+
     }
 };
