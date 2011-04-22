@@ -95,7 +95,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 //for json no style is needed
                 case 'all':
                     $this->_prepare_output();
-                    org_openpsa_core_ui::enable_jqgrid();
+                    org_openpsa_core_ui_jqgrid::add_head_elements();
                     $this->_handler_list_all($args);
                     break;
                 case 'project':

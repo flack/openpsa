@@ -34,7 +34,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
 
-        org_openpsa_core_ui::enable_jqgrid();
+        org_openpsa_core_ui_jqgrid::add_head_elements();
     }
 
     private function _process_invoice_list($invoices)

@@ -24,7 +24,7 @@ class org_openpsa_documents_viewer extends midcom_baseclasses_components_request
         // Always run in uncached mode
         $_MIDCOM->cache->content->no_cache();
 
-        org_openpsa_core_ui::enable_jqgrid();
+        org_openpsa_core_ui_jqgrid::add_head_elements();
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.documents/dynatree/jquery.dynatree.min.js');
         $this->add_stylesheet(MIDCOM_STATIC_URL."/org.openpsa.documents/dynatree/skin/ui.dynatree.css");

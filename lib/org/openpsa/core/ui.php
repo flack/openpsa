@@ -13,37 +13,6 @@
  */
 class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
 {
-    /**
-     * function that loads the necessary javascript & css files for jqgrid
-     */
-    public static function enable_jqgrid()
-    {
-        $jqgrid_path = '/org.openpsa.core/jquery.jqGrid-' . self::get_config_value('jqgrid_version') . '/';
-
-        //first enable jquery - just in case it isn't loaded
-        $_MIDCOM->enable_jquery();
-
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-
-        //needed js/css-files for jqgrid
-        $lang = "en";
-        $language = $_MIDCOM->i18n->get_current_language();
-        if (file_exists(MIDCOM_STATIC_ROOT . $jqgrid_path . 'js/i18n/grid.locale-' . $language . '.js'))
-        {
-            $lang = $language;
-        }
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'js/i18n/grid.locale-'. $lang . '.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . $jqgrid_path . 'js/jquery.jqGrid.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/jqGrid.custom.js');
-
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.mouse.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.resizable.min.js');
-
-        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'css/ui.jqgrid.css');
-        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui.custom.css');
-    }
-
     public static function get_config_value($value)
     {
         $config = midcom_baseclasses_components_configuration::get('org.openpsa.core', 'config');

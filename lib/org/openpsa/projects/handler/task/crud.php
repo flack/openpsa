@@ -152,7 +152,7 @@ class org_openpsa_projects_handler_task_crud extends midcom_baseclasses_componen
         if ($expenses_url)
         {
             midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
-            org_openpsa_core_ui::enable_jqgrid();
+            org_openpsa_core_ui_jqgrid::add_head_elements();
             if ($this->_object->status < ORG_OPENPSA_TASKSTATUS_CLOSED)
             {
                 $this->_view_toolbar->add_item

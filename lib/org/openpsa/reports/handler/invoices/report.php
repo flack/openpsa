@@ -51,7 +51,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $data['invoices'][$status] = $this->_load_invoices($status);
         }
 
-        org_openpsa_core_ui::enable_jqgrid();
+        org_openpsa_core_ui_jqgrid::add_head_elements();
     }
 
     private function _get_invoices_for_subscription($deliverable, $at_entry)
