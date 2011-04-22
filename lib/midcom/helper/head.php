@@ -568,5 +568,28 @@ class midcom_helper_head
 
         echo '</script>' . "\n";
     }
+
+    /**
+     * Loads jquery.ui theme file(s). This will either add the configured theme file
+     * or load individual component files from the default theme
+     *
+     * @param array $components The components that should be loaded
+     */
+    public function add_jquery_ui_theme(array $components = array())
+    {
+        if (!empty($GLOBALS['midcom_config']['jquery_ui_theme']))
+        {
+            $this->add_stylesheet($GLOBALS['midcom_config']['jquery_ui_theme']);
+        }
+        else
+        {
+            $url_prefix = MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.';
+            $this->add_stylesheet($url_prefix . 'theme.css');
+            foreach ($components as $component)
+            {
+                $this->add_stylesheet($url_prefix . $component . '.css');
+            }
+        }
+    }
 }
 ?>

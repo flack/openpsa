@@ -199,17 +199,17 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
 
     public static function add_head_elements()
     {
-        $_MIDCOM->enable_jquery();
+        $head = midcom::get('head');
+        $head->enable_jquery();
 
-        $_MIDCOM->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.theme.css');
-        $_MIDCOM->add_stylesheet(MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.autocomplete.css');
-        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
+        $head->add_jquery_ui_theme(array('autocomplete'));
+        $head->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.css');
 
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.autocomplete.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.position.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.autocomplete.min.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/autocomplete.js');
     }
 
     /**
