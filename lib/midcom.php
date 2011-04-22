@@ -11,6 +11,45 @@
  */
 class midcom
 {
+    /**
+     * Main application singleton
+     *
+     * @var midcom_application
+     */
+    private static $_application;
+
+    /**
+     * This is the interface to MidCOMs Object Services.
+     *
+     * Each service is indexed by its string-name (for example "i18n"
+     * for all i18n stuff).
+     *
+     * @var Array
+     */
+    private static $_services = array();
+
+    /**
+     * Mapping of service names to classes implementing the service
+     */
+    private static $_service_classes = array
+    (
+        'serviceloader' => 'midcom_helper_serviceloader',
+        'i18n' => 'midcom_services_i18n',
+        'componentloader' => 'midcom_helper__componentloader',
+        'dbclassloader' => 'midcom_services_dbclassloader',
+        'dbfactory' => 'midcom_helper__dbfactory',
+        'head' => 'midcom_helper_head',
+        'style' => 'midcom_helper__styleloader',
+        'permalinks' => 'midcom_services_permalinks',
+        'tmp' => 'midcom_services_tmp',
+        'toolbars' => 'midcom_services_toolbars',
+        'uimessages' => 'midcom_services_uimessages',
+        'metadata' => 'midcom_services_metadata',
+        'rcs' => 'midcom_services_rcs',
+        'session' => 'midcom_services__sessioning',
+        'indexer' => 'midcom_services_indexer',
+    );
+
     public static function init()
     {
         ///////////////////////////////////////////////////////////
@@ -90,8 +129,22 @@ class midcom
 
         debug_add("Start of MidCOM run: {$_SERVER['REQUEST_URI']}");
 
+        self::$_services['auth'] = new midcom_services_auth();
+        self::$_services['auth']->initialize();
+
+        /* Load and start up the cache system, this might already end the request
+         * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
+         */
+        $GLOBALS['midcom_cache'] = new midcom_services_cache();
+        $GLOBALS['midcom_cache']->initialize();
+        self::$_services['cache'] = $GLOBALS['midcom_cache'];
+
+        require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
+
         /////////////////////////////////////
         // Instantiate the MidCOM main class
+        self::$_application = new midcom_application();
+
         require_once(MIDCOM_ROOT . '/compat/superglobal.php');
 
         $_MIDCOM = new midcom_compat_superglobal();
@@ -162,6 +215,28 @@ class midcom
 
         require($path);
         $autoloaded++;
+    }
+
+    public static function get($name = null)
+    {
+        if (is_null($name))
+        {
+            return self::$_application;
+        }
+
+        if (isset(self::$_services[$name]))
+        {
+            return self::$_services[$name];
+        }
+
+        if (isset(self::$_service_classes[$name]))
+        {
+            $service_class = self::$_service_classes[$name];
+            self::$_services[$name] = new $service_class;
+            return self::$_services[$name];
+        }
+
+        throw new midcom_error("Requested service '$name' is not available.");
     }
 }
 

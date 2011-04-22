@@ -10,9 +10,47 @@
  * Compatibility wrapper that provides the API found in Ragnaroek's $_MIDCOM superglobal
  *
  * @package midcom
+ * @property midcom_helper_serviceloader $serviceloader
+ * @property midcom_services_i18n $i18n
+ * @property midcom_helper__componentloader $componentloader
+ * @property midcom_services_dbclassloader $dbclassloader
+ * @property midcom_helper__dbfactory $dbfactory
+ * @property midcom_helper_head $head
+ * @property midcom_helper__styleloader $style
+ * @property midcom_services_permalinks $permalinks
+ * @property midcom_services_tmp $tmp
+ * @property midcom_services_toolbars $toolbars
+ * @property midcom_services_uimessages $uimessages
+ * @property midcom_services_metadata $metadata
+ * @property midcom_services_rcs $rcs
+ * @property midcom_services__sessioning $session
+ * @property midcom_services_indexer $indexer
  */
 class midcom_compat_superglobal extends midcom_application
 {
+    /**
+     * Magic getter for service loading
+     */
+    public function __get($key)
+    {
+        return $this->get_service($key);
+    }
+
+    /**
+     * Return a reference to a given service.
+     *
+     * Returns the MidCOM Object Service indicated by $name. If the service cannot be
+     * found, an HTTP 500 is triggered.
+     *
+     * See the documentation of the various services for further details.
+     *
+     * @param string $name        The name of the service being requested.
+     * @return mixed    A reference(!) to the service requested.
+     */
+    function get_service($name)
+    {
+        return midcom::get($name);
+    }
 
     /**
      * Return the reference to the component loader.
@@ -21,7 +59,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function get_component_loader()
     {
-        return $this->componentloader;
+        return midcom::get('componentloader');
     }
 
     /**
@@ -172,7 +210,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function set_pagetitle($string)
     {
-        $this->head->set_pagetitle($string);
+        midcom::get('head')->set_pagetitle($string);
     }
 
 
@@ -233,7 +271,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_jsfile($url, $prepend = false)
     {
-        $this->head->add_jsfile($url, $prepend);
+        midcom::get('head')->add_jsfile($url, $prepend);
     }
 
     /**
@@ -243,7 +281,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_jscript($script, $defer = '', $prepend = false)
     {
-        $this->head->add_jscript($script, $defer, $prepend);
+        midcom::get('head')->add_jscript($script, $defer, $prepend);
     }
 
     /**
@@ -254,7 +292,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_jquery_state_script($script, $state = 'document.ready')
     {
-        $this->head->add_jquery_state_script($script, $state);
+        midcom::get('head')->add_jquery_state_script($script, $state);
     }
 
     /**
@@ -265,7 +303,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_object_head ($script, $attributes = null)
     {
-        $this->head->add_object_head ($script, $attributes);
+        midcom::get('head')->add_object_head ($script, $attributes);
     }
 
     /**
@@ -275,7 +313,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_meta_head($attributes = null)
     {
-        $this->head->add_meta_head($attributes);
+        midcom::get('head')->add_meta_head($attributes);
     }
 
     /**
@@ -286,7 +324,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_style_head($script, $attributes = null)
     {
-        $this->head->add_style_head($script, $attributes);
+        midcom::get('head')->add_style_head($script, $attributes);
     }
 
     /**
@@ -296,7 +334,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_link_head( $attributes = null )
     {
-        return $this->head->add_link_head($attributes);
+        return midcom::get('head')->add_link_head($attributes);
     }
 
     /**
@@ -307,7 +345,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_stylesheet($url, $media = false)
     {
-        $this->head->add_stylesheet($url, $media);
+        midcom::get('head')->add_stylesheet($url, $media);
     }
 
     /**
@@ -317,7 +355,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function add_jsonload($method)
     {
-        $this->head->add_jsonload($method);
+        midcom::get('head')->add_jsonload($method);
     }
 
     /**
@@ -325,7 +363,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function print_jsonload()
     {
-        $this->head->print_jsonload();
+        midcom::get('head')->print_jsonload();
     }
 
     /**
@@ -333,7 +371,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function print_head_elements()
     {
-        $this->head->print_head_elements();
+        midcom::get('head')->print_head_elements();
     }
 
     /**
@@ -341,7 +379,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function enable_jquery($version = null)
     {
-        $this->head->enable_jquery($version);
+        midcom::get('head')->enable_jquery($version);
     }
 
     /**
@@ -349,7 +387,7 @@ class midcom_compat_superglobal extends midcom_application
      */
     public function print_jquery_statuses()
     {
-        $this->head->print_jquery_statuses();
+        midcom::get('head')->print_jquery_statuses();
     }
 }
 ?>

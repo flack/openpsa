@@ -80,7 +80,7 @@
  *
  * May take one of the following values: "invalidate" will clear the cache of the
  * current site, "nocache" will bypass the cache for the current request by
- * calling $this->cache->content->no_cache();
+ * calling midcom::get('cache')->content->no_cache();
  *
  * <b>mixed log</b>
  *
@@ -98,21 +98,6 @@
  * instead streaming it to the client.
  *
  * @package midcom
- * @property midcom_helper_serviceloader $serviceloader
- * @property midcom_services_i18n $i18n
- * @property midcom_helper__componentloader $componentloader
- * @property midcom_services_dbclassloader $dbclassloader
- * @property midcom_helper__dbfactory $dbfactory
- * @property midcom_helper_head $head
- * @property midcom_helper__styleloader $style
- * @property midcom_services_permalinks $permalinks
- * @property midcom_services_tmp $tmp
- * @property midcom_services_toolbars $toolbars
- * @property midcom_services_uimessages $uimessages
- * @property midcom_services_metadata $metadata
- * @property midcom_services_rcs $rcs
- * @property midcom_services__sessioning $session
- * @property midcom_services_indexer $indexer
  */
 class midcom_application
 {
@@ -124,38 +109,6 @@ class midcom_application
      * @var int
      */
     private $_status = null;
-
-    /**
-     * This is the interface to MidCOMs Object Services.
-     *
-     * Each service is indexed by its string-name (for example "i18n"
-     * for all i18n stuff).
-     *
-     * @var Array
-     */
-    private $_services = array();
-
-    /**
-     * Mapping of service names to classes implementing the service
-     */
-    private $_service_classes = array
-    (
-        'serviceloader' => 'midcom_helper_serviceloader',
-        'i18n' => 'midcom_services_i18n',
-        'componentloader' => 'midcom_helper__componentloader',
-        'dbclassloader' => 'midcom_services_dbclassloader',
-        'dbfactory' => 'midcom_helper__dbfactory',
-        'head' => 'midcom_helper_head',
-        'style' => 'midcom_helper__styleloader',
-        'permalinks' => 'midcom_services_permalinks',
-        'tmp' => 'midcom_services_tmp',
-        'toolbars' => 'midcom_services_toolbars',
-        'uimessages' => 'midcom_services_uimessages',
-        'metadata' => 'midcom_services_metadata',
-        'rcs' => 'midcom_services_rcs',
-        'session' => 'midcom_services__sessioning',
-        'indexer' => 'midcom_services_indexer',
-    );
 
     /**
      * Host prefix cache to avoid computing it each time.
@@ -196,21 +149,6 @@ class midcom_application
      */
     public $skip_page_style = false;
 
-    public function __construct()
-    {
-        $this->auth = new midcom_services_auth();
-        $this->auth->initialize();
-
-        /* Load and start up the cache system, this might already end the request
-         * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
-         */
-        $GLOBALS['midcom_cache'] = new midcom_services_cache();
-        $GLOBALS['midcom_cache']->initialize();
-        $this->cache = $GLOBALS['midcom_cache'];
-
-        require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
-    }
-
     /**
      * Main MidCOM initialization.
      *
@@ -226,10 +164,10 @@ class midcom_application
         $this->_status = MIDCOM_STATUS_PREPARE;
 
         // Start-up some of the services
-        $this->dbclassloader->load_classes('midcom', 'legacy_classes.inc', null, true);
-        $this->dbclassloader->load_classes('midcom', 'core_classes.inc', null, true);
+        midcom::get('dbclassloader')->load_classes('midcom', 'legacy_classes.inc', null, true);
+        midcom::get('dbclassloader')->load_classes('midcom', 'core_classes.inc', null, true);
 
-        $this->componentloader->load_all_manifests();
+        midcom::get('componentloader')->load_all_manifests();
 
         // Initialize Context Storage
         $context = new midcom_core_context(0);
@@ -244,7 +182,7 @@ class midcom_application
         {
             if ($e instanceof midcom_error_forbidden)
             {
-                throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
+                throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
             }
             else
             {
@@ -278,22 +216,6 @@ class midcom_application
         }
     }
 
-    /**
-     * Magic getter for service loading
-     */
-    public function __get($key)
-    {
-        if (!isset($this->_service_classes[$key]))
-        {
-            return;
-        }
-
-        $service_class = $this->_service_classes[$key];
-        $this->$key = new $service_class;
-        $this->_services[$key] = $this->$key;
-        return $this->$key;
-    }
-
     /* *************************************************************************
      * Main Application control framework:
      * start_services - Starts all available services
@@ -316,11 +238,11 @@ class midcom_application
         if ($context->id == 0)
         {
             // Initialize the UI message stack from session
-            $this->uimessages->initialize();
+            midcom::get('uimessages')->initialize();
         }
 
         // Parse the URL
-        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
+        $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
         $context->parser->parse(midcom_connection::get_url('argv'));
 
         $this->_process($context);
@@ -328,7 +250,7 @@ class midcom_application
         if ($context->id == 0)
         {
             // Let metadata service add its meta tags
-            $this->metadata->populate_meta_head();
+            midcom::get('metadata')->populate_meta_head();
         }
     }
 
@@ -347,7 +269,7 @@ class midcom_application
             debug_add("Entering Context 0 (old Context: {$oldcontext->id})");
         }
         $this->_currentcontext = 0;
-        $this->style->enter_context(0);
+        midcom::get('style')->enter_context(0);
 
         $template = midcom_helper_misc::preparse('<(ROOT)>');
         $template_parts = explode('<(content)>', $template);
@@ -366,7 +288,7 @@ class midcom_application
             debug_add("Leaving Context 0 (new Context: {$oldcontext->id})");
         }
 
-        $this->style->leave_context();
+        midcom::get('style')->leave_context();
         $oldcontext->set_current();
     }
 
@@ -467,7 +389,7 @@ class midcom_application
         $context->set_current();
 
         /* "content-cache" for DLs, check_hit */
-        if ($this->cache->content->check_dl_hit($context->id, $config))
+        if (midcom::get('cache')->content->check_dl_hit($context->id, $config))
         {
             // The check_hit method serves cached content on hit
             $oldcontext->set_current();
@@ -475,7 +397,7 @@ class midcom_application
         }
 
         // Parser Init: Generate arguments and instantiate it.
-        $context->parser = $this->serviceloader->load('midcom_core_service_urlparser');
+        $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
         $argv = $context->parser->tokenize($url);
         $context->parser->parse($argv);
 
@@ -495,18 +417,18 @@ class midcom_application
         // Start another buffer for caching DL results
         ob_start();
 
-        $this->style->enter_context($context->id);
+        midcom::get('style')->enter_context($context->id);
         debug_add("Entering Context $context->id (old Context: $oldcontext->id)");
 
         $this->_output();
 
-        $this->style->leave_context();
+        midcom::get('style')->leave_context();
         debug_add("Leaving Context $context->id (new Context: $oldcontext->id)");
 
         $dl_cache_data = ob_get_contents();
         ob_end_flush();
         /* Cache DL the content */
-        $this->cache->content->store_dl_content($context->id, $config, $dl_cache_data);
+        midcom::get('cache')->content->store_dl_content($context->id, $config, $dl_cache_data);
         unset($dl_cache_data);
 
         // Leave Context
@@ -530,12 +452,12 @@ class midcom_application
 
         // Shutdown content-cache (ie flush content to user :) before possibly slow DBA watches
         // done this way since it's slightly less hacky than calling shutdown and then mucking about with the cache->_modules etc
-        $this->cache->content->_finish_caching();
+        midcom::get('cache')->content->_finish_caching();
 
-        $this->componentloader->process_pending_notifies();
+        midcom::get('componentloader')->process_pending_notifies();
 
         // Store any unshown messages
-        $this->uimessages->store();
+        midcom::get('uimessages')->store();
 
         if ($GLOBALS['midcom_config']['enable_included_list'])
         {
@@ -550,7 +472,7 @@ class midcom_application
         }
 
         // Shutdown rest of the caches
-        $this->cache->shutdown();
+        midcom::get('cache')->shutdown();
 
         debug_add("End of MidCOM run: {$_SERVER['REQUEST_URI']}");
     }
@@ -645,7 +567,7 @@ class midcom_application
                 // We couldn't fetch a node due to access restrictions
                 if (midcom_connection::get_error() == MGD_ERR_ACCESS_DENIED)
                 {
-                    throw new midcom_error_forbidden($this->i18n->get_string('access denied', 'midcom'));
+                    throw new midcom_error_forbidden(midcom::get('i18n')->get_string('access denied', 'midcom'));
                 }
                 else
                 {
@@ -665,12 +587,12 @@ class midcom_application
             // Enter Context
             $oldcontext = $context;
             midcom_core_context::get(0)->set_current();
-            $this->style->enter_context(0);
+            midcom::get('style')->enter_context(0);
 
             $this->_output();
 
             // Leave Context
-            $this->style->leave_context();
+            midcom::get('style')->leave_context();
             $oldcontext->set_current();
 
             $this->finish();
@@ -713,7 +635,7 @@ class midcom_application
 
                     case 'permalink':
                         $guid = $value;
-                        $destination = $this->permalinks->resolve_permalink($guid);
+                        $destination = midcom::get('permalinks')->resolve_permalink($guid);
                         if ($destination === null)
                         {
                             throw new midcom_error_notfound("This Permalink is unknown.");
@@ -730,18 +652,18 @@ class midcom_application
                             if (   empty($GLOBALS['midcom_config']['indexer_reindex_allowed_ips'])
                                 || !in_array($_SERVER['REMOTE_ADDR'], $GLOBALS['midcom_config']['indexer_reindex_allowed_ips']))
                             {
-                                $_MIDCOM->auth->require_valid_user('basic');
-                                $_MIDCOM->auth->require_admin_user();
+                                midcom::get('auth')->require_valid_user('basic');
+                                midcom::get('auth')->require_admin_user();
                             }
-                            $this->cache->content->enable_live_mode();
-                            $this->cache->invalidate_all();
-                            $this->uimessages->add($_MIDCOM->i18n->get_string('MidCOM', 'midcom'), "Cache invalidation successful.", 'info');
+                            midcom::get('cache')->content->enable_live_mode();
+                            midcom::get('cache')->invalidate_all();
+                            midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('MidCOM', 'midcom'), "Cache invalidation successful.", 'info');
 
-                            $_MIDCOM->relocate($_SERVER['HTTP_REFERER']);
+                            $this->relocate($_SERVER['HTTP_REFERER']);
                         }
                         else if ($value == 'nocache')
                         {
-                            $this->cache->content->no_cache();
+                            midcom::get('cache')->content->no_cache();
                         }
                         else
                         {
@@ -772,8 +694,8 @@ class midcom_application
                         {
                             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
                         }
-                        $this->cache->content->no_cache();
-                        $this->auth->logout();
+                        midcom::get('cache')->content->no_cache();
+                        midcom::get('auth')->logout();
                         $this->relocate($redirect_to);
                         // This will exit
 
@@ -799,12 +721,12 @@ class midcom_application
                         {
                             $redirect_to .= "?{$_SERVER['QUERY_STRING']}";
                         }
-                        if ($this->auth->is_valid_user())
+                        if (midcom::get('auth')->is_valid_user())
                         {
                             $this->relocate($redirect_to);
                             // This will exit
                         }
-                        $this->auth->show_login_page();
+                        midcom::get('auth')->show_login_page();
                         // This will exit too;
 
                     case 'exec':
@@ -816,13 +738,13 @@ class midcom_application
                         break;
 
                     case 'servejscsscache':
-                        if (   !$this->head->jscss
-                            || !is_callable(array($this->head->jscss, 'serve')))
+                        if (   !midcom::get('head')->jscss
+                            || !is_callable(array(midcom::get('head')->jscss, 'serve')))
                         {
                             throw new midcom_error('Cache is not initialized');
                         }
                         $name = $context->parser->argv[0];
-                        $this->head->jscss->serve($name);
+                        midcom::get('head')->jscss->serve($name);
                         // this will exit()
 
                     default:
@@ -850,7 +772,7 @@ class midcom_application
         $context = midcom_core_context::get();
         $path = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
 
-        $handler = $this->componentloader->get_interface_class($path);
+        $handler = midcom::get('componentloader')->get_interface_class($path);
 
         $context->set_key(MIDCOM_CONTEXT_CONTENTTOPIC, $context->parser->get_current_object());
         $context->set_key(MIDCOM_CONTEXT_URLTOPICS, $context->parser->get_objects());
@@ -901,12 +823,12 @@ class midcom_application
         $path = $context->get_key(MIDCOM_CONTEXT_COMPONENT);
 
         // Get component interface class
-        $component_interface = $this->componentloader->get_interface_class($path);
+        $component_interface = midcom::get('componentloader')->get_interface_class($path);
         if ($component_interface === null)
         {
             $path = 'midcom.core.nullcomponent';
             $context->set_key(MIDCOM_CONTEXT_COMPONENT, $path);
-            $component_interface = $this->componentloader->get_interface_class($path);
+            $component_interface = midcom::get('componentloader')->get_interface_class($path);
         }
 
         // Load configuration
@@ -972,7 +894,7 @@ class midcom_application
         }
         $context = midcom_core_context::get();
 
-        $component = $this->componentloader->get_interface_class($context->get_key(MIDCOM_CONTEXT_COMPONENT));
+        $component = midcom::get('componentloader')->get_interface_class($context->get_key(MIDCOM_CONTEXT_COMPONENT));
         $component->show_content($context->id);
 
         if (!$this->skip_page_style)
@@ -1194,28 +1116,6 @@ class midcom_application
     }
 
     /**
-     * Return a reference to a given service.
-     *
-     * Returns the MidCOM Object Service indicated by $name. If the service cannot be
-     * found, an HTTP 500 is triggered.
-     *
-     * See the documentation of the various services for further details.
-     *
-     * @param string $name        The name of the service being requested.
-     * @return mixed    A reference(!) to the service requested.
-     */
-    function get_service($name)
-    {
-        if (   $this->$name
-            || isset($this->_service_classes[$name]))
-        {
-            return $this->$name;
-        }
-
-        throw new midcom_error("Requested service '$name' is not available.");
-    }
-
-    /**
      * Load a code library
      *
      * This will load the pure-code library denoted by the MidCOM Path $path. It will
@@ -1234,20 +1134,21 @@ class midcom_application
      */
     function load_library($path)
     {
-        if (! array_key_exists($path, $this->componentloader->manifests))
+        $componentloader = midcom::get('componentloader');
+        if (! array_key_exists($path, $componentloader->manifests))
         {
             debug_add("Cannot load component {$path} as library, it is not installed.", MIDCOM_LOG_ERROR);
             return false;
         }
 
-        if (! $this->componentloader->manifests[$path]->purecode)
+        if (! $componentloader->manifests[$path]->purecode)
         {
             debug_add("Cannot load component {$path} as library, it is a full-fledged component.", MIDCOM_LOG_ERROR);
-            debug_print_r('Manifest:', $this->componentloader->manifests[$path]);
+            debug_print_r('Manifest:', $componentloader->manifests[$path]);
             return false;
         }
 
-        $this->componentloader->load($path);
+        $componentloader->load($path);
 
         return true;
     }
@@ -1274,7 +1175,7 @@ class midcom_application
      */
     public function header($header, $response_code = null)
     {
-        $this->cache->content->register_sent_header($header);
+        midcom::get('cache')->content->register_sent_header($header);
 
         if (!is_null($response_code))
         {
@@ -1337,7 +1238,7 @@ class midcom_application
             $location = "Location: {$url}";
         }
 
-        $this->cache->content->no_cache();
+        midcom::get('cache')->content->no_cache();
 
         $this->finish();
         debug_add("Relocating to {$location}");
@@ -1396,18 +1297,18 @@ class midcom_application
         $this->header("Content-Length: " . strlen($snippet->code));
         $this->header("Accept-Ranges: none");
         $this->header("Content-Type: $content_type");
-        $this->cache->content->content_type($content_type);
+        midcom::get('cache')->content->content_type($content_type);
 
         // TODO: This should be made aware of the cache headers strategy for content cache module
         if ($expire > 0)
         {
             $this->header("Cache-Control: public max-age=$expires");
             $this->header("Expires: " . gmdate("D, d M Y H:i:s", (time()+$expire)) . " GMT" );
-            $this->cache->content->expires(time()+$expire);
+            midcom::get('cache')->content->expires(time()+$expire);
         }
         else if ($expire == 0)
         {
-            $this->cache->content->no_cache();
+            midcom::get('cache')->content->no_cache();
         }
         echo $snippet->code;
     }
@@ -1461,7 +1362,8 @@ class midcom_application
         }
 
         // Doublecheck that this is registered
-        $this->cache->content->register($attachment->guid);
+        $cache = midcom::get('cache');
+        $cache->content->register($attachment->guid);
         $stats = $attachment->stat();
         $last_modified =& $stats[9];
 
@@ -1470,11 +1372,11 @@ class midcom_application
 
         // Check etag and return 304 if necessary
         if (   $expires <> 0
-            && $this->cache->content->_check_not_modified($last_modified, $etag))
+            && $cache->content->_check_not_modified($last_modified, $etag))
         {
             if (!_midcom_headers_sent())
             {
-                $this->cache->content->cache_control_headers();
+                $cache->content->cache_control_headers();
                 // Doublemakesure these are present
                 $this->header('HTTP/1.0 304 Not Modified', 304);
                 $this->header("ETag: {$etag}");
@@ -1491,12 +1393,12 @@ class midcom_application
         }
 
         $this->header("ETag: {$etag}");
-        $this->cache->content->content_type($attachment->mimetype);
-        $this->cache->content->register_sent_header("Content-Type: {$attachment->mimetype}");
+        $cache->content->content_type($attachment->mimetype);
+        $cache->content->register_sent_header("Content-Type: {$attachment->mimetype}");
         $this->header("Last-Modified: " . gmdate("D, d M Y H:i:s", $last_modified) . ' GMT');
         $this->header("Content-Length: " . $stats[7]);
         $this->header("Content-Description: {$attachment->title}");
-        $this->cache->content->register_sent_header("Content-Description: {$attachment->title}");
+        $cache->content->register_sent_header("Content-Description: {$attachment->title}");
 
         // PONDER: Support ranges ("continue download") somehow ?
         $this->header("Accept-Ranges: none");
@@ -1504,16 +1406,16 @@ class midcom_application
         if ($expires > 0)
         {
             // If custom expiry now+expires is set use that
-            $this->cache->content->expires(time()+$expires);
+            $cache->content->expires(time()+$expires);
         }
         else if ($expires == 0)
         {
             // expires set to 0 means disable cache, so we shall
-            $this->cache->content->no_cache();
+            $cache->content->no_cache();
         }
         // TODO: Check metadata service for the real expiry timestamp ?
 
-        $this->cache->content->cache_control_headers();
+        $cache->content->cache_control_headers();
 
         $send_att_body = true;
         if ($GLOBALS['midcom_config']['attachment_xsendfile_enable'])
@@ -1529,10 +1431,10 @@ class midcom_application
         }
 
         // Store metadata in cache so _check_hit() can help us
-        if (   !$this->cache->content->_uncached
-            && !$this->cache->content->_no_cache)
+        if (   !$cache->content->_uncached
+            && !$cache->content->_no_cache)
         {
-            $this->cache->content->write_meta_cache('A-' . $etag, $etag);
+            $cache->content->write_meta_cache('A-' . $etag, $etag);
         }
 
         while(@ob_end_flush());
@@ -1582,13 +1484,13 @@ class midcom_application
         }
         else
         {
-            if (! $this->componentloader->validate_url($component))
+            if (! midcom::get('componentloader')->validate_url($component))
             {
                 throw new midcom_error_notfound("The component path {$component} is invalid.");
             }
-            $this->componentloader->load($component);
+            midcom::get('componentloader')->load($component);
             $context->set_key(MIDCOM_CONTEXT_COMPONENT, $component);
-            $path = MIDCOM_ROOT . $this->componentloader->path_to_snippetpath($component) . '/exec/';
+            $path = MIDCOM_ROOT . midcom::get('componentloader')->path_to_snippetpath($component) . '/exec/';
         }
         $path .= $context->parser->argv[0];
 
@@ -1613,7 +1515,7 @@ class midcom_application
         $GLOBALS['argv'] = $context->parser->argv;
         array_shift($GLOBALS['argv']);
 
-        $this->cache->content->enable_live_mode();
+        midcom::get('cache')->content->enable_live_mode();
 
         $this->_status = MIDCOM_STATUS_CONTENT;
 
@@ -1658,7 +1560,7 @@ class midcom_application
         if ($count == "all")
         {
             $this->header("Content-Type: text/plain");
-            $this->cache->content->no_cache();
+            midcom::get('cache')->content->no_cache();
             $handle = fopen($filename, "r");
 
             fpassthru($handle);
@@ -1669,7 +1571,7 @@ class midcom_application
         {
             $this->header("Content-Type: text/plain");
 
-            $this->cache->content->no_cache();
+            midcom::get('cache')->content->no_cache();
             passthru ("tail -" . abs($count) . " " . escapeshellarg($filename));
             $this->finish();
             _midcom_stop_request();
@@ -1692,15 +1594,15 @@ class midcom_application
         $context = midcom_core_context::get();
 
         // Bind the object into the view toolbar
-        $view_toolbar = $this->toolbars->get_view_toolbar($context->id);
+        $view_toolbar = midcom::get('toolbars')->get_view_toolbar($context->id);
         $view_toolbar->bind_to($object);
 
         // Bind the object to the metadata service
-        $this->metadata->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
+        midcom::get('metadata')->bind_metadata_to_object(MIDCOM_METADATA_VIEW, $object, $context->id);
 
         // Push the object's CSS classes to metadata service
-        $page_class = $_MIDCOM->metadata->get_object_classes($object, $page_class);
-        $this->metadata->set_page_class($page_class, $context->id);
+        $page_class = midcom::get('metadata')->get_object_classes($object, $page_class);
+        midcom::get('metadata')->set_page_class($page_class, $context->id);
 
         $this->substyle_append($page_class);
     }
@@ -1765,7 +1667,7 @@ class midcom_application
         (
             'lastmodified' => $context->get_key(MIDCOM_CONTEXT_LASTMODIFIED),
             'permalinkguid' => $context->get_key(MIDCOM_CONTEXT_PERMALINKGUID),
-            'permalink' => $this->permalinks->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
+            'permalink' => midcom::get('permalinks')->create_permalink($context->get_key(MIDCOM_CONTEXT_PERMALINKGUID)),
         );
 
         if (   is_object($meta['lastmodified'])
