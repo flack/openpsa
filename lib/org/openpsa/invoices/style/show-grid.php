@@ -1,7 +1,4 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-$entries = array();
-
 $classes = $data['list_type'];
 
 if ($data['list_type'] == 'overdue')
@@ -20,84 +17,6 @@ if (array_key_exists('deliverable', $data))
     $grid_id = 'd_' . $data['deliverable']->id . $grid_id;
 }
 
-
-foreach ($data['invoices'] as $invoice)
-{
-    $entry = array();
-    $number = $invoice->get_label();
-    $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
-    $next_marker = false;
-
-    if ($number == "")
-    {
-        $number = "n/a";
-    }
-
-    if ($invoice->sent == 0)
-    {
-        $next_marker = 'sent';
-    }
-    else if (!$invoice->paid)
-    {
-        $next_marker = 'paid';
-    }
-
-    $entry['id'] = $invoice->id;
-    $entry['index_number'] = $number;
-    $entry['number'] = $link_html;
-
-    if ($data['show_customer'])
-    {
-        try
-        {
-            $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-            if ($data['invoices_url'])
-            {
-                $entry['customer'] = "<a href=\"{$data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
-            }
-            else
-            {
-                $entry['customer'] = $customer->official;
-            }
-        }
-        catch (midcom_error $e)
-        {
-            $entry['customer'] = '';
-        }
-    }
-    $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
-
-    $entry['contact'] = $customer_card->show_inline();
-    $entry['index_sum'] = $invoice->sum;
-    $entry['sum'] = '<span title="' . $data['l10n']->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
-
-    $entry['index_due'] = $invoice->due;
-    $entry['due'] = strftime('%x', $invoice->due);
-
-    if ($data['list_type'] != 'paid')
-    {
-        $entry['action'] = '';
-        if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
-            && $next_marker)
-        {
-            $next_marker_url = $prefix . "invoice/mark_" . $next_marker . "/" . $invoice->guid . "/";
-            $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
-            $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
-            $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
-            $entry['action'] .= $data['l10n']->get('mark ' . $next_marker);
-            $entry['action'] .= '</button></form>';
-        }
-    }
-    else
-    {
-        $entry['action'] = strftime('%x', $invoice->paid);
-    }
-    $entries[] = $entry;
-}
-echo '<script type="text/javascript">//<![CDATA[';
-echo "\nvar " . $grid_id . '_entries = ' . json_encode($entries);
-echo "\n//]]></script>";
-
 $footer_data = array();
 
 foreach ($data['totals'] as $label => $sum)
@@ -113,6 +32,10 @@ foreach ($data['totals'] as $label => $sum)
     );
 }
 ?>
+
+<script type="text/javascript">//<![CDATA[
+<?php echo "var " . $grid_id . '_entries = ' . json_encode($data['entries']); ?>
+//]]></script>
 
 <div class="org_openpsa_invoices <?php echo $classes ?> full-width">
 
@@ -160,7 +83,7 @@ jQuery("#&(grid_id);").jqGrid({
           {name:'action', index: 'action', width: 80, align: 'center'}
       ],
       loadonce: true,
-      rowNum: <?php echo sizeof($entries); ?>,
+      rowNum: <?php echo sizeof($data['entries']); ?>,
       <?php
       if (!array_key_exists('deliverable', $data))
       { ?>

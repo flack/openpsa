@@ -20,6 +20,13 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private $_customer = null;
 
+    /**
+     * The current list type
+     *
+     * @var string
+     */
+    private $_list_type = 'all';
+
     public function _on_initialize()
     {
         // Locate Contacts node for linking
@@ -32,13 +39,86 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
 
     private function _process_invoice_list($invoices)
     {
-        $this->_request_data['invoices'] = Array();
+        $this->_request_data['invoices'] = $invoices;
+        $this->_request_data['entries'] = array();
         $this->_request_data['totals']['totals'] = 0;
+
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($invoices as $invoice)
         {
+            $entry = array();
+            $number = $invoice->get_label();
+            $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
+
+            if ($number == "")
+            {
+                $number = "n/a";
+            }
+
+            $entry['id'] = $invoice->id;
+            $entry['index_number'] = $number;
+            $entry['number'] = $link_html;
+
+            if (!$this->_customer)
+            {
+                try
+                {
+                    $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
+                    if ($this->_request_data['invoices_url'])
+                    {
+                        $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
+                    }
+                    else
+                    {
+                        $entry['customer'] = $customer->official;
+                    }
+                }
+                catch (midcom_error $e)
+                {
+                    $entry['customer'] = '';
+                }
+            }
+            $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
+
+            $entry['contact'] = $customer_card->show_inline();
+            $entry['index_sum'] = $invoice->sum;
+            $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
+
+            $entry['index_due'] = $invoice->due;
+            $entry['due'] = strftime('%x', $invoice->due);
+
+            if ($this->_list_type != 'paid')
+            {
+                $next_marker = false;
+                if ($invoice->sent == 0)
+                {
+                    $next_marker = 'sent';
+                }
+                else if (!$invoice->paid)
+                {
+                    $next_marker = 'paid';
+                }
+
+                $entry['action'] = '';
+                if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
+                    && $next_marker)
+                {
+                    $next_marker_url = $prefix . "invoice/mark_" . $next_marker . "/" . $invoice->guid . "/";
+                    $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
+                    $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
+                    $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
+                    $entry['action'] .= $this->_l10n->get('mark ' . $next_marker);
+                    $entry['action'] .= '</button></form>';
+                }
+            }
+            else
+            {
+                $entry['action'] = strftime('%x', $invoice->paid);
+            }
+
+            $this->_request_data['entries'][] = $entry;
             $this->_request_data['totals']['totals'] += $invoice->sum;
-            $this->_request_data['invoices'][] = $invoice;
         }
     }
 
@@ -111,6 +191,8 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private function _show_unsent()
     {
+        $this->_list_type = 'unsent';
+
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('sent', '=', 0);
         $this->_add_customer_filter($qb);
@@ -119,7 +201,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_process_invoice_list($invoices);
 
         $this->_request_data['list_label'] = $this->_l10n->get('unsent invoices');
-        $this->_request_data['list_type'] = 'unsent';
 
         $this->_show_invoice_list();
     }
@@ -129,6 +210,8 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private function _show_overdue()
     {
+        $this->_list_type = 'overdue';
+
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('sent', '>', 0);
         $qb->add_constraint('paid', '=', 0);
@@ -140,7 +223,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_process_invoice_list($invoices);
 
         $this->_request_data['list_label'] = $this->_l10n->get('overdue invoices');
-        $this->_request_data['list_type'] = 'overdue';
 
         $this->_show_invoice_list();
     }
@@ -150,6 +232,8 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private function _show_open()
     {
+        $this->_list_type = 'open';
+
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('sent', '>', 0);
         $qb->add_constraint('paid', '=', 0);
@@ -161,7 +245,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_process_invoice_list($invoices);
 
         $this->_request_data['list_label'] = $this->_l10n->get('open invoices');
-        $this->_request_data['list_type'] = 'open';
 
         $this->_show_invoice_list();
     }
@@ -171,6 +254,8 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private function _show_recent()
     {
+        $this->_list_type = 'paid';
+
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('paid', '>', 0);
         $qb->add_order('paid', 'DESC');
@@ -179,7 +264,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_process_invoice_list($invoices);
 
         $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
-        $this->_request_data['list_type'] = 'paid';
 
         $this->_show_invoice_list();
     }
@@ -189,6 +273,8 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
      */
     private function _show_paid()
     {
+        $this->_list_type = 'paid';
+
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
         $qb->add_constraint('paid', '>', 0);
         $this->_add_customer_filter($qb);
@@ -198,7 +284,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_process_invoice_list($invoices);
 
         $this->_request_data['list_label'] = $this->_l10n->get('paid invoices');
-        $this->_request_data['list_type'] = 'paid';
 
         $this->_show_invoice_list();
     }
@@ -324,7 +409,6 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $data['invoices'] = Array();
         $data['totals'] = Array();
         $data['totals']['totals'] = 0;
-        $data['list_type'] = 'all';
 
         $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $data['deliverable']->id);
         $mc->add_value_property('invoice');
@@ -363,6 +447,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
 
     private function _show_invoice_list()
     {
+        $this->_request_data['list_type'] = $this->_list_type;
         if (count($this->_request_data['invoices']) > 0)
         {
             $show_customer = true;
