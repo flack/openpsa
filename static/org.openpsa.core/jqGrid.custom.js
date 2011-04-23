@@ -174,8 +174,9 @@ var org_openpsa_grid_editable =
     deleteRow: function(id)
     {
         var edit_url = $('#' + self.grid_id).jqGrid('getGridParam', 'editurl')
-        rowdata = $('#' + self.grid_id).jqGrid('getRowData', id);
+        rowdata = $('#' + self.grid_id).jqGrid('getRowData', id),
         rowdata.oper = 'del';
+
         $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
         {
             $('#' + self.grid_id).jqGrid('delRowData', id);
@@ -199,20 +200,24 @@ var org_openpsa_grid_editable =
             $("#" + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
             $("#edit_button_" + current_rowid).bind('click', function()
             {
-                self.editRow(current_rowid);
+                var id = $(this).attr('id').replace(/^edit_button_/, '');
+                self.editRow(id);
             });
             $("#delete_button_" + current_rowid).bind('click', function()
             {
-                self.deleteRow(current_rowid);
+                var id = $(this).attr('id').replace(/^delete_button_/, '');
+                self.deleteRow(id);
             });
             $("#save_button_" + current_rowid).bind('click', function()
             {
-                self.saveRow(current_rowid);
+                var id = $(this).attr('id').replace(/^save_button_/, '');
+                self.saveRow(id);
             })
                 .hide();
             $("#cancel_button_" + current_rowid).bind('click', function()
             {
-                self.restoreRow(current_rowid);
+                var id = $(this).attr('id').replace(/^cancel_button_/, '');
+                self.restoreRow(id);
             })
                 .hide();
         }
