@@ -659,7 +659,8 @@ class midcom_application
                             midcom::get('cache')->invalidate_all();
                             midcom::get('uimessages')->add($_MIDCOM->i18n->get_string('MidCOM', 'midcom'), "Cache invalidation successful.", 'info');
 
-                            $this->relocate($_SERVER['HTTP_REFERER']);
+                            $url = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '';
+                            $this->relocate($url);
                         }
                         else if ($value == 'nocache')
                         {
