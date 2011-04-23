@@ -181,6 +181,47 @@ foreach ($deliverables as $deliverable)
 
         $relatedto->delete();
     }
+
+}
+
+
+$qb_items = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+$qb_items->add_constraint('task', '>', 0);
+$qb_items->add_constraint('deliverable', '=', 0);
+$items = $qb_items->execute();
+foreach ($items as $item)
+{
+    try
+    {
+        $task = new org_openpsa_projects_task_dba($item->task);
+    }
+    catch (midcom_error $e)
+    {
+        echo 'Failed to load task #' . $item->task . ': ' . $e->getMessage() . ", skipping\n";
+        flush();
+        continue;
+    }
+    try
+    {
+        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($task->agreement);
+    }
+    catch (midcom_error $e)
+    {
+        echo 'Failed to load deliverable #' . $task->agreement . ': ' . $e->getMessage() . ", skipping\n";
+        flush();
+        continue;
+    }
+    $item->deliverable = $deliverable->id;
+    if ($item->update())
+    {
+        echo 'Updated item #' . $item->id . ' to deliverable ' . $deliverable->title . "\n";
+        flush();
+    }
+    else
+    {
+        echo 'Failed to update item #' . $item->id . ': ' . midcom_connection::get_error_string() . "\n";
+        flush();
+    }
 }
 
 echo "</pre>\n";
