@@ -16,14 +16,14 @@ class org_openpsa_core_ui_jqgrid extends midcom_baseclasses_components_purecode
     /**
      * The grid's ID
      *
-     * @param string
+     * @var string
      */
     private $_identifier;
 
     /**
      * The grid's options
      *
-     * @param array
+     * @var array
      */
     private $_options = array();
 
@@ -38,15 +38,26 @@ class org_openpsa_core_ui_jqgrid extends midcom_baseclasses_components_purecode
      *     'options' => 'javascript option string'
      * )
      *
-     * @param array
+     * @var array
      */
     private $_columns = array();
+
+    /**
+     * Flag that tracks if JS/CSS files have already been added
+     *
+     * @var boolean
+     */
+    private static $_head_elements_added = false;
 
     /**
      * function that loads the necessary javascript & css files for jqgrid
      */
     public static function add_head_elements()
     {
+        if (self::$_head_elements_added)
+        {
+            return;
+        }
         $version = midcom_baseclasses_components_configuration::get('org.openpsa.core', 'config')->get('jqgrid_version');
         $jqgrid_path = '/org.openpsa.core/jquery.jqGrid-' . $version . '/';
 
@@ -73,16 +84,21 @@ class org_openpsa_core_ui_jqgrid extends midcom_baseclasses_components_purecode
 
         $head->add_stylesheet(MIDCOM_STATIC_URL . $jqgrid_path . 'css/ui.jqgrid.css');
         $head->add_jquery_ui_theme();
+        self::$_head_elements_added = true;
     }
 
     /**
-     * Constructor
+     * Constructor. Add head elements when necessary and the ID column
      *
      * @param string $identifier The grid's ID
+     * @param string $datatype The gird's data type
      */
-    public function __construct($identifier)
+    public function __construct($identifier, $datatype)
     {
         $this->_identifier = $identifier;
+        $this->set_column('id', 'id', 'hidden:true, key:true');
+        $this->set_option('datatype', $datatype);
+        self::add_head_elements();
     }
 
     /**
@@ -164,6 +180,17 @@ class org_openpsa_core_ui_jqgrid extends midcom_baseclasses_components_purecode
     }
 
     /**
+     * Set the grid's footer data
+     *
+     * @param array $data The data to set
+     */
+    public function set_footer_data(array $data)
+    {
+        $this->_footer_data = $data;
+        $this->set_option('footerrow', true);
+    }
+
+    /**
      * Renders the grid as HTML
      */
     public function render($entries = false)
@@ -175,6 +202,7 @@ class org_openpsa_core_ui_jqgrid extends midcom_baseclasses_components_purecode
         {
             echo "var " . $this->_identifier . '_entries = ' . json_encode($entries) . "\n";
             $this->set_option('data', $this->_identifier . '_entries', false);
+            $this->set_option('rowNum', sizeof($entries));
         }
 
         echo 'jQuery("#' . $this->_identifier . '").jqGrid({';
@@ -204,6 +232,10 @@ class org_openpsa_core_ui_jqgrid extends midcom_baseclasses_components_purecode
             echo "\n";
         }
         echo "});\n";
+        if (is_array($this->_footer_data))
+        {
+            echo 'jQuery("#' . $this->_identifier . '").jqGrid("footerData", "set", ' . json_encode($this->_footer_data) . ");\n";
+        }
         echo '//]]></script>';
     }
 

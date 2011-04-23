@@ -1,4 +1,5 @@
 <?php
+$grid = $data['grid'];
 $classes = $data['list_type'];
 
 if ($data['list_type'] == 'overdue')
@@ -8,13 +9,6 @@ if ($data['list_type'] == 'overdue')
 else if ($data['list_type'] == 'paid')
 {
     $classes .= ' good';
-}
-
-$grid_id = $data['list_type'] . '_invoices_grid';
-
-if (array_key_exists('deliverable', $data))
-{
-    $grid_id = 'd_' . $data['deliverable']->id . $grid_id;
 }
 
 $footer_data = array();
@@ -32,19 +26,14 @@ foreach ($data['totals'] as $label => $sum)
     );
 }
 
-$grid = new org_openpsa_core_ui_jqgrid($grid_id);
-$grid->set_option('datatype', 'local')
-    ->set_option('loadonce', true)
-    ->set_option('rowNum', sizeof($data['entries']))
-    ->set_option('footerrow', true);
+$grid->set_option('loadonce', true);
 
 if (!array_key_exists('deliverable', $data))
 {
     $grid->set_option('caption', $data['list_label']);
 }
 
-$grid->set_column('id', 'id', 'hidden:true, key:true')
-    ->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string')
+$grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string')
     ->set_column('contact', $data['l10n']->get('customer contact'));
 
 if ($data['show_customer'])
@@ -62,6 +51,8 @@ else
 {
     $grid->set_column('customer', $data['l10n']->get('paid date'), 'width: 80, align: "center"');
 }
+
+$grid->set_footer_data($footer_data);
 ?>
 
 <div class="org_openpsa_invoices <?php echo $classes ?> full-width">
@@ -69,5 +60,4 @@ else
 </div>
 
 <script type="text/javascript">
-jQuery("#&(grid_id);").jqGrid('footerData', 'set', <?php echo json_encode($footer_data); ?>);
 </script>

@@ -1,50 +1,40 @@
-<form method="post">
-<div style='padding-bottom:10px;'><?php echo "<input type='button' onclick='add_new_row();' value='" . $data['l10n']->get('add new invoice item') ."' />";?></div>
-<table id="invoice_items" class="list">
-<thead>
-<tr>
 <?php
-    echo "<th>" . $_MIDCOM->i18n->get_string('description', 'midcom') . "</th>";
-    echo "<th>" . $data['l10n']->get('price') . "</th>";
-    echo "<th>" . $data['l10n']->get('quantity') . "</th>";
-    echo "<th class='numeric'>" . $data['l10n']->get('sum') . "</th>";
-    echo "<th></th>";
+$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+
+$grid = $data['grid'];
+$grid->set_option('editurl', $prefix . 'invoice/itemedit/' . $data['invoice']->guid . '/');
+$grid->set_option('pager', '#p_' . $grid->get_identifier());
+
+$grid->set_column('description', $_MIDCOM->i18n->get_string('description', 'midcom'), 'editable: true, edittype: "textarea"');
+$grid->set_column('price', $data['l10n']->get('price'), 'align: "right", width: 40, formatter: "number", editable: true');
+$grid->set_column('quantity', $data['l10n']->get('quantity'), 'align: "right", width: 40, formatter: "number", editable: true');
+$grid->set_column('sum', $data['l10n']->get('sum'), 'align: "right", width: 60, formatter: "number", summaryType: "sum"');
+$grid->set_column('actions', '');
 ?>
-</tr>
-</thead>
-<tbody>
-<?php
-    $invoice_sum = 0;
-    foreach ($data['invoice_items'] as $i => $item)
-    {
-        $item_sum = $item->units * $item->pricePerUnit;
-        $invoice_sum += $item_sum;
-        echo "<tr id ='row_" . $i . "' class='invoice_item_row'>\n";
-        echo "<td><textarea class='input_description' name='invoice_items[" . $i . "][description]' > " . $item->description . "</textarea></td>\n";
-        echo "<td><input type='text' class='input_price_per_unit numeric' onchange=\"calculate_row('" . $i . "')\" id='price_per_unit_" . $i . "' name='invoice_items[" . $i ."][price_per_unit]' value='" . round($item->pricePerUnit, 2) . "' /></td>\n";
-        echo "<td><input type='text' class='input_units numeric' onchange=\"calculate_row('" . $i . "')\" id='units_" . $i . "' name='invoice_items[" . $i ."][units]' value='" . round($item->units, 2) . "' /></td>\n";
-        echo "<td class='row_sum numeric' id='row_sum_" . $i . "'>" . round($item_sum, 2) . "</td>\n";
-        echo "<td><div class='remove_button' onclick=\"mark_remove(this , '" . $i . "')\">&nbsp;</div> </td>\n";
-        echo "</tr>\n";
-    }
-?>
-<tr id="row_invoice_sum">
-<th colspan="3" class="">
-<?php
-echo $data['l10n']->get('invoice sum');
-?>
-</th>
-<th id='invoice_sum' class="numeric">
-<?php
-    echo round($invoice_sum, 2);
-?>
-</th>
-<th>&nbsp;</th>
-</tr>
-</tbody>
-</table>
-<div style='padding-top:15px;'>
-<input type="submit" name="save" value="<?php echo $_MIDCOM->i18n->get_string('save', 'midcom') ?>"/>
-<input type="submit" name="cancel" value="<?php echo $_MIDCOM->i18n->get_string('cancel', 'midcom') ?>"/>
+
+<div>
+    <?php $grid->render($data['entries']); ?>
 </div>
-</form>
+
+<script type="text/javascript">
+org_openpsa_grid_editable.enable_inline("<?php echo $grid->get_identifier(); ?>",
+{
+    aftersavefunc: function (rowid, response)
+    {
+        var grid = jQuery("#<?php echo $grid->get_identifier(); ?>"),
+            price = grid.jqGrid('getCell', rowid, 2),
+            quantity = grid.jqGrid('getCell', rowid, 3)
+            rows = grid.jqGrid('getRowData'),
+            total = 0
+            i = 0;
+
+        grid.jqGrid('setRowData', rowid, {sum: parseFloat(price) * parseFloat(quantity)});
+
+        for (i = 0; i < rows.length; i++)
+        {
+            total += parseFloat(grid.jqGrid('getCell', rowid, 4));
+        }
+        grid.jqGrid("footerData", "set", {sum: total});
+    }
+});
+</script>

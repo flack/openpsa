@@ -43,6 +43,14 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_request_data['entries'] = array();
         $this->_request_data['totals']['totals'] = 0;
 
+        $grid_id = $this->_list_type . '_invoices_grid';
+
+        if (array_key_exists('deliverable', $this->_request_data))
+        {
+            $grid_id = 'd_' . $this->_request_data['deliverable']->id . $grid_id;
+        }
+        $this->_request_data['grid'] = new org_openpsa_core_ui_jqgrid($grid_id, 'local');
+
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
         foreach ($invoices as $invoice)

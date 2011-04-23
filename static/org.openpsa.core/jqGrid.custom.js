@@ -107,6 +107,119 @@ var org_openpsa_grid_resize =
     }
 };
 
+var org_openpsa_grid_editable =
+{
+    grid_id: '',
+    last_added_row: 0,
+    options:
+    {
+        keys: true,
+        afterrestorefunc: this.after_restore
+    },
+
+    enable_inline: function (grid_id, custom_options)
+    {
+        var lastsel;
+        self = this;
+        self.options = jQuery.extend({}, custom_options, self.options);
+
+        self.grid_id = grid_id;
+        $('#' + grid_id).jqGrid('setGridParam',
+        {
+            onSelectRow: function(id)
+            {
+                if (id && id !== lastsel)
+                {
+                    $('#' + id).restoreRow(lastsel);
+                    lastsel = id;
+                }
+                self.editRow(id);
+            },
+        });
+        self.add_inline_controls();
+        var create_button_parameters =
+        {
+            caption: "",
+            buttonicon: "ui-icon-plus",
+            onClickButton: function()
+            {
+                var new_id = 'new_' + self.last_added_row++;
+                $('#' + self.grid_id).jqGrid('addRowData', new_id, {}, 'last');
+            },
+        };
+        $('#' + grid_id)
+            .jqGrid('navGrid', "#p_" + grid_id, {add: false, del:false, refresh: false, edit: false, search: false})
+            .jqGrid('navButtonAdd', "#p_" + grid_id, create_button_parameters);
+
+    },
+    editRow: function(id)
+    {
+        $('#' + self.grid_id).jqGrid('editRow', id, self.options);
+        $('#edit_button_' + id).addClass('hidden');
+        $('#save_button_' + id).show();
+        $('#cancel_button_' + id).show();
+    },
+    saveRow: function(id)
+    {
+        $('#' + self.grid_id).jqGrid('saveRow', id, self.options);
+        $('#edit_button_' + id).removeClass('hidden');
+        this.after_restore(id);
+    },
+    restoreRow: function(id)
+    {
+        $('#' + self.grid_id).jqGrid('restoreRow', id, self.options);
+        $('#edit_button_' + id).removeClass('hidden');
+        this.after_restore(id);
+    },
+    deleteRow: function(id)
+    {
+        var edit_url = $('#' + self.grid_id).jqGrid('getGridParam', 'editurl')
+        rowdata = $('#' + self.grid_id).jqGrid('getRowData', id);
+        rowdata.oper = 'del';
+        $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
+        {
+            $('#' + self.grid_id).jqGrid('delRowData', id);
+        });
+    },
+    after_restore: function(id)
+    {
+        $('#save_button_' + id).hide();
+        $('#cancel_button_' + id).hide();
+    },
+    add_inline_controls: function()
+    {
+        var rowids = jQuery("#" + self.grid_id).jqGrid('getDataIDs');
+        for (var i = 0; i < rowids.length; i++)
+        {
+            var current_rowid = rowids[i];
+            be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />";
+            bs = "<input class='row_button row_save' id='save_button_" + current_rowid + "' type='button' value='S' />";
+            bc = "<input class='row_button row_cancel' id='cancel_button_" + current_rowid + "' type='button' value='C' />";
+            bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
+            $("#" + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
+            $("#edit_button_" + current_rowid).bind('click', function()
+            {
+                self.editRow(current_rowid);
+            });
+            $("#delete_button_" + current_rowid).bind('click', function()
+            {
+                self.deleteRow(current_rowid);
+            });
+            $("#save_button_" + current_rowid).bind('click', function()
+            {
+                self.saveRow(current_rowid);
+            })
+                .hide();
+            $("#cancel_button_" + current_rowid).bind('click', function()
+            {
+                self.restoreRow(current_rowid);
+            })
+                .hide();
+        }
+    }
+
+};
+
 var org_openpsa_export_csv =
 {
     configs: {},

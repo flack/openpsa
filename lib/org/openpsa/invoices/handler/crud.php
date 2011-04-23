@@ -333,7 +333,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         (
             array
             (
-                MIDCOM_TOOLBAR_URL => "invoice/itemedit/{$this->_object->guid}/",
+                MIDCOM_TOOLBAR_URL => "invoice/items/{$this->_object->guid}/",
                 MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit invoice items'),
                 MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
