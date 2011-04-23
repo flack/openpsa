@@ -58,6 +58,18 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return 'printer.png';
     }
 
+    public static function get_by_number($number)
+    {
+        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb->add_constraint('number', '=', $number);
+        $result = $qb->execute();
+        if (count($result) == 1)
+        {
+            return $result[0];
+        }
+        return new self;
+    }
+
     function generate_invoice_number()
     {
         // TODO: Make configurable
