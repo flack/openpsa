@@ -148,7 +148,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             }
             try
             {
-                $task = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->task);
+                $task = org_openpsa_projects_task_dba::get_cached($item->task);
                 $entry['task'] = $task->title;
             }
             catch (midcom_error $e)
@@ -156,7 +156,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 $entry['task'] = '';
             }
 
-            $entry['task'] = '';
             $entry['description'] = $item->description;
             $entry['price'] = $item->pricePerUnit;
             $entry['quantity'] = $item->units;
