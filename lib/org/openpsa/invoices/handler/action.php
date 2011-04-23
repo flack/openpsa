@@ -137,6 +137,26 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         {
             $entry =  array();
             $entry['id'] = $item->id;
+            try
+            {
+                $deliverable = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->deliverable);
+                $entry['deliverable'] = $deliverable->title;
+            }
+            catch (midcom_error $e)
+            {
+                $entry['deliverable'] = '';
+            }
+            try
+            {
+                $task = org_openpsa_sales_salesproject_deliverable_dba::get_cached($item->task);
+                $entry['task'] = $task->title;
+            }
+            catch (midcom_error $e)
+            {
+                $entry['task'] = '';
+            }
+
+            $entry['task'] = '';
             $entry['description'] = $item->description;
             $entry['price'] = $item->pricePerUnit;
             $entry['quantity'] = $item->units;
@@ -292,6 +312,34 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
             )
         );
+
+        if ($this->_object->number > 1)
+        {
+            $previous = org_openpsa_invoices_invoice_dba::get_by_number($this->_object->number - 1);
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$previous->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+                )
+             );
+        }
+        if (($this->_object->number + 1) < $this->_object->generate_invoice_number())
+        {
+            $next = org_openpsa_invoices_invoice_dba::get_by_number($this->_object->number + 1);
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$next->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                )
+            );
+        }
+
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoice_item.js');
     }
 }
