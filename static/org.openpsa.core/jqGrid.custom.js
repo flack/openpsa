@@ -157,7 +157,8 @@ var org_openpsa_grid_editable =
         $('#' + self.grid_id).jqGrid('editRow', id, self.options);
         $('#edit_button_' + id).addClass('hidden');
         $('#save_button_' + id).removeClass('hidden');
-        $('#cancel_button_' + id).removeClass('hidden');
+        $('#cancel_button_' + id).removeClass('hidden')
+	.closest("tr").find('input[type="text"]:first:visible').focus();
     },
     saveRow: function(id)
     {
