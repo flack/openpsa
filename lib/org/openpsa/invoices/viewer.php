@@ -31,6 +31,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                     MIDCOM_TOOLBAR_URL => $urlprefix . $previous->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'p',
                 )
              );
         }
@@ -44,6 +45,7 @@ class org_openpsa_invoices_viewer extends midcom_baseclasses_components_request
                     MIDCOM_TOOLBAR_URL => $urlprefix . $next->guid . '/',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'n',
                 )
             );
         }
