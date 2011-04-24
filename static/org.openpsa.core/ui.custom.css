@@ -684,6 +684,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 {
     background-image: url(../stock-icons/16x16/edit.png);
     display: none;
+    margin-right: 20px
 }
 .ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_edit
 {
