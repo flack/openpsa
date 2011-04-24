@@ -238,14 +238,6 @@ abstract class midcom_baseclasses_components_interface extends midcom_baseclasse
     // END OF CONFIGURATION VARIABLES
     /**#@-*/
 
-    // START OF COMPONENT STATE VARIABLES
-    /**#@+
-     * Current object state, useful during initialization and automatically
-     * populated before _on_initialization is called.
-     *
-     * @access protected
-     */
-
     /**
      * The component manifest instance associated with this component. Read-Only and automatically
      * populated during initialization.

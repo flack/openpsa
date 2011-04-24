@@ -36,13 +36,6 @@
  */
 abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_components_base
 {
-    /**#@+
-     * Request state variable, set during startup. There should be no need to change it
-     * in most cases.
-     *
-     * @access protected
-     */
-
     /**
      * The topic for which we are handling a request.
      *
@@ -82,8 +75,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
      * @see midcom_services_toolbars
      */
     var $_view_toolbar = null;
-
-    /**#@-*/
 
     /**
      * Holds breadcrumb entries the handler wants to add
@@ -136,10 +127,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     }
 
 
-    /**#@+
-     * Event Handler callback.
-     */
-
     /**
      * Initialization event handler, called at the end of the initialization process.
      * Use this for all initialization work you need, as the component state is already
@@ -148,8 +135,6 @@ abstract class midcom_baseclasses_components_handler extends midcom_baseclasses_
     public function _on_initialize()
     {
     }
-
-    /**#@-*/
 
     /**
      * Registers a new breadcrumb entry

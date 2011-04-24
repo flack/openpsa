@@ -356,6 +356,8 @@ define ('MIDCOM_CRON_DAY', 30);
  */
 define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
 
+/**#@-*/
+
 /**
  * The MidCOM Logging interface. Note, that even though this variable
  * is called "debugger", it is actually a full-blown logging solution
@@ -380,6 +382,4 @@ $GLOBALS['midcom_cache'] = null;
  * @todo See if the same effect could be accomplished with midcom-substyle
  */
 $GLOBALS['midgard_page_style'] = '';
-
-/**#@-*/
 ?>
