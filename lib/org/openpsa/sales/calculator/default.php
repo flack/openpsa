@@ -179,7 +179,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         else
         {
             $skip_ids = array();
-            $item_mc = org_openpsa_invoices_invoice_item::new_collector('deliverable', $this->_deliverable->id);
+            $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
             $item_mc->add_value_property('task');
             $item_mc->execute();
 
