@@ -63,7 +63,6 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                 break;
 
             case 'metadata':
-                $this->object->metadata->$name = $data;
                 /*
                  * For some reason, the metadata change is not propagated back to the current midgard object,
                  * so we do this by hand
@@ -71,6 +70,7 @@ class midcom_helper_datamanager2_storage_midgard extends midcom_helper_datamanag
                  * @todo Debug this properly
                  */
                 $this->object->__object->metadata->$name = $this->object->metadata->__object->metadata->$name;
+                $this->object->metadata->$name = $data;
                 break;
 
             default:
