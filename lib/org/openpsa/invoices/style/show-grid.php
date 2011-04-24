@@ -58,6 +58,3 @@ $grid->set_footer_data($footer_data);
 <div class="org_openpsa_invoices <?php echo $classes ?> full-width">
 <?php $grid->render($data['entries']); ?>
 </div>
-
-<script type="text/javascript">
-</script>
