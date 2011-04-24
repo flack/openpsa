@@ -180,6 +180,11 @@ var org_openpsa_grid_editable =
         $.post(edit_url, rowdata, function(data, textStatus, jqXHR)
         {
             $('#' + self.grid_id).jqGrid('delRowData', id);
+            if (   typeof self.options.aftersavefunc != 'undefined'
+                && $.isFunction(self.options.aftersavefunc))
+            {
+                self.options.aftersavefunc(0, []);
+            }
         });
     },
     after_restore: function(id)
