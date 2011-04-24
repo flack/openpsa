@@ -312,32 +312,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             )
         );
 
-        if ($this->_object->number > 1)
-        {
-            $previous = org_openpsa_invoices_invoice_dba::get_by_number($this->_object->number - 1);
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$previous->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('previous'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/back.png',
-                )
-             );
-        }
-        if (($this->_object->number + 1) < $this->_object->generate_invoice_number())
-        {
-            $next = org_openpsa_invoices_invoice_dba::get_by_number($this->_object->number + 1);
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "invoice/recalculation/{$next->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n_midcom->get('next'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/next.png',
-                )
-            );
-        }
+        $this->_master->add_next_previous($this->_object, $this->_view_toolbar, 'invoice/items/');
 
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.invoices/invoice_item.js');
     }
