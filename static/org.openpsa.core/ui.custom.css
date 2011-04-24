@@ -689,7 +689,8 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 {
     display: inline;
 }
-.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_edit.hidden
+.ui-jqgrid .ui-jqgrid-btable .ui-state-hover .row_edit.hidden,
+.ui-jqgrid .ui-jqgrid-btable .row_button.hidden
 {
     display: none;
 }

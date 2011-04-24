@@ -156,8 +156,8 @@ var org_openpsa_grid_editable =
     {
         $('#' + self.grid_id).jqGrid('editRow', id, self.options);
         $('#edit_button_' + id).addClass('hidden');
-        $('#save_button_' + id).show();
-        $('#cancel_button_' + id).show();
+        $('#save_button_' + id).removeClass('hidden');
+        $('#cancel_button_' + id).removeClass('hidden');
     },
     saveRow: function(id)
     {
@@ -184,8 +184,8 @@ var org_openpsa_grid_editable =
     },
     after_restore: function(id)
     {
-        $('#save_button_' + id).hide();
-        $('#cancel_button_' + id).hide();
+        $('#save_button_' + id).addClass('hidden');
+        $('#cancel_button_' + id).addClass('hidden');
     },
     add_inline_controls: function()
     {
@@ -194,33 +194,32 @@ var org_openpsa_grid_editable =
         {
             var current_rowid = rowids[i];
             be = "<input class='row_button row_edit' id='edit_button_" + current_rowid + "' type='button' value='E' />";
-            bs = "<input class='row_button row_save' id='save_button_" + current_rowid + "' type='button' value='S' />";
-            bc = "<input class='row_button row_cancel' id='cancel_button_" + current_rowid + "' type='button' value='C' />";
+            bs = "<input class='row_button row_save hidden' id='save_button_" + current_rowid + "' type='button' value='S' />";
+            bc = "<input class='row_button row_cancel hidden' id='cancel_button_" + current_rowid + "' type='button' value='C' />";
             bd = "<input class='row_button row_delete' id='delete_button_" + current_rowid + "' type='button' value='D' />";
             $("#" + self.grid_id).jqGrid('setRowData', current_rowid, {actions: be + bs + bc + bd});
-            $("#edit_button_" + current_rowid).bind('click', function()
-            {
-                var id = $(this).attr('id').replace(/^edit_button_/, '');
-                self.editRow(id);
-            });
-            $("#delete_button_" + current_rowid).bind('click', function()
-            {
-                var id = $(this).attr('id').replace(/^delete_button_/, '');
-                self.deleteRow(id);
-            });
-            $("#save_button_" + current_rowid).bind('click', function()
-            {
-                var id = $(this).attr('id').replace(/^save_button_/, '');
-                self.saveRow(id);
-            })
-                .hide();
-            $("#cancel_button_" + current_rowid).bind('click', function()
-            {
-                var id = $(this).attr('id').replace(/^cancel_button_/, '');
-                self.restoreRow(id);
-            })
-                .hide();
         }
+
+        $(".row_edit").live('click', function()
+        {
+            var id = $(this).attr('id').replace(/^edit_button_/, '');
+            self.editRow(id);
+        });
+        $(".row_delete").live('click', function()
+        {
+            var id = $(this).attr('id').replace(/^delete_button_/, '');
+            self.deleteRow(id);
+        });
+        $(".row_save").live('click', function()
+        {
+            var id = $(this).attr('id').replace(/^save_button_/, '');
+            self.saveRow(id);
+        });
+        $(".row_cancel").live('click', function()
+        {
+            var id = $(this).attr('id').replace(/^cancel_button_/, '');
+            self.restoreRow(id);
+        });
     }
 
 };
