@@ -60,14 +60,6 @@
  * @property boolean $path_mode            Switch to determine whether month navigation should be handled with changing the path instead of GET parameters
  * @property string $path                  Root URL for the calendar widget
  *
- * ## Setting the date
- *
- * Set the date with corresponding methods
- *
- * @method void set_year($year, [$recalculate]);
- * @method void set_month($month, [$recalculate]);
- * @method void set_day($day, [$recalculate]);
- *
  * ## Adding events
  *
  * Add midgard_events or midcom_db_events with them with

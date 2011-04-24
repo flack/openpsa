@@ -28,21 +28,21 @@ class midcom_helper_datamanager2_type_urlname extends midcom_helper_datamanager2
     /**
      * Do we allow automatic catenation to make the name unique?
      *
-     * @type boolean
+     * @var boolean
      */
     public $allow_catenate = false;
 
     /**
      * Do we allow "unclean" names
      *
-     * @type boolean
+     * @var boolean
      */
     public $allow_unclean = false;
 
     /**
      * The field (in the same schema) that we use for title value
      *
-     * @type string
+     * @var string
      */
     public $title_field = 'title';
 
