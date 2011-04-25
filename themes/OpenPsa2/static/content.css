@@ -27,7 +27,8 @@ body
 
 #content-text div.wide
 {
-  width: 100%;
+    width: 100%;
+    clear: both
 }
 
 #content-text
