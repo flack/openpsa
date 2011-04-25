@@ -45,11 +45,11 @@ $grid->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, 
 
 if ($data['list_type'] != 'paid')
 {
-    $grid->set_column('customer', $data['l10n']->get('next action'), 'width: 80, align: "center"');
+    $grid->set_column('action', $data['l10n']->get('next action'), 'width: 80, align: "center"');
 }
 else
 {
-    $grid->set_column('customer', $data['l10n']->get('paid date'), 'width: 80, align: "center"');
+    $grid->set_column('action', $data['l10n']->get('paid date'), 'width: 80, align: "center"');
 }
 
 $grid->set_footer_data($footer_data);
