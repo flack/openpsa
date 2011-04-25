@@ -277,6 +277,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 {
                     $deliverable = new org_openpsa_sales_salesproject_deliverable_dba((int)$mc_task_agreement->get_subkey($key, 'agreement'));
                     $invoice_item->pricePerUnit = $deliverable->pricePerUnit;
+                    $invoice_item->deliverable = $deliverable->id;
                     //calculate price
                     if (   $deliverable->invoiceByActualUnits
                         || $deliverable->plannedUnits == 0)
