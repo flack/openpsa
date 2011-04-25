@@ -57,7 +57,7 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         if (!$this->status)
         {
             //Default to proposed if no status is set
-            $this->status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
+            $this->status = org_openpsa_projects_task_status_dba::PROPOSED;
         }
     }
 
@@ -277,12 +277,12 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
                     // If there's an ongoing task, the project seems to have resumed
                     if (array_key_exists('ongoing', $status_types))
                     {
-                        $new_status = ORG_OPENPSA_TASKSTATUS_REOPENED;
+                        $new_status = org_openpsa_projects_task_status_dba::REOPENED;
                     }
                     // There are pending tasks, so maybe the project is back to start
                     else if (array_key_exists('not_started', $status_types))
                     {
-                        $new_status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
+                        $new_status = org_openpsa_projects_task_status_dba::PROPOSED;
                     }
                     // Sanity check
                     else if (!array_key_exists('rejected', $status_types))
@@ -290,12 +290,12 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
                         //Blocker task
                         if (array_key_exists('on_hold', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_ONHOLD;
+                            $new_status = org_openpsa_projects_task_status_dba::ONHOLD;
                         }
                         //Work seems to have been finished
                         else if (array_key_exists('closed', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_ONHOLD;
+                            $new_status = org_openpsa_projects_task_status_dba::ONHOLD;
                         }
                     }
                     break;
@@ -303,18 +303,18 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
                     //Work seems to have been started
                     if (array_key_exists('ongoing', $status_types))
                     {
-                        $new_status = ORG_OPENPSA_TASKSTATUS_STARTED;
+                        $new_status = org_openpsa_projects_task_status_dba::STARTED;
                     }
                     // Or is on hold
                     else if (array_key_exists('on_hold', $status_types))
                     {
-                        $new_status = ORG_OPENPSA_TASKSTATUS_ONHOLD;
+                        $new_status = org_openpsa_projects_task_status_dba::ONHOLD;
                     }
                     // Or is even finished already
                     else if (array_key_exists('closed', $status_types)
                              && !array_key_exists('not_started', $status_types))
                     {
-                        $new_status = ORG_OPENPSA_TASKSTATUS_COMPLETED;
+                        $new_status = org_openpsa_projects_task_status_dba::COMPLETED;
                     }
                     break;
                 case 'ongoing':
@@ -324,23 +324,23 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
                         //Blocker task
                         if (array_key_exists('on_hold', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_ONHOLD;
+                            $new_status = org_openpsa_projects_task_status_dba::ONHOLD;
                         }
                         //Project is in limbo: Some tasks are finished, others didn't begin yet
                         else if (array_key_exists('not_started', $status_types)
                                  || array_key_exists('closed', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_ONHOLD;
+                            $new_status = org_openpsa_projects_task_status_dba::ONHOLD;
                         }
                         //Back to start: Someone withdrew acceptance
                         else if (array_key_exists('not_started', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
+                            $new_status = org_openpsa_projects_task_status_dba::PROPOSED;
                         }
                         //Work seems to have been finished
                         else if (array_key_exists('closed', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_ONHOLD;
+                            $new_status = org_openpsa_projects_task_status_dba::ONHOLD;
                         }
                     }
                     break;
@@ -349,14 +349,14 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
                     if (   array_key_exists('not_started', $status_types)
                         || array_key_exists('ongoing', $status_types))
                     {
-                        $new_status = ORG_OPENPSA_TASKSTATUS_REOPENED;
+                        $new_status = org_openpsa_projects_task_status_dba::REOPENED;
                     }
                     //Sanity check
                     else if (!array_key_exists('closed', $status_types))
                     {
                         if (array_key_exists('on_hold', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_ONHOLD;
+                            $new_status = org_openpsa_projects_task_status_dba::ONHOLD;
                         }
                     }
                     break;
@@ -367,19 +367,19 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
                         // check if work has resumed
                         if (array_key_exists('ongoing', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_STARTED;
+                            $new_status = org_openpsa_projects_task_status_dba::STARTED;
                         }
                         // If nothing is closed, ongoing or on hold, let's try not_started
                         else if (    array_key_exists('not_started', $status_types)
                                  && !array_key_exists('closed', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
+                            $new_status = org_openpsa_projects_task_status_dba::PROPOSED;
                         }
                         // If nothing is not_started, ongoing or on hold, let's try closed
                         else if (    array_key_exists('closed', $status_types)
                                  && !array_key_exists('not_started', $status_types))
                         {
-                            $new_status = ORG_OPENPSA_TASKSTATUS_COMPLETED;
+                            $new_status = org_openpsa_projects_task_status_dba::COMPLETED;
                         }
                     }
             }

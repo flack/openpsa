@@ -15,6 +15,23 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_task_status';
 
+    /**
+     * org.openpsa.projects status types
+     * //Templates/Drafts
+     */
+    const DRAFT = 6450;
+    const TEMPLATE = 6451;
+    const PROPOSED = 6500;
+    const DECLINED = 6510;
+    const ACCEPTED = 6520;
+    const ONHOLD = 6530;
+    const STARTED = 6540;
+    const REJECTED = 6545;
+    const REOPENED = 6550;
+    const COMPLETED = 6560;
+    const APPROVED = 6570;
+    const CLOSED = 6580;
+
     public function __construct($id = null)
     {
         $this->_use_rcs = false;
@@ -88,7 +105,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     public function _on_created()
     {
         //Remove the resource if necessary
-        if ($this->type == ORG_OPENPSA_TASKSTATUS_DECLINED
+        if ($this->type == org_openpsa_projects_task_status_dba::DECLINED
             && $this->targetPerson)
         {
             $qb = org_openpsa_projects_task_resource_dba();
@@ -113,7 +130,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     {
         $task = org_openpsa_projects_task_dba::get_cached($this->task);
 
-        if ($this->type == ORG_OPENPSA_TASKSTATUS_PROPOSED)
+        if ($this->type == org_openpsa_projects_task_status_dba::PROPOSED)
         {
             try
             {
@@ -144,7 +161,7 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
         if ($task->status < $this->type)
         {
             // This doesn't really do anything yet, it's moved here from workflow.php
-            if ($this->type == ORG_OPENPSA_TASKSTATUS_ACCEPTED)
+            if ($this->type == org_openpsa_projects_task_status_dba::ACCEPTED)
             {
                 switch ($task->acceptanceType)
                 {
@@ -187,25 +204,25 @@ class org_openpsa_projects_task_status_dba extends midcom_core_dbaobject
     {
         switch ($this->type)
         {
-            case ORG_OPENPSA_TASKSTATUS_PROPOSED:
+            case org_openpsa_projects_task_status_dba::PROPOSED:
                 return 'proposed to %s by %s';
-            case ORG_OPENPSA_TASKSTATUS_DECLINED:
+            case org_openpsa_projects_task_status_dba::DECLINED:
                 return 'declined by %s';
-            case ORG_OPENPSA_TASKSTATUS_ACCEPTED:
+            case org_openpsa_projects_task_status_dba::ACCEPTED:
                 return 'accepted by %s';
-            case ORG_OPENPSA_TASKSTATUS_ONHOLD:
+            case org_openpsa_projects_task_status_dba::ONHOLD:
                 return 'put on hold by %s';
-            case ORG_OPENPSA_TASKSTATUS_STARTED:
+            case org_openpsa_projects_task_status_dba::STARTED:
                 return 'work started by %s';
-            case ORG_OPENPSA_TASKSTATUS_REJECTED:
+            case org_openpsa_projects_task_status_dba::REJECTED:
                 return 'rejected by %s';
-            case ORG_OPENPSA_TASKSTATUS_REOPENED:
+            case org_openpsa_projects_task_status_dba::REOPENED:
                 return 're-opened by %s';
-            case ORG_OPENPSA_TASKSTATUS_COMPLETED:
+            case org_openpsa_projects_task_status_dba::COMPLETED:
                 return 'marked as completed by %s';
-            case ORG_OPENPSA_TASKSTATUS_APPROVED:
+            case org_openpsa_projects_task_status_dba::APPROVED:
                 return 'approved by %s';
-            case ORG_OPENPSA_TASKSTATUS_CLOSED:
+            case org_openpsa_projects_task_status_dba::CLOSED:
                 return 'closed by %s';
             default:
                 return "{$this->type} by %s";

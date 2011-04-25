@@ -177,7 +177,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
             {
                 case 'org_openpsa_task':
                     $to_sort['type'] = 'task';
-                    if ($object->status >= ORG_OPENPSA_TASKSTATUS_COMPLETED)
+                    if ($object->status >= org_openpsa_projects_task_status_dba::COMPLETED)
                     {
                         $to_sort['time'] = $object->status_time;
                         $sort_prev[] = $to_sort;

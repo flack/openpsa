@@ -285,7 +285,7 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
         if (!$list_finished)
         {
-            $mc->add_constraint( 'task.status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+            $mc->add_constraint( 'task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
         }
         $mc->execute();
 

@@ -48,24 +48,24 @@ class org_openpsa_projects_workflow
         $return = '';
         switch ($status)
         {
-            case ORG_OPENPSA_TASKSTATUS_REJECTED:
+            case org_openpsa_projects_task_status_dba::REJECTED:
                 $return = 'rejected';
                 break;
-            case ORG_OPENPSA_TASKSTATUS_PROPOSED:
-            case ORG_OPENPSA_TASKSTATUS_DECLINED:
-            case ORG_OPENPSA_TASKSTATUS_ACCEPTED:
+            case org_openpsa_projects_task_status_dba::PROPOSED:
+            case org_openpsa_projects_task_status_dba::DECLINED:
+            case org_openpsa_projects_task_status_dba::ACCEPTED:
                 $return = 'not_started';
                 break;
-            case ORG_OPENPSA_TASKSTATUS_STARTED:
-            case ORG_OPENPSA_TASKSTATUS_REOPENED:
+            case org_openpsa_projects_task_status_dba::STARTED:
+            case org_openpsa_projects_task_status_dba::REOPENED:
                 $return = 'ongoing';
                 break;
-            case ORG_OPENPSA_TASKSTATUS_COMPLETED:
-            case ORG_OPENPSA_TASKSTATUS_APPROVED:
-            case ORG_OPENPSA_TASKSTATUS_CLOSED:
+            case org_openpsa_projects_task_status_dba::COMPLETED:
+            case org_openpsa_projects_task_status_dba::APPROVED:
+            case org_openpsa_projects_task_status_dba::CLOSED:
                 $return = 'closed';
                 break;
-            case ORG_OPENPSA_TASKSTATUS_ONHOLD:
+            case org_openpsa_projects_task_status_dba::ONHOLD:
             default:
                 $return = 'on_hold';
                 break;
@@ -115,7 +115,7 @@ class org_openpsa_projects_workflow
     static function propose(&$task, $pid, $comment = '')
     {
         debug_add("saving proposed status for person {$pid}");
-        if (!self::create_status($task, ORG_OPENPSA_TASKSTATUS_PROPOSED, $pid, $comment))
+        if (!self::create_status($task, org_openpsa_projects_task_status_dba::PROPOSED, $pid, $comment))
         {
             return false;
         }
@@ -138,7 +138,7 @@ class org_openpsa_projects_workflow
         }
         debug_add("task->accept() called with user #" . $pid);
 
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_ACCEPTED, $pid, $comment);
+        return self::create_status($task, org_openpsa_projects_task_status_dba::ACCEPTED, $pid, $comment);
     }
 
     /**
@@ -150,7 +150,7 @@ class org_openpsa_projects_workflow
     {
         debug_add("task->decline() called with user #" . midcom_connection::get_user());
 
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_DECLINED, midcom_connection::get_user(), $comment);
+        return self::create_status($task, org_openpsa_projects_task_status_dba::DECLINED, midcom_connection::get_user(), $comment);
     }
 
     /**
@@ -162,14 +162,14 @@ class org_openpsa_projects_workflow
     {
         debug_add("task->start() called with user #" . midcom_connection::get_user());
         //PONDER: Check actual status objects for more accurate logic ?
-        if (   $task->status >= ORG_OPENPSA_TASKSTATUS_STARTED
-            && $task->status <= ORG_OPENPSA_TASKSTATUS_APPROVED)
+        if (   $task->status >= org_openpsa_projects_task_status_dba::STARTED
+            && $task->status <= org_openpsa_projects_task_status_dba::APPROVED)
         {
             //We already have started status
             debug_add('Task has already been started');
             return true;
         }
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_STARTED, $started_by);
+        return self::create_status($task, org_openpsa_projects_task_status_dba::STARTED, $started_by);
     }
 
     /**
@@ -181,7 +181,7 @@ class org_openpsa_projects_workflow
     {
         debug_add("task->complete() called with user #" . midcom_connection::get_user());
         //TODO: Check deliverables
-        if (!self::create_status($task, ORG_OPENPSA_TASKSTATUS_COMPLETED, 0, $comment))
+        if (!self::create_status($task, org_openpsa_projects_task_status_dba::COMPLETED, 0, $comment))
         {
             return false;
         }
@@ -205,7 +205,7 @@ class org_openpsa_projects_workflow
     static function remove_complete(&$task, $comment = '')
     {
         debug_add("task->remove_complete() called with user #" . midcom_connection::get_user());
-        if ($task->status != ORG_OPENPSA_TASKSTATUS_COMPLETED)
+        if ($task->status != org_openpsa_projects_task_status_dba::COMPLETED)
         {
             //Status is not completed, we can't remove that status.
             debug_add('status != completed, aborting');
@@ -221,12 +221,12 @@ class org_openpsa_projects_workflow
      */
     private static function _drop_to_started(&$task, $comment = '')
     {
-        if ($task->status <= ORG_OPENPSA_TASKSTATUS_STARTED)
+        if ($task->status <= org_openpsa_projects_task_status_dba::STARTED)
         {
             debug_add('Task has not been started, aborting');
             return false;
         }
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_STARTED, 0, $comment);
+        return self::create_status($task, org_openpsa_projects_task_status_dba::STARTED, 0, $comment);
     }
 
     /**
@@ -246,7 +246,7 @@ class org_openpsa_projects_workflow
             return false;
         }
 
-        if (!self::create_status($task, ORG_OPENPSA_TASKSTATUS_APPROVED, 0, $comment))
+        if (!self::create_status($task, org_openpsa_projects_task_status_dba::APPROVED, 0, $comment))
         {
             return false;
         }
@@ -264,7 +264,7 @@ class org_openpsa_projects_workflow
             debug_add("Current user #" . midcom_connection::get_user() . " is not manager of task, thus cannot reject", MIDCOM_LOG_ERROR);
             return false;
         }
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_REJECTED, 0, $comment);
+        return self::create_status($task, org_openpsa_projects_task_status_dba::REJECTED, 0, $comment);
     }
 
     /**
@@ -275,7 +275,7 @@ class org_openpsa_projects_workflow
     static function remove_approve(&$task, $comment = '')
     {
         debug_add("task->remove_approve() called with user #" . midcom_connection::get_user());
-        if ($task->status != ORG_OPENPSA_TASKSTATUS_APPROVED)
+        if ($task->status != org_openpsa_projects_task_status_dba::APPROVED)
         {
             debug_add('Task is not approved, aborting');
             return false;
@@ -300,7 +300,7 @@ class org_openpsa_projects_workflow
             return false;
         }
 
-        if (self::create_status($task, ORG_OPENPSA_TASKSTATUS_CLOSED, 0, $comment))
+        if (self::create_status($task, org_openpsa_projects_task_status_dba::CLOSED, 0, $comment))
         {
             $_MIDCOM->uimessages->add($_MIDCOM->i18n->get_string('org.openpsa.projects', 'org.openpsa.projects'), sprintf($_MIDCOM->i18n->get_string('marked task "%s" closed', 'org.openpsa.projects'), $task->title), 'ok');
             if ($task->agreement)
@@ -310,7 +310,7 @@ class org_openpsa_projects_workflow
                 // Set agreement delivered if this is the only open task for it
                 $task_qb = org_openpsa_projects_task_dba::new_query_builder();
                 $task_qb->add_constraint('agreement', '=', $task->agreement);
-                $task_qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_CLOSED);
+                $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
                 $task_qb->add_constraint('id', '<>', $task->id);
                 $task_qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
                 $tasks = $task_qb->execute();
@@ -337,12 +337,12 @@ class org_openpsa_projects_workflow
     static function reopen(&$task, $comment = '')
     {
         debug_add("task->reopen() called with user #" . midcom_connection::get_user());
-        if ($task->status != ORG_OPENPSA_TASKSTATUS_CLOSED)
+        if ($task->status != org_openpsa_projects_task_status_dba::CLOSED)
         {
             debug_add('Task is not closed, aborting');
             return false;
         }
-        return self::create_status($task, ORG_OPENPSA_TASKSTATUS_REOPENED, 0, $comment);
+        return self::create_status($task, org_openpsa_projects_task_status_dba::REOPENED, 0, $comment);
     }
 
     /**

@@ -36,20 +36,6 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         define('ORG_OPENPSA_OBTYPE_PROJECTRESOURCE', 6006);
         define('ORG_OPENPSA_OBTYPE_PROJECTCONTACT', 6007);
         define('ORG_OPENPSA_OBTYPE_PROJECTPROSPECT', 6008);
-        //org.openpsa.projects status types
-        //Templates/Drafts
-        define('ORG_OPENPSA_TASKSTATUS_DRAFT', 6450);
-        define('ORG_OPENPSA_TASKSTATUS_TEMPLATE', 6451);
-        define('ORG_OPENPSA_TASKSTATUS_PROPOSED', 6500);
-        define('ORG_OPENPSA_TASKSTATUS_DECLINED', 6510);
-        define('ORG_OPENPSA_TASKSTATUS_ACCEPTED', 6520);
-        define('ORG_OPENPSA_TASKSTATUS_ONHOLD', 6530);
-        define('ORG_OPENPSA_TASKSTATUS_STARTED', 6540);
-        define('ORG_OPENPSA_TASKSTATUS_REJECTED', 6545);
-        define('ORG_OPENPSA_TASKSTATUS_REOPENED', 6550);
-        define('ORG_OPENPSA_TASKSTATUS_COMPLETED', 6560);
-        define('ORG_OPENPSA_TASKSTATUS_APPROVED', 6570);
-        define('ORG_OPENPSA_TASKSTATUS_CLOSED', 6580);
         //org.openpsa.projects acceptance negotiation types
         define('ORG_OPENPSA_TASKACCEPTANCE_ALLACCEPT', 6700);
         define('ORG_OPENPSA_TASKACCEPTANCE_ONEACCEPT', 6701);
@@ -140,8 +126,8 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
             $qb->end_group();
         $qb->end_group();
         //Target task is active
-        $qb->add_constraint('task.status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
-        $qb->add_constraint('task.status', '<>', ORG_OPENPSA_TASKSTATUS_DECLINED);
+        $qb->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
+        $qb->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         //Each event participant is either manager or member (resource/contact) in task
         foreach ($object->participants as $pid => $bool)
         {
@@ -186,8 +172,8 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         //List all projects and tasks given person is involved with
         $qb = org_openpsa_projects_task_resource_dba::new_query_builder();
         $qb->add_constraint('person', '=', $object->id);
-        $qb->add_constraint('task.status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
-        $qb->add_constraint('task.status', '<>', ORG_OPENPSA_TASKSTATUS_DECLINED);
+        $qb->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
+        $qb->add_constraint('task.status', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         $qbret = @$qb->execute();
         if (!is_array($qbret))
         {

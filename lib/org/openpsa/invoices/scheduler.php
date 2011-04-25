@@ -77,7 +77,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
 
             $task_qb = org_openpsa_projects_task_dba::new_query_builder();
             $task_qb->add_constraint('agreement', '=', $this->_deliverable->id);
-            $task_qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_CLOSED);
+            $task_qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
             $tasks = $task_qb->execute();
 
             foreach ($tasks as $task)

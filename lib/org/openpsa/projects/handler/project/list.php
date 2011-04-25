@@ -107,8 +107,8 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $this->_request_data['project_list_results']['not_started'] = array();
 
         $qb = org_openpsa_projects_project::new_query_builder();
-        $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_STARTED);
-        $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ONHOLD);
+        $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::STARTED);
+        $qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::ONHOLD);
 
         // Workgroup filtering
         if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
@@ -135,10 +135,10 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
 
         $qb = org_openpsa_projects_project::new_query_builder();
         $qb->add_constraint('start', '<', time());
-        $qb->add_constraint('status', '>=', ORG_OPENPSA_TASKSTATUS_ACCEPTED);
-        $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ACCEPTED);
-        $qb->add_constraint('status', '<>', ORG_OPENPSA_TASKSTATUS_ONHOLD);
-        $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+        $qb->add_constraint('status', '>=', org_openpsa_projects_task_status_dba::ACCEPTED);
+        $qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::ACCEPTED);
+        $qb->add_constraint('status', '<>', org_openpsa_projects_task_status_dba::ONHOLD);
+        $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
 
         // Workgroup filtering
         if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
@@ -165,7 +165,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
 
         $qb = org_openpsa_projects_project::new_query_builder();
         $qb->add_constraint('end', '<', time());
-        $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+        $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
 
         // Workgroup filtering
         if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])
@@ -191,7 +191,7 @@ class org_openpsa_projects_handler_project_list extends midcom_baseclasses_compo
         $this->_request_data['project_list_results']['completed'] = array();
 
         $qb = org_openpsa_projects_project::new_query_builder();
-        $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_CLOSED);
+        $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::CLOSED);
 
         // Workgroup filtering
         if (   isset($GLOBALS['org_openpsa_core_workgroup_filter'])

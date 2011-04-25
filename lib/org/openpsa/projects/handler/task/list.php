@@ -132,7 +132,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $mc->add_constraint('task.status', '=', ORG_OPENPSA_TASKSTATUS_PROPOSED);
+        $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
         $mc->add_order('task.priority', 'ASC');
         // Workgroup filtering
         if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
@@ -158,10 +158,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $mc->begin_group('OR');
             $mc->begin_group('AND');
-                $mc->add_constraint('task.status', '>=', ORG_OPENPSA_TASKSTATUS_STARTED);
-                $mc->add_constraint('task.status', '<', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+                $mc->add_constraint('task.status', '>=', org_openpsa_projects_task_status_dba::STARTED);
+                $mc->add_constraint('task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
             $mc->end_group();
-            $mc->add_constraint('task.status', '=', ORG_OPENPSA_TASKSTATUS_ACCEPTED);
+            $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::ACCEPTED);
         $mc->end_group();
         $mc->add_order('task.priority', 'ASC');
         // Workgroup filtering
@@ -186,7 +186,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $mc->add_constraint('task.status', '=', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+        $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
         $mc->add_order('task.priority', 'ASC');
         // Workgroup filtering
         if ($GLOBALS['org_openpsa_core_workgroup_filter'] != 'all')
@@ -206,7 +206,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 
         // Tasks user is manager of that are pending acceptance
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_PROPOSED);
+        $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
@@ -231,7 +231,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 
         // Tasks user is manager of that are have been declined by all resources
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_DECLINED);
+        $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::DECLINED);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
@@ -256,7 +256,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 
         // Tasks user is manager of that are pending approval
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+        $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
@@ -281,7 +281,7 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 
         // Tasks user is manager of that are on hold
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_ONHOLD);
+        $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::ONHOLD);
         $qb->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $qb->add_constraint('manager', '=', midcom_connection::get_user());
         $qb->add_order('priority', 'ASC');
@@ -348,21 +348,21 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
             {
                 switch ($task->status)
                 {
-                    case ORG_OPENPSA_TASKSTATUS_PROPOSED:
+                    case org_openpsa_projects_task_status_dba::PROPOSED:
                         $list = 'proposed';
                         break;
-                    case ORG_OPENPSA_TASKSTATUS_ACCEPTED:
-                    case ORG_OPENPSA_TASKSTATUS_STARTED:
-                    case ORG_OPENPSA_TASKSTATUS_REJECTED:
-                    case ORG_OPENPSA_TASKSTATUS_REOPENED:
+                    case org_openpsa_projects_task_status_dba::ACCEPTED:
+                    case org_openpsa_projects_task_status_dba::STARTED:
+                    case org_openpsa_projects_task_status_dba::REJECTED:
+                    case org_openpsa_projects_task_status_dba::REOPENED:
                     default:
                         $list = 'current';
                         break;
-                    case ORG_OPENPSA_TASKSTATUS_COMPLETED:
+                    case org_openpsa_projects_task_status_dba::COMPLETED:
                         $list = 'completed';
                         break;
-                    case ORG_OPENPSA_TASKSTATUS_APPROVED:
-                    case ORG_OPENPSA_TASKSTATUS_CLOSED:
+                    case org_openpsa_projects_task_status_dba::APPROVED:
+                    case org_openpsa_projects_task_status_dba::CLOSED:
                         $list = 'closed';
                         break;
                 }
@@ -404,12 +404,12 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                 break;
             case 'open':
                 $this->set_active_leaf($this->_topic->id . ':tasks_open');
-                $qb->add_constraint('status', '<', ORG_OPENPSA_TASKSTATUS_CLOSED);
+                $qb->add_constraint('status', '<', org_openpsa_projects_task_status_dba::CLOSED);
                 $qb->add_order('end');
                 break;
             case 'closed':
                 $this->set_active_leaf($this->_topic->id . ':tasks_closed');
-                $qb->add_constraint('status', '=', ORG_OPENPSA_TASKSTATUS_CLOSED);
+                $qb->add_constraint('status', '=', org_openpsa_projects_task_status_dba::CLOSED);
                 $qb->add_order('end', 'DESC');
                 break;
             case 'current':
@@ -419,10 +419,10 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
                     'IN',
                     array
                     (
-                        ORG_OPENPSA_TASKSTATUS_ACCEPTED,
-                        ORG_OPENPSA_TASKSTATUS_STARTED,
-                        ORG_OPENPSA_TASKSTATUS_REJECTED,
-                        ORG_OPENPSA_TASKSTATUS_REOPENED
+                        org_openpsa_projects_task_status_dba::ACCEPTED,
+                        org_openpsa_projects_task_status_dba::STARTED,
+                        org_openpsa_projects_task_status_dba::REJECTED,
+                        org_openpsa_projects_task_status_dba::REOPENED
                     )
                 );
                 $qb->add_order('end');

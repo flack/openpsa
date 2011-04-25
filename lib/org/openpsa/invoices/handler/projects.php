@@ -115,7 +115,7 @@ class org_openpsa_invoices_handler_projects extends midcom_baseclasses_component
         $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba');
 
         $qb = org_openpsa_projects_task_dba::new_query_builder();
-        $qb->add_constraint('status', '>=', ORG_OPENPSA_TASKSTATUS_COMPLETED);
+        $qb->add_constraint('status', '>=', org_openpsa_projects_task_status_dba::COMPLETED);
 
         //Load component here already to get the needed constants
         if ($_MIDCOM->componentloader->load_graceful('org.openpsa.sales'))

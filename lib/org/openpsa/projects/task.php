@@ -80,7 +80,7 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         if (!$this->status)
         {
             //Default to proposed if no status is set
-            $this->status = ORG_OPENPSA_TASKSTATUS_PROPOSED;
+            $this->status = org_openpsa_projects_task_status_dba::PROPOSED;
         }
     }
 
@@ -519,15 +519,15 @@ class org_openpsa_projects_task_dba extends midcom_core_dbaobject
         $mc->add_value_property('comment');
         $mc->add_value_property('timestamp');
 
-        if ($this->status > ORG_OPENPSA_TASKSTATUS_PROPOSED)
+        if ($this->status > org_openpsa_projects_task_status_dba::PROPOSED)
         {
             //Only get proposed status objects here if are not over that phase
-            $mc->add_constraint('type', '<>', ORG_OPENPSA_TASKSTATUS_PROPOSED);
+            $mc->add_constraint('type', '<>', org_openpsa_projects_task_status_dba::PROPOSED);
         }
         if (count($this->resources) > 0)
         {
             //Do not ever set status to declined if we still have resources left
-            $mc->add_constraint('type', '<>', ORG_OPENPSA_TASKSTATUS_DECLINED);
+            $mc->add_constraint('type', '<>', org_openpsa_projects_task_status_dba::DECLINED);
         }
         $mc->add_order('timestamp', 'DESC');
         $mc->add_order('type', 'DESC'); //Our timestamps are not accurate enough so if we have multiple with same timestamp suppose highest type is latest

@@ -7,7 +7,7 @@ $checked = '';
 //Set rejected etc status classes
 switch($task->status)
 {
-    case ORG_OPENPSA_TASKSTATUS_REJECTED:
+    case org_openpsa_projects_task_status_dba::REJECTED:
         $status_class = 'org_openpsa_status_rejected';
         break;
     default:
