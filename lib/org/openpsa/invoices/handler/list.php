@@ -93,8 +93,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
             $entry['index_sum'] = $invoice->sum;
             $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
 
-            $entry['index_due'] = $invoice->due;
-            $entry['due'] = strftime('%x', $invoice->due);
+            $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
 
             if ($this->_list_type != 'paid')
             {

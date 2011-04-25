@@ -41,7 +41,7 @@ if ($data['show_customer'])
     $grid->set_column('customer', $data['l10n']->get('customer'));
 }
 $grid->set_column('sum', $data['l10n']->get('amount'), 'width: 80, fixed: true, align: "right"', 'number')
-    ->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center"', 'number');
+    ->set_column('due', $data['l10n']->get('due'), 'width: 80, align: "center", formatter: "date"');
 
 if ($data['list_type'] != 'paid')
 {
