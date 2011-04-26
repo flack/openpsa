@@ -81,11 +81,9 @@ var midcom_helper_datamanager2_autocomplete =
      */
     add_result_item: function(identifier, data)
     {
-        alert('X');
         var query_options = window[identifier + '_handler_options'],
         input_value = '';
-        console.log(identifier);
-        console.log(query_options);
+
         jQuery('#' + identifier + '_selection').val(JSON.stringify([data[query_options.id_field]]));
         jQuery(query_options.result_headers).each(function(index, value)
         {
@@ -102,10 +100,15 @@ var midcom_helper_datamanager2_autocomplete =
      */
     create_widget: function(config)
     {
-        var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input"style="display: none" class="batch_widget"/>';
+        var default_config = 
+	{
+	    id_field: 'guid',
+	    auto_wildcards: 'end'
+	},
+	widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input"style="display: none" class="batch_widget"/>';
         widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection"/>';
-        window[config.id + '_handler_options'] = config.widget_config;
-        console.log(config);
+        window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
+
         $(widget_html).insertAfter($(config.insertAfter));
         $('#' + config.id + '_search_input').autocomplete(
         {
