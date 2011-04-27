@@ -26,7 +26,6 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         {
             $billing_data = $invoice->get_billing_data();
             $billing_data->render_address();
-            org_openpsa_contactwidget::show_address_card($customer, array('postal'));
         } ?>
     </div>
 <div class="main org_openpsa_invoices_invoice">
