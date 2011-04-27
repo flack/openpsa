@@ -283,7 +283,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         $format = $this->_get_format();
         if (   !empty($this->min_date)
             && !$this->is_empty()
-            && !$this->_validate_date($this->value, new Date($this->min_date)))
+            && !$this->_validate_date($this->value, new Date($this->min_date - 86400)))
         {
             $min_date = new Date($this->min_date);
             $this->validation_error = sprintf($this->_l10n->get('type date: this date must be later than %s'), htmlspecialchars($min_date->format($format)));
