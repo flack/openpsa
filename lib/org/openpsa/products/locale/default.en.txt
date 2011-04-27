@@ -86,6 +86,10 @@ First row is headers
 Product groups
 ---STRINGEND
 
+---STRING half
+half
+---STRINGEND
+
 ---STRING hour
 hour
 ---STRINGEND

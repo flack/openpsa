@@ -66,6 +66,10 @@ Ensimmäinen rivi on otsikkotiedoille
 Tuoteryhmät
 ---STRINGEND
 
+---STRING half
+puolet
+---STRINGEND
+
 ---STRING hour
 tunti
 ---STRINGEND

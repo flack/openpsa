@@ -38,6 +38,10 @@ Szállítása fajtája
 Termék csoportok
 ---STRINGEND
 
+---STRING half
+fele
+---STRINGEND
+
 ---STRING hour
 óra
 ---STRINGEND

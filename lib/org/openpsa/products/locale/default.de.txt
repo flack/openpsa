@@ -86,6 +86,10 @@ Die erste Zeile enthält Überschriften
 Produktgruppen
 ---STRINGEND
 
+---STRING half
+Hälfte
+---STRINGEND
+
 ---STRING hour
 Stunde
 ---STRINGEND
