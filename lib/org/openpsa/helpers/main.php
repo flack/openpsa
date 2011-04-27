@@ -102,12 +102,56 @@ class org_openpsa_helpers
         return $data;
     }
 
+    public static function render_fileinfo($object, $field)
+    {
+        $output = '';
+        $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
+        if (empty($identifiers))
+        {
+            return $output;
+        }
+        $host_prefix = $_MIDCOM->get_host_prefix();
+        foreach ($identifiers as $identifier)
+        {
+            $parts = explode(':', $identifier);
+            if (sizeof($parts) != 2)
+            {
+                continue;
+            }
+            $guid = $parts[1];
+            try
+            {
+                $attachment = new midcom_db_attachment($guid);
+                $url = $host_prefix . '/midcom-serveattachment-' . $attachment->guid . '/' . $attachment->name;
+                $stat = $attachment->stat();
+                $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
+                $mimetype = org_openpsa_documents_document_dba::get_file_type($attachment->mimetype);
+                $mimetype_icon = midcom_helper_misc::get_mime_icon($attachment->mimetype);
+
+                $output .= '<span class="org_openpsa_helpers_fileinfo">';
+                $output .= '<a href="' . $url . '" class="icon"><img src="' . $mimetype_icon . '" alt="' . $mimetype . '" /></a>';
+                $output .= '<a href="' . $url . '" class="filename">' . $attachment->name . '</a>';
+                $output .= '<span class="mimetype">' . $mimetype . '</span>';
+                $output .= '<span class="filesize">' . $filesize . '</span>';
+                $output .= "</span>\n";
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
+            $output .= '';
+        }
+
+        return $output;
+     }
+
     /**
      * Function for adding JavaScript buttons for saving/cancelling Datamanager 2 form via the toolbar
      *
      * @param object $handler The current handler object reference
      */
-    static function dm2_savecancel(&$handler)
+    public static function dm2_savecancel(&$handler)
     {
         $toolbar =& $handler->_view_toolbar;
         if (   !is_object($toolbar)

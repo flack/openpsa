@@ -1,6 +1,7 @@
 <?php
 $view = $data['object_view'];
 $invoice = $data['object'];
+
 try
 {
     $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
@@ -136,12 +137,12 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     if ($view['files'] != "")
     { ?>
         <p><strong><?php echo $data['l10n']->get('files'); ?></strong></p>
-        &(view['files']:h);
+        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files'); ?>
     <?php }
     if ($view['pdf_file'] != "")
     { ?>
         <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
-        &(view['pdf_file']:h);
+        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files'); ?>
     <?php }
 
 // Display invoiced hours and tasks
