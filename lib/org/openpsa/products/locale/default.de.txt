@@ -138,6 +138,10 @@ Eine Zeile pro Produkt
 Produkt-Datenbank
 ---STRINGEND
 
+---STRING pack
+Paket
+---STRINGEND
+
 ---STRING parent group
 Übergeordnete Gruppe
 ---STRINGEND

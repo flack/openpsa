@@ -102,6 +102,10 @@ Syötteen kohteiden lukumäärä
 Tuotetietokanta
 ---STRINGEND
 
+---STRING pack
+paketti
+---STRINGEND
+
 ---STRING parent group
 Ylempi ryhmä
 ---STRINGEND

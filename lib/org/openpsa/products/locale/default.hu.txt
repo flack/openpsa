@@ -58,6 +58,10 @@ hónap
 Termék adatbázis
 ---STRINGEND
 
+---STRING pack
+csomag
+---STRINGEND
+
 ---STRING parent group
 Szülő csoport
 ---STRINGEND

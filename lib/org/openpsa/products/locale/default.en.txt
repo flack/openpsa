@@ -138,6 +138,10 @@ One line per product
 Product database
 ---STRINGEND
 
+---STRING pack
+package
+---STRINGEND
+
 ---STRING parent group
 Parent group
 ---STRINGEND
