@@ -122,7 +122,7 @@ class org_openpsa_helpers
             try
             {
                 $attachment = new midcom_db_attachment($guid);
-                $url = $host_prefix . '/midcom-serveattachment-' . $attachment->guid . '/' . $attachment->name;
+                $url = $host_prefix . '/midcom-serveattachmentguid-' . $attachment->guid . '/' . $attachment->name;
                 $stat = $attachment->stat();
                 $filesize = midcom_helper_misc::filesize_to_string($stat[7]);
                 $mimetype = org_openpsa_documents_document_dba::get_file_type($attachment->mimetype);
