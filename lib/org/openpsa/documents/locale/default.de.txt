@@ -74,6 +74,10 @@ Entwurf
 Verzeichnis bearbeiten
 ---STRINGEND
 
+---STRING delete directory
+Verzeichnis löschen
+---STRINGEND
+
 ---STRING final
 Final
 ---STRINGEND

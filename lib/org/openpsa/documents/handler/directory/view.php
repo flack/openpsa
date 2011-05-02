@@ -164,6 +164,19 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 )
             );
         }
+        if ($_MIDCOM->auth->can_do('midgard:delete', $this->_request_data['directory']))
+        {
+            $this->_view_toolbar->add_item
+            (
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => '__ais/folder/delete',
+                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete directory'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/delete.png',
+                    MIDCOM_TOOLBAR_ACCESSKEY => 'd',
+                )
+            );
+        }
 
         $_MIDCOM->bind_view_to_object($this->_request_data['directory']);
     }
