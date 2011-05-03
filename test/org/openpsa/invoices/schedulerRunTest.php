@@ -529,5 +529,82 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
             ),
         );
     }
+
+
+    /**
+     * @depends testRun_cycle
+     */
+    public function testRun_cycle_multiple()
+    {
+        $_MIDCOM->auth->request_sudo('org.openpsa.invoices');
+
+        $deliverable_attributes = array
+        (
+           'salesproject' => $this->_salesproject->id,
+           'product' => $this->_product->id,
+           'description' => 'TEST DESCRIPTION 2',
+           'pricePerUnit' => 10,
+           'plannedUnits' => 15,
+           'units' => 10,
+           'invoiceByActualUnits' => true,
+           'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED,
+           'start' => strtotime('2010-02-02 00:00:00')
+        );
+        $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
+
+        $task_attributes = array
+        (
+           'project' => $this->_project->id,
+           'agreement' => $deliverable2->id,
+           'title' => 'TEST TITLE 2',
+           'reportedHours' => 10
+        );
+        $task2 = $this->create_object('org_openpsa_projects_task_dba', $task_attributes);
+
+        $this->_product->delivery = ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION;
+        $this->_product->update();
+
+        $this->_deliverable->start = strtotime('2010-02-02 00:00:00');
+        $this->_deliverable->continuous = true;
+        $this->_deliverable->invoiceByActualUnits = false;
+        $this->_deliverable->pricePerUnit = 10;
+        $this->_deliverable->plannedUnits = 10;
+        $this->_deliverable->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED;
+        $this->_deliverable->update();
+
+        $scheduler = new org_openpsa_invoices_scheduler($this->_deliverable);
+        $stat = $scheduler->run_cycle(1, true);
+        $this->assertTrue($stat);
+
+        $scheduler = new org_openpsa_invoices_scheduler($deliverable2);
+        $stat = $scheduler->run_cycle(1, true);
+        $this->assertTrue($stat);
+
+        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+        $qb->add_constraint('deliverable', '=', $this->_deliverable->id);
+        $results = $qb->execute();
+        $this->assertEquals(1, sizeof($results));
+        $item1 = $results[0];
+        $this->register_object($item1);
+
+        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
+        $qb->add_constraint('deliverable', '=', $deliverable2->id);
+        $results = $qb->execute();
+        $this->assertEquals(1, sizeof($results));
+        $item2 = $results[0];
+        $this->register_object($item2);
+
+        $this->assertEquals($item1->invoice, $item2->invoice);
+        $this->assertEquals($this->_deliverable->id, $item1->deliverable);
+        $this->assertEquals($deliverable2->id, $item2->deliverable);
+
+        $invoice = new org_openpsa_invoices_invoice_dba($item2->invoice);
+        $this->register_object($invoice);
+        $this->assertEquals(200, $invoice->sum);
+        $this->assertEquals(100, $deliverable2->invoiced);
+
+        $_MIDCOM->auth->drop_sudo();
+    }
+
 }
 ?>
