@@ -134,7 +134,7 @@ var org_openpsa_grid_editable =
                     lastsel = id;
                 }
                 self.editRow(id);
-            },
+            }
         });
         self.add_inline_controls();
         var create_button_parameters =
@@ -145,7 +145,7 @@ var org_openpsa_grid_editable =
             {
                 var new_id = 'new_' + self.last_added_row++;
                 $('#' + self.grid_id).jqGrid('addRowData', new_id, {}, 'last');
-            },
+            }
         };
         $('#' + grid_id)
             .jqGrid('navGrid', "#p_" + grid_id, {add: false, del:false, refresh: false, edit: false, search: false})
