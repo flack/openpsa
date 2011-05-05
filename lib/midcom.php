@@ -175,7 +175,7 @@ class midcom
             // DBA object files are named objectname.php
 
             // Ensure we have the component loaded
-            if (!$_MIDCOM->dbclassloader->load_component_for_class($class_name))
+            if (!self::get('dbclassloader')->load_component_for_class($class_name))
             {
                 // Failed to load the component
                 return;
