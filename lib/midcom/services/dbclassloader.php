@@ -412,12 +412,12 @@ class midcom_services_dbclassloader
             return false;
         }
 
-        if ($_MIDCOM->componentloader->is_loaded($component))
+        if (midcom::get('componentloader')->is_loaded($component))
         {
             return true;
         }
 
-        return $_MIDCOM->componentloader->load_graceful($component);
+        return midcom::get('componentloader')->load_graceful($component);
     }
 
     /**
