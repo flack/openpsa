@@ -32,7 +32,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      *
      * @var string
      */
-    private $_search;
+    private $_search = null;
 
     private function _get_search_string()
     {
@@ -46,7 +46,7 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             if (   $auto_wildcards
                 && strpos($search, '%') === false)
             {
-                switch($auto_wildcards)
+                switch ($auto_wildcards)
                 {
                     case 'both':
                         $search = "%{$search}%";
@@ -81,7 +81,10 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
             case 'foaf':
                 $_MIDCOM->skip_page_style = true;
                 $this->_view = 'foaf';
-                $this->_search_qb_persons();
+                if (!empty($this->_search))
+                {
+                    $this->_search_qb_persons();
+                }
                 break;
             default:
                 throw new midcom_error('Unknown search type ' . $args[0]);
@@ -118,30 +121,29 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
     public function _handler_search($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-
         $this->_get_search_string();
-        if ($this->_search)
+
+        if (!empty($this->_search))
         {
             $this->_search_qb_groups();
             $this->_search_qb_persons();
+
+            if (   count($this->_groups) == 1
+                && count($this->_persons) == 0)
+            {
+                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $_MIDCOM->relocate($prefix . 'group/' . $this->_groups[0]->guid . '/');
+                //This will exit
+            }
+            else if (   count($this->_groups) == 0
+                     && count($this->_persons) == 1)
+            {
+                $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+                $_MIDCOM->relocate($prefix . 'person/' . $this->_persons[0]->guid . '/');
+                //This will exit
+            }
         }
 
-        if (   count($this->_groups) == 1
-            && count($this->_persons) == 0)
-        {
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $_MIDCOM->relocate($prefix . 'group/' . $this->_groups[0]->guid . '/');
-            //This will exit
-        }
-        else if (   count($this->_groups) == 0
-                 && count($this->_persons) == 1)
-        {
-            $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-            $_MIDCOM->relocate($prefix . 'person/' . $this->_persons[0]->guid . '/');
-            //This will exit
-        }
-
-        //We always want to display *something*
         if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_contacts_person_dba'))
         {
             $this->_view_toolbar->add_item
@@ -167,6 +169,9 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
                 )
             );
         }
+
+        $_MIDCOM->set_pagetitle($this->_l10n->get('search'));
+        $this->add_breadcrumb("", $this->_l10n->get('search'));
     }
 
     /**
@@ -183,7 +188,8 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
         midcom_show_style('search-header');
 
         if (   count($this->_groups) == 0
-            && count($this->_persons) == 0)
+            && count($this->_persons) == 0
+            && $this->_search !== null)
         {
             //No results at all (from any of the queries)
             midcom_show_style('search-empty');
@@ -263,32 +269,30 @@ class org_openpsa_contacts_handler_search extends midcom_baseclasses_components_
      */
     private function _search_qb_persons()
     {
-        if (!$this->_search)
-        {
-            return false;
-        }
-
         $qb = org_openpsa_contacts_person_dba::new_query_builder();
-        $qb->begin_group('OR');
-
-        // Search using only the fields defined in config
-        $person_fields = explode(',', $this->_config->get('person_search_fields'));
-        if (   !is_array($person_fields)
-            || count($person_fields) == 0)
+        if (!empty($this->_search))
         {
-            throw new midcom_error( 'Invalid person search configuration');
-        }
+            $qb->begin_group('OR');
 
-        foreach ($person_fields as $field)
-        {
-            if (empty($field))
+            // Search using only the fields defined in config
+            $person_fields = explode(',', $this->_config->get('person_search_fields'));
+            if (   !is_array($person_fields)
+                || count($person_fields) == 0)
             {
-                continue;
+                throw new midcom_error( 'Invalid person search configuration');
             }
-            $qb->add_constraint($field, 'LIKE', $this->_search);
-        }
 
-        $qb->end_group();
+            foreach ($person_fields as $field)
+            {
+                if (empty($field))
+                {
+                    continue;
+                }
+                $qb->add_constraint($field, 'LIKE', $this->_search);
+            }
+
+            $qb->end_group();
+        }
         $this->_persons = $qb->execute();
     }
 }
