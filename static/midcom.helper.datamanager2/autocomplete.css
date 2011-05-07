@@ -31,3 +31,8 @@
 {
     background: url('ajax-loading-small.gif') right center no-repeat;
 }
+
+ul.ui-autocomplete
+{
+    overflow: auto
+}

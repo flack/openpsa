@@ -265,14 +265,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     private function _prepare_batch_options()
     {
         // Get url to search handler
-        $nav = new midcom_helper_nav();
-        $root_node = $nav->get_node($nav->get_root_node());
-        if (   !$root_node
-            || empty($root_node))
-        {
-            array();
-        }
-        $handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
 
         $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
         $task_conf = $widget_config['task'];

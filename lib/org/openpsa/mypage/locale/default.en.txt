@@ -26,10 +26,6 @@ Invoiceable
 My summary
 ---STRINGEND
 
----STRING not working on a task
-Not working on a task
----STRINGEND
-
 ---STRING now working on
 Now working on
 ---STRINGEND
@@ -52,6 +48,14 @@ Review of week %s
 
 ---STRING see all %s hours
 See all %s hours
+---STRINGEND
+
+---STRING start
+Start
+---STRINGEND
+
+---STRING stop
+Stop
 ---STRINGEND
 
 ---STRING successfully reported %d hours to task %s
