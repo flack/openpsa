@@ -155,6 +155,7 @@ foreach ($results as $object)
     );
     if (!empty($_REQUEST['categorize_by_parent_label']))
     {
+        $item['category'] = '';
         if ($parent = $object->get_parent())
         {
             $item['category'] = $parent->get_label();
