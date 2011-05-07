@@ -61,7 +61,7 @@
             'widget' => 'chooser',
             'widget_config' => array
             (
-                'clever_class' => 'person',
+                'clever_class' => 'contact',
                 'id_field' => 'id',
                 'result_headers' => array
                 (
