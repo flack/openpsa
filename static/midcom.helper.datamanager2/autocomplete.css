@@ -36,3 +36,10 @@ ul.ui-autocomplete
 {
     overflow: auto
 }
+
+li.ui-autocomplete-category
+{
+    font-weight: bold;
+    color: #444;
+    padding-top: .2em
+}

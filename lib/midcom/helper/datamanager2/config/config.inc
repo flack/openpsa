@@ -297,7 +297,7 @@
         (
             array('title'    => 'ASC')
         ),
-        'get_label_for' => 'title'
+        'categorize_by_parent_label' => true
     ),
     'invoice' => array
     (

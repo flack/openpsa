@@ -1,3 +1,21 @@
+$.widget( "custom.category_complete", $.ui.autocomplete,
+{
+    _renderMenu: function(ul, items)
+    {
+	var self = this,
+	currentCategory = "";
+	$.each(items, function(index, item)
+        {
+	    if (item.category !== currentCategory)
+            {
+		ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+		currentCategory = item.category;
+	    }
+	    self._renderItem(ul, item);
+	});
+    }
+});
+
 var midcom_helper_datamanager2_autocomplete =
 {
     query: function(request, response)
@@ -111,6 +129,7 @@ var midcom_helper_datamanager2_autocomplete =
 	{
 	    id_field: 'guid',
             auto_wildcards: 'end',
+            categorize_by_parent_label: false,
             helptext: '',
             default_value: ''
         },
@@ -125,7 +144,6 @@ var midcom_helper_datamanager2_autocomplete =
             autoFocus: true
         },
         autocomplete_options = $.extend({}, default_autocomplete_options, autocomplete_options || {});
-
         window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
 
         var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input"style="display: none" class="batch_widget" value="' + helptext + '" />';
@@ -159,7 +177,13 @@ var midcom_helper_datamanager2_autocomplete =
                 });
         }
 
-        $('#' + config.id + '_search_input').autocomplete(autocomplete_options);
-
+        if (window[config.id + '_handler_options'].categorize_by_parent_label === true)
+        {
+            $('#' + config.id + '_search_input').category_complete(autocomplete_options);
+        }
+        else
+        {
+            $('#' + config.id + '_search_input').autocomplete(autocomplete_options);
+        }
     }
 };
