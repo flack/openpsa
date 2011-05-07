@@ -752,3 +752,15 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .good .ui-widget-header .ui-icon {background-image: url(images/ui-icons_ffffff_256x240.png); }
 
 .good .ui-state-hover .ui-icon, .good .ui-state-focus .ui-icon {background-image: url(images/ui-icons_56981b_256x240.png); }
+
+.ui-autocomplete
+{
+    -moz-box-shadow: 2px 3px 5px rgba(0, 0, 0, .25);
+    -webkit-box-shadow: 2px 3px 5px rgba(0, 0, 0, .25);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .25);
+}
+.ui-autocomplete .ui-menu-item a
+{
+    padding: .1em .4em;
+    line-height: 1.4;
+}
