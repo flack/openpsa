@@ -274,78 +274,34 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         }
         $handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
 
+        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
+        $task_conf = $widget_config['task'];
+        $task_conf['handler_url'] = $handler_url;
+
+        //Make sure we have the needed constants
+        midcom::get('componentloader')->load('org.openpsa.projects');
+        $task_conf['constraints'][] = array
+        (
+            'field' => 'orgOpenpsaObtype',
+            'op'    => '=',
+            'value' => ORG_OPENPSA_OBTYPE_TASK,
+        );
+
+        $invoice_conf = $widget_config['invoice'];
+        $invoice_conf['handler_url'] = $handler_url;
+
         $options = array
         (
             'none' => array('label' => $_MIDCOM->i18n->get_string("choose action", "midcom.admin.user")),
             'change_task' => array
             (
                 'label' => $this->_l10n->get('change_task'),
-                'widget_config' => array
-                (
-                    'class'       => 'org_openpsa_projects_task_dba',
-                    'component'   => 'org.openpsa.projects',
-                    'titlefield'  => 'title',
-                    'id_field'     => 'id',
-                    'constraints' => array
-                    (
-                        array
-                        (
-                            'field' => 'orgOpenpsaObtype',
-                            'op'    => '=',
-                            'value' => ORG_OPENPSA_OBTYPE_TASK,
-                        ),
-                    ),
-                    'result_headers' => array
-                    (
-                        array
-                        (
-                            'title' => 'title',
-                            'name' => 'title',
-                        ),
-                    ),
-                    'searchfields'  => array
-                    (
-                        'title'
-                    ),
-                    'orders'        => array
-                    (
-                        array('title'    => 'ASC')
-                    ),
-                    'get_label_for' => 'title',
-                    'handler_url' => $handler_url
-                )
+                'widget_config' => $task_conf
             ),
             'change_invoice' => array
             (
                 'label' => $this->_l10n->get('change_invoice'),
-                'widget_config' => array
-                (
-                    'class' => 'org_openpsa_invoices_invoice_dba',
-                    'component' => 'org.openpsa.invoices',
-                    'titlefield' => 'number',
-                    'id_field' => 'id',
-
-                    'result_headers' => array
-                    (
-                        array
-                        (
-                            'title' => 'number',
-                            'name' => 'number',
-                        ),
-                    ),
-                    'get_label_for' => 'number',
-                    'searchfields' => array
-                    (
-                        'number',
-                        'invoiceNumber',
-                        'description',
-                    ),
-                    'orders' => array
-                    (
-                        array('number' => 'ASC'),
-                    ),
-                    'handler_url' => $handler_url
-                ),
+                'widget_config' => $invoice_conf
             )
         );
         return $options;

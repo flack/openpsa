@@ -274,4 +274,56 @@
         ),
         'creation_default_key' => 'title',
     ),
+    'task' => array
+    (
+        'class'       => 'org_openpsa_projects_task_dba',
+        'component'   => 'org.openpsa.projects',
+        'titlefield'  => 'title',
+        'id_field'     => 'id',
+        'constraints' => array(),
+        'result_headers' => array
+        (
+            array
+            (
+                'title' => 'title',
+                'name' => 'title',
+            ),
+        ),
+        'searchfields'  => array
+        (
+            'title'
+        ),
+        'orders'        => array
+        (
+            array('title'    => 'ASC')
+        ),
+        'get_label_for' => 'title'
+    ),
+    'invoice' => array
+    (
+        'class' => 'org_openpsa_invoices_invoice_dba',
+        'component' => 'org.openpsa.invoices',
+        'titlefield' => 'number',
+        'id_field' => 'id',
+
+        'result_headers' => array
+        (
+            array
+            (
+                'title' => 'number',
+                'name' => 'number',
+            ),
+        ),
+        'get_label_for' => 'number',
+        'searchfields' => array
+        (
+            'number',
+            'invoiceNumber',
+            'description',
+        ),
+        'orders' => array
+        (
+            array('number' => 'ASC'),
+        ),
+    ),
 ),
