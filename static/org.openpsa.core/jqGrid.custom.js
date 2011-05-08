@@ -9,7 +9,12 @@ var org_openpsa_jqgrid_presets = {
     height: 'auto',
     hoverrows: true,
     shrinkToFit: true,
-    sortable: true
+    sortable: true,
+    jsonReader:
+    {
+        repeatitems: false,
+        id: '0'
+    }
 };
 
 $.jgrid.defaults = $.extend($.jgrid.defaults, org_openpsa_jqgrid_presets);
@@ -66,7 +71,7 @@ var org_openpsa_grid_resize =
                         {
                             $("#" + jqgrid_id).jqGrid().setGridHeight(placeholder.data('orig_height'));
                         }
-                        catch(e){console.log(e)}
+                        catch(e){}
 
                         container
                             .detach()
@@ -80,7 +85,7 @@ var org_openpsa_grid_resize =
                         $('#content-text').scrollTop(0);
                         var placeholder = $('<div id="maximized_placeholder"></div>')
                         placeholder
-                            .data('orig_height', container.find('table.ui-jqgrid-btable').outerHeight())
+                            .data('orig_height', container.find('.ui-jqgrid-bdiv').outerHeight())
                             .insertAfter(container);
                         container
                             .detach()

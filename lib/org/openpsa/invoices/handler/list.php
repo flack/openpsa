@@ -7,11 +7,12 @@
  */
 
 /**
- * invoice list handler
+ * Invoice list handler
  *
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_handler
+implements org_openpsa_core_grid_provider_client
 {
     /**
      * The customer we're working with, if any
@@ -51,82 +52,108 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         }
         $this->_request_data['grid'] = new org_openpsa_core_grid_widget($grid_id, 'local');
 
-        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-
         foreach ($invoices as $invoice)
         {
-            $entry = array();
-            $number = $invoice->get_label();
-            $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
-
-            if ($number == "")
-            {
-                $number = "n/a";
-            }
-
-            $entry['id'] = $invoice->id;
-            $entry['index_number'] = $number;
-            $entry['number'] = $link_html;
-
-            if (!$this->_customer)
-            {
-                try
-                {
-                    $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
-                    if ($this->_request_data['invoices_url'])
-                    {
-                        $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
-                    }
-                    else
-                    {
-                        $entry['customer'] = $customer->official;
-                    }
-                }
-                catch (midcom_error $e)
-                {
-                    $entry['customer'] = '';
-                }
-            }
-            $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
-
-            $entry['contact'] = $customer_card->show_inline();
-            $entry['index_sum'] = $invoice->sum;
-            $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
-
-            $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
-
-            if ($this->_list_type != 'paid')
-            {
-                $next_marker = false;
-                if ($invoice->sent == 0)
-                {
-                    $next_marker = 'sent';
-                }
-                else if (!$invoice->paid)
-                {
-                    $next_marker = 'paid';
-                }
-
-                $entry['action'] = '';
-                if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
-                    && $next_marker)
-                {
-                    $next_marker_url = $prefix . "invoice/mark_" . $next_marker . "/" . $invoice->guid . "/";
-                    $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
-                    $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
-                    $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
-                    $entry['action'] .= $this->_l10n->get('mark ' . $next_marker);
-                    $entry['action'] .= '</button></form>';
-                }
-            }
-            else
-            {
-                $entry['action'] = strftime('%x', $invoice->paid);
-            }
-
-            $this->_request_data['entries'][] = $entry;
+            $this->_request_data['entries'][] = $this->get_row($invoice);
             $this->_request_data['totals']['totals'] += $invoice->sum;
         }
+    }
+
+    public function get_row(midcom_core_dbaobject $invoice)
+    {
+        $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
+        $entry = array();
+        $number = $invoice->get_label();
+        $link_html = "<a href='{$prefix}invoice/{$invoice->guid}/'>" . $number . "</a>";
+
+        if ($number == "")
+        {
+            $number = "n/a";
+        }
+
+        $entry['id'] = $invoice->id;
+        $entry['index_number'] = $number;
+        $entry['number'] = $link_html;
+
+        if (!$this->_customer)
+        {
+            try
+            {
+                $customer = org_openpsa_contacts_group_dba::get_cached($invoice->customer);
+                if ($this->_request_data['invoices_url'])
+                {
+                    $entry['customer'] = "<a href=\"{$this->_request_data['invoices_url']}list/customer/all/{$customer->guid}/\" title=\"{$customer->name}: {$customer->official}\">{$customer->official}</a>";
+                }
+                else
+                {
+                    $entry['customer'] = $customer->official;
+                }
+            }
+            catch (midcom_error $e)
+            {
+                $entry['customer'] = '';
+            }
+        }
+        $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
+
+        $entry['contact'] = $customer_card->show_inline();
+        $entry['index_sum'] = $invoice->sum;
+        $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
+
+        $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
+
+        if ($this->_list_type != 'paid')
+        {
+            $next_marker = false;
+            if ($invoice->sent == 0)
+            {
+                $next_marker = 'sent';
+            }
+            else if (!$invoice->paid)
+            {
+                $next_marker = 'paid';
+            }
+
+            $entry['action'] = '';
+            if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
+                && $next_marker)
+            {
+                $next_marker_url = $prefix . "invoice/mark_" . $next_marker . "/" . $invoice->guid . "/";
+                $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
+                $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
+                $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
+                $entry['action'] .= $this->_l10n->get('mark ' . $next_marker);
+                $entry['action'] .= '</button></form>';
+            }
+        }
+        else
+        {
+            $entry['action'] = strftime('%x', $invoice->paid);
+        }
+        return $entry;
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_json($handler_id, array $args, array &$data)
+    {
+        $_MIDCOM->auth->require_valid_user();
+        $_MIDCOM->skip_page_style = true;
+        $this->_list_type = $args[0];
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_json($handler_id, array &$data)
+    {
+        $data['provider'] = new org_openpsa_core_grid_provider($this);
+        midcom_show_style('show-grid-json');
     }
 
     /**
@@ -256,23 +283,36 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_show_invoice_list();
     }
 
+    public function get_qb($field = null, $direction = 'ASC')
+    {
+        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb->add_constraint('paid', '>', 0);
+
+        if (!is_null($field))
+        {
+            $field = str_replace('index_', '', $field);
+            if (   $field == 'action'
+                && $this->_list_type == 'paid')
+            {
+                $field = 'paid';
+            }
+            $qb->add_order($field, $direction);
+        }
+        $qb->add_order('paid', 'DESC');
+        return $qb;
+    }
+
     /**
      * Helper that shows the six most recently paid invoices
      */
     private function _show_recent()
     {
-        $this->_list_type = 'paid';
-
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
-        $qb->add_constraint('paid', '>', 0);
-        $qb->add_order('paid', 'DESC');
-        $qb->set_limit(6);
-        $invoices = $qb->execute();
-        $this->_process_invoice_list($invoices);
-
+        $this->_request_data['list_type'] = 'paid';
+        $this->_request_data['grid'] = new org_openpsa_core_grid_widget('paid_invoices_grid', 'json');
         $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
+        $this->_request_data['show_customer'] = true;
 
-        $this->_show_invoice_list();
+        midcom_show_style('show-grid-ajax');
     }
 
     /**
