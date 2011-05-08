@@ -608,6 +608,28 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 {
     font-size: inherit
 }
+
+.ui-jqgrid-maximized
+{
+    position: absolute;
+    z-index: 20
+}
+.ui-jqgrid .HeaderButton
+{
+    height: 18px;
+    margin: -10px 0 0;
+    padding: 1px;
+    position: absolute;
+    top: 50%;
+    width: 19px;
+}
+
+.ui-jqgrid .HeaderButton span
+{
+    display: block;
+    margin: 1px;
+}
+
 .jqgrow.even
 {
     background-color: #F0F0F0;

@@ -18,54 +18,128 @@ var org_openpsa_grid_resize =
 {
     attach_events: function(scope)
     {
-        if ($('.fill-height', scope).length > 0)
+        jQuery(window).resize(function()
         {
-            $('.fill-height table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
-            {
-                $(window).trigger('resize');
-            }});
+            org_openpsa_grid_resize.event_handler(scope);
+        });
 
-            org_openpsa_grid_resize.fill_height(scope);
+        org_openpsa_grid_resize.fill_height($('.fill-height', scope));
+        $('.fill-height table.ui-jqgrid-btable', scope).jqGrid('setGridParam', {onHeaderClick: function()
+        {
+            $(window).trigger('resize');
+        }});
+        org_openpsa_grid_resize.fill_width($('.full-width', scope));
 
-            jQuery(window).resize(function()
-            {
-                org_openpsa_grid_resize.fill_height(scope);
-            });
+        org_openpsa_grid_resize.attach_maximizer($('.ui-jqgrid-titlebar', scope));
+    },
+    event_handler: function(scope)
+    {
+        if ($('.ui-jqgrid-maximized', scope).length > 0)
+        {
+            org_openpsa_grid_resize.fill_height($('.ui-jqgrid-maximized', scope));
+            org_openpsa_grid_resize.fill_width($('.ui-jqgrid-maximized', scope));
         }
+        else
+        {
+            org_openpsa_grid_resize.fill_height($('.fill-height', scope));
+            org_openpsa_grid_resize.fill_width($('.full-width', scope));
+        }
+    },
+    attach_maximizer: function(items)
+    {
+        $(items).each(function()
+        {
+            var maximize_button = $('<a role="link" class="ui-jqgrid-titlebar-maximize HeaderButton" style="right: 20px;"><span class="ui-icon ui-icon-circle-zoomin"></span></a>');
+            maximize_button
+                .bind('click', function()
+                {
+                    var container = $(this).closest('.ui-jqgrid').parent();
 
-        $('.full-width table.ui-jqgrid-btable', scope).each(function()
+                    if (container.hasClass('ui-jqgrid-maximized'))
+                    {
+                        $(this).removeClass('ui-state-active ui-state-hover');
+
+                        var jqgrid_id = container.find('table.ui-jqgrid-btable').attr('id'),
+                        placeholder = $('#maximized_placeholder');
+
+                        try
+                        {
+                            $("#" + jqgrid_id).jqGrid().setGridHeight(placeholder.data('orig_height'));
+                        }
+                        catch(e){console.log(e)}
+
+                        container
+                            .detach()
+                            .removeClass('ui-jqgrid-maximized')
+                            .insertBefore(placeholder);
+                        placeholder.remove();
+                    }
+                    else
+                    {
+                        $(this).addClass('ui-state-active');
+                        $('#content-text').scrollTop(0);
+                        var placeholder = $('<div id="maximized_placeholder"></div>')
+                        placeholder
+                            .data('orig_height', container.find('table.ui-jqgrid-btable').outerHeight())
+                            .insertAfter(container);
+                        container
+                            .detach()
+                            .addClass('ui-jqgrid-maximized')
+                            .prependTo($('#content-text'));
+                    }
+                    $(window).trigger('resize');
+                })
+                .bind('mouseenter', function()
+                {
+                    $(this).addClass('ui-state-hover');
+                })
+                .bind('mouseleave', function()
+                {
+                    $(this).removeClass('ui-state-hover');
+                });
+
+            $(this).prepend(maximize_button);
+        });
+    },
+    fill_width: function(items)
+    {
+        if (items.length === 0)
+        {
+            return;
+        }
+        var new_width = items.attr('clientWidth') - 5;
+        if (items.hasClass('ui-jqgrid-maximized'))
+        {
+            new_width = $('#content-text').attr('clientWidth') - 20;
+        }
+        $(items).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
         {
             var id = $(this).attr('id');
 
-            var resizer = function()
+            var panel = jQuery("#gbox_" + id).closest('.ui-tabs-panel');
+            if (panel.hasClass('ui-tabs-hide'))
             {
-                var panel = jQuery("#gbox_" + id).closest('.ui-tabs-panel');
-                if (panel.hasClass('ui-tabs-hide'))
-                {
-                    return;
-                }
-                var new_width = jQuery("#gbox_" + id).parent().attr('clientWidth') - 5;
-                try
-                {
-                    jQuery("#" + id).jqGrid().setGridWidth(new_width);
-                }
-                catch(e){}
-            };
-            resizer();
-
-            jQuery(window).resize(function()
+                return;
+            }
+            try
             {
-                resizer();
-            });
+                jQuery("#" + id).jqGrid().setGridWidth(new_width);
+            }
+            catch(e){}
         });
     },
-    fill_height: function(scope)
+    fill_height: function(items)
     {
+        if (items.length === 0)
+        {
+            return;
+        }
         var grids_height = 0,
         controls_height = 0,
-        container_height = $('#content-text').height() - $('.fill-height', scope).position().top;
+        container_height = $('#content-text').height() - $(items).position().top;
 
-        $('.fill-height', scope).each(function() {
+        $(items).each(function()
+        {
             var part_height = $(this).outerHeight(true),
             grid_body = $("table.ui-jqgrid-btable", $(this)),
             grid_height = grid_body.parent().parent().outerHeight();
@@ -85,7 +159,7 @@ var org_openpsa_grid_resize =
             }
         });
 
-        $('.fill-height table.ui-jqgrid-btable', scope).each(function()
+        $(items).find('.ui-jqgrid table.ui-jqgrid-btable').each(function()
         {
             var id = $(this).attr('id'),
             factor = 1,
