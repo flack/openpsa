@@ -34,7 +34,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
 
-        org_openpsa_core_ui_jqgrid::add_head_elements();
+        org_openpsa_core_grid_widget::add_head_elements();
     }
 
     private function _process_invoice_list($invoices)
@@ -49,7 +49,7 @@ class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_ha
         {
             $grid_id = 'd_' . $this->_request_data['deliverable']->id . $grid_id;
         }
-        $this->_request_data['grid'] = new org_openpsa_core_ui_jqgrid($grid_id, 'local');
+        $this->_request_data['grid'] = new org_openpsa_core_grid_widget($grid_id, 'local');
 
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 

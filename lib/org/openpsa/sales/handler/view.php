@@ -110,7 +110,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
 
-        org_openpsa_core_ui_jqgrid::add_head_elements();
+        org_openpsa_core_grid_widget::add_head_elements();
     }
 
     /**
