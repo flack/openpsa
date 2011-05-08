@@ -68,12 +68,13 @@ class midcom_core_querybuilder
     private $_offset = 0;
 
     /**
-     * This is an internal count which is incremented by one each time a constraint is added.
+     * This is an internal count which holds a copy of each constraint added.
      * It is used to emit a warning if no constraints have been added to the QB during execution.
+     * Also, this might be used to populate an mc instance if count is called before execute
      *
-     * @var int
+     * @var array
      */
-    private $_constraint_count = 0;
+    private $_constraints = array();
 
     /**
      * The number of records found by the last execute() run. This is -1 as long as no
@@ -82,6 +83,7 @@ class midcom_core_querybuilder
      * @var int
      */
     var $count = -1;
+
     /**
      * The number of objects for which access was denied.
      *
@@ -103,6 +105,13 @@ class midcom_core_querybuilder
      *
      */
     var $hide_invisible = true;
+
+    /**
+     * Flag that tracks whether deleted items should be included
+     *
+     * @var boolean
+     */
+    var $include_deleted = false;
 
     /**
      * The class this qb is working on.
@@ -292,7 +301,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if ($this->_constraint_count == 0)
+        if (sizeof($this->_constraints) == 0)
         {
             debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -456,7 +465,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if ($this->_constraint_count == 0)
+        if (sizeof($this->_constraints) == 0)
         {
             debug_add('This Query Builder instance has no constraints, see debug level log for stacktrace', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -548,7 +557,12 @@ class midcom_core_querybuilder
             return false;
         }
 
-        $this->_constraint_count++;
+        $this->_constraints[] = array
+        (
+            'field' => $field,
+            'operator' => $operator,
+            'value' => $value
+        );
         return true;
     }
 
@@ -663,6 +677,7 @@ class midcom_core_querybuilder
     function include_deleted()
     {
         $this->_reset();
+        $this->_include_deleted = true;
         $this->_qb->include_deleted();
     }
 
@@ -679,9 +694,54 @@ class midcom_core_querybuilder
 
         if ($this->count == -1)
         {
-            $this->execute();
+            return $this->_count_results();
         }
         return $this->count;
+    }
+
+    /**
+     * Helper function to to try and avoid excessive DB traffic for counts
+     *
+     * It creates a collector instance where possible and performs a count there. That means
+     * that all ACLs are correctly applied, but we don't have to load and instantiate the complete
+     * objects
+     */
+    private function _count_results()
+    {
+        if (!$this->_include_deleted)
+        {
+            $mc = midcom::get('dbfactory')->new_collector($this->classname, 'metadata.deleted', false);
+        }
+        else
+        {
+            foreach ($this->_constraints as $i => $constraint)
+            {
+                if ($constraint['operator'] === '=')
+                {
+                    $mc = midcom::get('dbfactory')->new_collector($this->classname, $constraint['field'], $constraint['value']);
+                    unset($this->_constraints[$i]);
+                    break;
+                }
+            }
+        }
+        if (!isset($mc))
+        {
+            return sizeof($this->execute());
+        }
+        foreach ($this->_constraints as $constraint)
+        {
+            $mc->add_constraint($constraint['field'], $constraint['operator'], $constraint['value']);
+        }
+        if ($this->_limit)
+        {
+            $mc->set_limit($this->_limit);
+        }
+        if ($this->_offset)
+        {
+            $mc->set_offset($this->_offset);
+        }
+
+        return $mc->count();
     }
 
     /**
