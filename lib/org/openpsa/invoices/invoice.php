@@ -349,7 +349,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     function get_billing_data()
     {
         //check if there is a customer set with invoice_data
-        if (!empty($this->customer))
+        try
         {
             $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
@@ -363,8 +363,12 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 return $billing_data[0];
             }
         }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
         //check if the customerContact is set & has invoice_data
-        if (!empty($this->customerContact))
+        try
         {
             $customerContact = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
@@ -377,6 +381,10 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 $billing_data[0]->set_address();
                 return $billing_data[0];
             }
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
         }
 
         //set the default-values for vat&due from config
