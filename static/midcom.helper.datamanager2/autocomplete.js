@@ -146,7 +146,7 @@ var midcom_helper_datamanager2_autocomplete =
         autocomplete_options = $.extend({}, default_autocomplete_options, autocomplete_options || {});
         window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
 
-        var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input"style="display: none" class="batch_widget" value="' + helptext + '" />';
+        var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input" style="display: none" class="batch_widget" value="' + helptext + '" />';
         widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection" value="' + default_value + '" />';
 
         if (typeof config.insertAfter !== 'undefined')
@@ -160,19 +160,28 @@ var midcom_helper_datamanager2_autocomplete =
 
         if (helptext !== '')
         {
+            if ($('#' + config.id + '_search_input').val() === helptext)
+            {
+                $('#' + config.id + '_search_input').addClass('autocomplete_helptext_shown');
+            }
+
             $('#' + config.id + '_search_input')
                 .bind('focus', function()
                 {
                     if ($(this).val() == helptext)
                     {
-                        $(this).val('');
+                        $(this)
+                            .val('')
+                            .removeClass('autocomplete_helptext_shown');
                     }
                 })
                 .bind('blur', function()
                 {
                     if ($(this).val() == '')
                     {
-                        $(this).val(helptext);
+                        $(this)
+                            .val(helptext)
+                            .addClass('autocomplete_helptext_shown');
                     }
                 });
         }
