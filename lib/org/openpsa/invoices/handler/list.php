@@ -285,7 +285,7 @@ implements org_openpsa_core_grid_provider_client
 
     public function get_qb($field = null, $direction = 'ASC')
     {
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
         $qb->add_constraint('paid', '>', 0);
 
         if (!is_null($field))

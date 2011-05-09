@@ -129,7 +129,18 @@ class org_openpsa_core_grid_provider
                 $qb->set_offset($this->_offset);
             }
         }
-        $items = $qb->execute();
+        if ($qb instanceof midcom_core_querybuilder)
+        {
+            $items = $qb->execute();
+        }
+        else if ($qb instanceof midcom_core_collector)
+        {
+            $items = $qb->get_objects();
+        }
+        else
+        {
+            throw new midcom_error('Unsupported query class ' . get_class($qb));
+        }
         foreach ($items as $item)
         {
             $this->_rows[] = $this->_client->get_row($item);
