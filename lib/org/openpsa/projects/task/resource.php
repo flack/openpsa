@@ -269,42 +269,5 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
     {
         return $_MIDCOM->auth->get_user($pid);
     }
-
-    static function get_resource_tasks($key = 'id', $list_finished = false)
-    {
-        $task_array = array();
-        if (!$_MIDCOM->auth->user)
-        {
-            return $task_array;
-        }
-
-        $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_value_property('task');
-        $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
-        $mc->add_constraint('task.start', '<=', time());
-
-        if (!$list_finished)
-        {
-            $mc->add_constraint( 'task.status', '<', org_openpsa_projects_task_status_dba::COMPLETED);
-        }
-        $mc->execute();
-
-        $resources = $mc->list_keys();
-        foreach ($resources as $resource => $task_id)
-        {
-            try
-            {
-                $task = new org_openpsa_projects_task_dba($mc->get_subkey($resource, 'task'));
-            }
-            catch (midcom_error $e)
-            {
-                continue;
-            }
-
-            $task_array[$task->$key] = $task->get_label();
-        }
-        asort($task_array);
-        return $task_array;
-    }
 }
 ?>

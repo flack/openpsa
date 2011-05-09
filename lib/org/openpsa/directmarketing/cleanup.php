@@ -22,12 +22,6 @@
  */
 class org_openpsa_directmarketing_cleanup extends midcom_baseclasses_components_purecode
 {
-    public function __construct()
-    {
-        $this->_component = 'org.openpsa.directmarketing';
-        parent::__construct();
-    }
-    
     private function get_deletion_timestamp()
     {
         return gmdate('Y-m-d H:i:s', time() - 3600 * 24 * $this->_config->get('delete_older_than_days'));

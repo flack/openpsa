@@ -341,7 +341,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             //do not set the parent category. The category is already a top category.
         }
-        org_openpsa_core_ui_jqgrid::add_head_elements();
+        org_openpsa_core_grid_widget::add_head_elements();
     }
 
     private function _index_redirect()

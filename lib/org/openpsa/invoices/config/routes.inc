@@ -11,6 +11,14 @@
     'handler' => Array('org_openpsa_invoices_handler_projects', 'uninvoiced'),
 ),
 
+// Match /list/json/<type>
+'list_json_type' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_list', 'json'),
+    'fixed_args' => array('list', 'json'),
+    'variable_args' => 1,
+),
+
 // Match /list/customer/all/<company guid>
 'list_customer_all' => array
 (

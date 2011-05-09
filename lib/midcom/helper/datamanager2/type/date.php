@@ -281,12 +281,14 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
     private function _validate_date_range()
     {
         $format = $this->_get_format();
+        //sometimes the date-compare function seems to corrupt the date, by changing timezone maybe
+        $before_compare_value = clone $this->value;
         if (   !empty($this->min_date)
             && !$this->is_empty()
             && !$this->_validate_date($this->value, new Date($this->min_date)))
         {
             $min_date = new Date($this->min_date);
-            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be later than %s'), htmlspecialchars($min_date->format($format)));
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be at least %s or later'), htmlspecialchars($min_date->format($format)));
             return false;
         }
         if (   !empty($this->max_date)
@@ -294,9 +296,10 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
             && !$this->_validate_date(new Date($this->max_date), $this->value))
         {
             $max_date = new Date($this->max_date);
-            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be earlier than %s'), htmlspecialchars($max_date->format($format)));
+            $this->validation_error = sprintf($this->_l10n->get('type date: this date must be earlier or be %s'), htmlspecialchars($max_date->format($format)));
             return false;
         }
+        $this->value = $before_compare_value;
 
         return true;
     }
@@ -314,7 +317,7 @@ class midcom_helper_datamanager2_type_date extends midcom_helper_datamanager2_ty
         $earlier_value = clone $compare_date_2nd;
         $check = true;
 
-        if (Date::compare($compare_date_1st, $compare_date_2nd) <= 0)
+        if (Date::compare($compare_date_1st, $compare_date_2nd) < 0)
         {
             $check = false;
         }

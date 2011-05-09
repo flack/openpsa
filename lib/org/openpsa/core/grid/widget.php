@@ -11,7 +11,7 @@
  *
  * @package org.openpsa.core
  */
-class org_openpsa_core_ui_jqgrid extends midcom_baseclasses_components_purecode
+class org_openpsa_core_grid_widget extends midcom_baseclasses_components_purecode
 {
     /**
      * The grid's ID

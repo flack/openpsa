@@ -1,3 +1,21 @@
+$.widget( "custom.category_complete", $.ui.autocomplete,
+{
+    _renderMenu: function(ul, items)
+    {
+	var self = this,
+	currentCategory = "";
+	$.each(items, function(index, item)
+        {
+	    if (item.category !== currentCategory)
+            {
+		ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+		currentCategory = item.category;
+	    }
+	    self._renderItem(ul, item);
+	});
+    }
+});
+
 var midcom_helper_datamanager2_autocomplete =
 {
     query: function(request, response)
@@ -20,6 +38,13 @@ var midcom_helper_datamanager2_autocomplete =
     {
         var selection_holder_id = $(event.target).attr('id').replace(/_search_input$/, '') + '_selection';
         $('#' + selection_holder_id).val(JSON.stringify([ui.item.id]));
+    },
+
+    open: function(event, ui)
+    {
+        var offset = $(this).offset()
+        height = $(window).height() - (offset.top + $(this).height() + 10);
+        $('ul.ui-autocomplete').css('maxHeight', height);
     },
 
     /**
@@ -98,25 +123,67 @@ var midcom_helper_datamanager2_autocomplete =
     /**
      * Generate and attach HTML for autocomplete widget (for use outside of DM2)
      */
-    create_widget: function(config)
+    create_widget: function(config, autocomplete_options)
     {
-        var default_config = 
+        var default_config =
 	{
 	    id_field: 'guid',
-	    auto_wildcards: 'end'
-	},
-	widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input"style="display: none" class="batch_widget"/>';
-        widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection"/>';
-        window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
-
-        $(widget_html).insertAfter($(config.insertAfter));
-        $('#' + config.id + '_search_input').autocomplete(
+            auto_wildcards: 'end',
+            categorize_by_parent_label: false,
+            helptext: '',
+            default_value: ''
+        },
+        default_value = config.default_value || default_config.default_value,
+        helptext = config.helptext || default_config.helptext,
+        default_autocomplete_options =
         {
             minLength: 2,
             source: midcom_helper_datamanager2_autocomplete.query,
             select: midcom_helper_datamanager2_autocomplete.select,
-            position: {collision: 'flip'}
-        });
+            position: {collision: 'flip'},
+            autoFocus: true
+        },
+        autocomplete_options = $.extend({}, default_autocomplete_options, autocomplete_options || {});
+        window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
 
+        var widget_html = '<input type="text" id="' + config.id + '_search_input" name="' + config.id + '_search_input"style="display: none" class="batch_widget" value="' + helptext + '" />';
+        widget_html += '<input type="hidden" id="' + config.id + '_selection" name="' + config.id + '_selection" value="' + default_value + '" />';
+
+        if (typeof config.insertAfter !== 'undefined')
+        {
+            $(widget_html).insertAfter($(config.insertAfter));
+        }
+        else if (typeof config.appendTo !== 'undefined')
+        {
+            $(widget_html).appendTo($(config.appendTo));
+        }
+
+        if (helptext !== '')
+        {
+            $('#' + config.id + '_search_input')
+                .bind('focus', function()
+                {
+                    if ($(this).val() == helptext)
+                    {
+                        $(this).val('');
+                    }
+                })
+                .bind('blur', function()
+                {
+                    if ($(this).val() == '')
+                    {
+                        $(this).val(helptext);
+                    }
+                });
+        }
+
+        if (window[config.id + '_handler_options'].categorize_by_parent_label === true)
+        {
+            $('#' + config.id + '_search_input').category_complete(autocomplete_options);
+        }
+        else
+        {
+            $('#' + config.id + '_search_input').autocomplete(autocomplete_options);
+        }
     }
 };

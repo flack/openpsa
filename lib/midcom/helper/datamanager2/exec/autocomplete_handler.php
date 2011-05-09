@@ -153,10 +153,22 @@ foreach ($results as $object)
         'id' => $object->{$_REQUEST['id_field']},
         'label' => midcom_helper_datamanager2_widget_autocomplete::create_item_label($object, $_REQUEST['result_headers'], $_REQUEST['get_label_for']),
     );
+    if (!empty($_REQUEST['categorize_by_parent_label']))
+    {
+        $item['category'] = '';
+        if ($parent = $object->get_parent())
+        {
+            $item['category'] = $parent->get_label();
+        }
+    }
     $item['value'] = $item['label'];
 
     $items[] = $item;
 }
+
+usort($items, array('midcom_helper_datamanager2_widget_autocomplete', 'sort_items'));
+
+
 echo json_encode($items);
 $_MIDCOM->finish();
 ?>

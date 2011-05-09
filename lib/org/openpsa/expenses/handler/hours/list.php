@@ -145,7 +145,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['tasks'] =& $this->tasks;
 
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
-        org_openpsa_core_ui_jqgrid::add_head_elements();
+        org_openpsa_core_grid_widget::add_head_elements();
         $this->_add_filter_widget();
 
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -265,14 +265,23 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     private function _prepare_batch_options()
     {
         // Get url to search handler
-        $nav = new midcom_helper_nav();
-        $root_node = $nav->get_node($nav->get_root_node());
-        if (   !$root_node
-            || empty($root_node))
-        {
-            array();
-        }
-        $handler_url = $root_node[MIDCOM_NAV_FULLURL] . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+
+        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
+        $task_conf = $widget_config['task'];
+        $task_conf['handler_url'] = $handler_url;
+
+        //Make sure we have the needed constants
+        midcom::get('componentloader')->load('org.openpsa.projects');
+        $task_conf['constraints'][] = array
+        (
+            'field' => 'orgOpenpsaObtype',
+            'op'    => '=',
+            'value' => ORG_OPENPSA_OBTYPE_TASK,
+        );
+
+        $invoice_conf = $widget_config['invoice'];
+        $invoice_conf['handler_url'] = $handler_url;
 
         $options = array
         (
@@ -280,72 +289,12 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             'change_task' => array
             (
                 'label' => $this->_l10n->get('change_task'),
-                'widget_config' => array
-                (
-                    'class'       => 'org_openpsa_projects_task_dba',
-                    'component'   => 'org.openpsa.projects',
-                    'titlefield'  => 'title',
-                    'id_field'     => 'id',
-                    'constraints' => array
-                    (
-                        array
-                        (
-                            'field' => 'orgOpenpsaObtype',
-                            'op'    => '=',
-                            'value' => ORG_OPENPSA_OBTYPE_TASK,
-                        ),
-                    ),
-                    'result_headers' => array
-                    (
-                        array
-                        (
-                            'title' => 'title',
-                            'name' => 'title',
-                        ),
-                    ),
-                    'searchfields'  => array
-                    (
-                        'title'
-                    ),
-                    'orders'        => array
-                    (
-                        array('title'    => 'ASC')
-                    ),
-                    'get_label_for' => 'title',
-                    'handler_url' => $handler_url
-                )
+                'widget_config' => $task_conf
             ),
             'change_invoice' => array
             (
                 'label' => $this->_l10n->get('change_invoice'),
-                'widget_config' => array
-                (
-                    'class' => 'org_openpsa_invoices_invoice_dba',
-                    'component' => 'org.openpsa.invoices',
-                    'titlefield' => 'number',
-                    'id_field' => 'id',
-
-                    'result_headers' => array
-                    (
-                        array
-                        (
-                            'title' => 'number',
-                            'name' => 'number',
-                        ),
-                    ),
-                    'get_label_for' => 'number',
-                    'searchfields' => array
-                    (
-                        'number',
-                        'invoiceNumber',
-                        'description',
-                    ),
-                    'orders' => array
-                    (
-                        array('number' => 'ASC'),
-                    ),
-                    'handler_url' => $handler_url
-                ),
+                'widget_config' => $invoice_conf
             )
         );
         return $options;

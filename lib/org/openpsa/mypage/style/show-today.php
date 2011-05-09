@@ -7,18 +7,7 @@ $view_today =& $data['view_today'];
     <?php
     if ($data['projects_url'])
     {
-        midcom_show_style('workingon');
-    }
-
-    // List expenses
-    if ($data['expenses_url'])
-    {
-        echo "<div class=\"expenses\">\n";
-        echo "<h2>" . $data['l10n']->get('this week') . "</h2>\n";
-        echo "<div id=\"content_expenses\">";
-        midcom_show_style('workingon_expenses');
-        echo "</div>";
-        echo "</div>\n";
+        $_MIDCOM->dynamic_load('workingon/');
     }
     ?>
 </div>

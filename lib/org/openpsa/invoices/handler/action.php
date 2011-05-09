@@ -128,7 +128,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     private function _prepare_grid_data()
     {
-        $this->_request_data['grid'] = new org_openpsa_core_ui_jqgrid('invoice_items', 'local');
+        $this->_request_data['grid'] = new org_openpsa_core_grid_widget('invoice_items', 'local');
 
         $entries = array();
 
