@@ -68,13 +68,12 @@ class midcom_core_querybuilder
     private $_offset = 0;
 
     /**
-     * This is an internal count which holds a copy of each constraint added.
+     * This is an internal count of constraintd added.
      * It is used to emit a warning if no constraints have been added to the QB during execution.
-     * Also, this might be used to populate an mc instance if count is called before execute
      *
-     * @var array
+     * @var int
      */
-    private $_constraints = array();
+    private $_constraints = 0;
 
     /**
      * The number of records found by the last execute() run. This is -1 as long as no
@@ -95,23 +94,11 @@ class midcom_core_querybuilder
     var $denied = 0;
 
     /**
-     * Set this element to true to hide all items which are currently invisible according
-     * to the approval/scheduling settings made using Metadata. This must be set before executing
-     * the query.
-     *
-     * Be aware, that this setting will currently not use the QB to filter the objects accordingly,
-     * since there is no way yet to filter against parameters. This will mean some performance
-     * impact.
-     *
-     */
-    var $hide_invisible = true;
-
-    /**
-     * Flag that tracks whether deleted items should be included
+     * Flag that tracks whether deleted visibility check have already been added
      *
      * @var boolean
      */
-    var $include_deleted = false;
+    private $_visibility_checks_added = false;
 
     /**
      * The class this qb is working on.
@@ -245,18 +232,11 @@ class midcom_core_querybuilder
             }
 
             // Check visibility
-            if ($this->hide_invisible)
+            if (   $this->hide_invisible
+                && !$GLOBALS['midcom_config']['show_unapproved_objects']
+                && !$object->__object->is_approved())
             {
-                if (!is_object($object->metadata))
-                {
-                    debug_add("Could not create a MidCOM metadata instance for {$this->_real_class} ID {$object->id}, assuming an invisible object", MIDCOM_LOG_INFO);
-                    continue;
-                }
-                if (! $object->metadata->is_object_visible_onsite())
-                {
-                    debug_add("The {$this->_real_class} ID {$object->id} is hidden by metadata.", MIDCOM_LOG_INFO);
-                    continue;
-                }
+                continue;
             }
 
             $newresult[] = $object;
@@ -301,7 +281,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if (sizeof($this->_constraints) == 0)
+        if ($this->_constraints == 0)
         {
             debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -465,7 +445,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if (sizeof($this->_constraints) == 0)
+        if ($this->_constraints == 0)
         {
             debug_add('This Query Builder instance has no constraints, see debug level log for stacktrace', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -557,12 +537,8 @@ class midcom_core_querybuilder
             return false;
         }
 
-        $this->_constraints[] = array
-        (
-            'field' => $field,
-            'operator' => $operator,
-            'value' => $value
-        );
+        $this->_constraints++;
+
         return true;
     }
 
@@ -674,7 +650,7 @@ class midcom_core_querybuilder
      *
      * Note: this may cause all kinds of weird behavior with the DBA helpers
      */
-    function include_deleted()
+    public function include_deleted()
     {
         $this->_reset();
         $this->_include_deleted = true;
@@ -688,60 +664,40 @@ class midcom_core_querybuilder
      *
      * @return int The number of records found by the last query.
      */
-    function count()
+    public function count()
     {
         $this->_check_groups();
 
         if ($this->count == -1)
         {
-            return $this->_count_results();
+            $this->execute();
         }
         return $this->count;
     }
 
-    /**
-     * Helper function to to try and avoid excessive DB traffic for counts
-     *
-     * It creates a collector instance where possible and performs a count there. That means
-     * that all ACLs are correctly applied, but we don't have to load and instantiate the complete
-     * objects
-     */
-    private function _count_results()
+    private function _add_visibility_checks()
     {
-        if (!$this->_include_deleted)
+        if ($this->_visibility_checks_added)
         {
-            $mc = midcom::get('dbfactory')->new_collector($this->classname, 'metadata.deleted', false);
-        }
-        else
-        {
-            foreach ($this->_constraints as $i => $constraint)
-            {
-                if ($constraint['operator'] === '=')
-                {
-                    $mc = midcom::get('dbfactory')->new_collector($this->classname, $constraint['field'], $constraint['value']);
-                    unset($this->_constraints[$i]);
-                    break;
-                }
-            }
-        }
-        if (!isset($mc))
-        {
-            return sizeof($this->execute());
-        }
-        foreach ($this->_constraints as $constraint)
-        {
-            $mc->add_constraint($constraint['field'], $constraint['operator'], $constraint['value']);
-        }
-        if ($this->_limit)
-        {
-            $mc->set_limit($this->_limit);
-        }
-        if ($this->_offset)
-        {
-            $mc->set_offset($this->_offset);
+            return;
         }
 
-        return $mc->count();
+        if (!$this->hide_invisible)
+        {
+            $this->_visibility_checks_added = true;
+            return;
+        }
+
+        if (!$GLOBALS['midcom_config']['show_hidden_objects'])
+        {
+            $this->add_constraint('metadata.hidden', '=', false);
+            $now = strftime('%Y-%m-%d %H:%M:%S');
+            $this->add_constraint('metadata.schedulestart', '>', $now);
+            $this->add_constraint('metadata.scheduleend', '<', $now);
+
+        }
+
+        $this->_visibility_checks_added = true;
     }
 
     /**
