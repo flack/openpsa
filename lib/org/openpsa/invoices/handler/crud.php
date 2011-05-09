@@ -305,20 +305,20 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
 
             // sending per email enabled in billing data?
             $sending_option = $this->_object->get_billing_data()->get_parameter("org.openpsa.invoices","sending_option");
-			if($sending_option == "mail")
-			{
-	            $this->_view_toolbar->add_item
-	            (
-	                array
-	                (
-	                    MIDCOM_TOOLBAR_URL => "invoice/mark_sent_per_mail/{$this->_object->guid}/",
-	                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent_per_mail'),
-	                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
-	                    MIDCOM_TOOLBAR_POST => true,
-	                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
-	                )
-	            );
-			}
+            if($sending_option == "mail")
+            {
+                $this->_view_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "invoice/mark_sent_per_mail/{$this->_object->guid}/",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent_per_mail'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
+                        MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
+                    )
+                );
+            }
 
         }
         else if (!$this->_object->paid)
@@ -477,10 +477,10 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if ($this->update_attachment)
         {
             $this->_request_data['invoice'] = $this->_object;
-			// set customer
+            // set customer
             if($this->_object->customer)
             {
-            	$this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
+                $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
             }
             $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_object->customerContact);
             $this->_request_data['billing_data'] = $this->_object->get_billing_data();
@@ -498,8 +498,8 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         //if attachment was manually uploaded show confirm if file should be replaced
         if($this->update_attachment)
         {
-        	$client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
-			$this->_request_data["pdfbuilder"] = new $client_class($data["invoice"]);
+            $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
+            $this->_request_data["pdfbuilder"] = new $client_class($data["invoice"]);
 
             midcom_show_style('show-pdf');
         }
