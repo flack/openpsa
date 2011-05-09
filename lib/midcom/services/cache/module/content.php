@@ -746,6 +746,12 @@ class midcom_services_cache_module_content extends midcom_services_cache_module
      */
     public function register($guid)
     {
+        // Check for uncached operation
+        if ($this->_uncached)
+        {
+            return;
+        }
+
         $context = $_MIDCOM->get_current_context();
         if ($context != 0)
         {
