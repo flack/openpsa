@@ -158,6 +158,10 @@ Mark paid
 Mark sent
 ---STRINGEND
 
+---STRING mark sent_per_mail
+send per mail
+---STRINGEND
+
 ---STRING marked %s hours as invoiced
 Marked %s hours as invoiced
 ---STRINGEND
@@ -168,6 +172,10 @@ Marked invoice "%s" as paid
 
 ---STRING marked invoice "%s" sent
 Marked invoice "%s" as sent
+---STRINGEND
+
+---STRING marked invoice "%s" sent per mail
+Sent invoice "%s" per mail
 ---STRINGEND
 
 ---STRING marked task "%s" finished
@@ -316,6 +324,22 @@ VAT No.
 
 ---STRING vat sum
 VAT amount
+---STRINGEND
+
+---STRING invoice options
+Further options
+---STRINGEND
+
+---STRING sending option
+How to send?
+---STRINGEND
+
+---STRING send per email
+Via E-Mail
+---STRINGEND
+
+---STRING send manually
+Manually
 ---STRINGEND
 
 ---STRING recalculate_by_reports

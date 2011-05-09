@@ -49,6 +49,80 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             }
         }
 
+		if(isset($args["no_redirect"]))
+		{
+        	return true;
+		}
+		else
+		{
+		    $this->_relocate();
+		}
+    }
+
+    /**
+     * This function will not only mark the invoice, but
+     * actually send the mail as well
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_mark_sent_per_mail($handler_id, array $args, array &$data)
+    {
+    	$args["no_redirect"] = true;
+
+		// remove prepare and mark instead when everything works here
+		$this->_prepare_action($args);
+    	// $this->_handler_mark_sent($handler_id, $args, &$data);
+
+		// load mailer component
+		$_MIDCOM->componentloader->load('org.openpsa.mail');
+        $mail = new org_openpsa_mail();
+
+		$customerCard = org_openpsa_contactwidget::get($this->_object->customerContact);
+		$contactDetails = $customerCard->contact_details;
+		$invoice_label = $this->_object->get_label();
+
+		// generate pdf
+		$client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
+		$pdfbuilder = new $client_class($this->_object);
+        // only get its content
+         $pdf = $pdfbuilder->render("S");
+
+        // define replacements for subject / body
+        $replacements = array(
+            "__INVOICE_LABEL__" => $invoice_label,
+            "__FIRSTNAME__" => $contactDetails["firstname"],
+            "__LASTNAME__" => $contactDetails["lastname"]
+        );
+
+        $mail->to = $contactDetails["email"];
+        $mail->from = $this->_config->get('invoice_mail_from_address');
+
+        $mail->subject = strtr($this->_config->get('invoice_mail_title'),$replacements);
+        $mail->body = strtr($this->_config->get('invoice_mail_body'),$replacements);
+
+        // attach pdf to mail
+        $mail->attachments[] = array(
+            "name" => $this->_object->get_label().".pdf",
+            "content" => $pdf,
+            "mimetype" => "application/pdf"
+        );
+
+        // send mail
+        $ret = $mail->send();
+
+        if (!$ret)
+        {
+            $_MIDCOM->generate_error(MIDCOM_ERRCRIT,"Unable to deliver mail.");
+            // This will exit.
+        }else{
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked invoice "%s" sent per mail'), $this->_object->get_label()), 'ok');
+        }
+
+        //var_dump($mail); exit;
+
+        // relocate
         $this->_relocate();
     }
 

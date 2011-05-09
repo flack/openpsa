@@ -107,7 +107,41 @@ implements org_openpsa_core_grid_provider_client
             $next_marker = false;
             if ($invoice->sent == 0)
             {
-                $next_marker = 'sent';
+                $next_marker = array();
+                if ($invoice->sent == 0)
+                {
+                    $next_marker[] = 'sent';
+
+                    // sending per mail enabled in billing data?
+                    $billing_data = $invoice->get_billing_data();
+ 	                $sending_option = $billing_data->get_parameter("org.openpsa.invoices","sending_option");
+					// only show if mail was chosen as option
+					if($sending_option == "mail")
+                    {
+                        $next_marker[] = 'sent_per_mail';
+                    }
+
+                }
+                else if (!$invoice->paid)
+                {
+                    $next_marker[] = 'paid';
+                }
+
+                $entry['action'] = '';
+                if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
+                    && count($next_marker) > 0)
+                {
+                    foreach($next_marker as $mark)
+                    {
+                        $next_marker_url = $prefix . "invoice/mark_" . $mark . "/" . $invoice->guid . "/";
+                        $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
+                        $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
+                        $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
+                        $entry['action'] .= $this->_l10n->get('mark ' . $mark);
+                        $entry['action'] .= '</button></form>';
+                    }
+
+                }
             }
             else if (!$invoice->paid)
             {

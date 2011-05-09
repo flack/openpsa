@@ -146,6 +146,10 @@ bezahlt
 verschickt
 ---STRINGEND
 
+---STRING mark sent_per_mail
+Mail versenden
+---STRINGEND
+
 ---STRING marked %s hours as invoiced
 %s Arbeitsstunden als abgerechnet markiert
 ---STRINGEND
@@ -156,6 +160,10 @@ Rechnung "%s" wurde als bezahlt markiert
 
 ---STRING marked invoice "%s" sent
 Rechnung "%s" wurde als verschickt markiert
+---STRINGEND
+
+---STRING marked invoice "%s" sent per mail
+Rechnung "%s" wurde per E-Mail versendet
 ---STRINGEND
 
 ---STRING marked task "%s" finished
@@ -292,6 +300,22 @@ USt-IdNr.
 
 ---STRING vat sum
 MwSt-Betrag
+---STRINGEND
+
+---STRING invoice options
+Weitere Optionen
+---STRINGEND
+
+---STRING sending option
+Wie verschicken?
+---STRINGEND
+
+---STRING send per email
+Per E-Mail
+---STRINGEND
+
+---STRING send manually
+Manuell
 ---STRINGEND
 
 ---STRING there is no invoice with number %s
