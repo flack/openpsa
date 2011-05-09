@@ -1,76 +1,86 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-$view_today =& $data['view_today'];
-$tasks = org_openpsa_projects_task_resource_dba::get_resource_tasks('guid');
+$workingon = $data['workingon'];
 
-if (count($tasks) > 0)
+$checked = "";
+if (!empty($workingon->invoiceable))
 {
-    $workingon = new org_openpsa_mypage_workingon();
-    $checked = "";
-    if(!empty($workingon->invoiceable))
-    {
-        $checked = "checked = 'checked'";
-    }
-    ?>
-    <div class="org_openpsa_mypage_workingon">
-        <h2><?php echo $data['l10n']->get('now working on'); ?></h2>
-        <form method="post" action="workingon/set/">
-            <input type="hidden" name="url" value="&(prefix);" />
-            <?php
-                if(is_null($workingon->task))
-                {
-                    echo "<input type=\"hidden\" id=\"task_before\" name=\"task_before\" value=\"none\" />";
-                }
-                else
-                {
-                    echo "<input type=\"hidden\" id=\"task_before\" name=\"task_before\" value=\"".$workingon->task->guid."\" />";
-                }
-            ?>
-            <textarea id="working_description" name="description">&(workingon.description);</textarea>
-            <p>
-            <div id="working_invoiceable_div" >
-            <label for="working_invoiceable">
-                <input type="checkbox" name="working_invoiceable" <?php echo $checked;?> id="working_invoiceable"/><?php echo $data['l10n']->get('invoiceable'); ?>
-            </label>
-            </div>
-            </p>
-            <select id="working_task" name="task" onchange="send_working_on();">
-                <option value="none"><?php echo $data['l10n']->get('not working on a task'); ?></option>
-                <?php
-                foreach ($tasks as $guid => $label)
-                {
-                    $selected = '';
-                    if (   !is_null($workingon->task)
-                        && $workingon->task->guid == $guid)
-                    {
-                        $selected = ' selected="selected"';
-                    }
-                    echo "<option value=\"{$guid}\"{$selected}>{$label}</option>\n";
-                }
-                ?>
-            </select>
-            <div id="loading" style="text-align:center;">
-            </div>
-            <div class="calculator" id="org_openpsa_mypage_workingon_time">
-            </div>
-            <?php
-            if ($workingon->task)
-            {
-                ?>
-                <script type="text/javascript">
-                jQuery('#org_openpsa_mypage_workingon_time').epiclock({
-                      mode: EC_COUNTUP,
-                      target: <?php echo $workingon->start * 1000; ?>,
-                      format: 'x:i:s'
-                });
-                jQuery.epiclock(EC_RUN);
-                </script>
-                <?php
-            }
-            ?>
+    $checked = "checked = 'checked'";
+}
+$current_task = '';
+$helptext = midcom::get('i18n')->get_string('task', 'org.openpsa.projects');
+if (!is_null($workingon->task))
+{
+    $current_task = '[' . $workingon->task->guid . ']';
+    $helptext = $workingon->task->get_label();
+}
 
-        </form>
+?>
+
+<div id="org_openpsa_mypage_workingon_widget">
+<div class="org_openpsa_mypage_workingon">
+    <h3><?php echo $data['l10n']->get('now working on'); ?></h3>
+    <input type="hidden" name="url" value="&(prefix);" />
+    <div id="working_task" >
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+        var widget_conf =
+        {
+            id: 'working_task',
+            appendTo: '#working_task',
+            widget_config: <?php echo json_encode($data['widget_config']); ?>,
+            helptext: '<?php echo $helptext ?>',
+            default_value: '<?php echo $current_task; ?>'
+        },
+        autocomplete_conf =
+        {
+            select: org_openpsa_workingon.select,
+            open: midcom_helper_datamanager2_autocomplete.open,
+            position: {collision: 'fit none'}
+        }
+
+        midcom_helper_datamanager2_autocomplete.create_widget(widget_conf, autocomplete_conf);
+        $('#working_task_search_input').show();
+        org_openpsa_workingon.setup_widget();
+    });
+    </script>
     </div>
+
+    <textarea id="working_description" name="description">&(workingon.description);</textarea>
+    <div id="working_invoiceable_div" >
+    <label for="working_invoiceable">
+      <input type="checkbox" name="working_invoiceable" <?php echo $checked;?> id="working_invoiceable"/><?php echo $data['l10n']->get('invoiceable'); ?>
+    </label>
+    </div>
+
+    </p>
+    <div class="calculator" id="org_openpsa_mypage_workingon_time">
+    </div>
+    <?php
+    if ($workingon->task)
+    { ?>
+         <script type="text/javascript">
+             jQuery('#org_openpsa_mypage_workingon_time').epiclock({
+                   mode: $.epiclock.modes.countup,
+                   target: <?php echo $workingon->start * 1000; ?>,
+                   format: 'x:i:s'
+             });
+         </script>
+    <?php } ?>
+      <input type="button" id="org_openpsa_mypage_workingon_stop" value="<?php echo $data['l10n']->get('stop'); ?>"/>
+      <input type="button" id="org_openpsa_mypage_workingon_start" value="<?php echo $data['l10n']->get('start'); ?>"/>
+
+</div>
+<div id="org_openpsa_mypage_workingon_loading">
+<img src="<?php echo MIDCOM_STATIC_URL; ?>/midcom.helper.datamanager2/ajax-loading.gif" alt="loading" />
+</div>
+
 <?php
+if ($data['expenses_url'])
+{
+    midcom_show_style('workingon_expenses');
 }
 ?>
+
+</div>

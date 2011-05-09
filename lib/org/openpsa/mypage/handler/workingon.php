@@ -18,6 +18,144 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
      * @param Array $args The argument list.
      * @param Array &$data The local request data.
      */
+    public function _handler_view($handler_id, array $args, array &$data)
+    {
+        $_MIDCOM->auth->require_valid_user();
+
+        // Set the "now working on" status
+        $data['workingon'] = new org_openpsa_mypage_workingon();
+
+        $_MIDCOM->skip_page_style = true;
+
+        $handler_url = midcom_connection::get_url('self') . 'midcom-exec-midcom.helper.datamanager2/autocomplete_handler.php';
+
+        $widget_config = midcom_baseclasses_components_configuration::get('midcom.helper.datamanager2', 'config')->get('clever_classes');
+        $task_conf = $widget_config['task'];
+        $task_conf['handler_url'] = $handler_url;
+        $task_conf['id_field'] = 'guid';
+
+        $task_conf['constraints'][] = array
+        (
+            'field' => 'status',
+            'op'    => '<',
+            'value' => org_openpsa_projects_task_status_dba::COMPLETED,
+        );
+        $data['widget_config'] = $task_conf;
+
+        // List work hours this week
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $data['expenses_url'] = $siteconfig->get_node_full_url('org.openpsa.expenses');
+
+        $data['requested_time'] = date('Y-m-d');
+
+        $this->_master->calculate_day($data['requested_time']);
+
+        $this->_list_work_hours();
+    }
+
+    /**
+     * Function to list invoiceable and uninvoicable hours
+     */
+    private function _list_work_hours()
+    {
+        $hours_mc = org_openpsa_projects_hour_report_dba::new_collector('person', midcom_connection::get_user());
+        $hours_mc->add_value_property('task');
+        $hours_mc->add_value_property('invoiceable');
+        $hours_mc->add_value_property('hours');
+        $hours_mc->add_constraint('date', '>=', $this->_request_data['week_start']);
+        $hours_mc->add_constraint('date', '<=', $this->_request_data['week_end']);
+        $hours_mc->execute();
+
+        $hours = $hours_mc->list_keys();
+
+        $this->_request_data['customers'] = array();
+        $this->_request_data['hours'] = array
+        (
+            'invoiceable' => array(),
+            'uninvoiceable' => array(),
+            'total_invoiceable' => 0,
+            'total_uninvoiceable' => 0,
+        );
+
+        foreach ($hours as $guid => $values)
+        {
+            $this->_add_hour_data($hours_mc->get($guid));
+        }
+
+        return true;
+    }
+
+    /**
+     * Helper function that sets the request data for hour reports
+     *
+     * @param &$array The array returned by collector
+     */
+    private function _add_hour_data(&$array)
+    {
+        static $customer_cache = array();
+        if (!isset($customer_cache[$array['task']]))
+        {
+            $customer = 0;
+            $customer_label = $this->_l10n->get('no customer');
+            if ($array['task'] != 0)
+            {
+                $mc = new midgard_collector('org_openpsa_task', 'id', $array['task']);
+                $mc->set_key_property('id');
+                $mc->add_value_property('customer');
+                $mc->execute();
+                $customer_id = $mc->get_subkey($array['task'], 'customer');
+                if ($customer_id)
+                {
+                    try
+                    {
+                        $customer = new org_openpsa_contacts_group_dba($customer_id);
+                        $customer_label = $customer->official;
+                        $customer = $customer_id;
+                    }
+                    catch (midcom_error $e){}
+               }
+            }
+            $customer_cache[$array['task']] = $customer;
+            if (!isset($this->_request_data['customers'][$customer]))
+            {
+                $this->_request_data['customers'][$customer] = $customer_label;
+            }
+        }
+
+        $customer = $customer_cache[$array['task']];
+
+        $category = 'uninvoiceable';
+        if ($array['invoiceable'])
+        {
+            $category = 'invoiceable';
+        }
+
+        if (!isset($this->_request_data['hours'][$category][$customer]))
+        {
+            $this->_request_data['hours'][$category][$customer] = $array['hours'];
+        }
+        else
+        {
+            $this->_request_data['hours'][$category][$customer] += $array['hours'];
+        }
+        $this->_request_data['hours']['total_' . $category] += $array['hours'];
+    }
+
+    /**
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param array &$data The local request data.
+     */
+    public function _show_view($handler_id, array &$data)
+    {
+        midcom_show_style('workingon');
+    }
+
+    /**
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
     public function _handler_set($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user('basic');
@@ -39,7 +177,7 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
         }
 
         // Handle "not working on anything"
-        if ($_POST['task'] == 'none')
+        if ($_POST['action'] == 'stop')
         {
             $_POST['task'] = '';
         }
@@ -52,36 +190,8 @@ class org_openpsa_mypage_handler_workingon extends midcom_baseclasses_components
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.mypage'),  'Failed to set "working on" parameter to "' . $_POST['task'] . '", reason ' . midcom_connection::get_error_string(), 'error');
         }
 
-        $_MIDCOM->relocate($relocate."workingon/check/");
+        $_MIDCOM->relocate($relocate . "workingon/");
         // This will exit
-    }
-
-    /**
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
-    public function _handler_check($handler_id, array $args, array &$data)
-    {
-        $_MIDCOM->auth->require_valid_user('basic');
-
-        // Set the "now working on" status
-        $data['workingon'] = new org_openpsa_mypage_workingon();
-
-        $_MIDCOM->skip_page_style = true;
-
-        $_MIDCOM->cache->content->content_type("text/xml; charset=UTF-8");
-        $_MIDCOM->header("Content-type: text/xml; charset=UTF-8");
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_check($handler_id, array &$data)
-    {
-        midcom_show_style('show-workingon-xml');
     }
 }
 ?>

@@ -93,6 +93,12 @@ class org_openpsa_projects_hour_report_dba extends midcom_core_dbaobject
             $parent = new org_openpsa_projects_task_dba($this->task);
             $parent->update_cache();
             org_openpsa_projects_workflow::start($parent, $this->person);
+            //Add person to resources if necessary
+            $parent->get_members();
+            if (!array_key_exists($this->person, $parent->resources))
+            {
+                $parent->add_members('resources', array($this->person));
+            }
         }
         catch (midcom_error $e){}
     }

@@ -11,12 +11,20 @@ Person
 Benutzerkonto
 ---STRINGEND
 
+---STRING both
+Beiden
+---STRINGEND
+
 ---STRING generate_password
 Passwort generieren
 ---STRINGEND
 
 ---STRING own_password
 Eigenes Passwort
+---STRINGEND
+
+---STRING search in
+Suche in
 ---STRINGEND
 
 ---STRING send_welcome_mail

@@ -14,7 +14,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
     protected $_pager_id = false;
     private $_offset = 0;
     protected $_limit;
-    private $_prefix = '';
+    protected $_prefix = '';
     private $_request_data = array();
     private $_current_page = 1;
     var $results_per_page = 25;
@@ -239,6 +239,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         //TODO: "showing results (offset)-(offset+limit)
         //TODO: Localizations
+
         $page_var = $data['prefix'] . 'page';
         echo '<div class="org_openpsa_qbpager_previousnext">';
 
@@ -283,6 +284,7 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
 
         //TODO: "showing results (offset)-(offset+limit)
         //TODO: Localizations
+
         $page_var = $data['prefix'] . 'page';
         echo '<div class="org_openpsa_qbpager_pages">';
         $page = 0;

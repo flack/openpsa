@@ -68,12 +68,12 @@ class midcom_core_querybuilder
     private $_offset = 0;
 
     /**
-     * This is an internal count which is incremented by one each time a constraint is added.
+     * This is an internal count of constraintd added.
      * It is used to emit a warning if no constraints have been added to the QB during execution.
      *
      * @var int
      */
-    private $_constraint_count = 0;
+    private $_constraints = 0;
 
     /**
      * The number of records found by the last execute() run. This is -1 as long as no
@@ -82,6 +82,7 @@ class midcom_core_querybuilder
      * @var int
      */
     var $count = -1;
+
     /**
      * The number of objects for which access was denied.
      *
@@ -101,8 +102,16 @@ class midcom_core_querybuilder
      * since there is no way yet to filter against parameters. This will mean some performance
      * impact.
      *
+     * @var boolean
      */
     var $hide_invisible = true;
+
+    /**
+     * Flag that tracks whether deleted visibility check have already been added
+     *
+     * @var boolean
+     */
+    private $_visibility_checks_added = false;
 
     /**
      * The class this qb is working on.
@@ -236,18 +245,11 @@ class midcom_core_querybuilder
             }
 
             // Check visibility
-            if ($this->hide_invisible)
+            if (   $this->hide_invisible
+                && !$GLOBALS['midcom_config']['show_unapproved_objects']
+                && !$object->__object->is_approved())
             {
-                if (!is_object($object->metadata))
-                {
-                    debug_add("Could not create a MidCOM metadata instance for {$this->_real_class} ID {$object->id}, assuming an invisible object", MIDCOM_LOG_INFO);
-                    continue;
-                }
-                if (! $object->metadata->is_object_visible_onsite())
-                {
-                    debug_add("The {$this->_real_class} ID {$object->id} is hidden by metadata.", MIDCOM_LOG_INFO);
-                    continue;
-                }
+                continue;
             }
 
             $newresult[] = $object;
@@ -292,7 +294,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if ($this->_constraint_count == 0)
+        if ($this->_constraints == 0)
         {
             debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -456,7 +458,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if ($this->_constraint_count == 0)
+        if ($this->_constraints == 0)
         {
             debug_add('This Query Builder instance has no constraints, see debug level log for stacktrace', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -548,7 +550,8 @@ class midcom_core_querybuilder
             return false;
         }
 
-        $this->_constraint_count++;
+        $this->_constraints++;
+
         return true;
     }
 
@@ -660,9 +663,10 @@ class midcom_core_querybuilder
      *
      * Note: this may cause all kinds of weird behavior with the DBA helpers
      */
-    function include_deleted()
+    public function include_deleted()
     {
         $this->_reset();
+        $this->_include_deleted = true;
         $this->_qb->include_deleted();
     }
 
@@ -673,7 +677,7 @@ class midcom_core_querybuilder
      *
      * @return int The number of records found by the last query.
      */
-    function count()
+    public function count()
     {
         $this->_check_groups();
 
@@ -682,6 +686,34 @@ class midcom_core_querybuilder
             $this->execute();
         }
         return $this->count;
+    }
+
+    private function _add_visibility_checks()
+    {
+        if ($this->_visibility_checks_added)
+        {
+            return;
+        }
+
+        if (!$this->hide_invisible)
+        {
+            $this->_visibility_checks_added = true;
+            return;
+        }
+
+        if (!$GLOBALS['midcom_config']['show_hidden_objects'])
+        {
+            $this->add_constraint('metadata.hidden', '=', false);
+            $now = strftime('%Y-%m-%d %H:%M:%S');
+            $this->begin_group('OR');
+                $this->add_constraint('metadata.schedulestart', '>', $now);
+                $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
+            $this->end_group();
+            $this->add_constraint('metadata.scheduleend', '<', $now);
+
+        }
+
+        $this->_visibility_checks_added = true;
     }
 
     /**

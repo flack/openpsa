@@ -1,3 +1,7 @@
+<div class="expenses">
+     <h2><?php echo $data['l10n']->get('this week'); ?></h2>
+     <div id="content_expenses">
+
 <?php
 if (count($data['hours']) > 0)
 {
@@ -56,3 +60,5 @@ else
     echo "<p><a href=\"{$data['expenses_url']}\">" . $_MIDCOM->i18n->get_string('report hours', 'org.openpsa.expenses') . "</a></p>\n";
 }
 ?>
+</div>
+</div>

@@ -55,7 +55,7 @@ Summen
 ---STRINGEND
 
 ---STRING see all %s hours
-Alle %s Arbeitsstunden anzeigen 
+Alle %s Arbeitsstunden anzeigen
 ---STRINGEND
 
 ---STRING this week
@@ -70,16 +70,20 @@ Abrechenbar
 Nicht abrechenbar
 ---STRINGEND
 
----STRING not working on a task
-Sie arbeiten nicht an einer Aufgabe
----STRINGEND
-
 ---STRING now working on
 Sie arbeiten an
 ---STRINGEND
 
 ---STRING reporting %d hours to task %s failed, reason %s
 Melden von %d Arbeitsstunden für Aufgabe "%s" ist fehlgeschlagen, Ursache: %s
+---STRINGEND
+
+---STRING start
+Start
+---STRINGEND
+
+---STRING stop
+Stop
 ---STRINGEND
 
 ---STRING successfully reported %d hours to task %s

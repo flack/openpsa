@@ -70,31 +70,23 @@ class org_openpsa_mypage_workingon
      */
     private function _get()
     {
-        $task_guid = $this->person->get_parameter('org.openpsa.mypage:workingon', 'task');
-        if (!$task_guid)
+        $workingon = $this->person->get_parameter('org.openpsa.mypage', 'workingon');
+
+        if (!$workingon)
         {
             // Person isn't working on anything at the moment
             return;
         }
+        $workingon = json_decode($workingon);
 
-        $task_time = $this->person->get_parameter('org.openpsa.mypage:workingon', 'start');
-        if (!$task_time)
-        {
-            // The time worked on is not available, remove task as well
-            $this->person->delete_parameter('org.openpsa.mypage:workingon', 'task');
-            return false;
-        }
-        $task_time = strtotime("{$task_time} GMT");
-
-        $description = $this->person->get_parameter('org.openpsa.mypage:workingon', 'description');
-        $invoiceable = $this->person->get_parameter('org.openpsa.mypage:workingon', 'invoiceable');
+        $task_time = strtotime($workingon->start . " GMT");
 
         // Set the protected vars
-        $this->task = new org_openpsa_projects_task_dba($task_guid);
+        $this->task = new org_openpsa_projects_task_dba($workingon->task);
         $this->time = time() - $task_time;
         $this->start = $task_time;
-        $this->description = $description;
-        $this->invoiceable = $invoiceable;
+        $this->description = $workingon->description;
+        $this->invoiceable = $workingon->invoiceable;
 
         return true;
     }
@@ -125,19 +117,22 @@ class org_openpsa_mypage_workingon
         }
         if ($task_guid == '')
         {
-            // We won't be working on anything from now on. Delete existing parameters
-            $this->person->set_parameter('org.openpsa.mypage:workingon', 'task', '');
-            $this->person->set_parameter('org.openpsa.mypage:workingon', 'description', '');
-            $stat = $this->person->set_parameter('org.openpsa.mypage:workingon', 'start', '');
+            // We won't be working on anything from now on. Delete existing parameter
+            $stat = $this->person->delete_parameter('org.openpsa.mypage', 'workingon');
+
             $_MIDCOM->auth->drop_sudo();
             return $stat;
         }
 
         // Mark the new task work session as started
-        $this->person->set_parameter('org.openpsa.mypage:workingon', 'task', $task_guid);
-        $this->person->set_parameter('org.openpsa.mypage:workingon', 'description', $description);
-        $this->person->set_parameter('org.openpsa.mypage:workingon', 'invoiceable', $invoiceable);
-        $stat = $this->person->set_parameter('org.openpsa.mypage:workingon', 'start', gmdate('Y-m-d H:i:s', time()));
+        $workingon = array
+        (
+            'task' => $task_guid,
+            'description' => $description,
+            'invoiceable' => $invoiceable,
+            'start' => gmdate('Y-m-d H:i:s', time())
+        );
+        $stat = $this->person->set_parameter('org.openpsa.mypage', 'workingon', json_encode($workingon));
         $_MIDCOM->auth->drop_sudo();
         return $stat;
     }

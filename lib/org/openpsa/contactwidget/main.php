@@ -355,7 +355,6 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
         }
 
         if (   $this->show_groups
-            && array_key_exists('id', $this->contact_details)
             && !empty($this->contact_details['id']))
         {
             $mc = midcom_db_member::new_collector('uid', $this->contact_details['id']);
@@ -370,15 +369,22 @@ class org_openpsa_contactwidget extends midcom_baseclasses_components_purecode
                 {
                     echo "<li class=\"org\">";
 
-                    if (class_exists('org_openpsa_contacts_group_dba'))
+                    try
                     {
-                        $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
+                        if (class_exists('org_openpsa_contacts_group_dba'))
+                        {
+                            $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
+                        }
+                        else
+                        {
+                            $group = new midcom_db_group($mc->get_subkey($guid, 'gid'));
+                        }
                     }
-                    else
+                    catch (midcom_error $e)
                     {
-                        $group = new midcom_db_group($mc->get_subkey($guid, 'gid'));
+                        $e->log();
+                        continue;
                     }
-
                     if ($mc->get_subkey($guid, 'extra'))
                     {
                         echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
