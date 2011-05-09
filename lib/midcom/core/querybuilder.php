@@ -94,6 +94,19 @@ class midcom_core_querybuilder
     var $denied = 0;
 
     /**
+     * Set this element to true to hide all items which are currently invisible according
+     * to the approval/scheduling settings made using Metadata. This must be set before executing
+     * the query.
+     *
+     * Be aware, that this setting will currently not use the QB to filter the objects accordingly,
+     * since there is no way yet to filter against parameters. This will mean some performance
+     * impact.
+     *
+     * @var boolean
+     */
+    var $hide_invisible = true;
+
+    /**
      * Flag that tracks whether deleted visibility check have already been added
      *
      * @var boolean
@@ -692,7 +705,10 @@ class midcom_core_querybuilder
         {
             $this->add_constraint('metadata.hidden', '=', false);
             $now = strftime('%Y-%m-%d %H:%M:%S');
-            $this->add_constraint('metadata.schedulestart', '>', $now);
+            $this->begin_group('OR');
+                $this->add_constraint('metadata.schedulestart', '>', $now);
+                $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
+            $this->end_group();
             $this->add_constraint('metadata.scheduleend', '<', $now);
 
         }
