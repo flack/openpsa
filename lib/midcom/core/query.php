@@ -58,6 +58,13 @@ abstract class midcom_core_query
     protected $_constraint_count = 0;
 
     /**
+     * The ordering instructions used for this query
+     *
+     * @var int
+     */
+    protected $_orders = array();
+
+    /**
      * This private helper holds the type that the application expects to retrieve
      * from this instance.
      *
@@ -233,6 +240,7 @@ abstract class midcom_core_query
     function set_offset($offset)
     {
         $this->_reset();
+
         $this->_offset = $offset;
     }
 
@@ -241,24 +249,25 @@ abstract class midcom_core_query
      * Add an ordering constraint to the query builder.
      *
      * @param string $field The name of the MgdSchema property to query against.
-     * @param string $ordering One of 'ASC' or 'DESC' indicating ascending or descending
+     * @param string $direction One of 'ASC' or 'DESC' indicating ascending or descending
      *     ordering. The default is 'ASC'.
      * @return boolean Indicating success.
      */
-    function add_order($field, $ordering = null)
+    function add_order($field, $direction = 'ASC')
     {
-        if ($ordering === null)
-        {
-            $result = $this->_query->add_order($field);
-        }
-        else
-        {
-            $result = $this->_query->add_order($field, $ordering);
-        }
+        $result = $this->_query->add_order($field, $direction);
 
         if (! $result)
         {
             debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
+        }
+        else
+        {
+            $this->_orders[] = array
+            (
+                'field' => $field,
+                'direction' => $direction
+            );
         }
 
         return $result;

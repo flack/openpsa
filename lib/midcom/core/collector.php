@@ -105,7 +105,7 @@ class midcom_core_collector extends midcom_core_query
      * @return boolean indicating success/failure
      * @see _real_execute()
      */
-    function execute()
+    public function execute()
     {
         if (! call_user_func_array(array($this->_real_class, '_on_prepare_exec_collector'), array(&$this)))
         {
@@ -136,11 +136,13 @@ class midcom_core_collector extends midcom_core_query
         }
         if ($this->_offset)
         {
-            $this->_query->set_offset($this->_offset);
+            // Disabled because of http://trac.midgard-project.org/ticket/1964
+            // offset is applied in list_keys() instead
+            //$this->_query->set_offset($this->_offset);
         }
 
         $this->_add_visibility_checks();
-        
+
         return $this->_query->execute();
     }
 
@@ -165,7 +167,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @see list_keys()
      */
-    function list_keys_unchecked()
+    public function list_keys_unchecked()
     {
         $this->_reset();
 
@@ -221,7 +223,7 @@ class midcom_core_collector extends midcom_core_query
     /**
      * implements midgard_collector::list_keys with ACL checking
      */
-    function list_keys()
+    public function list_keys()
     {
         $this->_reset();
         $result = $this->_list_keys_and_check_privileges();
@@ -259,7 +261,7 @@ class midcom_core_collector extends midcom_core_query
         return $result;
     }
 
-    function get_subkey($key, $property)
+    public function get_subkey($key, $property)
     {
         if (   $this->_user_id
             && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
@@ -270,7 +272,7 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->get_subkey($key, $property);
     }
 
-    function get($key)
+    public function get($key)
     {
         if (   $this->_user_id
             && !$_MIDCOM->auth->acl->can_do_byguid('midgard:read', $key, $this->_real_class, $this->_user_id))
@@ -281,19 +283,19 @@ class midcom_core_collector extends midcom_core_query
         return $this->_query->get($key);
     }
 
-    function destroy()
+    public function destroy()
     {
         return $this->_query->destroy();
     }
 
-    function set_key_property($property, $value = null)
+    public function set_key_property($property, $value = null)
     {
         debug_add("MidCOM collector does not allow switching key properties. It is always GUID.", MIDCOM_LOG_ERROR);
 
         return false;
     }
 
-    function add_value_property($property)
+    public function add_value_property($property)
     {
         if (!$this->_query->add_value_property($property))
         {
@@ -312,7 +314,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @return int The number of records found by the last query.
      */
-    function count()
+    public function count()
     {
         if ($this->count == -1)
         {
@@ -336,7 +338,7 @@ class midcom_core_collector extends midcom_core_query
      *
      * @return int The number of records matching the constraints without taking access control or visibility into account.
      */
-    function count_unchecked()
+    public function count_unchecked()
     {
         $this->_reset();
         if ($this->_limit)
@@ -348,6 +350,24 @@ class midcom_core_collector extends midcom_core_query
             $this->_query->set_offset($this->_offset);
         }
         return $this->_query->count();
+    }
+
+    public function get_objects()
+    {
+        $this->execute();
+        $guids = $this->list_keys();
+        if (sizeof($guids) == 0)
+        {
+            return array();
+        }
+        $qb = new midcom_core_querybuilder($this->_real_class);
+        $qb->hide_invisible = $this->hide_invisible;
+        $qb->add_constraint('guid', 'IN', array_keys($guids));
+        foreach ($this->_orders as $order)
+        {
+            $qb->add_order($order['field'], $order['direction']);
+        }
+        return $qb->execute();
     }
 }
 ?>
