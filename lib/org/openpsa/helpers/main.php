@@ -146,6 +146,38 @@ class org_openpsa_helpers
         return $output;
      }
 
+    public static function get_attachment_urls($object, $field)
+    {
+        $urls = array();
+        $identifiers = explode(',', $object->get_parameter('midcom.helper.datamanager2.type.blobs', 'guids_' . $field));
+        if (empty($identifiers))
+        {
+            return false;
+        }
+        $host_prefix = $_MIDCOM->get_host_prefix();
+        foreach ($identifiers as $identifier)
+        {
+            $parts = explode(':', $identifier);
+            if (sizeof($parts) != 2)
+            {
+                continue;
+            }
+            $guid = $parts[1];
+            try
+            {
+                $attachment = new midcom_db_attachment($guid);
+                $urls[$guid] = $host_prefix . '/midcom-serveattachmentguid-' . $attachment->guid . '/' . $attachment->name;
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+                continue;
+            }
+        }
+
+        return $urls;
+     }
+
     /**
      * Function for adding JavaScript buttons for saving/cancelling Datamanager 2 form via the toolbar
      *

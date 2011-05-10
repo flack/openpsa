@@ -83,11 +83,12 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $contactDetails = $customerCard->contact_details;
         $invoice_label = $this->_object->get_label();
 
-        // generate pdf
-        $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
-        $pdfbuilder = new $client_class($this->_object);
-        // only get its content
-         $pdf = $pdfbuilder->render("S");
+        // generate pdf, only if not existing yet
+        $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
+        if (count($pdf_files) == 0)
+        {
+        	$this->_object->render_and_attach_pdf();
+        }
 
         // define replacements for subject / body
         $replacements = array(
@@ -103,18 +104,30 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $mail->body = strtr($this->_config->get('invoice_mail_body'), $replacements);
 
         // attach pdf to mail
-        $mail->attachments[] = array
-        (
-            "name" => $this->_object->get_label() . ".pdf",
-            "content" => $pdf,
-            "mimetype" => "application/pdf"
-        );
+        if ($mail->can_attach())
+        {
+        	$pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
+
+        	if (count($pdf_files) > 0)
+        	{
+        		foreach ($pdf_files as $guid => $url)
+        		{
+			        $mail->attachments[] = array
+			        (
+			            "name" => basename($url),
+			            "file" => $url,
+			            "mimetype" => "application/pdf"
+			        );
+        		}
+        	}
+        }
 
         // send mail
         $ret = $mail->send();
 
         if (!$ret)
         {
+        	var_dump($mail);
             throw new midcom_error("Unable to deliver mail.");
         }
         else

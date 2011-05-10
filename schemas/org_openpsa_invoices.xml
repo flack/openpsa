@@ -25,9 +25,9 @@
         <property name="customerContact" link="midgard_person:id" type="unsigned integer"/>
 
         <property name="owner" link="midgard_person:id" type="unsigned integer">
-        	<description>
-        		Sender of the invoice
-        	</description>
+            <description>
+                Sender of the invoice
+            </description>
         </property>
     </type>
 
@@ -74,6 +74,8 @@
         <property name="vat" type="integer" />
         <property name="delivery" type="string" />
         <property name="due" type="unsigned integer" />
+        
+        <property name="sendingoption" type="integer" />
 
         <property name="useContactAddress" type="boolean" />
         <!-- guid of the object the billing data belongs to -->

@@ -238,7 +238,6 @@
                 'sortable' => false,
                 'max_count' => 1,
             ),
-            'hidden' => true,
             'index_method' => 'attachment',
         ),
         'files' => array

@@ -126,25 +126,20 @@
             'end_fieldset' => '',
         ),
 
-        'sending_option' => array
+        'sendingoption' => array
         (
             'title' => 'sending option',
+			'storage'    => 'sendingoption',
+
             'type'    => 'select',
             'type_config' => array
             (
                 'options' => array
                 (
-                    'manually' => 'send manually',
-                    'mail' => 'send per email',
+                    1 => 'send manually',
+                    2 => 'send per email',
                 ),
             ),
-            'storage'    => array
-            (
-                'location' => 'parameter',
-                'domain' => 'org.openpsa.invoices',
-                'name'    => 'sending_option',
-            ),
-
             'widget'      => 'radiocheckselect',
 
             'start_fieldset' => array
@@ -152,7 +147,6 @@
                 'title' => 'invoice options',
                 'css_group' => 'invoice_options area meta',
             ),
-
             'end_fieldset' => '',
 
         ),

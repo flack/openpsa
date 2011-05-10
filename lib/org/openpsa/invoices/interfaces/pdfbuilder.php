@@ -20,9 +20,9 @@ interface org_openpsa_invoices_interfaces_pdfbuilder
 
     /**
      * Perform the pdf rendering
-     * @param string $rendermode either "d" for direct output or "s" for returning the contents as a string
+     * @param string $output_filename the location the pdf gets rendered to
      */
-    public function render($rendermode);
+    public function render($output_filename);
 
 }
 ?>

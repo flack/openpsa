@@ -115,9 +115,8 @@ implements org_openpsa_core_grid_provider_client
 
                 // sending per mail enabled in billing data?
                 $billing_data = $invoice->get_billing_data();
-                 $sending_option = $billing_data->get_parameter("org.openpsa.invoices","sending_option");
                 // only show if mail was chosen as option
-                if($sending_option == "mail")
+                if(intval($billing_data->sendingoption) == 2)
                 {
                     $next_marker[] = 'sent_per_mail';
                 }

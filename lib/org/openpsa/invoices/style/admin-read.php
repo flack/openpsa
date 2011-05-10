@@ -1,5 +1,6 @@
 <?php
 $view = $data['object_view'];
+
 $invoice = $data['object'];
 
 try
@@ -142,7 +143,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     if ($view['pdf_file'] != "")
     { ?>
         <p><strong><?php echo $data['l10n']->get('pdf file'); ?></strong></p>
-        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'files'); ?>
+        <?php echo org_openpsa_helpers::render_fileinfo($invoice, 'pdf_file'); ?>
     <?php }
 
 // Display invoiced hours and tasks
