@@ -87,7 +87,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
         if (count($pdf_files) == 0)
         {
-        	$this->_object->render_and_attach_pdf();
+            $this->_object->render_and_attach_pdf();
         }
 
         // define replacements for subject / body
@@ -106,20 +106,20 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         // attach pdf to mail
         if ($mail->can_attach())
         {
-        	$pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
+            $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
 
-        	if (count($pdf_files) > 0)
-        	{
-        		foreach ($pdf_files as $guid => $url)
-        		{
-			        $mail->attachments[] = array
-			        (
-			            "name" => basename($url),
-			            "file" => $url,
-			            "mimetype" => "application/pdf"
-			        );
-        		}
-        	}
+            if (count($pdf_files) > 0)
+            {
+                foreach ($pdf_files as $guid => $url)
+                {
+                    $mail->attachments[] = array
+                    (
+                        "name" => basename($url),
+                        "file" => $url,
+                        "mimetype" => "application/pdf"
+                    );
+                }
+            }
         }
 
         // send mail
@@ -127,7 +127,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
         if (!$ret)
         {
-        	var_dump($mail);
             throw new midcom_error("Unable to deliver mail.");
         }
         else
