@@ -388,7 +388,7 @@ form.datamanager2 div.form_toolbar input.submit
     padding-left: 21px
 }
 
-form.datamanager2 textarea.markItUpEditor
+form.datamanager2 div.input textarea.markItUpEditor
 {
     padding: 5px 5px 5px 35px;
     -webkit-box-shadow: none;
