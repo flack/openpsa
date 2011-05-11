@@ -129,7 +129,7 @@
         'sendingoption' => array
         (
             'title' => 'sending option',
-			'storage'    => 'sendingoption',
+            'storage'    => 'sendingoption',
 
             'type'    => 'select',
             'type_config' => array

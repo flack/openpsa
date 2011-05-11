@@ -87,6 +87,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
         if (count($pdf_files) == 0)
         {
+            $_MIDCOM->skip_page_style = true;
             $this->_object->render_and_attach_pdf();
         }
 
@@ -121,6 +122,8 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 }
             }
         }
+
+        var_dump($mail);exit;
 
         // send mail
         $ret = $mail->send();
