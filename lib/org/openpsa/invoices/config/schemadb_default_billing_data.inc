@@ -125,5 +125,30 @@
             'widget'   => 'select',
             'end_fieldset' => '',
         ),
+
+        'sendingoption' => array
+        (
+            'title' => 'sending option',
+			'storage'    => 'sendingoption',
+
+            'type'    => 'select',
+            'type_config' => array
+            (
+                'options' => array
+                (
+                    1 => 'send manually',
+                    2 => 'send per email',
+                ),
+            ),
+            'widget'      => 'radiocheckselect',
+
+            'start_fieldset' => array
+            (
+                'title' => 'invoice options',
+                'css_group' => 'invoice_options area meta',
+            ),
+            'end_fieldset' => '',
+
+        ),
     )
 ),

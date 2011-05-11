@@ -102,34 +102,59 @@ implements org_openpsa_core_grid_provider_client
 
         $entry['due'] = strftime('%Y-%m-%d', $invoice->due);
 
-        if ($this->_list_type != 'paid')
+        $next_marker = array();
+        $entry['action'] = '';
+
+        // unsent invoices
+        if ($this->_list_type == 'unsent')
         {
-            $next_marker = false;
+            // not sent yet
             if ($invoice->sent == 0)
             {
-                $next_marker = 'sent';
-            }
-            else if (!$invoice->paid)
-            {
-                $next_marker = 'paid';
+                $next_marker[] = 'sent';
+
+                // sending per mail enabled in billing data?
+                $billing_data = $invoice->get_billing_data();
+                // only show if mail was chosen as option
+                if(intval($billing_data->sendingoption) == 2)
+                {
+                    $next_marker[] = 'sent_per_mail';
+                }
+
             }
 
-            $entry['action'] = '';
-            if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
-                && $next_marker)
+        }
+        // open invoices
+        elseif ($this->_list_type == 'open')
+        {
+            // not paid yet
+            if (!$invoice->paid)
             {
-                $next_marker_url = $prefix . "invoice/mark_" . $next_marker . "/" . $invoice->guid . "/";
-                $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
-                $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
-                $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
-                $entry['action'] .= $this->_l10n->get('mark ' . $next_marker);
-                $entry['action'] .= '</button></form>';
+                $next_marker[] = 'paid';
             }
         }
         else
         {
-            $entry['action'] = strftime('%x', $invoice->paid);
+            $entry['action'] .= strftime('%x', $invoice->paid);
         }
+
+        // generate next action buttons
+        if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
+                && count($next_marker) > 0)
+        {
+            foreach($next_marker as $mark)
+              {
+                 $next_marker_url = $prefix . "invoice/mark_" . $mark . "/" . $invoice->guid . "/";
+                $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
+
+                  $entry['action'] .= '<form method="post" action="' . $next_marker_url . '">';
+                  $entry['action'] .= '<button type="submit" name="midcom_helper_toolbar_submit" class="yes">';
+                   $entry['action'] .= $this->_l10n->get('mark ' . $mark);
+                  $entry['action'] .= '</button></form>';
+             }
+
+          }
+
         return $entry;
     }
 
@@ -285,7 +310,7 @@ implements org_openpsa_core_grid_provider_client
 
     public function get_qb($field = null, $direction = 'ASC')
     {
-        $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
+        $qb = org_openpsa_invoices_invoice_dba::new_collector('metadata.deleted', false);
         $qb->add_constraint('paid', '>', 0);
 
         if (!is_null($field))

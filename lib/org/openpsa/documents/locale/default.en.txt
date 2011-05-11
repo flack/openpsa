@@ -74,6 +74,10 @@ Draft
 Edit directory
 ---STRINGEND
 
+---STRING delete directory
+Delete directory
+---STRINGEND
+
 ---STRING final
 Final
 ---STRINGEND

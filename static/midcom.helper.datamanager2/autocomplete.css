@@ -27,6 +27,11 @@
     padding: 12px;
 }
 
+.autocomplete_helptext_shown
+{
+    color: #aaa;
+}
+
 .ui-autocomplete-loading
 {
     background: url('ajax-loading-small.gif') right center no-repeat;

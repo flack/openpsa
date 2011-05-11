@@ -74,6 +74,14 @@
     'variable_args' => 1,
 ),
 
+// Match /invoice/mark_sent_per_mail/<guid>
+'invoice_mark_sent_per_mail' => array
+(
+    'handler' => Array('org_openpsa_invoices_handler_action', 'mark_sent_per_mail'),
+    'fixed_args' => array('invoice', 'mark_sent_per_mail'),
+    'variable_args' => 1,
+),
+
 // Match /invoice/mark_paid/<guid>
 'invoice_mark_paid' => array
 (

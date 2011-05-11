@@ -49,6 +49,92 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             }
         }
 
+        if (isset($args["no_redirect"]))
+        {
+            return true;
+        }
+        else
+        {
+            $this->_relocate();
+        }
+    }
+
+    /**
+     * This function will not only mark the invoice, but
+     * actually send the mail as well
+     *
+     * @param mixed $handler_id The ID of the handler.
+     * @param Array $args The argument list.
+     * @param Array &$data The local request data.
+     */
+    public function _handler_mark_sent_per_mail($handler_id, array $args, array &$data)
+    {
+        $args["no_redirect"] = true;
+
+        // remove prepare and mark instead when everything works here
+        $this->_prepare_action($args);
+        // $this->_handler_mark_sent($handler_id, $args, &$data);
+
+        // load mailer component
+        $_MIDCOM->componentloader->load('org.openpsa.mail');
+        $mail = new org_openpsa_mail();
+
+        $customerCard = org_openpsa_contactwidget::get($this->_object->customerContact);
+        $contactDetails = $customerCard->contact_details;
+        $invoice_label = $this->_object->get_label();
+
+        // generate pdf, only if not existing yet
+        $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
+        if (count($pdf_files) == 0)
+        {
+            $this->_object->render_and_attach_pdf();
+        }
+
+        // define replacements for subject / body
+        $replacements = array(
+            "__INVOICE_LABEL__" => $invoice_label,
+            "__FIRSTNAME__" => $contactDetails["firstname"],
+            "__LASTNAME__" => $contactDetails["lastname"]
+        );
+
+        $mail->to = $contactDetails["email"];
+        $mail->from = $this->_config->get('invoice_mail_from_address');
+
+        $mail->subject = strtr($this->_config->get('invoice_mail_title'), $replacements);
+        $mail->body = strtr($this->_config->get('invoice_mail_body'), $replacements);
+
+        // attach pdf to mail
+        if ($mail->can_attach())
+        {
+            $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
+
+            if (count($pdf_files) > 0)
+            {
+                foreach ($pdf_files as $guid => $url)
+                {
+                    $mail->attachments[] = array
+                    (
+                        "name" => basename($url),
+                        "file" => $url,
+                        "mimetype" => "application/pdf"
+                    );
+                }
+            }
+        }
+
+        // send mail
+        $ret = $mail->send();
+
+        if (!$ret)
+        {
+            throw new midcom_error("Unable to deliver mail.");
+        }
+        else
+        {
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked invoice "%s" sent per mail'), $this->_object->get_label()), 'ok');
+        }
+
+        // relocate
         $this->_relocate();
     }
 

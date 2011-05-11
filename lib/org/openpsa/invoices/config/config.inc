@@ -7,4 +7,12 @@
 'invoice_sender'       => '',
 'invoice_number_format' => '#%06d',
 //contains the class file to create the pdf for the invoice , if set to false pdf-creation is disabled
-'invoice_pdf_class_file' => false,
+'invoice_pdfbuilder_class' => false, //implements org_openpsa_invoices_interfaces_pdfbuilder
+
+'invoice_mail_from_address' => 'foo@example.org',
+
+'invoice_mail_title' => 'Invoice __INVOICE_LABEL__',
+'invoice_mail_body' =>
+'Hello __FIRSTNAME__ __LASTNAME__,
+
+we got an invoice for you labeled __INVOICE_LABEL__!',

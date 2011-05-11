@@ -18,7 +18,7 @@ interface org_openpsa_core_grid_provider_client
      *
      * @param string $field Optional ordering field
      * @param string $direction Optional ordering direction
-     * @return midcom_core_querybuilder QB instance
+     * @return midcom_core_query QB or MC instance
      */
     public function get_qb($field = null, $direction = 'ASC');
 

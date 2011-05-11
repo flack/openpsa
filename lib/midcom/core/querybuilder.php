@@ -22,104 +22,11 @@
  * If you have to do create the instance manually however, do not forget to call the
  * {@link initialize()} function after construction, or the creation callbacks will fail.
  *
- * <i>Developer's Note:</i>
- *
- * Due to the limitations of the Zend engine this class does not extend the
- * QueryBuilder but proxy to it.
- *
  * @package midcom
  */
-class midcom_core_querybuilder
+class midcom_core_querybuilder extends midcom_core_query
 {
-    /**
-     * This private helper holds the type that the application expects to retrieve
-     * from this instance.
-     *
-     * @var string
-     */
-    private $_real_class;
-
-    /**
-     * The query builder instance that is internally used.
-     *
-     * @var midgard_query_builder
-     */
-    private $_qb;
-
-    /**
-     * The number of groups open
-     *
-     * @var int
-     */
-    private $_groups = 0;
-
-    /**
-     * The number of records to return to the client at most.
-     *
-     * @var int
-     */
-    private $_limit = 0;
-
-    /**
-     * The offset of the first record the client wants to have available.
-     *
-     * @var int
-     */
-    private $_offset = 0;
-
-    /**
-     * This is an internal count of constraintd added.
-     * It is used to emit a warning if no constraints have been added to the QB during execution.
-     *
-     * @var int
-     */
-    private $_constraints = 0;
-
-    /**
-     * The number of records found by the last execute() run. This is -1 as long as no
-     * query has been executed. This member is read-only.
-     *
-     * @var int
-     */
-    var $count = -1;
-
-    /**
-     * The number of objects for which access was denied.
-     *
-     * This is especially useful for reimplementations of functions like mgd_get_article_by_name
-     * which must use the QB in the first place.
-     *
-     * @var int
-     */
-    var $denied = 0;
-
-    /**
-     * Set this element to true to hide all items which are currently invisible according
-     * to the approval/scheduling settings made using Metadata. This must be set before executing
-     * the query.
-     *
-     * Be aware, that this setting will currently not use the QB to filter the objects accordingly,
-     * since there is no way yet to filter against parameters. This will mean some performance
-     * impact.
-     *
-     * @var boolean
-     */
-    var $hide_invisible = true;
-
-    /**
-     * Flag that tracks whether deleted visibility check have already been added
-     *
-     * @var boolean
-     */
-    private $_visibility_checks_added = false;
-
-    /**
-     * The class this qb is working on.
-     * @var string classname
-     */
-    var $classname = null;
-
-    var $_qb_error_result = 'UNDEFINED';
+    private $_qb_error_result = 'UNDEFINED';
 
     /**
      * Which window size to use. Is calculated when executing for the first time
@@ -147,8 +54,6 @@ class midcom_core_querybuilder
      */
     public function __construct($classname)
     {
-        $this->classname = $classname;
-
         if (!class_exists($classname))
         {
             throw new midcom_error("Cannot create a midcom_core_querybuilder instance for the type {$classname}: Class does not exist.");
@@ -178,7 +83,7 @@ class midcom_core_querybuilder
             $_class_mapping_cache[$classname] = $mgdschemaclass;
         }
 
-        $this->_qb = new midgard_query_builder($mgdschemaclass);
+        $this->_query = new midgard_query_builder($mgdschemaclass);
     }
 
     /**
@@ -200,7 +105,7 @@ class midcom_core_querybuilder
     {
         try
         {
-            $result = $this->_qb->execute();
+            $result = $this->_query->execute();
         }
         catch (Exception $e)
         {
@@ -224,7 +129,6 @@ class midcom_core_querybuilder
             return false;
         }
 
-        // Workaround until the QB returns the correct type, refetch everything
         $newresult = array();
         $this->denied = 0;
         foreach ($result as $object)
@@ -244,7 +148,7 @@ class midcom_core_querybuilder
                 continue;
             }
 
-            // Check visibility
+            // Check approval
             if (   $this->hide_invisible
                 && !$GLOBALS['midcom_config']['show_unapproved_objects']
                 && !$object->__object->is_approved())
@@ -261,11 +165,10 @@ class midcom_core_querybuilder
     /**
      * Resets some internal variables for re-execute
      */
-    private function _reset()
+    protected function _reset()
     {
         $this->_qb_error_result = 'UNDEFINED';
-        $this->count = -1;
-        $this->denied = 0;
+        parent::_reset();
     }
 
     /**
@@ -294,7 +197,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if ($this->_constraints == 0)
+        if ($this->_constraint_count == 0)
         {
             debug_add('This Query Builder instance has no constraints (set loglevel to debug to see stack trace)', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -384,7 +287,7 @@ class midcom_core_querybuilder
                       && $this->_offset):
                     // Get rest from offset
                     /* TODO: Somehow factor in that if we have huge number of objects and relatively small offset we want to increase window size
-                    $full_object_count = $this->_qb->count();
+                    $full_object_count = $this->_query->count();
                     */
                     $this->_window_size = round($this->_offset * 2);
                 case (   $this->_offset > $this->_limit):
@@ -413,9 +316,9 @@ class midcom_core_querybuilder
         $offset = $iteration * $this->_window_size;
         if ($offset)
         {
-            $this->_qb->set_offset($offset);
+            $this->_query->set_offset($offset);
         }
-        $this->_qb->set_limit($this->_window_size);
+        $this->_query->set_limit($this->_window_size);
     }
 
     private function _check_groups()
@@ -458,7 +361,7 @@ class midcom_core_querybuilder
             return null;
         }
 
-        if ($this->_constraints == 0)
+        if ($this->_constraint_count == 0)
         {
             debug_add('This Query Builder instance has no constraints, see debug level log for stacktrace', MIDCOM_LOG_WARN);
             debug_print_function_stack('We were called from here:');
@@ -467,11 +370,11 @@ class midcom_core_querybuilder
         // Add the limit / offsets
         if ($this->_limit)
         {
-            $this->_qb->set_limit($this->_limit);
+            $this->_query->set_limit($this->_limit);
         }
         if ($this->_offset)
         {
-            $this->_qb->set_offset($this->_offset);
+            $this->_query->set_offset($this->_offset);
         }
 
         $newresult = $this->_execute_and_check_privileges();
@@ -522,143 +425,6 @@ class midcom_core_querybuilder
     }
 
     /**
-     * Add a constraint to the query builder.
-     *
-     * @param string $field The name of the MgdSchema property to query against.
-     * @param string $operator The operator to use for the constraint, currently supported are
-     *     <, <=, =, <>, >=, >, LIKE. LIKE uses the percent sign ('%') as a
-     *     wildcard character.
-     * @param mixed $value The value to compare against. It should be of the same type then the
-     *     queried property.
-     * @return boolean Indicating success.
-     */
-    function add_constraint($field, $operator, $value)
-    {
-        $this->_reset();
-        // Add check against null values, Core MC is too stupid to get this right.
-        if ($value === null)
-        {
-            debug_add("QueryBuilder: Cannot add constraint on field '{$field}' with null value.", MIDCOM_LOG_WARN);
-            return false;
-        }
-        if (! $this->_qb->add_constraint($field, $operator, $value))
-        {
-            debug_add("Failed to execute add_constraint.", MIDCOM_LOG_ERROR);
-            debug_add("Class = '{$this->_real_class}, Field = '{$field}', Operator = '{$operator}'");
-            debug_print_r('Value:', $value);
-
-            return false;
-        }
-
-        $this->_constraints++;
-
-        return true;
-    }
-
-    /**
-     * Add an ordering constraint to the query builder.
-     *
-     * @param string $field The name of the MgdSchema property to query against.
-     * @param string $ordering One of 'ASC' or 'DESC' indicating ascending or descending
-     *     ordering. The default is 'ASC'.
-     * @return boolean Indicating success.
-     */
-    function add_order($field, $ordering = null)
-    {
-        /**
-         * NOTE: So see also collector.php when making changes here
-         */
-        if ($ordering === null)
-        {
-            $result = $this->_qb->add_order($field);
-        }
-        else
-        {
-            $result = $this->_qb->add_order($field, $ordering);
-        }
-
-        if (! $result)
-        {
-            debug_add("Failed to execute add_order for column '{$field}', midgard error: " . midcom_connection::get_error_string(), MIDCOM_LOG_ERROR);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Creates a new logical group within the query. They are set in parentheses in the final
-     * SQL and will thus be evaluated with precedence over the normal out-of-group constraints.
-     *
-     * While the call lets you decide whether all constraints within the group are AND'ed or OR'ed,
-     * only OR constraints make logically sense in this context, which is why this proxy function
-     * sets 'OR' as the default operator.
-     *
-     * @param string $operator One of 'OR' or 'AND' denoting the logical operation with which all
-     *     constraints in the group are concatenated.
-     */
-    function begin_group($operator = 'OR')
-    {
-        $this->_groups++;
-        try
-        {
-            @$this->_qb->begin_group($operator);
-        }
-        catch (Exception $e)
-        {
-            debug_add("Failed to execute begin_group {$operator}, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $this->_groups--;
-        }
-    }
-
-    /**
-     * Ends a group previously started with begin_group().
-     */
-    function end_group()
-    {
-        $this->_groups--;
-
-        try
-        {
-            @$this->_qb->end_group();
-        }
-        catch (Exception $e)
-        {
-            debug_add("Failed to execute end_group, Midgard Exception: " . $e->getMessage(), MIDCOM_LOG_ERROR);
-        }
-    }
-
-    /**
-     * Limits the resultset to contain at most the specified number of records.
-     * Set the limit to zero to retrieve all available records.
-     *
-     * This implementation overrides the original QB implementation for the implementation
-     * of ACL restrictions.
-     *
-     * @param int $limit The maximum number of records in the resultset.
-     */
-    function set_limit($limit)
-    {
-        $this->_reset();
-        $this->_limit = $limit;
-    }
-
-    /**
-     * Sets the offset of the first record to retrieve. This is a zero based index,
-     * so if you want to retrieve from the very first record, the correct offset would
-     * be zero, not one.
-     *
-     * This implementation overrides the original QB implementation for the implementation
-     * of ACL restrictions.
-     *
-     * @param int $offset The record number to start with.
-     */
-    function set_offset($offset)
-    {
-        $this->_reset();
-        $this->_offset = $offset;
-    }
-
-    /**
      * Include deleted objects (metadata.deleted is true) in query results.
      *
      * Note: this may cause all kinds of weird behavior with the DBA helpers
@@ -667,7 +433,7 @@ class midcom_core_querybuilder
     {
         $this->_reset();
         $this->_include_deleted = true;
-        $this->_qb->include_deleted();
+        $this->_query->include_deleted();
     }
 
     /**
@@ -686,34 +452,6 @@ class midcom_core_querybuilder
             $this->execute();
         }
         return $this->count;
-    }
-
-    private function _add_visibility_checks()
-    {
-        if ($this->_visibility_checks_added)
-        {
-            return;
-        }
-
-        if (!$this->hide_invisible)
-        {
-            $this->_visibility_checks_added = true;
-            return;
-        }
-
-        if (!$GLOBALS['midcom_config']['show_hidden_objects'])
-        {
-            $this->add_constraint('metadata.hidden', '=', false);
-            $now = strftime('%Y-%m-%d %H:%M:%S');
-            $this->begin_group('OR');
-                $this->add_constraint('metadata.schedulestart', '>', $now);
-                $this->add_constraint('metadata.schedulestart', '=', '0000-00-00 00:00:00');
-            $this->end_group();
-            $this->add_constraint('metadata.scheduleend', '<', $now);
-
-        }
-
-        $this->_visibility_checks_added = true;
     }
 
     /**
@@ -735,13 +473,13 @@ class midcom_core_querybuilder
 
         if ($this->_limit)
         {
-            $this->_qb->set_limit($this->_limit);
+            $this->_query->set_limit($this->_limit);
         }
         if ($this->_offset)
         {
-            $this->_qb->set_offset($this->_offset);
+            $this->_query->set_offset($this->_offset);
         }
-        return $this->_qb->count();
+        return $this->_query->count();
     }
 
     /**
@@ -756,9 +494,9 @@ class midcom_core_querybuilder
      */
     function toggle_read_only($toggle = false)
     {
-        if (method_exists($this->_qb, "toggle_read_only"))
+        if (method_exists($this->_query, "toggle_read_only"))
         {
-            $this->_qb->toggle_read_only($toggle);
+            $this->_query->toggle_read_only($toggle);
         }
     }
 }

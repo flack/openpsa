@@ -254,7 +254,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             org_openpsa_helpers::dm2_savecancel($this);
         }
         //check if save-pdf should be shown in toolbar & if invoice is unsent
-        if($this->_config->get('invoice_pdf_class_file')
+        if($this->_config->get('invoice_pdfbuilder_class')
             && isset($this->_object)
             && empty($this->_object->sent))
         {
@@ -302,6 +302,24 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                     MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
                 )
             );
+
+            // sending per email enabled in billing data?
+            $billing_data = $this->_object->get_billing_data();
+            if (intval($billing_data->sendingoption) == 2)
+            {
+                $this->_view_toolbar->add_item
+                (
+                    array
+                    (
+                        MIDCOM_TOOLBAR_URL => "invoice/mark_sent_per_mail/{$this->_object->guid}/",
+                        MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('mark sent_per_mail'),
+                        MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock_mail-reply.png',
+                        MIDCOM_TOOLBAR_POST => true,
+                        MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_object),
+                    )
+                );
+            }
+
         }
         else if (!$this->_object->paid)
         {
@@ -419,11 +437,11 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     public function _handler_pdf($handler_id, array $args, array &$data)
     {
-        $this->_load_pdf_creator();
         $this->_object = new org_openpsa_invoices_invoice_dba($args[0]);
+
         $this->_request_data['invoice_url'] = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . "/invoice/" . $this->_object->guid . "/";
 
-        //check for manual uploaded pdf-file & if user wants to replace it
+        //check for manually uploaded pdf-file & if user wants to replace it
         $this->update_attachment = true;
         if (array_key_exists('cancel', $_POST))
         {
@@ -431,7 +449,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
         if (!array_key_exists('save', $_POST))
         {
-            //load schema & datamanager to get attachment
+            // load schema & datamanager to get attachment
             $this->_load_schemadb();
             $this->_load_datamanager();
 
@@ -441,13 +459,13 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 foreach ($this->_datamanager->types['pdf_file']->attachments as $attachment)
                 {
                     $parameters = $attachment->list_parameters();
-                    //check if auto generated parameter is same as md5 in current-file
+                    // check if auto generated parameter is same as md5 in current-file
                     // if not the file was manually uploaded
                     if (   array_key_exists('org.openpsa.invoices', $parameters)
                         && (array_key_exists('auto_generated', $parameters['org.openpsa.invoices'])))
                     {
                         $blob = new midgard_blob($attachment->__object);
-                        //check if md5 sum equals the one saved in auto_generated
+                        // check if md5 sum equals the one saved in auto_generated
                         if ($parameters['org.openpsa.invoices']['auto_generated'] == md5_file($blob->get_path()))
                         {
                             $this->update_attachment = true;
@@ -459,7 +477,11 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if ($this->update_attachment)
         {
             $this->_request_data['invoice'] = $this->_object;
-            $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
+            // set customer
+            if($this->_object->customer)
+            {
+                $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
+            }
             $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_object->customerContact);
             $this->_request_data['billing_data'] = $this->_object->get_billing_data();
             $_MIDCOM->skip_page_style = true;
@@ -473,38 +495,18 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     public function _show_pdf($handler_id, array &$data)
     {
-        //if attachment was manually uploaded show confirm if file should be replaced
         if($this->update_attachment)
         {
-            midcom_show_style('show-pdf');
+            $this->_object->render_and_attach_pdf();
+            $_MIDCOM->relocate($this->_request_data["invoice_url"]);
         }
+        // if attachment was manually uploaded show confirm if file should be replaced
         else
         {
             midcom_show_style('show-confirm');
         }
     }
-    /**
-     * helper function to load the class file for pdf creation
-     */
-    function _load_pdf_creator()
-    {
-        if ($this->_config->get('invoice_pdf_class_file'))
-        {
-            try
-            {
-                require_once($this->_config->get('invoice_pdf_class_file'));
-            }
-            catch (Exception $e)
-            {
-                debug_print_r('Tried to require invoice_pdf_class_file :', $this->_config->get('invoice_pdf_class'));
-                throw new midcom_error("Could not require pdf class . Error: " . midcom_connection::get_error_string());
-            }
-        }
-        else
-        {
-            throw new midcom_error("No invoice pdf class was found in config.");
-        }
-   }
+
 
     function _prepare_request_data()
     {

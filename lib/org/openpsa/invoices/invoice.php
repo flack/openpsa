@@ -58,6 +58,51 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return 'printer.png';
     }
 
+    public function render_and_attach_pdf()
+    {
+        // renders the pdf and attaches it to the invoice
+        $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
+		$pdf_builder = new $client_class($this);
+
+		// tmp filename
+		$tmp_dir = $GLOBALS["midcom_config"]["midcom_tempdir"];
+		$title = str_replace("#", "", $this->get_label());
+
+		$tmp_file = $tmp_dir . "/". $title . ".pdf";
+
+		// render pdf to tmp filename
+		$render = $pdf_builder->render($tmp_file);
+
+		// cleanup old attachments
+		$pdf_files = org_openpsa_helpers::get_attachment_urls($this, "pdf_file");
+
+		if (count($pdf_files) > 0)
+		{
+			foreach ($pdf_files as $guid => $url)
+			{
+				$attachment = new midcom_db_attachment($guid);
+				$attachment->delete();
+			}
+		}
+
+		$attachment = $this->create_attachment($title, $title, "application/pdf");
+		if (!$attachment)
+		{
+		    debug_add("Failed to create invoice attachment for pdf");
+            return false;
+		}
+
+		$copy = $attachment->copy_from_file($tmp_file);
+		if (!$copy)
+		{
+		    debug_add("Failed to copy pdf from " . $tmp_file . " to attachment");
+            return false;
+		}
+
+		// set parameter for datamanager to find the pdf
+		$this->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid);
+	}
+
     public static function get_by_number($number)
     {
         $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
@@ -349,7 +394,7 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     function get_billing_data()
     {
         //check if there is a customer set with invoice_data
-        if (!empty($this->customer))
+        try
         {
             $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
@@ -363,8 +408,12 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 return $billing_data[0];
             }
         }
+        catch (midcom_error $e)
+        {
+            $e->log();
+        }
         //check if the customerContact is set & has invoice_data
-        if (!empty($this->customerContact))
+        try
         {
             $customerContact = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
             $qb = org_openpsa_invoices_billing_data_dba::new_query_builder();
@@ -377,6 +426,10 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
                 $billing_data[0]->set_address();
                 return $billing_data[0];
             }
+        }
+        catch (midcom_error $e)
+        {
+            $e->log();
         }
 
         //set the default-values for vat&due from config

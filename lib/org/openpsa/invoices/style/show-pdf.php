@@ -1,5 +1,4 @@
 <?php
-/*
- * Insert your code to create the pdf & attach it to the invoice here
- */
+// render the pdf and output it directly
+$data["pdfbuilder"]->render("D");
 ?>
