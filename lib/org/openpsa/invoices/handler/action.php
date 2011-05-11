@@ -114,7 +114,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                 foreach ($pdf_files as $guid => $url)
                 {
                     $att = array();
-                    $att['name'] = basename($url);
+                    $att['name'] = basename($url) . ".pdf";
                     $att['mimetype'] = "application/pdf";
 
                     $fp = fopen($url, "r");
