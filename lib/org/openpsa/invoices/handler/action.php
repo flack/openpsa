@@ -27,7 +27,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     public function _handler_mark_sent($handler_id, array $args, array &$data)
     {
-        $this->_prepare_action($args);
+        // prepare action hasnt been called before
+        if (!isset($args["no_redirect"]))
+        {
+               $this->_prepare_action($args);
+        }
 
         if (!$this->_object->sent)
         {
@@ -42,7 +46,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             // Close "Send invoice" task
             foreach ($tasks as $task)
             {
-                if (org_openpsa_projects_workflow::complete($task))
+                if (org_openpsa_projects_workflow::complete($task) && !isset($args["no_redirect"]))
                 {
                     $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked task "%s" finished'), $task->title), 'ok');
                 }
@@ -70,10 +74,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     public function _handler_mark_sent_per_mail($handler_id, array $args, array &$data)
     {
         $args["no_redirect"] = true;
-
-        // remove prepare and mark instead when everything works here
         $this->_prepare_action($args);
-        // $this->_handler_mark_sent($handler_id, $args, &$data);
 
         // load mailer component
         $_MIDCOM->componentloader->load('org.openpsa.mail');
@@ -87,6 +88,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $pdf_files = org_openpsa_helpers::get_attachment_urls($this->_object, "pdf_file");
         if (count($pdf_files) == 0)
         {
+            $_MIDCOM->skip_page_style = true;
             $this->_object->render_and_attach_pdf();
         }
 
@@ -112,12 +114,28 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             {
                 foreach ($pdf_files as $guid => $url)
                 {
-                    $mail->attachments[] = array
-                    (
-                        "name" => basename($url),
-                        "file" => $url,
-                        "mimetype" => "application/pdf"
-                    );
+                    $att = array();
+                    $att['name'] = basename($url) . ".pdf";
+                    $att['mimetype'] = "application/pdf";
+
+                    $fp = fopen($url, "r");
+                    if (!$fp)
+                    {
+                        //Failed to open attachment for reading, skip the file
+                        continue;
+                    }
+
+                    $att['content'] = '';
+
+                    while (!feof($fp))
+                    {
+                        $att['content'] .=  fread($fp, 4096);
+                    }
+                    fclose($fp);
+                    debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
+
+                    $mail->attachments[] = $att;
+                    unset($att);
                 }
             }
         }
@@ -131,6 +149,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         }
         else
         {
+            // mark as sent
+            $this->_handler_mark_sent($handler_id, $args, &$data);
+            // show ui message
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked invoice "%s" sent per mail'), $this->_object->get_label()), 'ok');
         }
 

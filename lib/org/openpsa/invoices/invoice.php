@@ -62,46 +62,46 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     {
         // renders the pdf and attaches it to the invoice
         $client_class = midcom_baseclasses_components_configuration::get('org.openpsa.invoices', 'config')->get('invoice_pdfbuilder_class');
-		$pdf_builder = new $client_class($this);
+        $pdf_builder = new $client_class($this);
 
-		// tmp filename
-		$tmp_dir = $GLOBALS["midcom_config"]["midcom_tempdir"];
-		$title = str_replace("#", "", $this->get_label());
+        // tmp filename
+        $tmp_dir = $GLOBALS["midcom_config"]["midcom_tempdir"];
+        $title = str_replace("#", "", $this->get_label());
 
-		$tmp_file = $tmp_dir . "/". $title . ".pdf";
+        $tmp_file = $tmp_dir . "/". $title . ".pdf";
 
-		// render pdf to tmp filename
-		$render = $pdf_builder->render($tmp_file);
+        // render pdf to tmp filename
+        $render = $pdf_builder->render($tmp_file);
 
-		// cleanup old attachments
-		$pdf_files = org_openpsa_helpers::get_attachment_urls($this, "pdf_file");
+        // cleanup old attachments
+        $pdf_files = org_openpsa_helpers::get_attachment_urls($this, "pdf_file");
 
-		if (count($pdf_files) > 0)
-		{
-			foreach ($pdf_files as $guid => $url)
-			{
-				$attachment = new midcom_db_attachment($guid);
-				$attachment->delete();
-			}
-		}
+        if (count($pdf_files) > 0)
+        {
+            foreach ($pdf_files as $guid => $url)
+            {
+                $attachment = new midcom_db_attachment($guid);
+                $attachment->delete();
+            }
+        }
 
-		$attachment = $this->create_attachment($title, $title, "application/pdf");
-		if (!$attachment)
-		{
-		    debug_add("Failed to create invoice attachment for pdf");
+        $attachment = $this->create_attachment($title, $title, "application/pdf");
+        if (!$attachment)
+        {
+            debug_add("Failed to create invoice attachment for pdf");
             return false;
-		}
+        }
 
-		$copy = $attachment->copy_from_file($tmp_file);
-		if (!$copy)
-		{
-		    debug_add("Failed to copy pdf from " . $tmp_file . " to attachment");
+        $copy = $attachment->copy_from_file($tmp_file);
+        if (!$copy)
+        {
+            debug_add("Failed to copy pdf from " . $tmp_file . " to attachment");
             return false;
-		}
+        }
 
-		// set parameter for datamanager to find the pdf
-		$this->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid);
-	}
+        // set parameter for datamanager to find the pdf
+        $this->set_parameter("midcom.helper.datamanager2.type.blobs", "guids_pdf_file", $attachment->guid . ":" . $attachment->guid);
+    }
 
     public static function get_by_number($number)
     {
