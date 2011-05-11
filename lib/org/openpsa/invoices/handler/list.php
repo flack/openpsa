@@ -124,14 +124,10 @@ implements org_openpsa_core_grid_provider_client
             }
 
         }
-        // open invoices
-        elseif ($this->_list_type == 'open')
+        // not paid yet
+        else if (!$invoice->paid)
         {
-            // not paid yet
-            if (!$invoice->paid)
-            {
-                $next_marker[] = 'paid';
-            }
+            $next_marker[] = 'paid';
         }
         else
         {
