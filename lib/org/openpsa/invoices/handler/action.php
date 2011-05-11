@@ -27,7 +27,11 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
      */
     public function _handler_mark_sent($handler_id, array $args, array &$data)
     {
-        $this->_prepare_action($args);
+    	// prepare action hasnt been called before
+    	if (!isset($args["no_redirect"]))
+    	{
+   			$this->_prepare_action($args);
+    	}
 
         if (!$this->_object->sent)
         {
@@ -70,10 +74,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
     public function _handler_mark_sent_per_mail($handler_id, array $args, array &$data)
     {
         $args["no_redirect"] = true;
-
-        // remove prepare and mark instead when everything works here
         $this->_prepare_action($args);
-        // $this->_handler_mark_sent($handler_id, $args, &$data);
 
         // load mailer component
         $_MIDCOM->componentloader->load('org.openpsa.mail');
@@ -132,6 +133,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
                     }
                     fclose($fp);
                     debug_add("adding attachment '{$att['name']}' to attachments array of invoice mail");
+
                     $mail->attachments[] = $att;
                     unset($att);
                 }
@@ -147,6 +149,9 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         }
         else
         {
+        	// mark as sent
+        	$this->_handler_mark_sent($handler_id, $args, &$data);
+            // show ui message
             $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.invoices'), sprintf($this->_l10n->get('marked invoice "%s" sent per mail'), $this->_object->get_label()), 'ok');
         }
 
