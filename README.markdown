@@ -2,18 +2,21 @@ OpenPSA is a management suite for web agencies and consultants that provides a u
 
 OpenPSA 1.x was initially released as Open Source under the GNU GPL license by [Nemein](http://nemein.com/) on May 8th 2004 to support the [5th anniversary](http://www.midgard-project.org/updates/midgard-5th-anniversary.html) of the [Midgard Project](http://www.midgard-project.org/). The package was originally known as Nemein.Net.
 
-Current versions are built on top of the MidCOM Component Framework and are developed and supported by [CONTENT CONTROL](http://www.contentcontrol-berlin.de/).
+The currently active branch (OpenPSA 9) is developed and supported by [CONTENT CONTROL](http://www.contentcontrol-berlin.de/).
 
 Read more in <http://openpsa2.org/>
 
 ## Dependencies
 
-* Midgard2 Content Repository (`libmidgard2-2010`)
 * PHP 5.2 or newer
-* PHP bindings to Midgard2 (`php5-midgard2`)
-* GNOME database abstraction layer (`libgda-4.0`) and some database back-end
-* Web server (Apache and Lighttpd work just fine)
-* Modern web browser for the end-users
+* Apache (or Lighttpd with the midgard2 backend)
+* Midgard2
+  * Midgard2 Content Repository (`libmidgard2-2010`)
+  * PHP bindings to Midgard2 (`php5-midgard2`)
+  * GNOME database abstraction layer (`libgda-4.0`) and some database back-end
+* alternatively, the legacy Midgard1 8.09 branch is also still supported
+
+On the client side, all modern web browser should work
 
 ## Setting up on Lighttpd
 
