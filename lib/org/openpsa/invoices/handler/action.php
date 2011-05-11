@@ -123,8 +123,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             }
         }
 
-        var_dump($mail);exit;
-
         // send mail
         $ret = $mail->send();
 
