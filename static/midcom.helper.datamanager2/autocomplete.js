@@ -2,17 +2,17 @@ $.widget( "custom.category_complete", $.ui.autocomplete,
 {
     _renderMenu: function(ul, items)
     {
-	var self = this,
-	currentCategory = "";
-	$.each(items, function(index, item)
+        var self = this,
+        currentCategory = "";
+        $.each(items, function(index, item)
         {
-	    if (item.category !== currentCategory)
+            if (item.category !== currentCategory)
             {
-		ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-		currentCategory = item.category;
-	    }
-	    self._renderItem(ul, item);
-	});
+                ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                currentCategory = item.category;
+            }
+            self._renderItem(ul, item);
+        });
     }
 });
 
@@ -126,8 +126,8 @@ var midcom_helper_datamanager2_autocomplete =
     create_widget: function(config, autocomplete_options)
     {
         var default_config =
-	{
-	    id_field: 'guid',
+        {
+            id_field: 'guid',
             auto_wildcards: 'end',
             categorize_by_parent_label: false,
             helptext: '',
