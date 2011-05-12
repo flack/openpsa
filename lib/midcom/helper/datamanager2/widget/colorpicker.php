@@ -11,12 +11,6 @@
  *
  * Colorpicker chooser allows to
  *
- * <b>Available configuration options:</b>
- *
- * - <i>boolean show_title:</i> This flag controls whether the title field is shown or not.
- *   If this is flag, the whole title processing will be disabled. This flag is true
- *   by default.
- *
  * @package midcom.helper.datamanager2
  */
 class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datamanager2_widget_text
@@ -30,13 +24,6 @@ class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datama
      * @var string
      */
     public $color_scheme = 'hex';
-
-    /**
-     * The size of the input box.
-     *
-     * @var int
-     */
-    public $size = 40;
 
     /**
      * The initialization event handler post-processes the maxlength setting.
@@ -59,7 +46,6 @@ class midcom_helper_datamanager2_widget_colorpicker extends midcom_helper_datama
     {
         $attributes = array_merge($attributes, array
         (
-            'size' => $this->size,
             'class' => "midcom_helper_datamanager2_colorpicker {$this->color_scheme}",
             'id'    => "{$this->_namespace}{$this->name}",
         ));

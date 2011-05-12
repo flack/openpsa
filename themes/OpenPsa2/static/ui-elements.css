@@ -337,6 +337,12 @@ form.datamanager2 input.radiobutton
     border: none;
 }
 
+form.datamanager2 input.shorttext,
+form.datamanager2 input.longtext
+{
+    width: 30em;
+}
+
 form.datamanager2 select
 {
     background-color: white
