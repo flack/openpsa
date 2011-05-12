@@ -36,7 +36,7 @@ div.area dl {
 div.area dt {
     font-weight: bold;
 }
-div.area dt a, div.area a.treemenu {
+div.area dt a {
     text-decoration: none;
 }
 div.area dd {
@@ -467,29 +467,6 @@ ul.updated li.updated-contacts {
 
 dl.campaigns dt.unsubscribed {
     text-decoration: line-through;
-}
-
-/* Make news items look nicer */
-div.area div.news-item span.postinfo
-{
-    display: block;
-    font-size: smaller;
-    color: #777;
-}
-div.area div.news-item
-{
-    margin-bottom: 4px;
-    margin-top: 2px;
-    padding-left: 22px;
-    background-image: url('../stock-icons/16x16/stock_news.png');
-    background-position: top left;
-    background-repeat: no-repeat;
-}
-
-#org_openpsa_projects_savebutton
-{
-    display: block;
-    margin-left: 22%;
 }
 
 /* Better looking business cards */
