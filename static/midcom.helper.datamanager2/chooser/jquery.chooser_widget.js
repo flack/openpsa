@@ -512,7 +512,8 @@ jQuery.midcom_helper_datamanager2_widget_chooser.ResultsHolder = function(option
         LOADING: 'chooser_widget_search_loading',
         IDLE: 'chooser_widget_search_idle',
         SAVED: 'chooser_widget_search_saved',
-        DELETED: 'chooser_widget_search_deleted'
+        DELETED: 'chooser_widget_search_deleted',
+        FAILED: 'chooser_widget_search_failed'
     };
 
 
