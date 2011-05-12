@@ -20,7 +20,7 @@ var midcom_helper_datamanager2_autocomplete =
 {
     query: function(request, response)
     {
-        var query_options_var = $('input:focus').attr('id').replace(/_search_input$/, '') + '_handler_options',
+        var query_options_var = $('.ui-autocomplete-loading').attr('id').replace(/_search_input$/, '') + '_handler_options',
         query_options = window[query_options_var];
         query_options.term = request.term;
         $.ajax({
@@ -42,7 +42,7 @@ var midcom_helper_datamanager2_autocomplete =
 
     open: function(event, ui)
     {
-        var offset = $(this).offset()
+        var offset = $(this).offset(),
         height = $(window).height() - (offset.top + $(this).height() + 10);
         $('ul.ui-autocomplete').css('maxHeight', height);
     },
@@ -73,7 +73,7 @@ var midcom_helper_datamanager2_autocomplete =
         create_button.css('display', 'block');
         create_button.bind('click', function()
         {
-            if (jQuery('#' + identifier + '_creation_dialog').css('display') == 'block')
+            if (jQuery('#' + identifier + '_creation_dialog').css('display') === 'block')
             {
                 jQuery('#' + identifier + '_creation_dialog').hide();
                 return;
@@ -112,7 +112,7 @@ var midcom_helper_datamanager2_autocomplete =
         jQuery('#' + identifier + '_selection').val(JSON.stringify([data[query_options.id_field]]));
         jQuery(query_options.result_headers).each(function(index, value)
         {
-            if (typeof data[value.name] != 'undefined')
+            if (typeof data[value.name] !== 'undefined')
             {
                 input_value += data[value.name] + ', ';
             }
@@ -142,7 +142,7 @@ var midcom_helper_datamanager2_autocomplete =
             select: midcom_helper_datamanager2_autocomplete.select,
             position: {collision: 'flip'},
             autoFocus: true
-        },
+        };
         autocomplete_options = $.extend({}, default_autocomplete_options, autocomplete_options || {});
         window[config.id + '_handler_options'] = $.extend({}, default_config, config.widget_config);
 
@@ -168,7 +168,7 @@ var midcom_helper_datamanager2_autocomplete =
             $('#' + config.id + '_search_input')
                 .bind('focus', function()
                 {
-                    if ($(this).val() == helptext)
+                    if ($(this).val() === helptext)
                     {
                         $(this)
                             .val('')
@@ -177,7 +177,7 @@ var midcom_helper_datamanager2_autocomplete =
                 })
                 .bind('blur', function()
                 {
-                    if ($(this).val() == '')
+                    if ($(this).val() === '')
                     {
                         $(this)
                             .val(helptext)
