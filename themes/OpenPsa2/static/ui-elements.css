@@ -338,9 +338,10 @@ form.datamanager2 input.radiobutton
 }
 
 form.datamanager2 input.shorttext,
-form.datamanager2 input.longtext
+form.datamanager2 .longtext
 {
     width: 30em;
+    background-color: white
 }
 
 form.datamanager2 select
@@ -363,7 +364,8 @@ form.datamanager2 div.input textarea
     padding: .15em .2em;
 }
 
-input[type="submit"]
+input[type="submit"],
+form.datamanager2 div.input input.submit
 {
     background-color: #dfdfdf;
     -webkit-box-shadow: inset 2px 2px 10px #fefefe, 1px 2px 3px rgba(0, 0, 0, 0.2);
