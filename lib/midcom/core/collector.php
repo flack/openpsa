@@ -221,6 +221,27 @@ class midcom_core_collector extends midcom_core_query
     }
 
     /**
+     * Convenience function to get all values of a specific column, indexed by GUID
+     *
+     * @param string $field the column name
+     */
+    public function get_values($field)
+    {
+        if (!$this->_executed)
+        {
+            $this->add_value_property($field);
+            $this->execute();
+        }
+        $results = $this->list_keys();
+        foreach ($results as $guid => $value)
+        {
+            $value = $this->get_subkey($guid, $field);
+            $results[$guid] = $value;
+        }
+        return $results;
+    }
+
+    /**
      * implements midgard_collector::list_keys with ACL checking
      */
     public function list_keys()
