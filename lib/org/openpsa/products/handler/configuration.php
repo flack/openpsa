@@ -14,7 +14,7 @@
  *
  * @package org.openpsa.products
  */
-class org_openpsa_products_handler_configuration extends midcom_core_handler_configdm2
+class org_openpsa_products_handler_configuration extends midcom_baseclasses_components_handler_configuration
 {
     function _load_datamanagers()
     {
@@ -22,10 +22,10 @@ class org_openpsa_products_handler_configuration extends midcom_core_handler_con
 
         $datamanagers['org_openpsa_products_product_group_dba'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_group']);
         $datamanagers['org_openpsa_products_product_dba'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb_product']);
-        
+
         return $datamanagers;
     }
-    
+
     private function _load_objects_group($group_id)
     {
         $objects = array();
@@ -36,7 +36,7 @@ class org_openpsa_products_handler_configuration extends midcom_core_handler_con
         {
             $objects[] = $product;
         }
-        
+
         $group_qb = org_openpsa_products_product_group_dba::new_query_builder();
         $group_qb->add_constraint('up', '=', $group_id);
         $groups = $group_qb->execute();
@@ -46,10 +46,10 @@ class org_openpsa_products_handler_configuration extends midcom_core_handler_con
             $child_objects = $this->_load_objects_group($group->id);
             $objects = array_merge($objects, $child_objects);
         }
-        
+
         return $objects;
     }
-    
+
     function _load_objects()
     {
         return $this->_load_objects_group($this->_request_data['root_group']);

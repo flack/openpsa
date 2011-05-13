@@ -36,7 +36,7 @@
 ),
 'config' => array
 (
-    'handler' => array('midcom_core_handler_configdm2', 'config'),
+    'handler' => array('midcom_baseclasses_components_handler_configuration', 'config'),
     'fixed_args' => 'config',
 ),
 // AJAX version of view, which skips style.

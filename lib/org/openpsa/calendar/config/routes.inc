@@ -129,6 +129,6 @@
 // Match /config/
 'config' => Array
 (
-    'handler' => Array('midcom_core_handler_configdm2', 'config'),
+    'handler' => Array('midcom_baseclasses_components_handler_configuration', 'config'),
     'fixed_args' => Array('config'),
 ),
