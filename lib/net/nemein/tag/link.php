@@ -71,12 +71,11 @@ class net_nemein_tag_link_dba extends midcom_core_dbaobject
     function get_label()
     {
         $mc = net_nemein_tag_tag_dba::new_collector('id', $this->tag);
-        $mc->add_value_property('tag');
-        $mc->execute();
-        $tag_guids = $mc->list_keys();
-        foreach ($tag_guids as $guid => $array)
+        $tag_guids = $mc->get_values('tag');
+
+        foreach ($tag_guids as $guid)
         {
-            return net_nemein_tag_handler::tag_link2tagname($mc->get_subkey($guid, 'tag'), $this->value, $this->context);
+            return net_nemein_tag_handler::tag_link2tagname($guid, $this->value, $this->context);
         }
         return $this->guid;
     }

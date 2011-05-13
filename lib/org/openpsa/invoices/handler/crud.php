@@ -55,14 +55,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                 // List customer contact's groups
                 $organizations = array();
                 $member_mc = midcom_db_member::new_collector('uid', $this->_object->customerContact);
-                $member_mc->add_value_property('gid');
-                $member_mc->execute();
-                $memberships = $member_mc->list_keys();
-                foreach ($memberships as $guid => $member)
+                $groups = $member_mc->get_values('gid');
+                foreach ($groups as $group)
                 {
                     try
                     {
-                        $organization = org_openpsa_contacts_group_dba::get_cached($member_mc->get_subkey($guid, 'gid'));
+                        $organization = org_openpsa_contacts_group_dba::get_cached($group);
                         $organizations[$organization->id] = $organization->official;
                     }
                     catch (midcom_error $e){}
@@ -119,14 +117,12 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         // We know the customer company, present contact as a select widget
         $persons_array = array();
         $member_mc = midcom_db_member::new_collector('gid', $customer->id);
-        $member_mc->add_value_property('uid');
-        $member_mc->execute();
-        $members = $member_mc->list_keys();
-        foreach ($members as $guid => $member)
+        $members = $member_mc->get_values('uid');
+        foreach ($members as $member)
         {
             try
             {
-                $person = org_openpsa_contacts_person_dba::get_cached($member_mc->get_subkey($guid, 'uid'));
+                $person = org_openpsa_contacts_person_dba::get_cached($member);
                 $persons_array[$person->id] = $person->rname;
             }
             catch (midcom_error $e){}

@@ -77,14 +77,13 @@ class org_openpsa_directmarketing_campaign_dba extends midcom_core_dbaobject
         }
         $mc = org_openpsa_directmarketing_campaign_member_dba::new_collector('campaign', $this->id);
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
-        $mc->add_value_property('person');
-        $mc->execute();
+        $testers = $mc->get_values('person');
 
         //Just to be sure
         $this->testers = array();
-        foreach ($mc->list_keys() as $guid => $empty)
+        foreach ($testers as $tester)
         {
-            $this->testers[$mc->get_subkey($guid, 'person')] = true;
+            $this->testers[$tester] = true;
         }
     }
 

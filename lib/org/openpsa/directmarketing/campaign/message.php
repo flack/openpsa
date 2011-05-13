@@ -85,32 +85,26 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         }
 
         $mc = org_openpsa_directmarketing_campaign_message_dba::new_collector('guid', $guid);
-        $mc->add_value_property('campaign');
-        $stat = $mc->execute();
-        if (!$stat)
+        $result = $mc->get_values('campaign');
+        if (empty($result))
         {
             // error
             return null;
         }
-        $keys = $mc->list_keys();
-        list ($key, $copy) = each ($keys);
-        $campaign_id = $mc->get_subkey($key, 'campaign');
+        $campaign_id = array_shift($result);
         if ($campaign_id === false)
         {
             // error
             return null;
         }
         $mc2 = org_openpsa_directmarketing_campaign_dba::new_collector('id', $campaign_id);
-        $mc2->add_value_property('guid');
-        $stat = $mc2->execute();
-        if (!$stat)
+        $result2 = $mc2->get_values('guid');
+        if (empty($result2))
         {
             // error
             return null;
         }
-        $keys2 = $mc2->list_keys();
-        list ($key2, $copy2) = each ($keys2);
-        $campaign_guid = $mc2->get_subkey($key2, 'guid');
+        $campaign_guid = array_shift($result2);
         if ($campaign_guid === false)
         {
             // error

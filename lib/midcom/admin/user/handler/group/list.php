@@ -236,21 +236,18 @@ class midcom_admin_user_handler_group_list extends midcom_baseclasses_components
             }
 
             $mc = midcom_db_group::new_collector('id', $id);
-            $mc->add_value_property('owner');
             $mc->set_limit(1);
-            $mc->execute();
-
-            $keys = $mc->list_keys();
+            $keys = $mc->get_values('owner');
 
             // Get the first array key
-            foreach ($keys as $subguid => $array)
+            foreach ($keys as $key)
             {
-                if ($mc->get_subkey($subguid, 'owner') === 0)
+                if ($key === 0)
                 {
                     return false;
                 }
 
-                $id = $mc->get_subkey($subguid, 'owner');
+                $id = $key;
             }
         }
         while ($mc->count() > 0);

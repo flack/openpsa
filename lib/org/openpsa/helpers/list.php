@@ -50,21 +50,17 @@ class org_openpsa_helpers_list
         }
 
         $mc = midcom_db_member::new_collector('metadata.deleted', false);
-        $mc->add_value_property('gid');
         $mc->add_constraint('uid', 'IN', array_keys($task->contacts));
         $mc->execute();
 
-        $memberships = @$mc->list_keys();
-        if (   !is_array($memberships)
-            || count($memberships) == 0)
+        $memberships = $mc->get_values('gid');
+        if (empty($memberships))
         {
             return $ret;
         }
 
-        reset ($memberships);
-        foreach ($memberships as $guid => $empty)
+        foreach ($memberships as $gid)
         {
-            $gid = $mc->get_subkey($guid, 'gid');
             if (isset($seen[$gid])
                 && $seen[$gid] == true)
             {

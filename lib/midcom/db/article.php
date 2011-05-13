@@ -114,15 +114,13 @@ class midcom_db_article extends midcom_core_dbaobject
             return null;
         }
         $mc_parent = midcom_db_topic::new_collector('id', $parent_id);
-        $mc_parent->add_value_property('guid');
         if (!$mc_parent->execute())
         {
             // Error
             return null;
         }
         $mc_parent_keys = $mc_parent->list_keys();
-        list ($key, $copy) = each ($mc_parent_keys);
-        $parent_guid = $mc_parent->get_subkey($key, 'guid');
+        $parent_guid = key($mc_parent_keys);
         if ($parent_guid === false)
         {
             // Error
@@ -145,15 +143,13 @@ class midcom_db_article extends midcom_core_dbaobject
             return null;
         }
         $mc_parent = midcom_db_article::new_collector('id', $parent_id);
-        $mc_parent->add_value_property('guid');
         if (!$mc_parent->execute())
         {
             // Error
             return null;
         }
         $mc_parent_keys = $mc_parent->list_keys();
-        list ($key, $copy) = each ($mc_parent_keys);
-        $parent_guid = $mc_parent->get_subkey($key, 'guid');
+        $parent_guid = key($mc_parent_keys);
         if ($parent_guid === false)
         {
             // Error

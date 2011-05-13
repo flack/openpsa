@@ -173,12 +173,10 @@ class org_openpsa_contacts_duplicates
         {
             $this->_membership_cache[$person1['guid']] = array();
             $mc = midcom_db_member::new_collector('uid', $person1['id']);
-            $mc->add_value_property('gid');
-            $mc->execute();
-            $memberships = $mc->list_keys();
-            foreach($memberships as $guid => $member)
+            $memberships = $mc->get_values('gid');
+            foreach ($memberships as $member)
             {
-                $this->_membership_cache[$person1['guid']][$mc->get_subkey($guid, 'gid')] = $mc->get_subkey($guid, 'gid');
+                $this->_membership_cache[$person1['guid']][$member] = $member;
             }
         }
         $person1_memberships =& $this->_membership_cache[$person1['guid']];
@@ -187,12 +185,10 @@ class org_openpsa_contacts_duplicates
         {
             $this->_membership_cache[$person2['guid']] = array();
             $mc = midcom_db_member::new_collector('uid', $person2['id']);
-            $mc->add_value_property('gid');
-            $mc->execute();
-            $memberships = $mc->list_keys();
-            foreach($memberships as $guid => $member)
+            $memberships = $mc->get_values('gid');
+            foreach ($memberships as $member)
             {
-                $this->_membership_cache[$person2['guid']][$mc->get_subkey($guid, 'gid')] = $mc->get_subkey($guid, 'gid');
+                $this->_membership_cache[$person2['guid']][$member] = $member;
             }
         }
         $person2_memberships =& $this->_membership_cache[$person2['guid']];

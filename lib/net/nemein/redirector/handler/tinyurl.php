@@ -105,12 +105,7 @@ implements midcom_helper_datamanager2_interfaces_create
             return false;
         }
 
-        foreach ($keys as $guid => $array)
-        {
-            break;
-        }
-
-        $item = new net_nemein_redirector_tinyurl_dba($guid);
+        $item = new net_nemein_redirector_tinyurl_dba(key($keys));
         return $item;
     }
 

@@ -1046,30 +1046,24 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
 
         // Participants
         $mc = org_openpsa_calendar_event_member_dba::new_collector('eid', $this->id);
-        $mc->add_value_property('uid');
-        $mc->execute();
-        $ret = $mc->list_keys();
+        $members = $mc->get_values('uid');
 
-        if (   is_array($ret)
-            && count($ret) > 0)
+        if (!empty($members))
         {
-            foreach ($ret as $guid =>$member)
+            foreach ($members as $member)
             {
-                $part[$mc->get_subkey($guid, 'uid')] = true;
+                $part[$member] = true;
             }
         }
         // Resources
         $mc2 = org_openpsa_calendar_event_resource_dba::new_collector('event', $this->id);
-        $mc2->add_value_property('resource');
-        $mc2->execute();
-        $ret = $mc2->list_keys();
+        $resources = $mc2->get_values('resource');
 
-        if (   is_array($ret)
-            && count($ret) > 0)
+        if (!empty($resources))
         {
-            foreach ($ret as $guid =>$member)
+            foreach ($resources as $resource)
             {
-                $res[$mc2->get_subkey($guid, 'resource')] = true;
+                $res[$resource] = true;
             }
         }
 

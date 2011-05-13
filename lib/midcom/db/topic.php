@@ -84,40 +84,20 @@ class midcom_db_topic extends midcom_core_dbaobject
             return null;
         }
         $mc_topic = midcom_db_topic::new_collector('guid', $guid);
-        $mc_topic->add_value_property('up');
-        if (!$mc_topic->execute())
+        $mc_topic_keys = $mc_topic->get_values('up');
+        if (empty($mc_topic_keys))
         {
             // Error
             return null;
         }
-        $mc_topic_keys = $mc_topic->list_keys();
-        list ($key, $copy) = each ($mc_topic_keys);
-        $parent_id = (int) $mc_topic->get_subkey($key, 'up');
+
+        $parent_id = array_shift($mc_topic_keys);
         if ($parent_id == 0)
         {
             // Root-level topic
             return null;
         }
-        $mc_parent = midcom_db_topic::new_collector('id', $parent_id);
-        $mc_parent->add_value_property('guid');
-        if (!$mc_parent->execute())
-        {
-            // ErrorA
-            return null;
-        }
-        $mc_parent_keys = $mc_parent->list_keys();
-        $parent_guids = array_keys($mc_parent_keys);
-        if (count($parent_guids) == 0)
-        {
-            return null;
-        }
-
-        $parent_guid = $parent_guids[0];
-        if ($parent_guid === false)
-        {
-            return null;
-        }
-        return $parent_guid;
+        return self::_get_parent_guid_uncached_static_topic($parent_id);
     }
 
     /**
@@ -134,20 +114,15 @@ class midcom_db_topic extends midcom_core_dbaobject
             return null;
         }
         $mc_parent = midcom_db_topic::new_collector('id', $parent_id);
-        $mc_parent->add_value_property('guid');
-        if (!$mc_parent->execute())
+        $mc_parent->execute();
+        $mc_parent_keys = $mc_parent->list_keys();
+        if (empty($mc_parent_keys))
         {
             // Error
             return null;
         }
-        $mc_parent_keys = $mc_parent->list_keys();
-        $parent_guids = array_keys($mc_parent_keys);
-        if (count($parent_guids) == 0)
-        {
-            return null;
-        }
 
-        $parent_guid = $parent_guids[0];
+        $parent_guid = key($mc_parent_keys);
         if ($parent_guid === false)
         {
             return null;

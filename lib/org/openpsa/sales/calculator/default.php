@@ -178,15 +178,9 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         }
         else
         {
-            $skip_ids = array();
             $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $this->_deliverable->id);
-            $item_mc->add_value_property('task');
-            $item_mc->execute();
+            $skip_ids = $item_mc->get_values('task');
 
-            foreach ($item_mc->list_keys() as $guid => $empty)
-            {
-                $skip_ids[] = $item_mc->get_subkey($guid, 'task');
-            }
             if (sizeof($skip_ids) > 0)
             {
                 $qb->add_constraint('id', 'NOT IN', $skip_ids);

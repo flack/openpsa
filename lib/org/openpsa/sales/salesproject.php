@@ -313,17 +313,12 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
         $mc = org_openpsa_contacts_role_dba::new_collector('objectGuid', $this->guid);
         $mc->add_constraint('role', '=', ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER);
-        $mc->add_value_property('person');
-        $mc->execute();
 
-        $ret = $mc->list_keys();
-        if (   is_array($ret)
-            && count($ret) > 0)
+        $members = $mc->get_values('person');
+
+        foreach ($members as $member)
         {
-            foreach (array_keys($ret) as $guid)
-            {
-                $this->_contacts[$mc->get_subkey($guid, 'person')] = true;
-            }
+            $this->_contacts[$member] = true;
         }
 
         if ($this->customerContact)

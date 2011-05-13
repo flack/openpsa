@@ -41,7 +41,6 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
 
         // List user's event memberships
         $mc = midcom_db_eventmember::new_collector('uid', midcom_connection::get_user());
-        $mc->add_value_property('eid');
 
         // Find all events that occur during [$from, $end]
         $mc->begin_group("OR");
@@ -61,13 +60,12 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
                 $mc->add_constraint("eid.end", "<=", $to);
             $mc->end_group();
         $mc->end_group();
-        $mc->execute();
 
-        $eventmembers = $mc->list_keys();
+        $eventmembers = $mc->get_values('eid');
         $this->_request_data['events'] = array();
-        foreach ($eventmembers as $guid => $empty)
+        foreach ($eventmembers as $eid)
         {
-            $this->_request_data['events'][] = new org_openpsa_calendar_event_dba($mc->get_subkey($guid, 'eid'));
+            $this->_request_data['events'][] = new org_openpsa_calendar_event_dba($eid);
         }
     }
 

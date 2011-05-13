@@ -217,7 +217,6 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
     private static function _get_linked_articles($topic_id, $offset, $limit, &$results)
     {
         $mc = net_nehmer_blog_link_dba::new_collector('topic', $topic_id);
-        $mc->add_value_property('article');
         $mc->add_constraint('topic', '=', $topic_id);
         $mc->add_order('metadata.published', 'DESC');
         $mc->set_offset($offset);
@@ -227,23 +226,18 @@ class net_nehmer_blog_navigation extends midcom_baseclasses_components_navigatio
         $mc->set_limit($limit * 2);
 
         // Get the results
-        $mc->execute();
-
-        $links = $mc->list_keys();
+        $links = $mc->add_value_property('article');
 
         // Return the empty result set
-        if (   !is_array($links)
-            || count($links) === 0)
+        if (empty($links))
         {
             return $results;
         }
 
         $i = 0;
 
-        foreach ($links as $guid => $link)
+        foreach ($links as $id)
         {
-            $id = $mc->get_subkey($guid, 'article');
-
             try
             {
                 $article = new midcom_db_article($id);

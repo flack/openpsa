@@ -129,7 +129,6 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
 
         // Tasks proposed to the user
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::PROPOSED);
@@ -139,21 +138,18 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         {
             $mc->add_constraint('task.orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
         }
-        $mc->execute();
-        $ret = $mc->list_keys();
+        $tasks = $mc->get_values('task');
 
-        if (   is_array($ret)
-            && count($ret) > 0)
+        if (!empty($tasks))
         {
-            foreach ($ret as $guid => $resource)
+            foreach ($tasks as $task)
             {
-                $this->_add_task_to_list($mc->get_subkey($guid, 'task'), 'proposed');
+                $this->_add_task_to_list($task, 'proposed');
             }
         }
 
         // Tasks user has under work
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $mc->begin_group('OR');
@@ -169,21 +165,18 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         {
             $mc->add_constraint('task.orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
         }
-        $mc->execute();
-        $ret = $mc->list_keys();
+        $tasks = $mc->get_values('task');
 
-        if (   is_array($ret)
-            && count($ret) > 0)
+        if (!empty($tasks))
         {
-            foreach ($ret as $guid => $resource)
+            foreach ($tasks as $task)
             {
-                $this->_add_task_to_list($mc->get_subkey($guid, 'task'), 'current');
+                $this->_add_task_to_list($task, 'current');
             }
         }
 
         // Tasks completed by user and pending approval
         $mc = org_openpsa_projects_task_resource_dba::new_collector('person', midcom_connection::get_user());
-        $mc->add_value_property('task');
         $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
         $mc->add_constraint('task.orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
         $mc->add_constraint('task.status', '=', org_openpsa_projects_task_status_dba::COMPLETED);
@@ -193,14 +186,13 @@ class org_openpsa_projects_handler_task_list extends midcom_baseclasses_componen
         {
             $mc->add_constraint('task.orgOpenpsaOwnerWg', '=', $GLOBALS['org_openpsa_core_workgroup_filter']);
         }
-        $mc->execute();
-        $ret = $mc->list_keys();
-        if (   is_array($ret)
-            && count($ret) > 0)
+        $tasks = $mc->get_values('task');
+
+        if (!empty($tasks))
         {
-            foreach ($ret as $guid => $resource)
+            foreach ($tasks as $task)
             {
-                $this->_add_task_to_list($mc->get_subkey($guid, 'task'), 'completed');
+                $this->_add_task_to_list($task, 'completed');
             }
         }
 

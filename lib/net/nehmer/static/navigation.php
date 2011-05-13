@@ -55,19 +55,15 @@ class net_nehmer_static_navigation extends midcom_baseclasses_components_navigat
         {
             // Get the linked articles as well
             $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_value_property('article');
             $mc->add_constraint('topic', '=', $this->_content_topic->id);
-            $mc->execute();
-
-            $links = $mc->list_keys();
+            $links = $mc->get_values('article');
 
             $qb->begin_group('OR');
-                $qb->add_constraint('topic', '=', $this->_content_topic->id);
-                foreach ($links as $guid => $array)
+                if (count($links) > 0)
                 {
-                    $id = $mc->get_subkey($guid, 'article');
-                    $qb->add_constraint('id', '=', $id);
+                    $qb->add_constraint('id', 'IN', $links);
                 }
+                $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->end_group();
         }
 

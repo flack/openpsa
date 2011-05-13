@@ -475,12 +475,10 @@ class midcom_helper__styleloader
         {
             // We're in site main style, append elements from there to the list of "common elements"
             $mc = midcom_db_element::new_collector('style', $_MIDGARD['style']);
-            $mc->add_value_property('name');
-            $mc->execute();
-            $element_guids = $mc->list_keys();
-            foreach ($element_guids as $guid => $array)
+            $elements = $mc->get_values('name');
+            foreach ($elements as $name)
             {
-                $results['elements']['midcom'][$mc->get_subkey($guid, 'name')] = '';
+                $results['elements']['midcom'][$name] = '';
             }
 
             if (!isset($results['elements']['midcom']['ROOT']))
@@ -979,14 +977,11 @@ class midcom_helper__styleloader
         $style = $this->get_style();
         $mc = midcom_db_attachment::new_collector('parentguid', $style->guid);
         $mc->add_constraint('mimetype', '=', 'text/css');
-        $mc->add_value_property('name');
-        $mc->execute();
-        $attachments = $mc->list_keys();
+        $attachments = $mc->get_values('name');
 
-        foreach ($attachments as $guid => $values)
+        foreach ($attachments as $filename)
         {
             // TODO: Support media types
-            $filename = $mc->get_subkey($guid, 'name');
             $_MIDCOM->add_stylesheet(midcom_connection::get_url('self') . "midcom-serveattachmentguid-{$guid}/{$filename}");
         }
 

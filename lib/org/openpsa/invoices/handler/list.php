@@ -479,18 +479,10 @@ implements org_openpsa_core_grid_provider_client
         $data['totals']['totals'] = 0;
 
         $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $data['deliverable']->id);
-        $mc->add_value_property('invoice');
-        $mc->execute();
-        $items = $mc->list_keys();
+        $invoice_ids = $mc->get_values('invoice');
 
-        if (!empty($items))
+        if (!empty($ivoice_ids))
         {
-            $invoice_ids = array();
-            foreach ($items as $guid => $item)
-            {
-                $invoice_ids[] = $mc->get_subkey($guid, 'invoice');
-            }
-
             $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
             $qb->add_constraint('id', 'IN', $invoice_ids);
             $qb->add_order('number', 'DESC');

@@ -39,11 +39,8 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
             else
             {
                 $categories_mc = org_openpsa_products_product_group_dba::new_collector('up', $groups[0]->id);
-                $categories_mc->add_value_property('id');
-                $categories_mc->execute();
-                $categories = $categories_mc->list_keys();
-                $categories_in = array();
-                if (count($categories) == 0)
+                $categories_in = $categories_mc->get_values('id');
+                if (count($categories_in) == 0)
                 {
                     /* No matching categories belonging to this group
                      * So we can search for the application using only
@@ -53,10 +50,6 @@ class org_openpsa_products_handler_product_downloads extends midcom_baseclasses_
                 }
                 else
                 {
-                    foreach ($categories as $guid => $empty)
-                    {
-                        $categories_in[] = $categories_mc->get_subkey($guid, 'id');
-                    }
                     $product_qb->add_constraint('productGroup', 'IN', $categories_in);
                 }
             }

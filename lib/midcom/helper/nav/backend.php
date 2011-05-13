@@ -860,8 +860,6 @@ class midcom_helper_nav_backend
             return self::$_nodes[$parent_node][MIDCOM_NAV_SUBNODES];
         }
 
-        $subnodes = array();
-
         // Use midgard_collector to get the subnodes
         $id = (int) $parent_node;
         if ($GLOBALS['midcom_config']['symlinks'])
@@ -876,16 +874,9 @@ class midcom_helper_nav_backend
         $mc->add_order('metadata.score', 'DESC');
         $mc->add_order('metadata.created');
 
-        $mc->execute();
-
         //we always write all the subnodes to cache and filter for ACLs after the fact
         $_MIDCOM->auth->request_sudo('midcom.helper.nav');
-        $result = $mc->list_keys();
-
-        foreach ($result as $guid => $empty)
-        {
-            $subnodes[] = $mc->get_subkey($guid, 'id');
-        }
+        $subnodes = $mc->get_values('id');
         $_MIDCOM->auth->drop_sudo();
 
         $cachedata = $this->_nap_cache->get_node($parent_node);
@@ -1344,14 +1335,12 @@ class midcom_helper_nav_backend
     private function _get_parent_id($topic_id)
     {
         $mc = midcom_db_topic::new_collector('id', $topic_id);
-        $mc->add_value_property('up');
-        $mc->execute();
-        $result = $mc->list_keys();
+        $result = $mc->get_values('up');
         if (empty($result))
         {
             return false;
         }
-        return $mc->get_subkey(key($result), 'up');
+        return array_shift($result);
     }
 
     /**
