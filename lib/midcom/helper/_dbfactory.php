@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -11,7 +11,7 @@
  * The only instance of this class you should ever use is available through
  * $midcom->dbfactory.
  *
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper__dbfactory
 {

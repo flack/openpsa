@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -40,7 +40,7 @@
  * normally not happen. Originally, this case threw a critical error, but that
  * made upgrading configurations quite difficult.
  *
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper_configuration
 {

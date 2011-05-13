@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.core.handler
+ * @package midcom.baseclasses
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -26,7 +26,7 @@
  *     );
  * </code>
  *
- * @package midcom.core.handler
+ * @package midcom.baseclasses
  */
 class midcom_baseclasses_components_handler_configuration extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_edit

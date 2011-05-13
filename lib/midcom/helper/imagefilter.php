@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -21,7 +21,7 @@
  * @author Nico Kaiser <nico@siriux.net>
  * @author Torben Nehmer <torben@nehmer.net>
  * @version 1.1 (2005-11-03)
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper_imagefilter
 {

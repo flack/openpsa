@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -12,7 +12,7 @@
  * This sorting mode will keep the original components' sorting order intact, listing the
  * subnodes first, then the leaves.
  *
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper_nav_itemlist_topicsfirst extends midcom_helper_nav_itemlist
 {

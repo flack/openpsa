@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -9,7 +9,7 @@
 /**
  * Itemlist sorter for navigation items sorted by score (leaves and nodes mixed)
  *
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper_nav_itemlist_score extends midcom_helper_nav_itemlist
 {

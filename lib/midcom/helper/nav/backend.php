@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -57,7 +57,7 @@
  * The Datamanager will automatically transform (3) to the syntax described in
  * (1) by copying the values.
  *
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper_nav_backend
 {

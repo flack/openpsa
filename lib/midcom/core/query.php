@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.core
+ * @package midcom
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -9,7 +9,7 @@
 /**
  * Common base class for collector and querybuilder
  *
- * @package midcom.core
+ * @package midcom
  */
 abstract class midcom_core_query
 {
