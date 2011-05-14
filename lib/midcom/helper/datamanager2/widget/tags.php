@@ -32,22 +32,6 @@
  * <code>
  *  'tags' => Array
  *  (
- *      'title' => 'event tags',
- *      'storage' => null,
- *      'type' => 'tagselect',
- *      'type_config' => array
- *      (
- *          'option_callback' => 'org_maemo_calendar_callbacks_personstags',
- *          'enable_saving_to_callback' => false,
- *          'force_saving_to_tag_library' => true,
- *      ),
- *      'widget' => 'tags',
- *  ),
- * </code>
- * OR
- * <code>
- *  'tags' => Array
- *  (
  *      'title' => 'tags',
  *      'storage' => null,
  *      'type' => 'tagselect',
