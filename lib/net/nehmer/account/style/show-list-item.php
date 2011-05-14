@@ -13,32 +13,16 @@ else
         <tr>
             <td>
                 <a href="&(url);">
-                    <?php 
+                    <?php
                     if (in_array('firstname', $data['visible_fields']))
                     {
-                        echo $data['user']->firstname; 
+                        echo $data['user']->firstname;
                     }
                     if (in_array('firstname', $data['visible_fields']))
                     {
-                        echo ' ' . $data['user']->lastname; 
+                        echo ' ' . $data['user']->lastname;
                     }
                     ?>
                     </a>
                 </td>
-            <?php
-            if (isset($data['category']))
-            {
-                ?>
-                <td>
-                    <?php
-                    if (isset($data['karma_map'][$data['user']->id]))
-                    {
-                        echo $data['karma_map'][$data['user']->id];
-                    }
-                    ?>
-                </td>
-                <?php
-            }
-            ?>
-            <td><?php echo $data['user']->metadata->score; ?></td>
         </tr>

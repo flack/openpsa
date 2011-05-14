@@ -5,7 +5,6 @@
 'class_mapping' => array
 (
     'net_nehmer_accounts_invites_invite' => 'net_nehmer_account_invites_invite_dba',
-    'net_nehmer_account_karma' => 'net_nehmer_account_karma_dba',
 ),
 'package.xml' => array
 (
@@ -74,11 +73,6 @@
         (
             'handler' => 'net_nehmer_account_cron_cleanup',
             'recurrence' => MIDCOM_CRON_DAY,
-        ),
-        array
-        (
-            'handler' => 'net_nehmer_account_cron_karma',
-            'recurrence' => MIDCOM_CRON_HOUR,
         ),
     ),
 ),

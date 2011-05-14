@@ -13,19 +13,6 @@
 ),
 'list_entries' => 30,
 
-'list_categories' => array
-(
-    'comments',
-    'favourites',
-    'blogs',
-    'products',
-    'discussion',
-    'groups',
-),
-
-'list_categories_number' => 40,
-
-
 // Features
 'allow_register' => true,
 'allow_change_username' => true,
@@ -49,7 +36,7 @@
 'administrator_email' => '',
 
 // This option is not yet completely implemented.
-'fallback_type' => null, 
+'fallback_type' => null,
 
 'password_minlength' => 6,
 'on_cancel_membership' => null,
@@ -167,50 +154,6 @@
  * Use optional way to handle reset password request (sends email to the user before resetting the password)
  */
 'lostpassword_email_reset' => false,
-
-/**
- * Karma calculation properties
- */
-'karma_enable' => false,
-'karma_comments_enable' => true,
-'karma_comments_modifier' => 2,
-'karma_favourites_enable' => true,
-'karma_favourites_modifier' => 1,
-'karma_buries_enable' => true,
-'karma_buries_modifier' => 1,
-'karma_packagetesting_enable' => true,
-'karma_packagetesting_modifier' => 1,
-'karma_wikicreates_enable' => true,
-'karma_wikicreates_modifier' => 4,
-'karma_wikiedits_enable' => false, // Note: This is slow as it uses RCS subsystem
-'karma_wikiedits_modifier' => 2,
-'karma_blogs_enable' => true,
-'karma_blogs_modifier' => 1,
-'karma_socialnews_enable' => false,
-'karma_products_enable' => true,
-'karma_products_modifier' => 4,
-'karma_productratings_enable' => true,
-'karma_brainstorm_enable' => true,
-'karma_brainstorm_modifier' => 1,
-'karma_discussion_enable' => true,
-'karma_discussion_modifier' => 1,
-'karma_groups_enable' => true,
-'karma_groups_modifier' => 4,
-'karma_calculate_per_hour' => 100,
-
-/**
- * Karma plugins as array containing key, snippet path and function name
- *
- * The functions called will receive a person as parameter and must return an integer
- */
-'karma_plugins' => array
-(
-    //'bugzilla' => array
-    //(
-    //    'snippet' => '/scripts/bugzilla_karma',
-    //    'function' => 'calculate_person_bugs', // Or array('someclass', 'somemethod') for static methods
-    //),
-),
 
 // compatible only with net.nemein.openidprovider for now
 // absolute URL is required

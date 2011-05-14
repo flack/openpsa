@@ -62,12 +62,6 @@
     'handler' => Array('net_nehmer_account_handler_list', 'list'),
     'fixed_args' => Array('list'),
 ),
-'list_by_category' => Array
-(
-    'handler' => Array('net_nehmer_account_handler_list', 'list_by_category'),
-    'fixed_args' => Array('list', 'category'),
-    'variable_args' => 1,
-),
 'list_by_alpha' => Array
 (
     'handler' => Array('net_nehmer_account_handler_list', 'list'),

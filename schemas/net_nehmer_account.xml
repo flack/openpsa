@@ -6,11 +6,4 @@
         <property name="email" type="string" index="yes"/>
         <property name="buddy" type="guid" link="midgard_person:guid" reverse="no" parentfield="buddy"/>
     </type>
-
-    <type name="net_nehmer_account_karma" table="net_nehmer_account_karma" parent="midgard_person">
-        <property name="id" type="unsigned integer" primaryfield="id" />
-        <property name="person" type="unsigned integer" link="midgard_person:id" reverse="no" parentfield="person"/>
-        <property name="module" type="string" index="yes" />
-        <property name="karma" type="float" />
-    </type>
 </Schema>
