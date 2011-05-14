@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -68,7 +68,7 @@
  * midcom_application::get_component_loader, which returns a
  * <i>reference</i> to the loader.
  *
- * @package midcom
+ * @package midcom.helper
  * @see midcom_application::get_component_loader()
  */
 class midcom_helper__componentloader

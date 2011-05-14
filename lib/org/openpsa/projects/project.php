@@ -177,12 +177,10 @@ class org_openpsa_projects_project extends midcom_core_dbaobject
         );
         $task_mc = org_openpsa_projects_task_dba::new_collector('project', $this->id);
         $task_mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_TASK);
-        $task_mc->add_value_property('status');
-        $task_mc->execute();
-        $tasks = $task_mc->list_keys();
-        foreach ($tasks as $guid => $empty)
+        $statuses = $task_mc->get_values('status');
+        foreach ($statuses as $status)
         {
-            $type = org_openpsa_projects_workflow::get_status_type($task_mc->get_subkey($guid, 'status'));
+            $type = org_openpsa_projects_workflow::get_status_type($status);
             $numbers[$type]++;
         }
         return $numbers;

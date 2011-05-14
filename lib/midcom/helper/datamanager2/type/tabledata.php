@@ -357,7 +357,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
                 // Get the row parameters with collector
                 $mc = midcom_db_parameter::new_collector('parentguid', $this->storage->object->guid);
-                $mc->add_value_property('name');
 
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
@@ -368,15 +367,14 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 $mc->add_order('metadata.revised', 'DESC');
                 $mc->add_order('metadata.created', 'DESC');
 
-                $mc->execute();
+                $keys = $mc->get_values('name');
 
-                $keys = $mc->list_keys();
                 $length = strlen("{$this->name}{$this->storage_mode_parameter_limiter}");
 
                 // List the name fields and get the row data
-                foreach ($keys as $guid => $array)
+                foreach ($keys as $name)
                 {
-                    $name = substr($mc->get_subkey($guid, 'name'), $length);
+                    $name = substr($name, $length);
                     $parts = explode("{$this->storage_mode_parameter_limiter}", $name);
 
                     if (!isset($parts[1]))
@@ -405,7 +403,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
                 // Get the row parameters with collector
                 $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
-                $mc->add_value_property($this->link_row_property);
 
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
@@ -415,15 +412,11 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 $mc->add_order('metadata.revised', 'DESC');
                 $mc->add_order('metadata.created', 'DESC');
 
-                $mc->execute();
-
-                $keys = $mc->list_keys();
+                $keys = $mc->get_values($this->link_row_property);
 
                 // List the name fields and get the row data
-                foreach ($keys as $guid => $array)
+                foreach ($keys as $guid => $row_object_id)
                 {
-                    $row_object_id = $mc->get_subkey($guid, $this->link_row_property);
-
                     try
                     {
                         $row_object = new $this->link_row_class($row_object_id);
@@ -712,19 +705,17 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
 
                 // Get the row parameters with collector
                 $mc = $_MIDCOM->dbfactory->new_collector($this->link_class, $this->link_parent_field, $this->storage->object->{$this->link_parent_type});
-                $mc->add_value_property($column);
 
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
                 $mc->add_constraint($this->link_row_property, '=', $row);
                 $mc->execute();
 
-                $keys = $mc->list_keys();
+                $keys = $mc->get_values($column);
 
                 if (sizeof($keys) == 1)
                 {
-                    $guid = key($keys);
-                    $value = $mc->get_subkey($guid, $column);
+                    $value = array_shift($keys);
                 }
 
                 return $value;

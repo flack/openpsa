@@ -337,7 +337,6 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         $tags_by_id = array();
 
         $mc = net_nemein_tag_link_dba::new_collector('fromClass', $class);
-        $mc->add_value_property('tag');
 
         if (!is_null($user))
         {
@@ -345,33 +344,28 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             $mc->add_constraint('metadata.creator', '=', $user->guid);
         }
 
-        $mc->execute();
-        $links = $mc->list_keys();
+        $links = $mc->get_values('tag');
         if (count($links) == 0)
         {
             return $tags;
         }
 
-        foreach ($links as $link_guid => $array)
+        foreach ($links as $tag_id)
         {
-            $tag_id = $mc->get_subkey($link_guid, 'tag');
-
             if (!isset($tags_by_id[$tag_id]))
             {
                 $tag_mc = net_nemein_tag_tag_dba::new_collector('id', $tag_id);
-                $tag_mc->add_value_property('tag');
                 $tag_mc->add_constraint('metadata.navnoentry', '=', 0);
-                $tag_mc->execute();
-                $tag_names = $tag_mc->list_keys();
+                $tag_names = $tag_mc->get_values('tag');
                 if (count($tag_names) == 0)
                 {
                     // No such tag in DB
                     continue;
                 }
 
-                foreach ($tag_names as $tag_guid => $tag_array)
+                foreach ($tag_names as $tag_name)
                 {
-                    $tags_by_id[$tag_id] = $tag_mc->get_subkey($tag_guid, 'tag');
+                    $tags_by_id[$tag_id] = $tag_name;
                 }
             }
 

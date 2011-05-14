@@ -400,16 +400,11 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
 
                         // Get the members
                         $mc = midcom_db_member::new_collector('gid', $group->id);
-                        $mc->add_value_property('uid');
                         $mc->add_order('metadata.score', 'DESC');
-                        $mc->execute();
+                        $user_ids = $mc->get_values('uid');
 
-                        $keys = $mc->list_keys();
-
-                        foreach ($keys as $membership_guid => $array)
+                        foreach ($user_ids as $user_id)
                         {
-                            $user_id = $mc->get_subkey($membership_guid, 'uid');
-
                             if (   isset($this->_shown_persons[$user_id])
                                 && $this->_shown_persons[$user_id] === true)
                             {

@@ -341,12 +341,11 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         //check if there is already an at_entry
         $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_deliverable->guid);
-        $mc_entry->add_value_property('fromGuid');
         $mc_entry->add_constraint('fromClass', '=', 'midcom_services_at_entry_dba');
         $mc_entry->add_constraint('toClass', '=', 'org_openpsa_sales_salesproject_deliverable_dba');
         $mc_entry->add_constraint('toExtra', '=', 'notify_at_entry');
-        $mc_entry->execute();
-        $entry_keys = $mc_entry->list_keys();
+        $entry_keys = $mc_entry->get_values('fromGuid');
+
         //check date
         if ($formdata['notify']->value->year != '0000' )//&& $unix_time > time())
         {
@@ -362,11 +361,14 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
             else
             {
                 //get guid of at_entry
-                foreach ($entry_keys as $key => $empty)
+                foreach ($entry_keys as $key => $entry)
                 {
-                    $notification_entry = new midcom_services_at_entry_dba($mc_entry->get_subkey($key, 'fromGuid'));
                     //check if related at_entry exists
-                    if (empty($notification_entry->guid))
+                    try
+                    {
+                        $notification_entry = new midcom_services_at_entry_dba($entry);
+                    }
+                    catch (midcom_error $e)
                     {
                         //relatedto links to a non-existing at_entry - so create a new one an link to it
                         $notification_entry = new midcom_services_at_entry_dba();
@@ -387,7 +389,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         else if ($formdata['notify']->value->year == '0000')
         {
             //void date - so delete existing at_entrys for this notify_date
-            foreach($entry_keys as $key => $empty)
+            foreach ($entry_keys as $key => $empty)
             {
                 try
                 {

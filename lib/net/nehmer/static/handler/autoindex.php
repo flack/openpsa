@@ -53,18 +53,13 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         if ($this->_config->get('enable_article_links'))
         {
             $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_value_property('article');
             $mc->add_constraint('topic', '=', $this->_content_topic->id);
+            $links = $mc->get_values('article');
 
-            // Get the results
-            $mc->execute();
-
-            $links = $mc->list_keys();
             $qb->begin_group('OR');
-                foreach ($links as $guid => $link)
+                if (count($links) > 0)
                 {
-                    $article_id = $mc->get_subkey($guid, 'article');
-                    $qb->add_constraint('id', '=', $article_id);
+                    $qb->add_constraint('id', 'IN', $links);
                 }
                 $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->end_group();
@@ -169,18 +164,13 @@ class net_nehmer_static_handler_autoindex extends midcom_baseclasses_components_
         if ($this->_config->get('enable_article_links'))
         {
             $mc = net_nehmer_static_link_dba::new_collector('topic', $this->_content_topic->id);
-            $mc->add_value_property('article');
             $mc->add_constraint('topic', '=', $this->_content_topic->id);
+            $links = $mc->get_values('article');
 
-            // Get the results
-            $mc->execute();
-
-            $links = $mc->list_keys();
             $qb->begin_group('OR');
-                foreach ($links as $guid => $link)
+                if (count($links) > 0)
                 {
-                    $article_id = $mc->get_subkey($guid, 'article');
-                    $qb->add_constraint('id', '=', $article_id);
+                    $qb->add_constraint('id', 'IN', $links);
                 }
                 $qb->add_constraint('topic', '=', $this->_content_topic->id);
             $qb->end_group();

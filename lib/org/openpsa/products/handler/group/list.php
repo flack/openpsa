@@ -180,14 +180,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         if ($this->_config->get('enable_productlinks'))
         {
             $mc_productlinks = org_openpsa_products_product_link_dba::new_collector('productGroup', $data['parent_group']);
-            $mc_productlinks->add_value_property('product');
-            $mc_productlinks->execute();
-            $productlinks = $mc_productlinks->list_keys();
-
-            foreach ($productlinks as $guid => $array)
-            {
-                $this->_request_data['linked_products'][] = $mc_productlinks->get_subkey($guid, 'product');
-            }
+            $this->_request_data['linked_products'] = $mc_productlinks->get_values('product');
         }
 
         $data['groups'] = $group_qb->execute();

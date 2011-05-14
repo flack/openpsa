@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.core.handler
+ * @package midcom.baseclasses
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -21,14 +21,14 @@
  * <code>
  *     $this->_request_handler['config'] = array
  *     (
- *         'handler' => array ('midcom_core_handler_configdm2', 'config'),
+ *         'handler' => array ('midcom_baseclasses_components_handler_configuration', 'config'),
  *         'fixed_args' => array ('config'),
  *     );
  * </code>
  *
- * @package midcom.core.handler
+ * @package midcom.baseclasses
  */
-class midcom_core_handler_configdm2 extends midcom_baseclasses_components_handler
+class midcom_baseclasses_components_handler_configuration extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_edit
 {
     /**
@@ -111,7 +111,7 @@ implements midcom_helper_datamanager2_interfaces_edit
                     MIDCOM_TOOLBAR_POST => true,
                     MIDCOM_TOOLBAR_POST_HIDDENARGS => array
                     (
-                        'midcom_core_handler_configdm2_recreateok' => true,
+                        'midcom_baseclasses_components_handler_configuration_recreateok' => true,
                     )
                 )
             );
@@ -188,13 +188,13 @@ implements midcom_helper_datamanager2_interfaces_edit
         $this->_topic->require_do('midgard:update');
         $this->_topic->require_do('midcom:component_config');
 
-        if (array_key_exists('midcom_core_handler_configdm2_recreatecancel', $_POST))
+        if (array_key_exists('midcom_baseclasses_components_handler_configuration_recreatecancel', $_POST))
         {
             $_MIDCOM->relocate('config/');
             // This will exit.
         }
 
-        if (!array_key_exists('midcom_core_handler_configdm2_recreateok', $_POST))
+        if (!array_key_exists('midcom_baseclasses_components_handler_configuration_recreateok', $_POST))
         {
             $_MIDCOM->relocate('config/');
             // This will exit.

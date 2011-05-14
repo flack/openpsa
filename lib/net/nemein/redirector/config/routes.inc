@@ -1,7 +1,7 @@
 // Match /config/
 'config' => array
 (
-    'handler' => array('midcom_core_handler_configdm2', 'config'),
+    'handler' => array('midcom_baseclasses_components_handler_configuration', 'config'),
     'schemadb' => 'file:/net/nemein/redirector/config/schemadb_config.inc',
     'fixed_args' => 'config',
 ),

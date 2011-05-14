@@ -14,14 +14,14 @@
  *
  * @package net.nehmer.blog
  */
-class net_nehmer_blog_handler_configuration extends midcom_core_handler_configdm2
+class net_nehmer_blog_handler_configuration extends midcom_baseclasses_components_handler_configuration
 {
     function _load_datamanagers()
     {
         $datamanagers = array();
 
         $datamanagers['midcom_db_article'] = new midcom_helper_datamanager2_datamanager($this->_request_data['schemadb']);
-        
+
         return $datamanagers;
     }
 

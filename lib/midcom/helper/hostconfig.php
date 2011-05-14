@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -9,7 +9,7 @@
  * This class encapsulates the operations needed to configure a MidCom host as per mRFC 0025
  *
  * @link http://www.midgard-project.org/development/mrfc/0025/ mRFC 0025
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper_hostconfig
 {

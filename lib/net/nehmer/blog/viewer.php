@@ -399,21 +399,14 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
         {
             $mc = midcom_db_topic::new_collector('metadata.deleted', false);
             $mc->add_constraint('guid', 'IN', $guids_array);
-            $mc->add_value_property('id');
-            $mc->execute();
-            $keys = $mc->list_keys();
-            foreach ($keys as $guid => $dummy)
-            {
-                $topic_ids[] = $mc->get_subkey($guid, 'id');
-            }
-            unset($mc, $keys, $guid, $dummy);
+            $topic_ids = $mc->get_values('id');
+            unset($mc);
         }
 
         // Include the article links to the indexes if enabled
         if ($config->get('enable_article_links'))
         {
             $mc = net_nehmer_blog_link_dba::new_collector('topic', $data['content_topic']->id);
-            $mc->add_value_property('article');
             $mc->add_constraint('topic', '=', $data['content_topic']->id);
             $mc->add_order('metadata.published', 'DESC');
 
@@ -422,14 +415,13 @@ class net_nehmer_blog_viewer extends midcom_baseclasses_components_request
             // Get the results
             $mc->execute();
 
-            $links = $mc->list_keys();
+            $links = $mc->get_values('article');
             $qb->begin_group('OR');
-                foreach ($links as $guid => $link)
+                foreach ($links as $article_id)
                 {
-                    $article_id = $mc->get_subkey($guid, 'article');
                     $qb->add_constraint('id', '=', $article_id);
                 }
-                unset($mc, $links, $guid, $link);
+                unset($mc, $links);
 
                 $qb->add_constraint('topic', 'IN', $topic_ids);
             $qb->end_group();

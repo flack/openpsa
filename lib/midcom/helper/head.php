@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
@@ -9,7 +9,7 @@
 /**
  * Helper functions for managing HTML head
  *
- * @package midcom
+ * @package midcom.helper
  */
 class midcom_helper_head
 {

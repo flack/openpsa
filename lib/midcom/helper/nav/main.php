@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom
+ * @package midcom.helper
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -20,7 +20,7 @@
  * forbidden.
  *
  * @todo End-User documentation of node and leaf data, as the one in the backend is incomplete too.
- * @package midcom
+ * @package midcom.helper
  * @see midcom_helper_nav_backend
  */
 class midcom_helper_nav

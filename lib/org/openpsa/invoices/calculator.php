@@ -103,27 +103,13 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
             return $this->_create_invoice();
         }
         $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->_deliverable->salesproject);
-        $deliverable_mc->add_value_property('id');
         $deliverable_mc->add_constraint('state', '>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
         $deliverable_mc->add_constraint('product.delivery', '=', ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION);
-        $deliverable_mc->execute();
-        $deliverables = $deliverable_mc->list_keys();
-
-        foreach ($deliverables as $guid => $empty)
-        {
-            $deliverables[$guid] = $deliverable_mc->get_subkey($guid, 'id');
-        }
+        $deliverables = $deliverable_mc->get_values('id');
 
         $item_mc = org_openpsa_invoices_invoice_item_dba::new_collector('metadata.deleted', false);
-        $item_mc->add_value_property('invoice');
         $item_mc->add_constraint('deliverable', 'IN', $deliverables);
-        $item_mc->execute();
-        $suspects = $item_mc->list_keys();
-
-        foreach ($suspects as $guid => $empty)
-        {
-            $suspects[$guid] = $item_mc->get_subkey($guid, 'invoice');
-        }
+        $suspects = $item_mc->get_values('invoice');
 
         if (sizeof($suspects) > 0)
         {

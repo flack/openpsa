@@ -248,8 +248,15 @@ class midcom_helper_datamanager2_widget_autocomplete extends midcom_helper_datam
             {
                 $identifier = (int) $identifier;
             }
-            $object = new $this->class($identifier);
-            $preset = self::create_item_label($object, $this->result_headers, $this->get_label_for);
+            try
+            {
+                $object = new $this->class($identifier);
+                $preset = self::create_item_label($object, $this->result_headers, $this->get_label_for);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
         }
 
         // Text input for the search box
@@ -323,7 +330,7 @@ EOT;
         foreach ($this->_type->selection as $value)
         {
             if (   $value != "0"
-                || $value != 0)
+                && $value != 0)
             {
                 $selection[] = $value;
             }

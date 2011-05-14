@@ -23,8 +23,6 @@
  *   maximum length is inherited from the type, if applicable or unlimited otherwise.
  *   If a maximum length is set, an appropriate validation rule is created implicitly.
  *   A -1 setting is processed during startup and has no effect at a later time.
- * - <i>int size:</i> The size of the input box. Defaulting to 40. Note that this value
- *   might be overridden by CSS.
  * - <i>boolean hideinput:</i> Set this to true if you want to hide the input in the widget,
  *   this usually means that a password HTML element will be used, instead of a regular
  *   text input widget. Defaults to false.
@@ -40,13 +38,6 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
      * @var int
      */
     public $maxlength = -1;
-
-    /**
-     * The size of the input box.
-     *
-     * @var int
-     */
-    public $size = 40;
 
     /**
      * whether the input should be shown in the widget, or not.
@@ -92,7 +83,6 @@ class midcom_helper_datamanager2_widget_text extends midcom_helper_datamanager2_
     {
         $attributes = array_merge($attributes, array
         (
-            'size' => $this->size,
             'class' => 'shorttext',
             'id'    => "{$this->_namespace}{$this->name}",
         ));

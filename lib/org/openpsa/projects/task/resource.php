@@ -243,14 +243,12 @@ class org_openpsa_projects_task_resource_dba extends midcom_core_dbaobject
 
             // Add resource to other resources' buddy lists
             $mc = org_openpsa_projects_task_resource_dba::new_collector('task', (int) $this->task);
-            $mc->add_value_property('person');
             $mc->add_constraint('orgOpenpsaObtype', '=', ORG_OPENPSA_OBTYPE_PROJECTRESOURCE);
             $mc->add_constraint('id', '<>', (int) $this->id);
-            $mc->execute();
-            $resources = $mc->list_keys();
-            foreach ($resources as $guid => $resource)
+            $resources = $mc->get_values('person');
+            foreach ($resources as $resource)
             {
-                $this->_add_to_buddylist_of($mc->get_subkey($guid, 'person'));
+                $this->_add_to_buddylist_of($resource);
             }
         }
     }

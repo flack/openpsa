@@ -142,7 +142,7 @@ if (   $results === false
 
 // Common headers
 $_MIDCOM->cache->content->content_type('application/json');
-$_MIDCOM->header('Content-type: application/json; charset=UFT-8');
+$_MIDCOM->header('Content-type: application/json; charset=UTF-8');
 
 $items = array();
 

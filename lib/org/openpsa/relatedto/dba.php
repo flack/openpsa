@@ -87,7 +87,7 @@ class org_openpsa_relatedto_dba extends midcom_core_dbaobject
         if (   is_array($ret)
             && count($ret) > 0)
         {
-            return array_shift(array_keys($ret));
+            return key($ret);
         }
 
         return false;
