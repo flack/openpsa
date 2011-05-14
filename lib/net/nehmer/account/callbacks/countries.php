@@ -17,6 +17,7 @@
  * @package net.nehmer.account
  */
 class net_nehmer_account_callbacks_countries extends midcom_baseclasses_components_purecode
+implements midcom_helper_datamanager2_callback_interface
 {
     /**
      * The array with the data we're working on.
