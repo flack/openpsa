@@ -15,7 +15,7 @@
  * magpierss-general@lists.sourceforge.net
  *
  */
-
+ 
 // Setup MAGPIE_DIR for use on hosts that don't include
 // the current path in include_path.
 // with thanks to rajiv and smarty
@@ -26,14 +26,14 @@ if (!defined('DIR_SEP')) {
 if (!defined('MAGPIE_DIR')) {
     define('MAGPIE_DIR', dirname(__FILE__) . DIR_SEP);
 }
-/*
+
 require_once( MAGPIE_DIR . 'rss_parse.inc' );
 require_once( MAGPIE_DIR . 'rss_cache.inc' );
 
 // for including 3rd party libraries
 define('MAGPIE_EXTLIB', MAGPIE_DIR . 'extlib' . DIR_SEP);
 require_once( MAGPIE_EXTLIB . 'Snoopy.class.inc');
-*/
+
 
 /* 
  * CONSTANTS - redefine these in your script to change the
@@ -81,9 +81,9 @@ require_once( MAGPIE_EXTLIB . 'Snoopy.class.inc');
     version will be return, if it exists (and if MAGPIE_CACHE_FRESH_ONLY is off)
 \*=======================================================================*/
 
-define('MAGPIE_VERSION', '0.7');
+define('MAGPIE_VERSION', '0.72');
 
-$GLOBALS['MAGPIE_ERROR'] = "";
+$MAGPIE_ERROR = "";
 
 function fetch_rss ($url) {
     // initialize constants
@@ -98,12 +98,11 @@ function fetch_rss ($url) {
     if ( !MAGPIE_CACHE_ON ) {
         // fetch file, and parse it
         $resp = _fetch_remote_file( $url );
-
         if ( is_success( $resp->status ) ) {
             return _response_to_rss( $resp );
         }
         else {
-            error("Failed to fetch {$url} (HTTP response {$resp->status}, cache is OFF)");
+            error("Failed to fetch $url and cache is off");
             return false;
         }
     } 
@@ -135,15 +134,16 @@ function fetch_rss ($url) {
             // return cache HIT, MISS, or STALE
             $cache_status = $cache->check_cache( $cache_key);
         }
-        
+                
         // if object cached, and cache is fresh, return cached obj
         if ( $cache_status == 'HIT' ) {
             $rss = $cache->get( $cache_key );
             if ( isset($rss) and $rss ) {
+                // should be cache age
                 $rss->from_cache = 1;
                 if ( MAGPIE_DEBUG > 1) {
-                debug("MagpieRSS: Cache HIT", E_USER_NOTICE);
-            }
+                    debug("MagpieRSS: Cache HIT", E_USER_NOTICE);
+                }
                 return $rss;
             }
         }
@@ -152,8 +152,8 @@ function fetch_rss ($url) {
         
         // setup headers
         if ( $cache_status == 'STALE' ) {
-            $rss = $cache->get( $url );
-            if ( $rss->etag and $rss->last_modified ) {
+            $rss = $cache->get( $cache_key );
+            if ( $rss and $rss->etag and $rss->last_modified ) {
                 $request_headers['If-None-Match'] = $rss->etag;
                 $request_headers['If-Last-Modified'] = $rss->last_modified;
             }
@@ -162,7 +162,7 @@ function fetch_rss ($url) {
         $resp = _fetch_remote_file( $url, $request_headers );
         
         if (isset($resp) and $resp) {
-            if ($resp->status == '304' ) {
+          if ($resp->status == '304' ) {
                 // we have the most current copy
                 if ( MAGPIE_DEBUG > 1) {
                     debug("Got 304 for $url");
@@ -183,7 +183,7 @@ function fetch_rss ($url) {
                 }
             }
             else {
-                $errormsg = "Failed to fetch $url. ";
+                $errormsg = "Failed to fetch $url ";
                 if ( $resp->status == '-100' ) {
                     $errormsg .= "(Request timed out after " . MAGPIE_FETCH_TIME_OUT . " seconds)";
                 }
@@ -226,14 +226,16 @@ function fetch_rss ($url) {
 \*=======================================================================*/
 
 function error ($errormsg, $lvl=E_USER_WARNING) {
+        global $MAGPIE_ERROR;
+        
         // append PHP's error message if track_errors enabled
         if ( isset($php_errormsg) ) { 
             $errormsg .= " ($php_errormsg)";
         }
         if ( $errormsg ) {
             $errormsg = "MagpieRSS: $errormsg";
-            $GLOBALS['MAGPIE_ERROR'] = $errormsg;
-            //trigger_error( $errormsg, $lvl);                
+            $MAGPIE_ERROR = $errormsg;
+            trigger_error( $errormsg, $lvl);                
         }
 }
 
@@ -246,11 +248,13 @@ function debug ($debugmsg, $lvl=E_USER_NOTICE) {
     Purpose:    accessor for the magpie error variable
 \*=======================================================================*/
 function magpie_error ($errormsg="") {
+    global $MAGPIE_ERROR;
+    
     if ( isset($errormsg) and $errormsg ) { 
-        $GLOBALS['MAGPIE_ERROR'] = $errormsg;
+        $MAGPIE_ERROR = $errormsg;
     }
     
-    return $GLOBALS['MAGPIE_ERROR'];   
+    return $MAGPIE_ERROR;   
 }
 
 /*=======================================================================*\
@@ -266,7 +270,6 @@ function _fetch_remote_file ($url, $headers = "" ) {
     $client->agent = MAGPIE_USER_AGENT;
     $client->read_timeout = MAGPIE_FETCH_TIME_OUT;
     $client->use_gzip = MAGPIE_USE_GZIP;
-    $client->maxlength = 10*1024*1024; // 10Mb
     if (is_array($headers) ) {
         $client->rawheaders = $headers;
     }
@@ -284,6 +287,7 @@ function _fetch_remote_file ($url, $headers = "" ) {
 \*=======================================================================*/
 function _response_to_rss ($resp) {
     $rss = new MagpieRSS( $resp->results, MAGPIE_OUTPUT_ENCODING, MAGPIE_INPUT_ENCODING, MAGPIE_DETECT_ENCODING );
+    
     // if RSS parsed successfully       
     if ( $rss and !$rss->ERROR) {
         
@@ -380,7 +384,7 @@ function init () {
     }
     
     if ( !defined('MAGPIE_FETCH_TIME_OUT') ) {
-        define('MAGPIE_FETCH_TIME_OUT', 10); // 5 second timeout
+        define('MAGPIE_FETCH_TIME_OUT', 5); // 5 second timeout
     }
     
     // use gzip encoding to fetch rss files if supported?

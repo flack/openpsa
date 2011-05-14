@@ -13,31 +13,7 @@
  */
 class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
 {
-    /**
-     * Initializes the class
-     */
-    public function __construct()
-    {
-         $this->_component = 'org.openpsa.httplib';
-         parent::__construct();
-    }
-
-    /**
-     * Validates given URL string format
-     *
-     * @param string $url Uniform Resource Locator
-     * @return boolean Whether URL is valid
-     */
-    function validate_url($url)
-    {
-        // TODO: Implement
-        return true;
-    }
-
-    private function _quotes()
-    {
-        return '"\'';
-    }
+	private static $_quotes = '"\'';
 
     /**
      * Get value of a meta tag in HTML page.
@@ -46,9 +22,9 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      * @param string $name Name of the meta tag to fetch
      * @param array Content of the meta tag
      */
-    function get_meta_value($html, $name)
+    public static function get_meta_value($html, $name)
     {
-        $quotes = org_openpsa_httplib_helpers::_quotes();
+        $quotes = self::$_quotes;
         $regex_metatag = "/<html.*?>.*?<head.*?>.*?(<meta[^>]*?name=([{$quotes}]){$name}\\2[^>]*?>).*?<\/head>/msi";
         $regex_value = "/content=([{$quotes}])(.*?)\\1/i";
         if (!preg_match($regex_metatag, $html, $tag_matches))
@@ -72,9 +48,9 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      * @param string $type Type (type) of the link tag to fetch (defaults to null, meaning all types of the link relation)
      * @return array Links matching given criteria as arrays containing keys title, href and optionally hreflang
      */
-    function get_link_values($html, $relation, $type = null)
+    public static function get_link_values($html, $relation, $type = null)
     {
-        $quotes = org_openpsa_httplib_helpers::_quotes();
+        $quotes = self::$_quotes;
         $values = array();
         $regex_linktags = "/<html.*?>.*?<head.*?>.*?(<link[^>]*?rel=([{$quotes}]){$relation}\\2[^>]*?>).*?<\/head>/msi";
         if (!preg_match_all($regex_linktags, $html, $tag_matches))
@@ -133,9 +109,9 @@ class org_openpsa_httplib_helpers extends midcom_baseclasses_components_purecode
      * @param string $relation Relation (rel) of the anchor to fetch
      * @return array Links matching given criteria as arrays containing keys title, href and value
      */
-    function get_anchor_values($html, $relation)
+    public static function get_anchor_values($html, $relation)
     {
-        $quotes = org_openpsa_httplib_helpers::_quotes();
+        $quotes = self::$_quotes;
         $values = array();
         $regex_atags = "/(<a[^>]*?rel=([{$quotes}]){$relation}\\2[^>]*?>)((.*?)<\/a>)?/msi";
         if (!preg_match_all($regex_atags, $html, $tag_matches))
