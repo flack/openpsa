@@ -4,7 +4,7 @@ $_MIDCOM->auth->require_valid_user();
 $user = $_MIDCOM->auth->user->get_storage();
 
 // Use the FireEagle PHP library from http://fireeagle.yahoo.net/developer/code/php
-require_once(MIDCOM_ROOT . '/org/routamc/positioning/lib/fireeagle.php');
+require_once(MIDCOM_ROOT . '/external/fireeagle.php');
 
 $access_key = $user->get_parameter('net.yahoo.fireeagle', 'access_key');
 $access_secret = $user->get_parameter('net.yahoo.fireeagle', 'access_secret');

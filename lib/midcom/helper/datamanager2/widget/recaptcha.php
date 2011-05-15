@@ -8,7 +8,7 @@
 
 /** @ignore */
 require_once('Text/Password.php');
-require_once(MIDCOM_ROOT . '/midcom/helper/datamanager2/widget/recaptcha/recaptchalib.php');
+require_once(MIDCOM_ROOT . '/external/recaptcha/recaptchalib.php');
 /**
  * Datamanager 2 recaptcha widget
  *

@@ -33,14 +33,11 @@ class net_nehmer_markdown_interface extends midcom_baseclasses_components_interf
     /**
      * Constructor.
      *
-     * Nothing fancy, loads all script files and the datamanager library.
+     * Nothing fancy, loads the markdown library.
      */
     public function __construct()
     {
-        $this->_autoload_files = array
-        (
-            'lib/markdown.php'
-        );
+    	require_once MIDCOM_ROOT . '/external/markdown.php';
     }
 }
 ?>
