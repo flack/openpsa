@@ -253,41 +253,31 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function html2text($html)
     {
-        if (class_exists('Html2Text'))
-        {
-            $html = preg_replace("/<!DOCTYPE[^>]*>\n?/", '', $html);
-            $decoder = new Html2Text($html, 72);
-            $text = $decoder->convert();
-            $text = $this->html_entity_decode($text);
-        }
-        else
-        {
-            //Convert various newlines to unix ones
-            $text = preg_replace('/\x0a\x0d|\x0d\x0a|\x0d/', "\n", $html);
-            //convert <br/> tags to newlines
-            $text = preg_replace("/<br\s*\\/?>/i", "\n", $text);
-            //strip all STYLE and SCRIPT tags, including their content
-            $text = preg_replace('/(<style[^>]*>.*?<\\/style>)/si', '', $text);
-            $text = preg_replace('/(<script[^>]*>.*?<\\/script>)/si', '', $text);
-            //strip comments
-            $text = preg_replace('/<!--.*?-->/s', '', $text);
-            //strip all remaining tags, just the tags
-            $text = preg_replace('/(<[^>]*>)/', '', $text);
+        //Convert various newlines to unix ones
+        $text = preg_replace('/\x0a\x0d|\x0d\x0a|\x0d/', "\n", $html);
+        //convert <br/> tags to newlines
+        $text = preg_replace("/<br\s*\\/?>/i", "\n", $text);
+        //strip all STYLE and SCRIPT tags, including their content
+        $text = preg_replace('/(<style[^>]*>.*?<\\/style>)/si', '', $text);
+        $text = preg_replace('/(<script[^>]*>.*?<\\/script>)/si', '', $text);
+        //strip comments
+        $text = preg_replace('/<!--.*?-->/s', '', $text);
+        //strip all remaining tags, just the tags
+        $text = preg_replace('/(<[^>]*>)/', '', $text);
 
-            //Decode entities
-            $text = $this->html_entity_decode($text);
+        //Decode entities
+        $text = $this->html_entity_decode($text);
 
-            //Trim whitespace from end of lines
-            $text = preg_replace("/[ \t\f]+$/m", '', $text);
-            //Trim whitespace from beginning of lines
-            $text = preg_replace("/^[ \t\f]+/m", '', $text);
-            //Convert multiple concurrent spaces to one
-            $text = preg_replace("/[ \t\f]+/", ' ', $text);
-            //Strip extra linebreaks
-            $text = preg_replace("/\n{3,}/", "\n\n", $text);
-            //Wrap to RFC width
-            $text = wordwrap($text, 72, "\n");
-        }
+        //Trim whitespace from end of lines
+        $text = preg_replace("/[ \t\f]+$/m", '', $text);
+        //Trim whitespace from beginning of lines
+        $text = preg_replace("/^[ \t\f]+/m", '', $text);
+        //Convert multiple concurrent spaces to one
+        $text = preg_replace("/[ \t\f]+/", ' ', $text);
+        //Strip extra linebreaks
+        $text = preg_replace("/\n{3,}/", "\n\n", $text);
+        //Wrap to RFC width
+        $text = wordwrap($text, 72, "\n");
 
         return trim($text);
     }
