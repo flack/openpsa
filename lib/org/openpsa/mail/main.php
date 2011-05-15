@@ -14,32 +14,159 @@
  */
 class org_openpsa_mail extends midcom_baseclasses_components_purecode
 {
-    var $subject;     //string, simpler access to headers['Subject']
-    var $body;        //text
-    var $headers;     //array, key is header name, value is header data
-    var $from;        //string, simpler access to headers['From']
-    var $to;          //string, simpler access to headers['To']
-    var $cc;          //string, simpler access to headers['Cc']
-    var $bcc;          //string, simpler access to headers['Bcc']
+    /**
+     * simpler access to headers['Subject']
+     *
+     * @var string
+     */
+    public $subject;
 
-    var $htmlBody;    //text, HTML body (of MIME/multipart message)  reference to below
-    var $html_body;    //text, HTML body (of MIME/multipart message)
-    var $attachments; /* array, primary keys are int, secondary keys for decoded array are: 'name' (filename), 'content' (file contents) and 'mimetype'.
-                       Array for encoding may in stead of 'content' have 'file' which is path to the file to be attached */
-    var $embeds;      //array, like attachments but used for inline images
-    var $encoding;    //string, character encoding in which the texts etc are
-    var $allow_only_html; //Allow to send only HTML body
-    var $embed_css_url; //Try to embed also css url() files as inline images (seems not to work with most clients so defaults to false)
+    /**
+     * simpler access to headers['Subject']
+     *
+     * @var string
+     */
+    public $from;
 
-    //Internal, do not touch unless you know what you're doing
-    private $_backend;    //The backend object
-    private $__mime;      //object, (Mail_mime / Mail_mimeDecode) holder
-    private $__mail;      //object, (Mail) holder
-    private $__mailErr;   //boolean/object, send error status
-    private $__iconv;     //boolean, when decoding mails, try to convert to desired charset.
-    private $__orig_encoding;  //string, original encoding of the message
-    private $__textBodyFound; //boolean, used in part_decode
-    private $__htmlBodyFound; // --''--
+    /**
+     * simpler access to headers['To']
+     *
+     * @var string
+     */
+    public $to;
+
+    /**
+     * simpler access to headers['Cc']
+     *
+     * @var string
+     */
+    public $cc;
+
+    /**
+     * simpler access to headers['Bcc']
+     *
+     * @var string
+     */
+    public $bcc;
+
+    /**
+     * text
+     *
+     * @var string
+     */
+    public $body;
+
+    /**
+     * key is header name, value is header data
+     *
+     * @var array
+     */
+    public $headers = array
+    (
+        'Subject' => null,
+        'From' => null,
+        'To' => null,
+        'Cc' => null,
+        'Bcc' => null,
+    );
+
+    /**
+     * HTML body (of MIME/multipart message)
+     *
+     * @var string
+     */
+    public $html_body;
+
+    /**
+     * primary keys are int, secondary keys for decoded array are: 'name' (filename), 'content' (file contents) and 'mimetype'
+     * Array for encoding may in stead of 'content' have 'file' which is path to the file to be attached
+     *
+     * @var array
+     */
+    public $attachments = array();
+
+    /**
+     * like attachments but used for inline images
+     *
+     * @var array
+     */
+    public $embeds = array();
+
+    /**
+     * Character encoding in which the texts etc are
+     *
+     * @var string
+     */
+    public $encoding;
+
+    /**
+     * Allow to send only HTML body
+     *
+     * @var boolean
+     */
+    public $allow_only_html = false;
+
+    /**
+     * Try to embed also css url() files as inline images
+     * (seems not to work with most clients so defaults to false)
+     *
+     * @var boolean
+     */
+    public $embed_css_url = false;
+
+    /**
+     * The backend object
+     */
+    private $_backend = false;
+
+    /**
+     * (Mail_mime / Mail_mimeDecode) holder
+     *
+     * @var object
+     */
+    private $__mime;
+
+    /**
+     * (Mail) holder
+     *
+     * @var object
+     */
+    private $__mail;
+
+    /**
+     * send error status
+     *
+     * @var mixed
+     */
+    private $__mailErr = false;
+
+    /**
+     * When decoding mails, try to convert to desired charset.
+     *
+     * @var boolean
+     */
+    private $__iconv = true;
+
+    /**
+     * Original encoding of the message
+     *
+     * @var string
+     */
+    private $__orig_encoding = '';
+
+    /**
+     * Used in part_decode
+     *
+     * @var boolean
+     */
+    private $__textBodyFound;
+
+    /**
+     * Used in part_decode
+     *
+     * @var boolean
+     */
+    private $__htmlBodyFound;
 
     public function __construct()
     {
@@ -47,34 +174,15 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         parent::__construct();
         $this->_initialize_pear();
 
-        $this->attachments = array();
-        $this->embeds = array();
-        $this->headers = array();
-        $this->headers['Subject'] = null;
         $this->subject =& $this->headers['Subject'];
-        $this->headers['From'] = null;
         $this->from =& $this->headers['From'];
-        $this->headers['To'] = null;
         $this->to =& $this->headers['To'];
-        $this->headers['Cc'] = null;
         $this->cc =& $this->headers['Cc'];
-        $this->headers['Bcc'] = null;
         $this->bcc =& $this->headers['Bcc'];
         $this->headers['User-Agent'] = 'Midgard/' . substr(mgd_version(), 0, 4);
         $this->headers['X-Originating-Ip'] = $_SERVER['REMOTE_ADDR'];
-        $this->__mailErr = false;
-        $this->htmlBody =& $this->html_body;
 
         $this->encoding = $this->_i18n->get_current_charset();
-
-        //Try to convert between charsets
-        $this->__iconv = true;
-        $this->__orig_encoding = '';
-
-        $this->_backend = false;
-        $this->allow_only_html = false;
-        $this->embed_css_url = false;
-        return true;
     }
 
     /**
@@ -109,10 +217,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Creates a Mail_mime instance and adds parts to it as necessary
      */
-    function initMail_mime()
-    {
-        return $this->init_mail_mime();
-    }
     function init_mail_mime()
     {
         if (!class_exists('Mail_mime'))
@@ -382,14 +486,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * No-op for now
-     */
-    private function _compatibility_checks()
-    {
-        return;
-    }
-
-    /**
      * Converts given string to $this->encoding
      *
      * @param string to be converted
@@ -551,8 +647,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->subject =& $this->headers['Subject'];
         $this->from =& $this->headers['From'];
         $this->to =& $this->headers['To'];
-
-        $this->_compatibility_checks();
 
         if (   isset ($mime->parts)
             && is_array($mime->parts)
@@ -843,10 +937,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      *
      * Handles also the PEAR errors from libraries used.
      */
-    function getErrorMessage()
-    {
-        return $this->get_error_message();
-    }
     function get_error_message()
     {
         if (is_object($this->_backend))
