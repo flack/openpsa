@@ -15,41 +15,6 @@
 class org_openpsa_mail extends midcom_baseclasses_components_purecode
 {
     /**
-     * simpler access to headers['Subject']
-     *
-     * @var string
-     */
-    public $subject;
-
-    /**
-     * simpler access to headers['Subject']
-     *
-     * @var string
-     */
-    public $from;
-
-    /**
-     * simpler access to headers['To']
-     *
-     * @var string
-     */
-    public $to;
-
-    /**
-     * simpler access to headers['Cc']
-     *
-     * @var string
-     */
-    public $cc;
-
-    /**
-     * simpler access to headers['Bcc']
-     *
-     * @var string
-     */
-    public $bcc;
-
-    /**
      * text
      *
      * @var string
@@ -174,15 +139,39 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         parent::__construct();
         $this->_initialize_pear();
 
-        $this->subject =& $this->headers['Subject'];
-        $this->from =& $this->headers['From'];
-        $this->to =& $this->headers['To'];
-        $this->cc =& $this->headers['Cc'];
-        $this->bcc =& $this->headers['Bcc'];
         $this->headers['User-Agent'] = 'Midgard/' . substr(mgd_version(), 0, 4);
         $this->headers['X-Originating-Ip'] = $_SERVER['REMOTE_ADDR'];
 
         $this->encoding = $this->_i18n->get_current_charset();
+    }
+
+    /**
+     * Make it possible to get header values via $mail->to and the like
+     */
+    public function __get($name)
+    {
+        $name = ucfirst($name);
+        if (isset($this->_headers[$name]))
+        {
+            return $this->_headers[$name];
+        }
+        return parent::__get($name);
+    }
+
+    /**
+     * Make it possible to set header values via $mail->to and the like
+     */
+    public function __set($name, $value)
+    {
+        $name = ucfirst($name);
+        if (isset($this->_headers[$name]))
+        {
+            $this->_headers[$name] = $value;
+        }
+        else
+        {
+        	parent::__set($name, $value);
+        }
     }
 
     /**
@@ -1228,7 +1217,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    static function compose($template, $message_text, array $message_strings)
+    public static function compose($template, $message_text, array $message_strings)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         foreach ($message_strings as $id => $string)
