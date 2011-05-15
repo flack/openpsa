@@ -997,11 +997,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
     private function _html_get_embeds_loop(&$obj, $html, $search, $embeds, $type)
     {
-        if (!isset($_SERVER))
-        { //Make sure we have this information (even on older PHPs)
-            global $HTTP_SERVER_VARS;
-            $_SERVER = $HTTP_SERVER_VARS;
-        }
         $type_backup = $type;
 
         //Cache for embeds data
@@ -1052,20 +1047,20 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             switch ($mode)
             {
                 case 'cached':
-                        //Avoid multiple copies of same file in embeds
-                        if (!$this->_exists_in_embeds($embeds_data_cache[$search['location'][$k]], $embeds))
-                        {
-                            $embeds[] = $embeds_data_cache[$search['location'][$k]];
-                        }
-                        switch (strtolower($type))
-                        {
-                            case 'url':
-                                $html = str_replace($search['whole'][$k], 'url("' . $search['filename'][$k] . '")', $html);
-                                break;
-                            default:
-                                $html = str_replace($search['whole'][$k], $type . '="' . $search['filename'][$k] . '"', $html);
-                                break;
-                        }
+                    //Avoid multiple copies of same file in embeds
+                    if (!$this->_exists_in_embeds($embeds_data_cache[$search['location'][$k]], $embeds))
+                    {
+                        $embeds[] = $embeds_data_cache[$search['location'][$k]];
+                    }
+                    switch (strtolower($type))
+                    {
+                        case 'url':
+                            $html = str_replace($search['whole'][$k], 'url("' . $search['filename'][$k] . '")', $html);
+                            break;
+                        default:
+                            $html = str_replace($search['whole'][$k], $type . '="' . $search['filename'][$k] . '"', $html);
+                            break;
+                    }
                     break;
                 case 'relUri':
                     switch ($_SERVER['SERVER_PORT'])
