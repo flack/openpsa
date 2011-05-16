@@ -212,7 +212,10 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
     public function testGet_search_properties($classname, $properties)
     {
         $reflector = new midcom_helper_reflector($classname);
-        $this->assertEquals($properties, $reflector->get_search_properties());
+        $search_properties = $reflector->get_search_properties();
+        sort($search_properties);
+        sort($properties);
+        $this->assertEquals($properties, $search_properties);
     }
 
     public function providerGet_search_properties()
