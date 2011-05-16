@@ -590,7 +590,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         foreach ($always_search as $property)
         {
-            if (!array_key_exists($property, $properties))
+            if (!in_array($property, $properties))
             {
                 debug_add("Property '{$property}' is set as always search, but is not a property in class '{$this->mgdschema_class}'", MIDCOM_LOG_WARN);
                 continue;
@@ -986,7 +986,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property()
-     * @param $object the object to get the name property for
+     * @param object &$object the object to get the name property for
      * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
@@ -1046,7 +1046,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * statically callable method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property_nonstatic()
-     * @param $object the object to get the name property for
+     * @param object &$object the object to get the name property for
      * @return string name of property or boolean false on failure
      */
     public static function get_name_property(&$object)
