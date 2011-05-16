@@ -630,10 +630,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
                 $this->headers[str_replace(" ", "-", ucwords(str_replace("-", " ", $k)))] =& $mime->headers[$k];
             }
         }
-        $this->subject =& $this->headers['Subject'];
-        $this->from =& $this->headers['From'];
-        $this->to =& $this->headers['To'];
-
+        
         if (   isset ($mime->parts)
             && is_array($mime->parts)
             && count ($mime->parts)>0)
