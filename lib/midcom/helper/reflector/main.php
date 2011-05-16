@@ -1079,8 +1079,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * which we do not want here.
      *
      * @see http://trac.midgard-project.org/ticket/809
-     * @param $object the object to get the name property for
-     * @param $title_property property to use as "name", if left to default (null), will be reflected
+     * @param object $object the object to get the name property for
+     * @param string $title_property property to use as "name", if left to default (null), will be reflected
      * @return string value of name property or boolean false on failure
      */
     function get_object_title($object, $title_property = null)
@@ -1108,21 +1108,23 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * even if it's just the guid
      *
      * @see midcom_helper_reflector::get_object_title()
-     * @param $object the object to get the title property for
-     * @return string name of property or boolean false on failure
-     * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
+     * @param object $object The object to get the title property for
+     * @return string Name of property or boolean false on failure
+     * @todo When midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
     function get_title_property(&$object)
     {
         // Cache results per class within request
         static $cache = array();
         $key = get_class($object);
+
         if (isset($cache[$key]))
         {
             return $cache[$key];
         }
         $resolver =& midcom_helper_reflector::get($object);
         $cache[$key] = $resolver->get_title_property_nonstatic($object);
+
         return $cache[$key];
     }
 
@@ -1158,6 +1160,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         // Configured properties
         $title_exceptions = $this->_config->get('title_exceptions');
+
         foreach ($title_exceptions as $class => $property)
         {
             if ($_MIDCOM->dbfactory->is_a($object, $class))

@@ -132,9 +132,8 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             1 => array('org_openpsa_projects_project', 'title'),
             2 => array('midcom_db_article', 'title'),
             3 => array('midgard_topic', 'extra'),
-            5 => array('midcom_db_member', ''),
-            6 => array('midcom_db_person', 'lastname'),
-            7 => array('org_openpsa_contacts_person_dba', 'lastname'),
+            4 => array('midcom_db_member', ''),
+            6 => array('org_openpsa_contacts_person_dba', 'lastname'),
         );
     }
 
