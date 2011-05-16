@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.helper.datamanager2
+ * @package org.routamc.positioning
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -20,18 +20,17 @@
  (
      'title' => 'location',
      'storage' => null,
-     'type' => 'position',
-     'widget' => 'position',
+     'type' => 'org_routamc_positioning_dm2_type',
+     'widget' => 'org_routamc_positioning_dm2_widget',
      'widget_config' => Array
      (
          'service' => 'geonames', //Possible values are city, geonames, yahoo
      ),
  ),
  *
- * @package midcom.helper.datamanager2
- *
+ * @package org.routamc.positioning
  */
-class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanager2_widget
+class org_routamc_positioning_dm2_widget extends midcom_helper_datamanager2_widget
 {
     /**
      * id of the element
@@ -101,7 +100,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
      */
     public function _on_initialize()
     {
-        if (!is_a($this->_type, 'midcom_helper_datamanager2_type_position'))
+        if (!is_a($this->_type, 'org_routamc_positioning_dm2_type'))
         {
             debug_add("Warning, the field {$this->name} is not a position type or subclass thereof, you cannot use the position widget with it.",
                 MIDCOM_LOG_WARN);
@@ -125,8 +124,8 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
 
         $_MIDCOM->enable_jquery();
 
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/position_widget.css');
-        $this->add_stylesheet(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/jquery.tabs.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/position_widget.css');
+        $this->add_stylesheet(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.css');
         $_MIDCOM->add_link_head
         (
             array
@@ -134,13 +133,13 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
                 'condition' => 'lte IE 7',
                 'rel' => 'stylesheet',
                 'type' => 'text/css',
-                'href' => MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/jquery.tabs-ie.css',
+                'href' => MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs-ie.css',
                 'media' => 'projection, screen',
             )
         );
 
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/jquery.tabs.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/midcom.helper.datamanager2/position/widget.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/jquery.tabs.js');
+        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.routamc.positioning/widget/widget.js');
 
         $this->_element_id = "{$this->_namespace}{$this->name}_position_widget";
 
@@ -251,7 +250,7 @@ class midcom_helper_datamanager2_widget_position extends midcom_helper_datamanag
         $html .= $this->_render_country_list($country);
 
         $city_name = $this->_get_city_name();
-        
+
         $html .= "<label for='{$this->_element_id}_input_place_city' id='{$this->_element_id}_input_place_city_label'>";
         $html .= "<span class=\"field_text\">" . $_MIDCOM->i18n->get_string('xep_city', 'org.routamc.positioning') . "</span><span class=\"proposal\"></span>";
         $html .= "<input size=\"40\" class=\"shorttext position_widget_input position_widget_input_place_city\" id=\"{$this->_element_id}_input_place_city\" name=\"{$this->_element_id}_input_place_city\" type=\"text\" value=\"{$city_name}\" />";
