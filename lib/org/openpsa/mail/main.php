@@ -1167,7 +1167,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             list ($html, $embeds) = $this->_html_get_embeds_loop($obj, $html, $tmpArr, $embeds, 'url');
         }
 
-        //return array('html' => $html, 'embeds' => $embeds, 'debug' => $tmpArr);
         return array($html, $embeds);
     }
 
@@ -1176,14 +1175,12 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $addresses = '';
         //TODO: Support array of addresses as well
         $addresses .= $this->to;
-        if (   isset($this->headers['Cc'])
-            && !empty($this->headers['Cc']))
+        if (!empty($this->headers['Cc']))
         {
             //TODO: Support array of addresses as well
             $addresses .= ', ' . $this->headers['Cc'];
         }
-        if (   isset($this->headers['Bcc'])
-            && !empty($this->headers['Bcc']))
+        if (!empty($this->headers['Bcc']))
         {
             //TODO: Support array of addresses as well
             $addresses .= ', ' . $this->headers['Bcc'];
@@ -1214,7 +1211,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
               @include_once('Mail/mimeDecode.php');
            }
         }
-        return true;
     }
 
     public static function compose($template, $message_text, array $message_strings)
