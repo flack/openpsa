@@ -151,10 +151,11 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __get($name)
     {
         $name = ucfirst($name);
-        if (isset($this->_headers[$name]))
+        if (isset($this->headers[$name]))
         {
-            return $this->_headers[$name];
+            return $this->headers[$name];
         }
+
         return parent::__get($name);
     }
 
@@ -164,13 +165,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __set($name, $value)
     {
         $name = ucfirst($name);
-        if (isset($this->_headers[$name]))
+        if (isset($this->headers[$name]))
         {
-            $this->_headers[$name] = $value;
-        }
-        else
-        {
-        	parent::__set($name, $value);
+            $this->headers[$name] = $value;
         }
     }
 
