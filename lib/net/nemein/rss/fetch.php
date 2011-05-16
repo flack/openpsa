@@ -6,10 +6,10 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once(MIDCOM_ROOT . '/net/nemein/rss/magpierss/rss_fetch.inc');
-require_once(MIDCOM_ROOT . '/net/nemein/rss/magpierss/rss_parse.inc');
-require_once(MIDCOM_ROOT . '/net/nemein/rss/magpierss/rss_cache.inc');
-require_once(MIDCOM_ROOT . '/net/nemein/rss/magpierss/rss_utils.inc');
+require_once(MIDCOM_ROOT . '/external/magpierss/rss_fetch.inc');
+require_once(MIDCOM_ROOT . '/external/magpierss/rss_parse.inc');
+require_once(MIDCOM_ROOT . '/external/magpierss/rss_cache.inc');
+require_once(MIDCOM_ROOT . '/external/magpierss/rss_utils.inc');
 
 /**
  * RSS and Atom feed fetching class. Caches the fetched items as articles

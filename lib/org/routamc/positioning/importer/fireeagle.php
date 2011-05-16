@@ -38,7 +38,7 @@ class org_routamc_positioning_importer_fireeagle extends org_routamc_positioning
     {
         $position = array();
 
-        require_once(MIDCOM_ROOT . '/org/routamc/positioning/lib/fireeagle.php');
+        require_once(MIDCOM_ROOT . '/external/fireeagle.php');
 
         $fireeagle = new FireEagle($this->_config->get('fireeagle_consumer_key'), $this->_config->get('fireeagle_consumer_secret'), $fireeagle_access_key, $fireeagle_access_secret);
 

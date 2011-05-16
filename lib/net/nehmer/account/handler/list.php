@@ -7,7 +7,7 @@
  */
 
 /**
- * Account Management handler class: List users by karma
+ * Account Management handler class: List users
  *
  * @package net.nehmer.account
  */
@@ -62,8 +62,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
             throw new midcom_error_notfound("Listing users not enabled.");
         }
 
-        $data['list_categories'] = $this->_config->get('list_categories');
-
         $qb = new org_openpsa_qbpager('midcom_db_person', 'net_nehmer_account_list');
         $data['qb'] =& $qb;
 
@@ -101,95 +99,6 @@ class net_nehmer_account_handler_list extends midcom_baseclasses_components_hand
      * @param array &$data The local request data.
      */
     public function _show_list($handler_id, array &$data)
-    {
-        $this->_prepare_datamanager();
-        midcom_show_style('show-list-header');
-
-        foreach ($data['users'] as $user)
-        {
-            $data['user'] =& $user;
-            $this->_compute_visible_fields($user);
-            $data['visible_fields'] = $this->_visible_fields[$user->guid];
-            midcom_show_style('show-list-item');
-        }
-
-        midcom_show_style('show-list-footer');
-    }
-
-    /**
-     * This handler loads the account, validates permissions and starts up the
-     * datamanager.
-     *
-     * This handler is responsible for both admin and user modes, distinguishing it
-     * by the handler id (admin_edit vs. edit). In admin mode, admin privileges are
-     * required unconditionally, the id/guid of the record to-be-edited is expected
-     * in $args[0].
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
-    public function _handler_list_by_category($handler_id, array $args, array &$data)
-    {
-        if (!$this->_config->get('allow_list'))
-        {
-            throw new midcom_error_notfound("Listing users not enabled.");
-        }
-
-        $data['handler'] = $handler_id;
-        $data['category'] = $args[0];
-        $data['list_categories'] = $this->_config->get('list_categories');
-
-        if (!in_array($data['category'], $data['list_categories']))
-        {
-            throw new midcom_error_notfound("List {$data['category']} not found");
-        }
-
-        $person_ids = array();
-        $data['karma_map'] = array();
-        $mc = net_nehmer_account_karma_dba::new_collector('module', $data['category']);
-        $mc->add_value_property('karma');
-        $mc->add_value_property('person');
-        $mc->add_order('karma', 'DESC');
-        $mc->add_order('person.metadata.score', 'DESC');
-        $mc->set_limit($this->_config->get('list_categories_number'));
-        $mc->execute();
-        $keys = $mc->list_keys();
-        foreach ($keys as $key => $values)
-        {
-            $person_id = $mc->get_subkey($key, 'person');
-            $person_ids[] = $person_id;
-            $data['karma_map'][$person_id] = $mc->get_subkey($key, 'karma');
-        }
-        unset($mc);
-
-        $data['users'] = array();
-
-        foreach ($person_ids as $person_id)
-        {
-            $user = new midcom_db_person();
-            $user->get_by_id($person_id);
-            if ($user->guid)
-            {
-                $data['users'][] = $user;
-            }
-        }
-        unset($person_ids);
-
-        // At this point our $data['users'] array is ordered by the desired karma-category
-        $this->add_breadcrumb("list/category/{$args[0]}/", $this->_l10n->get("by {$args[0]}"));
-
-        $data['view_title'] = $this->_l10n->get('user list') . ': ' . $this->_l10n->get("by {$args[0]}");
-        $_MIDCOM->set_pagetitle($data['view_title']);
-    }
-
-    /**
-     * The rendering code consists of a standard init/loop/end construct.
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_list_by_category($handler_id, array &$data)
     {
         $this->_prepare_datamanager();
         midcom_show_style('show-list-header');

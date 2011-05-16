@@ -28,7 +28,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
         define('ORG_OPENPSA_OBTYPE_DEPARTMENT', 1002);
         define('ORG_OPENPSA_OBTYPE_PERSON', 2000);
         define('ORG_OPENPSA_OBTYPE_RESOURCE', 2001);
-
         return true;
     }
 
@@ -321,6 +320,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
         // Check for RSS feed
         $rss_url = org_openpsa_httplib_helpers::get_link_values($html, 'alternate');
+
         if (   $rss_url
             && count($rss_url) > 0)
         {
@@ -328,6 +328,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
 
             // We have a feed URL, but we should check if it is GeoRSS as well
             $_MIDCOM->load_library('net.nemein.rss');
+
             $rss_content = net_nemein_rss_fetch::raw_fetch($data['rss_url']);
 
             if (   isset($rss_content->items)

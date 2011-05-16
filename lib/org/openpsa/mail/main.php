@@ -14,32 +14,124 @@
  */
 class org_openpsa_mail extends midcom_baseclasses_components_purecode
 {
-    var $subject;     //string, simpler access to headers['Subject']
-    var $body;        //text
-    var $headers;     //array, key is header name, value is header data
-    var $from;        //string, simpler access to headers['From']
-    var $to;          //string, simpler access to headers['To']
-    var $cc;          //string, simpler access to headers['Cc']
-    var $bcc;          //string, simpler access to headers['Bcc']
+    /**
+     * text
+     *
+     * @var string
+     */
+    public $body;
 
-    var $htmlBody;    //text, HTML body (of MIME/multipart message)  reference to below
-    var $html_body;    //text, HTML body (of MIME/multipart message)
-    var $attachments; /* array, primary keys are int, secondary keys for decoded array are: 'name' (filename), 'content' (file contents) and 'mimetype'.
-                       Array for encoding may in stead of 'content' have 'file' which is path to the file to be attached */
-    var $embeds;      //array, like attachments but used for inline images
-    var $encoding;    //string, character encoding in which the texts etc are
-    var $allow_only_html; //Allow to send only HTML body
-    var $embed_css_url; //Try to embed also css url() files as inline images (seems not to work with most clients so defaults to false)
+    /**
+     * key is header name, value is header data
+     *
+     * @var array
+     */
+    public $headers = array
+    (
+        'Subject' => null,
+        'From' => null,
+        'To' => null,
+        'Cc' => null,
+        'Bcc' => null,
+    );
 
-    //Internal, do not touch unless you know what you're doing
-    private $_backend;    //The backend object
-    private $__mime;      //object, (Mail_mime / Mail_mimeDecode) holder
-    private $__mail;      //object, (Mail) holder
-    private $__mailErr;   //boolean/object, send error status
-    private $__iconv;     //boolean, when decoding mails, try to convert to desired charset.
-    private $__orig_encoding;  //string, original encoding of the message
-    private $__textBodyFound; //boolean, used in part_decode
-    private $__htmlBodyFound; // --''--
+    /**
+     * HTML body (of MIME/multipart message)
+     *
+     * @var string
+     */
+    public $html_body;
+
+    /**
+     * primary keys are int, secondary keys for decoded array are: 'name' (filename), 'content' (file contents) and 'mimetype'
+     * Array for encoding may in stead of 'content' have 'file' which is path to the file to be attached
+     *
+     * @var array
+     */
+    public $attachments = array();
+
+    /**
+     * like attachments but used for inline images
+     *
+     * @var array
+     */
+    public $embeds = array();
+
+    /**
+     * Character encoding in which the texts etc are
+     *
+     * @var string
+     */
+    public $encoding;
+
+    /**
+     * Allow to send only HTML body
+     *
+     * @var boolean
+     */
+    public $allow_only_html = false;
+
+    /**
+     * Try to embed also css url() files as inline images
+     * (seems not to work with most clients so defaults to false)
+     *
+     * @var boolean
+     */
+    public $embed_css_url = false;
+
+    /**
+     * The backend object
+     */
+    private $_backend = false;
+
+    /**
+     * (Mail_mime / Mail_mimeDecode) holder
+     *
+     * @var object
+     */
+    private $__mime;
+
+    /**
+     * (Mail) holder
+     *
+     * @var object
+     */
+    private $__mail;
+
+    /**
+     * send error status
+     *
+     * @var mixed
+     */
+    private $__mailErr = false;
+
+    /**
+     * When decoding mails, try to convert to desired charset.
+     *
+     * @var boolean
+     */
+    private $__iconv = true;
+
+    /**
+     * Original encoding of the message
+     *
+     * @var string
+     */
+    private $__orig_encoding = '';
+
+    /**
+     * Used in part_decode
+     *
+     * @var boolean
+     */
+    private $__textBodyFound;
+
+    /**
+     * Used in part_decode
+     *
+     * @var boolean
+     */
+    private $__htmlBodyFound;
 
     public function __construct()
     {
@@ -47,34 +139,39 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         parent::__construct();
         $this->_initialize_pear();
 
-        $this->attachments = array();
-        $this->embeds = array();
-        $this->headers = array();
-        $this->headers['Subject'] = null;
-        $this->subject =& $this->headers['Subject'];
-        $this->headers['From'] = null;
-        $this->from =& $this->headers['From'];
-        $this->headers['To'] = null;
-        $this->to =& $this->headers['To'];
-        $this->headers['Cc'] = null;
-        $this->cc =& $this->headers['Cc'];
-        $this->headers['Bcc'] = null;
-        $this->bcc =& $this->headers['Bcc'];
         $this->headers['User-Agent'] = 'Midgard/' . substr(mgd_version(), 0, 4);
         $this->headers['X-Originating-Ip'] = $_SERVER['REMOTE_ADDR'];
-        $this->__mailErr = false;
-        $this->htmlBody =& $this->html_body;
 
         $this->encoding = $this->_i18n->get_current_charset();
+    }
 
-        //Try to convert between charsets
-        $this->__iconv = true;
-        $this->__orig_encoding = '';
+    /**
+     * Make it possible to get header values via $mail->to and the like
+     */
+    public function __get($name)
+    {
+        $name = ucfirst($name);
+        if (isset($this->_headers[$name]))
+        {
+            return $this->_headers[$name];
+        }
+        return parent::__get($name);
+    }
 
-        $this->_backend = false;
-        $this->allow_only_html = false;
-        $this->embed_css_url = false;
-        return true;
+    /**
+     * Make it possible to set header values via $mail->to and the like
+     */
+    public function __set($name, $value)
+    {
+        $name = ucfirst($name);
+        if (isset($this->_headers[$name]))
+        {
+            $this->_headers[$name] = $value;
+        }
+        else
+        {
+        	parent::__set($name, $value);
+        }
     }
 
     /**
@@ -109,10 +206,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     /**
      * Creates a Mail_mime instance and adds parts to it as necessary
      */
-    function initMail_mime()
-    {
-        return $this->init_mail_mime();
-    }
     function init_mail_mime()
     {
         if (!class_exists('Mail_mime'))
@@ -253,41 +346,31 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     function html2text($html)
     {
-        if (class_exists('Html2Text'))
-        {
-            $html = preg_replace("/<!DOCTYPE[^>]*>\n?/", '', $html);
-            $decoder = new Html2Text($html, 72);
-            $text = $decoder->convert();
-            $text = $this->html_entity_decode($text);
-        }
-        else
-        {
-            //Convert various newlines to unix ones
-            $text = preg_replace('/\x0a\x0d|\x0d\x0a|\x0d/', "\n", $html);
-            //convert <br/> tags to newlines
-            $text = preg_replace("/<br\s*\\/?>/i", "\n", $text);
-            //strip all STYLE and SCRIPT tags, including their content
-            $text = preg_replace('/(<style[^>]*>.*?<\\/style>)/si', '', $text);
-            $text = preg_replace('/(<script[^>]*>.*?<\\/script>)/si', '', $text);
-            //strip comments
-            $text = preg_replace('/<!--.*?-->/s', '', $text);
-            //strip all remaining tags, just the tags
-            $text = preg_replace('/(<[^>]*>)/', '', $text);
+        //Convert various newlines to unix ones
+        $text = preg_replace('/\x0a\x0d|\x0d\x0a|\x0d/', "\n", $html);
+        //convert <br/> tags to newlines
+        $text = preg_replace("/<br\s*\\/?>/i", "\n", $text);
+        //strip all STYLE and SCRIPT tags, including their content
+        $text = preg_replace('/(<style[^>]*>.*?<\\/style>)/si', '', $text);
+        $text = preg_replace('/(<script[^>]*>.*?<\\/script>)/si', '', $text);
+        //strip comments
+        $text = preg_replace('/<!--.*?-->/s', '', $text);
+        //strip all remaining tags, just the tags
+        $text = preg_replace('/(<[^>]*>)/', '', $text);
 
-            //Decode entities
-            $text = $this->html_entity_decode($text);
+        //Decode entities
+        $text = $this->html_entity_decode($text);
 
-            //Trim whitespace from end of lines
-            $text = preg_replace("/[ \t\f]+$/m", '', $text);
-            //Trim whitespace from beginning of lines
-            $text = preg_replace("/^[ \t\f]+/m", '', $text);
-            //Convert multiple concurrent spaces to one
-            $text = preg_replace("/[ \t\f]+/", ' ', $text);
-            //Strip extra linebreaks
-            $text = preg_replace("/\n{3,}/", "\n\n", $text);
-            //Wrap to RFC width
-            $text = wordwrap($text, 72, "\n");
-        }
+        //Trim whitespace from end of lines
+        $text = preg_replace("/[ \t\f]+$/m", '', $text);
+        //Trim whitespace from beginning of lines
+        $text = preg_replace("/^[ \t\f]+/m", '', $text);
+        //Convert multiple concurrent spaces to one
+        $text = preg_replace("/[ \t\f]+/", ' ', $text);
+        //Strip extra linebreaks
+        $text = preg_replace("/\n{3,}/", "\n\n", $text);
+        //Wrap to RFC width
+        $text = wordwrap($text, 72, "\n");
 
         return trim($text);
     }
@@ -389,14 +472,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             }
             $this->attachments[] = $dataArr;
         }
-    }
-
-    /**
-     * No-op for now
-     */
-    private function _compatibility_checks()
-    {
-        return;
     }
 
     /**
@@ -561,8 +636,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->subject =& $this->headers['Subject'];
         $this->from =& $this->headers['From'];
         $this->to =& $this->headers['To'];
-
-        $this->_compatibility_checks();
 
         if (   isset ($mime->parts)
             && is_array($mime->parts)
@@ -853,10 +926,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      *
      * Handles also the PEAR errors from libraries used.
      */
-    function getErrorMessage()
-    {
-        return $this->get_error_message();
-    }
     function get_error_message()
     {
         if (is_object($this->_backend))
@@ -917,11 +986,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
 
     private function _html_get_embeds_loop(&$obj, $html, $search, $embeds, $type)
     {
-        if (!isset($_SERVER))
-        { //Make sure we have this information (even on older PHPs)
-            global $HTTP_SERVER_VARS;
-            $_SERVER = $HTTP_SERVER_VARS;
-        }
         $type_backup = $type;
 
         //Cache for embeds data
@@ -972,20 +1036,20 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             switch ($mode)
             {
                 case 'cached':
-                        //Avoid multiple copies of same file in embeds
-                        if (!$this->_exists_in_embeds($embeds_data_cache[$search['location'][$k]], $embeds))
-                        {
-                            $embeds[] = $embeds_data_cache[$search['location'][$k]];
-                        }
-                        switch (strtolower($type))
-                        {
-                            case 'url':
-                                $html = str_replace($search['whole'][$k], 'url("' . $search['filename'][$k] . '")', $html);
-                                break;
-                            default:
-                                $html = str_replace($search['whole'][$k], $type . '="' . $search['filename'][$k] . '"', $html);
-                                break;
-                        }
+                    //Avoid multiple copies of same file in embeds
+                    if (!$this->_exists_in_embeds($embeds_data_cache[$search['location'][$k]], $embeds))
+                    {
+                        $embeds[] = $embeds_data_cache[$search['location'][$k]];
+                    }
+                    switch (strtolower($type))
+                    {
+                        case 'url':
+                            $html = str_replace($search['whole'][$k], 'url("' . $search['filename'][$k] . '")', $html);
+                            break;
+                        default:
+                            $html = str_replace($search['whole'][$k], $type . '="' . $search['filename'][$k] . '"', $html);
+                            break;
+                    }
                     break;
                 case 'relUri':
                     switch ($_SERVER['SERVER_PORT'])
@@ -1153,7 +1217,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    static function compose($template, $message_text, array $message_strings)
+    public static function compose($template, $message_text, array $message_strings)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
         foreach ($message_strings as $id => $string)

@@ -785,7 +785,6 @@ class midcom_helper__componentloader
         $core_components = array
         (
             'de.bitfolge.feedcreator',
-            'de.linkm.sitemap',
             'fi.protie.navigation',
             'midcom.admin.babel',
             'midcom.admin.folder',
@@ -803,13 +802,10 @@ class midcom_helper__componentloader
             'midcom.helper.xsspreventer',
             'midcom.services.at',
             'midgard.admin.asgard',
-            'midgard.admin.wizards',
             'net.nehmer.blog',
             'net.nehmer.comments',
             'net.nehmer.markdown',
             'net.nehmer.static',
-            'net.nemein.calendar',
-            'net.nemein.personnel',
             'net.nemein.redirector',
             'net.nemein.rss',
             'net.nemein.tag',
@@ -819,8 +815,6 @@ class midcom_helper__componentloader
             'org.openpsa.httplib',
             'org.openpsa.mail',
             'org.openpsa.qbpager',
-            'org.routamc.gallery',
-            'org.routamc.photostream',
             'org.routamc.positioning',
         );
 

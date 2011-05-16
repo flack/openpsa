@@ -14,6 +14,13 @@
 class org_openpsa_httplib extends midcom_baseclasses_components_purecode
 {
     private $_client = null;
+    
+    private $_params = array
+    (
+        'connect_timeout' => 15,
+        'timeout' => 30,
+        'ssl_verify_peer' => false
+    );
     var $error = '';
     var $basicauth = array
     (
@@ -29,12 +36,13 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      */
     public function __construct()
     {
+         require_once('HTTP/Request2.php');
          $this->_component = 'org.openpsa.httplib';
          parent::__construct();
     }
 
     /**
-     * Check whether a HTTP response code is a "successfull" one
+     * Check whether a HTTP response code is a "successful" one
      *
      * @param int $response_code HTTP response code to check
      * @return boolean Whether HTTP response code is successfull
@@ -55,45 +63,52 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      *
      * @param string $url Fully qualified URL
      * @param array $headers Additional HTTP headers
+     * @param string $username Username, if any
+     * @param string $password Password, if any
      * @return string Contents
-     * @todo rewrite to work like the post method (and use http_client)
      */
-    function get($url, $headers = null, $username = null, $password = null)
+    public function get($url, $headers = null, $username = null, $password = null)
     {
-        // Snoopy is an HTTP client in PHP
-        $this->_client = new Snoopy();
-        $client =& $this->_client;
-        $client->agent = $this->_user_agent();
-        $client->read_timeout = $this->_config->get('http_timeout');
-        $client->use_gzip = $this->_config->get('enable_gzip');
-        if (is_array($headers))
+        $this->_client = new HTTP_Request2($url, HTTP_Request2::METHOD_GET, $this->_params);
+        $c =& $this->_client;
+
+        $c->setHeader('User-Agent', $this->_user_agent());
+
+        // Handle basic auth
+        if (   $username !== null
+            && $password !== null)
         {
-            $client->rawheaders = $headers;
+            // Set basic auth
+            $c->setAuth($username, $password);
         }
 
-        if (!is_null($username))
+        // add custom headers
+        if (!empty($headers))
         {
-            $client->user = $username;
+            foreach ($headers as $key => $value)
+            {
+                $c->setHeader($key, $value);
+            }
         }
 
-        if (!is_null($password))
+        try
         {
-            $client->pass = $password;
+            $response = $c->send();
         }
-
-        // Do the HTTP query
-        @$client->fetch($url);
-
-        if (!$this->_is_success($client->status))
+        catch (Exception $e)
         {
-            // Handle errors
-            $this->error = $client->results;
-            debug_add("Failed to fetch URL {$url}, got response: {$client->status}", MIDCOM_LOG_WARN);
-            debug_add($client->error);
+            $this->error = $e->getMessage();
+            debug_add("Got error '{$this->error}' from HTTP_Request", MIDCOM_LOG_INFO);
             return '';
         }
-
-        return $client->results;
+        $code = $response->getStatus();
+        if (!$this->_is_success((int)$code))
+        {
+            $this->error = $this->_http_code2error($code);
+            debug_add("Got error '{$this->error}' from '{$uri}'", MIDCOM_LOG_INFO);
+            return '';
+        }
+        return $response->getBody();
     }
 
     /**
@@ -106,15 +121,7 @@ class org_openpsa_httplib extends midcom_baseclasses_components_purecode
      */
     function post($uri, &$variables, $headers = null)
     {
-        require_once('HTTP/Request2.php');
-        $params = array
-        (
-            'connect_timeout' => $this->http_timeout,
-            'timeout' => $this->http_read_timeout,
-            'ssl_verify_peer' => false
-        );
-
-        $this->_client = new HTTP_Request2($uri, HTTP_Request2::METHOD_POST, $params);
+        $this->_client = new HTTP_Request2($uri, HTTP_Request2::METHOD_POST, $this->_params);
         $c =& $this->_client;
 
         $c->setHeader('User-Agent', $this->_user_agent());
