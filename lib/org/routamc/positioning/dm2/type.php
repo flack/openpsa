@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.helper.datamanager2
+ * @package org.routamc.positioning
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -11,9 +11,9 @@
  *
  * This type allows you to position objects in the Midgard database geographically.
  *
- * @package midcom.helper.datamanager2
+ * @package org.routamc.positioning
  */
-class midcom_helper_datamanager2_type_position extends midcom_helper_datamanager2_type
+class org_routamc_positioning_dm2_type extends midcom_helper_datamanager2_type
 {
     var $location = null;
     var $object = null;

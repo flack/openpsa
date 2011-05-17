@@ -151,10 +151,11 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __get($name)
     {
         $name = ucfirst($name);
-        if (isset($this->_headers[$name]))
+        if (isset($this->headers[$name]))
         {
-            return $this->_headers[$name];
+            return $this->headers[$name];
         }
+
         return parent::__get($name);
     }
 
@@ -164,13 +165,9 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __set($name, $value)
     {
         $name = ucfirst($name);
-        if (isset($this->_headers[$name]))
+        if (isset($this->headers[$name]))
         {
-            $this->_headers[$name] = $value;
-        }
-        else
-        {
-        	parent::__set($name, $value);
+            $this->headers[$name] = $value;
         }
     }
 
@@ -633,10 +630,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
                 $this->headers[str_replace(" ", "-", ucwords(str_replace("-", " ", $k)))] =& $mime->headers[$k];
             }
         }
-        $this->subject =& $this->headers['Subject'];
-        $this->from =& $this->headers['From'];
-        $this->to =& $this->headers['To'];
-
+        
         if (   isset ($mime->parts)
             && is_array($mime->parts)
             && count ($mime->parts)>0)
@@ -1167,7 +1161,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
             list ($html, $embeds) = $this->_html_get_embeds_loop($obj, $html, $tmpArr, $embeds, 'url');
         }
 
-        //return array('html' => $html, 'embeds' => $embeds, 'debug' => $tmpArr);
         return array($html, $embeds);
     }
 
@@ -1176,14 +1169,12 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $addresses = '';
         //TODO: Support array of addresses as well
         $addresses .= $this->to;
-        if (   isset($this->headers['Cc'])
-            && !empty($this->headers['Cc']))
+        if (!empty($this->headers['Cc']))
         {
             //TODO: Support array of addresses as well
             $addresses .= ', ' . $this->headers['Cc'];
         }
-        if (   isset($this->headers['Bcc'])
-            && !empty($this->headers['Bcc']))
+        if (!empty($this->headers['Bcc']))
         {
             //TODO: Support array of addresses as well
             $addresses .= ', ' . $this->headers['Bcc'];
@@ -1214,7 +1205,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
               @include_once('Mail/mimeDecode.php');
            }
         }
-        return true;
     }
 
     public static function compose($template, $message_text, array $message_strings)

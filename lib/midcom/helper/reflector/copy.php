@@ -222,11 +222,76 @@ class midcom_helper_reflector_copy extends midcom_baseclasses_components_purecod
         }
 
         // Get the parent property
-        $properties = $this->reflectors[$mgdschema_class]->get_target_properties($object);
+        $properties = self::get_target_properties($object);
         $parent_property = $properties['parent'];
         $this->parent_properties[$mgdschema_class] = $parent_property;
 
         return $parent_property;
+    }
+
+    /**
+     * Get the target properties and return an array that is used e.g. in copying
+     *
+     * @param mixed $object     MgdSchema object or MidCOM db object
+     * @return array            id, parent property, class and label of the object
+     */
+    static public function get_target_properties($object)
+    {
+        $mgdschema_class = midcom_helper_reflector::resolve_baseclass($object);
+        $mgdschema_object = new $mgdschema_class($object->guid);
+
+        static $targets = array();
+
+        // Return the cached results
+        if (isset($targets[$mgdschema_class]))
+        {
+            return $targets[$mgdschema_class];
+        }
+
+        // Empty result set for the current class
+        $target = array
+        (
+            'id' => null,
+            'parent' => '',
+            'class' => $mgdschema_class,
+            'label' => '',
+            'reflector' => new midcom_helper_reflector($object),
+        );
+
+        // Try to get the parent property for determining, which property should be
+        // used to point the parent of the new object. Attachments are a special case.
+        if (!$_MIDCOM->dbfactory->is_a($object, 'midcom_db_attachment'))
+        {
+            $parent_property = midgard_object_class::get_property_parent($mgdschema_object);
+        }
+        else
+        {
+            $parent_property = 'parentobject';
+        }
+
+        // Get the class label
+        $target['label'] = $target['reflector']->get_label_property();
+
+        // Try once more to get the parent property, but now try up as a backup
+        if (!$parent_property)
+        {
+            $up_property = midgard_object_class::get_property_up($mgdschema_object);
+
+            if (!$up_property)
+            {
+                throw new midcom_error('Failed to get the parent property for copying');
+            }
+
+            $target['parent'] = $up_property;
+        }
+        else
+        {
+            $target['parent'] = $parent_property;
+        }
+
+        // Cache the results
+        $targets[$mgdschema_class] = $target;
+        return $targets[$mgdschema_class];
     }
 
     /**

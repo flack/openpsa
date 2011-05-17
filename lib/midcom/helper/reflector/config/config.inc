@@ -13,7 +13,6 @@
 (
     'midgard_event' => 'org_openpsa_event',
     'org_openpsa_calendar_event_dba' => 'org_openpsa_event',
-    'net_nemein_calendar_event_db' => 'org_openpsa_event',
     'midgard_eventmember' => 'org_openpsa_eventmember',
     'midgard_person' => 'org_openpsa_person',
     'midgard_group' => 'org_openpsa_organization',
@@ -34,7 +33,6 @@
     'midcom_core_privilege_db' => false,
     'midcom_core_temporary_object_db' => false,
     'org_routamc_positioning_country' => false,
-    'net_hurttakallio_library_item' => 'barcode',
 ),
 /**
  * Define the property to use as 'title' per class, use false for skipping heuristics and not using any property as title
@@ -46,6 +44,7 @@
     'midgard_topic' => 'extra',
     'midgard_group' => 'official',
     'openpsa_person' => 'lastname',
+    'org_openpsa_person' => 'lastname',
     'org_openpsa_organization' => 'official',
     'midgard_host' => 'name',
 ),

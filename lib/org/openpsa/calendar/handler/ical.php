@@ -27,7 +27,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     private function _get_events()
     {
         $this->_request_data['events'] = array();
-        if (!is_object($this->request_data['person']))
+        if (!is_object($this->_request_data['person']))
         {
             return;
         }
@@ -37,7 +37,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $qb->add_constraint('eid.up', '=', $root_event->id);
         // Display events two weeks back
         $qb->add_constraint('eid.start', '>', mktime(0, 0, 0, date('n'), date('j')-14, date('Y')));
-        $qb->add_constraint('uid', '=', $this->request_data['person']->id);
+        $qb->add_constraint('uid', '=', $this->_request_data['person']->id);
         $qb->add_order('eid.start', 'ASC');
         $members = $qb->execute();
         if (is_array($members))
@@ -74,8 +74,8 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         $_MIDCOM->auth->require_valid_user('basic');
 
         $username = $this->_strip_extension($args[0]);
-        $this->request_data['person'] = $this->_find_person_by_name($username);
-        if (!is_object($this->request_data['person']))
+        $data['person'] = $this->_find_person_by_name($username);
+        if (!is_object($data['person']))
         {
             throw new midcom_error_notfound('Could not find person with username ' . $username);
         }
@@ -140,7 +140,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
     public function _handler_user_busy($handler_id, array $args, array &$data)
     {
         $username = $this->_strip_extension($args[0]);
-        $this->request_data['person'] = $this->_find_person_by_name($username);
+        $data['person'] = $this->_find_person_by_name($username);
 
         $this->_get_events();
 
@@ -183,7 +183,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
                 }
             }
             // Only display the requested user as participant
-            $event->participants[$this->request_data['person']->id] =  true;
+            $event->participants[$data['person']->id] =  true;
             // Always force busy in this view
             $event->busy = true;
             echo $event->vcal_export();

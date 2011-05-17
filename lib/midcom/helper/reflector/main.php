@@ -590,7 +590,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         foreach ($always_search as $property)
         {
-            if (!array_key_exists($property, $properties))
+            if (!in_array($property, $properties))
             {
                 debug_add("Property '{$property}' is set as always search, but is not a property in class '{$this->mgdschema_class}'", MIDCOM_LOG_WARN);
                 continue;
@@ -918,75 +918,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Get the target properties and return an array that is used e.g. in copying
-     *
-     * @param mixed $object     MgdSchema object or MidCOM db object
-     * @return array            id, parent property, class and label of the object
-     */
-    static public function get_target_properties($object)
-    {
-        $mgdschema_class = midcom_helper_reflector::resolve_baseclass($object);
-        $mgdschema_object = new $mgdschema_class($object->guid);
-
-        static $targets = array();
-
-        // Return the cached results
-        if (isset($targets[$mgdschema_class]))
-        {
-            return $targets[$mgdschema_class];
-        }
-
-        // Empty result set for the current class
-        $target = array
-        (
-            'id' => null,
-            'parent' => '',
-            'class' => $mgdschema_class,
-            'label' => '',
-            'reflector' => new midcom_helper_reflector($object),
-        );
-
-        // Try to get the parent property for determining, which property should be
-        // used to point the parent of the new object. Attachments are a special case.
-        if (!$_MIDCOM->dbfactory->is_a($object, 'midcom_db_attachment'))
-        {
-            $parent_property = midgard_object_class::get_property_parent($mgdschema_object);
-        }
-        else
-        {
-            $parent_property = 'parentobject';
-        }
-
-        // Get the class label
-        $target['label'] = $target['reflector']->get_label_property();
-
-        // Try once more to get the parent property, but now try up as a backup
-        if (!$parent_property)
-        {
-            $up_property = midgard_object_class::get_property_up($mgdschema_object);
-
-            if (!$up_property)
-            {
-                throw new midcom_error('Failed to get the parent property for copying');
-            }
-
-            $target['parent'] = $up_property;
-        }
-        else
-        {
-            $target['parent'] = $parent_property;
-        }
-
-        // Cache the results
-        $targets[$mgdschema_class] = $target;
-        return $targets[$mgdschema_class];
-    }
-
-    /**
      * Method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property()
-     * @param $object the object to get the name property for
+     * @param object &$object the object to get the name property for
      * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
@@ -1046,7 +981,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * statically callable method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property_nonstatic()
-     * @param $object the object to get the name property for
+     * @param object &$object the object to get the name property for
      * @return string name of property or boolean false on failure
      */
     public static function get_name_property(&$object)
@@ -1079,8 +1014,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * which we do not want here.
      *
      * @see http://trac.midgard-project.org/ticket/809
-     * @param $object the object to get the name property for
-     * @param $title_property property to use as "name", if left to default (null), will be reflected
+     * @param object $object the object to get the name property for
+     * @param string $title_property property to use as "name", if left to default (null), will be reflected
      * @return string value of name property or boolean false on failure
      */
     function get_object_title($object, $title_property = null)
@@ -1108,21 +1043,23 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * even if it's just the guid
      *
      * @see midcom_helper_reflector::get_object_title()
-     * @param $object the object to get the title property for
-     * @return string name of property or boolean false on failure
-     * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
+     * @param object $object The object to get the title property for
+     * @return string Name of property or boolean false on failure
+     * @todo When midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
     function get_title_property(&$object)
     {
         // Cache results per class within request
         static $cache = array();
         $key = get_class($object);
+
         if (isset($cache[$key]))
         {
             return $cache[$key];
         }
         $resolver =& midcom_helper_reflector::get($object);
         $cache[$key] = $resolver->get_title_property_nonstatic($object);
+
         return $cache[$key];
     }
 
@@ -1158,6 +1095,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         // Configured properties
         $title_exceptions = $this->_config->get('title_exceptions');
+
         foreach ($title_exceptions as $class => $property)
         {
             if ($_MIDCOM->dbfactory->is_a($object, $class))
