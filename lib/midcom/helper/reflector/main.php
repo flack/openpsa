@@ -12,11 +12,9 @@
  */
 class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 {
-    var $mgdschema_class = false;
-    var $_mgd_reflector = false;
-    var $_dummy_object = false;
-    var $_original_class = false;
-    var $get_class_label_l10n_ok = false;
+    public $mgdschema_class = false;
+    protected $_mgd_reflector = false;
+    protected $_dummy_object = false;
 
     private static $_l10n_cache = array();
 
@@ -32,7 +30,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         // Handle object vs string
         if (is_object($src))
         {
-            $this->_original_class = get_class($src);
+            $original_class = get_class($src);
 
             // TODO: This should be redundant, it's only used to the the mgdschema_class, which is overwritten later by the resolve_baseclass -method
             if (!isset($src->__mgdschema_class_name__))
@@ -45,16 +43,16 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         else
         {
-            $this->_original_class = $src;
+            $original_class = $src;
         }
 
         // Resolve root class name
-        $this->mgdschema_class = midcom_helper_reflector::resolve_baseclass($this->_original_class);
+        $this->mgdschema_class = midcom_helper_reflector::resolve_baseclass($original_class);
 
         // Could not resolve root class name
         if (empty($this->mgdschema_class))
         {
-            debug_add("Could not determine MgdSchema baseclass for '{$this->_original_class}'", MIDCOM_LOG_ERROR);
+            debug_add("Could not determine MgdSchema baseclass for '{$original_class}'", MIDCOM_LOG_ERROR);
             return;
         }
 
@@ -90,7 +88,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         }
         if (!isset($GLOBALS['midcom_helper_reflector_singletons'][$classname]))
         {
-            $GLOBALS['midcom_helper_reflector_singletons'][$classname] =  new midcom_helper_reflector($src);
+            $GLOBALS['midcom_helper_reflector_singletons'][$classname] = new midcom_helper_reflector($src);
         }
         return $GLOBALS['midcom_helper_reflector_singletons'][$classname];
     }
@@ -100,7 +98,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      *
      * @return midcom_services__i18n_l10n  Localization library for the reflector object class
      */
-    function get_component_l10n()
+    public function get_component_l10n()
     {
         // Use cache if we have it
         if (isset(self::$_l10n_cache[$this->mgdschema_class]))
@@ -159,7 +157,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
 
         $use_classname = preg_replace('/_(db|dba)$/', '', $use_classname);
 
-        $this->get_class_label_l10n_ok = true;
         $label = $component_l10n->get($use_classname);
         if ($label == $use_classname)
         {
@@ -178,7 +175,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $label = $component_l10n->get($use_label);
             if ($use_label == $label)
             {
-                $this->get_class_label_l10n_ok = false;
                 $label = ucwords($use_label);
             }
         }
@@ -191,17 +187,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @return string name of property to use as label (or false on failure)
      * @todo remove any hardcoded class names/prefixes
      */
-    function get_label_property()
+    public function get_label_property()
     {
-        // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class)
-            || !class_exists($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         $midcom_class = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->mgdschema_class);
         if ($midcom_class)
         {
@@ -269,16 +256,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @return String       Label of the object
      * @todo remove any hardcoded class names/prefixes
      */
-    public function get_object_label(&$object)
+    public function get_object_label($object)
     {
-        // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         if (!isset($object->__mgdschema_class_name__))
         {
             // Not a MidCOM DBA object
@@ -330,7 +309,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $type  Name of the type
      * @return string       URL name of the image
      */
-    static public function get_create_icon($type)
+    public static function get_create_icon($type)
     {
         static $config = null;
         static $config_icon_map = array();
@@ -407,7 +386,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param boolean $url_only   Get only the URL location instead of full <img /> tag
      * @return string             URL name of the image
      */
-    static public function get_object_icon(&$obj, $url_only = false)
+    public static function get_object_icon(&$obj, $url_only = false)
     {
         static $config = null;
         static $config_icon_map = array();
@@ -506,14 +485,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function get_search_properties()
     {
-        // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         // Return cached results if we have them
         static $cache = array();
         if (isset($cache[$this->mgdschema_class]))
@@ -658,14 +629,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function get_link_properties()
     {
-        // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         // Return cached results if we have them
         static $cache = array();
         if (isset($cache[$this->mgdschema_class]))
@@ -763,7 +726,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $schema_type classname to check rewriting for
      * @return string new classname (or original in case no rewriting is to be done)
      */
-    function class_rewrite($schema_type)
+    public static function class_rewrite($schema_type)
     {
         static $extends = false;
         if ($extends === false)
@@ -793,7 +756,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $class_two second class to compare
      * @return boolean response
      */
-    function is_same_class($class_one, $class_two)
+    public static function is_same_class($class_one, $class_two)
     {
         $one = midcom_helper_reflector::resolve_baseclass($class_one);
         $two = midcom_helper_reflector::resolve_baseclass($class_two);
@@ -820,7 +783,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param string $type    MgdSchema type
      * @return mixed          MgdSchema object
      */
-    static public function get_object($guid, $type)
+    public static function get_object($guid, $type)
     {
         static $objects = array();
 
@@ -851,7 +814,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param mixed $classname either string (class name) or object
      * @return string the base class name
      */
-    static public function resolve_baseclass($classname)
+    public static function resolve_baseclass($classname)
     {
         static $cached = array();
 
@@ -884,8 +847,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // Decorated object instance
             $parent_class = get_class($class_instance->__object);
         }
-        elseif (   isset($class_instance->__mgdschema_class_name__)
-                && !empty($class_instance->__mgdschema_class_name__))
+        else if (   isset($class_instance->__mgdschema_class_name__)
+                 && !empty($class_instance->__mgdschema_class_name__))
         {
             // Decorator without object
             $parent_class = $object->__mgdschema_class_name__;
@@ -925,17 +888,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
-    function get_name_property_nonstatic(&$object)
+    public function get_name_property_nonstatic($object)
     {
-        // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class)
-            || !class_exists($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         // Cache results per class within request
         static $cache = array();
         $key = get_class($object);
@@ -968,17 +922,13 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             $cache[$key] = 'name';
             return $cache[$key];
         }
-        /**
-         * Noise, useful when something is going wrong in *weird* way
-         *
-        debug_add("Could not resolve name property for object " . get_class($object) . " #{$object->id}", MIDCOM_LOG_WARN);
-        */
+
         $cache[$key] = false;
         return $cache[$key];
     }
 
     /**
-     * statically callable method to resolve the "name" property of given object
+     * Statically callable method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property_nonstatic()
      * @param object &$object the object to get the name property for
@@ -1007,18 +957,17 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * statically callable method to resolve the "title" of given object
+     * Statically callable method to resolve the "title" of given object
      *
      * NOTE: This is distinctly different from get_object_label, which will always return something
      * even if it's just the class name and GUID, also it will for some classes include extra info (like datetimes)
      * which we do not want here.
      *
-     * @see http://trac.midgard-project.org/ticket/809
      * @param object $object the object to get the name property for
      * @param string $title_property property to use as "name", if left to default (null), will be reflected
      * @return string value of name property or boolean false on failure
      */
-    function get_object_title($object, $title_property = null)
+    public static function get_object_title($object, $title_property = null)
     {
         if (is_null($title_property))
         {
@@ -1037,17 +986,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * statically callable method to resolve the "title" property of given object
+     * Statically callable method to resolve the "title" property of given object
      *
      * NOTE: This is distinctly different from get_label_property, which will always return something
      * even if it's just the guid
      *
-     * @see midcom_helper_reflector::get_object_title()
      * @param object $object The object to get the title property for
      * @return string Name of property or boolean false on failure
-     * @todo When midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
-    function get_title_property(&$object)
+    public static function get_title_property(&$object)
     {
         // Cache results per class within request
         static $cache = array();
@@ -1074,17 +1021,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
-    function get_title_property_nonstatic(&$object)
+    public function get_title_property_nonstatic(&$object)
     {
-        // Check against static calling
-        if (   !isset($this->mgdschema_class)
-            || empty($this->mgdschema_class)
-            || !class_exists($this->mgdschema_class))
-        {
-            debug_add('May not be called statically', MIDCOM_LOG_ERROR);
-            return false;
-        }
-
         // Cache results per class within request
         static $cache = array();
         $key = get_class($object);

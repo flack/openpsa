@@ -235,8 +235,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
      */
     public function testClass_rewrite($classname, $result)
     {
-        $reflector = new midcom_helper_reflector($classname);
-        $this->assertEquals($result, $reflector->class_rewrite($classname));
+        $this->assertEquals($result, midcom_helper_reflector::class_rewrite($classname));
     }
 
     public function providerClass_rewrite()
