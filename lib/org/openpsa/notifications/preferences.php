@@ -36,10 +36,12 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
 
     private function _populate_schema()
     {
+        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
         $notifiers = $this->_list_notifiers();
 
         // Load actions of various components
         $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
+
         foreach ($customdata as $component => $actions)
         {
             $prepended = false;
@@ -79,15 +81,6 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
         }
     }
 
-    public function _on_initialize()
-    {
-        $_MIDCOM->load_library('midcom.helper.datamanager2');
-
-        $this->_schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
-
-        $this->_populate_schema();
-    }
-
     /**
      * Internal helper, loads the controller for the current task. Any error triggers a 500.
      */
@@ -114,6 +107,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
     {
         $_MIDCOM->auth->require_valid_user();
 
+        $this->_populate_schema();
         $this->_load_controller();
 
         switch ($this->_controller->process_form())
@@ -123,6 +117,8 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
                 $_MIDCOM->relocate("");
                 // This will exit.
         }
+        $this->add_breadcrumb('', $this->_l10n->get('notification preferences'));
+        org_openpsa_helpers::dm2_savecancel($this);
     }
 
     /**

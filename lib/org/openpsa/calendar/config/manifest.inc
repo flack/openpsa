@@ -62,4 +62,24 @@
             'recurrence' => MIDCOM_CRON_HOUR,
         ),
     ),
+    'org.openpsa.notifications' => array
+    (
+        'event_update' => array
+        (
+            'default' => 'email',
+        ),
+        'event_add' => array
+        (
+            'default' => 'email',
+        ),
+        'event_remove' => array
+        (
+            'default' => 'email',
+        ),
+        'event_cancel' => array
+        (
+            'default' => 'email',
+        ),
+    ),
 ),
+
