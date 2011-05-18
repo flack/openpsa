@@ -19,7 +19,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     private static $_cache = array
     (
         'l10n' => array(),
-        'instances' => array(),
+        'instance' => array(),
         'title' => array(),
         'name' => array(),
         'object_icon_map' => null,
