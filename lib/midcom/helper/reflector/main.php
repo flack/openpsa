@@ -16,7 +16,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     protected $_mgd_reflector = false;
     protected $_dummy_object = false;
 
-    private static $_l10n_cache = array();
+    private static $_cache = array
+    (
+        'l10n' => array(),
+        'instances' => array(),
+        'title' => array(),
+        'name' => array(),
+        'object_icon_map' => null,
+        'create_icon_map' => null
+    );
 
     /**
      * Constructor, takes classname or object, resolved MgdSchema root class automagically
@@ -86,11 +94,12 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         {
             $classname = $src;
         }
-        if (!isset($GLOBALS['midcom_helper_reflector_singletons'][$classname]))
+
+        if (!isset(self::$_cache['instance'][$classname]))
         {
-            $GLOBALS['midcom_helper_reflector_singletons'][$classname] = new midcom_helper_reflector($src);
+            self::$_cache['instance'][$classname] = new midcom_helper_reflector($src);
         }
-        return $GLOBALS['midcom_helper_reflector_singletons'][$classname];
+        return self::$_cache['instance'][$classname];
     }
 
     /**
@@ -101,16 +110,16 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     public function get_component_l10n()
     {
         // Use cache if we have it
-        if (isset(self::$_l10n_cache[$this->mgdschema_class]))
+        if (isset(self::$_cache['l10n'][$this->mgdschema_class]))
         {
-            return self::$_l10n_cache[$this->mgdschema_class];
+            return self::$_cache['l10n'][$this->mgdschema_class];
         }
         $midcom_dba_classname = $_MIDCOM->dbclassloader->get_midcom_class_name_for_mgdschema_object($this->_dummy_object);
         if (empty($midcom_dba_classname))
         {
             // Could not resolve MidCOM DBA class name, fallback early to our own l10n
             debug_add("Could not get MidCOM DBA classname for type {$this->mgdschema_class}, using our own l10n", MIDCOM_LOG_INFO);
-            self::$_l10n_cache[$this->mgdschema_class] = $this->_l10n;
+            self::$_cache['l10n'][$this->mgdschema_class] = $this->_l10n;
             return $this->_l10n;
         }
 
@@ -118,7 +127,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         if (!$component)
         {
             debug_add("Could not resolve component for DBA class {$midcom_dba_classname}, using our own l10n", MIDCOM_LOG_INFO);
-            self::$_l10n_cache[$this->mgdschema_class] = $this->_l10n;
+            self::$_cache['l10n'][$this->mgdschema_class] = $this->_l10n;
             return $this->_l10n;
         }
         // Got component, try to load the l10n helper for it
@@ -126,14 +135,14 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
         $component_l10n = $midcom_i18n->get_l10n($component);
         if (!empty($component_l10n))
         {
-            self::$_l10n_cache[$this->mgdschema_class] =& $component_l10n;
+            self::$_cache['l10n'][$this->mgdschema_class] = $component_l10n;
             return $component_l10n;
         }
 
         // Could not get anything else, use our own l10n
         debug_add("Everything else failed, using our own l10n for type {$this->mgdschema_class}", MIDCOM_LOG_WARN);
 
-        self::$_l10n_cache[$this->mgdschema_class] = $this->_l10n;
+        self::$_cache['l10n'][$this->mgdschema_class] = $this->_l10n;
         return $this->_l10n;
     }
 
@@ -145,7 +154,6 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public function get_class_label()
     {
-        static $component_l10n = false;
         $component_l10n = $this->get_component_l10n();
         $use_classname = $this->mgdschema_class;
 
@@ -169,7 +177,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 array_shift($classname_parts);
             }
             // FIXME: Remove hardcoded class prefixes
-            $use_label = preg_replace('/(openpsa|database|positioning|notifications|statusmessage)_/', '', implode('_', $classname_parts));
+            $use_label = preg_replace('/(openpsa|positioning|notifications)_/', '', implode('_', $classname_parts));
 
             $use_label = str_replace('_', ' ', $use_label);
             $label = $component_l10n->get($use_label);
@@ -311,36 +319,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      */
     public static function get_create_icon($type)
     {
-        static $config = null;
-        static $config_icon_map = array();
-
-        // Get the component configuration
-        if (is_null($config))
+        if (null === self::$_cache['create_icon_map'])
         {
-            $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
-        }
-
-        if (empty($config_icon_map))
-        {
-            $icons2classes = $config->get('create_type_magic');
-            //sanity
-            if (!is_array($icons2classes))
-            {
-                debug_add('Config key "create_type_magic" is not an array', MIDCOM_LOG_ERROR);
-                debug_print_r("\$this->_config->get('create_type_magic')", $icons2classes, MIDCOM_LOG_INFO);
-                unset($icons2classes);
-            }
-            else
-            {
-                foreach ($icons2classes as $icon => $classes)
-                {
-                    foreach ($classes as $class)
-                    {
-                        $config_icon_map[$class] = $icon;
-                    }
-                }
-                unset($icons2classes, $classes, $class, $icon);
-            }
+            self::$_cache['create_icon_map'] = self::_get_icon_map('create_type_magic', 'new-text.png');
         }
 
         $icon_callback = array($type, 'get_create_icon');
@@ -350,8 +331,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             case (is_callable($icon_callback)):
                 $icon = call_user_func($icon_callback);
             // configuration icon
-            case (isset($config_icon_map[$type])):
-                $icon = $config_icon_map[$type];
+            case (isset(self::$_cache['create_icon_map'][$type])):
+                $icon = self::$_cache['create_icon_map'][$type];
                 break;
 
             // heuristics magic (in stead of adding something here, take a look at config key "create_type_magic")
@@ -367,13 +348,9 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon = 'stock_event_new.png';
                 break;
 
-            // Config default value
-            case (isset($config_icon_map['__default__'])):
-                $icon = $config_icon_map['__default__'];
-                break;
             // Fallback default value
             default:
-                $icon = 'new-text.png';
+                $icon = self::$_cache['create_icon_map']['__default__'];
                 break;
         }
         return $icon;
@@ -386,38 +363,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param boolean $url_only   Get only the URL location instead of full <img /> tag
      * @return string             URL name of the image
      */
-    public static function get_object_icon(&$obj, $url_only = false)
+    public static function get_object_icon($obj, $url_only = false)
     {
-        static $config = null;
-        static $config_icon_map = array();
-
-        // Get the component configuration
-        if (is_null($config))
+        if (null === self::$_cache['object_icon_map'])
         {
-            $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
-        }
-
-        if (empty($config_icon_map))
-        {
-            $icons2classes = $config->get('object_icon_magic');
-            //sanity
-            if (!is_array($icons2classes))
-            {
-                debug_add('Config key "object_icon_magic" is not an array', MIDCOM_LOG_ERROR);
-                debug_print_r("\$config->get('object_icon_magic')", $icons2classes, MIDCOM_LOG_INFO);
-                unset($icons2classes);
-            }
-            else
-            {
-                foreach ($icons2classes as $icon => $classes)
-                {
-                    foreach ($classes as $class)
-                    {
-                        $config_icon_map[$class] = $icon;
-                    }
-                }
-                unset($icons2classes, $classes, $class, $icon);
-            }
+            self::$_cache['object_icon_map'] = self::_get_icon_map('object_icon_magic', 'document.png');
         }
 
         $object_class = get_class($obj);
@@ -430,11 +380,11 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 break;
 
             // configuration icon
-            case (isset($config_icon_map[$object_class])):
-                $icon = $config_icon_map[$object_class];
+            case (isset(self::$_cache['object_icon_map'][$object_class])):
+                $icon = self::$_cache['object_icon_map'][$object_class];
                 break;
-            case (isset($config_icon_map[$object_baseclass])):
-                $icon = $config_icon_map[$object_baseclass];
+            case (isset(self::$_cache['object_icon_map'][$object_baseclass])):
+                $icon = self::$_cache['object_icon_map'][$object_baseclass];
                 break;
 
             // heuristics magic (in stead of adding something here, take a look at config key "object_icon_magic")
@@ -442,23 +392,19 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                 $icon = 'stock_person.png';
                 break;
             case (strpos($object_class, 'event') !== false):
-                $icon='stock_event.png';
+                $icon = 'stock_event.png';
                 break;
             case (strpos($object_class, 'member') !== false):
             case (strpos($object_class, 'organization') !== false):
-                $icon='stock_people.png';
+                $icon = 'stock_people.png';
                 break;
             case (strpos($object_class, 'element') !== false):
                 $icon = 'text-x-generic-template.png';
                 break;
 
-            // Config default value
-            case (isset($config_icon_map['__default__'])):
-                $icon = $config_icon_map['__default__'];
-                break;
             // Fallback default value
             default:
-                $icon = 'document.png';
+                $icon = self::$_cache['object_icon_map']['__default__'];
                 break;
         }
 
@@ -476,6 +422,34 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             return $icon_url;
         }
         return "<img src=\"{$icon_url}\" align=\"absmiddle\" border=\"0\" alt=\"{$object_class}\" /> ";
+    }
+
+    private static function _get_icon_map($config_key, $fallback)
+    {
+        $config = midcom_baseclasses_components_configuration::get('midcom.helper.reflector', 'config');
+        $icons2classes = $config->get($config_key);
+        $icon_map = array();
+        //sanity
+        if (!is_array($icons2classes))
+        {
+            debug_add('Config key "create_type_magic" is not an array', MIDCOM_LOG_ERROR);
+            debug_print_r("\$this->_config->get('create_type_magic')", $icons2classes, MIDCOM_LOG_INFO);
+        }
+        else
+        {
+            foreach ($icons2classes as $icon => $classes)
+            {
+                foreach ($classes as $class)
+                {
+                    $icon_map[$class] = $icon;
+                }
+            }
+        }
+        if (!isset($icon_map['__default__']))
+        {
+            $icon_map['__default__'] = $fallback;
+        }
+        return $icon_map;
     }
 
     /**
@@ -884,19 +858,19 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * Method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property()
-     * @param object &$object the object to get the name property for
+     * @param object $object the object to get the name property for
      * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
     public function get_name_property_nonstatic($object)
     {
         // Cache results per class within request
-        static $cache = array();
         $key = get_class($object);
-        if (isset($cache[$key]))
+        if (isset(self::$_cache['name'][$key]))
         {
-            return $cache[$key];
+            return self::$_cache['name'][$key];
         }
+        self::$_cache['name'][$key] = false;
 
         // Configured properties
         $name_exceptions = $this->_config->get('name_exceptions');
@@ -908,52 +882,49 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                     && !$_MIDCOM->dbfactory->property_exists($object, $property))
                 {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
-                    $cache[$key] = false;
-                    return $cache[$key];
+                    self::$_cache['name'][$key] = false;
+                    return self::$_cache['name'][$key];
                 }
-                $cache[$key] = $property;
-                return $cache[$key];
+                self::$_cache['name'][$key] = $property;
+                return self::$_cache['name'][$key];
             }
         }
 
         // The simple heuristic
         if ($_MIDCOM->dbfactory->property_exists($object, 'name'))
         {
-            $cache[$key] = 'name';
-            return $cache[$key];
+            self::$_cache['name'][$key] = 'name';
         }
 
-        $cache[$key] = false;
-        return $cache[$key];
+        return self::$_cache['name'][$key];
     }
 
     /**
      * Statically callable method to resolve the "name" property of given object
      *
      * @see midcom_helper_reflector::get_name_property_nonstatic()
-     * @param object &$object the object to get the name property for
+     * @param object $object the object to get the name property for
      * @return string name of property or boolean false on failure
      */
-    public static function get_name_property(&$object)
+    public static function get_name_property($object)
     {
         // Cache results per class within request
-        static $cache = array();
         $key = get_class($object);
-        if (isset($cache[$key]))
+        if (isset(self::$_cache['name'][$key]))
         {
-            return $cache[$key];
+            return self::$_cache['name'][$key];
         }
         try
         {
-            $resolver =& midcom_helper_reflector::get($object);
-            $cache[$key] = $resolver->get_name_property_nonstatic($object);
+            $resolver = midcom_helper_reflector::get($object);
+            return $resolver->get_name_property_nonstatic($object);
         }
         catch (midcom_error $e)
         {
             debug_add('Could not get reflector instance for class ' . $key . ': ' . $e->getMessage(), MIDCOM_LOG_ERROR);
-            $cache[$key] = null;
+            self::$_cache['name'][$key] = null;
         }
-        return $cache[$key];
+        return self::$_cache['name'][$key];
     }
 
     /**
@@ -971,7 +942,7 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
     {
         if (is_null($title_property))
         {
-            $title_property = midcom_helper_reflector::get_title_property($object);
+            $title_property = self::get_title_property($object);
         }
         if (   empty($title_property)
             || !$_MIDCOM->dbfactory->property_exists($object, $title_property))
@@ -979,10 +950,8 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
             // Could not resolve valid property
             return false;
         }
-        // Make copy via typecast, very important or we might accidentally manipulate the given object
-        $title_copy = (string)$object->{$title_property};
-        unset($title_property);
-        return $title_copy;
+
+        return (string) $object->{$title_property};
     }
 
     /**
@@ -994,20 +963,10 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @param object $object The object to get the title property for
      * @return string Name of property or boolean false on failure
      */
-    public static function get_title_property(&$object)
+    public static function get_title_property($object)
     {
-        // Cache results per class within request
-        static $cache = array();
-        $key = get_class($object);
-
-        if (isset($cache[$key]))
-        {
-            return $cache[$key];
-        }
-        $resolver =& midcom_helper_reflector::get($object);
-        $cache[$key] = $resolver->get_title_property_nonstatic($object);
-
-        return $cache[$key];
+        $resolver = midcom_helper_reflector::get($object);
+        return $resolver->get_title_property_nonstatic($object);
     }
 
     /**
@@ -1021,15 +980,15 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
      * @return string name of property or boolean false on failure
      * @todo when midgard_reflection_property supports flagging name fields use that in stead of heuristics
      */
-    public function get_title_property_nonstatic(&$object)
+    public function get_title_property_nonstatic($object)
     {
         // Cache results per class within request
-        static $cache = array();
         $key = get_class($object);
-        if (isset($cache[$key]))
+        if (isset(self::$_cache['title'][$key]))
         {
-            return $cache[$key];
+            return self::$_cache['title'][$key];
         }
+        self::$_cache['title'][$key] = false;
 
         // Configured properties
         $title_exceptions = $this->_config->get('title_exceptions');
@@ -1042,28 +1001,21 @@ class midcom_helper_reflector extends midcom_baseclasses_components_purecode
                     && !$_MIDCOM->dbfactory->property_exists($object, $property))
                 {
                     debug_add("Matched class '{$key}' to '{$class}' via is_a but property '{$property}' does not exist", MIDCOM_LOG_ERROR);
-                    $cache[$key] = false;
-                    return $cache[$key];
+                    self::$_cache['title'][$key] = false;
+                    return self::$_cache['title'][$key];
                 }
-                $cache[$key] = $property;
-                return $cache[$key];
+                self::$_cache['title'][$key] = $property;
+                return self::$_cache['title'][$key];
             }
         }
 
         // The easy check
         if ($_MIDCOM->dbfactory->property_exists($object, 'title'))
         {
-            $cache[$key] = 'title';
-            return $cache[$key];
+            self::$_cache['title'][$key] = 'title';
         }
 
-        /**
-         * Noise, useful when something is going wrong in *weird* way
-         *
-        debug_add("Could not resolve title property for object " . get_class($object) . " #{$object->id}", MIDCOM_LOG_WARN);
-         */
-        $cache[$key] = false;
-        return $cache[$key];
+        return self::$_cache['title'][$key];
     }
 }
 ?>
