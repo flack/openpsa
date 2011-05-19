@@ -2,8 +2,8 @@
 ---VERSION 2.1.0
 ---LANGUAGE fi
 
----STRING %d hours (%d invoiceable) reported
-%d tuntia (%d laskutettavaa) raportoitu
+---STRING %02.2f hours (%02.2f invoiceable) reported
+%02.2f tuntia (%02.2f laskutettavaa) raportoitu
 ---STRINGEND
 
 ---STRING create event
