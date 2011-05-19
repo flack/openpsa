@@ -14,10 +14,6 @@ Email
 Inherited
 ---STRINGEND
 
----STRING nabaztag
-Nabaztag bunny
----STRINGEND
-
 ---STRING none
 No notification
 ---STRINGEND

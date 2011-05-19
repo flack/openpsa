@@ -14,10 +14,6 @@ Sähköposti
 Peritty
 ---STRINGEND
 
----STRING nabaztag
-Nabaztag-jänis
----STRINGEND
-
 ---STRING none
 Ei ilmoitusta
 ---STRINGEND

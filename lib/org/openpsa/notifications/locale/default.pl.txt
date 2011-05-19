@@ -14,10 +14,6 @@ Email
 Dziedziczone
 ---STRINGEND
 
----STRING nabaztag
-Nabaztag
----STRINGEND
-
 ---STRING none
 Brak powiadomienia
 ---STRINGEND
