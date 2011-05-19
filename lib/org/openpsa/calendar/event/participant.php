@@ -53,7 +53,8 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
     function notify($type = 'update', $event = false, $nl = "\n")
     {
         $l10n = $_MIDCOM->i18n->get_l10n('org.openpsa.calendar');
-        $recipient =& $this->get_person_obj();
+        $recipient = $this->get_person_obj();
+
         if (!$recipient)
         {
             debug_add('recipient could not be gotten, aborting', MIDCOM_LOG_WARN);
@@ -135,6 +136,7 @@ class org_openpsa_calendar_event_participant_dba extends org_openpsa_calendar_ev
                 ),
             );
         }
+
         return org_openpsa_notifications::notify($action, $recipient->guid, $message);
     }
 }

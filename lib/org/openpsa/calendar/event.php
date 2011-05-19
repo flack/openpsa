@@ -1262,7 +1262,7 @@ class org_openpsa_calendar_event_dba extends midcom_core_dbaobject
             (
                 'ROLE' => 'REQ-PARTICIPANT',
                 'CUTYPE' => 'INDIVIDUAL',
-                'STATUS' => 'ACCEPTED',
+                'PARTSTAT' => 'ACCEPTED',
                 'CN' => $encoder->escape_separators($person->rname, true),
             );
         }

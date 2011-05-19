@@ -954,7 +954,7 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
      * This helper function registers the plugin namespaces provided from the MidCOM
      * core.
      */
-    public function _register_core_plugin_namespaces()
+    private function _register_core_plugin_namespaces()
     {
         $this->register_plugin_namespace
         (
