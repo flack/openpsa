@@ -1589,10 +1589,10 @@ class midcom_application
      * Binds the current page view to a particular object. This will automatically connect such things like
      * metadata and toolbars to the correct object.
      *
-     * @param DBAObject &$object The DBA class instance to bind to.
+     * @param midcom_core_dbaobject $object The DBA class instance to bind to.
      * @param string $page_class String describing page type, will be used for substyling
      */
-    function bind_view_to_object(&$object, $page_class = 'default')
+    function bind_view_to_object($object, $page_class = 'default')
     {
         $context = midcom_core_context::get();
 
