@@ -917,9 +917,10 @@ class midcom_helper_nav_backend
             return false;
         }
 
-        if (isset($listed[$parent_node]))
+        $cache_identifier = $parent_node . (($show_noentry) ? 'noentry' : '');
+        if (isset($listed[$cache_identifier]))
         {
-            return $listed[$parent_node];
+            return $listed[$cache_identifier];
         }
 
         $subnodes = $this->_get_subnodes($parent_node);
@@ -963,8 +964,8 @@ class midcom_helper_nav_backend
             $result[] = $subnode_id;
         }
 
-        $listed[$parent_node] = $result;
-        return $listed[$parent_node];
+        $listed[$cache_identifier] = $result;
+        return $listed[$cache_identifier];
     }
 
     /**

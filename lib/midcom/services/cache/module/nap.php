@@ -99,7 +99,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      * It should be safe to just skip this case, because if the object to be invalidated
      * cannot be found, it is not cached anyway (deleted items could be resolved using
      * the resolve_guid code which uses the cache, so they would still be found).
-     * Special cases, where objects not available through NAP are updated have to be hanlded
+     * Special cases, where objects not available through NAP are updated have to be handled
      * by the component anyway.
      *
      * This way, leaf deletions should be safe in all cases (if they are cached, they can
@@ -110,7 +110,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
      *
      * See the automatic index invalidation code of the Datamanager for additional details.
      *
-     * @todo Find a way to propagate leaf additions/deletions to to topic which must be invalidated in all
+     * @todo Find a way to propagate leaf additions/deletions to a topic which must be invalidated in all
      * places necessary, or MIDCOM_NAV_LEAVES will be broken.
      *
      * @param string $guid The GUID to invalidate.
@@ -172,6 +172,7 @@ class midcom_services_cache_module_nap extends midcom_services_cache_module
                 }
             }
         }
+
         $leaves_key = "{$cached_node_id}-leaves";
 
         $this->_cache->remove("{$this->_prefix}-{$cached_node_id}");
