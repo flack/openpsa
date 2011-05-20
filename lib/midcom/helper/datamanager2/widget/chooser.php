@@ -571,7 +571,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
 
         return class_exists($this->class);
-    } 
+    }
 
     function _check_clever_class()
     {
@@ -1203,7 +1203,7 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         {
             if ($in_render_mode)
             {
-                return $this->_callback->resolve_object_name($key);
+                return $this->_callback->get_name_for_key($key);
             }
 
             $results = $this->_callback->get_key_data($key);
