@@ -45,6 +45,14 @@ class midcom_compat_superglobal
     }
 
     /**
+     * Magic setter
+     */
+    public function __set($key, $value)
+    {
+        return midcom::get()->$key = $value;
+    }
+
+    /**
      * Return a reference to a given service.
      *
      * Returns the MidCOM Object Service indicated by $name. If the service cannot be
