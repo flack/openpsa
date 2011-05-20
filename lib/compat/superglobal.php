@@ -26,14 +26,30 @@
  * @property midcom_services__sessioning $session
  * @property midcom_services_indexer $indexer
  */
-class midcom_compat_superglobal extends midcom_application
+class midcom_compat_superglobal
 {
+    /**
+     * Redirect calls to the midcom_application singleton
+     */
+    public function __call($method, $arguments)
+    {
+        return call_user_func_array(array(midcom::get(), $method), $arguments);
+    }
+
     /**
      * Magic getter for service loading
      */
     public function __get($key)
     {
         return $this->get_service($key);
+    }
+
+    /**
+     * Magic setter
+     */
+    public function __set($key, $value)
+    {
+        return midcom::get()->$key = $value;
     }
 
     /**
@@ -69,7 +85,7 @@ class midcom_compat_superglobal extends midcom_application
      * @param int param2    Either the key requested (two parameters) or null (one parameter, the default).
      * @return mixed    The content of the key being requested.
      */
-    function get_context_data($param1, $param2 = null)
+    public function get_context_data($param1, $param2 = null)
     {
         if (is_null($param2))
         {

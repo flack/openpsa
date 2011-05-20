@@ -868,7 +868,8 @@ class midcom_application
             $configs[$context_id] = array();
         }
 
-        $path = $this->get_context_data(MIDCOM_CONTEXT_COMPONENT);
+        $path = midcom_core_context::get()->get_key(MIDCOM_CONTEXT_COMPONENT);
+
         if (!isset($configs[$context_id][$object->guid]))
         {
             $configs[$context_id][$object->guid] = new midcom_helper_configuration($object, $path);
@@ -1056,6 +1057,7 @@ class midcom_application
             list ($newsub, $ignore) = explode(' ', $newsub, 2);
             unset($ignore);
         }
+
         if ($this->_status < MIDCOM_STATUS_HANDLE)
         {
             throw new midcom_error("Cannot do a substyle_append before the HANDLE phase.");

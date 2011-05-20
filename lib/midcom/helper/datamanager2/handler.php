@@ -20,7 +20,20 @@ class midcom_helper_datamanager2_handler
      * @param midcom_core_dbaobject The object to display
      * @return array The get_content_html output for the requested object
      */
-    public static function get_view(&$handler, &$object)
+    public static function get_view(midcom_helper_datamanager2_interfaces_view &$handler, &$object)
+    {
+        $datamanager = self::get_view_controller($handler, $object);
+        return $datamanager->get_content_html();
+    }
+
+    /**
+     * Loads the DM2 view of an object.
+     *
+     * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
+     * @param midcom_core_dbaobject The object to display
+     * @return array The get_content_html output for the requested object
+     */
+    public static function get_view_controller(midcom_helper_datamanager2_interfaces_view &$handler, &$object)
     {
         $schemadb = $handler->load_schemadb();
         $datamanager = new midcom_helper_datamanager2_datamanager($schemadb);
@@ -29,7 +42,7 @@ class midcom_helper_datamanager2_handler
         {
             throw new midcom_error("Failed to create a DM2 instance for object {$object->guid}.");
         }
-        return $datamanager->get_content_html();
+        return $datamanager;
     }
 
     /**
@@ -39,7 +52,7 @@ class midcom_helper_datamanager2_handler
      * @param midcom_core_dbaobject The object to display
      * @return midcom_helper_datamanager2_controller_simple The edit controller for the requested object
      */
-    public static function get_simple_controller(&$handler, &$object)
+    public static function get_simple_controller(midcom_helper_datamanager2_interfaces_edit &$handler, &$object)
     {
         $schemadb = $handler->load_schemadb();
         $controller = midcom_helper_datamanager2_controller::create('simple');
@@ -59,7 +72,7 @@ class midcom_helper_datamanager2_handler
      * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
      * @return midcom_helper_datamanager2_controller_nullstorage The requested controller
      */
-    public static function get_nullstorage_controller(&$handler)
+    public static function get_nullstorage_controller(midcom_helper_datamanager2_interfaces_nullstorage &$handler)
     {
         $schemadb = $handler->load_schemadb();
         $controller = midcom_helper_datamanager2_controller::create('nullstorage');
@@ -68,7 +81,7 @@ class midcom_helper_datamanager2_handler
         $controller->defaults = $handler->get_schema_defaults();
         if (! $controller->initialize())
         {
-            throw new midcom_error('Failed to initialize a DM2 create controller.');
+            throw new midcom_error('Failed to initialize a DM2 nullstorage controller.');
         }
         return $controller;
     }
@@ -79,7 +92,7 @@ class midcom_helper_datamanager2_handler
      * @param midcom_baseclasses_components_handler &$handler The handler from which we were called
      * @return midcom_helper_datamanager2_controller_create The requested controller
      */
-    public static function get_create_controller(&$handler)
+    public static function get_create_controller(midcom_helper_datamanager2_interfaces_create &$handler)
     {
         $schemadb = $handler->load_schemadb();
         $controller = midcom_helper_datamanager2_controller::create('create');
