@@ -2,8 +2,8 @@
 ---VERSION 2.1.0
 ---LANGUAGE de
 
----STRING %d hours (%d invoiceable) reported
-%d Arbeitsstunden (%d abrechenbar) gemeldet
+---STRING %02.2f hours (%02.2f invoiceable) reported
+%02.2f Arbeitsstunden (%02.2f abrechenbar) gemeldet
 ---STRINGEND
 
 ---STRING create event
@@ -54,8 +54,8 @@ Wochen-Übersicht
 Summen
 ---STRINGEND
 
----STRING see all %s hours
-Alle %s Arbeitsstunden anzeigen
+---STRING see %s hours
+Gesamte %s Arbeitsstunden anzeigen
 ---STRINGEND
 
 ---STRING this week

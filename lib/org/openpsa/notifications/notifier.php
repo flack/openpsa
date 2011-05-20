@@ -184,15 +184,5 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
         // TODO: Implement
         return false;
     }
-
-    /**
-     * Sends the 'abstract' version of the message as a message to the Nabaztag configured for the system
-     */
-    function send_nabaztag($message)
-    {
-        require_once('api/nabaztag.php');
-        $sender = new org_openpsa_notifications_notifier_api_nabaztag($this->recipient->id);
-        return $sender->send_nabaztag($message);
-    }
 }
 ?>

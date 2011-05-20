@@ -14,10 +14,6 @@ Epost
 Ärvd
 ---STRINGEND
 
----STRING nabaztag
-Nabaztag kanin
----STRINGEND
-
 ---STRING none
 Ingen notifiering
 ---STRINGEND

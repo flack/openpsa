@@ -25,12 +25,6 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
             'email'    => 'email',
         );
 
-        if (   $this->_config->get('nabaztag_serial_number')
-            && $this->_config->get('nabaztag_api_token'))
-        {
-            $notifiers['nabaztag'] = 'nabaztag';
-        }
-
         return $notifiers;
     }
 

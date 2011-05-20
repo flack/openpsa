@@ -14,10 +14,6 @@ E-Mail
 Vererbt
 ---STRINGEND
 
----STRING nabaztag
-Nabaztag-Bunny
----STRINGEND
-
 ---STRING none
 Keine Benachrichtigung
 ---STRINGEND

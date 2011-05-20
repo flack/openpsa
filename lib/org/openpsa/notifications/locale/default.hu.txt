@@ -14,10 +14,6 @@ Email
 Örökölt
 ---STRINGEND
 
----STRING nabaztag
-Nabaztag nyuszi
----STRINGEND
-
 ---STRING none
 Nincs értesítés
 ---STRINGEND

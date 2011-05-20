@@ -15,7 +15,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -44,7 +43,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -68,7 +66,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -92,7 +89,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -116,7 +112,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -146,7 +141,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -175,7 +169,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -204,7 +197,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
@@ -229,7 +221,6 @@
                     '' => 'inherit',
                     'none' => 'none',
                     'email' => 'email',
-                    'nabaztag' => 'nabaztag',
                 ),
             ),
             'storage'    => array
