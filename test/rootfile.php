@@ -181,6 +181,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
             $_MIDCOM->auth->_sync_user_with_backend();
         }
+        self::$_class_objects[] = $person;
         return $person;
     }
 
