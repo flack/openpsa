@@ -16,6 +16,31 @@ $.widget( "custom.category_complete", $.ui.autocomplete,
     }
 });
 
+if (typeof JSON == 'undefined')
+{
+    JSON =
+    {
+        stringify: function(value)
+        {
+            var ret = '';
+            if ($.isArray(value))
+            {
+                ret += '[';
+                $.each(value, function(index, val)
+                {
+                    ret += val;
+                    if (index + 1 != value.length)
+                        {
+                            ret += ',';
+                        }
+                });
+                ret += ']';
+            }
+            return ret;
+        }
+    }
+}
+
 var midcom_helper_datamanager2_autocomplete =
 {
     query: function(request, response)
