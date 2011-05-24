@@ -17,6 +17,9 @@ div.org_openpsa_mypage_workingon
     border-bottom: solid 1px #babdb6;
     -moz-border-radius-bottomleft: 8px;
     -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-topright: 8px;
+    -webkit-border-top-right-radius: 8px;
+    border-top-right-radius: 8px;
 }
 div.org_openpsa_mypage_workingon form
 {
