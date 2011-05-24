@@ -786,10 +786,8 @@ class midcom_helper__componentloader
         (
             'de.bitfolge.feedcreator',
             'fi.protie.navigation',
-            'midcom.admin.babel',
             'midcom.admin.folder',
             'midcom.admin.help',
-            'midcom.admin.settings',
             'midcom.admin.user',
             'midcom',
             'midcom.core.nullcomponent',

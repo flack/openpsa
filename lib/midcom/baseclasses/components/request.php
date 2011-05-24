@@ -982,13 +982,6 @@ abstract class midcom_baseclasses_components_request extends midcom_baseclasses_
                     'name' => 'Image pop-up',
                     'config' => null,
                 ),
-                'midcom-settings' => array
-                (
-                    'class' => 'midcom_admin_settings_editor',
-                    'src' => 'file:/midcom/admin/settings/editor.php',
-                    'name' => 'MidCOM site configuration',
-                    'config' => null,
-                ),
                 'help' => array
                 (
                     'class' => 'midcom_admin_help_help',
