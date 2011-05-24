@@ -1,0 +1,15 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE de
+
+---STRING failed to save settings, reason %s
+Einstellungen konnten nicht gespeichert werden, Ursache: %s
+---STRINGEND
+
+---STRING host configuration
+Website-Konfiguration
+---STRINGEND
+
+---STRING settings saved successfully
+Einstellungen erfolgreich gespeichert
+---STRINGEND

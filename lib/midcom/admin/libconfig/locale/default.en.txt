@@ -1,0 +1,15 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE en
+
+---STRING failed to save settings, reason %s
+Failed to save settings, reason %s
+---STRINGEND
+
+---STRING host configuration
+Website configuration
+---STRINGEND
+
+---STRING settings saved successfully
+Settings saved successfully.
+---STRINGEND

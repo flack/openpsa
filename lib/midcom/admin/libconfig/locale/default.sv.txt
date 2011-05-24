@@ -1,0 +1,15 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE sv
+
+---STRING failed to save settings, reason %s
+Misslyckades med att spara inställningar, anledning %s
+---STRINGEND
+
+---STRING host configuration
+Websajts konfiguration
+---STRINGEND
+
+---STRING settings saved successfully
+Inställningar sparade
+---STRINGEND
