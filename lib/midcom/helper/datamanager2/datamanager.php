@@ -579,8 +579,11 @@ class midcom_helper_datamanager2_datamanager extends midcom_baseclasses_componen
             if (   $config['widget'] == 'chooser'
                 || $config['widget'] == 'autocomplete')
             {
-                $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
-                $this->formmanager->initialize();
+                if (is_null($this->formmanager))
+                {
+                    $this->formmanager = new midcom_helper_datamanager2_formmanager($this->schema, $this->types);
+                    $this->formmanager->initialize();
+                }
                 $this->formmanager->widgets[$name]->render_content();
             }
             else
