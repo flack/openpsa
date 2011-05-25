@@ -1246,7 +1246,10 @@ class midcom_helper_datamanager2_widget_chooser extends midcom_helper_datamanage
         }
 
         $qb->add_constraint($this->id_field, '=', $key);
-
+        foreach ($this->constraints as $constraint)
+        {
+            $qb->add_constraint($constraint['field'], $constraint['op'], $constraint['value']);
+        }
         $results = $qb->execute();
 
         $_MIDCOM->auth->drop_sudo();
