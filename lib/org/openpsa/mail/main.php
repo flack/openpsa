@@ -151,7 +151,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __get($name)
     {
         $name = ucfirst($name);
-        if (isset($this->headers[$name]))
+        if (array_key_exists($name, $this->headers))
         {
             return $this->headers[$name];
         }
@@ -165,7 +165,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public function __set($name, $value)
     {
         $name = ucfirst($name);
-        if (isset($this->headers[$name]))
+        if (array_key_exists($name, $this->headers))
         {
             $this->headers[$name] = $value;
         }
@@ -630,7 +630,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
                 $this->headers[str_replace(" ", "-", ucwords(str_replace("-", " ", $k)))] =& $mime->headers[$k];
             }
         }
-        
+
         if (   isset ($mime->parts)
             && is_array($mime->parts)
             && count ($mime->parts)>0)
