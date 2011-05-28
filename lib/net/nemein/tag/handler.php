@@ -24,7 +24,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @return boolean indicating success/failure
      * @todo Set the link->navorder property
      */
-    function tag_object(&$object, $tags, $component = null)
+    public static function tag_object(&$object, $tags, $component = null)
     {
         if (is_null($component))
         {
@@ -68,21 +68,21 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         // Excute
         foreach ($remove_tags as $tagname => $bool)
         {
-            $this->_remove_tag($tagname, $object->guid);
+            self::_remove_tag($tagname, $object->guid);
         }
         foreach ($update_tags as $tagname => $url)
         {
-            $this->_update_tag($tagname, $url, $object->guid);
+            self::_update_tag($tagname, $url, $object->guid);
         }
         foreach ($add_tags as $tagname => $url)
         {
-            $this->_create_tag($tagname, $url, $object, $component);
+            self::_create_tag($tagname, $url, $object, $component);
         }
 
         return true;
     }
 
-    private function _create_tag($tagname, $url, $object, $component)
+    private static function _create_tag($tagname, $url, $object, $component)
     {
         debug_add("Adding tag \"{$tagname}\" for object {$object->guid}");
         $tagstring = self::resolve_tagname($tagname);
@@ -118,7 +118,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
     }
 
-    private function _update_tag($tagname, $url, $object_guid)
+    private static function _update_tag($tagname, $url, $object_guid)
     {
         debug_add("Updating tag {$tagname} for object {$object_guid} to URL {$url}");
         $tagstring = self::resolve_tagname($tagname);
@@ -135,7 +135,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
         }
     }
 
-    private function _remove_tag($tagname, $object_guid)
+    private static function _remove_tag($tagname, $object_guid)
     {
         debug_add("Removing tag {$tagname} from object {$object_guid}");
         $tagstring = self::resolve_tagname($tagname);
@@ -168,7 +168,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param string $tagname User-inputted tag that may contain a context or value
      * @return string Tag without context or value
      */
-    function resolve_tagname($tagname)
+    public static function resolve_tagname($tagname)
     {
         // first get the context out
         if (strpos($tagname, ':'))
@@ -191,7 +191,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param string $tagname User-inputted tag that may contain a value
      * @return string Value without tag or context
      */
-    function resolve_value($tagname)
+    public static function resolve_value($tagname)
     {
         // first get the context out
         if (strpos($tagname, ':'))
@@ -214,7 +214,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param string $tagname User-inputted tag that may contain a context
      * @return string Context without tag or empty if no context is found
      */
-    function resolve_context($tagname)
+    public static function resolve_context($tagname)
     {
         if (strpos($tagname, ':'))
         {
@@ -227,7 +227,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
     /**
      * Copy tasks of one object to another object
      */
-    function copy_tags($from, $to, $component = null)
+    public function copy_tags($from, $to, $component = null)
     {
         if (   !is_object($from)
             || !is_object($to))
@@ -235,8 +235,8 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             return false;
         }
 
-        $tags = net_nemein_tag_handler::get_object_tags($from);
-        return net_nemein_tag_handler::tag_object($to, $tags, $component);
+        $tags = self::get_object_tags($from);
+        return self::tag_object($to, $tags, $component);
     }
 
     /**
@@ -247,12 +247,12 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of tags and urls, tag is key, url is value (or false on failure)
      */
-    function get_object_tags(&$object)
+    public static function get_object_tags(&$object)
     {
-        return net_nemein_tag_handler::get_tags_by_guid($object->guid);
+        return self::get_tags_by_guid($object->guid);
     }
 
-    function get_tags_by_guid($guid)
+    public static function get_tags_by_guid($guid)
     {
         $tags = array();
         $link_mc = net_nemein_tag_link::new_collector('fromGuid', $guid);
@@ -288,13 +288,13 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             $context = $link_mc->get_subkey($mc->get_subkey($tag_guid, 'id'), 'context');
             $value = $link_mc->get_subkey($mc->get_subkey($tag_guid, 'id'), 'value');
 
-            $tagname = net_nemein_tag_handler::tag_link2tagname($tag, $value, $context);
+            $tagname = self::tag_link2tagname($tag, $value, $context);
             $tags[$tagname] = $url;
         }
         return $tags;
     }
 
-    function tag_link2tagname($tag, $value = null, $context = null)
+    public static function tag_link2tagname($tag, $value = null, $context = null)
     {
         switch (true)
         {
@@ -331,7 +331,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of tags and counts, tag is key, count is value
      */
-    function get_tags_by_class($class, $user = null)
+    public static function get_tags_by_class($class, $user = null)
     {
         $tags = array();
         $tags_by_id = array();
@@ -385,7 +385,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of contexts containing arrays of tags and urls, tag is key, url is value
      */
-    function get_object_tags_by_contexts(&$object)
+    public static function get_object_tags_by_contexts(&$object)
     {
         $tags = array();
         $link_mc = net_nemein_tag_link::new_collector('fromGuid', $object->guid);
@@ -432,7 +432,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
             $url = $mc->get_subkey($tag_guid, 'url');
             $value = $link_mc->get_subkey($mc->get_subkey($tag_guid, 'id'), 'value');
 
-            $tagname = net_nemein_tag_handler::tag_link2tagname($tag, $value, $context);
+            $tagname = self::tag_link2tagname($tag, $value, $context);
             $tags[$context][$tagname] = $url;
         }
         return $tags;
@@ -444,7 +444,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param string &$content reference to content
      * @return string string of tags, empty for no tags
      */
-    function separate_machine_tags_in_content(&$content)
+    public static function separate_machine_tags_in_content(&$content)
     {
         $regex = '/^(.*)(tags:)\s+?(.*?)(\.?\s*)?$/si';
         if (!preg_match($regex, $content, $tag_matches))
@@ -465,7 +465,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array of matching tags and values, tag is key, value is value
      */
-    function get_object_machine_tags_in_context(&$object, $context)
+    public static function get_object_machine_tags_in_context(&$object, $context)
     {
         $tags = array();
         $qb = net_nemein_tag_link_dba::new_query_builder();
@@ -500,7 +500,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      *
      * @return array list of tags and urls, tag is key, url is value
      */
-    function get_tags()
+    public static function get_tags()
     {
         $tags = array();
         $qb = net_nemein_tag_tag_dba::new_query_builder();
@@ -525,7 +525,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param string AND or OR, depending if you require all of the given tags on any of them, defaults to 'OR'
      * @return array of objects or false on critical failure
      */
-    function get_objects_with_tags($tags, $classes, $match = 'OR')
+    public static function get_objects_with_tags($tags, $classes, $match = 'OR')
     {
         switch (strtoupper($match))
         {
@@ -655,7 +655,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param string $from_string String to parse tags from
      * @return array Array of correct format
      */
-    function string2tag_array($from_string)
+    public static function string2tag_array($from_string)
     {
         $tag_array = array();
         // Clean all whitespace sequences to single space
@@ -707,7 +707,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param array $tags
      * @return string representation
      */
-    function tag_array2string($tags)
+    public static function tag_array2string($tags)
     {
         $ret = '';
         foreach ($tags as $tag => $url)
@@ -732,7 +732,7 @@ class net_nemein_tag_handler extends midcom_baseclasses_components_purecode
      * @param boolean $delete Whether to delete the from tag
      * @return boolean indicating success
      */
-    function merge_tags($from, $to, $delete = true)
+    public static function merge_tags($from, $to, $delete = true)
     {
         $from_tag = net_nemein_tag_tag_dba::get_by_tag($from);
         if (   !$from_tag
