@@ -420,8 +420,11 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
         if (   is_array($ret)
             && count($ret) > 0)
         {
-            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
+            //get guid, topic_url of passed node
+            $nav = new midcom_helper_nav();
+            $node = $nav->resolve_guid($topic->guid, true);
 
+            $schema = midcom_helper_datamanager2_schema::load_database($config->get('schemadb_project'));
             $datamanager = new midcom_helper_datamanager2_datamanager($schema);
 
             foreach ($ret as $project)
@@ -435,12 +438,9 @@ class org_openpsa_projects_interface extends midcom_baseclasses_components_inter
                 //create index_datamanger from datamanger
                 $index_datamanager = new midcom_services_indexer_document_datamanager2($datamanager);
 
-                //get guid , topic_url of passed node
-                $nav = new midcom_helper_nav();
-                $object = $nav->resolve_guid($topic->guid, true);
                 $index_datamanager->topic_guid = $topic->guid;
-                $index_datamanager->topic_url = $object[MIDCOM_NAV_FULLURL];
-                $index_datamanager->component = $object[MIDCOM_NAV_COMPONENT];
+                $index_datamanager->topic_url = $node[MIDCOM_NAV_FULLURL];
+                $index_datamanager->component = $node[MIDCOM_NAV_COMPONENT];
                 $indexer->index($index_datamanager);
             }
         }
