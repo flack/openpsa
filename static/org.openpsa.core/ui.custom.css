@@ -635,9 +635,14 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     background-color: #F0F0F0;
 }
 
+.jqgrow.ui-state-highlight
+{
+    background: #fbfbc7;
+}
+
 .jqgrow.even.ui-state-highlight
 {
-    background: #fbec88;
+    background: #faf3a6;
 }
 
 .ui-jqgrid tr.jqgrow td
