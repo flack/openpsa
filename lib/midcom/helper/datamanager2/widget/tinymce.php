@@ -421,5 +421,45 @@ EOT;
             $this->_form->addRule($this->name, $errormsg, 'maxlength', $this->maxlength);
         }
     }
+
+    /**
+     * Freeze the tinymce content by replacing textarea form element
+     */
+    function freeze()
+    {
+        $original_element = $this->_form->getElement($this->name);
+
+        foreach ($this->_form->_elements as $key => $element)
+        {
+            if ((isset($element->_attributes['name']))
+                && ($element->_attributes['name'] == $this->name))
+            {
+                if (isset($this->_form->_elements[$key + 1]->_attributes['name']))
+                {
+                    $name_after = $this->_form->_elements[$key + 1]->_attributes['name'];
+                }
+            }
+        }
+
+        $this->_form->removeElement($this->name);
+
+        $element_attributes = array
+        (
+            'name' => $this->name
+        );
+
+        $new_element = new HTML_QuickForm_textarea($original_element->_attributes['name'], $original_element->_label);
+
+        $new_element->_value = $original_element->_value;
+
+        if (isset($name_after))
+        {
+            $this->_form->insertElementBefore($new_element, $name_after);
+        }
+        else
+        {
+            $this->_form->addElement($new_element);
+        }
+    }
 }
 ?>
