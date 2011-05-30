@@ -409,6 +409,7 @@ var org_openpsa_batch_processing =
                 {
                     $('#' + config.id + '_batch').show();
                 }
+                $(window).trigger('resize');
             },
             onSelectAll: function(rowids, status)
             {
@@ -420,6 +421,7 @@ var org_openpsa_batch_processing =
                 {
                     $('#' + config.id + '_batch').show();
                 }
+                $(window).trigger('resize');
             }
         });
 
