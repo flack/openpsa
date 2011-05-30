@@ -268,8 +268,6 @@ class midcom_services_indexer
              * FIXME: Rethink program flow and especially take into account that not all documents are
              * created by midcom or even served by midgard
              */
-            // Permission checks
-            debug_add("Doing Permission and Visibility Checks for {$document->title}");
 
             // midgard:read verification, we simply try to create an object instance
             // In the case, we distinguish between MidCOM documents, where we can check
@@ -296,15 +294,15 @@ class midcom_services_indexer
             if ($document->is_a('midcom'))
             {
                 // Try to retrieve object:
-                // Strip language code from end of RI if it looks like "<GUID>_<LANG>" (because *many* places suppose it's plain GUID)
+                // Strip language code from end of RI if it looks like "<GUID>_<LANG>"
                 try
                 {
                     $object = $_MIDCOM->dbfactory->get_object_by_guid(preg_replace('/^([0-9a-f]{32,80})_[a-z]{2}$/', '\\1', $document->RI));
                 }
                 catch (midcom_error $e)
                 {
-                    // Skip document, the object is hidden.
-                    debug_add("Skipping the MidCOM document {$document->title} because it is not viewable");
+                    // Skip document, the object is hidden, deleted or otherwise unavailable.
+                    //@todo Maybe nonexistant objects should be removed from index?
                     continue;
                 }
             }

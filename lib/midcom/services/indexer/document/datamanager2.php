@@ -174,32 +174,26 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                     break;
 
                 case 'abstract':
-                    debug_add("Adding field {$name} as abstract");
                     $this->abstract = $this->datamanager2_get_text_representation($this->_datamanager, $name);
                     break;
 
                 case 'content':
-                    debug_add("Adding field {$name} to content");
                     $this->content .= $this->datamanager2_get_text_representation($this->_datamanager, $name) . "\n";
                     break;
 
                 case 'title':
-                    debug_add("Adding field {$name} as title");
                     $this->title = $this->datamanager2_get_text_representation($this->_datamanager, $name);
                     break;
 
                 case 'author':
-                    debug_add("Adding field {$name} as author");
                     $this->author = $this->datamanager2_get_text_representation($this->_datamanager, $name);
                     break;
 
                 case 'date':
-                    debug_add("Adding field {$name} as date");
                     $this->_add_as_date_field($name);
                     break;
 
                 case 'attachment':
-                    debug_add("Adding field {$name} as attachment");
                     if (   isset($this->_datamanager->types[$name]->attachments_info)
                         && sizeof($this->_datamanager->types[$name]->attachments_info) > 0)
                     {
@@ -217,7 +211,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                 case 'unindexed':
                 case 'text':
                 case 'keyword':
-                    debug_add("Adding field {$name} as {$field['index_method']}");
                     $data = $this->datamanager2_get_text_representation($this->_datamanager, $name);
                     $this->_add_field($name, $field['index_method'], $data);
                     if ($field['index_merge_with_content'])
@@ -227,7 +220,6 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
                     break;
 
                 case 'noindex':
-                    debug_add("Not indexing field {$name}");
                     break;
 
                 default:
@@ -296,22 +288,18 @@ class midcom_services_indexer_document_datamanager2 extends midcom_services_inde
         switch ($name)
         {
             case 'abstract':
-                debug_add("Adding field {$name} as abstract");
                 $this->abstract = $this->datamanager2_get_text_representation($this->_datamanager, $name);
                 break;
 
             case 'title':
-                debug_add("Adding field {$name} as title");
                 $this->title = $this->datamanager2_get_text_representation($this->_datamanager, $name);
                 break;
 
             case 'author':
-                debug_add("Adding field {$name} as author");
                 $this->author = $this->datamanager2_get_text_representation($this->_datamanager, $name);
                 break;
 
             default:
-                debug_add("Adding field {$name} to content");
                 $this->content .= $this->datamanager2_get_text_representation($this->_datamanager, $name) . "\n";
                 break;
         }
