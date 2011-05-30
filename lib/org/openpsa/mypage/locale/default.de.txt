@@ -54,7 +54,7 @@ Wochen-Übersicht
 Summen
 ---STRINGEND
 
----STRING see %s hours
+---STRING see all %s hours
 Gesamte %s Arbeitsstunden anzeigen
 ---STRINGEND
 
