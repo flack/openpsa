@@ -201,7 +201,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             echo ".</p>\n";
             ?>
         </div>
-        <div class="hours wide">
+        <div class="hours">
           <?php $_MIDCOM->dynamic_load($expenses_url . "hours/task/all/" . $task->guid . "/"); ?>
         </div>
     </div>
