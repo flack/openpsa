@@ -326,6 +326,10 @@ Unterbrochen von %s
 Erneut eröffnet durch %s
 ---STRINGEND
 
+---STRING rejected
+Abgelehnt
+---STRINGEND
+
 ---STRING rejected by %s
 Abgelehnt von %s
 ---STRINGEND

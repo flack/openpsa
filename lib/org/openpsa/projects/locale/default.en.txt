@@ -330,6 +330,10 @@ Put on hold by %s
 Re-opened by %s
 ---STRINGEND
 
+---STRING rejected
+Rejected
+---STRINGEND
+
 ---STRING rejected by %s
 Rejected by %s
 ---STRINGEND
