@@ -369,8 +369,8 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $buttonname = "midcom_helper_datamanager2_{$operation}[{$key}]";
                 $buttonlabel = $this->_schema->translate_schema_string($label);
 
-				$class = 'submit '.$operation;
-				$accesskey = '';
+                $class = 'submit '.$operation;
+                $accesskey = '';
                 if ($operation == 'save')
                 {
                     $accesskey = 's';
