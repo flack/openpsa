@@ -448,17 +448,20 @@ EOT;
             'name' => $this->name
         );
 
-        $new_element = new HTML_QuickForm_textarea($original_element->_attributes['name'], $original_element->_label);
+        $new_element = new HTML_QuickForm_hidden($original_element->getName(), $original_element->getLabel());
+        $new_element->setValue($original_element->getValue());
 
-        $new_element->_value = $original_element->_value;
+        $value_container = HTML_QuickForm::createElement('static', $original_element->getName() . '_previews', $original_element->getLabel(), $original_element->getValue());
 
         if (isset($name_after))
         {
             $this->_form->insertElementBefore($new_element, $name_after);
+            $this->_form->insertElementBefore($value_container, $name_after);
         }
         else
         {
             $this->_form->addElement($new_element);
+            $this->_form->addElement($value_container);
         }
     }
 }
