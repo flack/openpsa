@@ -453,7 +453,8 @@ class midcom_services_indexer_document
     {
         // Complete fields
         $this->indexed = time();
-        if ($this->author == '' && ! is_null($this->creator))
+        if (   $this->author == ''
+            && isset($this->creator->name))
         {
             $this->author = $this->creator->name;
         }
@@ -703,48 +704,40 @@ class midcom_services_indexer_document
         switch (true)
         {
             // Published is set to non-empty value, use it as creation data
-            case (   isset($object->metadata->published)
-                  && !empty($object->metadata->published)
+            case (   !empty($object->metadata->published)
                   && !preg_match('/0{1,4}-0{1,2}0{1,2}\s+0{1,2}:0{1,2}:0{1,2}/', $object->metadata->published)):
                 $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->published);
-                debug_add("Set \$this->created to {$this->created} from \$object->metadata->published ({$object->metadata->published})");
                 break;
+
             case (isset($object->metadata->created)):
                 $this->created = $this->_read_metadata_from_object_to_unixtime($object->metadata->created);
-                debug_add("Set \$this->created to {$this->created} from \$object->metadata->created ({$object->metadata->created})");
                 break;
         }
         // Revised
         if (isset($object->metadata->revised))
         {
             $this->edited = $this->_read_metadata_from_object_to_unixtime($object->metadata->revised);
-            debug_add("Set \$this->edited to {$this->edited} from \$object->metadata->revised ({$object->metadata->revised})");
         }
         // Heuristics to determine author
         switch (true)
         {
-            case (   isset($object->metadata->authors)
-                  && !empty($object->metadata->authors)):
+            case (!empty($object->metadata->authors)):
                 $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->authors);
-                debug_add("Set \$this->author to '{$this->author}' from \$object->metadata->authors ({$object->metadata->authors})");
                 break;
-            case (   isset($object->metadata->creator)
-                  && !empty($object->metadata->creator)):
+
+            case (!empty($object->metadata->creator)):
                 $this->author = $this->_read_metadata_from_object_to_authorname($object->metadata->creator);
-                debug_add("Set \$this->author to '{$this->author}' from \$object->metadata->creator ({$object->metadata->creator})");
                 break;
         }
         // Creator
         if (isset($object->metadata->creator))
         {
             $this->creator = $this->_read_metadata_from_object_get_person_cached($object->metadata->creator);
-            debug_add("Set \$this->creator from \$object->metadata->creator ({$object->metadata->creator})");
         }
         // Editor
         if (isset($object->metadata->revisor))
         {
             $this->editor = $this->_read_metadata_from_object_get_person_cached($object->metadata->revisor);
-            debug_add("Set \$this->editor from \$object->metadata->revisor ({$object->metadata->revisor})");
         }
     }
 

@@ -172,7 +172,7 @@ class org_openpsa_documents_handler_directory_view extends midcom_baseclasses_co
                 (
                     MIDCOM_TOOLBAR_URL => '__ais/folder/delete',
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('delete directory'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/delete.png',
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/trash.png',
                     MIDCOM_TOOLBAR_ACCESSKEY => 'd',
                 )
             );

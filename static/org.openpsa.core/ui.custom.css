@@ -632,12 +632,17 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 .jqgrow.even
 {
-    background-color: #F0F0F0;
+    background-color: #F1F0EE;
+}
+
+.jqgrow.ui-state-highlight
+{
+    background: #fbfbc7;
 }
 
 .jqgrow.even.ui-state-highlight
 {
-    background: #fbec88;
+    background: #faf3a6;
 }
 
 .ui-jqgrid tr.jqgrow td
@@ -651,6 +656,11 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     overflow: hidden
 }
 
+.ui-jqgrid .ui-jqgrid-hdiv
+{
+    border-bottom-color: #999791;
+}
+
 .ui-jqgrid-hbox .ui-jqgrid-htable
 {
     font-size: .9em
@@ -658,7 +668,8 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 .ui-jqgrid-ftable tr
 {
-    background-color: transparent
+    background-color: transparent;
+    border-top-color: #999791;
 }
 
 .ui-jqgrid .ui-jqgrid-htable th
