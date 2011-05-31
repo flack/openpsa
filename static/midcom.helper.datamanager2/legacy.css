@@ -155,6 +155,13 @@ form.datamanager2 div.form_toolbar input.save
     background-image: url('../stock-icons/16x16/save.png');
 }
 
+form.datamanager2 div.form_toolbar input.save_draft
+{
+    padding-left: 18px;
+    background-image: url('../stock-icons/16x16/text-x-generic-template.png');
+}
+
+
 form.datamanager2 div.form_toolbar input.cancel
 {
     padding-left: 18px;
