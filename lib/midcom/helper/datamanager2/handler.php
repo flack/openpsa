@@ -54,9 +54,8 @@ class midcom_helper_datamanager2_handler
      */
     public static function get_simple_controller(midcom_helper_datamanager2_interfaces_edit &$handler, &$object)
     {
-        $schemadb = $handler->load_schemadb();
         $controller = midcom_helper_datamanager2_controller::create('simple');
-        $controller->schemadb = $schemadb;
+        $controller->schemadb = $handler->load_schemadb();
 
         $controller->set_storage($object, $handler->get_schema_name());
         if (! $controller->initialize())
@@ -74,9 +73,8 @@ class midcom_helper_datamanager2_handler
      */
     public static function get_nullstorage_controller(midcom_helper_datamanager2_interfaces_nullstorage &$handler)
     {
-        $schemadb = $handler->load_schemadb();
         $controller = midcom_helper_datamanager2_controller::create('nullstorage');
-        $controller->schemadb = $schemadb;
+        $controller->schemadb = $handler->load_schemadb();
         $controller->schemaname = $handler->get_schema_name();
         $controller->defaults = $handler->get_schema_defaults();
         if (! $controller->initialize())
@@ -94,9 +92,8 @@ class midcom_helper_datamanager2_handler
      */
     public static function get_create_controller(midcom_helper_datamanager2_interfaces_create &$handler)
     {
-        $schemadb = $handler->load_schemadb();
         $controller = midcom_helper_datamanager2_controller::create('create');
-        $controller->schemadb = $schemadb;
+        $controller->schemadb = $handler->load_schemadb();
         $controller->schemaname = $handler->get_schema_name();
         $controller->defaults = $handler->get_schema_defaults();
         $controller->callback_object =& $handler;
