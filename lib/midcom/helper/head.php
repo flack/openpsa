@@ -91,11 +91,11 @@ class midcom_helper_head
     private $_style_head = '';
 
     /**
-     * String with all link elements to be included in a page's head.
+     * Array with all link elements to be included in a page's head.
      *
-     * @var string
+     * @var array
      */
-    private $_link_head = '';
+    private $_link_head = array();
 
     /**
      * Sets the page title for the current context.
@@ -289,8 +289,9 @@ class midcom_helper_head
 
     /**
      * Register a linkelement to be placed in the pagehead.
-     * This allows MidCOM components to register extra css-links in the pagehead.
-     * Example to use this to include a css link:
+     *
+     * This allows components to register extra css-links in the pagehead.
+     * Example to use this to include a CSS link:
      * <code>
      * $attributes = array ('rel' => 'stylesheet',
      *                      'type' => 'text/css',
@@ -299,8 +300,12 @@ class midcom_helper_head
      * $_MIDCOM->head->add_link_head($attributes);
      * </code>
      *
-     *  @param  array $attributes Array of attribute=> value pairs to be placed in the tag.
-     *  @see print_head_elements()
+     * Each URL will only be added once. When trying to add the same URL a second time,
+     * it will be moved to the end of the stack, so that CSS overrides behave as the developer
+     * intended
+     *
+     * @param  array $attributes Array of attribute=> value pairs to be placed in the tag.
+     * @see print_head_elements()
      */
     public function add_link_head(array $attributes)
     {
@@ -319,32 +324,18 @@ class midcom_helper_head
         }
 
         // Register each URL only once
-        if (in_array($attributes['href'], $this->_linkhrefs))
+        if ($key = array_search($attributes['href'], $this->_linkhrefs))
         {
+            if (end($this->_linkhrefs) != $attributes['href'])
+            {
+                unset($this->_linkhrefs[$key]);
+                $this->_linkhrefs[] = $attributes['href'];
+                reset($this->_linkhrefs);
+            }
             return false;
         }
         $this->_linkhrefs[] = $attributes['href'];
-
-        $output = '';
-
-        if (array_key_exists('condition', $attributes))
-        {
-            $this->_link_head .= "<!--[if {$attributes['condition']}]>\n";
-        }
-
-        foreach ($attributes as $key => $val)
-        {
-            if ($key != 'condition')
-            {
-                $output .= " {$key}=\"{$val}\" ";
-            }
-        }
-        $this->_link_head .= "<link{$output}/>\n";
-
-        if (array_key_exists('condition', $attributes))
-        {
-            $this->_link_head .= "<![endif]-->\n";
-        }
+        $this->_link_head[$attributes['href']] = $attributes;
     }
 
     /**
@@ -467,7 +458,31 @@ class midcom_helper_head
             }
         }
 
-        echo $this->_link_head;
+        foreach ($this->_linkhrefs as $url)
+        {
+            $attributes = $this->_link_head[$url];
+            $output = '';
+
+            if (array_key_exists('condition', $attributes))
+            {
+                echo "<!--[if {$attributes['condition']}]>\n";
+            }
+
+            foreach ($attributes as $key => $val)
+            {
+                if ($key != 'condition')
+                {
+                    $output .= " {$key}=\"{$val}\" ";
+                }
+            }
+            echo "<link{$output}/>\n";
+
+            if (array_key_exists('condition', $attributes))
+            {
+                echo "<![endif]-->\n";
+            }
+        }
+
         if (   $this->jscss
             && is_callable(array($this->jscss, 'print_cssheaders')))
         {
