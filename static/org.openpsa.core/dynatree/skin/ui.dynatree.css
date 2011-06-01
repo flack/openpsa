@@ -4,10 +4,13 @@
 ul.dynatree-container
 {
 	font-family: tahoma, arial, helvetica;
-	font-size: 12px;
+	font-size: 10pt; /* font size should not be too big */
 	white-space: nowrap;
 	padding: 3px;
+
 	background-color: white;
+	border: 1px dotted gray;
+
 	overflow: auto;
 }
 
@@ -77,7 +80,7 @@ span.dynatree-drag-helper-img,
 	background-repeat: no-repeat;
 	background-position: left;
 	background-image: url("icons.gif");
-	background-position: 0px 0px;
+	background-position: 0 0;
 }
 
 /** Used by 'icon' node option: */
@@ -140,6 +143,7 @@ span.dynatree-expander
 }
 .dynatree-loading span.dynatree-expander  /* 'Loading' status overrides all others */
 {
+	background-position: 0 0;
 	background-image: url("loading.gif");
 }
 
@@ -289,6 +293,7 @@ span.dynatree-node a
 }
 span.dynatree-folder a
 {
+	font-weight: bold;
 }
 
 ul.dynatree-container a:focus,
@@ -342,6 +347,7 @@ span.dynatree-drag-helper-img
 }
 div.dynatree-drag-helper /*.dynatree-drop-accept*/
 {
+
 /*    border-color: green;
 	background-color: red;*/
 }

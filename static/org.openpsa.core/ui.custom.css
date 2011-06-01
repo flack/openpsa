@@ -804,3 +804,13 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     padding: .1em .4em;
     line-height: 1.4;
 }
+
+ul.dynatree-container
+{
+    border: none;
+}
+
+ul.dynatree-container span.dynatree-folder a
+{
+    font-weight: normal
+}
