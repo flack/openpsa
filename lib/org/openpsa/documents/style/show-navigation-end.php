@@ -4,16 +4,12 @@
       $(document).ready(function () {
         $("#treemenu").dynatree(
         {
-            title: "openpsa root",
-            rootVisible: false,
             minExpandLevel: 2,
             persist: true,
-            cookiePath: "/",
-            cookieId: "ui-dynatree-openpsa-cookie",
+            cookie: {path: "/"},
+            cookieId: "ui-dynatree-openpsa-documents-cookie",
             clickFolderMode: 2,
             autoCollapse: false,
-
-
 
             onClick: function(dtnode, event) {
                 event_string = event.target.toString();
