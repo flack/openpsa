@@ -481,7 +481,7 @@ implements org_openpsa_core_grid_provider_client
         $mc = org_openpsa_invoices_invoice_item_dba::new_collector('deliverable', $data['deliverable']->id);
         $invoice_ids = $mc->get_values('invoice');
 
-        if (!empty($ivoice_ids))
+        if (!empty($invoice_ids))
         {
             $qb = org_openpsa_invoices_invoice_dba::new_query_builder();
             $qb->add_constraint('id', 'IN', $invoice_ids);

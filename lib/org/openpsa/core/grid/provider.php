@@ -90,7 +90,7 @@ class org_openpsa_core_grid_provider
             'rows' => $this->_rows
         );
         $_MIDCOM->cache->content->content_type('application/json');
-        $_MIDCOM->header('Content-type: application/json; charset=UFT-8');
+        $_MIDCOM->header('Content-type: application/json; charset=UTF-8');
 
         echo json_encode($response);
     }
