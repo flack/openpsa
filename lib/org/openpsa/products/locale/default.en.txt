@@ -90,6 +90,10 @@ Product groups
 half
 ---STRINGEND
 
+---STRING half-year
+half year
+---STRINGEND
+
 ---STRING hour
 hour
 ---STRINGEND

@@ -10,12 +10,13 @@
 
 'unit_options' => Array
 (
-    'p' => 'piece',   // per piece
-    'h' => 'hour',    // per hour
-    'd' => 'day',     // per day
-    'm' => 'month',   // per month
-    'q' => 'quarter', // per quarter
-    'y' => 'year',    // per annum
+    'p'  => 'piece',     // per piece
+    'h'  => 'hour',      // per hour
+    'd'  => 'day',       // per day
+    'm'  => 'month',     // per month
+    'q'  => 'quarter',   // per quarter
+    'hy' => 'half-year', // per half
+    'y'  => 'year',      // per annum
 ),
 
 // Whether to enable adding subcomponents to products

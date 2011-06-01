@@ -90,6 +90,10 @@ Produktgruppen
 Hälfte
 ---STRINGEND
 
+---STRING half-year
+Halbjahr
+---STRINGEND
+
 ---STRING hour
 Stunde
 ---STRINGEND

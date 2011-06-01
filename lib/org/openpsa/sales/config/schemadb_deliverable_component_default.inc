@@ -79,12 +79,13 @@
             (
                 'options' => Array
                 (
-                    'p' => 'unit',       // per piece
-                    'h' => 'hour',    // per hour
-                    'd' => 'day',     // per day
-                    'm' => 'month',   // per month
-                    'q' => 'quarter', // per quarter
-                    'y' => 'year',    // per annum
+                    'p' =>  'unit',      // per piece
+                    'h' =>  'hour',      // per hour
+                    'd' =>  'day',       // per day
+                    'm' =>  'month',     // per month
+                    'q' =>  'quarter',   // per quarter
+                    'hy' => 'half-year', // per half
+                    'y' =>  'year',      // per annum
                 ),
             ),
             'readonly' => true,
@@ -226,12 +227,13 @@
             (
                 'options' => Array
                 (
-                    'p' => 'unit',       // per piece
-                    'h' => 'hour',    // per hour
-                    'd' => 'day',     // per day
-                    'm' => 'month',   // per month
-                    'q' => 'quarter', // per quarter
-                    'y' => 'year',    // per annum
+                    'p' =>  'unit',      // per piece
+                    'h' =>  'hour',      // per hour
+                    'd' =>  'day',       // per day
+                    'm' =>  'month',     // per month
+                    'q' =>  'quarter',   // per quarter
+                    'hy' => 'half-year', // per half
+                    'y' =>  'year',      // per annum
                 ),
             ),
             'readonly' => true,

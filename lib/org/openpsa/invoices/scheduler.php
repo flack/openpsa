@@ -317,6 +317,10 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 // Quarterly recurring subscription
                 $offset = '+3 months';
                 break;
+            case 'hy':
+                // Half-yearly recurring subscription
+                $offset = '+6 months';
+                break;
             case 'y':
                 // Yearly recurring subscription
                 $offset = '+1 year';
