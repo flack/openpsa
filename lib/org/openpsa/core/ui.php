@@ -62,12 +62,16 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
     {
         $head = midcom::get('head');
         $head->enable_jquery();
+
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+
         $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/dynatree/jquery.dynatree.min.js');
         $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dynatree/skin/ui.dynatree.css");
         $head->add_jquery_ui_theme();
     }
-    
+
     /**
      * Function to load the necessary javascript & css files for ui_tab
      */
