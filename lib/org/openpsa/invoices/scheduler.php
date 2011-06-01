@@ -111,7 +111,7 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
         {
             if ($send_invoice)
             {
-                $this->_notify_owner($cycle_number, null, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
+                $this->_notify_owner($cycle_number, $next_cycle_start, $this_cycle_amount, $tasks_completed, $tasks_not_completed);
             }
             return true;
         }
