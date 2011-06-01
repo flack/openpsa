@@ -38,10 +38,6 @@ ZIP-Archiv
 Verfasser
 ---STRINGEND
 
----STRING confirm delete
-Löschen bestätigen
----STRINGEND
-
 ---STRING create document
 Dokument erstellen
 ---STRINGEND
@@ -130,12 +126,8 @@ Suchen
 Einfacher Text
 ---STRINGEND
 
----STRING use the buttons below or in toolbar
-Benutzen sie die nachfolgenden Buttons oder die in der Toolbar
----STRINGEND
-
 ---STRING version %s (%s)
-Version %s (%s) 
+Version %s (%s)
 ---STRINGEND
 
 ---STRING no results

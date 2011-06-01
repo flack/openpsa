@@ -91,12 +91,12 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         $group = $this->_form->addGroup($elements, $this->name, $this->_translate($this->_field['title']), "<br />");
         if ($this->_type->allow_multiple)
         {
-        	$attributes['class'] = 'checkbox';
+            $attributes['class'] = 'checkbox';
             $group->setAttributes($attributes);
         }
         else
         {
-        	$attributes['class'] = 'radiobox';
+            $attributes['class'] = 'radiobox';
             $group->setAttributes($attributes);
         }
     }
@@ -159,7 +159,7 @@ class midcom_helper_datamanager2_widget_radiocheckselect extends midcom_helper_d
         }
         else
         {
-            if ($results[$this->name])
+            if ($results[$this->name] !== null)
             {
                 $this->_type->selection = Array($results[$this->name]);
             }

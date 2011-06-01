@@ -38,10 +38,6 @@ ZIP archive
 Author
 ---STRINGEND
 
----STRING confirm delete
-Confirm deletion
----STRINGEND
-
 ---STRING create document
 Create document
 ---STRINGEND
@@ -134,12 +130,8 @@ Search
 Plain text
 ---STRINGEND
 
----STRING use the buttons below or in toolbar
-Use the buttons below or in the toolbar
----STRINGEND
-
 ---STRING version %s (%s)
-Version %s (%s) 
+Version %s (%s)
 ---STRINGEND
 
 ---STRING file size

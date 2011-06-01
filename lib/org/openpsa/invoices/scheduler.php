@@ -325,8 +325,18 @@ class org_openpsa_invoices_scheduler extends midcom_baseclasses_components_purec
                 debug_add('Unrecognized unit value "' . $this->_deliverable->unit . '" for deliverable ' . $this->_deliverable->guid . ", returning false", MIDCOM_LOG_WARN);
                 return false;
         }
-        $date = new DateTime($offset . ' ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
-        $next_cycle = (int) $date->format('U');
+        $new_date = new DateTime($offset . ' ' . gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
+        if ($this->_deliverable->unit != 'd')
+        {
+            //If previous cycle was run at the end of the month, the new one should be at the end of the month as well
+            $date = new DateTime(gmdate('Y-m-d', $time), new DateTimeZone('GMT'));
+            if (   $date->format('t') == $date->format('j')
+                && $new_date->format('t') != $new_date->format('j'))
+            {
+                $new_date->setDate($new_date->format('Y'), $new_date->format('m'), $new_date->format('t'));
+            }
+        }
+        $next_cycle = (int) $new_date->format('U');
 
         return $next_cycle;
     }

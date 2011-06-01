@@ -369,20 +369,19 @@ class midcom_helper_datamanager2_formmanager extends midcom_baseclasses_componen
                 $buttonname = "midcom_helper_datamanager2_{$operation}[{$key}]";
                 $buttonlabel = $this->_schema->translate_schema_string($label);
 
+                $class = 'submit '.$operation;
+                $accesskey = '';
                 if ($operation == 'save')
                 {
                     $accesskey = 's';
+                    $class .= ' save_'.$key;
                 }
                 elseif ($operation == 'cancel')
                 {
                     $accesskey = 'c';
                 }
-                else
-                {
-                    $accesskey = '';
-                }
 
-                $buttons[] = &HTML_QuickForm::createElement('submit', $buttonname, $buttonlabel, Array('class' => 'submit ' . $operation, 'accesskey' => $accesskey));
+                $buttons[] = &HTML_QuickForm::createElement('submit', $buttonname, $buttonlabel, Array('class' => $class, 'accesskey' => $accesskey));
             }
         }
 

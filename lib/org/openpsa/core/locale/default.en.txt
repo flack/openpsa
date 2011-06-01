@@ -6,6 +6,10 @@
 aggregated
 ---STRINGEND
 
+---STRING confirm delete
+Confirm deletion
+---STRINGEND
+
 ---STRING download as CSV
 Download as CSV
 ---STRINGEND
@@ -36,6 +40,10 @@ Private
 
 ---STRING public
 Public
+---STRINGEND
+
+---STRING use the buttons below or in toolbar
+Use the buttons below or in the toolbar
 ---STRINGEND
 
 ---STRING workgroup private
