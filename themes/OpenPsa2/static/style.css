@@ -26,18 +26,18 @@ select
   height: 100%;
 }
 
-#content a
+a
 {
     color: #14335e;
 }
 
-#content a:link,
-#content a:visited
+a:link,
+a:visited
 {
     text-decoration: none;
 }
 
-#content a:hover
+a:hover
 {
     text-decoration: underline;
 }

@@ -689,9 +689,16 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
     -moz-binding:url('ellipsis-xbl.xml#ellipsis');
 }
 
-.ui-jqgrid tr.jqgrow td.title
+.ui-jqgrid .ui-widget-content td.title,
+.ui-jqgrid .ui-widget-content td.title a
 {
-    font-weight: bold
+    color: #333;
+    font-weight: bold;
+}
+
+.ui-jqgrid .ui-widget-content a:hover
+{
+    text-decoration: underline
 }
 
 .ui-jqgrid .ui-jqgrid-pager
