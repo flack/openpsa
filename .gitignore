@@ -1,4 +1,7 @@
 /.project
+/.buildpath
+/.settings
 /config.inc.php
 /test/config.inc.php
 /test/mgd1-connection.inc.php
+/test/__output
