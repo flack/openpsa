@@ -56,25 +56,39 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
     }
 
     /**
+     * Add necessary head elements for dynatree
+     */
+    public static function enable_dynatree()
+    {
+        $head = midcom::get('head');
+        $head->enable_jquery();
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.cookie.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/dynatree/jquery.dynatree.min.js');
+        $head->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/dynatree/skin/ui.dynatree.css");
+        $head->add_jquery_ui_theme();
+    }
+    
+    /**
      * Function to load the necessary javascript & css files for ui_tab
      */
     public static function enable_ui_tab()
     {
+        $head = midcom::get('head');
         //first enable jquery - just in case it isn't loaded
-        $_MIDCOM->enable_jquery();
+        $head->enable_jquery();
 
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.core.min.js');
 
         //load ui-tab
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
-        $_MIDCOM->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.tabs.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.widget.min.js');
+        $head->add_jsfile(MIDCOM_JQUERY_UI_URL . '/ui/jquery.ui.tabs.min.js');
 
         //functions needed for ui-tab to work here
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.history.js');
-        $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/tab_functions.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/jQuery/jquery.history.js');
+        $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/tab_functions.js');
 
         //add the needed css-files
-        $_MIDCOM->add_stylesheet(MIDCOM_STATIC_URL . '/org.openpsa.core/ui.custom.css');
+        $head->add_jquery_ui_theme();
     }
 
     /**
