@@ -14,10 +14,6 @@ Powerpoint
 Tekijä
 ---STRINGEND
 
----STRING confirm delete
-Vahvista poisto
----STRINGEND
-
 ---STRING create document
 Luo dokumentti
 ---STRINGEND
@@ -92,10 +88,6 @@ Hae
 
 ---STRING text/plain
 Teksti
----STRINGEND
-
----STRING use the buttons below or in toolbar
-Käytä työkalupalkissa tai alla olevia painikkeita
 ---STRINGEND
 
 ---STRING score: %d%%

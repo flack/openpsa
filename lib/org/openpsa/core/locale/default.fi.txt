@@ -6,6 +6,10 @@
 kerätyt
 ---STRINGEND
 
+---STRING confirm delete
+Vahvista poisto
+---STRINGEND
+
 ---STRING download as CSV
 Tallenna CSV:ksi
 ---STRINGEND
@@ -20,6 +24,10 @@ Yksityinen
 
 ---STRING public
 Julkinen
+---STRINGEND
+
+---STRING use the buttons below or in toolbar
+Käytä työkalupalkissa tai alla olevia painikkeita
 ---STRINGEND
 
 ---STRING workgroup private
