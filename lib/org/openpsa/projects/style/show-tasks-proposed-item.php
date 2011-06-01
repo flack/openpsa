@@ -14,7 +14,7 @@ if ($_MIDCOM->auth->can_do('midgard:update', $task)
 ?>
 <form method="post" action="<?php echo $prefix; ?>workflow/<?php echo $task->guid; ?>/">
     <!-- TODO: If we need all resources to accept task hide tools when we have accepted and replace with "pending acceptance from..." -->
-    <ul class="task_tools">
+    <ul class="area_toolbar">
         <li><input type="submit" name="org_openpsa_projects_workflow_action[accept]" class="yes" value="<?php echo $data['l10n']->get('accept'); ?>" /></li>
         <li><input type="submit" name="org_openpsa_projects_workflow_action[decline]" class="no" value="<?php echo $data['l10n']->get('decline'); ?>" /></li>
     </ul>

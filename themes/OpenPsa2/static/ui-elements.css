@@ -62,47 +62,47 @@ div.area .metadata input {
     color: #BAB5AB;
 }
 
-/* Workflow toolbars */
-.area ul.task_tools
+/* Inline toolbars */
+.area ul.area_toolbar
 {
     white-space: nowrap
 }
-.area ul.task_tools li
+.area ul.area_toolbar li
 {
     display: inline;
     margin-right: 4px;
     line-height: 20px;
 }
-.area ul.task_tools li a
+.area ul.area_toolbar li a
 {
     text-decoration: none;
 }
-.area ul.task_tools li input
+.area ul.area_toolbar li input
 {
     background-position: 2px;
 }
-.area ul.task_tools li a.yes,
-.area ul.task_tools li input.yes
+.area ul.area_toolbar li a.yes,
+.area ul.area_toolbar li input.yes
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/ok.png');
     background-repeat: no-repeat;
 }
-.area ul.task_tools li a.no,
-.area ul.task_tools li input.no
+.area ul.area_toolbar li a.no,
+.area ul.area_toolbar li input.no
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/cancel.png');
     background-repeat: no-repeat;
 }
-.area ul.task_tools li input.hours
+.area ul.area_toolbar li input.hours
 {
     padding-left: 21px;
     background-image: url('../stock-icons/16x16/stock_event.png');
     background-position: left;
     background-repeat: no-repeat;
 }
-.area ul.task_tools li input:hover
+.area ul.area_toolbar li input:hover
 {
     cursor: pointer;
 }
@@ -324,7 +324,7 @@ form.datamanager2 .required_note
 input.ajax_editable:hover,
 form.datamanager2 div.input input, form.datamanager2 div.input textarea, form.datamanager2 div.input select,
 input[type="submit"],
-.openpsa_toolbar a.button
+.area_toolbar a.button
 {
     border: 1px #B39169 inset;
     -moz-border-radius: 3px;
@@ -368,7 +368,7 @@ form.datamanager2 div.input textarea
 
 input[type="submit"],
 form.datamanager2 div.input input.submit,
-.openpsa_toolbar a.button
+.area_toolbar a.button
 {
     background-color: #dfdfdf;
     -webkit-box-shadow: inset 2px 2px 10px #fefefe, 1px 2px 3px rgba(0, 0, 0, 0.2);
@@ -384,7 +384,7 @@ form.datamanager2 div.input input.submit,
 }
 
 input[type="submit"]:hover,
-.openpsa_toolbar a.button:hover
+.area_toolbar a.button:hover
 {
     background-color: #f3f2f1;
     -webkit-box-shadow: inset 2px 2px 10px #efefef, 1px 1px 2px rgba(0, 0, 0, 0.2);

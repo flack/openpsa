@@ -19,7 +19,7 @@ if (midcom_connection::get_user() == $task->manager)
 {
 ?>
     <form method="post" action="<?php echo $prefix; ?>workflow/<?php echo $task->guid; ?>">
-        <ul class="task_tools">
+        <ul class="area_toolbar">
             <li><input type="submit" name="org_openpsa_projects_workflow_action[approve]" class="yes" value="<?php echo $data['l10n']->get('approve'); ?>" /></li>
             <!-- PONDER: This is kind of redundant  when one can just remove the checkbox -->
             <li><input type="submit" name="org_openpsa_projects_workflow_action[reject]" class="no" value="<?php echo $data['l10n']->get('dont approve'); ?>" /></li>
