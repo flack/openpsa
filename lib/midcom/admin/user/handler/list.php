@@ -181,7 +181,7 @@ class midcom_admin_user_handler_list extends midcom_baseclasses_components_handl
                     {
                         break;
                     }
-                    $person->parameter('net.nehmer.account', 'username', $person->username);
+                    $person->parameter('midcom.admin.user', 'username', $person->username);
                     $person->username = '';
                     $person->password = '';
                     if ($person->update())

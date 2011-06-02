@@ -101,14 +101,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
 
         $pending = net_nehmer_buddylist_entry::list_unapproved();
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX) . 'pending/';
-        if ($this->_config->get('net_nehmer_account_integration'))
-        {
-            $account_prefix = $_MIDCOM->get_page_prefix() . $this->_config->get('net_nehmer_account_integration') . 'view/';
-        }
-        else
-        {
-            $account_prefix = null;
-        }
 
         foreach ($pending as $entry)
         {
@@ -126,14 +118,6 @@ class net_nehmer_buddylist_handler_pending extends midcom_baseclasses_components
             else
             {
                 $tmp['approve_and_add_submit_name'] = 'net_nehmer_buddylist_approve_and_add';
-            }
-            if ($account_prefix)
-            {
-                $tmp['view_account_url'] = "{$account_prefix}{$entry->account}.html";
-            }
-            else
-            {
-                $tmp['view_account_url'] = null;
             }
             $this->_pending[] = $tmp;
         }

@@ -129,6 +129,7 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             $grp = new midcom_db_group();
             $grp->owner = 0;
             $grp->name = '__org_openpsa_contacts';
+            $grp->official = 'CRM Root Group';
             $ret = $grp->create();
             $_MIDCOM->auth->drop_sudo();
             if (!$ret)
@@ -573,42 +574,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
             }
         }
 
-        return true;
-    }
-
-    /**
-     * function to unblock an account due to login-attempts
-     *
-     * @param array - contains the guid ,parameter & parameter names to get username&password
-     */
-    function reopen_account($args, &$handler)
-    {
-        $_MIDCOM->auth->request_sudo('org.openpsa.contacts');
-        try
-        {
-            $person = new midcom_db_person($args['guid']);
-        }
-        catch (midcom_error $e)
-        {
-            $msg = 'Person with guid #' . $args['guid'] . ' does not exist - for reopen_account';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
-            return false;
-        }
-        if (!empty($person->password))
-        {
-            $person->set_parameter($args['parameter_name'], $args['password'], "");
-            $msg = 'Person with id #'.$person->id.' does have a password so will not be set to the old? one -- Account unblocked';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
-            $_MIDCOM->auth->drop_sudo();
-            return false;
-        }
-
-        $person->password = $person->get_parameter($args['parameter_name'], $args['password']);
-        $person->set_parameter($args['parameter_name'], $args['password'], "");
-        $person->update();
-        $_MIDCOM->auth->drop_sudo();
         return true;
     }
 }

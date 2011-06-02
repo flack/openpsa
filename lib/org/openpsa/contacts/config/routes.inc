@@ -1,11 +1,3 @@
-/**
- * OpenPSA Contacts handles its URL space following the convention:
- * - First parameter is the object type (person, group, salesproject, list)
- * - Second parameter is the object identifier (GUID, or some special filter like "all")
- * - Third parameter defines current view/action
- * - Additional parameters are defined by the action concerned
- */
-
 // Match /duplicates/person
 'person_duplicates' => array
 (
@@ -71,14 +63,6 @@
 (
     'handler' => array('org_openpsa_contacts_handler_group_edit', 'edit'),
     'fixed_args' => array('group', 'edit'),
-    'variable_args' => 1,
-),
-
-// Match /group/privileges/GUID
-'group_privileges' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_group_privileges', 'privileges'),
-    'fixed_args' => array('group', 'privileges'),
     'variable_args' => 1,
 ),
 
@@ -151,36 +135,6 @@
     'variable_args' => 1,
 ),
 
-// Match /person/privileges/GUID
-'person_privileges' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_person_privileges', 'privileges'),
-    'fixed_args' => array('person', 'privileges'),
-    'variable_args' => 1,
-),
-
-// Match /account/create/GUID/
-'account_create' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_person_account', 'account_create'),
-    'fixed_args' => array('account', 'create'),
-    'variable_args' => 1,
-),
-
-// Match /account/edit/GUID/
-'account_edit' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_person_account', 'account_edit'),
-    'fixed_args' => array('account', 'edit'),
-    'variable_args' => 1,
-),
-// Match /account/delete/GUID/
-'account_delete' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_person_account', 'account_delete'),
-    'fixed_args' => array('account', 'delete'),
-    'variable_args' => 1,
-),
 // Match /person/memberships/GUID/
 'group_memberships' => array
 (
@@ -188,7 +142,6 @@
     'fixed_args' => array('person', 'memberships'),
     'variable_args' => 1,
 ),
-
 
 // Match /
 'frontpage' => array

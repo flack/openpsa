@@ -40,45 +40,6 @@
 ),
 'customdata' => array
 (
-    'net.nehmer.account.socialweb' => array
-    (
-        'qaiku_apikey' => array
-        (
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.routamc.statusmessage:qaiku',
-                'name' => 'apikey',
-            ),
-        ),
-        'plazes_username' => array
-        (
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.routamc.positioning:plazes',
-                'name' => 'username',
-            ),
-        ),
-        'plazes_password' => array
-        (
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.routamc.positioning:plazes',
-                'name' => 'password',
-            ),
-        ),
-        'georss_url' => array
-        (
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.routamc.positioning:georss',
-                'name' => 'georss_url',
-            ),
-        ),
-    ),
     'midcom.services.cron' => array
     (
         array

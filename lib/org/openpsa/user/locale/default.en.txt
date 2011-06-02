@@ -1,0 +1,338 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE en
+
+---STRING account blocked %s minutes
+Because of to many attempts with wrong passwords the account is blocked for %s minutes
+---STRINGEND
+
+---STRING account_creation_success
+The account has been created successfully! <br />Username: %s <br />Password: %s
+---STRINGEND
+
+---STRING account_fieldset
+Account
+---STRINGEND
+
+---STRING city
+City
+---STRINGEND
+
+---STRING create account
+Create user account
+---STRINGEND
+
+---STRING create group
+Create group
+---STRINGEND
+
+---STRING create person
+Create person
+---STRINGEND
+
+---STRING current password
+Current password
+---STRINGEND
+
+---STRING delete account
+Delete account
+---STRINGEND
+
+---STRING delete account %s %s
+Delete account for %s %s
+---STRINGEND
+---STRING enable calendar
+Allow to create events in the Group Calendar
+---STRINGEND
+
+---STRING enable campaign creation
+Enable campaign creation
+---STRINGEND
+
+---STRING enable contact creation
+Enable contact creation
+---STRINGEND
+
+---STRING enable editing campaigns created by others
+Enable editing campaigns created by others
+---STRINGEND
+
+---STRING enable editing contacts created by others
+Enable editing contacts created by others
+---STRINGEND
+
+---STRING enable editing invoices created by others
+Enable editing of invoices created by others
+---STRINGEND
+
+---STRING enable editing organizations created by others
+Enable editing of organizations created by others
+---STRINGEND
+
+---STRING enable invoice creation
+Enable invoice creation
+---STRINGEND
+
+---STRING enable organization creation
+Enable organization creation
+---STRINGEND
+
+---STRING enable product creation
+Enable product creation
+---STRINGEND
+
+---STRING enable editing products created by others
+Enable editing products created by others
+---STRINGEND
+
+---STRING enable project creation
+Allow to create root-level projects
+---STRINGEND
+
+---STRING enable salesproject creation
+Enable sales project creation
+---STRINGEND
+
+---STRING enable wikipage creation
+Enable wiki page creation
+---STRINGEND
+
+---STRING enable editing wikipages created by others
+Enable editing wiki pages created by others
+---STRINGEND
+
+---STRING generate_password
+Generate Password
+---STRINGEND
+
+---STRING groups_fieldset
+Group Information
+---STRINGEND
+
+---STRING own_password
+Own Password
+---STRINGEND
+
+---STRING send_welcome_mail
+Send welcome mail?
+---STRINGEND
+
+---STRING username_already_exists
+This username is already taken.
+---STRINGEND
+
+---STRING new password
+New password
+---STRINGEND
+
+---STRING new password repeat
+Repeat new password
+---STRINGEND
+
+---STRING password_too_weak
+Password too weak.
+---STRINGEND
+
+---STRING password expired
+Your password has expired, please choose a new one.
+---STRINGEND
+
+---STRING password good
+Password strength is good
+---STRINGEND
+
+---STRING password is the same as the current one
+Password is the same as the current one
+---STRINGEND
+
+---STRING password strong
+Password strength is very good
+---STRINGEND
+
+---STRING password too short
+Password is too short
+---STRINGEND
+
+---STRING password was already used
+The new password was already used
+---STRINGEND
+
+---STRING password weak
+Password strength is too weak
+---STRINGEND
+
+---STRING passwords don't match
+Passwords don't match!
+---STRINGEND
+
+---STRING permissions
+Permissions
+---STRINGEND
+
+---STRING person_fieldset
+Person
+---STRINGEND
+
+---STRING edit account
+Edit account
+---STRINGEND
+
+---STRING email
+Email
+---STRINGEND
+
+---STRING enable ajax in toolbar
+Enable AJAX features of centralized toolbar
+---STRINGEND
+
+---STRING enable ajax in uimessages
+Enable AJAX features of notifications
+---STRINGEND
+
+---STRING enable asgard
+Enable Asgard usage
+---STRINGEND
+
+---STRING enable user management
+Enable user management
+---STRINGEND
+
+---STRING enable user management access
+Enable access to user management
+---STRINGEND
+
+---STRING enable centralized toolbar
+Enable centralized toolbar
+---STRINGEND
+
+---STRING enable unlocking locked objects
+Enable unlocking locked objects
+---STRINGEND
+
+---STRING failed to delete person, reason
+Failed to delete person, reason:
+---STRINGEND
+
+---STRING failed to delete group, reason
+Failed to delete group, reason:
+---STRINGEND
+
+---STRING failed to update the user account, reason
+failed to update the user account, reason
+---STRINGEND
+
+---STRING firstname
+First name
+---STRINGEND
+
+---STRING group %s saved
+Group %s saved
+---STRINGEND
+
+---STRING groups
+Groups
+---STRINGEND
+
+---STRING homepage
+Homepage
+---STRINGEND
+
+---STRING homephone
+Home phone
+---STRINGEND
+
+---STRING lastname
+Last name
+---STRINGEND
+
+---STRING lost password
+Lost password
+---STRINGEND
+
+---STRING lost password helptext
+If you cannot remember your password, please enter your username in the form below. A new random password will be set and sent to the email address registered in your account.
+---STRINGEND
+
+---STRING members
+Members
+---STRINGEND
+
+---STRING mobile phone
+Mobile phone
+---STRINGEND
+
+---STRING multiple entries found, cannot continue
+Multiple entries found, cannot continue
+---STRINGEND
+
+---STRING no account
+No account
+---STRINGEND
+
+---STRING no user found with this username and email address
+No user found with this username and email address
+---STRINGEND
+
+---STRING org.openpsa.user
+User management
+---STRINGEND
+
+---STRING organizations
+Organizations
+---STRINGEND
+
+---STRING official
+Official name
+---STRINGEND
+
+---STRING owner group
+Owner group
+---STRINGEND
+
+---STRING password
+Password
+---STRINGEND
+
+---STRING person %s saved
+User %s saved
+---STRINGEND
+
+---STRING postcode
+Postcode
+---STRINGEND
+
+---STRING remove account
+Remove account
+---STRINGEND
+
+---STRING street
+Street address
+---STRINGEND
+
+---STRING unknown email address
+Unknown email address
+---STRINGEND
+
+---STRING unknown username
+Unknown username
+---STRINGEND
+
+---STRING user account
+User account
+---STRINGEND
+
+---STRING user management
+User management
+---STRINGEND
+
+---STRING username
+Username
+---STRINGEND
+
+---STRING work phone
+Work phone
+---STRINGEND
+
+---STRING wrong current password
+Wrong current password
+---STRINGEND

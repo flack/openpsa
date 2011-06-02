@@ -130,17 +130,6 @@ implements midcom_helper_datamanager2_interfaces_view
             )
         );
 
-        $this->_view_toolbar->add_item
-        (
-            array
-            (
-                MIDCOM_TOOLBAR_URL => "group/privileges/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
-                MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:privileges', $this->_group),
-            )
-        );
-
         $cal_node = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         if (!empty($cal_node))
         {

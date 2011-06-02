@@ -32,11 +32,8 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         foreach ($data['buddies'] as $username => $user)
         {
             $buddy_meta = $data['buddies_meta'][$username];
-            if (!$buddy_meta['view_account_url'])
-            {
-                $person = $user->get_storage();
-                $buddy_meta['view_account_url'] = $person->homepage;
-            }
+            $person = $user->get_storage();
+            $buddy_meta['view_account_url'] = $person->homepage;
             ?>
             <tr>
             <?php

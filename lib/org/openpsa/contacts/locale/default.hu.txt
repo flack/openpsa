@@ -22,10 +22,6 @@ Cég azonosító
 Ország
 ---STRINGEND
 
----STRING create account
-Felhasználói azonosító létrehozása
----STRINGEND
-
 ---STRING create event
 Esemény létrehozása
 ---STRINGEND
@@ -58,28 +54,8 @@ Osztály
 Szerkesztés
 ---STRINGEND
 
----STRING edit account
-Felhasználói azonosító szerkesztése
----STRINGEND
-
----STRING edit user account: %s %s
-Felhasználói azonosító szerkesztése: %s %s
----STRINGEND
-
 ---STRING email
 Email
----STRINGEND
-
----STRING email %s
-e-mail %s
----STRINGEND
-
----STRING enable salesproject creation
-Értékesítési projekt létrehozásának engedélyezése
----STRINGEND
-
----STRING failed to create user account, reason
-A felhasználói azonosító létrehozása sikertelen. Az oka
 ---STRINGEND
 
 ---STRING fax
@@ -118,20 +94,12 @@ Mindkettő megtartása
 Vezetéknév
 ---STRINGEND
 
----STRING logo
-Logo
----STRINGEND
-
 ---STRING me
 Én
 ---STRINGEND
 
 ---STRING mobile phone
 Mobiltelefon
----STRINGEND
-
----STRING no account
-Nincs azonosító
 ---STRINGEND
 
 ---STRING notes
@@ -166,28 +134,12 @@ Postai cím
 Irányítószám
 ---STRINGEND
 
----STRING project management
-Projekt menedzsment
----STRINGEND
-
----STRING related notes
-Kapcsolódó jegyzet
----STRINGEND
-
 ---STRING search
 Keresés
 ---STRINGEND
 
 ---STRING skype name
 Skype-os név
----STRINGEND
-
----STRING user account
-Felhasználói azonosító
----STRINGEND
-
----STRING user account for %s
-%s felhasználói azonosítója
 ---STRINGEND
 
 ---STRING vendor
@@ -236,9 +188,5 @@ Jelszó (még egyszer)
 
 ---STRING passwords don't match
 A jelszavak nem egyeznek
----STRINGEND
-
----STRING permissions
-Engedélyek
 ---STRINGEND
 

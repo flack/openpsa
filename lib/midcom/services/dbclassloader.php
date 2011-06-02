@@ -351,9 +351,6 @@ class midcom_services_dbclassloader
                 case 'midgard':
                     return 'midcom';
 
-                case 'net.nehmer.accounts':
-                    $component = 'net.nehmer.account';
-                    break;
                 case 'org.openpsa.campaign':
                 case 'org.openpsa.link':
                     $component = 'org.openpsa.directmarketing';

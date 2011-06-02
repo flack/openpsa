@@ -84,12 +84,6 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
                 $this->_schema = 'employee';
             }
         }
-        //hide account relevant field in account_person schema
-        $fields =& $this->_controller->schemadb["default"]->fields;
-
-        $fields["username"]["hidden"] = true;
-        $fields["send_welcome_mail"]["hidden"] = true;
-        $fields["password_dummy"]["hidden"] = true;
     }
 
     /**
@@ -154,6 +148,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
 
         $siteconfig = org_openpsa_core_siteconfig::get_instance();
         $invoices_url = $siteconfig->get_node_full_url('org.openpsa.invoices');
+        $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
 
         if (   $invoices_url
             && $_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
@@ -170,7 +165,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => $invoices_url."billingdata/" . $billing_data_url,
+                    MIDCOM_TOOLBAR_URL => $invoices_url . "billingdata/" . $billing_data_url,
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit billingdata'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/edit.png',
                     MIDCOM_TOOLBAR_ENABLED => $this->_contact->can_do('midgard:update'),
@@ -178,39 +173,17 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
             );
         }
 
-        if (midcom_connection::is_user($this->_contact))
+        if (   $user_url
+            && (   midcom_connection::get_user() == $this->_contact->id
+                || midcom::get('auth')->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface')))
         {
             $this->_view_toolbar->add_item
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => "account/edit/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('edit account'),
+                    MIDCOM_TOOLBAR_URL => $user_url . "view/{$this->_contact->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user management', 'org.openpsa.user'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_contact),
-                )
-            );
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "person/privileges/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("permissions"),
-                    MIDCOM_TOOLBAR_ICON => 'midgard.admin.asgard/permissions-16.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:privileges', $this->_contact),
-                )
-            );
-        }
-        else
-        {
-            $this->_view_toolbar->add_item
-            (
-                array
-                (
-                    MIDCOM_TOOLBAR_URL => "account/create/{$this->_contact->guid}/",
-                    MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('create account'),
-                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
-                    MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_contact),
                 )
             );
         }

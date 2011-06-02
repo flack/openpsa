@@ -2,49 +2,6 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
----# Schema Account Person
----STRING person_fieldset
-Person
----STRINGEND
-
----STRING account_fieldset
-Account
----STRINGEND
-
----STRING both
-Both
----STRINGEND
-
----STRING generate_password
-Generate Password
----STRINGEND
-
----STRING own_password
-Own Password
----STRINGEND
-
----STRING search in
-Search in
----STRINGEND
-
----STRING send_welcome_mail
-Send welcome mail?
----STRINGEND
-
----STRING username_already_exists
-This username is already taken.
----STRINGEND
-
----STRING password_too_weak
-Password too weak.
----STRINGEND
-
----# @Var: username,password
----STRING account_creation_success
-The account has been created successfully! <br />Username: %s <br />Password: %s
----STRINGEND
-
-
 ---STRING %s of
 %s of
 ---STRINGEND
@@ -53,16 +10,8 @@ The account has been created successfully! <br />Username: %s <br />Password: %s
 &lt;title>
 ---STRINGEND
 
----STRING account blocked %s minutes
-Because of to many attempts with wrong passwords the account is blocked for %s minutes
----STRINGEND
-
 ---STRING add buddy
 Add to my contacts
----STRINGEND
-
----STRING back to person
-Back to person
 ---STRINGEND
 
 ---STRING basic information
@@ -75,10 +24,6 @@ Cancel
 
 ---STRING categories
 Categories
----STRINGEND
-
----STRING cell %s
-cell %s
 ---STRINGEND
 
 ---STRING choose the person to keep
@@ -117,10 +62,6 @@ Contacts
 Country
 ---STRINGEND
 
----STRING create account
-Create user account
----STRINGEND
-
 ---STRING create event
 Create event
 ---STRINGEND
@@ -137,14 +78,6 @@ Create person
 Create suborganization
 ---STRINGEND
 
----STRING current password
-Current password
----STRINGEND
-
----STRING current password is wrong
-The current password is wrong
----STRINGEND
-
 ---STRING customers invoices
 Customer's invoices
 ---STRINGEND
@@ -157,24 +90,12 @@ Daughter organization
 Decide later
 ---STRINGEND
 
----STRING delete account
-Delete account
----STRINGEND
-
----STRING delete account %s %s
-Delete account for %s %s
----STRINGEND
-
 ---STRING decide later
 Decide later
 ---STRINGEND
 
 ---STRING department
 Department
----STRINGEND
-
----STRING digital business ecosystem
-Digital Business Ecosystem
 ---STRINGEND
 
 ---STRING due
@@ -185,88 +106,12 @@ Due
 Edit
 ---STRINGEND
 
----STRING edit account
-Edit user account
----STRINGEND
-
 ---STRING edit billingdata
 Edit billing data
 ---STRINGEND
 
----STRING edit user account: %s %s
-Edit user account: %s %s
----STRINGEND
-
 ---STRING email
 Email
----STRINGEND
-
----STRING email %s
-e-mail %s
----STRINGEND
-
----STRING enable calendar
-Allow to create events in the Group Calendar
----STRINGEND
-
----STRING enable campaign creation
-Enable campaign creation
----STRINGEND
-
----STRING enable contact creation
-Enable contact creation
----STRINGEND
-
----STRING enable editing campaigns created by others
-Enable editing campaigns created by others
----STRINGEND
-
----STRING enable editing contacts created by others
-Enable editing contacts created by others
----STRINGEND
-
----STRING enable editing invoices created by others
-Enable editing of invoices created by others
----STRINGEND
-
----STRING enable editing organizations created by others
-Enable editing of organizations created by others
----STRINGEND
-
----STRING enable invoice creation
-Enable invoice creation
----STRINGEND
-
----STRING enable organization creation
-Enable organization creation
----STRINGEND
-
----STRING enable product creation
-Enable product creation
----STRINGEND
-
----STRING enable editing products created by others
-Enable editing products created by others
----STRINGEND
-
----STRING enable project creation
-Allow to create root-level projects
----STRINGEND
-
----STRING enable salesproject creation
-Enable sales project creation
----STRINGEND
-
----STRING enable wikipage creation
-Enable wiki page creation
----STRINGEND
-
----STRING enable editing wikipages created by others
-Enable editing wiki pages created by others
----STRINGEND
-
----STRING failed to create user account, reason
-Failed to create user account, reason
 ---STRINGEND
 
 ---STRING fax
@@ -293,10 +138,6 @@ Invoicing address
 Invoice defaults
 ---STRINGEND
 
----STRING invoicing target percentage
-Invoicing target percentage
----STRINGEND
-
 ---STRING jabber id
 Jabber ID
 ---STRINGEND
@@ -315,10 +156,6 @@ Keep this
 
 ---STRING lastname
 Last name
----STRINGEND
-
----STRING logo
-Logo
 ---STRINGEND
 
 ---STRING me
@@ -353,24 +190,8 @@ My contacts
 New organization
 ---STRINGEND
 
----STRING new password
-New password
----STRINGEND
-
----STRING new password repeat
-Repeat new password
----STRINGEND
-
 ---STRING new person
 New person
----STRINGEND
-
----STRING no account
-No account
----STRINGEND
-
----STRING no current password given
-No current password entered
 ---STRINGEND
 
 ---STRING no duplicates found
@@ -413,48 +234,12 @@ Organization type
 Organizations
 ---STRINGEND
 
+---STRING other
+Other
+---STRINGEND
+
 ---STRING partner
 Partner
----STRINGEND
-
----STRING password expired
-Your password has expired please choose a new password.
----STRINGEND
-
----STRING password good
-Password strength is good
----STRINGEND
-
----STRING password is the same as the current one
-Password is the same as the current one
----STRINGEND
-
----STRING password repeat
-Password (repeat)
----STRINGEND
-
----STRING password strong
-Password strength is very good
----STRINGEND
-
----STRING password too short
-Password is too short
----STRINGEND
-
----STRING password was already used
-The new password was already used
----STRINGEND
-
----STRING password weak
-Password strength is too weak
----STRINGEND
-
----STRING passwords don't match
-Passwords don't match!
----STRINGEND
-
----STRING permissions
-Permissions
 ---STRINGEND
 
 ---STRING person
@@ -481,14 +266,6 @@ Postal address
 ZIP
 ---STRINGEND
 
----STRING project management
-Project management
----STRINGEND
-
----STRING related notes
-Related notes
----STRINGEND
-
 ---STRING remove buddy
 Remove from my contacts
 ---STRINGEND
@@ -509,10 +286,6 @@ Search
 Skype name
 ---STRINGEND
 
----STRING store as plain text
-Store as plain text
----STRINGEND
-
 ---STRING street
 Street address
 ---STRINGEND
@@ -525,35 +298,9 @@ Suborganizations
 Title
 ---STRINGEND
 
----STRING tel %s
-tel %s
----STRINGEND
-
 ---STRING treat as workgroup
 Treat as Workgroup
 ---STRINGEND
-
----STRING user account
-User account
----STRINGEND
-
----STRING user account for %s
-User account for %s
----STRINGEND
-
----STRING username
-User name
----STRINGEND
-
----STRING username already exists
-User name already exists
----STRINGEND
-
----STRING username and password identical
-User name and password are identical
----STRINGEND
-
-
 
 ---STRING vendor
 Vendor
@@ -570,8 +317,3 @@ Weekly work hours
 ---STRING work phone
 Work phone
 ---STRINGEND
-
----STRING wrong current password
-Wrong current password
----STRINGEND
-

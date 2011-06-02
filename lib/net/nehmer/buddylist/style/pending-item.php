@@ -11,16 +11,8 @@ $entry =& $data['entry'];
 <input type="hidden" name="guid" value="&(entry['guid_hidden_value']);" />
 
 <p>
-<?php if ($entry['view_account_url']) { ?>
-    <a href="&(entry['view_account_url']);">
-        <?php printf($data['l10n']->get('buddy request from %s:'), $entry['account_user']->name); ?>
-    </a>
-    <?php
-}
-else
-{
+<?php
     printf($data['l10n']->get('buddy request from %s:'), $entry['account_user']->name);
-}
 ?>
     <br />
     <input type="submit"

@@ -7,41 +7,12 @@
 Person
 ---STRINGEND
 
----STRING account_fieldset
-Benutzerkonto
----STRINGEND
-
 ---STRING both
 Beiden
 ---STRINGEND
 
----STRING generate_password
-Passwort generieren
----STRINGEND
-
----STRING own_password
-Eigenes Passwort
----STRINGEND
-
 ---STRING search in
 Suche in
----STRINGEND
-
----STRING send_welcome_mail
-Willkommen-Mail schicken?
----STRINGEND
-
----STRING username_already_exists
-Der Benutzername ist bereits vergeben.
----STRINGEND
-
----STRING password_too_weak
-Passwort ist zu schwach.
----STRINGEND
-
----# @Var: username,password
----STRING account_creation_success
-Das Benutzerkonto wurde erfolgreich angelegt! <br />Benutzername: %s <br />Passwort: %s
 ---STRINGEND
 
 ---STRING %s of
@@ -52,16 +23,8 @@ Das Benutzerkonto wurde erfolgreich angelegt! <br />Benutzername: %s <br />Passw
 <Titel>
 ---STRINGEND
 
----STRING account blocked %s minutes
-Der Zugang wurde wegen zu vieler Versuche für %s Minuten gesperrt
----STRINGEND
-
 ---STRING add buddy
 Zu meinen Kontakten hinzufügen
----STRINGEND
-
----STRING back to person
-Zurück zur Person
 ---STRINGEND
 
 ---STRING basic information
@@ -74,10 +37,6 @@ Abbrechen
 
 ---STRING categories
 Kategorien
----STRINGEND
-
----STRING cell %s
-Zelle %s
 ---STRINGEND
 
 ---STRING choose the person to keep
@@ -116,10 +75,6 @@ Kontakte
 Land
 ---STRINGEND
 
----STRING create account
-Benutzerkonto erstellen
----STRINGEND
-
 ---STRING create event
 Termin erstellen
 ---STRINGEND
@@ -136,10 +91,6 @@ Person erstellen
 Unterorganisation erstellen
 ---STRINGEND
 
----STRING current password
-Aktuelles Passwort
----STRINGEND
-
 ---STRING customers invoices
 Rechnungen des Kunden
 ---STRINGEND
@@ -152,20 +103,8 @@ Unterorganisation
 Später entscheiden
 ---STRINGEND
 
----STRING delete account
-Benutzerkonto löschen
----STRINGEND
-
----STRING delete account %s %s
-Benutzerkonto von %s %s löschen
----STRINGEND
-
 ---STRING department
 Abteilung
----STRINGEND
-
----STRING digital business ecosystem
-Digital Business Ecosystem
 ---STRINGEND
 
 ---STRING due
@@ -176,88 +115,12 @@ Fälligkeit
 Bearbeiten
 ---STRINGEND
 
----STRING edit account
-Benutzerkonto bearbeiten
----STRINGEND
-
----STRING edit user account: %s %s
-Benutzerkonto bearbeiten: %s %s
----STRINGEND
-
 ---STRING edit billingdata
 Rechnungsdaten bearbeiten
 ---STRINGEND
 
 ---STRING email
 E-Mail
----STRINGEND
-
----STRING email %s
-E-Mail an %s
----STRINGEND
-
----STRING enable calendar
-Darf Termine im Gruppenkalender anlegen
----STRINGEND
-
----STRING enable campaign creation
-Darf Kampagnen anlegen
----STRINGEND
-
----STRING enable contact creation
-Darf Kontakte anlegen
----STRINGEND
-
----STRING enable editing campaigns created by others
-Darf Kampagnen bearbeiten, die von anderen erstellt wurden
----STRINGEND
-
----STRING enable editing contacts created by others
-Darf Kontakte bearbeiten, die von anderen erstellt wurden
----STRINGEND
-
----STRING enable editing invoices created by others
-Darf Rechnungen bearbeiten, die von anderen erstellt wurden
----STRINGEND
-
----STRING enable editing organizations created by others
-Darf Organisationen bearbeiten, die von anderen erstellt wurden
----STRINGEND
-
----STRING enable invoice creation
-Darf Rechnungen anlegen
----STRINGEND
-
----STRING enable organization creation
-Darf Organisationen anlegen
----STRINGEND
-
----STRING enable product creation
-Darf Produkte anlegen
----STRINGEND
-
----STRING enable editing products created by others
-Darf Produkte bearbeiten, die von anderen erstellt wurden
----STRINGEND
-
----STRING enable project creation
-Darf Projekte anlegen
----STRINGEND
-
----STRING enable salesproject creation
-Darf Verkaufsprojekte anlegen
----STRINGEND
-
----STRING enable wikipage creation
-Darf Wiki-Seiten anlegen
----STRINGEND
-
----STRING enable editing wikipages created by others
-Darf Wiki-Seiten bearbeiten, die von anderen erstellt wurden
----STRINGEND
-
----STRING failed to create user account, reason
-Benutzerkonto konnte nicht erstellt werden. Ursache:
 ---STRINGEND
 
 ---STRING fax
@@ -284,10 +147,6 @@ Standard-Einstellungen für Rechnungen
 Rechnungsanschrift
 ---STRINGEND
 
----STRING invoicing target percentage
-Zielprozentsatz für Rechnungsstellung
----STRINGEND
-
 ---STRING jabber id
 Jabber-ID
 ---STRINGEND
@@ -306,10 +165,6 @@ Diesen beibehalten
 
 ---STRING lastname
 Nachname
----STRINGEND
-
----STRING logo
-Logo
 ---STRINGEND
 
 ---STRING me
@@ -344,24 +199,8 @@ Meine Kontakte
 Neue Organisation
 ---STRINGEND
 
----STRING old password
-Altes Passwort
----STRINGEND
-
----STRING new password
-Neues Passwort
----STRINGEND
-
----STRING new password repeat
-Neues Passwort wiederholen
----STRINGEND
-
 ---STRING new person
 Neue Person
----STRINGEND
-
----STRING no account
-Kein Benutzerkonto
 ---STRINGEND
 
 ---STRING no duplicates found
@@ -374,10 +213,6 @@ Keine Doppelugen gefunden, die mit Ihren Berechtigungen zusammengeführt werden 
 
 ---STRING no results
 Ihre Suche lieferte keine Treffer
----STRINGEND
-
----STRING no current password given
-Es wurde kein akutelles Passwort eingegeben
 ---STRINGEND
 
 ---STRING notes
@@ -408,48 +243,12 @@ Organisations-Typ
 Organisationen
 ---STRINGEND
 
+---STRING other
+andere
+---STRINGEND
+
 ---STRING partner
 Partner
----STRINGEND
-
----STRING password is the same as the current one
-Das Passwort ist gleich dem derzeitigen Passwort
----STRINGEND
-
----STRING password too short
-Passwort ist zu kurz
----STRINGEND
-
----STRING password weak
-Passwortstärke ist zu gering
----STRINGEND
-
----STRING password good
-Passwortstärke ist gut
----STRINGEND
-
----STRING password strong
-Passwortstärke ist sehr gut
----STRINGEND
-
----STRING password was already used
-Das neue Passwort wurde schon einmal benutzt
----STRINGEND
-
----STRING password repeat
-Kennwort (wiederholen)
----STRINGEND
-
----STRING passwords don't match
-Kennwörter stimmen nicht überein!
----STRINGEND
-
----STRING password expired
-Ihr Passwort ist abgelaufen bitte erstellen Sie ein neues Passwort.
----STRINGEND
-
----STRING permissions
-Berechtigungen
 ---STRINGEND
 
 ---STRING person
@@ -476,14 +275,6 @@ Postanschrift
 PLZ
 ---STRINGEND
 
----STRING project management
-Projekt-Verwaltung
----STRINGEND
-
----STRING related notes
-Verbundene Notizen
----STRINGEND
-
 ---STRING remove buddy
 Aus meinen Kontakten entfernen
 ---STRINGEND
@@ -504,10 +295,6 @@ Suche
 Skype-Name
 ---STRINGEND
 
----STRING store as plain text
-Als einfachen Text speichern
----STRINGEND
-
 ---STRING street
 Straße
 ---STRINGEND
@@ -520,32 +307,8 @@ Unterorganisationen
 Titel
 ---STRINGEND
 
----STRING tel %s
-Tel. %s
----STRINGEND
-
 ---STRING treat as workgroup
 Als Arbeitsgruppe behandeln
----STRINGEND
-
----STRING user account
-Benutzerkonto
----STRINGEND
-
----STRING username
-Benutzername
----STRINGEND
-
----STRING username already exists
-Ein Benutzer mit diesem Namen existiert bereits
----STRINGEND
-
----STRING username and password identical
-Benutzername und Passwort sind identisch
----STRINGEND
-
----STRING user account for %s
-Benutzerkonto von %s
 ---STRINGEND
 
 ---STRING vendor
@@ -563,8 +326,3 @@ Wöchentliche Arbeitsstunden
 ---STRING work phone
 Telefon (geschäftlich)
 ---STRINGEND
-
----STRING wrong current password
-Das aktuelle Passwort ist nicht korrekt
----STRINGEND
-

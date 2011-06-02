@@ -27,6 +27,7 @@
     'org.openpsa.products' => 'org.openpsa.products',
     'org.openpsa.reports' => 'org.openpsa.reports',
     'org.openpsa.sales' => 'org.openpsa.sales',
+    'org.openpsa.user' => 'org.openpsa.user',
     'net.nemein.wiki' => 'net.nemein.wiki',
     'midcom.helper.search' => 'midcom.helper.search',
 ),

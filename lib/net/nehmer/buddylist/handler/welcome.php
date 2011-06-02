@@ -27,8 +27,6 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
      * you will have the following keys available:
      *
      * - string new_mail_url (might be null, depending on the net_nehmer_mail_integration config option)
-     * - string view_account_url (might be null, depending on the net_nehmer_account_integration config
-     *   option)
      * - string delete_checkbox_name
      * - boolean isonline
      *
@@ -96,14 +94,6 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
         {
             $mail_prefix = null;
         }
-        if ($this->_config->get('net_nehmer_account_integration'))
-        {
-            $account_prefix = $_MIDCOM->get_page_prefix() . $this->_config->get('net_nehmer_account_integration') . 'view/';
-        }
-        else
-        {
-            $account_prefix = null;
-        }
 
         $this->_buddies_meta = Array();
 
@@ -127,14 +117,8 @@ class net_nehmer_buddylist_handler_welcome extends midcom_baseclasses_components
             {
                 $this->_buddies_meta[$username]['new_mail_url'] = null;
             }
-            if ($account_prefix)
-            {
-                $this->_buddies_meta[$username]['view_account_url'] = "{$account_prefix}{$user->guid}.html";
-            }
-            else
-            {
-                $this->_buddies_meta[$username]['view_account_url'] = null;
-            }
+            $this->_buddies_meta[$username]['view_account_url'] = null;
+
             $this->_buddies_meta[$username]['delete_checkbox_name'] = "account_$user->guid";
             $this->_buddies_meta[$username]['is_online'] = array_key_exists($username, $online_buddies);
         }

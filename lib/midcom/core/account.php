@@ -140,6 +140,63 @@ class midcom_core_account
         }
     }
 
+    /**
+     * Modify a query instance for searching by username, with differences between
+     * mgd1 and mgd2 abstracted away
+     *
+     * @param midcom_core_query &$query The QB or MC instance to work on
+     * @param string $operator The operator for the username constraint
+     * @param string $value The value for the username constraint
+     */
+    public static function add_username_constraint(midcom_core_query &$query, $operator, $value)
+    {
+        if (method_exists('midgard_user', 'login'))
+        {
+            $mc = new midgard_collector('midgard_user', 'metadata.deleted', false);
+            $mc->set_key_property('person');
+            $mc->add_constraint('username', $operator, $value);
+            $mc->add_constraint('authtype', '=', $GLOBALS['midcom_config']['auth_type']);
+            $mc->execute();
+            $person_guids = $mc->list_keys();
+            if (sizeof($person_guids) < 1)
+            {
+                //make sure we don't return any results
+                $query->add_constraint('id', '=', 0);
+            }
+            else
+            {
+                $query->add_constraint('guid', 'IN', array_keys($person_guids));
+            }
+        }
+        else
+        {
+            $query->add_constraint('username', $operator, $value);
+        }
+    }
+
+    /**
+     * Add username order to a query instance, with differences between
+     * mgd1 and mgd2 abstracted away.
+     *
+     * Note that it actually does nothing under mgd2 right now, because it's still
+     * unclear how this could be implemented
+     *
+     * @param midcom_core_query &$query The QB or MC instance to work on
+     * @param string $direction The value for the username constraint
+     */
+    public static function add_username_order(midcom_core_query &$query, $direction)
+    {
+        if (method_exists('midgard_user', 'login'))
+        {
+            debug_add('Ordering persons by username is not yet implemented for Midgard2', MIDCOM_LOG_ERROR);
+            //@todo Find a way to do this
+        }
+        else
+        {
+            $query->add_order('username', $direction);
+        }
+    }
+
     private function _create_user()
     {
         if ($this->_user->login == '')

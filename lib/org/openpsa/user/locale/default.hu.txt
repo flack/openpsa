@@ -1,0 +1,27 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE hu
+
+---STRING create account
+Felhasználói azonosító létrehozása
+---STRINGEND
+
+---STRING edit account
+Felhasználói azonosító szerkesztése
+---STRINGEND
+
+---STRING enable salesproject creation
+Értékesítési projekt létrehozásának engedélyezése
+---STRINGEND
+
+---STRING no account
+Nincs azonosító
+---STRINGEND
+
+---STRING permissions
+Engedélyek
+---STRINGEND
+
+---STRING user account
+Felhasználói azonosító
+---STRINGEND

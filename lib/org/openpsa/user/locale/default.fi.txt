@@ -1,0 +1,131 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE fi
+
+---STRING account blocked %s minutes
+Liian monen väärän salasanayrityksen takia tili on suljettu %s minuutin ajaksi
+---STRINGEND
+
+---STRING create account
+Luo käyttäjätunnus
+---STRINGEND
+
+---STRING current password
+Nykyinen salasana
+---STRINGEND
+
+---STRING edit account
+Muokkaa käyttäjätunnusta
+---STRINGEND
+
+---STRING enable calendar
+Salli tapahtumien luonti ryhmäkalenteriin
+---STRINGEND
+
+---STRING enable campaign creation
+Salli kampanjoiden luonti
+---STRINGEND
+
+---STRING enable contact creation
+Salli yhteyshenkilöiden luonti
+---STRINGEND
+
+---STRING enable editing campaigns created by others
+Salli toisten luomien kampanjoiden muokkaus
+---STRINGEND
+
+---STRING enable editing contacts created by others
+Salli muiden luomien yhteyshenkilöiden muokkaus
+---STRINGEND
+
+---STRING enable editing invoices created by others
+Salli toisten luomien laskujen muokkaus
+---STRINGEND
+
+---STRING enable editing organizations created by others
+Salli muiden luomien organisaatioiden muokkaus
+---STRINGEND
+
+---STRING enable invoice creation
+Salli laskujen luonti
+---STRINGEND
+
+---STRING enable organization creation
+Salli organisaatioiden luonti
+---STRINGEND
+
+---STRING enable project creation
+Salli juuritason projektien luonti
+---STRINGEND
+
+---STRING enable salesproject creation
+Salli myyntiprojektien luonti
+---STRINGEND
+
+---STRING new password
+Uusi salasana
+---STRINGEND
+
+---STRING new password repeat
+Uusi salasana (uudestaan)
+---STRINGEND
+
+---STRING no account
+Ei käyttäjätunnusta
+---STRINGEND
+
+---STRING password expired
+Salasanasi on vanhentunut. Ole hyvä ja syötä uusi salasana.
+---STRINGEND
+
+---STRING password good
+Salasana on turvallinen
+---STRINGEND
+
+---STRING password is the same as the current one
+Salasana on sama kuin nykyinen
+---STRINGEND
+
+---STRING password strong
+Salasana on erittäin turvallinen
+---STRINGEND
+
+---STRING password too short
+Salasana on liian lyhyt
+---STRINGEND
+
+---STRING password was already used
+Uutta salasanaa on jo käytetty
+---STRINGEND
+
+---STRING password weak
+Salasana on liian heikko
+---STRINGEND
+
+---STRING passwords don't match
+Salasanat eivät täsmää!
+---STRINGEND
+
+---STRING permissions
+Käyttöoikeudet
+---STRINGEND
+
+---STRING user account
+Käyttäjätunnus
+---STRINGEND
+
+---STRING username
+Käyttäjätunnus
+---STRINGEND
+
+---STRING username already exists
+Käyttäjätunnus on jo olemassa
+---STRINGEND
+
+---STRING username and password identical
+Käyttäjätunnus ja salasana ovat samat
+---STRINGEND
+
+---STRING wrong current password
+Väärä nykyinen salasana
+---STRINGEND

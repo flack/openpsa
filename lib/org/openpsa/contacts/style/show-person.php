@@ -5,7 +5,6 @@ $node = $nap->get_node($nap->get_current_node());
 <div class="sidebar">
     <?php
     $_MIDCOM->dynamic_load($node[MIDCOM_NAV_RELATIVEURL] . "person/memberships/{$data['person']->guid}/");
-    midcom_show_style("show-person-account");
 
     // Try to find campaigns component
     $campaigns_node = midcom_helper_misc::find_node_by_component('org.openpsa.directmarketing');

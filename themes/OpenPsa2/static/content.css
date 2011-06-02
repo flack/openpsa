@@ -60,7 +60,7 @@ body
   font-size: 100%;
 }
 
-#content-text div.org_openpsa_helper_box
+.org_openpsa_helper_box
 {
     background-color: #ffffff;
     font-size: 90%;
@@ -77,7 +77,7 @@ body
     margin-right: 10px;
 }
 
-#content-text div.org_openpsa_helper_box h3
+.org_openpsa_helper_box h3
 {
     background-color: #e9ede4;
     padding: 0 0.5em;
@@ -88,39 +88,40 @@ body
     border-radius: 6px 6px 0 0;
 }
 
-#content-text div.org_openpsa_helper_box ul
+.org_openpsa_helper_box ul
 {
   margin-left: 0;
   padding-left: 0;
   list-style: none;
 }
 
-#content-text div.org_openpsa_helper_box ul li
+.org_openpsa_helper_box li
 {
   margin-top: 4px;
 }
 
-#content-text div.org_openpsa_helper_box span.date
+.org_openpsa_helper_box span.date
 {
   font-weight: bold;
 }
 
-#content-text div.org_openpsa_helper_box span.tip
+.org_openpsa_helper_box span.tip
 {
   display: block;
   padding: 0.5em;
 }
 
-#content-text div.status div.current-status
+.org_openpsa_helper_box div.current-status
 {
   font-size: larger;
   margin-bottom: 4px;
 }
-.org_openpsa_contacts_badPass , .org_openpsa_contacts_shortPass
+
+.org_openpsa_user_badPass, .org_openpsa_user_shortPass
 {
     color: red;
 }
-.org_openpsa_contacts_goodPass , .org_openpsa_contacts_strongPass
+.org_openpsa_user_goodPass, .org_openpsa_user_strongPass
 {
-    color:green;
+    color: green;
 }

@@ -1,0 +1,339 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE de
+
+---STRING account blocked %s minutes
+Der Zugang wurde wegen zu vieler Versuche für %s Minuten gesperrt
+---STRINGEND
+
+---STRING account_creation_success
+Der Account wurde erfolgreich erstellt. <br />Benutzername: %s <br />Passwort: %s
+---STRINGEND
+
+---STRING account_fieldset
+Account-Daten
+---STRINGEND
+
+---STRING city
+Ort
+---STRINGEND
+
+---STRING create account
+Benutzerkonto erstellen
+---STRINGEND
+
+---STRING create group
+Gruppe erstellen
+---STRINGEND
+
+---STRING create person
+Person erstellen
+---STRINGEND
+
+---STRING current password
+Aktuelles Passwort
+---STRINGEND
+
+---STRING delete account
+Benutzerkonto löschen
+---STRINGEND
+
+---STRING delete account %s %s
+Benutzerkonto von %s %s löschen
+---STRINGEND
+
+---STRING enable calendar
+Darf Termine im Gruppenkalender anlegen
+---STRINGEND
+
+---STRING enable campaign creation
+Darf Kampagnen anlegen
+---STRINGEND
+
+---STRING enable contact creation
+Darf Kontakte anlegen
+---STRINGEND
+
+---STRING enable editing campaigns created by others
+Darf Kampagnen bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable editing contacts created by others
+Darf Kontakte bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable editing invoices created by others
+Darf Rechnungen bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable editing organizations created by others
+Darf Organisationen bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable invoice creation
+Darf Rechnungen anlegen
+---STRINGEND
+
+---STRING enable organization creation
+Darf Organisationen anlegen
+---STRINGEND
+
+---STRING enable product creation
+Darf Produkte anlegen
+---STRINGEND
+
+---STRING enable editing products created by others
+Darf Produkte bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING enable project creation
+Darf Projekte anlegen
+---STRINGEND
+
+---STRING enable salesproject creation
+Darf Verkaufsprojekte anlegen
+---STRINGEND
+
+---STRING enable wikipage creation
+Darf Wiki-Seiten anlegen
+---STRINGEND
+
+---STRING enable editing wikipages created by others
+Darf Wiki-Seiten bearbeiten, die von anderen erstellt wurden
+---STRINGEND
+
+---STRING failed to delete person, reason
+Das Löschen der Person ist fehlgeschlagen, Ursache:
+---STRINGEND
+
+---STRING failed to delete group, reason
+Das Löschen der Gruppe ist fehlgeschlagen, Ursache:
+---STRINGEND
+
+---STRING generate_password
+Passwort automatisch erzeugen
+---STRINGEND
+
+---STRING groups_fieldset
+Gruppen-Informationen
+---STRINGEND
+
+---STRING own_password
+Eigenes Passwort
+---STRINGEND
+
+---STRING send_welcome_mail
+Willkommens-Mail schicken?
+---STRINGEND
+
+---STRING username_already_exists
+Dieser Benutzername ist bereits vergeben
+---STRINGEND
+
+---STRING new password
+Neues Passwort
+---STRINGEND
+
+---STRING new password repeat
+Neues Passwort wiederholen
+---STRINGEND
+
+---STRING password_too_weak
+Passwort zu schwach
+---STRINGEND
+
+---STRING password is the same as the current one
+Das Passwort ist gleich dem derzeitigen Passwort
+---STRINGEND
+
+---STRING password too short
+Passwort ist zu kurz
+---STRINGEND
+
+---STRING password weak
+Passwortstärke ist zu gering
+---STRINGEND
+
+---STRING password good
+Passwortstärke ist gut
+---STRINGEND
+
+---STRING password strong
+Passwortstärke ist sehr gut
+---STRINGEND
+
+---STRING password was already used
+Das neue Passwort wurde schon einmal benutzt
+---STRINGEND
+
+---STRING passwords don't match
+Kennwörter stimmen nicht überein!
+---STRINGEND
+
+---STRING password expired
+Ihr Passwort ist abgelaufen, bitte erstellen Sie ein neues.
+---STRINGEND
+
+---STRING permissions
+Berechtigungen
+---STRINGEND
+
+---STRING person_fieldset
+Personendaten
+---STRINGEND
+
+---STRING edit account
+Benutzerkonto bearbeiten
+---STRINGEND
+
+---STRING email
+E-Mail
+---STRINGEND
+
+---STRING enable ajax in toolbar
+AJAX-Features der Toolbar aktivieren
+---STRINGEND
+
+---STRING enable ajax in uimessages
+AJAX-Features für Benachrichtigungen aktivieren
+---STRINGEND
+
+---STRING enable asgard
+Asgard-Zugang ermöglichen
+---STRINGEND
+
+---STRING enable user management
+Benutzerverwaltung ermöglichen
+---STRINGEND
+
+---STRING enable user management access
+Zugang zu Benutzerverwaltung ermöglichen
+---STRINGEND
+
+---STRING enable centralized toolbar
+Zentralisierte Toolbar aktivieren
+---STRINGEND
+
+---STRING enable unlocking locked objects
+Das Entsperren gesperrter Objekte ermöglichen
+---STRINGEND
+
+---STRING failed to update the user account, reason
+Benutzkonto konnte nicht gespeichert werden, Ursache:
+---STRINGEND
+
+---STRING firstname
+Vorname
+---STRINGEND
+
+---STRING group %s saved
+Gruppe %s gespeichert
+---STRINGEND
+
+---STRING groups
+Gruppen
+---STRINGEND
+
+---STRING homepage
+Homepage
+---STRINGEND
+
+---STRING homephone
+Telefon (privat)
+---STRINGEND
+
+---STRING lastname
+Nachname
+---STRINGEND
+
+---STRING lost password
+Passwort vergessen
+---STRINGEND
+
+---STRING lost password helptext
+Sollten Sie Ihr Passwort vergessen haben, tragen Sie bitte Ihren Benutzernamen in das untenstehende Formular ein. Ein neues zufälliges Passwort wird erstellt und an die im Profil hinterlegte E-Mail-Adresse versandt.
+---STRINGEND
+
+---STRING members
+Mitglieder
+---STRINGEND
+
+---STRING mobile phone
+Mobiltelefon
+---STRINGEND
+
+---STRING multiple entries found, cannot continue
+Mehrere Einträge gefunden, kann nicht fortsetzen
+---STRINGEND
+
+---STRING no account
+Kein Benutzerkonto
+---STRINGEND
+
+---STRING no user found with this username and email address
+Es wurde kein Benutzer mit diesem Benutzenamen und dieser E-Mail-Adresse gefunden
+---STRINGEND
+
+---STRING org.openpsa.user
+Benutzerverwaltung
+---STRINGEND
+
+---STRING organizations
+Organisationen
+---STRINGEND
+
+---STRING official
+Offizieller Name
+---STRINGEND
+
+---STRING owner group
+Übergeordnete Gruppe
+---STRINGEND
+
+---STRING password
+Passwort
+---STRINGEND
+
+---STRING person %s saved
+Benutzer %s gespeichert
+---STRINGEND
+
+---STRING postcode
+PLZ
+---STRINGEND
+
+---STRING remove account
+Benutzerkonto löschen
+---STRINGEND
+
+---STRING street
+Strasse
+---STRINGEND
+
+---STRING unknown username
+Unbekannter Benutzername
+---STRINGEND
+
+---STRING unknown email address
+Unbekannte E-Mail-Adresse
+---STRINGEND
+
+---STRING user account
+Benutzerkonto
+---STRINGEND
+
+---STRING user management
+Benutzerverwaltung
+---STRINGEND
+
+---STRING username
+Benutzername
+---STRINGEND
+
+---STRING work phone
+Telefon (dienstlich)
+---STRINGEND
+
+---STRING wrong current password
+Das aktuelle Passwort ist nicht korrekt
+---STRINGEND

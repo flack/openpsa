@@ -2,9 +2,9 @@
 if ($_MIDCOM->auth->user)
 {
     $siteconf = org_openpsa_core_siteconfig::get_instance();
-    if ($contacts_url = $siteconf->get_node_full_url('org.openpsa.contacts'))
+    if ($user_url = $siteconf->get_node_full_url('org.openpsa.user'))
     {
-        $person_string = '<a href="' . $contacts_url . 'person/' . $_MIDCOM->auth->user->guid . '/">' . $_MIDCOM->auth->user->name . "</a>";
+        $person_string = '<a href="' . $user_url . 'view/' . $_MIDCOM->auth->user->guid . '/">' . $_MIDCOM->auth->user->name . "</a>";
     }
     else
     {

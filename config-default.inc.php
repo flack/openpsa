@@ -24,6 +24,7 @@ function openpsa_prepare_topics()
         'Projects' => 'org.openpsa.projects',
         'Reports' => 'org.openpsa.reports',
         'Sales' => 'org.openpsa.sales',
+        'User Management' => 'org.openpsa.user',
         'Wiki' => 'net.nemein.wiki',
     );
     $qb = new midgard_query_builder('midgard_topic');

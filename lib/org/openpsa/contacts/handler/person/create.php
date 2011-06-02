@@ -72,7 +72,6 @@ implements midcom_helper_datamanager2_interfaces_create
         }
 
         $data['controller'] = $this->get_controller('create');
-        $this->_prepare_request_data();
 
         switch ($data['controller']->process_form())
         {
@@ -97,32 +96,6 @@ implements midcom_helper_datamanager2_interfaces_create
                     }
                 }
 
-                $formmanager = $this->_request_data["controller"]->formmanager;
-                //create account too?
-                if(!empty($formmanager->_types["username"]->value)){
-
-                    // Create account
-                    $account_helper = new org_openpsa_contacts_accounthelper();
-
-                    $password = "";
-                    //take user password?
-                    if(intval($_POST['org_openpsa_contacts_person_account_password_switch']) > 0){
-                        $password = $_POST['org_openpsa_contacts_person_account_password'];
-                    }
-
-                    $success = $account_helper->create_account(
-                        $this->_person->guid, //guid
-                        $formmanager->_types["username"]->value, //username
-                        $formmanager->_types["email"]->value, //usermail
-                        $password, //password
-                        $formmanager->_types["send_welcome_mail"]->value //send_welcome mail
-                    );
-
-                    if(!$success){
-                        throw new midcom_error("Failed creating account, reason: ".$account_helper->errstr);
-                    }
-                }
-
                 // Relocate to group view
                 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 $_MIDCOM->relocate("{$prefix}person/{$this->_person->guid}/");
@@ -139,24 +112,6 @@ implements midcom_helper_datamanager2_interfaces_create
 
         org_openpsa_contacts_viewer::add_breadcrumb_path_for_group($this->_group, $this);
         $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('create %s'), $this->_l10n->get('person')));
-    }
-
-    private function _prepare_request_data()
-    {
-        //get rules for js in style
-        $rules = $this->_config->get('password_match_score');
-        $data_rules = midcom_helper_misc::get_snippet_content($rules);
-        $result = eval ("\$contents = array ( {$data_rules}\n );");
-        if ($result === false)
-        {
-            throw new midcom_error("Failed to parse the schema definition in '{$rules}', see above for PHP errors.");
-        }
-        $this->_request_data['password_rules'] = $contents['rules'];
-
-        //get password_length & minimum score for js
-        $this->_request_data['min_score'] = $this->_config->get('min_password_score');
-        $this->_request_data['min_length'] = $this->_config->get('min_password_length');
-        $this->_request_data['max_length'] = $this->_config->get('max_password_length');
     }
 
     /**

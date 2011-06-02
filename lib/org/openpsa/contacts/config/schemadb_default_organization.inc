@@ -37,6 +37,7 @@
                     ORG_OPENPSA_OBTYPE_ORGANIZATION => 'organization',
                     ORG_OPENPSA_OBTYPE_DAUGHTER     => 'daughter organization',
                     ORG_OPENPSA_OBTYPE_DEPARTMENT   => 'department',
+                    ORG_OPENPSA_OBTYPE_OTHERGROUP => 'other',
                 ),
             ),
             'widget'       => 'radiocheckselect',

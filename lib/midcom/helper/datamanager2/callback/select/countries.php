@@ -31,22 +31,22 @@ class midcom_helper_datamanager2_callback_select_countries extends midcom_basecl
 
     public function __construct($args)
     {
-        $this->_component = 'net.nehmer.account';
+        $this->_component = 'org.routamc.positioning';
         parent::__construct();
 
         $this->_data = array();
 
         if (isset($args['start_message']))
         {
-        	if (is_bool($args['start_message'])
-        		&& $args['start_message'])
-			{
-	   			$this->_data[''] = $this->_l10n->get('select your country');
-			}
-			else if (is_string($args['start_message']))
-			{
-	   			$this->_data[''] = $args['start_message'];
-			}
+            if (    is_bool($args['start_message'])
+                 && $args['start_message'])
+            {
+                $this->_data[''] = $this->_l10n->get('select your country');
+            }
+            else if (is_string($args['start_message']))
+            {
+                $this->_data[''] = $args['start_message'];
+            }
         }
 
         $qb = org_routamc_positioning_country_dba::new_query_builder();
