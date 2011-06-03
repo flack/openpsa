@@ -389,16 +389,17 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      *
      * @return boolean - indicates success
      */
-    function disable_account()
+    public function disable_account()
     {
         $this->_account = midcom_core_account::get($this->_person);
 
         $timeframe_minutes = $this->_config->get('password_block_timeframe_min');
+
         if ($timeframe_minutes == 0)
         {
             return false;
         }
-        $timeframe = $timeframe_minutes * 60;
+        $release_time = time() + ($timeframe_minutes * 60);
         $args = array
         (
             'guid' => $this->_person->guid,
@@ -406,14 +407,45 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             'password' => 'account_password',
         );
 
-        $atstat = midcom_services_at_interface::register(time() + $timeframe, 'org.openpsa.user', 'reopen_account', $args);
-        if (!$atstat)
+        $qb = midcom_services_at_entry_dba::new_query_builder();
+        $qb->add_constraint('argumentsstore', '=', serialize($args));
+        $qb->add_constraint('status', '=', MIDCOM_SERVICES_AT_STATUS_SCHEDULED);
+        $results = $qb->execute();
+        if (sizeof($results) > 0)
+        {
+            //the account is already blocked, so we just extend the block's duration
+            $entry = $results[0];
+            $entry->start = $release_time;
+            return $entry->update();
+        }
+
+        if (!midcom_services_at_interface::register($release_time, 'org.openpsa.user', 'reopen_account', $args))
         {
              throw new midcom_error("Failed to register interface for re_open the user account, last Midgard error was: " . midcom_connection::get_error_string());
         }
         $this->_person->set_parameter("org_openpsa_user_blocked_account", "account_password", $this->_account->get_password());
-        $this->_account->set_password('');
+        $this->_account->set_password('', false);
         return $this->_account->save();
+    }
+
+    /**
+     * Reopen a blocked account.
+     *
+     * This will fail if someone set a new password on the account while it was blocked
+     */
+    public function reopen_account()
+    {
+        $account = new midcom_core_account($this->_person);
+        if ($account->get_password())
+        {
+            $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
+            $msg = 'Person with id #' . $this->_person->id . ' does have a password so will not be set to the old one -- Account unblocked';
+            throw new midcom_error($msg);
+        }
+
+        $account->set_password($this->_person->get_parameter('org_openpsa_user_blocked_account', 'account_password'), false);
+        $account->save();
+        $this->_person->set_parameter('org_openpsa_user_blocked_account', 'account_password', "");
     }
 
     /**
@@ -422,19 +454,13 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
      * @param string $username Contains username
      * @param string $new_password Contains the new password to set
      */
-    function set_account($username, $new_password)
+    public function set_account($username, $new_password)
     {
         $this->_account = midcom_core_account::get($this->_person);
         if (!empty($new_password))
         {
             $new_password_encrypted = midcom_connection::prepare_password($new_password);
 
-            $current_password_plaintext = false;
-            //check if password in person is plaintext or not
-            if (preg_match('/^\*{2}/', $this->_account->get_password()))
-            {
-                $current_password_plaintext = true;
-            }
             //check if the new encrypted password was already used
             if (    $this->check_password_reuse($new_password_encrypted)
                  && $this->check_password_strength($new_password))
@@ -469,6 +495,97 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
         $_MIDCOM->auth->drop_sudo();
 
         return true;
+    }
+
+    /**
+     * Helper to determine if an account is blocked based on form data
+     * sent by client
+     */
+    public static function is_blocked($data)
+    {
+        $person = self::_get_person_by_formdata($data);
+        if (!$person)
+        {
+            return false;
+        }
+        $block_param = $person->get_parameter("org_openpsa_user_blocked_account", "account_password");
+        return (!empty($block_param));
+    }
+
+    private static function _get_person_by_formdata($data)
+    {
+        if (   empty($data['username'])
+            || empty($data['password']))
+        {
+            return false;
+        }
+
+        $_MIDCOM->auth->request_sudo('org.openpsa.user');
+        $qb = midcom_db_person::new_query_builder();
+        midcom_core_account::add_username_constraint($qb, '=', $_POST['username']);
+        $results = $qb->execute();
+        $_MIDCOM->auth->drop_sudo();
+
+        if (sizeof($results) != 1)
+        {
+            return false;
+        }
+        return $results[0];
+    }
+
+    /**
+     * Helper function to record failed login attempts and disable account is necessary
+     *
+     * @param array $data The login data sent by the client
+     */
+    public static function check_login_attempts($data)
+    {
+        $person = self::_get_person_by_formdata($data);
+        if (!$person)
+        {
+            return;
+        }
+        //max-attempts allowed & timeframe
+        $max_attempts = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config')->get('max_password_attempts');
+        $timeframe = midcom_baseclasses_components_configuration::get('org.openpsa.user', 'config')->get('password_block_timeframe_min');
+
+        if (   $max_attempts == 0
+            || $timeframe == 0)
+        {
+            return;
+        }
+
+        $_MIDCOM->auth->request_sudo('org.openpsa.user');
+        $attempts = $person->get_parameter("org_openpsa_user_password", "attempts");
+
+        if (!empty($attempts))
+        {
+            $attempts = unserialize($attempts);
+            if (is_array($attempts))
+            {
+                $attempts = array_slice($attempts, 0, ($max_attempts - 1));
+            }
+        }
+        if (!is_array($attempts))
+        {
+            $attempts = array();
+        }
+        array_unshift($attempts, time());
+
+        /*
+         * If the maximum number of attemps is reached and the oldest attempt
+         * on the stack is within our defined timeframe, we block the account
+         */
+        if (   sizeof($attempts) >= $max_attempts
+            && $attempts[0] >= (time() - ($timeframe * 60)))
+        {
+            $helper = new self($person);
+            $helper->disable_account();
+        }
+
+        $attempts = serialize($attempts);
+        $person->set_parameter("org_openpsa_user_password", "attempts", $attempts);
+        $_MIDCOM->auth->drop_sudo();
     }
 }
 ?>

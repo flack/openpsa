@@ -32,20 +32,19 @@ class org_openpsa_user_interface extends midcom_baseclasses_components_interface
             $handler->print_error($msg);
             return false;
         }
-        if (!empty($person->password))
+        $accounthelper = new org_openpsa_user_accounthelper($person);
+        try
         {
-            $person->set_parameter($args['parameter_name'], $args['password'], "");
-            $msg = 'Person with id #' . $person->id . ' does have a password so will not be set to the old one -- Account unblocked';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
+            $accounthelper->reopen_account();
             $_MIDCOM->auth->drop_sudo();
+        }
+        catch (midcom_error $e)
+        {
+            $_MIDCOM->auth->drop_sudo();
+            $e->log();
+            $handler->print_error($e->getMessage());
             return false;
         }
-
-        $person->password = $person->get_parameter($args['parameter_name'], $args['password']);
-        $person->set_parameter($args['parameter_name'], $args['password'], "");
-        $person->update();
-        $_MIDCOM->auth->drop_sudo();
         return true;
     }
 }

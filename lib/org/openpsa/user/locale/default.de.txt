@@ -219,7 +219,7 @@ Das Entsperren gesperrter Objekte ermöglichen
 ---STRINGEND
 
 ---STRING failed to update the user account, reason
-Benutzkonto konnte nicht gespeichert werden, Ursache:
+Benutzkonto konnte nicht gespeichert werden, Ursache
 ---STRINGEND
 
 ---STRING firstname

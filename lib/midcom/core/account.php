@@ -109,15 +109,25 @@ class midcom_core_account
         }
     }
 
-    public function set_password($password)
+    /**
+     * Set the account's password
+     *
+     * @param string $password The password to set
+     * @param boolean $encode Should the password be encoded according to the configured auth type
+     */
+    public function set_password($password, $encode = true)
     {
+        if ($encode)
+        {
+            $password = midcom_connection::prepare_password($password);
+        }
         if ($this->_midgard2)
         {
-            $this->_user->password = midcom_connection::prepare_password($password);
+            $this->_user->password = $password;
         }
         else
         {
-            $this->_person->password = midcom_connection::prepare_password($password);
+            $this->_person->password = $password;
         }
     }
 

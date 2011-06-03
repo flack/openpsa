@@ -141,7 +141,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     public function _handler_edit($handler_id, array $args, array &$data)
     {
-        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
+        $this->_person = new midcom_db_person($args[0]);
 
         midcom::get('auth')->require_do('midgard:update', $this->_person);
         if ($this->_person->id != midcom_connection::get_user())
@@ -212,26 +212,25 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
 
         if (!$check_user)
         {
-            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("wrong current password"), 'error');
+            $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("wrong current password"), 'error');
         }
         //auth ok
         else
         {
+            $password = null;
             //new password?
             if (!empty($fields["new_password"]->value))
             {
-                $this->_account->set_password($fields["new_password"]->value);
+                $password = $fields["new_password"]->value;
             }
-            if ($fields["username"]->value != $this->_account->get_username())
-            {
-                $this->_account->get_username($fields["username"]->value);
-            }
+            $accounthelper = new org_openpsa_user_accounthelper($this->_person);
+
             // Update account
-            $stat = $this->_account->save();
+            $stat = $accounthelper->set_account($fields["username"]->value, $password);
             if (!$stat)
             {
                 // Failure, give a message
-                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.contacts'), $this->_l10n->get("failed to update user account, reason") . midcom_connection::get_error_string(), 'error');
+                $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.user'), $this->_l10n->get("failed to update the user account, reason") . ': ' . midcom_connection::get_error_string(), 'error');
             }
         }
 
@@ -246,7 +245,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
     public function _handler_delete($handler_id, array $args, array &$data)
     {
         // Check if we get the person
-        $this->_person = new org_openpsa_contacts_person_dba($args[0]);
+        $this->_person = new midcom_db_person($args[0]);
         midcom::get('auth')->require_do('midgard:update', $this->_person);
 
         if ($this->_person->id != midcom_connection::get_user())

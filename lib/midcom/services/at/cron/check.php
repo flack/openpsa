@@ -22,7 +22,6 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
     public function _on_execute()
     {
         debug_add('called');
-
         $qb = midcom_services_at_entry_dba::new_query_builder();
         $qb->add_constraint('start', '<=', time());
         $qb->begin_group('OR');
@@ -41,7 +40,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
             return;
         }
         debug_add('Processing results');
-        foreach($qbret as $entry)
+        foreach ($qbret as $entry)
         {
             debug_add("Processing entry #{$entry->id}\n");
             //Avoid double-execute in case of long runs
@@ -69,6 +68,7 @@ class midcom_services_at_cron_check extends midcom_baseclasses_components_cron_h
                 continue;
             }
             $mret = $interface->$method($args, $this);
+
             if ($mret !== true)
             {
                 $error = "\$interface->{$method}(\$args, \$this) returned '{$mret}', errstr: " . midcom_connection::get_error_string();
