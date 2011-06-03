@@ -207,7 +207,10 @@ class org_openpsa_core_grid_widget extends midcom_baseclasses_components_purecod
         {
             echo "var " . $this->_identifier . '_entries = ' . json_encode($entries) . "\n";
             $this->set_option('data', $this->_identifier . '_entries', false);
-            $this->set_option('rowNum', sizeof($entries));
+            if (!array_key_exists('rowNum', $this->_options))
+            {
+                $this->set_option('rowNum', sizeof($entries));
+            }
         }
 
         echo 'jQuery("#' . $this->_identifier . '").jqGrid({';
