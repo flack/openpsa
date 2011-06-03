@@ -107,7 +107,7 @@ class org_openpsa_user_accounthelperTest extends openpsa_testcase
 
         $this->assertTrue($accounthelper->disable_account());
         $account = midcom_core_account::get(self::$_user);
-        $this->assertEquals(midcom_connection::prepare_password(''), $account->get_password());
+        $this->assertEquals('', $account->get_password());
         $this->assertEquals($password, self::$_user->get_parameter('org_openpsa_user_blocked_account', 'account_password'));
 
         $args = array
