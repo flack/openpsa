@@ -160,6 +160,11 @@ class org_openpsa_core_grid_widget extends midcom_baseclasses_components_purecod
         return $this;
     }
 
+    public function add_pager()
+    {
+        $this->set_option('pager', '#p_' . $this->_identifier);
+    }
+
     /**
      * Removes a column
      *

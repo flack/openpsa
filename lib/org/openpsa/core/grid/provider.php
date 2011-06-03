@@ -72,16 +72,26 @@ class org_openpsa_core_grid_provider
         $this->_rows = $rows;
     }
 
+    public function get_rows()
+    {
+        if (is_null($this->_rows))
+        {
+            $this->_get_rows();
+        }
+        return $this->_rows;
+    }
+
     public function render()
     {
         if (is_null($this->_rows))
         {
             $this->_get_rows();
         }
-        else
+        else if (is_null($this->_total_rows))
         {
             $this->_total_rows = count($this->_rows);
         }
+
         $response = array
         (
             'total' => ceil($this->_total_rows / $this->_results_per_page),
