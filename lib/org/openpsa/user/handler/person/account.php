@@ -53,24 +53,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         switch ($data['controller']->process_form())
         {
             case 'save':
-                $account_helper = new org_openpsa_user_accounthelper();
-                $formmanager = $data["controller"]->formmanager;
-                $formdata = $formmanager->get_submit_values();
-                $password = "";
-
-                //take user password?
-                if ((int) $formdata['org_openpsa_user_person_account_password_switch'] > 0)
-                {
-                    $password = $formmanager->_types['password']->value;
-                }
-                $account_helper->create_account
-                (
-                    $args[0], //guid
-                    $formmanager->_types["username"]->value, //username
-                    $this->_person->email, //usermail
-                    $password, //password
-                    $formmanager->_types["send_welcome_mail"]->value //send welcome mail
-                );
+                $this->_master->create_account($this->_person, $data["controller"]->formmanager);
 
             case 'cancel':
                 $_MIDCOM->relocate('view/' . $this->_person->guid . '/');

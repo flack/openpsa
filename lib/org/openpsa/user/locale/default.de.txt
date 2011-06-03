@@ -294,8 +294,8 @@ Offizieller Name
 Passwort
 ---STRINGEND
 
----STRING person %s saved
-Benutzer %s gespeichert
+---STRING person %s created
+Person %s wurde erstellt
 ---STRINGEND
 
 ---STRING postcode

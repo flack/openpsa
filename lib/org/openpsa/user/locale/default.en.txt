@@ -294,7 +294,7 @@ Password
 ---STRINGEND
 
 ---STRING person %s saved
-User %s saved
+Person %s created
 ---STRINGEND
 
 ---STRING postcode
