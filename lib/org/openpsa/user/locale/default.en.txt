@@ -293,6 +293,10 @@ Owner group
 Password
 ---STRINGEND
 
+---STRING password reset, mail sent.
+The password was reset and sent to the profile's email address
+---STRINGEND
+
 ---STRING person %s saved
 Person %s created
 ---STRINGEND

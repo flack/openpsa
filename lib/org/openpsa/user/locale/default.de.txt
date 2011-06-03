@@ -294,6 +294,10 @@ Offizieller Name
 Passwort
 ---STRINGEND
 
+---STRING password reset, mail sent.
+Das Passwort wurde zurckgesetzt und an die hinterlegte E-Mail-Adresse verschickt
+---STRINGEND
+
 ---STRING person %s created
 Person %s wurde erstellt
 ---STRINGEND
