@@ -867,7 +867,6 @@ class midcom_helper_nav_backend
             $id = self::$_nodes[$parent_node][MIDCOM_NAV_OBJECT]->id;
         }
         $mc = midcom_db_topic::new_collector('up', $id);
-        $mc->add_value_property('id');
 
         $mc->add_constraint('name', '<>', '');
 

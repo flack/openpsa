@@ -709,7 +709,6 @@ class midcom_helper_datamanager2_type_tabledata extends midcom_helper_datamanage
                 // Add the constraints
                 $mc->add_constraint('metadata.deleted', '=', 0);
                 $mc->add_constraint($this->link_row_property, '=', $row);
-                $mc->execute();
 
                 $keys = $mc->get_values($column);
 
