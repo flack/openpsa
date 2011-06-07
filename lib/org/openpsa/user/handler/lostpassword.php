@@ -148,7 +148,7 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
      */
     private function _send_reset_mail($person, $password)
     {
-        $from = $this->_config->get('password_reset_mail_sender');
+        $from = $this->_config->get('lostpassword_reset_mail_sender');
         if (! $from)
         {
             $from = $person->email;
@@ -160,8 +160,8 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
             'cc' => '',
             'bcc' => '',
             'x-mailer' => '',
-            'subject' => $this->_config->get('password_reset_mail_subject'),
-            'body' => $this->_config->get('password_reset_mail_body'),
+            'subject' => $this->_config->get('lostpassword_reset_mail_subject'),
+            'body' => $this->_config->get('lostpassword_reset_mail_body'),
             'body_mime_type' => 'text/plain',
             'charset' => 'UTF-8',
         );
