@@ -63,6 +63,15 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $_MIDCOM->auth->drop_sudo();
     }
 
+    public function testGet_parent()
+    {
+        $deliverable = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', array('salesproject' => $this->_salesproject->id));
+        $parent = $deliverable->get_parent();
+        $this->assertEquals($parent->guid, $this->_salesproject->guid);
+        $parent_guid = $deliverable->get_parent_guid_uncached();
+        $this->assertEquals($parent_guid, $this->_salesproject->guid);
+    }
+
     /**
      * @dataProvider providerCalculate_price
      * @depends testCRUD
