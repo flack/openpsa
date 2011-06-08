@@ -23,7 +23,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
     const STATUS_STARTED = 450;
     const STATUS_DELIVERED = 500;
     const STATUS_INVOICED = 600;
-    
+
     /**
      * Combination property containing HTML depiction of the deliverable
      *
