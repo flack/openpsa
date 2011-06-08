@@ -250,6 +250,10 @@ Person
 Persons
 ---STRINGEND
 
+---STRING person_fieldset
+Person
+---STRINGEND
+
 ---STRING phone
 Phone
 ---STRINGEND
