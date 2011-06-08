@@ -51,7 +51,7 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
         $deliverable->description = $product->description;
         $deliverable->supplier = $product->supplier;
 
-        $deliverable->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_NEW;
+        $deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_NEW;
 
         $deliverable->orgOpenpsaObtype = $product->delivery;
 

@@ -368,7 +368,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'plannedUnits' => 17,
                         'pricePerUnit' => 10,
                         'unit' => 'm',
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     ),
                     '_product' => array
                     (
@@ -388,7 +388,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     '_deliverable' => array
                     (
                         'invoiced' => 170,
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     )
                 )
             ),
@@ -411,7 +411,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'units' => 17,
                         'pricePerUnit' => 10,
                         'unit' => 'm',
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     ),
                     '_product' => array
                     (
@@ -432,7 +432,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     '_deliverable' => array
                     (
                         'invoiced' => 170,
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     ),
                     '_task' => array
                     (
@@ -473,7 +473,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'pricePerUnit' => 10,
                         'unit' => 'm',
                         'invoiced' => 170,
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     ),
                     '_product' => array
                     (
@@ -490,7 +490,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     '_deliverable' => array
                     (
                         'invoiced' => 170,
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     ),
                     '_task' => array
                     (
@@ -520,7 +520,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                         'pricePerUnit' => 10,
                         'unit' => 'm',
                         'invoiced' => 170,
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     ),
                     '_task' => array
                     (
@@ -536,7 +536,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
                     '_deliverable' => array
                     (
                         'invoiced' => 270,
-                        'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED
+                        'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED
                     ),
                     'invoice' => array
                     (
@@ -564,7 +564,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
            'plannedUnits' => 15,
            'units' => 10,
            'invoiceByActualUnits' => true,
-           'state' => ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED,
+           'state' => org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED,
            'start' => strtotime('2010-02-02 00:00:00')
         );
         $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $deliverable_attributes);
@@ -586,7 +586,7 @@ class org_openpsa_invoices_schedulerRunTest extends openpsa_testcase
         $this->_deliverable->invoiceByActualUnits = false;
         $this->_deliverable->pricePerUnit = 10;
         $this->_deliverable->plannedUnits = 10;
-        $this->_deliverable->state = ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_STARTED;
+        $this->_deliverable->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_STARTED;
         $this->_deliverable->update();
 
         $scheduler = new org_openpsa_invoices_scheduler($this->_deliverable);

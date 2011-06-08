@@ -55,7 +55,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
 
         // List deliverables related to the sales projects
         $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $deliverable_qb->add_constraint('state', '<>', 'ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED');
+        $deliverable_qb->add_constraint('state', '<>', 'org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED');
         $deliverable_qb->begin_group('OR');
         foreach ($salesprojects as $salesproject)
         {

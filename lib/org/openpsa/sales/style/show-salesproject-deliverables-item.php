@@ -75,7 +75,7 @@ catch (midcom_error $e)
         if (   $data['projects_url']
             && $product
             && $product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
-            && $data['deliverable_object']->state >= ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_ORDERED)
+            && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
         {
             $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}");
             // FIXME: This is a rather ugly hack

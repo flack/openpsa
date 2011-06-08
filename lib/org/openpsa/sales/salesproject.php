@@ -70,7 +70,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
         $deliverable_qb->add_constraint('salesproject', '=', $this->id);
         $deliverable_qb->add_constraint('up', '=', 0);
-        $deliverable_qb->add_constraint('state', '<>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+        $deliverable_qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         $deliverables = $deliverable_qb->execute();
         foreach ($deliverables as $deliverable)
         {
@@ -353,8 +353,8 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->id);
-        $mc->add_constraint('state', '<', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DELIVERED);
-        $mc->add_constraint('state', '<>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+        $mc->add_constraint('state', '<', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DELIVERED);
+        $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         $mc->execute();
 
         if ($mc->count() == 0)
@@ -375,8 +375,8 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
 
         $mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->id);
-        $mc->add_constraint('state', '<', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_INVOICED);
-        $mc->add_constraint('state', '<>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+        $mc->add_constraint('state', '<', org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED);
+        $mc->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         $mc->execute();
 
         if ($mc->count() == 0)

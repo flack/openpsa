@@ -103,7 +103,7 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
             return $this->_create_invoice();
         }
         $deliverable_mc = org_openpsa_sales_salesproject_deliverable_dba::new_collector('salesproject', $this->_deliverable->salesproject);
-        $deliverable_mc->add_constraint('state', '>', ORG_OPENPSA_SALESPROJECT_DELIVERABLE_STATUS_DECLINED);
+        $deliverable_mc->add_constraint('state', '>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         $deliverable_mc->add_constraint('product.delivery', '=', ORG_OPENPSA_PRODUCTS_DELIVERY_SUBSCRIPTION);
         $deliverables = $deliverable_mc->get_values('id');
 
