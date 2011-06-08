@@ -96,7 +96,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
     {
         foreach ($this->_schemadbs as $identifier => $schemadb)
         {
-        	$this->_datamanagers[$identifier] = new midcom_helper_datamanager2_datamanager($schemadb);
+            $this->_datamanagers[$identifier] = new midcom_helper_datamanager2_datamanager($schemadb);
             if (array_key_exists('export', $schemadb))
             {
                 $this->_datamanagers[$identifier]->set_schema('export');
@@ -342,7 +342,7 @@ class org_openpsa_directmarketing_handler_export extends midcom_baseclasses_comp
         }
 
         // Output each row
-        foreach($this->_request_data['export_rows'] as $num => $row)
+        foreach ($this->_request_data['export_rows'] as $num => $row)
         {
             if ($this->membership_mode == 'all')
             {
