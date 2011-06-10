@@ -523,9 +523,9 @@ implements org_openpsa_core_grid_provider_client
     private function _show_invoice_list()
     {
         $this->_request_data['list_type'] = $this->_list_type;
+        $this->_request_data['customer'] = $this->_customer;
         if (count($this->_request_data['invoices']) > 0)
         {
-            $this->_request_data['customer'] = $this->_customer;
             midcom_show_style('show-grid');
         }
     }
