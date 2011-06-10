@@ -24,8 +24,15 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if (   $this->_mode == 'create'
             && count($this->_master->_handler['args']) == 1)
         {
-            // We're creating invoice for chosen company
-            $this->_request_data['customer'] = new org_openpsa_contacts_group_dba($this->_master->_handler['args'][0]);
+            // We're creating invoice for chosen customer
+            try
+            {
+                $this->_request_data['customer'] = new org_openpsa_contacts_group_dba($this->_master->_handler['args'][0]);
+            }
+            catch (midcom_error $e)
+            {
+                $this->_request_data['customer'] = new org_openpsa_contacts_person_dba($this->_master->_handler['args'][0]);
+            }
         }
         $this->_modify_schema();
     }
@@ -52,21 +59,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             if ($this->_object->customerContact)
             {
-                // List customer contact's groups
-                $organizations = array();
-                $member_mc = midcom_db_member::new_collector('uid', $this->_object->customerContact);
-                $groups = $member_mc->get_values('gid');
-                foreach ($groups as $group)
-                {
-                    try
-                    {
-                        $organization = org_openpsa_contacts_group_dba::get_cached($group);
-                        $organizations[$organization->id] = $organization->official;
-                    }
-                    catch (midcom_error $e){}
-                }
-                //Fill the customer field to DM
-                $fields['customer']['type_config']['options'] = $organizations;
+                $this->_populate_schema_customers_for_contact($this->_object->customerContact);
             }
             else if ($this->_object->customer)
             {
@@ -90,7 +83,14 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             if (array_key_exists('customer', $this->_request_data))
             {
-                $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
+                if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_group_dba'))
+                {
+                    $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
+                }
+                else
+                {
+                    $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
+                }
             }
             else if (   $this->_object
                      && $this->_object->customer)
@@ -109,6 +109,28 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $fields['pdf_file']['hidden'] = false;
         }
+    }
+
+    /**
+     * List customer contact's groups
+     */
+    private function _populate_schema_customers_for_contact($contact_id)
+    {
+        $fields =& $this->_schemadb['default']->fields;
+        $organizations = array();
+        $member_mc = midcom_db_member::new_collector('uid', $contact_id);
+        $groups = $member_mc->get_values('gid');
+        foreach ($groups as $group)
+        {
+            try
+            {
+                $organization = org_openpsa_contacts_group_dba::get_cached($group);
+                $organizations[$organization->id] = $organization->official;
+            }
+            catch (midcom_error $e){}
+        }
+        //Fill the customer field to DM
+        $fields['customer']['type_config']['options'] = $organizations;
     }
 
     private function _populate_schema_contacts_for_customer(&$customer)
@@ -168,6 +190,10 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             $dummy->customer = $this->_request_data['customer']->id;
             $this->_defaults['due'] = ($dummy->get_default_due() * 3600 * 24) + time();
             $this->_defaults['vat'] = $dummy->get_default_vat();
+            if (is_a($this->_request_data['customer'], 'org_openpsa_contacts_person_dba'))
+            {
+                $this->_defaults['customerContact'] = $this->_request_data['customer']->id;
+            }
         }
         else
         {
@@ -378,7 +404,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if (   $customer
             && $customer->guid != "")
         {
-            $this->add_breadcrumb("list/customer/all/{$customer->guid}/", $customer->official);
+            $this->add_breadcrumb("list/customer/all/{$customer->guid}/", $customer->get_label());
         }
 
         if ($this->_mode != 'create')

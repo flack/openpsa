@@ -75,7 +75,7 @@ implements org_openpsa_core_grid_provider_client
         $entry['index_number'] = $number;
         $entry['number'] = $link_html;
 
-        if (!$this->_customer)
+        if (!is_a($this->_customer, 'org_openpsa_contacts_group_dba'))
         {
             try
             {
@@ -94,9 +94,12 @@ implements org_openpsa_core_grid_provider_client
                 $entry['customer'] = '';
             }
         }
-        $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
 
-        $entry['contact'] = $customer_card->show_inline();
+        if (!is_a($this->_customer, 'org_openpsa_contacts_person_dba'))
+        {
+            $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
+            $entry['contact'] = $customer_card->show_inline();
+        }
         $entry['index_sum'] = $invoice->sum;
         $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
 
@@ -331,7 +334,6 @@ implements org_openpsa_core_grid_provider_client
         $this->_request_data['list_type'] = 'paid';
         $this->_request_data['grid'] = new org_openpsa_core_grid_widget('paid_invoices_grid', 'json');
         $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
-        $this->_request_data['show_customer'] = true;
 
         midcom_show_style('show-grid-ajax');
     }
@@ -365,7 +367,14 @@ implements org_openpsa_core_grid_provider_client
     {
         if ($this->_customer)
         {
-            $qb->add_constraint('customer', '=', $this->_customer->id);
+            if (is_a($this->_customer, 'org_openpsa_contacts_group_dba'))
+            {
+                $qb->add_constraint('customer', '=', $this->_customer->id);
+            }
+            else
+            {
+                $qb->add_constraint('customerContact', '=', $this->_customer->id);
+            }
         }
     }
 
@@ -383,9 +392,15 @@ implements org_openpsa_core_grid_provider_client
             throw new midcom_error('Incomplete request data');
         }
 
-        // We're creating invoice for chosen company
-        $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
-        $data['customer'] =& $this->_customer;
+        try
+        {
+            $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
+        }
+        catch (midcom_error $e)
+        {
+            $this->_customer = new org_openpsa_contacts_person_dba($args[0]);
+        }
+        $data['customer'] = $this->_customer;
 
         if ($_MIDCOM->auth->can_user_do('midgard:create', null, 'org_openpsa_invoices_invoice_dba'))
         {
@@ -426,14 +441,14 @@ implements org_openpsa_core_grid_provider_client
             (
                 array
                 (
-                    MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . "group/{$this->_request_data['customer']->guid}/",
+                    MIDCOM_TOOLBAR_URL => $this->_request_data['contacts_url'] . (is_a($this->_customer, 'org_openpsa_contacts_group_dba') ? 'group' : 'person') . "/{$this->_request_data['customer']->guid}/",
                     MIDCOM_TOOLBAR_LABEL => $this->_l10n->get('go to customer'),
                     MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/jump-to.png',
                 )
             );
         }
 
-        $title = sprintf($this->_l10n->get('all invoices for customer %s'), $this->_request_data['customer']->official);
+        $title = sprintf($this->_l10n->get('all invoices for customer %s'), $this->_request_data['customer']->get_label());
 
         $_MIDCOM->set_pagetitle($title);
 
@@ -510,13 +525,7 @@ implements org_openpsa_core_grid_provider_client
         $this->_request_data['list_type'] = $this->_list_type;
         if (count($this->_request_data['invoices']) > 0)
         {
-            $show_customer = true;
-            if ($this->_customer)
-            {
-                $show_customer = false;
-            }
-
-            $this->_request_data['show_customer'] = $show_customer;
+            $this->_request_data['customer'] = $this->_customer;
             midcom_show_style('show-grid');
         }
     }

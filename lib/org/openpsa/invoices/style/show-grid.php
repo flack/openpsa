@@ -33,10 +33,14 @@ if (!array_key_exists('deliverable', $data))
     $grid->set_option('caption', $data['list_label']);
 }
 
-$grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string')
-    ->set_column('contact', $data['l10n']->get('customer contact'));
+$grid->set_column('number', $data['l10n']->get('invoice'), 'width: 80, align: "center", fixed: true, classes: "title"', 'string');
 
-if ($data['show_customer'])
+if (!is_a($data['customer'], 'org_openpsa_contacts_person_dba'))
+{
+    $grid->set_column('contact', $data['l10n']->get('customer contact'));
+}
+
+if (!is_a($data['customer'], 'org_openpsa_contacts_group_dba'))
 {
     $grid->set_column('customer', $data['l10n']->get('customer'));
 }
