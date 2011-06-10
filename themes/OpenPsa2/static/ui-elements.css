@@ -65,7 +65,8 @@ div.area .metadata input {
 /* Inline toolbars */
 .area ul.area_toolbar
 {
-    white-space: nowrap
+    white-space: nowrap;
+    margin: .3em 0
 }
 .area ul.area_toolbar li
 {
@@ -377,7 +378,7 @@ form.datamanager2 div.input input.submit,
     border-color: #999 #777 #777 #aaa;
     border-style: solid;
     cursor: pointer;
-    margin-top: .2em;
+    margin: .2em 0 .3em 0;
     text-shadow: 1px 1px 2px white;
     color: #222;
     padding: .1em .4em
