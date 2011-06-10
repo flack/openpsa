@@ -600,6 +600,7 @@ class midcom_helper_head
         {
             $url_prefix = MIDCOM_JQUERY_UI_URL . '/themes/base/jquery.ui.';
             $this->add_stylesheet($url_prefix . 'theme.css');
+            $this->add_stylesheet($url_prefix . 'core.css');
             foreach ($components as $component)
             {
                 $this->add_stylesheet($url_prefix . $component . '.css');
