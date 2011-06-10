@@ -92,7 +92,7 @@ class org_openpsa_core_ui extends midcom_baseclasses_components_purecode
         $head->add_jsfile(MIDCOM_STATIC_URL . '/org.openpsa.core/tab_functions.js');
 
         //add the needed css-files
-        $head->add_jquery_ui_theme();
+        $head->add_jquery_ui_theme(array('tabs'));
     }
 
     /**
