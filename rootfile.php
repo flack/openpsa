@@ -1,25 +1,66 @@
 <?php
+$GLOBALS['midcom_config_local'] = array();
+
 // Check that the environment is a working one
-if (!extension_loaded('midgard2'))
+if (extension_loaded('midgard2'))
 {
-    throw new Exception("OpenPSA requires Midgard2 PHP extension to run");
+    if (!ini_get('midgard.superglobals_compat'))
+    {
+        throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
+    }
+    if (!class_exists('midgard_topic'))
+    {
+        throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
+    }
+
+    // Initialize the $_MIDGARD superglobal
+    $_MIDGARD = array
+    (
+        'argv' => array(),
+
+        'user' => 0,
+        'admin' => false,
+        'root' => false,
+
+        'auth' => false,
+        'cookieauth' => false,
+
+        // General host setup
+        'page' => 0,
+        'debug' => false,
+
+        'host' => 0,
+        'style' => 0,
+        'author' => 0,
+        'config' => array
+        (
+            'prefix' => '',
+            'quota' => false,
+            'unique_host_name' => 'openpsa',
+            'auth_cookie_id' => 1,
+        ),
+
+        'schema' => array
+        (
+            'types' => array(),
+        ),
+    );
+
+    $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
+
+    // Workaround for https://github.com/midgardproject/midgard-php5/issues/49
+    if (!midgard_connection::get_instance()->is_connected())
+    {
+        $config = new midgard_config();
+        $config->read_file_at_path(ini_get('midgard.configuration_file'));
+        midgard_connection::get_instance()->open_config($config);
+    }
 }
-if (!ini_get('midgard.superglobals_compat'))
+else if (!extension_loaded('midgard'))
 {
-    throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
-}
-if (!class_exists('midgard_topic'))
-{
-    throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
+    throw new Exception("OpenPSA requires Midgard PHP extension to run");
 }
 
-// Workaround for https://github.com/midgardproject/midgard-php5/issues/49
-if (!midgard_connection::get_instance()->is_connected())
-{
-    $config = new midgard_config();
-    $config->read_file_at_path(ini_get('midgard.configuration_file'));
-    midgard_connection::get_instance()->open_config($config);
-}
 
 ini_set('memory_limit', '68M');
 
@@ -29,43 +70,6 @@ define('OPENPSA2_PREFIX', dirname($_SERVER['SCRIPT_NAME']));
 
 header('Content-Type: text/html; charset=utf-8');
 
-// Initialize the $_MIDGARD superglobal
-$_MIDGARD = array
-(
-    'argv' => array(),
-
-    'user' => 0,
-    'admin' => false,
-    'root' => false,
-
-    'auth' => false,
-    'cookieauth' => false,
-
-    // General host setup
-    'page' => 0,
-    'debug' => false,
-
-    'host' => 0,
-    'style' => 0,
-    'author' => 0,
-    'config' => array
-    (
-        'prefix' => '',
-        'quota' => false,
-        'unique_host_name' => 'openpsa',
-        'auth_cookie_id' => 1,
-    ),
-
-    'schema' => array
-    (
-        'types' => array(),
-    ),
-);
-
-$_MIDGARD_CONNECTION =& midgard_connection::get_instance();
-
-$GLOBALS['midcom_config_local'] = array();
-$GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 
 if (file_exists(MIDCOM_ROOT . '/../config.inc.php'))
