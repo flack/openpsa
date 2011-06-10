@@ -13,6 +13,14 @@ if (!class_exists('midgard_topic'))
     throw new Exception('You need to install OpenPSA MgdSchemas from the "schemas" directory to the Midgard2 schema directory');
 }
 
+// Workaround for https://github.com/midgardproject/midgard-php5/issues/49
+if (!midgard_connection::get_instance()->is_connected())
+{
+    $config = new midgard_config();
+    $config->read_file_at_path(ini_get('midgard.configuration_file'));
+    midgard_connection::get_instance()->open_config($config);
+}
+
 ini_set('memory_limit', '68M');
 
 // Path to the MidCOM environment
