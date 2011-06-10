@@ -250,13 +250,20 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
             $categories_qb->add_constraint('up', '=', $groups[0]->id);
             $categories = $categories_qb->execute();
             $categories_in = array();
+
             if (count($categories) == 0)
             {
                 /* No matching categories belonging to this group
                  * So we can search for the application using only
                  * this group id
                  */
-                $qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
+                //Commented out for now because of http://trac.midgard-project.org/ticket/1976
+                //$qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
+                //workaround:
+                $qb->begin_group('OR');
+                $qb->add_constraint('productGroup.up', 'INTREE', $groups[0]->id);
+                $qb->add_constraint('productGroup', '=', $groups[0]->id);
+                $qb->end_group();
             }
             else
             {

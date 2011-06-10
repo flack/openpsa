@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Schema xmlns="http://www.midgard-project.org/repligard/1.4">
-    <type name="org_openpsa_products_product" table="org_openpsa_products_product" parent="org_openpsa_products_product_group" parentfield="productGroup">
+    <type name="org_openpsa_products_product" table="org_openpsa_products_product" parent="org_openpsa_products_product_group" >
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
@@ -35,7 +35,7 @@
         <!-- /Common OpenPSA properties -->
     </type>
 
-    <type name="org_openpsa_products_product_group" table="org_openpsa_products_product_group" upfield="up">
+    <type name="org_openpsa_products_product_group" table="org_openpsa_products_product_group">
         <property name="id" type="unsigned integer" primaryfield="id">
             <description>Local non-replication-safe database identifier</description>
         </property>
