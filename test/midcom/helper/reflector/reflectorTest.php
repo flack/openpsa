@@ -84,7 +84,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             2 => array('org_openpsa_sales_salesproject_dba', array('title' => 'Test Article'), 'Test Article'),
             3 => array('midgard_topic', array('extra' => 'Test Topic'), 'Test Topic'),
             4 => array('midcom_db_snippet', array('name' => 'Test Snippet'), 'Test Snippet'),
-            5 => array('org_openpsa_role', array('guid' => ''), ''),
+            5 => array('org_openpsa_role', array(), ''),
             6 => array('midcom_db_person', array('firstname' => 'Firstname', 'lastname' => 'Lastname'), 'Lastname, Firstname'),
             7 => array('org_openpsa_contacts_person_dba', array('username' => 'test username'), 'test username'),
         );
@@ -111,7 +111,7 @@ class midcom_helper_reflector_reflectorTest extends openpsa_testcase
             1 => array('org_openpsa_projects_project', array('title' => 'Project Title'), 'Project Title'),
             2 => array('org_openpsa_sales_salesproject_dba', array('title' => 'Test Article'), 'Test Article'),
             3 => array('midgard_topic', array('extra' => 'Test Topic'), 'Test Topic'),
-            4 => array('org_openpsa_role', array('guid' => ''), ''),
+            4 => array('org_openpsa_role', array(), ''),
         );
     }
 

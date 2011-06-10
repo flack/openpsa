@@ -360,6 +360,7 @@ class midcom_services_dbclassloader
                     break;
                 case 'org.openpsa.organization':
                 case 'org.openpsa.person':
+                case 'org.openpsa.role':
                     $component = 'org.openpsa.contacts';
                     break;
                 case 'org.openpsa.salesproject':
