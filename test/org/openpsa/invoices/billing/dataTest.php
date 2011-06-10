@@ -37,7 +37,7 @@ class org_openpsa_invoices_invoice_billing_dataTest extends openpsa_testcase
         $data->linkGuid = self::$_contact->guid;
         $data->useContactAddress = true;
         $stat = $data->create();
-        $this->assertTrue($stat);
+        $this->assertTrue($stat, midcom_connection::get_error_string());
         $this->register_object($data);
 
         $parent = $data->get_parent();
