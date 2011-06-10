@@ -83,6 +83,11 @@ if (! defined('MIDCOM_STATIC_URL'))
     define('MIDCOM_STATIC_URL', '/openpsa2-static');
 }
 
+if (file_exists(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php'))
+{
+    include(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['theme'] . '/config.inc.php');
+}
+
 // Include the MidCOM environment for running OpenPSA
 require(MIDCOM_ROOT . '/midcom.php');
 
