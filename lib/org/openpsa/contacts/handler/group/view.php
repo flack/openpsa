@@ -66,7 +66,7 @@ implements midcom_helper_datamanager2_interfaces_view
 
         // This handler uses Ajax, include the handler javascripts
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
-        org_openpsa_core_ui::enable_ui_tab();
+        org_openpsa_widgets_ui::enable_ui_tab();
 
         $_MIDCOM->set_pagetitle($this->_group->official);
 

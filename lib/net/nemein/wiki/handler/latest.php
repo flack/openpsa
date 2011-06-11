@@ -112,6 +112,7 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
         $_MIDCOM->set_pagetitle($data['view_title']);
 
         $this->add_breadcrumb('latest/', $data['view_title']);
+        org_openpsa_widgets_contact::add_head_elements();
     }
 
     /**
@@ -121,7 +122,6 @@ class net_nemein_wiki_handler_latest extends midcom_baseclasses_components_handl
      */
     public function _show_latest($handler_id, array &$data)
     {
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
         $data['wikiname'] = $this->_topic->extra;
         if (count($data['latest_pages']) > 0)
         {

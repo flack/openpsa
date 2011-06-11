@@ -35,7 +35,7 @@
         'midcom.helper.datamanager2' => array(),
         'org.openpsa.core' => array(),
         'org.openpsa.helpers' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.openpsa.qbpager' => array(),
         'org.openpsa.relatedto' => array(),
         'org.openpsa.notifications' => array(),

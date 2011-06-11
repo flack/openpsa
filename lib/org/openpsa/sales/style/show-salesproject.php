@@ -11,7 +11,7 @@ $salesproject = $data['salesproject'];
         $contacts = $data['salesproject']->contacts;
         foreach ($contacts as $contact_id => $active)
         {
-            $person_card = org_openpsa_contactwidget::get($contact_id);
+            $person_card = org_openpsa_widgets_contact::get($contact_id);
             $person_card->show();
         }
         ?>
@@ -49,7 +49,7 @@ $salesproject = $data['salesproject'];
      <td><?php echo org_openpsa_helpers::format_number($view['profit']); ?></td>
     </tr>
     <?php
-     $owner_card = org_openpsa_contactwidget::get($salesproject->owner);
+     $owner_card = org_openpsa_widgets_contact::get($salesproject->owner);
     ?>
     <tr>
      <th><?php echo $data['l10n']->get('owner'); ?></th>

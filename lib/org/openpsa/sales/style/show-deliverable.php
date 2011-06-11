@@ -28,7 +28,7 @@ catch (midcom_error $e)
             $contacts = $data['salesproject']->contacts;
             foreach ($contacts as $contact_id => $active)
             {
-                $person_card = org_openpsa_contactwidget::get($contact_id);
+                $person_card = org_openpsa_widgets_contact::get($contact_id);
                 $person_card->show();
             }
             ?>
@@ -184,7 +184,7 @@ catch (midcom_error $e)
             );
         }
     }
-    org_openpsa_core_ui::render_tabs($data['deliverable']->guid, $tabs);
+    org_openpsa_widgets_ui::render_tabs($data['deliverable']->guid, $tabs);
     ?>
     </div>
 </div>

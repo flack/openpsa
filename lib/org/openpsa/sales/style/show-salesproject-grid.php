@@ -57,7 +57,7 @@ foreach ($data['salesprojects'] as $salesproject)
     {
         $owner = $data['owners'][$salesproject->owner];
 
-        $owner_widget = org_openpsa_contactwidget::get($salesproject->owner);
+        $owner_widget = org_openpsa_widgets_contact::get($salesproject->owner);
         $row['index_owner'] = $owner->rname;
         $row['owner'] = $owner_widget->show_inline();
     }

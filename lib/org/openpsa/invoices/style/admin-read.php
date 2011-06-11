@@ -21,7 +21,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
         if ($invoice->customerContact)
         {
             echo "<h2>" . $data['l10n']->get('customer contact') . "</h2>\n";
-            $contact = org_openpsa_contactwidget::get($invoice->customerContact);
+            $contact = org_openpsa_widgets_contact::get($invoice->customerContact);
             echo $contact->show();
         }
         if ($customer)
@@ -59,7 +59,7 @@ $contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
     if ($invoice->owner)
     {
         echo "<p><strong>" . $data['l10n_midcom']->get('owner') . ": </strong>\n";
-        $owner_card = org_openpsa_contactwidget::get($invoice->owner);
+        $owner_card = org_openpsa_widgets_contact::get($invoice->owner);
         echo $owner_card->show_inline() . "</p>\n";
     }
 
@@ -171,7 +171,7 @@ if (    isset($data['sorted_reports'])
             continue;
         }
 
-        $reporter_card = org_openpsa_contactwidget::get($report->person);
+        $reporter_card = org_openpsa_widgets_contact::get($report->person);
 
         $approved_img_src = MIDCOM_STATIC_URL . '/stock-icons/16x16/';
         if ($report->is_approved())

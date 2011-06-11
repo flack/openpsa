@@ -500,7 +500,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
         echo '                    <li class="time">' . strftime('%x', $other_obj->metadata->created) . "</li>\n";
         // Author
         echo "                    <li class=\"members\">" . $_MIDCOM->i18n->get_string('sender', 'net.nemein.wiki') . ": ";
-        $author_card = org_openpsa_contactwidget::get($other_obj->metadata->creator);
+        $author_card = org_openpsa_widgets_contact::get($other_obj->metadata->creator);
         echo $author_card->show_inline()." ";
         echo "                    </li>\n";
         // Recipients
@@ -542,7 +542,7 @@ class org_openpsa_relatedto_handler_relatedto extends midcom_baseclasses_compone
             {
                 continue;
             }
-            $recipient_card = new org_openpsa_contactwidget($recipient);
+            $recipient_card = new org_openpsa_widgets_contact($recipient);
             echo $recipient_card->show_inline() . " ";
         }
         $other_emails = $page->listparameters('net.nemein.wiki:emailimport_recipients');

@@ -29,7 +29,7 @@ $node = $nap->get_node($nap->get_current_node());
     if ($project->manager)
     {
         echo "<h2>" . $data['l10n']->get('manager') . "</h2>\n";
-        $contact = org_openpsa_contactwidget::get($project->manager);
+        $contact = org_openpsa_widgets_contact::get($project->manager);
         echo $contact->show_inline();
     }
     else if (count($project->resources) > 0)
@@ -37,7 +37,7 @@ $node = $nap->get_node($nap->get_current_node());
         echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
         foreach ($project->resources as $contact_id => $display)
         {
-            $contact = org_openpsa_contactwidget::get($contact_id);
+            $contact = org_openpsa_widgets_contact::get($contact_id);
             echo $contact->show_inline() . " ";
         }
     }
@@ -47,7 +47,7 @@ $node = $nap->get_node($nap->get_current_node());
         echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
         foreach ($project->contacts as $contact_id => $display)
         {
-            $contact = org_openpsa_contactwidget::get($contact_id);
+            $contact = org_openpsa_widgets_contact::get($contact_id);
             echo $contact->show();
         }
     }

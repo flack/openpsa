@@ -3,7 +3,7 @@ $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 
 // Display the member
-$contact = new org_openpsa_contactwidget($data['person']);
+$contact = new org_openpsa_widgets_contact($data['person']);
 $contact->link = "{$node[MIDCOM_NAV_FULLURL]}person/{$data['person']->guid}/";
 $contact->show_groups = false;
 

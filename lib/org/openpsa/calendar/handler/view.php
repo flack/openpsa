@@ -23,7 +23,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
     /**
      * The calendar widget we're working on
      *
-     * @var org_openpsa_calendarwidget
+     * @var org_openpsa_widgets_calendar
      */
     private $_calendar = null;
 
@@ -48,7 +48,7 @@ class org_openpsa_calendar_handler_view extends midcom_baseclasses_components_ha
      */
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('org.openpsa.calendarwidget');
+        org_openpsa_widgets_calendar::add_head_elements();
         $_MIDCOM->load_library('midcom.helper.datamanager2');
         // Load schema database
         $schemadb = midcom_helper_datamanager2_schema::load_database($this->_config->get('schemadb'));
@@ -456,8 +456,8 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $this->_generate_date($args);
 
         // Instantiate calendar widget
-        $this->_calendar = new org_openpsa_calendarwidget(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
-        $this->_calendar->type = ORG_OPENPSA_CALENDARWIDGET_MONTH;
+        $this->_calendar = new org_openpsa_widgets_calendar(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
+        $this->_calendar->type = org_openpsa_widgets_calendar::MONTH;
         $this->_calendar->cell_height = 100;
         $this->_calendar->column_width = 60;
 
@@ -542,7 +542,7 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $this->_generate_date($args);
 
         // Instantiate calendar widget
-        $this->_calendar = new org_openpsa_calendarwidget(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
+        $this->_calendar = new org_openpsa_widgets_calendar(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
 
         // Slots are 2 hours long
         $this->_calendar->calendar_slot_length = $this->_config->get('week_slot_length') * 60;
@@ -632,8 +632,8 @@ org_openpsa_calendar_prefix = "' . $prefix . $path . '";
         $this->_generate_date($args);
 
         // Instantiate calendar widget
-        $this->_calendar = new org_openpsa_calendarwidget(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
-        $this->_calendar->type = ORG_OPENPSA_CALENDARWIDGET_DAY;
+        $this->_calendar = new org_openpsa_widgets_calendar(date('Y', $this->_selected_time), date('m', $this->_selected_time), date('d', $this->_selected_time));
+        $this->_calendar->type = org_openpsa_widgets_calendar::DAY;
 
         // Slots are 2 hours long
         $this->_calendar->calendar_slot_length = $this->_config->get('day_slot_length') * 60;

@@ -21,7 +21,7 @@
 
             $link_html = "<a href='" . $data['url_prefix'] . "edit/" . $entry->guid ."/'>";
             $link_html .= "<span >" . $entry->title . "</span></a>";
-            $row['name'] = $link_html; 
+            $row['name'] = $link_html;
 
             if ($entry->followUp == 0)
             {
@@ -36,7 +36,7 @@
             {
                 $creator = org_openpsa_contacts_person_dba::get_cached($entry->metadata->creator);
                 $row['creator_index'] = $creator->rname;
-                $creator_card = org_openpsa_contactwidget::get($entry->metadata->creator);
+                $creator_card = org_openpsa_widgets_contact::get($entry->metadata->creator);
                 $row['creator'] = $creator_card->show_inline();
             }
             catch (midcom_error $e)

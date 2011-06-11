@@ -1,0 +1,19 @@
+---# MidCOM String Database
+---VERSION 2.1.0
+---LANGUAGE en
+
+---STRING loading
+Loading
+---STRINGEND
+
+---STRING no person
+No person
+---STRINGEND
+
+---STRING time
+Time
+---STRINGEND
+
+---STRING week
+Week
+---STRINGEND

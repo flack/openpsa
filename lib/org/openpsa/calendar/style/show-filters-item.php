@@ -1,6 +1,6 @@
 <?php
 // Display the member
-$contact = new org_openpsa_contactwidget($data['person']);
+$contact = new org_openpsa_widgets_contact($data['person']);
 $contact->show_groups = false;
 
 $checked = '';

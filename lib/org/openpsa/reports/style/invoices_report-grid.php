@@ -79,7 +79,7 @@ foreach ($data['invoices'] as $invoice)
     {
         $contact = org_openpsa_contacts_person_dba::get_cached($invoice->customerContact);
         $entry['index_contact'] = $contact->rname;
-        $contact_card = org_openpsa_contactwidget::get($invoice->customerContact);
+        $contact_card = org_openpsa_widgets_contact::get($invoice->customerContact);
         $entry['contact'] = $contact_card->show_inline();
     }
     catch (midcom_error $e){}

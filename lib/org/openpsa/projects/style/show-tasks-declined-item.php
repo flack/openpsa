@@ -23,7 +23,7 @@ if ( count($task->resources) > 0)
     $resources_string = '';
     foreach ($task->resources as $id => $boolean)
     {
-        $contact = org_openpsa_contactwidget::get($id);
+        $contact = org_openpsa_widgets_contact::get($id);
         $resources_string .= ' ' . $contact->show_inline();
     }
     echo sprintf($data['l10n']->get("declined by %s"), $resources_string);

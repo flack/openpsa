@@ -118,7 +118,7 @@ class org_openpsa_contacts_handler_person_view extends midcom_baseclasses_compon
         // This handler uses Ajax, include the javascript
         $_MIDCOM->add_jsfile(MIDCOM_STATIC_URL . "/org.openpsa.helpers/ajaxutils.js");
         //enable ui_tab
-        org_openpsa_core_ui::enable_ui_tab();
+        org_openpsa_widgets_ui::enable_ui_tab();
 
         $this->_populate_toolbar($handler_id);
         $_MIDCOM->bind_view_to_object($this->_contact, $this->_controller->datamanager->schema->name);

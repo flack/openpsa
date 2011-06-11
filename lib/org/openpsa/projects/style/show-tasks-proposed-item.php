@@ -4,7 +4,7 @@ $task =& $data['task'];
 echo "<tr class=\"{$data['class']}\">\n<td class='multivalue'>\n<a class='celltitle' href=\"{$prefix}task/{$task->guid}/\">{$task->title}</a>\n";
 if ($task->manager)
 {
-    $contact = org_openpsa_contactwidget::get($task->manager);
+    $contact = org_openpsa_widgets_contact::get($task->manager);
     echo sprintf($data['l10n']->get("from %s"), $contact->show_inline());
 }
 $task->get_members();

@@ -44,7 +44,7 @@
     'dependencies' => array
     (
         'midcom.helper.datamanager2' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'org.openpsa.contacts' => array(),
         'org.openpsa.projects' => array(),
         'org.openpsa.relatedto' => array(),

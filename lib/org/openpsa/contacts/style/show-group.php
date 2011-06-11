@@ -75,7 +75,7 @@ $addresses = array();
         echo $data['billing_data']->due . "</div>\n";
         $data['billing_data']->render_address();
     }
-    org_openpsa_contactwidget::show_address_card($data['group'], array('visiting', 'postal'));
+    org_openpsa_widgets_contact::show_address_card($data['group'], array('visiting', 'postal'));
 
     echo '<br style="clear:left" />';
 
@@ -93,6 +93,6 @@ $addresses = array();
             'title' => $_MIDCOM->i18n->get_string('invoices', 'org.openpsa.invoices'),
         );
     }
-    org_openpsa_core_ui::render_tabs($data['group']->guid, $tabs);
+    org_openpsa_widgets_ui::render_tabs($data['group']->guid, $tabs);
     ?>
 </div>

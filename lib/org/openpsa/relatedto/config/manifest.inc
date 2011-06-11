@@ -56,7 +56,7 @@
     'dependencies' => array
     (
         'org.openpsa.helpers' => array(),
-        'org.openpsa.contactwidget' => array(),
+        'org.openpsa.widgets' => array(),
         'midcom' => array(),
     ),
 ),

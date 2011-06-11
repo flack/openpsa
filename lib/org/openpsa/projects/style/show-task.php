@@ -34,7 +34,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
         if ($task->manager)
         {
             echo "<h2>" . $data['l10n']->get('manager') . "</h2>\n";
-            $contact = org_openpsa_contactwidget::get($task->manager);
+            $contact = org_openpsa_widgets_contact::get($task->manager);
             echo $contact->show_inline();
         }
 
@@ -58,7 +58,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             echo "<h2>" . $data['l10n']->get('resources') . "</h2>\n";
             foreach ($task->resources as $contact_id => $display)
             {
-                $contact = org_openpsa_contactwidget::get($contact_id);
+                $contact = org_openpsa_widgets_contact::get($contact_id);
                 echo $contact->show_inline() . " ";
             }
         }
@@ -68,7 +68,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             echo "<h2>" . $data['l10n']->get('contacts') . "</h2>\n";
             foreach ($task->contacts as $contact_id => $display)
             {
-                $contact = org_openpsa_contactwidget::get($contact_id);
+                $contact = org_openpsa_widgets_contact::get($contact_id);
                 echo $contact->show();
             }
         }
@@ -101,13 +101,13 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
             if (    $status_change->metadata->creator
                  && $status_change->metadata->creator != $fallback_creator->guid)
             {
-                $status_changer = org_openpsa_contactwidget::get($status_change->metadata->creator);
+                $status_changer = org_openpsa_widgets_contact::get($status_change->metadata->creator);
                 $status_changer_label = $status_changer->show_inline();
             }
 
             if ($status_change->targetPerson)
             {
-                $target_person = org_openpsa_contactwidget::get($status_change->targetPerson);
+                $target_person = org_openpsa_widgets_contact::get($status_change->targetPerson);
                 $target_person_label = $target_person->show_inline();
             }
 
@@ -169,7 +169,7 @@ $expenses_url = $siteconfig->get_node_relative_url('org.openpsa.expenses');
                     echo " (";
                     foreach ($booking->participants as $participant_id => $display)
                     {
-                        $participant = org_openpsa_contactwidget::get($participant_id);
+                        $participant = org_openpsa_widgets_contact::get($participant_id);
                         echo $participant->show_inline();
                     }
                     echo ")</li>\n";

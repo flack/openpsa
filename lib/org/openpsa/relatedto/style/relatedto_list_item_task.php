@@ -16,7 +16,7 @@ $task =& $data['other_obj'];
     $task->get_members();
     foreach ($task->resources as $resource_id => $confirmed)
     {
-        $resource_card = org_openpsa_contactwidget::get($resource_id);
+        $resource_card = org_openpsa_widgets_contact::get($resource_id);
         echo $resource_card->show_inline() . " ";
     }
     echo "</li>\n";
@@ -26,6 +26,6 @@ $task =& $data['other_obj'];
  </div>
 <?php
     //TODO: necessary JS stuff to load details (which should in turn include the tasks own relatedtos) via AHAH
-    org_openpsa_relatedto_handler_relatedto::render_line_controls($link, $data['other_obj']); 
+    org_openpsa_relatedto_handler_relatedto::render_line_controls($link, $data['other_obj']);
 ?>
 </li>

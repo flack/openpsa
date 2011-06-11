@@ -51,8 +51,6 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     {
         $_MIDCOM->auth->require_valid_user();
 
-        $_MIDCOM->componentloader->load('org.openpsa.contactwidget');
-
         // List hours
         $qb = $this->_prepare_qb();
 
@@ -144,8 +142,9 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $data['mode'] =& $mode;
         $data['tasks'] =& $this->tasks;
 
-        org_openpsa_core_grid_widget::add_head_elements();
+        org_openpsa_widgets_grid::add_head_elements();
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
+        org_openpsa_widgets_contact::add_head_elements();
         $this->_add_filter_widget();
 
         $_MIDCOM->set_pagetitle($data['view_title']);
@@ -185,7 +184,7 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
                 try
                 {
                     $reporter = new midcom_db_person($report->person);
-                    $reporter_card = new org_openpsa_contactwidget($reporter);
+                    $reporter_card = new org_openpsa_widgets_contact($reporter);
                     $this->reporters[$report->person] = $reporter_card->show_inline();
                 }
                 catch (midcom_error $e)

@@ -1,6 +1,5 @@
 <?php
-$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-$contact = new org_openpsa_contactwidget($data['person']);
+$contact = new org_openpsa_widgets_contact($data['person']);
 ?>
 <div class="main">
     <h1><?php echo sprintf($data['l10n']->get('interview %s for "%s"'), $data['person']->name, $data['campaign']->title); ?></h1>

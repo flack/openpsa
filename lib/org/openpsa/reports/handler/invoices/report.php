@@ -15,7 +15,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
 {
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('org.openpsa.contactwidget');
+        org_openpsa_widgets_contact::add_head_elements();
         $this->module = 'invoices';
         $this->_initialize_datamanager();
     }
@@ -51,7 +51,7 @@ class org_openpsa_reports_handler_invoices_report extends org_openpsa_reports_ha
             $data['invoices'][$status] = $this->_load_invoices($status);
         }
 
-        org_openpsa_core_grid_widget::add_head_elements();
+        org_openpsa_widgets_grid::add_head_elements();
     }
 
     private function _get_invoices_for_subscription($deliverable, $at_entry)

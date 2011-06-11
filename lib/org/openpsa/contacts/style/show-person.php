@@ -36,6 +36,6 @@ $node = $nap->get_node($nap->get_current_node());
             );
         }
     }
-    org_openpsa_core_ui::render_tabs($data['person']->guid, $tabs);
+    org_openpsa_widgets_ui::render_tabs($data['person']->guid, $tabs);
 ?>
 </div>

@@ -3,11 +3,11 @@ $nap = new midcom_helper_nav();
 $node = $nap->get_node($nap->get_current_node());
 
 // Display the persons
-$contact1 = new org_openpsa_contactwidget($data['person1']);
+$contact1 = new org_openpsa_widgets_contact($data['person1']);
 $contact1->link = "{$node[MIDCOM_NAV_FULLURL]}person/{$data['person1']->guid}/";
 $contact1->show_groups = false;
 
-$contact2 = new org_openpsa_contactwidget($data['person2']);
+$contact2 = new org_openpsa_widgets_contact($data['person2']);
 $contact2->link = "{$node[MIDCOM_NAV_FULLURL]}person/{$data['person2']->guid}/";
 $contact2->show_groups = false;
 ?>

@@ -593,7 +593,7 @@ input#org_openpsa_search_query
     cursor: pointer
 }
 
-#org_openpsa_calendar_calendarwidget
+#org_openpsa_widgets_calendar
 {
     position: absolute;
     z-index: 101;

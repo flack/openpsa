@@ -148,7 +148,6 @@ implements midcom_helper_datamanager2_interfaces_edit
                 if (count($results) > 0)
                 {
                     midcom_show_style("show-group-persons-header");
-                    $_MIDCOM->load_library('org.openpsa.contactwidget');
                     foreach ($results as $member)
                     {
                         $this->_request_data['member'] = $member;

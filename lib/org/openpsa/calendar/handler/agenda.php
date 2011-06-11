@@ -15,7 +15,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
 {
     public function _on_initialize()
     {
-        $_MIDCOM->load_library('org.openpsa.calendarwidget');
+        org_openpsa_widgets_calendar::add_head_elements();
     }
 
     /**
@@ -33,8 +33,8 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
         }
 
         // Use calendarwidget for time calculations
-        $this->_request_data['calendar'] = new org_openpsa_calendarwidget(date('Y', $requested_time), date('m', $requested_time), date('d', $requested_time));
-        $this->_request_data['calendar']->type = ORG_OPENPSA_CALENDARWIDGET_DAY;
+        $this->_request_data['calendar'] = new org_openpsa_widgets_calendar(date('Y', $requested_time), date('m', $requested_time), date('d', $requested_time));
+        $this->_request_data['calendar']->type = org_openpsa_widgets_calendar::DAY;
 
         $from = $this->_request_data['calendar']->get_day_start();
         $to = $this->_request_data['calendar']->get_day_end();

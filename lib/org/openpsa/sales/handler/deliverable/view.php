@@ -96,7 +96,7 @@ class org_openpsa_sales_handler_deliverable_view extends midcom_baseclasses_comp
         $_MIDCOM->bind_view_to_object($this->_deliverable);
 
         $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
-        org_openpsa_core_ui::enable_ui_tab();
+        org_openpsa_widgets_ui::enable_ui_tab();
 
         $_MIDCOM->set_26_request_metadata($this->_deliverable->metadata->revised, $this->_deliverable->guid);
         $_MIDCOM->set_pagetitle("{$this->_salesproject->title}: {$this->_deliverable->title}");

@@ -93,7 +93,7 @@ foreach ($data['directories'] as $directory)
     echo "<cell></cell>";
 
     //creator_index/creator , last modified , filesize
-    $creator = org_openpsa_contactwidget::get($directory->metadata->creator);
+    $creator = org_openpsa_widgets_contact::get($directory->metadata->creator);
     echo "<cell>" . $creator->contact_details['lastname'] . ", " . $creator->contact_details['firstname'] . "</cell>";
     echo "<cell><![CDATA[<span class='jqgrid_person'>" . $creator->show_inline() . "</span>]]></cell>";
     echo "<cell> " . $directory->metadata->revised . "</cell>";
@@ -142,11 +142,11 @@ foreach ($data['documents'] as $document)
     //set contact-widget
     if (empty($document->author))
     {
-        $author = org_openpsa_contactwidget::get($document->metadata->creator);
+        $author = org_openpsa_widgets_contact::get($document->metadata->creator);
     }
     else
     {
-        $author = org_openpsa_contactwidget::get($document->author);
+        $author = org_openpsa_widgets_contact::get($document->author);
     }
     // creator_index, creator-vcard & revised date
     echo "<cell>" . $author->contact_details['lastname'] . ", " . $author->contact_details['firstname'] . "</cell>";

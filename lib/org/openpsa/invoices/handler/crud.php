@@ -216,7 +216,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         if ($this->_mode == 'read')
         {
             $this->_count_invoice_hours();
-            org_openpsa_core_grid_widget::add_head_elements();
+            org_openpsa_widgets_grid::add_head_elements();
 
             $this->add_stylesheet(MIDCOM_STATIC_URL . "/org.openpsa.core/list.css");
         }

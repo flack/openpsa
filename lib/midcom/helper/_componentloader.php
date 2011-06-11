@@ -776,7 +776,6 @@ class midcom_helper__componentloader
             return false;
         }
 
-        // This is the list as agreed in Midgard Gathering 2008-11-08
         $core_components = array
         (
             'de.bitfolge.feedcreator',
@@ -803,8 +802,7 @@ class midcom_helper__componentloader
             'net.nemein.rss',
             'net.nemein.tag',
             'no.bergfald.rcs',
-            'org.openpsa.calendarwidget',
-            'org.openpsa.contactwidget',
+            'org.openpsa.widgets',
             'org.openpsa.httplib',
             'org.openpsa.mail',
             'org.openpsa.qbpager',

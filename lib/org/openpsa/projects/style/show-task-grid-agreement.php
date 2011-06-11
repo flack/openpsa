@@ -18,7 +18,7 @@ foreach ($data['tasks'] as $task)
 
     $task_url = $data['prefix'] . "task/{$task->guid}/";
     $celldata = $data['handler']->get_table_row_data($task, $data);
-    $manager_card = org_openpsa_contactwidget::get($task->manager);
+    $manager_card = org_openpsa_widgets_contact::get($task->manager);
 
     $row = array();
 

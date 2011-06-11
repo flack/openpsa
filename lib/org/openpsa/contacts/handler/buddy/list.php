@@ -172,7 +172,6 @@ class org_openpsa_contacts_handler_buddy_list extends midcom_baseclasses_compone
             }
             else
             {
-                $_MIDCOM->load_library('org.openpsa.contactwidget');
                 midcom_show_style("show-buddylist-header");
                 foreach ($data['buddylist'] as $person)
                 {

@@ -12,7 +12,7 @@
  * @package org.openpsa.invoices
  */
 class org_openpsa_invoices_handler_list extends midcom_baseclasses_components_handler
-implements org_openpsa_core_grid_provider_client
+implements org_openpsa_widgets_grid_provider_client
 {
     /**
      * The customer we're working with, if any
@@ -35,7 +35,7 @@ implements org_openpsa_core_grid_provider_client
         $this->_request_data['contacts_url'] = $siteconfig->get_node_full_url('org.openpsa.contacts');
         $this->_request_data['invoices_url'] = $siteconfig->get_node_full_url('org.openpsa.invoices');
 
-        org_openpsa_core_grid_widget::add_head_elements();
+        org_openpsa_widgets_grid::add_head_elements();
     }
 
     private function _process_invoice_list($invoices)
@@ -50,7 +50,7 @@ implements org_openpsa_core_grid_provider_client
         {
             $grid_id = 'd_' . $this->_request_data['deliverable']->id . $grid_id;
         }
-        $this->_request_data['grid'] = new org_openpsa_core_grid_widget($grid_id, 'local');
+        $this->_request_data['grid'] = new org_openpsa_widgets_grid($grid_id, 'local');
 
         foreach ($invoices as $invoice)
         {
@@ -97,7 +97,7 @@ implements org_openpsa_core_grid_provider_client
 
         if (!is_a($this->_customer, 'org_openpsa_contacts_person_dba'))
         {
-            $customer_card = org_openpsa_contactwidget::get($invoice->customerContact);
+            $customer_card = org_openpsa_widgets_contact::get($invoice->customerContact);
             $entry['contact'] = $customer_card->show_inline();
         }
         $entry['index_sum'] = $invoice->sum;
@@ -176,7 +176,7 @@ implements org_openpsa_core_grid_provider_client
      */
     public function _show_json($handler_id, array &$data)
     {
-        $data['provider'] = new org_openpsa_core_grid_provider($this);
+        $data['provider'] = new org_openpsa_widgets_grid_provider($this);
         midcom_show_style('show-grid-json');
     }
 
@@ -332,7 +332,7 @@ implements org_openpsa_core_grid_provider_client
     private function _show_recent()
     {
         $this->_request_data['list_type'] = 'paid';
-        $this->_request_data['grid'] = new org_openpsa_core_grid_widget('paid_invoices_grid', 'json');
+        $this->_request_data['grid'] = new org_openpsa_widgets_grid('paid_invoices_grid', 'json');
         $this->_request_data['list_label'] = $this->_l10n->get('recently paid invoices');
 
         midcom_show_style('show-grid-ajax');

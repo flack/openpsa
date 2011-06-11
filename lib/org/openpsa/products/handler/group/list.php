@@ -304,7 +304,7 @@ class org_openpsa_products_handler_group_list  extends midcom_baseclasses_compon
         {
             //do not set the parent category. The category is already a top category.
         }
-        org_openpsa_core_grid_widget::add_head_elements();
+        org_openpsa_widgets_grid::add_head_elements();
     }
 
     private function _add_ordering(&$qb, $ordering)

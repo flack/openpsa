@@ -18,10 +18,6 @@ Als CSV herunterladen
 Gruppiert nach
 ---STRINGEND
 
----STRING loading
-Lade Daten
----STRINGEND
-
 ---STRING no grouping
 keine Gruppierung
 ---STRINGEND

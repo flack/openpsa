@@ -13,7 +13,7 @@ $event =& $data['other_obj'];
     echo "<li class=\"members\">" . $_MIDCOM->i18n->get_string('participants', 'org.openpsa.calendar') . ": ";
     foreach ($event->participants as $person_id => $confirmed)
     {
-        $participant_card = org_openpsa_contactwidget::get($person_id);
+        $participant_card = org_openpsa_widgets_contact::get($person_id);
         echo $participant_card->show_inline()." ";
     }
     echo "</li>\n";

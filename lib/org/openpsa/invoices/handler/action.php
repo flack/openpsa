@@ -80,7 +80,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $_MIDCOM->componentloader->load('org.openpsa.mail');
         $mail = new org_openpsa_mail();
 
-        $customerCard = org_openpsa_contactwidget::get($this->_object->customerContact);
+        $customerCard = org_openpsa_widgets_contact::get($this->_object->customerContact);
         $contactDetails = $customerCard->contact_details;
         $invoice_label = $this->_object->get_label();
 
@@ -235,7 +235,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
 
     private function _prepare_grid_data()
     {
-        $this->_request_data['grid'] = new org_openpsa_core_grid_widget('invoice_items', 'local');
+        $this->_request_data['grid'] = new org_openpsa_widgets_grid('invoice_items', 'local');
 
         $entries = array();
 
