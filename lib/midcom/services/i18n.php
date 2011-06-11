@@ -648,9 +648,9 @@ class midcom_services_i18n
                 return null;
             }
 
-            if (isset($GLOBALS['midcom_cache']->content))
+            if (isset(midcom::get('cache')->content))
             {
-                $GLOBALS['midcom_cache']->content->register($snippet->guid);
+                midcom::get('cache')->content->register($snippet->guid);
             }
 
             $data = $snippet->code;

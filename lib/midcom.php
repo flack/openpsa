@@ -135,9 +135,8 @@ class midcom
         /* Load and start up the cache system, this might already end the request
          * on a content cache hit. Note that the cache check hit depends on the i18n and auth code.
          */
-        $GLOBALS['midcom_cache'] = new midcom_services_cache();
-        $GLOBALS['midcom_cache']->initialize();
-        self::$_services['cache'] = $GLOBALS['midcom_cache'];
+        self::$_services['cache'] = new midcom_services_cache();
+        self::$_services['cache']->initialize();
 
         require(MIDCOM_ROOT . '/midcom/services/_i18n_l10n.php');
 

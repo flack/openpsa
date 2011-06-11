@@ -369,13 +369,6 @@ define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
 $GLOBALS['midcom_debugger'] = null;
 
 /**
- * Global instance of the Caching service. This is also available as $midcom->cache.
- *
- * @global midcom_services_cache $GLOBALS['midcom_cache']
- */
-$GLOBALS['midcom_cache'] = null;
-
-/**
  * This is a small simulation of mgd1 page styles which allows themes to have
  * subdirectories which can be prefixed to a request url.
  *
