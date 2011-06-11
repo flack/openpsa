@@ -24,7 +24,7 @@
             ),
             'widget' => 'select',
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'display settings',
             ),
         ),
@@ -243,13 +243,13 @@
             ),
             'widget' => 'select',
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'Indexer related',
             ),
         ),
         'index_groups' => array
         (
-            'title' => 'Index grouos',
+            'title' => 'Index groups',
             'storage' => array
             (
                 'location' => 'configuration',
@@ -281,7 +281,7 @@
             'type' => 'text',
             'widget' => 'text',
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'advanced schema and data settings',
             ),
         ),
