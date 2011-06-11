@@ -4,6 +4,40 @@
  *
  * Usage: phpunit --no-globals-backup ./
  */
+$mgd_defaults = array
+(
+    'argv' => array(),
+
+    'user' => 0,
+    'admin' => false,
+    'root' => false,
+
+    'auth' => false,
+    'cookieauth' => false,
+
+    // General host setup
+    'page' => 0,
+    'debug' => false,
+
+    'self' => '/',
+    'prefix' => '',
+
+    'host' => 0,
+    'style' => 0,
+    'author' => 0,
+    'config' => array
+    (
+        'prefix' => '',
+        'quota' => false,
+        'unique_host_name' => 'openpsa',
+        'auth_cookie_id' => 1,
+    ),
+
+    'schema' => array
+    (
+        'types' => array(),
+    ),
+);
 
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
@@ -12,40 +46,9 @@ if (extension_loaded('midgard2'))
     {
         throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
     }
-    $_MIDGARD_CONNECTION =& midgard_connection::get_instance();
 
     // Initialize the $_MIDGARD superglobal
-    $_MIDGARD = array
-    (
-        'argv' => array(),
-
-        'user' => 0,
-        'admin' => false,
-        'root' => false,
-
-        'auth' => false,
-        'cookieauth' => false,
-
-        // General host setup
-        'page' => 0,
-        'debug' => false,
-
-        'host' => 0,
-        'style' => 0,
-        'author' => 0,
-        'config' => array
-        (
-            'prefix' => '',
-            'quota' => false,
-            'unique_host_name' => 'openpsa',
-            'auth_cookie_id' => 1,
-        ),
-
-        'schema' => array
-        (
-            'types' => array(),
-        ),
-    );
+    $_MIDGARD = $mgd_defaults;
 }
 else if (extension_loaded('midgard'))
 {
@@ -57,6 +60,7 @@ else if (extension_loaded('midgard'))
     {
         include(OPENPSA_TEST_ROOT . 'mgd1-connection-default.inc.php');
     }
+    $_MIDGARD = array_merge($mgd_defaults, $_MIDGARD);
 }
 else
 {
