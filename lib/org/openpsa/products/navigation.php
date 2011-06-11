@@ -67,8 +67,8 @@ class org_openpsa_products_navigation extends midcom_baseclasses_components_navi
         $qb->add_constraint('up', '=', $id);
         $qb->add_order('metadata.score', 'DESC');
 
-        $qb->add_order('code');
         $qb->add_order('title');
+        $qb->add_order('code');
         $groups = $qb->execute();
 
         // Get the properties of each group
