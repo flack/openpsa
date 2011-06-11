@@ -197,22 +197,6 @@
             'widget'  => 'text',
             'readonly' => true,
         ),
-        'components' => Array
-        (
-            'title' => 'components',
-            'storage' => null,
-            'type' => 'composite',
-            'type_config' => Array
-            (
-                'child_class' => 'org_openpsa_sales_salesproject_deliverable_dba',
-                'child_schemadb' => 'file:/org/openpsa/sales/config/schemadb_deliverable_component_default.inc',
-                'child_foreign_key_fieldname' => 'up',
-                'style_element_name' => 'deliverable',
-                'enable_creation' => false,
-                'area_element' => 'tr',
-            ),
-            'widget' => 'composite',
-        ),
     )
 ),
 'subscription' => array
@@ -460,22 +444,6 @@
             'type' => 'number',
             'widget'  => 'text',
             'hidden' => true,
-        ),
-        'components' => Array
-        (
-            'title' => 'components',
-            'storage' => null,
-            'type' => 'composite',
-            'type_config' => Array
-            (
-                'child_class' => 'org_openpsa_sales_salesproject_deliverable_dba',
-                'child_schemadb' => 'file:/org/openpsa/sales/config/schemadb_deliverable_component_default.inc',
-                'child_foreign_key_fieldname' => 'up',
-                'style_element_name' => 'deliverable',
-                'enable_creation' => false,
-                'area_element' => 'tr',
-            ),
-            'widget' => 'composite',
         ),
     )
 ),

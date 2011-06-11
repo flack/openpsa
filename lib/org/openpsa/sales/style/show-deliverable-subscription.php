@@ -228,8 +228,6 @@ catch (midcom_error $e)
     </div>
 
     <div class="wide">
-        &(view['components']:h);
-
     <?php
     $tabs = array();
     if (   $data['invoices_url']

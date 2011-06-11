@@ -97,77 +97,18 @@ class org_openpsa_sales_handler_deliverable_add extends midcom_baseclasses_compo
         }
 
         $this->_product = new org_openpsa_products_product_dba((int) $_POST['product']);
-
-        // Check if the product has components
-        $component_qb = org_openpsa_products_product_member_dba::new_query_builder();
-        $component_qb->add_constraint('product', '=', $this->_product->id);
-        if ($component_qb->count() == 0)
+        $this->_deliverable = $this->_create_deliverable($this->_product);
+        if ($this->_deliverable)
         {
-            // All conditions are fine, create the deliverable
-            $this->_deliverable = $this->_create_deliverable($this->_product);
-
-            if ($this->_deliverable)
-            {
-                // Go to deliverable edit screen
-                $_MIDCOM->relocate("deliverable/edit/{$this->_deliverable->guid}/");
-                // This will exit.
-            }
-            else
-            {
-                // Get user back to the sales project
-                // TODO: Add UImessage on why this failed
-                $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
-                // This will exit.
-            }
+            // Go to deliverable edit screen
+            $_MIDCOM->relocate("deliverable/edit/{$this->_deliverable->guid}/");
         }
-
-        // Otherwise we present checkbox list of components to select
-        if (   array_key_exists('components', $_POST)
-            && is_array($_POST['components']))
+        else
         {
-            // All conditions are fine, create the deliverable
-            $this->_deliverable = $this->_create_deliverable($this->_product);
-
-            if ($this->_deliverable)
-            {
-                // Add per selection
-                foreach ($_POST['components'] as $product_id => $values)
-                {
-                    if (   array_key_exists('add', $values)
-                        && $values['add'] == 1)
-                    {
-                        $product = new org_openpsa_products_product_dba($product_id);
-                        $this->_create_deliverable($product, $this->_deliverable->id, $values['pieces']);
-                    }
-                }
-
-                // Go to deliverable edit screen
-                $_MIDCOM->relocate("deliverable/edit/{$this->_deliverable->guid}/");
-                // This will exit.
-            }
-            else
-            {
-                // Get user back to the sales project
-                // TODO: Add UImessage on why this failed
-                $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
-                // This will exit.
-            }
+            // Get user back to the sales project
+            // TODO: Add UImessage on why this failed
+            $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
         }
-
-        $this->add_breadcrumb("salesproject/{$this->_salesproject->guid}/", $this->_salesproject->title);
-        $this->add_breadcrumb("deliverable/add/{$this->_salesproject->guid}/", sprintf($this->_l10n->get('add products to %s'), $this->_salesproject->title));
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_add($handler_id, array &$data)
-    {
-        $data['product'] =& $this->_product;
-        $data['salesproject'] =& $this->_salesproject;
-        midcom_show_style('show-deliverable-add');
     }
 }
 ?>

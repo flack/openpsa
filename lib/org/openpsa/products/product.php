@@ -142,7 +142,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
         return true;
     }
 
-    function list_products($list_components = false)
+    function list_products()
     {
         $component_list = Array();
         $qb = org_openpsa_products_product_dba::new_query_builder();
@@ -158,11 +158,6 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
             $qb->add_constraint('end', '=', 0);
             $qb->add_constraint('end', '>=', time());
         $qb->end_group();
-
-        if (!$list_components)
-        {
-            $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT);
-        }
 
         $components = $qb->execute();
         foreach ($components as $component)

@@ -132,7 +132,6 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         foreach ($deliverables as $deliverable)
         {
             $this->_controllers[$deliverable->id] = midcom_helper_datamanager2_controller::create('ajax');
-            // TODO: Modify schema's "price per unit" to readonly if the product has components
             $this->_controllers[$deliverable->id]->schemadb =& $this->_request_data['schemadb_salesproject_deliverable'];
             $this->_controllers[$deliverable->id]->set_storage($deliverable);
             $this->_controllers[$deliverable->id]->process_ajax();

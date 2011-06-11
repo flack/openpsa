@@ -47,32 +47,6 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
      */
     public function run()
     {
-        if ($this->_deliverable->id)
-        {
-            // Check if we have subcomponents
-            $deliverables = $this->_deliverable->get_components();
-            if (count($deliverables) > 0)
-            {
-                // If subcomponents exist, the price and cost per unit default to the
-                // sum of price and cost of all subcomponents
-                $pricePerUnit = 0;
-                $costPerUnit = 0;
-
-                foreach ($deliverables as $deliverable)
-                {
-                    $pricePerUnit = $pricePerUnit + $deliverable->price;
-                    $costPerUnit = $costPerUnit + $deliverable->cost;
-                }
-
-                $this->_deliverable->pricePerUnit = $pricePerUnit;
-                $this->_deliverable->costPerUnit = $costPerUnit;
-
-                // We can't have percentage-based cost type if the agreement
-                // has subcomponents
-                $this->_deliverable->costType = 'm';
-            }
-        }
-
         if (   $this->_deliverable->invoiceByActualUnits
             || $this->_deliverable->plannedUnits == 0)
         {

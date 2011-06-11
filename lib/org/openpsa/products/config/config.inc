@@ -19,9 +19,6 @@
     'y'  => 'year',      // per annum
 ),
 
-// Whether to enable adding subcomponents to products
-'enable_components' => true,
-
 // Whether to enable adding productlinks to products
 'enable_productlinks' => false,
 

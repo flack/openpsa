@@ -27,12 +27,6 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
     private function _prepare_request_data()
     {
         $this->_request_data['product'] =& $this->_product;
-        $this->_request_data['enable_components'] = $this->_config->get('enable_components');
-
-        if ($this->_product->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT)
-        {
-            $this->_request_data['enable_components'] = false;
-        }
 
         $this->_view_toolbar->add_item
         (

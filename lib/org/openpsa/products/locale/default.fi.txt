@@ -130,10 +130,6 @@ Hinta
 Tuote
 ---STRINGEND
 
----STRING product components
-Tuotteen komponentit
----STRINGEND
-
 ---STRING product database
 Tuotetietokanta
 ---STRINGEND
@@ -200,10 +196,6 @@ päivitetty %s
 
 ---STRING updated products
 Päivitetyt tuotteet
----STRINGEND
-
----STRING whether to enable adding subcomponents to products
-Sallitaanko komponenttien lisääminen tuotteisiin
 ---STRINGEND
 
 ---STRING year

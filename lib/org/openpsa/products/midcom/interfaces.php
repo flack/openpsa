@@ -24,9 +24,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS', 2000);
         // Solution is a nonmaterial good
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION', 2001);
-        // Component that a product is based on, usually something
-        // acquired from a supplier
-        define('ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT', 3000);
 
         define('ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART', 1000);
 

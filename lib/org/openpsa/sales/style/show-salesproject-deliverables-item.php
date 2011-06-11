@@ -64,10 +64,6 @@ catch (midcom_error $e)
     <div class="description">
         &(deliverable['description']:h);
     </div>
-
-    <div class="components">
-        &(deliverable['components']:h);
-    </div>
     </div>
 
     <div class="tasks">

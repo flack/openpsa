@@ -84,7 +84,6 @@
                     ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE   => 'service',
                     ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_GOODS     => 'material goods',
                     ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SOLUTION  => 'solution',
-                    ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_COMPONENT => 'component',
                 ),
             ),
             'widget' => 'select',

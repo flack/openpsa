@@ -97,27 +97,6 @@
             'type' => 'text',
             'widget' => 'text',
         ),
-        'enable_components' => array
-        (
-            'title' => 'whether to enable adding subcomponents to products',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.products',
-                'name' => 'enable_components',
-            ),
-            'type' => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'default setting',
-                    '1' => 'yes',
-                    '0' => 'no',
-                ),
-            ),
-            'widget' => 'select',
-        ),
         'enable_productlinks' => array
         (
             'title' => 'whether to enable adding productlinks',

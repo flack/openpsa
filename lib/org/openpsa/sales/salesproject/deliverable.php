@@ -158,20 +158,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->_deliverable_html .= "</span>\n";
     }
 
-    /**
-     * List subcomponents of this deliverable
-     *
-     * @return Array
-     */
-    public function get_components()
-    {
-        $deliverable_qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
-        $deliverable_qb->add_constraint('salesproject', '=', $this->salesproject);
-        $deliverable_qb->add_constraint('up', '=', $this->id);
-        $deliverables = $deliverable_qb->execute();
-        return $deliverables;
-    }
-
     function get_status()
     {
         switch ($this->state)
@@ -393,16 +379,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         if ($this->update())
         {
-            // Mark subcomponents as declined also
-            $deliverables = $this->get_components();
-            if (count($deliverables) > 0)
-            {
-                foreach ($deliverables as $deliverable)
-                {
-                    $deliverable->decline();
-                }
-            }
-
             // Update sales project if it doesn't have any open deliverables
             $qb = org_openpsa_sales_salesproject_deliverable_dba::new_query_builder();
             $qb->add_constraint('salesproject', '=', $this->salesproject);
@@ -467,16 +443,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
 
         if ($this->update())
         {
-            // Mark subcomponents as ordered also
-            $deliverables = $this->get_components();
-            if (count($deliverables) > 0)
-            {
-                foreach ($deliverables as $deliverable)
-                {
-                    $deliverable->order();
-                }
-            }
-
             // Update sales project and mark as won
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             if ($salesproject->status != ORG_OPENPSA_SALESPROJECTSTATUS_WON)
@@ -532,16 +498,6 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         $this->end = time();
         if ($this->update())
         {
-            // Mark subcomponents as delivered also
-            $deliverables = $this->get_components();
-            if (count($deliverables) > 0)
-            {
-                foreach ($deliverables as $deliverable)
-                {
-                    $deliverable->deliver($update_deliveries);
-                }
-            }
-
             // Update sales project and mark as delivered (if no other deliverables are active)
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
             $salesproject->mark_delivered();

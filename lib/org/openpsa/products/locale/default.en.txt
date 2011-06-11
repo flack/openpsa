@@ -170,10 +170,6 @@ Price
 Product
 ---STRINGEND
 
----STRING product components
-Product components
----STRINGEND
-
 ---STRING product database
 Product database
 ---STRINGEND
@@ -260,10 +256,6 @@ updated %s
 
 ---STRING updated products
 Updated products
----STRINGEND
-
----STRING whether to enable adding subcomponents to products
-Whether to enable adding subcomponents to products
 ---STRINGEND
 
 ---STRING year
