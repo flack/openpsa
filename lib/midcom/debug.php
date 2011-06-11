@@ -46,6 +46,20 @@ class midcom_debug
     private $_loglevel;
 
     /**
+     * All available loglevels
+     *
+     * @var array
+     */
+    private $_loglevels = array
+    (
+        MIDCOM_LOG_DEBUG => "debug",
+        MIDCOM_LOG_INFO  => "info",
+        MIDCOM_LOG_WARN  => "warn",
+        MIDCOM_LOG_ERROR => "error",
+        MIDCOM_LOG_CRIT  => "critical"
+    );
+
+    /**
      * Flag which is true if the debugger is enabled.
      *
      * @var boolean
@@ -67,14 +81,6 @@ class midcom_debug
         $this->_filename = $filename;
         $this->_enabled = true;
         $this->_loglevel = $GLOBALS['midcom_config']['log_level'];
-        $this->_loglevels = array
-        (
-            MIDCOM_LOG_DEBUG => "debug",
-            MIDCOM_LOG_INFO  => "info",
-            MIDCOM_LOG_WARN  => "warn",
-            MIDCOM_LOG_ERROR => "error",
-            MIDCOM_LOG_CRIT  => "critical"
-        );
 
         // Load FirePHP logger if enabled
         if ($GLOBALS['midcom_config']['log_firephp'])
