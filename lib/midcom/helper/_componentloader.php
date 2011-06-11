@@ -255,12 +255,7 @@ class midcom_helper__componentloader
             return false;
         }
 
-        // Make DBA Classes known, bail out if we encounter an invalid class
-        if (! $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping))
-        {
-            debug_add("Failed to load the component manifest for {$this->manifests[$path]->name}: The DBA classes failed to load.", MIDCOM_LOG_WARN);
-            return false;
-        }
+        $_MIDCOM->dbclassloader->load_classes($this->manifests[$path]->name, null, $this->manifests[$path]->class_mapping);
 
         $init_class =& $this->_interface_classes[$path];
         if ($init_class->initialize($path) == false)

@@ -154,8 +154,6 @@ class midcom_services_dbclassloader
      * If the class definition file is invalid, false is returned.
      *
      * If this function completes successfully, all __xxx classes are loaded and present.
-     *
-     * @return boolean Indicating success
      */
     function load_classes($component, $filename, $definition_list = null)
     {
@@ -170,12 +168,7 @@ class midcom_services_dbclassloader
             }
         }
 
-        if (!$this->_register_loaded_classes($definition_list, $component))
-        {
-            throw new midcom_error("DB Class Loader: Classes for {$component} couldn't be registered.");
-        }
-
-        return true;
+        $this->_register_loaded_classes($definition_list, $component);
     }
 
     /**
@@ -186,7 +179,6 @@ class midcom_services_dbclassloader
      * Where possible, missing elements are completed with sensible defaults.
      *
      * @param Array $definition_list A reference to the definition list to verify.
-     * @return boolean Indicating success
      */
     function _validate_class_definition_list(array &$definition_list)
     {
@@ -194,18 +186,14 @@ class midcom_services_dbclassloader
         {
             if (! class_exists($mgdschema_class))
             {
-                debug_add("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.", MIDCOM_LOG_INFO);
-                return false;
+                throw new midcom_error("Validation failed: Key {$midcom_class} had an invalid mgdschema_class_name element: {$mgdschema_class}. Probably the required MgdSchema is not loaded.");
             }
 
             if (preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $midcom_class) == 0)
             {
-                debug_add("Validation failed: Key {$mgdschema_class} had an invalid mgdschema_class_name element.", MIDCOM_LOG_INFO);
-                return false;
+                throw new midcom_error("Validation failed: Key {$mgdschema_class} had an invalid mgdschema_class_name element.");
             }
         }
-
-        return true;
     }
 
     /**
@@ -263,10 +251,7 @@ class midcom_services_dbclassloader
      */
     private function _register_loaded_classes(&$definitions, $component)
     {
-        if (! $this->_validate_class_definition_list($definitions))
-        {
-            return false;
-        }
+        $this->_validate_class_definition_list($definitions);
 
         foreach ($definitions as $mgdschema_class => $midcom_class)
         {
@@ -279,8 +264,6 @@ class midcom_services_dbclassloader
                 $this->_midgard_classes[$mgdschema_class] = $midcom_class;
             }
         }
-
-        return true;
     }
 
     /**
