@@ -39,6 +39,8 @@ $mgd_defaults = array
     ),
 );
 
+$GLOBALS['midcom_config_local'] = array();
+
 // Check that the environment is a working one
 if (extension_loaded('midgard2'))
 {
@@ -46,6 +48,8 @@ if (extension_loaded('midgard2'))
     {
         throw new Exception('You need to set midgard.superglobals_compat=On in your php.ini to run OpenPSA with Midgard2');
     }
+
+    $GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 
     // Initialize the $_MIDGARD superglobal
     $_MIDGARD = $mgd_defaults;
@@ -109,8 +113,6 @@ if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs'))
     throw new Exception('could not create output RCS directory');
 }
 
-$GLOBALS['midcom_config_local'] = array();
-$GLOBALS['midcom_config_local']['person_class'] = 'openpsa_person';
 $GLOBALS['midcom_config_local']['theme'] = 'OpenPsa2';
 $GLOBALS['midcom_config_local']['midcom_services_rcs_root'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/rcs';
 $GLOBALS['midcom_config_local']['log_filename'] = OPENPSA2_UNITTEST_OUTPUT_DIR . '/midcom.log';
