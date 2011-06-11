@@ -577,7 +577,7 @@ class midcom_services_indexer_document
      */
     function dump($message, $loglevel = MIDCOM_LOG_DEBUG)
     {
-        if ($GLOBALS["midcom_debugger"]->_loglevel < $loglevel)
+        if (midcom::get('debug')->get_loglevel() < $loglevel)
         {
             return;
         }

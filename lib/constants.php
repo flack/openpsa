@@ -359,16 +359,6 @@ define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
 /**#@-*/
 
 /**
- * The MidCOM Logging interface. Note, that even though this variable
- * is called "debugger", it is actually a full-blown logging solution
- * which should not be turned off any longer. Instead, step up the
- * error reporting level to something above MIDCOM_LOG_DEBUG.
- *
- * @global midcom_debug $GLOBALS['midcom_debugger']
- */
-$GLOBALS['midcom_debugger'] = null;
-
-/**
  * This is a small simulation of mgd1 page styles which allows themes to have
  * subdirectories which can be prefixed to a request url.
  *

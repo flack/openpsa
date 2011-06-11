@@ -21,11 +21,7 @@
  * - MIDCOM_LOG_ERROR
  * - MIDCOM_LOG_CRIT
  *
- * This snippet does automatically instantiate $midcom_debugger, and it declares
- * shortcuts like debug_add (see below).
- *
- * <b>Note:</b> The Debugger is disabled per default to save performance. You have to explicitly
- * enable it by calling the enable function.
+ * This file declares shortcuts like debug_add (see below).
  *
  * @package midcom
  */
@@ -76,8 +72,12 @@ class midcom_debug
     /**
      * Standard constructor
      */
-    public function __construct($filename)
+    public function __construct($filename = null)
     {
+        if (null === $filename)
+        {
+            $filename = $GLOBALS['midcom_config']['log_filename'];
+        }
         $this->_filename = $filename;
         $this->_enabled = true;
         $this->_loglevel = $GLOBALS['midcom_config']['log_level'];
@@ -127,6 +127,14 @@ class midcom_debug
     function set_loglevel($loglevel)
     {
         $this->_loglevel = $loglevel;
+    }
+
+    /**
+     * Get log level
+     */
+    function get_loglevel()
+    {
+        return $this->_loglevel;
     }
 
     /**
@@ -388,13 +396,6 @@ class midcom_debug
 }
 
 /**
- * Global debugger instance
- *
- * @global midcom_debug $GLOBALS['midcom_debugger']
- */
-$GLOBALS['midcom_debugger'] = new midcom_debug($GLOBALS['midcom_config']['log_filename']);
-
-/**
  * Shortcut: Log a message
  *
  * @param string $message    The message to be logged
@@ -402,7 +403,7 @@ $GLOBALS['midcom_debugger'] = new midcom_debug($GLOBALS['midcom_config']['log_fi
  */
 function debug_add($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    $GLOBALS['midcom_debugger']->log($message, $loglevel);
+    midcom::get('debug')->log($message, $loglevel);
 }
 
 /**
@@ -414,7 +415,7 @@ function debug_add($message, $loglevel = MIDCOM_LOG_DEBUG)
  */
 function debug_print_r($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    $GLOBALS['midcom_debugger']->print_r($message, $variable, $loglevel);
+    midcom::get('debug')->print_r($message, $variable, $loglevel);
 }
 
 /**
@@ -425,7 +426,7 @@ function debug_print_r($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
  */
 function debug_print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
-   $GLOBALS['midcom_debugger']->print_function_stack($message, $loglevel);
+    midcom::get('debug')->print_function_stack($message, $loglevel);
 }
 
 /**
@@ -437,7 +438,7 @@ function debug_print_function_stack($message, $loglevel = MIDCOM_LOG_DEBUG)
  */
 function debug_print_type($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    $GLOBALS['midcom_debugger']->print_type($message, $variable, $loglevel);
+    midcom::get('debug')->print_type($message, $variable, $loglevel);
 }
 
 /**
@@ -448,6 +449,6 @@ function debug_print_type($message, &$variable, $loglevel = MIDCOM_LOG_DEBUG)
 */
 function debug_dump_mem($message, $loglevel = MIDCOM_LOG_DEBUG)
 {
-    $GLOBALS['midcom_debugger']->print_dump_mem($message, $loglevel);
+    midcom::get('debug')->print_dump_mem($message, $loglevel);
 }
 ?>
