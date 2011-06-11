@@ -56,14 +56,3 @@
         'midcom' => array(),
     ),
 ),
-'customdata' => array
-(
-    'midcom.services.cron' => array
-    (
-        array
-        (
-            'handler' => 'org_openpsa_products_cron_groupsync',
-            'recurrence' => MIDCOM_CRON_DAY,
-        ),
-    ),
-),

@@ -33,29 +33,6 @@ class org_openpsa_products_interface extends midcom_baseclasses_components_inter
         return true;
     }
 
-    public function _on_watched_operation($operation, &$object)
-    {
-        $config = $this->get_config_for_topic();
-        if (!$config->get('groupsync_watches_enabled'))
-        {
-            return;
-        }
-        $sync_helper = new org_openpsa_products_groupsync();
-        switch ($operation)
-        {
-            case MIDCOM_OPERATION_DBA_DELETE:
-                $sync_helper->on_deleted($object);
-                break;
-            case MIDCOM_OPERATION_DBA_UPDATE:
-                $sync_helper->on_updated($object);
-                break;
-            case MIDCOM_OPERATION_DBA_CREATE:
-                $sync_helper->on_created($object);
-                break;
-        }
-        unset($sync_helper);
-    }
-
     public function _on_resolve_permalink($topic, $config, $guid)
     {
         try
