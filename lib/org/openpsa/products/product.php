@@ -54,7 +54,7 @@ class org_openpsa_products_product_dba extends midcom_core_dbaobject
             try
             {
                 $parent = org_openpsa_products_product_group_dba::get_cached($this->productGroup);
-                $path = $parent->get_path() . '/' . $path;
+                $path = $parent->code . '/' . $path;
             }
             catch (midcom_error $e)
             {
