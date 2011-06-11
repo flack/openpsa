@@ -79,10 +79,6 @@
 'mb_detect_encoding_list' => 'ASCII,JIS,UTF-8,ISO-8859-1,EUC-JP,SJIS',
 'iconv_append_target' => '//TRANSLIT', //Transliterate by default (other valid options '//IGNORE' or null)
 
-
-'redirect_to_first_product' => false,
-'redirect_order_by' => 'code',
-
 // Options for the "groupsync" see http://trac.midgard-project.org/ticket/1149
 'groupsync_watches_enabled' => false,
 'groupsync_cron_enabled' => false, // If watches are enabled you should enable also cron

@@ -147,7 +147,7 @@ class org_openpsa_products_groupsync extends midcom_baseclasses_components_purec
     /**
      * Gets the topic (INTREEd to our root) which has given group as root
      *
-     * @param object $group reference to org_openpsa_products_product_group_dba object
+     * @param object &$group reference to org_openpsa_products_product_group_dba object
      * @return midcom_db_topic object or boolean false
      */
     function get_group_topic(&$group)
