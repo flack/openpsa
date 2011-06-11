@@ -82,21 +82,6 @@
  * current site, "nocache" will bypass the cache for the current request by
  * calling midcom::get('cache')->content->no_cache();
  *
- * <b>mixed log</b>
- *
- * Shows the contents of the current debuglog. You have to enable this interface
- * by setting the config option <i>log_tailurl_enable</i> to true.
- * Note, that this method is using the debug log path
- * of the current MidCOM logger automatically, it is not possible to switch to
- * another logfile dynamically due to security reasons. The parameter can be
- * either "all" which will yield the complete log (beware of huge logfiles), or
- * an integer, which is the number of lines counting from the file backwards you
- * want to display (this uses the systems tail command via exec).
- *
- * NOTE: This function is limited by PHP's memory limit, as the (f)passthru
- * functions are really intelligent and try to load the complete file into memory
- * instead streaming it to the client.
- *
  * @package midcom
  */
 class midcom_application
@@ -733,10 +718,6 @@ class midcom_application
                     case 'exec':
                         $this->_exec_file($value);
                         // This will exit
-
-                    case 'log':
-                        $this->_showdebuglog($value);
-                        break;
 
                     case 'servejscsscache':
                         if (   !midcom::get('head')->jscss
@@ -1529,60 +1510,6 @@ class midcom_application
         // Exit
         $this->finish();
         _midcom_stop_request('');
-    }
-
-    /**
-     * Shows the contents of the current debuglog. You have to enable this interface
-     * by setting the config option <i>log_tailurl_enable</i> to true. Note, that ´
-     * this method is using the debug log path
-     * of the current MidCOM debugger automatically, it is not possible to switch to
-     * another logfile dynamically due to security reasons. The parameter can be
-     * either "all" which will yield the complete log (beware of huge logfiles), or
-     * an integer, which is the number of lines counting from the file backwards you
-     * want to display (this uses the systems tail command via exec).
-     *
-     * MidCOM Error pages (FORBIDDEN/NOTFOUND) are created upon error.
-     *
-     * @param mixed $count Number of lines to be dumped or 'all' for everything
-     */
-    private function _showdebuglog($count)
-    {
-        $context = midcom_core_context::get();
-        if ($context->parser->argc > 1)
-        {
-            throw new midcom_error_notfound("Too many arguments for debuglog");
-        }
-
-        if ($GLOBALS['midcom_config']['log_tailurl_enable'] !== true)
-        {
-            throw new midcom_error_forbidden("Access to the debug log is disabled.");
-        }
-
-        $filename = $GLOBALS["midcom_debugger"]->_filename;
-
-        if ($count == "all")
-        {
-            $this->header("Content-Type: text/plain");
-            midcom::get('cache')->content->no_cache();
-            $handle = fopen($filename, "r");
-
-            fpassthru($handle);
-            $this->finish();
-            _midcom_stop_request();
-        }
-        else if (is_numeric($count))
-        {
-            $this->header("Content-Type: text/plain");
-
-            midcom::get('cache')->content->no_cache();
-            passthru ("tail -" . abs($count) . " " . escapeshellarg($filename));
-            $this->finish();
-            _midcom_stop_request();
-        }
-        else
-        {
-            throw new midcom_error_notfound("Parameter must be 'all' or an integer");
-        }
     }
 
     /**

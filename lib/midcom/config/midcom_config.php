@@ -174,9 +174,6 @@
  *   MIDCOM_LOG_ERROR by default. You cannot use the MIDCOM* constants when setting
  *   micdom_config_local, as they are not defined at that point. Use 0 for CRITICAL,
  *   1 for ERROR, 2 for WARING, 3 for INFO and 4 for DEBUG level logging.
- * - <b>boolean log_tailurl_enable:</b> Set this to true to enable the on-site interface to
- *   the logging system. See the URL method log of midcom_application for details. Turned off
- *   by default for security reasons.
  * - <b>array error_actions:</b> Actions to run when a specific error code is produced. This can
  *   be used for saving logs about 404 errors from broken links, or sending an error 500 to
  *   webmaster for analysis.
@@ -417,7 +414,6 @@ $GLOBALS['midcom_config_default']['indexer_xmltcp_port'] = 8983;
 // Logging Configuration
 $GLOBALS['midcom_config_default']['log_filename'] = '/tmp/midcom.log';
 $GLOBALS['midcom_config_default']['log_level'] = MIDCOM_LOG_ERROR;
-$GLOBALS['midcom_config_default']['log_tailurl_enable'] = false;
 $GLOBALS['midcom_config_default']['log_firephp'] = false;
 $GLOBALS['midcom_config_default']['enable_included_list'] = false;
 $GLOBALS['midcom_config_default']['error_actions'] = array();
