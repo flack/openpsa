@@ -99,8 +99,7 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         $_MIDCOM->auth->request_sudo('org.openpsa.core');
         $this->snippet->update();
         $_MIDCOM->auth->drop_sudo();
-        //create the page needed for jquery ui-tab
-        $this->create_ui_page();
+
         $_MIDCOM->uimessages->add($this->_l10n->get('org.openpsa.core'), $this->_l10n->get('site structure cache created'), 'info');
     }
 
@@ -247,59 +246,5 @@ class org_openpsa_core_siteconfig extends midcom_baseclasses_components_purecode
         }
         return $return;
     }
-    /**
-     * Function to create the page for ui_tabs & calls for creation of the style/elements for
-     * the page
-     */
-    public function create_ui_page()
-    {
-        //first check if the page does already exist
-        $page_name = $this->_config->get('ui_page');
-        $qb_page = midcom_db_page::new_query_builder();
-        $qb_page->add_constraint('name', '=', $page_name);
-
-        $result = $qb_page->execute();
-        if (count($result) < 1)
-        {
-            debug_add("Try to create page for ui_tab: {$page_name} ", MIDCOM_LOG_INFO);
-            //create page
-            $ui_page = new midcom_db_page();
-            $ui_page->name = $page_name;
-            $ui_page->title = $page_name;
-
-            //get the parent-page for the ui-page
-            $ui_page->up = $_MIDGARD['page'];
-
-            //now get the style & add it to the page
-            $qb_style = midcom_db_style::new_query_builder();
-            //name is set in templates/OpenPsa2
-            $qb_style->add_constraint('name', '=', 'uitab');
-            $style = $qb_style->execute();
-
-            if (count($style) != 1)
-            {
-                debug_add("the necessary style('uitab') does not exist, should be installed with templates/OpenPsa2 ", MIDCOM_LOG_INFO);
-                return false;
-            }
-            $ui_page->style = $style[0]->id;
-            //activate active-url-parsing
-            $ui_page->info = 'active';
-
-            $_MIDCOM->auth->request_sudo();
-            if (!$ui_page->create())
-            {
-                debug_print_r('could not create ui_page:', $ui_page);
-                return false;
-            }
-            $_MIDCOM->auth->drop_sudo();
-        }
-        else
-        {
-            debug_add("Page for ui_tab: {$page_name} already exists", MIDCOM_LOG_INFO);
-        }
-
-        return true;
-    }
 }
-
 ?>
