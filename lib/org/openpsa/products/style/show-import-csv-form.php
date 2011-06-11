@@ -17,20 +17,32 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         ?>
     </p>
 
-    <form enctype="multipart/form-data" action="<?php midcom_connection::get_url('uri'); ?>" method="post" class="datamanager">
+    <form enctype="multipart/form-data" action="<?php midcom_connection::get_url('uri'); ?>" method="post" class="datamanager2">
+	<div class="form">
+	<div class="element">
         <label for="org_openpsa_products_import_upload">
             <span class="field_text"><?php echo $data['l10n']->get('file to import'); ?></span>
-            <input type="file" class="fileselector" name="org_openpsa_products_import_upload" id="org_openpsa_products_import_upload" />
         </label>
+        <div class="input">
+            <input type="file" class="fileselector" name="org_openpsa_products_import_upload" id="org_openpsa_products_import_upload" />
+        </div>
+        </div>
+	<div class="element">
         <label for="org_openpsa_products_import_separator">
             <span class="field_text"><?php echo $data['l10n']->get('field separator'); ?></span>
+        </label>
+        <div class="input">
             <select class="dropdown" name="org_openpsa_products_import_separator" id="org_openpsa_products_import_separator">
                 <option value=";">;</option>
                 <option value=",">,</option>
             </select>
-        </label>
+        </div>
+        </div>
+	<div class="element">
         <label for="org_openpsa_products_import_schema">
             <span class="field_text"><?php echo $data['l10n']->get('schema'); ?></span>
+        </label>
+        <div class="input">
             <select class="dropdown" name="org_openpsa_products_import_schema" id="org_openpsa_products_import_schema">
                 <?php
                 foreach (array_keys($data['schemadb_product']) as $name)
@@ -39,9 +51,13 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 }
                 ?>
             </select>
-        </label>
+        </div>
+        </div>
+	<div class="element">
         <label for="org_openpsa_products_import_new_products_product_group">
             <span class="field_text"><?php echo $data['l10n']->get('import new products to this product group'); ?></span>
+        </label>
+        <div class="input">
             <select class="dropdown" name="org_openpsa_products_import_new_products_product_group" id="org_openpsa_products_import_new_products_product_group">
                 <?php
                 foreach ($data['product_groups'] as $id => $label)
@@ -50,9 +66,11 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
                 }
                 ?>
             </select>
-        </label>
+        </div>
+        </div>
         <div class="form_toolbar">
             <input type="submit" class="save" value="<?php echo $data['l10n']->get('import'); ?>" />
         </div>
+    </div>
     </form>
 </div>
