@@ -371,7 +371,7 @@ class midcom_connection
     private static function _parse_url($uri, $self, $prefix)
     {
         $path_parts = explode('/', $uri);
-
+        $page_style = '';
         $path = $self;
 
         self::$_data['argv'] = array();
@@ -387,7 +387,7 @@ class midcom_connection
                  && !$args_started
                  && is_dir(OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style/' . $part))
             {
-                $GLOBALS['midgard_page_style'] .= '/' . $part;
+                $page_style .= '/' . $part;
             }
             else
             {
@@ -397,6 +397,7 @@ class midcom_connection
             }
         }
 
+        self::$_data['page_style'] = $page_style;
         self::$_data['uri'] = $path;
         self::$_data['argc'] = count(self::$_data['argv']);
         self::$_data['self'] = $self;

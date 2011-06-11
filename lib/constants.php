@@ -351,18 +351,10 @@ define ('MIDCOM_CRON_HOUR', 20);
  */
 define ('MIDCOM_CRON_DAY', 30);
 
+/**#@-*/
+
 /**
  * FS path to the theme base directory
  */
 define ('OPENPSA2_THEME_ROOT', MIDCOM_ROOT . '/../themes/');
-
-/**#@-*/
-
-/**
- * This is a small simulation of mgd1 page styles which allows themes to have
- * subdirectories which can be prefixed to a request url.
- *
- * @todo See if the same effect could be accomplished with midcom-substyle
- */
-$GLOBALS['midgard_page_style'] = '';
 ?>

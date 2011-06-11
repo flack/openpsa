@@ -242,7 +242,7 @@ class midcom_helper_misc
             case 'content':
                 return '<(content)>';
             default:
-                $element_file = OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style' . $GLOBALS['midgard_page_style'] . "/{$element}.php";
+                $element_file = OPENPSA2_THEME_ROOT . $GLOBALS['midcom_config']['theme'] . '/style' . midcom_connection::get_url('page_style') . "/{$element}.php";
 
                 if (!file_exists($element_file))
                 {
