@@ -1,9 +1,4 @@
 <?php
-// Uncomment to get debug level logs only in this file
-/*
-$GLOBALS['midcom_config']['log_level'] = 5;
-$GLOBALS["midcom_debugger"]->_loglevel = 5;
-*/
 function org_routamc_positioning_send_sms($to, $message, $from, $config)
 {
     $sms_lib = 'org.openpsa.smslib';

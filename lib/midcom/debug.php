@@ -124,7 +124,7 @@ class midcom_debug
      *
      * @param int $loglevel        New log level
      */
-    function setLoglevel($loglevel)
+    function set_loglevel($loglevel)
     {
         $this->_loglevel = $loglevel;
     }
