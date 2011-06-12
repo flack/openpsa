@@ -20,7 +20,7 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
         // TODO: Figure out which notifiers are possible
         $notifiers = array
         (
-            ''         => 'default',
+            ''         => 'inherit',
             'none'     => 'none',
             'email'    => 'email',
         );
@@ -38,38 +38,44 @@ class org_openpsa_notifications_preferences extends midcom_baseclasses_component
 
         foreach ($customdata as $component => $actions)
         {
-            $prepended = false;
-
+            $i = 0;
+            $total = sizeof($actions);
             foreach ($actions as $action => $settings)
             {
-                $prepend = '';
-                if (!$prepended)
+                $action_key = "{$component}:{$action}";
+                $field_config = array
+                (
+                    'title'   => $_MIDCOM->i18n->get_string("action {$action}", $component),
+                    'storage' => array
+                    (
+                        'location' => 'configuration',
+                        'domain'   => 'org.openpsa.notifications',
+                        'name'     => $action_key,
+                    ),
+                    'type'    => 'select',
+                    'widget'  => 'radiocheckselect',
+                    'type_config' => array
+                    (
+                        'options' => $notifiers,
+                    ),
+                );
+                if ($i == 0)
                 {
-                    $prepend = "<h3 style='clear: left;'>" . $_MIDCOM->i18n->get_string($component, $component) . "</h3>\n";
-                    $prepended = true;
+                    $field_config['start_fieldset'] = array
+                    (
+                        'title' => midcom::get('i18n')->get_string($component, $component),
+                        'css_group' => 'area',
+                    );
+                }
+                if (++$i == $total)
+                {
+                    $field_config['end_fieldset'] = '';
                 }
 
-                $action_key = "{$component}:{$action}";
                 $this->_schemadb['notifications']->append_field
                 (
                     str_replace(':', '_', str_replace('.', '_', $action_key)),
-                    array
-                    (
-                        'title'   => $_MIDCOM->i18n->get_string("action {$action}", $component),
-                        'storage' => array
-                        (
-                            'location' => 'configuration',
-                            'domain'   => 'org.openpsa.notifications',
-                            'name'     => $action_key,
-                        ),
-                        'type'    => 'select',
-                        'widget'  => 'select',
-                        'type_config' => array
-                        (
-                            'options' => $notifiers,
-                        ),
-                        'static_prepend' => $prepend,
-                    )
+                    $field_config
                 );
             }
         }
