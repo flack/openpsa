@@ -66,13 +66,6 @@
     'variable_args' => 1,
 ),
 
-'group_notifications' => array
-(
-    'handler' => array('org_openpsa_contacts_handler_group_action', 'notifications'),
-    'fixed_args' => array('group', 'notifications'),
-    'variable_args' => 1,
-),
-
 // Match /group/<GUID>/<action>
 'group_action' => array
 (

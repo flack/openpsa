@@ -174,10 +174,6 @@ Päällekkäisyyksiä, joiden muuttamiseen sinulla on oikeudet, ei enää löydy
 Lisätietoja
 ---STRINGEND
 
----STRING notification settings
-Ilmoitusten asetukset
----STRINGEND
-
 ---STRING official
 Virallinen nimi
 ---STRINGEND

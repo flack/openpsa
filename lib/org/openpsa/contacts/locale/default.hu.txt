@@ -106,10 +106,6 @@ Mobiltelefon
 Jegyzetek
 ---STRINGEND
 
----STRING notification settings
-Figyelmeztetés beállításai
----STRINGEND
-
 ---STRING person
 Személy
 ---STRINGEND

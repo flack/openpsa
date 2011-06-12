@@ -55,7 +55,7 @@
             'widget'      => 'radiocheckselect',
         ),
 
-        'org_openpsa_calendar_event_remove' => array 
+        'org_openpsa_calendar_event_remove' => array
         (
             'title' => 'org.openpsa.calendar:event_remove',
             'type'    => 'select',
@@ -78,7 +78,7 @@
             'widget'      => 'radiocheckselect',
         ),
 
-        'org_openpsa_calendar_event_cancel' => array 
+        'org_openpsa_calendar_event_cancel' => array
         (
             'title' => 'org.openpsa.calendar:event_cancel',
             'type'    => 'select',

@@ -210,10 +210,6 @@ No results were found for your query
 Notes
 ---STRINGEND
 
----STRING notification settings
-Notification settings
----STRINGEND
-
 ---STRING official
 Official name
 ---STRINGEND

@@ -109,6 +109,10 @@ Generate Password
 Group Information
 ---STRINGEND
 
+---STRING notification settings
+Notification settings
+---STRINGEND
+
 ---STRING own_password
 Own Password
 ---STRINGEND

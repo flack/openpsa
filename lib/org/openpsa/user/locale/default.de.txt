@@ -130,6 +130,10 @@ Willkommens-Mail schicken?
 Dieser Benutzername ist bereits vergeben
 ---STRINGEND
 
+---STRING notification settings
+Benachrichtigungseinstellungen
+---STRINGEND
+
 ---STRING new password
 Neues Passwort
 ---STRINGEND

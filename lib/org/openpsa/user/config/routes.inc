@@ -105,6 +105,13 @@
     'fixed_args' => array('group', 'delete'),
     'variable_args' => 1,
 ),
+// Match /group/notifications/<guid>/
+'group_notifications' => array
+(
+    'handler' => array('org_openpsa_user_handler_group_notifications', 'notifications'),
+    'fixed_args' => array('group', 'notifications'),
+    'variable_args' => 1,
+),
 // Match /group/privileges/<guid>/
 'group_privileges' => array
 (

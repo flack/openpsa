@@ -38,7 +38,6 @@
         'org.openpsa.widgets' => array(),
         'org.openpsa.qbpager' => array(),
         'org.openpsa.relatedto' => array(),
-        'org.openpsa.notifications' => array(),
         'net.nehmer.buddylist' => array(),
         'org.routamc.positioning' => array(),
         'midcom' => array(),

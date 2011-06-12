@@ -18,7 +18,7 @@
                 'name' => 'organization_search_fields'
             ),
             'start_fieldset' => array
-            ( 
+            (
                 'title' => 'advanced schema and data settings',
             ),
         ),
@@ -60,33 +60,6 @@
                 'domain' => 'org.openpsa.contacts',
                 'name' => 'schemadb_person'
             ),
-        ),
-
-        'schemadb_acl' => array
-        (
-            'title' => 'permission schema database',
-            'type' => 'text',
-            'widget' => 'text',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.contacts',
-                'name' => 'schemadb_acl'
-            ),
-        ),
-
-        'schemadb_notifications' => array
-        (
-            'title' => 'notification schema database',
-            'type' => 'text',
-            'widget' => 'text',
-            'storage' => array
-            (
-                'location' => 'configuration',
-                'domain' => 'org.openpsa.contacts',
-                'name' => 'schemadb_notifications'
-            ),
-            'end_fieldset' => '',
         ),
     ),
 ),

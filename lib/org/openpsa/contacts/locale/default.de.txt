@@ -218,10 +218,6 @@ Ihre Suche lieferte keine Treffer
 Anmerkungen
 ---STRINGEND
 
----STRING notification settings
-Benachrichtigungseinstellungen
----STRINGEND
-
 ---STRING official
 Offizieller Name
 ---STRINGEND

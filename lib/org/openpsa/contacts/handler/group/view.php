@@ -119,16 +119,21 @@ implements midcom_helper_datamanager2_interfaces_view
             )
         );
 
-        $this->_view_toolbar->add_item
-        (
-            array
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        $user_url = $siteconfig->get_node_full_url('org.openpsa.user');
+        if (   $user_url
+            && midcom::get('auth')->can_user_do('org.openpsa.user:access', null, 'org_openpsa_user_interface'))
+        {
+            $this->_view_toolbar->add_item
             (
-                MIDCOM_TOOLBAR_URL => "group/notifications/{$this->_group->guid}/",
-                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
-                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
-                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
-            )
-        );
+                array
+                (
+                    MIDCOM_TOOLBAR_URL => $user_url . "group/{$this->_group->guid}/",
+                    MIDCOM_TOOLBAR_LABEL => midcom::get('i18n')->get_string('user management', 'org.openpsa.user'),
+                    MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/properties.png',
+                )
+            );
+        }
 
         $cal_node = midcom_helper_misc::find_node_by_component('org.openpsa.calendar');
         if (!empty($cal_node))

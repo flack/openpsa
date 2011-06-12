@@ -1,8 +1,6 @@
 'schemadb_group' => 'file:/org/openpsa/contacts/config/schemadb_default_organization.inc',
 'schemadb_person' => 'file:/org/openpsa/contacts/config/schemadb_default_person.inc',
 
-'schemadb_notifications' => 'file:/org/openpsa/contacts/config/schemadb_default_notifications.inc',
-
 'schemadb_config' => 'file:/org/openpsa/contacts/config/schemadb_config.inc',
 
 'person_search_fields' => 'username,firstname,lastname,email',

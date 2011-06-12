@@ -79,6 +79,16 @@ implements midcom_helper_datamanager2_interfaces_view
             )
         );
 
+        $this->_view_toolbar->add_item
+        (
+            array
+            (
+                MIDCOM_TOOLBAR_URL => "group/notifications/{$this->_group->guid}/",
+                MIDCOM_TOOLBAR_LABEL => $this->_l10n->get("notification settings"),
+                MIDCOM_TOOLBAR_ICON => 'stock-icons/16x16/stock-discussion.png',
+                MIDCOM_TOOLBAR_ENABLED => $_MIDCOM->auth->can_do('midgard:update', $this->_group),
+            )
+        );
         midcom::get()->bind_view_to_object($this->_group);
     }
 
