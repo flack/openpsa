@@ -158,57 +158,6 @@
             ),
             'end_fieldset' => '',
         ),
-        'net_nemein_approvenotifier_expires_today' => array
-        (
-            'title' => 'net.nemein.approvenotifier:expires_today',
-            'type'    => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'inherit',
-                    'none' => 'none',
-                    'email' => 'email',
-                ),
-            ),
-            'storage'    => array
-            (
-                'location' => 'parameter',
-                'domain' => 'org.openpsa.notifications',
-                'name'    => 'net.nemein.approvenotifier:expires_today',
-            ),
-
-            'widget'      => 'radiocheckselect',
-            'start_fieldset' => array
-            (
-                'title' => 'net.nemein.approvenotifier',
-                'css_group' => 'area',
-            ),
-        ),
-
-        'net_nemein_approvenotifier_expire_advance_notification' => array
-        (
-            'title' => 'net.nemein.approvenotifier:expire_advance_notification',
-            'type'    => 'select',
-            'type_config' => array
-            (
-                'options' => array
-                (
-                    '' => 'inherit',
-                    'none' => 'none',
-                    'email' => 'email',
-                ),
-            ),
-            'storage'    => array
-            (
-                'location' => 'parameter',
-                'domain' => 'org.openpsa.notifications',
-                'name'    => 'net.nemein.approvenotifier:expire_advance_notification',
-            ),
-
-            'widget'      => 'radiocheckselect',
-            'end_fieldset' => '',
-        ),
 
         'net_nemein_wiki_page_updated' => array
         (
