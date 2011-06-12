@@ -12,7 +12,7 @@
  * @package org.openpsa.user
  */
 class org_openpsa_user_handler_list extends midcom_baseclasses_components_handler
-implements org_openpsa_core_widgets_provider_client
+implements org_openpsa_widgets_grid_provider_client
 {
     /**
      * Handler method for listing users
