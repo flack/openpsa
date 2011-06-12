@@ -302,6 +302,10 @@ Das Passwort wurde zurckgesetzt und an die hinterlegte E-Mail-Adresse verschickt
 Person %s wurde erstellt
 ---STRINGEND
 
+---STRING person %s saved
+Person %s wurde gespeichert
+---STRINGEND
+
 ---STRING postcode
 PLZ
 ---STRINGEND
