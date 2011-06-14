@@ -48,10 +48,6 @@
         'org.openpsa.projects' => array(),
         'org.openpsa.products' => array(),
         'org.openpsa.invoices' => array(),
-        'Calendar' => array
-        (
-            'channel' => 'pear.php.net',
-        ),
         'midcom' => array(),
     ),
 ),

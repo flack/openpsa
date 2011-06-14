@@ -57,6 +57,7 @@
         'Contact_Vcard_Parse' => array
         (
             'channel' => 'pear.php.net',
+            'optional' => 'yes'
         ),
         'midcom' => array(),
     ),

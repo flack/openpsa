@@ -30,7 +30,7 @@
         (
             'channel' => 'pear.php.net',
         ),
-        'Mail_Mime' => array
+        'Mail_mime' => array
         (
             'channel' => 'pear.php.net',
         ),

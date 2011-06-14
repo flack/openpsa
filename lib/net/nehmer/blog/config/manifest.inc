@@ -45,6 +45,7 @@
         'XML_RPC' => array
         (
             'channel' => 'pear.php.net',
+            'optional' => 'yes'
         ),
     ),
 ),
