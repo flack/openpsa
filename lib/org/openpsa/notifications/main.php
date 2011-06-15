@@ -154,5 +154,80 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         return $preference;
     }
+
+    public function load_schemadb()
+    {
+        $schemadb = array
+        (
+        	'default' => array
+            (
+                'description' => 'notifications',
+                'fields'      => array()
+            )
+        );
+        $schemadb = midcom_helper_datamanager2_schema::load_database($schemadb);
+        $notifiers = $this->_list_notifiers();
+
+        // Load actions of various components
+        $customdata = midcom::get('componentloader')->get_all_manifest_customdata('org.openpsa.notifications');
+
+        foreach ($customdata as $component => $actions)
+        {
+            $i = 0;
+            $total = sizeof($actions);
+            foreach ($actions as $action => $settings)
+            {
+                $action_key = "{$component}:{$action}";
+                $field_config = array
+                (
+                    'title'   => midcom::get('i18n')->get_string("action {$action}", $component),
+                    'storage' => array
+                    (
+                        'location' => 'configuration',
+                        'domain'   => 'org.openpsa.notifications',
+                        'name'     => $action_key,
+                    ),
+                    'type'    => 'select',
+                    'widget'  => 'radiocheckselect',
+                    'type_config' => array
+                    (
+                        'options' => $notifiers,
+                    ),
+                );
+                if ($i == 0)
+                {
+                    $field_config['start_fieldset'] = array
+                    (
+                        'title' => midcom::get('i18n')->get_string($component, $component),
+                        'css_group' => 'area',
+                    );
+                }
+                if (++$i == $total)
+                {
+                    $field_config['end_fieldset'] = '';
+                }
+
+                $schemadb['default']->append_field
+                (
+                    str_replace(':', '_', str_replace('.', '_', $action_key)),
+                    $field_config
+                );
+            }
+        }
+        return $schemadb;
+    }
+
+    private function _list_notifiers()
+    {
+        // TODO: Figure out which notifiers are possible
+        $notifiers = array
+        (
+            ''         => $this->_l10n->get('inherit'),
+            'none'     => $this->_l10n->get('none'),
+            'email'    => $this->_l10n->get('email'),
+        );
+
+        return $notifiers;
+    }
 }
 ?>

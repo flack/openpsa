@@ -7,11 +7,11 @@
  */
 
 /**
- * org.openpsa.contacts group handler and viewer class.
+ * org.openpsa.contacts person handler and viewer class.
  *
  * @package org.openpsa.user
  */
-class org_openpsa_user_handler_group_notifications extends midcom_baseclasses_components_handler
+class org_openpsa_user_handler_person_notifications extends midcom_baseclasses_components_handler
 implements midcom_helper_datamanager2_interfaces_edit
 {
     public function load_schemadb()
@@ -29,25 +29,25 @@ implements midcom_helper_datamanager2_interfaces_edit
     {
         midcom::get('auth')->require_user_do('org.openpsa.user:manage', null, 'org_openpsa_user_interface');
 
-        $group = new org_openpsa_contacts_group_dba($args[0]);
-        $group->require_do('midgard:update');
+        $person = new org_openpsa_contacts_person_dba($args[0]);
+        $person->require_do('midgard:update');
 
-        $controller = $this->get_controller('simple', $group);
+        $controller = $this->get_controller('simple', $person);
 
         switch ($controller->process_form())
         {
             case 'save':
                 // Fall-through
             case 'cancel':
-                $_MIDCOM->relocate("group/" . $group->guid . "/");
+                $_MIDCOM->relocate("view/" . $person->guid . "/");
         }
 
         $data['notifications_dm'] =& $controller;
-        $data['object'] = $group;
+        $data['object'] = $person;
 
-        midcom::get('head')->set_pagetitle($group->get_label() . ": ". $this->_l10n->get("notification settings"));
+        midcom::get('head')->set_pagetitle($person->get_label() . ": ". $this->_l10n->get("notification settings"));
 
-        $this->add_breadcrumb('group/' . $group->guid . '/', $group->get_label());
+        $this->add_breadcrumb('view/' . $person->guid . '/', $person->get_label());
         $this->add_breadcrumb("", $this->_l10n->get("notification settings"));
 
         org_openpsa_helpers::dm2_savecancel($this);
