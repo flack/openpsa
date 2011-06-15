@@ -67,9 +67,16 @@
             'widget'   => 'text',
             'start_fieldset' => array
             (
-                'title' => 'billing data',
+                'title' => 'account data',
                 'css_group' => 'area meta',
             ),
+        ),
+        'bankName' => array
+        (
+            'title'    => 'name of bank',
+            'storage'  => 'bankName',
+            'type'     => 'text',
+            'widget'   => 'text',
         ),
         'bank_code' => array
         (
@@ -91,24 +98,30 @@
             'storage'  => 'bic',
             'type'     => 'text',
             'widget'   => 'text',
+            'end_fieldset' => '',
         ),
-        'bankName' => array
+        'taxid' => array
         (
-            'title'    => 'name of bank',
-            'storage'  => 'bankName',
+            'title'    => 'tax identification number',
+            'storage'  => 'taxId',
             'type'     => 'text',
             'widget'   => 'text',
+            'start_fieldset' => array
+            (
+                'title' => 'billing data',
+                'css_group' => 'area meta',
+            ),
         ),
         'vatno' => array
         (
-            'title'    => 'VAT No.',
+            'title'    => 'vat reg no',
             'storage'  => 'vatNo',
             'type'     => 'text',
             'widget'   => 'text',
         ),
         'due' => array
         (
-            'title'    => 'due',
+            'title'    => 'payment target',
             'storage'  => 'due',
             'type'     => 'text',
             'widget'   => 'text',
@@ -123,7 +136,6 @@
                 'options' => Array(),
             ),
             'widget'   => 'select',
-            'end_fieldset' => '',
         ),
 
         'sendingoption' => array
@@ -141,12 +153,6 @@
                 ),
             ),
             'widget'      => 'radiocheckselect',
-
-            'start_fieldset' => array
-            (
-                'title' => 'invoice options',
-                'css_group' => 'invoice_options area meta',
-            ),
             'end_fieldset' => '',
 
         ),

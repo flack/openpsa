@@ -2,6 +2,10 @@
 ---VERSION 2.1.0
 ---LANGUAGE en
 
+---STRING account data
+Account data
+---STRINGEND
+
 ---STRING account number
 Account number
 ---STRINGEND
@@ -298,6 +302,14 @@ Sum including VAT
 Sum (excl. VAT)
 ---STRINGEND
 
+---STRING tax identification number
+Taxpayer identification number
+---STRINGEND
+
+---STRING payment target
+Payment target (in days)
+---STRINGEND
+
 ---STRING there is no invoice with number %s
 There is no invoice with number %s
 ---STRINGEND
@@ -318,8 +330,8 @@ Unsent invoices
 VAT
 ---STRINGEND
 
----STRING VAT No.
-VAT No.
+---STRING vat reg no
+VAT registration number
 ---STRINGEND
 
 ---STRING vat sum

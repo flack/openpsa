@@ -62,6 +62,7 @@
         <property name="bic" type="string" />
         <property name="bankName" type="string" />
         <property name="vatNo" type="string" />
+        <property name="taxId" type="string" />
         <property name="vat" type="integer" />
         <property name="delivery" type="string" />
         <property name="due" type="unsigned integer" />
