@@ -96,9 +96,8 @@ if (file_exists(MIDCOM_ROOT . '/../themes/' . $GLOBALS['midcom_config_local']['t
 require(MIDCOM_ROOT . '/midcom.php');
 
 // Start request processing
-$_MIDCOM->codeinit();
-
-$_MIDCOM->content();
-
-$_MIDCOM->finish();
+$midcom = midcom::get();
+$midcom->codeinit();
+$midcom->content();
+$midcom->finish();
 ?>

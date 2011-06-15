@@ -149,7 +149,7 @@ class midcom
 
         $_MIDCOM = new midcom_compat_superglobal();
 
-        $_MIDCOM->initialize();
+        self::$_application->initialize();
 
         if (file_exists(MIDCOM_CONFIG_FILE_AFTER))
         {
@@ -192,7 +192,7 @@ class midcom
             && $class_name != 'midcom_baseclasses_components_interface')
         {
             // MidCOM component interfaces are named midcom/interface.php
-            $_MIDCOM->dbclassloader->load_component_for_class($class_name);
+            self::$_application->dbclassloader->load_component_for_class($class_name);
             return;
         }
 
