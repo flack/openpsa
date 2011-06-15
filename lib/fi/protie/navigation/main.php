@@ -190,7 +190,7 @@ class fi_protie_navigation
      *
      * @var boolean
      */
-    public $object_status_to_class = true;
+    public $object_status_to_class = false;
 
     /**
      * CSS class for has children
