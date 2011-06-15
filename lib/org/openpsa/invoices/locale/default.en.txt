@@ -188,7 +188,7 @@ Marked task "%s" as finished
 
 ---STRING name of bank
 Name of institute
----STRING
+---STRINGEND
 
 ---STRING next action
 Next Action
