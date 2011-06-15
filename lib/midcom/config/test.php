@@ -43,6 +43,13 @@ class midcom_config_test
         echo "  </tr>\n";
     }
 
+    public function print_header($heading)
+    {
+        echo "  <tr>\n";
+        echo "    <th colspan=\"3\">{$heading}</th>\n";
+        echo "  </tr>\n";
+    }
+
     public function ini_get_filesize($setting)
     {
         $result = ini_get($setting);
@@ -75,15 +82,12 @@ class midcom_config_test
         }
     }
 
-    public function check_for_utility ($name, $fail_code, $fail_recommendations, $ok_notice = '&nbsp;')
+    public function check_for_utility ($testname, $fail_code, $fail_recommendations, $ok_notice = '&nbsp;')
     {
-        $executable = $GLOBALS['midcom_config']["utility_{$name}"];
-        $testname = "External Utility: {$name}";
+        $executable = $GLOBALS['midcom_config']["utility_{$testname}"];
         if (is_null($executable))
         {
-            var_dump($testname);
-
-            $this->println($testname, $fail_code, "The path to the utility {$name} is not configured. {$fail_recommendations}");
+            $this->println($testname, $fail_code, "The path to the utility {$testname} is not configured. {$fail_recommendations}");
         }
         else
         {
@@ -94,7 +98,7 @@ class midcom_config_test
             }
             else
             {
-                $this->println($testname, $fail_code, "The utility {$name} is not correctly configured: File ({$executable}) not found. {$fail_recommendations}");
+                $this->println($testname, $fail_code, "The utility {$testname} is not correctly configured: File ({$executable}) not found. {$fail_recommendations}");
             }
         }
     }
@@ -125,9 +129,10 @@ class midcom_config_test
 
     public function check_midcom()
     {
+        $this->print_header('Framework');
         if (version_compare(mgd_version(), '8.09.9', '<'))
         {
-            $this->println('Midgard Version', self::ERROR, 'Midgard 8.09.9 or greater is required for this version of MidCOM.');
+            $this->println('Midgard Version', self::ERROR, 'Midgard 8.09.9 or greater is required for OpenPSA.');
         }
         else
         {
@@ -153,79 +158,80 @@ class midcom_config_test
 
     public function check_php()
     {
+        $this->print_header('PHP');
         if (version_compare(phpversion(), '5.2.0', '<'))
         {
-            $this->println('PHP Version', self::ERROR, 'PHP 5.2.0 or greater is required for MidCOM.');
+            $this->println('Version', self::ERROR, 'PHP 5.2.0 or greater is required for MidCOM.');
         }
         else
         {
-            $this->println('PHP Version', self::OK);
+            $this->println('Version', self::OK);
         }
 
         $cur_limit = $this->ini_get_filesize('memory_limit');
         if ($cur_limit >= (40 * 1024 * 1024))
         {
-            $this->println('PHP Setting: memory_limit', self::OK);
+            $this->println('Setting: memory_limit', self::OK);
         }
         else
         {
-            $this->println('PHP Setting: memory_limit', self::ERROR, "MidCOM requires a minimum memory limit of 40 MB to operate correctly. Smaller amounts will lead to PHP Errors. Detected limit was {$cur_limit}.");
+            $this->println('Setting: memory_limit', self::ERROR, "MidCOM requires a minimum memory limit of 40 MB to operate correctly. Smaller amounts will lead to PHP Errors. Detected limit was {$cur_limit}.");
         }
 
         if ($this->ini_get_boolean('register_globals'))
         {
-            $this->println('PHP Setting: register_globals', self::WARNING, 'register_globals is enabled, it is recommended to turn this off for security reasons');
+            $this->println('Setting: register_globals', self::WARNING, 'register_globals is enabled, it is recommended to turn this off for security reasons');
         }
         else
         {
-            $this->println('PHP Setting: register_globals', self::OK);
+            $this->println('Setting: register_globals', self::OK);
         }
 
         if ($this->ini_get_boolean('track_errors'))
         {
-            $this->println('PHP Setting: track_errors', self::OK);
+            $this->println('Setting: track_errors', self::OK);
         }
         else
         {
-            $this->println('PHP Setting: track_errors', self::WARNING, 'track_errors is disabled, it is strongly suggested to be activated as this allows the framework to handle more errors gracefully.');
+            $this->println('Setting: track_errors', self::WARNING, 'track_errors is disabled, it is strongly suggested to be activated as this allows the framework to handle more errors gracefully.');
         }
 
         $upload_limit = $this->ini_get_filesize('upload_max_filesize');
         if ($upload_limit >= (50 * 1024 * 1024))
         {
-            $this->println('PHP Setting: upload_max_filesize', self::OK);
+            $this->println('Setting: upload_max_filesize', self::OK);
         }
         else
         {
-            $this->println('PHP Setting: upload_max_filesize',
+            $this->println('Setting: upload_max_filesize',
                              self::WARNING, "To make bulk uploads (for exampe in the Image Gallery) useful, you should increase the Upload limit to something above 50 MB. (Current setting: {$upload_limit})");
         }
 
         $post_limit = $this->ini_get_filesize('post_max_size');
         if ($post_limit >= $upload_limit)
         {
-            $this->println('PHP Setting: post_max_size', self::OK);
+            $this->println('Setting: post_max_size', self::OK);
         }
         else
         {
-            $this->println('PHP Setting: post_max_size', self::WARNING, 'post_max_size should be larger then upload_max_filesize, as both limits apply during uploads.');
+            $this->println('Setting: post_max_size', self::WARNING, 'post_max_size should be larger then upload_max_filesize, as both limits apply during uploads.');
         }
 
         if (! $this->ini_get_boolean('magic_quotes_gpc'))
         {
-            $this->println('PHP Setting: magic_quotes_gpc', self::OK);
+            $this->println('Setting: magic_quotes_gpc', self::OK);
         }
         else
         {
-            $this->println('PHP Setting: magic_quotes_gpc', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
+            $this->println('Setting: magic_quotes_gpc', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
         }
         if (! $this->ini_get_boolean('magic_quotes_runtime'))
         {
-            $this->println('PHP Setting: magic_quotes_runtime', self::OK);
+            $this->println('Setting: magic_quotes_runtime', self::OK);
         }
         else
         {
-            $this->println('PHP Setting: magic_quotes_runtime', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
+            $this->println('Setting: magic_quotes_runtime', self::ERROR, 'Magic Quotes must be turned off, Midgard/MidCOM does this explicitly where required.');
         }
 
         if (! function_exists('mb_strlen'))
@@ -237,6 +243,50 @@ class midcom_config_test
             $this->println('Multi-Byte String functions', self::OK);
         }
 
+        if (ini_get("apc.enabled") == "1")
+        {
+            $this->println("Bytecode cache", self::OK, "APC is enabled");
+        }
+        else if (ini_get("eaccelerator.enable") == "1")
+        {
+            $this->println("Bytecode cache", self::OK, "eAccelerator is enabled");
+        }
+        else
+        {
+            $this->println("Bytecode cache", self::WARNING, "A PHP bytecode cache is recommended for efficient MidCOM operation");
+        }
+
+        if (! class_exists('Memcache'))
+        {
+            $this->println('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation.');
+        }
+        else
+        {
+            if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] == '')
+            {
+                $this->println('Memcache', self::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
+            }
+            else
+            {
+                if (midcom_services_cache_backend_memcached::$memcache_operational)
+                {
+                    $this->println('Memcache', self::OK);
+                }
+                else
+                {
+                    $this->println('Memcache', self::ERROR, "The PHP Memcache module is available and set to be in use, but it cannot be connected to.");
+                }
+            }
+        }
+
+        if (! function_exists('read_exif_data'))
+        {
+            $this->println('EXIF reader', self::WARNING, 'PHP-EXIF is not available. It required for proper operation of Image Gallery components.');
+        }
+        else
+        {
+            $this->println('EXIF reader', self::OK);
+        }
         if (! function_exists('iconv'))
         {
             $this->println('iconv', self::ERROR, 'The PHP iconv module is required for MidCOM operation.');
@@ -249,6 +299,7 @@ class midcom_config_test
 
     public function check_pear()
     {
+        $this->print_header('PEAR');
         foreach (midcom::get('componentloader')->manifests as $manifest)
         {
             if (empty($manifest->_raw_data['package.xml']['dependencies']))

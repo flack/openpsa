@@ -26,65 +26,17 @@ $runner = new midcom_config_test();
 $runner->check_midcom();
 $runner->check_php();
 $runner->check_pear();
-
-// memcached is recommended
-if (! class_exists('Memcache'))
-{
-    $runner->println('Memcache', midcom_config_test::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation.');
-}
-else
-{
-    if ($GLOBALS['midcom_config']['cache_module_memcache_backend'] == '')
-    {
-        $runner->println('Memcache', midcom_config_test::WARNING, 'The PHP Memcache module is recommended for efficient MidCOM operation. It is available but is not set to be in use.');
-    }
-    else
-    {
-        if (midcom_services_cache_backend_memcached::$memcache_operational)
-        {
-            $runner->println('Memcache', midcom_config_test::OK);
-        }
-        else
-        {
-            $runner->println('Memcache', midcom_config_test::ERROR, "The PHP Memcache module is available and set to be in use, but it cannot be connected to.");
-        }
-    }
-}
-
-// bytecode cache is recommended
-if(ini_get("apc.enabled") == "1")
-{
-    $runner->println("PHP bytecode cache", midcom_config_test::OK, "APC is enabled");
-}
-else if(ini_get("eaccelerator.enable") == "1")
-{
-    $runner->println("PHP bytecode cache", midcom_config_test::OK, "eAccelerator is enabled");
-}
-else
-{
-    $runner->println("PHP bytecode cache", midcom_config_test::WARNING, "A PHP bytecode cache is recommended for efficient MidCOM operation");
-}
-
-// EXIF Reading
-if (! function_exists('read_exif_data'))
-{
-    $runner->println('EXIF reader', midcom_config_test::WARNING, 'PHP-EXIF is not available. It required for proper operation of Image Gallery components.');
-}
-else
-{
-    $runner->println('EXIF reader', midcom_config_test::OK);
-}
-
+$runner->print_header('External Utilities');
 // ImageMagick
 $cmd = "{$GLOBALS['midcom_config']['utility_imagemagick_base']}identify -version";
 exec ($cmd, $output, $result);
 if ($result !== 0 && $result !== 1)
 {
-    $runner->println('External Utility: ImageMagick', midcom_config_test::ERROR, 'The existence ImageMagick toolkit could not be verified, it is required for all kinds of image processing in MidCOM.');
+    $runner->println('ImageMagick', midcom_config_test::ERROR, 'The existence ImageMagick toolkit could not be verified, it is required for all kinds of image processing in MidCOM.');
 }
 else
 {
-    $runner->println('External Utility: ImageMagick', midcom_config_test::OK);
+    $runner->println('ImageMagick', midcom_config_test::OK);
 }
 
 // Other utilities
