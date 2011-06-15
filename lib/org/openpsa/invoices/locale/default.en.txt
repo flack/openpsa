@@ -335,7 +335,7 @@ How to send?
 ---STRINGEND
 
 ---STRING send per email
-Via E-Mail
+By email
 ---STRINGEND
 
 ---STRING send manually

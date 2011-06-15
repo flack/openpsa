@@ -307,7 +307,7 @@ Weitere Optionen
 ---STRINGEND
 
 ---STRING sending option
-Wie verschicken?
+Versandmethode
 ---STRINGEND
 
 ---STRING send per email
