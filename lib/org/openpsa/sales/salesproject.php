@@ -130,7 +130,15 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
         catch (midcom_error $e)
         {
-            $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+            try
+            {
+                $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+            }
+            catch (midcom_error $e)
+            {
+                $e->log();
+            }
+            $customer = null;
         }
         return $customer;
     }
