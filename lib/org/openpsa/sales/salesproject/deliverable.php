@@ -225,10 +225,19 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
      * @param integer $task_id The ID of the task that requested the update
      * @param array $hours The task's hours
      */
-    function update_units($task_id, $hours)
+    function update_units($task_id = 0, $hours = null)
     {
         debug_add('Units before update: ' . $this->units . ", uninvoiceable: " . $this->uninvoiceableUnits);
 
+        if (null === $hours)
+        {
+            $hours = array
+            (
+                'reported' => 0,
+                'invoiced' => 0,
+                'invoiceable' => 0
+            );
+        }
         $agreement_hours = $hours;
 
         // List hours from tasks of the agreement
@@ -275,7 +284,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
     }
 
-    function invoice($sum, $generate_invoice = true)
+    function invoice($sum)
     {
         if ($this->state > org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED)
         {
@@ -289,83 +298,20 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             return false;
         }
 
-        $open_amount = $this->price - $this->invoiced;
+        $calculator = new org_openpsa_invoices_calculator();
+        $amount = $calculator->process_deliverable($this->_deliverable, $cycle_number);
 
-        /* if generate_invoice is set to false, we most likely generate one for
-         *  multiple deliverables, so we skip the consistency check
-         */
-        if (   $generate_invoice
-            && $sum > $open_amount)
+        if ($amount > 0)
         {
-            $_MIDCOM->uimessages->add
-            (
-                $_MIDCOM->i18n->get_string('org.openpsa.sales', 'org.openpsa.sales'),
-                sprintf($_MIDCOM->i18n->get_string('the amount youre trying to invoice %s exceeds the open amount of the deliverable %s', 'org.openpsa.sales'), $sum, $open_amount),
-                'error'
-            );
-            return false;
+            $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED;
+            $this->invoiced = $this->invoiced + $sum;
+            $this->update();
+
+            // Update sales project and mark as delivered (if no other deliverables are active)
+            $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
+            $salesproject->mark_invoiced();
         }
-
-        if (   $generate_invoice
-            && $sum > 0)
-        {
-            // Generate org.openpsa.invoices invoice
-            $this->_create_invoice($sum, "{$this->title}\n\n{$this->description}");
-        }
-
-        $this->state = org_openpsa_sales_salesproject_deliverable_dba::STATUS_INVOICED;
-        $this->invoiced = $this->invoiced + $sum;
-        $this->update();
-
-        // Update sales project and mark as delivered (if no other deliverables are active)
-        $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-        $salesproject->mark_invoiced();
-
         return true;
-    }
-
-    /**
-     * Send an invoice from the deliverable.
-     *
-     * Creates a new, unsent org.openpsa.invoices object
-     * and adds a relation between it and the deliverable.
-     *
-     * @param float $sum The invoice sum
-     * @param string $description The invoice description
-     */
-    private function _create_invoice($sum, $description)
-    {
-        $salesproject = org_openpsa_sales_salesproject_dba::get_cached($this->salesproject);
-
-        $invoice = new org_openpsa_invoices_invoice_dba();
-        $invoice->customer = $salesproject->customer;
-        $invoice->number = org_openpsa_invoices_invoice_dba::generate_invoice_number();
-        $invoice->owner = $salesproject->owner;
-
-        $invoice->vat = $invoice->get_default_vat();
-        $invoice->due = ($invoice->get_default_due() * 3600 * 24) + time();
-
-        $invoice->description = $invoice->description . "\n\n" . $description;
-        $invoice->sum = $sum;
-
-        if (!$invoice->create())
-        {
-            throw new midcom_error("Invoice could not be created. Last Midgard error: " . midcom_connection::get_error_string());
-        }
-
-        // TODO: Create invoicing task if assignee is defined
-
-        // Mark the tasks (and hour reports) related to this agreement as invoiced
-        $task_qb = org_openpsa_projects_task_dba::new_query_builder();
-        $task_qb->add_constraint('agreement', '=', $this->id);
-        $tasks = $task_qb->execute();
-
-        foreach ($tasks as $task)
-        {
-            org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
-            //calculate the invoice_items by actual units if set in agreement
-            $invoice->_recalculate_invoice_items(array( 0 => $task->id));
-        }
     }
 
     function decline()

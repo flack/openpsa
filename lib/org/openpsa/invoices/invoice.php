@@ -352,29 +352,6 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
     }
 
     /**
-     * Function which calculates the invoice_sum by invoice_items
-     *
-     * @param bool round - indicates if result should be rounded
-     */
-    function get_invoice_sum($round = true)
-    {
-        $invoice_sum = 0;
-        $qb = org_openpsa_invoices_invoice_item_dba::new_query_builder();
-        $qb->add_constraint('invoice', '=', $this->id);
-        $items = $qb->execute();
-
-        foreach ($items as $item)
-        {
-            $invoice_sum += $item->pricePerUnit * $item->units;
-        }
-        if ($round)
-        {
-            $invoice_sum = round($invoice_sum, 2);
-        }
-        return $invoice_sum;
-    }
-
-    /**
      * Helper function to get corresponding invoice_items indexed by GUID
      */
     function get_invoice_items()

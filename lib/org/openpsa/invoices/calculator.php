@@ -39,9 +39,6 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
 
         $this_cycle_amount = $client->get_price();
 
-        $this->_deliverable->invoiced = $this->_deliverable->invoiced + $this_cycle_amount;
-        $this->_deliverable->update();
-
         if ($this_cycle_amount == 0)
         {
             debug_add('Invoice sum 0, skipping invoice creation');
@@ -77,8 +74,8 @@ class org_openpsa_invoices_calculator extends midcom_baseclasses_components_pure
                 throw new midcom_error('Failed to save item to disk, ' . midcom_connection::get_error_string());
             }
         }
-        $this->_invoice->sum = $this->_invoice->get_invoice_sum();
-        $this->_invoice->update();
+        org_openpsa_invoices_invoice_item_dba::update_invoice($this->_invoice);
+        org_openpsa_invoices_invoice_item_dba::update_deliverable($this->_deliverable);
 
         return $this_cycle_amount;
     }

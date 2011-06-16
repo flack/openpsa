@@ -14,7 +14,7 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 {
     public $__midcom_class_name__ = __CLASS__;
     public $__mgdschema_class_name__ = 'org_openpsa_invoice_item';
-    var $skip_invoice_update = false;
+    public $skip_invoice_update = false;
 
     public function __construct($id = null)
     {
@@ -96,8 +96,13 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
             {
                 //update the invoice-sum so it will always contain the actual sum
                 $invoice = new org_openpsa_invoices_invoice_dba($this->invoice);
-                $invoice->sum = $invoice->get_invoice_sum();
-                $invoice->update();
+                $old_sum = $invoice->sum;
+                self::update_invoice($invoice);
+                if ($old_sum != $invoice->sum)
+                {
+                    $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($this->deliverable);
+                    self::update_deliverable($deliverable);
+                }
             }
             catch (midcom_error $e)
             {
@@ -106,5 +111,54 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         }
     }
 
+    public static function update_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    {
+        $invoiced = self::_get_sum('deliverable', $deliverable->id);
+
+        if ($invoiced != $deliverable->invoiced)
+        {
+            $deliverable->invoiced = $invoiced;
+            $deliverable->update();
+        }
+    }
+
+    public static function update_invoice(org_openpsa_invoices_invoice_dba $invoice)
+    {
+        $invoice_sum = self::_get_sum('invoice', $invoice->id);
+        $invoice_sum = round($invoice_sum, 2);
+        if ($invoice_sum != round($invoice->sum, 2))
+        {
+            $invoice->sum = $invoice_sum;
+            $invoice->update();
+        }
+    }
+
+    private static function _get_sum($field, $value)
+    {
+        $sum = 0;
+        $mc = self::new_collector($field, $value);
+        $mc->add_value_property('units');
+        $mc->add_value_property('pricePerUnit');
+        $mc->execute();
+        $keys = $mc->list_keys();
+
+        foreach ($keys as $key => $empty)
+        {
+            $sum += $mc->get_subkey($key, 'units') * $mc->get_subkey($key, 'pricePerUnit');
+        }
+
+        return $sum;
+    }
+
+    /**
+     * Function which calculates the invoice_sum by invoice_items
+     *
+     * @param bool round - indicates if result should be rounded
+     */
+    function get_invoice_sum($round = true)
+    {
+
+        return $invoice_sum;
+    }
 }
 ?>
