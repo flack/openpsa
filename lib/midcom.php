@@ -192,7 +192,7 @@ class midcom
             && $class_name != 'midcom_baseclasses_components_interface')
         {
             // MidCOM component interfaces are named midcom/interface.php
-            self::$_application->dbclassloader->load_component_for_class($class_name);
+            self::get('dbclassloader')->load_component_for_class($class_name);
             return;
         }
 
