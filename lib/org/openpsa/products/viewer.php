@@ -290,14 +290,6 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
                 }
             }
         }
-        else
-        {
-            $tmp[] = array
-            (
-                MIDCOM_NAV_URL => "product/{$object->code}/",
-                MIDCOM_NAV_NAME => $object->title,
-            );
-        }
 
         while ($object)
         {
@@ -313,32 +305,11 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
 
             if (get_class($object) == 'org_openpsa_products_product_dba')
             {
-                if (isset($object->productGroup))
-                {
-                    $group = new org_openpsa_products_product_group_dba($object->productGroup);
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => $group->code . '/',
-                        MIDCOM_NAV_NAME => $group->title,
-                    );
-                    if ($group->up !== 0)
-                    {
-                        $parent_group = new org_openpsa_products_product_group_dba($group->up);
-                        $tmp[] = array
-                        (
-                            MIDCOM_NAV_URL => "product/{$parent_group->code}/{$object->code}/",
-                            MIDCOM_NAV_NAME => $object->title,
-                        );
-                    }
-                }
-                else
-                {
-                    $tmp[] = array
-                    (
-                        MIDCOM_NAV_URL => "product/{$object->code}/",
-                        MIDCOM_NAV_NAME => $object->title,
-                    );
-                }
+                $tmp[] = array
+                (
+                    MIDCOM_NAV_URL => "product/{$object->code}/",
+                    MIDCOM_NAV_NAME => $object->title,
+                );
             }
             else if (get_class($object) != 'org_openpsa_products_product_link_dba')
             {
