@@ -20,12 +20,12 @@
         <property name="value" type="integer" index="yes">
             <description>
                 Value of the privilege:
-                
+
                 - 1: MIDCOM_PRIVILEGE_ALLOW
                 - 2: MIDCOM_PRIVILEGE_DENY
                 - 3: MIDCOM_PRIVILEGE_INHERIT
             </description>
-        </property>  
+        </property>
     </type>
 
     <type name="midcom_core_login_session_db" table="midcom_core_login_session">

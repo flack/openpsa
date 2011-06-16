@@ -134,13 +134,7 @@ class org_openpsa_products_handler_product_view extends midcom_baseclasses_compo
                  * So we can search for the application using only
                  * this group id
                  */
-                //Commented out for now because of http://trac.midgard-project.org/ticket/1976
-                //$qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
-                //workaround:
-                $qb->begin_group('OR');
-                $qb->add_constraint('productGroup.up', 'INTREE', $groups[0]->id);
-                $qb->add_constraint('productGroup', '=', $groups[0]->id);
-                $qb->end_group();
+                $qb->add_constraint('productGroup', 'INTREE', $groups[0]->id);
             }
             else
             {
