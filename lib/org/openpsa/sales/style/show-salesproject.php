@@ -6,8 +6,10 @@ $salesproject = $data['salesproject'];
 <h1>&(view['title']:h);</h1>
     <div class="contacts">
         <?php
-        $customer = $data['salesproject']->get_customer();
-        echo "<h2>{$customer->get_label()}</h2>\n";
+        if ($customer = $data['salesproject']->get_customer())
+        {
+            echo "<h2>{$customer->get_label()}</h2>\n";
+        }
         $contacts = $data['salesproject']->contacts;
         foreach ($contacts as $contact_id => $active)
         {
