@@ -206,7 +206,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
              || !empty($this->attachments)
              || !empty($this->_embeds))
         {
-            $message->set_mime_body($this->body, $this->html_body, $this->attachments, $this->embeds);
+            $message->set_mime_body($this->body, $this->html_body, $this->attachments, $this->_embeds);
         }
         else
         {
