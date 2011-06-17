@@ -67,10 +67,9 @@ abstract class org_openpsa_mail_backend
         return new $classname($params);
     }
 
-    final public function send($to, $headers, $body)
+    final public function send(org_openpsa_mail_message $message)
     {
-        $recipients = $this->_merge_address_headers($to, $headers);
-        $ret = $this->mail($recipients, $headers, $body);
+        $ret = $this->mail($message->get_recipients(), $message->get_headers(), $message->get_body());
         if (!$ret)
         {
             $this->error = $ret;
@@ -80,25 +79,6 @@ abstract class org_openpsa_mail_backend
             $this->error = false;
         }
         return $ret;
-    }
-
-    /**
-     * Merges all email recipients into a comma-separated string
-     *
-     * @todo Support arrays of addresses as well
-     */
-    private function _merge_address_headers($to, array $headers)
-    {
-        $addresses = $to;
-        if (!empty($headers['Cc']))
-        {
-            $addresses .= ', ' . $headers['Cc'];
-        }
-        if (!empty($this->headers['Bcc']))
-        {
-            $addresses .= ', ' . $headers['Bcc'];
-        }
-        return $addresses;
     }
 
     public function get_error_message()

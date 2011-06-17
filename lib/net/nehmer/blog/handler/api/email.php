@@ -304,9 +304,8 @@ class net_nehmer_blog_handler_api_email extends midcom_baseclasses_components_ha
             throw new midcom_error('_POST[\'message_source\'] not present or empty.');
         }
 
-        $this->_decoder = new org_openpsa_mail();
-        $this->_decoder->body = $_POST['message_source'];
-        $this->_decoder->mime_decode();
+        $this->_decoder = new org_openpsa_mail_decoder();
+        $this->_decoder->mime_decode($_POST['message_source']);
     }
 
     private function _parse_email_persons()

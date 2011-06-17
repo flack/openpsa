@@ -510,7 +510,6 @@ class org_openpsa_helpers_vxparser
                 $param['CHARSET'] = $this->compatibility['data']['suppose_charset'];
             }
             //Convert characters if necessary
-            //if ($this->__iconv && isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET'])!=strtolower($this->charset) && function_exists('iconv')) {
             if (isset($param['CHARSET']) && $param['CHARSET'] && strtolower($param['CHARSET']) != strtolower($this->charset) && function_exists('iconv'))
             {
                 $icRet = iconv($param['CHARSET'], $this->charset, $data);
@@ -624,7 +623,7 @@ class org_openpsa_helpers_vxparser
             }
             $data[$key][] = $this->vCal_decode($keyData, $keyParam);
             $parameters[$key][] = $keyParam;
-        } 
+        }
         else
         {
             $data[$key] = $this->vCal_decode($keyData, $keyParam);

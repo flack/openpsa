@@ -626,7 +626,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 else
                 {
                     //The mail class uses a caching scheme to avoid fetching embedded objects again.
-                    list ($mail->html_body, $mail->embeds) = $mail->html_get_embeds($this, $mail->html_body, $mail->embeds);
+                    $mail->embed_images($this);
                 }
 
                 //Handle link detection

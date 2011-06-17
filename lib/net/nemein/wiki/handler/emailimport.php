@@ -44,9 +44,8 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             throw new midcom_error('_POST[\'message_source\'] not present or empty.');
         }
 
-        $decoder = new org_openpsa_mail();
-        $decoder->body = $_POST['message_source'];
-        $decoder->mime_decode();
+        $decoder = new org_openpsa_mail_decoder();
+        $decoder->mime_decode($_POST['message_source']);
 
         //Parse email addresses
         $regex = '/<?([a-zA-Z0-9_.-]+?@[a-zA-Z0-9_.-]+)>?[ ,]?/';

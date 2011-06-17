@@ -52,9 +52,7 @@ else
     $mail->from = $_POST['from'];
     $mail->subject = $_POST['subject'];
     $mail->html_body = $_POST['html_body'];
-    list ($new_html, $embeds) = $mail->html_get_embeds(false, $mail->html_body);
-    $mail->html_body = $new_html;
-    $mail->embeds = $embeds;
+    $mail->embed_images();
     $ret = $mail->send();
 
     echo "mail->send returned {$ret}<br>\n";
