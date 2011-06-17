@@ -553,22 +553,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
         $token = $this->_create_email_token();
         $person =& org_openpsa_contacts_person_dba::get_cached($member->person);
         debug_add("Called for member #{$member->id}, (person #{$person->id}: {$person->rname})");
-        $mail = new org_openpsa_mail();
-        $mail->to = $person->email;
-        $subject = $member->personalize_message($subject, ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT, $person);
-        if ($this->test_mode)
-        {
-            $mail->subject = "[TEST] {$subject}";
-        }
-        else
-        {
-            $mail->subject = $subject;
-        }
-        $mail->from = $from;
-        if (isset($data_array['reply-to']))
-        {
-            $mail->headers['Reply-To'] = $data_array['reply-to'];
-        }
+
         //Make sure we have some backend and parameters for it defined
         if (!isset($data_array['mail_send_backend']))
         {
@@ -592,6 +577,23 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
                 $data_array['mail_send_backend'] = 'bouncer';
             }
         }
+        $mail = new org_openpsa_mail($data_array['mail_send_backend'], $data_array['mail_send_backend_params']);
+        $mail->to = $person->email;
+        $subject = $member->personalize_message($subject, ORG_OPENPSA_MESSAGETYPE_EMAIL_TEXT, $person);
+        if ($this->test_mode)
+        {
+            $mail->subject = "[TEST] {$subject}";
+        }
+        else
+        {
+            $mail->subject = $subject;
+        }
+        $mail->from = $from;
+        if (isset($data_array['reply-to']))
+        {
+            $mail->headers['Reply-To'] = $data_array['reply-to'];
+        }
+
         //Set some List-xxx headers to avoid auto-replies and in general to be a good netizen
         $mail->headers['List-Id'] = "<{$this->guid}@{$_SERVER['SERVER_NAME']}>";
         $mail->headers['List-Unsubscribe'] =  '<' . $member->get_unsubscribe_url(false, $person) . '>';
@@ -689,7 +691,7 @@ class org_openpsa_directmarketing_campaign_message_dba extends midcom_core_dbaob
             }
         }
 
-        $status = $mail->send($data_array['mail_send_backend'], $data_array['mail_send_backend_params']);
+        $status = $mail->send();
         if ($status)
         {
             debug_add('Mail sent to: ' . $mail->to);

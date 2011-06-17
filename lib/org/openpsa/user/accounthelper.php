@@ -105,14 +105,12 @@ class org_openpsa_user_accounthelper extends midcom_baseclasses_components_purec
             $_MIDCOM->componentloader->load('org.openpsa.mail');
             $mail = new org_openpsa_mail();
             $mail->to = $usermail;
-
             $mail->from = $this->_config->get('welcome_mail_from_address');
-
-
             $mail->subject = $this->_config->get('welcome_mail_title');
 
             // Make replacements to body
-            $replacements = array(
+            $replacements = array
+            (
                 "__USERNAME__" => $username,
                 "__PASSWORD__" => $password
             );

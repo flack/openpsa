@@ -11,6 +11,7 @@
  *
  * Gracefully degrades in functionality if certain PEAR libraries are
  * not available.
+ *
  * @package org.openpsa.mail
  */
 class org_openpsa_mail extends midcom_baseclasses_components_purecode
@@ -134,7 +135,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
      */
     private $__htmlBodyFound;
 
-    public function __construct()
+    public function __construct($backend = 'try_default', $backend_params = array())
     {
         $this->_component = 'org.openpsa.mail';
         parent::__construct();
@@ -144,6 +145,8 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $this->headers['X-Originating-Ip'] = $_SERVER['REMOTE_ADDR'];
 
         $this->encoding = $this->_i18n->get_current_charset();
+
+        $this->_backend = org_openpsa_mail_backend::get($backend, $backend_params);
     }
 
     /**
@@ -854,53 +857,10 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     }
 
     /**
-     * Tries to load a send backend
-     */
-    private function _load_backend($backend)
-    {
-        $classname = "org_openpsa_mail_backend_{$backend}";
-        if (class_exists($classname))
-        {
-            $this->_backend = new $classname();
-            debug_print_r("backend is now", $this->_backend);
-            return true;
-        }
-        debug_add("backend class {$classname} is not available", MIDCOM_LOG_WARN);
-        return false;
-    }
-
-    /**
      * Sends the email
      */
-    function send($backend = 'try_default', $backend_params = array())
+    function send()
     {
-        switch ($backend)
-        {
-            case 'try_default':
-                $try_backends = $this->_config->get('default_try_backends');
-                if (!is_array($try_backends))
-                {
-                    return false;
-                }
-                //Use first available backend in list
-                foreach ($try_backends as $backend)
-                {
-                    debug_add("Trying backend {$backend}");
-
-                    if (   $this->_load_backend($backend)
-                        && $this->_backend->is_available())
-                    {
-                        debug_add("Backend {$backend} loaded OK");
-                        break;
-                    }
-                    debug_add("backend {$backend} is not available");
-                }
-                break;
-            default:
-                $this->_load_backend($backend);
-                break;
-        }
-
         if (!is_object($this->_backend))
         {
             debug_add('no backend object available, aborting');
@@ -910,9 +870,12 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         //Prepare mail for sending
         $this->prepare();
 
-
         $this->headers['X-org.openpsa.mail-backend-class'] = get_class($this->_backend);
-        $ret = $this->_backend->send($this, $backend_params);
+        $ret = $this->_backend->send($this->to, $this->headers, $this->body);
+        if ($ret !== true)
+        {
+            debug_add($this->_backend->get_error_message());
+        }
         return $ret;
     }
 
@@ -1165,24 +1128,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return array($html, $embeds);
     }
 
-    function merge_address_headers()
-    {
-        $addresses = '';
-        //TODO: Support array of addresses as well
-        $addresses .= $this->to;
-        if (!empty($this->headers['Cc']))
-        {
-            //TODO: Support array of addresses as well
-            $addresses .= ', ' . $this->headers['Cc'];
-        }
-        if (!empty($this->headers['Bcc']))
-        {
-            //TODO: Support array of addresses as well
-            $addresses .= ', ' . $this->headers['Bcc'];
-        }
-        return $addresses;
-    }
-
     /**
      * Initialize PEAR Mail/MIME classes if available
      *
@@ -1206,29 +1151,6 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
               @include_once('Mail/mimeDecode.php');
            }
         }
-    }
-
-    public static function compose($template, $message_text, array $message_strings)
-    {
-        $_MIDCOM->load_library('org.openpsa.mail');
-        foreach ($message_strings as $id => $string)
-        {
-            $message_text = str_replace("__{$id}__", $string, $message_text);
-        }
-
-        $mail = new org_openpsa_mail();
-        $mail->body = $message_text;
-
-        ob_start();
-        $data = array();
-        $data['email_message_text'] = $message_text;
-        $_MIDCOM->set_custom_context_data('request_data', $data);
-        $_MIDCOM->style->enter_context($_MIDCOM->get_current_context());
-        $_MIDCOM->style->show($template);
-        $mail->html_body = ob_get_contents();
-        ob_end_clean();
-
-        return $mail;
     }
 }
 ?>

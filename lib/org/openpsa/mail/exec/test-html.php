@@ -3,8 +3,6 @@ $_MIDCOM->auth->require_admin_user();
 
 echo "<p>\n";
 
-$mail = new org_openpsa_mail();
-
 if (   !isset($_POST['to'])
     || empty($_POST['to'])
     || !isset($_POST['from'])
@@ -49,6 +47,7 @@ if (   !isset($_POST['to'])
 }
 else
 {
+    $mail = new org_openpsa_mail($_POST['backend']);
     $mail->to = $_POST['to'];
     $mail->from = $_POST['from'];
     $mail->subject = $_POST['subject'];
@@ -56,7 +55,7 @@ else
     list ($new_html, $embeds) = $mail->html_get_embeds(false, $mail->html_body);
     $mail->html_body = $new_html;
     $mail->embeds = $embeds;
-    $ret = $mail->send($_POST['backend']);
+    $ret = $mail->send();
 
     echo "mail->send returned {$ret}<br>\n";
 }

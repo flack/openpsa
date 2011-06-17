@@ -13,82 +13,41 @@
  *
  * @package org.openpsa.mail
  */
-class org_openpsa_mail_backend_bouncer
+class org_openpsa_mail_backend_bouncer extends org_openpsa_mail_backend
 {
-    var $error = false;
     private $_try_backends = array('mail_smtp', 'mail_sendmail'); //Backends that properly set the ENVELOPE address from "Return-Path" header
     private $_backend = null;
 
-    public function __construct()
+    public function __construct(array $params)
     {
         foreach ($this->_try_backends as $backend)
         {
-            debug_add("Trying backend {$backend}");
-            if (   $this->_load_backend($backend)
-                && $this->_backend->is_available())
+            try
             {
-                debug_add('OK');
-                break;
+                $this->_backend = org_openpsa_mail_backend::get($backend, $params);
             }
-            debug_add("backend {$backend} is not available");
+            catch (midcom_error $e)
+            {
+                debug_add('Failed to load backend ' . $backend . ', message:' . $e->getMessage());
+            }
         }
-        return true;
+        throw new midcom_error('All backends failed to load');
     }
 
-    function send(&$mailclass, &$params)
+    public function mail($recipients, array $headers, $body)
     {
-        if (   !$this->is_available()
-            || !is_object($this->_backend)
-            || !method_exists($this->_backend, 'send'))
-        {
-            debug_add('backend is unavailable');
-            $this->error = 'Backend is unavailable';
-            return false;
-        }
-        $mailclass->headers['X-org.openpsa.mail-bouncer-backend-class'] = get_class($this->_backend);
+        $headers['X-org.openpsa.mail-bouncer-backend-class'] = get_class($this->_backend);
 
-        return $this->_backend->send($mailclass, $params);
+        return $this->_backend->mail($recipients, $headers, $body);
     }
 
-    function get_error_message()
+    public function get_error_message()
     {
-        if (   is_object($this->_backend)
-            && method_exists($this->_backend, 'get_error_message'))
+        if (is_object($this->_backend))
         {
             return $this->_backend->get_error_message();
         }
-        if (!$this->error)
-        {
-            return false;
-        }
-        if (!empty($this->error))
-        {
-            return $this->error;
-        }
-        return 'Unknown error';
-    }
-
-    function is_available()
-    {
-        if (   !is_object($this->_backend)
-            || !method_exists($this->_backend, 'is_available'))
-        {
-            return false;
-        }
-        return $this->_backend->is_available();
-    }
-
-    private function _load_backend($backend)
-    {
-        $classname = "org_openpsa_mail_backend_{$backend}";
-        if (class_exists($classname))
-        {
-            $this->_backend = new $classname();
-            debug_print_r("backend is now:", $this->_backend);
-            return true;
-        }
-        debug_add("backend class {$classname} is not available", MIDCOM_LOG_WARN);
-        return false;
+        return parent::get_error_message();
     }
 }
 ?>

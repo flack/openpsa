@@ -266,9 +266,9 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     }
 
     /**
-     * function to send a notification to owner of the deliverable - guid of deliverable is passed
+     * Function to send a notification to owner of the deliverable - guid of deliverable is passed
      */
-    function new_notification_message($args , &$handler)
+    public function new_notification_message($args , &$handler)
     {
         if (!isset($args['deliverable']))
         {
@@ -289,7 +289,13 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
             return false;
         }
 
-        $notify_msg = $deliverable->title;
+        $message = array
+        (
+            'title' => sprintf($this->_l10n->get('notification date for deliverable % reached'), $deliverable->title),
+            'abstract' => sprintf($this->_l10n->get('notification date for deliverable % reached'), $deliverable->title),
+            'content' => sprintf($this->_l10n->get('notification date for deliverable % reached'), $deliverable->title),
+        );
+
         //get the owner of the sales-project the deliverable belongs to
         try
         {
@@ -304,7 +310,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         }
         $_MIDCOM->load_library('org.openpsa.notifications');
 
-        return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $notify_msg);
+        return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $message);
     }
 }
 ?>
