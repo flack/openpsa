@@ -328,8 +328,9 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
 
         midcom_show_style('show-deliverable-delete');
     }
+
     /**
-     * function to process the notify date in the passed formdata of the datamanger
+     * Function to process the notify date in the passed formdata of the datamanger
      * creates/edits/deletes the corresponding at_entry if needed
      *
      * @param object $formdata The Formdata of the datamanager containing the notify_date
@@ -347,7 +348,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         $entry_keys = $mc_entry->get_values('fromGuid');
 
         //check date
-        if ($formdata['notify']->value->year != '0000' )//&& $unix_time > time())
+        if ($formdata['notify']->value->year != '0000' )
         {
             $notification_entry = null;
 

@@ -136,66 +136,69 @@ class midcom_helper_mailtemplate
     /**
      * The Mail template, a mailtemplate datamanager type.
      *
-     * @var Array
-     * @access private
+     * @var array
      */
-    var $_template;
+    private $_template = array
+    (
+        'from' => '',
+        'reply-to' => '',
+        'cc' => '',
+        'bcc' => '',
+        'x-mailer' => '',
+        'subject' => '',
+        'body' => '',
+        'body_mime_type' => 'text/plain',
+        'charset' => 'UTF-8',
+    );
 
     /**
      * The parameters to use for the Mail template.
      *
-     * @var Array
-     * @access private
+     * @var array
      */
-    var $_parameters;
+    private $_parameters;
 
     /**
      * The parameter character encoding hint, if unknown, this is null.
      *
      * @var string
-     * @access private
      */
-    var $_parameters_encoding;
+    private $_parameters_encoding;
 
     /**
      * Flag indicating if the template has already been parsed
      *
      * @var boolean
-     * @access private
      */
-    var $_parsed;
+    private $_parsed;
 
     /**
      * The parsed subject.
      *
      * @var string
-     * @access private
      */
-    var $_subject;
+    private $_subject;
 
     /**
      * The parsed body.
      *
      * @var string
-     * @access private
      */
-    var $_body;
+    private $_body;
 
     /**
      * PEAR class in use.
      *
      * @var Mail_mime
-     * @access private
      */
-    var $_mail_mime;
+    private $_mail_mime;
 
     /**
      * PEAR class in use.
      *
      * @var Mail
-     * @access private
      */
-    var $_mail;
+    private $_mail;
 
     /**
      * Number of E-Mails sent successfully.
@@ -218,10 +221,9 @@ class midcom_helper_mailtemplate
     /**
      * I18n service object reference, used for charset conversions.
      *
-     * @access private
      * @var midcom_helper_service_i18n
      */
-    var $_i18n = null;
+    private $_i18n = null;
 
     /**
      * Constructs the template engine on the base of the passed template.
@@ -233,13 +235,11 @@ class midcom_helper_mailtemplate
     public function __construct ($template)
     {
         /* First, we include all necessary PEAR classes */
-        debug_add('Mailtemplate::c\'tor: loading PEAR package Mail (if not already required)...');
         require_once("Mail.php");
-        debug_add('Mailtemplate::c\'tor: loading PEAR package Mail_Mime (if not already required)...');
         require_once("Mail/mime.php");
 
         /* Now we initialize the whole stuff */
-        $this->_template = $template;
+        $this->_template = array_merge($template, $this->_template);
         $this->_parameters = Array();
         $this->_parameters_encoding = null;
         $this->_subject = "";
@@ -430,12 +430,12 @@ class midcom_helper_mailtemplate
 
         $headers = Array();
         $headers["From"] = $this->_template["from"];
-        if (strlen($this->_template["reply-to"]) > 0)
+        if ($this->_template["reply-to"] != '')
         {
             $headers["Reply-To"] = $this->_template["reply-to"];
         }
         $headers["X-Mailer"] = "PHP/" . phpversion() . " MidCOM/" . $GLOBALS["midcom_version"] . "/MailTemplate";
-        if (strlen($this->_template["x-mailer"]) > 0)
+        if ($this->_template["x-mailer"] != '')
         {
             $headers["X-Mailer"] .= " (" . $this->_template["x-mailer"] . ")";
         }
@@ -444,12 +444,6 @@ class midcom_helper_mailtemplate
 
         $body =& $this->_mail_mime->get($params);
         $hdrs =& $this->_mail_mime->headers($headers);
-
-        // Kill these from the headers again, it seems that the Mail package
-        // adds these again, resulting in a broken E-Mail. So we rather skip
-        // the encoding lines entirely.
-        // unset($hdrs['Content-Type']);
-        // unset($hdrs['Content-Transfer-Encoding']);
 
         debug_print_r("Custom Headers:", $headers);
         debug_print_r("Computed Headers:", $hdrs);
@@ -465,11 +459,10 @@ class midcom_helper_mailtemplate
      * (which are private per definition). Relies on reflection to parse
      * the object.
      *
-     * @param mixed $obj    Any PHP object that can be parsed with get_object_vars().
+     * @param object $obj    Any PHP object that can be parsed with get_object_vars().
      * @return string        String representation.
-     * @access private
      */
-    function _format_object ($obj)
+    private function _format_object($obj)
     {
         $result = "";
         foreach (get_object_vars($obj) as $key => $value)
@@ -505,22 +498,21 @@ class midcom_helper_mailtemplate
      * Accesses the datamanagers internal field database directly (so this is
      * not 100% clean).
      *
-     * @param midcom_helper_datamanager $dm        A fully initialized Datamanager instance.
+     * @param midcom_helper_datamanager2 $dm        A fully initialized Datamanager instance.
      * @return string        String representation.
-     * @access private
      */
-    function _format_dm ($dm)
+    private function _format_dm($dm)
     {
         $result = "";
-        foreach ($dm->_fields as $name => $desc)
+        foreach ($dm->schema->fields as $name => $conf)
         {
-            if ($desc["hidden"] == true)
+            if ($conf["hidden"] == true)
             {
                 continue;
             }
 
-            $key = trim($desc["description"]);
-            $value = trim($dm->_datatypes[$name]->get_csv_data());
+            $key = trim($conf["description"]);
+            $value = trim($dm->types[$name]->convert_to_email());
             $result .= "{$key}: ";
             $result .= wordwrap($value, 74 - strlen($key), "\n" . str_repeat(" ", 2 + strlen($key)));
             $result .= "\n";
@@ -535,9 +527,8 @@ class midcom_helper_mailtemplate
      *
      * @param Array $array    The array to be dumped.
      * @return string        String representation.
-     * @access private
      */
-    function _format_array ($array)
+    private function _format_array($array)
     {
         $result = "";
         foreach ($array as $key => $value)
@@ -573,9 +564,8 @@ class midcom_helper_mailtemplate
      *
      * @param string $string    String in source encoding.
      * @return string            String in destination encoding.
-     * @access private
      */
-    function _charset_convert ($string)
+    private function _charset_convert($string)
     {
         $dst = strtoupper($this->_template["charset"]);
         debug_add("We should deliver $dst");

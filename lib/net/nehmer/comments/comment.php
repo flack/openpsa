@@ -471,7 +471,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
     /**
      * Update possible ratings cache as requested in configuration
      */
-    function _cache_ratings()
+    private function _cache_ratings()
     {
         $config = midcom_baseclasses_components_configuration::get('net.nehmer.comments', 'config');
 
@@ -552,7 +552,7 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
     }
 
-    function _send_notifications()
+    private function _send_notifications()
     {
         //Get the parent object
         try
@@ -606,8 +606,10 @@ class net_nehmer_comments_comment extends midcom_core_dbaobject
         }
     }
 
-    //This function constructs the message
-    function _construct_message()
+    /**
+     * This function constructs the message
+     */
+    private function _construct_message()
     {
         // Construct the message
         $message = array();

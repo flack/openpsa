@@ -45,7 +45,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      * @param string $recipient GUID of the receiving person
      * @param Array $message Notification message in array format
      */
-    function notify($component_action, $recipient, $message)
+    public static function notify($component_action, $recipient, $message)
     {
         // Parse action to component and action
         $action_parts = explode(':', $component_action);
@@ -58,7 +58,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
         $action = $action_parts[1];
 
         // Find in which ways to notify the user
-        $notification_type = org_openpsa_notifications::merge_notification_prefences($component, $action, $recipient);
+        $notification_type = self::_merge_notification_prefences($component, $action, $recipient);
         if ($notification_type == 'none')
         {
             // User doesn't wish to be notified
@@ -91,7 +91,7 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
      * @param string $recipient GUID of the receiving person
      * @return Array options supported by user
      */
-    function merge_notification_prefences($component, $action, $recipient)
+    private static function _merge_notification_prefences($component, $action, $recipient)
     {
         // TODO: Should we sudo here to ensure getting correct prefs regardless of ACLs?
         $preference = 'none';

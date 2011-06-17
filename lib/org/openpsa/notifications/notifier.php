@@ -19,7 +19,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     {
         $this->_component = 'org.openpsa.notifications';
 
-        $this->recipient = new midcom_db_person($recipient);
+        $this->recipient = midcom_db_person::get_cached($recipient);
 
         parent::__construct();
     }
@@ -27,7 +27,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     /**
      * Stores the notification into database for later viewing
      */
-    function save_notification($message)
+    public function save_notification($message)
     {
         $notification = new org_openpsa_notifications_notification_dba();
         $notification->recipient = $this->recipient->id;
@@ -65,7 +65,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     /**
      * Sends the 'content' version of the message as email to subscribers via org.openpsa.mail
      */
-    function send_email($message)
+    public function send_email($message)
     {
         $_MIDCOM->load_library('org.openpsa.mail');
 
@@ -161,7 +161,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     /**
      * Sends the 'abstract' version of the message as NetGrowl message to subscribers via org.openpsa.smslib
      */
-    function send_growl($message)
+    public function send_growl($message)
     {
         // TODO: Implement
         return false;
@@ -170,7 +170,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     /**
      * Sends the 'abstract' version of the message as SMS to subscribers via org.openpsa.smslib
      */
-    function send_sms($message)
+    public function send_sms($message)
     {
         // TODO: Implement
         return false;
@@ -179,7 +179,7 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
     /**
      * Sends the 'abstract' version of the message as a Jabber message to subscribers via org.openpsa.jabber
      */
-    function send_xmpp($message)
+    public function send_xmpp($message)
     {
         // TODO: Implement
         return false;
