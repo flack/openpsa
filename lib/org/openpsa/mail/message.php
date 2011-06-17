@@ -169,8 +169,8 @@ class org_openpsa_mail_message
 
     private function _process_attachments($attachments, $method)
     {
-        reset($this->attachments);
-        while (list ($k, $att) = each ($this->attachments))
+        reset($attachments);
+        while (list ($k, $att) = each ($attachments))
         {
             if (!isset($att['mimetype']) || $att['mimetype'] == null)
             {
@@ -183,7 +183,7 @@ class org_openpsa_mail_message
             }
             else if (isset($att['content']) && strlen($att['content']) > 0)
             {
-                $aRet = $this->__mime->addAttachment($att['content'], $att['mimetype'], $att['name'], false);
+                $aRet = $this->__mime->$method($att['content'], $att['mimetype'], $att['name'], false);
             }
 
             if ($aRet !== true)
