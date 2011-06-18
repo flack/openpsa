@@ -153,28 +153,21 @@ implements midcom_helper_datamanager2_interfaces_nullstorage
         {
             $from = $person->email;
         }
-        $template = array
-        (
-            'from' => $from,
-            'reply-to' => '',
-            'cc' => '',
-            'bcc' => '',
-            'x-mailer' => '',
-            'subject' => $this->_config->get('lostpassword_reset_mail_subject'),
-            'body' => $this->_config->get('lostpassword_reset_mail_body'),
-            'body_mime_type' => 'text/plain',
-            'charset' => 'UTF-8',
-        );
 
-        $mail = new midcom_helper_mailtemplate($template);
         $parameters = array
         (
             'PERSON' => $person,
             'PASSWORD' => $password,
         );
-        $mail->set_parameters($parameters);
-        $mail->parse();
-        $mail->send($person->email);
+
+        $mail = new org_openpsa_mail();
+        $mail->from = $from;
+        $mail->to = $person->email;
+        $mail->subject = $this->_config->get('lostpassword_reset_mail_subject');
+        $mail->body = $this->_config->get('lostpassword_reset_mail_body');
+        $mail->parameters = $parameters;
+
+        $mail->send();
     }
 
     /**

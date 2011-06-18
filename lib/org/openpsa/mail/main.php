@@ -12,12 +12,33 @@
  * Gracefully degrades in functionality if certain PEAR libraries are
  * not available.
  *
+ * <b>Sending Mails</b>
+ *
+ * Currently, the engine will send the emails through an autodetected backend, which
+ * can be either Mail_smtp, Mail_sendmail or PHP's mail() function (in that order).
+ *
+ * <b>Example usage code</b>
+ *
+ * <code>
+ * $mail = new org_openpsa_mail();
+ *
+ * $mail->from = 'noreply@openpsa.org';
+ * $mail->subject = $this->_config->get('mail_from');
+ * $mail->body = $this->_config->get('mail_body');
+ * $mail->to = $this->_person->email;
+ *
+ * if (!$mail->send())
+ * {
+ *     debug_add("Email could not be sent: " . $mail->get_error_string(), MIDCOM_LOG_WARN);
+ * }
+ * </code>
+ *
  * @package org.openpsa.mail
  */
 class org_openpsa_mail extends midcom_baseclasses_components_purecode
 {
     /**
-     * text
+     * Text body
      *
      * @var string
      */
@@ -45,8 +66,19 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
     public $html_body;
 
     /**
-     * primary keys are int, secondary keys for decoded array are: 'name' (filename), 'content' (file contents) and 'mimetype'
-     * Array for encoding may in stead of 'content' have 'file' which is path to the file to be attached
+     * The parameters to use for the Mail template.
+     *
+     * @var array
+     */
+    public $parameters = array();
+
+    /**
+     * Primary keys are int, secondary keys for decoded array are:
+     *
+     * 'name'     (filename)
+     * 'content'  (file contents)
+     * 'mimetype' Array for encoding may instead of 'content' have 'file'
+     *            which is path to the file to be attached
      *
      * @var array
      */
@@ -180,13 +212,20 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         return trim($text);
     }
 
-     /**
-      * Prepares message for sending
-      *
-      * Calls MIME etc encodings as necessary.
-      */
-     private function _prepare_message()
-     {
+    /**
+     * Prepares message for sending
+     *
+     * Calls MIME etc encodings as necessary.
+     */
+    private function _prepare_message()
+    {
+        if (!empty($this->parameters))
+        {
+            $template_helper = new org_openpsa_mail_template($this->parameters);
+            $this->headers['Subject'] = $template_helper->parse($this->headers['Subject']);
+            $this->body = $template_helper->parse($this->body);
+            $this->html_body = $template_helper->parse($this->html_body);
+        }
         //Translate newlines
         $this->body = preg_replace("/\n\r|\r\n|\r/", "\n", $this->body);
         $this->html_body = preg_replace("/\n\r|\r\n|\r/", "\n", $this->html_body);
@@ -280,12 +319,7 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
         $type_backup = $type;
 
         //Cache for embeds data
-        if (!isset($GLOBALS['org_openpsa_mail_embeds_data_cache']))
-        {
-            $GLOBALS['org_openpsa_mail_embeds_data_cache'] = array();
-        }
-        $embeds_data_cache =& $GLOBALS['org_openpsa_mail_embeds_data_cache'];
-
+        static $embeds_data_cache = array();
 
         reset($search);
         while (list ($k, $dummy) = each ($search['whole']))
@@ -388,33 +422,31 @@ class org_openpsa_mail extends midcom_baseclasses_components_purecode
                         debug_add('FAILURE');
                     }
                     break;
-                    case 'objFile':
-                        if (is_object($obj))
+                case 'objFile':
+                    if (is_object($obj))
+                    {
+                        $attObj = $obj->get_attachment($search['filename'][$k]);
+                        if ($attObj)
                         {
-                            $attObj = $obj->get_attachment($search['filename'][$k]);
-                            if ($attObj)
+                            $fp = $attObj->open('r');
+                            if ($fp)
                             {
-                                $fp = $attObj->open('r');
-                                if ($fp)
+                                $tmpArr2 = array();
+                                $tmpArr2['mimetype'] = $attObj->mimetype;
+                                $tmpArr2['name'] = $search['filename'][$k];
+                                while (!feof($fp))
                                 {
-                                    $tmpArr2 = array();
-                                    $tmpArr2['mimetype'] = $attObj->mimetype;
-                                    $tmpArr2['name'] = $search['filename'][$k];
-                                    while (!feof($fp))
-                                    {
-                                        $tmpArr2['content'] .= fread($fp, 4096);
-                                    }
-                                    fclose($fp);
-                                    $embeds_data_cache[$search['location'][$k]] = $tmpArr2;
-                                    $embeds[] = $tmpArr2;
-                                    unset ($tmpArr2);
+                                    $tmpArr2['content'] .= fread($fp, 4096);
                                 }
-                                unset($attObj);
+                                fclose($fp);
+                                $embeds_data_cache[$search['location'][$k]] = $tmpArr2;
+                                $embeds[] = $tmpArr2;
+                                unset ($tmpArr2);
                             }
+                            unset($attObj);
                         }
-                        break;
-                 default:
-                 break;
+                    }
+                    break;
             }
         }
         return array($html, $embeds);

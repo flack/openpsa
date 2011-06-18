@@ -300,8 +300,8 @@ class org_openpsa_mail_decoder extends org_openpsa_mail
     /**
      * Converts given string to $this->encoding
      *
-     * @param string to be converted
-     * @param string encoding from header or such, used as default in case mb_detect_endoding is not available
+     * @param string $data to be converted
+     * @param string $given_encoding encoding from header or such, used as default in case mb_detect_endoding is not available
      * @return string converted string (or original string in case we cannot convert for some reason)
      */
     private function _charset_convert($data, $given_encoding = false)

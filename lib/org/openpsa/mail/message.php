@@ -38,20 +38,27 @@ class org_openpsa_mail_message
     /**
      * Merges all email recipients into a comma-separated string
      *
-     * @todo Support arrays of addresses as well
+     * @todo Support arrays of Cc/Bcc addresses as well
      */
     public function get_recipients()
     {
-        $addresses = $this->_to;
+        if (is_string($this->_to))
+        {
+            $addresses = array($this->_to);
+        }
+        else
+        {
+            $addresses = $this->_to;
+        }
         if (!empty($this->_headers['Cc']))
         {
-            $addresses .= ', ' . $this->_headers['Cc'];
+            $addresses[] = $this->_headers['Cc'];
         }
         if (!empty($this->_headers['Bcc']))
         {
-            $addresses .= ', ' . $this->_headers['Bcc'];
+            $addresses[] = $this->_headers['Bcc'];
         }
-        return $addresses;
+        return implode(', ', $addresses);
     }
 
     public function get_headers()
