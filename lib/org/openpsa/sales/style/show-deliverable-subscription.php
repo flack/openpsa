@@ -21,10 +21,11 @@ catch (midcom_error $e)
     <div class="sidebar">
         <div class="contacts area">
             <?php
-            echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
-            $customer = $data['salesproject']->get_customer();
-            echo "<dl>\n<dt>\n" . $customer->render_link() . "</dl>\n</dt>\n";
-
+            if ($customer = $data['salesproject']->get_customer())
+            {
+                echo "<h2>" . $data['l10n']->get('customer') . "</h2>\n";
+                echo "<dl>\n<dt>\n" . $customer->render_link() . "</dl>\n</dt>\n";
+            }
             $contacts = $data['salesproject']->contacts;
             foreach ($contacts as $contact_id => $active)
             {
