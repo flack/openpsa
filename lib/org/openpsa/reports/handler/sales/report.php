@@ -39,7 +39,7 @@ class org_openpsa_reports_handler_sales_report extends org_openpsa_reports_handl
 
         // List sales projects
         $salesproject_qb = org_openpsa_sales_salesproject_dba::new_query_builder();
-        $salesproject_qb->add_constraint('status', '<>', ORG_OPENPSA_SALESPROJECTSTATUS_LOST);
+        $salesproject_qb->add_constraint('status', '<>', org_openpsa_sales_salesproject_dba::STATUS_LOST);
 
         if ($this->_request_data['query_data']['resource'] != 'all')
         {

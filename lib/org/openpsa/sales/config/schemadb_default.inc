@@ -41,12 +41,12 @@
             (
                 'options' => array
                 (
-                    ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE    => 'active',
-                    ORG_OPENPSA_SALESPROJECTSTATUS_CANCELED  => 'canceled',
-                    ORG_OPENPSA_SALESPROJECTSTATUS_LOST      => 'lost',
-                    ORG_OPENPSA_SALESPROJECTSTATUS_WON       => 'won',
-                    ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED => 'delivered',
-                    ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED  => 'invoiced',
+                    org_openpsa_sales_salesproject_dba::STATUS_ACTIVE    => 'active',
+                    org_openpsa_sales_salesproject_dba::STATUS_CANCELED  => 'canceled',
+                    org_openpsa_sales_salesproject_dba::STATUS_LOST      => 'lost',
+                    org_openpsa_sales_salesproject_dba::STATUS_WON       => 'won',
+                    org_openpsa_sales_salesproject_dba::STATUS_DELIVERED => 'delivered',
+                    org_openpsa_sales_salesproject_dba::STATUS_INVOICED  => 'invoiced',
                 ),
             ),
             'widget' => 'select',

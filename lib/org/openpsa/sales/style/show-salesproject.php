@@ -31,7 +31,7 @@ $salesproject = $data['salesproject'];
      <th><?php echo $data['l10n_midcom']->get('description'); ?></th>
      <td>&(view['description']:h);</td>
     </tr>
-    <?php if ($salesproject->status == ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE)
+    <?php if ($salesproject->status == org_openpsa_sales_salesproject_dba::STATUS_ACTIVE)
     { ?>
         <tr>
          <th><?php echo $data['l10n']->get('estimated closing date'); ?></th>

@@ -21,6 +21,14 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         'org_openpsa_contacts_role_dba' => 'objectGuid'
     );
 
+    //org.openpsa.sales salesproject statuses
+    const STATUS_LOST = 11000;
+    const STATUS_CANCELED = 11001;
+    const STATUS_ACTIVE = 11050;
+    const STATUS_WON = 11100;
+    const STATUS_DELIVERED = 11200;
+    const STATUS_INVOICED = 11300;
+
     /**
      * Shorthand access for contact members
      */
@@ -254,7 +262,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
         }
         if (!$this->status)
         {
-            $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE;
+            $this->status = self::STATUS_ACTIVE;
         }
         if (!$this->owner)
         {
@@ -265,14 +273,14 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
     public function _on_updating()
     {
-        if (   $this->status != ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE
+        if (   $this->status != self::STATUS_ACTIVE
             && !$this->end)
         {
             //Not active anymore and end not set, set it to now
             $this->end = time();
         }
         if (   $this->end
-            && $this->status == ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE)
+            && $this->status == self::STATUS_ACTIVE)
         {
             //Returned to active status, clear the end marker.
             $this->end = 0;
@@ -341,7 +349,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
     {
         if ($this->up != 0)
         {
-            $parent = new org_openpsa_sales_salesproject_dba($this->up);
+            $parent = new self($this->up);
             return $parent->guid;
         }
         else
@@ -355,7 +363,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     public function mark_delivered()
     {
-        if ($this->status >= ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED)
+        if ($this->status >= self::STATUS_DELIVERED)
         {
             return;
         }
@@ -367,7 +375,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
         if ($mc->count() == 0)
         {
-            $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED;
+            $this->status = self::STATUS_DELIVERED;
             $this->update();
         }
     }
@@ -377,7 +385,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
      */
     public function mark_invoiced()
     {
-        if ($this->status >= ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED)
+        if ($this->status >= self::STATUS_INVOICED)
         {
             return;
         }
@@ -389,7 +397,7 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
 
         if ($mc->count() == 0)
         {
-            $this->status = ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED;
+            $this->status = self::STATUS_INVOICED;
             $this->update();
         }
     }

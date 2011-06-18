@@ -122,7 +122,7 @@ class org_openpsa_sales_handler_view extends midcom_baseclasses_components_handl
         $qb->add_constraint('salesproject', '=', $this->_salesproject->id);
         $qb->add_constraint('up', '=', 0);
 
-        if ($this->_salesproject->status != ORG_OPENPSA_SALESPROJECTSTATUS_LOST)
+        if ($this->_salesproject->status != org_openpsa_sales_salesproject_dba::STATUS_LOST)
         {
             $qb->add_constraint('state', '<>', org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED);
         }

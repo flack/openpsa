@@ -31,13 +31,6 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         //org.openpsa.sales object types
         define('ORG_OPENPSA_OBTYPE_SALESPROJECT', 10000);
         define('ORG_OPENPSA_OBTYPE_SALESPROJECT_MEMBER', 10500);
-        //org.openpsa.sales salesproject statuses
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_LOST', 11000);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_CANCELED', 11001);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE', 11050);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_WON', 11100);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_DELIVERED', 11200);
-        define('ORG_OPENPSA_SALESPROJECTSTATUS_INVOICED', 11300);
 
         return true;
     }
@@ -132,7 +125,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         $qb->end_group();
 
         //Target sales project is active
-        $qb->add_constraint('salesproject.status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE);
+        $qb->add_constraint('salesproject.status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
 
         //Each event participant is either manager or member (resource/contact) in task
         foreach ($object->participants as $pid => $bool)
@@ -181,7 +174,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
     {
         $qb = new midgard_query_builder('org_openpsa_salesproject_member');
         $qb->add_constraint('person', '=', $object->id);
-        $qb->add_constraint('salesproject.status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE);
+        $qb->add_constraint('salesproject.status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
         $qbret = @$qb->execute();
         $seen_sp = array();
         if (is_array($qbret))
@@ -207,7 +200,7 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         }
         $qb2 = org_openpsa_sales_salesproject_dba::new_query_builder();
         $qb2->add_constraint('owner', '=', $object->id);
-        $qb2->add_constraint('status', '=', ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE);
+        $qb2->add_constraint('status', '=', org_openpsa_sales_salesproject_dba::STATUS_ACTIVE);
         $qb2ret = @$qb2->execute();
         if (is_array($qb2ret))
         {

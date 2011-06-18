@@ -333,7 +333,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
             {
                 // No proposals that are not declined
                 $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-                $salesproject->status = ORG_OPENPSA_SALESPROJECTSTATUS_LOST;
+                $salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_LOST;
                 $salesproject->update();
             }
 
@@ -391,9 +391,9 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         {
             // Update sales project and mark as won
             $salesproject = new org_openpsa_sales_salesproject_dba($this->salesproject);
-            if ($salesproject->status != ORG_OPENPSA_SALESPROJECTSTATUS_WON)
+            if ($salesproject->status != org_openpsa_sales_salesproject_dba::STATUS_WON)
             {
-                $salesproject->status = ORG_OPENPSA_SALESPROJECTSTATUS_WON;
+                $salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_WON;
                 $salesproject->update();
             }
 

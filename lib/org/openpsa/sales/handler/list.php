@@ -28,7 +28,7 @@ class org_openpsa_sales_handler_list extends midcom_baseclasses_components_handl
     public function _handler_list($handler_id, array $args, array &$data)
     {
         $_MIDCOM->auth->require_valid_user();
-        $statuscode = 'ORG_OPENPSA_SALESPROJECTSTATUS_' . strtoupper($args[0]);
+        $statuscode = 'org_openpsa_sales_salesproject_dba::STATUS_' . strtoupper($args[0]);
         if (!defined($statuscode))
         {
             throw new midcom_error('Unknown list type ' . $args[0]);
