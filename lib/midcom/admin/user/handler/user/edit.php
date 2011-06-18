@@ -251,8 +251,18 @@ implements midcom_helper_datamanager2_interfaces_edit
             // Get a new password
             $password = midcom_admin_user_plugin::generate_password(8);
 
-            $mail->body = $this->_personalize_mail_string($_POST['body'], $person, $password);
-            $mail->subject = $this->_personalize_mail_string($_POST['subject'], $person, $password);;
+            $mail->body = $_POST['body'];
+            $mail->subject = $_POST['subject'];
+
+            $mail->parameters = array
+            (
+                'PASSWORD' => $password,
+                'FROM' => $this->_config->get('message_sender'),
+                'LONGDATE' => strftime('%c'),
+                'SHORTDATE' => strftime('%x'),
+                'TIME' => strftime('%X'),
+                'PERSON' => $person
+            );
 
             // Send the message
             if ($mail->send())
@@ -277,44 +287,6 @@ implements midcom_helper_datamanager2_interfaces_edit
         {
             $_MIDCOM->uimessages->add($this->_l10n->get('midcom.admin.user'), $this->_l10n->get('passwords updated and mail sent'));
         }
-    }
-
-    private function _personalize_mail_string($string, &$person, $password)
-    {
-        foreach ($this->_request_data['variables'] as $key => $value)
-        {
-            // Replace the variables with personalized values
-            switch ($key)
-            {
-                case '__PASSWORD__':
-                    $string = str_replace($key, $password, $string);
-                    break;
-
-                case '__FROM__':
-                    $string = str_replace($key, $this->_config->get('message_sender'), $string);
-                    break;
-
-                case '__LONGDATE__':
-                    $string = str_replace($key, strftime('%c'), $string);
-                    break;
-
-                case '__SHORTDATE__':
-                    $string = str_replace($key, strftime('%x'), $string);
-                    break;
-
-                case '__TIME__':
-                    $string = str_replace($key, strftime('%X'), $string);
-                    break;
-
-                default:
-                    if (!isset($person->$key))
-                    {
-                        continue;
-                    }
-                    $string = str_replace($key, $person->$key, $string);
-            }
-        }
-        return $string;
     }
 
     /**

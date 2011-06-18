@@ -30,8 +30,6 @@ class net_nemein_wiki_handler_emailimport extends midcom_baseclasses_components_
             throw new midcom_error('library org.openpsa.mail could not be loaded.');
         }
 
-        $decoder = new org_openpsa_mail();
-
         if (!class_exists('Mail_mimeDecode'))
         {
             throw new midcom_error('Cannot decode attachments, aborting.');

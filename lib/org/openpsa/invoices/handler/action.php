@@ -76,10 +76,6 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         $args["no_redirect"] = true;
         $this->_prepare_action($args);
 
-        // load mailer component
-        $_MIDCOM->componentloader->load('org.openpsa.mail');
-        $mail = new org_openpsa_mail();
-
         $customerCard = org_openpsa_widgets_contact::get($this->_object->customerContact);
         $contactDetails = $customerCard->contact_details;
         $invoice_label = $this->_object->get_label();
@@ -92,18 +88,20 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
             $this->_object->render_and_attach_pdf();
         }
 
+        $mail = new org_openpsa_mail();
+
         // define replacements for subject / body
-        $replacements = array(
-            "__INVOICE_LABEL__" => $invoice_label,
-            "__FIRSTNAME__" => $contactDetails["firstname"],
-            "__LASTNAME__" => $contactDetails["lastname"]
+        $mail->parameters = array
+        (
+            "INVOICE_LABEL" => $invoice_label,
+            "FIRSTNAME" => $contactDetails["firstname"],
+            "LASTNAME" => $contactDetails["lastname"]
         );
 
         $mail->to = $contactDetails["email"];
         $mail->from = $this->_config->get('invoice_mail_from_address');
-
-        $mail->subject = strtr($this->_config->get('invoice_mail_title'), $replacements);
-        $mail->body = strtr($this->_config->get('invoice_mail_body'), $replacements);
+        $mail->subject = $this->_config->get('invoice_mail_title');
+        $mail->body = $this->_config->get('invoice_mail_body');
 
         // attach pdf to mail
         if ($mail->can_attach())
