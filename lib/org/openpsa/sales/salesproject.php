@@ -144,9 +144,9 @@ class org_openpsa_sales_salesproject_dba extends midcom_core_dbaobject
             }
             catch (midcom_error $e)
             {
+                $customer = null;
                 $e->log();
             }
-            $customer = null;
         }
         return $customer;
     }
