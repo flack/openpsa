@@ -90,7 +90,7 @@
         'notify' => Array
         (
             'title' => 'notify date',
-            'storage' => null,
+            'storage' => 'notify',
             'type' => 'date',
             'type_config' => Array
             (

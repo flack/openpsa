@@ -276,31 +276,39 @@ class org_openpsa_sales_interface extends midcom_baseclasses_components_interfac
         }
         catch (midcom_error $e)
         {
-            $msg = 'no deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
+            $msg = 'no deliverable with passed GUID: ' . $args['deliverable'] . ' , aborting';
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
             return false;
         }
 
-        $message = array
-        (
-            'title' => sprintf($this->_l10n->get('notification date for deliverable % reached'), $deliverable->title),
-            'abstract' => sprintf($this->_l10n->get('notification date for deliverable % reached'), $deliverable->title),
-            'content' => sprintf($this->_l10n->get('notification date for deliverable % reached'), $deliverable->title),
-        );
-
-        //get the owner of the sales-project the deliverable belongs to
+        //get the owner of the salesproject the deliverable belongs to
         try
         {
             $project = new org_openpsa_sales_salesproject_dba($deliverable->salesproject);
         }
         catch (midcom_error $e)
         {
-            $msg = 'no project(id:' . $deliverable->salesproject . ') found for deliverable with passed GUID:' . $args['deliverable'] . ' , aborting';
+            $msg = 'Failed to load salesproject: ' . $e->getMessage();
             debug_add($msg, MIDCOM_LOG_ERROR);
             $handler->print_error($msg);
             return false;
         }
+
+        $content = sprintf
+        (
+            $this->_l10n->get('agreement %s ends on %s. click here: %s'),
+            $deliverable->title,
+            strftime('%x', $deliverable->end),
+            midcom::get('permalinks')->create_permalink($deliverable->guid)
+        );
+
+        $message = array
+        (
+            'title' => sprintf($this->_l10n->get('notification for agreement %s'), $deliverable->title),
+            'content' => $content,
+        );
+
         $_MIDCOM->load_library('org.openpsa.notifications');
 
         return org_openpsa_notifications::notify('org.openpsa.sales:new_notification_message', $project->owner, $message);

@@ -214,6 +214,7 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
         {
             case 'save':
                 $formdata = $this->_controller->datamanager->types;
+
                 $entry = isset($formdata['at_entry']) ? (int) $formdata['at_entry']->value : 0;
                 $next_cycle = isset($formdata['next_cycle']) ? $formdata['next_cycle']->value->getTime() : 0;
 
@@ -333,12 +334,11 @@ class org_openpsa_sales_handler_deliverable_admin extends midcom_baseclasses_com
      * Function to process the notify date in the passed formdata of the datamanger
      * creates/edits/deletes the corresponding at_entry if needed
      *
-     * @param object $formdata The Formdata of the datamanager containing the notify_date
+     * @param array $formdata The Formdata of the datamanager containing the notify_date
      */
     private function _process_notify_date($formdata)
     {
-        //get the time of passed notify date
-        $unix_time = mktime($formdata['notify']->value->hour, $formdata['notify']->value->minute, 1, $formdata['notify']->value->month, $formdata['notify']->value->day, $formdata['notify']->value->year);
+        $unix_time = $formdata['notify']->convert_to_storage();
 
         //check if there is already an at_entry
         $mc_entry = org_openpsa_relatedto_dba::new_collector('toGuid', $this->_deliverable->guid);

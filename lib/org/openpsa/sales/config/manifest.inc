@@ -59,5 +59,9 @@
         (
             'default' => 'email',
         ),
+        'new_notification_message' => array
+        (
+            'default' => 'email',
+        )
     ),
 ),
