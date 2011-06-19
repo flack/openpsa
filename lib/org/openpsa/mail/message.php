@@ -91,6 +91,14 @@ class org_openpsa_mail_message
                 $this->_headers[$header] = $this->_encode_subject($value);
             }
 
+            if (is_array($value))
+            {
+                //This is most probably an address header, like To or Cc
+                debug_add('Header ' . $header . ' is in array format. Converting to comma-separated string');
+                $value = implode(', ', $value);
+                $this->_headers[$header] = $value;
+            }
+
             $value_trimmed = trim($value);
             if ($value_trimmed != $value)
             {
