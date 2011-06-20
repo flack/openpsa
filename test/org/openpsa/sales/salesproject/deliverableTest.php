@@ -141,7 +141,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     ),
                     'salesproject' => array
                     (
-                        'status' => ORG_OPENPSA_SALESPROJECTSTATUS_WON
+                        'status' => org_openpsa_sales_salesproject_dba::STATUS_WON
                     )
                 ),
             ),
@@ -187,7 +187,7 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
                     ),
                     'salesproject' => array
                     (
-                        'status' => ORG_OPENPSA_SALESPROJECTSTATUS_WON
+                        'status' => org_openpsa_sales_salesproject_dba::STATUS_WON
                     )
                 ),
             ),
@@ -212,23 +212,23 @@ class org_openpsa_sales_salesproject_deliverableTest extends openpsa_testcase
         $this->assertTrue($stat);
 
         $this->_salesproject->refresh();
-        $this->assertEquals(ORG_OPENPSA_SALESPROJECTSTATUS_LOST, $this->_salesproject->status);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_LOST, $this->_salesproject->status);
         $this->assertEquals(org_openpsa_sales_salesproject_deliverable_dba::STATUS_DECLINED, $deliverable->state);
 
         $deliverable2 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
         $deliverable3 = $this->create_object('org_openpsa_sales_salesproject_deliverable_dba', $attributes);
-        $this->_salesproject->status = ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE;
+        $this->_salesproject->status = org_openpsa_sales_salesproject_dba::STATUS_ACTIVE;
         $this->_salesproject->update();
 
         $this->assertTrue($deliverable2->decline());
         $this->assertFalse($deliverable2->decline());
 
         $this->_salesproject->refresh();
-        $this->assertEquals(ORG_OPENPSA_SALESPROJECTSTATUS_ACTIVE, $this->_salesproject->status);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_ACTIVE, $this->_salesproject->status);
 
         $this->assertTrue($deliverable3->decline());
         $this->_salesproject->refresh();
-        $this->assertEquals(ORG_OPENPSA_SALESPROJECTSTATUS_LOST, $this->_salesproject->status);
+        $this->assertEquals(org_openpsa_sales_salesproject_dba::STATUS_LOST, $this->_salesproject->status);
         midcom::get('auth')->drop_sudo();
     }
 
