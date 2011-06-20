@@ -13,67 +13,67 @@
  */
 class org_openpsa_widgets_calendar_event
 {
-   /**
-    * Event CGUID
-    *
-    * @var string
-    */
+    /**
+     * Event CGUID
+     *
+     * @var string
+     */
     public $guid = '';
 
-   /**
-    * Defines the start of an event - this property is required for calendar to work
-    *
-    * @var integer
-    */
-   var $start = 0;
+    /**
+     * Defines the start of an event - this property is required for calendar to work
+     *
+     * @var integer
+     */
+    var $start = 0;
 
-   /**
-    * Defines the end of an event
-    *
-    * @var integer
-    */
-   var $end = 0;
+    /**
+     * Defines the end of an event
+     *
+     * @var integer
+     */
+    var $end = 0;
 
-   /**
-    * Link to the event
-    *
-    * @var string link Link to the event
-    */
-   var $link = '';
+    /**
+     * Link to the event
+     *
+     * @var string link Link to the event
+     */
+    var $link = '';
 
-   /**
-    * JS onclick for the event
-    *
-    * @var string link JS onclick handler
-    */
-   var $onclick = '';
+    /**
+     * JS onclick for the event
+     *
+     * @var string link JS onclick handler
+     */
+    var $onclick = '';
 
-   /**
-    * Event title
-    *
-    * @var string
-    */
-   var $title = '';
+    /**
+     * Event title
+     *
+     * @var string
+     */
+    var $title = '';
 
-   /**
-    * Event description
-    *
-    * @var string
-    */
-   public $description = '';
+    /**
+     * Event description
+     *
+     * @var string
+     */
+    public $description = '';
 
-   /**
-    * Event location
-    *
-    * @var string
-    */
-   public $location = '';
+    /**
+     * Event location
+     *
+     * @var string
+     */
+    public $location = '';
 
-   /**
-    * Event CSS class
-    *
-    * @var string
-    */
+    /**
+     * Event CSS class
+     *
+     * @var string
+     */
     public $class = '';
 
     /**
