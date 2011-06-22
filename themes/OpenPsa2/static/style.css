@@ -557,6 +557,7 @@ input#org_openpsa_search_query
 {
   position: absolute;
   min-width: 200px;
+  width: auto;
   height: auto;
   z-index: 10;
 }
