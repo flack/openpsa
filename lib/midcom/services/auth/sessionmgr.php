@@ -204,91 +204,56 @@ class midcom_services_auth_sessionmgr
      */
     function load_login_session($sessionid, $user, $clientip = null)
     {
+        try
+        {
+            $session = new midcom_core_login_session_db($sessionid);
+        }
+        catch (Exception $e)
+        {
+            debug_add('Login session ' . $sessionid . ' failed to load: ' . $e->getMessage(), MIDCOM_LOG_INFO);
+            return false;
+        }
+
         if ($clientip === null)
         {
             $clientip = $_SERVER['REMOTE_ADDR'];
         }
 
-        $qb = new midgard_query_builder('midcom_core_login_session_db');
-        $qb->add_constraint('userid', '=', $user->id);
+        $timed_out = time() - $GLOBALS['midcom_config']['auth_login_session_timeout'];
 
-        $result = @$qb->execute();
-
-        if (! $result)
+        if ($session->timestamp < $timed_out)
         {
-            debug_add('No login sessions have been found in the database or the query to the database failed.', MIDCOM_LOG_INFO);
+            debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
             return false;
         }
 
-        $return = false;
-        $timed_out = time() - $GLOBALS['midcom_config']['auth_login_session_timeout'];
-
-        foreach ($result as $session)
+        if (   $GLOBALS['midcom_config']['auth_check_client_ip']
+            && $session->clientip != $clientip)
         {
-            $valid = true;
+            debug_add("The session {$session->guid} (#{$session->id}) had mismatching client IP.", MIDCOM_LOG_INFO);
+            debug_add("Expected {$session->clientip}, got {$clientip}.");
+            return false;
+        }
 
-            if ($session->timestamp < $timed_out)
+        if ($session->timestamp < time() - $GLOBALS['midcom_config']['auth_login_session_update_interval'])
+        {
+            // Update the timestamp if previous timestamp is older than specified interval
+            $session->timestamp = time();
+            try
             {
-                debug_add("The session {$session->guid} (#{$session->id}) has timed out.", MIDCOM_LOG_INFO);
-                $valid = false;
-            }
-
-            if (   $GLOBALS['midcom_config']['auth_check_client_ip']
-                && $valid
-                && $session->guid == $sessionid
-                && $session->clientip != $clientip)
-            {
-                debug_add("The session {$session->guid} (#{$session->id}) had mismatching client IP.", MIDCOM_LOG_INFO);
-                debug_add("Expected {$session->clientip}, got {$clientip}.");
-                $valid = false;
-            }
-
-            if (! $valid)
-            {
-                try
+                if (! $session->update())
                 {
-                    if (! $session->delete())
-                    {
-                        debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                    }
+                    debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
                 }
-                catch (Exception $e)
-                {
-                    debug_add("Failed to delete the invalid session {$session->guid} (#{$session->id}): " . $e->getMessage(), MIDCOM_LOG_INFO);
-                    continue;
-                }
-                $session->purge();
-                continue;
             }
-
-            if ($session->guid == $sessionid)
+            catch (Exception $e)
             {
-                if ($session->timestamp < time() - $GLOBALS['midcom_config']['auth_login_session_update_interval'])
-                {
-                    // Update the timestamp if previous timestamp is older than specified interval
-                    $session->timestamp = time();
-                    try
-                    {
-                        if (! $session->update())
-                        {
-                            debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . midcom_connection::get_error_string(), MIDCOM_LOG_INFO);
-                        }
-                    }
-                    catch (Exception $e)
-                    {
-                        debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . $e->getMessage(), MIDCOM_LOG_INFO);
-                    }
-                }
-
-                $this->_loaded_sessions[$sessionid] = $session;
-                $return = $sessionid;
+                debug_add("Failed to update the session {$session->guid} (#{$session->id}) to the current timestamp: " . $e->getMessage(), MIDCOM_LOG_INFO);
             }
         }
 
-        // Note, that we do not short-circuit out of the above loop
-        // in case of a match so that we can keep the login session
-        // table clean.
-        return $return;
+        $this->_loaded_sessions[$sessionid] = $session;
+        return $sessionid;
     }
 
     /**
