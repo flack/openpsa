@@ -32,7 +32,7 @@ class org_openpsa_calendar_handler_agenda extends midcom_baseclasses_components_
             throw new midcom_error('could not generate time from ' . $args[0]);
         }
 
-        // Use calendarwidget for time calculations
+        // Use calendar widget for time calculations
         $this->_request_data['calendar'] = new org_openpsa_widgets_calendar(date('Y', $requested_time), date('m', $requested_time), date('d', $requested_time));
         $this->_request_data['calendar']->type = org_openpsa_widgets_calendar::DAY;
 

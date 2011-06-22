@@ -1,4 +1,4 @@
-#org_openpsa_calendarwidget {
+#org_openpsa_widgets_calendar {
     margin: 0px;
     padding: 0px;
 }
@@ -150,27 +150,27 @@ table.calendarwidget tbody span.assignee {
 
 
 /* Old week calendar */
-#org_openpsa_calendarwidget div.day {
+#org_openpsa_widgets_calendar div.day {
     float: left;
     margin-right: 10px;
     padding: 7px;
     margin: 10px;
     border: 1px solid #eeeeee;
 }
-#org_openpsa_calendarwidget div.month div.day {
+#org_openpsa_widgets_calendar div.month div.day {
     overflow: hidden;
 }
-#org_openpsa_calendarwidget div.day h2 {
+#org_openpsa_widgets_calendar div.day h2 {
     color: #314E6C;
     margin: 0px;
     font-size: 17px;
     overflow: hidden;
     white-space: nowrap;
 }
-#org_openpsa_calendarwidget div.month div.day h2 {
+#org_openpsa_widgets_calendar div.month div.day h2 {
     font-size: smaller;
 }
-#org_openpsa_calendarwidget div.calendar_column {
+#org_openpsa_widgets_calendar div.calendar_column {
     float: left;
     width: 60px;
     overflow: hidden;
@@ -179,7 +179,7 @@ table.calendarwidget tbody span.assignee {
     border: 1px solid red;
 }
 
-#org_openpsa_calendarwidget div.calendar_column h3 {
+#org_openpsa_widgets_calendar div.calendar_column h3 {
     margin: 0px;
     padding: 0px;
     height: 22px;
@@ -190,29 +190,29 @@ table.calendarwidget tbody span.assignee {
     overflow: hidden;
     white-space: nowrap;
 }
-#org_openpsa_calendarwidget div.calendar_column:hover h3 {
+#org_openpsa_widgets_calendar div.calendar_column:hover h3 {
     background-color: #4B6983;
     color: #ffffff;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
-#org_openpsa_calendarwidget div.calendar_column h3.statusinfo {
+#org_openpsa_widgets_calendar div.calendar_column h3.statusinfo {
     background-image: url("gnome-status.png");
     background-position: right;
     background-repeat: no-repeat;
     padding-right: 24px;
 }
 
-#org_openpsa_calendarwidget div.calendar_column div {
+#org_openpsa_widgets_calendar div.calendar_column div {
     border: none;
     font-size: 16px;
     margin: 0px;
     padding: 0px;
 }
-#org_openpsa_calendarwidget div.times {
+#org_openpsa_widgets_calendar div.times {
     width: 25px;
 }
-#org_openpsa_calendarwidget div.times h3, #org_openpsa_calendarwidget div.times:hover h3 {
+#org_openpsa_widgets_calendar div.times h3, #org_openpsa_widgets_calendar div.times:hover h3 {
     padding-top: 7px;
     height: 17px;
     font-size: 10px;
@@ -222,7 +222,7 @@ table.calendarwidget tbody span.assignee {
     font-weight: normal;
     background-color: transparent;
 }
-#org_openpsa_calendarwidget div.times div {
+#org_openpsa_widgets_calendar div.times div {
     text-align: right;
     width: 19px;
     padding: 1px;
@@ -230,20 +230,20 @@ table.calendarwidget tbody span.assignee {
     padding-right: 5px;
     font-size: 10px;
 }
-#org_openpsa_calendarwidget div.times div.past, #org_openpsa_calendarwidget div.month div.past {
+#org_openpsa_widgets_calendar div.times div.past, #org_openpsa_widgets_calendar div.month div.past {
     background-color: #EAE8E3;
 }
-#org_openpsa_calendarwidget ul.reservations {
+#org_openpsa_widgets_calendar ul.reservations {
     font-size: smaller;
     padding: 0px;
     margin: 0px;
 }
-#org_openpsa_calendarwidget ul.reservations li {
+#org_openpsa_widgets_calendar ul.reservations li {
     padding: 0px;
     margin: 0px;
     list-style: none;
 }
-#org_openpsa_calendarwidget div.reservations div, #org_openpsa_calendarwidget ul.reservations li span.reservation {
+#org_openpsa_widgets_calendar div.reservations div, #org_openpsa_widgets_calendar ul.reservations li span.reservation {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border: 1px solid #826647;
@@ -256,26 +256,26 @@ table.calendarwidget tbody span.assignee {
     overflow: hidden;
     cursor: pointer;
 }
-#org_openpsa_calendarwidget div.reservations div:hover, #org_openpsa_calendarwidget ul.reservations li span.reservation:hover {
+#org_openpsa_widgets_calendar div.reservations div:hover, #org_openpsa_widgets_calendar ul.reservations li span.reservation:hover {
     background-color: #B39169;
 }
-#org_openpsa_calendarwidget div.red div, #org_openpsa_calendarwidget ul.red li span.reservation {
+#org_openpsa_widgets_calendar div.red div, #org_openpsa_widgets_calendar ul.red li span.reservation {
     border: 1px solid #663822;
     background-color: #C1665A;
     color: #ffffff;
 }
-#org_openpsa_calendarwidget div.red div:hover, #org_openpsa_calendarwidget ul.red li span.reservation:hover {
+#org_openpsa_widgets_calendar div.red div:hover, #org_openpsa_widgets_calendar ul.red li span.reservation:hover {
     background-color: #884631;
 }
-#org_openpsa_calendarwidget div.blue div, #org_openpsa_calendarwidget ul.blue li span.reservation {
+#org_openpsa_widgets_calendar div.blue div, #org_openpsa_widgets_calendar ul.blue li span.reservation {
     border: 1px solid #314E6C;
     background-color: #7590AE;
     color: #ffffff;
 }
-#org_openpsa_calendarwidget div.blue div:hover, #org_openpsa_calendarwidget ul.blue li span.reservation:hover {
+#org_openpsa_widgets_calendar div.blue div:hover, #org_openpsa_widgets_calendar ul.blue li span.reservation:hover {
     background-color: #4B6983;
 }
-#org_openpsa_calendarwidget div.reservations .free {
+#org_openpsa_widgets_calendar div.reservations .free {
     border: none;
     padding: 0px;
     margin: 0px;
@@ -286,17 +286,17 @@ table.calendarwidget tbody span.assignee {
     -webkit-border-radius: 0px;
 }
 
-#org_openpsa_calendarwidget div.reservations .free:hover {
+#org_openpsa_widgets_calendar div.reservations .free:hover {
     background-color: #EED680;
     border-top: 1px solid #EED680;
     padding-top: 0px;
 }
-#org_openpsa_calendarwidget div.reservations .past {
+#org_openpsa_widgets_calendar div.reservations .past {
     background-color: #FAF8F3;
 }
-#org_openpsa_calendarwidget div.times div.end, #org_openpsa_calendarwidget div.reservations .end {
+#org_openpsa_widgets_calendar div.times div.end, #org_openpsa_widgets_calendar div.reservations .end {
     border-bottom-color: #ffffff;
 }
-#org_openpsa_calendarwidget div.times div.start, #org_openpsa_calendarwidget div.reservations .start {
+#org_openpsa_widgets_calendar div.times div.start, #org_openpsa_widgets_calendar div.reservations .start {
     border-top-color: #ffffff;
 }
