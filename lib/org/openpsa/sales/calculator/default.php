@@ -111,7 +111,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         {
             $hours_marked = org_openpsa_projects_workflow::mark_invoiced($task, $invoice);
 
-            $items[] = $this->_generate_invoice_item($task->title, $hours_marked);
+            $items[] = $this->_generate_invoice_item($task->title, $hours_marked, $task);
         }
 
         if (sizeof($tasks) == 0)
@@ -121,7 +121,7 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         return $items;
     }
 
-    private function _generate_invoice_item($description, $units)
+    private function _generate_invoice_item($description, $units, org_openpsa_projects_task_dba $task = null)
     {
         $item = new org_openpsa_invoices_invoice_item_dba();
         $item->description = $description;
@@ -136,6 +136,11 @@ class org_openpsa_sales_calculator_default implements org_openpsa_invoices_inter
         else
         {
             $item->units = $this->_deliverable->plannedUnits;
+        }
+
+        if (null !== $task)
+        {
+            $item->task = $task->id;
         }
 
         return $item;
