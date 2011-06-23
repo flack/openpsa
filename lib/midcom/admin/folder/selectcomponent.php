@@ -1,6 +1,6 @@
 <?php
 /**
- * @package midcom.helper.datamanager2
+ * @package midcom.admin.folder
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
@@ -17,9 +17,9 @@
  * - <i>int height:</i> The height of the select box, applies only for multiselect enabled
  *   boxes, the value is ignored in all other cases. Defaults to 6.
  *
- * @package midcom.helper.datamanager2
+ * @package midcom.admin.folder
  */
-class midcom_helper_datamanager2_widget_selectcomponent extends  midcom_helper_datamanager2_widget_select
+class midcom_admin_folder_selectcomponent extends  midcom_helper_datamanager2_widget_select
 {
     /**
      * Adds a (multi)select widget to the form, depending on the base type config.

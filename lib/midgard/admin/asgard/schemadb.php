@@ -508,7 +508,7 @@ class midgard_admin_asgard_schemadb
                 (
                     'options' => $components,
                 ),
-                'widget'      => 'selectcomponent',
+                'widget'      => 'midcom_admin_folder_selectcomponent',
             )
         );
     }
