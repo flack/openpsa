@@ -1,13 +1,10 @@
 <?php
 /**
- * @package midcom.helper.datamanager2
+ * @package org.routamc.positioning
  * @author The Midgard Project, http://www.midgard-project.org
  * @copyright The Midgard Project, http://www.midgard-project.org
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-
-/** @ignore */
-$_MIDCOM->load_library('org.routamc.positioning');
 
 /**
  * Form Validation helper methods.
@@ -17,9 +14,9 @@ $_MIDCOM->load_library('org.routamc.positioning');
  *
  * All functions are statically callable. (Have to be for QuickForm to work.)
  *
- * @package midcom.helper.datamanager2
+ * @package org.routamc.positioning
  */
-class midcom_helper_datamanager2_callback_select_countries extends midcom_baseclasses_components_purecode
+class org_routamc_positioning_dm2_callbacks_countries extends midcom_baseclasses_components_purecode
  implements midcom_helper_datamanager2_callback_interface
 {
     /**
