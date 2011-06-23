@@ -1,26 +1,27 @@
 <?php
 /**
+ * @package midcom.helper
+ * @author CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @copyright CONTENT CONTROL http://www.contentcontrol-berlin.de/
+ * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ */
+
+/**
  * Library for escaping user provided values displayed for example in input etc
  *
  * Backorted from MidCOM3 (http://repo.or.cz/w/midcom.git?a=tree;f=midcom_helper_xsspreventer;h=24b6e322e416d3d11b13a17e4b6dab2b83c99276;hb=HEAD)
  *
- * @package midcom.helper.xsspreventer
+ * @package midcom.helper
  */
 class midcom_helper_xsspreventer extends midcom_baseclasses_components_purecode
 {
-    public function __construct()
-    {
-        $this->_component = 'midcom.helper.xsspreventer';
-        parent::__construct();
-    }
-
     /**
      * Escape value of an XML attribute, also adds quotes around it
      *
      * @param string $input Attribute value to escape
      * @return string escaped $input (with added quotes)
      */
-    function escape_attribute($input)
+    public static function escape_attribute($input)
     {
         $output = str_replace('"', '&quot;', $input);
         return '"' . $output . '"';
@@ -34,7 +35,7 @@ class midcom_helper_xsspreventer extends midcom_baseclasses_components_purecode
      * @param string $input Element content to escape
      * @return string $input with $element closing tags escaped
      */
-    function escape_element($element, $input)
+    public static function escape_element($element, $input)
     {
         return preg_replace_callback
         (
