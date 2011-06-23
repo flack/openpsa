@@ -11,7 +11,7 @@
 ),
 
 /* grid widget */
-'jqgrid_version' => '4.0.0',
+'jqgrid_version' => '4.1.1',
 
 /* contact widget */
 'jabber_enable_presence' => true,
