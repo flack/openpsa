@@ -27,6 +27,5 @@
     'dependencies' => array
     (
         'midcom' => array(),
-        'midcom.helper.xsspreventer' => array(),
     ),
 ),

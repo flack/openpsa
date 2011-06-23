@@ -791,7 +791,6 @@ class midcom_helper__componentloader
             'midcom.helper.replicator',
             'midcom.helper.search',
             'midcom.helper.xml',
-            'midcom.helper.xsspreventer',
             'midcom.services.at',
             'midgard.admin.asgard',
             'net.nehmer.blog',

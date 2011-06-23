@@ -1,6 +1,6 @@
 <?php
 $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
-$_MIDCOM->load_library('midcom.helper.xsspreventer');
+
 if (!function_exists('org_openpsa_products_search_options_helper'))
 {
     function org_openpsa_products_search_options_helper($options, $request_key, $request_name = 'org_openpsa_products_search')

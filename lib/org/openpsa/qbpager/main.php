@@ -220,7 +220,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function show_previousnext($acl_checks = false)
     {
-        $_MIDCOM->load_library('midcom.helper.xsspreventer');
         $this->_request_data['prefix'] = $this->_prefix;
         $this->_request_data['current_page'] = $this->_current_page;
         $this->_request_data['page_count'] = $this->count_pages($acl_checks);
@@ -265,7 +264,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function show_pages($acl_checks = false)
     {
-        $_MIDCOM->load_library('midcom.helper.xsspreventer');
         $this->_request_data['prefix'] = $this->_prefix;
         $this->_request_data['current_page'] = $this->_current_page;
         $this->_request_data['page_count'] = $this->count_pages($acl_checks);
@@ -345,7 +343,6 @@ class org_openpsa_qbpager extends midcom_baseclasses_components_purecode
      */
     function show_pages_as_xml($acl_checks = false, $echo = true)
     {
-        $_MIDCOM->load_library('midcom.helper.xsspreventer');
         $pages_xml_str = "<pages ";
 
         $this->_request_data['prefix'] = $this->_prefix;
