@@ -149,16 +149,5 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 
         return $sum;
     }
-
-    /**
-     * Function which calculates the invoice_sum by invoice_items
-     *
-     * @param bool round - indicates if result should be rounded
-     */
-    function get_invoice_sum($round = true)
-    {
-
-        return $invoice_sum;
-    }
 }
 ?>
