@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 
-require_once(MIDCOM_ROOT. '/midcom/helper/utf8_to_ascii.php');
-
 /**
  * Position geocodeing class that uses the local city database
  *
@@ -33,14 +31,16 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
      */
     function geocode($location, $options=array())
     {
+        require_once MIDCOM_ROOT. '/midcom/helper/utf8_to_ascii.php';
+
         $results = array();
-        
+
         $parameters = array
         (
             'output' => 'xml',
             'appid' => $this->_config->get('yahoo_application_key'),
         );
-        
+
         if (! empty($options))
         {
             foreach ($options as $key => $value)
@@ -84,7 +84,7 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
                 $params[] = "{$key}=" . urlencode($value);
             }
         }
-               
+
         $http_request = new org_openpsa_httplib();
         $url = 'http://local.yahooapis.com/MapsService/V1/geocode?' . implode('&', $params);
         $response = $http_request->get($url);
@@ -96,22 +96,22 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
             $this->error = 'POSITIONING_DETAILS_NOT_FOUND';
             return null;
         }
-        
+
         if (   !isset($options['maxRows'])
             || $options['maxRows'] < 0)
         {
             $options['maxRows'] = 1;
         }
-        
+
         for ($i=0; $i<$options['maxRows']; $i++)
         {
             if (! isset($simplexml->Result[$i]))
             {
                 break;
             }
-            
+
             $entry = $simplexml->Result[$i];
-            
+
             $position = array();
             $position['latitude'] = (float) $entry->Latitude;
             $position['longitude'] = (float) $entry->Longitude;
@@ -130,7 +130,7 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
 
             // Cleaner cases, Yahoo! returns uppercase
             $position['street'] = ucwords(strtolower($position['street']));
-            
+
             $position['city'] = ucwords(strtolower($position['city']));
             if (   $position['country'] != 'US'
                 && strpos($position['city'], ' ') !== false)
@@ -159,7 +159,7 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
                             break;
                         case 'street':
                             $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_STREET;
-                            break;                    
+                            break;
                         default:
                             $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_CITY;
                             break;
@@ -172,7 +172,7 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
 
         return $results;
     }
-    
+
     /**
      * Empty default implementation, this won't do anything yet
      * Temporarily added geonames reverse geocoding here so we get atleast some results...
@@ -182,17 +182,17 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
      */
     function reverse_geocode($coordinates, $options=array())
     {
-        // $this->error = 'METHOD_NOT_IMPLEMENTED';        
+        // $this->error = 'METHOD_NOT_IMPLEMENTED';
         // return null;
         $results = array();
-        
+
         $parameters = array
         (
             'radius' => 10,
             'maxRows' => 1,
             'style' => 'FULL',
         );
-        
+
         if (! empty($options))
         {
             foreach ($options as $key => $value)
@@ -203,7 +203,7 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
                 }
             }
         }
-            
+
         if (   !isset($coordinates['latitude'])
             && !isset($coordinates['longitude']))
         {
@@ -211,10 +211,10 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
             return null;
         }
         $params = array();
-        
+
         $params[] = 'lat=' . urlencode($coordinates['latitude']);
         $params[] = 'lng=' . urlencode($coordinates['longitude']);
-        
+
         foreach ($parameters as $key => $value)
         {
             if (! is_null($value))
@@ -222,17 +222,17 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
                 $params[] = "{$key}=" . urlencode($value);
             }
         }
-        
+
         $http_request = new org_openpsa_httplib();
         $url = 'http://ws.geonames.org/findNearbyPlaceName?' . implode('&', $params);
         $response = $http_request->get($url);
         $simplexml = simplexml_load_string($response);
-        
+
         if (   !isset($simplexml->geoname)
             || count($simplexml->geoname) == 0)
         {
             $this->error = 'POSITIONING_DETAILS_NOT_FOUND';
-            
+
             if (isset($simplexml->status))
             {
                 $constant_name = strtoupper(str_replace(" ", "_", $simplexml->status));
@@ -240,14 +240,14 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
             }
             return null;
         }
-        
+
         for ($i=0; $i<$parameters['maxRows']; $i++)
         {
             if (! isset($simplexml->geoname[$i]))
             {
                 break;
             }
-            
+
             $entry = $simplexml->geoname[$i];
 
             $entry_coordinates = array
@@ -258,12 +258,12 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
 
             $meters = round( org_routamc_positioning_utils::get_distance($coordinates, $entry_coordinates) * 1000 );
             $entry_meters = round( (float) $entry->distance * 1000 );
-            
+
             if ($entry_meters < $meters)
             {
                 $meters = $entry_meters;
             }
-            
+
             $position = array();
             $position['latitude' ] = (float) $entry->lat;
             $position['longitude' ] = (float) $entry->lng;
@@ -279,9 +279,9 @@ class org_routamc_positioning_geocoder_yahoo extends org_routamc_positioning_geo
             $position['alternate_names'] = (string) $entry->alternateNames;
             $position['accuracy'] = ORG_ROUTAMC_POSITIONING_ACCURACY_GPS;
 
-            $results[] = $position;            
+            $results[] = $position;
         }
-        
+
         return $results;
     }
 }
