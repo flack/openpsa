@@ -479,9 +479,9 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                     $css_class .= " {$resource['css_class']}";
                 }
                 echo "<ul class=\"{$css_class}\">\n";
-                foreach ($reservations as $guid => $reservation)
+                foreach ($reservations as $reservation)
                 {
-                    if (array_key_exists($guid, $event_shown_today))
+                    if (array_key_exists($reservation['guid'], $event_shown_today))
                     {
                         // We already showed this
                         if ($reservation['end'] < $end)
@@ -506,12 +506,12 @@ class org_openpsa_widgets_calendar extends midcom_baseclasses_components_purecod
                         }
                     }
 
-                    echo "<li title=\"{$start_time}-{$end_time}: {$reservation['name']}\">{$start_time}-{$end_time} <span class=\"reservation\"{$additional_attributes}\">{$reservation['name']}</span></li>\n";
+                    echo "<li title=\"{$start_time}-{$end_time}: {$reservation['name']}\">{$start_time}-{$end_time} <span class=\"reservation\"{$additional_attributes}>{$reservation['name']}</span></li>\n";
                     if ($reservation['end'] < $end)
                     {
                         // This reservation ends here
                         $this->_reservations_shown["{$resource['guid']}_{$reservation['guid']}"] = true;
-                        $event_shown_today[$guid] = true;
+                        $event_shown_today[$reservation['guid']] = true;
                     }
                 }
                 echo '</ul>';
