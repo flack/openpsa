@@ -299,7 +299,7 @@ class org_openpsa_sales_salesproject_deliverable_dba extends midcom_core_dbaobje
         }
 
         $calculator = new org_openpsa_invoices_calculator();
-        $amount = $calculator->process_deliverable($this->_deliverable, $cycle_number);
+        $amount = $calculator->process_deliverable($this->_deliverable);
 
         if ($amount > 0)
         {

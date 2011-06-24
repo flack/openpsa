@@ -64,7 +64,7 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
             && $data['product']->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_TYPE_SERVICE
             && $data['deliverable_object']->state >= org_openpsa_sales_salesproject_deliverable_dba::STATUS_ORDERED)
         {
-            $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}");
+            $_MIDCOM->dynamic_load($data['projects_url'] . "task/list/all/agreement/{$data['deliverable_object']->id}/");
             // FIXME: This is a rather ugly hack
             $_MIDCOM->style->enter_context(0);
         }
@@ -75,14 +75,14 @@ $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         if (   $data['invoices_url']
             && $data['deliverable_object']->invoiced > 0)
         {
-            $_MIDCOM->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}");
+            $_MIDCOM->dynamic_load($data['invoices_url'] . "list/deliverable/{$data['deliverable_object']->guid}/");
             // FIXME: This is a rather ugly hack
             $_MIDCOM->style->enter_context(0);
         }
         ?>
     </div>
     <div class="toolbar">
-        <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>">
+        <form method="post" action="&(prefix);deliverable/process/<?php echo $data['deliverable_object']->guid; ?>/">
         <?php
         echo $data['deliverable_toolbar'];
         ?>

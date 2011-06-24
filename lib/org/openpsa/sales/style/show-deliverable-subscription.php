@@ -1,6 +1,7 @@
 <?php
-$view =& $data['view_deliverable'];
+$view = $data['view_deliverable'];
 $status = $data['deliverable']->get_status();
+$prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
 
 $per_unit = $data['l10n']->get('per unit');
 try

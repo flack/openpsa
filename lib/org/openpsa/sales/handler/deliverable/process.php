@@ -28,13 +28,6 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
     private $_salesproject = null;
 
     /**
-     * The product to deliver
-     *
-     * @var org_openpsa_products_product_dba
-     */
-    private $_product = null;
-
-    /**
      * Processes a deliverable.
      *
      * @param mixed $handler_id The ID of the handler.
@@ -50,53 +43,52 @@ class org_openpsa_sales_handler_deliverable_process extends midcom_baseclasses_c
 
         $this->_deliverable = new org_openpsa_sales_salesproject_deliverable_dba($args[0]);
         $this->_salesproject = new org_openpsa_sales_salesproject_dba($this->_deliverable->salesproject);
-        $this->_product = new org_openpsa_products_product_dba($this->_deliverable->product);
+
+        $supported_operations = array
+        (
+            'decline', 'order', 'deliver', 'invoice', 'run_cycle'
+        );
 
         // Check what status change user requested
-        if (array_key_exists('mark_proposed', $_POST))
+        foreach ($supported_operations as $operation)
         {
-            if (!$this->_deliverable->propose())
+            if (array_key_exists($operation, $_POST))
             {
-                throw new midcom_error('Failed to mark the deliverable as proposed. Last Midgard error was: ' . midcom_connection::get_error_string());
+                if ($operation == 'run_cycle')
+                {
+                    $this->_run_cycle();
+                }
+                else if (!$this->_deliverable->$operation())
+                {
+                    throw new midcom_error('Operation failed. Last Midgard error was: ' . midcom_connection::get_error_string());
+                }
+                // Get user back to the sales project
+                $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
+                // This will exit.
             }
-        }
-        else if (array_key_exists('mark_declined', $_POST))
-        {
-            if (!$this->_deliverable->decline())
-            {
-                throw new midcom_error('Failed to mark the deliverable as declined. Last Midgard error was: ' . midcom_connection::get_error_string());
-            }
-        }
-        else if (array_key_exists('mark_ordered', $_POST))
-        {
-            if (!$this->_deliverable->order())
-            {
-                throw new midcom_error('Failed to mark the deliverable as ordered. Last Midgard error was: ' . midcom_connection::get_error_string());
-            }
-        }
-        else if (array_key_exists('mark_delivered', $_POST))
-        {
-            if (!$this->_deliverable->deliver())
-            {
-                throw new midcom_error('Failed to mark the deliverable as delivered. Last Midgard error was: ' . midcom_connection::get_error_string());
-            }
-        }
-        else if (   array_key_exists('mark_invoiced', $_POST)
-                && array_key_exists('invoice', $_POST))
-        {
-            if (!$this->_deliverable->invoice($_POST['invoice']))
-            {
-                throw new midcom_error('Failed to mark the deliverable as invoiced. Last Midgard error was: ' . midcom_connection::get_error_string());
-            }
-        }
-        else
-        {
-            throw new midcom_error('No procedure specified.');
         }
 
-        // Get user back to the sales project
-        $_MIDCOM->relocate("salesproject/{$this->_salesproject->guid}/");
-        // This will exit.
+        throw new midcom_error('No valid operation specified.');
+    }
+
+    /**
+     * Manually trigger a subscription cycle run.
+     */
+    private function _run_cycle()
+    {
+        if (empty($_POST['at_entry']))
+        {
+            throw new midcom_error('No AT entry specified');
+        }
+
+        $entry = new midcom_services_at_entry_dba($_POST['at_entry']);
+        $deliverable = new org_openpsa_sales_salesproject_deliverable_dba($entry->arguments['deliverable']);
+        $scheduler = new org_openpsa_invoices_scheduler($deliverable);
+
+        if (!$scheduler->run_cycle($entry->arguments['cycle']))
+        {
+            throw new midcom_error('Failed to run cycle, see debug log for details');
+        }
     }
 }
 ?>

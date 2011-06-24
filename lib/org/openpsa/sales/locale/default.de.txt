@@ -135,6 +135,10 @@ Geschätztes Abschlussdatum
 Geschätztes Lieferdatum
 ---STRINGEND
 
+---STRING generate now
+Jetzt erstellen
+---STRINGEND
+
 ---STRING invoice
 Rechnung
 ---STRINGEND
@@ -191,8 +195,8 @@ Bestellung "%s" als geliefert markiert
 Nächste Aktion
 ---STRINGEND
 
----STRING next invoice will be sent on %s
-Die nächste Rechnung wird am %s verschickt
+---STRING next invoice will be generated on %s
+Die nächste Rechnung wird am %s erstellt
 ---STRINGEND
 
 ---STRING next run

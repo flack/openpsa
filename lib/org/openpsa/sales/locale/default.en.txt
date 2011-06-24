@@ -134,6 +134,10 @@ Estimated closing date
 Estimated delivery
 ---STRINGEND
 
+---STRING generate now
+Generate now
+---STRINGEND
+
 ---STRING invoice
 Invoice
 ---STRINGEND
@@ -190,8 +194,8 @@ Marked deliverable "%s" delivered
 Next action
 ---STRINGEND
 
----STRING next invoice will be sent on %s
-The next invoice will be sent on %s
+---STRING next invoice will be generated on %s
+The next invoice will be generated on %s
 ---STRINGEND
 
 ---STRING next run
