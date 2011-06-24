@@ -110,7 +110,7 @@
 ),
 'delete_link' => array
 (
-    'handler' => array('net_nehmer_blog_handler_admin', 'deletelink'),
+    'handler' => array('net_nehmer_blog_handler_link', 'delete'),
     'fixed_args' => array('delete', 'link'),
     'variable_args' => 1,
 ),

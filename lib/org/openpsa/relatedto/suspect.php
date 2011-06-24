@@ -13,12 +13,6 @@
  */
 class org_openpsa_relatedto_suspect extends midcom_baseclasses_components_purecode
 {
-    public function __construct()
-    {
-        $this->_component = 'org.openpsa.relatedto';
-        parent::__construct();
-    }
-
     /**
      * Query all installed components for objects related to given object
      *

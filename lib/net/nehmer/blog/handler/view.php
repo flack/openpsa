@@ -140,11 +140,6 @@ class net_nehmer_blog_handler_view extends midcom_baseclasses_components_handler
      */
     public function _handler_view ($handler_id, array $args, array &$data)
     {
-        if (!$this->_article)
-        {
-            throw new midcom_error('Failed to load article');
-        }
-
         if ($handler_id == 'view-raw')
         {
             $_MIDCOM->skip_page_style = true;

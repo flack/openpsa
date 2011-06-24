@@ -159,7 +159,7 @@ class org_openpsa_calendar_handler_ical extends midcom_baseclasses_components_ha
         foreach ($this->_request_data['events'] as $event)
         {
             // clear all data not absolutely required for busy listing
-            foreach($event->__object as $k => $v)
+            foreach ($event->__object as $k => $v)
             {
                 switch(true)
                 {

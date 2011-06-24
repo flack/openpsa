@@ -18,7 +18,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -26,7 +25,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * The article which has been created
      *
      * @var midcom_db_article
-     * @access private
      */
     private $_article = null;
 
@@ -34,7 +32,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -42,7 +39,6 @@ implements midcom_helper_datamanager2_interfaces_create
      * The schema to use for the new article.
      *
      * @var string
-     * @access private
      */
     private $_schema = null;
 

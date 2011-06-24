@@ -261,6 +261,61 @@ class org_openpsa_products_viewer extends midcom_baseclasses_components_request
         }
     }
 
+    public function find_parent($args)
+    {
+        $this->_request_data['up'] = 0;
+        //Check if args[0] is a product group code.
+        if (   (int) $args[0] == 0
+            && strlen($args[0]) > 1)
+        {
+            $qb2 = org_openpsa_products_product_group_dba::new_query_builder();
+            $qb2->add_constraint('code', '=', $args[0]);
+            $qb2->add_order('code');
+            $up_group = $qb2->execute();
+            if (count($up_group) == 1)
+            {
+                //We just pick the first category here
+                $qb = org_openpsa_products_product_group_dba::new_query_builder();
+                $qb->add_constraint('up', '=', $up_group[0]->id);
+                $qb->add_order('code', 'ASC');
+                $qb->set_limit(1);
+                $up_group = $qb->execute();
+                if (count($up_group) == 1)
+                {
+                    $this->_request_data['up'] = $up_group[0]->id;
+                }
+            }
+        }
+        else
+        {
+            $this->_request_data['up'] = (int) $args[0];
+        }
+
+        if ($this->_request_data['up'] == 0)
+        {
+            $_MIDCOM->auth->require_user_do('midgard:create', null, 'org_openpsa_products_product_dba');
+        }
+        else
+        {
+            try
+            {
+                $parent = new org_openpsa_products_product_group_dba($this->_request_data['up']);
+            }
+            catch (midcom_error $e)
+            {
+                return false;
+            }
+            $parent->require_do('midgard:create');
+
+            if ($parent->orgOpenpsaObtype == ORG_OPENPSA_PRODUCTS_PRODUCT_GROUP_TYPE_SMART)
+            {
+                return false;
+            }
+
+            $this->_request_data['parent'] = $parent;
+        }
+    }
+
     /**
      * Helper, updates the context so that we get a complete breadcrumb line towards the current
      * location.

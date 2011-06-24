@@ -119,28 +119,10 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
         $qb->add_order('date', 'DESC');
         $data['hours'] = $qb->execute();
 
-        $data['sorted_reports'] = array
-        (
-            'invoiceable' => array
-            (
-                'hours' => 0,
-                'reports' => array(),
-            ),
-            'uninvoiceable' => array
-            (
-                'hours' => 0,
-                'reports' => array(),
-            ),
-            'invoiced' => array
-            (
-                'hours' => 0,
-                'reports' => array(),
-            ),
-        );
-        $this->load_hour_data($data['hours'], $data['sorted_reports']);
+        $this->_load_hour_data($data['hours']);
 
-        $data['mode'] =& $mode;
-        $data['tasks'] =& $this->tasks;
+        $data['mode'] = $mode;
+        $data['tasks'] = $this->tasks;
 
         org_openpsa_widgets_grid::add_head_elements();
         midcom_helper_datamanager2_widget_autocomplete::add_head_elements();
@@ -171,11 +153,28 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
     /**
      * Helper to load the data linked to the hour reports
      *
-     * @param array &$hours the hour reports we're working with
-     * @param array &$reports The sorted reports array
+     * @param array $hours the hour reports we're working with
      */
-    private function load_hour_data(&$hours, &$reports)
+    private function _load_hour_data(array $hours)
     {
+        $reports = array
+        (
+            'invoiceable' => array
+            (
+                'hours' => 0,
+                'reports' => array(),
+            ),
+            'uninvoiceable' => array
+            (
+                'hours' => 0,
+                'reports' => array(),
+            ),
+            'invoiced' => array
+            (
+                'hours' => 0,
+                'reports' => array(),
+            ),
+        );
         $prefix = $_MIDCOM->get_context_data(MIDCOM_CONTEXT_ANCHORPREFIX);
         foreach ($hours as $report)
         {
@@ -204,19 +203,19 @@ class org_openpsa_expenses_handler_hours_list extends midcom_baseclasses_compone
             switch (true)
             {
                 case ($report->invoice):
-                    $reports['invoiced']['reports'][] = $report;
-                    $reports['invoiced']['hours'] += $report->hours;
+                    $category = 'invoiced';
                     break;
                 case ($report->invoiceable):
-                    $reports['invoiceable']['reports'][] = $report;
-                    $reports['invoiceable']['hours'] += $report->hours;
+                    $category = 'invoiceable';
                     break;
                 default:
-                    $reports['uninvoiceable']['reports'][] = $report;
-                    $reports['uninvoiceable']['hours'] += $report->hours;
+                    $category = 'uninvoiceable';
                     break;
             }
+            $reports[$category]['reports'][] = $report;
+            $reports[$category]['hours'] += $report->hours;
         }
+        $this->_request_data['sorted_reports'] = $reports;
     }
 
     /**

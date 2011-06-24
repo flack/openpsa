@@ -18,7 +18,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * The content topic to use
      *
      * @var midcom_db_topic
-     * @access private
      */
     private $_content_topic = null;
 
@@ -26,7 +25,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * The article to operate on
      *
      * @var midcom_db_article
-     * @access private
      */
     private $_article = null;
 
@@ -34,7 +32,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * The Datamanager of the article to display (for delete mode)
      *
      * @var midcom_helper_datamanager2_datamanager
-     * @access private
      */
     private $_datamanager = null;
 
@@ -42,7 +39,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * The Controller of the article used for editing
      *
      * @var midcom_helper_datamanager2_controller_simple
-     * @access private
      */
     private $_controller = null;
 
@@ -50,7 +46,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
      * The schema database in use, available only while a datamanager is loaded.
      *
      * @var Array
-     * @access private
      */
     private $_schemadb = null;
 
@@ -174,14 +169,7 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
 
         $this->add_breadcrumb($view_url, $this->_article->title);
 
-        switch ($handler_id)
-        {
-            case 'delete_link':
-                $this->add_breadcrumb("delete/link/{$this->_article->guid}/", $this->_l10n->get('delete link'));
-                break;
-            default:
-                $this->add_breadcrumb("{$handler_id}/{$this->_article->guid}/", $this->_l10n_midcom->get($handler_id));
-        }
+        $this->add_breadcrumb("{$handler_id}/{$this->_article->guid}/", $this->_l10n_midcom->get($handler_id));
     }
 
     /**
@@ -255,98 +243,6 @@ class net_nehmer_blog_handler_admin extends midcom_baseclasses_components_handle
     public function _show_edit ($handler_id, array &$data)
     {
         midcom_show_style('admin-edit');
-    }
-
-    /**
-     * Displays article link delete confirmation
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param Array $args The argument list.
-     * @param Array &$data The local request data.
-     */
-    public function _handler_deletelink($handler_id, array $args, array &$data)
-    {
-        $this->_article = new midcom_db_article($args[0]);
-
-        $qb = net_nehmer_blog_link_dba::new_query_builder();
-        $qb->add_constraint('topic', '=', $this->_content_topic->id);
-        $qb->add_constraint('article', '=', $this->_article->id);
-
-        if ($qb->count() === 0)
-        {
-            throw new midcom_error_notfound('No links were found');
-        }
-
-        // Get the link
-        $results = $qb->execute_unchecked();
-        $this->_link =& $results[0];
-        $this->_link->require_do('midgard:delete');
-
-        $this->_process_link_delete();
-
-        $this->_prepare_request_data();
-        $_MIDCOM->set_26_request_metadata($this->_article->metadata->revised, $this->_article->guid);
-        $this->_view_toolbar->bind_to($this->_article);
-        $_MIDCOM->set_pagetitle("{$this->_topic->extra}: {$this->_article->title}");
-        $this->_update_breadcrumb_line($handler_id);
-    }
-
-    /**
-     * Internal helper method, which will check if the delete request has been
-     * confirmed
-     */
-    private function _process_link_delete()
-    {
-        if (isset($_POST['f_cancel']))
-        {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('delete cancelled'));
-
-            // Redirect to view page.
-            if ($this->_config->get('view_in_url'))
-            {
-                $_MIDCOM->relocate("view/{$this->_article->name}/");
-            }
-            else
-            {
-                $_MIDCOM->relocate("{$this->_article->name}/");
-            }
-            // This will exit
-        }
-
-        if (!isset($_POST['f_delete']))
-        {
-            return;
-        }
-
-        // Delete the link
-        if ($this->_link->delete())
-        {
-            $_MIDCOM->uimessages->add($this->_l10n->get('net.nehmer.blog'), $this->_l10n->get('blog link deleted'));
-            $_MIDCOM->relocate('');
-            // This will exit
-        }
-        else
-        {
-            throw new midcom_error($this->_l10n->get('failed to delete the blog link, contact the site administrator'));
-        }
-    }
-
-    /**
-     *
-     * @param mixed $handler_id The ID of the handler.
-     * @param array &$data The local request data.
-     */
-    public function _show_deletelink($handler_id, array &$data)
-    {
-        $data['article'] =& $this->_article;
-        $nap = new midcom_helper_nav();
-        $node = $nap->get_node($this->_article->topic);
-
-        $data['topic_url'] = $node[MIDCOM_NAV_FULLURL];
-        $data['topic_name'] = $node[MIDCOM_NAV_NAME];
-        $data['delete_url'] = "{$node[MIDCOM_NAV_FULLURL]}delete/{$this->_article->guid}/";
-
-        midcom_show_style('admin-delete-link');
     }
 
     /**

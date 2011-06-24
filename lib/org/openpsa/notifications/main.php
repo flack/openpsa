@@ -115,15 +115,9 @@ class org_openpsa_notifications extends midcom_baseclasses_components_purecode
 
         // Fall back to component defaults
         $customdata = $_MIDCOM->componentloader->get_all_manifest_customdata('org.openpsa.notifications');
-        if (array_key_exists($component, $customdata))
+        if (!empty($customdata[$component][$action]['default']))
         {
-            if (array_key_exists($action, $customdata[$component]))
-            {
-                if (array_key_exists('default', $customdata[$component][$action]))
-                {
-                    $preference = $customdata[$component][$action]['default'];
-                }
-            }
+            $preference = $customdata[$component][$action]['default'];
         }
 
         // Seek possible preferences for this action from user's groups
