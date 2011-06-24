@@ -49,6 +49,7 @@ implements org_openpsa_widgets_grid_provider_client
         if (array_key_exists('deliverable', $this->_request_data))
         {
             $grid_id = 'd_' . $this->_request_data['deliverable']->id . $grid_id;
+            $this->_request_data['totals']['deliverable'] = 0;
         }
         $this->_request_data['grid'] = new org_openpsa_widgets_grid($grid_id, 'local');
 
@@ -100,6 +101,19 @@ implements org_openpsa_widgets_grid_provider_client
             $customer_card = org_openpsa_widgets_contact::get($invoice->customerContact);
             $entry['contact'] = $customer_card->show_inline();
         }
+
+        if (!empty($this->_request_data['deliverable']))
+        {
+            $constraints = array
+            (
+                'invoice' => $invoice->id,
+                'deliverable' => $this->_request_data['deliverable']->id
+            );
+            $item_sum = org_openpsa_invoices_invoice_item_dba::get_sum($constraints);
+            $this->_request_data['totals']['deliverable'] += $item_sum;
+            $entry['index_item_sum'] = $item_sum;
+            $entry['item_sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($item_sum / 100) * $invoice->vat) + $item_sum) . '">' . org_openpsa_helpers::format_number($item_sum) . '</span>';
+        }
         $entry['index_sum'] = $invoice->sum;
         $entry['sum'] = '<span title="' . $this->_l10n->get('sum including vat') . ': ' . org_openpsa_helpers::format_number((($invoice->sum / 100) * $invoice->vat) + $invoice->sum) . '">' . org_openpsa_helpers::format_number($invoice->sum) . '</span>';
 
@@ -109,23 +123,18 @@ implements org_openpsa_widgets_grid_provider_client
         $entry['action'] = '';
 
         // unsent invoices
-        if ($this->_list_type == 'unsent')
+        if (   $this->_list_type == 'unsent'
+            || $invoice->sent == 0)
         {
-            // not sent yet
-            if ($invoice->sent == 0)
+            $next_marker[] = 'sent';
+
+            // sending per mail enabled in billing data?
+            $billing_data = $invoice->get_billing_data();
+            // only show if mail was chosen as option
+            if (intval($billing_data->sendingoption) == 2)
             {
-                $next_marker[] = 'sent';
-
-                // sending per mail enabled in billing data?
-                $billing_data = $invoice->get_billing_data();
-                // only show if mail was chosen as option
-                if(intval($billing_data->sendingoption) == 2)
-                {
-                    $next_marker[] = 'sent_per_mail';
-                }
-
+                $next_marker[] = 'sent_per_mail';
             }
-
         }
         // not paid yet
         else if (!$invoice->paid)
@@ -139,9 +148,9 @@ implements org_openpsa_widgets_grid_provider_client
 
         // generate next action buttons
         if (   $_MIDCOM->auth->can_do('midgard:update', $invoice)
-                && count($next_marker) > 0)
+            && count($next_marker) > 0)
         {
-            foreach($next_marker as $mark)
+            foreach ($next_marker as $mark)
             {
                 $next_marker_url = $prefix . "invoice/mark_" . $mark . "/" . $invoice->guid . "/";
                 $next_marker_url .= "?org_openpsa_invoices_redirect=" . urlencode($_SERVER['REQUEST_URI']);
@@ -151,7 +160,6 @@ implements org_openpsa_widgets_grid_provider_client
                 $entry['action'] .= $this->_l10n->get('mark ' . $mark);
                 $entry['action'] .= '</button></form>';
             }
-
         }
 
         return $entry;

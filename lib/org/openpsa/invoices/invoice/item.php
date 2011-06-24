@@ -111,34 +111,26 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
         }
     }
 
-    public static function update_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    public static function get_sum(array $constraints)
     {
-        $invoiced = self::_get_sum('deliverable', $deliverable->id);
-
-        if ($invoiced != $deliverable->invoiced)
+        if (sizeof($constraints) == 0)
         {
-            $deliverable->invoiced = $invoiced;
-            $deliverable->update();
+            throw new midcom_error('Invalid constraints given');
         }
-    }
 
-    public static function update_invoice(org_openpsa_invoices_invoice_dba $invoice)
-    {
-        $invoice_sum = self::_get_sum('invoice', $invoice->id);
-        $invoice_sum = round($invoice_sum, 2);
-        if ($invoice_sum != round($invoice->sum, 2))
-        {
-            $invoice->sum = $invoice_sum;
-            $invoice->update();
-        }
-    }
-
-    private static function _get_sum($field, $value)
-    {
+        $field = key($constraints);
+        $value = array_shift($constraints);
         $sum = 0;
+
         $mc = self::new_collector($field, $value);
         $mc->add_value_property('units');
         $mc->add_value_property('pricePerUnit');
+
+        foreach ($constraints as $field => $value)
+        {
+            $mc->add_constraint($field, '=', $value);
+        }
+
         $mc->execute();
         $keys = $mc->list_keys();
 
@@ -149,5 +141,28 @@ class org_openpsa_invoices_invoice_item_dba extends midcom_core_dbaobject
 
         return $sum;
     }
+
+    public static function update_deliverable(org_openpsa_sales_salesproject_deliverable_dba $deliverable)
+    {
+        $invoiced = self::get_sum(array('deliverable' => $deliverable->id));
+
+        if ($invoiced != $deliverable->invoiced)
+        {
+            $deliverable->invoiced = $invoiced;
+            $deliverable->update();
+        }
+    }
+
+    public static function update_invoice(org_openpsa_invoices_invoice_dba $invoice)
+    {
+        $invoice_sum = self::get_sum(array('invoice' => $invoice->id));
+        $invoice_sum = round($invoice_sum, 2);
+        if ($invoice_sum != round($invoice->sum, 2))
+        {
+            $invoice->sum = $invoice_sum;
+            $invoice->update();
+        }
+    }
+
 }
 ?>
