@@ -58,10 +58,10 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     var $link_contacts = true;
 
     /**
-     * Default NAP org.openpsa.contacts URL to be used for linking to groups. Will be autoprobed if not supplied.
-     * @var Array
+     * Default org.openpsa.contacts URL to be used for linking to groups. Will be autoprobed if not supplied.
+     * @var string
      */
-    var $contacts_url;
+    private static $_contacts_url;
 
     /**
      * Initializes the class and stores the selected person to be shown
@@ -74,9 +74,11 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
     {
         parent::__construct();
 
-        // Hack to make $contacts_url static
-        static $contacts_url_local;
-        $this->contacts_url =& $contacts_url_local;
+        if (null === self::$_contacts_url)
+        {
+            $siteconfig = org_openpsa_core_siteconfig::get_instance();
+            self::$_contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
+        }
 
         // Read properties of provided person object/DM array
         // TODO: Handle groups as well
@@ -207,37 +209,41 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         return true;
     }
 
-    function determine_url()
+    private function _render_name()
     {
+        $name = "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
+
+        $url = false;
+
         if ($this->link)
         {
-            return $this->link;
+            $url = $this->link;
         }
-        else if ($this->link_contacts
+        else if (   $this->link_contacts
                  && $this->contact_details['guid'] != "")
         {
-            if (!$this->contacts_url)
-            {
-                $siteconfig = org_openpsa_core_siteconfig::get_instance();
-                $this->contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-            }
-
-            if (!$this->contacts_url)
+            if (!self::$_contacts_url)
             {
                 $this->link_contacts = false;
-                return null;
             }
-
-            $url = "{$this->contacts_url}person/{$this->contact_details['guid']}/";
-            return $url;
+            else
+            {
+                $url = self::$_contacts_url . 'person/' . $this->contact_details['guid'] . '/';
+            }
         }
-        return null;
+
+        if ($url)
+        {
+            $name = '<a href="' . $url . '">' . $name . '</a>';
+        }
+
+        return $name;
     }
 
     /**
      * Show selected person object inline. Outputs hCard XHTML.
      */
-    function show_inline()
+    public function show_inline()
     {
         if (!$this->_data_read_ok)
         {
@@ -254,28 +260,9 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             $inline_string .= "<span class=\"uid\" style=\"display: none;\">{$this->contact_details['guid']}</span>";
         }
 
-        // The Name sequence
+        // The name sequence
         $inline_string .= "<span class=\"n\">";
-
-        $linked = false;
-        if (   $this->link
-            || $this->link_contacts)
-        {
-            $url = $this->determine_url();
-            if ($url)
-            {
-                $inline_string .= "<a href=\"{$url}\">";
-                $linked = true;
-            }
-        }
-
-        $inline_string .= "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
-
-        if ($linked)
-        {
-            $inline_string .= "</a>";
-        }
-
+        $inline_string .= $this->_render_name();
         $inline_string .= "</span>";
 
         $inline_string .= "</span>";
@@ -317,26 +304,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
 
         // The Name sequence
         echo "<div class=\"n\">\n";
-
-        $linked = false;
-        if (   $this->link
-            || $this->link_contacts)
-        {
-            $url = $this->determine_url();
-            if ($url)
-            {
-                echo "<a href=\"{$url}\">";
-                $linked = true;
-            }
-        }
-
-        echo "<span class=\"given-name\">{$this->contact_details['firstname']}</span> <span class=\"family-name\">{$this->contact_details['lastname']}</span>";
-
-        if ($linked)
-        {
-            echo "</a>";
-        }
-
+        echo $this->_render_name();
         echo "</div>\n";
 
         // Contact information sequence
@@ -346,105 +314,11 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
             echo $this->extra_html;
         }
 
-        if (   $this->show_groups
-            && !empty($this->contact_details['id']))
-        {
-            $mc = midcom_db_member::new_collector('uid', $this->contact_details['id']);
-            $mc->add_value_property('gid');
-            $mc->add_value_property('extra');
-            $mc->execute();
+        $this->_show_groups();
 
-            $memberships = $mc->list_keys();
-            if ($memberships)
-            {
-                foreach ($memberships as $guid => $empty)
-                {
-                    echo "<li class=\"org\">";
-
-                    try
-                    {
-                        if (class_exists('org_openpsa_contacts_group_dba'))
-                        {
-                            $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
-                        }
-                        else
-                        {
-                            $group = new midcom_db_group($mc->get_subkey($guid, 'gid'));
-                        }
-                    }
-                    catch (midcom_error $e)
-                    {
-                        $e->log();
-                        continue;
-                    }
-                    if ($mc->get_subkey($guid, 'extra'))
-                    {
-                        echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
-                    }
-
-                    if ($group->official)
-                    {
-                        $group_label = $group->official;
-                    }
-                    else
-                    {
-                        $group_label = $group->name;
-                    }
-
-                    if ($this->link_contacts)
-                    {
-                        if (!$this->contacts_url)
-                        {
-                            $siteconfig = org_openpsa_core_siteconfig::get_instance();
-                            $this->contacts_url = $siteconfig->get_node_full_url('org.openpsa.contacts');
-                        }
-
-                        if (!$this->contacts_url)
-                        {
-                            $this->link_contacts = false;
-                        }
-                        else
-                        {
-                            $group_label = "<a href=\"{$this->contacts_url}group/{$group->guid}/\">{$group_label}</a>";
-                        }
-                    }
-
-                    echo "<span class=\"organization-name\">{$group_label}</span>";
-                    echo "</li>\n";
-                }
-            }
-        }
-
-    if ($this->_config->get('click_to_dial')) {
-    $dialurl=$this->_config->get('click_to_dial_url');
-    }
-
-        if (array_key_exists('handphone', $this->contact_details))
-        {
-            if ($this->_config->get('click_to_dial')) {
-                echo "<li class=\"tel cell\"><a title=\"Dial {$this->contact_details['handphone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['handphone']}','dialwin','width=300,height=200')\">{$this->contact_details['handphone']}</a></li>\n";
-            } else {
-                echo "<li class=\"tel cell\">{$this->contact_details['handphone']}</li>\n";
-            }
-        }
-
-        if (array_key_exists('workphone', $this->contact_details))
-        {
-            if ($this->_config->get('click_to_dial')) {
-                echo "<li class=\"tel work\"><a title=\"Dial {$this->contact_details['workphone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['workphone']}','dialwin','width=300,height=200')\">{$this->contact_details['workphone']}</a></li>\n";
-            } else {
-                echo "<li class=\"tel work\">{$this->contact_details['workphone']}</li>\n";
-            }
-        }
-
-        if (array_key_exists('homephone', $this->contact_details))
-        {
-            if ($this->_config->get('click_to_dial')) {
-                echo "<li class=\"tel home\"><a title=\"Dial {$this->contact_details['homephone']}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details['homephone']}','dialwin','width=300,height=200')\">{$this->contact_details['homephone']}</a></li>\n";
-            } else {
-                echo "<li class=\"tel home\">{$this->contact_details['homephone']}</li>\n";
-            }
-        }
+        $this->_show_phone_number('handphone', 'cell');
+        $this->_show_phone_number('workphone', 'work');
+        $this->_show_phone_number('homephone', 'home');
 
         if (array_key_exists('email', $this->contact_details))
         {
@@ -477,14 +351,101 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
         }
 
         echo "</ul>\n";
-
         echo "</div>\n";
+    }
+
+    private function _show_phone_number($field, $type)
+    {
+        $dialurl = false;
+        if ($this->_config->get('click_to_dial'))
+        {
+            $dialurl = $this->_config->get('click_to_dial_url');
+        }
+        if (array_key_exists($field, $this->contact_details))
+        {
+            if ($dialurl)
+            {
+                echo "<li class=\"tel $type\"><a title=\"Dial {$this->contact_details[$field]}\" href=\"#\" onclick=\"javascript:window.open('$dialurl{$this->contact_details[$field]}','dialwin','width=300,height=200')\">{$this->contact_details[$field]}</a></li>\n";
+            }
+            else
+            {
+                echo "<li class=\"tel $type\">{$this->contact_details[$field]}</li>\n";
+            }
+        }
+    }
+
+    private function _show_groups()
+    {
+        if (   !$this->show_groups
+            || empty($this->contact_details['id']))
+        {
+            return;
+        }
+
+        $mc = midcom_db_member::new_collector('uid', $this->contact_details['id']);
+        $mc->add_value_property('gid');
+        $mc->add_value_property('extra');
+        $mc->execute();
+
+        $memberships = $mc->list_keys();
+        if ($memberships)
+        {
+            foreach ($memberships as $guid => $empty)
+            {
+                echo "<li class=\"org\">";
+
+                try
+                {
+                    if (class_exists('org_openpsa_contacts_group_dba'))
+                    {
+                        $group = org_openpsa_contacts_group_dba::get_cached($mc->get_subkey($guid, 'gid'));
+                    }
+                    else
+                    {
+                        $group = new midcom_db_group($mc->get_subkey($guid, 'gid'));
+                    }
+                }
+                catch (midcom_error $e)
+                {
+                    $e->log();
+                    continue;
+                }
+                if ($mc->get_subkey($guid, 'extra'))
+                {
+                    echo "<span class=\"title\">" . $mc->get_subkey($guid, 'extra') . "</span>, ";
+                }
+
+                if ($group->official)
+                {
+                    $group_label = $group->official;
+                }
+                else
+                {
+                    $group_label = $group->name;
+                }
+
+                if ($this->link_contacts)
+                {
+                    if (!self::$_contacts_url)
+                    {
+                        $this->link_contacts = false;
+                    }
+                    else
+                    {
+                        $group_label = "<a href=\"{self::$_contacts_url}group/{$group->guid}/\">{$group_label}</a>";
+                    }
+                }
+
+                echo "<span class=\"organization-name\">{$group_label}</span>";
+                echo "</li>\n";
+            }
+        }
     }
 
     /**
      * Renderer for organization address cards
      */
-    static function show_address_card(&$customer, $cards)
+    public static function show_address_card(&$customer, $cards)
     {
         $cards_to_show = array();
         $multiple_addresses = false;
