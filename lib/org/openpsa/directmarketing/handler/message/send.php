@@ -233,7 +233,7 @@ class org_openpsa_directmarketing_handler_message_send extends midcom_baseclasse
     {
         $composed = $this->_prepare_send($data);
         // TODO: Figure out the correct use of style elements, this is how it was but it's not exactly optimal...
-        switch($handler_id)
+        switch ($handler_id)
         {
             case 'test_send_message':
                 // on-line sned
