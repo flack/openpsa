@@ -146,6 +146,7 @@ class org_openpsa_directmarketing_handler_campaign_campaign extends midcom_basec
         $qb->add_constraint('campaign', '=', $data['campaign']->id);
         $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_TESTER);
         $qb->add_constraint('orgOpenpsaObtype', '<>', ORG_OPENPSA_OBTYPE_CAMPAIGN_MEMBER_UNSUBSCRIBED);
+        $qb->add_constraint('person.metadata.deleted', '=', false);
 
         // Set the order
         $qb->add_order('person.lastname', 'ASC');
