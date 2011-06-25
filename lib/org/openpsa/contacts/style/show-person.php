@@ -18,7 +18,9 @@ $node = $nap->get_node($nap->get_current_node());
 <div class="main">
 <?php
     $data['datamanager']->display_view();
+
     //add tabs
+    $tabs = array();
     $siteconfig = org_openpsa_core_siteconfig::get_instance();
     $invoices_url = $siteconfig->get_node_relative_url('org.openpsa.invoices');
     if ($invoices_url)
