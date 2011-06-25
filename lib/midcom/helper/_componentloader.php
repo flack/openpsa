@@ -829,7 +829,7 @@ class midcom_helper__componentloader
     {
         if ($component == 'midcom')
         {
-            return $GLOBALS['midcom_version'];
+            return midcom::get_version();
         }
 
         if (   !$this->is_installed($component)

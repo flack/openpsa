@@ -12,6 +12,13 @@
 class midcom
 {
     /**
+     * MidCOM version
+     *
+     * @var string
+     */
+    private static $_version = '9.0pre';
+
+    /**
      * Main application singleton
      *
      * @var midcom_application
@@ -237,6 +244,11 @@ class midcom
         }
 
         throw new midcom_error("Requested service '$name' is not available.");
+    }
+
+    public static function get_version()
+    {
+        return self::$_version;
     }
 }
 

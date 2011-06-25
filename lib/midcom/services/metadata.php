@@ -262,7 +262,7 @@ class midcom_services_metadata
             array
             (
                 'name' => 'generator',
-                'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . $GLOBALS['midcom_version'] . ' PHP/' . phpversion()
+                'content' => 'Midgard/' . mgd_version() . ' MidCOM/' . midcom::get_version() . ' PHP/' . phpversion()
             )
         );
 
