@@ -9,14 +9,17 @@
  */
 
 define('OPENPSA2_UNITTEST_RUN', true);
-define('OPENPSA2_UNITTEST_OUTPUT_DIR', realpath(OPENPSA_TEST_ROOT . '/__output'));
+define('OPENPSA2_UNITTEST_OUTPUT_DIR', OPENPSA_TEST_ROOT . '__output');
 
-$ret = false;
-$output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
-
-if ($ret)
+if (file_exists(OPENPSA2_UNITTEST_OUTPUT_DIR))
 {
-    throw new Exception('Could not remove old output dir: ' . $output);
+    $ret = false;
+    $output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
+
+    if ($ret)
+    {
+        throw new Exception('Could not remove old output dir: ' . $output);
+    }
 }
 
 if (!mkdir(OPENPSA2_UNITTEST_OUTPUT_DIR))
