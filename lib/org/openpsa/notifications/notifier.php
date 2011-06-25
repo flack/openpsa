@@ -67,8 +67,6 @@ class org_openpsa_notifications_notifier extends midcom_baseclasses_components_p
      */
     public function send_email($message)
     {
-        $_MIDCOM->load_library('org.openpsa.mail');
-
         if (empty($this->recipient->email))
         {
             return false;

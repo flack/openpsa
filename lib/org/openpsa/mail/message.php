@@ -120,8 +120,6 @@ class org_openpsa_mail_message
             }
         }
 
-        //TODO: Encode from, cc and to if necessary
-
         return $this->_headers;
     }
 
