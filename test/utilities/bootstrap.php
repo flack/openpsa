@@ -9,7 +9,7 @@
  */
 
 define('OPENPSA2_UNITTEST_RUN', true);
-define('OPENPSA2_UNITTEST_OUTPUT_DIR', realpath(MIDCOM_ROOT . '/../test/__output'));
+define('OPENPSA2_UNITTEST_OUTPUT_DIR', realpath(OPENPSA_TEST_ROOT . '/__output'));
 
 $ret = false;
 $output = system('rm -R ' . OPENPSA2_UNITTEST_OUTPUT_DIR, $ret);
