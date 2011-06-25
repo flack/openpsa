@@ -42,7 +42,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
             }
             $_MIDCOM->auth->_sync_user_with_backend();
         }
-        self::$_class_objects[] = $person;
+        self::$_class_objects[$person->guid] = $person;
         return $person;
     }
 
@@ -128,9 +128,7 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $_MIDCOM->auth->request_sudo('midcom.core');
-        $limit = sizeof($this->_testcase_objects) * 5;
-        $iteration = 0;
+        $queue = array();
         while (!empty($this->_testcase_objects))
         {
             $object = array_pop($this->_testcase_objects);
@@ -138,15 +136,40 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
             {
                 continue;
             }
+            $queue[] = $object;
+        }
+
+        self::_process_delete_queue($queue);
+        $this->_testcase_objects = array();
+    }
+
+    public static function TearDownAfterClass()
+    {
+        self::_process_delete_queue(self::$_class_objects);
+        self::$_class_objects = array();
+    }
+
+    private static function _process_delete_queue($queue)
+    {
+        $_MIDCOM->auth->request_sudo('midcom.core');
+        $limit = sizeof($queue) * 5;
+        $iteration = 0;
+        while (!empty($queue))
+        {
+            $object = array_pop($queue);
             if (!$object->delete())
             {
                 if (midcom_connection::get_error() == MGD_ERR_HAS_DEPENDANTS)
                 {
-                    array_unshift($this->_testcase_objects, $object);
+                    array_unshift($queue, $object);
+                }
+                else if (midcom_connection::get_error() == MGD_ERR_NOT_EXISTS)
+                {
+                    continue;
                 }
                 else
                 {
-                    throw new midcom_error('Cleanup test object ' . $object->guid . 'failed, reason: ' . midcom_connection::get_error_string());
+                    throw new midcom_error('Cleanup test object ' . $object->guid . ' failed, reason: ' . midcom_connection::get_error_string());
                 }
             }
             if ($iteration++ > $limit)
@@ -156,19 +179,6 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         }
 
         $_MIDCOM->auth->drop_sudo();
-    }
-
-    public static function TearDownAfterClass()
-    {
-        $_MIDCOM->auth->request_sudo('midcom.core');
-
-        foreach (self::$_class_objects as $object)
-        {
-            $object->delete();
-        }
-
-        $_MIDCOM->auth->drop_sudo();
-        self::$_class_objects = array();
     }
 }
 ?>
