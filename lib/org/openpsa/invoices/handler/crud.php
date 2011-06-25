@@ -13,10 +13,7 @@
  */
 class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_handler_crud
 {
-    public function __construct()
-    {
-        $this->_dba_class = 'org_openpsa_invoices_invoice_dba';
-    }
+    protected $_dba_class = 'org_openpsa_invoices_invoice_dba';
 
     public function _load_schemadb()
     {
@@ -92,11 +89,18 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
                     $this->_populate_schema_customers_for_contact($this->_request_data['customer']->id);
                 }
             }
-            else if (   $this->_object
-                     && $this->_object->customer)
+            else if ($this->_object)
             {
-                $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
-                $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
+                try
+                {
+                    $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
+                    $this->_populate_schema_contacts_for_customer($this->_request_data['customer']);
+                }
+                catch (midcom_error $e)
+                {
+                    $fields['customer']['hidden'] = true;
+                    $e->log();
+                }
             }
             else
             {
@@ -276,7 +280,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             org_openpsa_helpers::dm2_savecancel($this);
         }
         //check if save-pdf should be shown in toolbar & if invoice is unsent
-        if($this->_config->get('invoice_pdfbuilder_class')
+        if (   $this->_config->get('invoice_pdfbuilder_class')
             && isset($this->_object)
             && empty($this->_object->sent))
         {
@@ -297,7 +301,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         }
     }
 
-    function _populate_read_toolbar($handler_id)
+    private function _populate_read_toolbar($handler_id)
     {
         $this->_view_toolbar->add_item
         (
@@ -393,16 +397,17 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
     function _update_breadcrumb($handler_id)
     {
         $customer = false;
-        if (!empty($this->_object->customer))
+        if ($this->_object)
         {
-            $customer = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
+            $customer = $this->_object->get_customer();
         }
-        else if (array_key_exists('customer', $this->_request_data))
+        if (   !$customer
+            && array_key_exists('customer', $this->_request_data))
         {
             $customer = $this->_request_data['customer'];
         }
-        if (   $customer
-            && $customer->guid != "")
+
+        if ($customer)
         {
             $this->add_breadcrumb("list/customer/all/{$customer->guid}/", $customer->get_label());
         }
@@ -412,17 +417,9 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
             $this->add_breadcrumb("invoice/" . $this->_object->guid . "/", $this->_l10n->get('invoice') . ' ' . $this->_object->get_label());
         }
 
-        switch ($this->_mode)
+        if ($this->_mode != 'read')
         {
-            case 'create':
-                $this->add_breadcrumb("/", $this->_l10n->get('create invoice'));
-                break;
-            case 'update':
-                $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('edit %s'), $this->_l10n->get('invoice')));
-                break;
-            case 'delete':
-                $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get('delete %s'), $this->_l10n->get('invoice')));
-                break;
+            $this->add_breadcrumb("", sprintf($this->_l10n_midcom->get($this->_mode . ' %s'), $this->_l10n->get('invoice')));
         }
     }
 
@@ -517,7 +514,7 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
      */
     public function _show_pdf($handler_id, array &$data)
     {
-        if($this->update_attachment)
+        if ($this->update_attachment)
         {
             $this->_object->render_and_attach_pdf();
             $_MIDCOM->relocate($this->_request_data["invoice_url"]);

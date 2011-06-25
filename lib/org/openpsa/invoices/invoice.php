@@ -420,6 +420,27 @@ class org_openpsa_invoices_invoice_dba extends midcom_core_dbaobject
         return $billing_data;
     }
 
+    public function get_customer()
+    {
+        try
+        {
+            $customer = org_openpsa_contacts_group_dba::get_cached($this->customer);
+        }
+        catch (midcom_error $e)
+        {
+            try
+            {
+                $customer = org_openpsa_contacts_person_dba::get_cached($this->customerContact);
+            }
+            catch (midcom_error $e)
+            {
+                $customer = null;
+                $e->log();
+            }
+        }
+        return $customer;
+    }
+
     /**
      * Helper function to get invoice_item for the passed task id, if there is no item
      * it will return a new created one

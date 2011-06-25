@@ -395,11 +395,6 @@ implements org_openpsa_widgets_grid_provider_client
     {
         $_MIDCOM->auth->require_valid_user();
 
-        if (count($args) != 1)
-        {
-            throw new midcom_error('Incomplete request data');
-        }
-
         try
         {
             $this->_customer = new org_openpsa_contacts_group_dba($args[0]);
