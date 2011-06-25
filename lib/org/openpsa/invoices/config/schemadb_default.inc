@@ -239,6 +239,7 @@
                 'max_count' => 1,
             ),
             'index_method' => 'attachment',
+            'hidden' => true,
         ),
         'files' => array
         (
