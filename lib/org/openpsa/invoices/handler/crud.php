@@ -497,11 +497,18 @@ class org_openpsa_invoices_handler_crud extends midcom_baseclasses_components_ha
         {
             $this->_request_data['invoice'] = $this->_object;
             // set customer
-            if($this->_object->customer)
+            if ($this->_object->customer)
             {
                 $this->_request_data['customer'] = org_openpsa_contacts_group_dba::get_cached($this->_object->customer);
             }
-            $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_object->customerContact);
+            try
+            {
+                $this->_request_data['customer_contact'] = org_openpsa_contacts_person_dba::get_cached($this->_object->customerContact);
+            }
+            catch (midcom_error $e)
+            {
+                $this->_request_data['customer_contact'] = false;
+            }
             $this->_request_data['billing_data'] = $this->_object->get_billing_data();
             $_MIDCOM->skip_page_style = true;
         }

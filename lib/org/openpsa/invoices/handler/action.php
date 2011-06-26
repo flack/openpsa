@@ -30,7 +30,7 @@ class org_openpsa_invoices_handler_action extends midcom_baseclasses_components_
         // prepare action hasnt been called before
         if (!isset($args["no_redirect"]))
         {
-               $this->_prepare_action($args);
+            $this->_prepare_action($args);
         }
 
         if (!$this->_object->sent)
