@@ -46,6 +46,37 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         return $person;
     }
 
+    public function run_handler($component, $args)
+    {
+        $siteconfig = org_openpsa_core_siteconfig::get_instance();
+        if ($topic_guid = $siteconfig->get_node_guid($component))
+        {
+            $topic = new midcom_db_topic($topic_guid);
+        }
+        else
+        {
+            $root_topic = midcom_db_topic::get_cached($GLOBALS['midcom_config']['root_topic']);
+            $topic_attributes = array
+            (
+                'up' => $root_topic->id,
+                'component' => $component,
+                'name' => 'handler_test_' . time()
+            );
+            $topic = $this->create_object('midcom_db_topic', $topic_attributes);
+        }
+
+        $context = new midcom_core_context(null, $topic);
+        $context->set_current();
+        $context->set_key(MIDCOM_CONTEXT_URI, midcom_connection::get_url('self') . $topic->name . implode('/', $args));
+
+        // Parser Init: Generate arguments and instantiate it.
+        $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
+        $context->parser->parse($args);
+        $handler = $context->get_handler($topic);
+        $this->assertTrue($handler->handle());
+        return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
+    }
+
     public function create_object($classname, $data = array())
     {
         $object = self::_create_object($classname, $data);
@@ -128,6 +159,10 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
+        if (midcom_core_context::get()->id != 0)
+        {
+            midcom_core_context::get(0)->set_current();
+        }
         $queue = array();
         while (!empty($this->_testcase_objects))
         {

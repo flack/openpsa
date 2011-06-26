@@ -58,6 +58,7 @@ $_SERVER = array
 	'HTTP_HOST' => 'localhost',
 	'SERVER_NAME' => 'localhost',
 	'SERVER_SOFTWARE' => 'PHPUnit',
+	'HTTP_USER_AGENT' => 'PHPUnit',
 	'SERVER_PORT' => '80',
 	'REMOTE_ADDR' => 'unittest dummy connection',
 	'REQUEST_URI' => '/midcom-test-init',
