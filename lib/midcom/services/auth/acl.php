@@ -723,31 +723,20 @@ class midcom_services_auth_acl
 
             // The privilege applies if we arrive here, so we merge it into the current collection
             // taking its scope into account.
-            switch ($privilege->assignee)
+            if (defined('MIDCOM_PRIVILEGE_SCOPE_' . $privilege->assignee))
             {
-                case 'EVERYONE':
-                    $scope = MIDCOM_PRIVILEGE_SCOPE_EVERYONE;
-                    break;
-                case 'USERS':
-                    $scope = MIDCOM_PRIVILEGE_SCOPE_USERS;
-                    break;
-                case 'ANONYMOUS':
-                    $scope = MIDCOM_PRIVILEGE_SCOPE_ANONYMOUS;
-                    break;
-                case 'OWNER':
-                    $scope = MIDCOM_PRIVILEGE_SCOPE_OWNER;
-                    break;
-                default:
-                    $assignee = $privilege->get_assignee();
-                    if (! $assignee)
-                    {
-                        debug_print_r('Could not resolve the assignee of this privilege, skipping it:', $privilege);
-                        // Skip broken privileges.
-                        continue;
-                    }
-                    $scope = $assignee->scope;
-
-                    break;
+                $scope = constant('MIDCOM_PRIVILEGE_SCOPE_' . $privilege->assignee);
+            }
+            else
+            {
+                $assignee = $privilege->get_assignee();
+                if (! $assignee)
+                {
+                    debug_print_r('Could not resolve the assignee of this privilege, skipping it:', $privilege);
+                    // Skip broken privileges.
+                    continue;
+                }
+                $scope = $assignee->scope;
             }
 
             $valid_privileges[$scope][$privilege->privilegename] = $privilege->value;
