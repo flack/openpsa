@@ -368,15 +368,6 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
      */
     function check_url($args, &$handler)
     {
-        if (   !array_key_exists('person', $args)
-            && !array_key_exists('group', $args))
-        {
-            $msg = 'Person or Group GUID not set, aborting';
-            debug_add($msg, MIDCOM_LOG_ERROR);
-            $handler->print_error($msg);
-            return false;
-        }
-
         if (array_key_exists('person', $args))
         {
             // Handling for persons
@@ -391,84 +382,18 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 $handler->print_error($msg);
                 return false;
             }
-
             if (!$person->homepage)
             {
-                $msg = "Person {$args['person']} has no homepage, skipping";
+                $msg = "Person {$person->guid} has no homepage, skipping";
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
                 return false;
             }
-
-            $data = org_openpsa_contacts_interface::_get_data_from_url($person->homepage);
-
-            // Use the data we got
-            if (array_key_exists('georss_url', $data))
-            {
-                // GeoRSS subscription is a good way to keep track of person's location
-                $person->parameter('org.routamc.positioning:georss', 'georss_url', $data['georss_url']);
-            }
-            else if (array_key_exists('icbm', $data))
-            {
-                // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
-                $person->parameter('org.routamc.positioning:html', 'icbm_url', $person->homepage);
-            }
-
-            if (array_key_exists('rss_url', $data))
-            {
-                // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
-                $person->parameter('net.nemein.rss', 'url', $data['rss_url']);
-            }
-
-            if (array_key_exists('hcards', $data))
-            {
-                // Process those hCard values that are interesting for us
-                foreach ($data['hcards'] as $hcard)
-                {
-                    foreach ($hcard as $key => $val)
-                    {
-                        switch ($key)
-                        {
-                            case 'email':
-                                $person->email = $val;
-                                break;
-
-                            case 'tel':
-                                $person->workphone = $val;
-                                break;
-
-                            case 'note':
-                                $person->extra = $val;
-                                break;
-
-                            case 'photo':
-                                // TODO: Importing the photo would be cool
-                                break;
-
-                            case 'adr':
-                                if (array_key_exists('street-address', $val))
-                                {
-                                    $person->street = $val['street-address'];
-                                }
-                                if (array_key_exists('locality', $val))
-                                {
-                                    $person->city = $val['locality'];
-                                }
-                                if (array_key_exists('locality', $val))
-                                {
-                                    $person->country = $val['country-name'];
-                                }
-                                break;
-                        }
-                    }
-                }
-
-                $person->update();
-            }
+            return $this->_check_person_url($person);
         }
         else if (array_key_exists('group', $args))
         {
-            // Handling for persons
+            // Handling for groups
             try
             {
                 $group = new org_openpsa_contacts_group_dba($args['group']);
@@ -480,101 +405,153 @@ class org_openpsa_contacts_interface extends midcom_baseclasses_components_inter
                 $handler->print_error($msg);
                 return false;
             }
-
             if (!$group->homepage)
             {
-                $msg = "Group {$args['group']} has no homepage, skipping";
+                $msg = "Group {$group->guid} has no homepage, skipping";
                 debug_add($msg, MIDCOM_LOG_ERROR);
                 $handler->print_error($msg);
                 return false;
             }
+            return $this->_check_group_url($group);
+        }
+        else
+        {
+            $msg = 'Person or Group GUID not set, aborting';
+            debug_add($msg, MIDCOM_LOG_ERROR);
+            $handler->print_error($msg);
+            return false;
+        }
+    }
 
-            $data = org_openpsa_contacts_interface::_get_data_from_url($group->homepage);
+    private function _check_group_url(org_openpsa_contacts_group_dba $group)
+    {
+        $data = org_openpsa_contacts_interface::_get_data_from_url($group->homepage);
 
-            // Use the data we got
-            if (array_key_exists('icbm', $data))
+        // Use the data we got
+        if (array_key_exists('icbm', $data))
+        {
+            // We know where the group is located
+            $icbm_parts = explode(',', $data['icbm']);
+            if (count($icbm_parts) == 2)
             {
-                // We know where the group is located
-                $icbm_parts = explode(',', $data['icbm']);
-                if (count($icbm_parts) == 2)
+                $latitude = (float) $icbm_parts[0];
+                $longitude = (float) $icbm_parts[1];
+                if (   (   $latitude < 90
+                        && $latitude > -90)
+                    && (   $longitude < 180
+                        && $longitude > -180))
                 {
-                    $latitude = (float) $icbm_parts[0];
-                    $longitude = (float) $icbm_parts[1];
-                    if (   (   $latitude < 90
-                            && $latitude > -90)
-                        && (   $longitude < 180
-                            && $longitude > -180))
-                    {
-                        $_MIDCOM->load_library('org.routamc.positioning');
-                        $location = new org_routamc_positioning_location_dba();
-                        $location->date = time();
-                        $location->latitude = $latitude;
-                        $location->longitude = $longitude;
-                        $location->relation = ORG_ROUTAMC_POSITIONING_RELATION_LOCATED;
-                        $location->parent = $group->guid;
-                        $location->parentclass = 'org_openpsa_contacts_group_dba';
-                        $location->parentcomponent = 'org.openpsa.contacts';
-                        $location->create();
-                    }
-                    else
-                    {
-                        // This is no earth coordinate, my friend
-                    }
+                    $location = new org_routamc_positioning_location_dba();
+                    $location->date = time();
+                    $location->latitude = $latitude;
+                    $location->longitude = $longitude;
+                    $location->relation = ORG_ROUTAMC_POSITIONING_RELATION_LOCATED;
+                    $location->parent = $group->guid;
+                    $location->parentclass = 'org_openpsa_contacts_group_dba';
+                    $location->parentcomponent = 'org.openpsa.contacts';
+                    $location->create();
                 }
-            }
-            // TODO: We can use a lot of other data too
-            if (array_key_exists('hcards', $data))
-            {
-                // Process those hCard values that are interesting for us
-                foreach ($data['hcards'] as $hcard)
+                else
                 {
-                    foreach ($hcard as $key => $val)
-                    {
-                        switch ($key)
-                        {
-                            case 'email':
-                                $group->email = $val;
-                                break;
-
-                            case 'tel':
-                                $group->workphone = $val;
-                                break;
-
-                            case 'note':
-                                $group->extra = $val;
-                                break;
-
-                            case 'photo':
-                                // TODO: Importing the photo would be cool
-                                break;
-
-                            case 'adr':
-                                if (array_key_exists('street-address', $val))
-                                {
-                                    $group->street = $val['street-address'];
-                                }
-                                if (array_key_exists('postal-code', $val))
-                                {
-                                    $group->postcode = $val['postal-code'];
-                                }
-                                if (array_key_exists('locality', $val))
-                                {
-                                    $group->city = $val['locality'];
-                                }
-                                if (array_key_exists('country-name', $val))
-                                {
-                                    $group->country = $val['country-name'];
-                                }
-                                break;
-                        }
-                    }
+                    // This is no earth coordinate, my friend
                 }
-
-                $group->update();
             }
         }
+        // TODO: We can use a lot of other data too
+        if (array_key_exists('hcards', $data))
+        {
+            // Process those hCard values that are interesting for us
+            foreach ($data['hcards'] as $hcard)
+            {
+                $group = $this->_update_from_hcard($group, $hcard);
+            }
 
+            $group->update();
+        }
         return true;
+    }
+
+    private function _check_person_url(org_openpsa_contacts_person_dba $person)
+    {
+        $data = org_openpsa_contacts_interface::_get_data_from_url($person->homepage);
+
+        // Use the data we got
+        if (array_key_exists('georss_url', $data))
+        {
+            // GeoRSS subscription is a good way to keep track of person's location
+            $person->parameter('org.routamc.positioning:georss', 'georss_url', $data['georss_url']);
+        }
+        else if (array_key_exists('icbm', $data))
+        {
+            // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
+            $person->parameter('org.routamc.positioning:html', 'icbm_url', $person->homepage);
+        }
+
+        if (array_key_exists('rss_url', $data))
+        {
+            // Instead of using the ICBM position data directly we can subscribe to it so we get modifications too
+            $person->parameter('net.nemein.rss', 'url', $data['rss_url']);
+        }
+
+        if (array_key_exists('hcards', $data))
+        {
+            // Process those hCard values that are interesting for us
+            foreach ($data['hcards'] as $hcard)
+            {
+                foreach ($hcard as $key => $val)
+                {
+                    $person = $this->_update_from_hcard($person, $hcard);
+                }
+            }
+
+            $person->update();
+        }
+        return true;
+    }
+
+    private function _update_from_hcard($object, $hcard)
+    {
+        foreach ($hcard as $key => $val)
+        {
+            switch ($key)
+            {
+                case 'email':
+                    $object->email = $val;
+                    break;
+
+                case 'tel':
+                    $object->workphone = $val;
+                    break;
+
+                case 'note':
+                    $object->extra = $val;
+                    break;
+
+                case 'photo':
+                    // TODO: Importing the photo would be cool
+                    break;
+
+                case 'adr':
+                    if (array_key_exists('street-address', $val))
+                    {
+                        $object->street = $val['street-address'];
+                    }
+                    if (array_key_exists('postal-code', $val))
+                    {
+                        $object->postcode = $val['postal-code'];
+                    }
+                    if (array_key_exists('locality', $val))
+                    {
+                        $object->city = $val['locality'];
+                    }
+                    if (array_key_exists('country-name', $val))
+                    {
+                        $object->country = $val['country-name'];
+                    }
+                    break;
+            }
+        }
+        return $object;
     }
 }
 ?>
