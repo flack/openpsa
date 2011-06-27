@@ -73,7 +73,8 @@ class openpsa_testcase extends PHPUnit_Framework_TestCase
         $context->parser = midcom::get('serviceloader')->load('midcom_core_service_urlparser');
         $context->parser->parse($args);
         $handler = $context->get_handler($topic);
-        $this->assertTrue($handler->handle());
+        $this->assertTrue(is_a($handler, 'midcom_baseclasses_components_interface'), $component . ' found no handler for ./' . implode('/', $args) . '/');
+        $this->assertTrue($handler->handle(), $component . ' handle returned false on ./' . implode('/', $args) . '/');
         return $handler->_context_data[$context->id]['handler']->_handler['handler'][0]->_request_data;
     }
 
