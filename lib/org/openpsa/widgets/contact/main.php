@@ -432,7 +432,7 @@ class org_openpsa_widgets_contact extends midcom_baseclasses_components_purecode
                     }
                     else
                     {
-                        $group_label = "<a href=\"{self::$_contacts_url}group/{$group->guid}/\">{$group_label}</a>";
+                        $group_label = "<a href=\"" . self::$_contacts_url . "group/{$group->guid}/\">{$group_label}</a>";
                     }
                 }
 
