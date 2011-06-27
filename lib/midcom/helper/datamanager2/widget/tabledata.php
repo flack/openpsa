@@ -319,13 +319,13 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
             && (!$this->_type->row_limit
                 || count($rows) < $this->_type->row_limit))
         {
-            $rows[] = time();
+            $rows[] = time() . microtime();
         }
         else
         {
             for ($i = 0; $i < $this->_type->rows; $i++)
             {
-                $rows[] = time();
+                $rows[] = time() . microtime();
             }
         }
 
@@ -382,6 +382,11 @@ class midcom_helper_datamanager2_widget_tabledata extends midcom_helper_datamana
         {
             $this->_type->_remove_columns = $_REQUEST['midcom_helper_datamanager2_tabledata_widget_delete'][$this->name];
         }
+    }
+
+    function freeze()
+    {
+        // todo: funktion implementieren
     }
 }
 
